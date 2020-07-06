@@ -1,32 +1,31 @@
 ---
 ms.assetid:
-ms.title: Preview data access concepts landing page - Azure Time Series Insights | Microsoft Docs
-title: Preview data access concepts landing page - Azure Time Series Insights | Microsoft Docs
+ms.title: Data access concepts landing page - Azure Time Series Insights Gen 2 | Microsoft Docs
+title: Data access concepts landing page - Azure Time Series Insights Gen 2 | Microsoft Docs
 services: time-series-insights
 ms.service: time-series-insights
 service_description: Time Series Insights
-description: Landing page and overview of REST API and data access concepts reference documentation for Azure Time Series Insights Preview.
+description: Landing page and overview of REST API and data access concepts reference documentation for Azure Time Series Insights Gen 2.
 manager: deepakpalled
 ms.manager: dpalled
-author: yeskarthik
-ms.author: Subramanian.Karthik
-ms.date: 03/04/2020
+author: shreyasharmamsft
+ms.author: shresha
+ms.date: 07/01/2020
 ---
 
-# Azure Time Series Insights data access concepts (Preview)
+# Azure Time Series Insights Gen 2 data access concepts
 
-The Azure Time Series Insights Preview APIs provide data access operations for Azure Time Series Insights Preview environments. Preview APIs are mostly structured around Time Series Model and provide REST **CREATE**, **READ**, **UPDATE**, and **DELETE** operations through the Time Series Insights Preview [query expression language (TSX)](#time-series-expression-and-syntax).
+The Azure Time Series Insights Gen 2 APIs provide data access operations for Azure Time Series Insights Gen 2 environments. Gen 2 APIs are mostly structured around Time Series Model and provide REST **CREATE**, **READ**, **UPDATE**, and **DELETE** operations through the [Time Series Insights Expression syntax (TSX)](#time-series-expression-and-syntax).
 
 > [!TIP]
 > Batch operations and result pagination are supported for most query operations.
 
 > [!NOTE]
-> * Review the [Time Series Insights Expression syntax](#time-series-expression-and-syntax) for supported HTTP request body parameters and advanced query operations.
 > * Review [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization) for required HTTP request headers and parameters.
 
-## Preview Environments APIs
+## Environments APIs
 
-The following REST endpoints manage your Time Series Insights Preview environment. The Preview Environments APIs add HTTP **GET** request support for *event schemas* and *environment availability*. These features supplement the already supported [GA Environments APIs](ga-query-api.md).
+The following REST endpoints manage your Azure Time Series Insights Gen 2 environment. The Gen 2 Environments APIs add HTTP **GET** request support for *event schemas* and *environment availability*. These features supplement the already supported [Gen 1 Environments APIs](ga-query-api.md).
 
 | API | Description |
 | --- | --- |
@@ -47,33 +46,6 @@ A fourth API provides REST support for Time Series Model settings:
 * The [Model Settings API](#model-settings-api) supports HTTP **GET** and **UPDATE** operations for Time Series Model configuration settings.
 Read [Time Series Model](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-update-tsm) for detailed information about Time Series Model and *instance*, *hierarchy*, and *type* definitions.
 
-### Model Settings API
-
-The [Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on automatically created models in the environment by **TimeSeriesIds**.
-
-| API | Description |
-| --- | --- |
-| [Get Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings/get) | Returns the auto created model in the environment for **TimeSeriesIds**. |
-| [Update Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings/update) | Updates the model in the environment for **TimeSeriesIds** with the new values provided in the request. |
-
-### Types API
-
-The [Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on Time Series Types and their associated variables.
-
-| API | Description |
-| --- | --- |
-| [Get Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes/get) | Returns all the Time Series Types and their associated variables. |
-| [Post Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes/executebatch) |Enables batch operations on types. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation that the API allows. Supported operations are **PUT**, **UPDATE**, and **DELETE**. |
-
-### Hierarchies API
-
-The [Hierarchies API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeserieshierarchies) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on Time Series Hierarchies.
-
-| API | Description |
-| --- | --- |
-| [Get Hierarchies API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeserieshierarchies/get) | Returns all the Time Series Hierarchies that match the request. |
-| [Manage Hierarchies APIs](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeserieshierarchies/executebatch) | Enables batch operations on hierarchies. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation that the API allows. Supported operations are **PUT**, **UPDATE**, and **DELETE**. |
-
 ### Instances API
 
 The [Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** operations to be performed on Time Series Instances:
@@ -88,6 +60,33 @@ The [Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dat
    > [!TIP]
    > Read about [Search query features](#search-features) below.
 
+### Hierarchies API
+
+The [Hierarchies API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeserieshierarchies) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on Time Series Hierarchies.
+
+| API | Description |
+| --- | --- |
+| [Get Hierarchies API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeserieshierarchies/get) | Returns all the Time Series Hierarchies that match the request. |
+| [Manage Hierarchies APIs](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeserieshierarchies/executebatch) | Enables batch operations on hierarchies. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation that the API allows. Supported operations are **PUT**, **UPDATE**, and **DELETE**. |
+
+### Types API
+
+The [Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on Time Series Types and their associated variables.
+
+| API | Description |
+| --- | --- |
+| [Get Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes/get) | Returns all the Time Series Types and their associated variables. |
+| [Post Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes/executebatch) |Enables batch operations on types. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation that the API allows. Supported operations are **PUT**, **UPDATE**, and **DELETE**. |
+
+### Model Settings API
+
+The [Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on automatically created models in the environment by **TimeSeriesIds**.
+
+| API | Description |
+| --- | --- |
+| [Get Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings/get) | Returns the auto created model in the environment for **TimeSeriesIds**. |
+| [Update Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings/update) | Updates the model in the environment for **TimeSeriesIds** with the new values provided in the request. |
+
 ### Limits
 
 The following limits are applied during query execution to fairly utilize resources among multiple environments and users:
@@ -96,7 +95,7 @@ The following limits are applied during query execution to fairly utilize resour
 |-|-|-|-|
 | All | Max number of TSM objects per request | 10,000 or 8 MB | PAYG |
 | All | Max model request execution time | 30 seconds | PAYG |
-| All | Max number of instances per environment | 500,000 | PAYG |
+| All | Max number of instances per environment | 1,000,000 | PAYG |
 | All | Max number of instance fields per instance | 50 | PAYG |
 | All | Max number of types per environment | 1,000 | PAYG |
 | All | Max number of variables per type | 50 | PAYG |
@@ -118,6 +117,9 @@ The Query APIs return *event schema* and event counts over a specified time rang
 | [Aggregate Series API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Enables query and retrieval of Time Series Insights data from captured events by aggregating recorded data by using the aggregate or sample functions. |
 
 The APIs also support a [variety of customized operations](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#examples) specified through the HTTP request JSON body. [Query definitions](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#definitions) can be used for common operations.
+
+> [!IMPORTANT]
+> * As part of the [upcoming changes to JSON flattening and escaping rules](https://docs.microsoft.com/azure/time-series-insights/ingestion-rules-update), arrays will be stored as **Dynamic** type. Payload properties stored as this type are **ONLY accessible through the Get Events API**.
 
 ### Limits
 
@@ -275,19 +277,22 @@ Time Series Expression (TSX) is a string-based expression language with strong t
 
 ### Value expressions
 
-*Value expressions* are used to depict the value for numeric variables. A value expression can be only a single property reference expression of type **Double**.
+*Value expressions* are used to depict the value for numeric and categorical variables. A value expression can be a property reference expression of type **Double** or **Long**.
 
 For example:
 
 | TSX | Notes |
 |--|--|
-| `$event.temperature.Double` | |
-| `$event.[Temperature.ABC].Double` | Use `[` and `]` for escaping. |
-| `$event.Temperature` | The type is assumed to be **Double**. |
+| `$event.Temperature.Double` | The last token in any value expression (in this case `Double`) is read as the Type of the property. |
+| `$event.Temperature` | The type is assumed to be **Double** for a property accessed by a single token. |
+| `$event['Temperature-Celsius']` | Use `[` and `]` for escaping tokens that have special characters. Additionally, use `\` within the brackets to escape the following characters: `\` and `'`.  |
+| `$event.Temperature.Celsius.Double` | Use `.` to access nested properties. When accessing nested properties, the Type is **required**. |
+| `$event.Temperature['Celsius-C'].Double` | Use `[` and `]` for escaping tokens that have special characters when accessing nested properties. Additionally, use `\` within the brackets to escape the following characters: `\` and `'`. When accessing nested properties, the Type is **required**. |
+| `$event['Temperature']['Celsius'].Double` | Use of `[` and `]` for escaping tokens is allowed on any token. |
 
 #### Numeric variable kind
 
-The result of the value expression should only be of **Double** type.
+The result of the value expression should be of **Double** or **Long** type.
 
 #### Aggregate variable kind
 
@@ -309,29 +314,38 @@ Here are the supported aggregate functions.
 
 | Aggregate Function | Example | Description |
 |--|--|--|
-| `min`  | `min($value)` | Calculates the minimum of the `$value` per interval. Avoids `null` values. |
-| `max`  | `max($value)` | Calculates the maximum of the `$value` per interval. Avoids `null` values. |
-| `sum`  | `sum($value)` | Calculates the sum of `$value` over all the events in the interval. Avoids `null` values. |
-| `avg`  | `avg($value)` | Calculates the average of `$value` over all the events in the interval. Avoids `null` values. |
-| `first`  | `first($value)` | Returns `$value` of the first occurring event in the interval by event time stamp. This function does not avoid `null` values. |
-| `last`  | `last($value)` | Returns `$value` of the last occurring event in the interval by event time stamp. The time stamp function does not avoid `null` values. |
-| `left`  | `left($value)` | Returns the interpolated `$value` at the left edge of the given interval. |
+| `min`  | `min($value)` | Calculates the minimum of the `$value` per interval. Avoids `null` values. Cannot be used with interpolation. |
+| `max`  | `max($value)` | Calculates the maximum of the `$value` per interval. Avoids `null` values. Cannot be used with interpolation. |
+| `sum`  | `sum($value)` | Calculates the sum of `$value` over all the events in the interval. Avoids `null` values. Cannot be used with interpolation. |
+| `avg`  | `avg($value)` | Calculates the average of `$value` over all the events in the interval. Avoids `null` values. Cannot be used with interpolation. |
+| `first`  | `first($value)` | Returns `$value` of the first occurring event in the interval by event time stamp. Does **not** avoid `null` values. Cannot be used with interpolation. |
+| `last`  | `last($value)` | Returns `$value` of the last occurring event in the interval by event time stamp. Does **not** avoid `null` values. Cannot be used with interpolation. |
+| `median` | `median($value)` | Returns `$value` of the middle event in the interval by event time stamp. Does **not** avoid `null` values. Cannot be used with interpolation. |
+| `stdev` | `stdev($value)` | Returns `$value` of the standard deviation of the events in the interval. Avoids `null` values. Cannot be used with interpolation. |
+| `twsum` | `twsum($value)` | Returns `$value` of the time weighted sum of the events in the interval. Requires interpolation. |
+| `twavg` | `twavg($value)` | Returns `$value` of the time weighted average of the events in the interval. Requires interpolation. |
+| `left`  | `left($value)` | Returns the `$value` at the left edge of the given interval. Requires interpolation. |
+| `right`  | `right($value)` | Returns the `$value` at the right edge of the given interval. Requires interpolation. |
 
 #### Aggregate variable kind
 
-*Aggregate variables* should only refer to `$event.<PropertyName>.<Type>`.
+*Aggregate variables* should refer to a Property in the event payload.
 
 Here are the supported aggregate functions.
 
 | Aggregate function | Example | Description |
 |--|--|--|
 | `count`  | `count()` | Returns the number of events per interval. |
-| `min`  | `min($event.Temperature.Double)` | Calculates the minimum of the double property **Temperature** per interval. Avoids `null` values. |
-| `max`  | `max($event.Temperature.Double)` | Calculates the maximum of the double property **Temperature** per interval. Avoids `null` values.  |
-| `sum`  | `sum($event.Temperature.Double)` | Calculates the sum of the double property **Temperature** over all the events in the interval. Avoids `null` values. |
-| `avg`  | `avg($event.Temperature.Double)` | Calculates the average of the double property **Temperature** over all the events in the interval. Avoids `null` values. |
-| `first`  | `first($event.Temperature.Double)` | Returns the value of the double property **Temperature** from the first occurring event in the interval by event time stamp. This function does not avoid `null` values. |
-| `last`  | `last($event.Temperature.Double)` | Returns the value of the double property **Temperature** from the last occurring event in the interval by event time stamp. This function does not avoid `null` values. |
+| `min`  | `min($event.Temperature.Double)` | Calculates the minimum of the property **Temperature** per interval. Avoids `null` values. |
+| `max`  | `max($event.Temperature.Long)` | Calculates the maximum of the property **Temperature** per interval. Avoids `null` values.  |
+| `sum`  | `sum($event.Temperature.Double)` | Calculates the sum of the property **Temperature** over all the events in the interval. Avoids `null` values. |
+| `avg`  | `avg($event.Temperature.Long)` | Calculates the average of the property **Temperature** over all the events in the interval. Avoids `null` values. |
+| `first`  | `first($event.Temperature.String)` | Returns the first occurring (by event time stamp) value of the property **Temperature** from all the events in the interval. Does **not** avoid `null` values. |
+| `last`  | `last($event.Temperature.String)` | Returns the last occurring (by event time stamp) value of the property **Temperature** from all the events in the interval. Does **not** avoid `null` values.  |
+| `median` | `median($event.Temperature.String)` | Returns the middle occurring (by event time stamp) value of the property **Temperature** from all the events in the interval. Does **not** avoid `null` values. |
+| `stdev` | `stdev($event.Temperature.String)` | Calculates the standard deviation of the property **Temperature** per interval. Avoids `null` values. |
+
+For an *aggregate variable* kind, these functions can be combined in the *aggregate expression*. For example: `max($event.Temperature.Long) - min($event.Temperature.Long)`.
 
 ### Syntax
 
@@ -344,17 +358,42 @@ This section describes core syntax concepts and query operators that are concate
 | **Bool**  | `TRUE`, `FALSE` |
 | **DateTime** | `dt'2016-10-08T03:22:55.3031599Z'` |
 | **Double**   | `1.23`, `1.0` |
+| **Long** | `1`, `6` |
 | **String**   | `'abc'` |
 | **TimeSpan** | `ts'P1Y2M3DT4M5.67S'` |
-|  | `NULL` |
+| **Null** | `NULL` |
 
 #### Supported operand types
 
 | Operation | Supported types | Notes |
 |--|--|--|
-| **<**, **>**, **<=**, **>=** | **Double**, **DateTime**, **TimeSpan** | |
-| **=**, **!=**, **<>** | **String**, **Bool**, **Double**, **DateTime**, **TimeSpan**, **NULL** | **<>** is equivalent to **!=** |
-| **+**, **-**, **\***, **/** |  **Double**, **DateTime**, **TimeSpan** | |
+| **<**, **>**, **<=**, **>=** | **Double**, **Long**, **DateTime**, **TimeSpan** | |
+| **=**, **!=**, **<>** | **Double**, **Long**, **String**, **Bool**, **DateTime**, **TimeSpan**, **NULL** | **<>** is equivalent to **!=** |
+| **+**, **-**, **\***, **/** |  **Double**, **Long**, **DateTime**, **TimeSpan** | |
+
+For comparison expressions (**<**, **>**, **<=**, **>=**, **=**, **!=**), the operands can be **NULL** or be of the same type. In each predicate expression, types of left hand side (LHS) and right hand side (RHS) operands are validated to match. Errors occur when types of LHS and RHS don't agree, or an operation is not allowed on particular types.
+
+- A type check is applied:
+
+   * Any property type is accepted against a `NULL` literal.
+   * Types of LHS and RHS should match.
+   
+Here are examples of properties **p1** and **p2** of type **String**, property **p3** of type **Double**, and a nested property stored as **p4.p5** of type **Double**:
+
+| Filter | Is valid? | Notes |
+| - | - | - |
+| `$event.p1.String = 'abc'` | Yes | |
+| `$event.p1.String = $event.p2.String` | Yes | |
+| `$event.p1.String = NULL` | Yes | `NULL` matches any left-side type. |
+| `$event.p3.Double = 'abc'` | No | Type mismatch. |
+| `$event.p3.Double = $event.p1.String` | No | Type mismatch. |
+| `$event.p1 = 'abc'` | No |  Type mismatch. |
+| `$event.p1 = 1` | No | Type mismatch. |
+| `$event.p1 = true` | No | Type mismatch. |
+| `$event.p1 = NULL` | Yes | `p1` is the only token used. Interpreted as `$event.p1.Double = NULL` |
+| `$event['p1'] != NULL` | Yes | `['p1']` is the only token used. Interpreted as `$event['p1'].Double != NULL` |
+| `$event.p4.p5 = 0.0` | No | Invalid property reference syntax. A type must be specified on LHS of comparison. |
+| `$event.p4.p5.Double = 0.0` | Yes |  | 
 
 #### Supported scalar functions
 
@@ -364,8 +403,8 @@ Below is the list of scalar functions by categories:
 
 | Function name | Signature | Example | Notes |
 |--|--|--|--|
-| `toDouble` | `Double toDouble (value: String, Double, Long)` | `toDouble(toLong($event.value.Double + 1.3))` | Converts the arguments to **Double**.|
-| `toLong` | `Long toLong (value: String, Double, Long)` | `toLong($event.value.Double)` | Converts the arguments to **Long**.|
+| `toDouble` | `Double toDouble (value: String, Double, Long)` | `toDouble($event.value.Long)` | Converts the arguments to **Double**.|
+| `toLong` | `Long toLong (value: String, Double, Long)` | `toLong($event.value.Double + 1.0)` | Converts the arguments to **Long**.|
 | `toString` | `String toString (value: String, Double, Long)` | `toString($event.value.Double)` | Converts arguments to **String**.|
 
 ##### Math functions
@@ -423,33 +462,7 @@ Below is the list of scalar functions by categories:
 | Function name | Signature | Example | Notes |
 |--|--|--|--|
 | `coalesce` | `String, Long, Double, Bool coalesce (value: String, Long, Double, Bool)` | `coalesce(toLong($event.value.Double), $event.value.Long)` | Returns the first non-null value in the argument list. Accepts any number of arguments, but they must all be of the same type.|
-| `iff` | `String, Long, Double, Bool iff (predicate: bool, ifTrue: String, Long, Double, Bool, ifFalse: String, Long, Double, Bool)` | `iff ($event.value.Double > 100, 'Good', 'Bad'), $event.value.Long)` | Returns the second or third argument depending on whether the predicate resolved to true (returns second argument) or false (returns third argument). The predicate must be a Boolean expression and the second and third arguments must be of the same type.|
-
-For comparison expressions (**<**, **>**, **<=**, **>=**, **=**, **!=**), the operand can be **NULL** or have a single type.
-In each predicate expression, types of left-side and right-side operands are validated to match.
-Errors occur when types of left and right sides don't agree, or an operation is not allowed on particular types.
-
-- If the type is specified for the property, then a type check is applied:
-
-   * Any property type is accepted against a `NULL` literal.
-   * Otherwise, types of left side and right side should match.
-
-- If the type is omitted for the property but the name is specified, then the type is assumed to be **Double**.
-
-Here are examples of properties **p1** and **p2** of type **String**, and property **p3** of type **Double**:
-
-| Filter | Is valid? | Notes |
-| - | - | - |
-| `$event.p1.String = 'abc'` | Yes | |
-| `$event.p1.String = $event.p2.String` | Yes | |
-| `$event.p1.String = NULL` | Yes | `NULL` matches any left-side type. |
-| `$event.p3.Double = 'abc'` | No | Type mismatch. |
-| `$event.p3.Double = $event.p1.String` | No | Type mismatch. |
-| `$event.p1 = 'abc'` | No |  Type mismatch. |
-| `$event.p1 = true` | No | Type mismatch. |
-| `$event.p1 = NULL` | Yes | `$event.p1.Double = NULL` |
-| `$event.p1 != NULL` | Yes | `$event.p1.Double != NULL` |
-| `$event.p1 = '1.0'` | No | Type mismatch. |
+| `iff` | `String, Long, Double, Bool iff (predicate: bool, ifTrue: String, Long, Double, Bool, ifFalse: String, Long, Double, Bool)` | `iff ($event.value.Double > 100, 'Good', 'Bad')` | Returns the second or third argument depending on whether the predicate resolved to true (returns second argument) or false (returns third argument). The predicate must be a Boolean expression and the second and third arguments must be of the same type.|
 
 ## See also
 
@@ -463,4 +476,4 @@ Tools that assist with testing HTTP requests and responses include:
 - [JWT.io](https://jwt.io/). You can use this tool to quickly dump the claims in your bearer token and then validate their contents.
 - [Postman](https://www.getpostman.com/). This is a free HTTP request and response testing tool for debugging REST APIs.
 
-Learn more about Azure Time Series Insights by reviewing the [product documentation](https://docs.microsoft.com/azure/time-series-insights/).
+Learn more about [Azure Time Series Insights Gen 2](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-update-overview).
