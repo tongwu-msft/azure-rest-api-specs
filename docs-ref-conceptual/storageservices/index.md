@@ -36,11 +36,11 @@ Containers and blobs support user-defined metadata in the form of name-value pai
 
 Using the REST API for the Blob service, developers can create a hierarchical namespace similar to a file system. Blob names may encode a hierarchy by using a configurable path separator. For example, the blob names *MyGroup/MyBlob1* and *MyGroup/MyBlob2* imply a virtual level of organization for blobs. The enumeration operation for blobs supports traversing the virtual hierarchy in a manner similar to that of a file system, so that you can return a set of blobs that are organized beneath a group. For example, you can enumerate all blobs organized under *MyGroup/*.
 
-A block blob may be created in one of two ways. Block blobs less than or equal to 256 MB (64 MB for requests using REST versions before 2016-05-31) in size can be uploaded by calling the [Put Blob](Put-Blob.md) operation. Block blobs larger than this must be uploaded as a set of blocks, each of which must be less than or equal to 100 MB (4 MB for requests using REST versions before 2016-05-31) in size. A set of successfully uploaded blocks can be assembled in a specified order into a single contiguous blob by calling [Put Block List](Put-Block-List.md). The maximum size currently supported for a block blob is 5,000,000 MB (200,000 MB for requests using REST versions before 2016-05-31).
+A block blob may be created in one of two ways. Block blobs less than or equal to 256 MiB (5000 MiB, Preview) in size can be uploaded by calling the [Put Blob](Put-Blob.md) operation. Block blobs larger than this must be uploaded as a set of blocks, each of which must be less than or equal to 100 MiB (4000 MiB, Preview) in size. A set of successfully uploaded blocks can be assembled in a specified order into a single contiguous blob by calling [Put Block List](Put-Block-List.md). The maximum size currently supported for a block blob is 4.75 TiB (190.7 TiB, Preview).
 
-Page blobs are created and initialized with a maximum size with a call to [Put Blob](Put-Blob.md). To write content to a page blob, you call the [Put Page](Put-Page.md) operation. The maximum size currently supported for a page blob is 8 TB.
+Page blobs are created and initialized with a maximum size with a call to [Put Blob](Put-Blob.md). To write content to a page blob, you call the [Put Page](Put-Page.md) operation. The maximum size currently supported for a page blob is 8 TiB.
 
-Append blobs can be created by calling [Put Blob](Put-Blob.md). An append blob created with the [Put Blob](Put-Blob.md) operation does not include any content. To write content to an append blob, you add blocks to the end of the blob by calling the [Append Block](Append-Block.md) operation. Updating or deleting existing blocks is not supported. Each block can be of different size, up to a maximum of 4 MB. The maximum size for an append blob is 200 GB, and an append blob can include no more than 50,000 blocks.
+Append blobs can be created by calling [Put Blob](Put-Blob.md). An append blob created with the [Put Blob](Put-Blob.md) operation does not include any content. To write content to an append blob, you add blocks to the end of the blob by calling the [Append Block](Append-Block.md) operation. Updating or deleting existing blocks is not supported. Each block can be of different size, up to a maximum of 4 MiB. The maximum size for an append blob is 195 GiB, and an append blob can include no more than 50,000 blocks.
 
 Blobs support conditional update operations that may be useful for concurrency control and efficient uploading.
 
@@ -53,7 +53,7 @@ The Queue service provides reliable, persistent messaging within and between ser
 
 Queues support user-defined metadata in the form of name-value pairs specified as headers on a request operation.
 
-Each storage account may have an unlimited number of message queues that are named uniquely within the account. Each message queue may contain an unlimited number of messages. The maximum size for a message is limited to 64 KB for version 2011-08-18 and 8 KB for previous versions.
+Each storage account may have an unlimited number of message queues that are named uniquely within the account. Each message queue may contain an unlimited number of messages. The maximum size for a message is limited to 64 KiB for version 2011-08-18 and 8 KiB for previous versions.
 
 When a message is read from the queue, the consumer is expected to process the message and then delete it. After the message is read, it is made invisible to other consumers for a specified interval. If the message has not yet been deleted at the time the interval expires, its visibility is restored, so that another consumer may process it.
 

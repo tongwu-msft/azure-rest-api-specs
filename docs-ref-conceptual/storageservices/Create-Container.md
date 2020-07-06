@@ -51,6 +51,15 @@ The `Create Container` operation creates a new container under the specified acc
 |`x-ms-blob-public-access`|Optional. Specifies whether data in the container may be accessed publicly and the level of access. Possible values include:<br /><br /> -   `container`: Specifies full public read access for container and blob data. Clients can enumerate blobs within the container via anonymous request, but cannot enumerate containers within the storage account.<br />-   `blob:` Specifies public read access for blobs. Blob data within this container can be read via anonymous request, but container data is not available. Clients cannot enumerate blobs within the container via anonymous request.<br /><br /> If this header is not included in the request, container data is private to the account owner.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
+### Request Headers (Encryption scopes)
+  
+Beginning with version 2019-02-02, the following headers may be specified on the request to set a default encryption scope on the container. If set, this encryption scope is automatically used to encrypt all blobs uploaded to the container.  
+  
+|Request header|Description|  
+|--------------------|-----------------|  
+|`x-ms-default-encryption-scope`|Required. The encryption scope to set as the default on the container.|  
+|`x-ms-deny-encryption-scope-override`|Required. `true` or `false`. If `true`, prevents any blob upload from specifying a different encryption scope.|  
+  
 ### Request Body  
  None.  
   

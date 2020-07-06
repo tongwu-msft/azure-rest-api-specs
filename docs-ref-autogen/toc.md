@@ -2398,6 +2398,7 @@
 ##### [Overview](billing/2019-10-01-preview/BillingProfiles.yml)
 ##### [Create](billing/2019-10-01-preview/BillingProfiles/Create.yml)
 ##### [Get](billing/2019-10-01-preview/BillingProfiles/Get.yml)
+##### [Get Eligibility To Detach Payment Method](billing/2019-10-01-preview/BillingProfiles/GetEligibilityToDetachPaymentMethod.yml)
 ##### [List By Billing Account](billing/2019-10-01-preview/BillingProfiles/ListByBillingAccount.yml)
 ##### [Update](billing/2019-10-01-preview/BillingProfiles/Update.yml)
 #### Billing Property
@@ -3722,13 +3723,6 @@
 ### [List](consumption/UsageDetails/List.yml)
 # Container Instances
 ## [Overview](../docs-ref-conceptual/container-instances/index.md)
-## Container
-### [Overview](container-instances/Container.yml)
-### [Execute Command](container-instances/Container/ExecuteCommand.yml)
-### [List Logs](container-instances/Container/ListLogs.yml)
-## Container Group Usage
-### [Overview](container-instances/ContainerGroupUsage.yml)
-### [List](container-instances/ContainerGroupUsage/List.yml)
 ## Container Groups
 ### [Overview](container-instances/ContainerGroups.yml)
 ### [Create Or Update](container-instances/ContainerGroups/CreateOrUpdate.yml)
@@ -3740,18 +3734,18 @@
 ### [Start](container-instances/ContainerGroups/Start.yml)
 ### [Stop](container-instances/ContainerGroups/Stop.yml)
 ### [Update](container-instances/ContainerGroups/Update.yml)
-## List Cached Images
-### [Overview](container-instances/ListCachedImages.yml)
-### [List Cached Images](container-instances/ListCachedImages/ListCachedImages.yml)
-## List Capabilities
-### [Overview](container-instances/ListCapabilities.yml)
-### [List Capabilities](container-instances/ListCapabilities/ListCapabilities.yml)
+## Containers
+### [Overview](container-instances/Containers.yml)
+### [Execute Command](container-instances/Containers/ExecuteCommand.yml)
+### [List Logs](container-instances/Containers/ListLogs.yml)
+## Location
+### [Overview](container-instances/Location.yml)
+### [List Cached Images](container-instances/Location/ListCachedImages.yml)
+### [List Capabilities](container-instances/Location/ListCapabilities.yml)
+### [List Usage](container-instances/Location/ListUsage.yml)
 ## Operations
 ### [Overview](container-instances/Operations.yml)
 ### [List](container-instances/Operations/List.yml)
-## Service Association Link
-### [Overview](container-instances/ServiceAssociationLink.yml)
-### [Delete](container-instances/ServiceAssociationLink/Delete.yml)
 # Container Registry
 ## [Overview](../docs-ref-conceptual/containerregistry/index.md)
 ## Access Tokens
@@ -6913,6 +6907,7 @@
 ### [Get Hourly Forecast Preview](maps/Weather/GetHourlyForecastPreview.yml)
 ### [Get Minute Forecast Preview](maps/Weather/GetMinuteForecastPreview.yml)
 ### [Get Quarter Day Forecast Preview](maps/Weather/GetQuarterDayForecastPreview.yml)
+### [Get Severe Weather Alerts Preview](maps/Weather/GetSevereWeatherAlertsPreview.yml)
 ### [Get Weather Along Route Preview](maps/Weather/GetWeatherAlongRoutePreview.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
@@ -8713,7 +8708,9 @@
 #### [Create Indexer](../docs-ref-conceptual/searchservice/preview-api/create-indexer.md)
 #### [Update Indexer](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
 ### Skillsets
+#### [Create Skillset](../docs-ref-conceptual/searchservice/create-skillset.md)
 #### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
+#### [Update Skillset](../docs-ref-conceptual/searchservice/update-skillset.md)
 ## Reference (Stable)
 ### Indexes
 #### [Overview](../docs-ref-conceptual/searchservice/index-operations.md)
@@ -13239,6 +13236,7 @@
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
 ### Previous Azure Storage services versions
 #### [Overview](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
+#### [Version 2019-07-07](../docs-ref-conceptual/storageservices/version-2019-07-07.md)
 #### [Version 2019-02-02](../docs-ref-conceptual/storageservices/version-2019-02-02.md)
 #### [Version 2018-11-09](../docs-ref-conceptual/storageservices/version-2018-11-09.md)
 #### [Version 2018-03-28](../docs-ref-conceptual/storageservices/version-2018-03-28.md)
@@ -13325,6 +13323,9 @@
 #### [Set Blob Properties](../docs-ref-conceptual/storageservices/set-blob-properties.md)
 #### [Get Blob Metadata](../docs-ref-conceptual/storageservices/get-blob-metadata.md)
 #### [Set Blob Metadata](../docs-ref-conceptual/storageservices/set-blob-metadata.md)
+#### [Get Blob Tags](../docs-ref-conceptual/storageservices/get-blob-tags.md)
+#### [Set Blob Tags](../docs-ref-conceptual/storageservices/set-blob-tags.md)
+#### [Find Blobs by Tags](../docs-ref-conceptual/storageservices/find-blobs-by-tags.md)
 #### [Lease Blob](../docs-ref-conceptual/storageservices/lease-blob.md)
 #### [Snapshot Blob](../docs-ref-conceptual/storageservices/snapshot-blob.md)
 #### [Copy Blob](../docs-ref-conceptual/storageservices/copy-blob.md)
@@ -13340,6 +13341,7 @@
 ##### [Put Block From URL](../docs-ref-conceptual/storageservices/put-block-from-url.md)
 ##### [Put Block List](../docs-ref-conceptual/storageservices/put-block-list.md)
 ##### [Get Block List](../docs-ref-conceptual/storageservices/get-block-list.md)
+##### [Query Blob Contents](../docs-ref-conceptual/storageservices/query-blob-contents.md)
 #### Operations on Page Blobs
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-page-blobs.md)
 ##### [Put Page](../docs-ref-conceptual/storageservices/put-page.md)
