@@ -196,7 +196,7 @@ Date: <date>
   
 ### Outcomes of use attempts on files by lease state  
   
-|&nbsp;|Available|Leased (A)|Broken (A)|
+|Action|Available|Leased (A)|Broken (A)|
 |-|--------------------|------------------|-------------------|  
 |Write using (A)|Fails (412)|Leased (A), write succeeds|Fails (412)|  
 |Write using (B)|Fails (412)|Fails (409)|Fails (412)|  
@@ -207,7 +207,7 @@ Date: <date>
   
 ### Outcomes of lease operations on files by lease state  
   
-|&nbsp;|Available|Leased (A)|Broken (A)|  
+|Action|Available|Leased (A)|Broken (A)|  
 |-|--------------------|------------------|-------------------|  
 |`Acquire`, no proposed lease ID|Leased (X)|Fails (409)|Leased (X)|  
 |`Acquire` (A)|Leased (A)|Leased (A)|Leased (A)|  

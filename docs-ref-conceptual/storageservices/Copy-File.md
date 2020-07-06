@@ -114,7 +114,7 @@ Date: <date>
   
  The following table describes how the destination and source objects for a Copy File operation may be authorized.  
   
-|&nbsp;|Authorization with Shared Key/Shared Key Lite|Authorization with Shared Access Signature|Public Object Not Requiring Authorization|  
+|File|Authorization with Shared Key/Shared Key Lite|Authorization with Shared Access Signature|Public Object Not Requiring Authorization|  
 |-|-----------------------------------------------------|-------------------------------------------------|------------------------------------------------|  
 |Destination file|Yes|Yes|N/A|  
 |Source file in same account|Yes|Yes|N/A|  

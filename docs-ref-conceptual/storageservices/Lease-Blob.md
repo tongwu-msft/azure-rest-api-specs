@@ -233,7 +233,7 @@ Date: <date>
   
 ### Outcomes of use attempts on blobs by lease state  
   
-|&nbsp;|Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
+|Action|Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
 |-|---------------|------------------|--------------------|------------------|-------------------|  
 |Write using (A)|Fails (412)|Leased (A), write succeeds|Breaking (A), write succeeds|Fails (412)|Fails (412)|  
 |Write using (B)|Fails (412)|Fails (409)|Fails (412)|Fails (412)|Fails (412)|  
@@ -244,7 +244,7 @@ Date: <date>
   
 ### Outcomes of lease operations on blobs by lease state  
   
-|&nbsp;|Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
+|Action|Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
 |-|---------------|------------------|--------------------|------------------|-------------------|  
 |`Acquire`, no proposed lease ID|Leased (X)|Fails (409)|Fails (409)|Leased (X)|Leased (X)|  
 |`Acquire` (A)|Leased (A)|Leased (A), new duration|Fails (409)|Leased (A)|Leased (A)|  

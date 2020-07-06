@@ -15,10 +15,9 @@ The `Query Blob Contents` API applies a simple Structured Query Language (SQL) s
 ## Request  
  The `Query Blob Contents` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||POST Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|HTTP/1.0<br /><br /> HTTP/1.1|  
-  
+|POST Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|HTTP/1.0<br /><br /> HTTP/1.1|  
   
 ### URI Parameters  
  The following additional parameters may be specified on the request URI.  

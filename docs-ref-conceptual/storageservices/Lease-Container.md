@@ -162,10 +162,10 @@ Date: Thu, 26 Jan 2012 23:30:18 GMT
   
  A lease can be in 5 states, based on whether the lease is locked or unlocked, and whether the lease is renewable in that state. The lease actions above cause state transitions.  
   
-||Locked Lease|Unlocked Lease|  
+|Renewal status|Locked lease|Unlocked lease|  
 |-|------------------|--------------------|  
-|**Renewable Lease**|Leased|Expired|  
-|**Non-renewable Lease**|Breaking|Broken, Available|  
+|Renewable Lease|Leased|Expired|  
+|Non-renewable Lease|Breaking|Broken, Available|  
   
 -   `Available`, the lease is unlocked and can be acquired. Allowed action: `acquire`.  
   
@@ -185,7 +185,7 @@ Date: Thu, 26 Jan 2012 23:30:18 GMT
   
 ### Outcomes of use attempts on containers by lease state  
   
-|&nbsp;|Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
+|Action|Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
 |-|---------------|------------------|--------------------|------------------|-------------------|  
 |Delete using (A)|Fails (412)|Leased (A), delete succeeds|Breaking (A), delete succeeds|Fails (412)|Fails (412)|  
 |Delete using (B)|Fails (412)|Fails (409)|Fails (412)|Fails (412)|Fails (412)|  
@@ -196,7 +196,7 @@ perations, no lease specified|Available, operation succeeds|Leased (A), operatio
   
 ### Outcomes of lease operations on containers by lease state  
   
-|&nbsp;|Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
+|Action|Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
 |---|---------------|------------------|--------------------|------------------|-------------------|  
 |`Acquire`, no proposed lease ID|Leased (X)|Fails (409)|Fails (409)|Leased (X)|Leased (X)|  
 |`Acquire` (A)|Leased (A)|Leased (A), new duration|Fails (409)|Leased (A)|Leased (A)|  
