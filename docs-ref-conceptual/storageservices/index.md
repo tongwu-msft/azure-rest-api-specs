@@ -53,7 +53,7 @@ The Queue service provides reliable, persistent messaging within and between ser
 
 Queues support user-defined metadata in the form of name-value pairs specified as headers on a request operation.
 
-Each storage account may have an unlimited number of message queues that are named uniquely within the account. Each message queue may contain an unlimited number of messages. The maximum size for a message is limited to 64 KB for version 2011-08-18 and 8 KB for previous versions.
+Each storage account may have an unlimited number of message queues that are named uniquely within the account. Each message queue may contain an unlimited number of messages. The maximum size for a message is limited to 64 KiB for version 2011-08-18 and 8 KiB for previous versions.
 
 When a message is read from the queue, the consumer is expected to process the message and then delete it. After the message is read, it is made invisible to other consumers for a specified interval. If the message has not yet been deleted at the time the interval expires, its visibility is restored, so that another consumer may process it.
 

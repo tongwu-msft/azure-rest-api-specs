@@ -3,7 +3,7 @@ title: Find Blobs by Tags (REST API) - Azure Storage
 description: The Find Blobs by Tags operation returns all blobs whose tags match a given search expression.
 author: rerdmann
 
-ms.date: 6/15/2020
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: rerdmann
@@ -15,9 +15,9 @@ The `Find Blobs by Tags` operation finds all blobs in the storage account whose 
 ## Request  
  The `Find Blobs by Tags` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||GET Method Request URI|HTTP Version|  
-|-|------------------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net?comp=blobs&where=<expression>`|HTTP/1.1|  
+|GET Method Request URI|HTTP Version|  
+|------------------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net?comp=blobs&where=<expression>`|HTTP/1.1|  
   
 ### URI parameters
   
@@ -38,7 +38,7 @@ The `Find Blobs by Tags` operation finds all blobs in the storage account whose 
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
  None.  

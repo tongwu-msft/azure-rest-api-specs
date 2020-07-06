@@ -34,8 +34,8 @@ The following table describes the maximum block and blob sizes permitted by serv
 | Service version | Maximum block size (via Put Block) | Maximum blob size (via Put Block List) | Maximum blob size via single write operation (via Put Blob) |
 |-|-|-|-|
 | Version 2019-12-12 and later | 4000 MiB (preview) | Approximately 190.7 TiB (4000 MiB X 50,000 blocks) (preview) | 5000 MiB (preview) |
-| Version 2016-05-31 through version 2019-07-07 | 100 MiB | Approximately 4.75 TiB (100 MB X 50,000 blocks) | 256 MiB |
-| Versions prior to 2016-05-31 | 4 MiB | Approximately 195 GiB (4 MB X 50,000 blocks) | 64 MiB |
+| Version 2016-05-31 through version 2019-07-07 | 100 MiB | Approximately 4.75 TiB (100 MiB X 50,000 blocks) | 256 MiB |
+| Versions prior to 2016-05-31 | 4 MiB | Approximately 195 GiB (4 MiB X 50,000 blocks) | 64 MiB |
 
 Storage clients default to a 128 MiB maximum single blob upload, settable in the Azure Storage client library for .NET version 11 by using the [SingleBlobUploadThresholdInBytes](/dotnet/api/microsoft.azure.storage.blob.blobrequestoptions.singleblobuploadthresholdinbytes) property of the [BlobRequestOptions](/dotnet/api/microsoft.azure.storage.blob.blobrequestoptions) object. When a block blob upload is larger than the value in this property, storage clients break the file into blocks. You can set the number of threads used to upload the blocks in parallel on a per-request basis using the [ParallelOperationThreadCount](/dotnet/api/microsoft.azure.storage.blob.blobrequestoptions.paralleloperationthreadcount) property of the [BlobRequestOptions](/dotnet/api/microsoft.azure.storage.blob.blobrequestoptions) object.  
 
@@ -51,7 +51,7 @@ If you write a block for a blob that does not exist, a new block blob is created
 
 ## About page blobs
 
-Page blobs are a collection of 512-byte pages optimized for random read and write operations. To create a page blob, you initialize the page blob and specify the maximum size the page blob will grow. To add or update the contents of a page blob, you write a page or pages by specifying an offset and a range that align to 512-byte page boundaries. A write to a page blob can overwrite just one page, some pages, or up to 4 MiB of the page blob. Writes to page blobs happen in-place and are immediately committed to the blob. The maximum size for a page blob is 8 TB.  
+Page blobs are a collection of 512-byte pages optimized for random read and write operations. To create a page blob, you initialize the page blob and specify the maximum size the page blob will grow. To add or update the contents of a page blob, you write a page or pages by specifying an offset and a range that align to 512-byte page boundaries. A write to a page blob can overwrite just one page, some pages, or up to 4 MiB of the page blob. Writes to page blobs happen in-place and are immediately committed to the blob. The maximum size for a page blob is 8 TiB.  
   
 Azure virtual machine disks are backed by page blobs. Azure offers two types of durable disk storage: premium and standard. Premium storage for page blobs is designed for Azure virtual machine workloads that require consistent high performance and low latency. For detailed information, see the **Premium solid-state drives (SSD)** section of the article [Select a disk type for IaaS VMs](https://docs.microsoft.com/azure/virtual-machines/windows/disks-types#premium-ssd). For information about the scalability targets for premium storage for page blobs, see [Azure Storage Scalability and Performance Targets](/azure/storage/storage-scalability-targets).
   
