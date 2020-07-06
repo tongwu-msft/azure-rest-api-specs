@@ -283,11 +283,12 @@ For example:
 
 | TSX | Notes |
 |--|--|
-| `$event.temperature.Double` | The last token in any value expression (in this case `Double`) is read as the Type of the property. |
+| `$event.Temperature.Double` | The last token in any value expression (in this case `Double`) is read as the Type of the property. |
 | `$event.Temperature` | The type is assumed to be **Double** for a property accessed by a single token. |
-| `$event['Temperature-Celsius']` | Use `[` and `]` for escaping tokens that have special characters. |
-| `$event.Temperature.ABC.String` | Use `.` to access nested properties. When accessing nested properties, the Type is **required**. |
-| `$event.Temperature['A-B-C'].String` | Use `[` and `]` for escaping to access nested properties. When accessing nested properties, the Type is **required**. |
+| `$event['Temperature-Celsius']` | Use `[` and `]` for escaping tokens that have special characters. Additionally, use `\` within the brackets to escape the following characters: `\` and `'`.  |
+| `$event.Temperature.Celsius.Double` | Use `.` to access nested properties. When accessing nested properties, the Type is **required**. |
+| `$event.Temperature['Celsius-C'].Double` | Use `[` and `]` for escaping tokens that have special characters when accessing nested properties. Additionally, use `\` within the brackets to escape the following characters: `\` and `'`. When accessing nested properties, the Type is **required**. |
+| `$event['Temperature']['Celsius'].Double` | Use of `[` and `]` for escaping tokens is allowed on any token. |
 
 #### Numeric variable kind
 
