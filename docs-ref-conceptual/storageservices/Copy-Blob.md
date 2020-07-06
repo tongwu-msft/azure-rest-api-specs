@@ -3,7 +3,7 @@ title: Copy Blob (REST API) - Azure Storage
 description: The Copy Blob operation copies a blob to a destination within the storage account.
 author: pemari-msft
 
-ms.date: 09/20/2019
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -25,16 +25,16 @@ Beginning with version 2015-02-21, the source for a `Copy Blob` operation can be
   
  Beginning with version 2013-08-15, you may specify a shared access signature for the destination blob if it is in the same account as the source blob. Beginning with version 2015-04-05, you may also specify a shared access signature for the destination blob if it is in a different storage account.  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob`|HTTP/1.1|  
   
 ### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob`|HTTP/1.1|  
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
@@ -131,7 +131,7 @@ Date: <date>
   
  The following table describes how the destination and source objects for a Copy Blob operation may be authorized.  
   
-||Authorization with Shared Key/Shared Key Lite|Authorization with Shared Access Signature|Public Object Not Requiring Authorization|  
+|&nbsp;|Authorization with Shared Key/Shared Key Lite|Authorization with Shared Access Signature|Public Object Not Requiring Authorization|  
 |-|-----------------------------------------------------|-------------------------------------------------|------------------------------------------------|  
 |Destination blob|Yes|Yes|No|  
 |Source blob in same account|Yes|Yes|Yes|  

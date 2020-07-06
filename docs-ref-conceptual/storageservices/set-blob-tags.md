@@ -3,7 +3,7 @@ title: Set Blob Tags (REST API) - Azure Storage
 description: The Set Blob Tags operation sets user-defined tags for the specified blob as one or more key-value pairs.  
 author: rerdmann
 
-ms.date: 6/15/2020
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: rerdmann
@@ -15,9 +15,9 @@ The `Set Blob Tags` operation sets user-defined tags for the specified blob as o
 ## Request  
  The `Set Blob Tags` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags&versionid=<DateTime>`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags&versionid=<DateTime>`|HTTP/1.1|  
   
 ### URI Parameters  
  The following additional parameters may be specified on the request URI.  

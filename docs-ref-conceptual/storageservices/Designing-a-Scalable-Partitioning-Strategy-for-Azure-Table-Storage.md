@@ -3,7 +3,7 @@ title: Design a scalable partitioning strategy for Azure Table storage (REST API
 description: This article discusses partitioning a table in Azure Table storage and strategies you can use to ensure efficient scalability.
 author: pemari-msft
 
-ms.date: 04/24/2020
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -53,9 +53,8 @@ Entity group transactions improve throughput because they reduce the number of i
 
 If you use unique **PartitionKey** values for your entities, each entity belongs in its own partition. If the unique values you use increase or decrease in value, it's possible that Azure will create range partitions. Range partitions group entities that have sequential, unique **PartitionKey** values to improve the performance of range queries. Without range partitions, a range query must cross partition boundaries or server boundaries, which can decrease query performance. Consider an application that uses the following table, which has an increasing sequence value for **PartitionKey**:
   
-|||  
-|-|-|  
 |**PartitionKey**|**RowKey**|  
+|-|-|  
 |"0001"|-|  
 |"0002"|-|  
 |"0003"|-|  
@@ -82,9 +81,8 @@ In an Azure table, you don't have the luxury of performance-tuning your table by
 
 Partition sizing refers to the number of entities a partition contains. As we discuss in [Scalability](#scalability), having more partitions means you get better load balancing. The granularity of the **PartitionKey** value affects the size of the partitions. At the coarsest level, if a single value is used as the **PartitionKey**, all the entities are in a single partition that is very large. At the finest level of granularity, the **PartitionKey** can contain unique values for each entity. The result is that there's a partition for each entity. The following table shows the advantages and disadvantages for the range of granularities: 
   
-|||||  
-|-|-|-|-|  
 |**PartitionKey granularity**|**Partition size**|**Advantages**|**Disadvantages**|  
+|-|-|-|-|  
 |Single value|Small number of entities|Batch transactions are possible with any entity.<br /><br /> All entities are local and served from the same storage node.||  
 |Single value|Large number of entities|Entity group transactions might be possible with any entity. For more information about the limits of entity group transactions, see [Performing entity group transactions](Performing-Entity-Group-Transactions.md).|Scaling is limited.<br /><br /> Throughput is limited to the performance of a single server.|  
 |Multiple values|Multiple partitions<br /><br /> Partition sizes depend on entity distribution.|Batch transactions are possible on some entities.<br /><br /> Dynamic partitioning is possible.<br /><br /> Single-request queries are possible (no continuation tokens).<br /><br /> Load balancing across more partition servers is possible.|A highly uneven distribution of entities across partitions might limit the performance of the larger and more active partitions.|  
@@ -96,10 +94,8 @@ The table shows how scaling is affected by **PartitionKey** values. It's a best 
 
 Queries retrieve data from tables. When you analyze the data for a table in Azure Table storage, it's important to consider which queries the application will use. If an application has several queries, you might need to prioritize them, although your decisions might be subjective. In many cases, dominant queries are discernable from other queries. In terms of performance, queries fall into different categories. Because a table has only one index, query performance usually is related to the **PartitionKey** and **RowKey** properties. The following table shows the different types of queries and their performance ratings: 
   
-|||||  
-|-|-|-|-|  
 |**Query type**|**PartitionKey match**|**RowKey match**|**Performance rating**|  
-|Point|Exact|Exact|Best|  
+|-|-|-|-|  
 |Row range scan|Exact|Partial|Better with smaller-sized partitions.<br /><br /> Bad with partitions that are very large.|  
 |Partition range scan|Partial|Partial|Good with a small number of partition servers being touched.<br /><br /> Worse with more servers being touched.|  
 |Full table scan|Partial, none|Partial, none|Worse with a subset of partitions being scanned.<br /><br /> Worst with all partitions being scanned.|  
@@ -138,9 +134,8 @@ Query selectivity is another factor that can affect the performance of the query
 
 Knowing the queries that you'll use can help you determine which properties are important to consider for the **PartitionKey** value. The properties that you use in the queries are candidates for the **PartitionKey** value. The following table provides a general guideline of how to determine the **PartitionKey** value:
   
-|||  
-|-|-|  
 |**If the entity…**|**Action**|  
+|-|-|  
 |Has one key property|Use it as the **PartitionKey**.|  
 |Has two key properties|Use one as the **PartitionKey** and the other as the **RowKey**.|  
 |Has more than two key properties|Use a composite key of concatenated values.|  
@@ -151,9 +146,8 @@ If there's more than one equally dominant query, you can insert the information 
   
 To serve both dominant queries, insert two rows as an entity group transaction. The following table shows the **PartitionKey** and **RowKey** properties for this scenario. The **RowKey** values provide a prefix for the bib and age so that the application can distinguish between the two values.
   
-|||  
-|-|-|  
 |**PartitionKey**|**RowKey**|  
+|-|-|  
 |2011 New York City Marathon__Full|BIB:01234__John__M__55|  
 |2011 New York City Marathon__Full|AGE:055__1234__John__M|  
   

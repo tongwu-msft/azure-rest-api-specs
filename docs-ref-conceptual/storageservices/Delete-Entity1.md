@@ -3,13 +3,13 @@ title: Delete Entity (REST API) - Azure Storage
 description: The Delete Entity operation deletes an existing entity in a table.
 author: pemari-msft
 
-ms.date: 09/20/2019
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
 ---
 
-# Delete Entity
+# Delete Entity (Azure Storage)
 
 The `Delete Entity` operation deletes an existing entity in a table.  
   

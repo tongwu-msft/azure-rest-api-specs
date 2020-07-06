@@ -3,7 +3,7 @@ title: Get Blob Metadata (REST API) - Azure Storage
 description: The Get Blob Metadata operation returns all user-defined metadata for the specified blob or snapshot.
 author: pemari-msft
 
-ms.date: 08/15/2019
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -15,16 +15,16 @@ The `Get Blob Metadata` operation returns all user-defined metadata for the spec
 ## Request  
  The `Get Blob Metadata` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||GET or HEAD Method Request URI|HTTP Version|  
-|-|------------------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=metadata`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=metadata&snapshot=<DateTime>`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=metadata&versionid=<DateTime>`|HTTP/1.1|   
+|GET or HEAD Method Request URI|HTTP Version|  
+|------------------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=metadata`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=metadata&snapshot=<DateTime>`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=metadata&versionid=<DateTime>`|HTTP/1.1|   
   
 ### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
-||GET or HEAD Method Request URI|HTTP Version|  
-|-|------------------------------------|------------------|  
-||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=metadata`|HTTP/1.1|  
+|GET or HEAD Method Request URI|HTTP Version|  
+|------------------------------------|------------------|  
+|`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=metadata`|HTTP/1.1|  
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   

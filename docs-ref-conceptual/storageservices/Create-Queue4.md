@@ -3,13 +3,13 @@ title: Create Queue (REST API) - Azure Storage
 description: The Create Queue operation creates a queue in a storage account. 
 author: pemari-msft
 
-ms.date: 09/23/2019
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
 ---
 
-# Create Queue
+# Create Queue (Azure Storage)
 
 The `Create Queue` operation creates a queue in a storage account.  
   

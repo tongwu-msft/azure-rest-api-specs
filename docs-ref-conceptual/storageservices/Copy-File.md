@@ -3,7 +3,7 @@ title: Copy File (REST API) - Azure Storage
 description: The Copy File operation copies a blob or file to a destination file within the storage account.  
 author: pemari-msft
 
-ms.date: 09/20/2019
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -114,7 +114,7 @@ Date: <date>
   
  The following table describes how the destination and source objects for a Copy File operation may be authorized.  
   
-||Authorization with Shared Key/Shared Key Lite|Authorization with Shared Access Signature|Public Object Not Requiring Authorization|  
+|&nbsp;|Authorization with Shared Key/Shared Key Lite|Authorization with Shared Access Signature|Public Object Not Requiring Authorization|  
 |-|-----------------------------------------------------|-------------------------------------------------|------------------------------------------------|  
 |Destination file|Yes|Yes|N/A|  
 |Source file in same account|Yes|Yes|N/A|  

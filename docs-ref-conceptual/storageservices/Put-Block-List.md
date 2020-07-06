@@ -3,7 +3,7 @@ title: Put Block List (REST API) - Azure Storage
 description: The Put Block List operation writes a blob by specifying the list of block IDs that make up the blob.
 author: pemari-msft
 
-ms.date: 08/15/2019
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -18,16 +18,16 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
 ## Request  
  The `Put Block List` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist`|HTTP/1.1|  
   
 ### Emulated Storage Service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=blocklist`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=blocklist`|HTTP/1.1|  
   
  Note that the storage emulator only supports blob sizes up to 2 GiB.  
   

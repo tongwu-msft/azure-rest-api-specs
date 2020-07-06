@@ -1,29 +1,14 @@
 ﻿---
-title: "Query Blob Contents"
-ms.custom: na
-ms.date: 6/15/2020
-ms.prod: azure
-ms.reviewer: na
+title: Query Blob Contents (REST API) - Azure Storage
+description: The `Query Blob Contents` API applies a simple Structured Query Language (SQL) statement on a blob's contents and returns only the queried subset of the data.
+author: pemari-msft
+
+ms.date: 07/06/2020
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: a3e943b4-5745-4e64-9d6f-728bbefbd5ee
-caps.latest.revision: 87
-author: erezvani
-manager: pemari
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Query Blob Contents
 The `Query Blob Contents` API applies a simple Structured Query Language (SQL) statement on a blob's contents and returns only the queried subset of the data. You can also call `Query Blob Contents` to query the contents of a snapshot.
   

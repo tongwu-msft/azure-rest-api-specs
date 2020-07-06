@@ -3,7 +3,7 @@ title: Cross-Origin Resource Sharing (CORS) support for Azure Storage
 description: CORS is an HTTP feature that enables a web application running under one domain to access resources in another domain. You can set CORS rules individually for each of the Azure Storage services. When CORS rules are set, then a properly authorized request made against the service from a different domain will be evaluated to determine whether it is allowed according to the rules you have specified.
 author: tamram
 
-ms.date: 09/09/2019
+ms.date: 07/06/2020
 ms.author: tamram
 ms.service: storage
 ms.topic: reference
@@ -142,10 +142,8 @@ The following example shows a partial request body for an operation to set CORS 
   
  Next, consider the following CORS requests:  
   
-||||||  
+|Method|Origin|Request headers|Rule Match|Result|
 |-|-|-|-|-|  
-|`Request`|`Request`|`Request`|`Response`|`Response`|  
-|`Method`|`Origin`|`Request headers`|`Rule Match`|`Result`|  
 |**PUT**|`http://www.contoso.com`|`x-ms-blob-content-type`|First rule|Success|  
 |**GET**|`http://www.contoso.com`|`x-ms-blob-content-type`|Second rule|Success|  
 |**GET**|`http://www.contoso.com`|`x-ms-client-request-id`|Second rule|Failure|  

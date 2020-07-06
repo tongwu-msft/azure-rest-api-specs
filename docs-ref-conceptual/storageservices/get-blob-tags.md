@@ -3,7 +3,7 @@ title: Get Blob Tags (REST API) - Azure Storage
 description: The Get Blob Tags operation returns all user-defined tags for the specified blob or snapshot.
 author: rerdmann
 
-ms.date: 6/15/2020
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: rerdmann
@@ -15,9 +15,9 @@ The `Get Blob Tags` operation returns all user-defined tags for the specified bl
 ## Request  
  The `Get Blob Tags` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||GET Method Request URI|HTTP Version|  
-|-|------------------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags&snapshot=<DateTime>`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags&versionid=<DateTime>`|HTTP/1.1|  
+|GET Method Request URI|HTTP Version|  
+|------------------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags&snapshot=<DateTime>`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags&versionid=<DateTime>`|HTTP/1.1|  
   
 ### URI parameters
   

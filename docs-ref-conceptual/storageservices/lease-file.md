@@ -3,7 +3,7 @@ title: Lease File (REST API) - Azure Storage
 description: The Lease File operation creates and manages a lock on a file for write and delete operations.
 author: pemari-msft
 
-ms.date: 02/12/2020
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -26,9 +26,9 @@ The `Lease File` operation creates and manages a lock on a file for write and de
 ## Request  
  The `Lease File` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.file.core.windows.net/myshare/mydirectory/myfile?comp=lease`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.file.core.windows.net/myshare/mydirectory/myfile?comp=lease`|HTTP/1.1|  
 
  Replace the path components shown in the request URI with your own, as follows:  
   
@@ -196,7 +196,7 @@ Date: <date>
   
 ### Outcomes of use attempts on files by lease state  
   
-||Available|Leased (A)|Broken (A)|
+|&nbsp;|Available|Leased (A)|Broken (A)|
 |-|--------------------|------------------|-------------------|  
 |Write using (A)|Fails (412)|Leased (A), write succeeds|Fails (412)|  
 |Write using (B)|Fails (412)|Fails (409)|Fails (412)|  
@@ -207,7 +207,7 @@ Date: <date>
   
 ### Outcomes of lease operations on files by lease state  
   
-||Available|Leased (A)|Broken (A)|  
+|&nbsp;|Available|Leased (A)|Broken (A)|  
 |-|--------------------|------------------|-------------------|  
 |`Acquire`, no proposed lease ID|Leased (X)|Fails (409)|Leased (X)|  
 |`Acquire` (A)|Leased (A)|Leased (A)|Leased (A)|  

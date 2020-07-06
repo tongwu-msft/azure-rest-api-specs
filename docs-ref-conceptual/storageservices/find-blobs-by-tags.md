@@ -3,7 +3,7 @@ title: Find Blobs by Tags (REST API) - Azure Storage
 description: The Find Blobs by Tags operation returns all blobs whose tags match a given search expression.
 author: rerdmann
 
-ms.date: 6/15/2020
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: rerdmann
@@ -15,9 +15,9 @@ The `Find Blobs by Tags` operation finds all blobs in the storage account whose 
 ## Request  
  The `Find Blobs by Tags` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||GET Method Request URI|HTTP Version|  
-|-|------------------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net?comp=blobs&where=<expression>`|HTTP/1.1|  
+|GET Method Request URI|HTTP Version|  
+|------------------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net?comp=blobs&where=<expression>`|HTTP/1.1|  
   
 ### URI parameters
   

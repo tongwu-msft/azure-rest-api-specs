@@ -3,7 +3,7 @@ title: Lease Container (REST API) - Azure Storage
 description: The Lease Container operation creates and manages a lock on a container for delete operations.
 author: pemari-msft
 
-ms.date: 09/20/2019
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -26,7 +26,7 @@ The `Lease Container` operation establishes and manages a lock on a container fo
 -   `Break`, to end the lease but ensure that another client cannot acquire a new lease until the current lease period has expired.  
   
 > [!NOTE]
->  The `Lease Container` operation is available in version 2012-02-12 and newer.  
+>  The `Lease Container` operation is available in version 2012-02-12 and newer.
   
 ## Request  
  The `Lease Container` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -185,7 +185,7 @@ Date: Thu, 26 Jan 2012 23:30:18 GMT
   
 ### Outcomes of use attempts on containers by lease state  
   
-||Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
+|&nbsp;|Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
 |-|---------------|------------------|--------------------|------------------|-------------------|  
 |Delete using (A)|Fails (412)|Leased (A), delete succeeds|Breaking (A), delete succeeds|Fails (412)|Fails (412)|  
 |Delete using (B)|Fails (412)|Fails (409)|Fails (412)|Fails (412)|Fails (412)|  
@@ -196,7 +196,7 @@ perations, no lease specified|Available, operation succeeds|Leased (A), operatio
   
 ### Outcomes of lease operations on containers by lease state  
   
-||Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
+|&nbsp;|Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
 |---|---------------|------------------|--------------------|------------------|-------------------|  
 |`Acquire`, no proposed lease ID|Leased (X)|Fails (409)|Fails (409)|Leased (X)|Leased (X)|  
 |`Acquire` (A)|Leased (A)|Leased (A), new duration|Fails (409)|Leased (A)|Leased (A)|  

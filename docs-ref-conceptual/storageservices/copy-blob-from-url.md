@@ -3,7 +3,7 @@ title: Copy Blob From URL (REST API) - Azure Storage
 description: The Copy Blob From URL operation copies a blob to a destination within the storage account synchronously for source blob sizes up to 256 MiB. This API is available starting in version 2018-03-28. 
 author: pemari-msft
 
-ms.date: 09/09/2019
+ms.date: 07/06/2020
 ms.author: pemari-msft
 ms.service: storage
 ms.topic: reference
@@ -20,22 +20,21 @@ The size of the source blob can be a maximum length of up to 256 MiB.
 ## Request  
  The `Copy Blob From URL` request may be constructed as follows. HTTPS is recommended. Replace `myaccount` with the name of your storage account, `mycontainer` with the name of your container, and `myblob` with the name of your destination blob.  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob`|HTTP/1.1|  
   
 ### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob`|HTTP/1.1|  
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
 ### URI parameters
 
-  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  

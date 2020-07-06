@@ -3,7 +3,7 @@ title: Lease Blob (REST API) - Azure Storage
 description: The Lease Blob operation creates and manages a lock on a blob for write and delete operations.
 author: pemari-msft
 
-ms.date: 09/20/2019
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -31,16 +31,16 @@ The `Lease Blob` operation creates and manages a lock on a blob for write and de
 ## Request  
  The `Lease Blob` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=lease`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=lease`|HTTP/1.1|  
   
 ### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=lease`|HTTP/1.0<br /><br /> HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=lease`|HTTP/1.0<br /><br /> HTTP/1.1|  
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
@@ -233,7 +233,7 @@ Date: <date>
   
 ### Outcomes of use attempts on blobs by lease state  
   
-||Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
+|&nbsp;|Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
 |-|---------------|------------------|--------------------|------------------|-------------------|  
 |Write using (A)|Fails (412)|Leased (A), write succeeds|Breaking (A), write succeeds|Fails (412)|Fails (412)|  
 |Write using (B)|Fails (412)|Fails (409)|Fails (412)|Fails (412)|Fails (412)|  
@@ -244,7 +244,7 @@ Date: <date>
   
 ### Outcomes of lease operations on blobs by lease state  
   
-||Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
+|&nbsp;|Available|Leased (A)|Breaking (A)|Broken (A)|Expired (A)|  
 |-|---------------|------------------|--------------------|------------------|-------------------|  
 |`Acquire`, no proposed lease ID|Leased (X)|Fails (409)|Fails (409)|Leased (X)|Leased (X)|  
 |`Acquire` (A)|Leased (A)|Leased (A), new duration|Fails (409)|Leased (A)|Leased (A)|  

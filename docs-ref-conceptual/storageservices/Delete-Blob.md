@@ -3,7 +3,7 @@ title: Delete Blob (REST API) - Azure Storage
 description: The Delete Blob operation marks the specified blob or snapshot for deletion. The blob is later deleted during garbage collection. 
 author: pemari-msft
 
-ms.date: 09/23/2019
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -18,16 +18,16 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
 ## Request  
  The `Delete Blob` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||DELETE Method Request URI|HTTP Version|  
-|-|-------------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?versionid=<DateTime>`|HTTP/1.1|  
+|DELETE Method Request URI|HTTP Version|  
+|-------------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?versionid=<DateTime>`|HTTP/1.1|  
   
 ### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
-||DELETE Method Request URI|HTTP Version|  
-|-|-------------------------------|------------------|  
-||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob`|HTTP/1.1|  
+|DELETE Method Request URI|HTTP Version|  
+|-------------------------------|------------------|  
+|`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob`|HTTP/1.1|  
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
