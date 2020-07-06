@@ -136,7 +136,7 @@ x-ms-blob-committed–block-count: 1000
   
  `Append Block` succeeds only if the blob already exists.  
   
- Blobs uploaded using `Append Block` do not expose block ids, so you cannot call [Get Block List](Get-Block-List.md) against an append blob. Doing so results in a 409 error.  
+ Blobs uploaded using `Append Block` do not expose block IDs, so you cannot call [Get Block List](Get-Block-List.md) against an append blob. Doing so results in a 409 error.  
   
  The following optional conditional headers can be specified on the request:  
   
