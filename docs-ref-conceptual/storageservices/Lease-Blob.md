@@ -204,10 +204,10 @@ Date: <date>
   
  A lease can be in 5 states, based on whether the lease is locked or unlocked, and whether the lease is renewable in that state. The lease actions above cause state transitions.  
   
-||Locked Lease|Unlocked Lease|  
+|Renewal status|Locked lease|Unlocked lease|  
 |-|------------------|--------------------|  
-|**Renewable Lease**|Leased|Expired|  
-|**Non-renewable Lease**|Breaking|Broken, Available|  
+|Renewable lease|Leased|Expired|  
+|Non-renewable lease|Breaking|Broken, Available|  
   
 - `Available`, the lease is unlocked and can be acquired. Allowed action: `acquire`.  
   

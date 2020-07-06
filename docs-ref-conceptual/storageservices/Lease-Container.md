@@ -164,8 +164,8 @@ Date: Thu, 26 Jan 2012 23:30:18 GMT
   
 |Renewal status|Locked lease|Unlocked lease|  
 |-|------------------|--------------------|  
-|Renewable Lease|Leased|Expired|  
-|Non-renewable Lease|Breaking|Broken, Available|  
+|Renewable lease|Leased|Expired|  
+|Non-renewable lease|Breaking|Broken, Available|  
   
 -   `Available`, the lease is unlocked and can be acquired. Allowed action: `acquire`.  
   
