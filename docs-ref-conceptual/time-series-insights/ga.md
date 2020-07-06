@@ -30,6 +30,8 @@ This article summarizes data-access capabilities in the Gen 1 APIs.
 
 Review the [Gen 1 query syntax](ga-query-syntax.md).
 
+## API overview
+
 The following REST endpoints manage your Azure Time Series Insights Gen 1 environment:
 
 * [Get Environments API](./ga-query-api.md#get-environments-api)
