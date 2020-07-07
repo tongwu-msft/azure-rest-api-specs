@@ -17,7 +17,7 @@ The `Query Blob Contents` API applies a simple Structured Query Language (SQL) s
   
 |POST Method Request URI|HTTP Version|  
 |----------------------------|------------------|  
-|`https://myaccount.blob.core.windows.net/mycontainer/myblob`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?versionid=<DateTime>`|HTTP/1.0<br /><br /> HTTP/1.1|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=query`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=query&snapshot=<DateTime>`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=query&versionid=<DateTime>`|HTTP/1.0<br /><br /> HTTP/1.1|  
   
 ### URI Parameters  
  The following additional parameters may be specified on the request URI.  
@@ -36,6 +36,7 @@ The `Query Blob Contents` API applies a simple Structured Query Language (SQL) s
 |`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
 |`x-ms-version`|Required for all authenticated requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Content-Type`|Required. The value of this header should be application/xml; charset=UTF-8.|
 |`x-ms-lease-id:<ID>`|Optional. If this header is specified, the operation will be performed only if both of the following conditions are met:<br /><br /> -   The blob's lease is currently active.<br />-   The lease ID specified in the request matches that of the blob.<br /><br /> If this header is specified and both of these conditions are not met, the request will fail and the `Query Blob Contents` operation will fail with status code 412 (Precondition Failed).|  
 |`Origin`|Optional. Specifies the origin from which the request is issued. The presence of this header results in cross-origin resource sharing (CORS) headers on the response.| 
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
