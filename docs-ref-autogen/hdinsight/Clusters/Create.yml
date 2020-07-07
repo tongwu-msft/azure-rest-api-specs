@@ -114,10 +114,18 @@ definitions:
     description: The disk encryption properties.
     types:
     - uid: DiskEncryptionProperties
+  - name: encryptionInTransitProperties
+    description: The encryption-in-transit properties.
+    types:
+    - uid: EncryptionInTransitProperties
   - name: minSupportedTlsVersion
     description: The minimal supported tls version.
     types:
     - uid: string
+  - name: networkSettings
+    description: The network settings.
+    types:
+    - uid: NetworkSettings
 - name: ClusterIdentity
   description: Identity for the cluster.
   kind: object
@@ -355,6 +363,30 @@ definitions:
     description: Resource ID of Managed Identity that is used to access the key vault.
     types:
     - uid: string
+  - name: encryptionAtHost
+    description: Indicates whether or not resource disk encryption is enabled.
+    types:
+    - uid: boolean
+- name: EncryptionInTransitProperties
+  description: The encryption-in-transit properties.
+  kind: object
+  properties:
+  - name: isEncryptionInTransitEnabled
+    description: Indicates whether or not inter cluster node communication is encrypted in transit.
+    types:
+    - uid: boolean
+- name: NetworkSettings
+  description: The network settings.
+  kind: object
+  properties:
+  - name: publicNetworkAccess
+    description: Specifies whether public network access is enabled for inbound and outbound, or outbound only.
+    types:
+    - uid: PublicNetworkAccess
+  - name: outboundOnlyPublicNetworkAccessType
+    description: The mechanism through which the cluster will have outbound access to the public network.
+    types:
+    - uid: OutboundOnlyPublicNetworkAccessType
 - name: ResourceIdentityType
   description: The type of identity used for the cluster. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities.
   kind: enum
@@ -441,10 +473,18 @@ definitions:
     description: The disk encryption properties.
     types:
     - uid: DiskEncryptionProperties
+  - name: encryptionInTransitProperties
+    description: The encryption-in-transit properties.
+    types:
+    - uid: EncryptionInTransitProperties
   - name: minSupportedTlsVersion
     description: The minimal supported tls version.
     types:
     - uid: string
+  - name: networkSettings
+    description: The network settings.
+    types:
+    - uid: NetworkSettings
 - name: ClientGroupInfo
   description: The information of AAD security group.
   kind: object
@@ -549,6 +589,26 @@ definitions:
     types:
     - uid: string
   - name: RSA1_5
+    types:
+    - uid: string
+- name: PublicNetworkAccess
+  description: Specifies whether public network access is enabled for inbound and outbound, or outbound only.
+  kind: enum
+  properties:
+  - name: InboundAndOutbound
+    types:
+    - uid: string
+  - name: OutboundOnly
+    types:
+    - uid: string
+- name: OutboundOnlyPublicNetworkAccessType
+  description: The mechanism through which the cluster will have outbound access to the public network.
+  kind: enum
+  properties:
+  - name: PublicLoadBalancer
+    types:
+    - uid: string
+  - name: UDR
     types:
     - uid: string
 - name: HDInsightClusterProvisioningState
@@ -2216,6 +2276,327 @@ examples:
           ],
           "tier": "Standard",
           "minSupportedTlsVersion": "1.2"
+        }
+      }
+- name: Create cluster with custom network settings
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2018-06-01-preview
+    body: >-
+      {
+        "properties": {
+          "clusterVersion": "3.6",
+          "osType": "Linux",
+          "clusterDefinition": {
+            "kind": "hadoop",
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": true,
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "mystorage",
+                "isDefault": true,
+                "container": "containername",
+                "key": "storage account key"
+              }
+            ]
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "standard_d3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********",
+                    "sshProfile": {
+                      "publicKeys": [
+                        {
+                          "certificateData": "**********"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "virtualNetworkProfile": {
+                  "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+                  "subnet": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
+                }
+              },
+              {
+                "name": "workernode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "standard_d3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********",
+                    "sshProfile": {
+                      "publicKeys": [
+                        {
+                          "certificateData": "**********"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "virtualNetworkProfile": {
+                  "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+                  "subnet": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
+                }
+              }
+            ]
+          },
+          "networkSettings": {
+            "publicNetworkAccess": "OutboundOnly",
+            "outboundOnlyPublicNetworkAccessType": "PublicLoadBalancer"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.HDInsight/pathToOperationResult
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1",
+        "name": "cluster1",
+        "type": "Microsoft.HDInsight/clusters",
+        "location": "East US",
+        "etag": "fdf2a6e8-ce83-42cc-8c2d-0ceb11a370ff",
+        "tags": null,
+        "properties": {
+          "clusterVersion": "3.6.1000.67",
+          "osType": "Linux",
+          "clusterDefinition": {
+            "blueprint": "https://blueprints.azurehdinsight.net/hadoop-3.6.1000.67.2005040905.json",
+            "kind": "hadoop"
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "standard_d3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser"
+                  }
+                },
+                "virtualNetworkProfile": {
+                  "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+                  "subnet": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
+                }
+              },
+              {
+                "name": "workernode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "standard_d3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser"
+                  }
+                },
+                "virtualNetworkProfile": {
+                  "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+                  "subnet": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
+                }
+              }
+            ]
+          },
+          "networkSettings": {
+            "publicNetworkAccess": "OutboundOnly",
+            "outboundOnlyPublicNetworkAccessType": "PublicLoadBalancer"
+          },
+          "provisioningState": "Succeeded",
+          "clusterState": "Running",
+          "createdDate": "2020-06-09T12:25:43.48",
+          "quotaInfo": {
+            "coresUsed": 16
+          },
+          "tier": "Standard"
+        }
+      }
+- name: Create cluster with encryption in transit
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2018-06-01-preview
+    body: >-
+      {
+        "properties": {
+          "clusterVersion": "3.6",
+          "osType": "Linux",
+          "tier": "Standard",
+          "clusterDefinition": {
+            "kind": "Hadoop",
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": true,
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "Large"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              },
+              {
+                "name": "workernode",
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "Large"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              },
+              {
+                "name": "zookeepernode",
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "Small"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "mystorage.blob.core.windows.net",
+                "isDefault": true,
+                "container": "default8525",
+                "key": "storagekey"
+              }
+            ]
+          },
+          "encryptionInTransitProperties": {
+            "isEncryptionInTransitEnabled": true
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.HDInsight/pathToOperationResult
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1",
+        "name": "cluster1",
+        "type": "Microsoft.HDInsight/clusters",
+        "location": "South Central US",
+        "etag": "3b76ce3d-892c-4036-9d8b-8ade18ba7a4b",
+        "tags": null,
+        "properties": {
+          "clusterVersion": "3.6.1000.67",
+          "osType": "Linux",
+          "clusterDefinition": {
+            "blueprint": "https://blueprints.azurehdinsight.net/hadoop-3.6.1000.67.2001080246.json",
+            "kind": "Hadoop",
+            "componentVersion": {
+              "Hadoop": "2.7"
+            }
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "standard_a4_v2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser"
+                  }
+                }
+              },
+              {
+                "name": "workernode",
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "standard_a4_v2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser"
+                  }
+                }
+              },
+              {
+                "name": "zookeepernode",
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "standard_a2_v2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser"
+                  }
+                }
+              }
+            ]
+          },
+          "provisioningState": "Succeeded",
+          "clusterState": "Running",
+          "createdDate": "2020-01-10T08:36:39.153",
+          "quotaInfo": {
+            "coresUsed": 20
+          },
+          "connectivityEndpoints": [
+            {
+              "name": "SSH",
+              "protocol": "TCP",
+              "location": "cluster1-ssh.azurehdinsight.net",
+              "port": 22
+            },
+            {
+              "name": "HTTPS",
+              "protocol": "TCP",
+              "location": "cluster1.azurehdinsight.net",
+              "port": 443
+            }
+          ],
+          "tier": "Standard",
+          "encryptionInTransitProperties": {
+            "isEncryptionInTransitEnabled": true
+          }
         }
       }
 security:

@@ -1,0 +1,113 @@
+### YamlMime:RESTOperation
+uid: apps.azureiotcentral.com.api.preview.iotcentral.devices.listmodules
+name: List Modules
+service: IoT Central
+groupName: Devices
+apiVersion: preview
+summary: List the modules present in a device
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{subdomain}.{centralDnsSuffixInPath}/api/preview/devices/{device_id}/modules
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: centralDnsSuffixInPath
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The DNS suffix used as the base for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: device_id
+  in: path
+  isRequired: true
+  description: Unique ID of the device.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: NamedEntityCollection
+requestHeader: []
+definitions:
+- name: NamedEntityCollection
+  kind: object
+  properties:
+  - name: value
+    description: The collection of named entities.
+    types:
+    - uid: NamedEntity
+      isArray: true
+  - name: nextLink
+    description: URL to get the next page of named entities.
+    types:
+    - uid: string
+- name: NamedEntity
+  kind: object
+  properties:
+  - name: '@context'
+    description: JSON-LD context for the entity.
+    types:
+    - {}
+  - name: '@id'
+    description: Unique ID of the entity.
+    types:
+    - uid: string
+  - name: '@type'
+    description: Type of the entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: displayName
+    description: Display name of the entity.
+    types:
+    - uid: string
+  - name: description
+    description: Detailed description of the entity.
+    types:
+    - uid: string
+  - name: comment
+    description: Developer comment about the entity.
+    types:
+    - uid: string
+  - name: name
+    description: The programmatic name of the named entity.
+    types:
+    - uid: string
+examples:
+- name: List modules
+  request:
+    uri: GET https://appsubdomain.azureiotcentral.com/api/preview/devices/edgedevice1/modules
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "@id": "<id>",
+            "@type": [
+              "Relationship",
+              "SemanticType/EdgeModule"
+            ],
+            "name": "Environment"
+          },
+          {
+            "@id": "<id>",
+            "@type": [
+              "Relationship",
+              "SemanticType/EdgeModule"
+            ],
+            "name": "Camera"
+          }
+        ]
+      }
+security: []
+errorCodes: []

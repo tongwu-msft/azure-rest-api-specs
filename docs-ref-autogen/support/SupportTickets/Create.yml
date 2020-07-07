@@ -64,7 +64,7 @@ requestBody:
   - name: properties.severity
     in: body
     isRequired: true
-    description: "A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure. Note: 'Highest critical impact' severity is reserved only for our Premium customers."
+    description: "A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure. Note: 'Highest critical impact', also known as the 'Emergency - Severe impact' level in the Azure portal is reserved only for our Premium customers."
     types:
     - uid: SeverityLevel
   - name: properties.require24X7Response
@@ -248,7 +248,7 @@ definitions:
     types:
     - uid: string
   - name: properties.severity
-    description: "A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure. Note: 'Highest critical impact' severity is reserved only for our Premium customers."
+    description: "A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure. Note: 'Highest critical impact', also known as the 'Emergency - Severe impact' level in the Azure portal is reserved only for our Premium customers."
     types:
     - uid: SeverityLevel
   - name: properties.enrollmentId
@@ -348,7 +348,7 @@ definitions:
     types:
     - uid: string
 - name: SeverityLevel
-  description: "A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure. Note: 'Highest critical impact' severity is reserved only for our Premium customers."
+  description: "A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure. Note: 'Highest critical impact', also known as the 'Emergency - Severe impact' level in the Azure portal is reserved only for our Premium customers."
   kind: enum
   properties:
   - name: minimal
@@ -1648,6 +1648,102 @@ examples:
               {
                 "region": "EastUS",
                 "payload": "{\"NewLimit\":200,\"Type\":\"LowPriority\"}"
+              }
+            ]
+          },
+          "serviceLevelAgreement": {
+            "startTime": "2020-03-20T21:36:18Z",
+            "expirationTime": "2020-03-21T17:36:18Z",
+            "slaMinutes": 240
+          },
+          "supportEngineer": {
+            "emailAddress": null
+          },
+          "supportPlanType": "Premier",
+          "title": "my title",
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "serviceDisplayName": "Service and subscription limits (quotas)",
+          "status": "Open",
+          "createdDate": "2020-03-20T21:36:18Z",
+          "modifiedDate": "2020-03-20T21:36:23Z"
+        }
+      }
+- name: Create a ticket to request Quota increase for Azure SQL managed instance
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket?api-version=2020-04-01
+    body: >-
+      {
+        "properties": {
+          "serviceId": "/providers/Microsoft.Support/services/quota_service_guid",
+          "title": "my title",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/sql_managedinstance_problemClassification_guid",
+          "severity": "moderate",
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredContactMethod": "email",
+            "preferredTimeZone": "Pacific Standard Time",
+            "preferredSupportLanguage": "en-US",
+            "country": "usa"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "SQLMI",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"NewLimit\":200, \"Metadata\":null, \"Type\":\"vCore\"}"
+              },
+              {
+                "region": "EastUS",
+                "payload": "{\"NewLimit\":200, \"Metadata\":null, \"Type\":\"Subnet\"}"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationResults/operationid?api-version=2020-04-01
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/operationsStatus/operationid?api-version=2020-04-01
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket",
+        "name": "testticket",
+        "type": "Microsoft.Support/supportTickets",
+        "properties": {
+          "supportTicketId": "119120321001170",
+          "description": "my description",
+          "problemClassificationId": "/providers/Microsoft.Support/services/quota_service_guid/problemClassifications/sql_datawarehouse_problemClassification_guid",
+          "problemClassificationDisplayName": "SQL Database Managed Instance",
+          "severity": "moderate",
+          "require24X7Response": false,
+          "contactDetails": {
+            "firstName": "abc",
+            "lastName": "xyz",
+            "preferredContactMethod": "email",
+            "primaryEmailAddress": "abc@contoso.com",
+            "preferredTimeZone": "Pacific Standard Time",
+            "country": "usa",
+            "preferredSupportLanguage": "en-US"
+          },
+          "quotaTicketDetails": {
+            "quotaChangeRequestVersion": "1.0",
+            "quotaChangeRequestSubType": "SQLMI",
+            "quotaChangeRequests": [
+              {
+                "region": "EastUS",
+                "payload": "{\"NewLimit\":200, \"Metadata\":null, \"Type\":\"vCore\"}"
+              },
+              {
+                "region": "EastUS",
+                "payload": "{\"NewLimit\":200, \"Metadata\":null, \"Type\":\"Subnet\"}"
               }
             ]
           },
