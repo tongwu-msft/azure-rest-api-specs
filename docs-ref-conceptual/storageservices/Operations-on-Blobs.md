@@ -32,10 +32,10 @@ Returns all user-defined metadata, standard HTTP properties, and system properti
 Sets values for system properties defined for a blob.  
 
 [Get Blob Tags](get-blob-tags.md)  
-returns all user-defined Blob Index tags for the specified blob, version, or snapshot.
+Returns all user-defined Blob Index tags for the specified blob, version, or snapshot.
 
 [Set Blob Tags](set-blob-tags.md)  
-sets user-defined Blob Index tags for the specified blob as one or more key-value pairs.
+Sets user-defined Blob Index tags for the specified blob as one or more key-value pairs.
 
 [Find Blobs By Tags](find-blobs-by-tags.md)  
 Finds all blobs in the storage account whose tags match a given search expression.
