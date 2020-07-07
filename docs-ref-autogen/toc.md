@@ -5745,6 +5745,12 @@
 #### [Overview](iotcentral/Roles.yml)
 #### [Get](iotcentral/Roles/Get.yml)
 #### [List](iotcentral/Roles/List.yml)
+### Users
+#### [Overview](iotcentral/Users.yml)
+#### [Get](iotcentral/Users/Get.yml)
+#### [List](iotcentral/Users/List.yml)
+#### [Remove](iotcentral/Users/Remove.yml)
+#### [Set](iotcentral/Users/Set.yml)
 # IoT Hub
 ## [Overview](../docs-ref-conceptual/iothub/index.md)
 ## [Common error codes](../docs-ref-conceptual/iothub/common-error-codes.md)
@@ -7695,7 +7701,6 @@
 ### [List](policy-insights/Operations/List.yml)
 ## Policy Events
 ### [Overview](policy-insights/PolicyEvents.yml)
-### [Get Metadata](policy-insights/PolicyEvents/GetMetadata.yml)
 ### [List Query Results For Management Group](policy-insights/PolicyEvents/ListQueryResultsForManagementGroup.yml)
 ### [List Query Results For Policy Definition](policy-insights/PolicyEvents/ListQueryResultsForPolicyDefinition.yml)
 ### [List Query Results For Policy Set Definition](policy-insights/PolicyEvents/ListQueryResultsForPolicySetDefinition.yml)
@@ -14128,13 +14133,6 @@
 ### [Get](virtualnetwork/VirtualRouters/Get.yml)
 ### [List](virtualnetwork/VirtualRouters/List.yml)
 ### [List By Resource Group](virtualnetwork/VirtualRouters/ListByResourceGroup.yml)
-## Web Application Firewall Policies
-### [Overview](virtualnetwork/WebApplicationFirewallPolicies.yml)
-### [Create Or Update](virtualnetwork/WebApplicationFirewallPolicies/CreateOrUpdate.yml)
-### [Delete](virtualnetwork/WebApplicationFirewallPolicies/Delete.yml)
-### [Get](virtualnetwork/WebApplicationFirewallPolicies/Get.yml)
-### [List](virtualnetwork/WebApplicationFirewallPolicies/List.yml)
-### [List All](virtualnetwork/WebApplicationFirewallPolicies/ListAll.yml)
 # Virtual WAN
 ## [Overview](../docs-ref-conceptual/virtualwan/index.md)
 ## Express Route Connections

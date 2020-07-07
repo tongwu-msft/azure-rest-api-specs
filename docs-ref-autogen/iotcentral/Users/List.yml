@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: apps.azureiotcentral.com.api.preview.iotcentral.apitokens.list
+uid: apps.azureiotcentral.com.api.preview.iotcentral.users.list
 name: List
 service: IoT Central
-groupName: Api Tokens
+groupName: Users
 apiVersion: preview
-summary: Get the list of API tokens in an application.
+summary: Get the list of users in an application
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://{subdomain}.{centralDnsSuffixInPath}/api/preview/apiTokens
+- content: GET https://{subdomain}.{centralDnsSuffixInPath}/api/preview/users
 uriParameters:
 - name: subdomain
   in: path
@@ -29,22 +29,22 @@ responses:
 - name: 200 OK
   description: Success
   types:
-  - uid: ApiTokenCollection
+  - uid: UserCollection
 requestHeader: []
 definitions:
-- name: ApiTokenCollection
+- name: UserCollection
   kind: object
   properties:
   - name: value
-    description: The collection of API tokens.
+    description: The collection of users.
     types:
-    - uid: ApiToken
+    - uid: User
       isArray: true
   - name: nextLink
-    description: URL to get the next page of API tokens.
+    description: URL to get the next page of users.
     types:
     - uid: string
-- name: ApiToken
+- name: User
   kind: object
   properties:
   - name: roles
@@ -54,16 +54,11 @@ definitions:
       isArray: true
   - name: id
     isReadyOnly: true
-    description: Unique ID of the API token.
+    description: Unique ID of the user.
     types:
     - uid: string
-  - name: token
-    isReadyOnly: true
-    description: Value of the API token.
-    types:
-    - uid: string
-  - name: expiry
-    description: String-formatted date representing the time when the token expires.
+  - name: type
+    description: Type of the user.
     types:
     - uid: string
 - name: Roles
@@ -75,22 +70,34 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List API tokens
+- name: List users
   request:
-    uri: GET https://appsubdomain.azureiotcentral.com/api/preview/apiTokens
+    uri: GET https://appsubdomain.azureiotcentral.com/api/preview/users
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "testtoken",
+            "id": "af0d5b8f-7a69-4521-868e-19745fae353f",
+            "type": "EmailUser",
             "roles": [
               {
                 "role": "ca310b8d-2f4a-44e0-a36e-957c202cd8d4"
               }
             ],
-            "expiry": "2020-10-18T18:30:40.227Z"
+            "email": "alice@contoso.com"
+          },
+          {
+            "id": "123",
+            "type": "ServicePrincipalUser",
+            "roles": [
+              {
+                "role": "ca310b8d-2f4a-44e0-a36e-957c202cd8d4"
+              }
+            ],
+            "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "objectId": "9071c899-bce0-4862-b208-75dabae226a9"
           }
         ]
       }
