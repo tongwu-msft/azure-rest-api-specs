@@ -1,39 +1,23 @@
 ﻿---
-title: "Query Blob Contents"
-ms.custom: na
-ms.date: 6/15/2020
-ms.prod: azure
-ms.reviewer: na
+title: Query Blob Contents (REST API) - Azure Storage
+description: The `Query Blob Contents` API applies a simple Structured Query Language (SQL) statement on a blob's contents and returns only the queried subset of the data.
+author: pemari-msft
+
+ms.date: 07/06/2020
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: a3e943b4-5745-4e64-9d6f-728bbefbd5ee
-caps.latest.revision: 87
-author: erezvani
-manager: pemari
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Query Blob Contents
-The `Query Blob Contents` API applies a simple Structured Query Language (SQL) statement on a blob's contents and returns only the queried subset of the data. You can also call `Query Blob Contents` to query the contents of a snapshot.
+The `Query Blob Contents` API applies a simple Structured Query Language (SQL) statement on a blob's contents and returns only the queried subset of the data. You can also call `Query Blob Contents` to query the contents of a version or snapshot.
   
 ## Request  
  The `Query Blob Contents` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||POST Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|HTTP/1.0<br /><br /> HTTP/1.1|  
-  
+|POST Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=query`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=query&snapshot=<DateTime>`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=query&versionid=<DateTime>`|HTTP/1.0<br /><br /> HTTP/1.1|  
   
 ### URI Parameters  
  The following additional parameters may be specified on the request URI.  
@@ -41,6 +25,7 @@ The `Query Blob Contents` API applies a simple Structured Query Language (SQL) s
 |Parameter|Description|  
 |---------------|-----------------|  
 |`snapshot`|Optional. The snapshot parameter is an opaque `DateTime` value that, when present, specifies the blob snapshot to query. For more information on working with blob snapshots, see [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md).|  
+|`versionid`| Optional, version 2019-12-12 and newer. The versionid parameter is an opaque DateTime value that, when present, specifies the Version of the blob to retrieve.|
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
@@ -51,9 +36,10 @@ The `Query Blob Contents` API applies a simple Structured Query Language (SQL) s
 |`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
 |`x-ms-version`|Required for all authenticated requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Content-Type`|Required. The value of this header should be application/xml; charset=UTF-8.|
 |`x-ms-lease-id:<ID>`|Optional. If this header is specified, the operation will be performed only if both of the following conditions are met:<br /><br /> -   The blob's lease is currently active.<br />-   The lease ID specified in the request matches that of the blob.<br /><br /> If this header is specified and both of these conditions are not met, the request will fail and the `Query Blob Contents` operation will fail with status code 412 (Precondition Failed).|  
 |`Origin`|Optional. Specifies the origin from which the request is issued. The presence of this header results in cross-origin resource sharing (CORS) headers on the response.| 
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
  This operation also supports the use of conditional headers to query the blob contents only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
@@ -123,7 +109,7 @@ The following table describes the elements of the request body:
 |------------------|-----------------|  
 |**QueryRequest**| Required. Groups the set of query request settings. |
 |**QueryType**| Required. The type of the provided query expression. The only valid value for the current version is `SQL`.|
-|**Expression**| Required. The query expression in SQL. The maximum size of the query expression is 256KB. For more information about the expression syntax, please see [Query Acceleration: SQL Language Reference](https://docs.microsoft.com/azure/storage/blobs/query-acceleration-sql-reference).|
+|**Expression**| Required. The query expression in SQL. The maximum size of the query expression is 256KiB. For more information about the expression syntax, please see [Query Acceleration: SQL Language Reference](https://docs.microsoft.com/azure/storage/blobs/query-acceleration-sql-reference).|
 |**InputSerialization**| Optional. Groups the settings regarding the input serialization of the blob contents. If not specified, the delimited text configuration will be used.|
 |**Format**| Required if **InputSerialization** is specified. Groups the settings regarding the format of the blob data.|
 |**Type**|Required if **InputSerialization** is specified. The format type; valid values are `delimited`, `csv`, or `json`.|
@@ -154,7 +140,7 @@ The following table describes the elements of the request body:
 |**Scale**|Optional. The scale of the field.|
   
 ## Response  
- The response includes an HTTP status code, a set of response headers, and the response body. The response body is in `Avro\Binary` format. Since the response conent length is unknown, the response is streamed with chunked encoding.
+ The response includes an HTTP status code, a set of response headers, and the response body. The response body is in `Avro\Binary` format. Since the response content length is unknown, the response is streamed with chunked encoding.
  
   
 ### Status Code  
@@ -174,7 +160,7 @@ The following table describes the elements of the request body:
 |`Content-Language`|This header returns the value that was specified for the `Content-Language` request header.|  
 |`Cache-Control`|This header is returned if it was previously specified for the blob.|  
 |`Content-Disposition`|Returned for requests against version 2013-08-15 and later. This header returns the value that was specified for the `x-ms-blob-content-disposition` header.<br /><br /> The `Content-Disposition` response header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to `attachment`, it indicates that the user-agent should not display the response, but instead show a **Save As** dialog with a filename other than the blob name specified.|  
-|`x-ms-blob-type: <BlockBlob&#124;>`|Returns the blob's type.|  
+|`x-ms-blob-type: <BlockBlob>`|Returns the blob's type.|  
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the Blob service used to execute the request. Included for requests made using version 2009-09-19 and newer.<br /><br /> This header is also returned for anonymous requests without a version specified if the container was marked for public access using the 2009-09-19 version of the Blob service.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  

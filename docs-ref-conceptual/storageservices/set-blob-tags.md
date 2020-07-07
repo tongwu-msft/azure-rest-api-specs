@@ -3,7 +3,7 @@ title: Set Blob Tags (REST API) - Azure Storage
 description: The Set Blob Tags operation sets user-defined tags for the specified blob as one or more key-value pairs.  
 author: rerdmann
 
-ms.date: 6/15/2020
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: rerdmann
@@ -15,15 +15,16 @@ The `Set Blob Tags` operation sets user-defined tags for the specified blob as o
 ## Request  
  The `Set Blob Tags` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=tags&versionid=<DateTime>`|HTTP/1.1|  
   
 ### URI Parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
+|`versionid`|Optional for versions 2019-12-12 and newer. The versionid parameter is an opaque `DateTime` value that, when present, specifies the version of the blob to retrieve.|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
@@ -35,9 +36,10 @@ The `Set Blob Tags` operation sets user-defined tags for the specified blob as o
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Length`|Required. The length of the request content in bytes. Note that this header refers to the content length of the tags document, not of the blob itself.|  
+|`Content-Type`|Required. The value of this header should be application/xml; charset=UTF-8.|
 |`Content-MD5`|Optional. An MD5 hash of the request content. This hash is used to verify the integrity of the request content during transport. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> Note that this header is associated with the request content, and not with the content of the blob itself.|  
 |`x-ms-content-crc64`|Optional. A CRC64 hash of the request content. This hash is used to verify the integrity of the request content during transport. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> Note that this header is associated with the request content, and not with the content of the blob itself.<br /><br /> If both `Content-MD5` and `x-ms-content-crc64` headers are present, the request will fail with error code 400 (Bad Request).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
  This operation supports the `x-ms-if-tags` conditional header to set blob tags only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   

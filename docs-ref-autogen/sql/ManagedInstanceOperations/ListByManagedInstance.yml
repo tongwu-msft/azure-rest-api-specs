@@ -134,6 +134,16 @@ definitions:
     description: Whether the operation can be cancelled.
     types:
     - uid: boolean
+  - name: properties.operationParameters
+    isReadyOnly: true
+    description: The operation parameters.
+    types:
+    - uid: ManagedInstanceOperationParametersPair
+  - name: properties.operationSteps
+    isReadyOnly: true
+    description: The operation steps.
+    types:
+    - uid: ManagedInstanceOperationSteps
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -171,6 +181,80 @@ definitions:
   - name: Cancelled
     types:
     - uid: string
+- name: ManagedInstanceOperationParametersPair
+  description: The parameters of a managed instance operation.
+  kind: object
+  properties:
+  - name: currentParameters
+    isReadyOnly: true
+    description: The current parameters.
+    types:
+    - uid: UpsertManagedServerOperationParameters
+  - name: requestedParameters
+    isReadyOnly: true
+    description: The requested parameters.
+    types:
+    - uid: UpsertManagedServerOperationParameters
+- name: ManagedInstanceOperationSteps
+  description: The steps of a managed instance operation.
+  kind: object
+  properties:
+  - name: totalSteps
+    isReadyOnly: true
+    description: The total number of operation steps.
+    types:
+    - uid: string
+  - name: currentStep
+    isReadyOnly: true
+    description: The number of current operation steps.
+    types:
+    - uid: integer
+  - name: stepsList
+    isReadyOnly: true
+    description: The operation steps list.
+    types:
+    - uid: UpsertManagedServerOperationStep
+      isArray: true
+- name: UpsertManagedServerOperationParameters
+  kind: object
+  properties:
+  - name: family
+    description: ''
+    types:
+    - uid: string
+  - name: tier
+    description: ''
+    types:
+    - uid: string
+  - name: vCores
+    description: ''
+    types:
+    - uid: integer
+  - name: storageSizeInGB
+    description: ''
+    types:
+    - uid: integer
+- name: UpsertManagedServerOperationStep
+  kind: object
+  properties:
+  - name: order
+    description: ''
+    types:
+    - uid: integer
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: NotStarted
+    - uid: InProgress
+    - uid: SlowedDown
+    - uid: Completed
+    - uid: Failed
+    - uid: Canceled
+    typesTitle: enum
 examples:
 - name: List the managed instance management operations
   request:
@@ -202,7 +286,42 @@ examples:
               "percentComplete": 50,
               "startTime": "2019-12-06T11:08:44.49Z",
               "state": "InProgress",
-              "isCancellable": true
+              "isCancellable": true,
+              "operationParameters": {
+                "currentParameters": {
+                  "family": "Gen4",
+                  "tier": "GeneralPurpose",
+                  "vCores": 8,
+                  "storageSizeInGB": 32
+                },
+                "requestedParameters": {
+                  "family": "Gen4",
+                  "tier": "BusinessCritical",
+                  "vCores": 8,
+                  "storageSizeInGB": 128
+                }
+              },
+              "operationSteps": {
+                "totalSteps": "3",
+                "currentStep": 3,
+                "stepsList": [
+                  {
+                    "order": 1,
+                    "name": "Request validation",
+                    "status": "Completed"
+                  },
+                  {
+                    "order": 2,
+                    "name": "Virtual Cluster resize/creation",
+                    "status": "Completed"
+                  },
+                  {
+                    "order": 3,
+                    "name": "New SQL Instance Startup",
+                    "status": "InProgress"
+                  }
+                ]
+              }
             },
             "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/managedInstances/sqlcrudtest-4645/operations/22222222-2222-2222-2222-222222222222",
             "name": "22222222-2222-2222-2222-222222222222",
@@ -233,7 +352,18 @@ examples:
               "operationFriendlyName": "MAKE ALL MANAGED DBS ACCESSIBLE",
               "percentComplete": 100,
               "startTime": "2017-06-01T09:00:08.10Z",
-              "state": "Succeeded"
+              "state": "Succeeded",
+              "operationSteps": {
+                "totalSteps": "1",
+                "currentStep": 1,
+                "stepsList": [
+                  {
+                    "order": 1,
+                    "name": "Request validation",
+                    "status": "Failed"
+                  }
+                ]
+              }
             },
             "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/managedInstances/sqlcrudtest-4645/operations/44444444-4444-4444-4444-444444444444",
             "name": "44444444-4444-4444-4444-444444444444",

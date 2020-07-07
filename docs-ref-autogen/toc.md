@@ -2398,6 +2398,7 @@
 ##### [Overview](billing/2019-10-01-preview/BillingProfiles.yml)
 ##### [Create](billing/2019-10-01-preview/BillingProfiles/Create.yml)
 ##### [Get](billing/2019-10-01-preview/BillingProfiles/Get.yml)
+##### [Get Eligibility To Detach Payment Method](billing/2019-10-01-preview/BillingProfiles/GetEligibilityToDetachPaymentMethod.yml)
 ##### [List By Billing Account](billing/2019-10-01-preview/BillingProfiles/ListByBillingAccount.yml)
 ##### [Update](billing/2019-10-01-preview/BillingProfiles/Update.yml)
 #### Billing Property
@@ -5744,6 +5745,12 @@
 #### [Overview](iotcentral/Roles.yml)
 #### [Get](iotcentral/Roles/Get.yml)
 #### [List](iotcentral/Roles/List.yml)
+### Users
+#### [Overview](iotcentral/Users.yml)
+#### [Get](iotcentral/Users/Get.yml)
+#### [List](iotcentral/Users/List.yml)
+#### [Remove](iotcentral/Users/Remove.yml)
+#### [Set](iotcentral/Users/Set.yml)
 # IoT Hub
 ## [Overview](../docs-ref-conceptual/iothub/index.md)
 ## [Common error codes](../docs-ref-conceptual/iothub/common-error-codes.md)
@@ -6906,6 +6913,7 @@
 ### [Get Hourly Forecast Preview](maps/Weather/GetHourlyForecastPreview.yml)
 ### [Get Minute Forecast Preview](maps/Weather/GetMinuteForecastPreview.yml)
 ### [Get Quarter Day Forecast Preview](maps/Weather/GetQuarterDayForecastPreview.yml)
+### [Get Severe Weather Alerts Preview](maps/Weather/GetSevereWeatherAlertsPreview.yml)
 ### [Get Weather Along Route Preview](maps/Weather/GetWeatherAlongRoutePreview.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
@@ -13761,6 +13769,30 @@
 ##### [Overview](time-series-insights/dataaccess(preview)/TimeSeriesTypes.yml)
 ##### [Execute Batch](time-series-insights/dataaccess(preview)/TimeSeriesTypes/ExecuteBatch.yml)
 ##### [Get](time-series-insights/dataaccess(preview)/TimeSeriesTypes/Get.yml)
+### Data Access Gen2
+#### Model Settings
+##### [Overview](time-series-insights/dataaccessgen2/ModelSettings.yml)
+##### [Get](time-series-insights/dataaccessgen2/ModelSettings/Get.yml)
+##### [Update](time-series-insights/dataaccessgen2/ModelSettings/Update.yml)
+#### Query
+##### [Overview](time-series-insights/dataaccessgen2/Query.yml)
+##### [Execute](time-series-insights/dataaccessgen2/Query/Execute.yml)
+##### [Get Availability](time-series-insights/dataaccessgen2/Query/GetAvailability.yml)
+##### [Get Event Schema](time-series-insights/dataaccessgen2/Query/GetEventSchema.yml)
+#### Time Series Hierarchies
+##### [Overview](time-series-insights/dataaccessgen2/TimeSeriesHierarchies.yml)
+##### [Execute Batch](time-series-insights/dataaccessgen2/TimeSeriesHierarchies/ExecuteBatch.yml)
+##### [List](time-series-insights/dataaccessgen2/TimeSeriesHierarchies/List.yml)
+#### Time Series Instances
+##### [Overview](time-series-insights/dataaccessgen2/TimeSeriesInstances.yml)
+##### [Execute Batch](time-series-insights/dataaccessgen2/TimeSeriesInstances/ExecuteBatch.yml)
+##### [List](time-series-insights/dataaccessgen2/TimeSeriesInstances/List.yml)
+##### [Search](time-series-insights/dataaccessgen2/TimeSeriesInstances/Search.yml)
+##### [Suggest](time-series-insights/dataaccessgen2/TimeSeriesInstances/Suggest.yml)
+#### Time Series Types
+##### [Overview](time-series-insights/dataaccessgen2/TimeSeriesTypes.yml)
+##### [Execute Batch](time-series-insights/dataaccessgen2/TimeSeriesTypes/ExecuteBatch.yml)
+##### [List](time-series-insights/dataaccessgen2/TimeSeriesTypes/List.yml)
 ### Management
 #### Access Policies
 ##### [Overview](time-series-insights/management/AccessPolicies.yml)
@@ -14126,13 +14158,6 @@
 ### [Get](virtualnetwork/VirtualRouters/Get.yml)
 ### [List](virtualnetwork/VirtualRouters/List.yml)
 ### [List By Resource Group](virtualnetwork/VirtualRouters/ListByResourceGroup.yml)
-## Web Application Firewall Policies
-### [Overview](virtualnetwork/WebApplicationFirewallPolicies.yml)
-### [Create Or Update](virtualnetwork/WebApplicationFirewallPolicies/CreateOrUpdate.yml)
-### [Delete](virtualnetwork/WebApplicationFirewallPolicies/Delete.yml)
-### [Get](virtualnetwork/WebApplicationFirewallPolicies/Get.yml)
-### [List](virtualnetwork/WebApplicationFirewallPolicies/List.yml)
-### [List All](virtualnetwork/WebApplicationFirewallPolicies/ListAll.yml)
 # Virtual WAN
 ## [Overview](../docs-ref-conceptual/virtualwan/index.md)
 ## Express Route Connections
