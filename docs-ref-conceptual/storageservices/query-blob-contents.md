@@ -140,7 +140,7 @@ The following table describes the elements of the request body:
 |**Scale**|Optional. The scale of the field.|
   
 ## Response  
- The response includes an HTTP status code, a set of response headers, and the response body. The response body is in `Avro\Binary` format. Since the response conent length is unknown, the response is streamed with chunked encoding.
+ The response includes an HTTP status code, a set of response headers, and the response body. The response body is in `Avro\Binary` format. Since the response content length is unknown, the response is streamed with chunked encoding.
  
   
 ### Status Code  
