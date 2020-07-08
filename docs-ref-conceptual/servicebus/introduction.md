@@ -26,7 +26,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
   
-## Brokered message Properties  
+# Brokered message Properties  
  When sending a message, you can specify the following message properties. If a single message is sent or received, then these properties are contained in the **BrokerProperties** HTTP header in a JSON-encoded format. If a batch of messages is sent, these properties are part of the JSON-encoded HTTP body. For more information, see [Send Message](send-message.md) and [Send Message Batch](send-message-batch.md).  
   
  The following table lists the [Microsoft.ServiceBus.Messaging.BrokeredMessage](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage) properties. The properties can appear in any order. If a property is not specified, Service Bus uses the default value for that property. Broker properties other than the ones listed are ignored. The accepted properties are independent of the value of the specified **api-version**. The **api-version** specifier is not required in the HTTP request.  

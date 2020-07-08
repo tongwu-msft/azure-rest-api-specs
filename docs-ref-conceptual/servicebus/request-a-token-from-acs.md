@@ -25,7 +25,7 @@ translation.priority.mt:
 Requests a new token from Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS).  
 
 > [!IMPORTANT]
-> If you are using Azure Active Directory Access Control (also known as Access Control Service or ACS) with Service Bus, note that the support for this method is now limited and you should [migrate your application to use SAS](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-migrate-acs-sas) or use OAuth 2.0 authentication with Azure AD (recommended). For more information about deprecation of ACS, see this [blog post](https://docs.microsoft.com/en-us/archive/blogs/servicebus/upcoming-changes-to-acs-enabled-namespaces).
+> If you are using Azure Active Directory Access Control (also known as Access Control Service or ACS) with Service Bus, note that the support for this method is now limited and you should [migrate your application to use SAS](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-migrate-acs-sas) or use OAuth 2.0 authentication with Azure AD (recommended). For more information about deprecation of ACS, see this [blog post](https://docs.microsoft.com/archive/blogs/servicebus/upcoming-changes-to-acs-enabled-namespaces).
   
 ## Request  
   
