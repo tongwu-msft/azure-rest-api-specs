@@ -13768,6 +13768,30 @@
 ##### [Overview](time-series-insights/dataaccess(preview)/TimeSeriesTypes.yml)
 ##### [Execute Batch](time-series-insights/dataaccess(preview)/TimeSeriesTypes/ExecuteBatch.yml)
 ##### [Get](time-series-insights/dataaccess(preview)/TimeSeriesTypes/Get.yml)
+### Data Access Gen2
+#### Model Settings
+##### [Overview](time-series-insights/dataaccessgen2/ModelSettings.yml)
+##### [Get](time-series-insights/dataaccessgen2/ModelSettings/Get.yml)
+##### [Update](time-series-insights/dataaccessgen2/ModelSettings/Update.yml)
+#### Query
+##### [Overview](time-series-insights/dataaccessgen2/Query.yml)
+##### [Execute](time-series-insights/dataaccessgen2/Query/Execute.yml)
+##### [Get Availability](time-series-insights/dataaccessgen2/Query/GetAvailability.yml)
+##### [Get Event Schema](time-series-insights/dataaccessgen2/Query/GetEventSchema.yml)
+#### Time Series Hierarchies
+##### [Overview](time-series-insights/dataaccessgen2/TimeSeriesHierarchies.yml)
+##### [Execute Batch](time-series-insights/dataaccessgen2/TimeSeriesHierarchies/ExecuteBatch.yml)
+##### [List](time-series-insights/dataaccessgen2/TimeSeriesHierarchies/List.yml)
+#### Time Series Instances
+##### [Overview](time-series-insights/dataaccessgen2/TimeSeriesInstances.yml)
+##### [Execute Batch](time-series-insights/dataaccessgen2/TimeSeriesInstances/ExecuteBatch.yml)
+##### [List](time-series-insights/dataaccessgen2/TimeSeriesInstances/List.yml)
+##### [Search](time-series-insights/dataaccessgen2/TimeSeriesInstances/Search.yml)
+##### [Suggest](time-series-insights/dataaccessgen2/TimeSeriesInstances/Suggest.yml)
+#### Time Series Types
+##### [Overview](time-series-insights/dataaccessgen2/TimeSeriesTypes.yml)
+##### [Execute Batch](time-series-insights/dataaccessgen2/TimeSeriesTypes/ExecuteBatch.yml)
+##### [List](time-series-insights/dataaccessgen2/TimeSeriesTypes/List.yml)
 ### Management
 #### Access Policies
 ##### [Overview](time-series-insights/management/AccessPolicies.yml)
