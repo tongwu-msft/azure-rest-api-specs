@@ -47,10 +47,15 @@ translation.priority.mt:
   
 |Feature|REST Client|.NET Client|  
 |-------------|-----------------|-----------------|  
-|Send to Queue/Topic|X|X|  
-|Receive from Queue/Subscription|X|X|  
-|Session Receivers||X|  
-|Filters|X|X|  
-|Message Enrichment||X|  
-|Custom Filter Definitions||X|  
-|Batching|X|X|
+|Send to queue/topic|X|X|  
+|Receive from queue/subscription|X|X|  
+|Support for partitioned entities|X|X|  
+|Support for express entities|X|X|  
+|Scheduled messages|X|X|  
+|Batching|send only|X|  
+|Session receivers||X|  
+|Deadlettering||X|  
+|Message deferral||X|  
+| Filters | X | X | 
+| Message enrichment | | X | 
+| Custom filter definitions | | X | 

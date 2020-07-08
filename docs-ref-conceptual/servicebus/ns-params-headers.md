@@ -1,7 +1,7 @@
 ---
 title: "Common parameters and headers: namespaces"
 ms.custom: ""
-ms.date: 11/11/2016
+ms.date: 07/08/2020
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus-messaging"
@@ -10,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 0cca3760-d5f0-4228-9bca-def63484c774
 caps.latest.revision: 1
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"

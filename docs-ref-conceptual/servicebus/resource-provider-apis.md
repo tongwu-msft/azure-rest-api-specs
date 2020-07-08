@@ -1,7 +1,7 @@
 ---
 title: "Resource Provider APIs"
 ms.custom: ""
-ms.date: "05/14/2015"
+ms.date: "07/08/2020"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"
