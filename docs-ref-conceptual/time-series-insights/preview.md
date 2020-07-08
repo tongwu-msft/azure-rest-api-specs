@@ -1,21 +1,21 @@
 ---
 ms.assetid:
-ms.title: Data access concepts landing page - Azure Time Series Insights Gen 2 | Microsoft Docs
-title: Data access concepts landing page - Azure Time Series Insights Gen 2 | Microsoft Docs
+ms.title: Data access concepts landing page - Azure Time Series Insights Gen2 | Microsoft Docs
+title: Data access concepts landing page - Azure Time Series Insights Gen2 | Microsoft Docs
 services: time-series-insights
 ms.service: time-series-insights
 service_description: Time Series Insights
-description: Landing page and overview of REST API and data access concepts reference documentation for Azure Time Series Insights Gen 2.
+description: Landing page and overview of REST API and data access concepts reference documentation for Azure Time Series Insights Gen2.
 manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/01/2020
+ms.date: 07/07/2020
 ---
 
-# Azure Time Series Insights Gen 2 data access concepts
+# Azure Time Series Insights Gen2 data access concepts
 
-The Azure Time Series Insights Gen 2 APIs provide data access operations for Azure Time Series Insights Gen 2 environments. Gen 2 APIs are mostly structured around Time Series Model and provide REST **CREATE**, **READ**, **UPDATE**, and **DELETE** operations through the [Time Series Insights Expression syntax (TSX)](#time-series-expression-and-syntax).
+The Azure Time Series Insights Gen2 APIs provide data access operations for Azure Time Series Insights Gen2 environments. Gen2 APIs are mostly structured around Time Series Model and provide REST **CREATE**, **READ**, **UPDATE**, and **DELETE** operations through the [Time Series Insights Expression syntax (TSX)](#time-series-expression-and-syntax).
 
 > [!TIP]
 > Batch operations and result pagination are supported for most query operations.
@@ -25,13 +25,13 @@ The Azure Time Series Insights Gen 2 APIs provide data access operations for Azu
 
 ## Environments APIs
 
-The following REST endpoints manage your Azure Time Series Insights Gen 2 environment. The Gen 2 Environments APIs add HTTP **GET** request support for *event schemas* and *environment availability*. These features supplement the already supported [Gen 1 Environments APIs](ga-query-api.md).
+The following REST endpoints manage your Azure Time Series Insights Gen2 environment. The Gen2 Environments APIs add HTTP **GET** request support for *event schemas* and *environment availability*. These features supplement the already supported [Gen1 Environments APIs](ga-query-api.md).
 
 | API | Description |
 | --- | --- |
 | [Get Environments API](https://docs.microsoft.com/rest/api/time-series-insights/management/environments/get) | Returns the list of environments that the caller is authorized to access. | 
-| [Get Environments Availability API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/getavailability) | Returns the distribution of event count over the event time stamp `$ts` . You can use this API to provide the landing experience in the environment. |
-| [Get Event Schema API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/geteventschema) | Returns environment metadata for a search span. An event schema is returned as a set of property references. |
+| [Get Environments Availability API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/getavailability) | Returns the distribution of event count over the event time stamp `$ts` . You can use this API to provide the landing experience in the environment. |
+| [Get Event Schema API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/geteventschema) | Returns environment metadata for a search span. An event schema is returned as a set of property references. |
 
 ## Time Series Model APIs
 
@@ -48,44 +48,44 @@ Read [Time Series Model](https://docs.microsoft.com/azure/time-series-insights/t
 
 ### Instances API
 
-The [Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** operations to be performed on Time Series Instances:
+The [Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeseriesinstances) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** operations to be performed on Time Series Instances:
 
-* The [Get Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/get) returns all the Time Series Instances that match the request.
-* The [Manage Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/executebatch) enables batch operations on instances. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. Supported operations are **PUT**, **UPDATE**, and **DELETE**.
+* The [Get Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeseriesinstances/get) returns all the Time Series Instances that match the request.
+* The [Manage Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeseriesinstances/executebatch) enables batch operations on instances. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. Supported operations are **PUT**, **UPDATE**, and **DELETE**.
 * These APIs enable discovery of Time Series Instances:
 
-   * [Suggest](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/suggest) will enable autocomplete scenarios while searching for an instance.
-   * [Search](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriesinstances/search) helps in identifying the instances based on the keywords provided.
+   * [Suggest](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeseriesinstances/suggest) will enable autocomplete scenarios while searching for an instance.
+   * [Search](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeseriesinstances/search) helps in identifying the instances based on the keywords provided.
    
    > [!TIP]
    > Read about [Search query features](#search-features) below.
 
 ### Hierarchies API
 
-The [Hierarchies API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeserieshierarchies) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on Time Series Hierarchies.
+The [Hierarchies API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeserieshierarchies) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on Time Series Hierarchies.
 
 | API | Description |
 | --- | --- |
-| [Get Hierarchies API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeserieshierarchies/get) | Returns all the Time Series Hierarchies that match the request. |
-| [Manage Hierarchies APIs](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeserieshierarchies/executebatch) | Enables batch operations on hierarchies. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation that the API allows. Supported operations are **PUT**, **UPDATE**, and **DELETE**. |
+| [Get Hierarchies API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeserieshierarchies/get) | Returns all the Time Series Hierarchies that match the request. |
+| [Manage Hierarchies APIs](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeserieshierarchies/executebatch) | Enables batch operations on hierarchies. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation that the API allows. Supported operations are **PUT**, **UPDATE**, and **DELETE**. |
 
 ### Types API
 
-The [Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on Time Series Types and their associated variables.
+The [Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeseriestypes) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on Time Series Types and their associated variables.
 
 | API | Description |
 | --- | --- |
-| [Get Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes/get) | Returns all the Time Series Types and their associated variables. |
-| [Post Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/timeseriestypes/executebatch) |Enables batch operations on types. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation that the API allows. Supported operations are **PUT**, **UPDATE**, and **DELETE**. |
+| [Get Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeseriestypes/get) | Returns all the Time Series Types and their associated variables. |
+| [Post Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeseriestypes/executebatch) |Enables batch operations on types. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation that the API allows. Supported operations are **PUT**, **UPDATE**, and **DELETE**. |
 
 ### Model Settings API
 
-The [Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on automatically created models in the environment by **TimeSeriesIds**.
+The [Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/modelsettings) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** on automatically created models in the environment by **TimeSeriesIds**.
 
 | API | Description |
 | --- | --- |
-| [Get Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings/get) | Returns the auto created model in the environment for **TimeSeriesIds**. |
-| [Update Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/modelsettings/update) | Updates the model in the environment for **TimeSeriesIds** with the new values provided in the request. |
+| [Get Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/modelsettings/get) | Returns the auto created model in the environment for **TimeSeriesIds**. |
+| [Update Model Settings API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/modelsettings/update) | Updates the model in the environment for **TimeSeriesIds** with the new values provided in the request. |
 
 ### Limits
 
@@ -93,30 +93,30 @@ The following limits are applied during query execution to fairly utilize resour
 
 | Applicable APIs | Limit name | Limit value | SKUs affected |
 |-|-|-|-|
-| All | Max number of TSM objects per request | 10,000 or 8 MB | PAYG |
-| All | Max model request execution time | 30 seconds | PAYG |
-| All | Max number of instances per environment | 1,000,000 | PAYG |
-| All | Max number of instance fields per instance | 50 | PAYG |
-| All | Max number of types per environment | 1,000 | PAYG |
-| All | Max number of variables per type | 50 | PAYG |
-| All | Max number of hierarchies per environment | 32 | PAYG |
-| All | Max number of hierarchies associated with an instance | 32 | PAYG |
-| All | Max hierarchy depth | 32 | PAYG |
-| All | Max number of characters in type name, hierarchy name, instance fields name, Time Series ID property value, Time Series ID each property name, Time Series name | 1,024 | PAYG |
+| All | Max number of TSM objects per request | 10,000 or 8 MB | Gen2 |
+| All | Max model request execution time | 30 seconds | Gen2 |
+| All | Max number of instances per environment | 1,000,000 | Gen2 |
+| All | Max number of instance fields per instance | 50 | Gen2 |
+| All | Max number of types per environment | 1,000 | Gen2 |
+| All | Max number of variables per type | 50 | Gen2 |
+| All | Max number of hierarchies per environment | 32 | Gen2 |
+| All | Max number of hierarchies associated with an instance | 32 | Gen2 |
+| All | Max hierarchy depth | 32 | Gen2 |
+| All | Max number of characters in type name, hierarchy name, instance fields name, Time Series ID property value, Time Series ID each property name, Time Series name | 1,024 | Gen2 |
 
 ## Query APIs
 
-The [Query APIs](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute) are constituted by three REST APIs, one API each for *events*, *series*, and *aggregates*.
+The [Query APIs](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute) are constituted by three REST APIs, one API each for *events*, *series*, and *aggregates*.
 
 The Query APIs return *event schema* and event counts over a specified time range through HTTP **GET** requests with optional pagination. *Series* and *aggregate series* information is also exposed through **GET** operations with optional pagination.
 
 | API | Description
 | --- | --- |
-| [Get Events API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getevents) | Returns a list of raw events that match the search span and predicate. |
-| [Get Series API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getseries) | Enables query and retrieval of Time Series Insights data from captured events by using data recorded on the wire through the variables defined in the model or provided inline. |
-| [Aggregate Series API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Enables query and retrieval of Time Series Insights data from captured events by aggregating recorded data by using the aggregate or sample functions. |
+| [Get Events API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getevents) | Returns a list of raw events that match the search span and predicate. |
+| [Get Series API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getseries) | Enables query and retrieval of Time Series Insights data from captured events by using data recorded on the wire through the variables defined in the model or provided inline. |
+| [Aggregate Series API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#aggregateseries) | Enables query and retrieval of Time Series Insights data from captured events by aggregating recorded data by using the aggregate or sample functions. |
 
-The APIs also support a [variety of customized operations](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#examples) specified through the HTTP request JSON body. [Query definitions](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#definitions) can be used for common operations.
+The APIs also support a [variety of customized operations](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#examples) specified through the HTTP request JSON body. [Query definitions](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#definitions) can be used for common operations.
 
 > [!IMPORTANT]
 > * As part of the [upcoming changes to JSON flattening and escaping rules](https://docs.microsoft.com/azure/time-series-insights/ingestion-rules-update), arrays will be stored as **Dynamic** type. Payload properties stored as this type are **ONLY accessible through the Get Events API**.
@@ -127,10 +127,10 @@ The following limits are applied during query execution to evenly utilize resour
 
 | Applicable APIs | Limit name | Limit value | SKUs affected |
 |-|-|-|-|
-| [Get Availability](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/getavailability), [Get EventSchema](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/geteventschema), [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Max number of concurrent requests per environment | 30 | PAYG |
-| [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Max response size | 16 MB | PAYG |
-| [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Max number of projected properties or variables | 50 | PAYG |
-| [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccess(preview)/query/execute#aggregateseries) | Max number of intervals in the response | 200,000 | PAYG |
+| [Get Availability](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/getavailability), [Get EventSchema](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/geteventschema), [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#aggregateseries) | Max number of concurrent requests per environment | 30 | Gen2 |
+| [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#aggregateseries) | Max response size | 16 MB | Gen2 |
+| [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#aggregateseries) | Max number of projected properties or variables | 50 | Gen2 |
+| [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#aggregateseries) | Max number of intervals in the response | 200,000 | Gen2 |
 
 ### Error responses
 
@@ -476,4 +476,4 @@ Tools that assist with testing HTTP requests and responses include:
 - [JWT.io](https://jwt.io/). You can use this tool to quickly dump the claims in your bearer token and then validate their contents.
 - [Postman](https://www.getpostman.com/). This is a free HTTP request and response testing tool for debugging REST APIs.
 
-Learn more about [Azure Time Series Insights Gen 2](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-update-overview).
+Learn more about Azure Time Series Insights Gen2 by reviewing the [Gen2 documentation](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-update-overview).

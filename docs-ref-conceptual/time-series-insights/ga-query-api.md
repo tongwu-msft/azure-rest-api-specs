@@ -1,25 +1,25 @@
 ---
 ms.assetid: 
-ms.title: Gen 1 Query API - Azure Time Series Insights Gen 1 | Microsoft Docs
-title:  Gen 1 Query API - Azure Time Series Insights Gen 1 | Microsoft Docs
+ms.title: Gen1 Query API - Azure Time Series Insights Gen1 | Microsoft Docs
+title:  Gen1 Query API - Azure Time Series Insights Gen1 | Microsoft Docs
 services: time-series-insights
 ms.service: time-series-insights
 service_description: Time Series Insights
-description: Reference documentation for the Azure Time Series Insights Gen 1 Query REST APIs.
+description: Reference documentation for the Azure Time Series Insights Gen1 Query REST APIs.
 manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/01/2020
+ms.date: 07/07/2020
 ---
 
-# Azure Time Series Insights Gen 1 Query API
+# Azure Time Series Insights Gen1 Query API
 
-This article describes various REST Query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which enable you to query Azure Time Series Insights Gen 1 environments.
+This article describes various REST Query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which enable you to query Azure Time Series Insights Gen1 environments.
 
 > [!IMPORTANT]
-> * Azure Time Series Insights Gen 1 uses the HTTPS Protocol for the [Get Environments](#get-environments-api), [Get Environment Availability](#get-environment-availability-api), [Get Metadata](#get-environment-metadata-api), [Get Environment Events](#get-environment-events-api), and [Get Environment Aggregates](#get-environment-aggregates-api) APIs.
-> * Azure Time Series Insights Gen 1 uses the WebSocket Secure (WSS) Protocol for the [Get Environment Events Streamed](#get-environment-events-streamed-api) and [Get Aggregates Streamed](#get-environment-aggregates-streamed-api) APIs.
+> * Azure Time Series Insights Gen1 uses the HTTPS Protocol for the [Get Environments](#get-environments-api), [Get Environment Availability](#get-environment-availability-api), [Get Metadata](#get-environment-metadata-api), [Get Environment Events](#get-environment-events-api), and [Get Environment Aggregates](#get-environment-aggregates-api) APIs.
+> * Azure Time Series Insights Gen1 uses the WebSocket Secure (WSS) Protocol for the [Get Environment Events Streamed](#get-environment-events-streamed-api) and [Get Aggregates Streamed](#get-environment-aggregates-streamed-api) APIs.
 
 ## Get Environments API
 
@@ -90,7 +90,7 @@ The Get Environment Availability API returns the distribution of event count ove
 
 ## Get Environment Metadata API
 
-The Get Environment Metadata API returns environment metadata for a given search span. Metadata is returned as a set of property references. Azure Time Series Insights Gen 1 internally caches and approximates metadata and may return more properties that are present in the exact events in the search span.
+The Get Environment Metadata API returns environment metadata for a given search span. Metadata is returned as a set of property references. Azure Time Series Insights Gen1 internally caches and approximates metadata and may return more properties that are present in the exact events in the search span.
 
 * Endpoint and operation:
 
@@ -683,4 +683,4 @@ Tools that assist with testing HTTP requests and responses include:
 - [JWT.io](https://jwt.io/). You can use this tool to quickly dump the claims in your bearer token and then validate their contents.
 - [Postman](https://www.getpostman.com/). This is a free HTTP request and response testing tool for debugging REST APIs.
 
-Learn more about Azure Time Series Insights Gen 1 by reviewing the [Time Series Insights Gen 1 documentation](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-overview).
+Learn more about Azure Time Series Insights Gen1 by reviewing the [Gen1 documentation](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-overview).
