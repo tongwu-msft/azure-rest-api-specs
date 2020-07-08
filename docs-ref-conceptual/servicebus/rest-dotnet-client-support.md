@@ -1,7 +1,7 @@
 ---
 title: "REST vs. .NET Client Support"
 ms.custom: ""
-ms.date: "07/09/2015"
+ms.date: "07/08/2020"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"
@@ -10,8 +10,8 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: ccd80576-5493-4eba-bbb6-3012b178ebb0
 caps.latest.revision: 10
-author: "sethmanheim"
-ms.author: "sethm"
+author: "spelluru"
+ms.author: "spelluru"
 manager: "timlt"
 translation.priority.mt: 
   - "de-de"
