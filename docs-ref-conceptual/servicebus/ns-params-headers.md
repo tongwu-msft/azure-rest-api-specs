@@ -40,7 +40,7 @@ The following information is common to all tasks that you might do related to Se
   
 -   Replace {subscriptionId} with the Azure subscription ID.  
   
--   Replace {resourceGroupName} with the resource group name within the subscriptionId. For more information, see [Using the Azure Portal to deploy and manage your Azure resources](https://azure.microsoft.com/documentation/articles/resource-group-portal/).  
+-   Replace {resourceGroupName} with the resource group name within the subscriptionId. For more information, see [Using the Azure portal to deploy and manage your Azure resources](https://azure.microsoft.com/documentation/articles/resource-group-portal/).  
   
 -   Replace {namespaceName} with the name of the namespace you created on the portal.  
   

@@ -43,7 +43,7 @@ translation.priority.mt:
 |“2015-01”|  
   
 ## Features exposed using both the REST client and the .NET managed API  
- The table below details the features which are exposed using both the REST client and the .NET managed API. Note that not all features are available to REST clients.  
+ The table below details the features that are exposed using both the REST client and the .NET managed API. Note that not all features are available to REST clients.  
   
 |Feature|REST Client|.NET Client|  
 |-------------|-----------------|-----------------|  
