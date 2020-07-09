@@ -1,7 +1,7 @@
 ---
 title: "Delete Message"
 ms.custom: ""
-ms.date: "05/12/2015"
+ms.date: "07/08/2020"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"
@@ -10,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: afdb8cb1-6a78-4456-acd4-9a12a382f2eb
 caps.latest.revision: 8
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -48,7 +48,7 @@ This operation completes the processing of a locked message and deletes it from 
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization|Specifies one of the following:<br /><br /> -   A WRAPv0.9.7.2 token containing a SimpleWebToken acquired from ACS. Set to **WRAP access_token=”{swt}”**.<br />-   A SAS token.|  
+|Authorization|Specify one of the following:<ul><li> Azure Active Directory (AAD) JSON Web Token (JWT) token. <br/>Example: `Authorization: Bearer <AAD JWT token>`. <br/>For information on generating an AAD token, see [Authenticate from an application](https://docs.microsoft.com/azure/service-bus-messaging/authenticate-application#authenticate-from-an-application).</li><li>A SAS token. <br/>Example: `Authorization: SharedAccessSignature sr=<NAMESPACE NAME>.servicebus.windows.net&sig=<SHARED ACCESS KEY>&se=<TOKEN EXPIRY INSTANT>&skn=<SHARED KEY NAME>`. <br/>For information on generating a SAS token, see [Generate a Shared Access Signature token](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas#generate-a-shared-access-signature-token) and [Generate SAS token](https://docs.microsoft.com/rest/api/eventhub/generate-sas-token).</li></ul> |  
   
 ### Request Body  
  None.  

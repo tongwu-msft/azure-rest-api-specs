@@ -1,7 +1,7 @@
 ---
 title: "Common parameters and headers: topics"
 ms.custom: ""
-ms.date: 11/11/2016
+ms.date: 07/08/2020
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus-messaging"
@@ -10,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: aeb8aa4f-dbc9-4771-af0c-96601de8e621
 caps.latest.revision: 1
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"

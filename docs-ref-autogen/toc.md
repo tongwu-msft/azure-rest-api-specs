@@ -6913,7 +6913,6 @@
 ### [Get Hourly Forecast Preview](maps/Weather/GetHourlyForecastPreview.yml)
 ### [Get Minute Forecast Preview](maps/Weather/GetMinuteForecastPreview.yml)
 ### [Get Quarter Day Forecast Preview](maps/Weather/GetQuarterDayForecastPreview.yml)
-### [Get Severe Weather Alerts Preview](maps/Weather/GetSevereWeatherAlertsPreview.yml)
 ### [Get Weather Along Route Preview](maps/Weather/GetWeatherAlongRoutePreview.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
@@ -7701,7 +7700,6 @@
 ### [List](policy-insights/Operations/List.yml)
 ## Policy Events
 ### [Overview](policy-insights/PolicyEvents.yml)
-### [Get Metadata](policy-insights/PolicyEvents/GetMetadata.yml)
 ### [List Query Results For Management Group](policy-insights/PolicyEvents/ListQueryResultsForManagementGroup.yml)
 ### [List Query Results For Policy Definition](policy-insights/PolicyEvents/ListQueryResultsForPolicyDefinition.yml)
 ### [List Query Results For Policy Set Definition](policy-insights/PolicyEvents/ListQueryResultsForPolicySetDefinition.yml)
@@ -8983,17 +8981,14 @@
 ## [Overview](../docs-ref-conceptual/servicebus/index.md)
 ## Service Bus service REST
 ### [Overview](../docs-ref-conceptual/servicebus/service-bus-runtime-rest.md)
-### [Introduction](../docs-ref-conceptual/servicebus/introduction.md)
-### [REST vs. .NET Client Support](../docs-ref-conceptual/servicebus/rest-dotnet-client-support.md)
 ### Namespace Access
 #### [Overview](../docs-ref-conceptual/servicebus/addressing-and-protocol.md)
-#### [Overview](../docs-ref-conceptual/servicebus/overview.md)
+#### [Simplified REST API sets](../docs-ref-conceptual/servicebus/overview.md)
 #### [Get Entity](../docs-ref-conceptual/servicebus/get-entity.md)
 #### [Entities Discovery](../docs-ref-conceptual/servicebus/entities-discovery.md)
 #### [Delete Entity](../docs-ref-conceptual/servicebus/delete-entity.md)
 #### [Enumeration](../docs-ref-conceptual/servicebus/enumeration.md)
 #### [Update Entity](../docs-ref-conceptual/servicebus/update-entity.md)
-### [Message Headers and Properties](../docs-ref-conceptual/servicebus/message-headers-and-properties.md)
 ### Resource Provider APIs
 #### [Overview](../docs-ref-conceptual/servicebus/resource-provider-apis.md)
 #### [Create Namespace](../docs-ref-conceptual/servicebus/create-namespace.md)
@@ -9011,6 +9006,7 @@
 #### [Delete Subscription](../docs-ref-conceptual/servicebus/delete-subscription.md)
 #### [Get SB Regions](../docs-ref-conceptual/servicebus/get-sb-regions.md)
 #### [Get Relays](../docs-ref-conceptual/servicebus/get-relays.md)
+### [Message headers and Properties](../docs-ref-conceptual/servicebus/message-headers-and-properties.md)
 ### [Send messages to queue](../docs-ref-conceptual/servicebus/send-message-to-queue.md)
 ### [Send Message Batch](../docs-ref-conceptual/servicebus/send-message-batch.md)
 ### [Receive and Delete Message (Destructive Read)](../docs-ref-conceptual/servicebus/receive-and-delete-message-destructive-read.md)
@@ -9019,6 +9015,7 @@
 ### [Delete Message](../docs-ref-conceptual/servicebus/delete-message.md)
 ### [Renew-Lock for a Message](../docs-ref-conceptual/servicebus/renew-lock-for-a-message.md)
 ### [Request a Token from ACS](../docs-ref-conceptual/servicebus/request-a-token-from-acs.md)
+### [REST vs. .NET Client Support](../docs-ref-conceptual/servicebus/rest-dotnet-client-support.md)
 ## Reference
 ### Disaster Recovery Configs
 #### [Overview](servicebus/DisasterRecoveryConfigs.yml)
@@ -13736,14 +13733,14 @@
 #### [Update](support/SupportTickets/Update.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
-## Data Access (GA)
+## Data Access (Gen1)
 ### [Overview](../docs-ref-conceptual/time-series-insights/ga.md)
 ### Query
 #### [Overview](../docs-ref-conceptual/time-series-insights/ga-query.md)
 #### [API](../docs-ref-conceptual/time-series-insights/ga-query-api.md)
 #### [Syntax](../docs-ref-conceptual/time-series-insights/ga-query-syntax.md)
 ### [Reference Data API](../docs-ref-conceptual/time-series-insights/ga-reference-data-api.md)
-## [Data Access Concepts (Preview)](../docs-ref-conceptual/time-series-insights/preview.md)
+## [Data Access (Gen2)](../docs-ref-conceptual/time-series-insights/preview.md)
 ## Reference
 ### Data Access (Preview)
 #### Model Settings

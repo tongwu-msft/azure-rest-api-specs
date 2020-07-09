@@ -1,21 +1,21 @@
 ---
 ms.assetid:
-ms.title: Gen 1 query syntax - Azure Time Series Insights | Microsoft Docs
-title: Gen 1 query syntax - Azure Time Series Insights | Microsoft Docs
+ms.title: Gen1 query syntax - Azure Time Series Insights | Microsoft Docs
+title: Gen1 query syntax - Azure Time Series Insights | Microsoft Docs
 services: time-series-insights
 ms.service: time-series-insights
 service_description: Azure Time Series Insights
-description: This reference document specifies query syntax for Azure Time Series Insights Gen 1 REST API queries, requests, and operations.
+description: This reference document specifies query syntax for Azure Time Series Insights Gen1 REST API queries, requests, and operations.
 manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/01/2020
+ms.date: 07/07/2020
 ---
 
-# Azure Time Series Insights Gen 1 query syntax
+# Azure Time Series Insights Gen1 query syntax
 
-This article describes the query request format and syntax for the Azure Time Series Insights Gen 1 [Query API](ga-query-api.md).
+This article describes the query request format and syntax for the Azure Time Series Insights Gen1 [Query API](ga-query-api.md).
 
 ## Summary
 
@@ -32,14 +32,14 @@ The language is subdivided into the following elements:
 
 ## Data model
 
-The Azure Time Series Insights Gen 1 Query API operates on data that's stored as individual *events* within an environment. Each event is a set of *property name* and *value* pairs.
+The Azure Time Series Insights Gen1 Query API operates on data that's stored as individual *events* within an environment. Each event is a set of *property name* and *value* pairs.
 
 ### Event properties
 
 Event properties can be of one of the following primitive types: **Bool**, **DateTime**, **Double**, or **String**. All primitive types are nullable.
 
 > [!NOTE]
-> Customized event source formats may support a larger set of value types. Azure Time Series Insights Gen 1 infers the closest primitive type and then casts customized types to them at ingress.
+> Customized event source formats may support a larger set of value types. Azure Time Series Insights Gen1 infers the closest primitive type and then casts customized types to them at ingress.
 
 All events have the following built-in properties with a predefined name and type:
 
@@ -56,7 +56,7 @@ All events have the following built-in properties with a predefined name and typ
 
 * Event source name
 
-    The *event source name* is the name that's displayed for the event source from which Azure Time Series Insights Gen 1 has received the event. Event source names are associated with a particular event at ingress time.
+    The *event source name* is the name that's displayed for the event source from which Azure Time Series Insights Gen1 has received the event. Event source names are associated with a particular event at ingress time.
 
     > [!IMPORTANT]
     > * Event source names remain unchanged for the lifetime of the event.
@@ -73,7 +73,7 @@ An event property value of **String** type can be stored as a property with a di
 
 The Query API converts empty **Strings** literals (`""`) to `null` in the output.
 
-Azure Time Series Insights Gen 1 has limited support for the following values within the **Double** type: `Double.NaN`, `Double.PositiveInfinity`, and `Double.NegativeInfinity`.
+Azure Time Series Insights Gen1 has limited support for the following values within the **Double** type: `Double.NaN`, `Double.PositiveInfinity`, and `Double.NegativeInfinity`.
 These values are converted to `null` during ingress, but if query evaluation produces one of these values, the value is evaluated and serialized as a **String** in response.
 
 You can pass these values as **Strings** for ingress, so in query expressions these values should also be passed as **Strings**.
@@ -260,7 +260,7 @@ The **NULL** literal can be used only with the following comparison operators: *
 * For other operations, the error is raised for the **NULL** literal, and the behavior is undefined for null-value properties (any comparison operation that results in `false`).
 * A `null` value precedes non-null values in sort orderings (for example, if sorting by a property is applied to return a list of events).
 
-Azure Time Series Insights Gen 1 supports the following *Boolean* logical expressions:
+Azure Time Series Insights Gen1 supports the following *Boolean* logical expressions:
 
 | Property name in JSON | Description |
 |-|-|
@@ -319,7 +319,7 @@ The **stringComparison** property is optional. By default, its value is `Ordinal
 
 ### Arithmetic expressions
 
-Azure Time Series Insights Gen 1 supports the following *arithmetic* expressions:
+Azure Time Series Insights Gen1 supports the following *arithmetic* expressions:
 
 | Property name in JSON | Description |
 |-|-|
@@ -405,7 +405,7 @@ The expression in the predicate string is evaluated into a JSON Boolean expressi
 | `literal` | `StringLiteral | ((Minus)? NumericLiteral) | BooleanLiteral | DateTimeLiteral | TimeSpanLiteral | NullLiteral;` |
 | `identifier` | `BuiltinIdentifier | (QuotedOrUnquotedIdentifier (Sep QuotedOrUnquotedIdentifier)?);` |
 
-Azure Time Series Insights Gen 1 primitive data types are supported in predicate string expressions.
+Azure Time Series Insights Gen1 primitive data types are supported in predicate string expressions.
 
 Unlike JSON [property reference expressions](#property-reference-expressions), a type for a property can be omitted, in which case a type is automatically inferred.
 
@@ -508,7 +508,7 @@ Predicate expressions are type-checked and validated to ensure that the right-ha
 
 ### Native functions
 
-Scalar functions that are supported out-of-box by Azure Time Series Insights Gen 1 include:
+Scalar functions that are supported out-of-box by Azure Time Series Insights Gen1 include:
 
 | Function name | Return value | Arguments | Example | Notes |
 |--|--|--|--|--|
@@ -537,7 +537,7 @@ Dimension expression types:
 | **dateHistogram** | Dimension values in the result are ranges of time of a given property. | The date histogram of the timestamp might result in 10 1-hour ranges for a 10-hour search span. |
 | **numericHistogram** | Dimension values in the result are ranges of values in a given property. | The numeric histogram of temperature might result in a return of 10 ranges of degrees. |
 
-Azure Time Series Insights Gen 1 restricts the maximum cardinality, or maximum lattice size, of an input aggregate query to 150,000 cells.  To calculate the cardinality of an aggregate query, you multiply the sizes of all dimensions in the query.  As long as the product is less than 150,000, the query is accepted for execution. If the product is equal to or less than 150,000, the query is rejected.  
+Azure Time Series Insights Gen1 restricts the maximum cardinality, or maximum lattice size, of an input aggregate query to 150,000 cells.  To calculate the cardinality of an aggregate query, you multiply the sizes of all dimensions in the query.  As long as the product is less than 150,000, the query is accepted for execution. If the product is equal to or less than 150,000, the query is rejected.  
 
 You specify the maximum size of a dimension that's produced by **uniqueValues** and **numericHistogram** by using the **take** clause. In **dateHistogram**, the size is calculated by dividing the search span by the size of the **dateHistogram** interval, which you specify by using the **breaks** clause.
 
@@ -1034,8 +1034,8 @@ Measures are evaluated on each partition that's produced by the dimension expres
 
 ## See also
 
-For more information about the Azure Time Series Insights Gen 1 APIs, see [Azure Time Series Insights Gen 1](ga.md).
+For more information about the Azure Time Series Insights Gen1 APIs, see [Gen1 APIs](ga.md).
 
 To learn about request and authentication parameters, see [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization).
 
-Learn more about Azure Time Series Insights Gen 1 by reviewing the [Azure Time Series Insights Gen 1 documentation](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-overview).
+Learn more about Azure Time Series Insights Gen1 by reviewing the [Gen1 documentation](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-overview).
