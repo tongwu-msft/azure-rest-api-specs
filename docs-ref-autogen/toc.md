@@ -7435,10 +7435,6 @@
 ### [Delete](mysql/ServerAdministrators/Delete.yml)
 ### [Get](mysql/ServerAdministrators/Get.yml)
 ### [List](mysql/ServerAdministrators/List.yml)
-## Server Security Alert Policies
-### [Overview](mysql/ServerSecurityAlertPolicies.yml)
-### [Create Or Update](mysql/ServerSecurityAlertPolicies/CreateOrUpdate.yml)
-### [Get](mysql/ServerSecurityAlertPolicies/Get.yml)
 ## Servers
 ### [Overview](mysql/Servers.yml)
 ### [Create](mysql/Servers/Create.yml)
@@ -7804,10 +7800,6 @@
 ### [Delete](postgresql/ServerAdministrators/Delete.yml)
 ### [Get](postgresql/ServerAdministrators/Get.yml)
 ### [List](postgresql/ServerAdministrators/List.yml)
-## Server Security Alert Policies
-### [Overview](postgresql/ServerSecurityAlertPolicies.yml)
-### [Create Or Update](postgresql/ServerSecurityAlertPolicies/CreateOrUpdate.yml)
-### [Get](postgresql/ServerSecurityAlertPolicies/Get.yml)
 ## Servers
 ### [Overview](postgresql/Servers.yml)
 ### [Create](postgresql/Servers/Create.yml)
