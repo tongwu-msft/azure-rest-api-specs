@@ -1,7 +1,7 @@
 ---
 title: "Create Subscription"
 ms.custom: ""
-ms.date: "05/15/2015"
+ms.date: "07/08/2020"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"
@@ -10,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 7fbbf52f-67f1-4cae-95b3-1c6e1234fd7f
 caps.latest.revision: 9
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"

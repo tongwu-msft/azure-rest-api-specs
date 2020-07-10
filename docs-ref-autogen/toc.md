@@ -2398,6 +2398,7 @@
 ##### [Overview](billing/2019-10-01-preview/BillingProfiles.yml)
 ##### [Create](billing/2019-10-01-preview/BillingProfiles/Create.yml)
 ##### [Get](billing/2019-10-01-preview/BillingProfiles/Get.yml)
+##### [Get Eligibility To Detach Payment Method](billing/2019-10-01-preview/BillingProfiles/GetEligibilityToDetachPaymentMethod.yml)
 ##### [List By Billing Account](billing/2019-10-01-preview/BillingProfiles/ListByBillingAccount.yml)
 ##### [Update](billing/2019-10-01-preview/BillingProfiles/Update.yml)
 #### Billing Property
@@ -3722,13 +3723,6 @@
 ### [List](consumption/UsageDetails/List.yml)
 # Container Instances
 ## [Overview](../docs-ref-conceptual/container-instances/index.md)
-## Container
-### [Overview](container-instances/Container.yml)
-### [Execute Command](container-instances/Container/ExecuteCommand.yml)
-### [List Logs](container-instances/Container/ListLogs.yml)
-## Container Group Usage
-### [Overview](container-instances/ContainerGroupUsage.yml)
-### [List](container-instances/ContainerGroupUsage/List.yml)
 ## Container Groups
 ### [Overview](container-instances/ContainerGroups.yml)
 ### [Create Or Update](container-instances/ContainerGroups/CreateOrUpdate.yml)
@@ -3740,18 +3734,18 @@
 ### [Start](container-instances/ContainerGroups/Start.yml)
 ### [Stop](container-instances/ContainerGroups/Stop.yml)
 ### [Update](container-instances/ContainerGroups/Update.yml)
-## List Cached Images
-### [Overview](container-instances/ListCachedImages.yml)
-### [List Cached Images](container-instances/ListCachedImages/ListCachedImages.yml)
-## List Capabilities
-### [Overview](container-instances/ListCapabilities.yml)
-### [List Capabilities](container-instances/ListCapabilities/ListCapabilities.yml)
+## Containers
+### [Overview](container-instances/Containers.yml)
+### [Execute Command](container-instances/Containers/ExecuteCommand.yml)
+### [List Logs](container-instances/Containers/ListLogs.yml)
+## Location
+### [Overview](container-instances/Location.yml)
+### [List Cached Images](container-instances/Location/ListCachedImages.yml)
+### [List Capabilities](container-instances/Location/ListCapabilities.yml)
+### [List Usage](container-instances/Location/ListUsage.yml)
 ## Operations
 ### [Overview](container-instances/Operations.yml)
 ### [List](container-instances/Operations/List.yml)
-## Service Association Link
-### [Overview](container-instances/ServiceAssociationLink.yml)
-### [Delete](container-instances/ServiceAssociationLink/Delete.yml)
 # Container Registry
 ## [Overview](../docs-ref-conceptual/containerregistry/index.md)
 ## Access Tokens
@@ -5751,6 +5745,12 @@
 #### [Overview](iotcentral/Roles.yml)
 #### [Get](iotcentral/Roles/Get.yml)
 #### [List](iotcentral/Roles/List.yml)
+### Users
+#### [Overview](iotcentral/Users.yml)
+#### [Get](iotcentral/Users/Get.yml)
+#### [List](iotcentral/Users/List.yml)
+#### [Remove](iotcentral/Users/Remove.yml)
+#### [Set](iotcentral/Users/Set.yml)
 # IoT Hub
 ## [Overview](../docs-ref-conceptual/iothub/index.md)
 ## [Common error codes](../docs-ref-conceptual/iothub/common-error-codes.md)
@@ -7435,10 +7435,6 @@
 ### [Delete](mysql/ServerAdministrators/Delete.yml)
 ### [Get](mysql/ServerAdministrators/Get.yml)
 ### [List](mysql/ServerAdministrators/List.yml)
-## Server Security Alert Policies
-### [Overview](mysql/ServerSecurityAlertPolicies.yml)
-### [Create Or Update](mysql/ServerSecurityAlertPolicies/CreateOrUpdate.yml)
-### [Get](mysql/ServerSecurityAlertPolicies/Get.yml)
 ## Servers
 ### [Overview](mysql/Servers.yml)
 ### [Create](mysql/Servers/Create.yml)
@@ -7700,7 +7696,6 @@
 ### [List](policy-insights/Operations/List.yml)
 ## Policy Events
 ### [Overview](policy-insights/PolicyEvents.yml)
-### [Get Metadata](policy-insights/PolicyEvents/GetMetadata.yml)
 ### [List Query Results For Management Group](policy-insights/PolicyEvents/ListQueryResultsForManagementGroup.yml)
 ### [List Query Results For Policy Definition](policy-insights/PolicyEvents/ListQueryResultsForPolicyDefinition.yml)
 ### [List Query Results For Policy Set Definition](policy-insights/PolicyEvents/ListQueryResultsForPolicySetDefinition.yml)
@@ -7805,10 +7800,6 @@
 ### [Delete](postgresql/ServerAdministrators/Delete.yml)
 ### [Get](postgresql/ServerAdministrators/Get.yml)
 ### [List](postgresql/ServerAdministrators/List.yml)
-## Server Security Alert Policies
-### [Overview](postgresql/ServerSecurityAlertPolicies.yml)
-### [Create Or Update](postgresql/ServerSecurityAlertPolicies/CreateOrUpdate.yml)
-### [Get](postgresql/ServerSecurityAlertPolicies/Get.yml)
 ## Servers
 ### [Overview](postgresql/Servers.yml)
 ### [Create](postgresql/Servers/Create.yml)
@@ -8462,7 +8453,9 @@
 ### [Validate At Subscription Scope](resources/Deployments/ValidateAtSubscriptionScope.yml)
 ### [Validate At Tenant Scope](resources/Deployments/ValidateAtTenantScope.yml)
 ### [What If](resources/Deployments/WhatIf.yml)
+### [What If At Management Group Scope](resources/Deployments/WhatIfAtManagementGroupScope.yml)
 ### [What If At Subscription Scope](resources/Deployments/WhatIfAtSubscriptionScope.yml)
+### [What If At Tenant Scope](resources/Deployments/WhatIfAtTenantScope.yml)
 ## Entities
 ### [Overview](resources/Entities.yml)
 ### [List](resources/Entities/List.yml)
@@ -8704,16 +8697,16 @@
 ## [HTTP request and response headers](../docs-ref-conceptual/searchservice/common-http-request-and-response-headers-used-in-azure-search.md)
 ## [OData support](../docs-ref-conceptual/searchservice/support-for-odata.md)
 ## Reference (Preview)
-### [Introduction](../docs-ref-conceptual/searchservice/index-2019-05-06-preview.md)
+### [Introduction](../docs-ref-conceptual/searchservice/index-preview.md)
 ### Documents
-#### [Search Documents](../docs-ref-conceptual/searchservice/2019-05-06-preview/search-documents.md)
+#### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)
 ### Indexers
-#### [Create Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-indexer.md)
-#### [Update Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-indexer.md)
+#### [Create Indexer](../docs-ref-conceptual/searchservice/preview-api/create-indexer.md)
+#### [Update Indexer](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
 ### Skillsets
-#### [Create Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-skillset.md)
-#### [Reset Skills](../docs-ref-conceptual/searchservice/2019-05-06-preview/reset-skills.md)
-#### [Update Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-skillset.md)
+#### [Create Skillset](../docs-ref-conceptual/searchservice/create-skillset.md)
+#### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
+#### [Update Skillset](../docs-ref-conceptual/searchservice/update-skillset.md)
 ## Reference (Stable)
 ### Indexes
 #### [Overview](../docs-ref-conceptual/searchservice/index-operations.md)
@@ -8743,7 +8736,7 @@
 #### [Get Indexer Status](../docs-ref-conceptual/searchservice/get-indexer-status.md)
 #### [List Data Sources](../docs-ref-conceptual/searchservice/list-data-sources.md)
 #### [List Indexers](../docs-ref-conceptual/searchservice/list-indexers.md)
-#### [Reset Indexer ](../docs-ref-conceptual/searchservice/reset-indexer.md)
+#### [Reset Indexer](../docs-ref-conceptual/searchservice/reset-indexer.md)
 #### [Run Indexer](../docs-ref-conceptual/searchservice/run-indexer.md)
 #### [Update Data Source](../docs-ref-conceptual/searchservice/update-data-source.md)
 #### [Update Indexer](../docs-ref-conceptual/searchservice/update-indexer.md)
@@ -8980,17 +8973,14 @@
 ## [Overview](../docs-ref-conceptual/servicebus/index.md)
 ## Service Bus service REST
 ### [Overview](../docs-ref-conceptual/servicebus/service-bus-runtime-rest.md)
-### [Introduction](../docs-ref-conceptual/servicebus/introduction.md)
-### [REST vs. .NET Client Support](../docs-ref-conceptual/servicebus/rest-dotnet-client-support.md)
 ### Namespace Access
 #### [Overview](../docs-ref-conceptual/servicebus/addressing-and-protocol.md)
-#### [Overview](../docs-ref-conceptual/servicebus/overview.md)
+#### [Simplified REST API sets](../docs-ref-conceptual/servicebus/overview.md)
 #### [Get Entity](../docs-ref-conceptual/servicebus/get-entity.md)
 #### [Entities Discovery](../docs-ref-conceptual/servicebus/entities-discovery.md)
 #### [Delete Entity](../docs-ref-conceptual/servicebus/delete-entity.md)
 #### [Enumeration](../docs-ref-conceptual/servicebus/enumeration.md)
 #### [Update Entity](../docs-ref-conceptual/servicebus/update-entity.md)
-### [Message Headers and Properties](../docs-ref-conceptual/servicebus/message-headers-and-properties.md)
 ### Resource Provider APIs
 #### [Overview](../docs-ref-conceptual/servicebus/resource-provider-apis.md)
 #### [Create Namespace](../docs-ref-conceptual/servicebus/create-namespace.md)
@@ -9008,6 +8998,7 @@
 #### [Delete Subscription](../docs-ref-conceptual/servicebus/delete-subscription.md)
 #### [Get SB Regions](../docs-ref-conceptual/servicebus/get-sb-regions.md)
 #### [Get Relays](../docs-ref-conceptual/servicebus/get-relays.md)
+### [Message headers and Properties](../docs-ref-conceptual/servicebus/message-headers-and-properties.md)
 ### [Send messages to queue](../docs-ref-conceptual/servicebus/send-message-to-queue.md)
 ### [Send Message Batch](../docs-ref-conceptual/servicebus/send-message-batch.md)
 ### [Receive and Delete Message (Destructive Read)](../docs-ref-conceptual/servicebus/receive-and-delete-message-destructive-read.md)
@@ -9016,6 +9007,7 @@
 ### [Delete Message](../docs-ref-conceptual/servicebus/delete-message.md)
 ### [Renew-Lock for a Message](../docs-ref-conceptual/servicebus/renew-lock-for-a-message.md)
 ### [Request a Token from ACS](../docs-ref-conceptual/servicebus/request-a-token-from-acs.md)
+### [REST vs. .NET Client Support](../docs-ref-conceptual/servicebus/rest-dotnet-client-support.md)
 ## Reference
 ### Disaster Recovery Configs
 #### [Overview](servicebus/DisasterRecoveryConfigs.yml)
@@ -13239,6 +13231,7 @@
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
 ### Previous Azure Storage services versions
 #### [Overview](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
+#### [Version 2019-07-07](../docs-ref-conceptual/storageservices/version-2019-07-07.md)
 #### [Version 2019-02-02](../docs-ref-conceptual/storageservices/version-2019-02-02.md)
 #### [Version 2018-11-09](../docs-ref-conceptual/storageservices/version-2018-11-09.md)
 #### [Version 2018-03-28](../docs-ref-conceptual/storageservices/version-2018-03-28.md)
@@ -13325,6 +13318,9 @@
 #### [Set Blob Properties](../docs-ref-conceptual/storageservices/set-blob-properties.md)
 #### [Get Blob Metadata](../docs-ref-conceptual/storageservices/get-blob-metadata.md)
 #### [Set Blob Metadata](../docs-ref-conceptual/storageservices/set-blob-metadata.md)
+#### [Get Blob Tags](../docs-ref-conceptual/storageservices/get-blob-tags.md)
+#### [Set Blob Tags](../docs-ref-conceptual/storageservices/set-blob-tags.md)
+#### [Find Blobs by Tags](../docs-ref-conceptual/storageservices/find-blobs-by-tags.md)
 #### [Lease Blob](../docs-ref-conceptual/storageservices/lease-blob.md)
 #### [Snapshot Blob](../docs-ref-conceptual/storageservices/snapshot-blob.md)
 #### [Copy Blob](../docs-ref-conceptual/storageservices/copy-blob.md)
@@ -13340,6 +13336,7 @@
 ##### [Put Block From URL](../docs-ref-conceptual/storageservices/put-block-from-url.md)
 ##### [Put Block List](../docs-ref-conceptual/storageservices/put-block-list.md)
 ##### [Get Block List](../docs-ref-conceptual/storageservices/get-block-list.md)
+##### [Query Blob Contents](../docs-ref-conceptual/storageservices/query-blob-contents.md)
 #### Operations on Page Blobs
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-page-blobs.md)
 ##### [Put Page](../docs-ref-conceptual/storageservices/put-page.md)
@@ -13890,14 +13887,14 @@
 ### [Update](synapse/Workspaces/Update.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
-## Data Access (GA)
+## [Data Access (Gen2)](../docs-ref-conceptual/time-series-insights/preview.md)
+## Data Access (Gen1)
 ### [Overview](../docs-ref-conceptual/time-series-insights/ga.md)
 ### Query
 #### [Overview](../docs-ref-conceptual/time-series-insights/ga-query.md)
 #### [API](../docs-ref-conceptual/time-series-insights/ga-query-api.md)
 #### [Syntax](../docs-ref-conceptual/time-series-insights/ga-query-syntax.md)
 ### [Reference Data API](../docs-ref-conceptual/time-series-insights/ga-reference-data-api.md)
-## [Data Access Concepts (Preview)](../docs-ref-conceptual/time-series-insights/preview.md)
 ## Reference
 ### Data Access (Preview)
 #### Model Settings
@@ -13923,6 +13920,30 @@
 ##### [Overview](time-series-insights/dataaccess(preview)/TimeSeriesTypes.yml)
 ##### [Execute Batch](time-series-insights/dataaccess(preview)/TimeSeriesTypes/ExecuteBatch.yml)
 ##### [Get](time-series-insights/dataaccess(preview)/TimeSeriesTypes/Get.yml)
+### Data Access Gen2
+#### Model Settings
+##### [Overview](time-series-insights/dataaccessgen2/ModelSettings.yml)
+##### [Get](time-series-insights/dataaccessgen2/ModelSettings/Get.yml)
+##### [Update](time-series-insights/dataaccessgen2/ModelSettings/Update.yml)
+#### Query
+##### [Overview](time-series-insights/dataaccessgen2/Query.yml)
+##### [Execute](time-series-insights/dataaccessgen2/Query/Execute.yml)
+##### [Get Availability](time-series-insights/dataaccessgen2/Query/GetAvailability.yml)
+##### [Get Event Schema](time-series-insights/dataaccessgen2/Query/GetEventSchema.yml)
+#### Time Series Hierarchies
+##### [Overview](time-series-insights/dataaccessgen2/TimeSeriesHierarchies.yml)
+##### [Execute Batch](time-series-insights/dataaccessgen2/TimeSeriesHierarchies/ExecuteBatch.yml)
+##### [List](time-series-insights/dataaccessgen2/TimeSeriesHierarchies/List.yml)
+#### Time Series Instances
+##### [Overview](time-series-insights/dataaccessgen2/TimeSeriesInstances.yml)
+##### [Execute Batch](time-series-insights/dataaccessgen2/TimeSeriesInstances/ExecuteBatch.yml)
+##### [List](time-series-insights/dataaccessgen2/TimeSeriesInstances/List.yml)
+##### [Search](time-series-insights/dataaccessgen2/TimeSeriesInstances/Search.yml)
+##### [Suggest](time-series-insights/dataaccessgen2/TimeSeriesInstances/Suggest.yml)
+#### Time Series Types
+##### [Overview](time-series-insights/dataaccessgen2/TimeSeriesTypes.yml)
+##### [Execute Batch](time-series-insights/dataaccessgen2/TimeSeriesTypes/ExecuteBatch.yml)
+##### [List](time-series-insights/dataaccessgen2/TimeSeriesTypes/List.yml)
 ### Management
 #### Access Policies
 ##### [Overview](time-series-insights/management/AccessPolicies.yml)
@@ -14288,13 +14309,6 @@
 ### [Get](virtualnetwork/VirtualRouters/Get.yml)
 ### [List](virtualnetwork/VirtualRouters/List.yml)
 ### [List By Resource Group](virtualnetwork/VirtualRouters/ListByResourceGroup.yml)
-## Web Application Firewall Policies
-### [Overview](virtualnetwork/WebApplicationFirewallPolicies.yml)
-### [Create Or Update](virtualnetwork/WebApplicationFirewallPolicies/CreateOrUpdate.yml)
-### [Delete](virtualnetwork/WebApplicationFirewallPolicies/Delete.yml)
-### [Get](virtualnetwork/WebApplicationFirewallPolicies/Get.yml)
-### [List](virtualnetwork/WebApplicationFirewallPolicies/List.yml)
-### [List All](virtualnetwork/WebApplicationFirewallPolicies/ListAll.yml)
 # Virtual WAN
 ## [Overview](../docs-ref-conceptual/virtualwan/index.md)
 ## Express Route Connections

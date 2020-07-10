@@ -51,7 +51,7 @@ The `Get File` operation reads or downloads a file from the system, including it
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Range`|Optional. Return file data only from the specified byte range.|  
 |`x-ms-range`|Optional. Return file data only from the specified byte range. If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. If neither are specified, the entire file contents are returned. See [Specifying the Range Header for File Service Operations](Specifying-the-Range-Header-for-File-Service-Operations.md) for more information.|  
-|`x-ms-range-get-content-md5: true`|Optional. When this header is set to `true` and specified together with the `Range` header, the service returns the MD5 hash for the range, as long as the range is less than or equal to 4 MB in size.<br /><br /> If this header is specified without the `Range` header, the service returns status code 400 (Bad Request).<br /><br /> If this header is set to `true` when the range exceeds 4 MB in size, the service returns status code 400 (Bad Request).|  
+|`x-ms-range-get-content-md5: true`|Optional. When this header is set to `true` and specified together with the `Range` header, the service returns the MD5 hash for the range, as long as the range is less than or equal to 4 MiB in size.<br /><br /> If this header is specified without the `Range` header, the service returns status code 400 (Bad Request).<br /><br /> If this header is set to `true` when the range exceeds 4 MiB in size, the service returns status code 400 (Bad Request).|  
 |`x-ms-lease-id:<ID>`|Optional. Version 2019-02-02 and newer. If the header is specified, the operation will be performed only if the file's lease is currently active and the lease ID specified in the request matches the that of the file. Otherwise, the operation fails with status code 412 (Precondition Failed).|
 
 ### Request Body  
@@ -76,7 +76,7 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 |`Content-Type`|The content type specified for the file. The default content type is `application/octet-stream`.|  
 |`Content-Range`|Indicates the range of bytes returned if the client requested a subset of the file by setting the `Range` request header.|  
 |`ETag`|The ETag contains a value that you can use to perform operations conditionally, in quotes.|  
-|`Content-MD5`|If the file has an MD5 hash and the request is to read the full file, this response header is returned so that the client can check for message content integrity.<br /><br /> If the request is to read a specified range and the `x-ms-range-get-content-md5` is set to true, then the request returns an MD5 hash for the range, as long as the range size is less than or equal to 4 MB.<br /><br /> If neither of these sets of conditions is true, then no value is returned for the `Content-MD5` header.<br /><br /> If `x-ms-range-get-content-md5` is specified without the Range header, the service returns status code 400 (Bad Request).<br /><br /> If `x-ms-range-get-content-md5` is set to true when the range exceeds 4 MB in size, the service returns status code 400 (Bad Request).|  
+|`Content-MD5`|If the file has an MD5 hash and the request is to read the full file, this response header is returned so that the client can check for message content integrity.<br /><br /> If the request is to read a specified range and the `x-ms-range-get-content-md5` is set to true, then the request returns an MD5 hash for the range, as long as the range size is less than or equal to 4 MiB.<br /><br /> If neither of these sets of conditions is true, then no value is returned for the `Content-MD5` header.<br /><br /> If `x-ms-range-get-content-md5` is specified without the Range header, the service returns status code 400 (Bad Request).<br /><br /> If `x-ms-range-get-content-md5` is set to true when the range exceeds 4 MiB in size, the service returns status code 400 (Bad Request).|  
 |`Content-Encoding`|This header returns the value that was specified for the `Content-Encoding` request header.|  
 |`Content-Language`|This header returns the value that was specified for the `Content-Language` request header.|  
 |`Cache-Control`|This header is returned if it was previously specified for the file.|  
@@ -143,7 +143,7 @@ x-ms-lease-status: locked
   
  If you call `Get File` with no range specified, the service returns the range of bytes up to the value specified for the `x-ms-content-length` header. For any ranges lacking content, the service returns zeros for those bytes.  
   
- A `Get File` operation is allowed 2 minutes per MB to complete. Operations that take longer than 2 minutes per MB on average will time out.  
+ A `Get File` operation is allowed 2 minutes per MiB to complete. Operations that take longer than 2 minutes per MiB on average will time out.  
   
 ## See also  
  [Operations on Files](Operations-on-Files.md)

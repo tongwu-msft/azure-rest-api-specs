@@ -148,7 +148,7 @@ The `Set File Service Properties` operation sets properties for a storage accoun
   
 -   A maximum of five rules can be stored.  
   
--   The maximum size of all CORS rules settings on the request, excluding XML tags, should not exceed 2 KB.  
+-   The maximum size of all CORS rules settings on the request, excluding XML tags, should not exceed 2 KiB.  
   
 -   The length of an allowed header, exposed header, or allowed origin should not exceed 256 characters.  
   

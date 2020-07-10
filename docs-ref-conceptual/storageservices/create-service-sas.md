@@ -52,7 +52,7 @@ The `signedresource` (`sr`) field specifies which resources are accessible via t
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedresource`|`sr`|Required.<br /><br /> Specify `b` if the shared resource is a blob. Use to grant access to the content and metadata of the blob.<br /><br /> Specify `bv` if the shared resource is a blob version (version 2019-10-10 or later). Use to grant access to the content and metadata of the blob version, but not the base blob.<br /><br /> Specify `bs` if the shared resource is a blob snapshot (version 2018-11-09 and later). Use to grant access to the content and metadata of the blob snapshot, but not the base blob.<br /><br /> Specify `c` if the shared resource is a container. This grants access to the content and metadata of any blob in the container, and to the list of blobs in the container.|  
+|`signedresource`|`sr`|Required.<br /><br /> Specify `b` if the shared resource is a blob. Use to grant access to the content and metadata of the blob.<br /><br /> Specify `bv` if the shared resource is a blob version (version 2019-12-12 or later). Use to grant access to the content and metadata of the blob version, but not the base blob.<br /><br /> Specify `bs` if the shared resource is a blob snapshot (version 2018-11-09 and later). Use to grant access to the content and metadata of the blob snapshot, but not the base blob.<br /><br /> Specify `c` if the shared resource is a container. This grants access to the content and metadata of any blob in the container, and to the list of blobs in the container.|  
   
 ### Specifying the signed resource (File service)
 
@@ -145,8 +145,9 @@ The tables in the following sections show the permissions supported for each res
 |Add|a|Add a block to an append blob.|  
 |Create|c|Write a new blob, snapshot a blob, or copy a blob to a new blob.|  
 |Write|w|Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation.|  
+|Tags|t|Read or write the tags on a blob (version 2019-12-12 or later).|  
 |Delete|d|Delete a blob. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a blob. See [Lease Blob](Lease-Blob.md) for more information.|  
-|Delete version|x|Delete a blob version (version 2019-10-10 or later).|
+|Delete version|x|Delete a blob version (version 2019-12-12 or later).|
 
 #### Permissions for a container  
   
@@ -156,6 +157,7 @@ The tables in the following sections show the permissions supported for each res
 |Add|a|Add a block to any append blob in the container.|  
 |Create|c|Write a new blob to the container, snapshot any blob in the container, or copy a blob to a new blob in the container.|  
 |Write|w|For any blob in the container, create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. **Note:**  You cannot grant permissions to read or write container properties or metadata, nor to lease a container, with a service SAS. Use an account SAS instead.|  
+|Tags|t|Read or write the tags on any blob in a container (version 2019-12-12 or later).|  
 |Delete|d|Delete any blob in the container. **Note:**  You cannot grant permissions to delete a container with a service SAS. Use an account SAS instead. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a container. See [Lease Container](Lease-Container.md) for more information.|  
 |List|l|List blobs in the container.|  
   
