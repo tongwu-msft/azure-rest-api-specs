@@ -13725,6 +13725,7 @@
 #### [Update](support/SupportTickets/Update.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
+## [Data Access (Gen2)](../docs-ref-conceptual/time-series-insights/preview.md)
 ## Data Access (Gen1)
 ### [Overview](../docs-ref-conceptual/time-series-insights/ga.md)
 ### Query
@@ -13732,7 +13733,6 @@
 #### [API](../docs-ref-conceptual/time-series-insights/ga-query-api.md)
 #### [Syntax](../docs-ref-conceptual/time-series-insights/ga-query-syntax.md)
 ### [Reference Data API](../docs-ref-conceptual/time-series-insights/ga-reference-data-api.md)
-## [Data Access (Gen2)](../docs-ref-conceptual/time-series-insights/preview.md)
 ## Reference
 ### Data Access (Preview)
 #### Model Settings
