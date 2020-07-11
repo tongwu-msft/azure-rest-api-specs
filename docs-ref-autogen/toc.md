@@ -8624,6 +8624,9 @@
 ## Tenants
 ### [Overview](resources/Tenants.yml)
 ### [List](resources/Tenants/List.yml)
+## check Resource Name
+### [Overview](resources/checkResourceName.yml)
+### [check Resource Name](resources/checkResourceName/checkResourceName.yml)
 # Scheduler
 ## [Overview](../docs-ref-conceptual/scheduler/index.md)
 ## Job Collections
