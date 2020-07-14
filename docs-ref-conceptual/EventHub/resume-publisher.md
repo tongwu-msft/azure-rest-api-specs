@@ -24,7 +24,7 @@ Restores a revoked publisher. This operation enables the publisher to resume sen
 |DELETE|`https://{servicebusNamespace}.servicebus.windows.net/{eventHubPath}/revokedpublishers/{publisherName}`|  
   
 ### Request Headers  
- See [Common parameters and headers](publisher-policy-operations.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+ See [Common parameters and headers](publisher-policy-operations.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
  The response includes an HTTP status code, a set of response headers, and a response body.  
