@@ -24,7 +24,7 @@ Retrieves all revoked publishers within the specified Event Hub. See [RevokedPub
 |GET|`https://{servicebusNamespace}.servicebus.windows.net/{eventHubPath}/revokedpublishers`|  
   
 ### Request Headers  
- See [Common parameters and headers](publisher-policy-operations.md#common-headers) for headers and parameters that are used by all requests related to Event Hubs.  
+ See [Common parameters and headers](publisher-policy-operations.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
  The response includes an HTTP status code, a set of response headers, and a response body.  
@@ -48,7 +48,7 @@ Retrieves all revoked publishers within the specified Event Hub. See [RevokedPub
  **Request**  
 
 > [!NOTE]
-> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md#common-headers]. For example: `Authorization: Bearer <Azure AD token>`.
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.
 
   
 ```  

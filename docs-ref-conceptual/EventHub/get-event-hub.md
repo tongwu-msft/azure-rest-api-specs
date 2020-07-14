@@ -27,7 +27,7 @@ Retrieves all metadata associated with the specified Event Hub. See [EventHubDes
 |GET|`https://{serviceNamespace}.servicebus.windows.net/{eventHubPath}`|  
   
 ### Request Headers  
-See [Common parameters and headers](event-hubs-management-rest.md#common-headers) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
 The response includes an HTTP status code, a set of response headers, and a response body.  
@@ -56,7 +56,7 @@ If the request is successful, the response body contains the description of the 
 ## Examples  
 **Request**  
 > [!NOTE]
-> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md#common-headers]. For example: `Authorization: Bearer <Azure AD token>`.
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.
 
   
 ```  

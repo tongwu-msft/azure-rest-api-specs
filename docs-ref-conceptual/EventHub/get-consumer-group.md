@@ -28,7 +28,7 @@ Retrieves all metadata associated with the specified consumer group. See [Consum
   
 ### Request Headers  
 
-See [Common parameters and headers](event-hubs-management-rest.md#common-headers) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
 
@@ -55,7 +55,7 @@ If the request is successful, the response body contains the description of the 
 
 **Request**  
 > [!NOTE]
-> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md#common-headers]. For example: `Authorization: Bearer <Azure AD token>`.
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.
 
   
 ```  

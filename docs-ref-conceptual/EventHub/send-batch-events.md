@@ -32,7 +32,7 @@ Sends a new batched message event to an Event Hub. Batching reduces the number o
 |POST|`https://{servicebusNamespace}.servicebus.windows.net/{eventHubPath}/messages`|  
   
 ### Request Headers  
- See [Common parameters and headers](event-hubs-runtime-rest.md#common-headers) for headers and parameters that are used by all requests related to Event Hubs.  
+ See [Common parameters and headers](event-hubs-runtime-rest.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ### Additional Request Headers  
   
@@ -77,7 +77,7 @@ Sends a new batched message event to an Event Hub. Batching reduces the number o
  **Request**  
 
 > [!NOTE]
-> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md#common-headers]. For example: `Authorization: Bearer <Azure AD token>`.  
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.  
 
 ```  
 POST https://your-namespace.servicebus.windows.net/your-event-hub/messages?timeout=60&api-version=2014-01 HTTP/1.1  

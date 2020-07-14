@@ -30,7 +30,7 @@ Revokes a publisher. A revoked publisher will encounter errors when sending an e
 |PUT|`https://{servicebusNamespace}.servicebus.windows.net/{eventHubPath}/revokedpublishers/{publisherName}`|  
   
 ### Request Headers  
- See [Common parameters and headers](publisher-policy-operations.md#common-headers) for headers and parameters that are used by all requests related to Event Hubs.  
+ See [Common parameters and headers](publisher-policy-operations.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
  The response includes an HTTP status code, a set of response headers, and a response body.  
@@ -56,7 +56,7 @@ Revokes a publisher. A revoked publisher will encounter errors when sending an e
  **Request**  
 
 > [!NOTE]
-> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md#common-headers]. For example: `Authorization: Bearer <Azure AD token>`.  
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.  
 
 ```  
 PUT https://your-namespace.servicebus.windows.net/your-event-hub/RevokedPublishers/your-publisher?timeout=60&api-version=2014-05 HTTP/1.1  

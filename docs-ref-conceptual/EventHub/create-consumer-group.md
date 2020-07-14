@@ -34,7 +34,7 @@ Creates a new consumer group. When creating a consumer group, you can specify th
   
 ### Request Headers  
 
-See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
 
@@ -63,6 +63,9 @@ If the request is successful, the response body contains the description of the 
 ## Examples  
 
 **Request**  
+
+> [!NOTE]
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.
   
 ```  
 PUT https://your-namespace.servicebus.windows.net/your-event-hub/consumergroups/testCG?timeout=60&api-version=2014-01 HTTP/1.1  

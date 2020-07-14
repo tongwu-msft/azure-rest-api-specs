@@ -14,10 +14,10 @@ author: "spelluru"
 ms.author: "spelluru"
 manager: "timlt"
 ---
-# Publisher policy operations
+# Publisher policy operations - common headers and parameters
 These APIs enable you to perform publisher policy operations on Event Hubs.  
   
-##  <a name="bk_common"></a> Common parameters and headers  
+## Common parameters
  The following information is common to all tasks that you might do related to Event Hubs publisher policy:  
   
 -   Replace {api-version} with "2014-01" in the URL.  

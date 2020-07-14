@@ -15,10 +15,10 @@ ms.author: "spelluru"
 manager: "femila"
 ---
 
-# Event Hubs service REST
+# Event Hubs service REST - Common parameters and headers
 These APIs enable you to access the Event Hubs service to perform operations on event hubs.  
   
-##  <a name="bk_common"></a> Common parameters and headers  
+##  Common parameters
  The following information is common to all tasks that you might do related to Event Hubs publisher policy:  
   
 -   Replace {api-version} with "2014-01" in the URL.  

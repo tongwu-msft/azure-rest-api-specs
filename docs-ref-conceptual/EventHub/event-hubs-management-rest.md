@@ -14,10 +14,10 @@ author: "spelluru"
 ms.author: "spelluru"
 manager: "femila"
 ---
-# Event Hubs Management REST (classic)
+# Event Hubs Management REST (classic) - Common headers and parameters
 These APIs enable you to perform management operations on Event Hubs.  
   
-##  <a name="bk_common"></a> Common parameters and headers  
+## Common parameters
  The following information is common to all tasks that you might do related to Event Hubs management:  
   
 -   Replace {api-version} with "2014-01" in the URL.  
