@@ -1,7 +1,7 @@
 ---
 title: "Send batch events"
 ms.custom: ""
-ms.date: 01/02/2018
+ms.date: 07/14/2020
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -10,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: a21d4925-bdfc-4c3c-a1eb-e4434cd1d2a2
 caps.latest.revision: 5
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 ---
 # Send batch events
 Sends a new batched message event to an Event Hub. Batching reduces the number of messages that are transmitted by merging information from multiple messages into a single batch of messages. This reduces the number of connections established, and reduces network bandwidth by reducing the number of packet headers that are sent over the network.  
@@ -32,7 +32,7 @@ Sends a new batched message event to an Event Hub. Batching reduces the number o
 |POST|`https://{servicebusNamespace}.servicebus.windows.net/{eventHubPath}/messages`|  
   
 ### Request Headers  
- See [Common parameters and headers](event-hubs-runtime-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+ See [Common parameters and headers](event-hubs-runtime-rest.md#common-headers) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ### Additional Request Headers  
   
@@ -75,7 +75,10 @@ Sends a new batched message event to an Event Hub. Batching reduces the number o
   
 ## Examples  
  **Request**  
-  
+
+> [!NOTE]
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md#common-headers]. For example: `Authorization: Bearer <Azure AD token>`.  
+
 ```  
 POST https://your-namespace.servicebus.windows.net/your-event-hub/messages?timeout=60&api-version=2014-01 HTTP/1.1  
 Authorization: SharedAccessSignature sr=your-namespace.servicebus.windows.net&sig=your-sas-key&se=1456197782&skn=RootManageSharedAccessKey  

@@ -1,7 +1,7 @@
 ---
 title: "Get partition runtime metadata"
 ms.custom: ""
-ms.date: 05/05/2017
+ms.date: 07/14/2020
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -10,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 56eef728-2f8c-4023-a25d-f893a56ed080
 caps.latest.revision: 9
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 
 ---
 
@@ -28,7 +28,7 @@ Returns the metadata for a specified partition on an Event Hub. See [PartitionDe
   
 ### Request Headers  
 
-See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md#common-headers) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
 
@@ -59,6 +59,9 @@ If the request is successful, the response body contains the description of the 
 ## Examples  
 
 **Request**  
+> [!NOTE]
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md#common-headers]. For example: `Authorization: Bearer <Azure AD token>`.
+
   
 ```  
 GET https://your-namespace.servicebus.windows.net/your-event-hub//consumergroups/$Default/partitions/0?timeout=60&api-version=2015-01 HTTP/1.1  

@@ -1,7 +1,7 @@
 ---
 title: "Send event"
 ms.custom: ""
-ms.date: 03/03/2017
+ms.date: 07/14/2020
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -10,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 494a54d0-d28f-4415-96a1-b3c2848eb133
 caps.latest.revision: 15
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 ---
 # Send event
 Sends a new event to an Event Hub.  
@@ -24,7 +24,7 @@ Sends a new event to an Event Hub.
 |POST|`https://{servicebusNamespace}.servicebus.windows.net/{eventHubPath}/messages`|  
   
 ### Request Headers  
- See [Common parameters and headers](event-hubs-runtime-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+ See [Common parameters and headers](event-hubs-runtime-rest.md#common-headers) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ### Request Body  
  The body of the event message in plain text. For example:  
@@ -49,6 +49,9 @@ Sends a new event to an Event Hub.
   
 ## Examples  
  The following HTTP request sends an event with no BrokerProperties or UserProperties:  
+
+> [!NOTE]
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md#common-headers]. For example: `Authorization: Bearer <Azure AD token>`.
   
 ```  
 POST https://your-namespace.servicebus.windows.net/your-event-hub/messages?timeout=60&api-version=2014-01 HTTP/1.1  
