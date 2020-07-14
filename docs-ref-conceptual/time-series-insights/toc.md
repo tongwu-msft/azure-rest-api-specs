@@ -1,6 +1,6 @@
+# [Data Access (Gen2)](preview.md)
 # [Data Access (Gen1)](ga.md)
 ## [Query](ga-query.md)
 ### [API](ga-query-api.md)
 ### [Syntax](ga-query-syntax.md)
 ## [Reference Data API](ga-reference-data-api.md)
-# [Data Access (Gen2)](preview.md)
