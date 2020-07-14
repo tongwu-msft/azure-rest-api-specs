@@ -1847,6 +1847,9 @@
 ### [Delete](azurestack/AcquiredPlans/Delete.yml)
 ### [Get](azurestack/AcquiredPlans/Get.yml)
 ### [List](azurestack/AcquiredPlans/List.yml)
+## Acquisitions
+### [Overview](azurestack/Acquisitions.yml)
+### [List](azurestack/Acquisitions/List.yml)
 ## Activations
 ### [Overview](azurestack/Activations.yml)
 ### [Create Or Update](azurestack/Activations/CreateOrUpdate.yml)
@@ -1859,9 +1862,31 @@
 ### [Get](azurestack/Alerts/Get.yml)
 ### [List](azurestack/Alerts/List.yml)
 ### [Repair](azurestack/Alerts/Repair.yml)
+## Application Operation Results
+### [Overview](azurestack/ApplicationOperationResults.yml)
+### [Get](azurestack/ApplicationOperationResults/Get.yml)
+### [List](azurestack/ApplicationOperationResults/List.yml)
+## Async Operations
+### [Overview](azurestack/AsyncOperations.yml)
+### [Get](azurestack/AsyncOperations/Get.yml)
+## Backup Locations
+### [Overview](azurestack/BackupLocations.yml)
+### [Create Backup](azurestack/BackupLocations/CreateBackup.yml)
+### [Get](azurestack/BackupLocations/Get.yml)
+### [List](azurestack/BackupLocations/List.yml)
+### [Update](azurestack/BackupLocations/Update.yml)
+## Backups
+### [Overview](azurestack/Backups.yml)
+### [Get](azurestack/Backups/Get.yml)
+### [List](azurestack/Backups/List.yml)
+### [Restore](azurestack/Backups/Restore.yml)
 ## Check Identity Health
 ### [Overview](azurestack/CheckIdentityHealth.yml)
 ### [Check Identity Health](azurestack/CheckIdentityHealth/CheckIdentityHealth.yml)
+## Compute Operation Results
+### [Overview](azurestack/ComputeOperationResults.yml)
+### [Get](azurestack/ComputeOperationResults/Get.yml)
+### [List](azurestack/ComputeOperationResults/List.yml)
 ## Delegated Provider Offers
 ### [Overview](azurestack/DelegatedProviderOffers.yml)
 ### [Get](azurestack/DelegatedProviderOffers/Get.yml)
@@ -1870,18 +1895,36 @@
 ### [Overview](azurestack/DelegatedProviders.yml)
 ### [Get](azurestack/DelegatedProviders/Get.yml)
 ### [List](azurestack/DelegatedProviders/List.yml)
+## DelegatedProviderOffers (Subscription.Offer)
+### [Overview](azurestack/DelegatedProviderOffers%20(Subscription.Offer).yml)
+### [Get](azurestack/DelegatedProviderOffers%20(Subscription.Offer)/Get.yml)
+### [List](azurestack/DelegatedProviderOffers%20(Subscription.Offer)/List.yml)
 ## Directory Tenants
 ### [Overview](azurestack/DirectoryTenants.yml)
 ### [Create Or Update](azurestack/DirectoryTenants/CreateOrUpdate.yml)
 ### [Delete](azurestack/DirectoryTenants/Delete.yml)
 ### [Get](azurestack/DirectoryTenants/Get.yml)
 ### [List](azurestack/DirectoryTenants/List.yml)
+## Disk Migration Jobs
+### [Overview](azurestack/DiskMigrationJobs.yml)
+### [Cancel](azurestack/DiskMigrationJobs/Cancel.yml)
+### [Create](azurestack/DiskMigrationJobs/Create.yml)
+### [Get](azurestack/DiskMigrationJobs/Get.yml)
+### [List](azurestack/DiskMigrationJobs/List.yml)
+## Disks
+### [Overview](azurestack/Disks.yml)
+### [Get](azurestack/Disks/Get.yml)
+### [List](azurestack/Disks/List.yml)
 ## Downloaded Products
 ### [Overview](azurestack/DownloadedProducts.yml)
 ### [Create](azurestack/DownloadedProducts/Create.yml)
 ### [Delete](azurestack/DownloadedProducts/Delete.yml)
 ### [Get](azurestack/DownloadedProducts/Get.yml)
 ### [List](azurestack/DownloadedProducts/List.yml)
+## Drives
+### [Overview](azurestack/Drives.yml)
+### [Get](azurestack/Drives/Get.yml)
+### [List](azurestack/Drives/List.yml)
 ## Edge Gateway Pools
 ### [Overview](azurestack/EdgeGatewayPools.yml)
 ### [Get](azurestack/EdgeGatewayPools/Get.yml)
@@ -1952,6 +1995,18 @@
 ### [Overview](azurestack/MacAddressPools.yml)
 ### [Get](azurestack/MacAddressPools/Get.yml)
 ### [List](azurestack/MacAddressPools/List.yml)
+## Manifests
+### [Overview](azurestack/Manifests.yml)
+### [Get](azurestack/Manifests/Get.yml)
+### [List](azurestack/Manifests/List.yml)
+## Nas Clusters
+### [Overview](azurestack/NasClusters.yml)
+### [Get](azurestack/NasClusters/Get.yml)
+### [List](azurestack/NasClusters/List.yml)
+## Network Operation Results
+### [Overview](azurestack/NetworkOperationResults.yml)
+### [Get](azurestack/NetworkOperationResults/Get.yml)
+### [List](azurestack/NetworkOperationResults/List.yml)
 ## Offer Delegations
 ### [Overview](azurestack/OfferDelegations.yml)
 ### [Create Or Update](azurestack/OfferDelegations/CreateOrUpdate.yml)
@@ -1969,12 +2024,18 @@
 ### [List Metric Definitions](azurestack/Offers/ListMetricDefinitions.yml)
 ### [List Metrics](azurestack/Offers/ListMetrics.yml)
 ### [Unlink](azurestack/Offers/Unlink.yml)
+## Offers (Subscription.Offer)
+### [Overview](azurestack/Offers%20(Subscription.Offer).yml)
+### [List](azurestack/Offers%20(Subscription.Offer)/List.yml)
 ## On Prem Locations
 ### [Overview](azurestack/OnPremLocations.yml)
 ### [List](azurestack/OnPremLocations/List.yml)
 ## Operations
 ### [Overview](azurestack/Operations.yml)
 ### [List](azurestack/Operations/List.yml)
+## Operations (BackupAdmin)
+### [Overview](azurestack/Operations%20(BackupAdmin).yml)
+### [List](azurestack/Operations%20(BackupAdmin)/List.yml)
 ## Operations (Commerce)
 ### [Overview](azurestack/Operations%20(Commerce).yml)
 ### [List](azurestack/Operations%20(Commerce)/List.yml)
@@ -1993,6 +2054,9 @@
 ## Operations (Network)
 ### [Overview](azurestack/Operations%20(Network).yml)
 ### [List](azurestack/Operations%20(Network)/List.yml)
+## Operations (StorageAdmin)
+### [Overview](azurestack/Operations%20(StorageAdmin).yml)
+### [List](azurestack/Operations%20(StorageAdmin)/List.yml)
 ## Operations (SubscriptionsAdmin)
 ### [Overview](azurestack/Operations%20(SubscriptionsAdmin).yml)
 ### [List](azurestack/Operations%20(SubscriptionsAdmin)/List.yml)
@@ -2022,12 +2086,12 @@
 ## Public IP Addresses
 ### [Overview](azurestack/PublicIPAddresses.yml)
 ### [List](azurestack/PublicIPAddresses/List.yml)
-## Quotas (Compute)
-### [Overview](azurestack/Quotas%20(Compute).yml)
-### [Create Or Update](azurestack/Quotas%20(Compute)/CreateOrUpdate.yml)
-### [Delete](azurestack/Quotas%20(Compute)/Delete.yml)
-### [Get](azurestack/Quotas%20(Compute)/Get.yml)
-### [List](azurestack/Quotas%20(Compute)/List.yml)
+## Quotas
+### [Overview](azurestack/Quotas.yml)
+### [Create Or Update](azurestack/Quotas/CreateOrUpdate.yml)
+### [Delete](azurestack/Quotas/Delete.yml)
+### [Get](azurestack/Quotas/Get.yml)
+### [List](azurestack/Quotas/List.yml)
 ## Quotas (KeyVault)
 ### [Overview](azurestack/Quotas%20(KeyVault).yml)
 ### [List](azurestack/Quotas%20(KeyVault)/List.yml)
@@ -2079,10 +2143,40 @@
 ### [Overview](azurestack/SlbMuxInstances.yml)
 ### [Get](azurestack/SlbMuxInstances/Get.yml)
 ### [List](azurestack/SlbMuxInstances/List.yml)
+## Storage Accounts
+### [Overview](azurestack/StorageAccounts.yml)
+### [Get](azurestack/StorageAccounts/Get.yml)
+### [List](azurestack/StorageAccounts/List.yml)
+### [Reclaim Storage Capacity](azurestack/StorageAccounts/ReclaimStorageCapacity.yml)
+### [Undelete](azurestack/StorageAccounts/Undelete.yml)
+## Storage Operation Results
+### [Overview](azurestack/StorageOperationResults.yml)
+### [Get](azurestack/StorageOperationResults/Get.yml)
+### [List](azurestack/StorageOperationResults/List.yml)
 ## Storage Pools
 ### [Overview](azurestack/StoragePools.yml)
 ### [Get](azurestack/StoragePools/Get.yml)
 ### [List](azurestack/StoragePools/List.yml)
+## Storage Quotas
+### [Overview](azurestack/StorageQuotas.yml)
+### [Create Or Update](azurestack/StorageQuotas/CreateOrUpdate.yml)
+### [Delete](azurestack/StorageQuotas/Delete.yml)
+### [Get](azurestack/StorageQuotas/Get.yml)
+### [List](azurestack/StorageQuotas/List.yml)
+## Storage Services
+### [Overview](azurestack/StorageServices.yml)
+### [Create](azurestack/StorageServices/Create.yml)
+### [Get](azurestack/StorageServices/Get.yml)
+### [List RG](azurestack/StorageServices/ListRG.yml)
+### [List Sub](azurestack/StorageServices/ListSub.yml)
+## Storage Settings
+### [Overview](azurestack/StorageSettings.yml)
+### [Get](azurestack/StorageSettings/Get.yml)
+### [Update](azurestack/StorageSettings/Update.yml)
+## Storage Sub Systems
+### [Overview](azurestack/StorageSubSystems.yml)
+### [Get](azurestack/StorageSubSystems/Get.yml)
+### [List](azurestack/StorageSubSystems/List.yml)
 ## Storage Systems
 ### [Overview](azurestack/StorageSystems.yml)
 ### [Get](azurestack/StorageSystems/Get.yml)
@@ -2099,6 +2193,12 @@
 ### [List](azurestack/Subscriptions/List.yml)
 ### [Move Subscriptions](azurestack/Subscriptions/MoveSubscriptions.yml)
 ### [Validate Move Subscriptions](azurestack/Subscriptions/ValidateMoveSubscriptions.yml)
+## Subscriptions (User)
+### [Overview](azurestack/Subscriptions%20(User).yml)
+### [Create Or Update](azurestack/Subscriptions%20(User)/CreateOrUpdate.yml)
+### [Delete](azurestack/Subscriptions%20(User)/Delete.yml)
+### [Get](azurestack/Subscriptions%20(User)/Get.yml)
+### [List](azurestack/Subscriptions%20(User)/List.yml)
 ## Update Encryption (Commerce)
 ### [Overview](azurestack/Update%20Encryption%20(Commerce).yml)
 ### [Update Encryption](azurestack/Update%20Encryption%20(Commerce)/UpdateEncryption.yml)

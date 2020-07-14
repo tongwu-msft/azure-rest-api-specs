@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.azurestack.quotas(compute).createorupdate
+uid: management.azure.com.azurestack.quotas.createorupdate
 name: Create Or Update
 service: Azure Stack Admin
-groupName: Quotas (Compute)
-apiVersion: 2015-12-01-preview
-summary: Creates or Updates a Quota.
+groupName: Quotas
+apiVersion: 2018-02-09
+summary: "Creates or Updates a Compute Quota.  \nCreates or Updates a Compute Quota with the provided quota parameters."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute.Admin/locations/{location}/quotas/{quotaName}?api-version=2015-12-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute.Admin/locations/{location}/quotas/{quotaName}?api-version=2018-02-09
 uriParameters:
 - name: subscriptionId
   in: path
@@ -51,7 +51,7 @@ requestBody:
     - uid: integer
   - name: properties.coresLimit
     in: body
-    description: Maximum number of core allowed.
+    description: Maximum number of cores allowed.
     types:
     - uid: integer
   - name: properties.virtualMachineCount
@@ -62,6 +62,16 @@ requestBody:
   - name: properties.vmScaleSetCount
     in: body
     description: Maximum number of scale sets allowed.
+    types:
+    - uid: integer
+  - name: properties.maxAllocationStandardManagedDisksAndSnapshots
+    in: body
+    description: Maximum number of managed disks and snapshots of type standard allowed.
+    types:
+    - uid: integer
+  - name: properties.maxAllocationPremiumManagedDisksAndSnapshots
+    in: body
+    description: Maximum number of managed disks and snapshots of type premium allowed.
     types:
     - uid: integer
   - name: location
@@ -72,7 +82,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: Quota
-  description: Holds quota information used to control resource allocation.
+  description: Holds Compute quota information used to control resource allocation.
   kind: object
   properties:
   - name: properties.availabilitySetCount
@@ -80,7 +90,7 @@ definitions:
     types:
     - uid: integer
   - name: properties.coresLimit
-    description: Maximum number of core allowed.
+    description: Maximum number of cores allowed.
     types:
     - uid: integer
   - name: properties.virtualMachineCount
@@ -89,6 +99,14 @@ definitions:
     - uid: integer
   - name: properties.vmScaleSetCount
     description: Maximum number of scale sets allowed.
+    types:
+    - uid: integer
+  - name: properties.maxAllocationStandardManagedDisksAndSnapshots
+    description: Maximum number of managed disks and snapshots of type standard allowed.
+    types:
+    - uid: integer
+  - name: properties.maxAllocationPremiumManagedDisksAndSnapshots
+    description: Maximum number of managed disks and snapshots of type premium allowed.
     types:
     - uid: integer
   - name: id
@@ -111,16 +129,18 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Creates or Updates a Quota.
+- name: Creates or Updates a Compute Quota.
   request:
-    uri: PUT https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Compute.Admin/locations/local/quotas/testQuotaCreateUpdateDelete?api-version=2015-12-01-preview
+    uri: PUT https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Compute.Admin/locations/local/quotas/testQuotaCreateUpdateDelete?api-version=2018-02-09
     body: >-
       {
         "properties": {
           "availabilitySetCount": 2,
           "coresLimit": 2,
           "virtualMachineCount": 2,
-          "vmScaleSetCount": 2
+          "vmScaleSetCount": 2,
+          "maxAllocationStandardManagedDisksAndSnapshots": 1024,
+          "maxAllocationPremiumManagedDisksAndSnapshots": 1024
         },
         "location": "local"
       }
@@ -136,7 +156,9 @@ examples:
           "virtualMachineCount": 2,
           "coresLimit": 2,
           "availabilitySetCount": 2,
-          "vmScaleSetCount": 2
+          "vmScaleSetCount": 2,
+          "maxAllocationStandardManagedDisksAndSnapshots": 1024,
+          "maxAllocationPremiumManagedDisksAndSnapshots": 1024
         }
       }
 security:
