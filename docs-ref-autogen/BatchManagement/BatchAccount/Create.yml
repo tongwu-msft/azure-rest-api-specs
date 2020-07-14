@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.batchaccount.create
 name: Create
 service: Batch Management
 groupName: Batch Account
-apiVersion: 2020-03-01
+apiVersion: 2020-05-01
 summary: Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}?api-version=2020-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}?api-version=2020-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -71,6 +71,11 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: identity
+    in: body
+    description: The identity of the Batch account.
+    types:
+    - uid: BatchAccountIdentity
   - name: properties.autoStorage
     in: body
     description: The properties related to the auto-storage account.
@@ -93,11 +98,29 @@ requestBody:
     - uid: PublicNetworkAccessType
   - name: properties.encryption
     in: body
-    description: The encryption configuration for the Batch account.
+    description: "The encryption configuration for the Batch account.  \nConfigures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead."
     types:
     - uid: EncryptionProperties
 requestHeader: []
 definitions:
+- name: BatchAccountIdentity
+  description: The identity of the Batch account, if configured. This is only used when the user specifies 'Microsoft.KeyVault' as their Batch account encryption configuration.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the Batch account. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id associated with the Batch account. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the Batch account.
+    types:
+    - uid: ResourceIdentityType
 - name: AutoStorageBaseProperties
   description: The properties related to the auto-storage account.
   kind: object
@@ -119,6 +142,7 @@ definitions:
     types:
     - uid: string
 - name: EncryptionProperties
+  description: Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.
   kind: object
   properties:
   - name: keySource
@@ -133,6 +157,10 @@ definitions:
   description: Contains information about an Azure Batch account.
   kind: object
   properties:
+  - name: identity
+    description: The identity of the Batch account.
+    types:
+    - uid: BatchAccountIdentity
   - name: properties.accountEndpoint
     isReadyOnly: true
     description: The account endpoint used to interact with the Batch service.
@@ -171,7 +199,7 @@ definitions:
     - uid: AutoStorageProperties
   - name: properties.encryption
     isReadyOnly: true
-    description: The encryption configuration for the Batch account.
+    description: "The encryption configuration for the Batch account.  \nConfigures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead."
     types:
     - uid: EncryptionProperties
   - name: properties.dedicatedCoreQuota
@@ -258,6 +286,10 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: identity
+    description: The identity of the Batch account.
+    types:
+    - uid: BatchAccountIdentity
   - name: properties.autoStorage
     description: The properties related to the auto-storage account.
     types:
@@ -275,9 +307,21 @@ definitions:
     types:
     - uid: PublicNetworkAccessType
   - name: properties.encryption
-    description: The encryption configuration for the Batch account.
+    description: "The encryption configuration for the Batch account.  \nConfigures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead."
     types:
     - uid: EncryptionProperties
+- name: ResourceIdentityType
+  description: The type of identity used for the Batch account.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    description: Batch account has a system assigned identity with it.
+    types:
+    - uid: string
+  - name: None
+    description: Batch account has no identity associated with it. Setting `None` in update account will remove existing identities.
+    types:
+    - uid: string
 - name: KeySource
   description: Type of the key source.
   kind: enum
@@ -287,14 +331,20 @@ definitions:
     types:
     - uid: string
   - name: Microsoft.KeyVault
-    description: The encryption keys used to protect the account data are stored in an external key vault.
+    description: The encryption keys used to protect the account data are stored in an external key vault. If this is set then the Batch Account identity must be set to `SystemAssigned` and a valid Key Identifier must also be supplied under the keyVaultProperties.
     types:
     - uid: string
 - name: KeyVaultProperties
+  description: KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.
   kind: object
   properties:
   - name: keyIdentifier
-    description: Full path to the versioned secret. Example https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053
+    description: >-
+      Full path to the versioned secret. Example https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. To be usable the following prerequisites must be met:
+
+       The Batch Account has a System Assigned identity
+       The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions
+       The KeyVault has soft-delete and purge protection enabled
     types:
     - uid: string
 - name: ProvisioningState
@@ -498,7 +548,7 @@ definitions:
 examples:
 - name: BatchAccountCreate_Default
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2020-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2020-05-01
     body: >-
       {
         "location": "japaneast",
@@ -529,12 +579,15 @@ examples:
           },
           "publicNetworkAccess": "Enabled"
         },
+        "identity": {
+          "type": "None"
+        },
         "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
         "type": "Microsoft.Batch/batchAccounts"
       }
 - name: BatchAccountCreate_BYOS
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2020-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2020-05-01
     body: >-
       {
         "location": "japaneast",
@@ -574,12 +627,15 @@ examples:
           },
           "publicNetworkAccess": "Enabled"
         },
+        "identity": {
+          "type": "None"
+        },
         "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
         "type": "Microsoft.Batch/batchAccounts"
       }
 - name: PrivateBatchAccountCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2020-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2020-05-01
     body: >-
       {
         "location": "japaneast",
@@ -618,6 +674,53 @@ examples:
             "url": "http://sample.vault.azure.net/"
           },
           "publicNetworkAccess": "Disabled"
+        },
+        "identity": {
+          "type": "None"
+        },
+        "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
+        "type": "Microsoft.Batch/batchAccounts"
+      }
+- name: BatchAccountCreate_SystemAssignedIdentity
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2020-05-01
+    body: >-
+      {
+        "location": "japaneast",
+        "properties": {
+          "autoStorage": {
+            "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
+          }
+        },
+        "identity": {
+          "type": "SystemAssigned"
+        }
+      }
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "sampleacct",
+        "location": "japaneast",
+        "properties": {
+          "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
+          "provisioningState": "Succeeded",
+          "poolAllocationMode": "BatchService",
+          "dedicatedCoreQuota": 20,
+          "lowPriorityCoreQuota": 20,
+          "poolQuota": 20,
+          "activeJobAndJobScheduleQuota": 20,
+          "autoStorage": {
+            "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
+            "lastKeySync": "2016-03-10T23:48:38.9878479Z"
+          },
+          "publicNetworkAccess": "Enabled"
+        },
+        "identity": {
+          "principalId": "1a2e532b-9900-414c-8600-cfc6126628d7",
+          "tenantId": "f686d426-8d16-42db-81b7-ab578e110ccd",
+          "type": "SystemAssigned"
         },
         "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
         "type": "Microsoft.Batch/batchAccounts"

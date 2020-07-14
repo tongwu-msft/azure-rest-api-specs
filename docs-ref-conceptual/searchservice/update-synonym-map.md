@@ -1,24 +1,15 @@
 ---
-title: "Update Synonym Map (Azure Cognitive Search REST API)"
+title: Update Synonym Map (Azure Cognitive Search REST API)
 description: "A synonym map to expand or rewrite a search query can be updated using REST API in Azure Cognitive Search."
-ms.date: 01/30/2020
+ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: language-reference
+ms.devlang: rest-api
+
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: nitinme
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
 ---
 # Update synonym map (Azure Cognitive Search REST API)
 
@@ -36,7 +27,7 @@ PUT https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | synonym map name  | Required. The request URI specifies the name of the synonym map to update. |
-| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ## Request Headers 
  The following table describes the required and optional request headers.  

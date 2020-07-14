@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.batchaccount.listbyresourcegroup
 name: List By Resource Group
 service: Batch Management
 groupName: Batch Account
-apiVersion: 2020-03-01
+apiVersion: 2020-05-01
 summary: Gets information about the Batch accounts associated with the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts?api-version=2020-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts?api-version=2020-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -66,6 +66,10 @@ definitions:
   description: Contains information about an Azure Batch account.
   kind: object
   properties:
+  - name: identity
+    description: The identity of the Batch account.
+    types:
+    - uid: BatchAccountIdentity
   - name: properties.accountEndpoint
     isReadyOnly: true
     description: The account endpoint used to interact with the Batch service.
@@ -104,7 +108,7 @@ definitions:
     - uid: AutoStorageProperties
   - name: properties.encryption
     isReadyOnly: true
-    description: The encryption configuration for the Batch account.
+    description: "The encryption configuration for the Batch account.  \nConfigures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead."
     types:
     - uid: EncryptionProperties
   - name: properties.dedicatedCoreQuota
@@ -188,6 +192,24 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: BatchAccountIdentity
+  description: The identity of the Batch account, if configured. This is only used when the user specifies 'Microsoft.KeyVault' as their Batch account encryption configuration.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the Batch account. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id associated with the Batch account. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the Batch account.
+    types:
+    - uid: ResourceIdentityType
 - name: ProvisioningState
   description: The provisioned state of the resource
   kind: enum
@@ -302,6 +324,7 @@ definitions:
     types:
     - uid: string
 - name: EncryptionProperties
+  description: Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.
   kind: object
   properties:
   - name: keySource
@@ -326,6 +349,18 @@ definitions:
     description: The core quota for the VM family for the Batch account.
     types:
     - uid: integer
+- name: ResourceIdentityType
+  description: The type of identity used for the Batch account.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    description: Batch account has a system assigned identity with it.
+    types:
+    - uid: string
+  - name: None
+    description: Batch account has no identity associated with it. Setting `None` in update account will remove existing identities.
+    types:
+    - uid: string
 - name: PrivateEndpointConnectionProvisioningState
   description: The provisioning state of the private endpoint connection.
   kind: enum
@@ -377,14 +412,20 @@ definitions:
     types:
     - uid: string
   - name: Microsoft.KeyVault
-    description: The encryption keys used to protect the account data are stored in an external key vault.
+    description: The encryption keys used to protect the account data are stored in an external key vault. If this is set then the Batch Account identity must be set to `SystemAssigned` and a valid Key Identifier must also be supplied under the keyVaultProperties.
     types:
     - uid: string
 - name: KeyVaultProperties
+  description: KeyVault configuration when using an encryption KeySource of Microsoft.KeyVault.
   kind: object
   properties:
   - name: keyIdentifier
-    description: Full path to the versioned secret. Example https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053
+    description: >-
+      Full path to the versioned secret. Example https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053. To be usable the following prerequisites must be met:
+
+       The Batch Account has a System Assigned identity
+       The account identity has been granted Key/Get, Key/Unwrap and Key/Wrap permissions
+       The KeyVault has soft-delete and purge protection enabled
     types:
     - uid: string
 - name: PrivateLinkServiceConnectionStatus
@@ -410,7 +451,7 @@ definitions:
 examples:
 - name: BatchAccountListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -432,6 +473,9 @@ examples:
                 "lastKeySync": "2016-03-10T23:48:38.9878479Z"
               },
               "publicNetworkAccess": "Enabled"
+            },
+            "identity": {
+              "type": "None"
             },
             "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
             "type": "Microsoft.Batch/batchAccounts"

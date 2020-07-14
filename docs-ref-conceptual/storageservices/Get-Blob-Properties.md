@@ -3,7 +3,7 @@ title: Get Blob Properties (REST API) - Azure Storage
 description: The Get Blob Properties operation returns all user-defined metadata, standard HTTP properties, and system properties for the blob. It does not return the content of the blob.
 author: pemari-msft
 
-ms.date: 08/15/2019
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -16,16 +16,16 @@ The `Get Blob Properties` operation returns all user-defined metadata, standard 
 ## Request  
  The `Get Blob Properties` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||HEAD Method Request URI|HTTP Version|  
-|-|-----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|HTTP/1.1|  
+|HEAD Method Request URI|HTTP Version|  
+|-----------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br /><br /> `https://myaccount.blob.core.windows.net/mycontainer/myblob?versionid=<DateTime>`|HTTP/1.1|  
   
 ### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
-||HEAD Method Request URI|HTTP Version|  
-|-|-----------------------------|------------------|  
-||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob`|HTTP/1.1|  
+|HEAD Method Request URI|HTTP Version|  
+|-----------------------------|------------------|  
+|`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob`|HTTP/1.1|  
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
@@ -36,6 +36,7 @@ The `Get Blob Properties` operation returns all user-defined metadata, standard 
 |Parameter|Description|  
 |---------------|-----------------|  
 |`snapshot`|Optional. The snapshot parameter is an opaque `DateTime` value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md)|  
+|`versionid`|Optional, version 2019-12-12 and newer. The versionid parameter is an opaque `DateTime` value that, when present, specifies the Version of the blob to retrieve.|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
@@ -47,7 +48,7 @@ The `Get Blob Properties` operation returns all user-defined metadata, standard 
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id: <ID>`|Optional. If this header is specified, the `Get Blob Properties` operation will be performed only if both of the following conditions are met:<br /><br /> - The blob's lease is currently active.<br />- The lease ID specified in the request matches that of the blob.<br /><br /> If both of these conditions are not met, the request will fail and the `Get Blob Properties` operation will fail with status code 412 (Precondition Failed).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
  This operation also supports the use of conditional headers to return blob properties and metadata only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
@@ -80,12 +81,13 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 |`Last-Modified`|The date/time that the blob was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md).<br /><br /> Any operation that modifies the blob, including an update of the blob's metadata or properties, changes the last modified time of the blob.|  
 |`x-ms-creation-time`|Version 2017-11-09 and newer. The date/time at which the blob was created. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md).|  
 |`x-ms-meta-name:value`|A set of name-value pairs that correspond to the user-defined metadata associated with this blob.|  
+|`x-ms-tag-count`|Version 2019-12-12 or newer. If the blob has any tags, returns the number of tags stored on the blob. This header is not returned if there are no tags on the blob.|  
 |`x-ms-blob-type:<BlockBlob&#124;PageBlob&#124;AppendBlob>`|The blob type.|  
 |`x-ms-copy-completion-time:<datetime>`|Version 2012-02-12 and newer. Conclusion time of the last attempted `Copy Blob` operation where this blob was the destination blob. This value can specify the time of a completed, aborted, or failed copy attempt. This header does not appear if a copy is pending, if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a concluded `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`.|  
 |`x-ms-copy-status-description: <error string>`|Version 2012-02-12 and newer, only appears when `x-ms-copy-status` is `failed` or `pending`. Describes cause of fatal or non-fatal copy operation failure. This header does not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a concluded `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`.|  
 |`x-ms-copy-id: <id>`|Version 2012-02-12 and newer. String identifier for the last attempted `Copy Blob` operation where this blob was the destination blob. This header does not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a concluded `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`.|  
 |`x-ms-copy-progress: <bytes copied/bytes total>`|Version 2012-02-12 and newer. Contains the number of bytes copied and the total bytes in the source in the last attempted `Copy Blob` operation where this blob was the destination blob. Can show between 0 and `Content-Length` bytes copied. This header does not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a concluded `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`.|  
-|`x-ms-copy-source: url`|Version 2012-02-12 and newer. URL up to 2 KB in length that specifies the source blob used in the last attempted `Copy Blob` operation where this blob was the destination blob. This header does not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a concluded `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`.|  
+|`x-ms-copy-source: url`|Version 2012-02-12 and newer. URL up to 2 KiB in length that specifies the source blob used in the last attempted `Copy Blob` operation where this blob was the destination blob. This header does not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a concluded `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`.|  
 |`x-ms-copy-status: <pending &#124; success &#124; aborted &#124; failed>`|Version 2012-02-12 and newer. State of the copy operation identified by x-ms-copy-id, with these values:<br /><br /> - `success`: Copy completed successfully.<br />- `pending`: Copy is in progress. Check `x-ms-copy-status-description` if intermittent, non-fatal errors impede copy progress but don’t cause failure.<br />- `aborted`: Copy was ended by `Abort Copy Blob`.<br />- `failed`: Copy failed. See `x-ms-copy-status-description` for failure details.<br /><br /> This header does not appear if this blob has never been the destination in a `Copy Blob` operation, or if this blob has been modified after a completed `Copy Blob` operation using `Set Blob Properties`, `Put Blob`, or `Put Block List`.|  
 |`x-ms-incremental-copy: true`|Version 2016-05-31 and newer. Included if the blob is incremental copy blob.|
 |`x-ms-copy-destination-snapshot:<datetime>`|Version 2016-05-31 and newer. Included if the blob is incremental copy blob or incremental copy snapshot, if `x-ms-copy-status` is success. Snapshot time of the last successful incremental copy snapshot for this blob. |
@@ -108,12 +110,16 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 |`x-ms-blob-committed-block-count`|The number of committed blocks present in the blob. This header is returned only for append blobs.|  
 |`x-ms-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the blob data and application metadata are completely encrypted using the specified algorithm. Otherwise, the value is set to `false` (when the blob is unencrypted, or if only parts of the blob/application metadata are encrypted).|  
 |`x-ms-encryption-key-sha256`|Version 2019-02-02 or newer. This header is returned if the blob is encrypted with a customer-provided key.|  
+|`x-ms-encryption-scope`|Version 2019-02-02 or newer. This header is returned if the blob is encrypted with an encryption scope.|  
 |`x-ms-access-tier`|Version 2017-04-17 or newer. The tier of page blob on a premium storage account or tier of block blob on blob storage or general purpose v2 account. For a list of allowed premium page blob tiers, see [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd). For blob storage or general purpose v2 account, valid values are `Hot`/`Cool`/`Archive`. For detailed information about standard blob account block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
 |`x-ms-access-tier-inferred: true`|Version 2017-04-17 and newer. For page blobs on a premium storage account only. If the access tier is not explicitly set on the blob, the tier is inferred based on its content length and this header will be returned with `true` value. For block blobs on Blob Storage or general purpose v2 account, if the blob does not have the access tier set then we infer the tier from the storage account properties. This header is set only if the block blob tier is inferred|  
 |`x-ms-archive-status`|Version 2017-04-17 or newer. For blob storage or general purpose v2 account, valid values are `rehydrate-pending-to-hot`/`rehydrate-pending-to-cool`. If the blob is being rehydrated and is not complete then this header is returned indicating that rehydrate is pending and also tells the destination tier. For detailed information about standard blob account block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).|  
 |`x-ms-access-tier-change-time`|Version 2017-04-17 or newer. This gives the last time tier was changed on the object. This header is returned only if tier on block blob was ever set. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). For detailed information about standard blob account block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).|  
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
-  
+|`x-ms-rehydrate-priority`|Version 2019-12-12 or newer. If an object is in rehydrate pending state then this header is returned with priority of rehydrate. Valid values are `High`/`Standard`. For detailed information about standard blob account block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).|  
+|`x-ms-or-{policy-id}_{rule-id}`|Version 2019-12-12 or newer, returned only for block blobs. `policy-id` is a guid value representing the identifier of an object replication policy on the storage account. `rule-id` is a guid value which represents the identifier of a policy rule on the blob container. If the account is  `ObjectReplication` enabled, the value of this header represents the replication status of blob with the given policy and rule identifiers, either `complete` or `failed`. |  
+|`x-ms-or-policy-id`|Version 2019-12-12 or newer, returned only for block blobs. If the account is `ObjectReplication` enabled, the value of this header represents the policy that governs the replication. |  
+
 ### Response Body  
  None.  
   

@@ -1,24 +1,15 @@
 ---
-title: "Suggestions (Azure Cognitive Search REST API)"
+title: Suggestions (Azure Cognitive Search REST API)
 description: A query request composed of partial query input, returning matching strings from documents in an Azure Cognitive Search index. Type-ahead query suggestions can populate dropdown search bars or other UI experiences.
-ms.date: 04/17/2020
+ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: language-reference
+ms.devlang: rest-api
+
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: nitinme
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
 ---
 # Suggestions (Azure Cognitive Search REST API)
 
@@ -56,7 +47,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/suggest
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required. The request URI specifies the name of the index to query. Query parameters are specified on the query string for GET requests and in the request body for POST requests.   |
-| query parameters| For GET, a multi-part construction that includes a fully specified search or filter expression (optional) and `api-version=2019-05-06` (required). For this operation, the api-version is specified as a query parameter. Query syntax is covered further down in this page.|
+| query parameters| For GET, a multi-part construction that includes a fully specified search or filter expression (optional) and `api-version=2020-06-30` (required). For this operation, the api-version is specified as a query parameter. Query syntax is covered further down in this page.|
 
 ### URL-encoding recommendations
 
@@ -160,11 +151,11 @@ You can get the api-key value from your service dashboard in the Azure portal. F
  Retrieve 5 suggestions where the partial search input is 'lux':  
 
 ```http  
-GET /indexes/hotels/docs/suggest?search=lux&$top=5&suggesterName=sg&api-version=2019-05-06 
+GET /indexes/hotels/docs/suggest?search=lux&$top=5&suggesterName=sg&api-version=2020-06-30 
 ```  
 
 ```http
-POST /indexes/hotels/docs/suggest?api-version=2019-05-06 
+POST /indexes/hotels/docs/suggest?api-version=2020-06-30 
     {  
       "search": "lux",  
       "top": 5,  

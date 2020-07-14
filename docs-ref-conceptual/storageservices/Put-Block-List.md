@@ -3,7 +3,7 @@ title: Put Block List (REST API) - Azure Storage
 description: The Put Block List operation writes a blob by specifying the list of block IDs that make up the blob.
 author: pemari-msft
 
-ms.date: 08/15/2019
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -18,18 +18,18 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
 ## Request  
  The `Put Block List` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist`|HTTP/1.1|  
   
 ### Emulated Storage Service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=blocklist`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=blocklist`|HTTP/1.1|  
   
- Note that the storage emulator only supports blob sizes up to 2 GB.  
+ Note that the storage emulator only supports blob sizes up to 2 GiB.  
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
@@ -57,10 +57,12 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
 |`x-ms-blob-content-language`|Optional.  Set the blob’s content language. If specified, this property is stored with the blob and returned with a read request.<br /><br /> this property is not specified with the request, then it is cleared for the blob if the request is successful.|  
 |`x-ms-blob-content-md5`|Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded.<br /><br /> The [Get Blob](Get-Blob.md) operation returns the value of this header in the Content-MD5 response header.<br /><br /> If this property is not specified with the request, then it is cleared for the blob if the request is successful.|  
 |`x-ms-meta-name:value`|Optional. User-defined name-value pairs associated with the blob.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
+|`x-ms-encryption-scope`|Optional. Indicates the encryption scope to use to encrypt the blob. This must match the encryption scope used to encrypt all the blocks that are being committed. This header is supported in versions 2019-02-02 or later.|  
+|`x-ms-tags`|Optional. Sets the given query-string encoded tags on the blob. See the Remarks for additional information. Supported in version 2019-12-12 and newer.|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
 |`x-ms-blob-content-disposition`|Optional. Sets the blob’s `Content-Disposition` header. Available for versions 2013-08-15 and later.<br /><br /> The `Content-Disposition` header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to `attachment`, it indicates that the user-agent should not display the response, but instead show a Save As dialog.<br /><br /> The response from the [Get Blob](Get-Blob.md) and [Get Blob Properties](Get-Blob-Properties.md) operations includes the content-disposition header.|  
-|`x-ms-access-tier`|Optional. Version 2018-11-09 and newer. Indicates the tier to be set on a blob. For block blobs, supported on blob storage or general purpose v2 accounts only with version 2018-11-09 and newer. Valid values for block blob tiers are `Hot`/`Cool`/`Archive`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers). Setting block blob tier with PutBlockList is in preview.|  
+|`x-ms-access-tier`|Optional. Version 2018-11-09 and newer. Indicates the tier to be set on a blob. For block blobs, supported on blob storage or general purpose v2 accounts only with version 2018-11-09 and newer. Valid values for block blob tiers are `Hot`/`Cool`/`Archive`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).|  
   
  This operation also supports the use of conditional headers to commit the block list only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
@@ -177,6 +179,8 @@ Request Body:
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
 |`x-ms-encryption-key-sha256`|Version 2019-02-02 or newer. This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
+|`x-ms-encryption-scope`|Version 2019-02-02 or newer. This header is returned if the request used an encryption scope, so the client can ensure the contents of the request are successfully encrypted using the encryption scope.|  
+|`x-ms-version-id: <DateTime>`|Version 2019-12-12 and newer. This header returns an opaque `DateTime` value that uniquely identifies the blob. The value of this header indicates the version of the blob, and may be used in subsequent requests to access the blob.|  
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Sample Response  
@@ -193,10 +197,13 @@ ETag: “0x8CB172A360EC34B”
 Last-Modified: Sun, 25 Sep 2011 00:17:43 GMT  
 x-ms-version: 2011-08-18  
 Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0  
+x-ms-version-id: <DateTime>  
 ```  
   
 ## Authorization  
  This operation can be called by the account owner and by anyone with a Shared Access Signature that has permission to write to this blob or its container.  
+  
+ If a request specifies tags with the `x-ms-tags` request header, the caller must meet the authorization requirements of the [Set Blob Tags](Set-Blob-Tags.md) operation.  
   
 ## Remarks  
  The `Put Block List` operation enforces the order in which blocks are to be combined to create a blob.  
@@ -207,9 +214,9 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
  If a block ID is specified in the `Latest` element, and the same block ID exists in both the committed and uncommitted block lists, `Put Block List` commits the block from the uncommitted block list. If the block ID exists in the committed block list but not in the uncommitted block list, then `Put Block List` commits the block from the committed block list.  
   
- Each block can be a different size, up to a maximum of 100 MB for version 2016-05-31 and later, and 4 MB for older versions. The maximum size of a block blob is therefore slightly more than 4.75 TB (100 MB X 50,000 blocks) for version 2016-05-31 and later, and 195 GB (4 MB X 50,000 blocks) for all older versions. If you attempt to commit more than 50,000 blocks, the service returns status code 400 (Block List Too Long). The service also returns additional information about the error in the response, including the maximum number of blocks permitted.  
+ Each block can be a different size, up to a maximum of 4000 MiB for version 2019-12-12 and later (Preview), 100 MiB for version 2016-05-31 and later, and 4 MiB for older versions. The maximum size of a block blob is therefore 190.7 TiB (4000 MiB X 50,000 blocks) for version 2019-12-12 and later (Preview), 4.75 TiB (100 MiB X 50,000 blocks) for version 2016-05-31 and later, and 195 GiB (4 MiB X 50,000 blocks) for all older versions. If you attempt to commit more than 50,000 blocks, the service returns status code 400 (Block List Too Long). The service also returns additional information about the error in the response, including the maximum number of blocks permitted.  
   
- The maximum number of uncommitted blocks that may be associated with a blob is 100,000, and the maximum size of the uncommitted block list is about 9.5 TB for version 2016-05-31 and later, and 400 GB for older versions.  
+ The maximum number of uncommitted blocks that may be associated with a blob is 100,000.  
   
  When you call `Put Block List` to update an existing blob, the blob's existing properties and metadata are overwritten. However, any existing snapshots are retained with the blob. You can use the conditional request headers to perform the operation only if a specified condition is met.  
   
@@ -217,13 +224,15 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
  Any uncommitted blocks will be garbage collected if there are no successful calls to `Put Block` or `Put Block List` on the blob within a week following the last successful `Put Block` operation. If [Put Blob](Put-Blob.md) is called on the blob, any uncommitted blocks will be garbage collected.  
   
+ If tags are provided in the `x-ms-tags` header, they must be query-string encoded. Tag keys and values must conform to the naming and length requirements as specified in Set Blob Tags. Further, the `x-ms-tags` header may contain up to 2kb of tags. If more tags are required, use the [Set Blob Tags](Set-Blob-Tags.md) operation.  
+  
  If the blob has an active lease, the client must specify a valid lease ID on the request in order to commit the block list. If the client does not specify a lease ID, or specifies an invalid lease ID, the Blob service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the blob does not have an active lease, the Blob service also returns status code 412 (Precondition Failed). If the client specifies a lease ID on a blob that does not yet exist, the Blob service will return status code 412 (Precondition Failed) for requests made against version 2013-08-15 and later; for prior versions the Blob service will return status code 201 (Created).  
   
  If the blob has an active lease and you call `Put Block List` to update the blob, the lease is maintained on the updated blob.  
   
  `Put Block List` applies only to block blobs. Calling `Put Block List` on a page blob results in status code 400 (Bad Request).  
   
- Calling `Put Block List` on an archived blob will return an error and on `Hot`/`Cool` blob does not change the blob tier.
+ Overwriting an archived blob will fail and overwriting a `hot`/`cool` blob will inherit the tier from the old blob if x-ms-access-tier header is not provided.
 ## See Also  
  [Understanding Block Blobs, Append Blobs, and Page Blobs](Understanding-Block-Blobs--Append-Blobs--and-Page-Blobs.md)   
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   

@@ -1,7 +1,7 @@
 ---
 title: "Service Bus Namespace Access"
 ms.custom: ""
-ms.date: "08/11/2017"
+ms.date: "07/08/2020"
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"
@@ -10,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 81c0118e-68e1-4844-962f-3ef019a7100f
 caps.latest.revision: 7
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
