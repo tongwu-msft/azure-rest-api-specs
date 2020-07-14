@@ -35,11 +35,8 @@ Azure quota REST API is in **public preview**.
 * Review the [reference](xref:management.azure.com.reserved-vm-instances.quota) documentation for quota API details.
 * Review the [reference](xref:management.azure.com.reserved-vm-instances.quotarequeststatus) documentation for quota requests API details.
 
-> [!NOTE]
-> Azure Quota REST API has been created with enrollment Type of AutoApprove. Use the following mechanisms to request a feature registration for the subscription: Use **QuotaAPI** as FeatureName, **Microsoft.Capacity** as ProviderNamespace  
-> * [Register-AzProviderFeature](https://docs.microsoft.com/en-us/powershell/module/az.resources/register-azproviderfeature) PowerShell command. Use  **Register-AzProviderFeature -FeatureName QuotaAPI -ProviderNamespace Microsoft.Capacity** command to register.
-> * [az feature register](https://docs.microsoft.com/en-us/cli/azure/feature?view=azure-cli-latest#az-feature-register) Azure CLI command. Use **az feature register --name QuotaAPI --namespace Microsoft.Capacity** command to register.
-> * [ARM feature register API](https://docs.microsoft.com/en-us/rest/api/resources/features/register) using a REST client of the choice.
+> [!IMPORTANT]
+> **Prerequisite:** Resource Provider (Microsoft.Capacity) needs to be registered for the Subscriptions. If the Resource provider haven't previously used in your subscriptions, follow the article [Resolve errors for resource provider registration](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/error-register-resource-provider) to trouble shoot and register Resource Provider with PowerShell or Azure CLI or through Azure Portal.
 
 
 ## Support in other languages and interfaces
