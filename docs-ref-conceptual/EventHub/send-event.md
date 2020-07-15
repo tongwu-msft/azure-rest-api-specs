@@ -45,10 +45,10 @@ Sends a new event to an Event Hub.
 |500|Internal error.|  
   
 ### Response Body  
- If the request is successful, the response body is empty. If the request is not successful, the body contains an error code and error message.  
+ If the request is successful, the response body is empty. If the request isn't successful, the body contains an error code and error message.  
   
 ## Examples  
- The following HTTP request sends an event with no BrokerProperties or UserProperties:  
+ The following HTTP request sends an event with no `BrokerProperties` or `UserProperties`:  
 
 > [!NOTE]
 > You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.
@@ -63,7 +63,7 @@ Host: your-namespace.servicebus.windows.net
   
 ```  
   
- The following is a request with BrokerProperties:  
+ The following example is a request with `BrokerProperties`:  
   
 ```  
 POST https://your-namespace.servicebus.windows.net/your-event-hub/messages?timeout=60&api-version=2014-01 HTTP/1.1  
@@ -76,7 +76,7 @@ BrokerProperties: {"CorrelationId":"32119834-65f3-48c1-b366-619df2e4c400"}
   
 ```  
   
- The following is a request with UserProperties:  
+ The following example is a request with `UserProperties`:  
   
 ```  
 POST https://your-namespace.servicebus.windows.net/your-event-hub/messages?timeout=60&api-version=2014-01 HTTP/1.1  

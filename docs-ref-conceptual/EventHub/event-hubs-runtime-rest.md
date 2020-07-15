@@ -19,29 +19,29 @@ manager: "femila"
 These APIs enable you to access the Event Hubs service to perform operations on event hubs.  
   
 ##  Common parameters
- The following information is common to all tasks that you might do related to Event Hubs publisher policy:  
+ The following information is common to all tasks related to Event Hubs publisher policy:  
   
--   Replace {api-version} with "2014-01" in the URL.  
+-   Replace `{api-version}` with `2014-01` in the URL.  
   
--   Replace {servicebusNamespace} with the namespace obtained from the Azure classic portal.  
+-   Replace `{servicebusNamespace}` with the name of the namespace.  
   
--   Replace {eventHubPath} with the path to your Event Hub.  
+-   Replace `{eventHubPath}` with the path to your event hub.  
   
--   Replace {publisherName} with the name of your publisher.  
+-   Replace `{publisherName}` with the name of your publisher.  
   
--   Replace {partitionId} with the ID of a partition on an Event Hub.  
+-   Replace `{partitionId}` with the ID of a partition on an event hub.  
 
 
 ## Common headers  
--   Set the **Content-Type** header to **application/atom+xml;type=entry;charset=utf-8**.  
--   Set the **Authorization** header to one of the following tokens:
+-   Set the `Content-Type` header to `application/atom+xml;type=entry;charset=utf-8`.  
+-   Set the `Authorization` header to one of the following tokens:
     - Azure Active Directory (**AAD**) JSON Web Token (JWT) token. Example: `Authorization: Bearer <AAD JWT token>`. 
         
         For information on generating an AAD token, see [Authenticate from an application](https://docs.microsoft.com/azure/event-hubs/authenticate-application#authenticate-from-an-application).
     - A **SAS** token. Example: `Authorization: SharedAccessSignature sr=<NAMESPACE NAME>.servicebus.windows.net&sig=<SHARED ACCESS KEY>&se=<TOKEN EXPIRY INSTANT>&skn=<SHARED KEY NAME>`. 
     
         For information on generating a SAS token, see [Generate a Shared Access Signature token](generate-sas-token.md).
-- (Optional) Set the **x-ms-retrypolicy** header to `NoRetry`, to disable automatic retry on send operations in the case of transient errors.   
+- (Optional) Set the **x-ms-retrypolicy** header to `NoRetry`, to disable automatic retry on send operations when transient errors occur.   
 - Set the optional [**{BrokerProperties}**](/rest/api/servicebus/message-headers-and-properties) header to a JSON-encoded list of `BrokerProperties`. For example, to target a specific partition via `PartitionKey`, use the following example:  
   
     ```  

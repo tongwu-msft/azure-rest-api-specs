@@ -15,15 +15,15 @@ ms.author: "spelluru"
 manager: "femila"
 ---
 # Send batch events
-Sends a new batched message event to an Event Hub. Batching reduces the number of messages that are transmitted by merging information from multiple messages into a single batch of messages. This reduces the number of connections established, and reduces network bandwidth by reducing the number of packet headers that are sent over the network.  
+Sends a new batched message event to an Event Hub. Batching reduces the number of messages that are transmitted by merging information from multiple messages into a single batch of messages. It reduces the number of connections established, and reduces network bandwidth by reducing the number of packet headers that are sent over the network.  
   
- Sending a batch of messages is not that different from sending a single event to an Event Hub. To enable sending batch events to an Event Hub using the REST API, the following requirements must be met:  
+ Sending a batch of messages isn't that different from sending a single event to an Event Hub. To enable sending batch events to an Event Hub using the REST API, the following requirements must be met:  
   
 1.  Implement the logic to create batched messages.  
   
 2.  The message body must be a valid JSON payload and follow a convention to describe each message.  
   
-3.  Set the Content-Type header to "**application/vnd.microsoft.servicebus.json**".  
+3.  Set the `Content-Type` header to `application/vnd.microsoft.servicebus.json`.  
   
 ## Request  
   
@@ -38,7 +38,7 @@ Sends a new batched message event to an Event Hub. Batching reduces the number o
   
 |Request Header|Required or Optional|Description|  
 |--------------------|--------------------------|-----------------|  
-|Content-Type|Required|Set to “**application/vnd.microsoft.servicebus.json**”.|  
+|Content-Type|Required|Set to `application/vnd.microsoft.servicebus.json`.|  
   
 ### Request Body  
  JSON payload that contains the content of multiple messages. For example:  
@@ -47,7 +47,7 @@ Sends a new batched message event to an Event Hub. Batching reduces the number o
 [{"Body":"Message1"},{"Body":"Message2"},{"Body":"Message3"}]  
 ```  
   
- The **BrokerProperties** and **UserProperties** cannot be set in headers when sending batch events (they will be ignored). Instead, send them as part of the request body. For example, setting **BrokerProperties** in batched events:  
+ The `BrokerProperties` and `UserProperties`properties can't be set in headers when sending batch events (they will be ignored). Instead, send them as part of the request body. For example, setting `BrokerProperties` in batched events:  
   
 ```json  
 [{"Body":"Message1", "BrokerProperties":{"CorrelationId","32119834-65f3-48c1-b366-619df2e4c400"}},{"Body":"Message2"},{"Body":"Message3"}]  
@@ -71,7 +71,7 @@ Sends a new batched message event to an Event Hub. Batching reduces the number o
 |500|Internal error.|  
   
 ### Response Body  
- If the request is successful, the response body is empty. If the request is not successful, the body contains an error code and error message.  
+ If the request is successful, the response body is empty. If the request isn't successful, the body contains an error code and error message.  
   
 ## Examples  
  **Request**  
