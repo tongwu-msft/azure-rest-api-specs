@@ -17,9 +17,9 @@ Azure Relay provides cloud-enabled communication with enterprise messaging and r
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Hybrid Connections](/azure/service-bus-relay/relay-hybrid-connections-dotnet-get-started) | Provides operations for managing Hybrid Connections. |
-| Namespaces | Operations for managing Relay namespaces. |
-| [WCF Relay](https://github.com/Azure/azure-relay/tree/master/samples/wcf-relay) | Operations for managing WCF relays. 
+| [Hybrid Connections](/rest/api/relay/hybridconnections) | Provides operations for managing Hybrid Connections. |
+| [Namespaces](/rest/api/relay/namespaces) | Operations for managing Relay namespaces. |
+| [WCF Relay](/rest/api/relay/wcfrelays) | Operations for managing WCF relays. 
 
 ## See also
 
