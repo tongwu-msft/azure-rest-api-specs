@@ -42,7 +42,7 @@ These APIs enable you to access the Event Hubs service to perform operations on 
     
         For information on generating a SAS token, see [Generate a Shared Access Signature token](generate-sas-token.md).
 - (Optional) Set the **x-ms-retrypolicy** header to `NoRetry`, to disable automatic retry on send operations when transient errors occur.   
-- Set the optional [**{BrokerProperties}**](/rest/api/servicebus/message-headers-and-properties) header to a JSON-encoded list of `BrokerProperties`. For example, to target a specific partition via `PartitionKey`, use the following example:  
+- Set the optional [broker properties](/rest/api/servicebus/message-headers-and-properties) header to a JSON-encoded list. For example, to target a specific partition via `PartitionKey`, use the following example:  
   
     ```  
     POST https://your-namespace.servicebus.windows.net/your-event-hub/messages?timeout=60&api-version=2014-01 HTTP/1.1  
@@ -54,7 +54,7 @@ These APIs enable you to access the Event Hubs service to perform operations on 
     { "DeviceId":"dev-01", "Temperature":"37.0" }  
     ```  
   
--   Set the optional **UserProperties** header to a list of custom properties with property name as key and property value as value. For example:  
+-   Set the optional `UserProperties` header to a list of custom properties with property name as key and property value as value. For example:  
   
     ```  
     WindAlert: Strong Winds  

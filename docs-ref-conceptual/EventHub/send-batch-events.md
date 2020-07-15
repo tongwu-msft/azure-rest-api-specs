@@ -53,7 +53,7 @@ Sends a new batched message event to an Event Hub. Batching reduces the number o
 [{"Body":"Message1", "BrokerProperties":{"CorrelationId","32119834-65f3-48c1-b366-619df2e4c400"}},{"Body":"Message2"},{"Body":"Message3"}]  
 ```  
   
- Setting **CustomProperties** in batched events:  
+ Setting `UserProperties` in batched events:  
   
 ```json  
 [{"Body":"Message1", "UserProperties":{"Alert":"Strong Wind"}}, {"Body":"Message2"}, {"Body":"Message3"}]  
