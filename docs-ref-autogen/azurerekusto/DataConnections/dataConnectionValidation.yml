@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.dataconnections.dataconnectionvalidation
 name: data Connection Validation
 service: Azure Kusto
 groupName: Data Connections
-apiVersion: 2019-01-21
+apiVersion: 2020-06-14
 summary: Checks that the data connection parameters are valid.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnectionValidation?api-version=2019-01-21
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnectionValidation?api-version=2020-06-14
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,6 +47,12 @@ responses:
   description: OK -- Operation to check the kusto resource name availability was successful.
   types:
   - uid: DataConnectionValidationListResult
+- name: 202 Accepted
+  description: Accepted
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -60,6 +66,7 @@ requestBody:
     description: The data connection properties to validate.
     types:
     - uid: EventHubDataConnection
+    - uid: IotHubDataConnection
     - uid: EventGridDataConnection
     typesTitle: DataConnection
 requestHeader: []
@@ -73,6 +80,14 @@ definitions:
     types:
     - uid: DataConnectionValidationResult
       isArray: true
+- name: CloudError
+  description: An error response from Kusto.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Kusto.
+    types:
+    - uid: CloudErrorBody
 - name: DataConnectionValidation
   description: Class representing an data connection validation.
   kind: object
@@ -85,6 +100,7 @@ definitions:
     description: The data connection properties to validate.
     types:
     - uid: EventHubDataConnection
+    - uid: IotHubDataConnection
     - uid: EventGridDataConnection
     typesTitle: DataConnection
 - name: EventHubDataConnection
@@ -110,7 +126,16 @@ definitions:
   - name: properties.dataFormat
     description: The data format of the message. Optionally the data format can be added to each message.
     types:
-    - uid: dataFormat
+    - uid: eventHubDataFormat
+  - name: properties.eventSystemProperties
+    description: System properties of the event hub
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.compression
+    description: The event hub messages compression type
+    types:
+    - uid: compression
   - name: location
     description: Resource location.
     types:
@@ -119,6 +144,63 @@ definitions:
     description: Kind of the endpoint for the data connection
     types:
     - uid: EventHub
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: IotHubDataConnection
+  description: Class representing an iot hub data connection.
+  kind: object
+  properties:
+  - name: properties.iotHubResourceId
+    description: The resource ID of the Iot hub to be used to create a data connection.
+    types:
+    - uid: string
+  - name: properties.consumerGroup
+    description: The iot hub consumer group.
+    types:
+    - uid: string
+  - name: properties.tableName
+    description: The table where the data should be ingested. Optionally the table information can be added to each message.
+    types:
+    - uid: string
+  - name: properties.mappingRuleName
+    description: The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message.
+    types:
+    - uid: string
+  - name: properties.dataFormat
+    description: The data format of the message. Optionally the data format can be added to each message.
+    types:
+    - uid: iotHubDataFormat
+  - name: properties.eventSystemProperties
+    description: System properties of the iot hub
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.sharedAccessPolicyName
+    description: The name of the share access policy
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of the endpoint for the data connection
+    types:
+    - uid: IotHub
     typesTitle: string
   - name: id
     isReadyOnly: true
@@ -162,7 +244,15 @@ definitions:
   - name: properties.dataFormat
     description: The data format of the message. Optionally the data format can be added to each message.
     types:
-    - uid: dataFormat
+    - uid: eventGridDataFormat
+  - name: properties.ignoreFirstRecord
+    description: A Boolean value that, if set to true, indicates that ingestion should ignore the first record of every file
+    types:
+    - uid: boolean
+  - name: properties.blobStorageEventType
+    description: The name of blob storage event type to process.
+    types:
+    - uid: blobStorageEventType
   - name: location
     description: Resource location.
     types:
@@ -195,7 +285,28 @@ definitions:
     description: A message which indicates a problem in data connection validation.
     types:
     - uid: string
-- name: dataFormat
+- name: CloudErrorBody
+  description: An error response from Kusto.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for displaying in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: eventHubDataFormat
   description: The data format of the message. Optionally the data format can be added to each message.
   kind: enum
   properties:
@@ -232,19 +343,156 @@ definitions:
   - name: AVRO
     types:
     - uid: string
+  - name: TSVE
+    types:
+    - uid: string
+  - name: PARQUET
+    types:
+    - uid: string
+  - name: ORC
+    types:
+    - uid: string
+  - name: APACHEAVRO
+    types:
+    - uid: string
+  - name: W3CLOGFILE
+    types:
+    - uid: string
+- name: compression
+  description: The event hub messages compression type
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: GZip
+    types:
+    - uid: string
+- name: iotHubDataFormat
+  description: The data format of the message. Optionally the data format can be added to each message.
+  kind: enum
+  properties:
+  - name: MULTIJSON
+    types:
+    - uid: string
+  - name: JSON
+    types:
+    - uid: string
+  - name: CSV
+    types:
+    - uid: string
+  - name: TSV
+    types:
+    - uid: string
+  - name: SCSV
+    types:
+    - uid: string
+  - name: SOHSV
+    types:
+    - uid: string
+  - name: PSV
+    types:
+    - uid: string
+  - name: TXT
+    types:
+    - uid: string
+  - name: RAW
+    types:
+    - uid: string
+  - name: SINGLEJSON
+    types:
+    - uid: string
+  - name: AVRO
+    types:
+    - uid: string
+  - name: TSVE
+    types:
+    - uid: string
+  - name: PARQUET
+    types:
+    - uid: string
+  - name: ORC
+    types:
+    - uid: string
+  - name: APACHEAVRO
+    types:
+    - uid: string
+  - name: W3CLOGFILE
+    types:
+    - uid: string
+- name: eventGridDataFormat
+  description: The data format of the message. Optionally the data format can be added to each message.
+  kind: enum
+  properties:
+  - name: MULTIJSON
+    types:
+    - uid: string
+  - name: JSON
+    types:
+    - uid: string
+  - name: CSV
+    types:
+    - uid: string
+  - name: TSV
+    types:
+    - uid: string
+  - name: SCSV
+    types:
+    - uid: string
+  - name: SOHSV
+    types:
+    - uid: string
+  - name: PSV
+    types:
+    - uid: string
+  - name: TXT
+    types:
+    - uid: string
+  - name: RAW
+    types:
+    - uid: string
+  - name: SINGLEJSON
+    types:
+    - uid: string
+  - name: AVRO
+    types:
+    - uid: string
+  - name: TSVE
+    types:
+    - uid: string
+  - name: PARQUET
+    types:
+    - uid: string
+  - name: ORC
+    types:
+    - uid: string
+  - name: APACHEAVRO
+    types:
+    - uid: string
+  - name: W3CLOGFILE
+    types:
+    - uid: string
+- name: blobStorageEventType
+  description: The name of blob storage event type to process.
+  kind: enum
+  properties:
+  - name: Microsoft.Storage.BlobCreated
+    types:
+    - uid: string
+  - name: Microsoft.Storage.BlobRenamed
+    types:
+    - uid: string
 examples:
 - name: KustoDataConnectionValidation
   request:
-    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/KustoClusterRPTest4/databases/KustoDatabase8/dataConnectionValidation?api-version=2019-01-21
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/databases/KustoDatabase8/dataConnectionValidation?api-version=2020-06-14
     body: >-
       {
         "dataConnectionName": "DataConnections8",
         "properties": {
           "kind": "EventHub",
-          "properties": {
-            "eventHubResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest1",
-            "consumerGroup": "testConsumerGroup1"
-          }
+          "eventHubResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest1",
+          "consumerGroup": "testConsumerGroup1"
         }
       }
   responses:
@@ -252,11 +500,12 @@ examples:
     body: >-
       [
         {
-          "errorMessage": "event hub namespace does not exist"
+          "errorMessage": "Event hub's namespace does not exist"
         },
         {
-          "errorMessage": "database does not exist"
+          "errorMessage": "Database does not exist"
         }
       ]
+  - statusCode: "202"
 security: []
 errorCodes: []

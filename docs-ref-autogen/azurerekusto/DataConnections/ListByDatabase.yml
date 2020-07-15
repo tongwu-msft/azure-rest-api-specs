@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.dataconnections.listbydatabase
 name: List By Database
 service: Azure Kusto
 groupName: Data Connections
-apiVersion: 2019-01-21
+apiVersion: 2020-06-14
 summary: Returns the list of data connections of the given Kusto database.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections?api-version=2019-01-21
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections?api-version=2020-06-14
 uriParameters:
 - name: subscriptionId
   in: path
@@ -61,6 +61,8 @@ definitions:
     description: The list of Kusto data connections.
     types:
     - uid: EventHubDataConnection
+      isArray: true
+    - uid: IotHubDataConnection
       isArray: true
     - uid: EventGridDataConnection
       isArray: true
@@ -117,7 +119,16 @@ definitions:
   - name: properties.dataFormat
     description: The data format of the message. Optionally the data format can be added to each message.
     types:
-    - uid: dataFormat
+    - uid: eventHubDataFormat
+  - name: properties.eventSystemProperties
+    description: System properties of the event hub
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.compression
+    description: The event hub messages compression type
+    types:
+    - uid: compression
   - name: location
     description: Resource location.
     types:
@@ -126,6 +137,63 @@ definitions:
     description: Kind of the endpoint for the data connection
     types:
     - uid: EventHub
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: IotHubDataConnection
+  description: Class representing an iot hub data connection.
+  kind: object
+  properties:
+  - name: properties.iotHubResourceId
+    description: The resource ID of the Iot hub to be used to create a data connection.
+    types:
+    - uid: string
+  - name: properties.consumerGroup
+    description: The iot hub consumer group.
+    types:
+    - uid: string
+  - name: properties.tableName
+    description: The table where the data should be ingested. Optionally the table information can be added to each message.
+    types:
+    - uid: string
+  - name: properties.mappingRuleName
+    description: The mapping rule to be used to ingest the data. Optionally the mapping information can be added to each message.
+    types:
+    - uid: string
+  - name: properties.dataFormat
+    description: The data format of the message. Optionally the data format can be added to each message.
+    types:
+    - uid: iotHubDataFormat
+  - name: properties.eventSystemProperties
+    description: System properties of the iot hub
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.sharedAccessPolicyName
+    description: The name of the share access policy
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of the endpoint for the data connection
+    types:
+    - uid: IotHub
     typesTitle: string
   - name: id
     isReadyOnly: true
@@ -169,7 +237,15 @@ definitions:
   - name: properties.dataFormat
     description: The data format of the message. Optionally the data format can be added to each message.
     types:
-    - uid: dataFormat
+    - uid: eventGridDataFormat
+  - name: properties.ignoreFirstRecord
+    description: A Boolean value that, if set to true, indicates that ingestion should ignore the first record of every file
+    types:
+    - uid: boolean
+  - name: properties.blobStorageEventType
+    description: The name of blob storage event type to process.
+    types:
+    - uid: blobStorageEventType
   - name: location
     description: Resource location.
     types:
@@ -194,7 +270,7 @@ definitions:
     description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
     types:
     - uid: string
-- name: dataFormat
+- name: eventHubDataFormat
   description: The data format of the message. Optionally the data format can be added to each message.
   kind: enum
   properties:
@@ -231,19 +307,158 @@ definitions:
   - name: AVRO
     types:
     - uid: string
+  - name: TSVE
+    types:
+    - uid: string
+  - name: PARQUET
+    types:
+    - uid: string
+  - name: ORC
+    types:
+    - uid: string
+  - name: APACHEAVRO
+    types:
+    - uid: string
+  - name: W3CLOGFILE
+    types:
+    - uid: string
+- name: compression
+  description: The event hub messages compression type
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: GZip
+    types:
+    - uid: string
+- name: iotHubDataFormat
+  description: The data format of the message. Optionally the data format can be added to each message.
+  kind: enum
+  properties:
+  - name: MULTIJSON
+    types:
+    - uid: string
+  - name: JSON
+    types:
+    - uid: string
+  - name: CSV
+    types:
+    - uid: string
+  - name: TSV
+    types:
+    - uid: string
+  - name: SCSV
+    types:
+    - uid: string
+  - name: SOHSV
+    types:
+    - uid: string
+  - name: PSV
+    types:
+    - uid: string
+  - name: TXT
+    types:
+    - uid: string
+  - name: RAW
+    types:
+    - uid: string
+  - name: SINGLEJSON
+    types:
+    - uid: string
+  - name: AVRO
+    types:
+    - uid: string
+  - name: TSVE
+    types:
+    - uid: string
+  - name: PARQUET
+    types:
+    - uid: string
+  - name: ORC
+    types:
+    - uid: string
+  - name: APACHEAVRO
+    types:
+    - uid: string
+  - name: W3CLOGFILE
+    types:
+    - uid: string
+- name: eventGridDataFormat
+  description: The data format of the message. Optionally the data format can be added to each message.
+  kind: enum
+  properties:
+  - name: MULTIJSON
+    types:
+    - uid: string
+  - name: JSON
+    types:
+    - uid: string
+  - name: CSV
+    types:
+    - uid: string
+  - name: TSV
+    types:
+    - uid: string
+  - name: SCSV
+    types:
+    - uid: string
+  - name: SOHSV
+    types:
+    - uid: string
+  - name: PSV
+    types:
+    - uid: string
+  - name: TXT
+    types:
+    - uid: string
+  - name: RAW
+    types:
+    - uid: string
+  - name: SINGLEJSON
+    types:
+    - uid: string
+  - name: AVRO
+    types:
+    - uid: string
+  - name: TSVE
+    types:
+    - uid: string
+  - name: PARQUET
+    types:
+    - uid: string
+  - name: ORC
+    types:
+    - uid: string
+  - name: APACHEAVRO
+    types:
+    - uid: string
+  - name: W3CLOGFILE
+    types:
+    - uid: string
+- name: blobStorageEventType
+  description: The name of blob storage event type to process.
+  kind: enum
+  properties:
+  - name: Microsoft.Storage.BlobCreated
+    types:
+    - uid: string
+  - name: Microsoft.Storage.BlobRenamed
+    types:
+    - uid: string
 examples:
 - name: KustoDatabasesListByCluster
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/KustoClusterRPTest4/databases/KustoDatabase8/dataConnections?api-version=2019-01-21
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/databases/KustoDatabase8/dataConnections?api-version=2020-06-14
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/KustoClusterRPTest4/Databases/KustoDatabase8/DataConnections/KustoDataConnection8",
+            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest4/Databases/KustoDatabase8/DataConnections/KustoDataConnection8",
             "name": "KustoClusterRPTest4/KustoDatabase8/KustoDataConnection8",
-            "type": "Microsoft.Kusto/clusters/databases/DataConnections",
+            "type": "Microsoft.Kusto/Clusters/Databases/DataConnections",
             "location": "westus",
             "kind": "EventHub",
             "properties": {
@@ -252,9 +467,9 @@ examples:
             }
           },
           {
-            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/KustoClusterRPTest4/Databases/KustoDatabase9/DataConnections/KustoDataConnection9",
+            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest4/Databases/KustoDatabase9/DataConnections/KustoDataConnection9",
             "name": "KustoClusterRPTest4/KustoDatabase9/KustoDataConnection9",
-            "type": "Microsoft.Kusto/clusters/databases/DataConnections",
+            "type": "Microsoft.Kusto/Clusters/Databases/DataConnections",
             "location": "westus",
             "kind": "EventHub",
             "properties": {

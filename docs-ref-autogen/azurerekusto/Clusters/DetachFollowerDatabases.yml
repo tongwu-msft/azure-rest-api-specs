@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.azurerekusto.clusters.stop
-name: Stop
+uid: management.azure.com.azurerekusto.clusters.detachfollowerdatabases
+name: Detach Follower Databases
 service: Azure Kusto
 groupName: Clusters
 apiVersion: 2020-06-14
-summary: Stops a Kusto cluster.
+summary: Detaches all followers of a database owned by this cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/stop?api-version=2020-06-14
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/detachFollowerDatabases?api-version=2020-06-14
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,6 +45,21 @@ responses:
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: clusterResourceId
+    in: body
+    isRequired: true
+    description: Resource id of the cluster that follows a database owned by this cluster.
+    types:
+    - uid: string
+  - name: attachedDatabaseConfigurationName
+    in: body
+    isRequired: true
+    description: Resource name of the attached database configuration in the follower cluster.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: CloudError
@@ -55,6 +70,23 @@ definitions:
     description: An error response from Kusto.
     types:
     - uid: CloudErrorBody
+- name: FollowerDatabaseDefinition
+  description: A class representing follower database request.
+  kind: object
+  properties:
+  - name: clusterResourceId
+    description: Resource id of the cluster that follows a database owned by this cluster.
+    types:
+    - uid: string
+  - name: attachedDatabaseConfigurationName
+    description: Resource name of the attached database configuration in the follower cluster.
+    types:
+    - uid: string
+  - name: databaseName
+    isReadyOnly: true
+    description: The database name owned by this cluster that was followed. * in case following all databases.
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from Kusto.
   kind: object
@@ -77,9 +109,14 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: KustoClustersStop
+- name: KustoClusterDetachFollowerDatabases
   request:
-    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/stop?api-version=2020-06-14
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/detachFollowerDatabases?api-version=2020-06-14
+    body: >-
+      {
+        "clusterResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/leader4",
+        "attachedDatabaseConfigurationName": "myAttachedDatabaseConfiguration"
+      }
   responses:
   - statusCode: "200"
   - statusCode: "202"
