@@ -1,7 +1,7 @@
 ---
 title: "Update Event Hub"
 ms.custom: ""
-ms.date: 11/29/2017
+ms.date: 07/14/2020
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -10,15 +10,15 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: f28b03f9-db22-4643-8b58-4adea628bf21
 caps.latest.revision: 14
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 
 ---
 
 # Update Event Hub
 
-Updates an event hub. When updating an event hub, you can only change the properties listed here. An attempt to change any other properties results in an error. Properties that can be changed but are not specified are set to their default values.  
+Updates an event hub. When updating an event hub, you can only change the properties listed here. An attempt to change any other properties results in an error. Properties that can be changed but aren't specified are set to their default values.  
   
 ## Properties  
   
@@ -34,7 +34,7 @@ Updates an event hub. When updating an event hub, you can only change the proper
   
 ### Request Headers
   
-See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ### Additional Request Headers  
   
@@ -65,26 +65,29 @@ The response includes an HTTP status code, a set of response headers, and a resp
 |200|Success.|  
 |400|Bad request.|  
 |401|Authorization failure.|  
-|409|Conflict due to missing **If-Match** header.|
+|409|Conflict because of missing **If-Match** header.|
 |500|Internal error.|  
   
 ### Response Body
   
-If the request is successful, the response body contains the event hub description. Properties that were missing from the PUT request are returned with default values. If the request is not successful, the body contains an error code and error message.  
+If the request is successful, the response body contains the event hub description. Properties that were missing from the PUT request are returned with default values. If the request isn't successful, the body contains an error code and error message.  
   
 |Element Name|Description|  
 |------------------|-----------------|  
-|AuthorizationRules|The authorization rules.|  
-|MessageRetentionInDays|The number of days to retain the events for this event hub.|  
-|Status|The current status of the event hub (enabled or disabled).|  
-|CreatedAt|The exact time the event hub was created.|  
-|UpdatedAt|The exact time the event hub was updated.|  
-|PartitionCount|The current number of partitions on the event hub.|  
-|PartitionIds|Identifiers for partitions created for the event hub.|  
+|`AuthorizationRules`|The authorization rules.|  
+|`MessageRetentionInDays`|The number of days to retain the events for this event hub.|  
+|`Status`|The current status of the event hub (enabled or disabled).|  
+|`CreatedAt`|The exact time the event hub was created.|  
+|`UpdatedAt`|The exact time the event hub was updated.|  
+|`PartitionCount`|The current number of partitions on the event hub.|  
+|`PartitionIds`|Identifiers for partitions created for the event hub.|  
   
 ## Examples
   
 **Request**  
+
+> [!NOTE]
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.
   
 ```  
 PUT https://your-namespace.servicebus.windows.net/your-event-hub?timeout=60&api-version=2014-01 HTTP/1.1  

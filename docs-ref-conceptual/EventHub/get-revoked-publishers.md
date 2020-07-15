@@ -1,7 +1,7 @@
 ---
 title: "Get revoked publishers"
 ms.custom: ""
-ms.date: 12/01/2016
+ms.date: 07/14/2020
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -10,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: a05221c5-5854-4904-aa8c-450536b4c71b
 caps.latest.revision: 4
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 ---
 # Get revoked publishers
 Retrieves all revoked publishers within the specified Event Hub. See [RevokedPublisherDescription Properties](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.revokedpublisherdescription?view=azure-dotnet#properties).  
@@ -24,7 +24,7 @@ Retrieves all revoked publishers within the specified Event Hub. See [RevokedPub
 |GET|`https://{servicebusNamespace}.servicebus.windows.net/{eventHubPath}/revokedpublishers`|  
   
 ### Request Headers  
- See [Common parameters and headers](publisher-policy-operations.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+ See [Common parameters and headers](publisher-policy-operations.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
  The response includes an HTTP status code, a set of response headers, and a response body.  
@@ -46,6 +46,10 @@ Retrieves all revoked publishers within the specified Event Hub. See [RevokedPub
   
 ## Examples  
  **Request**  
+
+> [!NOTE]
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.
+
   
 ```  
 GET https://your-namespace.servicebus.windows.net/your-event-hub/RevokedPublishers?timeout=60&api-version=2014-01 HTTP/1.1  
