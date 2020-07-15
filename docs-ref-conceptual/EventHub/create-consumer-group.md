@@ -24,7 +24,7 @@ Creates a new consumer group. When creating a consumer group, you can specify th
   
 |Property Name|Default|  
 |-------------------|-------------|  
-|UserMetadata|(empty)|  
+|`UserMetadata`|(empty)|  
   
 ## Request  
   
@@ -42,8 +42,8 @@ The response includes an HTTP status code, a set of response headers, and a resp
   
 |Element name|Required|Type|Version|Description|  
 |------------------|--------------|----------|-------------|-----------------|  
-|CreatedAt|Yes, read-only|string|2014-01|The exact time the consumer group was created.|  
-|UpdatedAt|Yes, read-only|string|2014-01|The exact time the consumer group was updated.|  
+|`CreatedAt`|Yes, read-only|string|2014-01|The exact time the consumer group was created.|  
+|`UpdatedAt`|Yes, read-only|string|2014-01|The exact time the consumer group was updated.|  
   
 ### Response Codes  
   

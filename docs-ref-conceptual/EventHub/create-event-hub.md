@@ -28,11 +28,11 @@ You must specify the properties in the order given below. Any property that is s
   
 |Property Name|Available since API version|Default|Property Description|  
 |-------------------|---------------------------------|-------------|--------------------------|  
-|MessageRetentionInDays|2014-01|0|[MessageRetentionInDays](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.messageretentionindays#Microsoft_ServiceBus_Messaging_EventHubDescription_MessageRetentionInDays)|  
-|Authorization|2014-01|(empty)|[Authorization](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.authorization#Microsoft_ServiceBus_Messaging_EventHubDescription_Authorization)|  
-|Status|2014-01|Active|[Status](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.status#Microsoft_ServiceBus_Messaging_EventHubDescription_Status)|  
-|UserMetadata|2014-01|(empty)|[UserMetadata](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.usermetadata#Microsoft_ServiceBus_Messaging_EventHubDescription_UserMetadata)|  
-|PartitionCount|2014-01|16|[PartitionCount](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.partitioncount#Microsoft_ServiceBus_Messaging_EventHubDescription_PartitionCount)|  
+|`MessageRetentionInDays`|2014-01|0|[Description](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.messageretentionindays#Microsoft_ServiceBus_Messaging_EventHubDescription_MessageRetentionInDays)|  
+|`Authorization`|2014-01|(empty)|[Description](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.authorization#Microsoft_ServiceBus_Messaging_EventHubDescription_Authorization)|  
+|`Status`|2014-01|Active|[Description](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.status#Microsoft_ServiceBus_Messaging_EventHubDescription_Status)|  
+|`UserMetadata`|2014-01|(empty)|[Description](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.usermetadata#Microsoft_ServiceBus_Messaging_EventHubDescription_UserMetadata)|  
+|`PartitionCount`|2014-01|16|[Description](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.partitioncount#Microsoft_ServiceBus_Messaging_EventHubDescription_PartitionCount)|  
   
 ## Request  
   

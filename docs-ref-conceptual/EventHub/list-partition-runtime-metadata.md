@@ -18,7 +18,7 @@ manager: "femila"
 
 # List partition runtime metadata
 
-Returns the metadata for all partitions on an Event Hub. See [PartitionDescription Properties](/dotnet/api/microsoft.servicebus.messaging.partitiondescription).  
+Returns the metadata for all partitions on an Event Hub. See [Partition Description Properties](/dotnet/api/microsoft.servicebus.messaging.partitiondescription).  
   
 ## Request  
   
@@ -36,13 +36,13 @@ The response includes an HTTP status code, a set of response headers, and a resp
   
 |Element name|Required|Type|Version|Description|  
 |------------------|--------------|----------|-------------|-----------------|  
-|SizeInBytes|Yes, read-only|int|2014-01|The approximate size, in bytes, of the Event Hubs partition.|  
-|BeginSequenceNumber|Yes, read-only|string|2014-01|The beginning sequence number.|  
-|EndSequenceNumber|Yes, read-only|string|2014-01|The end sequence number.|  
-|IncomingBytesPerSecond|Yes, read-only|string|2014-01|The approximate incoming rate of events (in bytes per second) for the partition in this consumer group.|  
-|OutgoingBytesPerSecond|Yes, read-only|string|2014-01|The approximate outgoing rate (in bytes per second) for the partition in this consumer group.|  
-|LastEnqueuedOffset|Yes, read-only|string|2015-01|The offset of the last enqueued event.|  
-|LastEnqueuedTimeUtc|Yes, read-only|string|2015-01|The time in UTC at which the last event was enqueued.|  
+|`SizeInBytes`|Yes, read-only|int|2014-01|The approximate size, in bytes, of the Event Hubs partition.|  
+|`BeginSequenceNumber`|Yes, read-only|string|2014-01|The beginning sequence number.|  
+|`EndSequenceNumber`|Yes, read-only|string|2014-01|The end sequence number.|  
+|`IncomingBytesPerSecond`|Yes, read-only|string|2014-01|The approximate incoming rate of events (in bytes per second) for the partition in this consumer group.|  
+|`OutgoingBytesPerSecond`|Yes, read-only|string|2014-01|The approximate outgoing rate (in bytes per second) for the partition in this consumer group.|  
+|`LastEnqueuedOffset`|Yes, read-only|string|2015-01|The offset of the last enqueued event.|  
+|`LastEnqueuedTimeUtc`|Yes, read-only|string|2015-01|The time in UTC at which the last event was enqueued.|  
   
 ### Response Codes  
   
