@@ -5621,6 +5621,7 @@
 #### [Resize](hdinsight/Clusters/Resize.yml)
 #### [Rotate Disk Encryption Key](hdinsight/Clusters/RotateDiskEncryptionKey.yml)
 #### [Update](hdinsight/Clusters/Update.yml)
+#### [Update Auto Scale Configuration](hdinsight/Clusters/UpdateAutoScaleConfiguration.yml)
 #### [Update Gateway Settings](hdinsight/Clusters/UpdateGatewaySettings.yml)
 ### Configurations
 #### [Overview](hdinsight/Configurations.yml)
