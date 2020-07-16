@@ -5905,53 +5905,6 @@
 ### Resource Provider Common
 #### [Overview](iothub/ResourceProviderCommon.yml)
 #### [Get Subscription Quota](iothub/ResourceProviderCommon/GetSubscriptionQuota.yml)
-### Digital Twin Model
-#### Digital Twin
-##### [Overview](iothub/digitaltwinmodel/DigitalTwin.yml)
-##### [Get Digital Twin Model](iothub/digitaltwinmodel/DigitalTwin/GetDigitalTwinModel.yml)
-##### [Get Interface](iothub/digitaltwinmodel/DigitalTwin/GetInterface.yml)
-##### [Get Interfaces](iothub/digitaltwinmodel/DigitalTwin/GetInterfaces.yml)
-##### [Invoke Interface Command](iothub/digitaltwinmodel/DigitalTwin/InvokeInterfaceCommand.yml)
-##### [Update Interfaces](iothub/digitaltwinmodel/DigitalTwin/UpdateInterfaces.yml)
-#### Service
-##### [Overview](iothub/digitaltwinmodel/Service.yml)
-##### [Apply Configuration On Edge Device](iothub/digitaltwinmodel/Service/ApplyConfigurationOnEdgeDevice.yml)
-##### [Bulk Create Or Update Devices](iothub/digitaltwinmodel/Service/BulkCreateOrUpdateDevices.yml)
-##### [Cancel Import Export Job](iothub/digitaltwinmodel/Service/CancelImportExportJob.yml)
-##### [Cancel Job](iothub/digitaltwinmodel/Service/CancelJob.yml)
-##### [Create Import Export Job](iothub/digitaltwinmodel/Service/CreateImportExportJob.yml)
-##### [Create Job](iothub/digitaltwinmodel/Service/CreateJob.yml)
-##### [Create Or Update Configuration](iothub/digitaltwinmodel/Service/CreateOrUpdateConfiguration.yml)
-##### [Create Or Update Device](iothub/digitaltwinmodel/Service/CreateOrUpdateDevice.yml)
-##### [Create Or Update Module](iothub/digitaltwinmodel/Service/CreateOrUpdateModule.yml)
-##### [Delete Configuration](iothub/digitaltwinmodel/Service/DeleteConfiguration.yml)
-##### [Delete Device](iothub/digitaltwinmodel/Service/DeleteDevice.yml)
-##### [Delete Module](iothub/digitaltwinmodel/Service/DeleteModule.yml)
-##### [Get Configuration](iothub/digitaltwinmodel/Service/GetConfiguration.yml)
-##### [Get Configurations](iothub/digitaltwinmodel/Service/GetConfigurations.yml)
-##### [Get Device](iothub/digitaltwinmodel/Service/GetDevice.yml)
-##### [Get Device Registry Statistics](iothub/digitaltwinmodel/Service/GetDeviceRegistryStatistics.yml)
-##### [Get Devices](iothub/digitaltwinmodel/Service/GetDevices.yml)
-##### [Get Fault Injection](iothub/digitaltwinmodel/Service/GetFaultInjection.yml)
-##### [Get Import Export Job](iothub/digitaltwinmodel/Service/GetImportExportJob.yml)
-##### [Get Import Export Jobs](iothub/digitaltwinmodel/Service/GetImportExportJobs.yml)
-##### [Get Job](iothub/digitaltwinmodel/Service/GetJob.yml)
-##### [Get Module](iothub/digitaltwinmodel/Service/GetModule.yml)
-##### [Get Module Twin](iothub/digitaltwinmodel/Service/GetModuleTwin.yml)
-##### [Get Modules On Device](iothub/digitaltwinmodel/Service/GetModulesOnDevice.yml)
-##### [Get Service Statistics](iothub/digitaltwinmodel/Service/GetServiceStatistics.yml)
-##### [Get Twin](iothub/digitaltwinmodel/Service/GetTwin.yml)
-##### [Invoke Device Method](iothub/digitaltwinmodel/Service/InvokeDeviceMethod.yml)
-##### [Invoke Device Module Method](iothub/digitaltwinmodel/Service/InvokeDeviceModuleMethod.yml)
-##### [Purge Command Queue](iothub/digitaltwinmodel/Service/PurgeCommandQueue.yml)
-##### [Query Iot Hub](iothub/digitaltwinmodel/Service/QueryIotHub.yml)
-##### [Query Jobs](iothub/digitaltwinmodel/Service/QueryJobs.yml)
-##### [Replace Module Twin](iothub/digitaltwinmodel/Service/ReplaceModuleTwin.yml)
-##### [Replace Twin](iothub/digitaltwinmodel/Service/ReplaceTwin.yml)
-##### [Set Fault Injection](iothub/digitaltwinmodel/Service/SetFaultInjection.yml)
-##### [Test Configuration Queries](iothub/digitaltwinmodel/Service/TestConfigurationQueries.yml)
-##### [Update Module Twin](iothub/digitaltwinmodel/Service/UpdateModuleTwin.yml)
-##### [Update Twin](iothub/digitaltwinmodel/Service/UpdateTwin.yml)
 ### Digital Twin Model Repository Service
 #### Create Or Update Model
 ##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateModel.yml)
@@ -5965,6 +5918,38 @@
 #### Search Model
 ##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModel.yml)
 ##### [Search Model](iothub/digitaltwinmodelrepositoryservice/SearchModel/SearchModel.yml)
+### IoTPnP
+#### Assign Roles Async
+##### [Overview](iothub/iotpnp/AssignRolesAsync.yml)
+##### [Assign Roles Async](iothub/iotpnp/AssignRolesAsync/AssignRolesAsync.yml)
+#### Create Tenant Async
+##### [Overview](iothub/iotpnp/CreateTenantAsync.yml)
+##### [Create Tenant Async](iothub/iotpnp/CreateTenantAsync/CreateTenantAsync.yml)
+#### Get Subjects For Resources By Type Async
+##### [Overview](iothub/iotpnp/GetSubjectsForResourcesByTypeAsync.yml)
+##### [Get Subjects For Resources By Type Async](iothub/iotpnp/GetSubjectsForResourcesByTypeAsync/GetSubjectsForResourcesByTypeAsync.yml)
+#### Get Tenant Async
+##### [Overview](iothub/iotpnp/GetTenantAsync.yml)
+##### [Get Tenant Async](iothub/iotpnp/GetTenantAsync/GetTenantAsync.yml)
+#### GetSubjectsForResourcesAsync(IoTPnP)
+##### [Overview](iothub/iotpnp/GetSubjectsForResourcesAsync(IoTPnP).yml)
+##### [Get Subjects For Resources Async](iothub/iotpnp/GetSubjectsForResourcesAsync(IoTPnP)/GetSubjectsForResourcesAsync.yml)
+#### Remove Roles Async
+##### [Overview](iothub/iotpnp/RemoveRolesAsync.yml)
+##### [Remove Roles Async](iothub/iotpnp/RemoveRolesAsync/RemoveRolesAsync.yml)
+### IoTPnP ModelRepo
+#### Are Valid Models
+##### [Overview](iothub/iotpnpmodelrepo/AreValidModels.yml)
+##### [Are Valid Models](iothub/iotpnpmodelrepo/AreValidModels/AreValidModels.yml)
+#### Create Or Update Async
+##### [Overview](iothub/iotpnpmodelrepo/CreateOrUpdateAsync.yml)
+##### [Create Or Update Async](iothub/iotpnpmodelrepo/CreateOrUpdateAsync/CreateOrUpdateAsync.yml)
+#### Get Model Async
+##### [Overview](iothub/iotpnpmodelrepo/GetModelAsync.yml)
+##### [Get Model Async](iothub/iotpnpmodelrepo/GetModelAsync/GetModelAsync.yml)
+#### Search Models Async
+##### [Overview](iothub/iotpnpmodelrepo/SearchModelsAsync.yml)
+##### [Search Models Async](iothub/iotpnpmodelrepo/SearchModelsAsync/SearchModelsAsync.yml)
 ### Service
 #### Configuration
 ##### [Overview](iothub/service/Configuration.yml)
@@ -6900,9 +6885,11 @@
 ### [Overview](maps/Weather.yml)
 ### [Get Current Conditions Preview](maps/Weather/GetCurrentConditionsPreview.yml)
 ### [Get Daily Forecast Preview](maps/Weather/GetDailyForecastPreview.yml)
+### [Get Daily Indices Preview](maps/Weather/GetDailyIndicesPreview.yml)
 ### [Get Hourly Forecast Preview](maps/Weather/GetHourlyForecastPreview.yml)
 ### [Get Minute Forecast Preview](maps/Weather/GetMinuteForecastPreview.yml)
 ### [Get Quarter Day Forecast Preview](maps/Weather/GetQuarterDayForecastPreview.yml)
+### [Get Severe Weather Alerts Preview](maps/Weather/GetSevereWeatherAlertsPreview.yml)
 ### [Get Weather Along Route Preview](maps/Weather/GetWeatherAlongRoutePreview.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
