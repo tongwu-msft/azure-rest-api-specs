@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.databases.listbycluster
 name: List By Cluster
 service: Azure Kusto
 groupName: Databases
-apiVersion: 2019-01-21
+apiVersion: 2020-06-14
 summary: Returns the list of databases of the given Kusto cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases?api-version=2019-01-21
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases?api-version=2020-06-14
 uriParameters:
 - name: subscriptionId
   in: path
@@ -54,8 +54,11 @@ definitions:
   - name: value
     description: The list of Kusto databases.
     types:
-    - uid: Database
+    - uid: ReadWriteDatabase
       isArray: true
+    - uid: ReadOnlyFollowingDatabase
+      isArray: true
+    typesTitle: Database[]
 - name: CloudError
   description: An error response from Kusto.
   kind: object
@@ -64,47 +67,6 @@ definitions:
     description: An error response from Kusto.
     types:
     - uid: CloudErrorBody
-- name: Database
-  description: Class representing a Kusto database.
-  kind: object
-  properties:
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioned state of the resource.
-    types:
-    - uid: ProvisioningState
-  - name: properties.softDeletePeriod
-    description: The time the data should be kept before it stops being accessible to queries in TimeSpan.
-    types:
-    - uid: string
-  - name: properties.hotCachePeriod
-    description: The time the data that should be kept in cache for fast queries in TimeSpan.
-    types:
-    - uid: string
-  - name: properties.statistics
-    isReadyOnly: true
-    description: The statistics of the database.
-    types:
-    - uid: DatabaseStatistics
-  - name: id
-    isReadyOnly: true
-    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the resource
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
-    types:
-    - uid: string
 - name: CloudErrorBody
   description: An error response from Kusto.
   kind: object
@@ -126,6 +88,119 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: ReadWriteDatabase
+  description: Class representing a read write database.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioned state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.softDeletePeriod
+    description: The time the data should be kept before it stops being accessible to queries in TimeSpan.
+    types:
+    - uid: string
+  - name: properties.hotCachePeriod
+    description: The time the data should be kept in cache for fast queries in TimeSpan.
+    types:
+    - uid: string
+  - name: properties.statistics
+    isReadyOnly: true
+    description: The statistics of the database.
+    types:
+    - uid: DatabaseStatistics
+  - name: properties.isFollowed
+    isReadyOnly: true
+    description: Indicates whether the database is followed.
+    types:
+    - uid: boolean
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of the database
+    types:
+    - uid: ReadWrite
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: ReadOnlyFollowingDatabase
+  description: Class representing a read only following database.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioned state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.softDeletePeriod
+    isReadyOnly: true
+    description: The time the data should be kept before it stops being accessible to queries in TimeSpan.
+    types:
+    - uid: string
+  - name: properties.hotCachePeriod
+    description: The time the data should be kept in cache for fast queries in TimeSpan.
+    types:
+    - uid: string
+  - name: properties.statistics
+    isReadyOnly: true
+    description: The statistics of the database.
+    types:
+    - uid: DatabaseStatistics
+  - name: properties.leaderClusterResourceId
+    isReadyOnly: true
+    description: The name of the leader cluster
+    types:
+    - uid: string
+  - name: properties.attachedDatabaseConfigurationName
+    isReadyOnly: true
+    description: The name of the attached database configuration cluster
+    types:
+    - uid: string
+  - name: properties.principalsModificationKind
+    isReadyOnly: true
+    description: The principals modification kind of the database
+    types:
+    - uid: PrincipalsModificationKind
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of the database
+    types:
+    - uid: ReadOnlyFollowing
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
 - name: ProvisioningState
   description: The provisioned state of the resource.
   kind: enum
@@ -145,6 +220,9 @@ definitions:
   - name: Failed
     types:
     - uid: string
+  - name: Moving
+    types:
+    - uid: string
 - name: DatabaseStatistics
   description: A class that contains database statistics information.
   kind: object
@@ -153,19 +231,32 @@ definitions:
     description: The database size - the total size of compressed data and index in bytes.
     types:
     - uid: number
+- name: PrincipalsModificationKind
+  description: The principals modification kind of the database
+  kind: enum
+  properties:
+  - name: Union
+    types:
+    - uid: string
+  - name: Replace
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
 examples:
 - name: KustoDatabasesListByCluster
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/KustoClusterRPTest4/databases?api-version=2019-01-21
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/databases?api-version=2020-06-14
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/KustoClusterRPTest4/Databases/KustoDatabase8",
+            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest4/Databases/KustoDatabase8",
             "name": "KustoClusterRPTest4/KustoDatabase8",
-            "type": "Microsoft.Kusto/clusters/databases",
+            "type": "Microsoft.Kusto/Clusters/Databases",
             "location": "westus",
             "properties": {
               "softDeletePeriod": "P1D",
@@ -173,9 +264,9 @@ examples:
             }
           },
           {
-            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/KustoClusterRPTest4/Databases/KustoDatabase9",
+            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest4/Databases/KustoDatabase9",
             "name": "KustoClusterRPTest4/KustoDatabase9",
-            "type": "Microsoft.Kusto/clusters/databases",
+            "type": "Microsoft.Kusto/Clusters/Databases",
             "location": "westus",
             "properties": {
               "softDeletePeriod": "P1D",

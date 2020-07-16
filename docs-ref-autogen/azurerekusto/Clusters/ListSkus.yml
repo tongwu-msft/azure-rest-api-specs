@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.clusters.listskus
 name: List Skus
 service: Azure Kusto
 groupName: Clusters
-apiVersion: 2019-01-21
+apiVersion: 2020-06-14
 summary: Lists eligible SKUs for Kusto resource provider.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/skus?api-version=2019-01-21
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/skus?api-version=2020-06-14
 uriParameters:
 - name: subscriptionId
   in: path
@@ -28,21 +28,22 @@ responses:
 - name: 200 OK
   description: OK.
   types:
-  - uid: ListSkusResult
+  - uid: SkuDescriptionList
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: ListSkusResult
-  description: List of available SKUs for a new Kusto Cluster.
+- name: SkuDescriptionList
+  description: The list of the EngagementFabric SKU descriptions
   kind: object
   properties:
   - name: value
-    description: The collection of available SKUs for new resources.
+    isReadyOnly: true
+    description: SKU descriptions
     types:
-    - uid: AzureSku
+    - uid: SkuDescription
       isArray: true
 - name: CloudError
   description: An error response from Kusto.
@@ -52,22 +53,43 @@ definitions:
     description: An error response from Kusto.
     types:
     - uid: CloudErrorBody
-- name: AzureSku
-  description: Azure SKU definition.
+- name: SkuDescription
+  description: The Kusto SKU description of given resource type
   kind: object
   properties:
+  - name: resourceType
+    isReadyOnly: true
+    description: The resource type
+    types:
+    - uid: string
   - name: name
-    description: SKU name.
+    isReadyOnly: true
+    description: The name of the SKU
     types:
-    - uid: AzureSkuName
-  - name: capacity
-    description: The number of instances of the cluster.
-    types:
-    - uid: integer
+    - uid: string
   - name: tier
-    description: SKU tier.
+    isReadyOnly: true
+    description: The tier of the SKU
     types:
-    - uid: AzureSkuTier
+    - uid: string
+  - name: locations
+    isReadyOnly: true
+    description: The set of locations that the SKU is available
+    types:
+    - uid: string
+      isArray: true
+  - name: locationInfo
+    isReadyOnly: true
+    description: Locations and zones
+    types:
+    - uid: SkuLocationInfoItem
+      isArray: true
+  - name: restrictions
+    isReadyOnly: true
+    description: The restrictions because of which SKU cannot be used
+    types:
+    - uid: object
+      isArray: true
 - name: CloudErrorBody
   description: An error response from Kusto.
   kind: object
@@ -89,84 +111,115 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: AzureSkuName
-  description: SKU name.
-  kind: enum
+- name: SkuLocationInfoItem
+  description: The locations and zones info for SKU.
+  kind: object
   properties:
-  - name: Standard_DS13_v2+1TB_PS
+  - name: location
+    description: The available location of the SKU.
     types:
     - uid: string
-  - name: Standard_DS13_v2+2TB_PS
+  - name: zones
+    description: The available zone of the SKU.
     types:
     - uid: string
-  - name: Standard_DS14_v2+3TB_PS
-    types:
-    - uid: string
-  - name: Standard_DS14_v2+4TB_PS
-    types:
-    - uid: string
-  - name: Standard_D13_v2
-    types:
-    - uid: string
-  - name: Standard_D14_v2
-    types:
-    - uid: string
-  - name: Standard_L8s
-    types:
-    - uid: string
-  - name: Standard_L16s
-    types:
-    - uid: string
-  - name: Standard_D11_v2
-    types:
-    - uid: string
-  - name: Standard_D12_v2
-    types:
-    - uid: string
-  - name: Standard_L4s
-    types:
-    - uid: string
-  - name: Dev(No SLA)_Standard_D11_v2
-    types:
-    - uid: string
-- name: AzureSkuTier
-  description: SKU tier.
-  kind: enum
-  properties:
-  - name: Basic
-    types:
-    - uid: string
-  - name: Standard
-    types:
-    - uid: string
+      isArray: true
 examples:
 - name: KustoClustersListSkus
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/providers/Microsoft.Kusto/skus?api-version=2019-01-21
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/providers/Microsoft.Kusto/skus?api-version=2020-06-14
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "name": "D13_v2",
+            "name": "Standard_D13_v2",
             "tier": "Standard",
-            "capacity": 2
+            "locations": [
+              "West US",
+              "West Europe"
+            ],
+            "locationInfo": [
+              {
+                "location": "West US",
+                "zones": [
+                  "1",
+                  "2",
+                  "3"
+                ]
+              },
+              {
+                "location": "West Europe",
+                "zones": []
+              }
+            ]
           },
           {
-            "name": "D14_v2",
+            "name": "Standard_D14_v2",
             "tier": "Standard",
-            "capacity": 2
+            "locations": [
+              "West US",
+              "West Europe"
+            ],
+            "locationInfo": [
+              {
+                "location": "West US",
+                "zones": [
+                  "1",
+                  "2",
+                  "3"
+                ]
+              },
+              {
+                "location": "West Europe",
+                "zones": []
+              }
+            ]
           },
           {
             "name": "L8",
             "tier": "Standard",
-            "capacity": 2
+            "locations": [
+              "West US",
+              "West Europe"
+            ],
+            "locationInfo": [
+              {
+                "location": "West US",
+                "zones": [
+                  "1",
+                  "2",
+                  "3"
+                ]
+              },
+              {
+                "location": "West Europe",
+                "zones": []
+              }
+            ]
           },
           {
             "name": "L16",
             "tier": "Standard",
-            "capacity": 2
+            "locations": [
+              "West US",
+              "West Europe"
+            ],
+            "locationInfo": [
+              {
+                "location": "West US",
+                "zones": [
+                  "1",
+                  "2",
+                  "3"
+                ]
+              },
+              {
+                "location": "West Europe",
+                "zones": []
+              }
+            ]
           }
         ]
       }
