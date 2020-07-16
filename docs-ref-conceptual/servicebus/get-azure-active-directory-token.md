@@ -28,7 +28,7 @@ see [Authenticate from an application](get-azure-active-directory-token.md) for 
 - Follow instructions from [Quickstart: Use Azure portal to create a Service Bus queue](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal) to create a Service Bus namespace and a queue in the namespace.
 - Download and install [Postman](https://www.postman.com/) desktop app.
 
-## Register your app and get tenant ID, client ID, and client secret
+## Register your app with Azure AD
 First step is to register you application with the Azure AD tenant and note down the values of tenant ID, client ID, and client secret. You will use these values latest when testing the REST API using the Postman tool. 
 
 1. Sign in to the [Azure portal](https://portal.azure.com).
@@ -54,7 +54,7 @@ First step is to register you application with the Azure AD tenant and note down
 
     :::image type="content" source="./media/get-azure-active-directory-token/client-secret.png" alt-text="Copy client secret":::
 
-## Add the application to the Service Bus Data Sender role 
+## Add application to the Service Bus Data Sender role 
 In this example, we are only sending messaging to the Service Bus queue, so add the application to the **Service Bus Data Sender** role. 
 
 1. On the **Service Bus Namespace** page, select **Access control** from the left menu, and then select **Add** on the **Add a role assignment** tile. 
