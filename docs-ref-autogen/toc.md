@@ -9028,6 +9028,7 @@
 ### [Delete Message](../docs-ref-conceptual/servicebus/delete-message.md)
 ### [Renew-Lock for a Message](../docs-ref-conceptual/servicebus/renew-lock-for-a-message.md)
 ### [Request a Token from ACS](../docs-ref-conceptual/servicebus/request-a-token-from-acs.md)
+### [Get Azure Active Directory token](../docs-ref-conceptual/servicebus/get-azure-active-directory-token.md)
 ### [REST vs. .NET Client Support](../docs-ref-conceptual/servicebus/rest-dotnet-client-support.md)
 ## Reference
 ### Disaster Recovery Configs
