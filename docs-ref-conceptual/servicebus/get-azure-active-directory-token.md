@@ -21,7 +21,7 @@ translation.priority.mt:
 ---
 
 # Get an Azure Active Directory (Azure AD) token 
-see [Authenticate from an application](get-azure-active-directory-token.md) for a quick overview of getting an Azure Active Directory (Azure AD) token. This article give you an example of getting an AAD token that you can use to send messages to a Service Bus namespace. It uses the **Postman** tool for testing purposes. 
+see [Authenticate from an application](get-azure-active-directory-token.md) for a quick overview of getting an Azure Active Directory (Azure AD) token. This article gives you an example of getting an AAD token that you can use to send messages to a Service Bus namespace. It uses the **Postman** tool for testing purposes. 
 
 ## Prerequisites
 
@@ -57,7 +57,7 @@ First step is to register you application with the Azure AD tenant and note down
 ## Add the application to the Service Bus Data Sender role 
 In this example, we are only sending messaging to the Service Bus queue, so add the application to the **Service Bus Data Sender** role. 
 
-1. On the **Service Bus Namespace** page, select **Access control** from the left menu, and then select **Add** in the **Add a role assignment** tile. 
+1. On the **Service Bus Namespace** page, select **Access control** from the left menu, and then select **Add** on the **Add a role assignment** tile. 
 
     :::image type="content" source="./media/get-azure-active-directory-token/add-role-assignment-button.png" alt-text="Access control -> Add a role assignment":::    
 1. On the **Add role assignment** page, select **Azure Service Bus Data Sender** for **Role**, and select your application (in this example, **ServiceBusRestClientApp**) for the service principal. 
@@ -92,11 +92,11 @@ In this example, we are only sending messaging to the Service Bus queue, so add 
 1. Select **POST** for the method. 
 1. Enter URI in the following format: `https://<SERVICE BUS NAMESPACE NAME>.servicebus.windows.net/<QUEUE NAME>/messages`. Replace `<SERVICE BUS NAMESPACE NAME>` with the name of the Service Bus namespace. Replace `<QUEUE NAME>` with the name of the queue. 
 1. On the **Headers** tab, add the following two headers.
-    1. Add `Authorization` key and value for it in the following formar: `Bearer <TOKEN from Azure AAD>`. When you copy/paste the token, don't copy the enclosing double quotes. 
+    1. Add `Authorization` key and value for it in the following format: `Bearer <TOKEN from Azure AAD>`. When you copy/paste the token, don't copy the enclosing double quotes. 
     1. Add `Content-Type` key and `application/atom+xml;type=entry;charset=utf-8` as the value for it. 
 
         :::image type="content" source="./media/get-azure-active-directory-token/postman-headers-message.png" alt-text="Header for the message":::
-5. On the **Body** tab, select **raw** for the data type, and enter **This is a message** or any message for the body. 
+5. On the **Body** tab, select **raw** for the data type, and enter `This is a message` or any message for the body. 
 
     :::image type="content" source="./media/get-azure-active-directory-token/postman-body-message.png" alt-text="Header for the message":::    
 1. Select **Send** to send the message to the queue. You see the status as `Created` with the code 201 as shown in the following image. 
