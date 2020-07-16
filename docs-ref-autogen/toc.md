@@ -8608,6 +8608,21 @@
 ### [Get At Scope](resources/Tags/GetAtScope.yml)
 ### [List](resources/Tags/List.yml)
 ### [Update At Scope](resources/Tags/UpdateAtScope.yml)
+## Template Spec Versions
+### [Overview](resources/TemplateSpecVersions.yml)
+### [Create Or Update](resources/TemplateSpecVersions/CreateOrUpdate.yml)
+### [Delete](resources/TemplateSpecVersions/Delete.yml)
+### [Get](resources/TemplateSpecVersions/Get.yml)
+### [List](resources/TemplateSpecVersions/List.yml)
+### [Update](resources/TemplateSpecVersions/Update.yml)
+## Template Specs
+### [Overview](resources/TemplateSpecs.yml)
+### [Create Or Update](resources/TemplateSpecs/CreateOrUpdate.yml)
+### [Delete](resources/TemplateSpecs/Delete.yml)
+### [Get](resources/TemplateSpecs/Get.yml)
+### [List By Resource Group](resources/TemplateSpecs/ListByResourceGroup.yml)
+### [List By Subscription](resources/TemplateSpecs/ListBySubscription.yml)
+### [Update](resources/TemplateSpecs/Update.yml)
 ## Tenant Backfill Status
 ### [Overview](resources/TenantBackfillStatus.yml)
 ### [Tenant Backfill Status](resources/TenantBackfillStatus/TenantBackfillStatus.yml)
