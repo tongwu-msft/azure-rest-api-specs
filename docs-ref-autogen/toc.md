@@ -5976,6 +5976,12 @@
 ##### [Overview](iothub/service/DeviceMethod.yml)
 ##### [Invoke Device Method](iothub/service/DeviceMethod/InvokeDeviceMethod.yml)
 ##### [Invoke Module Method](iothub/service/DeviceMethod/InvokeModuleMethod.yml)
+#### Digital Twin
+##### [Overview](iothub/service/DigitalTwin.yml)
+##### [Get Digital Twin](iothub/service/DigitalTwin/GetDigitalTwin.yml)
+##### [Invoke Component Command](iothub/service/DigitalTwin/InvokeComponentCommand.yml)
+##### [Invoke Root Level Command](iothub/service/DigitalTwin/InvokeRootLevelCommand.yml)
+##### [Update Digital Twin](iothub/service/DigitalTwin/UpdateDigitalTwin.yml)
 #### Fault Injection
 ##### [Overview](iothub/service/FaultInjection.yml)
 ##### [Get](iothub/service/FaultInjection/Get.yml)
