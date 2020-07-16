@@ -31,4 +31,5 @@
 ## [Delete Message](delete-message.md)
 ## [Renew-Lock for a Message](renew-lock-for-a-message.md)
 ## [Request a Token from ACS](request-a-token-from-acs.md)
+## [Get Azure Active Directory token](get-azure-active-directory-token.md)
 ## [REST vs. .NET Client Support](rest-dotnet-client-support.md)
