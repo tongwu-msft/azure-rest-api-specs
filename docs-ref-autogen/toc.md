@@ -6900,9 +6900,11 @@
 ### [Overview](maps/Weather.yml)
 ### [Get Current Conditions Preview](maps/Weather/GetCurrentConditionsPreview.yml)
 ### [Get Daily Forecast Preview](maps/Weather/GetDailyForecastPreview.yml)
+### [Get Daily Indices Preview](maps/Weather/GetDailyIndicesPreview.yml)
 ### [Get Hourly Forecast Preview](maps/Weather/GetHourlyForecastPreview.yml)
 ### [Get Minute Forecast Preview](maps/Weather/GetMinuteForecastPreview.yml)
 ### [Get Quarter Day Forecast Preview](maps/Weather/GetQuarterDayForecastPreview.yml)
+### [Get Severe Weather Alerts Preview](maps/Weather/GetSevereWeatherAlertsPreview.yml)
 ### [Get Weather Along Route Preview](maps/Weather/GetWeatherAlongRoutePreview.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
