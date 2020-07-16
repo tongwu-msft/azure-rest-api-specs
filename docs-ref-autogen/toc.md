@@ -5906,50 +5906,37 @@
 #### [Overview](iothub/ResourceProviderCommon.yml)
 #### [Get Subscription Quota](iothub/ResourceProviderCommon/GetSubscriptionQuota.yml)
 ### Digital Twin Model Repository Service
-#### Create Or Update Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateModel.yml)
-##### [Create Or Update Model](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateModel/CreateOrUpdateModel.yml)
-#### Delete Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/DeleteModel.yml)
-##### [Delete Model](iothub/digitaltwinmodelrepositoryservice/DeleteModel/DeleteModel.yml)
+#### Are Valid Models
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/AreValidModels.yml)
+##### [Are Valid Models](iothub/digitaltwinmodelrepositoryservice/AreValidModels/AreValidModels.yml)
+#### Create Or Update
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdate.yml)
+##### [Create Or Update](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdate/CreateOrUpdate.yml)
 #### Get Model
 ##### [Overview](iothub/digitaltwinmodelrepositoryservice/GetModel.yml)
 ##### [Get Model](iothub/digitaltwinmodelrepositoryservice/GetModel/GetModel.yml)
-#### Search Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModel.yml)
-##### [Search Model](iothub/digitaltwinmodelrepositoryservice/SearchModel/SearchModel.yml)
-### IoTPnP
-#### Assign Roles Async
-##### [Overview](iothub/iotpnp/AssignRolesAsync.yml)
-##### [Assign Roles Async](iothub/iotpnp/AssignRolesAsync/AssignRolesAsync.yml)
-#### Create Tenant Async
-##### [Overview](iothub/iotpnp/CreateTenantAsync.yml)
-##### [Create Tenant Async](iothub/iotpnp/CreateTenantAsync/CreateTenantAsync.yml)
-#### Get Subjects For Resources By Type Async
-##### [Overview](iothub/iotpnp/GetSubjectsForResourcesByTypeAsync.yml)
-##### [Get Subjects For Resources By Type Async](iothub/iotpnp/GetSubjectsForResourcesByTypeAsync/GetSubjectsForResourcesByTypeAsync.yml)
-#### Get Tenant Async
-##### [Overview](iothub/iotpnp/GetTenantAsync.yml)
-##### [Get Tenant Async](iothub/iotpnp/GetTenantAsync/GetTenantAsync.yml)
-#### GetSubjectsForResourcesAsync(IoTPnP)
-##### [Overview](iothub/iotpnp/GetSubjectsForResourcesAsync(IoTPnP).yml)
-##### [Get Subjects For Resources Async](iothub/iotpnp/GetSubjectsForResourcesAsync(IoTPnP)/GetSubjectsForResourcesAsync.yml)
-#### Remove Roles Async
-##### [Overview](iothub/iotpnp/RemoveRolesAsync.yml)
-##### [Remove Roles Async](iothub/iotpnp/RemoveRolesAsync/RemoveRolesAsync.yml)
-### IoTPnP ModelRepo
-#### Are Valid Models
-##### [Overview](iothub/iotpnpmodelrepo/AreValidModels.yml)
-##### [Are Valid Models](iothub/iotpnpmodelrepo/AreValidModels/AreValidModels.yml)
-#### Create Or Update Async
-##### [Overview](iothub/iotpnpmodelrepo/CreateOrUpdateAsync.yml)
-##### [Create Or Update Async](iothub/iotpnpmodelrepo/CreateOrUpdateAsync/CreateOrUpdateAsync.yml)
-#### Get Model Async
-##### [Overview](iothub/iotpnpmodelrepo/GetModelAsync.yml)
-##### [Get Model Async](iothub/iotpnpmodelrepo/GetModelAsync/GetModelAsync.yml)
-#### Search Models Async
-##### [Overview](iothub/iotpnpmodelrepo/SearchModelsAsync.yml)
-##### [Search Models Async](iothub/iotpnpmodelrepo/SearchModelsAsync/SearchModelsAsync.yml)
+#### Search Models
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModels.yml)
+##### [Search Models](iothub/digitaltwinmodelrepositoryservice/SearchModels/SearchModels.yml)
+### Digital Twin Model Repository Service Control Plane
+#### Assign Roles
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles.yml)
+##### [Assign Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles/AssignRoles.yml)
+#### Create Tenant
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant.yml)
+##### [Create Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant/CreateTenant.yml)
+#### Get Subjects For Resources
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources.yml)
+##### [Get Subjects For Resources](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources/GetSubjectsForResources.yml)
+#### Get Subjects For Resources By Type
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType.yml)
+##### [Get Subjects For Resources By Type](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType/GetSubjectsForResourcesByType.yml)
+#### Get Tenant
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant.yml)
+##### [Get Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant/GetTenant.yml)
+#### Remove Roles
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles.yml)
+##### [Remove Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles/RemoveRoles.yml)
 ### Service
 #### Configuration
 ##### [Overview](iothub/service/Configuration.yml)

@@ -1,53 +1,52 @@
 ### YamlMime:RESTOperation
-uid: iothub.digitaltwinmodelrepositoryservice.getmodel.getmodel
-name: Get Model
+uid: iothub.digitaltwinmodelrepositoryservice.arevalidmodels.arevalidmodels
+name: Are Valid Models
 service: IoT Hub
-groupName: Get Model
+groupName: Are Valid Models
 apiVersion: 2020-05-01-preview
-summary: Gets a Digital Twin model definition for the given digital twin model Id.
-consumes: []
+summary: Validates the models according to the DTDL spec.
+consumes:
+- application/json
 produces:
-- application/ld+json
 - application/json
 paths:
-- content: GET /models/{modelId}?api-version=2020-05-01-preview
-- content: GET /models/{modelId}?expand={expand}&api-version=2020-05-01-preview
+- content: POST /models/validate?api-version=2020-05-01-preview
+- content: POST /models/validate?api-version=2020-05-01-preview&validateDependencies={validateDependencies}
   isOptional: true
 uriParameters:
-- name: modelId
-  in: path
-  isRequired: true
-  description: 'Digital Twin model Id e.g.: dtmi:com:contoso:temperaturesensor;1.'
-  types:
-  - uid: string
-- name: expand
-  in: query
-  description: Indicates whether to expand the model’s referenced definitions inline or not.
-  types:
-  - uid: boolean
 - name: api-version
   in: query
   isRequired: true
   description: 'Api version in date group format. e.g.: api-version=2020-05-01.'
   types:
   - uid: string
+- name: validateDependencies
+  in: query
+  description: A value indicating whether [validate dependencies].
+  types:
+  - uid: boolean
 responses:
 - name: 200 OK
   description: Success
   types:
   - uid: string
-- name: 401 Unauthorized
-  description: Unauthorized
-  types:
-  - uid: ServiceError
-- name: 404 Not Found
-  description: Not Found
+- name: 400 Bad Request
+  description: Bad Request
   types:
   - uid: ServiceError
 - name: 500 Internal Server Error
   description: Server Error
   types:
   - uid: ServiceError
+requestBody:
+- name: default
+  parameters:
+  - name: jsonLdModels
+    in: body
+    description: The json ld models.
+    types:
+    - uid: object
+      isArray: true
 requestHeader:
 - name: x-ms-client-request-id
   in: header
