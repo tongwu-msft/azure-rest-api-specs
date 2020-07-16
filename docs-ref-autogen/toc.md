@@ -5931,66 +5931,38 @@
 ### Resource Provider Common
 #### [Overview](iothub/ResourceProviderCommon.yml)
 #### [Get Subscription Quota](iothub/ResourceProviderCommon/GetSubscriptionQuota.yml)
-### Digital Twin Model
-#### Digital Twin
-##### [Overview](iothub/digitaltwinmodel/DigitalTwin.yml)
-##### [Get Digital Twin Model](iothub/digitaltwinmodel/DigitalTwin/GetDigitalTwinModel.yml)
-##### [Get Interface](iothub/digitaltwinmodel/DigitalTwin/GetInterface.yml)
-##### [Get Interfaces](iothub/digitaltwinmodel/DigitalTwin/GetInterfaces.yml)
-##### [Invoke Interface Command](iothub/digitaltwinmodel/DigitalTwin/InvokeInterfaceCommand.yml)
-##### [Update Interfaces](iothub/digitaltwinmodel/DigitalTwin/UpdateInterfaces.yml)
-#### Service
-##### [Overview](iothub/digitaltwinmodel/Service.yml)
-##### [Apply Configuration On Edge Device](iothub/digitaltwinmodel/Service/ApplyConfigurationOnEdgeDevice.yml)
-##### [Bulk Create Or Update Devices](iothub/digitaltwinmodel/Service/BulkCreateOrUpdateDevices.yml)
-##### [Cancel Import Export Job](iothub/digitaltwinmodel/Service/CancelImportExportJob.yml)
-##### [Cancel Job](iothub/digitaltwinmodel/Service/CancelJob.yml)
-##### [Create Import Export Job](iothub/digitaltwinmodel/Service/CreateImportExportJob.yml)
-##### [Create Job](iothub/digitaltwinmodel/Service/CreateJob.yml)
-##### [Create Or Update Configuration](iothub/digitaltwinmodel/Service/CreateOrUpdateConfiguration.yml)
-##### [Create Or Update Device](iothub/digitaltwinmodel/Service/CreateOrUpdateDevice.yml)
-##### [Create Or Update Module](iothub/digitaltwinmodel/Service/CreateOrUpdateModule.yml)
-##### [Delete Configuration](iothub/digitaltwinmodel/Service/DeleteConfiguration.yml)
-##### [Delete Device](iothub/digitaltwinmodel/Service/DeleteDevice.yml)
-##### [Delete Module](iothub/digitaltwinmodel/Service/DeleteModule.yml)
-##### [Get Configuration](iothub/digitaltwinmodel/Service/GetConfiguration.yml)
-##### [Get Configurations](iothub/digitaltwinmodel/Service/GetConfigurations.yml)
-##### [Get Device](iothub/digitaltwinmodel/Service/GetDevice.yml)
-##### [Get Device Registry Statistics](iothub/digitaltwinmodel/Service/GetDeviceRegistryStatistics.yml)
-##### [Get Devices](iothub/digitaltwinmodel/Service/GetDevices.yml)
-##### [Get Fault Injection](iothub/digitaltwinmodel/Service/GetFaultInjection.yml)
-##### [Get Import Export Job](iothub/digitaltwinmodel/Service/GetImportExportJob.yml)
-##### [Get Import Export Jobs](iothub/digitaltwinmodel/Service/GetImportExportJobs.yml)
-##### [Get Job](iothub/digitaltwinmodel/Service/GetJob.yml)
-##### [Get Module](iothub/digitaltwinmodel/Service/GetModule.yml)
-##### [Get Module Twin](iothub/digitaltwinmodel/Service/GetModuleTwin.yml)
-##### [Get Modules On Device](iothub/digitaltwinmodel/Service/GetModulesOnDevice.yml)
-##### [Get Service Statistics](iothub/digitaltwinmodel/Service/GetServiceStatistics.yml)
-##### [Get Twin](iothub/digitaltwinmodel/Service/GetTwin.yml)
-##### [Invoke Device Method](iothub/digitaltwinmodel/Service/InvokeDeviceMethod.yml)
-##### [Invoke Device Module Method](iothub/digitaltwinmodel/Service/InvokeDeviceModuleMethod.yml)
-##### [Purge Command Queue](iothub/digitaltwinmodel/Service/PurgeCommandQueue.yml)
-##### [Query Iot Hub](iothub/digitaltwinmodel/Service/QueryIotHub.yml)
-##### [Query Jobs](iothub/digitaltwinmodel/Service/QueryJobs.yml)
-##### [Replace Module Twin](iothub/digitaltwinmodel/Service/ReplaceModuleTwin.yml)
-##### [Replace Twin](iothub/digitaltwinmodel/Service/ReplaceTwin.yml)
-##### [Set Fault Injection](iothub/digitaltwinmodel/Service/SetFaultInjection.yml)
-##### [Test Configuration Queries](iothub/digitaltwinmodel/Service/TestConfigurationQueries.yml)
-##### [Update Module Twin](iothub/digitaltwinmodel/Service/UpdateModuleTwin.yml)
-##### [Update Twin](iothub/digitaltwinmodel/Service/UpdateTwin.yml)
 ### Digital Twin Model Repository Service
-#### Create Or Update Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateModel.yml)
-##### [Create Or Update Model](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateModel/CreateOrUpdateModel.yml)
-#### Delete Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/DeleteModel.yml)
-##### [Delete Model](iothub/digitaltwinmodelrepositoryservice/DeleteModel/DeleteModel.yml)
+#### Are Valid Models
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/AreValidModels.yml)
+##### [Are Valid Models](iothub/digitaltwinmodelrepositoryservice/AreValidModels/AreValidModels.yml)
+#### Create Or Update
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdate.yml)
+##### [Create Or Update](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdate/CreateOrUpdate.yml)
 #### Get Model
 ##### [Overview](iothub/digitaltwinmodelrepositoryservice/GetModel.yml)
 ##### [Get Model](iothub/digitaltwinmodelrepositoryservice/GetModel/GetModel.yml)
-#### Search Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModel.yml)
-##### [Search Model](iothub/digitaltwinmodelrepositoryservice/SearchModel/SearchModel.yml)
+#### Search Models
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModels.yml)
+##### [Search Models](iothub/digitaltwinmodelrepositoryservice/SearchModels/SearchModels.yml)
+### Digital Twin Model Repository Service Control Plane
+#### Assign Roles
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles.yml)
+##### [Assign Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles/AssignRoles.yml)
+#### Create Tenant
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant.yml)
+##### [Create Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant/CreateTenant.yml)
+#### Get Subjects For Resources
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources.yml)
+##### [Get Subjects For Resources](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources/GetSubjectsForResources.yml)
+#### Get Subjects For Resources By Type
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType.yml)
+##### [Get Subjects For Resources By Type](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType/GetSubjectsForResourcesByType.yml)
+#### Get Tenant
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant.yml)
+##### [Get Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant/GetTenant.yml)
+#### Remove Roles
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles.yml)
+##### [Remove Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles/RemoveRoles.yml)
 ### Service
 #### Configuration
 ##### [Overview](iothub/service/Configuration.yml)
