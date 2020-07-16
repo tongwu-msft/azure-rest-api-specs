@@ -21,7 +21,7 @@ translation.priority.mt:
 ---
 
 # Get an Azure Active Directory (Azure AD) token 
-See [Authenticate from an application](https://docs.microsoft.com/azure/service-bus-messaging/authenticate-application#authenticate-from-an-application) for a quick overview of getting an Azure Active Directory (Azure AD) token. This article give you an example of getting an AAD token that you can use to send messages to a Service Bus namespace. It uses the **Postman** tool for testing purposes. 
+see [Authenticate from an application](get-azure-active-directory-token.md) for a quick overview of getting an Azure Active Directory (Azure AD) token. This article give you an example of getting an AAD token that you can use to send messages to a Service Bus namespace. It uses the **Postman** tool for testing purposes. 
 
 ## Prerequisites
 
