@@ -21,7 +21,7 @@ translation.priority.mt:
 ---
 
 # Get an Azure Active Directory (Azure AD) token 
-see [Authenticate from an application](get-azure-active-directory-token.md) for a quick overview of getting an Azure Active Directory (Azure AD) token. This article gives you an example of getting an AAD token that you can use to send messages to a Service Bus namespace. It uses the **Postman** tool for testing purposes. 
+See [Authenticate from an application](get-azure-active-directory-token.md) for a quick overview of getting an Azure Active Directory (Azure AD) token. This article gives you an example of getting an AAD token that you can use to send messages to a Service Bus namespace. It uses the **Postman** tool for testing purposes. 
 
 ## Prerequisites
 
@@ -73,7 +73,7 @@ In this example, we are only sending messaging to the Service Bus queue, so add 
 1. For the URI, enter `https://login.microsoftonline.com/<TENANT ID>/oauth2/token`. Replace `<TENANT ID>` with the tenant ID value you copied earlier. 
 1. On the **Headers** tab, add **Content-Type** key and `application/x-www-form-urlencoded` for the value. 
 
-    :::image type="content" source="./media/get-azure-active-directory-token/postman-headers.png" alt-text="Add content-type header":::
+    :::image type="content" source="./media/get-azure-active-directory-token/postman-headers.png" alt-text="Add content-type header" lightbox="./media/get-azure-active-directory-token/postman-headers.png":::
 1. Switch to the **Body** tab, and add the following keys and values. 
     1. Select **form-data**. 
     2. Add `grant_type` key, and type `client_credentials` for the value. 
@@ -81,10 +81,10 @@ In this example, we are only sending messaging to the Service Bus queue, so add 
     1. Add `client_secret` key, and paste the value of **client secret** you noted down earlier. 
     1. Add `resource` key, and type `https://servicebus.azure.net` for the value. 
 
-        :::image type="content" source="./media/get-azure-active-directory-token/postman-body.png" alt-text="Set body for the request":::
+        :::image type="content" source="./media/get-azure-active-directory-token/postman-body.png" alt-text="Set body for the request" lightbox="./media/get-azure-active-directory-token/postman-body.png":::
 6. Select **Send** to send the request to get the token. You see the token in the result. Save the token (excluding double quotes). You will use it later. 
 
-    :::image type="content" source="./media/get-azure-active-directory-token/access-token.png" alt-text="Access token from Azure AD":::    
+    :::image type="content" source="./media/get-azure-active-directory-token/access-token.png" alt-text="Access token from Azure AD" lightbox="./media/get-azure-active-directory-token/access-token.png":::    
 
 ## Send messages to a queue
 
@@ -95,20 +95,20 @@ In this example, we are only sending messaging to the Service Bus queue, so add 
     1. Add `Authorization` key and value for it in the following format: `Bearer <TOKEN from Azure AAD>`. When you copy/paste the token, don't copy the enclosing double quotes. 
     1. Add `Content-Type` key and `application/atom+xml;type=entry;charset=utf-8` as the value for it. 
 
-        :::image type="content" source="./media/get-azure-active-directory-token/postman-headers-message.png" alt-text="Header for the message":::
+        :::image type="content" source="./media/get-azure-active-directory-token/postman-headers-message.png" alt-text="Header for the message" lightbox="./media/get-azure-active-directory-token/postman-headers-message.png":::
 5. On the **Body** tab, select **raw** for the data type, and enter `This is a message` or any message for the body. 
 
-    :::image type="content" source="./media/get-azure-active-directory-token/postman-body-message.png" alt-text="Header for the message":::    
+    :::image type="content" source="./media/get-azure-active-directory-token/postman-body-message.png" alt-text="Header for the message" lightbox="./media/get-azure-active-directory-token/postman-body-message.png":::    
 1. Select **Send** to send the message to the queue. You see the status as `Created` with the code 201 as shown in the following image. 
 
-    :::image type="content" source="./media/get-azure-active-directory-token/status-201.png" alt-text="Succeeded status":::
+    :::image type="content" source="./media/get-azure-active-directory-token/status-201.png" alt-text="Succeeded status" lightbox="./media/get-azure-active-directory-token/status-201.png":::
 2. On the namespace page in the Azure portal, you can see that the messages are posted to the queue.
 
-    :::image type="content" source="./media/get-azure-active-directory-token/namespace-page-messages.png" alt-text="Messages are posted to the queue":::
+    :::image type="content" source="./media/get-azure-active-directory-token/namespace-page-messages.png" alt-text="Messages are posted to the queue" lightbox="./media/get-azure-active-directory-token/namespace-page-messages.png":::
 
     You can also use the **Service Bus Explorer (preview)** on the **Service Bus Queue** page as shown in the following image to receive or peek messages. 
 
-    :::image type="content" source="./media/get-azure-active-directory-token/service-bus-explorer-receive.png" alt-text="Receive messages using Service Bus Explorer":::    
+    :::image type="content" source="./media/get-azure-active-directory-token/service-bus-explorer-receive.png" alt-text="Receive messages using Service Bus Explorer" lightbox="./media/get-azure-active-directory-token/service-bus-explorer-receive.png":::    
     
 ## See Also  
 See the following articles:
