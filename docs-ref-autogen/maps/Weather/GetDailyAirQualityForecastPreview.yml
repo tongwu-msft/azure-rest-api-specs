@@ -1,18 +1,24 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.tileset.createpreview
-name: Create Preview
-service: Maps Creator
-groupName: Tileset
+uid: atlas.microsoft.com.maps.weather.getdailyairqualityforecastpreview
+name: Get Daily Air Quality Forecast Preview
+service: Maps
+groupName: Weather
 apiVersion: "1.0"
-summary: "**Tileset Create API**\n\n**Applies to**: S1 pricing tier.\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API \nand SDK. The Tileset API is part of Creator.\n\nThe Tileset Create API allows the caller to create a tileset from a dataset. A tileset contains a set of tiles that can be consumed \nfrom the [Get Map Tile](/rest/api/maps/render/getmaptile) to retrieve custom tiles. To make a dataset, use the \n[DataSet Create API](/rest/api/maps/dataset/createpreview).\n\n## Submit Create Request\n\nTo create your tileset you will make a `POST` request with an empty body. The `datasetId` query parameter will be \nused as the source of the tileset data.\n\nThe Create Tileset API is a \n[long-running request](https://aka.ms/am-creator-lrt)."
+summary: "**Get Hourly Air Quality Forecast Preview**\n  \n  \n**Applies to**: S1 pricing tier.\n\n\n The service returns air quality forecast for the next 1,2,3 and 4 days for the given coordinate location. The service returns an overview of pollution levels, including air quality index values, the dominant pollutant, and a brief statement summarizing risk level and suggested precautions. Response data covers various pollutants such as particulate matter 2.5 (PM2.5), particulate matter 10 (PM10), nitrogen dioxide (NO2), ozone (O3), carbon monoxide (CO), and sulfur dioxide (SO2)."
 consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://atlas.microsoft.com/tileset/create/vector?api-version=1.0&datasetId={datasetId}
-- content: POST https://atlas.microsoft.com/tileset/create/vector?subscription-key={subscription-key}&api-version=1.0&datasetId={datasetId}&minZoom={minZoom}&maxZoom={maxZoom}&description={description}
+- content: GET https://atlas.microsoft.com/weather/airQuality/forecast/daily/json?api-version=1.0&query={query}
+- content: GET https://atlas.microsoft.com/weather/airQuality/forecast/daily/json?subscription-key={subscription-key}&api-version=1.0&query={query}&language={language}&duration={duration}
   isOptional: true
 uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Only `json` format is supported.
+  types:
+  - uid: JsonFormat
 - name: subscription-key
   in: query
   description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
@@ -24,51 +30,32 @@ uriParameters:
   description: Version number of Azure Maps API. Current version is 1.0
   types:
   - uid: string
-- name: datasetId
+- name: query
   in: query
   isRequired: true
-  description: The unique `datasetId` that the tileset create API uses to retrieve features to generate tiles. The `datasetId` must have been obtained from a successful [Dataset Create API](/en-us/rest/api/maps/dataset/createpreview) call.
+  description: Coordinates of the location for which air quality information is requested. The applicable query is specified as a comma separated string composed by latitude followed by longitude e.g. "47.641268,-122.125679".
   types:
   - uid: string
-- name: minZoom
+- name: language
   in: query
-  description: >-
-    The lowest zoom level to create tiles. All features will be included in between the MinZoom and MaxZoom (inclusive).  MaxZoom must be provided if MinZoom is provided. This parameter is only supported for a Dataset created with 'outdoor' ontology. Value must be in the range: 0, 19 (inclusive).
-
-
-    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
-  types:
-  - uid: integer
-- name: maxZoom
-  in: query
-  description: >-
-    The highest zoom level to create tiles. All features will be included in between the MinZoom and MaxZoom (inclusive).  MinZoom must be provided if MaxZoom is provided. This parameter is only supported for a Dataset created with 'outdoor' ontology. Value must be in the range: 0, 19 (inclusive).
-
-
-    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
-  types:
-  - uid: integer
-- name: description
-  in: query
-  description: User provided description of the tileset.
+  description: "Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used.  Default value is en-us. \n\nPlease refer to [Supported languages](https://docs.microsoft.com/azure/azure-maps/supported-languages) for details."
   types:
   - uid: string
+- name: duration
+  in: query
+  description: >-
+    Specifies for how many days the daily air quality forecast responses are returned. By default, the forecast data for the next day will be returned. Available values are
+      * `1` - Return daily forecast of air quality for the next day. Default value.
+      * `2` - Return daily forecast of air quality for the next 2 days.
+      * `3` - Return daily forecast of air quality for the next 3 days.
+      * `4` - Return daily forecast of air quality for the next 4 days.
+  types:
+  - uid: integer
 responses:
-- name: 201 Created
-  headers:
-  - name: Location
-    value: string
-  description: The resource has been created successfully.
+- name: 200 OK
+  description: OK
   types:
-  - uid: LongRunningOperationResult
-- name: 202 Accepted
-  headers:
-  - name: Location
-    value: string
-  description: >-
-    **Supported only for async request.**
-
-    Request Accepted: The request has been accepted for processing. Please use the URL in the Location Header to retry or access the results.
+  - uid: DailyAirQualityForecastResponse
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -99,37 +86,23 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: LongRunningOperationResult
-  description: The response model for a Long-Running Operations API.
+- name: JsonFormat
+  description: Desired format of the response. Only `json` format is supported.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+- name: DailyAirQualityForecastResponse
+  description: This object is returned from a successful Get Daily Air Quality Forecast call.
   kind: object
   properties:
-  - name: operationId
-    description: The Id for this long-running operation.
+  - name: forecasts
+    description: A list of all daily air quality forecasts for the queried location.
     types:
-    - uid: string
-  - name: status
-    isReadyOnly: true
-    description: The status state of the request.
-    types:
-    - uid: type
-  - name: created
-    isReadyOnly: true
-    description: The created timestamp.
-    types:
-    - uid: string
-  - name: resourceLocation
-    isReadyOnly: true
-    description: The location URI for details about the created resource. This is only provided when the request was successfully completed.
-    types:
-    - uid: string
-  - name: error
-    description: This object is returned when an error occurs in the Maps API.
-    types:
-    - uid: ODataError
-  - name: warning
-    description: This object is returned when an error occurs in the Maps API.
-    types:
-    - uid: ODataError
+    - uid: DailyAirQuality
+      isArray: true
 - name: ODataErrorResponse
   description: This response object is returned when an error occurs in the Maps API.
   kind: object
@@ -138,24 +111,36 @@ definitions:
     description: This object is returned when an error occurs in the Maps API.
     types:
     - uid: ODataError
-- name: type
-  description: The status state of the request.
-  kind: enum
+- name: DailyAirQuality
+  description: Information about the air quality in a specific location at a specific time.
+  kind: object
   properties:
-  - name: NotStarted
-    description: The request has not started processing yet.
+  - name: dateTime
+    description: Date and time of the current observation displayed in ISO 8601 format, for example, 2019-10-27T19:39:57-08:00.
     types:
     - uid: string
-  - name: Running
-    description: The request has started processing.
+  - name: index
+    description: Air quality rating on a scale set by local regulating bodies. Scales can vary widely based on location. See [Wikipedia](https://en.wikipedia.org/wiki/Air_quality_index) for more information.
+    types:
+    - uid: number
+  - name: globalIndex
+    description: Internationally normalized air quality rating on a scale from 0 to 300 and up, with higher numbers representing worse air quality.
+    types:
+    - uid: number
+  - name: dominantPollutant
+    description: The pollutant with the highest concentration.
     types:
     - uid: string
-  - name: Failed
-    description: The request has one or more failures.
+  - name: category
+    description: One-word description of the air quality in the requested language. For example, "Excellent".
     types:
     - uid: string
-  - name: Succeeded
-    description: The request has successfully completed.
+  - name: categoryColor
+    description: A unique color corresponding to the category of this air quality result.
+    types:
+    - uid: string
+  - name: description
+    description: A textual explanation of this air quality result in the requested language.
     types:
     - uid: string
 - name: ODataError
@@ -183,29 +168,34 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Create Tileset by providing a Dataset Id
+- name: DailyIndices
   request:
-    uri: POST https://atlas.microsoft.com/tileset/create/vector?subscription-key=[subscription-key]&api-version=1.0&datasetId=[dataset-Id]
+    uri: GET https://atlas.microsoft.com/weather/airQuality/forecast/daily/json?api-version=1.0&query=43.84745,-79.37849&duration=2
   responses:
-  - statusCode: "201"
-    headers:
-    - name: Location
-      value: https://atlas.microsoft.com/tileset/{tilesetId}?api-version=1.0
-    - name: Access-Control-Expose-Headers
-      value: Location
+  - statusCode: "200"
     body: >-
       {
-        "operationId": "{operationId}",
-        "status": "Succeeded",
-        "created": "2020-01-02 1:02:03 AM +00:00",
-        "resourceLocation": "https://atlas.microsoft.com/tileset/{tilesetId}?api-version=1.0"
+        "forecasts": [
+          {
+            "dateTime": "2020-07-16T04:00:00+00:00",
+            "index": 0,
+            "globalIndex": 42.7,
+            "dominantPollutant": "Ozone",
+            "category": "Fair",
+            "categoryColor": "#FFC300",
+            "description": "The air quality is generally acceptable for most individuals. However, sensitive groups may experience minor to moderate symptoms from long-term exposure."
+          },
+          {
+            "dateTime": "2020-07-17T04:00:00+00:00",
+            "index": 0,
+            "globalIndex": 66.5,
+            "dominantPollutant": "Ozone",
+            "category": "Poor",
+            "categoryColor": "#F9712E",
+            "description": "The air has reached a high level of pollution and is unhealthy for sensitive groups. Reduce time spent outside if you are feeling symptoms such as difficulty breathing or throat irritation."
+          }
+        ]
       }
-  - statusCode: "202"
-    headers:
-    - name: Location
-      value: https://atlas.microsoft.com/tileset/operations/{operationId}?api-version=1.0
-    - name: Access-Control-Expose-Headers
-      value: Location
   - statusCode: "400"
     body: >-
       {

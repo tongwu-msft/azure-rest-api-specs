@@ -6896,9 +6896,12 @@
 ### [Get Traffic Incident Viewport](maps/Traffic/GetTrafficIncidentViewport.yml)
 ## Weather
 ### [Overview](maps/Weather.yml)
+### [Get Current Air Quality Preview](maps/Weather/GetCurrentAirQualityPreview.yml)
 ### [Get Current Conditions Preview](maps/Weather/GetCurrentConditionsPreview.yml)
+### [Get Daily Air Quality Forecast Preview](maps/Weather/GetDailyAirQualityForecastPreview.yml)
 ### [Get Daily Forecast Preview](maps/Weather/GetDailyForecastPreview.yml)
 ### [Get Daily Indices Preview](maps/Weather/GetDailyIndicesPreview.yml)
+### [Get Hourly Air Quality Forecast Preview](maps/Weather/GetHourlyAirQualityForecastPreview.yml)
 ### [Get Hourly Forecast Preview](maps/Weather/GetHourlyForecastPreview.yml)
 ### [Get Minute Forecast Preview](maps/Weather/GetMinuteForecastPreview.yml)
 ### [Get Quarter Day Forecast Preview](maps/Weather/GetQuarterDayForecastPreview.yml)
