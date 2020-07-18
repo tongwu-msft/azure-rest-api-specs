@@ -5935,15 +5935,15 @@
 #### Are Valid Models
 ##### [Overview](iothub/digitaltwinmodelrepositoryservice/AreValidModels.yml)
 ##### [Are Valid Models](iothub/digitaltwinmodelrepositoryservice/AreValidModels/AreValidModels.yml)
-#### Create Or Update
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdate.yml)
-##### [Create Or Update](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdate/CreateOrUpdate.yml)
-#### Get Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/GetModel.yml)
-##### [Get Model](iothub/digitaltwinmodelrepositoryservice/GetModel/GetModel.yml)
-#### Search Models
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModels.yml)
-##### [Search Models](iothub/digitaltwinmodelrepositoryservice/SearchModels/SearchModels.yml)
+#### Create Or Update Async
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateAsync.yml)
+##### [Create Or Update Async](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateAsync/CreateOrUpdateAsync.yml)
+#### Get Model Async
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/GetModelAsync.yml)
+##### [Get Model Async](iothub/digitaltwinmodelrepositoryservice/GetModelAsync/GetModelAsync.yml)
+#### Search Models Async
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModelsAsync.yml)
+##### [Search Models Async](iothub/digitaltwinmodelrepositoryservice/SearchModelsAsync/SearchModelsAsync.yml)
 ### Digital Twin Model Repository Service Control Plane
 #### Assign Roles
 ##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles.yml)
