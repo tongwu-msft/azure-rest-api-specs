@@ -55,6 +55,12 @@
 ## Operations
 ### [Overview](aks/Operations.yml)
 ### [List](aks/Operations/List.yml)
+## Private Endpoint Connections
+### [Overview](aks/PrivateEndpointConnections.yml)
+### [Delete](aks/PrivateEndpointConnections/Delete.yml)
+### [Get](aks/PrivateEndpointConnections/Get.yml)
+### [List](aks/PrivateEndpointConnections/List.yml)
+### [Update](aks/PrivateEndpointConnections/Update.yml)
 # Analysis Services
 ## [Overview](../docs-ref-conceptual/analysisservices/index.md)
 ## Operations
