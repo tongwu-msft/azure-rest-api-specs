@@ -7345,6 +7345,14 @@
 #### [List By Resource Group](monitor/ScheduledQueryRules/ListByResourceGroup.yml)
 #### [List By Subscription](monitor/ScheduledQueryRules/ListBySubscription.yml)
 #### [Update](monitor/ScheduledQueryRules/Update.yml)
+### Smart Detector Alert Rules
+#### [Overview](monitor/SmartDetectorAlertRules.yml)
+#### [Create Or Update](monitor/SmartDetectorAlertRules/CreateOrUpdate.yml)
+#### [Delete](monitor/SmartDetectorAlertRules/Delete.yml)
+#### [Get](monitor/SmartDetectorAlertRules/Get.yml)
+#### [List](monitor/SmartDetectorAlertRules/List.yml)
+#### [List By Resource Group](monitor/SmartDetectorAlertRules/ListByResourceGroup.yml)
+#### [Patch](monitor/SmartDetectorAlertRules/Patch.yml)
 ### Subscription Diagnostic Settings
 #### [Overview](monitor/SubscriptionDiagnosticSettings.yml)
 #### [Create Or Update](monitor/SubscriptionDiagnosticSettings/CreateOrUpdate.yml)
