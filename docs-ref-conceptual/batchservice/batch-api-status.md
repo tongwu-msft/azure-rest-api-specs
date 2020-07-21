@@ -35,10 +35,10 @@ The following Batch service API versions are scheduled for future deprecation an
 | `2015-12-01.2.2` | 10/31/2020             |
 | `2016-02-01.3.0` | 10/31/2020             |
 | `2016-07-01.3.1` | 10/31/2020             |
-| `2017-01-01.4.0` | 10/31/2020             |
+| `2017-01-01.4.0` | 04/01/2021             |
 | `2017-05-01.5.0` | 10/31/2020             |
 | `2017-06-01.5.1` | 10/31/2020             |
-| `2017-09-01.6.0` | 10/31/2020             |
+| `2017-09-01.6.0` | 04/01/2021             |
 
 The Batch service SDKs scheduled for future deprecation and removal are as follows.
 
