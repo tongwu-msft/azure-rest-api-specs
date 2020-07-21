@@ -7301,6 +7301,12 @@
 #### [Get](monitor/LogProfiles/Get.yml)
 #### [List](monitor/LogProfiles/List.yml)
 #### [Update](monitor/LogProfiles/Update.yml)
+### Management Group Diagnostic Settings
+#### [Overview](monitor/ManagementGroupDiagnosticSettings.yml)
+#### [Create Or Update](monitor/ManagementGroupDiagnosticSettings/CreateOrUpdate.yml)
+#### [Delete](monitor/ManagementGroupDiagnosticSettings/Delete.yml)
+#### [Get](monitor/ManagementGroupDiagnosticSettings/Get.yml)
+#### [List](monitor/ManagementGroupDiagnosticSettings/List.yml)
 ### Metric Alerts
 #### [Overview](monitor/MetricAlerts.yml)
 #### [Create Or Update](monitor/MetricAlerts/CreateOrUpdate.yml)
