@@ -1611,12 +1611,10 @@
 ### Operations
 #### [Overview](migrate/assessment/Operations.yml)
 #### [List](migrate/assessment/Operations/List.yml)
-### Project
-#### [Overview](migrate/assessment/Project.yml)
-#### [Assessment Options](migrate/assessment/Project/AssessmentOptions.yml)
-#### [Assessment Options List](migrate/assessment/Project/AssessmentOptionsList.yml)
 ### Projects
 #### [Overview](migrate/assessment/Projects.yml)
+#### [Assessment Options](migrate/assessment/Projects/AssessmentOptions.yml)
+#### [Assessment Options List](migrate/assessment/Projects/AssessmentOptionsList.yml)
 #### [Create](migrate/assessment/Projects/Create.yml)
 #### [Delete](migrate/assessment/Projects/Delete.yml)
 #### [Get](migrate/assessment/Projects/Get.yml)
