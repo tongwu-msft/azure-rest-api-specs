@@ -55,6 +55,12 @@
 ## Operations
 ### [Overview](aks/Operations.yml)
 ### [List](aks/Operations/List.yml)
+## Private Endpoint Connections
+### [Overview](aks/PrivateEndpointConnections.yml)
+### [Delete](aks/PrivateEndpointConnections/Delete.yml)
+### [Get](aks/PrivateEndpointConnections/Get.yml)
+### [List](aks/PrivateEndpointConnections/List.yml)
+### [Update](aks/PrivateEndpointConnections/Update.yml)
 # Analysis Services
 ## [Overview](../docs-ref-conceptual/analysisservices/index.md)
 ## Operations
@@ -1508,16 +1514,35 @@
 ### [Update](avs/PrivateClouds/Update.yml)
 # Azure Kusto
 ## [Overview](../docs-ref-conceptual/azurerekusto/index.md)
+## Attached Database Configurations
+### [Overview](azurerekusto/AttachedDatabaseConfigurations.yml)
+### [Create Or Update](azurerekusto/AttachedDatabaseConfigurations/CreateOrUpdate.yml)
+### [Delete](azurerekusto/AttachedDatabaseConfigurations/Delete.yml)
+### [Get](azurerekusto/AttachedDatabaseConfigurations/Get.yml)
+### [List By Cluster](azurerekusto/AttachedDatabaseConfigurations/ListByCluster.yml)
+## Cluster Principal Assignments
+### [Overview](azurerekusto/ClusterPrincipalAssignments.yml)
+### [Check Name Availability](azurerekusto/ClusterPrincipalAssignments/CheckNameAvailability.yml)
+### [Create Or Update](azurerekusto/ClusterPrincipalAssignments/CreateOrUpdate.yml)
+### [Delete](azurerekusto/ClusterPrincipalAssignments/Delete.yml)
+### [Get](azurerekusto/ClusterPrincipalAssignments/Get.yml)
+### [List](azurerekusto/ClusterPrincipalAssignments/List.yml)
 ## Clusters
 ### [Overview](azurerekusto/Clusters.yml)
+### [Add Language Extensions](azurerekusto/Clusters/AddLanguageExtensions.yml)
 ### [Check Name Availability](azurerekusto/Clusters/CheckNameAvailability.yml)
 ### [Create Or Update](azurerekusto/Clusters/CreateOrUpdate.yml)
 ### [Delete](azurerekusto/Clusters/Delete.yml)
+### [Detach Follower Databases](azurerekusto/Clusters/DetachFollowerDatabases.yml)
+### [Diagnose Virtual Network](azurerekusto/Clusters/DiagnoseVirtualNetwork.yml)
 ### [Get](azurerekusto/Clusters/Get.yml)
 ### [List](azurerekusto/Clusters/List.yml)
 ### [List By Resource Group](azurerekusto/Clusters/ListByResourceGroup.yml)
+### [List Follower Databases](azurerekusto/Clusters/ListFollowerDatabases.yml)
+### [List Language Extensions](azurerekusto/Clusters/ListLanguageExtensions.yml)
 ### [List Skus](azurerekusto/Clusters/ListSkus.yml)
 ### [List Skus By Resource](azurerekusto/Clusters/ListSkusByResource.yml)
+### [Remove Language Extensions](azurerekusto/Clusters/RemoveLanguageExtensions.yml)
 ### [Start](azurerekusto/Clusters/Start.yml)
 ### [Stop](azurerekusto/Clusters/Stop.yml)
 ### [Update](azurerekusto/Clusters/Update.yml)
@@ -1530,6 +1555,13 @@
 ### [List By Database](azurerekusto/DataConnections/ListByDatabase.yml)
 ### [Update](azurerekusto/DataConnections/Update.yml)
 ### [data Connection Validation](azurerekusto/DataConnections/dataConnectionValidation.yml)
+## Database Principal Assignments
+### [Overview](azurerekusto/DatabasePrincipalAssignments.yml)
+### [Check Name Availability](azurerekusto/DatabasePrincipalAssignments/CheckNameAvailability.yml)
+### [Create Or Update](azurerekusto/DatabasePrincipalAssignments/CreateOrUpdate.yml)
+### [Delete](azurerekusto/DatabasePrincipalAssignments/Delete.yml)
+### [Get](azurerekusto/DatabasePrincipalAssignments/Get.yml)
+### [List](azurerekusto/DatabasePrincipalAssignments/List.yml)
 ## Databases
 ### [Overview](azurerekusto/Databases.yml)
 ### [Add Principals](azurerekusto/Databases/AddPrincipals.yml)
@@ -1579,12 +1611,10 @@
 ### Operations
 #### [Overview](migrate/assessment/Operations.yml)
 #### [List](migrate/assessment/Operations/List.yml)
-### Project
-#### [Overview](migrate/assessment/Project.yml)
-#### [Assessment Options](migrate/assessment/Project/AssessmentOptions.yml)
-#### [Assessment Options List](migrate/assessment/Project/AssessmentOptionsList.yml)
 ### Projects
 #### [Overview](migrate/assessment/Projects.yml)
+#### [Assessment Options](migrate/assessment/Projects/AssessmentOptions.yml)
+#### [Assessment Options List](migrate/assessment/Projects/AssessmentOptionsList.yml)
 #### [Create](migrate/assessment/Projects/Create.yml)
 #### [Delete](migrate/assessment/Projects/Delete.yml)
 #### [Get](migrate/assessment/Projects/Get.yml)
@@ -5621,6 +5651,7 @@
 #### [Resize](hdinsight/Clusters/Resize.yml)
 #### [Rotate Disk Encryption Key](hdinsight/Clusters/RotateDiskEncryptionKey.yml)
 #### [Update](hdinsight/Clusters/Update.yml)
+#### [Update Auto Scale Configuration](hdinsight/Clusters/UpdateAutoScaleConfiguration.yml)
 #### [Update Gateway Settings](hdinsight/Clusters/UpdateGatewaySettings.yml)
 ### Configurations
 #### [Overview](hdinsight/Configurations.yml)
@@ -5904,66 +5935,38 @@
 ### Resource Provider Common
 #### [Overview](iothub/ResourceProviderCommon.yml)
 #### [Get Subscription Quota](iothub/ResourceProviderCommon/GetSubscriptionQuota.yml)
-### Digital Twin Model
-#### Digital Twin
-##### [Overview](iothub/digitaltwinmodel/DigitalTwin.yml)
-##### [Get Digital Twin Model](iothub/digitaltwinmodel/DigitalTwin/GetDigitalTwinModel.yml)
-##### [Get Interface](iothub/digitaltwinmodel/DigitalTwin/GetInterface.yml)
-##### [Get Interfaces](iothub/digitaltwinmodel/DigitalTwin/GetInterfaces.yml)
-##### [Invoke Interface Command](iothub/digitaltwinmodel/DigitalTwin/InvokeInterfaceCommand.yml)
-##### [Update Interfaces](iothub/digitaltwinmodel/DigitalTwin/UpdateInterfaces.yml)
-#### Service
-##### [Overview](iothub/digitaltwinmodel/Service.yml)
-##### [Apply Configuration On Edge Device](iothub/digitaltwinmodel/Service/ApplyConfigurationOnEdgeDevice.yml)
-##### [Bulk Create Or Update Devices](iothub/digitaltwinmodel/Service/BulkCreateOrUpdateDevices.yml)
-##### [Cancel Import Export Job](iothub/digitaltwinmodel/Service/CancelImportExportJob.yml)
-##### [Cancel Job](iothub/digitaltwinmodel/Service/CancelJob.yml)
-##### [Create Import Export Job](iothub/digitaltwinmodel/Service/CreateImportExportJob.yml)
-##### [Create Job](iothub/digitaltwinmodel/Service/CreateJob.yml)
-##### [Create Or Update Configuration](iothub/digitaltwinmodel/Service/CreateOrUpdateConfiguration.yml)
-##### [Create Or Update Device](iothub/digitaltwinmodel/Service/CreateOrUpdateDevice.yml)
-##### [Create Or Update Module](iothub/digitaltwinmodel/Service/CreateOrUpdateModule.yml)
-##### [Delete Configuration](iothub/digitaltwinmodel/Service/DeleteConfiguration.yml)
-##### [Delete Device](iothub/digitaltwinmodel/Service/DeleteDevice.yml)
-##### [Delete Module](iothub/digitaltwinmodel/Service/DeleteModule.yml)
-##### [Get Configuration](iothub/digitaltwinmodel/Service/GetConfiguration.yml)
-##### [Get Configurations](iothub/digitaltwinmodel/Service/GetConfigurations.yml)
-##### [Get Device](iothub/digitaltwinmodel/Service/GetDevice.yml)
-##### [Get Device Registry Statistics](iothub/digitaltwinmodel/Service/GetDeviceRegistryStatistics.yml)
-##### [Get Devices](iothub/digitaltwinmodel/Service/GetDevices.yml)
-##### [Get Fault Injection](iothub/digitaltwinmodel/Service/GetFaultInjection.yml)
-##### [Get Import Export Job](iothub/digitaltwinmodel/Service/GetImportExportJob.yml)
-##### [Get Import Export Jobs](iothub/digitaltwinmodel/Service/GetImportExportJobs.yml)
-##### [Get Job](iothub/digitaltwinmodel/Service/GetJob.yml)
-##### [Get Module](iothub/digitaltwinmodel/Service/GetModule.yml)
-##### [Get Module Twin](iothub/digitaltwinmodel/Service/GetModuleTwin.yml)
-##### [Get Modules On Device](iothub/digitaltwinmodel/Service/GetModulesOnDevice.yml)
-##### [Get Service Statistics](iothub/digitaltwinmodel/Service/GetServiceStatistics.yml)
-##### [Get Twin](iothub/digitaltwinmodel/Service/GetTwin.yml)
-##### [Invoke Device Method](iothub/digitaltwinmodel/Service/InvokeDeviceMethod.yml)
-##### [Invoke Device Module Method](iothub/digitaltwinmodel/Service/InvokeDeviceModuleMethod.yml)
-##### [Purge Command Queue](iothub/digitaltwinmodel/Service/PurgeCommandQueue.yml)
-##### [Query Iot Hub](iothub/digitaltwinmodel/Service/QueryIotHub.yml)
-##### [Query Jobs](iothub/digitaltwinmodel/Service/QueryJobs.yml)
-##### [Replace Module Twin](iothub/digitaltwinmodel/Service/ReplaceModuleTwin.yml)
-##### [Replace Twin](iothub/digitaltwinmodel/Service/ReplaceTwin.yml)
-##### [Set Fault Injection](iothub/digitaltwinmodel/Service/SetFaultInjection.yml)
-##### [Test Configuration Queries](iothub/digitaltwinmodel/Service/TestConfigurationQueries.yml)
-##### [Update Module Twin](iothub/digitaltwinmodel/Service/UpdateModuleTwin.yml)
-##### [Update Twin](iothub/digitaltwinmodel/Service/UpdateTwin.yml)
 ### Digital Twin Model Repository Service
-#### Create Or Update Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateModel.yml)
-##### [Create Or Update Model](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateModel/CreateOrUpdateModel.yml)
-#### Delete Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/DeleteModel.yml)
-##### [Delete Model](iothub/digitaltwinmodelrepositoryservice/DeleteModel/DeleteModel.yml)
-#### Get Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/GetModel.yml)
-##### [Get Model](iothub/digitaltwinmodelrepositoryservice/GetModel/GetModel.yml)
-#### Search Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModel.yml)
-##### [Search Model](iothub/digitaltwinmodelrepositoryservice/SearchModel/SearchModel.yml)
+#### Are Valid Models
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/AreValidModels.yml)
+##### [Are Valid Models](iothub/digitaltwinmodelrepositoryservice/AreValidModels/AreValidModels.yml)
+#### Create Or Update Async
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateAsync.yml)
+##### [Create Or Update Async](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateAsync/CreateOrUpdateAsync.yml)
+#### Get Model Async
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/GetModelAsync.yml)
+##### [Get Model Async](iothub/digitaltwinmodelrepositoryservice/GetModelAsync/GetModelAsync.yml)
+#### Search Models Async
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModelsAsync.yml)
+##### [Search Models Async](iothub/digitaltwinmodelrepositoryservice/SearchModelsAsync/SearchModelsAsync.yml)
+### Digital Twin Model Repository Service Control Plane
+#### Assign Roles
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles.yml)
+##### [Assign Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles/AssignRoles.yml)
+#### Create Tenant
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant.yml)
+##### [Create Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant/CreateTenant.yml)
+#### Get Subjects For Resources
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources.yml)
+##### [Get Subjects For Resources](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources/GetSubjectsForResources.yml)
+#### Get Subjects For Resources By Type
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType.yml)
+##### [Get Subjects For Resources By Type](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType/GetSubjectsForResourcesByType.yml)
+#### Get Tenant
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant.yml)
+##### [Get Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant/GetTenant.yml)
+#### Remove Roles
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles.yml)
+##### [Remove Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles/RemoveRoles.yml)
 ### Service
 #### Configuration
 ##### [Overview](iothub/service/Configuration.yml)
@@ -5977,6 +5980,12 @@
 ##### [Overview](iothub/service/DeviceMethod.yml)
 ##### [Invoke Device Method](iothub/service/DeviceMethod/InvokeDeviceMethod.yml)
 ##### [Invoke Module Method](iothub/service/DeviceMethod/InvokeModuleMethod.yml)
+#### Digital Twin
+##### [Overview](iothub/service/DigitalTwin.yml)
+##### [Get Digital Twin](iothub/service/DigitalTwin/GetDigitalTwin.yml)
+##### [Invoke Component Command](iothub/service/DigitalTwin/InvokeComponentCommand.yml)
+##### [Invoke Root Level Command](iothub/service/DigitalTwin/InvokeRootLevelCommand.yml)
+##### [Update Digital Twin](iothub/service/DigitalTwin/UpdateDigitalTwin.yml)
 #### Fault Injection
 ##### [Overview](iothub/service/FaultInjection.yml)
 ##### [Get](iothub/service/FaultInjection/Get.yml)
@@ -7292,6 +7301,12 @@
 #### [Get](monitor/LogProfiles/Get.yml)
 #### [List](monitor/LogProfiles/List.yml)
 #### [Update](monitor/LogProfiles/Update.yml)
+### Management Group Diagnostic Settings
+#### [Overview](monitor/ManagementGroupDiagnosticSettings.yml)
+#### [Create Or Update](monitor/ManagementGroupDiagnosticSettings/CreateOrUpdate.yml)
+#### [Delete](monitor/ManagementGroupDiagnosticSettings/Delete.yml)
+#### [Get](monitor/ManagementGroupDiagnosticSettings/Get.yml)
+#### [List](monitor/ManagementGroupDiagnosticSettings/List.yml)
 ### Metric Alerts
 #### [Overview](monitor/MetricAlerts.yml)
 #### [Create Or Update](monitor/MetricAlerts/CreateOrUpdate.yml)
@@ -8607,6 +8622,21 @@
 ### [Get At Scope](resources/Tags/GetAtScope.yml)
 ### [List](resources/Tags/List.yml)
 ### [Update At Scope](resources/Tags/UpdateAtScope.yml)
+## Template Spec Versions
+### [Overview](resources/TemplateSpecVersions.yml)
+### [Create Or Update](resources/TemplateSpecVersions/CreateOrUpdate.yml)
+### [Delete](resources/TemplateSpecVersions/Delete.yml)
+### [Get](resources/TemplateSpecVersions/Get.yml)
+### [List](resources/TemplateSpecVersions/List.yml)
+### [Update](resources/TemplateSpecVersions/Update.yml)
+## Template Specs
+### [Overview](resources/TemplateSpecs.yml)
+### [Create Or Update](resources/TemplateSpecs/CreateOrUpdate.yml)
+### [Delete](resources/TemplateSpecs/Delete.yml)
+### [Get](resources/TemplateSpecs/Get.yml)
+### [List By Resource Group](resources/TemplateSpecs/ListByResourceGroup.yml)
+### [List By Subscription](resources/TemplateSpecs/ListBySubscription.yml)
+### [Update](resources/TemplateSpecs/Update.yml)
 ## Tenant Backfill Status
 ### [Overview](resources/TenantBackfillStatus.yml)
 ### [Tenant Backfill Status](resources/TenantBackfillStatus/TenantBackfillStatus.yml)
@@ -8999,6 +9029,7 @@
 ### [Delete Message](../docs-ref-conceptual/servicebus/delete-message.md)
 ### [Renew-Lock for a Message](../docs-ref-conceptual/servicebus/renew-lock-for-a-message.md)
 ### [Request a Token from ACS](../docs-ref-conceptual/servicebus/request-a-token-from-acs.md)
+### [Get Azure Active Directory token](../docs-ref-conceptual/servicebus/get-azure-active-directory-token.md)
 ### [REST vs. .NET Client Support](../docs-ref-conceptual/servicebus/rest-dotnet-client-support.md)
 ## Reference
 ### Disaster Recovery Configs
@@ -13936,39 +13967,72 @@
 ##### [Overview](time-series-insights/dataaccessgen2/TimeSeriesTypes.yml)
 ##### [Execute Batch](time-series-insights/dataaccessgen2/TimeSeriesTypes/ExecuteBatch.yml)
 ##### [List](time-series-insights/dataaccessgen2/TimeSeriesTypes/List.yml)
-### Management
+### Management (Gen1/Gen2)
 #### Access Policies
-##### [Overview](time-series-insights/management/AccessPolicies.yml)
-##### [Create Or Update](time-series-insights/management/AccessPolicies/CreateOrUpdate.yml)
-##### [Delete](time-series-insights/management/AccessPolicies/Delete.yml)
-##### [Get](time-series-insights/management/AccessPolicies/Get.yml)
-##### [List By Environment](time-series-insights/management/AccessPolicies/ListByEnvironment.yml)
-##### [Update](time-series-insights/management/AccessPolicies/Update.yml)
+##### [Overview](time-series-insights/management(gen1/gen2)/AccessPolicies.yml)
+##### [Create Or Update](time-series-insights/management(gen1/gen2)/AccessPolicies/CreateOrUpdate.yml)
+##### [Delete](time-series-insights/management(gen1/gen2)/AccessPolicies/Delete.yml)
+##### [Get](time-series-insights/management(gen1/gen2)/AccessPolicies/Get.yml)
+##### [List By Environment](time-series-insights/management(gen1/gen2)/AccessPolicies/ListByEnvironment.yml)
+##### [Update](time-series-insights/management(gen1/gen2)/AccessPolicies/Update.yml)
 #### Environments
-##### [Overview](time-series-insights/management/Environments.yml)
-##### [Create Or Update](time-series-insights/management/Environments/CreateOrUpdate.yml)
-##### [Delete](time-series-insights/management/Environments/Delete.yml)
-##### [Get](time-series-insights/management/Environments/Get.yml)
-##### [List By Resource Group](time-series-insights/management/Environments/ListByResourceGroup.yml)
-##### [List By Subscription](time-series-insights/management/Environments/ListBySubscription.yml)
-##### [Update](time-series-insights/management/Environments/Update.yml)
+##### [Overview](time-series-insights/management(gen1/gen2)/Environments.yml)
+##### [Create Or Update](time-series-insights/management(gen1/gen2)/Environments/CreateOrUpdate.yml)
+##### [Delete](time-series-insights/management(gen1/gen2)/Environments/Delete.yml)
+##### [Get](time-series-insights/management(gen1/gen2)/Environments/Get.yml)
+##### [List By Resource Group](time-series-insights/management(gen1/gen2)/Environments/ListByResourceGroup.yml)
+##### [List By Subscription](time-series-insights/management(gen1/gen2)/Environments/ListBySubscription.yml)
+##### [Update](time-series-insights/management(gen1/gen2)/Environments/Update.yml)
 #### Event Sources
-##### [Overview](time-series-insights/management/EventSources.yml)
-##### [Create Or Update](time-series-insights/management/EventSources/CreateOrUpdate.yml)
-##### [Delete](time-series-insights/management/EventSources/Delete.yml)
-##### [Get](time-series-insights/management/EventSources/Get.yml)
-##### [List By Environment](time-series-insights/management/EventSources/ListByEnvironment.yml)
-##### [Update](time-series-insights/management/EventSources/Update.yml)
+##### [Overview](time-series-insights/management(gen1/gen2)/EventSources.yml)
+##### [Create Or Update](time-series-insights/management(gen1/gen2)/EventSources/CreateOrUpdate.yml)
+##### [Delete](time-series-insights/management(gen1/gen2)/EventSources/Delete.yml)
+##### [Get](time-series-insights/management(gen1/gen2)/EventSources/Get.yml)
+##### [List By Environment](time-series-insights/management(gen1/gen2)/EventSources/ListByEnvironment.yml)
+##### [Update](time-series-insights/management(gen1/gen2)/EventSources/Update.yml)
 #### Operations
-##### [Overview](time-series-insights/management/Operations.yml)
-##### [List](time-series-insights/management/Operations/List.yml)
+##### [Overview](time-series-insights/management(gen1/gen2)/Operations.yml)
+##### [List](time-series-insights/management(gen1/gen2)/Operations/List.yml)
 #### Reference Data Sets
-##### [Overview](time-series-insights/management/ReferenceDataSets.yml)
-##### [Create Or Update](time-series-insights/management/ReferenceDataSets/CreateOrUpdate.yml)
-##### [Delete](time-series-insights/management/ReferenceDataSets/Delete.yml)
-##### [Get](time-series-insights/management/ReferenceDataSets/Get.yml)
-##### [List By Environment](time-series-insights/management/ReferenceDataSets/ListByEnvironment.yml)
-##### [Update](time-series-insights/management/ReferenceDataSets/Update.yml)
+##### [Overview](time-series-insights/management(gen1/gen2)/ReferenceDataSets.yml)
+##### [Create Or Update](time-series-insights/management(gen1/gen2)/ReferenceDataSets/CreateOrUpdate.yml)
+##### [Delete](time-series-insights/management(gen1/gen2)/ReferenceDataSets/Delete.yml)
+##### [Get](time-series-insights/management(gen1/gen2)/ReferenceDataSets/Get.yml)
+##### [List By Environment](time-series-insights/management(gen1/gen2)/ReferenceDataSets/ListByEnvironment.yml)
+##### [Update](time-series-insights/management(gen1/gen2)/ReferenceDataSets/Update.yml)
+### Management (Preview)
+#### Access Policies
+##### [Overview](time-series-insights/management(preview)/AccessPolicies.yml)
+##### [Create Or Update](time-series-insights/management(preview)/AccessPolicies/CreateOrUpdate.yml)
+##### [Delete](time-series-insights/management(preview)/AccessPolicies/Delete.yml)
+##### [Get](time-series-insights/management(preview)/AccessPolicies/Get.yml)
+##### [List By Environment](time-series-insights/management(preview)/AccessPolicies/ListByEnvironment.yml)
+##### [Update](time-series-insights/management(preview)/AccessPolicies/Update.yml)
+#### Environments
+##### [Overview](time-series-insights/management(preview)/Environments.yml)
+##### [Create Or Update](time-series-insights/management(preview)/Environments/CreateOrUpdate.yml)
+##### [Delete](time-series-insights/management(preview)/Environments/Delete.yml)
+##### [Get](time-series-insights/management(preview)/Environments/Get.yml)
+##### [List By Resource Group](time-series-insights/management(preview)/Environments/ListByResourceGroup.yml)
+##### [List By Subscription](time-series-insights/management(preview)/Environments/ListBySubscription.yml)
+##### [Update](time-series-insights/management(preview)/Environments/Update.yml)
+#### Event Sources
+##### [Overview](time-series-insights/management(preview)/EventSources.yml)
+##### [Create Or Update](time-series-insights/management(preview)/EventSources/CreateOrUpdate.yml)
+##### [Delete](time-series-insights/management(preview)/EventSources/Delete.yml)
+##### [Get](time-series-insights/management(preview)/EventSources/Get.yml)
+##### [List By Environment](time-series-insights/management(preview)/EventSources/ListByEnvironment.yml)
+##### [Update](time-series-insights/management(preview)/EventSources/Update.yml)
+#### Operations
+##### [Overview](time-series-insights/management(preview)/Operations.yml)
+##### [List](time-series-insights/management(preview)/Operations/List.yml)
+#### Reference Data Sets
+##### [Overview](time-series-insights/management(preview)/ReferenceDataSets.yml)
+##### [Create Or Update](time-series-insights/management(preview)/ReferenceDataSets/CreateOrUpdate.yml)
+##### [Delete](time-series-insights/management(preview)/ReferenceDataSets/Delete.yml)
+##### [Get](time-series-insights/management(preview)/ReferenceDataSets/Get.yml)
+##### [List By Environment](time-series-insights/management(preview)/ReferenceDataSets/ListByEnvironment.yml)
+##### [Update](time-series-insights/management(preview)/ReferenceDataSets/Update.yml)
 # Traffic Manager
 ## [Overview](../docs-ref-conceptual/trafficmanager/index.md)
 ## Endpoints

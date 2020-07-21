@@ -11,6 +11,8 @@ produces:
 - application/json
 paths:
 - content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}?api-version=2019-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}?notify={notify}&api-version=2019-12-01
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,6 +39,11 @@ uriParameters:
   description: User identifier. Must be unique in the current API Management service instance.
   types:
   - uid: string
+- name: notify
+  in: query
+  description: Send an Email notification to the User.
+  types:
+  - uid: boolean
 - name: api-version
   in: query
   isRequired: true
@@ -90,7 +97,7 @@ requestBody:
     - uid: string
   - name: properties.appType
     in: body
-    description: Determines the type of application which send the create user request. Default is old publisher portal.
+    description: Determines the type of application which send the create user request. Default is legacy portal.
     types:
     - uid: AppType
   - name: properties.confirmation
@@ -225,7 +232,7 @@ definitions:
     types:
     - uid: string
   - name: properties.appType
-    description: Determines the type of application which send the create user request. Default is old publisher portal.
+    description: Determines the type of application which send the create user request. Default is legacy portal.
     types:
     - uid: AppType
   - name: properties.confirmation
@@ -307,9 +314,13 @@ definitions:
     types:
     - uid: string
 - name: AppType
-  description: Determines the type of application which send the create user request. Default is old publisher portal.
+  description: Determines the type of application which send the create user request. Default is legacy portal.
   kind: enum
   properties:
+  - name: portal
+    description: User create request was sent by legacy developer portal.
+    types:
+    - uid: string
   - name: developerPortal
     description: User create request was sent by new developer portal.
     types:

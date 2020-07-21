@@ -1,7 +1,7 @@
 ---
 title: "List Event Hubs"
 ms.custom: ""
-ms.date: 05/05/2017
+ms.date: 07/14/2020
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -10,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: a1df22da-00cf-4dba-adc0-4097455999d5
 caps.latest.revision: 6
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 
 ---
 
@@ -28,7 +28,7 @@ Retrieves all metadata associated with all Event Hubs within a specified Service
   
 ### Request Headers
   
-See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response
   
@@ -36,13 +36,13 @@ The response includes an HTTP status code, a set of response headers, and a resp
   
 |Element name|Required|Type|Version|Description|  
 |------------------|--------------|----------|-------------|-----------------|  
-|AuthorizationRules|Yes, read-only|string|2014-01|The authorization rules.|  
+|`AuthorizationRules`|Yes, read-only|string|2014-01|The authorization rules.|  
 |MessageRetentionInDays|Yes, read-only|string|2014-01|The number of days to retain the events for this Event Hub.|  
-|Status|Yes, read-only|string|2014-01|The current status of the Event Hub (enabled or disabled).|  
-|CreatedAt|Yes, read-only|string|2014-01|The exact time the Event Hub was created.|  
-|UpdatedAt|Yes, read-only|string|2014-01|The exact time the Event Hub was updated.|  
-|PartitionCount|Yes, read-only|string|2014-01|The current number of partitions on the Event Hub.|  
-|PartitionIds|Yes, read-only|string|2014-01|Identifiers for partitions created for the Event Hub.|  
+|`Status`|Yes, read-only|string|2014-01|The current status of the Event Hub (enabled or disabled).|  
+|`CreatedAt`|Yes, read-only|string|2014-01|The exact time the Event Hub was created.|  
+|`UpdatedAt`|Yes, read-only|string|2014-01|The exact time the Event Hub was updated.|  
+|`PartitionCount`|Yes, read-only|string|2014-01|The current number of partitions on the Event Hub.|  
+|`PartitionIds`|Yes, read-only|string|2014-01|Identifiers for partitions created for the Event Hub.|  
   
 ### Response Codes  
   
@@ -59,6 +59,10 @@ If the request is successful, the response body contains the description of all 
 ## Examples
   
 **Request**  
+
+> [!NOTE]
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.
+
   
 ```  
 GET https://your-namespace.servicebus.windows.net/ $Resources/Eventhubs?timeout=60&api-version=2014-01 HTTP/1.1  
