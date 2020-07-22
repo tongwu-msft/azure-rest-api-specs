@@ -32,23 +32,23 @@ Unlocks a message for processing by other receivers on a specified subscription.
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|PUT|http{s}://{serviceNamespace}.servicebus.windows.net/{queuePath}/messages/{messageId&#124;sequenceNumber}/{lockToken}<br /><br /> or<br /><br /> http{s}://{serviceNamespace}.servicebus.windows.net/{topicPath}/subscriptions/{subscriptionName}/messages/{messageId&#124;sequenceNumber}/{lockToken}|HTTP/1.1|  
+|PUT|`http{s}://{serviceNamespace}.servicebus.windows.net/{queuePath}/messages/{messageId&#124;sequenceNumber}/{lockToken}`<br /><br /> or<br /><br /> `http{s}://{serviceNamespace}.servicebus.windows.net/{topicPath}/subscriptions/{subscriptionName}/messages/{messageId&#124;sequenceNumber}/{lockToken}|HTTP/1.1`|  
   
 ### URI Parameters  
  The URI is provided in the Location header of the peeked message, or you can construct it from the parts described in the following table.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`messageId`|The ID of the message to be unlocked as returned in **BrokerProperties{MessageId}** by the **Peek Message** operation.|  
-|`sequence-number`|The sequence number of the message to be unlocked as returned in **BrokerProperties{SequenceNumber}** by the **Peek Message** operation.|  
-|`lockToken`|The token of the lock of the message to be unlocked as returned by the **Peek Message** operation in **BrokerProperties{LockToken}**.|  
+|`messageId`|The ID of the message to be unlocked as returned in `BrokerProperties{MessageId}` by the **Peek Message** operation.|  
+|`sequence-number`|The sequence number of the message to be unlocked as returned in `BrokerProperties{SequenceNumber}` by the **Peek Message** operation.|  
+|`lockToken`|The token of the lock of the message to be unlocked as returned by the **Peek Message** operation in `BrokerProperties{LockToken}`.|  
   
 ### Request Headers  
  The following table describes required and optional request headers.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization|Specify one of the following:<ul><li> Azure Active Directory (AAD) JSON Web Token (JWT) token. <br/>Example: `Authorization: Bearer <AAD JWT token>`. <br/>For information on generating an AAD token, see [Authenticate from an application](get-azure-active-directory-token.md).</li><li>A SAS token. <br/>Example: `Authorization: SharedAccessSignature sr=<NAMESPACE NAME>.servicebus.windows.net&sig=<SHARED ACCESS KEY>&se=<TOKEN EXPIRY INSTANT>&skn=<SHARED KEY NAME>`. <br/>For information on generating a SAS token, see [Generate a Shared Access Signature token](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas#generate-a-shared-access-signature-token) and [Generate SAS token](https://docs.microsoft.com/rest/api/eventhub/generate-sas-token).</li></ul> |    
+|Authorization|Specify one of the following:<ul><li> Azure Active Directory (Azure AD) JSON Web Token (JWT) token. <br/>Example: `Authorization: Bearer <Azure AD JWT token>`. <br/>For information on generating an Azure AD token, see [Authenticate from an application](get-azure-active-directory-token.md).</li><li>A SAS token. <br/>Example: `Authorization: SharedAccessSignature sr=<NAMESPACE NAME>.servicebus.windows.net&sig=<SHARED ACCESS KEY>&se=<TOKEN EXPIRY INSTANT>&skn=<SHARED KEY NAME>`. <br/>For information on generating a SAS token, see [Generate a Shared Access Signature token](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas#generate-a-shared-access-signature-token) and [Generate SAS token](https://docs.microsoft.com/rest/api/eventhub/generate-sas-token).</li></ul> |    
   
 ### Request Body  
  None.  
@@ -62,7 +62,7 @@ Unlocks a message for processing by other receivers on a specified subscription.
 |----------|-----------------|  
 |200|Message successfully unlocked.|  
 |401|Authorization failure.|  
-|404|No message was found with the specified **MessageId** or **LockToken**.|  
+|404|No message was found with the specified `MessageId` or `LockToken`.|  
 |410|Specified queue or subscription does not exist.|  
 |500|Internal error.|  
   

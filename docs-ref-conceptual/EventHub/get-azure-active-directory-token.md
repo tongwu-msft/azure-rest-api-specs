@@ -1,8 +1,8 @@
 ---
-title: Use Azure Active Directory authentication to send messages to a Service Bus queue
+title: Use Azure Active Directory authentication to send messages to an event hub
 ms.date: "07/15/2020"
 ms.prod: "azure"
-ms.service: "service-bus"
+ms.service: "event-hubs"
 ms.topic: "reference"
 author: "spelluru"
 ms.author: "spelluru"
@@ -20,14 +20,14 @@ translation.priority.mt:
   - "zh-tw"
 ---
 
-# Get an Azure Active Directory (Azure AD) token and use it to send messages to a Service Bus queue
-See [Authenticate from an application](https://docs.microsoft.com/azure/service-bus-messaging/authenticate-application#authenticate-from-an-application) for an overview of getting an Azure Active Directory (Azure AD) token. 
+# Get an Azure Active Directory (Azure AD) token and use it send events to an event hub 
+See [Authenticate from an application](https://docs.microsoft.com/azure/event-hubs/authenticate-application#authenticate-from-an-application) for an overview of getting an Azure Active Directory (Azure AD) token. 
 
-This article gives you an example of getting an Azure AD token that you can use to send messages to a Service Bus namespace. It uses the **Postman** tool for testing purposes. 
+This article gives you an example of getting an Azure Active Directory (Azure AD) token that you can use to send events to and receive events from a Service Bus namespace. It uses the **Postman** tool for testing purposes. 
 
 ## Prerequisites
 
-- Follow instructions from [Quickstart: Use Azure portal to create a Service Bus queue](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal) to create a Service Bus namespace and a queue in the namespace.
+- Follow instructions from [Quickstart: Use Azure portal to create an event hub on Azure](https://docs.microsoft.com/azure/event-hubs/event-hubs-create) to create an Event Hubs namespace and an event hub in the namespace.
 - Download and install [Postman](https://www.postman.com/) desktop app.
 
 ## Register your app with Azure AD
@@ -40,7 +40,7 @@ First step is to register you application with the Azure AD tenant and note down
 1. On the **Azure Active Directory** page, select **App Registrations** link on the left menu, and then select **+ New registration** on the toolbar. 
 
     :::image type="content" source="./media/get-azure-active-directory-token/new-registration-link.png" alt-text="Switch to the App registrations page, and select New registration":::
-4. Enter a name for the app, and select **Register**. 
+4. Enter a **name** for the app, and select **Register**. 
 
     :::image type="content" source="./media/get-azure-active-directory-token/register-app.png" alt-text="Enter a name and select Register":::    
 1. On the home page for the application, note down the values of **Application (client) ID** and **Directory (tenant) ID**. You will use these values to get a token from Azure AD. 
@@ -56,15 +56,15 @@ First step is to register you application with the Azure AD tenant and note down
 
     :::image type="content" source="./media/get-azure-active-directory-token/client-secret.png" alt-text="Copy client secret":::
 
-## Add application to the Service Bus Data Sender role 
-In this example, we are only sending messaging to the Service Bus queue, so add the application to the **Service Bus Data Sender** role. 
+## Add application to the Event Hubs Data Sender role 
+In this example, we are only sending messaging to the event hub, so add the application to the **Azure Event Hubs Data Sender** role. 
 
-1. On the **Service Bus Namespace** page, select **Access control** from the left menu, and then select **Add** on the **Add a role assignment** tile. 
+1. On the **Event Hubs Namespace** page, select **Access control** from the left menu, and then select **Add** on the **Add a role assignment** tile. 
 
     :::image type="content" source="./media/get-azure-active-directory-token/add-role-assignment-button.png" alt-text="Access control -> Add a role assignment":::    
-1. On the **Add role assignment** page, select **Azure Service Bus Data Sender** for **Role**, and select your application (in this example, **ServiceBusRestClientApp**) for the service principal. 
+1. On the **Add role assignment** page, select **Azure Event Hubs Data Sender** for **Role**, and select your application (in this example, **ServiceBusRestClientApp**) for the service principal. 
 
-    :::image type="content" source="./media/get-azure-active-directory-token/select-role-application.png" alt-text="Add app to the Azure Service Bus Data Sender role":::
+    :::image type="content" source="./media/get-azure-active-directory-token/select-role-application.png" alt-text="Add app to the Azure Event Hubs Data Sender role":::
 1. Select **Save** on the **Add role assignment** page to save the role assignment. 
 
 
@@ -92,7 +92,7 @@ In this example, we are only sending messaging to the Service Bus queue, so add 
 
 1. In Postman, open a new tab. 
 1. Select **POST** for the method. 
-1. Enter URI in the following format: `https://<SERVICE BUS NAMESPACE NAME>.servicebus.windows.net/<QUEUE NAME>/messages`. Replace `<SERVICE BUS NAMESPACE NAME>` with the name of the Service Bus namespace. Replace `<QUEUE NAME>` with the name of the queue. 
+1. Enter URI in the following format: `https://<EVENT HUBS NAMESPACE NAME>.servicebus.windows.net/<QUEUE NAME>/messages`. Replace `<EVENT HUBS NAMESPACE NAME>` with the name of the Event Hubs namespace. Replace `<QUEUE NAME>` with the name of the queue. 
 1. On the **Headers** tab, add the following two headers.
     1. Add `Authorization` key and value for it in the following format: `Bearer <TOKEN from Azure AD>`. When you copy/paste the token, don't copy the enclosing double quotes. 
     1. Add `Content-Type` key and `application/atom+xml;type=entry;charset=utf-8` as the value for it. 
@@ -107,10 +107,6 @@ In this example, we are only sending messaging to the Service Bus queue, so add 
 2. On the namespace page in the Azure portal, you can see that the messages are posted to the queue.
 
     :::image type="content" source="./media/get-azure-active-directory-token/namespace-page-messages.png" alt-text="Messages are posted to the queue" lightbox="./media/get-azure-active-directory-token/namespace-page-messages.png":::
-
-    You can also use the **Service Bus Explorer (preview)** on the **Service Bus Queue** page as shown in the following image to receive or peek messages. 
-
-    :::image type="content" source="./media/get-azure-active-directory-token/service-bus-explorer-receive.png" alt-text="Receive messages using Service Bus Explorer" lightbox="./media/get-azure-active-directory-token/service-bus-explorer-receive.png":::    
     
 ## See Also  
 See the following articles:

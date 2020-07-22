@@ -35,9 +35,9 @@ These APIs enable you to access the Event Hubs service to perform operations on 
 ## Common headers  
 -   Set the `Content-Type` header to `application/atom+xml;type=entry;charset=utf-8`.  
 -   Set the `Authorization` header to one of the following tokens:
-    - Azure Active Directory (**AAD**) JSON Web Token (JWT) token. Example: `Authorization: Bearer <AAD JWT token>`. 
+    - Azure Active Directory (**Azure AD**) JSON Web Token (JWT) token. Example: `Authorization: Bearer <Azure AD JWT token>`. 
         
-        For information on generating an AAD token, see [Authenticate from an application](https://docs.microsoft.com/azure/event-hubs/authenticate-application#authenticate-from-an-application).
+        For information on generating an Azure AD token, see [Get Azure AD token](get-azure-active-directory-token.md).
     - A **SAS** token. Example: `Authorization: SharedAccessSignature sr=<NAMESPACE NAME>.servicebus.windows.net&sig=<SHARED ACCESS KEY>&se=<TOKEN EXPIRY INSTANT>&skn=<SHARED KEY NAME>`. 
     
         For information on generating a SAS token, see [Generate a Shared Access Signature token](generate-sas-token.md).
