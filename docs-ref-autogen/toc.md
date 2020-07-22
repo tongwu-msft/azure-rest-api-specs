@@ -5335,6 +5335,7 @@
 #### [Get partition runtime metadata](../docs-ref-conceptual/EventHub/get-partition-runtime-metadata.md)
 #### [List partition runtime metadata](../docs-ref-conceptual/EventHub/list-partition-runtime-metadata.md)
 ### [Generate SAS token](../docs-ref-conceptual/EventHub/generate-sas-token.md)
+### [Get token from Azure Active Directory](../docs-ref-conceptual/EventHub/get-azure-active-directory-token.md)
 ### [Send event](../docs-ref-conceptual/EventHub/send-event.md)
 ### [Send event with publisher ID](../docs-ref-conceptual/EventHub/send-event-with-publisher-id.md)
 ### [Send partition event](../docs-ref-conceptual/EventHub/send-partition-event.md)
