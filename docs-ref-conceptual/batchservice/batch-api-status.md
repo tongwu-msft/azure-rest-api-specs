@@ -1,5 +1,5 @@
 ---
-title: Azure Batch API Deprecation
+title: Azure Batch API Life Cycle and Deprecation
 description: Understand the deprecation and removal process of Azure Batch API versions.
 author: laurenhughes
 ms.author: jafreck
