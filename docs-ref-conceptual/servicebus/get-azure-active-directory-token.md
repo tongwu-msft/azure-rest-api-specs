@@ -1,5 +1,5 @@
 ---
-title: "Get an Azure Active Directory token"
+title: Use Azure Active Directory authentication to send messages to a Service Bus queue
 ms.date: "07/15/2020"
 ms.prod: "azure"
 ms.service: "service-bus"
@@ -20,7 +20,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 
-# Get an Azure Active Directory (Azure AD) token 
+# Get an Azure Active Directory (Azure AD) token and use it to send messages to a Service Bus queue
 See [Authenticate from an application](https://docs.microsoft.com/azure/service-bus-messaging/authenticate-application#authenticate-from-an-application) for an overview of getting an Azure Active Directory (Azure AD) token. 
 
 This article gives you an example of getting an Azure AD token that you can use to send messages to a Service Bus namespace. It uses the **Postman** tool for testing purposes. 
