@@ -1,6 +1,6 @@
 ---
 title: "Create a Collection - Azure Cosmos DB REST API"
-ms.date: "06/23/2020"
+ms.date: "07/27/2020"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: daea28f8-c1c3-42d4-8269-24fa6e972d38
@@ -35,8 +35,11 @@ The `Create Collection` operation creates a new collection in a database.
   
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
-|**x-ms-offer-throughput**|Optional|Number|The user specified throughput for the collection expressed in units of 100 request units per second. It can be between 400 and 250,000 (or higher by requesting a limit increase).<br /><br /> If the **x-ms-offer-throughput** is over 10,000, then the collection must include a **partitionKey** definition. If the **x-ms-offer-throughput** is equal to or under 10,000, then the **partitionKey** definition is optional.<br /><br /> One of **x-ms-offer-throughput** or **x-ms-offer-type** must be specified. Both headers cannot be specified together.|  
-|**x-ms-offer-type**|Optional|String|The user specified performance level for pre-defined performance levels S1, S2, and S3. One of x-ms-offer-throughput or x-ms-offer-type must be specified. Both headers cannot be specified together.|  
+|**x-ms-offer-throughput**|Optional|Number|The user specified manual throughput (RU/s) for the collection expressed in units of 100 request units per second. The minimum is 400 up to 1,000,000 (or higher by requesting a limit increase).<br /><br /> If the **x-ms-offer-throughput** is over 10,000, then the collection must include a **partitionKey** definition. If the **x-ms-offer-throughput** is equal to or under 10,000, then the **partitionKey** definition is optional.<br /><br /> Only one of `x-ms-offer-throughput` or `x-ms-cosmos-offer-autopilot-settings` must be specified. These headers cannot be specified together.|
+|**x-ms-cosmos-offer-autopilot-settings**|Optional|JSON|The user specified autoscale max RU/s. The value is a JSON with the property `maxThroughput`. For example: `{"maxThroughput": 4000}`.<br /><br /> Only one of `x-ms-offer-throughput` or `x-ms-cosmos-offer-autopilot-settings` must be specified. These headers cannot be specified together.|    
+|**x-ms-offer-type**|Optional|String|This is a [legacy header](/azure/cosmos-db/performance-levels) for pre-defined performance levels S1, S2, and S3 that have been retired. It is recommended that you use either manual or autoscale throughput, as described above.  
+
+
   
 ### Body  
   
@@ -44,7 +47,7 @@ The `Create Collection` operation creates a new collection in a database.
 |--------------|--------------|----------|-----------------|  
 |**id**|Required|String|The user generated unique name for the collection. No two collections can have the same IDs. It is a string that must not be more than 255 characters.|  
 |**indexingPolicy**|Optional|Object|This value is used to configure indexing policy. By default, the indexing is automatic for all document paths within the collection.|  
-|**partitionKey**|Optional|Object|This value is used to configure the partition key to be used for partitioning data into multiple partitions.<br /><br /> To use large partition key, specify the version as 2 within the partitionKey property. <br /><br /> If the **x-ms-offer-throughput** is over 10,000, then the collection must include a **partitionKey** definition. If the **x-ms-offer-throughput** is equal to or under 10,000, then the collection must not include a **partitionKey** definition.|  
+|**partitionKey**|Optional|Object|This value is used to configure the partition key to be used for partitioning data into multiple partitions.<br /><br /> To use large partition key, specify the version as 2 within the partitionKey property. <br /><br /> If the **x-ms-offer-throughput** is over 10,000, then the collection must include a **partitionKey** definition. If the **x-ms-offer-throughput** is equal to or under 10,000 or **x-ms-cosmos-offer-autopilot-settings** is used, then the collection must not include a **partitionKey** definition. <br /><br />Learn about how to [choose a good partition key](/azure/cosmos-db/partitioning-overview.md#choose-partitionkey).|
   
 ```  
 {  
@@ -116,7 +119,7 @@ If you encounter timeout exception when creating a collection, run a read operat
   
 |Property|Description|  
 |--------------|-----------------|  
-|**path**|Path for which the indexing behavior applies to. Index paths start with the root (/) and typically end with the question mark (?) wildcard operator, denoting that there are multiple possible values for the prefix. For example, to serve SELECT * FROM Families F WHERE F.familyName = "Andersen", you must include an index path for /familyName/? in the collection’s index policy.<br /><br /> Index paths can also use the \* wildcard operator to specify the behavior for paths recursively under the prefix. For example, /payload/\* can be used to exclude everything under the payload property from indexing.|  
+|**path**|Path for which the indexing behavior applies to. Index paths start with the root (/) and typically end with the question mark (?) wildcard operator, denoting that there are multiple possible values for the prefix. For example, to serve SELECT * FROM Families F WHERE F.familyName = "Andersen", you must include an index path for /familyName/? in the collection's index policy.<br /><br /> Index paths can also use the \* wildcard operator to specify the behavior for paths recursively under the prefix. For example, /payload/\* can be used to exclude everything under the payload property from indexing.|  
 |**dataType**|It is the datatype for which the indexing behavior is applied to. Can be **String**, **Number**, **Point**, **Polygon**, or **LineString**. Booleans and nulls are automatically indexed|  
 |**kind**|The type of index. **Hash** indexes are useful for equality comparisons while **Range** indexes are useful for equality, range comparisons and sorting. **Spatial** indexes are useful for spatial queries.|  
 |**precision**|The precision of the index. Can be either set to -1 for maximum precision or between 1-8 for **Number**, and 1-100 for **String**. Not applicable for **Point**, **Polygon**, and **LineString** data types.|  
@@ -131,7 +134,7 @@ If you encounter timeout exception when creating a collection, run a read operat
   
 |Property|Description|  
 |--------------|-----------------|  
-|**paths**|An array of paths using which data within the collection can be partitioned. Paths must not contain a wildcard or a trailing slash. For example, the JSON property “AccountNumber” is specified as “/AccountNumber”. The array must contain only a single value.|  
+|**paths**|An array of paths using which data within the collection can be partitioned. Paths must not contain a wildcard or a trailing slash. For example, the JSON property "AccountNumber" is specified as "/AccountNumber". The array must contain only a single value.|  
 |**kind**|The algorithm used for partitioning. Only Hash is supported.|  
 |**version** | An optional field, if not specified the default value is 1. To use the large partition key set the version to 2. To learn about large partition keys, see [how to create containers with large partition key](/azure/cosmos-db/large-partition-keys) article. |
   
@@ -180,15 +183,17 @@ If you encounter timeout exception when creating a collection, run a read operat
   
 ```  
   
-## Example  
+## Example 1
+The following example creates a collection with manual throughput of 400 RU/s. `x-ms-offer-throughput` header is used to set the throughput (RU/s) value. It accepts a number with minimum 400 that increments by units of 100.
+
   
 ```  
 POST https://querydemo.documents.azure.com/dbs/testdb/colls HTTP/1.1  
-x-ms-offer-throughput: 1000  
+x-ms-offer-throughput: 400  
 x-ms-date: Mon, 28 Mar 2016 21:30:09 GMT  
 authorization: type%3dmaster%26ver%3d1.0%26sig%3dpDOKhfllik0BJijp5apzqHL%2bjtoFhsvdhAGE5F8%2bOiE%3d  
 Cache-Control: no-cache  
-User-Agent: Microsoft.Azure.Documents.Client/1.6.0.0  
+User-Agent: contoso/1.0  
 x-ms-version: 2015-12-16  
 Accept: application/json  
 Host: querydemo.documents.azure.com  
@@ -293,6 +298,52 @@ Date: Mon, 28 Mar 2016 21:30:12 GMT
   
 ```  
   
+## Example 2
+The following example creates a collection with autoscale max throughput of 4000 RU/s (scales between 400 - 4000 RU/s). `x-ms-cosmos-offer-autopilot-settings` header is used to set the `maxThroughput`, which is the autoscale max RU/s value. It accepts a number with minimum 4000 that increments by units of 1000. When autoscale is used, a partition key definition is required, as shown below.
+> [!NOTE]
+> To enable autoscale on an existing database or container, or switch from autoscale to manual throughput, see the article [Replace an Offer](replace-an-offer.md).
+```  
+POST https://querydemo.documents.azure.com/dbs/testdb/colls HTTP/1.1
+x-ms-cosmos-offer-autopilot-settings: {"maxThroughput": 4000}
+x-ms-date: Wed, 22 Jul 2020 22:17:39 GMT
+authorization: type%3dmaster%26ver%3d1.0%26sig%3dpDOKhfllik0BJijp5apzqHL%2bjtoFhsvdhAGE5F8%2bOiE%3d
+Cache-Control: no-cache  
+User-Agent: contoso/1.0
+x-ms-version: 2018-12-31
+Accept: application/json  
+Host: querydemo.documents.azure.com  
+Content-Length: 235  
+Expect: 100-continue  
+  
+{  
+  "id": "testcoll",  
+  "indexingPolicy": {  
+    "automatic": true,  
+    "indexingMode": "Consistent",  
+    "includedPaths": [  
+      {  
+        "path": "/*",  
+        "indexes": [  
+          {  
+            "dataType": "String",  
+            "precision": -1,  
+            "kind": "Range"  
+          }  
+        ]  
+      }  
+    ]  
+  },  
+  "partitionKey": {  
+    "paths": [  
+      "/AccountNumber"  
+    ],  
+    "kind": "Hash",
+    "Version": 2
+  }  
+}  
+  
+```  
+
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
 * [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
