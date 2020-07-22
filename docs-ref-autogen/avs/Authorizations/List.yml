@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.avs.clusters.get
-name: Get
+uid: management.azure.com.avs.authorizations.list
+name: List
 service: AVS
-groupName: Clusters
+groupName: Authorizations
 apiVersion: 2020-03-20
-summary: Get a cluster by name in a private cloud
+summary: List ExpressRoute Circuit Authorizations in a private cloud
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}?api-version=2020-03-20
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations?api-version=2020-03-20
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,12 +31,6 @@ uriParameters:
   description: Name of the private cloud
   types:
   - uid: string
-- name: clusterName
-  in: path
-  isRequired: true
-  description: Name of the cluster in the private cloud
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -47,26 +41,55 @@ responses:
 - name: 200 OK
   description: successful operation
   types:
-  - uid: Cluster
+  - uid: ExpressRouteAuthorizationList
 - name: Other Status Codes
   description: Error response describing why the operation failed
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: Cluster
-  description: A cluster resource
+- name: ExpressRouteAuthorizationList
+  description: A paged list of ExpressRoute Circuit Authorizations
   kind: object
   properties:
-  - name: sku
-    description: The cluster SKU
+  - name: value
+    isReadyOnly: true
+    description: The items on a page
     types:
-    - uid: Sku
+    - uid: ExpressRouteAuthorization
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URL to get the next page if any
+    types:
+    - uid: string
+- name: CloudError
+  description: API error response
+  kind: object
+  properties:
+  - name: error
+    description: An error returned by the API
+    types:
+    - uid: ErrorResponse
+- name: ExpressRouteAuthorization
+  description: ExpressRoute Circuit Authorization
+  kind: object
+  properties:
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The state of the cluster provisioning
+    description: The state of the  ExpressRoute Circuit Authorization provisioning
     types:
-    - uid: ClusterProvisioningState
+    - uid: ExpressRouteAuthorizationProvisioningState
+  - name: properties.expressRouteAuthorizationId
+    isReadyOnly: true
+    description: The ID of the ExpressRoute Circuit Authorization
+    types:
+    - uid: string
+  - name: properties.expressRouteAuthorizationKey
+    isReadyOnly: true
+    description: The key of the ExpressRoute Circuit Authorization
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -80,56 +103,6 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Resource type.
-    types:
-    - uid: string
-  - name: properties.clusterId
-    isReadyOnly: true
-    description: The identity
-    types:
-    - uid: integer
-  - name: properties.hosts
-    isReadyOnly: true
-    description: The hosts
-    types:
-    - uid: string
-      isArray: true
-  - name: clusterSize
-    description: The cluster size
-    types:
-    - uid: integer
-- name: CloudError
-  description: API error response
-  kind: object
-  properties:
-  - name: error
-    description: An error returned by the API
-    types:
-    - uid: ErrorResponse
-- name: Sku
-  description: The resource model definition representing SKU
-  kind: object
-  properties:
-  - name: name
-    description: The name of the SKU.
-    types:
-    - uid: string
-- name: ClusterProvisioningState
-  description: The state of the cluster provisioning
-  kind: enum
-  properties:
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Cancelled
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-  - name: Updating
     types:
     - uid: string
 - name: ErrorResponse
@@ -163,6 +136,19 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: ExpressRouteAuthorizationProvisioningState
+  description: The state of the  ExpressRoute Circuit Authorization provisioning
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -178,30 +164,24 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Clusters_Get
+- name: Authorizations_List
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1?api-version=2020-03-20
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/authorizations?api-version=2020-03-20
   responses:
   - statusCode: "200"
     body: >-
-      {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1",
-        "name": "cluster1",
-        "sku": {
-          "name": "AV20"
-        },
-        "properties": {
-          "clusterSize": 4,
-          "hosts": [
-            "fakehost22.nyc1.kubernetes.center",
-            "fakehost23.nyc1.kubernetes.center",
-            "fakehost24.nyc1.kubernetes.center",
-            "fakehost25.nyc1.kubernetes.center"
-          ],
-          "provisioningState": "Succeeded"
-        },
-        "type": "Microsoft.AVS/privateClouds/clusters"
-      }
+      [
+        {
+          "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/authorizations/authorization1",
+          "name": "authorization1",
+          "properties": {
+            "provisioningState": "Succeeded",
+            "expressRouteAuthorizationId": "/subscriptions/5206f269-120b-41ef-a95b-0dce7109de61/resourceGroups/tnt34-cust-mockp02-spearj2dev/providers/Microsoft.Network/expressroutecircuits/tnt34-cust-mockp02-spearj2dev-er/authorizations/myauth",
+            "expressRouteAuthorizationKey": "37b0db3b-3b17-4c7b-bf76-bf13b01bcadc"
+          },
+          "type": "Microsoft.AVS/privateClouds/authorizations"
+        }
+      ]
 security:
 - name: azure_auth
   type: oauth2
