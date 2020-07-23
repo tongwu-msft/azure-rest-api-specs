@@ -19,8 +19,8 @@ The Azure VMware Solution REST API provides operations for working with the foll
 | Operation Group | Description |
 | --- | --- |
 | [Authorizations](xref:management.azure.com.avs.authorizations) | Operations to manage the authorizations of an ExpressRoute for a private cloud. |
-| [cluster](xref:management.azure.com.avs.clusters) | Operations to manage clusters in a private cloud. |
+| [Clusters](xref:management.azure.com.avs.clusters) | Operations to manage clusters in a private cloud. |
 | [HCX Enterprise Sites](/rest/api/avs/hcxenterprisesites) | Operations to manage HCX Enterprise Sites in a private cloud. |
 | [Locations](xref:management.azure.com.avs.locations) | Operations to check availability by location. |
-| [private-cloud](xref:management.azure.com.avs.privateclouds) | Operations to manage private clouds. |
+| [Private-Clouds](xref:management.azure.com.avs.privateclouds) | Operations to manage private clouds. |
 
