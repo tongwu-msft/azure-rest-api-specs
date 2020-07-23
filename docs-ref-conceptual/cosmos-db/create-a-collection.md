@@ -33,7 +33,8 @@ The `Create Collection` operation creates a new collection in a database.
 ### Headers  
  See [Common Azure Cosmos DB REST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Azure Cosmos DB requests. 
 
- When [constructing the hashed token signature for a master token](access-control-on-cosmosdb-resources.md#a-nameconstructkeytokena-constructing-the-hashed-token-signature-for-a-master-token) for the master key token, the ResourceType should be "colls". The ResourceId should be `dbs/{db-id}`, where {db-id} can be either the ID or the _rid value of the database.
+ When [constructing the hashed signature for the master key token](access-control-on-cosmosdb-resources.md#constructkeytoken), the ResourceType should be "colls". The ResourceId should be `dbs/{db-id}`, where {db-id} can be either the ID or the _rid value of the database.
+
 
 
 |Property|Required|Type|Description|  
