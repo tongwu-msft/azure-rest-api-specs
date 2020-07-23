@@ -1,6 +1,6 @@
 ---
 title: "Replace an Offer - Azure Cosmos DB REST API"
-ms.date: "03/19/2019"
+ms.date: "07/27/2020"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: ce8d5627-c71a-4d01-9548-fbc37f04b628
@@ -21,13 +21,16 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Replace an Offer
-  To replace an entire offer resource, perform a PUT operation on the specific user resource. There are two versions of offers currently supported – V1 for pre-defined throughput and V2 for user-defined throughput. To learn more about the maximum and minimum provisioned throughput that can be set on a container or a database, see the [Provision throughput on containers and databases](https://docs.microsoft.com/azure/cosmos-db/set-throughput) article.  
+  To replace an entire offer resource, perform a PUT operation on the specific offer resource. To learn more about the maximum and minimum provisioned throughput that can be set on a container or a database, see the [Provision throughput on containers and databases](https://docs.microsoft.com/azure/cosmos-db/set-throughput) article. 
   
 ## Request  
   
 |Method|Request URI|Description|  
 |------------|-----------------|-----------------|  
 |PUT|`https://{databaseaccount}.documents.azure.com/offers/{_rid-offer}`|{databaseaccount} is the name of the Azure Cosmos DB account you created under your subscription. The {_rid-offer} value is the system-generated resource ID of the offer.|  
+
+> [!TIP]
+> To find the _rid of the offer associated with a database or collection, first [GET the database](get-a-database.md) or [GET the collection](get-a-collection.md) and note the _rid property of the resource. Then, [query the offers](querying-offers.md) to find the _rid-offer that corresponds to the database or collection's _rid. Typically, a database _rid is length 8, a collection _rid is length 12, and an offer _rid is length 4.
   
 ### Headers  
  See [Common Azure Cosmos DB REST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests  
@@ -36,8 +39,8 @@ translation.priority.mt:
   
 |Property|Required|Description|  
 |--------------|--------------|-----------------|  
-|**offerVersion**|Required|It can be V1 for pre-defined throughput levels and V2 for user-defined throughput levels.|  
-|**offerType**|Optional|This property is only applicable in V1 offer version. A user can explicitly set this property. You should set it to S1, S2, or S3 for pre-defined performance levels, and Invalid for user-defined performance levels.|  
+|**offerVersion**|Required|It can be V1 for the [legacy S1, S2, and S3 levels](/azure/cosmos-db/performance-levels) and V2 for [user-defined throughput levels](/azure/cosmos-db/set-throughput) (recommended).
+|**offerType**|Optional|This property is only applicable in V1 offer version.  it to S1, S2, or S3 for V1 offer version and Invalid for user-defined performance levels.|  
 |**content**|Required|Contains information about the offer – for V2 offers, this value contains the throughput of the collection.|  
 |**resource**|Required|When creating a new collection, this property is set to the self-link of the collection for example, dbs/pLJdAA==/colls/pLJdAOlEdgA=/.|  
 |**offerResourceId**|Required|During creation of a collection, this property is automatically associated to the resource ID, that is, **_rid** of the collection. In the example above, the **_rid** for the collection is pLJdAOlEdgA=.|  
@@ -74,7 +77,7 @@ translation.priority.mt:
 |400 Bad Request|The JSON body is invalid. Check for missing curly brackets or quotes.|  
 |401 Unauthorized|The Authorization or x-ms-date header is not set. 401 is also returned when the Authorization header is set to an invalid authorization token.|  
 |404 Not Found|The offer is no longer a resource, that is, the resource was deleted.|  
-| 429 Too Many Requests | The replace offer is throttled because the offer scale down operation is attempted within the idle timeout period, that is 4 hours. Refer to the “x-ms-retry-after-ms response” header to see how long you should wait before retrying this operation. |
+| 429 Too Many Requests | The replace offer is throttled because the offer scale down operation is attempted within the idle timeout period, that is 4 hours. Refer to the "x-ms-retry-after-ms response" header to see how long you should wait before retrying this operation. |
   
 ### Body  
   
@@ -94,9 +97,9 @@ translation.priority.mt:
 ```  
 {  
   "offerVersion": "V2",  
-  "_rid": "uT2L", 
+  "_rid": "uT2L",
    "content": {  
-    "offerThroughput": 4000 
+    "offerThroughput": 4000
   }, 
   "resource": "dbs/rgkVAA==/colls/rgkVAMHcJww=/",  
   "offerResourceId": "rgkVAMHcJww=",  
@@ -106,14 +109,15 @@ translation.priority.mt:
   
 ```  
   
-## Example  
-  
+## Example 1  
+This example shows how to change the manual throughput (RU/s) of a collection to 1000 RU/s.
 ```  
-PUT https://querydemo.documents.azure.com/offers/uT2L HTTP/1.1  
+PUT https://querydemo.documents.azure.com/offers/uT2L HTTP/1.1 
+
 x-ms-date: Tue, 29 Mar 2016 17:50:18 GMT  
 authorization: type%3dmaster%26ver%3d1.0%26sig%3dRdNwi9H3molMOsEoHXCUHa56N8U5eFDlfuewcSoiHgc%3d  
 Cache-Control: no-cache  
-User-Agent: Microsoft.Azure.Documents.Client/1.6.0.0 samples-net/3  
+User-Agent: contoso/1.0  
 x-ms-version: 2015-12-16  
 Accept: application/json  
 Host: querydemo.documents.azure.com  
@@ -127,13 +131,13 @@ Expect: 100-continue
   "offerVersion": "V2",  
   "resource": "dbs/rgkVAA==/colls/rgkVAMHcJww=/",  
   "content": {  
-    "offerThroughput": 4000 
+    "offerThroughput": 1000 
    }, 
   "offerResourceId": "rgkVAMHcJww="  
 }  
   
 ```  
-  
+Below is a sample response. 
 ```  
 HTTP/1.1 200 Ok  
 Cache-Control: no-store, no-cache  
@@ -157,11 +161,11 @@ x-ms-gatewayversion: version=1.6.52.5
 Date: Tue, 29 Mar 2016 17:50:20 GMT  
   
 {  
-  "offerVersion": "V1",  
+  "offerVersion": "V2",
   "_rid": "uT2L",  
   "content": {  
-    "offerThroughput": 4000 
-  }, 
+    "offerThroughput": 1000
+  },
   "resource": "dbs/rgkVAA==/colls/rgkVAMHcJww=/",  
   "offerResourceId": "rgkVAMHcJww=",  
   "id": "uT2L",  
@@ -171,10 +175,168 @@ Date: Tue, 29 Mar 2016 17:50:20 GMT
 }  
   
 ```
+## Example 2 
+This example shows how to change the max throughput (RU/s) of an offer with autoscale throughput to 8000 RU/s (scales between 800 - 8000 RU/s)
 
-## Remarks 
+```
+PUT https://querydemo.documents.azure.com/offers/uT2L HTTP/1.1
 
- To learn more about the maximum and minimum provisioned throughput that can be set on a container or a database, see the [Provision throughput on containers and databases](https://docs.microsoft.com/azure/cosmos-db/set-throughput) article.    
+x-ms-version: 2018-12-31
+x-ms-date: Thu, 23 Jul 2020 00:04:41 GMT
+authorization: type%3dmaster%26ver%3d1.0%26sig%3dRdNwi9H3molMOsEoHXCUHa56N8U5eFDlfuewcSoiHgc%3d  
+Accept: application/json
+Content-Type: application/json
+User-Agent: contoso/1.0
+Host: querydemo.documents.azure.com:443
+Connection: keep-alive
+Content-Length: 278
+
+{   
+  "offerVersion": "V2",   
+  "offerType": "Invalid",   
+  "content": {   
+    "offerAutopilotSettings": {"maxThroughput": 8000}
+  },
+  "resource": "dbs/rgkVAA==/colls/rgkVAMHcJww=/",  
+  "offerResourceId": "rgkVAMHcJww="  
+  "id": "uT2L",  
+  "_rid": "uT2L"
+}
+```
+
+## Example 3 
+This example shows how to migrate an offer with manual throughput to autoscale throughput. The header ``x-ms-cosmos-migrate-offer-to-autopilot`` with value ``true`` is required.
+
+When migrating, Azure Cosmos DB automatically determines the new autoscale max RU/s based on the current resource settings. 
+
+In the body, the ``content`` property with a defined ``offerThroughput`` is required, but the value wil be ignored by the service. Below we pass in -1.
+
+After the change is complete, you can follow [Example 2](#example-2) to change the autoscale max RU/s to a custom value.
+
+[Learn more about migrating to autoscale](/azure/cosmos-db/autoscale-faq.md#how-does-the-migration-between-autoscale-and-standard-manual-provisioned-throughput-work).
+
+
+```
+PUT https://querydemo.documents.azure.com/offers/uT2L HTTP/1.1
+
+x-ms-version: 2018-12-31
+x-ms-date: Wed, 22 Jul 2020 23:33:41 GMT
+authorization: type%3dmaster%26ver%3d1.0%26sig%3dRdNwi9H3molMOsEoHXCUHa56N8U5eFDlfuewcSoiHgc%3d  
+Accept: application/json
+x-ms-cosmos-migrate-offer-to-autopilot: true
+Content-Type: application/json
+User-Agent: contoso/1.0  
+Host: querydemo.documents.azure.com  
+Connection: keep-alive
+Content-Length: 254
+
+{   
+  "offerVersion": "V2",   
+  "offerType": "Invalid",   
+  "content": {   
+    "offerThroughput": -1  
+  },
+  "resource": "dbs/rgkVAA==/colls/rgkVAMHcJww=/",  
+  "offerResourceId": "rgkVAMHcJww=",  
+  "id": "uT2L",   
+  "_rid": "uT2L"
+}
+```
+Below is a sample response body. 
+
+The property `maxThroughput` represents the autoscale max RU/s set by the system. The property `offerThroughput` represents the RU/s the system is currently scaled to.
+```
+{
+    "resource": "dbs/rgkVAA==/colls/rgkVAMHcJww=/",  
+    "offerType": "Invalid",
+    "offerResourceId": "rgkVAMHcJww=",
+    "offerVersion": "V2",
+    "content": {
+        "offerThroughput": 400,
+        "offerIsRUPerMinuteThroughputEnabled": false,
+        "offerMinimumThroughputParameters": {
+            "maxThroughputEverProvisioned": 4000,
+            "maxConsumedStorageEverInKB": 0
+        },
+        "offerLastReplaceTimestamp": 1595460122,
+        "offerAutopilotSettings": {
+            "tier": 0,
+            "maximumTierThroughput": 0,
+            "autoUpgrade": false,
+            "maxThroughput": 4000
+        }
+    },
+    "id": "uT2L",
+    "_rid": "uT2L",
+    "_self": "offers/uT2L/",
+    "_etag": "\"2d002059-0000-0800-0000-5f18cbf80000\"",
+    "_ts": 1595460600
+}
+```
+
+## Example 4
+This example shows how to migrate an offer with autoscale throughput to manual throughput. The header ``x-ms-cosmos-migrate-offer-to-manual-throughput`` with value ``true`` is required.
+
+When migrating, Azure Cosmos DB automatically determines the new manual throughput (RU/s) based on the current resource settings. After the change is complete, you can follow [Example 1](#example-1) to change the manual RU/s to a custom value.
+
+
+In the body, the ``content`` property with a defined ``offerAutopilotSettings`` and ``maxThroughput`` is required, but the value wil be ignored by the service. Below we pass in -1.
+
+[Learn more about migrating to manual throughput](/azure/cosmos-db/autoscale-faq.md#how-does-the-migration-between-autoscale-and-standard-manual-provisioned-throughput-work).
+
+```
+PUT https://querydemo.documents.azure.com/offers/uT2L HTTP/1.1  
+x-ms-version: 2018-12-31
+x-ms-date: Wed, 22 Jul 2020 23:43:03 GMT
+authorization: type%3dmaster%26ver%3d1.0%26sig%3dRdNwi9H3molMOsEoHXCUHa56N8U5eFDlfuewcSoiHgc%3d  
+Accept: application/json
+x-ms-cosmos-migrate-offer-to-manual-throughput: true
+Content-Type: application/json
+User-Agent: contoso/1.0  
+Host: querydemo.documents.azure.com
+Connection: keep-alive
+Content-Length: 280
+
+{
+  "offerVersion": "V2",
+  "offerType": "Invalid",
+  "content": {
+    "offerAutopilotSettings": {"maxThroughput": -1}
+  },
+  "resource": "dbs/rgkVAA==/colls/rgkVAMHcJww=/",  
+  "offerResourceId": "rgkVAMHcJww=",  
+  "id": "uT2L",
+  "_rid": "uT2L"
+}
+```
+Below is a sample response body. The property ``offerThroughput`` represents the manual throughput (RU/s) set on the resource.
+
+```
+{
+    "resource": "dbs/rgkVAA==/colls/rgkVAMHcJww=/",  
+    "offerType": "Invalid",
+    "offerResourceId": "rgkVAMHcJww=",
+    "offerVersion": "V2",
+    "content": {
+        "offerThroughput": 4000,
+        "offerIsRUPerMinuteThroughputEnabled": false,
+        "offerMinimumThroughputParameters": {
+            "maxThroughputEverProvisioned": 4000,
+            "maxConsumedStorageEverInKB": 0
+        },
+        "offerLastReplaceTimestamp": 1595461384
+    },
+    "id": "uT2L",
+    "_rid": "uT2L",
+    "_self": "offers/uT2L/",
+    "_etag": "\"2d002359-0000-0800-0000-5f18cf080000\"",
+    "_ts": 1595461384
+}
+```
+
+## Remarks
+
+ To learn more about the maximum and minimum provisioned throughput that can be set on a container or a database, see the [Provision throughput on containers and databases](https://docs.microsoft.com/azure/cosmos-db/set-throughput) article.
  
 Perform GET on the offer resource to retrieve the minimum throughput that could be set for a given container or a database. The response header `x-ms-cosmos-min-throughput` denotes the system determined minimum throughput.
   
@@ -183,6 +345,3 @@ Perform GET on the offer resource to retrieve the minimum throughput that could 
 * [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
 * [Azure Cosmos DB SQL API SDKs](/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
-  
-  
-

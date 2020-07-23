@@ -31,8 +31,11 @@ The `Create Collection` operation creates a new collection in a database.
 |POST|https://{databaseaccount}.documents.azure.com/dbs/{db-id}/colls|The {databaseaccount} is the name of the Azure Cosmos DB account created under your subscription. {db-id} can be either the ID or the _rid value for the database.|  
   
 ### Headers  
- See [Common Azure Cosmos DB REST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Azure Cosmos DB requests.  
-  
+ See [Common Azure Cosmos DB REST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Azure Cosmos DB requests. 
+
+ When [constructing the hashed token signature for a master token](access-control-on-cosmosdb-resources.md#a-nameconstructkeytokena-constructing-the-hashed-token-signature-for-a-master-token) for the master key token, the ResourceType should be "colls". The ResourceId should be `dbs/{db-id}`, where {db-id} can be either the ID or the _rid value of the database.
+
+
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
 |**x-ms-offer-throughput**|Optional|Number|The user specified manual throughput (RU/s) for the collection expressed in units of 100 request units per second. The minimum is 400 up to 1,000,000 (or higher by requesting a limit increase).<br /><br /> If the **x-ms-offer-throughput** is over 10,000, then the collection must include a **partitionKey** definition. If the **x-ms-offer-throughput** is equal to or under 10,000, then the **partitionKey** definition is optional.<br /><br /> Only one of `x-ms-offer-throughput` or `x-ms-cosmos-offer-autopilot-settings` must be specified. These headers cannot be specified together.|
@@ -45,10 +48,11 @@ The `Create Collection` operation creates a new collection in a database.
   
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
-|**id**|Required|String|The user generated unique name for the collection. No two collections can have the same IDs. It is a string that must not be more than 255 characters.|  
+|**id**|Required|String|The user-generated unique name for the collection. No two collections can have the same IDs. It is a string that must not be more than 255 characters.|  
 |**indexingPolicy**|Optional|Object|This value is used to configure indexing policy. By default, the indexing is automatic for all document paths within the collection.|  
 |**partitionKey**|Optional|Object|This value is used to configure the partition key to be used for partitioning data into multiple partitions.<br /><br /> To use large partition key, specify the version as 2 within the partitionKey property. <br /><br /> If the **x-ms-offer-throughput** is over 10,000, then the collection must include a **partitionKey** definition. If the **x-ms-offer-throughput** is equal to or under 10,000 or **x-ms-cosmos-offer-autopilot-settings** is used, then the collection must not include a **partitionKey** definition. <br /><br />Learn about how to [choose a good partition key](/azure/cosmos-db/partitioning-overview.md#choose-partitionkey).|
-  
+
+### Example body payload  
 ```  
 {  
   "id": "testcoll",  
@@ -103,15 +107,15 @@ If you encounter timeout exception when creating a collection, run a read operat
 |Property|Description|  
 |--------------|-----------------|  
 |**id**|It is the unique name that identifies the new collection.|  
-|**_rid**|It is a system generated property. The resource ID (_rid) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the permission resource.|  
-|**_ts**|It is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
-|**_self**|It is a system generated property. It is the unique addressable URI for the resource.|  
-|**_etag**|It is a system generated property representing the resource **etag** required for optimistic concurrency control.|  
-|**_doc**|It is a system generated property that specifies the addressable path of the documents resource.|  
-|**_sprocs**|It is a system generated property that specifies the addressable path of the stored procedures (sprocs) resource.|  
-|**_triggers**|It is a system generated property that specifies the addressable path of the triggers resource.|  
-|**_udfs**|It is a system generated property that specifies the addressable path of the user-defined functions (udfs) resource.|  
-|**_conflicts**|It is a system generated property that specifies the addressable path of the conflicts resource. During an operation on a resource within a collection, if a conflict occurs, users can inspect the conflicting resources by performing a GET on the conflicts URI path.|  
+|**_rid**|It is a system-generated property. The resource ID (_rid) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement and navigation of the permission resource.|  
+|**_ts**|It is a system-generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
+|**_self**|It is a system-generated property. It is the unique addressable URI for the resource.|  
+|**_etag**|It is a system-generated property representing the resource **etag** required for optimistic concurrency control.|  
+|**_doc**|It is a system-generated property that specifies the addressable path of the documents resource.|  
+|**_sprocs**|It is a system-generated property that specifies the addressable path of the stored procedures (sprocs) resource.|  
+|**_triggers**|It is a system-generated property that specifies the addressable path of the triggers resource.|  
+|**_udfs**|It is a system-generated property that specifies the addressable path of the user-defined functions (udfs) resource.|  
+|**_conflicts**|It is a system-generated property that specifies the addressable path of the conflicts resource. During an operation on a resource within a collection, if a conflict occurs, users can inspect the conflicting resources by performing a GET on the conflicts URI path.|  
 |**indexingPolicy**|It is the indexing policy settings for collection.|  
 |**partitionKey**|It is the partitioning configuration settings for collection.|  
   
@@ -136,8 +140,10 @@ If you encounter timeout exception when creating a collection, run a read operat
 |--------------|-----------------|  
 |**paths**|An array of paths using which data within the collection can be partitioned. Paths must not contain a wildcard or a trailing slash. For example, the JSON property "AccountNumber" is specified as "/AccountNumber". The array must contain only a single value.|  
 |**kind**|The algorithm used for partitioning. Only Hash is supported.|  
-|**version** | An optional field, if not specified the default value is 1. To use the large partition key set the version to 2. To learn about large partition keys, see [how to create containers with large partition key](/azure/cosmos-db/large-partition-keys) article. |
-  
+|**version** | An optional field, if not specified the default value is 1. To use the large partition key, set the version to 2. To learn about large partition keys, see [how to create containers with large partition key](/azure/cosmos-db/large-partition-keys) article. |
+
+### Example response body  
+
 ```  
 {  
   "id": "testcoll",  
