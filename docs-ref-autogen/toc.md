@@ -1489,6 +1489,12 @@
 ### [Update](automation/Webhook/Update.yml)
 # AVS
 ## [Overview](../docs-ref-conceptual/avs/index.md)
+## Authorizations
+### [Overview](avs/Authorizations.yml)
+### [Create Or Update](avs/Authorizations/CreateOrUpdate.yml)
+### [Delete](avs/Authorizations/Delete.yml)
+### [Get](avs/Authorizations/Get.yml)
+### [List](avs/Authorizations/List.yml)
 ## Clusters
 ### [Overview](avs/Clusters.yml)
 ### [Create Or Update](avs/Clusters/CreateOrUpdate.yml)
@@ -1496,6 +1502,12 @@
 ### [Get](avs/Clusters/Get.yml)
 ### [List](avs/Clusters/List.yml)
 ### [Update](avs/Clusters/Update.yml)
+## Hcx Enterprise Sites
+### [Overview](avs/HcxEnterpriseSites.yml)
+### [Create Or Update](avs/HcxEnterpriseSites/CreateOrUpdate.yml)
+### [Delete](avs/HcxEnterpriseSites/Delete.yml)
+### [Get](avs/HcxEnterpriseSites/Get.yml)
+### [List](avs/HcxEnterpriseSites/List.yml)
 ## Locations
 ### [Overview](avs/Locations.yml)
 ### [Check Quota Availability](avs/Locations/CheckQuotaAvailability.yml)

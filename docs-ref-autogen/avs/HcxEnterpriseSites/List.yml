@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.avs.clusters.get
-name: Get
+uid: management.azure.com.avs.hcxenterprisesites.list
+name: List
 service: AVS
-groupName: Clusters
+groupName: Hcx Enterprise Sites
 apiVersion: 2020-03-20
-summary: Get a cluster by name in a private cloud
+summary: List HCX Enterprise Sites in a private cloud
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}?api-version=2020-03-20
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/hcxEnterpriseSites?api-version=2020-03-20
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,12 +31,6 @@ uriParameters:
   description: Name of the private cloud
   types:
   - uid: string
-- name: clusterName
-  in: path
-  isRequired: true
-  description: Name of the cluster in the private cloud
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -47,26 +41,50 @@ responses:
 - name: 200 OK
   description: successful operation
   types:
-  - uid: Cluster
+  - uid: HcxEnterpriseSiteList
 - name: Other Status Codes
   description: Error response describing why the operation failed
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: Cluster
-  description: A cluster resource
+- name: HcxEnterpriseSiteList
+  description: A paged list of HCX Enterprise Sites
   kind: object
   properties:
-  - name: sku
-    description: The cluster SKU
-    types:
-    - uid: Sku
-  - name: properties.provisioningState
+  - name: value
     isReadyOnly: true
-    description: The state of the cluster provisioning
+    description: The items on a page
     types:
-    - uid: ClusterProvisioningState
+    - uid: HcxEnterpriseSite
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URL to get the next page if any
+    types:
+    - uid: string
+- name: CloudError
+  description: API error response
+  kind: object
+  properties:
+  - name: error
+    description: An error returned by the API
+    types:
+    - uid: ErrorResponse
+- name: HcxEnterpriseSite
+  description: An HCX Enterprise Site resource
+  kind: object
+  properties:
+  - name: properties.activationKey
+    isReadyOnly: true
+    description: The activation key
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: The status of the HCX Enterprise Site
+    types:
+    - uid: HcxEnterpriseSiteStatus
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -80,56 +98,6 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Resource type.
-    types:
-    - uid: string
-  - name: properties.clusterId
-    isReadyOnly: true
-    description: The identity
-    types:
-    - uid: integer
-  - name: properties.hosts
-    isReadyOnly: true
-    description: The hosts
-    types:
-    - uid: string
-      isArray: true
-  - name: clusterSize
-    description: The cluster size
-    types:
-    - uid: integer
-- name: CloudError
-  description: API error response
-  kind: object
-  properties:
-  - name: error
-    description: An error returned by the API
-    types:
-    - uid: ErrorResponse
-- name: Sku
-  description: The resource model definition representing SKU
-  kind: object
-  properties:
-  - name: name
-    description: The name of the SKU.
-    types:
-    - uid: string
-- name: ClusterProvisioningState
-  description: The state of the cluster provisioning
-  kind: enum
-  properties:
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Cancelled
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-  - name: Updating
     types:
     - uid: string
 - name: ErrorResponse
@@ -163,6 +131,22 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: HcxEnterpriseSiteStatus
+  description: The status of the HCX Enterprise Site
+  kind: enum
+  properties:
+  - name: Available
+    types:
+    - uid: string
+  - name: Consumed
+    types:
+    - uid: string
+  - name: Deactivated
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -178,30 +162,23 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Clusters_Get
+- name: HcxEnterpriseSites_List
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1?api-version=2020-03-20
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/hcxEnterpriseSites?api-version=2020-03-20
   responses:
   - statusCode: "200"
     body: >-
-      {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1",
-        "name": "cluster1",
-        "sku": {
-          "name": "AV20"
-        },
-        "properties": {
-          "clusterSize": 4,
-          "hosts": [
-            "fakehost22.nyc1.kubernetes.center",
-            "fakehost23.nyc1.kubernetes.center",
-            "fakehost24.nyc1.kubernetes.center",
-            "fakehost25.nyc1.kubernetes.center"
-          ],
-          "provisioningState": "Succeeded"
-        },
-        "type": "Microsoft.AVS/privateClouds/clusters"
-      }
+      [
+        {
+          "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/hcxEnterpriseSites/site1",
+          "name": "site1",
+          "properties": {
+            "activationKey": "0276EF1A9A1749A5A362BF73EA9F8D0D",
+            "status": "Available"
+          },
+          "type": "Microsoft.AVS/privateClouds/hcxEnterpriseSites"
+        }
+      ]
 security:
 - name: azure_auth
   type: oauth2
