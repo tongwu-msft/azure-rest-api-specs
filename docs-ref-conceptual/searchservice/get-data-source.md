@@ -16,7 +16,7 @@ ms.manager: nitinme
 The **Get Data Source** operation gets the data source definition from Azure Cognitive Search.  
 
 ```http
-GET https://[service name].search.windows.net/datasources/[data source name]?api-version=[api-version]  
+GET https://[service name].search.windows.net/datasources/[data source name]?api-version=[api-version]&includeConnectionString=[includeConnectionString]
   Content-Type: application/json  
   api-key: [admin key]  
 ```  
@@ -28,6 +28,7 @@ GET https://[service name].search.windows.net/datasources/[data source name]?api
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | data source name  | Required. The request URI specifies the name of the data source to return.   |
 | api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| includeConnectionString | Optional. Using `true` returns a connection string no secret information such as passwords in the response. By default the connection string isn't returned in the response.
 
 ## Request Headers 
 
@@ -49,7 +50,7 @@ You can get the api-key value from your service dashboard in the Azure portal. F
  The response body is similar to examples in [Create Data Source &#40;Azure Cognitive Search REST API&#41;](create-data-source.md).  
 
 > [!NOTE]  
->  The connection string is not returned in the response for security purposes. 
+> By default, the connection string is not returned in the response. If the URI parameter `includeConnectionString` is set to `true`, a connection string with secret information such as passwords removed is returned in the response.
 
 ```json 
 {   
