@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.avs.clusters.createorupdate
+uid: management.azure.com.avs.hcxenterprisesites.createorupdate
 name: Create Or Update
 service: AVS
-groupName: Clusters
+groupName: Hcx Enterprise Sites
 apiVersion: 2020-03-20
-summary: Create or update a cluster in a private cloud
+summary: Create or update an HCX Enterprise Site in a private cloud
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}?api-version=2020-03-20
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/hcxEnterpriseSites/{hcxEnterpriseSiteName}?api-version=2020-03-20
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,10 +31,10 @@ uriParameters:
   description: The name of the private cloud.
   types:
   - uid: string
-- name: clusterName
+- name: hcxEnterpriseSiteName
   in: path
   isRequired: true
-  description: Name of the cluster in the private cloud
+  description: Name of the HCX Enterprise Site in the private cloud
   types:
   - uid: string
 - name: api-version
@@ -45,13 +45,13 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: successful operation
+  description: successful update
   types:
-  - uid: Cluster
+  - uid: HcxEnterpriseSite
 - name: 201 Created
-  description: accepted operation
+  description: successful create
   types:
-  - uid: Cluster
+  - uid: HcxEnterpriseSite
 - name: Other Status Codes
   description: Error response describing why the operation failed
   types:
@@ -59,40 +59,27 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: sku
+  - name: hcxEnterpriseSite
     in: body
-    isRequired: true
-    description: The cluster SKU
+    description: The HCX Enterprise Site
     types:
-    - uid: Sku
-  - name: clusterSize
-    in: body
-    description: The cluster size
-    types:
-    - uid: integer
+    - uid: object
 requestHeader: []
 definitions:
-- name: Sku
-  description: The resource model definition representing SKU
+- name: HcxEnterpriseSite
+  description: An HCX Enterprise Site resource
   kind: object
   properties:
-  - name: name
-    description: The name of the SKU.
+  - name: properties.activationKey
+    isReadyOnly: true
+    description: The activation key
     types:
     - uid: string
-- name: Cluster
-  description: A cluster resource
-  kind: object
-  properties:
-  - name: sku
-    description: The cluster SKU
-    types:
-    - uid: Sku
-  - name: properties.provisioningState
+  - name: properties.status
     isReadyOnly: true
-    description: The state of the cluster provisioning
+    description: The status of the HCX Enterprise Site
     types:
-    - uid: ClusterProvisioningState
+    - uid: HcxEnterpriseSiteStatus
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -108,21 +95,6 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-  - name: properties.clusterId
-    isReadyOnly: true
-    description: The identity
-    types:
-    - uid: integer
-  - name: properties.hosts
-    isReadyOnly: true
-    description: The hosts
-    types:
-    - uid: string
-      isArray: true
-  - name: clusterSize
-    description: The cluster size
-    types:
-    - uid: integer
 - name: CloudError
   description: API error response
   kind: object
@@ -131,23 +103,20 @@ definitions:
     description: An error returned by the API
     types:
     - uid: ErrorResponse
-- name: ClusterProvisioningState
-  description: The state of the cluster provisioning
+- name: HcxEnterpriseSiteStatus
+  description: The status of the HCX Enterprise Site
   kind: enum
   properties:
-  - name: Succeeded
+  - name: Available
     types:
     - uid: string
-  - name: Failed
+  - name: Consumed
     types:
     - uid: string
-  - name: Cancelled
+  - name: Deactivated
     types:
     - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-  - name: Updating
+  - name: Deleted
     types:
     - uid: string
 - name: ErrorResponse
@@ -196,51 +165,32 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Clusters_CreateOrUpdate
+- name: HcxEnterpriseSites_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1?api-version=2020-03-20
-    body: >-
-      {
-        "sku": {
-          "name": "AV20"
-        },
-        "properties": {
-          "clusterSize": 3
-        }
-      }
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/hcxEnterpriseSites/site1?api-version=2020-03-20
+    body: '{}'
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1",
-        "name": "cluster1",
-        "sku": {
-          "name": "AV20"
-        },
+        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/hcxEnterpriseSites/site1",
+        "name": "site1",
         "properties": {
-          "clusterSize": 3,
-          "hosts": [
-            "fakehost22.nyc1.kubernetes.center",
-            "fakehost23.nyc1.kubernetes.center",
-            "fakehost24.nyc1.kubernetes.center"
-          ],
-          "provisioningState": "Succeeded"
+          "activationKey": "0276EF1A9A1749A5A362BF73EA9F8D0D",
+          "status": "Available"
         },
-        "type": "Microsoft.AVS/privateClouds/clusters"
+        "type": "Microsoft.AVS/privateClouds/hcxEnterpriseSites"
       }
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1",
-        "name": "cluster1",
-        "sku": {
-          "name": "AV20"
-        },
+        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/hcxEnterpriseSites/site1",
+        "name": "site1",
         "properties": {
-          "clusterSize": 3,
-          "provisioningState": "Updating"
+          "activationKey": "0276EF1A9A1749A5A362BF73EA9F8D0D",
+          "status": "Available"
         },
-        "type": "Microsoft.AVS/privateClouds/clusters"
+        "type": "Microsoft.AVS/privateClouds/hcxEnterpriseSites"
       }
 security:
 - name: azure_auth
