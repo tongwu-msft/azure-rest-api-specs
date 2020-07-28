@@ -1,5 +1,5 @@
 ---
-title: "Get an Azure Active Directory token"
+title: Use Azure Active Directory authentication to send messages to a Service Bus queue
 ms.date: "07/15/2020"
 ms.prod: "azure"
 ms.service: "service-bus"
@@ -20,8 +20,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 
-# Get an Azure Active Directory (Azure AD) token 
-See [Authenticate from an application](get-azure-active-directory-token.md) for a quick overview of getting an Azure Active Directory (Azure AD) token. This article gives you an example of getting an AAD token that you can use to send messages to a Service Bus namespace. It uses the **Postman** tool for testing purposes. 
+# Get an Azure Active Directory (Azure AD) token and use it to send messages to a Service Bus queue
+See [Authenticate from an application](https://docs.microsoft.com/azure/service-bus-messaging/authenticate-application#authenticate-from-an-application) for an overview of getting an Azure Active Directory (Azure AD) token. 
+
+This article gives you an example of getting an Azure AD token that you can use to send messages to a Service Bus namespace. It uses the **Postman** tool for testing purposes. 
 
 ## Prerequisites
 
@@ -92,7 +94,7 @@ In this example, we are only sending messaging to the Service Bus queue, so add 
 1. Select **POST** for the method. 
 1. Enter URI in the following format: `https://<SERVICE BUS NAMESPACE NAME>.servicebus.windows.net/<QUEUE NAME>/messages`. Replace `<SERVICE BUS NAMESPACE NAME>` with the name of the Service Bus namespace. Replace `<QUEUE NAME>` with the name of the queue. 
 1. On the **Headers** tab, add the following two headers.
-    1. Add `Authorization` key and value for it in the following format: `Bearer <TOKEN from Azure AAD>`. When you copy/paste the token, don't copy the enclosing double quotes. 
+    1. Add `Authorization` key and value for it in the following format: `Bearer <TOKEN from Azure AD>`. When you copy/paste the token, don't copy the enclosing double quotes. 
     1. Add `Content-Type` key and `application/atom+xml;type=entry;charset=utf-8` as the value for it. 
 
         :::image type="content" source="./media/get-azure-active-directory-token/postman-headers-message.png" alt-text="Header for the message" lightbox="./media/get-azure-active-directory-token/postman-headers-message.png":::

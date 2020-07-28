@@ -1489,6 +1489,12 @@
 ### [Update](automation/Webhook/Update.yml)
 # AVS
 ## [Overview](../docs-ref-conceptual/avs/index.md)
+## Authorizations
+### [Overview](avs/Authorizations.yml)
+### [Create Or Update](avs/Authorizations/CreateOrUpdate.yml)
+### [Delete](avs/Authorizations/Delete.yml)
+### [Get](avs/Authorizations/Get.yml)
+### [List](avs/Authorizations/List.yml)
 ## Clusters
 ### [Overview](avs/Clusters.yml)
 ### [Create Or Update](avs/Clusters/CreateOrUpdate.yml)
@@ -1496,6 +1502,12 @@
 ### [Get](avs/Clusters/Get.yml)
 ### [List](avs/Clusters/List.yml)
 ### [Update](avs/Clusters/Update.yml)
+## Hcx Enterprise Sites
+### [Overview](avs/HcxEnterpriseSites.yml)
+### [Create Or Update](avs/HcxEnterpriseSites/CreateOrUpdate.yml)
+### [Delete](avs/HcxEnterpriseSites/Delete.yml)
+### [Get](avs/HcxEnterpriseSites/Get.yml)
+### [List](avs/HcxEnterpriseSites/List.yml)
 ## Locations
 ### [Overview](avs/Locations.yml)
 ### [Check Quota Availability](avs/Locations/CheckQuotaAvailability.yml)
@@ -5335,6 +5347,7 @@
 #### [Get partition runtime metadata](../docs-ref-conceptual/EventHub/get-partition-runtime-metadata.md)
 #### [List partition runtime metadata](../docs-ref-conceptual/EventHub/list-partition-runtime-metadata.md)
 ### [Generate SAS token](../docs-ref-conceptual/EventHub/generate-sas-token.md)
+### [Get token from Azure Active Directory](../docs-ref-conceptual/EventHub/get-azure-active-directory-token.md)
 ### [Send event](../docs-ref-conceptual/EventHub/send-event.md)
 ### [Send event with publisher ID](../docs-ref-conceptual/EventHub/send-event-with-publisher-id.md)
 ### [Send partition event](../docs-ref-conceptual/EventHub/send-partition-event.md)
@@ -7345,6 +7358,14 @@
 #### [List By Resource Group](monitor/ScheduledQueryRules/ListByResourceGroup.yml)
 #### [List By Subscription](monitor/ScheduledQueryRules/ListBySubscription.yml)
 #### [Update](monitor/ScheduledQueryRules/Update.yml)
+### Smart Detector Alert Rules
+#### [Overview](monitor/SmartDetectorAlertRules.yml)
+#### [Create Or Update](monitor/SmartDetectorAlertRules/CreateOrUpdate.yml)
+#### [Delete](monitor/SmartDetectorAlertRules/Delete.yml)
+#### [Get](monitor/SmartDetectorAlertRules/Get.yml)
+#### [List](monitor/SmartDetectorAlertRules/List.yml)
+#### [List By Resource Group](monitor/SmartDetectorAlertRules/ListByResourceGroup.yml)
+#### [Patch](monitor/SmartDetectorAlertRules/Patch.yml)
 ### Subscription Diagnostic Settings
 #### [Overview](monitor/SubscriptionDiagnosticSettings.yml)
 #### [Create Or Update](monitor/SubscriptionDiagnosticSettings/CreateOrUpdate.yml)

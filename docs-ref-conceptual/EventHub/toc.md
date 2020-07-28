@@ -16,6 +16,7 @@
 ### [Get partition runtime metadata](get-partition-runtime-metadata.md)
 ### [List partition runtime metadata](list-partition-runtime-metadata.md)
 ## [Generate SAS token](generate-sas-token.md)
+## [Get token from Azure Active Directory](get-azure-active-directory-token.md)
 ## [Send event](send-event.md)
 ## [Send event with publisher ID](send-event-with-publisher-id.md)
 ## [Send partition event](send-partition-event.md)
