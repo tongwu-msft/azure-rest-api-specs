@@ -3,14 +3,14 @@ uid: keyvault.setsasdefinition.setsasdefinition
 name: Set Sas Definition
 service: Key Vault
 groupName: Set Sas Definition
-apiVersion: "7.0"
+apiVersion: "7.1"
 summary: Creates or updates a new SAS definition for the specified storage account. This operation requires the storage/setsas permission.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT {vaultBaseUrl}/storage/{storage-account-name}/sas/{sas-definition-name}?api-version=7.0
+- content: PUT {vaultBaseUrl}/storage/{storage-account-name}/sas/{sas-definition-name}?api-version=7.1
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -103,6 +103,11 @@ definitions:
     description: Last updated time in UTC.
     types:
     - uid: integer
+  - name: recoverableDays
+    isReadyOnly: true
+    description: softDelete data retention days. Value should be >=7 and <=90 when softDelete enabled, otherwise 0.
+    types:
+    - uid: integer
   - name: recoveryLevel
     isReadyOnly: true
     description: Reflects the deletion recovery level currently in effect for SAS definitions in the current vault. If it contains 'Purgeable' the SAS definition can be permanently deleted by a privileged user; otherwise, only the system can purge the SAS definition, at the end of the retention interval.
@@ -189,7 +194,7 @@ definitions:
       - uid: string
       - uid: string
 - name: DeletionRecoveryLevel
-  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  description: Reflects the deletion recovery level currently in effect for storage accounts in the current vault. If it contains 'Purgeable' the storage account can be permanently deleted by a privileged user; otherwise, only the system can purge the storage account, at the end of the retention interval.
   kind: enum
   properties:
   - name: Purgeable
@@ -252,7 +257,7 @@ definitions:
 examples:
 - name: Set Storage Sas definition
   request:
-    uri: PUT https://storage-sdk-test.vault-int.azure-int.net//storage/setsas01/sas/setStrgSasDef01?api-version=7.0
+    uri: PUT https://myvault.vault.azure.net//storage/setsas01/sas/setStrgSasDef01?api-version=7.1
     body: >-
       {
         "templateUri": "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=XXFNfuMCHYrBx0bhemJ7PWn0xGfImMXT6LfbXWvtRUk%3D",
@@ -266,8 +271,8 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/setsas01/sas/setStrgSasDef01",
-        "sid": "https://storage-sdk-test.vault-int.azure-int.net/secrets/setsas01-setStrgSasDef01",
+        "id": "https://myvault.vault.azure.net/storage/setsas01/sas/setStrgSasDef01",
+        "sid": "https://myvault.vault.azure.net/secrets/setsas01-setStrgSasDef01",
         "templateUri": "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=XXFNfuMCHYrBx0bhemJ7PWn0xGfImMXT6LfbXWvtRUk%3D",
         "sasType": "service",
         "validityPeriod": "P15D",

@@ -3,14 +3,14 @@ uid: keyvault.getcertificatepolicy.getcertificatepolicy
 name: Get Certificate Policy
 service: Key Vault
 groupName: Get Certificate Policy
-apiVersion: "7.0"
+apiVersion: "7.1"
 summary: "Lists the policy for a certificate.  \nThe GetCertificatePolicy operation returns the specified certificate policy resources in the specified key vault. This operation requires the certificates/get permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET {vaultBaseUrl}/certificates/{certificate-name}/policy?api-version=7.0
+- content: GET {vaultBaseUrl}/certificates/{certificate-name}/policy?api-version=7.1
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -175,6 +175,11 @@ definitions:
   description: The certificate management attributes.
   kind: object
   properties:
+  - name: recoverableDays
+    isReadyOnly: true
+    description: softDelete data retention days. Value should be >=7 and <=90 when softDelete enabled, otherwise 0.
+    types:
+    - uid: integer
   - name: recoveryLevel
     isReadyOnly: true
     description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
@@ -222,27 +227,22 @@ definitions:
     types:
     - uid: Error
 - name: JsonWebKeyType
-  description: JsonWebKey Key Type (kty), as defined in https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40.
+  description: The type of key pair to be used for the certificate.
   kind: enum
   properties:
   - name: EC
-    description: Elliptic Curve.
     types:
     - uid: string
   - name: EC-HSM
-    description: Elliptic Curve with a private key which is not exportable from the HSM.
     types:
     - uid: string
   - name: RSA
-    description: RSA (https://tools.ietf.org/html/rfc3447)
     types:
     - uid: string
   - name: RSA-HSM
-    description: RSA with a private key which is not exportable from the HSM.
     types:
     - uid: string
   - name: oct
-    description: Octet sequence (used to represent symmetric keys)
     types:
     - uid: string
 - name: JsonWebKeyCurveName
@@ -250,19 +250,15 @@ definitions:
   kind: enum
   properties:
   - name: P-256
-    description: The NIST P-256 elliptic curve, AKA SECG curve SECP256R1.
     types:
     - uid: string
   - name: P-384
-    description: The NIST P-384 elliptic curve, AKA SECG curve SECP384R1.
     types:
     - uid: string
   - name: P-521
-    description: The NIST P-521 elliptic curve, AKA SECG curve SECP521R1.
     types:
     - uid: string
   - name: P-256K
-    description: The SECG SECP256K1 elliptic curve.
     types:
     - uid: string
 - name: SubjectAlternativeNames
@@ -305,7 +301,7 @@ definitions:
     types:
     - uid: ActionType
 - name: DeletionRecoveryLevel
-  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
   kind: enum
   properties:
   - name: Purgeable
@@ -349,12 +345,12 @@ definitions:
 examples:
 - name: GetCertificatePolicy
   request:
-    uri: GET {vaultBaseUrl}/certificates/updateCert01/policy?api-version=7.0
+    uri: GET https://myvault.vault.azure.net//certificates/updateCert01/policy?api-version=7.1
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "https://testvault1021.vault.azure.net/certificates/updateCert01/policy",
+        "id": "https://myvault.vault.azure.net/certificates/updateCert01/policy",
         "key_props": {
           "exportable": true,
           "kty": "RSA",
@@ -368,10 +364,7 @@ examples:
           "subject": "CN=KeyVaultTest",
           "ekus": [],
           "key_usage": [],
-          "validity_months": 297,
-          "basic_constraints": {
-            "ca": false
-          }
+          "validity_months": 297
         },
         "lifetime_actions": [
           {

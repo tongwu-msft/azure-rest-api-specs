@@ -4494,6 +4494,7 @@
 #### [List By Factory](datafactory/Pipelines/ListByFactory.yml)
 ### Trigger Runs
 #### [Overview](datafactory/TriggerRuns.yml)
+#### [Cancel](datafactory/TriggerRuns/Cancel.yml)
 #### [Query By Factory](datafactory/TriggerRuns/QueryByFactory.yml)
 #### [Rerun](datafactory/TriggerRuns/Rerun.yml)
 ### Triggers
