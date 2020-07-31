@@ -15,7 +15,7 @@ ms.author: "spelluru"
 manager: "femila"
 ---
 # Generate SAS token
-This section shows how to programmatically generate a SAS token for using the Event Hubs REST APIs.  
+This section shows how to programmatically generate a SAS token for using Azure Event Hubs and Azure Service Bus REST APIs.  
 
 ## NodeJS
 ```js
