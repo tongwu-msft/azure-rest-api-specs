@@ -1792,26 +1792,6 @@
 ### [Update](netapp/Volumes/Update.yml)
 # Azure Resource Graph
 ## [Overview](../docs-ref-conceptual/azure-resourcegraph/index.md)
-## Resource Graph(2018-09-01-preview)
-### Graph Query
-#### [Overview](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery.yml)
-#### [Create Or Update](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery/CreateOrUpdate.yml)
-#### [Delete](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery/Delete.yml)
-#### [Get](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery/Get.yml)
-#### [List](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery/List.yml)
-#### [Update](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery/Update.yml)
-### Operations
-#### [Overview](azureresourcegraph/resourcegraph(2018-09-01-preview)/Operations.yml)
-#### [List](azureresourcegraph/resourcegraph(2018-09-01-preview)/Operations/List.yml)
-### Resource Change Details
-#### [Overview](azureresourcegraph/resourcegraph(2018-09-01-preview)/ResourceChangeDetails.yml)
-#### [Resource Change Details](azureresourcegraph/resourcegraph(2018-09-01-preview)/ResourceChangeDetails/ResourceChangeDetails.yml)
-### Resource Changes
-#### [Overview](azureresourcegraph/resourcegraph(2018-09-01-preview)/ResourceChanges.yml)
-#### [Resource Changes](azureresourcegraph/resourcegraph(2018-09-01-preview)/ResourceChanges/ResourceChanges.yml)
-### Resources
-#### [Overview](azureresourcegraph/resourcegraph(2018-09-01-preview)/Resources.yml)
-#### [Resources](azureresourcegraph/resourcegraph(2018-09-01-preview)/Resources/Resources.yml)
 ## Resource Graph(2019-04-01)
 ### Operations
 #### [Overview](azureresourcegraph/resourcegraph(2019-04-01)/Operations.yml)
@@ -1819,6 +1799,26 @@
 ### Resources
 #### [Overview](azureresourcegraph/resourcegraph(2019-04-01)/Resources.yml)
 #### [Resources](azureresourcegraph/resourcegraph(2019-04-01)/Resources/Resources.yml)
+## Resource Graph(2020-04-01-preview)
+### Get
+#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/Get.yml)
+#### [Resource Change Details](azureresourcegraph/resourcegraph(2020-04-01-preview)/Get/ResourceChangeDetails.yml)
+### Graph Query
+#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery.yml)
+#### [Create Or Update](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery/CreateOrUpdate.yml)
+#### [Delete](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery/Delete.yml)
+#### [Get](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery/Get.yml)
+#### [List](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery/List.yml)
+#### [Update](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery/Update.yml)
+### List
+#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/List.yml)
+#### [Resource Changes](azureresourcegraph/resourcegraph(2020-04-01-preview)/List/ResourceChanges.yml)
+### Operations
+#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/Operations.yml)
+#### [List](azureresourcegraph/resourcegraph(2020-04-01-preview)/Operations/List.yml)
+### Resources
+#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/Resources.yml)
+#### [Resources](azureresourcegraph/resourcegraph(2020-04-01-preview)/Resources/Resources.yml)
 # Azure Spring Cloud
 ## [Overview](../docs-ref-conceptual/azurespringclould/index.md)
 ## Apps
