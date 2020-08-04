@@ -4090,6 +4090,10 @@
 #### [Get Cassandra Table Throughput](cosmos-db-resource-provider/CassandraResources/GetCassandraTableThroughput.yml)
 #### [List Cassandra Keyspaces](cosmos-db-resource-provider/CassandraResources/ListCassandraKeyspaces.yml)
 #### [List Cassandra Tables](cosmos-db-resource-provider/CassandraResources/ListCassandraTables.yml)
+#### [Migrate Cassandra Keyspace To Autoscale](cosmos-db-resource-provider/CassandraResources/MigrateCassandraKeyspaceToAutoscale.yml)
+#### [Migrate Cassandra Keyspace To Manual Throughput](cosmos-db-resource-provider/CassandraResources/MigrateCassandraKeyspaceToManualThroughput.yml)
+#### [Migrate Cassandra Table To Autoscale](cosmos-db-resource-provider/CassandraResources/MigrateCassandraTableToAutoscale.yml)
+#### [Migrate Cassandra Table To Manual Throughput](cosmos-db-resource-provider/CassandraResources/MigrateCassandraTableToManualThroughput.yml)
 #### [Update Cassandra Keyspace Throughput](cosmos-db-resource-provider/CassandraResources/UpdateCassandraKeyspaceThroughput.yml)
 #### [Update Cassandra Table Throughput](cosmos-db-resource-provider/CassandraResources/UpdateCassandraTableThroughput.yml)
 ### Collection
@@ -4147,6 +4151,10 @@
 #### [Get Gremlin Graph Throughput](cosmos-db-resource-provider/GremlinResources/GetGremlinGraphThroughput.yml)
 #### [List Gremlin Databases](cosmos-db-resource-provider/GremlinResources/ListGremlinDatabases.yml)
 #### [List Gremlin Graphs](cosmos-db-resource-provider/GremlinResources/ListGremlinGraphs.yml)
+#### [Migrate Gremlin Database To Autoscale](cosmos-db-resource-provider/GremlinResources/MigrateGremlinDatabaseToAutoscale.yml)
+#### [Migrate Gremlin Database To Manual Throughput](cosmos-db-resource-provider/GremlinResources/MigrateGremlinDatabaseToManualThroughput.yml)
+#### [Migrate Gremlin Graph To Autoscale](cosmos-db-resource-provider/GremlinResources/MigrateGremlinGraphToAutoscale.yml)
+#### [Migrate Gremlin Graph To Manual Throughput](cosmos-db-resource-provider/GremlinResources/MigrateGremlinGraphToManualThroughput.yml)
 #### [Update Gremlin Database Throughput](cosmos-db-resource-provider/GremlinResources/UpdateGremlinDatabaseThroughput.yml)
 #### [Update Gremlin Graph Throughput](cosmos-db-resource-provider/GremlinResources/UpdateGremlinGraphThroughput.yml)
 ### Mongo DB Resources
@@ -4161,6 +4169,10 @@
 #### [Get Mongo DB Database Throughput](cosmos-db-resource-provider/MongoDBResources/GetMongoDBDatabaseThroughput.yml)
 #### [List Mongo DB Collections](cosmos-db-resource-provider/MongoDBResources/ListMongoDBCollections.yml)
 #### [List Mongo DB Databases](cosmos-db-resource-provider/MongoDBResources/ListMongoDBDatabases.yml)
+#### [Migrate Mongo DB Collection To Autoscale](cosmos-db-resource-provider/MongoDBResources/MigrateMongoDBCollectionToAutoscale.yml)
+#### [Migrate Mongo DB Collection To Manual Throughput](cosmos-db-resource-provider/MongoDBResources/MigrateMongoDBCollectionToManualThroughput.yml)
+#### [Migrate Mongo DB Database To Autoscale](cosmos-db-resource-provider/MongoDBResources/MigrateMongoDBDatabaseToAutoscale.yml)
+#### [Migrate Mongo DB Database To Manual Throughput](cosmos-db-resource-provider/MongoDBResources/MigrateMongoDBDatabaseToManualThroughput.yml)
 #### [Update Mongo DB Collection Throughput](cosmos-db-resource-provider/MongoDBResources/UpdateMongoDBCollectionThroughput.yml)
 #### [Update Mongo DB Database Throughput](cosmos-db-resource-provider/MongoDBResources/UpdateMongoDBDatabaseThroughput.yml)
 ### Notebook Workspaces
@@ -4214,6 +4226,10 @@
 #### [List Sql Stored Procedures](cosmos-db-resource-provider/SqlResources/ListSqlStoredProcedures.yml)
 #### [List Sql Triggers](cosmos-db-resource-provider/SqlResources/ListSqlTriggers.yml)
 #### [List Sql User Defined Functions](cosmos-db-resource-provider/SqlResources/ListSqlUserDefinedFunctions.yml)
+#### [Migrate Sql Container To Autoscale](cosmos-db-resource-provider/SqlResources/MigrateSqlContainerToAutoscale.yml)
+#### [Migrate Sql Container To Manual Throughput](cosmos-db-resource-provider/SqlResources/MigrateSqlContainerToManualThroughput.yml)
+#### [Migrate Sql Database To Autoscale](cosmos-db-resource-provider/SqlResources/MigrateSqlDatabaseToAutoscale.yml)
+#### [Migrate Sql Database To Manual Throughput](cosmos-db-resource-provider/SqlResources/MigrateSqlDatabaseToManualThroughput.yml)
 #### [Update Sql Container Throughput](cosmos-db-resource-provider/SqlResources/UpdateSqlContainerThroughput.yml)
 #### [Update Sql Database Throughput](cosmos-db-resource-provider/SqlResources/UpdateSqlDatabaseThroughput.yml)
 ### Table Resources
@@ -4223,6 +4239,8 @@
 #### [Get Table](cosmos-db-resource-provider/TableResources/GetTable.yml)
 #### [Get Table Throughput](cosmos-db-resource-provider/TableResources/GetTableThroughput.yml)
 #### [List Tables](cosmos-db-resource-provider/TableResources/ListTables.yml)
+#### [Migrate Table To Autoscale](cosmos-db-resource-provider/TableResources/MigrateTableToAutoscale.yml)
+#### [Migrate Table To Manual Throughput](cosmos-db-resource-provider/TableResources/MigrateTableToManualThroughput.yml)
 #### [Update Table Throughput](cosmos-db-resource-provider/TableResources/UpdateTableThroughput.yml)
 # Cost Management
 ## [Overview](../docs-ref-conceptual/cost-management/index.md)
@@ -4494,6 +4512,7 @@
 #### [List By Factory](datafactory/Pipelines/ListByFactory.yml)
 ### Trigger Runs
 #### [Overview](datafactory/TriggerRuns.yml)
+#### [Cancel](datafactory/TriggerRuns/Cancel.yml)
 #### [Query By Factory](datafactory/TriggerRuns/QueryByFactory.yml)
 #### [Rerun](datafactory/TriggerRuns/Rerun.yml)
 ### Triggers
