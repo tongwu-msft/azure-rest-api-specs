@@ -10,10 +10,12 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/29/2020
+ms.date: 08/05/2020
 ---
 
 # Azure Time Series Insights Gen2 Query APIs
+
+## Overview
 
 The [Query APIs](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute) are constituted by three REST APIs, one API each for *events*, *series*, and *aggregates*.
 
@@ -70,13 +72,13 @@ Here, `innerError` is optional. In addition to basic errors like malformed reque
 | 400 | InvalidInput | The projected variable with name 'temperature' was not found in the type or inline variable definitions. | ProjectedVariableNotFound |
 | 400 | InvalidInput | Unable to upsert type with ID '7e19g688-83fb-4aee-8321-5c123ed016b7' and name 'ABC123'. This name is already used by type with ID '6e19g688-83fb-4aee-8321-5c123ed016b7'. | NameAlreadyExists |
 | 400 | InvalidInput | Unable to upsert hierarchy with ID '4e19g688-83fb-4aee-8321-7c123ed016b7' and name 'XYZ123'. This name is already used by hierarchy with ID '8e39g688-83fb-4aee-8321-5c123ed016b7'. | HierarchyNotDefined |
-| 400 | InvalidInput | Number of instances exceeded the limit of '500,000'. | NumberOfInstancesExceededLimit |
+| 400 | InvalidInput | Number of instances exceeded the limit of '1,000,000'. | NumberOfInstancesExceededLimit |
 | 400 | InvalidInput | Number of types exceeded the limit of '1000'. | NumberOfTypesExceededLimit |
 | 400 | InvalidInput | Number of hierarchies exceeded the limit of '32'. | NumberOfHierarchiesExceededLimit |
 | 400 | InvalidInput | The entity size is more than the maximum allowed size '16,384'. | ObjectSizeExceededLimit |
 | 400 | InvalidInput | The object name 'ABC123' with length '6' exceeds the maximum allowed character limit of '5'. | NameExceededLimit |
 | 408 | RequestTimeout | Request timed out after '30' second(s). | BatchRequestSizeExceededLimit |
-| 503 | TooManyRequests | Concurrent request count of '10' exceeded for environment '95880732-01b9-44ea-8d2d-4d764dfe1904'. | EnvRequestLimitExceeded |
+| 503 | TooManyRequests | Concurrent request count of '30' exceeded for environment '95880732-01b9-44ea-8d2d-4d764dfe1904'. | EnvRequestLimitExceeded |
 
 ## See also
 

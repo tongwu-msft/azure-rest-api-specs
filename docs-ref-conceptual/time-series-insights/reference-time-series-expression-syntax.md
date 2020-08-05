@@ -10,10 +10,12 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/29/2020
+ms.date: 08/05/2020
 ---
 
-# Azure Time Series Insights Gen2 Time Series Expression and syntax
+# Azure Time Series Insights Gen2 Time Series Expression syntax
+
+## Overview
 
 Time Series Expression (TSX) is a string-based expression language with strong typing. TSX is used to represent the following entities in a [Time Series Query](reference-query-apis.md).
 

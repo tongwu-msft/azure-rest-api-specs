@@ -13,26 +13,21 @@ ms.author: shresha
 ms.date: 08/05/2020
 ---
 
-# Azure Time Series Insights Gen2 data access concepts overview
+# Azure Time Series Insights Gen2 data access overview
 
 The Azure Time Series Insights Gen2 APIs provide data access operations for Azure Time Series Insights Gen2 environments. Gen2 APIs are mostly structured around Time Series Model and provide REST **CREATE**, **READ**, **UPDATE**, and **DELETE** operations through the [Time Series Insights Expression syntax (TSX)](reference-time-series-expression-syntax.md).
 
-> [!TIP]
-> Batch operations and result pagination are supported for most query operations.
-
-> [!NOTE]
->
-> * Review [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization) for required HTTP request headers and parameters.
-
-## See also
+## Data access articles
 
 For more information about APIs, see the following articles:
 
-* [API limits](reference-api-limits.md)
 * [Environments APIs](reference-environments-apis.md)
 * [Model APIs](reference-model-apis.md)
 * [Query APIs](reference-query-apis.md)
 * [Time Series expression syntax](reference-time-series-expression-syntax.md)
+* [API limits](reference-api-limits.md)
+
+## See also
 
 For more information about application registration and the Azure Active Directory programming model, see [Azure Active Directory for developers](https://docs.microsoft.com/azure/active-directory/develop/active-directory-developers-guide).
 

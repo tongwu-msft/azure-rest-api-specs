@@ -10,10 +10,12 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/29/2020
+ms.date: 08/05/2020
 ---
 
 # Azure Time Series Insights Gen2 Model APIs
+
+## Overview
 
 Each of the three components that make a [Time Series Model](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-update-tsm) (*instances*, *hierarchies*, and *types*) have corresponding REST APIs that support **CREATE**, **READ**, **UPDATE**, and **DELETE**, paginated, and/or batch operations.
 
@@ -46,7 +48,7 @@ The [Hierarchies API](https://docs.microsoft.com/rest/api/time-series-insights/d
 
 | API | Description |
 | --- | --- |
-| [Get Hierarchies API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeserieshierarchies/get) | Returns all the Time Series Hierarchies that match the request. |
+| [Get Hierarchies API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeserieshierarchies/list) | Returns all the Time Series Hierarchies that match the request. |
 | [Manage Hierarchies APIs](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeserieshierarchies/executebatch) | Enables batch operations on hierarchies. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation that the API allows. Supported operations are **PUT**, **UPDATE**, and **DELETE**. |
 
 ## Types API
@@ -55,7 +57,7 @@ The [Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataacc
 
 | API | Description |
 | --- | --- |
-| [Get Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeseriestypes/get) | Returns all the Time Series Types and their associated variables. |
+| [Get Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeseriestypes/list) | Returns all the Time Series Types and their associated variables. |
 | [Post Types API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeseriestypes/executebatch) |Enables batch operations on types. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation that the API allows. Supported operations are **PUT**, **UPDATE**, and **DELETE**. |
 
 ## Model Settings API

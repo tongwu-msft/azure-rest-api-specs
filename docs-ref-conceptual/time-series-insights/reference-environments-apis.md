@@ -10,16 +10,18 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/29/2020
+ms.date: 08/05/2020
 ---
 
 # Azure Time Series Insights Gen2 Environments APIs
 
 The following REST endpoints manage your Azure Time Series Insights Gen2 environment. The Gen2 Environments APIs add HTTP **GET** request support for *event schemas* and *environment availability*. These features supplement the already supported [Gen1 Environments APIs](gen1-query-api.md).
 
+## Overview
+
 | API | Description |
 | --- | --- |
-| [Get Environments API](https://docs.microsoft.com/rest/api/time-series-insights/management/environments/get) | Returns the list of environments that the caller is authorized to access. |
+| [Get Environments API](https://docs.microsoft.com/rest/api/time-series-insights/management(gen1/gen2)/environments/get) | Returns the list of environments that the caller is authorized to access. |
 | [Get Environments Availability API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/getavailability) | Returns the distribution of event count over the event time stamp `$ts` . You can use this API to provide the landing experience in the environment. |
 | [Get Event Schema API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/geteventschema) | Returns environment metadata for a search span. An event schema is returned as a set of property references. |
 

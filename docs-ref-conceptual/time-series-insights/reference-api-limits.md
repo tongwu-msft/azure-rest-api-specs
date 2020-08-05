@@ -10,14 +10,14 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/29/2020
+ms.date: 08/05/2020
 ---
 
 # Azure Time Series Insights Gen2 API limits
 
 This article describes the throughput, request, and concurrency limitations of the Time Series model and query APIs.
 
-## Model Settings API - limits
+## Model API - limits
 
 The following limits are applied during query execution to fairly utilize resources among multiple environments and users:
 

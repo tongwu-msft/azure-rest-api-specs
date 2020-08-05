@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 08/04/2020
+ms.date: 08/05/2020
 ---
 
 # Azure Time Series Insights REST APIs
