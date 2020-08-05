@@ -248,6 +248,11 @@ definitions:
     description: Billing address.
     types:
     - uid: AddressDetails
+  - name: properties.billingRelationshipType
+    isReadyOnly: true
+    description: Identifies which services and purchases are paid by a billing profile.
+    types:
+    - uid: BillingRelationshipType
   - name: properties.invoiceEmailOptIn
     description: Flag controlling whether the invoices for the billing profile are sent through email.
     types:
@@ -267,6 +272,11 @@ definitions:
     types:
     - uid: AzurePlan
       isArray: true
+  - name: properties.indirectRelationshipInfo
+    isReadyOnly: true
+    description: Identifies the billing profile that is linked to another billing profile in indirect purchase motion.
+    types:
+    - uid: IndirectRelationshipInfo
   - name: properties.invoiceSections
     description: The invoice sections associated to the billing profile.
     types:
@@ -287,6 +297,12 @@ definitions:
     description: The billing profile spending limit.
     types:
     - uid: SpendingLimit
+  - name: properties.targetClouds
+    isReadyOnly: true
+    description: Identifies the cloud environments that are associated with a billing profile. This is a system managed optional field and gets updated as the billing profile gets associated with accounts in various clouds.
+    types:
+    - uid: string
+      isArray: true
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -432,6 +448,22 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: BillingRelationshipType
+  description: Identifies which services and purchases are paid by a billing profile.
+  kind: enum
+  properties:
+  - name: Direct
+    types:
+    - uid: string
+  - name: IndirectCustomer
+    types:
+    - uid: string
+  - name: IndirectPartner
+    types:
+    - uid: string
+  - name: CSPPartner
+    types:
+    - uid: string
 - name: AzurePlan
   description: Details of the Azure plan.
   kind: object
@@ -445,6 +477,22 @@ definitions:
     description: The sku description.
     types:
     - uid: string
+- name: IndirectRelationshipInfo
+  description: The billing profile details of the partner of the customer for an indirect motion.
+  kind: object
+  properties:
+  - name: billingAccountName
+    description: The billing account name of the partner or the customer for an indirect motion.
+    types:
+    - uid: string
+  - name: billingProfileName
+    description: The billing profile name of the partner or the customer for an indirect motion.
+    types:
+    - uid: string
+  - name: displayName
+    description: The display name of the partner or customer for an indirect motion.
+    types:
+    - uid: string
 - name: InvoiceSection
   description: An invoice section.
   kind: object
@@ -453,6 +501,16 @@ definitions:
     description: The name of the invoice section.
     types:
     - uid: string
+  - name: properties.state
+    isReadyOnly: true
+    description: Identifies the state of an invoice section.
+    types:
+    - uid: InvoiceSectionState
+  - name: properties.targetCloud
+    isReadyOnly: true
+    description: Identifies the cloud environments that are associated with an invoice section. This is a system managed optional field and gets updated as the invoice section gets associated with accounts in various clouds.
+    types:
+    - uid: targetCloud
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -528,6 +586,29 @@ definitions:
     description: The policy that controls whether Azure reservation purchases are allowed in the enrollment.
     types:
     - uid: boolean
+- name: InvoiceSectionState
+  description: Identifies the state of an invoice section.
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Restricted
+    types:
+    - uid: string
+- name: targetCloud
+  description: Identifies the cloud environments that are associated with an invoice section. This is a system managed optional field and gets updated as the invoice section gets associated with accounts in various clouds.
+  kind: enum
+  properties:
+  - name: USGov
+    types:
+    - uid: string
+  - name: USNat
+    types:
+    - uid: string
+  - name: USSec
+    types:
+    - uid: string
 examples:
 - name: BillingAccountsList
   request:
@@ -625,6 +706,7 @@ examples:
                       "region": "WA",
                       "country": "US"
                     },
+                    "billingRelationshipType": "Direct",
                     "currency": "USD",
                     "enabledAzurePlans": [
                       {
@@ -648,7 +730,8 @@ examples:
                         "name": "invoiceSectionId1",
                         "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections",
                         "properties": {
-                          "displayName": "invoiceSectionName1"
+                          "displayName": "invoiceSectionName1",
+                          "state": "Active"
                         }
                       },
                       {
@@ -656,7 +739,8 @@ examples:
                         "name": "invoiceSectionId2",
                         "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections",
                         "properties": {
-                          "displayName": "invoiceSectionName2"
+                          "displayName": "invoiceSectionName2",
+                          "state": "Active"
                         }
                       }
                     ]
@@ -680,6 +764,7 @@ examples:
                       "region": "WA",
                       "country": "US"
                     },
+                    "billingRelationshipType": "CSPPartner",
                     "currency": "USD",
                     "enabledAzurePlans": [
                       {
@@ -702,7 +787,8 @@ examples:
                         "name": "invoiceSectionId11",
                         "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections",
                         "properties": {
-                          "displayName": "invoiceSectionName11"
+                          "displayName": "invoiceSectionName11",
+                          "state": "Active"
                         }
                       }
                     ]
@@ -741,6 +827,7 @@ examples:
                       "region": "WA",
                       "country": "US"
                     },
+                    "billingRelationshipType": "IndirectPartner",
                     "currency": "USD",
                     "enabledAzurePlans": [
                       {
@@ -752,19 +839,30 @@ examples:
                         "skuDescription": "Microsoft Azure Standard"
                       }
                     ],
+                    "indirectRelationshipInfo": {
+                      "billingAccountName": "20000000-0000-0000-0000-000000000001_00000000-0000-0000-0000-000000000000",
+                      "billingProfileName": "22000000-0000-0000-0000-000000000001",
+                      "displayName": "Customer1"
+                    },
                     "invoiceDay": 5,
                     "invoiceEmailOptIn": true,
                     "poNumber": "ABC12345",
                     "status": "Warned",
                     "statusReasonCode": "PastDue",
                     "spendingLimit": "On",
+                    "targetClouds": [
+                      "USNat",
+                      "USSec"
+                    ],
                     "invoiceSections": [
                       {
                         "id": "/providers/Microsoft.Billing/billingAccounts/10000000-0000-0000-0000-000000000001_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000004/invoiceSections/invoiceSectionId3",
                         "name": "invoiceSectionId3",
                         "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections",
                         "properties": {
-                          "displayName": "invoiceSectionName3"
+                          "displayName": "invoiceSectionName3",
+                          "state": "Restricted",
+                          "targetCloud": "USNat"
                         }
                       },
                       {
@@ -772,7 +870,9 @@ examples:
                         "name": "invoiceSectionId4",
                         "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections",
                         "properties": {
-                          "displayName": "invoiceSectionName4"
+                          "displayName": "invoiceSectionName4",
+                          "state": "Restricted",
+                          "targetCloud": "USSec"
                         }
                       }
                     ]
@@ -796,6 +896,7 @@ examples:
                       "region": "WA",
                       "country": "US"
                     },
+                    "billingRelationshipType": "IndirectCustomer",
                     "currency": "USD",
                     "enabledAzurePlans": [
                       {
@@ -807,19 +908,28 @@ examples:
                         "skuDescription": "Microsoft Azure Standard"
                       }
                     ],
+                    "indirectRelationshipInfo": {
+                      "billingAccountName": "30000000-0000-0000-0000-000000000001_00000000-0000-0000-0000-000000000000",
+                      "billingProfileName": "33000000-0000-0000-0000-000000000001",
+                      "displayName": "Partner1"
+                    },
                     "invoiceDay": 5,
                     "invoiceEmailOptIn": true,
                     "poNumber": "ABC12345",
                     "status": "Warned",
                     "statusReasonCode": "PastDue",
                     "spendingLimit": "On",
+                    "targetClouds": [
+                      "USSec"
+                    ],
                     "invoiceSections": [
                       {
                         "id": "/providers/Microsoft.Billing/billingAccounts/10000000-0000-0000-0000-000000000001_00000000-0000-0000-0000-000000000000/billingProfiles/11000000-0000-0000-0000-000000000005/invoiceSections/invoiceSectionId5",
                         "name": "invoiceSectionId5",
                         "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections",
                         "properties": {
-                          "displayName": "invoiceSectionName5"
+                          "displayName": "invoiceSectionName5",
+                          "state": "Active"
                         }
                       },
                       {
@@ -827,7 +937,9 @@ examples:
                         "name": "invoiceSectionId6",
                         "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections",
                         "properties": {
-                          "displayName": "invoiceSectionName6"
+                          "displayName": "invoiceSectionName6",
+                          "state": "Restricted",
+                          "targetCloud": "USSec"
                         }
                       }
                     ]

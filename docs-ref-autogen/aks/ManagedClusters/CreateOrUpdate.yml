@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2020-04-01
+apiVersion: 2020-06-01
 summary: "Creates or updates a managed cluster.  \nCreates or updates a managed cluster with the specified configuration for agents and Kubernetes version."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2020-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -194,6 +194,10 @@ definitions:
     description: The type of identity used for the managed cluster. Type 'SystemAssigned' will use an implicitly created identity in master components and an auto-created user assigned identity in MC_ resource group in agent nodes. Type 'None' will not use MSI for the managed cluster, service principal will be used instead.
     types:
     - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The user identity associated with the managed cluster. This identity will be used in control plane and only one user assigned identity is allowed. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
 - name: ManagedClusterAgentPoolProfile
   description: Profile for the container service agent pool.
   kind: object
@@ -301,6 +305,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: proximityPlacementGroupID
+    description: The ID for Proximity Placement Group.
+    types:
+    - uid: string
   - name: name
     description: Unique name of the agent pool profile in the context of the subscription and resource group.
     types:
@@ -412,6 +420,10 @@ definitions:
   properties:
   - name: managed
     description: Whether to enable managed AAD.
+    types:
+    - uid: boolean
+  - name: enableAzureRBAC
+    description: Whether to enable Azure RBAC for Kubernetes authorization.
     types:
     - uid: boolean
   - name: adminGroupObjectIDs
@@ -648,9 +660,20 @@ definitions:
   - name: SystemAssigned
     types:
     - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
   - name: None
     types:
     - uid: string
+- name: UserAssignedIdentities
+  description: "The user identity associated with the managed cluster. This identity will be used in control plane and only one user assigned identity is allowed. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: ContainerServiceVMSizeTypes
   description: Size of agent VMs.
   kind: enum
@@ -1405,7 +1428,7 @@ definitions:
 examples:
 - name: Create/Update Managed Cluster
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2020-04-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2020-06-01
     body: >-
       {
         "location": "location1",
@@ -1472,6 +1495,12 @@ examples:
           "enableRBAC": true,
           "diskEncryptionSetID": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
           "enablePodSecurityPolicy": true
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/subid1/resourceGroups/rgName1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1": {}
+          }
         }
       }
   responses:
@@ -1560,6 +1589,15 @@ examples:
             "scan-interval": "20s",
             "scale-down-delay-after-add": "15m"
           }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/subid1/resourceGroups/rgName1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1": {
+              "principalId": "principalId1",
+              "clientId": "clientId1"
+            }
+          }
         }
       }
   - statusCode: "201"
@@ -1595,6 +1633,507 @@ examples:
               ],
               "enableNodePublicIP": true,
               "mode": "System"
+            }
+          ],
+          "linuxProfile": {
+            "adminUsername": "azureuser",
+            "ssh": {
+              "publicKeys": [
+                {
+                  "keyData": "keydata"
+                }
+              ]
+            }
+          },
+          "windowsProfile": {
+            "adminUsername": "azureuser"
+          },
+          "servicePrincipalProfile": {
+            "clientId": "clientid"
+          },
+          "nodeResourceGroup": "MC_rg1_clustername1_location1",
+          "enableRBAC": true,
+          "diskEncryptionSetID": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+          "enablePodSecurityPolicy": true,
+          "networkProfile": {
+            "networkPlugin": "kubenet",
+            "podCidr": "10.244.0.0/16",
+            "serviceCidr": "10.0.0.0/16",
+            "dnsServiceIP": "10.0.0.10",
+            "dockerBridgeCidr": "172.17.0.1/16",
+            "loadBalancerSku": "standard",
+            "outboundType": "loadBalancer",
+            "loadBalancerProfile": {
+              "allocatedOutboundPorts": 2000,
+              "idleTimeoutInMinutes": 10,
+              "managedOutboundIPs": {
+                "count": 2
+              },
+              "effectiveOutboundIPs": [
+                {
+                  "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip1"
+                },
+                {
+                  "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip2"
+                }
+              ]
+            }
+          },
+          "autoScalerProfile": {
+            "scan-interval": "20s",
+            "scale-down-delay-after-add": "15m"
+          }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/subid1/resourceGroups/rgName1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1": {
+              "principalId": "principalId1",
+              "clientId": "clientId1"
+            }
+          }
+        }
+      }
+- name: Create/Update AAD Managed Cluster with EnableAzureRBAC
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2020-06-01
+    body: >-
+      {
+        "location": "location1",
+        "tags": {
+          "tier": "production",
+          "archv2": ""
+        },
+        "sku": {
+          "name": "Basic",
+          "tier": "Free"
+        },
+        "properties": {
+          "kubernetesVersion": "",
+          "dnsPrefix": "dnsprefix1",
+          "agentPoolProfiles": [
+            {
+              "name": "nodepool1",
+              "count": 3,
+              "vmSize": "Standard_DS1_v2",
+              "osType": "Linux",
+              "type": "VirtualMachineScaleSets",
+              "availabilityZones": [
+                "1",
+                "2",
+                "3"
+              ],
+              "enableNodePublicIP": true,
+              "mode": "System",
+              "nodeImageVersion": "AKSUbuntu:1604:2020.03.11"
+            }
+          ],
+          "linuxProfile": {
+            "adminUsername": "azureuser",
+            "ssh": {
+              "publicKeys": [
+                {
+                  "keyData": "keydata"
+                }
+              ]
+            }
+          },
+          "networkProfile": {
+            "loadBalancerSku": "standard",
+            "outboundType": "loadBalancer",
+            "loadBalancerProfile": {
+              "managedOutboundIPs": {
+                "count": 2
+              }
+            }
+          },
+          "autoScalerProfile": {
+            "scan-interval": "20s",
+            "scale-down-delay-after-add": "15m"
+          },
+          "windowsProfile": {
+            "adminUsername": "azureuser",
+            "adminPassword": "replacePassword1234$"
+          },
+          "servicePrincipalProfile": {
+            "clientId": "clientid",
+            "secret": "secret"
+          },
+          "addonProfiles": {},
+          "aadProfile": {
+            "managed": true,
+            "enableAzureRBAC": true
+          },
+          "enableRBAC": true,
+          "diskEncryptionSetID": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+          "enablePodSecurityPolicy": true
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1",
+        "location": "location1",
+        "name": "clustername1",
+        "tags": {
+          "archv2": "",
+          "tier": "production"
+        },
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "maxAgentPools": 1,
+          "kubernetesVersion": "1.9.6",
+          "dnsPrefix": "dnsprefix1",
+          "agentPoolProfiles": [
+            {
+              "name": "nodepool1",
+              "count": 3,
+              "vmSize": "Standard_DS1_v2",
+              "maxPods": 110,
+              "osType": "Linux",
+              "provisioningState": "Succeeded",
+              "orchestratorVersion": "1.9.6",
+              "type": "VirtualMachineScaleSets",
+              "availabilityZones": [
+                "1",
+                "2",
+                "3"
+              ],
+              "enableNodePublicIP": true,
+              "mode": "System",
+              "nodeImageVersion": "AKSUbuntu:1604:2020.03.11"
+            }
+          ],
+          "linuxProfile": {
+            "adminUsername": "azureuser",
+            "ssh": {
+              "publicKeys": [
+                {
+                  "keyData": "keydata"
+                }
+              ]
+            }
+          },
+          "windowsProfile": {
+            "adminUsername": "azureuser"
+          },
+          "servicePrincipalProfile": {
+            "clientId": "clientid"
+          },
+          "nodeResourceGroup": "MC_rg1_clustername1_location1",
+          "enableRBAC": true,
+          "diskEncryptionSetID": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+          "enablePodSecurityPolicy": true,
+          "fqdn": "dnsprefix1-abcd1234.hcp.eastus.azmk8s.io",
+          "networkProfile": {
+            "loadBalancerSku": "basic",
+            "networkPlugin": "kubenet",
+            "podCidr": "10.244.0.0/16",
+            "serviceCidr": "10.0.0.0/16",
+            "dnsServiceIP": "10.0.0.10",
+            "dockerBridgeCidr": "172.17.0.1/16",
+            "outboundType": "loadBalancer",
+            "loadBalancerProfile": {
+              "allocatedOutboundPorts": 2000,
+              "idleTimeoutInMinutes": 10,
+              "managedOutboundIPs": {
+                "count": 2
+              },
+              "effectiveOutboundIPs": [
+                {
+                  "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip1"
+                },
+                {
+                  "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip2"
+                }
+              ]
+            }
+          },
+          "aadProfile": {
+            "managed": true,
+            "adminGroupObjectIDs": null,
+            "enableAzureRBAC": true,
+            "tenantID": "tenantID"
+          },
+          "autoScalerProfile": {
+            "scan-interval": "20s",
+            "scale-down-delay-after-add": "15m"
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1",
+        "location": "location1",
+        "name": "clustername1",
+        "tags": {
+          "archv2": "",
+          "tier": "production"
+        },
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+          "provisioningState": "Creating",
+          "maxAgentPools": 1,
+          "kubernetesVersion": "1.9.6",
+          "dnsPrefix": "dnsprefix1",
+          "agentPoolProfiles": [
+            {
+              "name": "nodepool1",
+              "count": 3,
+              "vmSize": "Standard_DS1_v2",
+              "maxPods": 110,
+              "osType": "Linux",
+              "provisioningState": "Creating",
+              "orchestratorVersion": "1.9.6",
+              "type": "VirtualMachineScaleSets",
+              "availabilityZones": [
+                "1",
+                "2",
+                "3"
+              ],
+              "enableNodePublicIP": true,
+              "mode": "System"
+            }
+          ],
+          "linuxProfile": {
+            "adminUsername": "azureuser",
+            "ssh": {
+              "publicKeys": [
+                {
+                  "keyData": "keydata"
+                }
+              ]
+            }
+          },
+          "windowsProfile": {
+            "adminUsername": "azureuser"
+          },
+          "servicePrincipalProfile": {
+            "clientId": "clientid"
+          },
+          "nodeResourceGroup": "MC_rg1_clustername1_location1",
+          "enableRBAC": true,
+          "diskEncryptionSetID": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+          "enablePodSecurityPolicy": true,
+          "networkProfile": {
+            "networkPlugin": "kubenet",
+            "podCidr": "10.244.0.0/16",
+            "serviceCidr": "10.0.0.0/16",
+            "dnsServiceIP": "10.0.0.10",
+            "dockerBridgeCidr": "172.17.0.1/16",
+            "loadBalancerSku": "standard",
+            "outboundType": "loadBalancer",
+            "loadBalancerProfile": {
+              "allocatedOutboundPorts": 2000,
+              "idleTimeoutInMinutes": 10,
+              "managedOutboundIPs": {
+                "count": 2
+              },
+              "effectiveOutboundIPs": [
+                {
+                  "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip1"
+                },
+                {
+                  "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip2"
+                }
+              ]
+            }
+          },
+          "aadProfile": {
+            "managed": true,
+            "adminGroupObjectIDs": null,
+            "enableAzureRBAC": true,
+            "tenantID": "tenantID"
+          },
+          "autoScalerProfile": {
+            "scan-interval": "20s",
+            "scale-down-delay-after-add": "15m"
+          }
+        }
+      }
+- name: Create Managed Cluster with PPG
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2020-06-01
+    body: >-
+      {
+        "location": "location1",
+        "tags": {
+          "tier": "production",
+          "archv2": ""
+        },
+        "sku": {
+          "name": "Basic",
+          "tier": "Free"
+        },
+        "properties": {
+          "kubernetesVersion": "",
+          "dnsPrefix": "dnsprefix1",
+          "agentPoolProfiles": [
+            {
+              "name": "nodepool1",
+              "count": 3,
+              "vmSize": "Standard_DS2_v2",
+              "osType": "Linux",
+              "type": "VirtualMachineScaleSets",
+              "enableNodePublicIP": true,
+              "mode": "System",
+              "nodeImageVersion": "AKSUbuntu:1604:2020.03.11",
+              "proximityPlacementGroupID": "/subscriptions/subid1/resourcegroups/rg1/providers//Microsoft.Compute/proximityPlacementGroups/ppg1"
+            }
+          ],
+          "linuxProfile": {
+            "adminUsername": "azureuser",
+            "ssh": {
+              "publicKeys": [
+                {
+                  "keyData": "keydata"
+                }
+              ]
+            }
+          },
+          "networkProfile": {
+            "loadBalancerSku": "standard",
+            "outboundType": "loadBalancer",
+            "loadBalancerProfile": {
+              "managedOutboundIPs": {
+                "count": 2
+              }
+            }
+          },
+          "autoScalerProfile": {
+            "scan-interval": "20s",
+            "scale-down-delay-after-add": "15m"
+          },
+          "windowsProfile": {
+            "adminUsername": "azureuser",
+            "adminPassword": "replacePassword1234$"
+          },
+          "servicePrincipalProfile": {
+            "clientId": "clientid",
+            "secret": "secret"
+          },
+          "addonProfiles": {},
+          "enableRBAC": true,
+          "diskEncryptionSetID": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+          "enablePodSecurityPolicy": true
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1",
+        "location": "location1",
+        "name": "clustername1",
+        "tags": {
+          "archv2": "",
+          "tier": "production"
+        },
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "maxAgentPools": 1,
+          "kubernetesVersion": "1.9.6",
+          "dnsPrefix": "dnsprefix1",
+          "agentPoolProfiles": [
+            {
+              "name": "nodepool1",
+              "count": 3,
+              "vmSize": "Standard_DS2_v2",
+              "maxPods": 110,
+              "osType": "Linux",
+              "provisioningState": "Succeeded",
+              "orchestratorVersion": "1.9.6",
+              "type": "VirtualMachineScaleSets",
+              "enableNodePublicIP": true,
+              "mode": "System",
+              "nodeImageVersion": "AKSUbuntu:1604:2020.03.11",
+              "proximityPlacementGroupID": "/subscriptions/subid1/resourcegroups/rg1/providers//Microsoft.Compute/proximityPlacementGroups/ppg1"
+            }
+          ],
+          "linuxProfile": {
+            "adminUsername": "azureuser",
+            "ssh": {
+              "publicKeys": [
+                {
+                  "keyData": "keydata"
+                }
+              ]
+            }
+          },
+          "windowsProfile": {
+            "adminUsername": "azureuser"
+          },
+          "servicePrincipalProfile": {
+            "clientId": "clientid"
+          },
+          "nodeResourceGroup": "MC_rg1_clustername1_location1",
+          "enableRBAC": true,
+          "diskEncryptionSetID": "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+          "enablePodSecurityPolicy": true,
+          "fqdn": "dnsprefix1-abcd1234.hcp.eastus.azmk8s.io",
+          "networkProfile": {
+            "loadBalancerSku": "basic",
+            "networkPlugin": "kubenet",
+            "podCidr": "10.244.0.0/16",
+            "serviceCidr": "10.0.0.0/16",
+            "dnsServiceIP": "10.0.0.10",
+            "dockerBridgeCidr": "172.17.0.1/16",
+            "outboundType": "loadBalancer",
+            "loadBalancerProfile": {
+              "allocatedOutboundPorts": 2000,
+              "idleTimeoutInMinutes": 10,
+              "managedOutboundIPs": {
+                "count": 2
+              },
+              "effectiveOutboundIPs": [
+                {
+                  "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip1"
+                },
+                {
+                  "id": "/subscriptions/subid1/resourceGroups/MC_rg1/providers/Microsoft.Network/publicIPAddresses/mgdoutboundip2"
+                }
+              ]
+            }
+          },
+          "autoScalerProfile": {
+            "scan-interval": "20s",
+            "scale-down-delay-after-add": "15m"
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1",
+        "location": "location1",
+        "name": "clustername1",
+        "tags": {
+          "archv2": "",
+          "tier": "production"
+        },
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+          "provisioningState": "Creating",
+          "maxAgentPools": 1,
+          "kubernetesVersion": "1.9.6",
+          "dnsPrefix": "dnsprefix1",
+          "agentPoolProfiles": [
+            {
+              "name": "nodepool1",
+              "count": 3,
+              "vmSize": "Standard_DS2_v2",
+              "maxPods": 110,
+              "osType": "Linux",
+              "provisioningState": "Creating",
+              "orchestratorVersion": "1.9.6",
+              "type": "VirtualMachineScaleSets",
+              "enableNodePublicIP": true,
+              "mode": "System",
+              "proximityPlacementGroupID": "/subscriptions/subid1/resourcegroups/rg1/providers//Microsoft.Compute/proximityPlacementGroups/ppg1"
             }
           ],
           "linuxProfile": {

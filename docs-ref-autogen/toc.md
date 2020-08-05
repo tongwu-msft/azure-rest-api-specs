@@ -55,6 +55,12 @@
 ## Operations
 ### [Overview](aks/Operations.yml)
 ### [List](aks/Operations/List.yml)
+## Private Endpoint Connections
+### [Overview](aks/PrivateEndpointConnections.yml)
+### [Delete](aks/PrivateEndpointConnections/Delete.yml)
+### [Get](aks/PrivateEndpointConnections/Get.yml)
+### [List](aks/PrivateEndpointConnections/List.yml)
+### [Update](aks/PrivateEndpointConnections/Update.yml)
 # Analysis Services
 ## [Overview](../docs-ref-conceptual/analysisservices/index.md)
 ## Operations
@@ -1483,6 +1489,12 @@
 ### [Update](automation/Webhook/Update.yml)
 # AVS
 ## [Overview](../docs-ref-conceptual/avs/index.md)
+## Authorizations
+### [Overview](avs/Authorizations.yml)
+### [Create Or Update](avs/Authorizations/CreateOrUpdate.yml)
+### [Delete](avs/Authorizations/Delete.yml)
+### [Get](avs/Authorizations/Get.yml)
+### [List](avs/Authorizations/List.yml)
 ## Clusters
 ### [Overview](avs/Clusters.yml)
 ### [Create Or Update](avs/Clusters/CreateOrUpdate.yml)
@@ -1490,6 +1502,12 @@
 ### [Get](avs/Clusters/Get.yml)
 ### [List](avs/Clusters/List.yml)
 ### [Update](avs/Clusters/Update.yml)
+## Hcx Enterprise Sites
+### [Overview](avs/HcxEnterpriseSites.yml)
+### [Create Or Update](avs/HcxEnterpriseSites/CreateOrUpdate.yml)
+### [Delete](avs/HcxEnterpriseSites/Delete.yml)
+### [Get](avs/HcxEnterpriseSites/Get.yml)
+### [List](avs/HcxEnterpriseSites/List.yml)
 ## Locations
 ### [Overview](avs/Locations.yml)
 ### [Check Quota Availability](avs/Locations/CheckQuotaAvailability.yml)
@@ -1605,12 +1623,10 @@
 ### Operations
 #### [Overview](migrate/assessment/Operations.yml)
 #### [List](migrate/assessment/Operations/List.yml)
-### Project
-#### [Overview](migrate/assessment/Project.yml)
-#### [Assessment Options](migrate/assessment/Project/AssessmentOptions.yml)
-#### [Assessment Options List](migrate/assessment/Project/AssessmentOptionsList.yml)
 ### Projects
 #### [Overview](migrate/assessment/Projects.yml)
+#### [Assessment Options](migrate/assessment/Projects/AssessmentOptions.yml)
+#### [Assessment Options List](migrate/assessment/Projects/AssessmentOptionsList.yml)
 #### [Create](migrate/assessment/Projects/Create.yml)
 #### [Delete](migrate/assessment/Projects/Delete.yml)
 #### [Get](migrate/assessment/Projects/Get.yml)
@@ -4074,6 +4090,10 @@
 #### [Get Cassandra Table Throughput](cosmos-db-resource-provider/CassandraResources/GetCassandraTableThroughput.yml)
 #### [List Cassandra Keyspaces](cosmos-db-resource-provider/CassandraResources/ListCassandraKeyspaces.yml)
 #### [List Cassandra Tables](cosmos-db-resource-provider/CassandraResources/ListCassandraTables.yml)
+#### [Migrate Cassandra Keyspace To Autoscale](cosmos-db-resource-provider/CassandraResources/MigrateCassandraKeyspaceToAutoscale.yml)
+#### [Migrate Cassandra Keyspace To Manual Throughput](cosmos-db-resource-provider/CassandraResources/MigrateCassandraKeyspaceToManualThroughput.yml)
+#### [Migrate Cassandra Table To Autoscale](cosmos-db-resource-provider/CassandraResources/MigrateCassandraTableToAutoscale.yml)
+#### [Migrate Cassandra Table To Manual Throughput](cosmos-db-resource-provider/CassandraResources/MigrateCassandraTableToManualThroughput.yml)
 #### [Update Cassandra Keyspace Throughput](cosmos-db-resource-provider/CassandraResources/UpdateCassandraKeyspaceThroughput.yml)
 #### [Update Cassandra Table Throughput](cosmos-db-resource-provider/CassandraResources/UpdateCassandraTableThroughput.yml)
 ### Collection
@@ -4131,6 +4151,10 @@
 #### [Get Gremlin Graph Throughput](cosmos-db-resource-provider/GremlinResources/GetGremlinGraphThroughput.yml)
 #### [List Gremlin Databases](cosmos-db-resource-provider/GremlinResources/ListGremlinDatabases.yml)
 #### [List Gremlin Graphs](cosmos-db-resource-provider/GremlinResources/ListGremlinGraphs.yml)
+#### [Migrate Gremlin Database To Autoscale](cosmos-db-resource-provider/GremlinResources/MigrateGremlinDatabaseToAutoscale.yml)
+#### [Migrate Gremlin Database To Manual Throughput](cosmos-db-resource-provider/GremlinResources/MigrateGremlinDatabaseToManualThroughput.yml)
+#### [Migrate Gremlin Graph To Autoscale](cosmos-db-resource-provider/GremlinResources/MigrateGremlinGraphToAutoscale.yml)
+#### [Migrate Gremlin Graph To Manual Throughput](cosmos-db-resource-provider/GremlinResources/MigrateGremlinGraphToManualThroughput.yml)
 #### [Update Gremlin Database Throughput](cosmos-db-resource-provider/GremlinResources/UpdateGremlinDatabaseThroughput.yml)
 #### [Update Gremlin Graph Throughput](cosmos-db-resource-provider/GremlinResources/UpdateGremlinGraphThroughput.yml)
 ### Mongo DB Resources
@@ -4145,6 +4169,10 @@
 #### [Get Mongo DB Database Throughput](cosmos-db-resource-provider/MongoDBResources/GetMongoDBDatabaseThroughput.yml)
 #### [List Mongo DB Collections](cosmos-db-resource-provider/MongoDBResources/ListMongoDBCollections.yml)
 #### [List Mongo DB Databases](cosmos-db-resource-provider/MongoDBResources/ListMongoDBDatabases.yml)
+#### [Migrate Mongo DB Collection To Autoscale](cosmos-db-resource-provider/MongoDBResources/MigrateMongoDBCollectionToAutoscale.yml)
+#### [Migrate Mongo DB Collection To Manual Throughput](cosmos-db-resource-provider/MongoDBResources/MigrateMongoDBCollectionToManualThroughput.yml)
+#### [Migrate Mongo DB Database To Autoscale](cosmos-db-resource-provider/MongoDBResources/MigrateMongoDBDatabaseToAutoscale.yml)
+#### [Migrate Mongo DB Database To Manual Throughput](cosmos-db-resource-provider/MongoDBResources/MigrateMongoDBDatabaseToManualThroughput.yml)
 #### [Update Mongo DB Collection Throughput](cosmos-db-resource-provider/MongoDBResources/UpdateMongoDBCollectionThroughput.yml)
 #### [Update Mongo DB Database Throughput](cosmos-db-resource-provider/MongoDBResources/UpdateMongoDBDatabaseThroughput.yml)
 ### Notebook Workspaces
@@ -4198,6 +4226,10 @@
 #### [List Sql Stored Procedures](cosmos-db-resource-provider/SqlResources/ListSqlStoredProcedures.yml)
 #### [List Sql Triggers](cosmos-db-resource-provider/SqlResources/ListSqlTriggers.yml)
 #### [List Sql User Defined Functions](cosmos-db-resource-provider/SqlResources/ListSqlUserDefinedFunctions.yml)
+#### [Migrate Sql Container To Autoscale](cosmos-db-resource-provider/SqlResources/MigrateSqlContainerToAutoscale.yml)
+#### [Migrate Sql Container To Manual Throughput](cosmos-db-resource-provider/SqlResources/MigrateSqlContainerToManualThroughput.yml)
+#### [Migrate Sql Database To Autoscale](cosmos-db-resource-provider/SqlResources/MigrateSqlDatabaseToAutoscale.yml)
+#### [Migrate Sql Database To Manual Throughput](cosmos-db-resource-provider/SqlResources/MigrateSqlDatabaseToManualThroughput.yml)
 #### [Update Sql Container Throughput](cosmos-db-resource-provider/SqlResources/UpdateSqlContainerThroughput.yml)
 #### [Update Sql Database Throughput](cosmos-db-resource-provider/SqlResources/UpdateSqlDatabaseThroughput.yml)
 ### Table Resources
@@ -4207,6 +4239,8 @@
 #### [Get Table](cosmos-db-resource-provider/TableResources/GetTable.yml)
 #### [Get Table Throughput](cosmos-db-resource-provider/TableResources/GetTableThroughput.yml)
 #### [List Tables](cosmos-db-resource-provider/TableResources/ListTables.yml)
+#### [Migrate Table To Autoscale](cosmos-db-resource-provider/TableResources/MigrateTableToAutoscale.yml)
+#### [Migrate Table To Manual Throughput](cosmos-db-resource-provider/TableResources/MigrateTableToManualThroughput.yml)
 #### [Update Table Throughput](cosmos-db-resource-provider/TableResources/UpdateTableThroughput.yml)
 # Cost Management
 ## [Overview](../docs-ref-conceptual/cost-management/index.md)
@@ -4478,6 +4512,7 @@
 #### [List By Factory](datafactory/Pipelines/ListByFactory.yml)
 ### Trigger Runs
 #### [Overview](datafactory/TriggerRuns.yml)
+#### [Cancel](datafactory/TriggerRuns/Cancel.yml)
 #### [Query By Factory](datafactory/TriggerRuns/QueryByFactory.yml)
 #### [Rerun](datafactory/TriggerRuns/Rerun.yml)
 ### Triggers
@@ -5331,6 +5366,7 @@
 #### [Get partition runtime metadata](../docs-ref-conceptual/EventHub/get-partition-runtime-metadata.md)
 #### [List partition runtime metadata](../docs-ref-conceptual/EventHub/list-partition-runtime-metadata.md)
 ### [Generate SAS token](../docs-ref-conceptual/EventHub/generate-sas-token.md)
+### [Get token from Azure Active Directory](../docs-ref-conceptual/EventHub/get-azure-active-directory-token.md)
 ### [Send event](../docs-ref-conceptual/EventHub/send-event.md)
 ### [Send event with publisher ID](../docs-ref-conceptual/EventHub/send-event-with-publisher-id.md)
 ### [Send partition event](../docs-ref-conceptual/EventHub/send-partition-event.md)
@@ -5931,66 +5967,38 @@
 ### Resource Provider Common
 #### [Overview](iothub/ResourceProviderCommon.yml)
 #### [Get Subscription Quota](iothub/ResourceProviderCommon/GetSubscriptionQuota.yml)
-### Digital Twin Model
-#### Digital Twin
-##### [Overview](iothub/digitaltwinmodel/DigitalTwin.yml)
-##### [Get Digital Twin Model](iothub/digitaltwinmodel/DigitalTwin/GetDigitalTwinModel.yml)
-##### [Get Interface](iothub/digitaltwinmodel/DigitalTwin/GetInterface.yml)
-##### [Get Interfaces](iothub/digitaltwinmodel/DigitalTwin/GetInterfaces.yml)
-##### [Invoke Interface Command](iothub/digitaltwinmodel/DigitalTwin/InvokeInterfaceCommand.yml)
-##### [Update Interfaces](iothub/digitaltwinmodel/DigitalTwin/UpdateInterfaces.yml)
-#### Service
-##### [Overview](iothub/digitaltwinmodel/Service.yml)
-##### [Apply Configuration On Edge Device](iothub/digitaltwinmodel/Service/ApplyConfigurationOnEdgeDevice.yml)
-##### [Bulk Create Or Update Devices](iothub/digitaltwinmodel/Service/BulkCreateOrUpdateDevices.yml)
-##### [Cancel Import Export Job](iothub/digitaltwinmodel/Service/CancelImportExportJob.yml)
-##### [Cancel Job](iothub/digitaltwinmodel/Service/CancelJob.yml)
-##### [Create Import Export Job](iothub/digitaltwinmodel/Service/CreateImportExportJob.yml)
-##### [Create Job](iothub/digitaltwinmodel/Service/CreateJob.yml)
-##### [Create Or Update Configuration](iothub/digitaltwinmodel/Service/CreateOrUpdateConfiguration.yml)
-##### [Create Or Update Device](iothub/digitaltwinmodel/Service/CreateOrUpdateDevice.yml)
-##### [Create Or Update Module](iothub/digitaltwinmodel/Service/CreateOrUpdateModule.yml)
-##### [Delete Configuration](iothub/digitaltwinmodel/Service/DeleteConfiguration.yml)
-##### [Delete Device](iothub/digitaltwinmodel/Service/DeleteDevice.yml)
-##### [Delete Module](iothub/digitaltwinmodel/Service/DeleteModule.yml)
-##### [Get Configuration](iothub/digitaltwinmodel/Service/GetConfiguration.yml)
-##### [Get Configurations](iothub/digitaltwinmodel/Service/GetConfigurations.yml)
-##### [Get Device](iothub/digitaltwinmodel/Service/GetDevice.yml)
-##### [Get Device Registry Statistics](iothub/digitaltwinmodel/Service/GetDeviceRegistryStatistics.yml)
-##### [Get Devices](iothub/digitaltwinmodel/Service/GetDevices.yml)
-##### [Get Fault Injection](iothub/digitaltwinmodel/Service/GetFaultInjection.yml)
-##### [Get Import Export Job](iothub/digitaltwinmodel/Service/GetImportExportJob.yml)
-##### [Get Import Export Jobs](iothub/digitaltwinmodel/Service/GetImportExportJobs.yml)
-##### [Get Job](iothub/digitaltwinmodel/Service/GetJob.yml)
-##### [Get Module](iothub/digitaltwinmodel/Service/GetModule.yml)
-##### [Get Module Twin](iothub/digitaltwinmodel/Service/GetModuleTwin.yml)
-##### [Get Modules On Device](iothub/digitaltwinmodel/Service/GetModulesOnDevice.yml)
-##### [Get Service Statistics](iothub/digitaltwinmodel/Service/GetServiceStatistics.yml)
-##### [Get Twin](iothub/digitaltwinmodel/Service/GetTwin.yml)
-##### [Invoke Device Method](iothub/digitaltwinmodel/Service/InvokeDeviceMethod.yml)
-##### [Invoke Device Module Method](iothub/digitaltwinmodel/Service/InvokeDeviceModuleMethod.yml)
-##### [Purge Command Queue](iothub/digitaltwinmodel/Service/PurgeCommandQueue.yml)
-##### [Query Iot Hub](iothub/digitaltwinmodel/Service/QueryIotHub.yml)
-##### [Query Jobs](iothub/digitaltwinmodel/Service/QueryJobs.yml)
-##### [Replace Module Twin](iothub/digitaltwinmodel/Service/ReplaceModuleTwin.yml)
-##### [Replace Twin](iothub/digitaltwinmodel/Service/ReplaceTwin.yml)
-##### [Set Fault Injection](iothub/digitaltwinmodel/Service/SetFaultInjection.yml)
-##### [Test Configuration Queries](iothub/digitaltwinmodel/Service/TestConfigurationQueries.yml)
-##### [Update Module Twin](iothub/digitaltwinmodel/Service/UpdateModuleTwin.yml)
-##### [Update Twin](iothub/digitaltwinmodel/Service/UpdateTwin.yml)
 ### Digital Twin Model Repository Service
-#### Create Or Update Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateModel.yml)
-##### [Create Or Update Model](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateModel/CreateOrUpdateModel.yml)
-#### Delete Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/DeleteModel.yml)
-##### [Delete Model](iothub/digitaltwinmodelrepositoryservice/DeleteModel/DeleteModel.yml)
-#### Get Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/GetModel.yml)
-##### [Get Model](iothub/digitaltwinmodelrepositoryservice/GetModel/GetModel.yml)
-#### Search Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModel.yml)
-##### [Search Model](iothub/digitaltwinmodelrepositoryservice/SearchModel/SearchModel.yml)
+#### Are Valid Models
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/AreValidModels.yml)
+##### [Are Valid Models](iothub/digitaltwinmodelrepositoryservice/AreValidModels/AreValidModels.yml)
+#### Create Or Update Async
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateAsync.yml)
+##### [Create Or Update Async](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateAsync/CreateOrUpdateAsync.yml)
+#### Get Model Async
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/GetModelAsync.yml)
+##### [Get Model Async](iothub/digitaltwinmodelrepositoryservice/GetModelAsync/GetModelAsync.yml)
+#### Search Models Async
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModelsAsync.yml)
+##### [Search Models Async](iothub/digitaltwinmodelrepositoryservice/SearchModelsAsync/SearchModelsAsync.yml)
+### Digital Twin Model Repository Service Control Plane
+#### Assign Roles
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles.yml)
+##### [Assign Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles/AssignRoles.yml)
+#### Create Tenant
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant.yml)
+##### [Create Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant/CreateTenant.yml)
+#### Get Subjects For Resources
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources.yml)
+##### [Get Subjects For Resources](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources/GetSubjectsForResources.yml)
+#### Get Subjects For Resources By Type
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType.yml)
+##### [Get Subjects For Resources By Type](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType/GetSubjectsForResourcesByType.yml)
+#### Get Tenant
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant.yml)
+##### [Get Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant/GetTenant.yml)
+#### Remove Roles
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles.yml)
+##### [Remove Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles/RemoveRoles.yml)
 ### Service
 #### Configuration
 ##### [Overview](iothub/service/Configuration.yml)
@@ -6004,6 +6012,12 @@
 ##### [Overview](iothub/service/DeviceMethod.yml)
 ##### [Invoke Device Method](iothub/service/DeviceMethod/InvokeDeviceMethod.yml)
 ##### [Invoke Module Method](iothub/service/DeviceMethod/InvokeModuleMethod.yml)
+#### Digital Twin
+##### [Overview](iothub/service/DigitalTwin.yml)
+##### [Get Digital Twin](iothub/service/DigitalTwin/GetDigitalTwin.yml)
+##### [Invoke Component Command](iothub/service/DigitalTwin/InvokeComponentCommand.yml)
+##### [Invoke Root Level Command](iothub/service/DigitalTwin/InvokeRootLevelCommand.yml)
+##### [Update Digital Twin](iothub/service/DigitalTwin/UpdateDigitalTwin.yml)
 #### Fault Injection
 ##### [Overview](iothub/service/FaultInjection.yml)
 ##### [Get](iothub/service/FaultInjection/Get.yml)
@@ -6926,11 +6940,9 @@
 ### [Overview](maps/Weather.yml)
 ### [Get Current Conditions Preview](maps/Weather/GetCurrentConditionsPreview.yml)
 ### [Get Daily Forecast Preview](maps/Weather/GetDailyForecastPreview.yml)
-### [Get Daily Indices Preview](maps/Weather/GetDailyIndicesPreview.yml)
 ### [Get Hourly Forecast Preview](maps/Weather/GetHourlyForecastPreview.yml)
 ### [Get Minute Forecast Preview](maps/Weather/GetMinuteForecastPreview.yml)
 ### [Get Quarter Day Forecast Preview](maps/Weather/GetQuarterDayForecastPreview.yml)
-### [Get Severe Weather Alerts Preview](maps/Weather/GetSevereWeatherAlertsPreview.yml)
 ### [Get Weather Along Route Preview](maps/Weather/GetWeatherAlongRoutePreview.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
@@ -7321,6 +7333,12 @@
 #### [Get](monitor/LogProfiles/Get.yml)
 #### [List](monitor/LogProfiles/List.yml)
 #### [Update](monitor/LogProfiles/Update.yml)
+### Management Group Diagnostic Settings
+#### [Overview](monitor/ManagementGroupDiagnosticSettings.yml)
+#### [Create Or Update](monitor/ManagementGroupDiagnosticSettings/CreateOrUpdate.yml)
+#### [Delete](monitor/ManagementGroupDiagnosticSettings/Delete.yml)
+#### [Get](monitor/ManagementGroupDiagnosticSettings/Get.yml)
+#### [List](monitor/ManagementGroupDiagnosticSettings/List.yml)
 ### Metric Alerts
 #### [Overview](monitor/MetricAlerts.yml)
 #### [Create Or Update](monitor/MetricAlerts/CreateOrUpdate.yml)
@@ -7359,6 +7377,14 @@
 #### [List By Resource Group](monitor/ScheduledQueryRules/ListByResourceGroup.yml)
 #### [List By Subscription](monitor/ScheduledQueryRules/ListBySubscription.yml)
 #### [Update](monitor/ScheduledQueryRules/Update.yml)
+### Smart Detector Alert Rules
+#### [Overview](monitor/SmartDetectorAlertRules.yml)
+#### [Create Or Update](monitor/SmartDetectorAlertRules/CreateOrUpdate.yml)
+#### [Delete](monitor/SmartDetectorAlertRules/Delete.yml)
+#### [Get](monitor/SmartDetectorAlertRules/Get.yml)
+#### [List](monitor/SmartDetectorAlertRules/List.yml)
+#### [List By Resource Group](monitor/SmartDetectorAlertRules/ListByResourceGroup.yml)
+#### [Patch](monitor/SmartDetectorAlertRules/Patch.yml)
 ### Subscription Diagnostic Settings
 #### [Overview](monitor/SubscriptionDiagnosticSettings.yml)
 #### [Create Or Update](monitor/SubscriptionDiagnosticSettings/CreateOrUpdate.yml)
@@ -8636,6 +8662,21 @@
 ### [Get At Scope](resources/Tags/GetAtScope.yml)
 ### [List](resources/Tags/List.yml)
 ### [Update At Scope](resources/Tags/UpdateAtScope.yml)
+## Template Spec Versions
+### [Overview](resources/TemplateSpecVersions.yml)
+### [Create Or Update](resources/TemplateSpecVersions/CreateOrUpdate.yml)
+### [Delete](resources/TemplateSpecVersions/Delete.yml)
+### [Get](resources/TemplateSpecVersions/Get.yml)
+### [List](resources/TemplateSpecVersions/List.yml)
+### [Update](resources/TemplateSpecVersions/Update.yml)
+## Template Specs
+### [Overview](resources/TemplateSpecs.yml)
+### [Create Or Update](resources/TemplateSpecs/CreateOrUpdate.yml)
+### [Delete](resources/TemplateSpecs/Delete.yml)
+### [Get](resources/TemplateSpecs/Get.yml)
+### [List By Resource Group](resources/TemplateSpecs/ListByResourceGroup.yml)
+### [List By Subscription](resources/TemplateSpecs/ListBySubscription.yml)
+### [Update](resources/TemplateSpecs/Update.yml)
 ## Tenant Backfill Status
 ### [Overview](resources/TenantBackfillStatus.yml)
 ### [Tenant Backfill Status](resources/TenantBackfillStatus/TenantBackfillStatus.yml)
@@ -9028,6 +9069,7 @@
 ### [Delete Message](../docs-ref-conceptual/servicebus/delete-message.md)
 ### [Renew-Lock for a Message](../docs-ref-conceptual/servicebus/renew-lock-for-a-message.md)
 ### [Request a Token from ACS](../docs-ref-conceptual/servicebus/request-a-token-from-acs.md)
+### [Get Azure Active Directory token](../docs-ref-conceptual/servicebus/get-azure-active-directory-token.md)
 ### [REST vs. .NET Client Support](../docs-ref-conceptual/servicebus/rest-dotnet-client-support.md)
 ## Reference
 ### Disaster Recovery Configs

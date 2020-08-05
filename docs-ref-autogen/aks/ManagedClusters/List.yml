@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.list
 name: List
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2020-04-01
+apiVersion: 2020-06-01
 summary: "Gets a list of managed clusters in the specified subscription.  \nGets a list of managed clusters in the specified subscription. The operation returns properties of each managed cluster."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters?api-version=2020-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -235,6 +235,10 @@ definitions:
     description: The type of identity used for the managed cluster. Type 'SystemAssigned' will use an implicitly created identity in master components and an auto-created user assigned identity in MC_ resource group in agent nodes. Type 'None' will not use MSI for the managed cluster, service principal will be used instead.
     types:
     - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The user identity associated with the managed cluster. This identity will be used in control plane and only one user assigned identity is allowed. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
 - name: ManagedClusterAgentPoolProfile
   description: Profile for the container service agent pool.
   kind: object
@@ -342,6 +346,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: proximityPlacementGroupID
+    description: The ID for Proximity Placement Group.
+    types:
+    - uid: string
   - name: name
     description: Unique name of the agent pool profile in the context of the subscription and resource group.
     types:
@@ -455,6 +463,10 @@ definitions:
     description: Whether to enable managed AAD.
     types:
     - uid: boolean
+  - name: enableAzureRBAC
+    description: Whether to enable Azure RBAC for Kubernetes authorization.
+    types:
+    - uid: boolean
   - name: adminGroupObjectIDs
     description: AAD group object IDs that will have admin role of the cluster.
     types:
@@ -553,9 +565,20 @@ definitions:
   - name: SystemAssigned
     types:
     - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
   - name: None
     types:
     - uid: string
+- name: UserAssignedIdentities
+  description: "The user identity associated with the managed cluster. This identity will be used in control plane and only one user assigned identity is allowed. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: ContainerServiceVMSizeTypes
   description: Size of agent VMs.
   kind: enum
@@ -1289,7 +1312,7 @@ definitions:
 examples:
 - name: List Managed Clusters
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/providers/Microsoft.ContainerService/managedClusters?api-version=2020-04-01
+    uri: GET https://management.azure.com/subscriptions/subid1/providers/Microsoft.ContainerService/managedClusters?api-version=2020-06-01
   responses:
   - statusCode: "200"
     body: >-
