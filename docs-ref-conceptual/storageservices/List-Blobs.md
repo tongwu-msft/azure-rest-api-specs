@@ -166,6 +166,7 @@ For version 2019-12-12 and above, `List Blobs` returns the `RehydratePriority` e
         <AccessTierChangeTime>datetime</AccessTierChangeTime>
         <DeletedTime>datetime</DeletedTime>
         <RemainingRetentionDays>no-of-days</RemainingRetentionDays>
+        <RehydratePriority>rehydrate priority</RehydratePriority>
       </Properties>  
       <Metadata>     
         <Name>value</Name>  

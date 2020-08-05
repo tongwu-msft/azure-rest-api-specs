@@ -48,6 +48,7 @@ The request body for a blob batch contains a list of all subrequests. The format
 * Each batch request supports a maximum of 256 subrequests.
 * All subrequests must be of the same request type.
 * Each subrequest will be authorized and authorized separately with the provided information in the subrequest.
+* Each line in the request body should end with \r\n characters.
 
 ### Sample Request
 
