@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/29/2020
+ms.date: 08/05/2020
 ---
 
 # Azure Time Series Insights Gen1 query syntax
@@ -1050,8 +1050,8 @@ Measures are evaluated on each partition that's produced by the dimension expres
 
 ## See also
 
-For more information about the Azure Time Series Insights Gen1 APIs, see [Gen1 APIs](gen1.md).
+* For more information about the Azure Time Series Insights Gen1 APIs, see [Gen1 APIs](gen1.md).
 
-To learn about request and authentication parameters, see [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization).
+* To learn about request and authentication parameters, see [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization).
 
-Learn more about Azure Time Series Insights Gen1 by reviewing the [Gen1 documentation](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-overview).
+* Learn more about Azure Time Series Insights Gen1 by reviewing the [Gen1 documentation](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-overview).
