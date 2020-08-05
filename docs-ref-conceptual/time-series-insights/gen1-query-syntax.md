@@ -10,18 +10,19 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/07/2020
+ms.date: 07/29/2020
 ---
 
 # Azure Time Series Insights Gen1 query syntax
 
-This article describes the query request format and syntax for the Azure Time Series Insights Gen1 [Query API](ga-query-api.md).
+This article describes the query request format and syntax for the Azure Time Series Insights Gen1 [Query API](gen1-query-api.md).
 
 ## Summary
 
 > [!IMPORTANT]
+>
 > * Query requests must be in JSON format.
-> * HTTP request payloads made to the [Query API](ga-query-api.md) should conform to the format specified in this article.
+> * HTTP request payloads made to the [Query API](gen1-query-api.md) should conform to the format specified in this article.
 
 The language is subdivided into the following elements:
 
@@ -59,6 +60,7 @@ All events have the following built-in properties with a predefined name and typ
     The *event source name* is the name that's displayed for the event source from which Azure Time Series Insights Gen1 has received the event. Event source names are associated with a particular event at ingress time.
 
     > [!IMPORTANT]
+    >
     > * Event source names remain unchanged for the lifetime of the event.
     > * If the name of an event source is modified, existing events carry the old event source name. New events will carry the new event source name.
 
@@ -109,15 +111,19 @@ Primitive data types are nullable. `null` values for primitive types are express
 ```JSON
 { "string": null }
 ```
+
 ```JSON
 { "double": null }
 ```
+
 ```JSON
 { "bool": null }
 ```
+
 ```JSON
 { "dateTime": null }
 ```
+
 ```JSON
 { "timeSpan": null }
 ```
@@ -136,24 +142,28 @@ The result type of a property reference expression is the primitive type of the 
      "type": "Bool"
    }
    ```
+
    ```JSON
    {
      "property": "p1",
      "type": "DateTime"
    }
    ```
+
    ```JSON
    {
      "property": "p1",
      "type": "Double"
    }
    ```
+
    ```JSON
    {
      "property": "p1",
      "type": "String"
    }
    ```
+
    ```JSON
    {
      "property": "p1",
@@ -187,6 +197,7 @@ The following *Boolean comparison* expressions are supported:
 | **gte** | Greater than or equal |
 
 > [!IMPORTANT]
+>
 > * All comparison expressions take the primitive types of both left-hand and right-hand arguments and return a *Boolean* value representing the result of the comparison.
 > * Both types of the left-hand and right-hand arguments in comparisons should match.
 > * All types implicitly cast only to themselves, and explicit casts are not supported.
@@ -203,9 +214,9 @@ The following *Boolean comparison* expressions are supported:
 }
 ```
 
- * JSON examples:
+* JSON examples:
 
-   ```JSON 
+   ```JSON
    {
      "startsWith": {
        "left": {
@@ -216,6 +227,7 @@ The following *Boolean comparison* expressions are supported:
      }
    }
    ```
+
    ```JSON
    {
      "startsWith": {
@@ -225,9 +237,10 @@ The following *Boolean comparison* expressions are supported:
        },
        "right": "",
        "stringComparison": "Ordinal"
-     } 
+     }
    }
    ```
+
    ```JSON
    {
      "endsWith": {
@@ -298,7 +311,7 @@ Azure Time Series Insights Gen1 supports the following *Boolean* logical express
 The **stringComparison** property is optional. By default, its value is `OrdinalIgnoreCase`, which causes sentence casing to be ignored in comparisons.
 
 ```JSON
-{ 
+{
   "regex": {
     "left": {
       "property": "p1",
@@ -308,6 +321,7 @@ The **stringComparison** property is optional. By default, its value is `Ordinal
   }
 }
 ```
+
 ```JSON
 {
   "regex": {
@@ -439,13 +453,14 @@ For expressions with a **HAS** predicate, the constant literal on the right-hand
 Predicate expressions are type-checked and validated to ensure that the right-hand and left-hand types within them match.
 
 > [!IMPORTANT]
-> * When the constants to the left and right of an operand do not match, an error is thrown. 
+>
+> * When the constants to the left and right of an operand do not match, an error is thrown.
 > * An error is also thrown if an operation is not allowed on or between specific types.
 
 * If a type is specified for property, a type check is applied:
 
-   * Any property type is accepted against a **NULL** literal.
-   * Otherwise, left-hand side and right-hand side types should match.
+  * Any property type is accepted against a **NULL** literal.
+  * Otherwise, left-hand side and right-hand side types should match.
 
     Examples of properties **p1** and **p2** of the **String** type, and property **p3** of the **Double** type are displayed in the following table:
 
@@ -465,7 +480,7 @@ Predicate expressions are type-checked and validated to ensure that the right-ha
     1. Left-hand side and right-hand side operands are grouped in pairs by type.
     1. Pairs are concatenated by using **AND** operations.
 
-    * Examples of properties **p1** and **p2** of the **String** and **Double** types and some of their equivalents are displayed in the following table:
+  * Examples of properties **p1** and **p2** of the **String** and **Double** types and some of their equivalents are displayed in the following table:
 
       | Predicate string | Equivalent strong-typed predicate string | Notes |
       |--|--|--|
@@ -483,9 +498,9 @@ Predicate expressions are type-checked and validated to ensure that the right-ha
 
 * Both the property name and type can be omitted for a left-hand side property if the right-hand side property type is well-defined. This is true whenever the right-hand side has constant literals and it doesn't contain only a `NULL` literal.
 
-    * This scenario is a generalization of full-text search that uses the **HAS** operand.
-    * All properties that match the right-hand side type are taken, and the resulting expressions are concatenated via an **OR** operation.
-    * Examples of property **p1** of the **String** and **Double** types and property **p2** of the **String** and **DateTime** types are displayed in the following table:
+  * This scenario is a generalization of full-text search that uses the **HAS** operand.
+  * All properties that match the right-hand side type are taken, and the resulting expressions are concatenated via an **OR** operation.
+  * Examples of property **p1** of the **String** and **Double** types and property **p2** of the **String** and **DateTime** types are displayed in the following table:
 
       | Predicate string | Equivalent strong-typed predicate string | Notes |
       |--|--|--|
@@ -859,8 +874,8 @@ You use a **breaks* clause in histogram expressions to specify how a range shoul
 
 For date histograms, you should specify the size of the datetime interval and interval boundaries. You do so unless the histogram is based on a built-in **Timestamp** property where the boundaries are determined based on search span:
 
-  * Interval boundaries are optional and can be used. For example, you can use them when they're determined based on a search span if interval boundaries are omitted.
-  * For numeric histograms, you should specify the number of breaks. You determine interval boundaries based on the minimum and maximum values of a property.
+* Interval boundaries are optional and can be used. For example, you can use them when they're determined based on a search span if interval boundaries are omitted.
+* For numeric histograms, you should specify the number of breaks. You determine interval boundaries based on the minimum and maximum values of a property.
 
 ```JSON
 {
@@ -884,7 +899,7 @@ For date histograms, you should specify the size of the datetime interval and in
 
 You use an *aggregates* clause to partition a set of events by a given property while you're measuring the values of other event properties.
 
-Measures are evaluated on each partition that's produced by the dimension expression. 
+Measures are evaluated on each partition that's produced by the dimension expression.
 
 * The following JSON example computes average, minimum, and maximum temperatures per sensor ID.
 
@@ -987,6 +1002,7 @@ Measures are evaluated on each partition that's produced by the dimension expres
   ```
 
   > [!NOTE]  
+  >
   > * Having more than one element in an aggregates array is not currently supported.
   > * However, an aggregation definition may include a nested array that specifies a more flexible, multidimensional lattice.
 
@@ -1034,7 +1050,7 @@ Measures are evaluated on each partition that's produced by the dimension expres
 
 ## See also
 
-For more information about the Azure Time Series Insights Gen1 APIs, see [Gen1 APIs](ga.md).
+For more information about the Azure Time Series Insights Gen1 APIs, see [Gen1 APIs](gen1.md).
 
 To learn about request and authentication parameters, see [Authentication and authorization](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-authentication-and-authorization).
 

@@ -10,14 +10,14 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/07/2020
+ms.date: 07/29/2020
 ---
 
 # Azure Time Series Insights Gen1 data access
 
 There are three ways to access and view your data in Azure Time Series Insights Gen1. You can query by using the [Azure Time Series Insights Gen1 Explorer](https://docs.microsoft.com/azure/time-series-insights/time-series-quickstart), create a query on behalf of an environment to be deployed through a custom URL, or create a custom application by using the Azure Time Series Insights Gen1 Query APIs.
 
-You can use the Azure Time Series Insights Gen1 Query APIs to perform REST **CREATE**, **READ**, **UPDATE**, and **DELETE** operations against GA environments through the [Gen1 query syntax](ga-query-syntax.md). The APIs allow you to:
+You can use the Azure Time Series Insights Gen1 Query APIs to perform REST **CREATE**, **READ**, **UPDATE**, and **DELETE** operations against GA environments through the [Gen1 query syntax](gen1-query-syntax.md). The APIs allow you to:
 
 * Use the Azure Time Series Insights Gen1 scalable platform for analysis on the fly.
 * Chunk time series intervals.
@@ -28,23 +28,23 @@ You can use the Azure Time Series Insights Gen1 Query APIs to perform REST **CRE
 
 This article summarizes data-access capabilities in the Gen1 APIs.
 
-Review the [Gen1 query syntax](ga-query-syntax.md).
+Review the [Gen1 query syntax](gen1-query-syntax.md).
 
 ## API overview
 
 The following REST endpoints manage your Azure Time Series Insights Gen1 environment:
 
-* [Get Environments API](./ga-query-api.md#get-environments-api)
-* [Get Environment Availability API](./ga-query-api.md#get-environment-availability-api)
-* [Get Environment Metadata API](./ga-query-api.md#get-environment-metadata-api)
-* [Get Environment Events API](./ga-query-api.md#get-environment-events-api)
-* [Get Environment Events Streamed API](./ga-query-api.md#get-environment-events-streamed-api)
-* [Get Environment Aggregates API](./ga-query-api.md#get-environment-aggregates-api)
-* [Get Environment Aggregates Streamed API](./ga-query-api.md#get-environment-aggregates-streamed-api)
+* [Get Environments API](./gen1-query-api.md#get-environments-api)
+* [Get Environment Availability API](./gen1-query-api.md#get-environment-availability-api)
+* [Get Environment Metadata API](./gen1-query-api.md#get-environment-metadata-api)
+* [Get Environment Events API](./gen1-query-api.md#get-environment-events-api)
+* [Get Environment Events Streamed API](./gen1-query-api.md#get-environment-events-streamed-api)
+* [Get Environment Aggregates API](./gen1-query-api.md#get-environment-aggregates-api)
+* [Get Environment Aggregates Streamed API](./gen1-query-api.md#get-environment-aggregates-streamed-api)
 
 The following REST endpoint manages your Azure Time Series Insights Gen1 reference data:
 
-* [Reference Data API](./ga-reference-data-api.md)
+* [Reference Data API](./gen1-reference-data-api.md)
 
 ## See also
 
