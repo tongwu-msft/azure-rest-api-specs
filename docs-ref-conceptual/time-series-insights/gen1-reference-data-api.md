@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/07/2020
+ms.date: 07/29/2020
 ---
 
 # Azure Time Series Insights Gen1 Reference Data API
@@ -20,6 +20,7 @@ This article describes the Azure Time Series Insights Gen1 Reference Data Manage
 Reference data includes manufacturer or location data that changes infrequently. Reference data is used to contextualize telemetry data and serves to compare telemetry data.
 
 > [!TIP]
+>
 > * To create a reference dataset, see [How to create a reference dataset](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-add-reference-data-set).
 
 Because datasets are preexisting and fixed, each data packet that's sent by a device would contain identical information. Consequently, reference data is not sent from devices, and you manage the data by using the Reference Data Management API or the Azure portal.
@@ -29,7 +30,8 @@ Because datasets are preexisting and fixed, each data packet that's sent by a de
 The Reference Data Management API is a batch API.
 
 > [!IMPORTANT]
-> * All operations against this API are HTTP POST operations. 
+>
+> * All operations against this API are HTTP POST operations.
 > * Each operation accepts JSON objects as the request payload.
 > * HTTP-request JSON objects define a single property name that specifies the operation to be executed by the API.
 
@@ -42,6 +44,7 @@ Valid JSON request operation property names are:
 * [Get](#get-reference-data-items)
 
 > [!IMPORTANT]
+>
 > * The property value is an array of reference data items over which the operation must be applied.
 > * Each item is processed individually, and an error with one item doesn't prevent the others from being written successfully. For example, if your request has 100 items and one item has an error, 99 items are written and one is rejected.
 > * Reference data items are queried using their fully-enumerated key properties.
@@ -359,8 +362,8 @@ To learn about request and authentication parameters, see [Authentication and au
 
 Tools that assist with testing HTTP requests and responses include:
 
-- [Fiddler](https://www.telerik.com/fiddler). This free web debugging proxy can intercept your REST requests, so you can diagnose the HTTP request and response messages.
-- [JWT.io](https://jwt.io/). You can use this tool to quickly dump the claims in your bearer token and then validate their contents.
-- [Postman](https://www.getpostman.com/). This is a free HTTP request and response testing tool for debugging REST APIs.
+* [Fiddler](https://www.telerik.com/fiddler). This free web debugging proxy can intercept your REST requests, so you can diagnose the HTTP request and response messages.
+* [JWT.io](https://jwt.io/). You can use this tool to quickly dump the claims in your bearer token and then validate their contents.
+* [Postman](https://www.getpostman.com/). This is a free HTTP request and response testing tool for debugging REST APIs.
 
 Learn more about Azure Time Series Insights Gen1 by reviewing the [Gen1 documentation](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-overview).

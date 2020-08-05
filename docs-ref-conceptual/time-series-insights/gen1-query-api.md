@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/07/2020
+ms.date: 07/29/2020
 ---
 
 # Azure Time Series Insights Gen1 Query API
@@ -18,6 +18,7 @@ ms.date: 07/07/2020
 This article describes various REST Query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which enable you to query Azure Time Series Insights Gen1 environments.
 
 > [!IMPORTANT]
+>
 > * Azure Time Series Insights Gen1 uses the HTTPS Protocol for the [Get Environments](#get-environments-api), [Get Environment Availability](#get-environment-availability-api), [Get Metadata](#get-environment-metadata-api), [Get Environment Events](#get-environment-events-api), and [Get Environment Aggregates](#get-environment-aggregates-api) APIs.
 > * Azure Time Series Insights Gen1 uses the WebSocket Secure (WSS) Protocol for the [Get Environment Events Streamed](#get-environment-events-streamed-api) and [Get Aggregates Streamed](#get-environment-aggregates-streamed-api) APIs.
 
@@ -86,7 +87,7 @@ The Get Environment Availability API returns the distribution of event count ove
    }
    ```
 
-   An empty object is returned for environments with no events. 
+   An empty object is returned for environments with no events.
 
 ## Get Environment Metadata API
 
@@ -182,6 +183,7 @@ The Get Environment Events API returns a list of raw events that match the searc
    ```
 
   > [!NOTE]
+  >
   > * Nested sorting (that is, sorting by two or more properties) is currently not supported.
   > * Events can be sorted and limited to the top.
   > * Sorting is supported on all property types. Sorting relies on comparison operators that are defined for *Boolean expressions*.
@@ -262,6 +264,7 @@ This API uses the WebSocket Secure Protocol to do streaming and return partial r
     ```
 
   > [!NOTE]
+  >
   > * Nested sorting (that is, sorting by two or more properties) is currently not supported.
   > * Events can be sorted and limited to the top.
   > * Sorting is supported on all property types. Sorting relies on comparison operators that are defined for *Boolean expressions*.
@@ -454,7 +457,7 @@ The Get Environment Aggregates API groups events by a specified property as it o
     ```
 
     If no measure expressions are specified and the list of events is empty, the response will be empty.
-    
+
     If measures are present, the response contains a single record with a `null` dimension value, a `0` value for count, and a `null` value for other kinds of measures.
 
 ## Get Environment Aggregates Streamed API
@@ -568,7 +571,7 @@ The following limits are applied during query execution to fairly utilize resour
 
 ### Property Not Found behavior
 
-For properties referenced in the query, either as part of predicates or part of aggregates (measures), by default, the query tries to resolve the property in the global search span of the environment. If the property is found, the query succeeds. If the property is not found, the query fails. 
+For properties referenced in the query, either as part of predicates or part of aggregates (measures), by default, the query tries to resolve the property in the global search span of the environment. If the property is found, the query succeeds. If the property is not found, the query fails.
 
 However, you can modify this behavior to treat properties as existing but with `null` values if they are not present in the environment. You do this by setting the optional request header `x-ms-property-not-found-behavior` with the value `UseNull`.
 
@@ -679,8 +682,8 @@ To learn about request and authentication parameters, see [Authentication and au
 
 Tools that assist with testing HTTP requests and responses include:
 
-- [Fiddler](https://www.telerik.com/fiddler). This free web debugging proxy can intercept your REST requests, so you can diagnose the HTTP request and response messages.
-- [JWT.io](https://jwt.io/). You can use this tool to quickly dump the claims in your bearer token and then validate their contents.
-- [Postman](https://www.getpostman.com/). This is a free HTTP request and response testing tool for debugging REST APIs.
+* [Fiddler](https://www.telerik.com/fiddler). This free web debugging proxy can intercept your REST requests, so you can diagnose the HTTP request and response messages.
+* [JWT.io](https://jwt.io/). You can use this tool to quickly dump the claims in your bearer token and then validate their contents.
+* [Postman](https://www.getpostman.com/). This is a free HTTP request and response testing tool for debugging REST APIs.
 
 Learn more about Azure Time Series Insights Gen1 by reviewing the [Gen1 documentation](https://docs.microsoft.com/azure/time-series-insights/time-series-insights-overview).
