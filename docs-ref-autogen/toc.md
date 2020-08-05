@@ -13950,14 +13950,19 @@
 ### [Update](synapse/Workspaces/Update.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
-## [Data Access (Gen2)](../docs-ref-conceptual/time-series-insights/preview.md)
+## Data Access (Gen2)
+### [Overview](../docs-ref-conceptual/time-series-insights/reference-data-access-overview.md)
+### [Environments APIs](../docs-ref-conceptual/time-series-insights/reference-environments-apis.md)
+### [Model APIs](../docs-ref-conceptual/time-series-insights/reference-model-apis.md)
+### [Query APIs](../docs-ref-conceptual/time-series-insights/reference-query-apis.md)
+### [Time Series expression syntax](../docs-ref-conceptual/time-series-insights/reference-time-series-expression-syntax.md)
+### [API limits](../docs-ref-conceptual/time-series-insights/reference-api-limits.md)
 ## Data Access (Gen1)
-### [Overview](../docs-ref-conceptual/time-series-insights/ga.md)
-### Query
-#### [Overview](../docs-ref-conceptual/time-series-insights/ga-query.md)
-#### [API](../docs-ref-conceptual/time-series-insights/ga-query-api.md)
-#### [Syntax](../docs-ref-conceptual/time-series-insights/ga-query-syntax.md)
-### [Reference Data API](../docs-ref-conceptual/time-series-insights/ga-reference-data-api.md)
+### [Overview](../docs-ref-conceptual/time-series-insights/gen1.md)
+### [Query](../docs-ref-conceptual/time-series-insights/gen1-query.md)
+### [API](../docs-ref-conceptual/time-series-insights/gen1-query-api.md)
+### [Syntax](../docs-ref-conceptual/time-series-insights/gen1-query-syntax.md)
+### [Reference Data API](../docs-ref-conceptual/time-series-insights/gen1-reference-data-api.md)
 ## Reference
 ### Data Access (Preview)
 #### Model Settings
