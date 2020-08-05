@@ -15,7 +15,7 @@ ms.date: 07/29/2020
 
 # Azure Time Series Insights Gen2 Environments APIs
 
-The following REST endpoints manage your Azure Time Series Insights Gen2 environment. The Gen2 Environments APIs add HTTP **GET** request support for *event schemas* and *environment availability*. These features supplement the already supported [Gen1 Environments APIs](ga-query-api.md).
+The following REST endpoints manage your Azure Time Series Insights Gen2 environment. The Gen2 Environments APIs add HTTP **GET** request support for *event schemas* and *environment availability*. These features supplement the already supported [Gen1 Environments APIs](gen1-query-api.md).
 
 | API | Description |
 | --- | --- |

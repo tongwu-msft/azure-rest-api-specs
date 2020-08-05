@@ -46,7 +46,7 @@ The Azure Time Series Insights APIs are split into two versions: Gen1 and Gen2. 
   * Review the Gen2 [Time Series Model API concepts](reference-model-apis.md) and [reference](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/modelsettings) documentation.
   * Review the Gen2 [Environments API concept](reference-environments-apis.md) and [reference](https://docs.microsoft.com/rest/api/time-series-insights/management/environments) documentation.
   * Review the Gen2 [Query API concept](reference-query-apis.md) and [reference](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query) documentation.
-  * Review the Gen2 [API Limits](reference-api-limits) documentation.
+  * Review the Gen2 [API Limits](reference-api-limits.md) documentation.
 
 ## See also
 
