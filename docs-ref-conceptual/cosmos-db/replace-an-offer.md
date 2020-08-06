@@ -1,6 +1,6 @@
 ---
 title: "Replace an Offer - Azure Cosmos DB REST API"
-ms.date: "07/27/2020"
+ms.date: "08/06/2020"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: ce8d5627-c71a-4d01-9548-fbc37f04b628
@@ -40,7 +40,7 @@ translation.priority.mt:
 |Property|Required|Description|  
 |--------------|--------------|-----------------|  
 |**offerVersion**|Required|It can be V1 for the [legacy S1, S2, and S3 levels](/azure/cosmos-db/performance-levels) and V2 for [user-defined throughput levels](/azure/cosmos-db/set-throughput) (recommended).
-|**offerType**|Optional|This property is only applicable in V1 offer version.  it to S1, S2, or S3 for V1 offer version and Invalid for user-defined performance levels.|  
+|**offerType**|Optional|This property is only applicable in the V1 offer version. Set it to S1, S2, or S3 for V1 offer types. It is invalid for user-defined performance levels or provisioned throughput based model.|  
 |**content**|Required|Contains information about the offer – for V2 offers, this value contains the throughput of the collection.|  
 |**resource**|Required|When creating a new collection, this property is set to the self-link of the collection for example, dbs/pLJdAA==/colls/pLJdAOlEdgA=/.|  
 |**offerResourceId**|Required|During creation of a collection, this property is automatically associated to the resource ID, that is, **_rid** of the collection. In the example above, the **_rid** for the collection is pLJdAOlEdgA=.|  
@@ -207,9 +207,9 @@ Content-Length: 278
 ## Example 3 
 This example shows how to migrate an offer with manual throughput to autoscale throughput. The header ``x-ms-cosmos-migrate-offer-to-autopilot`` with value ``true`` is required.
 
-When migrating, Azure Cosmos DB automatically determines the new autoscale max RU/s based on the current resource settings. 
+When migrating, Azure Cosmos DB automatically determines the new autoscale max RU/s based on the current resource settings. The `maxThroughput` property in the response object represents the default autoscale max RU/s set by the system.
 
-In the body, the ``content`` property with a defined ``offerThroughput`` is required, but the value wil be ignored by the service. Below we pass in -1.
+In the body, the ``content`` property with a defined ``offerThroughput`` is required, but the value will be ignored by the service. The following example uses -1.
 
 After the change is complete, you can follow [Example 2](#example-2) to change the autoscale max RU/s to a custom value.
 
@@ -260,9 +260,6 @@ The property `maxThroughput` represents the autoscale max RU/s set by the system
         },
         "offerLastReplaceTimestamp": 1595460122,
         "offerAutopilotSettings": {
-            "tier": 0,
-            "maximumTierThroughput": 0,
-            "autoUpgrade": false,
             "maxThroughput": 4000
         }
     },
@@ -336,9 +333,9 @@ Below is a sample response body. The property ``offerThroughput`` represents the
 
 ## Remarks
 
- To learn more about the maximum and minimum provisioned throughput that can be set on a container or a database, see the [Provision throughput on containers and databases](https://docs.microsoft.com/azure/cosmos-db/set-throughput) article.
+When you are changing the manual or autoscale throughput on a database or container, the system enforces constraints on the RU/s that can be set on the resource. To learn more about the minimum and maximum provisioned throughput (RU/s) that can be set with manual throughput, see the [Provision throughput on containers and databases](https://docs.microsoft.com/azure/cosmos-db/set-throughput) article. To learn about the minimum autoscale max RU/s you can set, see the [autoscale FAQ](/azure/cosmos-db/autoscale-faq.md#can-i-change-the-max-rus-on-the-database-or-container).
  
-Perform GET on the offer resource to retrieve the minimum throughput that could be set for a given container or a database. The response header `x-ms-cosmos-min-throughput` denotes the system determined minimum throughput.
+To retrieve the minimum throughput that can be set on database or container, perform GET on the offer resource. The response header `x-ms-cosmos-min-throughput` denotes the system determined minimum throughput. This represents the minimum value you can set for the RU/s on a resource with manual throughput, or the minimum value you can set for the autoscale max RU/s on a resource with autoscale throughput. 
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 

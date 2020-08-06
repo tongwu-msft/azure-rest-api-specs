@@ -1,6 +1,6 @@
 ---
 title: "Create a Collection - Azure Cosmos DB REST API"
-ms.date: "07/27/2020"
+ms.date: "08/6/2020"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: daea28f8-c1c3-42d4-8269-24fa6e972d38
@@ -22,7 +22,7 @@ translation.priority.mt:
 ---
 # Create Collection
 
-The `Create Collection` operation creates a new collection in a database. 
+The `Create Collection` operation creates a new collection in a database.
   
 ## Request  
   
@@ -51,7 +51,7 @@ The `Create Collection` operation creates a new collection in a database.
 |--------------|--------------|----------|-----------------|  
 |**id**|Required|String|The user-generated unique name for the collection. No two collections can have the same IDs. It is a string that must not be more than 255 characters.|  
 |**indexingPolicy**|Optional|Object|This value is used to configure indexing policy. By default, the indexing is automatic for all document paths within the collection.|  
-|**partitionKey**|Optional|Object|This value is used to configure the partition key to be used for partitioning data into multiple partitions.<br /><br /> To use large partition key, specify the version as 2 within the partitionKey property. <br /><br /> If the **x-ms-offer-throughput** is over 10,000, then the collection must include a **partitionKey** definition. If the **x-ms-offer-throughput** is equal to or under 10,000 or **x-ms-cosmos-offer-autopilot-settings** is used, then the collection must not include a **partitionKey** definition. <br /><br />Learn about how to [choose a good partition key](/azure/cosmos-db/partitioning-overview.md#choose-partitionkey).|
+|**partitionKey**|Required|Object|This value is used to configure the partition key to be used for partitioning data into multiple partitions.<br /><br /> To use large partition key, specify the version as 2 within the partitionKey property. <br /><br /> If the REST API version is 2018-12-31 or higher, the collection must include a **partitionKey** definition. In older versions of the REST API, a legacy non-partitioned collection can be created by omitting the **partitionKey** definition and ensuring the throughput is between 400 - 10,000 RU/s. For best performance and scalability, it is recommended to always set a partition key.  <br /><br />Learn about how to [choose a good partition key](/azure/cosmos-db/partitioning-overview.md#choose-partitionkey).|
 
 ### Example body payload  
 ```  
@@ -141,7 +141,7 @@ If you encounter timeout exception when creating a collection, run a read operat
 |--------------|-----------------|  
 |**paths**|An array of paths using which data within the collection can be partitioned. Paths must not contain a wildcard or a trailing slash. For example, the JSON property "AccountNumber" is specified as "/AccountNumber". The array must contain only a single value.|  
 |**kind**|The algorithm used for partitioning. Only Hash is supported.|  
-|**version** | An optional field, if not specified the default value is 1. To use the large partition key, set the version to 2. To learn about large partition keys, see [how to create containers with large partition key](/azure/cosmos-db/large-partition-keys) article. |
+|**version** | An optional field, if not specified the default value is 1. To use the large partition key, set the version to 2. To learn about large partition keys, see [how to create collections with large partition key](/azure/cosmos-db/large-partition-keys) article. |
 
 ### Example response body  
 
@@ -191,7 +191,7 @@ If you encounter timeout exception when creating a collection, run a read operat
 ```  
   
 ## Example 1
-The following example creates a collection with manual throughput of 400 RU/s. `x-ms-offer-throughput` header is used to set the throughput (RU/s) value. It accepts a number with minimum 400 that increments by units of 100.
+The following example creates a collection with manual throughput of 400 RU/s. `x-ms-offer-throughput` header is used to set the throughput (RU/s) value. It accepts a number with minimum value of 400 that increments by units of 100.
 
   
 ```  
@@ -306,9 +306,9 @@ Date: Mon, 28 Mar 2016 21:30:12 GMT
 ```  
   
 ## Example 2
-The following example creates a collection with autoscale max throughput of 4000 RU/s (scales between 400 - 4000 RU/s). `x-ms-cosmos-offer-autopilot-settings` header is used to set the `maxThroughput`, which is the autoscale max RU/s value. It accepts a number with minimum 4000 that increments by units of 1000. When autoscale is used, a partition key definition is required, as shown below.
+The following example creates a collection with an autoscale max throughput of 4000 RU/s (it scales between 400 - 4000 RU/s). `x-ms-cosmos-offer-autopilot-settings` header is used to set the `maxThroughput` value, which is the autoscale max RU/s value. It accepts a number with a minimum of 4000 that increments by units of 1000. When autoscale is used, a partition key definition is required, as shown in the following example:
 > [!NOTE]
-> To enable autoscale on an existing database or container, or switch from autoscale to manual throughput, see the article [Replace an Offer](replace-an-offer.md).
+> To enable autoscale on an existing database or collection, or switch from autoscale to manual throughput, see the article [Replace an Offer](replace-an-offer.md).
 ```  
 POST https://querydemo.documents.azure.com/dbs/testdb/colls HTTP/1.1
 x-ms-cosmos-offer-autopilot-settings: {"maxThroughput": 4000}

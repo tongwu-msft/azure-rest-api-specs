@@ -1,6 +1,6 @@
 ---
 title: "Create a Database - Azure Cosmos DB REST API"
-ms.date: "7/27/2020"
+ms.date: "08/06/2020"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 44241df4-7d91-4236-ad56-5c57ba3f449b
