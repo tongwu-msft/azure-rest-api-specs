@@ -40,7 +40,7 @@ The `Create Collection` operation creates a new collection in a database.
 |Property|Required|Type|Description|  
 |--------------|--------------|----------|-----------------|  
 |**x-ms-offer-throughput**|Optional|Number|The user specified manual throughput (RU/s) for the collection expressed in units of 100 request units per second. The minimum is 400 up to 1,000,000 (or higher by requesting a limit increase).<br /><br /> Only one of `x-ms-offer-throughput` or `x-ms-cosmos-offer-autopilot-settings` must be specified. These headers cannot be specified together.|
-|**x-ms-cosmos-offer-autopilot-settings**|Optional|JSON|The user specified autoscale max RU/s. The value is a JSON with the property `maxThroughput`. For example: `{"maxThroughput": 4000}`.<br /><br /> Only one of `x-ms-offer-throughput` or `x-ms-cosmos-offer-autopilot-settings` must be specified. These headers cannot be specified together.|    
+|**x-ms-cosmos-offer-autopilot-settings**|Optional|JSON|The user specified autoscale max RU/s. The value is a JSON with the property `maxThroughput`. For example: `{"maxThroughput": 4000}`.<br /><br /> Only one of `x-ms-offer-throughput` or `x-ms-cosmos-offer-autopilot-settings` must be specified. These headers cannot be specified together. <br /><br />When autoscale is used, a **partitionKey** definition is required.|    
 |**x-ms-offer-type**|Optional|String|This is a [legacy header](/azure/cosmos-db/performance-levels) for pre-defined performance levels S1, S2, and S3 that have been retired. It is recommended that you use either manual or autoscale throughput, as described above.  
 
 
