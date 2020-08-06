@@ -9017,6 +9017,50 @@
 ### [Get](securitycenter/WorkspaceSettings/Get.yml)
 ### [List](securitycenter/WorkspaceSettings/List.yml)
 ### [Update](securitycenter/WorkspaceSettings/Update.yml)
+# SecurityInsights
+## [Overview](../docs-ref-conceptual/securityinsights/index.md)
+## Actions
+### [Overview](securityinsights/Actions.yml)
+### [List By Alert Rule](securityinsights/Actions/ListByAlertRule.yml)
+## Alert Rule Templates
+### [Overview](securityinsights/AlertRuleTemplates.yml)
+### [Get](securityinsights/AlertRuleTemplates/Get.yml)
+### [List](securityinsights/AlertRuleTemplates/List.yml)
+## Alert Rules
+### [Overview](securityinsights/AlertRules.yml)
+### [Create Or Update](securityinsights/AlertRules/CreateOrUpdate.yml)
+### [Create Or Update Action](securityinsights/AlertRules/CreateOrUpdateAction.yml)
+### [Delete](securityinsights/AlertRules/Delete.yml)
+### [Delete Action](securityinsights/AlertRules/DeleteAction.yml)
+### [Get](securityinsights/AlertRules/Get.yml)
+### [Get Action](securityinsights/AlertRules/GetAction.yml)
+### [List](securityinsights/AlertRules/List.yml)
+## Bookmarks
+### [Overview](securityinsights/Bookmarks.yml)
+### [Create Or Update](securityinsights/Bookmarks/CreateOrUpdate.yml)
+### [Delete](securityinsights/Bookmarks/Delete.yml)
+### [Get](securityinsights/Bookmarks/Get.yml)
+### [List](securityinsights/Bookmarks/List.yml)
+## Data Connectors
+### [Overview](securityinsights/DataConnectors.yml)
+### [Create Or Update](securityinsights/DataConnectors/CreateOrUpdate.yml)
+### [Delete](securityinsights/DataConnectors/Delete.yml)
+### [Get](securityinsights/DataConnectors/Get.yml)
+### [List](securityinsights/DataConnectors/List.yml)
+## Incident Comments
+### [Overview](securityinsights/IncidentComments.yml)
+### [Create Comment](securityinsights/IncidentComments/CreateComment.yml)
+### [Get](securityinsights/IncidentComments/Get.yml)
+### [List By Incident](securityinsights/IncidentComments/ListByIncident.yml)
+## Incidents
+### [Overview](securityinsights/Incidents.yml)
+### [Create Or Update](securityinsights/Incidents/CreateOrUpdate.yml)
+### [Delete](securityinsights/Incidents/Delete.yml)
+### [Get](securityinsights/Incidents/Get.yml)
+### [List](securityinsights/Incidents/List.yml)
+## Operations
+### [Overview](securityinsights/Operations.yml)
+### [List](securityinsights/Operations/List.yml)
 # Serial Console
 ## [Overview](../docs-ref-conceptual/serialconsole/index.md)
 ## Disable Console
