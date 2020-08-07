@@ -277,7 +277,7 @@ This example shows how to migrate an offer with autoscale throughput to manual t
 When migrating, Azure Cosmos DB automatically determines the new manual throughput (RU/s) based on the current resource settings. After the change is complete, you can follow [Example 1](#example-1) to change the manual RU/s to a custom value.
 
 
-In the body, the ``content`` property with a defined ``offerAutopilotSettings`` and ``maxThroughput`` is required, but the value wil be ignored by the service. Below we pass in -1.
+In the body, the ``content`` property with a defined ``offerAutopilotSettings`` and ``maxThroughput`` is required, but the value will be ignored by the service. Below we pass in -1.
 
 [Learn more about migrating to manual throughput](/azure/cosmos-db/autoscale-faq.md#how-does-the-migration-between-autoscale-and-standard-manual-provisioned-throughput-work).
 
