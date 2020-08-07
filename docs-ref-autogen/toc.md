@@ -4090,6 +4090,10 @@
 #### [Get Cassandra Table Throughput](cosmos-db-resource-provider/CassandraResources/GetCassandraTableThroughput.yml)
 #### [List Cassandra Keyspaces](cosmos-db-resource-provider/CassandraResources/ListCassandraKeyspaces.yml)
 #### [List Cassandra Tables](cosmos-db-resource-provider/CassandraResources/ListCassandraTables.yml)
+#### [Migrate Cassandra Keyspace To Autoscale](cosmos-db-resource-provider/CassandraResources/MigrateCassandraKeyspaceToAutoscale.yml)
+#### [Migrate Cassandra Keyspace To Manual Throughput](cosmos-db-resource-provider/CassandraResources/MigrateCassandraKeyspaceToManualThroughput.yml)
+#### [Migrate Cassandra Table To Autoscale](cosmos-db-resource-provider/CassandraResources/MigrateCassandraTableToAutoscale.yml)
+#### [Migrate Cassandra Table To Manual Throughput](cosmos-db-resource-provider/CassandraResources/MigrateCassandraTableToManualThroughput.yml)
 #### [Update Cassandra Keyspace Throughput](cosmos-db-resource-provider/CassandraResources/UpdateCassandraKeyspaceThroughput.yml)
 #### [Update Cassandra Table Throughput](cosmos-db-resource-provider/CassandraResources/UpdateCassandraTableThroughput.yml)
 ### Collection
@@ -4147,6 +4151,10 @@
 #### [Get Gremlin Graph Throughput](cosmos-db-resource-provider/GremlinResources/GetGremlinGraphThroughput.yml)
 #### [List Gremlin Databases](cosmos-db-resource-provider/GremlinResources/ListGremlinDatabases.yml)
 #### [List Gremlin Graphs](cosmos-db-resource-provider/GremlinResources/ListGremlinGraphs.yml)
+#### [Migrate Gremlin Database To Autoscale](cosmos-db-resource-provider/GremlinResources/MigrateGremlinDatabaseToAutoscale.yml)
+#### [Migrate Gremlin Database To Manual Throughput](cosmos-db-resource-provider/GremlinResources/MigrateGremlinDatabaseToManualThroughput.yml)
+#### [Migrate Gremlin Graph To Autoscale](cosmos-db-resource-provider/GremlinResources/MigrateGremlinGraphToAutoscale.yml)
+#### [Migrate Gremlin Graph To Manual Throughput](cosmos-db-resource-provider/GremlinResources/MigrateGremlinGraphToManualThroughput.yml)
 #### [Update Gremlin Database Throughput](cosmos-db-resource-provider/GremlinResources/UpdateGremlinDatabaseThroughput.yml)
 #### [Update Gremlin Graph Throughput](cosmos-db-resource-provider/GremlinResources/UpdateGremlinGraphThroughput.yml)
 ### Mongo DB Resources
@@ -4161,6 +4169,10 @@
 #### [Get Mongo DB Database Throughput](cosmos-db-resource-provider/MongoDBResources/GetMongoDBDatabaseThroughput.yml)
 #### [List Mongo DB Collections](cosmos-db-resource-provider/MongoDBResources/ListMongoDBCollections.yml)
 #### [List Mongo DB Databases](cosmos-db-resource-provider/MongoDBResources/ListMongoDBDatabases.yml)
+#### [Migrate Mongo DB Collection To Autoscale](cosmos-db-resource-provider/MongoDBResources/MigrateMongoDBCollectionToAutoscale.yml)
+#### [Migrate Mongo DB Collection To Manual Throughput](cosmos-db-resource-provider/MongoDBResources/MigrateMongoDBCollectionToManualThroughput.yml)
+#### [Migrate Mongo DB Database To Autoscale](cosmos-db-resource-provider/MongoDBResources/MigrateMongoDBDatabaseToAutoscale.yml)
+#### [Migrate Mongo DB Database To Manual Throughput](cosmos-db-resource-provider/MongoDBResources/MigrateMongoDBDatabaseToManualThroughput.yml)
 #### [Update Mongo DB Collection Throughput](cosmos-db-resource-provider/MongoDBResources/UpdateMongoDBCollectionThroughput.yml)
 #### [Update Mongo DB Database Throughput](cosmos-db-resource-provider/MongoDBResources/UpdateMongoDBDatabaseThroughput.yml)
 ### Notebook Workspaces
@@ -4214,6 +4226,10 @@
 #### [List Sql Stored Procedures](cosmos-db-resource-provider/SqlResources/ListSqlStoredProcedures.yml)
 #### [List Sql Triggers](cosmos-db-resource-provider/SqlResources/ListSqlTriggers.yml)
 #### [List Sql User Defined Functions](cosmos-db-resource-provider/SqlResources/ListSqlUserDefinedFunctions.yml)
+#### [Migrate Sql Container To Autoscale](cosmos-db-resource-provider/SqlResources/MigrateSqlContainerToAutoscale.yml)
+#### [Migrate Sql Container To Manual Throughput](cosmos-db-resource-provider/SqlResources/MigrateSqlContainerToManualThroughput.yml)
+#### [Migrate Sql Database To Autoscale](cosmos-db-resource-provider/SqlResources/MigrateSqlDatabaseToAutoscale.yml)
+#### [Migrate Sql Database To Manual Throughput](cosmos-db-resource-provider/SqlResources/MigrateSqlDatabaseToManualThroughput.yml)
 #### [Update Sql Container Throughput](cosmos-db-resource-provider/SqlResources/UpdateSqlContainerThroughput.yml)
 #### [Update Sql Database Throughput](cosmos-db-resource-provider/SqlResources/UpdateSqlDatabaseThroughput.yml)
 ### Table Resources
@@ -4223,6 +4239,8 @@
 #### [Get Table](cosmos-db-resource-provider/TableResources/GetTable.yml)
 #### [Get Table Throughput](cosmos-db-resource-provider/TableResources/GetTableThroughput.yml)
 #### [List Tables](cosmos-db-resource-provider/TableResources/ListTables.yml)
+#### [Migrate Table To Autoscale](cosmos-db-resource-provider/TableResources/MigrateTableToAutoscale.yml)
+#### [Migrate Table To Manual Throughput](cosmos-db-resource-provider/TableResources/MigrateTableToManualThroughput.yml)
 #### [Update Table Throughput](cosmos-db-resource-provider/TableResources/UpdateTableThroughput.yml)
 # Cost Management
 ## [Overview](../docs-ref-conceptual/cost-management/index.md)
@@ -8999,6 +9017,50 @@
 ### [Get](securitycenter/WorkspaceSettings/Get.yml)
 ### [List](securitycenter/WorkspaceSettings/List.yml)
 ### [Update](securitycenter/WorkspaceSettings/Update.yml)
+# SecurityInsights
+## [Overview](../docs-ref-conceptual/securityinsights/index.md)
+## Actions
+### [Overview](securityinsights/Actions.yml)
+### [List By Alert Rule](securityinsights/Actions/ListByAlertRule.yml)
+## Alert Rule Templates
+### [Overview](securityinsights/AlertRuleTemplates.yml)
+### [Get](securityinsights/AlertRuleTemplates/Get.yml)
+### [List](securityinsights/AlertRuleTemplates/List.yml)
+## Alert Rules
+### [Overview](securityinsights/AlertRules.yml)
+### [Create Or Update](securityinsights/AlertRules/CreateOrUpdate.yml)
+### [Create Or Update Action](securityinsights/AlertRules/CreateOrUpdateAction.yml)
+### [Delete](securityinsights/AlertRules/Delete.yml)
+### [Delete Action](securityinsights/AlertRules/DeleteAction.yml)
+### [Get](securityinsights/AlertRules/Get.yml)
+### [Get Action](securityinsights/AlertRules/GetAction.yml)
+### [List](securityinsights/AlertRules/List.yml)
+## Bookmarks
+### [Overview](securityinsights/Bookmarks.yml)
+### [Create Or Update](securityinsights/Bookmarks/CreateOrUpdate.yml)
+### [Delete](securityinsights/Bookmarks/Delete.yml)
+### [Get](securityinsights/Bookmarks/Get.yml)
+### [List](securityinsights/Bookmarks/List.yml)
+## Data Connectors
+### [Overview](securityinsights/DataConnectors.yml)
+### [Create Or Update](securityinsights/DataConnectors/CreateOrUpdate.yml)
+### [Delete](securityinsights/DataConnectors/Delete.yml)
+### [Get](securityinsights/DataConnectors/Get.yml)
+### [List](securityinsights/DataConnectors/List.yml)
+## Incident Comments
+### [Overview](securityinsights/IncidentComments.yml)
+### [Create Comment](securityinsights/IncidentComments/CreateComment.yml)
+### [Get](securityinsights/IncidentComments/Get.yml)
+### [List By Incident](securityinsights/IncidentComments/ListByIncident.yml)
+## Incidents
+### [Overview](securityinsights/Incidents.yml)
+### [Create Or Update](securityinsights/Incidents/CreateOrUpdate.yml)
+### [Delete](securityinsights/Incidents/Delete.yml)
+### [Get](securityinsights/Incidents/Get.yml)
+### [List](securityinsights/Incidents/List.yml)
+## Operations
+### [Overview](securityinsights/Operations.yml)
+### [List](securityinsights/Operations/List.yml)
 # Serial Console
 ## [Overview](../docs-ref-conceptual/serialconsole/index.md)
 ## Disable Console
@@ -13932,14 +13994,19 @@
 ### [Update](synapse/Workspaces/Update.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
-## [Data Access (Gen2)](../docs-ref-conceptual/time-series-insights/preview.md)
+## Data Access (Gen2)
+### [Overview](../docs-ref-conceptual/time-series-insights/reference-data-access-overview.md)
+### [Environments APIs](../docs-ref-conceptual/time-series-insights/reference-environments-apis.md)
+### [Model APIs](../docs-ref-conceptual/time-series-insights/reference-model-apis.md)
+### [Query APIs](../docs-ref-conceptual/time-series-insights/reference-query-apis.md)
+### [Time Series expression syntax](../docs-ref-conceptual/time-series-insights/reference-time-series-expression-syntax.md)
+### [API limits](../docs-ref-conceptual/time-series-insights/reference-api-limits.md)
 ## Data Access (Gen1)
-### [Overview](../docs-ref-conceptual/time-series-insights/ga.md)
-### Query
-#### [Overview](../docs-ref-conceptual/time-series-insights/ga-query.md)
-#### [API](../docs-ref-conceptual/time-series-insights/ga-query-api.md)
-#### [Syntax](../docs-ref-conceptual/time-series-insights/ga-query-syntax.md)
-### [Reference Data API](../docs-ref-conceptual/time-series-insights/ga-reference-data-api.md)
+### [Overview](../docs-ref-conceptual/time-series-insights/gen1.md)
+### [Query](../docs-ref-conceptual/time-series-insights/gen1-query.md)
+### [API](../docs-ref-conceptual/time-series-insights/gen1-query-api.md)
+### [Syntax](../docs-ref-conceptual/time-series-insights/gen1-query-syntax.md)
+### [Reference Data API](../docs-ref-conceptual/time-series-insights/gen1-reference-data-api.md)
 ## Reference
 ### Data Access (Preview)
 #### Model Settings

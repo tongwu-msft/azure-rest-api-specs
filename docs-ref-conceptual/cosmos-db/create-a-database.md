@@ -1,6 +1,6 @@
 ---
 title: "Create a Database - Azure Cosmos DB REST API"
-ms.date: "02/25/2016"
+ms.date: "08/06/2020"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 44241df4-7d91-4236-ad56-5c57ba3f449b
@@ -21,7 +21,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Database
-The `Create Database` operation creates a new database in the database account. 
+The `Create Database` operation creates a new database in the database account.
   
 ## Request  
   
@@ -31,7 +31,14 @@ The `Create Database` operation creates a new database in the database account.
   
 ### Headers  
  See [Common Azure Cosmos DB REST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Azure Cosmos DB requests.  
-  
+
+|Property|Required|Type|Description|  
+|--------------|--------------|----------|-----------------|  
+|**x-ms-offer-throughput**|Optional|Number|The user specified manual throughput (RU/s) for the database expressed in units of 100 request units per second. The minimum is 400 up to 1,000,000 (or higher by requesting a limit increase).<br /><br /> Only one of `x-ms-offer-throughput` or `x-ms-cosmos-offer-autopilot-settings` must be specified. These headers cannot be specified together.|
+|**x-ms-cosmos-offer-autopilot-settings**|Optional|JSON|The user specified autoscale max RU/s of the database. The value is a JSON with the property `maxThroughput`. For example: `{"maxThroughput": 4000}`.<br /><br /> Only one of `x-ms-offer-throughput` or `x-ms-cosmos-offer-autopilot-settings` must be specified. These headers cannot be specified together.|   
+> [!NOTE]
+> If you set throughput on a database, this creates a [shared throughput database](/azure/cosmos-db/set-throughput.md#set-throughput-on-a-database) where all collections inside it share the provisioned throughput. There is a limit of 25 containers in a shared throughput database. If you do not plan to use a shared throughput database, create a database without setting the above throughput headers. [Learn more](/azure/cosmos-db/set-throughput).
+
 ### Body  
   
 |Property|Required|Type|Description|  
@@ -84,7 +91,8 @@ The `Create Database` operation creates a new database in the database account.
   
 ```  
   
-## Example1
+## Example 1
+The following example creates a database.
   
 ```  
 POST https://contosomarketing.documents.azure.com/dbs HTTP/1.1  
@@ -137,9 +145,9 @@ Content-Length: 169
   
 ```  
 
-## Example2
+## Example 2
 
-The following example creates a database with a throughput of 400. `x-ms-offer-throughput` header is used to set the throughput value and it accepts a number that increments by units of 100.
+The following example creates a [shared throughput database](/azure/cosmos-db/set-throughput.md#set-throughput-on-a-database) with manual throughput of 400 RU/s. `x-ms-offer-throughput` header is used to set the throughput (RU/s) value. It accepts a number with minimum 400 that increments by units of 100.
 
 ```  
 POST https://contosomarketing.documents.azure.com/dbs HTTP/1.1  
@@ -149,16 +157,38 @@ Cache-Control: no-cache
 User-Agent: contoso/1.0  
 x-ms-version: 2015-08-06  
 Accept: application/json  
+x-ms-offer-throughput = 400
 Host: contosomarketing.documents.azure.com  
 Content-Length: 19  
 Expect: 100-continue  
   
-{"id":"volcanodb2",
-x-ms-offer-throughput = 400}  
-  
+{"id":"volcanodb2"}  
 ```  
+## Example 3
+The following example creates a [shared throughput database](/azure/cosmos-db/set-throughput.md#set-throughput-on-a-database) with [autoscale max throughput](/azure/cosmos-db/set-throughput/provision-throughput-autoscale) of 4000 RU/s (scales between 400 - 4000 RU/s). `x-ms-cosmos-offer-autopilot-settings` header is used to set the `maxThroughput`, which is the autoscale max RU/s value. It accepts a number with minimum 4000 that increments by units of 1000.
 
-  
+> [!NOTE]
+> To enable autoscale on an existing database or container, or switch from autoscale to manual throughput, see the article [Replace an Offer](replace-an-offer.md).
+
+```
+POST https://contosomarketing.documents.azure.com:443/dbs HTTP/1.1 
+x-ms-version: 2018-12-31
+x-ms-date: Wed, 22 Jul 2020 20:09:50 GMT
+authorization: type%3dmaster%26ver%3d1.0%26sig%3dsc0%2fu25RB8wSqbY1%2bUZqTGD0yCQC5KkGOAP%2bgnHFceQ%3d 
+Accept: application/json
+x-ms-cosmos-offer-autopilot-settings: {"maxThroughput": 4000}
+Content-Type: application/json
+User-Agent: contoso/1.0
+Postman-Token: 81c0a4ac-4b7c-4f98-8d46-8c662969bc7e
+Host: contosomarketing.documents.azure.com:443
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 27
+
+{"id":"volcanodb3"}
+
+```
+
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
 * [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   

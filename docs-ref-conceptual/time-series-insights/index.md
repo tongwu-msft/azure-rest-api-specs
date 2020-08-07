@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/07/2020
+ms.date: 08/05/2020
 ---
 
 # Azure Time Series Insights REST APIs
@@ -21,7 +21,7 @@ Azure Time Series Insights gives you a global view of your data, so you can quic
 
 ## API querying overview
 
-The Azure Time Series Insights APIs provide secure REST **CREATE**, **READ**, **UPDATE**, and **DELETE** operations by using the Azure Time Series Insights Gen1 and Azure Time Series Insights Gen2 query syntax. 
+The Azure Time Series Insights APIs provide secure REST **CREATE**, **READ**, **UPDATE**, and **DELETE** operations by using the Azure Time Series Insights Gen1 and Azure Time Series Insights Gen2 query syntax.
 
 > [!TIP]
 > Batch operations and result pagination are supported for most APIs.
@@ -34,18 +34,19 @@ The Azure Time Series Insights APIs are split into two versions: Gen1 and Gen2. 
 
 * Data access for Gen1:
 
-    * See the [Gen1 REST overview](ga.md).
-    * Review the Gen1 query syntax [reference](ga-query-syntax.md) documentation.
-    * Review the Gen1 Environments API [reference](ga-query-api.md) documentation.
-    * Review the Gen1 Reference Data API [reference](ga-reference-data-api.md) documentation.
+  * See the [Gen1 REST overview](gen1.md).
+  * Review the Gen1 query syntax [reference](gen1-query-syntax.md) documentation.
+  * Review the Gen1 Environments API [reference](gen1-query-api.md) documentation.
+  * Review the Gen1 Reference Data API [reference](gen1-reference-data-api.md) documentation.
 
 * Data access for Gen2:
 
-    * See the [Gen2 REST concepts overview](preview.md).
-    * Review the Gen2 [Time Series Expression (TSX)](preview.md#time-series-expression-and-syntax) documentation.
-    * Review the Gen2 Time Series Model API [concepts](preview.md#time-series-model-apis) and [reference](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/modelsettings) documentation.
-    * Review the Gen2 Environments API [concept](preview.md#environments-apis) and [reference](https://docs.microsoft.com/rest/api/time-series-insights/management/environments) documentation.
-    * Review the Gen2 Query API [concept](preview.md#query-apis) and [reference](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query) documentation.
+  * Review the Gen2 [Data Access Overview](reference-data-access-overview.md)
+  * Review the Gen2 [Time Series Expression (TSX)](reference-time-series-expression-syntax.md) documentation.
+  * Review the Gen2 [Time Series Model API concepts](reference-model-apis.md) and [reference](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/modelsettings) documentation.
+  * Review the Gen2 [Environments API concept](reference-environments-apis.md) and [reference](https://docs.microsoft.com/rest/api/time-series-insights/management/environments) documentation.
+  * Review the Gen2 [Query API concept](reference-query-apis.md) and [reference](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query) documentation.
+  * Review the Gen2 [API Limits](reference-api-limits.md) documentation.
 
 ## See also
 

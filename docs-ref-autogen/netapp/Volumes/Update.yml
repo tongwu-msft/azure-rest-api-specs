@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.volumes.update
 name: Update
 service: Azure NetApp Files
 groupName: Volumes
-apiVersion: 2019-11-01
+apiVersion: 2020-02-01
 summary: "Update a volume  \nPatch the specified volume"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}?api-version=2019-11-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}?api-version=2020-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -195,6 +195,10 @@ definitions:
     description: Restoring
     types:
     - uid: boolean
+  - name: properties.snapshotDirectoryVisible
+    description: If enabled (true) the volume will contain a read-only .snapshot directory which provides access to each of the volume's snapshots (default to true).
+    types:
+    - uid: boolean
 - name: volumePatch
   description: Volume patch resource
   kind: object
@@ -259,11 +263,11 @@ definitions:
     types:
     - uid: boolean
   - name: nfsv3
-    description: Allows NFSv3 protocol
+    description: Allows NFSv3 protocol. Enable only for NFSv3 type volumes
     types:
     - uid: boolean
   - name: nfsv41
-    description: Allows NFSv4.1 protocol
+    description: Allows NFSv4.1 protocol. Enable only for NFSv4.1 type volumes
     types:
     - uid: boolean
   - name: allowedClients
@@ -336,6 +340,10 @@ definitions:
     description: "Replication  \nReplication properties"
     types:
     - uid: replicationObject
+  - name: snapshot
+    description: "Snapshot  \nSnapshot properties."
+    types:
+    - uid: volumeSnapshotProperties
 - name: replicationObject
   description: Replication properties
   kind: object
@@ -358,6 +366,14 @@ definitions:
     - uid: string
   - name: remoteVolumeRegion
     description: The remote region for the other end of the Volume Replication.
+    types:
+    - uid: string
+- name: volumeSnapshotProperties
+  description: Volume Snapshot Properties
+  kind: object
+  properties:
+  - name: snapshotPolicyId
+    description: Snapshot Policy ResourceId
     types:
     - uid: string
 - name: EndpointType
@@ -392,7 +408,7 @@ definitions:
 examples:
 - name: Volumes_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1?api-version=2019-11-01
+    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1?api-version=2020-02-01
     body: '{}'
   responses:
   - statusCode: "200"
