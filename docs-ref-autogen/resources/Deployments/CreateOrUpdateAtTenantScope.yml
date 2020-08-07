@@ -3,14 +3,14 @@ uid: management.azure.com.resources.deployments.createorupdateattenantscope
 name: Create Or Update At Tenant Scope
 service: Resource Management
 groupName: Deployments
-apiVersion: 2019-10-01
+apiVersion: 2020-06-01
 summary: "Deploys resources at tenant scope.  \nYou can provide the template and parameters directly in the request or link to JSON files."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/providers/Microsoft.Resources/deployments/{deploymentName}?api-version=2019-10-01
+- content: PUT https://management.azure.com/providers/Microsoft.Resources/deployments/{deploymentName}?api-version=2020-06-01
 uriParameters:
 - name: deploymentName
   in: path
@@ -164,7 +164,15 @@ definitions:
   kind: object
   properties:
   - name: uri
-    description: The URI of the template to deploy.
+    description: The URI of the template to deploy. Use either the uri or id property, but not both.
+    types:
+    - uid: string
+  - name: id
+    description: The resource id of a Template Spec. Use either the id or uri property, but not both.
+    types:
+    - uid: string
+  - name: relativePath
+    description: Applicable only if this template link references a Template Spec. This relativePath property can optionally be used to reference a Template Spec artifact by path.
     types:
     - uid: string
   - name: contentVersion
@@ -219,9 +227,9 @@ definitions:
   properties:
   - name: provisioningState
     isReadyOnly: true
-    description: The state of the provisioning.
+    description: Denotes the state of provisioning.
     types:
-    - uid: string
+    - uid: ProvisioningState
   - name: correlationId
     isReadyOnly: true
     description: The correlation ID of the deployment.
@@ -347,6 +355,46 @@ definitions:
   - name: SpecificDeployment
     types:
     - uid: string
+- name: ProvisioningState
+  description: Denotes the state of provisioning.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Ready
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Created
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
 - name: Provider
   description: Resource provider information.
   kind: object
@@ -460,6 +508,17 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: defaultApiVersion
+    isReadyOnly: true
+    description: The default API version.
+    types:
+    - uid: string
+  - name: apiProfiles
+    isReadyOnly: true
+    description: The API profiles for the resource provider.
+    types:
+    - uid: ApiProfile
+      isArray: true
   - name: capabilities
     description: The additional capabilities offered by this resource type.
     types:
@@ -513,6 +572,24 @@ definitions:
     description: The default pattern for an alias.
     types:
     - uid: AliasPattern
+  - name: defaultMetadata
+    isReadyOnly: true
+    description: The default alias path metadata. Applies to the default path and to any alias path that doesn't have metadata
+    types:
+    - uid: AliasPathMetadata
+- name: ApiProfile
+  kind: object
+  properties:
+  - name: profileVersion
+    isReadyOnly: true
+    description: The profile version.
+    types:
+    - uid: string
+  - name: apiVersion
+    isReadyOnly: true
+    description: The API version.
+    types:
+    - uid: string
 - name: AliasPath
   description: The type of the paths for alias.
   kind: object
@@ -530,6 +607,11 @@ definitions:
     description: The pattern for an alias path.
     types:
     - uid: AliasPattern
+  - name: metadata
+    isReadyOnly: true
+    description: The metadata of the alias path. If missing, fall back to the default metadata of the alias.
+    types:
+    - uid: AliasPathMetadata
 - name: AliasType
   description: The type of the alias.
   kind: enum
@@ -562,6 +644,19 @@ definitions:
     description: The type of alias pattern
     types:
     - uid: AliasPatternType
+- name: AliasPathMetadata
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of the token that the alias path is referring to.
+    types:
+    - uid: AliasPathTokenType
+  - name: attributes
+    isReadyOnly: true
+    description: The attributes of the token that the alias path is referring to.
+    types:
+    - uid: AliasPathAttributes
 - name: AliasPatternType
   description: The type of alias pattern
   kind: enum
@@ -574,23 +669,71 @@ definitions:
     description: Extract is the only allowed value.
     types:
     - uid: string
+- name: AliasPathTokenType
+  description: The type of the token that the alias path is referring to.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    description: The token type is not specified.
+    types:
+    - uid: string
+  - name: Any
+    description: The token type can be anything.
+    types:
+    - uid: string
+  - name: String
+    description: The token type is string.
+    types:
+    - uid: string
+  - name: Object
+    description: The token type is object.
+    types:
+    - uid: string
+  - name: Array
+    description: The token type is array.
+    types:
+    - uid: string
+  - name: Integer
+    description: The token type is integer.
+    types:
+    - uid: string
+  - name: Number
+    description: The token type is number.
+    types:
+    - uid: string
+  - name: Boolean
+    description: The token type is boolean.
+    types:
+    - uid: string
+- name: AliasPathAttributes
+  description: The attributes of the token that the alias path is referring to.
+  kind: enum
+  properties:
+  - name: None
+    description: The token that the alias path is referring to has no attributes.
+    types:
+    - uid: string
+  - name: Modifiable
+    description: The token that the alias path is referring to is modifiable by policies with 'modify' effect.
+    types:
+    - uid: string
 examples:
 - name: Create deployment at tenant scope.
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.Resources/deployments/tenant-dep01?api-version=2019-10-01
+    uri: PUT https://management.azure.com/providers/Microsoft.Resources/deployments/tenant-dep01?api-version=2020-06-01
     body: >-
       {
         "location": "eastus",
         "properties": {
           "templateLink": {
-            "uri": "{templateUri}"
+            "uri": "https://example.com/exampleTemplate.json"
           },
           "parameters": {},
           "mode": "Incremental"
         },
         "tags": {
-          "tagKey1": "tagValue1",
-          "tagKey2": "tagValue2"
+          "tagKey1": "tag-value-1",
+          "tagKey2": "tag-value-2"
         }
       }
   responses:
@@ -607,7 +750,7 @@ examples:
           "provisioningState": "Accepted",
           "timestamp": "2019-04-24T22:52:38.7895563Z",
           "duration": "PT1.2970875S",
-          "correlationId": "{correlationId}",
+          "correlationId": "00000000-0000-0000-0000-000000000000",
           "providers": [
             {
               "namespace": "Microsoft.Authorization",
@@ -642,9 +785,9 @@ examples:
             {
               "dependsOn": [
                 {
-                  "id": "/providers/Microsoft.Authorization/policyDefinitions/policy2",
+                  "id": "/providers/Microsoft.Authorization/policyDefinitions/policy-definition-name",
                   "resourceType": "Microsoft.Authorization/policyDefinitions",
-                  "resourceName": "policy2"
+                  "resourceName": "policy-definition-name"
                 }
               ],
               "id": "/providers/Microsoft.Authorization/policyAssignments/location-lock",
@@ -654,8 +797,8 @@ examples:
           ]
         },
         "tags": {
-          "tagKey1": "tagValue1",
-          "tagKey2": "tagValue2"
+          "tagKey1": "tag-value-1",
+          "tagKey2": "tag-value-2"
         }
       }
   - statusCode: "201"
@@ -671,7 +814,7 @@ examples:
           "provisioningState": "Accepted",
           "timestamp": "2019-04-24T22:52:38.7895563Z",
           "duration": "PT1.2970875S",
-          "correlationId": "{correlationId}",
+          "correlationId": "00000000-0000-0000-0000-000000000000",
           "providers": [
             {
               "namespace": "Microsoft.Authorization",
@@ -706,9 +849,9 @@ examples:
             {
               "dependsOn": [
                 {
-                  "id": "/providers/Microsoft.Authorization/policyDefinitions/policy2",
+                  "id": "/providers/Microsoft.Authorization/policyDefinitions/policy-definition-name",
                   "resourceType": "Microsoft.Authorization/policyDefinitions",
-                  "resourceName": "policy2"
+                  "resourceName": "policy-definition-name"
                 }
               ],
               "id": "/providers/Microsoft.Authorization/policyAssignments/location-lock",
@@ -718,8 +861,8 @@ examples:
           ]
         },
         "tags": {
-          "tagKey1": "tagValue1",
-          "tagKey2": "tagValue2"
+          "tagKey1": "tag-value-1",
+          "tagKey2": "tag-value-2"
         }
       }
 security:
