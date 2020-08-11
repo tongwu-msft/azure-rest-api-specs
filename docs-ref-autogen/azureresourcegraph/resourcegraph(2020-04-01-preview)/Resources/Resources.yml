@@ -1,21 +1,21 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.azureresourcegraph.resourcegraph(2018-09-01-preview).resources.resources
+uid: management.azure.com.azureresourcegraph.resourcegraph(2020-04-01-preview).resources.resources
 name: Resources
 service: Azure Resource Graph
 groupName: Resources
-apiVersion: 2018-09-01-preview
+apiVersion: 2020-04-01-preview
 summary: Queries the resources managed by Azure Resource Manager for all subscriptions specified in the request.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2018-09-01-preview
+- content: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
 uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: Api Version.
   types:
   - uid: string
 responses:
@@ -32,11 +32,15 @@ requestBody:
   parameters:
   - name: subscriptions
     in: body
-    isRequired: true
     description: Azure subscriptions against which to execute the query.
     types:
     - uid: string
       isArray: true
+  - name: managementGroupId
+    in: body
+    description: The management group identifier.
+    types:
+    - uid: string
   - name: query
     in: body
     isRequired: true
@@ -72,6 +76,10 @@ definitions:
     description: The number of rows to skip from the beginning of the results. Overrides the next page offset when ```$skipToken``` property is present.
     types:
     - uid: integer
+  - name: resultFormat
+    description: Defines in which format query result returned.
+    types:
+    - uid: ResultFormat
 - name: FacetRequest
   description: A request to compute additional statistics (facets) over the query results.
   kind: object
@@ -107,7 +115,7 @@ definitions:
   - name: data
     description: Query output in tabular format.
     types:
-    - uid: Table
+    - uid: object
   - name: facets
     description: Query facets.
     types:
@@ -133,6 +141,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: managementGroupId
+    description: The management group identifier.
+    types:
+    - uid: string
   - name: query
     description: The resources query.
     types:
@@ -146,6 +158,16 @@ definitions:
     types:
     - uid: FacetRequest
       isArray: true
+- name: ResultFormat
+  description: Defines in which format query result returned.
+  kind: enum
+  properties:
+  - name: table
+    types:
+    - uid: string
+  - name: objectArray
+    types:
+    - uid: string
 - name: FacetRequestOptions
   description: The options for facet evaluation
   kind: object
@@ -176,20 +198,6 @@ definitions:
   - name: "false"
     types:
     - uid: string
-- name: Table
-  description: Query output in tabular format.
-  kind: object
-  properties:
-  - name: columns
-    description: Query result column descriptors.
-    types:
-    - uid: Column
-      isArray: true
-  - name: rows
-    description: Query result rows.
-    types:
-    - uid: array
-      isArray: true
 - name: Error
   description: Error info.
   kind: object
@@ -217,18 +225,6 @@ definitions:
   - name: desc
     types:
     - uid: string
-- name: Column
-  description: Query result column descriptor.
-  kind: object
-  properties:
-  - name: name
-    description: Column name.
-    types:
-    - uid: string
-  - name: type
-    description: Column data type.
-    types:
-    - uid: ColumnDataType
 - name: FacetResult
   description: Successfully executed facet containing additional statistics on the response of a query.
   kind: object
@@ -244,7 +240,7 @@ definitions:
   - name: data
     description: A table containing the desired facets. Only present if the facet is valid.
     types:
-    - uid: Table
+    - uid: object
   - name: expression
     description: Facet expression, same as in the corresponding facet request.
     types:
@@ -284,35 +280,16 @@ definitions:
     description: A human readable error message.
     types:
     - uid: string
-- name: ColumnDataType
-  description: Data type of a column in a table.
-  kind: enum
-  properties:
-  - name: string
-    types:
-    - uid: string
-  - name: integer
-    types:
-    - uid: string
-  - name: number
-    types:
-    - uid: string
-  - name: boolean
-    types:
-    - uid: string
-  - name: object
-    types:
-    - uid: string
 examples:
 - name: Basic query
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2018-09-01-preview
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
     body: >-
       {
         "subscriptions": [
           "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
         ],
-        "query": "project id, name, type, location, tags | limit 3"
+        "query": "Resources | project id, name, type, location, tags | limit 3"
       }
   responses:
   - statusCode: "200"
@@ -321,6 +298,138 @@ examples:
         "totalRecords": 3,
         "count": 3,
         "resultTruncated": "false",
+        "facets": [],
+        "data": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "type": "string"
+            },
+            {
+              "name": "location",
+              "type": "string"
+            },
+            {
+              "name": "tags",
+              "type": "object"
+            }
+          ],
+          "rows": [
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG1/providers/Microsoft.Network/networkInterfaces/myNetworkInterface",
+              "myNetworkInterface",
+              "microsoft.network/networkinterfaces",
+              "centralus",
+              {
+                "tag1": "Value1"
+              }
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG2/providers/Microsoft.Network/virtualNetworks/myVnet",
+              "myVnet",
+              "microsoft.network/virtualnetworks",
+              "westus",
+              {}
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG2/providers/Microsoft.Network/publicIPAddresses/myPublicIp",
+              "myPublicIp",
+              "microsoft.network/publicipaddresses",
+              "westus",
+              {}
+            ]
+          ]
+        }
+      }
+- name: Basic tenant query
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
+    body: >-
+      {
+        "query": "Resources | project id, name, type, location, tags | limit 3"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalRecords": 3,
+        "count": 3,
+        "resultTruncated": "false",
+        "facets": [],
+        "data": {
+          "columns": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "name": "type",
+              "type": "string"
+            },
+            {
+              "name": "location",
+              "type": "string"
+            },
+            {
+              "name": "tags",
+              "type": "object"
+            }
+          ],
+          "rows": [
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG1/providers/Microsoft.Network/networkInterfaces/myNetworkInterface",
+              "myNetworkInterface",
+              "microsoft.network/networkinterfaces",
+              "centralus",
+              {
+                "tag1": "Value1"
+              }
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG2/providers/Microsoft.Network/virtualNetworks/myVnet",
+              "myVnet",
+              "microsoft.network/virtualnetworks",
+              "westus",
+              {}
+            ],
+            [
+              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG2/providers/Microsoft.Network/publicIPAddresses/myPublicIp",
+              "myPublicIp",
+              "microsoft.network/publicipaddresses",
+              "westus",
+              {}
+            ]
+          ]
+        }
+      }
+- name: Basic management group query
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
+    body: >-
+      {
+        "managementGroupId": "e927f598-c1d4-4f72-8541-95d83a6a4ac8",
+        "query": "Resources | project id, name, type, location, tags | limit 3"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalRecords": 3,
+        "count": 3,
+        "resultTruncated": "false",
+        "facets": [],
         "data": {
           "columns": [
             {
@@ -373,13 +482,13 @@ examples:
       }
 - name: Filter resources
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2018-09-01-preview
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
     body: >-
       {
         "subscriptions": [
           "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
         ],
-        "query": "project id, name, type, location | where type =~ 'Microsoft.Compute/virtualMachines' | limit 3"
+        "query": "Resources | project id, name, type, location | where type =~ 'Microsoft.Compute/virtualMachines' | limit 3"
       }
   responses:
   - statusCode: "200"
@@ -388,6 +497,7 @@ examples:
         "totalRecords": 3,
         "count": 3,
         "resultTruncated": "false",
+        "facets": [],
         "data": {
           "columns": [
             {
@@ -431,13 +541,13 @@ examples:
       }
 - name: Summarize resources by location
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2018-09-01-preview
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
     body: >-
       {
         "subscriptions": [
           "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
         ],
-        "query": "project id, name, type, location | summarize by location"
+        "query": "Resources | project id, name, type, location | summarize by location"
       }
   responses:
   - statusCode: "200"
@@ -446,6 +556,7 @@ examples:
         "totalRecords": 3,
         "count": 3,
         "resultTruncated": "false",
+        "facets": [],
         "data": {
           "columns": [
             {
@@ -468,13 +579,13 @@ examples:
       }
 - name: Complex query
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2018-09-01-preview
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
     body: >-
       {
         "subscriptions": [
           "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
         ],
-        "query": "project id, name, type, location | where type =~ 'Microsoft.Compute/virtualMachines' | summarize count() by location | top 3 by count_"
+        "query": "Resources | project id, name, type, location | where type =~ 'Microsoft.Compute/virtualMachines' | summarize count() by location | top 3 by count_"
       }
   responses:
   - statusCode: "200"
@@ -483,6 +594,7 @@ examples:
         "totalRecords": 3,
         "count": 3,
         "resultTruncated": "false",
+        "facets": [],
         "data": {
           "columns": [
             {
@@ -512,13 +624,13 @@ examples:
       }
 - name: Access a properties field
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2018-09-01-preview
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
     body: >-
       {
         "subscriptions": [
           "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
         ],
-        "query": "where type =~ 'Microsoft.Compute/virtualMachines' | summarize count() by tostring(properties.storageProfile.osDisk.osType)"
+        "query": "Resources | where type =~ 'Microsoft.Compute/virtualMachines' | summarize count() by tostring(properties.storageProfile.osDisk.osType)"
       }
   responses:
   - statusCode: "200"
@@ -527,6 +639,7 @@ examples:
         "totalRecords": 2,
         "count": 2,
         "resultTruncated": "false",
+        "facets": [],
         "data": {
           "columns": [
             {
@@ -550,59 +663,15 @@ examples:
           ]
         }
       }
-- name: Access a properties field through alias
-  request:
-    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2018-09-01-preview
-    body: >-
-      {
-        "subscriptions": [
-          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
-        ],
-        "query": "where type =~ 'Microsoft.Web/serverFarms' | extend skuName = tostring(aliases['Microsoft.Web/serverfarms/sku.name']) | summarize count() by skuName"
-      }
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "totalRecords": 3,
-        "count": 3,
-        "resultTruncated": "false",
-        "data": {
-          "columns": [
-            {
-              "name": "skuName",
-              "type": "string"
-            },
-            {
-              "name": "count_",
-              "type": "integer"
-            }
-          ],
-          "rows": [
-            [
-              "S2",
-              1
-            ],
-            [
-              "Y1",
-              3
-            ],
-            [
-              "S1",
-              1
-            ]
-          ]
-        }
-      }
 - name: Query with a facet request
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2018-09-01-preview
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
     body: >-
       {
         "subscriptions": [
           "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
         ],
-        "query": "where type =~ 'Microsoft.Compute/virtualMachines' | project id, name, location, resourceGroup, properties.storageProfile.osDisk.osType | limit 5",
+        "query": "Resources | where type =~ 'Microsoft.Compute/virtualMachines' | project id, name, location, resourceGroup, properties.storageProfile.osDisk.osType | limit 5",
         "facets": [
           {
             "expression": "location",
@@ -847,78 +916,15 @@ examples:
           }
         ]
       }
-- name: Query options
-  request:
-    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2018-09-01-preview
-    body: >-
-      {
-        "subscriptions": [
-          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
-        ],
-        "query": "where name contains 'test' | project id, name, type, location",
-        "options": {
-          "$top": 3,
-          "$skip": 10
-        }
-      }
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "totalRecords": 386,
-        "count": 3,
-        "resultTruncated": "false",
-        "$skipToken": "eyAibm8yIjogImx1Y2syIiwgImJ1dDIiOiAibmljZTIiLCAidHJ5MiI6ICIhIiB9",
-        "data": {
-          "columns": [
-            {
-              "name": "id",
-              "type": "string"
-            },
-            {
-              "name": "name",
-              "type": "string"
-            },
-            {
-              "name": "type",
-              "type": "string"
-            },
-            {
-              "name": "location",
-              "type": "string"
-            }
-          ],
-          "rows": [
-            [
-              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG4/providers/Microsoft.Compute/disks/yetanothertest_OsDisk_1_f396cbcb625a457bb69fe2abf5975820",
-              "yetanothertest_OsDisk_1_f396cbcb625a457bb69fe2abf5975820",
-              "microsoft.compute/disks",
-              "eastus"
-            ],
-            [
-              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG5/providers/Microsoft.Automation/automationAccounts/TestAA",
-              "TestAA",
-              "microsoft.automation/automationaccounts",
-              "westcentralus"
-            ],
-            [
-              "/subscriptions/cfbbd179-59d2-4052-aa06-9270a38aa9d6/resourceGroups/RG5/providers/Microsoft.Automation/automationAccounts/TestAA/runbooks/TestRB",
-              "TestRB",
-              "microsoft.automation/automationaccounts/runbooks",
-              "westcentralus"
-            ]
-          ]
-        }
-      }
 - name: First page query
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2018-09-01-preview
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
     body: >-
       {
         "subscriptions": [
           "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
         ],
-        "query": "where name contains 'test' | project id, name, type, location",
+        "query": "Resources | where name contains 'test' | project id, name, type, location",
         "options": {
           "$top": 3,
           "$skip": 0
@@ -931,6 +937,7 @@ examples:
         "totalRecords": 386,
         "count": 3,
         "resultTruncated": "false",
+        "facets": [],
         "$skipToken": "eyAibm8iOiAibHVjayIsICJidXQiOiAibmljZSIsICJ0cnkiOiAiISIgfQ==",
         "data": {
           "columns": [
@@ -975,13 +982,13 @@ examples:
       }
 - name: Next page query
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2018-09-01-preview
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
     body: >-
       {
         "subscriptions": [
           "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
         ],
-        "query": "where name contains 'test' | project id, name, type, location",
+        "query": "Resources | where name contains 'test' | project id, name, type, location",
         "options": {
           "$skipToken": "eyAibm8iOiAibHVjayIsICJidXQiOiAibmljZSIsICJ0cnkiOiAiISIgfQ=="
         }
@@ -993,6 +1000,7 @@ examples:
         "totalRecords": 386,
         "count": 3,
         "resultTruncated": "false",
+        "facets": [],
         "$skipToken": "eyAibm8yIjogImx1Y2syIiwgImJ1dDIiOiAibmljZTIiLCAidHJ5MiI6ICIhIiB9",
         "data": {
           "columns": [
@@ -1037,15 +1045,14 @@ examples:
       }
 - name: Random page query
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2018-09-01-preview
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
     body: >-
       {
         "subscriptions": [
           "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
         ],
-        "query": "where name contains 'test' | project id, name, type, location",
+        "query": "Resources | where name contains 'test' | project id, name, type, location",
         "options": {
-          "$skipToken": "eyAibm8iOiAibHVjayIsICJidXQiOiAibmljZSIsICJ0cnkiOiAiISIgfQ==",
           "$top": 2,
           "$skip": 10
         }
@@ -1057,7 +1064,8 @@ examples:
         "totalRecords": 386,
         "count": 2,
         "resultTruncated": "false",
-        "$skipToken": "eyAibm8yIjogImx1Y2syIiwgImJ1dDIiOiAibmljZTIiLCAidHJ5MiI6ICIhIiB9",
+        "facets": [],
+        "$skipToken": "eyAibm8iOiAibHVjayIsICJidXQiOiAibmljZSIsICJ0cnkiOiAiISIgfQ==",
         "data": {
           "columns": [
             {
@@ -1096,7 +1104,7 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow.
+  description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

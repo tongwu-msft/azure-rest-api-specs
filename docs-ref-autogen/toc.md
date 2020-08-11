@@ -1792,26 +1792,6 @@
 ### [Update](netapp/Volumes/Update.yml)
 # Azure Resource Graph
 ## [Overview](../docs-ref-conceptual/azure-resourcegraph/index.md)
-## Resource Graph(2018-09-01-preview)
-### Graph Query
-#### [Overview](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery.yml)
-#### [Create Or Update](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery/CreateOrUpdate.yml)
-#### [Delete](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery/Delete.yml)
-#### [Get](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery/Get.yml)
-#### [List](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery/List.yml)
-#### [Update](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery/Update.yml)
-### Operations
-#### [Overview](azureresourcegraph/resourcegraph(2018-09-01-preview)/Operations.yml)
-#### [List](azureresourcegraph/resourcegraph(2018-09-01-preview)/Operations/List.yml)
-### Resource Change Details
-#### [Overview](azureresourcegraph/resourcegraph(2018-09-01-preview)/ResourceChangeDetails.yml)
-#### [Resource Change Details](azureresourcegraph/resourcegraph(2018-09-01-preview)/ResourceChangeDetails/ResourceChangeDetails.yml)
-### Resource Changes
-#### [Overview](azureresourcegraph/resourcegraph(2018-09-01-preview)/ResourceChanges.yml)
-#### [Resource Changes](azureresourcegraph/resourcegraph(2018-09-01-preview)/ResourceChanges/ResourceChanges.yml)
-### Resources
-#### [Overview](azureresourcegraph/resourcegraph(2018-09-01-preview)/Resources.yml)
-#### [Resources](azureresourcegraph/resourcegraph(2018-09-01-preview)/Resources/Resources.yml)
 ## Resource Graph(2019-04-01)
 ### Operations
 #### [Overview](azureresourcegraph/resourcegraph(2019-04-01)/Operations.yml)
@@ -1819,6 +1799,26 @@
 ### Resources
 #### [Overview](azureresourcegraph/resourcegraph(2019-04-01)/Resources.yml)
 #### [Resources](azureresourcegraph/resourcegraph(2019-04-01)/Resources/Resources.yml)
+## Resource Graph(2020-04-01-preview)
+### Graph Query
+#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery.yml)
+#### [Create Or Update](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery/CreateOrUpdate.yml)
+#### [Delete](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery/Delete.yml)
+#### [Get](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery/Get.yml)
+#### [List](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery/List.yml)
+#### [Update](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery/Update.yml)
+### Operations
+#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/Operations.yml)
+#### [List](azureresourcegraph/resourcegraph(2020-04-01-preview)/Operations/List.yml)
+### Resource Change Details
+#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChangeDetails.yml)
+#### [Resource Change Details](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChangeDetails/ResourceChangeDetails.yml)
+### Resource Changes
+#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChanges.yml)
+#### [Resource Changes](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChanges/ResourceChanges.yml)
+### Resources
+#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/Resources.yml)
+#### [Resources](azureresourcegraph/resourcegraph(2020-04-01-preview)/Resources/Resources.yml)
 # Azure Spring Cloud
 ## [Overview](../docs-ref-conceptual/azurespringclould/index.md)
 ## Apps
@@ -4450,6 +4450,7 @@
 #### [Overview](datafactory/ExposureControl.yml)
 #### [Get Feature Value](datafactory/ExposureControl/GetFeatureValue.yml)
 #### [Get Feature Value By Factory](datafactory/ExposureControl/GetFeatureValueByFactory.yml)
+#### [Query Feature Values By Factory](datafactory/ExposureControl/QueryFeatureValuesByFactory.yml)
 ### Factories
 #### [Overview](datafactory/Factories.yml)
 #### [Configure Factory Repo](datafactory/Factories/ConfigureFactoryRepo.yml)
@@ -4495,6 +4496,16 @@
 #### [Delete](datafactory/LinkedServices/Delete.yml)
 #### [Get](datafactory/LinkedServices/Get.yml)
 #### [List By Factory](datafactory/LinkedServices/ListByFactory.yml)
+### Managed Virtual Networks
+#### [Overview](datafactory/ManagedVirtualNetworks.yml)
+#### [Create Or Update](datafactory/ManagedVirtualNetworks/CreateOrUpdate.yml)
+#### [Get](datafactory/ManagedVirtualNetworks/Get.yml)
+#### [List By Factory](datafactory/ManagedVirtualNetworks/ListByFactory.yml)
+### ManagedPrivateEndpoints(stable)
+#### [Overview](datafactory/ManagedPrivateEndpoints(stable).yml)
+#### [Delete](datafactory/ManagedPrivateEndpoints(stable)/Delete.yml)
+#### [Get](datafactory/ManagedPrivateEndpoints(stable)/Get.yml)
+#### [List By Factory](datafactory/ManagedPrivateEndpoints(stable)/ListByFactory.yml)
 ### Operations
 #### [Overview](datafactory/Operations.yml)
 #### [List](datafactory/Operations/List.yml)
@@ -4527,6 +4538,9 @@
 #### [Stop](datafactory/Triggers/Stop.yml)
 #### [Subscribe To Events](datafactory/Triggers/SubscribeToEvents.yml)
 #### [Unsubscribe From Events](datafactory/Triggers/UnsubscribeFromEvents.yml)
+### managed Private Endpoints
+#### [Overview](datafactory/managedPrivateEndpoints.yml)
+#### [Create Or Update](datafactory/managedPrivateEndpoints/CreateOrUpdate.yml)
 # Data Lake Analytics
 ## [Overview](../docs-ref-conceptual/datalakeanalytics/index.md)
 ## Accounts

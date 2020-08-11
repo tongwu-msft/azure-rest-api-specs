@@ -1,21 +1,21 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.azureresourcegraph.resourcegraph(2018-09-01-preview).resourcechanges.resourcechanges
+uid: management.azure.com.azureresourcegraph.resourcegraph(2020-04-01-preview).resourcechanges.resourcechanges
 name: Resource Changes
 service: Azure Resource Graph
 groupName: Resource Changes
-apiVersion: 2018-09-01-preview
+apiVersion: 2020-04-01-preview
 summary: List changes to a resource for a given time interval.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resourceChanges?api-version=2018-09-01-preview
+- content: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resourceChanges?api-version=2020-04-01-preview
 uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: Api Version.
   types:
   - uid: string
 responses:
@@ -52,6 +52,11 @@ requestBody:
     description: The maximum number of changes the client can accept in a paged response.
     types:
     - uid: integer
+  - name: fetchPropertyChanges
+    in: body
+    description: The flag if set to true will fetch property changes
+    types:
+    - uid: boolean
 requestHeader: []
 definitions:
 - name: Interval
@@ -115,6 +120,10 @@ definitions:
     description: The maximum number of changes the client can accept in a paged response.
     types:
     - uid: integer
+  - name: fetchPropertyChanges
+    description: The flag if set to true will fetch property changes
+    types:
+    - uid: boolean
 - name: ResourceChangeData
   description: Data on a specific change, represented by a pair of before and after resource snapshots.
   kind: object
@@ -131,6 +140,15 @@ definitions:
     description: The snapshot after the change.
     types:
     - uid: AfterSnapshot
+  - name: changeType
+    description: The change type for snapshot. PropertyChanges will be provided in case of Update change type
+    types:
+    - uid: ChangeType
+  - name: propertyChanges
+    description: An array of resource property change
+    types:
+    - uid: ResourcePropertyChange
+      isArray: true
 - name: Error
   description: Error info.
   kind: object
@@ -178,6 +196,43 @@ definitions:
     description: The resource snapshot content (in resourceChangeDetails response only).
     types:
     - uid: object
+- name: ChangeType
+  description: The change type for snapshot. PropertyChanges will be provided in case of Update change type
+  kind: enum
+  properties:
+  - name: Create
+    types:
+    - uid: string
+  - name: Update
+    types:
+    - uid: string
+  - name: Delete
+    types:
+    - uid: string
+- name: ResourcePropertyChange
+  description: The resource property change
+  kind: object
+  properties:
+  - name: propertyName
+    description: The property name
+    types:
+    - uid: string
+  - name: beforeValue
+    description: The property value in before snapshot
+    types:
+    - uid: string
+  - name: afterValue
+    description: The property value in after snapshot
+    types:
+    - uid: string
+  - name: changeCategory
+    description: The change category.
+    types:
+    - uid: ChangeCategory
+  - name: propertyChangeType
+    description: The property change Type
+    types:
+    - uid: PropertyChangeType
 - name: ErrorDetails
   description: Error details.
   kind: object
@@ -190,10 +245,33 @@ definitions:
     description: A human readable error message.
     types:
     - uid: string
+- name: ChangeCategory
+  description: The change category.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: System
+    types:
+    - uid: string
+- name: PropertyChangeType
+  description: The property change Type
+  kind: enum
+  properties:
+  - name: Insert
+    types:
+    - uid: string
+  - name: Update
+    types:
+    - uid: string
+  - name: Remove
+    types:
+    - uid: string
 examples:
 - name: Basic query
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resourceChanges?api-version=2018-09-01-preview
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resourceChanges?api-version=2020-04-01-preview
     body: >-
       {
         "resourceId": "/subscriptions/4d962866-1e3f-47f2-bd18-450c08f914c1/resourceGroups/MyResourceGroup/providers/Microsoft.Storage/storageAccounts/mystorageaccount",
@@ -209,6 +287,7 @@ examples:
         "changes": [
           {
             "changeId": "2db0ad2d-f6f0-4f46-b529-5c4e8c494648",
+            "changeType": "Update",
             "beforeSnapshot": {
               "timestamp": "2018-10-31T01:32:05.993Z"
             },
@@ -218,6 +297,7 @@ examples:
           },
           {
             "changeId": "9dc352cb-b7c1-4198-9eda-e5e3ed66aec8",
+            "changeType": "Create",
             "beforeSnapshot": {
               "timestamp": "2018-10-30T10:30:19.68Z"
             },
@@ -229,7 +309,7 @@ examples:
       }
 - name: First page query
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resourceChanges?api-version=2018-09-01-preview
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resourceChanges?api-version=2020-04-01-preview
     body: >-
       {
         "resourceId": "/subscriptions/4d962866-1e3f-47f2-bd18-450c08f914c1/resourceGroups/MyResourceGroup/providers/Microsoft.Storage/storageAccounts/mystorageaccount",
@@ -246,6 +326,7 @@ examples:
         "changes": [
           {
             "changeId": "2db0ad2d-f6f0-4f46-b529-5c4e8c494648",
+            "changeType": "Update",
             "beforeSnapshot": {
               "timestamp": "2018-10-31T01:32:05.993Z"
             },
@@ -255,6 +336,7 @@ examples:
           },
           {
             "changeId": "9dc352cb-b7c1-4198-9eda-e5e3ed66aec8",
+            "changeType": "Create",
             "beforeSnapshot": {
               "timestamp": "2018-10-30T10:30:19.68Z"
             },
@@ -267,7 +349,7 @@ examples:
       }
 - name: Next page query
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resourceChanges?api-version=2018-09-01-preview
+    uri: POST https://management.azure.com/providers/Microsoft.ResourceGraph/resourceChanges?api-version=2020-04-01-preview
     body: >-
       {
         "resourceId": "/subscriptions/4d962866-1e3f-47f2-bd18-450c08f914c1/resourceGroups/MyResourceGroup/providers/Microsoft.Storage/storageAccounts/mystorageaccount",
@@ -285,6 +367,7 @@ examples:
         "changes": [
           {
             "changeId": "55f458c4-f1c0-4963-bc6c-af275cd47702",
+            "changeType": "Update",
             "beforeSnapshot": {
               "timestamp": "2018-10-31T03:43:08.629Z"
             },
@@ -294,6 +377,7 @@ examples:
           },
           {
             "changeId": "0495b929-b86d-46cc-a972-939145feed90",
+            "changeType": "Create",
             "beforeSnapshot": {
               "timestamp": "2018-10-31T01:54:24.42Z"
             },
@@ -307,7 +391,7 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow.
+  description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

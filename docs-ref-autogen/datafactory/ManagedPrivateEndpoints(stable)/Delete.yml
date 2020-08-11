@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.datafactory.triggerruns.cancel
-name: Cancel
+uid: management.azure.com.datafactory.managedprivateendpoints(stable).delete
+name: Delete
 service: Data Factory
-groupName: Trigger Runs
+groupName: ManagedPrivateEndpoints(stable)
 apiVersion: 2018-06-01
-summary: Cancel a single trigger instance by runId.
+summary: Deletes a managed private endpoint.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/triggers/{triggerName}/triggerRuns/{runId}/cancel?api-version=2018-06-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/managedVirtualNetworks/{managedVirtualNetworkName}/managedPrivateEndpoints/{managedPrivateEndpointName}?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -32,19 +32,20 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
-- name: triggerName
+- name: managedVirtualNetworkName
   in: path
   isRequired: true
-  description: The trigger name.
+  description: Managed virtual network name
   types:
   - uid: string
-  pattern: ^[A-Za-z0-9_][^<>*#.%&:\\+?/]*$
-- name: runId
+  pattern: ^([_A-Za-z0-9]|([_A-Za-z0-9][-_A-Za-z0-9]{0,125}[_A-Za-z0-9]))$
+- name: managedPrivateEndpointName
   in: path
   isRequired: true
-  description: The pipeline run identifier.
+  description: Managed private endpoint name
   types:
   - uid: string
+  pattern: ^([_A-Za-z0-9]|([_A-Za-z0-9][-_A-Za-z0-9]{0,125}[_A-Za-z0-9]))$
 - name: api-version
   in: query
   isRequired: true
@@ -53,9 +54,11 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: TriggerRun has been cancelled.
+  description: OK.
+- name: 204 No Content
+  description: No Content.
 - name: Other Status Codes
-  description: An error response received from the Azure Data Factory service.
+  description: An error response received from DELETE managed private endpoint operation.
   types:
   - uid: CloudError
 requestHeader: []
@@ -82,22 +85,12 @@ definitions:
     - uid: CloudError
       isArray: true
 examples:
-- name: Triggers_Cancel
+- name: ManagedVirtualNetworks_Delete
   request:
-    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger/triggerRuns/2f7fdb90-5df1-4b8e-ac2f-064cfa58202b/cancel?api-version=2018-06-01
+    uri: DELETE https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/managedVirtualNetworks/exampleManagedVirtualNetworkName/managedPrivateEndpoints/exampleManagedPrivateEndpointName?api-version=2018-06-01
   responses:
   - statusCode: "200"
-    headers:
-    - name: Date
-      value: Sat, 16 Jun 2018 00:46:24 GMT
-    - name: X-Content-Type-Options
-      value: nosniff
-    - name: x-ms-ratelimit-remaining-subscription-writes
-      value: "1198"
-    - name: x-ms-request-id
-      value: 5aa854a5-7ac0-4c7e-9356-79c657f4e231
-    - name: x-ms-correlation-request-id
-      value: 5aa854a5-7ac0-4c7e-9356-79c657f4e231
+  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2

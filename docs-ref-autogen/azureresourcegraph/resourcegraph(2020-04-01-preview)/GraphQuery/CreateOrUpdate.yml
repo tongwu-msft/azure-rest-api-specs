@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.azureresourcegraph.resourcegraph(2018-09-01-preview).graphquery.createorupdate
+uid: management.azure.com.azureresourcegraph.resourcegraph(2020-04-01-preview).graphquery.createorupdate
 name: Create Or Update
 service: Azure Resource Graph
 groupName: Graph Query
-apiVersion: 2018-09-01-preview
+apiVersion: 2020-04-01-preview
 summary: Create a new graph query.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceGraph/queries/{resourceName}?api-version=2018-09-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceGraph/queries/{resourceName}?api-version=2020-04-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,6 +48,20 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: tags
+    in: body
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: eTag
+    in: body
+    description: This will be used to handle Optimistic Concurrency.
+    types:
+    - uid: string
   - name: properties.description
     in: body
     description: The description of a graph query.
@@ -59,18 +73,41 @@ requestBody:
     description: KQL query that will be graph.
     types:
     - uid: string
-  - name: location
-    in: body
-    description: The location of the resource
+requestHeader: []
+definitions:
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
     types:
     - uid: string
-  - name: eTag
-    in: body
-    description: This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict.
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
     types:
     - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: string
+- name: GraphQueryResource
+  description: Graph Query entity definition.
+  kind: object
+  properties:
   - name: tags
-    in: body
     description: Resource tags
     types:
     - uid: object
@@ -78,12 +115,15 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: string
-requestHeader: []
-definitions:
-- name: GraphQueryResource
-  description: Graph Query entity definition.
-  kind: object
-  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+  - name: eTag
+    description: This will be used to handle Optimistic Concurrency.
+    types:
+    - uid: string
   - name: properties.timeModified
     isReadyOnly: true
     description: Date and time in UTC of the last modification that was made to this graph query definition.
@@ -113,6 +153,7 @@ definitions:
     types:
     - uid: string
   - name: location
+    isReadyOnly: true
     description: The location of the resource
     types:
     - uid: string
@@ -121,18 +162,6 @@ definitions:
     description: Azure resource type
     types:
     - uid: string
-  - name: eTag
-    description: This will be used to handle Optimistic Concurrency. If not present, it will always overwrite the existing resource without checking conflict.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: GraphQueryError
   description: Error message body that will indicate why the operation failed.
   kind: object
@@ -150,6 +179,22 @@ definitions:
     types:
     - uid: ErrorFieldContract
       isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: ResultKind
   description: Enum indicating a type of graph query.
   kind: enum
@@ -176,7 +221,7 @@ definitions:
 examples:
 - name: Create Graph Query
   request:
-    uri: PUT https://management.azure.com/subscriptions/024e2271-06fa-46b6-9079-f1ed3c7b070e/resourceGroups/my-resource-group/providers/Microsoft.ResourceGraph/queries/MyDockerVMs?api-version=2018-09-01-preview
+    uri: PUT https://management.azure.com/subscriptions/024e2271-06fa-46b6-9079-f1ed3c7b070e/resourceGroups/my-resource-group/providers/Microsoft.ResourceGraph/queries/MyDockerVMs?api-version=2020-04-01-preview
     body: >-
       {
         "tags": {},
@@ -199,6 +244,14 @@ examples:
           "query": "where isnotnull(tags['Prod']) and properties.extensions[0].Name == 'docker'",
           "resultKind": "basic",
           "timeModified": "2019-03-12T13:51:13-07:00"
+        },
+        "systemData": {
+          "createdBy": "string",
+          "createdByType": "User",
+          "createdAt": "2020-04-27T21:53:29.0928001Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-04-27T21:53:29.0928001Z"
         }
       }
 security:
