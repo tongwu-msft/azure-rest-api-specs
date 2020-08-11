@@ -2,7 +2,6 @@
 title: "Introduction"
 ms.custom: ""
 ms.date: "07/08/2020"
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""

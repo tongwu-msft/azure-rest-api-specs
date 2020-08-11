@@ -2,7 +2,6 @@
 title: "Read all registrations of a channel"
 ms.custom: ""
 ms.date: 04/05/2019
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "notification-hubs"
 ms.suite: ""
