@@ -1,7 +1,6 @@
 ---
 title: "Request a Token from ACS"
 ms.date: "07/08/2020"
-ms.prod: "azure"
 ms.service: "service-bus"
 ms.topic: "reference"
 ms.assetid: 22751f14-1f80-4a8a-81b3-b77a63c7cdfb
