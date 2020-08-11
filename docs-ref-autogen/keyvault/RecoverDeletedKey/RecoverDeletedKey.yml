@@ -3,14 +3,14 @@ uid: keyvault.recoverdeletedkey.recoverdeletedkey
 name: Recover Deleted Key
 service: Key Vault
 groupName: Recover Deleted Key
-apiVersion: "7.0"
+apiVersion: "7.1"
 summary: "Recovers the deleted key to its latest version.  \nThe Recover Deleted Key operation is applicable for deleted keys in soft-delete enabled vaults. It recovers the deleted key back to its latest version under /keys. An attempt to recover an non-deleted key will return an error. Consider this the inverse of the delete operation on soft-delete enabled vaults. This operation requires the keys/recover permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {vaultBaseUrl}/deletedkeys/{key-name}/recover?api-version=7.0
+- content: POST {vaultBaseUrl}/deletedkeys/{key-name}/recover?api-version=7.1
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -149,6 +149,11 @@ definitions:
   description: The attributes of a key managed by the key vault service.
   kind: object
   properties:
+  - name: recoverableDays
+    isReadyOnly: true
+    description: softDelete data retention days. Value should be >=7 and <=90 when softDelete enabled, otherwise 0.
+    types:
+    - uid: integer
   - name: recoveryLevel
     isReadyOnly: true
     description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
@@ -274,13 +279,13 @@ definitions:
 examples:
 - name: RecoverDeletedKey
   request:
-    uri: POST {vaultBaseUrl}/deletedkeys/CreateDeleteRecoverPurgeTest/recover?api-version=7.0
+    uri: POST https://myvault.vault.azure.net//deletedkeys/CreateDeleteRecoverPurgeTest/recover?api-version=7.1
   responses:
   - statusCode: "200"
     body: >-
       {
         "key": {
-          "kid": "https://kv-sdk-test.vault-int.azure-int.net/keys/CreateDeleteRecoverPurgeTest/6fc2be54c6be4a7ea7bbb8a2a99a1996",
+          "kid": "https://myvault.vault.azure.net/keys/CreateDeleteRecoverPurgeTest/6fc2be54c6be4a7ea7bbb8a2a99a1996",
           "kty": "RSA",
           "key_ops": [
             "encrypt",

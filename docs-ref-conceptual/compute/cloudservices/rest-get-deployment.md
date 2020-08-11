@@ -3,7 +3,6 @@ title: "Azure Cloud Services REST - Get Deployment | Microsoft Docs"
 ms.custom: 
   - "VMClassic"
 ms.date: "02/01/2016"
-ms.prod: "azure"
 ms.reviewer: ""
 
 ms.suite: ""

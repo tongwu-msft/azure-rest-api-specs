@@ -1792,26 +1792,6 @@
 ### [Update](netapp/Volumes/Update.yml)
 # Azure Resource Graph
 ## [Overview](../docs-ref-conceptual/azure-resourcegraph/index.md)
-## Resource Graph(2018-09-01-preview)
-### Graph Query
-#### [Overview](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery.yml)
-#### [Create Or Update](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery/CreateOrUpdate.yml)
-#### [Delete](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery/Delete.yml)
-#### [Get](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery/Get.yml)
-#### [List](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery/List.yml)
-#### [Update](azureresourcegraph/resourcegraph(2018-09-01-preview)/GraphQuery/Update.yml)
-### Operations
-#### [Overview](azureresourcegraph/resourcegraph(2018-09-01-preview)/Operations.yml)
-#### [List](azureresourcegraph/resourcegraph(2018-09-01-preview)/Operations/List.yml)
-### Resource Change Details
-#### [Overview](azureresourcegraph/resourcegraph(2018-09-01-preview)/ResourceChangeDetails.yml)
-#### [Resource Change Details](azureresourcegraph/resourcegraph(2018-09-01-preview)/ResourceChangeDetails/ResourceChangeDetails.yml)
-### Resource Changes
-#### [Overview](azureresourcegraph/resourcegraph(2018-09-01-preview)/ResourceChanges.yml)
-#### [Resource Changes](azureresourcegraph/resourcegraph(2018-09-01-preview)/ResourceChanges/ResourceChanges.yml)
-### Resources
-#### [Overview](azureresourcegraph/resourcegraph(2018-09-01-preview)/Resources.yml)
-#### [Resources](azureresourcegraph/resourcegraph(2018-09-01-preview)/Resources/Resources.yml)
 ## Resource Graph(2019-04-01)
 ### Operations
 #### [Overview](azureresourcegraph/resourcegraph(2019-04-01)/Operations.yml)
@@ -1819,6 +1799,26 @@
 ### Resources
 #### [Overview](azureresourcegraph/resourcegraph(2019-04-01)/Resources.yml)
 #### [Resources](azureresourcegraph/resourcegraph(2019-04-01)/Resources/Resources.yml)
+## Resource Graph(2020-04-01-preview)
+### Graph Query
+#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery.yml)
+#### [Create Or Update](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery/CreateOrUpdate.yml)
+#### [Delete](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery/Delete.yml)
+#### [Get](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery/Get.yml)
+#### [List](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery/List.yml)
+#### [Update](azureresourcegraph/resourcegraph(2020-04-01-preview)/GraphQuery/Update.yml)
+### Operations
+#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/Operations.yml)
+#### [List](azureresourcegraph/resourcegraph(2020-04-01-preview)/Operations/List.yml)
+### Resource Change Details
+#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChangeDetails.yml)
+#### [Resource Change Details](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChangeDetails/ResourceChangeDetails.yml)
+### Resource Changes
+#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChanges.yml)
+#### [Resource Changes](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChanges/ResourceChanges.yml)
+### Resources
+#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/Resources.yml)
+#### [Resources](azureresourcegraph/resourcegraph(2020-04-01-preview)/Resources/Resources.yml)
 # Azure Spring Cloud
 ## [Overview](../docs-ref-conceptual/azurespringclould/index.md)
 ## Apps
@@ -4450,6 +4450,7 @@
 #### [Overview](datafactory/ExposureControl.yml)
 #### [Get Feature Value](datafactory/ExposureControl/GetFeatureValue.yml)
 #### [Get Feature Value By Factory](datafactory/ExposureControl/GetFeatureValueByFactory.yml)
+#### [Query Feature Values By Factory](datafactory/ExposureControl/QueryFeatureValuesByFactory.yml)
 ### Factories
 #### [Overview](datafactory/Factories.yml)
 #### [Configure Factory Repo](datafactory/Factories/ConfigureFactoryRepo.yml)
@@ -4495,6 +4496,16 @@
 #### [Delete](datafactory/LinkedServices/Delete.yml)
 #### [Get](datafactory/LinkedServices/Get.yml)
 #### [List By Factory](datafactory/LinkedServices/ListByFactory.yml)
+### Managed Virtual Networks
+#### [Overview](datafactory/ManagedVirtualNetworks.yml)
+#### [Create Or Update](datafactory/ManagedVirtualNetworks/CreateOrUpdate.yml)
+#### [Get](datafactory/ManagedVirtualNetworks/Get.yml)
+#### [List By Factory](datafactory/ManagedVirtualNetworks/ListByFactory.yml)
+### ManagedPrivateEndpoints(stable)
+#### [Overview](datafactory/ManagedPrivateEndpoints(stable).yml)
+#### [Delete](datafactory/ManagedPrivateEndpoints(stable)/Delete.yml)
+#### [Get](datafactory/ManagedPrivateEndpoints(stable)/Get.yml)
+#### [List By Factory](datafactory/ManagedPrivateEndpoints(stable)/ListByFactory.yml)
 ### Operations
 #### [Overview](datafactory/Operations.yml)
 #### [List](datafactory/Operations/List.yml)
@@ -4527,6 +4538,9 @@
 #### [Stop](datafactory/Triggers/Stop.yml)
 #### [Subscribe To Events](datafactory/Triggers/SubscribeToEvents.yml)
 #### [Unsubscribe From Events](datafactory/Triggers/UnsubscribeFromEvents.yml)
+### managed Private Endpoints
+#### [Overview](datafactory/managedPrivateEndpoints.yml)
+#### [Create Or Update](datafactory/managedPrivateEndpoints/CreateOrUpdate.yml)
 # Data Lake Analytics
 ## [Overview](../docs-ref-conceptual/datalakeanalytics/index.md)
 ## Accounts
@@ -9017,6 +9031,50 @@
 ### [Get](securitycenter/WorkspaceSettings/Get.yml)
 ### [List](securitycenter/WorkspaceSettings/List.yml)
 ### [Update](securitycenter/WorkspaceSettings/Update.yml)
+# SecurityInsights
+## [Overview](../docs-ref-conceptual/securityinsights/index.md)
+## Actions
+### [Overview](securityinsights/Actions.yml)
+### [List By Alert Rule](securityinsights/Actions/ListByAlertRule.yml)
+## Alert Rule Templates
+### [Overview](securityinsights/AlertRuleTemplates.yml)
+### [Get](securityinsights/AlertRuleTemplates/Get.yml)
+### [List](securityinsights/AlertRuleTemplates/List.yml)
+## Alert Rules
+### [Overview](securityinsights/AlertRules.yml)
+### [Create Or Update](securityinsights/AlertRules/CreateOrUpdate.yml)
+### [Create Or Update Action](securityinsights/AlertRules/CreateOrUpdateAction.yml)
+### [Delete](securityinsights/AlertRules/Delete.yml)
+### [Delete Action](securityinsights/AlertRules/DeleteAction.yml)
+### [Get](securityinsights/AlertRules/Get.yml)
+### [Get Action](securityinsights/AlertRules/GetAction.yml)
+### [List](securityinsights/AlertRules/List.yml)
+## Bookmarks
+### [Overview](securityinsights/Bookmarks.yml)
+### [Create Or Update](securityinsights/Bookmarks/CreateOrUpdate.yml)
+### [Delete](securityinsights/Bookmarks/Delete.yml)
+### [Get](securityinsights/Bookmarks/Get.yml)
+### [List](securityinsights/Bookmarks/List.yml)
+## Data Connectors
+### [Overview](securityinsights/DataConnectors.yml)
+### [Create Or Update](securityinsights/DataConnectors/CreateOrUpdate.yml)
+### [Delete](securityinsights/DataConnectors/Delete.yml)
+### [Get](securityinsights/DataConnectors/Get.yml)
+### [List](securityinsights/DataConnectors/List.yml)
+## Incident Comments
+### [Overview](securityinsights/IncidentComments.yml)
+### [Create Comment](securityinsights/IncidentComments/CreateComment.yml)
+### [Get](securityinsights/IncidentComments/Get.yml)
+### [List By Incident](securityinsights/IncidentComments/ListByIncident.yml)
+## Incidents
+### [Overview](securityinsights/Incidents.yml)
+### [Create Or Update](securityinsights/Incidents/CreateOrUpdate.yml)
+### [Delete](securityinsights/Incidents/Delete.yml)
+### [Get](securityinsights/Incidents/Get.yml)
+### [List](securityinsights/Incidents/List.yml)
+## Operations
+### [Overview](securityinsights/Operations.yml)
+### [List](securityinsights/Operations/List.yml)
 # Serial Console
 ## [Overview](../docs-ref-conceptual/serialconsole/index.md)
 ## Disable Console
@@ -13950,14 +14008,19 @@
 ### [Update](synapse/Workspaces/Update.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
-## [Data Access (Gen2)](../docs-ref-conceptual/time-series-insights/preview.md)
+## Data Access (Gen2)
+### [Overview](../docs-ref-conceptual/time-series-insights/reference-data-access-overview.md)
+### [Environments APIs](../docs-ref-conceptual/time-series-insights/reference-environments-apis.md)
+### [Model APIs](../docs-ref-conceptual/time-series-insights/reference-model-apis.md)
+### [Query APIs](../docs-ref-conceptual/time-series-insights/reference-query-apis.md)
+### [Time Series expression syntax](../docs-ref-conceptual/time-series-insights/reference-time-series-expression-syntax.md)
+### [API limits](../docs-ref-conceptual/time-series-insights/reference-api-limits.md)
 ## Data Access (Gen1)
-### [Overview](../docs-ref-conceptual/time-series-insights/ga.md)
-### Query
-#### [Overview](../docs-ref-conceptual/time-series-insights/ga-query.md)
-#### [API](../docs-ref-conceptual/time-series-insights/ga-query-api.md)
-#### [Syntax](../docs-ref-conceptual/time-series-insights/ga-query-syntax.md)
-### [Reference Data API](../docs-ref-conceptual/time-series-insights/ga-reference-data-api.md)
+### [Overview](../docs-ref-conceptual/time-series-insights/gen1.md)
+### [Query](../docs-ref-conceptual/time-series-insights/gen1-query.md)
+### [API](../docs-ref-conceptual/time-series-insights/gen1-query-api.md)
+### [Syntax](../docs-ref-conceptual/time-series-insights/gen1-query-syntax.md)
+### [Reference Data API](../docs-ref-conceptual/time-series-insights/gen1-reference-data-api.md)
 ## Reference
 ### Data Access (Preview)
 #### Model Settings

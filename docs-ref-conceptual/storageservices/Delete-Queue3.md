@@ -3,7 +3,7 @@ title: Delete Queue (REST API) - Azure Storage
 description: The Delete Queue operation permanently deletes the specified queue. 
 author: pemari-msft
 
-ms.date: 07/06/2020
+ms.date: 08/10/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -72,7 +72,8 @@ The `Delete Queue` operation permanently deletes the specified queue.
  Only the account owner may call this operation.  
   
 ## Remarks  
- When a queue is successfully deleted, the queue is immediately marked for deletion and is no longer accessible to clients. The queue is later removed from the Queue service during garbage collection.  
+
+ When a queue is deleted, a queue with the same name cannot be created for at least 30 seconds; the queue may not be available for more than 30 seconds if the service is still processing the request. While the queue is being deleted, attempts to create a queue of the same name will fail with status code 409 (Conflict), with the service returning additional error information indicating that the queue is being deleted. All other operations, including operations on any messages in the queue, will fail with status code 404 (Not Found) while the queue is being deleted.  
   
 ## See also  
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)   

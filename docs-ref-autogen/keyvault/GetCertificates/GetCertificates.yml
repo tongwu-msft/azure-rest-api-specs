@@ -3,15 +3,15 @@ uid: keyvault.getcertificates.getcertificates
 name: Get Certificates
 service: Key Vault
 groupName: Get Certificates
-apiVersion: "7.0"
+apiVersion: "7.1"
 summary: "List certificates in a specified key vault  \nThe GetCertificates operation returns the set of certificates resources in the specified key vault. This operation requires the certificates/list permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET {vaultBaseUrl}/certificates?api-version=7.0
-- content: GET {vaultBaseUrl}/certificates?maxresults={maxresults}&includePending={includePending}&api-version=7.0
+- content: GET {vaultBaseUrl}/certificates?api-version=7.1
+- content: GET {vaultBaseUrl}/certificates?maxresults={maxresults}&includePending={includePending}&api-version=7.1
   isOptional: true
 uriParameters:
 - name: vaultBaseUrl
@@ -120,6 +120,11 @@ definitions:
   description: The certificate management attributes.
   kind: object
   properties:
+  - name: recoverableDays
+    isReadyOnly: true
+    description: softDelete data retention days. Value should be >=7 and <=90 when softDelete enabled, otherwise 0.
+    types:
+    - uid: integer
   - name: recoveryLevel
     isReadyOnly: true
     description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
@@ -148,7 +153,7 @@ definitions:
     types:
     - uid: integer
 - name: DeletionRecoveryLevel
-  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
   kind: enum
   properties:
   - name: Purgeable
@@ -182,14 +187,14 @@ definitions:
 examples:
 - name: GetCertificates
   request:
-    uri: GET {vaultBaseUrl}/certificates?api-version=7.0
+    uri: GET https://myvault.vault.azure.net//certificates?api-version=7.1
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "https://testvault1021.vault.azure.net/certificates/listCert01",
+            "id": "https://myvault.vault.azure.net/certificates/listCert01",
             "x5t": "fLi3U52HunIVNXubkEnf8tP6Wbo",
             "attributes": {
               "enabled": true,
@@ -200,7 +205,7 @@ examples:
             }
           },
           {
-            "id": "https://testvault1021.vault.azure.net/certificates/listCert02",
+            "id": "https://myvault.vault.azure.net/certificates/listCert02",
             "x5t": "fLi3U52HunIVNXubkEnf8tP6Wbo",
             "attributes": {
               "enabled": true,

@@ -3,15 +3,15 @@ uid: keyvault.getstorageaccounts.getstorageaccounts
 name: Get Storage Accounts
 service: Key Vault
 groupName: Get Storage Accounts
-apiVersion: "7.0"
+apiVersion: "7.1"
 summary: List storage accounts managed by the specified key vault. This operation requires the storage/list permission.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET {vaultBaseUrl}/storage?api-version=7.0
-- content: GET {vaultBaseUrl}/storage?maxresults={maxresults}&api-version=7.0
+- content: GET {vaultBaseUrl}/storage?api-version=7.1
+- content: GET {vaultBaseUrl}/storage?maxresults={maxresults}&api-version=7.1
   isOptional: true
 uriParameters:
 - name: vaultBaseUrl
@@ -133,13 +133,18 @@ definitions:
     description: Last updated time in UTC.
     types:
     - uid: integer
+  - name: recoverableDays
+    isReadyOnly: true
+    description: softDelete data retention days. Value should be >=7 and <=90 when softDelete enabled, otherwise 0.
+    types:
+    - uid: integer
   - name: recoveryLevel
     isReadyOnly: true
     description: Reflects the deletion recovery level currently in effect for storage accounts in the current vault. If it contains 'Purgeable' the storage account can be permanently deleted by a privileged user; otherwise, only the system can purge the storage account, at the end of the retention interval.
     types:
     - uid: DeletionRecoveryLevel
 - name: DeletionRecoveryLevel
-  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  description: Reflects the deletion recovery level currently in effect for storage accounts in the current vault. If it contains 'Purgeable' the storage account can be permanently deleted by a privileged user; otherwise, only the system can purge the storage account, at the end of the retention interval.
   kind: enum
   properties:
   - name: Purgeable
@@ -173,14 +178,14 @@ definitions:
 examples:
 - name: List Storage account
   request:
-    uri: GET https://storage-sdk-test.vault-int.azure-int.net//storage?api-version=7.0
+    uri: GET https://myvault.vault.azure.net//storage?api-version=7.1
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/listStorage01",
+            "id": "https://myvault.vault.azure.net/storage/listStorage01",
             "resourceId": "/subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Storage/storageAccounts/kvstorageacc1",
             "attributes": {
               "enabled": true,
@@ -194,7 +199,7 @@ examples:
             }
           },
           {
-            "id": "https://storage-sdk-test.vault-int.azure-int.net/storage/listStorage02",
+            "id": "https://myvault.vault.azure.net/storage/listStorage02",
             "resourceId": "/subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Storage/storageAccounts/kvstorageacc2",
             "attributes": {
               "enabled": true,
@@ -208,7 +213,7 @@ examples:
             }
           }
         ],
-        "nextLink": "https://{BaseUri}/storage?api-version=7.0&%24skiptoken=<token>"
+        "nextLink": "https://{BaseUri}/storage?api-version=7.1&%24skiptoken=<token>"
       }
 security: []
 errorCodes: []

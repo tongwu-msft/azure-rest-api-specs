@@ -2,7 +2,6 @@
 title: "Get consumer group"
 ms.custom: ""
 ms.date: 07/14/2020
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
 ms.suite: ""
