@@ -68,7 +68,7 @@ The Batch management SDKs scheduled for future deprecation and removal are as fo
 
 | Language  | Version         | Upgrade Instructions |
 |-----------|-----------------|------------------------
-| Azure CLI | `<= 2.0.46`     | [Here](https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest#install)
+| Azure CLI | `<= 2.0.54`     | [Here](https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest#install)
 | C#        | `<= 6.0.0`      | [Here](https://azure.github.io/azure-sdk/releases/latest/all/#net) (named `Microsoft.Azure.Management.Batch`)
 | Go        | `<= 2017-09-01` | [Here](https://github.com/Azure/azure-sdk-for-go/blob/master/CHANGELOG.md) (named `batch`)
 | Java      | `<= 1.25.0`     | [Here](https://azure.github.io/azure-sdk/releases/latest/all/#java) (named `azure-mgmt-batch`)
