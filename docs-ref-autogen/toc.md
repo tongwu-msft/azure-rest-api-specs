@@ -7327,6 +7327,21 @@
 #### [List By Resource Group](monitor/AutoscaleSettings/ListByResourceGroup.yml)
 #### [List By Subscription](monitor/AutoscaleSettings/ListBySubscription.yml)
 #### [Update](monitor/AutoscaleSettings/Update.yml)
+### Data Collection Rule Associations
+#### [Overview](monitor/DataCollectionRuleAssociations.yml)
+#### [Create](monitor/DataCollectionRuleAssociations/Create.yml)
+#### [Delete](monitor/DataCollectionRuleAssociations/Delete.yml)
+#### [Get](monitor/DataCollectionRuleAssociations/Get.yml)
+#### [List By Resource](monitor/DataCollectionRuleAssociations/ListByResource.yml)
+#### [List By Rule](monitor/DataCollectionRuleAssociations/ListByRule.yml)
+### Data Collection Rules
+#### [Overview](monitor/DataCollectionRules.yml)
+#### [Create](monitor/DataCollectionRules/Create.yml)
+#### [Delete](monitor/DataCollectionRules/Delete.yml)
+#### [Get](monitor/DataCollectionRules/Get.yml)
+#### [List By Resource Group](monitor/DataCollectionRules/ListByResourceGroup.yml)
+#### [List By Subscription](monitor/DataCollectionRules/ListBySubscription.yml)
+#### [Update](monitor/DataCollectionRules/Update.yml)
 ### Diagnostic Settings
 #### [Overview](monitor/DiagnosticSettings.yml)
 #### [Create Or Update](monitor/DiagnosticSettings/CreateOrUpdate.yml)
