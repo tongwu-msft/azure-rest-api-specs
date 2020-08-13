@@ -1756,7 +1756,7 @@
 ### [Get](netapp/Accounts/Get.yml)
 ### [List](netapp/Accounts/List.yml)
 ### [Update](netapp/Accounts/Update.yml)
-## Net App Resource
+## NetApp Resource
 ### [Overview](netapp/NetAppResource.yml)
 ### [Check File Path Availability](netapp/NetAppResource/CheckFilePathAvailability.yml)
 ### [Check Name Availability](netapp/NetAppResource/CheckNameAvailability.yml)
