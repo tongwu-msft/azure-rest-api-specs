@@ -9084,6 +9084,22 @@
 ### [Create Or Update](securitycenter/InformationProtectionPolicies/CreateOrUpdate.yml)
 ### [Get](securitycenter/InformationProtectionPolicies/Get.yml)
 ### [List](securitycenter/InformationProtectionPolicies/List.yml)
+## Iot Alert Types
+### [Overview](securitycenter/IotAlertTypes.yml)
+### [Get](securitycenter/IotAlertTypes/Get.yml)
+### [List](securitycenter/IotAlertTypes/List.yml)
+## Iot Alerts
+### [Overview](securitycenter/IotAlerts.yml)
+### [Get](securitycenter/IotAlerts/Get.yml)
+### [List](securitycenter/IotAlerts/List.yml)
+## Iot Recommendation Types
+### [Overview](securitycenter/IotRecommendationTypes.yml)
+### [Get](securitycenter/IotRecommendationTypes/Get.yml)
+### [List](securitycenter/IotRecommendationTypes/List.yml)
+## Iot Recommendations
+### [Overview](securitycenter/IotRecommendations.yml)
+### [Get](securitycenter/IotRecommendations/Get.yml)
+### [List](securitycenter/IotRecommendations/List.yml)
 ## Iot Security Solution
 ### [Overview](securitycenter/IotSecuritySolution.yml)
 ### [Create Or Update](securitycenter/IotSecuritySolution/CreateOrUpdate.yml)
