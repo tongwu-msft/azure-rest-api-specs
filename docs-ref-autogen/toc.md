@@ -14487,6 +14487,7 @@
 ### [Create Or Update](virtualnetwork/VirtualNetworks/CreateOrUpdate.yml)
 ### [Delete](virtualnetwork/VirtualNetworks/Delete.yml)
 ### [Get](virtualnetwork/VirtualNetworks/Get.yml)
+### [Get Bastion Hosts](virtualnetwork/VirtualNetworks/GetBastionHosts.yml)
 ### [List](virtualnetwork/VirtualNetworks/List.yml)
 ### [List All](virtualnetwork/VirtualNetworks/ListAll.yml)
 ### [List Usage](virtualnetwork/VirtualNetworks/ListUsage.yml)
