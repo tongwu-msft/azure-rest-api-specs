@@ -60,6 +60,11 @@ requestBody:
     description: The location of the resource group to which the resource belongs.
     types:
     - uid: string
+  - name: identity
+    in: body
+    description: Identity for the resource.
+    types:
+    - uid: ManagedServiceIdentity
   - name: properties.consistencyPolicy
     in: body
     description: The consistency policy for the Cosmos DB account.
@@ -154,6 +159,28 @@ requestBody:
       isArray: true
 requestHeader: []
 definitions:
+- name: ManagedServiceIdentity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
+    types:
+    - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
 - name: ConsistencyPolicy
   description: The consistency policy for the Cosmos DB database account.
   kind: object
@@ -453,6 +480,10 @@ definitions:
     description: The location of the resource group to which the resource belongs.
     types:
     - uid: string
+  - name: identity
+    description: Identity for the resource.
+    types:
+    - uid: ManagedServiceIdentity
   - name: properties.consistencyPolicy
     description: The consistency policy for the Cosmos DB account.
     types:
@@ -533,6 +564,30 @@ definitions:
     types:
     - uid: CorsPolicy
       isArray: true
+- name: ResourceIdentityType
+  description: The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: DefaultConsistencyLevel
   description: The default consistency level and configuration settings of the Cosmos DB account.
   kind: enum
@@ -724,24 +779,6 @@ definitions:
     types:
     - uid: DatabaseRestoreResource
       isArray: true
-- name: ManagedServiceIdentity
-  description: Identity for the resource.
-  kind: object
-  properties:
-  - name: principalId
-    isReadyOnly: true
-    description: The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
-    types:
-    - uid: string
-  - name: tenantId
-    isReadyOnly: true
-    description: The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
-    types:
-    - uid: string
-  - name: type
-    description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
-    types:
-    - uid: ResourceIdentityType
 - name: PeriodicModeProperties
   description: Configuration values for periodic mode backup
   kind: object
@@ -811,22 +848,6 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: ResourceIdentityType
-  description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
-  kind: enum
-  properties:
-  - name: SystemAssigned
-    types:
-    - uid: string
-  - name: UserAssigned
-    types:
-    - uid: string
-  - name: SystemAssigned, UserAssigned
-    types:
-    - uid: string
-  - name: None
-    types:
-    - uid: string
 examples:
 - name: CosmosDBDatabaseAccountPatch
   request:
@@ -836,6 +857,12 @@ examples:
         "location": "westus",
         "tags": {
           "dept": "finance"
+        },
+        "identity": {
+          "type": "SystemAssigned,UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {}
+          }
         },
         "properties": {
           "ipRules": [
@@ -880,6 +907,15 @@ examples:
         "kind": "GlobalDocumentDB",
         "tags": {
           "dept": "finance"
+        },
+        "identity": {
+          "type": "SystemAssigned,UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {
+              "clientId": "fbe75b66-01c5-4f87-a220-233af3270436",
+              "principalId": "075a0ca6-43f6-4434-9abf-c9b1b79f9219"
+            }
+          }
         },
         "properties": {
           "provisioningState": "Succeeded",

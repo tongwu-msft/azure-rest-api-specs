@@ -1524,6 +1524,38 @@
 ### [List Admin Credentials](avs/PrivateClouds/ListAdminCredentials.yml)
 ### [List In Subscription](avs/PrivateClouds/ListInSubscription.yml)
 ### [Update](avs/PrivateClouds/Update.yml)
+# Azure Attestation
+## [Overview](../docs-ref-conceptual/attestation/index.md)
+## Attestation Providers
+### [Overview](attestation/AttestationProviders.yml)
+### [Create](attestation/AttestationProviders/Create.yml)
+### [Delete](attestation/AttestationProviders/Delete.yml)
+### [Get](attestation/AttestationProviders/Get.yml)
+### [Get Default By Location](attestation/AttestationProviders/GetDefaultByLocation.yml)
+### [List](attestation/AttestationProviders/List.yml)
+### [List By Resource Group](attestation/AttestationProviders/ListByResourceGroup.yml)
+### [List Default](attestation/AttestationProviders/ListDefault.yml)
+### [Update](attestation/AttestationProviders/Update.yml)
+## Metadata Configuration
+### [Overview](attestation/MetadataConfiguration.yml)
+### [Get](attestation/MetadataConfiguration/Get.yml)
+## Operations
+### [Overview](attestation/Operations.yml)
+### [List](attestation/Operations/List.yml)
+## Policy
+### [Overview](attestation/Policy.yml)
+### [Get](attestation/Policy/Get.yml)
+### [Prepare To Set](attestation/Policy/PrepareToSet.yml)
+### [Reset](attestation/Policy/Reset.yml)
+### [Set](attestation/Policy/Set.yml)
+## Policy Certificates
+### [Overview](attestation/PolicyCertificates.yml)
+### [Add](attestation/PolicyCertificates/Add.yml)
+### [Get](attestation/PolicyCertificates/Get.yml)
+### [Remove](attestation/PolicyCertificates/Remove.yml)
+## Signing Certificates
+### [Overview](attestation/SigningCertificates.yml)
+### [Get](attestation/SigningCertificates/Get.yml)
 # Azure Kusto
 ## [Overview](../docs-ref-conceptual/azurerekusto/index.md)
 ## Attached Database Configurations
@@ -5920,6 +5952,27 @@
 ### [List](healthcareapis/Services/List.yml)
 ### [List By Resource Group](healthcareapis/Services/ListByResourceGroup.yml)
 ### [Update](healthcareapis/Services/Update.yml)
+# Hybrid Compute
+## [Overview](../docs-ref-conceptual/hybridcompute/index.md)
+## Machine Extensions
+### [Overview](hybridcompute/MachineExtensions.yml)
+### [Create Or Update](hybridcompute/MachineExtensions/CreateOrUpdate.yml)
+### [Delete](hybridcompute/MachineExtensions/Delete.yml)
+### [Get](hybridcompute/MachineExtensions/Get.yml)
+### [List](hybridcompute/MachineExtensions/List.yml)
+### [Update](hybridcompute/MachineExtensions/Update.yml)
+## Machines
+### [Overview](hybridcompute/Machines.yml)
+### [Create Or Update](hybridcompute/Machines/CreateOrUpdate.yml)
+### [Delete](hybridcompute/Machines/Delete.yml)
+### [Get](hybridcompute/Machines/Get.yml)
+### [List By Resource Group](hybridcompute/Machines/ListByResourceGroup.yml)
+### [List By Subscription](hybridcompute/Machines/ListBySubscription.yml)
+### [Reconnect](hybridcompute/Machines/Reconnect.yml)
+### [Update](hybridcompute/Machines/Update.yml)
+## Operations
+### [Overview](hybridcompute/Operations.yml)
+### [List](hybridcompute/Operations/List.yml)
 # Internet Analyzer
 ## [Overview](../docs-ref-conceptual/internetanalyzer/index.md)
 ## Experiments

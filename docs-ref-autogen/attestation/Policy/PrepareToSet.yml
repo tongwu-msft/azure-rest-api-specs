@@ -1,0 +1,121 @@
+### YamlMime:RESTOperation
+uid: attestation.policy.preparetoset
+name: Prepare To Set
+service: Azure Attestation
+groupName: Policy
+apiVersion: 2018-09-01-preview
+summary: Accepts a new policy document and returns a JWT which expresses  used in preparation to set attestation policy.
+consumes:
+- text/plain
+produces:
+- text/plain
+- application/json
+paths:
+- content: POST {tenantBaseUrl}/operations/policy/updatepolicy?api-version=2018-09-01-preview&tee={tee}
+uriParameters:
+- name: tenantBaseUrl
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The tenant name, for example https://mytenant.attest.azure.net.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+- name: tee
+  in: query
+  isRequired: true
+  description: Specifies the trusted execution environment to be used to validate the evidence
+  types:
+  - uid: TeeKind
+responses:
+- name: 200 OK
+  description: Success - Returns a JWT signed by the metadata signing key that contains the hash of the supplied policy to be set.
+  types:
+  - uid: string
+- name: 400 Bad Request
+  description: Bad request
+  types:
+  - uid: CloudError
+- name: 401 Unauthorized
+  description: Request is unauthorized
+  types:
+  - uid: string
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: PolicyJws
+    in: body
+    description: JSON Web Signature (See RFC7515) expressing the new policy
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: TeeKind
+  description: Specifies the trusted execution environment to be used to validate the evidence
+  kind: enum
+  properties:
+  - name: SgxEnclave
+    description: Intel Software Guard eXtensions
+    types:
+    - uid: string
+  - name: OpenEnclave
+    description: OpenEnclave extensions to SGX
+    types:
+    - uid: string
+  - name: CyResComponent
+    description: IoT Edge validation
+    types:
+    - uid: string
+  - name: VSMEnclave
+    description: VSM Enclave Attestation
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from Attestation.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Attestation.
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: An error response from Attestation.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for displaying in a user interface.
+    types:
+    - uid: string
+examples:
+- name: UpdatePolicy
+  request:
+    uri: POST 'https://mytest.attest.azure.net'/operations/policy/updatepolicy?api-version=2018-09-01-preview&tee=SgxEnclave
+    body: "\"eyJhbGciOiJub25lIn0.eyJBdHRlc3RhdGlvblBvbGljeSI6ICJ7XHJcbiAgICBcIiR2ZXJzaW9uXCI6IDEsXHJcbiAgICBcIiRhbGxvdy1kZWJ1Z2dhYmxlXCIgOiB0cnVlLFxyXG4gICAgXCIkY2xhaW1zXCI6W1xyXG4gICAgICAgIFwiaXMtZGVidWdnYWJsZVwiICxcclxuICAgICAgICBcInNneC1tcnNpZ25lclwiLFxyXG4gICAgICAgIFwic2d4LW1yZW5jbGF2ZVwiLFxyXG4gICAgICAgIFwicHJvZHVjdC1pZFwiLFxyXG4gICAgICAgIFwic3ZuXCIsXHJcbiAgICAgICAgXCJ0ZWVcIixcclxuICAgICAgICBcIk5vdERlYnVnZ2FibGVcIlxyXG4gICAgXSxcclxuICAgIFwiTm90RGVidWdnYWJsZVwiOiB7XCJ5ZXNcIjp7XCIkaXMtZGVidWdnYWJsZVwiOnRydWUsIFwiJG1hbmRhdG9yeVwiOnRydWUsIFwiJHZpc2libGVcIjpmYWxzZX19LFxyXG4gICAgXCJpcy1kZWJ1Z2dhYmxlXCIgOiBcIiRpcy1kZWJ1Z2dhYmxlXCIsXHJcbiAgICBcInNneC1tcnNpZ25lclwiIDogXCIkc2d4LW1yc2lnbmVyXCIsXHJcbiAgICBcInNneC1tcmVuY2xhdmVcIiA6IFwiJHNneC1tcmVuY2xhdmVcIixcclxuICAgIFwicHJvZHVjdC1pZFwiIDogXCIkcHJvZHVjdC1pZFwiLFxyXG4gICAgXCJzdm5cIiA6IFwiJHN2blwiLFxyXG4gICAgXCJ0ZWVcIiA6IFwiJHRlZVwiXHJcbn0ifQ.\""
+  responses:
+  - statusCode: "200"
+    body: "\"eyJhbGciOiAiUlMyNTYiLCAiamt1IjogImh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9jZXJ0cyIsICJraWQiOiAieWtJd00rcnRNcnhFZkZJVHY2TGZjVG03eWszUkxXRXBkN1lsZmJyTk1JST0iLCAidHlwIjogIkpXVCJ9.eyJhYXMtcG9saWN5SGFzaCI6ICJ2MG9QNG9KWkVKWnh4SXhFNmJiVVAxa1JSbWVfZXgtUHV4NlF0c1U4STdNIiwgImV4cCI6IDE1NzM4NjI5NzQsICJpYXQiOiAxNTczODU5Mzc0LCAiaXNzIjogImh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsICJuYmYiOiAxNTczODU5Mzc0fQ.FTMpKwZHJa5l9_Mdxl60FtSDOr9kLRDYw3UAofMXJ-eOEvm4FdNM69YHR6Oy_i1uUEnVDAnMHhR0APTXgKqoR7gDxxfJG_RgiQqsTmQ-ucmXNL2Ck--sH3bz9OfIocPYSN0FBWiq6fgG6iX_oMX1hs-ENsF7B3jSp1nVL8NWtWk\""
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400",
+          "message": "error message"
+        }
+      }
+  - statusCode: "401"
+    body: "\"\""
+security: []
+errorCodes: []
