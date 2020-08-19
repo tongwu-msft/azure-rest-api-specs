@@ -5920,6 +5920,27 @@
 ### [List](healthcareapis/Services/List.yml)
 ### [List By Resource Group](healthcareapis/Services/ListByResourceGroup.yml)
 ### [Update](healthcareapis/Services/Update.yml)
+# Hybrid Compute
+## [Overview](../docs-ref-conceptual/hybridcompute/index.md)
+## Machine Extensions
+### [Overview](hybridcompute/MachineExtensions.yml)
+### [Create Or Update](hybridcompute/MachineExtensions/CreateOrUpdate.yml)
+### [Delete](hybridcompute/MachineExtensions/Delete.yml)
+### [Get](hybridcompute/MachineExtensions/Get.yml)
+### [List](hybridcompute/MachineExtensions/List.yml)
+### [Update](hybridcompute/MachineExtensions/Update.yml)
+## Machines
+### [Overview](hybridcompute/Machines.yml)
+### [Create Or Update](hybridcompute/Machines/CreateOrUpdate.yml)
+### [Delete](hybridcompute/Machines/Delete.yml)
+### [Get](hybridcompute/Machines/Get.yml)
+### [List By Resource Group](hybridcompute/Machines/ListByResourceGroup.yml)
+### [List By Subscription](hybridcompute/Machines/ListBySubscription.yml)
+### [Reconnect](hybridcompute/Machines/Reconnect.yml)
+### [Update](hybridcompute/Machines/Update.yml)
+## Operations
+### [Overview](hybridcompute/Operations.yml)
+### [List](hybridcompute/Operations/List.yml)
 # Internet Analyzer
 ## [Overview](../docs-ref-conceptual/internetanalyzer/index.md)
 ## Experiments
