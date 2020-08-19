@@ -1524,6 +1524,38 @@
 ### [List Admin Credentials](avs/PrivateClouds/ListAdminCredentials.yml)
 ### [List In Subscription](avs/PrivateClouds/ListInSubscription.yml)
 ### [Update](avs/PrivateClouds/Update.yml)
+# Azure Attestation
+## [Overview](../docs-ref-conceptual/attestation/index.md)
+## Attestation Providers
+### [Overview](attestation/AttestationProviders.yml)
+### [Create](attestation/AttestationProviders/Create.yml)
+### [Delete](attestation/AttestationProviders/Delete.yml)
+### [Get](attestation/AttestationProviders/Get.yml)
+### [Get Default By Location](attestation/AttestationProviders/GetDefaultByLocation.yml)
+### [List](attestation/AttestationProviders/List.yml)
+### [List By Resource Group](attestation/AttestationProviders/ListByResourceGroup.yml)
+### [List Default](attestation/AttestationProviders/ListDefault.yml)
+### [Update](attestation/AttestationProviders/Update.yml)
+## Metadata Configuration
+### [Overview](attestation/MetadataConfiguration.yml)
+### [Get](attestation/MetadataConfiguration/Get.yml)
+## Operations
+### [Overview](attestation/Operations.yml)
+### [List](attestation/Operations/List.yml)
+## Policy
+### [Overview](attestation/Policy.yml)
+### [Get](attestation/Policy/Get.yml)
+### [Prepare To Set](attestation/Policy/PrepareToSet.yml)
+### [Reset](attestation/Policy/Reset.yml)
+### [Set](attestation/Policy/Set.yml)
+## Policy Certificates
+### [Overview](attestation/PolicyCertificates.yml)
+### [Add](attestation/PolicyCertificates/Add.yml)
+### [Get](attestation/PolicyCertificates/Get.yml)
+### [Remove](attestation/PolicyCertificates/Remove.yml)
+## Signing Certificates
+### [Overview](attestation/SigningCertificates.yml)
+### [Get](attestation/SigningCertificates/Get.yml)
 # Azure Kusto
 ## [Overview](../docs-ref-conceptual/azurerekusto/index.md)
 ## Attached Database Configurations
