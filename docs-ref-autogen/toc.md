@@ -2816,8 +2816,17 @@
 ## Operations
 ### [Overview](cdn/Operations.yml)
 ### [List](cdn/Operations/List.yml)
+## Origin Groups
+### [Overview](cdn/OriginGroups.yml)
+### [Create](cdn/OriginGroups/Create.yml)
+### [Delete](cdn/OriginGroups/Delete.yml)
+### [Get](cdn/OriginGroups/Get.yml)
+### [List By Endpoint](cdn/OriginGroups/ListByEndpoint.yml)
+### [Update](cdn/OriginGroups/Update.yml)
 ## Origins
 ### [Overview](cdn/Origins.yml)
+### [Create](cdn/Origins/Create.yml)
+### [Delete](cdn/Origins/Delete.yml)
 ### [Get](cdn/Origins/Get.yml)
 ### [List By Endpoint](cdn/Origins/ListByEndpoint.yml)
 ### [Update](cdn/Origins/Update.yml)
