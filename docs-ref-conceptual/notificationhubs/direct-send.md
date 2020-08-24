@@ -1,5 +1,6 @@
 ﻿---
 title: "Direct send"
+description: "Send a notification directly to a device handle."
 ms.custom: ""
 ms.date: 08/24/2020
 ms.reviewer: ""

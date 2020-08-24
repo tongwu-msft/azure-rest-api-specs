@@ -1,5 +1,6 @@
 ﻿---
 title: "Get Platform Notification Services (PNS) feedback"
+description: "Retrieve an Azure Storage container URL."
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""
