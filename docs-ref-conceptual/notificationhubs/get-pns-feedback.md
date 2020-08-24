@@ -7,9 +7,9 @@ ms.service: "notification-hubs"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
-author: "spelluru"
-ms.author: "spelluru"
-manager: "timlt"
+author: "sethmanheim"
+ms.author: "sethm"
+manager: "femila"
 
 ---
 
