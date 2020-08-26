@@ -1,5 +1,6 @@
 ---
 title: Azure Retail Prices REST API overview
+description: Provides operations to programmatically get Azure service retail prices.
 author: bandersmsft
 ms.author: banders
 ms.reviewer: mumami
@@ -8,7 +9,7 @@ ms.topic: reference
 ms.service: cost-management-billing
 ms.subservice: cost-management
 ms.devlang: rest-api
-service_description: Provides operations to programmatically get Azure service retail prices.
+
 ---
 
 # Azure retail prices overview
