@@ -78,9 +78,6 @@ Here's a sample API response with reservation prices and term in the response.
             "armSkuName": "Standard_E64_v4"
         }
 ```
-
-
-
 Here's all the property details that are a part of the API response.
 
 | Field | Example Values | Definition |
@@ -89,8 +86,7 @@ Here's all the property details that are a part of the API response.
 | tierMinimumUnits | 0 | Minimum units of consumption to avail the price |
 | reservationTerm | 1 year | Reservation term – 1 year or 3 years |
 | retailPrice | 0.176346 | Prices without discount |
-| unitPrice | 0.176346 |
- |
+| unitPrice | 0.176346 |  |
 | armRegionName | westeurope | ARM region where the service is available.This version only supports prices on Commercial Cloud. |
 | Location | EU West | Azure data center where the resource is deployed |
 | effectiveStartDate | 2020-08-01T00:00:00Z | Optional field. Shows the date when the retail prices are effective.  |
@@ -105,8 +101,7 @@ Here's all the property details that are a part of the API response.
 | serviceFamily | Compute | Service family of the SKU |
 | unitOfMeasure | 1 Hour | How usage is measured for the service |
 | Type | DevTestConsumption | Meter consumption type. Other types are _Reservation, Consumption._ |
-| isPrimaryMeterRegion | True |
- |
+| isPrimaryMeterRegion | True |  |
 | armSkuName | Standard\_F16s | SKU name registered in Azure |
 
 Filters are supported for the following fields:
