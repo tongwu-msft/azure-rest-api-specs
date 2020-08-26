@@ -4,12 +4,11 @@ description: Provides operations to programmatically get Azure service retail pr
 author: bandersmsft
 ms.author: banders
 ms.reviewer: mumami
-ms.date: 01/18/2020
+ms.date: 08/26/2020
 ms.topic: reference
 ms.service: cost-management-billing
 ms.subservice: cost-management
 ms.devlang: rest-api
-
 ---
 
 # Azure retail prices overview
