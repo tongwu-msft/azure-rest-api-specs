@@ -48,6 +48,7 @@ The `Create Share` operation creates a new share under the specified account. If
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-meta-name:value`|Optional. A name-value pair to associate with the share as metadata.<br /><br /> Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
 |`x-ms-share-quota`|Optional. Supported in version 2015-02-21 and above. Specifies the maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5TB (5120).|  
+|`x-ms-access-tier`|Optional. Supported in version 2019-12-12 and above, for general purpose v2 accounts only. Specifies the access tier of the share. Valid values are `Hot`/`Cool`/`TransactionOptimized`.For detailed information about file share tiering see [Azure files storage tiers](https://docs.microsoft.com/en-us/azure/storage/files/storage-files-planning#storage-tiers)|  
   
 ### Request Body  
  None.  

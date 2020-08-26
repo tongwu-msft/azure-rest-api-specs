@@ -74,6 +74,9 @@ The `Get Share Properties` request returns all user-defined metadata and system 
 |`x-ms-share-provisioned-ingress-mbps`|Version 2019-07-07 or newer. Premium File Shares only. Returns the ingress in MiB/s provisioned for the premium share.
 |`x-ms-share-provisioned-egress-mbps`|Version 2019-07-07 or newer. Premium File Shares only. Returns the egress in MiB/s provisioned for the premium share.
 |`x-ms-share-next-allowed-quota-downgrade-time`|Version 2019-07-07 or newer. Premium File Shares only. A DateTime value that specifies when the quota for the premium file share is permitted to be reduced. The date format follows RFC 1123.
+|`x-ms-access-tier`|Version 2019-12-12 or newer. Returns the current access tier of the share. TransationOptimized is the default tier of the share.|  
+|`x-ms-access-tier-change-time`|Version 2019-12-12 or newer. Returns the date and time the access tier on the share was last modified.|  
+|`x-ms-access-tier-transition-state`|Version 2019-12-12 or newer. If the share is undergoing tier transition, this indicates the tier it is transitioning from.|  
 
 ## Response Body  
  None.  
@@ -90,8 +93,11 @@ x-ms-meta-name: some_metadata
 Date: <date>  
 ETag: "0x8CB171DBEAD6A6B"  
 Last-Modified: <date>  
-x-ms-version: 2015-02-21  
+x-ms-version: 2019-12-12
 x-ms-share-quota: 1024
+x-ms-access-tier: TransactionOptimized
+x-ms-access-tier-change-time: Wed, 26 Aug 2020 00:23:10 GMT
+x-ms-access-tier-transition-state: pending-from-cool
 Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0  
 ```  
   

@@ -91,9 +91,12 @@ The `List Shares` operation returns a list of the shares and share snapshots und
         <Last-Modified>date/time-value</Last-Modified>  
         <Etag>etag</Etag>  
         <Quota>max-share-size</Quota>
-          <DeletedTime>Fri, 06 Dec 2019 18:29:52 GMT</ DeletedTime >  
-          <RemainingRetentionDays>360</RemainingRetentionDays>  
-      </Properties>  
+        <DeletedTime>Mon, 24 Aug 2020 04:56:10 GMT</DeletedTime>  
+        <RemainingRetentionDays>360</RemainingRetentionDays>
+        <AccessTier>TransactionOptimized</AccessTier>
+			  <AccessTierChangeTime>Mon, 24 Aug 2020 03:56:10 GMT</AccessTierChangeTime>
+        <AccessTierTransitionState>pending-from-cool</AccessTierTransitionState>
+      </Properties>
       <Metadata>  
         <metadata-name>value</metadata-name>  
       </Metadata>  
@@ -107,12 +110,17 @@ The `List Shares` operation returns a list of the shares and share snapshots und
  
  The `Version`, `Deleted`, `DeletedTime` and `RemainingRetentionDays` elements appears in the response body only in versions 2019-12-12 and later.  
 
-
  The `Prefix`, `Marker`, and `MaxResults` elements are only present if they were specified on the URI. The `NextMarker` element has a value only if the list results are not complete.  
   
  The `Metadata` element is present only if the `include=metadata` parameter was specified on the URI. Within the `Metadata` element, the value of each name-value pair is listed within an element corresponding to the pair's name.  
 
  The `Snapshots` are included in the response only if the`include=snapshots` parameter was specified with the include parameter on the request URI.
+
+ The `AccessTier` element holds default tier `TransactionOptimized` if tier is not explicitly set on the share.
+
+ The `AccessTierChangeTime` element is present only if the access tier on the share is explicitly set.
+
+ The `AccessTierTransitionState` element is present only if the share is tansitioning from one tier to another. And it indicates the tier it is transitioning from.
 
 ### Sample Response  
  See the [Sample Request and Response](#sample-request-and-response) section later in this topic.  
