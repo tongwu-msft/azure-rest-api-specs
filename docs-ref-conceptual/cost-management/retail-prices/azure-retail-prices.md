@@ -129,4 +129,4 @@ The Retail Prices API doesn't support the following functionalities:
 
 ## Next steps
 
-Learn about other [Cost Management APIs](../index.md).
+- Learn about other [Cost Management APIs](../index.md).
