@@ -4446,7 +4446,7 @@
 ### [Overview](cost-management/Operations.yml)
 ### [List](cost-management/Operations/List.yml)
 ## Prices
-### [Get Azure retail prices](../docs-ref-conceptual/cost-management/retail-prices/azure-retail-prices.md)
+### [Get Azure Retail Prices](../docs-ref-conceptual/cost-management/retail-prices/azure-retail-prices.md)
 ## Query
 ### [Overview](cost-management/Query.yml)
 ### [Usage](cost-management/Query/Usage.yml)
