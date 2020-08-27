@@ -11,13 +11,13 @@ ms.subservice: cost-management
 ms.devlang: rest-api
 ---
 
-# Azure retail prices overview
+# Azure Retail Prices overview
 
 Many Azure customers have been looking for a programmatic way to retrieve Azure service retail prices. Previously, the only way that you could retrieve prices for Azure services was to either use the Azure Pricing Calculator or go to the Azure portal. This API gives you an unauthenticated way to get retail rates for all Azure services. Use the API to explore prices for Azure services against different regions and different SKUs. The programmatic API can also help you build your own tools for internal analysis and price comparison.
 
 ## API endpoint
 
-https://prices.azure.com/api/retail/prices
+`https://prices.azure.com/api/retail/prices`
 
 ## API version
 
@@ -126,3 +126,7 @@ The Retail Prices API doesn't support the following functionalities:
 - The API doesn't support other currencies.
 - Azure Marketplace products aren't included in the response.
 - Part numbers aren't included in the response.
+
+## Next steps
+
+Learn about other [Cost Management APIs](../index.md).
