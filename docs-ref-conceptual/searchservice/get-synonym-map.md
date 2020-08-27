@@ -55,7 +55,8 @@ The response is similar to examples in [Create Synonym Map &#40;Azure Cognitive 
     "name" : "synonymmap1",  
     "format" : "solr",  
     "synonyms" : "United States, United States of America, USA\n
-    Washington, Wash. => WA"
+    Washington, Wash. => WA",
+    "encryptionKey": null
 }
 
 ```

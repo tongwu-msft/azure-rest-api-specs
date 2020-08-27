@@ -55,7 +55,8 @@ You can get the api-key value from your service dashboard in the Azure portal. F
     "dataSourceName" : "ordersds",  
     "targetIndexName" : "orders",  
     "schedule" : { "interval" : "PT1H", "startTime" : "2015-01-01T00:00:00Z" },  
-    "parameters" : { "maxFailedItems" : 10, "maxFailedItemsPerBatch" : 5, "base64EncodeKeys": false }  
+    "parameters" : { "maxFailedItems" : 10, "maxFailedItemsPerBatch" : 5, "base64EncodeKeys": false },
+    "encryptionKey": null
 }  
 ```
 

@@ -68,7 +68,8 @@ The response body is similar to examples in [Create Data Source &#40;Azure Cogni
     "dataDeletionDetectionPolicy" : {
         "@odata.type" : "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy",  
         "softDeleteColumnName" : "IsDeleted",
-        "softDeleteMarkerValue" : "true" }  
+        "softDeleteMarkerValue" : "true" },
+    "encryptionKey": null
 }  
 
 ```  
