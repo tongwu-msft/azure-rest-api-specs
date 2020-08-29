@@ -1788,7 +1788,7 @@
 ### [Get](netapp/Accounts/Get.yml)
 ### [List](netapp/Accounts/List.yml)
 ### [Update](netapp/Accounts/Update.yml)
-## Net App Resource
+## NetApp Resource
 ### [Overview](netapp/NetAppResource.yml)
 ### [Check File Path Availability](netapp/NetAppResource/CheckFilePathAvailability.yml)
 ### [Check Name Availability](netapp/NetAppResource/CheckNameAvailability.yml)
@@ -1897,6 +1897,9 @@
 ## Operations
 ### [Overview](azurespringclould/Operations.yml)
 ### [List](azurespringclould/Operations/List.yml)
+## Runtime Versions
+### [Overview](azurespringclould/RuntimeVersions.yml)
+### [List Runtime Versions](azurespringclould/RuntimeVersions/ListRuntimeVersions.yml)
 ## Services
 ### [Overview](azurespringclould/Services.yml)
 ### [Check Name Availability](azurespringclould/Services/CheckNameAvailability.yml)
@@ -2636,6 +2639,9 @@
 ##### [Overview](billing/2019-10-01-preview/EnrollmentAccounts.yml)
 ##### [Get By Enrollment Account Id](billing/2019-10-01-preview/EnrollmentAccounts/GetByEnrollmentAccountId.yml)
 ##### [List By Billing Account Name](billing/2019-10-01-preview/EnrollmentAccounts/ListByBillingAccountName.yml)
+#### Enrollment Department Role Assignments
+##### [Overview](billing/2019-10-01-preview/EnrollmentDepartmentRoleAssignments.yml)
+##### [Put](billing/2019-10-01-preview/EnrollmentDepartmentRoleAssignments/Put.yml)
 #### Instructions
 ##### [Overview](billing/2019-10-01-preview/Instructions.yml)
 ##### [Get](billing/2019-10-01-preview/Instructions/Get.yml)
@@ -2696,6 +2702,9 @@
 ##### [Get](billing/2019-10-01-preview/RecipientTransfers/Get.yml)
 ##### [List](billing/2019-10-01-preview/RecipientTransfers/List.yml)
 ##### [Validate](billing/2019-10-01-preview/RecipientTransfers/Validate.yml)
+#### Role Assignments
+##### [Overview](billing/2019-10-01-preview/RoleAssignments.yml)
+##### [Put](billing/2019-10-01-preview/RoleAssignments/Put.yml)
 #### Transactions
 ##### [Overview](billing/2019-10-01-preview/Transactions.yml)
 ##### [Get](billing/2019-10-01-preview/Transactions/Get.yml)
@@ -2867,6 +2876,7 @@
 #### [Create Or Update](cognitiveservices/accountmanagement/PrivateEndpointConnections/CreateOrUpdate.yml)
 #### [Delete](cognitiveservices/accountmanagement/PrivateEndpointConnections/Delete.yml)
 #### [Get](cognitiveservices/accountmanagement/PrivateEndpointConnections/Get.yml)
+#### [List](cognitiveservices/accountmanagement/PrivateEndpointConnections/List.yml)
 ### Private Link Resources
 #### [Overview](cognitiveservices/accountmanagement/PrivateLinkResources.yml)
 #### [List](cognitiveservices/accountmanagement/PrivateLinkResources/List.yml)
@@ -2874,15 +2884,15 @@
 #### [Overview](cognitiveservices/accountmanagement/ResourceSkus.yml)
 #### [List](cognitiveservices/accountmanagement/ResourceSkus/List.yml)
 ## Anomaly Detector
-### Change Point Detect
-#### [Overview](cognitiveservices/anomalydetector/ChangePointDetect.yml)
-#### [Change Point Detect](cognitiveservices/anomalydetector/ChangePointDetect/ChangePointDetect.yml)
-### Entire Detect
-#### [Overview](cognitiveservices/anomalydetector/EntireDetect.yml)
-#### [Entire Detect](cognitiveservices/anomalydetector/EntireDetect/EntireDetect.yml)
-### Last Detect
-#### [Overview](cognitiveservices/anomalydetector/LastDetect.yml)
-#### [Last Detect](cognitiveservices/anomalydetector/LastDetect/LastDetect.yml)
+### Detect Change Point
+#### [Overview](cognitiveservices/anomalydetector/DetectChangePoint.yml)
+#### [Detect Change Point](cognitiveservices/anomalydetector/DetectChangePoint/DetectChangePoint.yml)
+### Detect Entire Series
+#### [Overview](cognitiveservices/anomalydetector/DetectEntireSeries.yml)
+#### [Detect Entire Series](cognitiveservices/anomalydetector/DetectEntireSeries/DetectEntireSeries.yml)
+### Detect Last Point
+#### [Overview](cognitiveservices/anomalydetector/DetectLastPoint.yml)
+#### [Detect Last Point](cognitiveservices/anomalydetector/DetectLastPoint/DetectLastPoint.yml)
 ## Bing Visual Search
 ### Images
 #### [Overview](cognitiveservices/bingvisualsearch/Images.yml)
@@ -4420,47 +4430,54 @@
 ##### [Update Table Throughput](cosmos-db-resource-provider/2020-06-01-preview/TableResources/UpdateTableThroughput.yml)
 # Cost Management
 ## [Overview](../docs-ref-conceptual/cost-management/index.md)
-## Alerts
-### [Overview](cost-management/Alerts.yml)
-### [Dismiss](cost-management/Alerts/Dismiss.yml)
-### [Get](cost-management/Alerts/Get.yml)
-### [List](cost-management/Alerts/List.yml)
-### [List External](cost-management/Alerts/ListExternal.yml)
-## Dimensions
-### [Overview](cost-management/Dimensions.yml)
-### [By External Cloud Provider Type](cost-management/Dimensions/ByExternalCloudProviderType.yml)
-### [List](cost-management/Dimensions/List.yml)
-## Exports
-### [Overview](cost-management/Exports.yml)
-### [Create Or Update](cost-management/Exports/CreateOrUpdate.yml)
-### [Delete](cost-management/Exports/Delete.yml)
-### [Execute](cost-management/Exports/Execute.yml)
-### [Get](cost-management/Exports/Get.yml)
-### [Get Execution History](cost-management/Exports/GetExecutionHistory.yml)
-### [List](cost-management/Exports/List.yml)
-## Forecast
-### [Overview](cost-management/Forecast.yml)
-### [External Cloud Provider Usage](cost-management/Forecast/ExternalCloudProviderUsage.yml)
-### [Usage](cost-management/Forecast/Usage.yml)
-## Operations
-### [Overview](cost-management/Operations.yml)
-### [List](cost-management/Operations/List.yml)
-## Prices
-### [Get Azure Retail Prices](../docs-ref-conceptual/cost-management/retail-prices/azure-retail-prices.md)
-## Query
-### [Overview](cost-management/Query.yml)
-### [Usage](cost-management/Query/Usage.yml)
-### [Usage By External Cloud Provider Type](cost-management/Query/UsageByExternalCloudProviderType.yml)
-## Views
-### [Overview](cost-management/Views.yml)
-### [Create Or Update](cost-management/Views/CreateOrUpdate.yml)
-### [Create Or Update By Scope](cost-management/Views/CreateOrUpdateByScope.yml)
-### [Delete](cost-management/Views/Delete.yml)
-### [Delete By Scope](cost-management/Views/DeleteByScope.yml)
-### [Get](cost-management/Views/Get.yml)
-### [Get By Scope](cost-management/Views/GetByScope.yml)
-### [List](cost-management/Views/List.yml)
-### [List By Scope](cost-management/Views/ListByScope.yml)
+## 2019-11-01
+### Alerts
+#### [Overview](cost-management/2019-11-01/Alerts.yml)
+#### [Dismiss](cost-management/2019-11-01/Alerts/Dismiss.yml)
+#### [Get](cost-management/2019-11-01/Alerts/Get.yml)
+#### [List](cost-management/2019-11-01/Alerts/List.yml)
+#### [List External](cost-management/2019-11-01/Alerts/ListExternal.yml)
+### Dimensions
+#### [Overview](cost-management/2019-11-01/Dimensions.yml)
+#### [By External Cloud Provider Type](cost-management/2019-11-01/Dimensions/ByExternalCloudProviderType.yml)
+#### [List](cost-management/2019-11-01/Dimensions/List.yml)
+### Exports
+#### [Overview](cost-management/2019-11-01/Exports.yml)
+#### [Create Or Update](cost-management/2019-11-01/Exports/CreateOrUpdate.yml)
+#### [Delete](cost-management/2019-11-01/Exports/Delete.yml)
+#### [Execute](cost-management/2019-11-01/Exports/Execute.yml)
+#### [Get](cost-management/2019-11-01/Exports/Get.yml)
+#### [Get Execution History](cost-management/2019-11-01/Exports/GetExecutionHistory.yml)
+#### [List](cost-management/2019-11-01/Exports/List.yml)
+### Forecast
+#### [Overview](cost-management/2019-11-01/Forecast.yml)
+#### [External Cloud Provider Usage](cost-management/2019-11-01/Forecast/ExternalCloudProviderUsage.yml)
+#### [Usage](cost-management/2019-11-01/Forecast/Usage.yml)
+### Operations
+#### [Overview](cost-management/2019-11-01/Operations.yml)
+#### [List](cost-management/2019-11-01/Operations/List.yml)
+### Query
+#### [Overview](cost-management/2019-11-01/Query.yml)
+#### [Usage](cost-management/2019-11-01/Query/Usage.yml)
+#### [Usage By External Cloud Provider Type](cost-management/2019-11-01/Query/UsageByExternalCloudProviderType.yml)
+### Views
+#### [Overview](cost-management/2019-11-01/Views.yml)
+#### [Create Or Update](cost-management/2019-11-01/Views/CreateOrUpdate.yml)
+#### [Create Or Update By Scope](cost-management/2019-11-01/Views/CreateOrUpdateByScope.yml)
+#### [Delete](cost-management/2019-11-01/Views/Delete.yml)
+#### [Delete By Scope](cost-management/2019-11-01/Views/DeleteByScope.yml)
+#### [Get](cost-management/2019-11-01/Views/Get.yml)
+#### [Get By Scope](cost-management/2019-11-01/Views/GetByScope.yml)
+#### [List](cost-management/2019-11-01/Views/List.yml)
+#### [List By Scope](cost-management/2019-11-01/Views/ListByScope.yml)
+## 2020-03-01-preview
+### Cost Allocation Rules
+#### [Overview](cost-management/2020-03-01-preview/CostAllocationRules.yml)
+#### [Check Name Availability](cost-management/2020-03-01-preview/CostAllocationRules/CheckNameAvailability.yml)
+#### [Create Or Update](cost-management/2020-03-01-preview/CostAllocationRules/CreateOrUpdate.yml)
+#### [Delete](cost-management/2020-03-01-preview/CostAllocationRules/Delete.yml)
+#### [Get](cost-management/2020-03-01-preview/CostAllocationRules/Get.yml)
+#### [List](cost-management/2020-03-01-preview/CostAllocationRules/List.yml)
 # Custom Providers
 ## [Overview](../docs-ref-conceptual/customproviders/index.md)
 ## Associations
@@ -6213,6 +6230,15 @@
 ##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles.yml)
 ##### [Remove Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles/RemoveRoles.yml)
 ### Service
+#### Bulk Registry Rest Client
+##### [Overview](iothub/service/BulkRegistryRestClient.yml)
+##### [Update Registry](iothub/service/BulkRegistryRestClient/UpdateRegistry.yml)
+#### Cloud To Device Messages
+##### [Overview](iothub/service/CloudToDeviceMessages.yml)
+##### [Abandon Feedback Notification](iothub/service/CloudToDeviceMessages/AbandonFeedbackNotification.yml)
+##### [Complete Feedback Notification](iothub/service/CloudToDeviceMessages/CompleteFeedbackNotification.yml)
+##### [Purge Cloud To Device Message Queue](iothub/service/CloudToDeviceMessages/PurgeCloudToDeviceMessageQueue.yml)
+##### [Receive Feedback Notification](iothub/service/CloudToDeviceMessages/ReceiveFeedbackNotification.yml)
 #### Configuration
 ##### [Overview](iothub/service/Configuration.yml)
 ##### [Apply On Edge Device](iothub/service/Configuration/ApplyOnEdgeDevice.yml)
@@ -6221,58 +6247,49 @@
 ##### [Get](iothub/service/Configuration/Get.yml)
 ##### [Get Configurations](iothub/service/Configuration/GetConfigurations.yml)
 ##### [Test Queries](iothub/service/Configuration/TestQueries.yml)
-#### Device Method
-##### [Overview](iothub/service/DeviceMethod.yml)
-##### [Invoke Device Method](iothub/service/DeviceMethod/InvokeDeviceMethod.yml)
-##### [Invoke Module Method](iothub/service/DeviceMethod/InvokeModuleMethod.yml)
+#### Devices
+##### [Overview](iothub/service/Devices.yml)
+##### [Create Or Update Identity](iothub/service/Devices/CreateOrUpdateIdentity.yml)
+##### [Delete Identity](iothub/service/Devices/DeleteIdentity.yml)
+##### [Get Devices](iothub/service/Devices/GetDevices.yml)
+##### [Get Identity](iothub/service/Devices/GetIdentity.yml)
+##### [Get Twin](iothub/service/Devices/GetTwin.yml)
+##### [Invoke Method](iothub/service/Devices/InvokeMethod.yml)
+##### [Replace Twin](iothub/service/Devices/ReplaceTwin.yml)
+##### [Update Twin](iothub/service/Devices/UpdateTwin.yml)
 #### Digital Twin
 ##### [Overview](iothub/service/DigitalTwin.yml)
 ##### [Get Digital Twin](iothub/service/DigitalTwin/GetDigitalTwin.yml)
 ##### [Invoke Component Command](iothub/service/DigitalTwin/InvokeComponentCommand.yml)
 ##### [Invoke Root Level Command](iothub/service/DigitalTwin/InvokeRootLevelCommand.yml)
 ##### [Update Digital Twin](iothub/service/DigitalTwin/UpdateDigitalTwin.yml)
-#### Fault Injection
-##### [Overview](iothub/service/FaultInjection.yml)
-##### [Get](iothub/service/FaultInjection/Get.yml)
-##### [Set](iothub/service/FaultInjection/Set.yml)
-#### Http Runtime
-##### [Overview](iothub/service/HttpRuntime.yml)
-##### [Abandon Feedback Notification](iothub/service/HttpRuntime/AbandonFeedbackNotification.yml)
-##### [Complete Feedback Notification](iothub/service/HttpRuntime/CompleteFeedbackNotification.yml)
-##### [Receive Feedback Notification](iothub/service/HttpRuntime/ReceiveFeedbackNotification.yml)
-#### Job Client
-##### [Overview](iothub/service/JobClient.yml)
-##### [Cancel Import Export Job](iothub/service/JobClient/CancelImportExportJob.yml)
-##### [Cancel Job](iothub/service/JobClient/CancelJob.yml)
-##### [Create Import Export Job](iothub/service/JobClient/CreateImportExportJob.yml)
-##### [Create Job](iothub/service/JobClient/CreateJob.yml)
-##### [Get Import Export Job](iothub/service/JobClient/GetImportExportJob.yml)
-##### [Get Import Export Jobs](iothub/service/JobClient/GetImportExportJobs.yml)
-##### [Get Job](iothub/service/JobClient/GetJob.yml)
-##### [Query Jobs](iothub/service/JobClient/QueryJobs.yml)
-#### Registry Manager
-##### [Overview](iothub/service/RegistryManager.yml)
-##### [Bulk Device CRUD](iothub/service/RegistryManager/BulkDeviceCRUD.yml)
-##### [Create Or Update Device](iothub/service/RegistryManager/CreateOrUpdateDevice.yml)
-##### [Create Or Update Module](iothub/service/RegistryManager/CreateOrUpdateModule.yml)
-##### [Delete Device](iothub/service/RegistryManager/DeleteDevice.yml)
-##### [Delete Module](iothub/service/RegistryManager/DeleteModule.yml)
-##### [Get Device](iothub/service/RegistryManager/GetDevice.yml)
-##### [Get Device Statistics](iothub/service/RegistryManager/GetDeviceStatistics.yml)
-##### [Get Devices](iothub/service/RegistryManager/GetDevices.yml)
-##### [Get Module](iothub/service/RegistryManager/GetModule.yml)
-##### [Get Modules On Device](iothub/service/RegistryManager/GetModulesOnDevice.yml)
-##### [Get Service Statistics](iothub/service/RegistryManager/GetServiceStatistics.yml)
-##### [Purge Command Queue](iothub/service/RegistryManager/PurgeCommandQueue.yml)
-##### [Query Iot Hub](iothub/service/RegistryManager/QueryIotHub.yml)
-#### Twin
-##### [Overview](iothub/service/Twin.yml)
-##### [Get Device Twin](iothub/service/Twin/GetDeviceTwin.yml)
-##### [Get Module Twin](iothub/service/Twin/GetModuleTwin.yml)
-##### [Replace Device Twin](iothub/service/Twin/ReplaceDeviceTwin.yml)
-##### [Replace Module Twin](iothub/service/Twin/ReplaceModuleTwin.yml)
-##### [Update Device Twin](iothub/service/Twin/UpdateDeviceTwin.yml)
-##### [Update Module Twin](iothub/service/Twin/UpdateModuleTwin.yml)
+#### Jobs
+##### [Overview](iothub/service/Jobs.yml)
+##### [Cancel Import Export Job](iothub/service/Jobs/CancelImportExportJob.yml)
+##### [Cancel Scheduled Job](iothub/service/Jobs/CancelScheduledJob.yml)
+##### [Create Import Export Job](iothub/service/Jobs/CreateImportExportJob.yml)
+##### [Create Scheduled Job](iothub/service/Jobs/CreateScheduledJob.yml)
+##### [Get Import Export Job](iothub/service/Jobs/GetImportExportJob.yml)
+##### [Get Import Export Jobs](iothub/service/Jobs/GetImportExportJobs.yml)
+##### [Get Scheduled Job](iothub/service/Jobs/GetScheduledJob.yml)
+##### [Query Scheduled Jobs](iothub/service/Jobs/QueryScheduledJobs.yml)
+#### Modules
+##### [Overview](iothub/service/Modules.yml)
+##### [Create Or Update Identity](iothub/service/Modules/CreateOrUpdateIdentity.yml)
+##### [Delete Identity](iothub/service/Modules/DeleteIdentity.yml)
+##### [Get Identity](iothub/service/Modules/GetIdentity.yml)
+##### [Get Modules On Device](iothub/service/Modules/GetModulesOnDevice.yml)
+##### [Get Twin](iothub/service/Modules/GetTwin.yml)
+##### [Invoke Method](iothub/service/Modules/InvokeMethod.yml)
+##### [Replace Twin](iothub/service/Modules/ReplaceTwin.yml)
+##### [Update Twin](iothub/service/Modules/UpdateTwin.yml)
+#### Query
+##### [Overview](iothub/service/Query.yml)
+##### [Get Twins](iothub/service/Query/GetTwins.yml)
+#### Statistics
+##### [Overview](iothub/service/Statistics.yml)
+##### [Get Device Statistics](iothub/service/Statistics/GetDeviceStatistics.yml)
+##### [Get Service Statistics](iothub/service/Statistics/GetServiceStatistics.yml)
 # IoT Hub Device Provisioning Service
 ## [Overview](../docs-ref-conceptual/iot-dps/index.md)
 ## Create Or Update Enrollment Group
@@ -8972,12 +8989,6 @@
 #### [List By Resource Group](searchmanagement/Services/ListByResourceGroup.yml)
 #### [List By Subscription](searchmanagement/Services/ListBySubscription.yml)
 #### [Update](searchmanagement/Services/Update.yml)
-### Shared Private Link Resources
-#### [Overview](searchmanagement/SharedPrivateLinkResources.yml)
-#### [Create Or Update](searchmanagement/SharedPrivateLinkResources/CreateOrUpdate.yml)
-#### [Delete](searchmanagement/SharedPrivateLinkResources/Delete.yml)
-#### [Get](searchmanagement/SharedPrivateLinkResources/Get.yml)
-#### [List By Service](searchmanagement/SharedPrivateLinkResources/ListByService.yml)
 # Search Service
 ## [Overview](../docs-ref-conceptual/searchservice/index.md)
 ## [API versions](../docs-ref-conceptual/searchservice/search-service-api-versions.md)
