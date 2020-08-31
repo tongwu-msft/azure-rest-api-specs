@@ -17,7 +17,7 @@ The Management REST API of Azure Cognitive Search provides programmatic access t
 
 + Create or delete a search service
 + Create, regenerate, or retrieve `api-keys` (query or admin keys)
-+ Creates or update a shared private link for search services that are accessed from network components in an Azure virtual network
++ Create or update shared private links used to access a search service from network components in an Azure virtual network
 + Add or remove replicas and partitions (units of capacity that back a search service)
 
 For all other tasks, such as creating and querying an index, use the [Search Service REST API](https://docs.microsoft.com/rest/api/searchservice/) instead.
@@ -26,17 +26,21 @@ To fully administer your service programmatically, you will need two APIs: the M
 
 To get started, see [Manage a search service with PowerShell](https://docs.microsoft.com/azure/search/search-manage-powershell) for step-by-step instruction.
 
-## Endpoint
+## Connect to the management endpoint
 
-To create and manage Azure Cognitive Search services in your subscription, make sure your HTTP request includes the Resource Manager endpoint, subscription ID, provider (in this case, Azure Cognitive Search), and the search service-specific operation.
-
-The endpoint for service administration operations is the URL of Azure Resource Manager: `https://management.azure.com`, plus a subscription ID, plus service and API information.
+To manage your search service programmatically, specify the Resource Manager endpoint `https://management.azure.com`. An HTTP request includes the Resource Manager endpoint, subscription ID, provider (in this case, Azure Cognitive Search), and the search service-specific operation. 
 
 A fully specified endpoint has the following components:
 
 ```http
 https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2020-08-01
 ```
+
+The following tools are commonly used to call the management REST APIs:
+
++ [Azure Command-Line Interface (CLI)](https://docs.microsoft.com/cli/azure/)
++ [Postman](https://www.postman.com/downloads/) or other web API testing tools
++ [Az.Search PowerShell module](https://docs.microsoft.com/powershell/module/az.search) (updated on a separate schedule and is not guaranteed to have the enhancements)
 
 ## Endpoint protection
 

@@ -12,21 +12,20 @@ ms.manager: nitinme
 
 # Search Management
 
-Azure Cognitive Search provides a REST API used with [Azure Resource Manager](https://docs.microsoft.com/rest/api/resources/) to provision and administer a search service in your Azure subscription. To manage your search service programmatically, specify the Resource Manager endpoint `https://management.azure.com` with a search management operation:
-
-```http
-https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2020-08-01
-```
-
-Another option for calling the management REST APIs is using the [Az.Search PowerShell module](https://docs.microsoft.com/azure/search/search-manage-powershell) or the [Azure Command-Line Interface (CLI)](https://docs.microsoft.com/cli/azure/search?view=azure-cli-latest).
+Azure Cognitive Search provides a REST API used with [Azure Resource Manager](https://docs.microsoft.com/rest/api/resources/) to provision and administer a search service in an Azure subscription.
 
 ## Other SDKs
 
-The following additional SDKs provide programmatic support for managing a search service programmatically:
+The REST APIs are foundational to Azure Cognitive Search. All API additions, deletions, and enhancements are reflected in the REST APIs first.
 
-+ [Search Management libraries for .NET](https://aka.ms/search-mgmt-sdk)
+Alternatives include the following SDKs, which are independently updated on separate release schedules:
 
-+ [Search Management libraries for Python](https://docs.microsoft.com/python/api/overview/azure/search?view=azure-python)
++ [.NET](https://docs.microsoft.com/dotnet/api/overview/azure/search/management)
++ [Python](https://docs.microsoft.com/python/api/overview/azure/search/management?view=azure-python)
++ [Go (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.go.md)
++ [Node.js (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.nodejs.md)
++ [Ruby (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.ruby.md)
++ [TypeScript (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.typescript.md)
 
 ## Next steps
 

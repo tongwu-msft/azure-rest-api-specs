@@ -25,11 +25,9 @@ ms.manager: nitinme
 
 + `api-version=2019-08-01-Preview`: [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2020-08-01-preview).
 
-  This is equivalent to the generally available version `2020-08-01`, but adds the creation of [`sharedPrivateLinkResources`](https://docs.microsoft.com/rest/api/searchmanagement/sharedprivatelinkresources) on a few more resources.
+  This preview API is equivalent to the generally available version `2020-08-01`, but adds preview support for creating[`sharedPrivateLinkResources`](https://docs.microsoft.com/rest/api/searchmanagement/sharedprivatelinkresources) on a few more resources.
 
 + `api-version=2019-10-01-Preview`: [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview).
-
-This is the most recent preview API version and it is equivalent to the generally available version (`2020-03-13`).
 
 ## See also
 
