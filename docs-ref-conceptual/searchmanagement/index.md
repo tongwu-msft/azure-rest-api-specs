@@ -1,6 +1,6 @@
 ---
 title: Management REST APIs in Azure Cognitive Search | Microsoft Docs
-description: Script or automate Azure Cognitive Search service provisioning, key management, or resource configuration using REST APIs and Resource Manager APIs.
+description: API reference for provisioning an Azure Cognitive Search service for public or private access. You can also manage API keys and configure capacity.
 ms.service: cognitive-search
 ms.topic: "language-reference"
 
