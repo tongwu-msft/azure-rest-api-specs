@@ -2,7 +2,6 @@
 title: "Azure API Management REST API Report entity"
 ms.custom: na
 ms.date: 08/26/2016
-ms.prod: azure
 ms.reviewer: na
 ms.service: api-management
 ms.suite: na

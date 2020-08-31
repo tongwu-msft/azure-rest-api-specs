@@ -1,0 +1,133 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurestack.storagequotas.get
+name: Get
+service: Azure Stack Admin
+groupName: Storage Quotas
+apiVersion: 2019-08-08-preview
+summary: Returns the specified storage quota.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Storage.Admin/locations/{location}/quotas/{quotaName}?api-version=2019-08-08-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription Id.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Resource location.
+  types:
+  - uid: string
+- name: quotaName
+  in: path
+  isRequired: true
+  description: The name of the storage quota.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: REST Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- The storage quota has been returned.
+  types:
+  - uid: StorageQuota
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: StorageQuota
+  description: Storage quota.
+  kind: object
+  properties:
+  - name: properties.numberOfStorageAccounts
+    description: Total number of storage accounts.
+    types:
+    - uid: integer
+  - name: properties.capacityInGb
+    description: Maximum capacity (GB).
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource Type.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: Resource Location.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The error response for request which failed.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error description code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error description message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target description.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details information.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: Returns the specified storage quota.
+  request:
+    uri: GET https://management.azure.com/subscriptions/9ad61516-995c-4873-a21f-7e44904f0ed2/providers/Microsoft.Storage.Admin/locations/local/quotas/TestCreateQuota?api-version=2019-08-08-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/9ad61516-995c-4873-a21f-7e44904f0ed2/providers/Microsoft.Storage.Admin/locations/local/quotas/TestCreateQuota",
+        "name": "local/TestCreateQuota",
+        "type": "Microsoft.Storage.Admin/locations/quotas",
+        "location": "local",
+        "properties": {
+          "numberOfStorageAccounts": 20,
+          "capacityInGb": 2048
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

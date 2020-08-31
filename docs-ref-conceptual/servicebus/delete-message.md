@@ -2,7 +2,6 @@
 title: "Delete Message"
 ms.custom: ""
 ms.date: "07/08/2020"
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -32,23 +31,23 @@ This operation completes the processing of a locked message and deletes it from 
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|http{s}://{serviceNamespace}.servicebus.windows.net/{queuePath}/messages/{messageId&#124;sequenceNumber}/{lockToken}<br /><br /> or<br /><br /> http{s}://{serviceNamespace}.servicebus.windows.net/{topicPath}/subscriptions/{subscriptionName}/messages/{messageId&#124;sequenceNumber}/{lockToken}|HTTP/1.1|  
+|DELETE|`http{s}://{serviceNamespace}.servicebus.windows.net/{queuePath}/messages/{messageId&#124;sequenceNumber}/{lockToken}`<br /><br /> or<br /><br /> `http{s}://{serviceNamespace}.servicebus.windows.net/{topicPath}/subscriptions/{subscriptionName}/messages/{messageId&#124;sequenceNumber}/{lockToken}|HTTP/1.1`|  
   
 ### URI Parameters  
  The URI is provided in the Location header of the peeked message, or you can construct it from the parts described in the following table.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`messageId`|The ID of the message to be deleted as returned in **BrokerProperties{MessageId}** by the **Peek Message** operation.|  
-|`sequence-number`|The sequence number of the message to be deleted as returned in **BrokerProperties{SequenceNumber}** by the **Peek Message** operation.|  
-|`lockToken`|The token of the lock of the message to be deleted as returned by the **Peek Message** operation in **BrokerProperties{LockToken}**.|  
+|`messageId`|The ID of the message to be deleted as returned in `BrokerProperties{MessageId}` by the **Peek Message** operation.|  
+|`sequence-number`|The sequence number of the message to be deleted as returned in `BrokerProperties{SequenceNumber}` by the **Peek Message** operation.|  
+|`lockToken`|The token of the lock of the message to be deleted as returned by the **Peek Message** operation in `BrokerProperties{LockToken}`.|  
   
 ### Request Headers  
  The following table describes required and optional request headers. In addition to the listed properties, the header can contain custom properties. See the example.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization|Specify one of the following:<ul><li> Azure Active Directory (AAD) JSON Web Token (JWT) token. <br/>Example: `Authorization: Bearer <AAD JWT token>`. <br/>For information on generating an AAD token, see [Authenticate from an application](https://docs.microsoft.com/azure/service-bus-messaging/authenticate-application#authenticate-from-an-application).</li><li>A SAS token. <br/>Example: `Authorization: SharedAccessSignature sr=<NAMESPACE NAME>.servicebus.windows.net&sig=<SHARED ACCESS KEY>&se=<TOKEN EXPIRY INSTANT>&skn=<SHARED KEY NAME>`. <br/>For information on generating a SAS token, see [Generate a Shared Access Signature token](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas#generate-a-shared-access-signature-token) and [Generate SAS token](https://docs.microsoft.com/rest/api/eventhub/generate-sas-token).</li></ul> |  
+|Authorization|Specify one of the following token values:<ul><li> Azure Active Directory (Azure AD) JSON Web Token (JWT) token. <br/>Example: `Authorization: Bearer <Azure AD JWT token>`. <br/>For information on generating an Azure AD token, see [Get an Azure AD token](get-azure-active-directory-token.md).</li><li>A SAS token. <br/>Example: `Authorization: SharedAccessSignature sr=<NAMESPACE NAME>.servicebus.windows.net&sig=<SHARED ACCESS KEY>&se=<TOKEN EXPIRY INSTANT>&skn=<SHARED KEY NAME>`. <br/>For information on generating a SAS token, see [Generate a Shared Access Signature token](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas#generate-a-shared-access-signature-token) and [Generate SAS token](https://docs.microsoft.com/rest/api/eventhub/generate-sas-token).</li></ul> |  
   
 ### Request Body  
  None.  
@@ -62,7 +61,7 @@ This operation completes the processing of a locked message and deletes it from 
 |----------|-----------------|  
 |200|Message successfully deleted.|  
 |401|Authorization failure.|  
-|404|No message was found with the specified **MessageId** or **LockToken**.|  
+|404|No message was found with the specified `MessageId` or `LockToken`.|  
 |410|Specified queue or subscription does not exist.|  
 |500|Internal error.|  
   

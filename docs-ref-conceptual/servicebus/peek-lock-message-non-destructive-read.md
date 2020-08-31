@@ -2,7 +2,6 @@
 title: "Peek-Lock Message (Non-Destructive Read)"
 ms.custom: ""
 ms.date: "07/08/2020"
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -28,20 +27,20 @@ translation.priority.mt:
 # Peek-Lock Message (Non-Destructive Read)
 This operation atomically retrieves and locks a message from a queue or subscription for processing. The message is guaranteed not to be delivered to other receivers (on the same queue or subscription only) during the lock duration specified in the queue/subscription description. When the lock expires, the message becomes available to other receivers. In order to complete processing of the message, the receiver should issue a delete command with the lock ID received from this operation. To abandon processing of the message and unlock it for other receivers, an [Unlock Message](unlock-message.md) command should be issued, otherwise the lock duration period can expire.  
   
- This operation should be used in applications that require *At-Least-Once* delivery assurances. If the receiver does not delete the message before processing succeeds, this ensures that another receiver is able to attempt processing after the lock duration period expires.  
+ This operation should be used in applications that require *At-Least-Once* delivery assurances. If the receiver does not delete the message before processing succeeds, this operation ensures that another receiver is able to attempt processing after the lock duration period expires.  
   
 ## Request  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|http{s}://{serviceNamespace}.servicebus.windows.net/{queuePath}/messages/head<br /><br /> or<br /><br /> http{s}://{serviceNamespace}.servicebus.windows.net/{topicPath}/subscriptions/{subscriptionName}/messages/head|HTTP/1.1|  
+|POST|`http{s}://{serviceNamespace}.servicebus.windows.net/{queuePath}/messages/head`<br /><br /> or<br /><br /> `http{s}://{serviceNamespace}.servicebus.windows.net/{topicPath}/subscriptions/{subscriptionName}/messages/head|HTTP/1.1`|  
   
 ### Request Headers  
  The following table describes required and optional request headers. In addition to the listed properties, the header can contain custom properties. See the example.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization|Specify one of the following:<ul><li> Azure Active Directory (AAD) JSON Web Token (JWT) token. <br/>Example: `Authorization: Bearer <AAD JWT token>`. <br/>For information on generating an AAD token, see [Authenticate from an application](https://docs.microsoft.com/azure/service-bus-messaging/authenticate-application#authenticate-from-an-application).</li><li>A SAS token. <br/>Example: `Authorization: SharedAccessSignature sr=<NAMESPACE NAME>.servicebus.windows.net&sig=<SHARED ACCESS KEY>&se=<TOKEN EXPIRY INSTANT>&skn=<SHARED KEY NAME>`. <br/>For information on generating a SAS token, see [Generate a Shared Access Signature token](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas#generate-a-shared-access-signature-token) and [Generate SAS token](https://docs.microsoft.com/rest/api/eventhub/generate-sas-token).</li></ul> |   
+|Authorization|Specify one of the following token values:<ul><li> Azure Active Directory (Azure AD) JSON Web Token (JWT) token. <br/>Example: `Authorization: Bearer <Azure AD JWT token>`. <br/>For information on generating an Azure AD token, see [Authenticate from an application](get-azure-active-directory-token.md).</li><li>A SAS token. <br/>Example: `Authorization: SharedAccessSignature sr=<NAMESPACE NAME>.servicebus.windows.net&sig=<SHARED ACCESS KEY>&se=<TOKEN EXPIRY INSTANT>&skn=<SHARED KEY NAME>`. <br/>For information on generating a SAS token, see [Generate a Shared Access Signature token](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas#generate-a-shared-access-signature-token) and [Generate SAS token](https://docs.microsoft.com/rest/api/eventhub/generate-sas-token).</li></ul> |   
   
 ### Request Body  
  None.  
@@ -67,9 +66,9 @@ This operation atomically retrieves and locks a message from a queue or subscrip
   
 |Response Header|Description|  
 |---------------------|-----------------|  
-|Content-Type|Set to **application/atom+xml;type=entry;charset=utf-8**.|  
-|Location|The URI of the locked message. You can use this URI to unlock or delete the message.|  
-|BrokerProperties|JSON-encoded **BrokerProperties** of the received message. The **LockToken** property represents the lock ID for the returned message. The **SequenceNumber** property represents the sequence number of the returned message.|  
+|`Content-Type`|Set to `application/atom+xml;type=entry;charset=utf-8`.|  
+|`Location`|The URI of the locked message. You can use this URI to unlock or delete the message.|  
+|`BrokerProperties`|JSON-encoded `BrokerProperties` of the received message. The `LockToken` property represents the lock ID for the returned message. The `SequenceNumber` property represents the sequence number of the returned message.|  
   
 ### Response Body  
  The response body is the message body of the retrieved message.  

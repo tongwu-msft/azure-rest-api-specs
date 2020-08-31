@@ -1,7 +1,6 @@
 ---
 ms.assetid: 650f91bc-3b04-4bca-b10f-16da6c509b80
 title: Azure Service Bus REST API reference
-ms.prod: azure
 ms.service: service-bus-messaging
 author: spelluru
 ms.author: spelluru
@@ -41,7 +40,7 @@ The Service Bus REST API provides operations for working with the following reso
 
 ### Service Bus service
 
-Service Bus [service APIs](/rest/api/servicebus/service-bus-runtime-rest) access the Service Bus service directly, and perform various management operations at the entity level, rather than at the namespace level (such as [sending a message to a queue](/rest/api/servicebus/send-message-to-queue). These APIs use [SAS authentication](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas) or [Azure Active Directory (AAD) authentication](https://docs.microsoft.com/azure/service-bus-messaging/authenticate-application).  
+Service Bus [service APIs](/rest/api/servicebus/service-bus-runtime-rest) access the Service Bus service directly, and perform various management operations at the entity level, rather than at the namespace level (such as [sending a message to a queue](/rest/api/servicebus/send-message-to-queue). These APIs use [SAS authentication](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas) or [Azure Active Directory authentication](https://docs.microsoft.com/azure/service-bus-messaging/authenticate-application).  
 
 ## See also
 

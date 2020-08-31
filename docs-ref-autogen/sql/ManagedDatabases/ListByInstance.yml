@@ -3,14 +3,14 @@ uid: management.azure.com.sql.manageddatabases.listbyinstance
 name: List By Instance
 service: SQL Database
 groupName: Managed Databases
-apiVersion: 2019-06-01-preview
+apiVersion: 2020-02-02-preview
 summary: Gets a list of managed databases.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases?api-version=2019-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases?api-version=2020-02-02-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,9 +21,10 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
+  pattern: ^[-\w\._\(\)]+$
 - name: managedInstanceName
   in: path
   isRequired: true
@@ -33,7 +34,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for the request.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -134,6 +135,14 @@ definitions:
     description: The name of the Long Term Retention backup to be used for restore of this managed database.
     types:
     - uid: string
+  - name: properties.autoCompleteRestore
+    description: Whether to auto complete restore of this managed database.
+    types:
+    - uid: boolean
+  - name: properties.lastBackupName
+    description: Last backup file name for restore of this managed database.
+    types:
+    - uid: string
   - name: location
     description: Resource location.
     types:
@@ -218,7 +227,7 @@ definitions:
 examples:
 - name: List databases by managed instances
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Test1/providers/Microsoft.Sql/managedInstances/managedInstance/databases?api-version=2019-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Test1/providers/Microsoft.Sql/managedInstances/managedInstance/databases?api-version=2020-02-02-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -250,5 +259,13 @@ examples:
           }
         ]
       }
-security: []
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
 errorCodes: []

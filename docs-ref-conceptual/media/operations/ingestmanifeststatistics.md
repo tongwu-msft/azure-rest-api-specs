@@ -2,7 +2,6 @@
 title: "IngestManifestStatistics"
 ms.custom: ""
 ms.date: "03/14/2018"
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "media-services"
 ms.suite: ""

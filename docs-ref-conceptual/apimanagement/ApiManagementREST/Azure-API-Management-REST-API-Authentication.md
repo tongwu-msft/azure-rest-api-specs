@@ -2,7 +2,6 @@
 title: "Azure API Management REST API Authentication"
 ms.custom: na
 ms.date: 07/30/2017
-ms.prod: azure
 ms.reviewer: na
 ms.service: api-management
 ms.suite: na

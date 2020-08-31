@@ -2,7 +2,6 @@
 title: "Batch Service REST API Versioning | Microsoft Docs"
 ms.custom: ""
 ms.date: "08/22/2019"
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "batch"
 ms.suite: ""

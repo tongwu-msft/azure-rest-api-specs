@@ -2,7 +2,6 @@
 title: "Get Relays"
 ms.custom: ""
 ms.date: "05/15/2015"
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""

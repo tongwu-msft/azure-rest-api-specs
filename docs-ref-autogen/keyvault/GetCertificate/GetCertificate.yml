@@ -3,14 +3,14 @@ uid: keyvault.getcertificate.getcertificate
 name: Get Certificate
 service: Key Vault
 groupName: Get Certificate
-apiVersion: "7.0"
+apiVersion: "7.1"
 summary: "Gets information about a certificate.  \nGets information about a specific certificate. This operation requires the certificates/get permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET {vaultBaseUrl}/certificates/{certificate-name}/{certificate-version}?api-version=7.0
+- content: GET {vaultBaseUrl}/certificates/{certificate-name}/{certificate-version}?api-version=7.1
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -144,6 +144,11 @@ definitions:
   description: The certificate management attributes.
   kind: object
   properties:
+  - name: recoverableDays
+    isReadyOnly: true
+    description: softDelete data retention days. Value should be >=7 and <=90 when softDelete enabled, otherwise 0.
+    types:
+    - uid: integer
   - name: recoveryLevel
     isReadyOnly: true
     description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
@@ -277,7 +282,7 @@ definitions:
     types:
     - uid: boolean
 - name: DeletionRecoveryLevel
-  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
   kind: enum
   properties:
   - name: Purgeable
@@ -309,27 +314,22 @@ definitions:
     types:
     - uid: string
 - name: JsonWebKeyType
-  description: JsonWebKey Key Type (kty), as defined in https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40.
+  description: The type of key pair to be used for the certificate.
   kind: enum
   properties:
   - name: EC
-    description: Elliptic Curve.
     types:
     - uid: string
   - name: EC-HSM
-    description: Elliptic Curve with a private key which is not exportable from the HSM.
     types:
     - uid: string
   - name: RSA
-    description: RSA (https://tools.ietf.org/html/rfc3447)
     types:
     - uid: string
   - name: RSA-HSM
-    description: RSA with a private key which is not exportable from the HSM.
     types:
     - uid: string
   - name: oct
-    description: Octet sequence (used to represent symmetric keys)
     types:
     - uid: string
 - name: JsonWebKeyCurveName
@@ -337,19 +337,15 @@ definitions:
   kind: enum
   properties:
   - name: P-256
-    description: The NIST P-256 elliptic curve, AKA SECG curve SECP256R1.
     types:
     - uid: string
   - name: P-384
-    description: The NIST P-384 elliptic curve, AKA SECG curve SECP384R1.
     types:
     - uid: string
   - name: P-521
-    description: The NIST P-521 elliptic curve, AKA SECG curve SECP521R1.
     types:
     - uid: string
   - name: P-256K
-    description: The SECG SECP256K1 elliptic curve.
     types:
     - uid: string
 - name: SubjectAlternativeNames
@@ -404,20 +400,60 @@ definitions:
 examples:
 - name: GetCertificate
   request:
-    uri: GET {vaultBaseUrl}/certificates/selfSignedCert01/pending?api-version=7.0
+    uri: GET https://myvault.vault.azure.net//certificates/selfSignedCert01/pending?api-version=7.1
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "https://testvault1021.vault.azure.net/certificates/selfSignedCert01/pending",
-        "issuer": {
-          "name": "Self"
+        "id": "https://myvault.vault.azure.net/certificates/selfSignedCert01/f60f2a4f8ae442cfb41ca2090bd4b769",
+        "kid": "https://myvault.vault.azure.net/keys/selfSignedCert01/f60f2a4f8ae442cfb41ca2090bd4b769",
+        "sid": "https://myvault.vault.azure.net/secrets/selfSignedCert01/f60f2a4f8ae442cfb41ca2090bd4b769",
+        "x5t": "fLi3U52HunIVNXubkEnf8tP6Wbo",
+        "cer": "MIICODCCAeagAwIBAgIQqHmpBAv+CY9IJFoUhlbziTAJBgUrDgMCHQUAMBYxFDASBgNVBAMTC1Jvb3QgQWdlbmN5MB4XDTE1MDQyOTIxNTM0MVoXDTM5MTIzMTIzNTk1OVowFzEVMBMGA1UEAxMMS2V5VmF1bHRUZXN0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5bVAT73zr4+N4WVv2+SvTunAw08ksS4BrJW/nNliz3S9XuzMBMXvmYzU5HJ8TtEgluBiZZYd5qsMJD+OXHSNbsLdmMhni0jYX09h3XlC2VJw2sGKeYF+xEaavXm337aZZaZyjrFBrrUl51UePaN+kVFXNlBb3N3TYpqa7KokXenJQuR+i9Gv9a77c0UsSsDSryxppYhKK7HvTZCpKrhVtulF5iPMswWe9np3uggfMamyIsK/0L7X9w9B2qN7993RR0A00nOk4H6CnkuwO77dSsD0KJsk6FyAoZBzRXDZh9+d9R76zCL506NcQy/jl0lCiQYwsUX73PG5pxOh02OwKwIDAQABo0swSTBHBgNVHQEEQDA+gBAS5AktBh0dTwCNYSHcFmRjoRgwFjEUMBIGA1UEAxMLUm9vdCBBZ2VuY3mCEAY3bACqAGSKEc+41KpcNfQwCQYFKw4DAh0FAANBAGqIjo2geVagzuzaZOe1ClGKhZeiCKfWAxklaGN+qlGUbVS4IN4V1lot3VKnzabasmkEHeNxPwLn1qvSD0cX9CE=",
+        "attributes": {
+          "enabled": true,
+          "nbf": 1430344421,
+          "exp": 2208988799,
+          "created": 1493938289,
+          "updated": 1493938291,
+          "recoveryLevel": "Recoverable+Purgeable"
         },
-        "csr": "MIIC4zCCAcsCAQAwGjEYMBYGA1UEAwwPKi5taWNyb3NvZnQuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqe8aINnShK+wQC8QU7fwsviQc9+yiOnqU3adXA6qNjn21HTdRBa7cyQIk1STxHIBLTT/GaEJwqsUi6UvZaPEHokOWsr1bP9M7xOPTicBcRyMrr6bOxsmGczYtu1z2TzzXDD7q7IEignE7/LowGEaIADCIU9iuWk7TiJ+1Q/VLh/B3xPsgVjY+n7zEQ53gBiDHSl7XfELfwmslOQ28TVNogUyXsxHcVxQQYJeI7HqqY448LeleK69Ld86lkBixLEm1pD7HSbEx3WI2lyUQAGR6hD3YFaiIWVpQeEyI7p1jmtQlnfZdEL4q9wdlEEcwd3h3PAZpEBhCixahF54fci3pwIDAQABoIGDMIGABgkqhkiG9w0BCQ4xczBxMA4GA1UdDwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwNQYDVR0RBC4wLIIWb25lZHJpdmUubWljcm9zb2Z0LmNvbYISeGJveC5taWNyb3NvZnQuY29tMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBACiLeghirF+yCuYGVUPDB3wKQJn2iLY1za9ncxCehIVqOkFK09AphzoxF6Yid90AKCaa/dT/Ohm7oTyVQ+YcZnT00LUNFVG48AOE8YDiw9tjAG9OORsAz80xnv2qaLw2TCVIQ6NjrI83LqAm1GJ8rAnpdD/ZTuWM7TvSO5g/jm/Q0oSuKpMgj3YxpwgB9Ac6YEfVzOnm76OkUcpvR5MS4BoTfRv4thdSnU+uwqxM+HtdSVTbHQeC2U/hM1cyzDMpl1rZRklmiEOoPUeDasEIBVTJhAxR8xAeKJJD7Wzj4mJPw4UMvF8zQZzW8EKYvB1hkVYY+HQ85L+XcXd8lco7hU4=",
-        "cancellation_requested": false,
-        "status": "completed",
-        "target": "https://testvault1021.vault.azure.net/certificates/selfSignedCert01",
-        "request_id": "6faacd568ab049a2803861e8dd3ae21f"
+        "policy": {
+          "id": "https://myvault.vault.azure.net/certificates/selfSignedCert01/policy",
+          "key_props": {
+            "exportable": true,
+            "kty": "RSA",
+            "key_size": 2048,
+            "reuse_key": false
+          },
+          "secret_props": {
+            "contentType": "application/x-pkcs12"
+          },
+          "x509_props": {
+            "subject": "CN=KeyVaultTest",
+            "ekus": [],
+            "key_usage": [],
+            "validity_months": 297
+          },
+          "lifetime_actions": [
+            {
+              "trigger": {
+                "lifetime_percentage": 80
+              },
+              "action": {
+                "action_type": "EmailContacts"
+              }
+            }
+          ],
+          "issuer": {
+            "name": "Unknown"
+          },
+          "attributes": {
+            "enabled": true,
+            "created": 1493938289,
+            "updated": 1493938291
+          }
+        }
       }
 security: []
 errorCodes: []

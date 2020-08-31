@@ -2,7 +2,6 @@
 title: "Receive and Delete Message (Destructive Read)"
 ms.custom: ""
 ms.date: "07/08/2020"
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -32,14 +31,14 @@ This operation receives a message from a queue or subscription, and removes the 
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|http{s}://{serviceNamespace}.servicebus.windows.net/{queuePath}/messages/head<br /><br /> or<br /><br /> http{s}://{serviceNamespace}.servicebus.windows.net/{topicPath}/subscriptions/{subscriptionName}/messages/head|HTTP/1.1|  
+|DELETE|`http{s}://{serviceNamespace}.servicebus.windows.net/{queuePath}/messages/head`<br /><br /> or<br /><br /> `http{s}://{serviceNamespace}.servicebus.windows.net/{topicPath}/subscriptions/{subscriptionName}/messages/head|HTTP/1.1`|  
   
 ### Request Headers  
  The following table describes required and optional request headers. In addition to the listed properties, the header may contain custom properties. See the example.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization|Specify one of the following:<ul><li> Azure Active Directory (AAD) JSON Web Token (JWT) token. <br/>Example: `Authorization: Bearer <AAD JWT token>`. <br/>For information on generating an AAD token, see [Authenticate from an application](https://docs.microsoft.com/azure/service-bus-messaging/authenticate-application#authenticate-from-an-application).</li><li>A SAS token. <br/>Example: `Authorization: SharedAccessSignature sr=<NAMESPACE NAME>.servicebus.windows.net&sig=<SHARED ACCESS KEY>&se=<TOKEN EXPIRY INSTANT>&skn=<SHARED KEY NAME>`. <br/>For information on generating a SAS token, see [Generate a Shared Access Signature token](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas#generate-a-shared-access-signature-token) and [Generate SAS token](https://docs.microsoft.com/rest/api/eventhub/generate-sas-token).</li></ul> |   
+|Authorization|Specify one of the following token values:<ul><li> Azure Active Directory (Azure AD) JSON Web Token (JWT) token. <br/>Example: `Authorization: Bearer <Azure AD JWT token>`. <br/>For information on generating an Azure AD token, see [Authenticate from an application](get-azure-active-directory-token.md).</li><li>A SAS token. <br/>Example: `Authorization: SharedAccessSignature sr=<NAMESPACE NAME>.servicebus.windows.net&sig=<SHARED ACCESS KEY>&se=<TOKEN EXPIRY INSTANT>&skn=<SHARED KEY NAME>`. <br/>For information on generating a SAS token, see [Generate a Shared Access Signature token](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas#generate-a-shared-access-signature-token) and [Generate SAS token](https://docs.microsoft.com/rest/api/eventhub/generate-sas-token).</li></ul> |   
   
 ### Request Body  
  None.  

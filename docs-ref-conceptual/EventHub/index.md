@@ -1,12 +1,10 @@
 ---
 ms.assetid: fb2b1bb5-ec2c-44fd-b486-8fc609197c30
 title: Azure Event Hubs REST API reference
-ms.prod: azure
 ms.service: event-hubs
-author: sethmanheim
-ms.author: sethm
-ms.manager: timlt
-service_description: To be added
+author: spelluru
+ms.author: spelluru
+ms.manager: femila
 ---
 
 # Azure Event Hubs REST API

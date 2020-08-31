@@ -2,7 +2,6 @@
 title: "Delete Topic"
 ms.custom: ""
 ms.date: "05/14/2015"
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""

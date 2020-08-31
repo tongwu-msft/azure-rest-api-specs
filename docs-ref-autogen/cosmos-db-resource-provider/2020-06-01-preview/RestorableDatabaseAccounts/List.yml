@@ -1,0 +1,202 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmos-db-resource-provider.2020-06-01-preview.restorabledatabaseaccounts.list
+name: List
+service: Cosmos DB Resource Provider
+groupName: Restorable Database Accounts
+apiVersion: 2020-06-01-preview
+summary: Lists all the restorable Azure Cosmos DB database accounts available under the subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/restorableDatabaseAccounts?api-version=2020-06-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation completed successfully.
+  types:
+  - uid: RestorableDatabaseAccountsListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponseUpdatedFormat
+requestHeader: []
+definitions:
+- name: RestorableDatabaseAccountsListResult
+  description: The List operation response, that contains the restorable database accounts and their properties.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of restorable database accounts and their properties.
+    types:
+    - uid: RestorableDatabaseAccountGetResult
+      isArray: true
+- name: ErrorResponseUpdatedFormat
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Error Response.
+    types:
+    - uid: ErrorResponse
+- name: RestorableDatabaseAccountGetResult
+  description: A Azure Cosmos DB restorable database account.
+  kind: object
+  properties:
+  - name: properties.accountName
+    description: The name of the global database account
+    types:
+    - uid: string
+  - name: properties.creationTime
+    description: The creation time of the restorable database account (ISO-8601 format).
+    types:
+    - uid: string
+  - name: properties.deletionTime
+    description: The time at which the restorable database account has been deleted (ISO-8601 format).
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The unique resource identifier of the ARM resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the ARM resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of Azure resource.
+    types:
+    - uid: string
+  - name: location
+    description: The location of the resource group to which the resource belongs.
+    types:
+    - uid: string
+  - name: tags
+    description: 'Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB".'
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: identity
+    description: Identity for the resource.
+    types:
+    - uid: ManagedServiceIdentity
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ManagedServiceIdentity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
+    types:
+    - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
+- name: ResourceIdentityType
+  description: The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+examples:
+- name: CosmosDBDatabaseAccountList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.DocumentDB/restorableDatabaseAccounts?api-version=2020-06-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.DocumentDB/locations/West US/restorableDatabaseAccounts/d9b26648-2f53-4541-b3d8-3044f4f9810d",
+            "name": "d9b26648-2f53-4541-b3d8-3044f4f9810d",
+            "location": "West US",
+            "type": "Microsoft.DocumentDB/locations/restorableDatabaseAccounts",
+            "properties": {
+              "accountName": "ddb1",
+              "creationTime": "2020-04-11T21:56:15Z",
+              "deletionTime": "2020-06-12T22:05:09Z"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.DocumentDB/locations/West US/restorableDatabaseAccounts/4f9e6ace-ac7a-446c-98bc-194c502a06b4",
+            "name": "4f9e6ace-ac7a-446c-98bc-194c502a06b4",
+            "location": "East US",
+            "type": "Microsoft.DocumentDB/locations/restorableDatabaseAccounts",
+            "properties": {
+              "accountName": "ddb2",
+              "creationTime": "2020-05-01T08:05:18Z"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+errorCodes: []

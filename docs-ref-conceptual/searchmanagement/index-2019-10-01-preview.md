@@ -2,7 +2,6 @@
 title: Preview REST API (Search Management)
 titleSuffix: Azure Cognitive Search
 description: Preview version of the search management REST API using for provisioning a service and managing keys.
-ms.prod: azure
 ms.service: cognitive-search
 ms.topic: "language-reference"
 

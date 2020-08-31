@@ -1,0 +1,215 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.hdinsight.clusters.updateautoscaleconfiguration
+name: Update Auto Scale Configuration
+service: HDInsight
+groupName: Clusters
+apiVersion: 2018-06-01-preview
+summary: Updates the Autoscale Configuration for HDInsight cluster.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/roles/workernode/autoscale?api-version=2018-06-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: The name of the cluster.
+  types:
+  - uid: string
+- name: roleName
+  in: path
+  isRequired: true
+  description: The constant value for the roleName
+  types:
+  - uid: RoleName
+- name: api-version
+  in: query
+  isRequired: true
+  description: The HDInsight client API Version.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+- name: 200 OK
+  description: OK response definition.
+- name: 202 Accepted
+  description: Accepted response definition.
+requestBody:
+- name: default
+  parameters:
+  - name: autoscale
+    in: body
+    description: The autoscale configuration.
+    types:
+    - uid: Autoscale
+requestHeader: []
+definitions:
+- name: RoleName
+  description: The constant value for the roleName
+  kind: enum
+  properties:
+  - name: workernode
+    types:
+    - uid: string
+- name: Autoscale
+  description: The autoscale request parameters
+  kind: object
+  properties:
+  - name: capacity
+    description: Parameters for load-based autoscale
+    types:
+    - uid: AutoscaleCapacity
+  - name: recurrence
+    description: Parameters for schedule-based autoscale
+    types:
+    - uid: AutoscaleRecurrence
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: AutoscaleConfigurationUpdateParameter
+  description: The autoscale configuration update parameter.
+  kind: object
+  properties:
+  - name: autoscale
+    description: The autoscale configuration.
+    types:
+    - uid: Autoscale
+- name: AutoscaleCapacity
+  description: The load-based autoscale request parameters
+  kind: object
+  properties:
+  - name: minInstanceCount
+    description: The minimum instance count of the cluster
+    types:
+    - uid: integer
+  - name: maxInstanceCount
+    description: The maximum instance count of the cluster
+    types:
+    - uid: integer
+- name: AutoscaleRecurrence
+  description: Schedule-based autoscale request parameters
+  kind: object
+  properties:
+  - name: timeZone
+    description: The time zone for the autoscale schedule times
+    types:
+    - uid: string
+  - name: schedule
+    description: Array of schedule-based autoscale rules
+    types:
+    - uid: AutoscaleSchedule
+      isArray: true
+- name: AutoscaleSchedule
+  description: Parameters for a schedule-based autoscale rule, consisting of an array of days + a time and capacity
+  kind: object
+  properties:
+  - name: days
+    description: Days of the week for a schedule-based autoscale rule
+    types:
+    - uid: string
+      isArray: true
+  - name: timeAndCapacity
+    description: Time and capacity for a schedule-based autoscale rule
+    types:
+    - uid: AutoscaleTimeAndCapacity
+- name: AutoscaleTimeAndCapacity
+  description: Time and capacity request parameters
+  kind: object
+  properties:
+  - name: time
+    description: 24-hour time in the form xx:xx
+    types:
+    - uid: string
+  - name: minInstanceCount
+    description: The minimum instance count of the cluster
+    types:
+    - uid: integer
+  - name: maxInstanceCount
+    description: The maximum instance count of the cluster
+    types:
+    - uid: integer
+examples:
+- name: Enable or Update Autoscale with the load based configuration for HDInsight cluster
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1/roles/workernode/autoscale?api-version=2018-06-01-preview
+    body: >-
+      {
+        "autoscale": {
+          "capacity": {
+            "minInstanceCount": 3,
+            "maxInstanceCount": 5
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+- name: Enable or Update Autoscale with the schedule based configuration for HDInsight cluster
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1/roles/workernode/autoscale?api-version=2018-06-01-preview
+    body: >-
+      {
+        "autoscale": {
+          "recurrence": {
+            "timeZone": "China Standard Time",
+            "schedule": [
+              {
+                "days": [
+                  "Thursday"
+                ],
+                "timeAndCapacity": {
+                  "time": "16:00",
+                  "minInstanceCount": 4,
+                  "maxInstanceCount": 4
+                }
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+- name: Disable Autoscale for the HDInsight cluster
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1/roles/workernode/autoscale?api-version=2018-06-01-preview
+    body: '{}'
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
