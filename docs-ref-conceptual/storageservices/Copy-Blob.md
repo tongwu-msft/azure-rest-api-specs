@@ -3,7 +3,7 @@ title: Copy Blob (REST API) - Azure Storage
 description: The Copy Blob operation copies a blob to a destination within the storage account.
 author: pemari-msft
 
-ms.date: 09/20/2019
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -25,16 +25,16 @@ Beginning with version 2015-02-21, the source for a `Copy Blob` operation can be
   
  Beginning with version 2013-08-15, you may specify a shared access signature for the destination blob if it is in the same account as the source blob. Beginning with version 2015-04-05, you may also specify a shared access signature for the destination blob if it is in a different storage account.  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob`|HTTP/1.1|  
   
 ### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob`|HTTP/1.1|  
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
@@ -55,6 +55,7 @@ The following additional parameters may be specified on the request URI.
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-meta-name:value`|Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).  See [Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md) for more information.|  
+|`x-ms-tags`|Optional. Sets the given query-string encoded tags on the blob. Tags are not copied from the copy source. See the Remarks for additional information. Supported in version 2019-12-12 and newer.|  
 |`x-ms-source-if-modified-since`|Optional. A `DateTime` value. Specify this conditional header to copy the blob only if the source blob has been modified since the specified date/time. If the source blob has not been modified, the Blob service returns status code 412 (Precondition Failed). This header cannot be specified if the source is an Azure File.|  
 |`x-ms-source-if-unmodified-since`|Optional. A `DateTime` value. Specify this conditional header to copy the blob only if the source blob has not been modified since the specified date/time. If the source blob has been modified, the Blob service returns status code 412 (Precondition Failed). This header cannot be specified if the source is an Azure File.|  
 |`x-ms-source-if-match`|Optional. An ETag value. Specify this conditional header to copy the source blob only if its ETag matches the value specified. If the ETag values do not match, the Blob service returns status code 412 (Precondition Failed). This header cannot be specified if the source is an Azure File.|  
@@ -63,12 +64,14 @@ The following additional parameters may be specified on the request URI.
 |`If-Unmodified-Since`|Optional. A `DateTime` value. Specify this conditional header to copy the blob only if the destination blob has not been modified since the specified date/time. If the destination blob has been modified, the Blob service returns status code 412 (Precondition Failed).|  
 |`If-Match`|Optional. An ETag value. Specify an ETag value for this conditional header to copy the blob only if the specified ETag value matches the `ETag` value for an existing destination blob. If the ETag for the destination blob does not match the ETag specified for `If-Match`, the Blob service returns status code 412 (Precondition Failed).|  
 |`If-None-Match`|Optional. An ETag value, or the wildcard character (*).<br /><br /> Specify an ETag value for this conditional header to copy the blob only if the specified ETag value does not match the ETag value for the destination blob.<br /><br /> Specify the wildcard character (\*) to perform the operation only if the destination blob does not exist.<br /><br /> If the specified condition isn't met, the Blob service returns status code 412 (Precondition Failed).|  
-|`x-ms-copy-source:name`|Required. Specifies the name of the source blob or file.<br /><br /> Beginning with version 2012-02-12, this value may be a URL of up to 2 KB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. A source blob in the same storage account can be authorized via Shared Key. However, if the source is a blob in another account, the source blob must either be public or must be authorized via a shared access signature. If the source blob is public, no authorization is required to perform the copy operation.<br /><br /> Beginning with version 2015-02-21, the source object may be a file in the Azure File service. If the source object is a file that is to be copied to a blob, then the source file must be authorized using a shared access signature, whether it resides in the same account or in a different account.<br /><br /> Only storage accounts created on or after June 7th, 2012 allow the `Copy Blob` operation to copy from another storage account.<br /><br /> Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br /><br /> When the source object is a file in the Azure File service, the source URL uses the following format; note that the URL must include a valid SAS token for the file:<br /><br /> -   `https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sastoken`<br /><br /> In versions before 2012-02-12, blobs can only be copied within the same account, and a source name can use these formats:<br /><br /> -   Blob in named container: `/accountName/containerName/blobName`<br />-   Snapshot in named container: `/accountName/containerName/blobName?snapshot=<DateTime>`<br />-   Blob in root container: `/accountName/blobName`<br />-   Snapshot in root container: `/accountName/blobName?snapshot=<DateTime>`|
+|`x-ms-copy-source:name`|Required. Specifies the name of the source blob or file.<br /><br /> Beginning with version 2012-02-12, this value may be a URL of up to 2 KiB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. A source blob in the same storage account can be authorized via Shared Key. However, if the source is a blob in another account, the source blob must either be public or must be authorized via a shared access signature. If the source blob is public, no authorization is required to perform the copy operation.<br /><br /> Beginning with version 2015-02-21, the source object may be a file in the Azure File service. If the source object is a file that is to be copied to a blob, then the source file must be authorized using a shared access signature, whether it resides in the same account or in a different account.<br /><br /> Only storage accounts created on or after June 7th, 2012 allow the `Copy Blob` operation to copy from another storage account.<br /><br /> Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br /><br /> When the source object is a file in the Azure File service, the source URL uses the following format; note that the URL must include a valid SAS token for the file:<br /><br /> -   `https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sastoken`<br /><br /> In versions before 2012-02-12, blobs can only be copied within the same account, and a source name can use these formats:<br /><br /> -   Blob in named container: `/accountName/containerName/blobName`<br />-   Snapshot in named container: `/accountName/containerName/blobName?snapshot=<DateTime>`<br />-   Blob in root container: `/accountName/blobName`<br />-   Snapshot in root container: `/accountName/blobName?snapshot=<DateTime>`|
 |`x-ms-lease-id:<ID>`|Required if the destination blob has an active lease. The lease ID specified for this header must match the lease ID of the destination blob. If the request does not include the lease ID or it is not valid, the operation fails with status code 412 (Precondition Failed).<br /><br /> If this header is specified and the destination blob does not currently have an active lease, the operation will also fail with status code 412 (Precondition Failed).<br /><br /> In version 2012-02-12 and newer, this value must specify an active, infinite lease for a leased blob. A finite-duration lease ID fails with 412 (Precondition Failed).|  
 |`x-ms-source-lease-id: <ID>`|Optional, versions before 2012-02-12 (unsupported in 2012-02-12 and newer). Specify this header to perform the `Copy Blob` operation only if the lease ID given matches the active lease ID of the source blob.<br /><br /> If this header is specified and the source blob does not currently have an active lease, the operation will also fail with status code 412 (Precondition Failed).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
 |`x-ms-access-tier`|Optional. Specifies the tier to be set on the target blob. For page blobs on a premium account only with version 2017-04-17 and newer. Check [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd) for a full list of supported tiers. Version 2018-11-09 and newer for Block blobs. Block blob tiering is supported on blob storage or general purpose v2 accounts, valid values are `Hot`/`Cool`/`Archive`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).|
 |`x-ms-rehydrate-priority`|Optional. Indicates the priority with which to rehydrate an archived blob. Supported on version 2019-02-02 and newer for Block blobs. Valid values are `High`/`Standard`. The priority can be set on a blob only once. This header will be ignored on subsequent requests to the same blob. Default priority without this header is `Standard`.|  
+
+This operation supports the `x-ms-if-tags` and `x-ms-source-if-tags` conditional headers to succeed only if the specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md). 
 
 ### Request Body  
  None.  
@@ -95,6 +98,7 @@ The following additional parameters may be specified on the request URI.
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
 |`x-ms-copy-id: <id>`|Version 2012-02-12 and newer. String identifier for this copy operation. Use with `Get Blob` or `Get Blob Properties` to check the status of this copy operation, or pass to `Abort Copy Blob` to abort a pending copy.|  
 |`x-ms-copy-status: <success &#124; pending>`|Version 2012-02-12 and newer. State of the copy operation, with these values:<br /><br /> -   `success`: the copy completed successfully.<br />-   `pending`: the copy is in progress.|  
+|`x-ms-version-id: <DateTime>`|Version 2019-12-12 and newer. A DateTime value returned by the service that uniquely identifies the blob. The value of this header indicates the blob version, and may be used in subsequent requests to access this version of the blob. This value should be treated as opaque.|  
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ## Response Body  
@@ -114,7 +118,8 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 x-ms-request-id: cc6b209a-b593-4be1-a38a-dde7c106f402  
 x-ms-version: 2015-02-21  
 x-ms-copy-id: 1f812371-a41d-49e6-b123-f4b542e851c5  
-x-ms-copy-status: pending  
+x-ms-copy-status: pending
+x-ms-version-id: <DateTime>  
 Date: <date>  
   
 ```  
@@ -126,12 +131,14 @@ Date: <date>
   
  The following table describes how the destination and source objects for a Copy Blob operation may be authorized.  
   
-||Authorization with Shared Key/Shared Key Lite|Authorization with Shared Access Signature|Public Object Not Requiring Authorization|  
+|Blob|Authorization with Shared Key/Shared Key Lite|Authorization with Shared Access Signature|Public Object Not Requiring Authorization|  
 |-|-----------------------------------------------------|-------------------------------------------------|------------------------------------------------|  
 |Destination blob|Yes|Yes|No|  
 |Source blob in same account|Yes|Yes|Yes|  
 |Source blob in another account|No|Yes|Yes|  
 |Source file in the same account or another account|No|Yes|N/A|  
+  
+ If a request specifies tags with the `x-ms-tags` request header, the caller must meet the authorization requirements of the [Set Blob Tags](Set-Blob-Tags.md) operation.  
   
 ## Remarks  
  In version 2012-02-12 and newer, the `Copy Blob` operation can complete asynchronously. This operation returns a copy ID you can use to check or abort the copy operation. The Blob service copies blobs on a best-effort basis.  
@@ -172,7 +179,7 @@ When the source of a copy operation provides ETags, if there are any changes to 
   
 The ETag for a block blob changes when the `Copy Blob` operation is initiated and when the copy finishes.  The ETag for a page blob changes when the `Copy Blob` operation is initiated, and continues to change frequently during the copy. The contents of a block blob are only visible using a GET after the full copy completes.  
   
-**Copying Blob Properties and Metadata**  
+**Copying Blob Properties, Tags, and Metadata**  
   
 When a blob is copied, the following system properties are copied to the destination blob with the same values:  
   
@@ -192,7 +199,7 @@ When a blob is copied, the following system properties are copied to the destina
   
 -   `x-ms-blob-sequence-number (for page blobs only)`  
   
--   `x-ms- committed-block-count (for append blobs only, and for version 2015-02-21 only)`  
+-   `x-ms-committed-block-count (for append blobs only, and for version 2015-02-21 only)`  
   
 The source blob's committed block list is also copied to the destination blob, if the blob is a block blob. Any uncommitted blocks are not copied.  
   
@@ -200,6 +207,10 @@ The destination blob is always the same size as the source blob, so the value of
   
 When the source blob and destination blob are the same, `Copy Blob` removes any uncommitted blocks. If metadata is specified in this case, the existing metadata is overwritten with the new metadata.  
   
+If tags for the destination blob are provided in the `x-ms-tags` header, they must be query-string encoded. Tag keys and values must conform to the naming and length requirements as specified in Set Blob Tags. Further, the `x-ms-tags` header may contain up to 2kb of tags. If more tags are required, use the [Set Blob Tags](Set-Blob-Tags.md) operation.  
+  
+If tags are not provided in the `x-ms-tags` header, then they are not copied from the source blob.
+
 **Copying a Leased Blob**  
   
 The `Copy Blob` operation only reads from the source blob so the lease state of the source blob does not matter. However, the `Copy Blob` operation saves the ETag of the source blob when the copy is initiated. If the ETag value changes before the copy completes, the copy fails. You can prevent changes to the source blob by leasing it during the copy operation.  

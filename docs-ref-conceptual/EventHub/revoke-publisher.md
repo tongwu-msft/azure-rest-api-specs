@@ -1,7 +1,7 @@
 ---
 title: "Revoke publisher"
 ms.custom: ""
-ms.date: 12/01/2016
+ms.date: 07/14/2020
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -10,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 90bb4dff-40c8-4f0a-acc5-967de95986b5
 caps.latest.revision: 5
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 ---
 # Revoke publisher
 Revokes a publisher. A revoked publisher will encounter errors when sending an event to the specified Event Hub. See [RevokedPublisherDescription Properties](/dotnet/api/microsoft.servicebus.messaging.revokedpublisherdescription#properties).  
@@ -30,7 +30,7 @@ Revokes a publisher. A revoked publisher will encounter errors when sending an e
 |PUT|`https://{servicebusNamespace}.servicebus.windows.net/{eventHubPath}/revokedpublishers/{publisherName}`|  
   
 ### Request Headers  
- See [Common parameters and headers](publisher-policy-operations.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+ See [Common parameters and headers](publisher-policy-operations.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
  The response includes an HTTP status code, a set of response headers, and a response body.  
@@ -54,7 +54,10 @@ Revokes a publisher. A revoked publisher will encounter errors when sending an e
   
 ## Examples  
  **Request**  
-  
+
+> [!NOTE]
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.  
+
 ```  
 PUT https://your-namespace.servicebus.windows.net/your-event-hub/RevokedPublishers/your-publisher?timeout=60&api-version=2014-05 HTTP/1.1  
 Authorization: SharedAccessSignature sr=your-namespace.servicebus.windows.net&sig=your-sas-key&se=1456362414&skn=RootManageSharedAccessKey  

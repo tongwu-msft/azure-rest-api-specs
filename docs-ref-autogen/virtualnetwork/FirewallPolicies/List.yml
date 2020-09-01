@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.firewallpolicies.list
 name: List
 service: Virtual Networks
 groupName: Firewall Policies
-apiVersion: 2020-04-01
+apiVersion: 2020-05-01
 summary: Lists all Firewall Policies in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies?api-version=2020-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies?api-version=2020-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -71,13 +71,9 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
-  - name: identity
-    description: The identity of the firewall policy.
-    types:
-    - uid: ManagedServiceIdentity
-  - name: properties.ruleGroups
+  - name: properties.ruleCollectionGroups
     isReadyOnly: true
-    description: List of references to FirewallPolicyRuleGroups.
+    description: List of references to FirewallPolicyRuleCollectionGroups.
     types:
     - uid: SubResource
       isArray: true
@@ -110,14 +106,10 @@ definitions:
     description: ThreatIntel Whitelist for Firewall Policy.
     types:
     - uid: FirewallPolicyThreatIntelWhitelist
-  - name: properties.intrusionSystemMode
-    description: The operation mode for Intrusion system.
+  - name: properties.dnsSettings
+    description: DNS Proxy Settings definition.
     types:
-    - uid: FirewallPolicyIntrusionSystemMode
-  - name: properties.transportSecurity
-    description: TLS Configuration definition.
-    types:
-    - uid: FirewallPolicyTransportSecurity
+    - uid: DnsSettings
   - name: id
     description: Resource ID.
     types:
@@ -165,28 +157,6 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: ManagedServiceIdentity
-  description: Identity for the resource.
-  kind: object
-  properties:
-  - name: principalId
-    isReadyOnly: true
-    description: The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
-    types:
-    - uid: string
-  - name: tenantId
-    isReadyOnly: true
-    description: The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
-    types:
-    - uid: string
-  - name: type
-    description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
-    types:
-    - uid: ResourceIdentityType
-  - name: userAssignedIdentities
-    description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
-    types:
-    - uid: UserAssignedIdentities
 - name: SubResource
   description: Reference to another subresource.
   kind: object
@@ -238,86 +208,27 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: FirewallPolicyIntrusionSystemMode
-  description: The operation mode for Intrusion system mode.
-  kind: enum
-  properties:
-  - name: Enabled
-    types:
-    - uid: string
-  - name: Disabled
-    types:
-    - uid: string
-- name: FirewallPolicyTransportSecurity
-  description: Configuration needed to perform TLS termination & initiation.
+- name: DnsSettings
+  description: DNS Proxy Settings in Firewall Policy.
   kind: object
   properties:
-  - name: certificateAuthority
-    description: The CA used for intermediate CA generation.
-    types:
-    - uid: FirewallPolicyCertificateAuthority
-  - name: excludedDomains
-    description: List of domains which are excluded from TLS termination.
+  - name: servers
+    description: List of Custom DNS Servers.
     types:
     - uid: string
       isArray: true
-  - name: trustedRootCertificates
-    description: Certificates which are to be trusted by the firewall.
+  - name: enableProxy
+    description: Enable DNS Proxy on Firewalls attached to the Firewall Policy.
     types:
-    - uid: FirewallPolicyTrustedRootCertificate
-      isArray: true
-- name: ResourceIdentityType
-  description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
-  kind: enum
-  properties:
-  - name: SystemAssigned
+    - uid: boolean
+  - name: requireProxyForNetworkRules
+    description: FQDNs in Network Rules are supported when set to true.
     types:
-    - uid: string
-  - name: UserAssigned
-    types:
-    - uid: string
-  - name: SystemAssigned, UserAssigned
-    types:
-    - uid: string
-  - name: None
-    types:
-    - uid: string
-- name: UserAssignedIdentities
-  description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
-  kind: object
-  properties:
-  - name: ''
-    description: ''
-    types:
-    - uid: ''
-- name: FirewallPolicyCertificateAuthority
-  description: Trusted Root certificates properties for tls.
-  kind: object
-  properties:
-  - name: name
-    description: Name of the CA certificate.
-    types:
-    - uid: string
-  - name: properties.keyVaultSecretId
-    description: Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
-    types:
-    - uid: string
-- name: FirewallPolicyTrustedRootCertificate
-  description: Trusted Root certificates of a firewall policy.
-  kind: object
-  properties:
-  - name: name
-    description: Name of the trusted root certificate that is unique within a firewall policy.
-    types:
-    - uid: string
-  - name: properties.keyVaultSecretId
-    description: Secret Id of (base-64 encoded unencrypted pfx) the public certificate data stored in KeyVault.
-    types:
-    - uid: string
+    - uid: boolean
 examples:
 - name: List all Firewall Policies for a given resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies?api-version=2020-04-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -335,12 +246,19 @@ examples:
             "properties": {
               "provisioningState": "Succeeded",
               "threatIntelMode": "Alert",
-              "ruleGroups": [
+              "ruleCollectionGroups": [
                 {
-                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleGroups/ruleGroup1"
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups/ruleCollectionGroup1"
                 }
               ],
-              "firewalls": []
+              "firewalls": [],
+              "dnsSettings": {
+                "servers": [
+                  "30.3.4.5"
+                ],
+                "enableProxy": true,
+                "requireProxyForNetworkRules": false
+              }
             }
           }
         ]

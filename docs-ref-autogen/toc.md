@@ -55,6 +55,12 @@
 ## Operations
 ### [Overview](aks/Operations.yml)
 ### [List](aks/Operations/List.yml)
+## Private Endpoint Connections
+### [Overview](aks/PrivateEndpointConnections.yml)
+### [Delete](aks/PrivateEndpointConnections/Delete.yml)
+### [Get](aks/PrivateEndpointConnections/Get.yml)
+### [List](aks/PrivateEndpointConnections/List.yml)
+### [Update](aks/PrivateEndpointConnections/Update.yml)
 # Analysis Services
 ## [Overview](../docs-ref-conceptual/analysisservices/index.md)
 ## Operations
@@ -466,13 +472,13 @@
 ##### [List By Api](apimanagement/2019-12-01/Tag/ListByApi.yml)
 ##### [List By Operation](apimanagement/2019-12-01/Tag/ListByOperation.yml)
 #### Tag Entity
-##### [Overview](apimanagement/2019-12-01/Tag Entity.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Tag Entity/CreateOrUpdate.yml)
-##### [Delete](apimanagement/2019-12-01/Tag Entity/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Tag Entity/Get.yml)
-##### [Get Entity State](apimanagement/2019-12-01/Tag Entity/GetEntityState.yml)
-##### [List By Service](apimanagement/2019-12-01/Tag Entity/ListByService.yml)
-##### [Update](apimanagement/2019-12-01/Tag Entity/Update.yml)
+##### [Overview](apimanagement/2019-12-01/Tag%20Entity.yml)
+##### [Create Or Update](apimanagement/2019-12-01/Tag%20Entity/CreateOrUpdate.yml)
+##### [Delete](apimanagement/2019-12-01/Tag%20Entity/Delete.yml)
+##### [Get](apimanagement/2019-12-01/Tag%20Entity/Get.yml)
+##### [Get Entity State](apimanagement/2019-12-01/Tag%20Entity/GetEntityState.yml)
+##### [List By Service](apimanagement/2019-12-01/Tag%20Entity/ListByService.yml)
+##### [Update](apimanagement/2019-12-01/Tag%20Entity/Update.yml)
 #### Tag Resource
 ##### [Overview](apimanagement/2019-12-01/TagResource.yml)
 ##### [List By Service](apimanagement/2019-12-01/TagResource/ListByService.yml)
@@ -1142,6 +1148,15 @@
 ### [Update Vnet Connection Slot](appservice/WebApps/UpdateVnetConnectionSlot.yml)
 # Application Gateway
 ## [Overview](../docs-ref-conceptual/application-gateway/index.md)
+## Application Gateway Private Endpoint Connections
+### [Overview](application-gateway/ApplicationGatewayPrivateEndpointConnections.yml)
+### [Delete](application-gateway/ApplicationGatewayPrivateEndpointConnections/Delete.yml)
+### [Get](application-gateway/ApplicationGatewayPrivateEndpointConnections/Get.yml)
+### [List](application-gateway/ApplicationGatewayPrivateEndpointConnections/List.yml)
+### [Update](application-gateway/ApplicationGatewayPrivateEndpointConnections/Update.yml)
+## Application Gateway Private Link Resources
+### [Overview](application-gateway/ApplicationGatewayPrivateLinkResources.yml)
+### [List](application-gateway/ApplicationGatewayPrivateLinkResources/List.yml)
 ## Application Gateways
 ### [Overview](application-gateway/ApplicationGateways.yml)
 ### [Backend Health](application-gateway/ApplicationGateways/BackendHealth.yml)
@@ -1472,18 +1487,74 @@
 ### [Get](automation/Webhook/Get.yml)
 ### [List By Automation Account](automation/Webhook/ListByAutomationAccount.yml)
 ### [Update](automation/Webhook/Update.yml)
+# AVS
+## [Overview](../docs-ref-conceptual/avs/index.md)
+## Authorizations
+### [Overview](avs/Authorizations.yml)
+### [Create Or Update](avs/Authorizations/CreateOrUpdate.yml)
+### [Delete](avs/Authorizations/Delete.yml)
+### [Get](avs/Authorizations/Get.yml)
+### [List](avs/Authorizations/List.yml)
+## Clusters
+### [Overview](avs/Clusters.yml)
+### [Create Or Update](avs/Clusters/CreateOrUpdate.yml)
+### [Delete](avs/Clusters/Delete.yml)
+### [Get](avs/Clusters/Get.yml)
+### [List](avs/Clusters/List.yml)
+### [Update](avs/Clusters/Update.yml)
+## Hcx Enterprise Sites
+### [Overview](avs/HcxEnterpriseSites.yml)
+### [Create Or Update](avs/HcxEnterpriseSites/CreateOrUpdate.yml)
+### [Delete](avs/HcxEnterpriseSites/Delete.yml)
+### [Get](avs/HcxEnterpriseSites/Get.yml)
+### [List](avs/HcxEnterpriseSites/List.yml)
+## Locations
+### [Overview](avs/Locations.yml)
+### [Check Quota Availability](avs/Locations/CheckQuotaAvailability.yml)
+### [Check Trial Availability](avs/Locations/CheckTrialAvailability.yml)
+## Operations
+### [Overview](avs/Operations.yml)
+### [List](avs/Operations/List.yml)
+## Private Clouds
+### [Overview](avs/PrivateClouds.yml)
+### [Create Or Update](avs/PrivateClouds/CreateOrUpdate.yml)
+### [Delete](avs/PrivateClouds/Delete.yml)
+### [Get](avs/PrivateClouds/Get.yml)
+### [List](avs/PrivateClouds/List.yml)
+### [List Admin Credentials](avs/PrivateClouds/ListAdminCredentials.yml)
+### [List In Subscription](avs/PrivateClouds/ListInSubscription.yml)
+### [Update](avs/PrivateClouds/Update.yml)
 # Azure Kusto
 ## [Overview](../docs-ref-conceptual/azurerekusto/index.md)
+## Attached Database Configurations
+### [Overview](azurerekusto/AttachedDatabaseConfigurations.yml)
+### [Create Or Update](azurerekusto/AttachedDatabaseConfigurations/CreateOrUpdate.yml)
+### [Delete](azurerekusto/AttachedDatabaseConfigurations/Delete.yml)
+### [Get](azurerekusto/AttachedDatabaseConfigurations/Get.yml)
+### [List By Cluster](azurerekusto/AttachedDatabaseConfigurations/ListByCluster.yml)
+## Cluster Principal Assignments
+### [Overview](azurerekusto/ClusterPrincipalAssignments.yml)
+### [Check Name Availability](azurerekusto/ClusterPrincipalAssignments/CheckNameAvailability.yml)
+### [Create Or Update](azurerekusto/ClusterPrincipalAssignments/CreateOrUpdate.yml)
+### [Delete](azurerekusto/ClusterPrincipalAssignments/Delete.yml)
+### [Get](azurerekusto/ClusterPrincipalAssignments/Get.yml)
+### [List](azurerekusto/ClusterPrincipalAssignments/List.yml)
 ## Clusters
 ### [Overview](azurerekusto/Clusters.yml)
+### [Add Language Extensions](azurerekusto/Clusters/AddLanguageExtensions.yml)
 ### [Check Name Availability](azurerekusto/Clusters/CheckNameAvailability.yml)
 ### [Create Or Update](azurerekusto/Clusters/CreateOrUpdate.yml)
 ### [Delete](azurerekusto/Clusters/Delete.yml)
+### [Detach Follower Databases](azurerekusto/Clusters/DetachFollowerDatabases.yml)
+### [Diagnose Virtual Network](azurerekusto/Clusters/DiagnoseVirtualNetwork.yml)
 ### [Get](azurerekusto/Clusters/Get.yml)
 ### [List](azurerekusto/Clusters/List.yml)
 ### [List By Resource Group](azurerekusto/Clusters/ListByResourceGroup.yml)
+### [List Follower Databases](azurerekusto/Clusters/ListFollowerDatabases.yml)
+### [List Language Extensions](azurerekusto/Clusters/ListLanguageExtensions.yml)
 ### [List Skus](azurerekusto/Clusters/ListSkus.yml)
 ### [List Skus By Resource](azurerekusto/Clusters/ListSkusByResource.yml)
+### [Remove Language Extensions](azurerekusto/Clusters/RemoveLanguageExtensions.yml)
 ### [Start](azurerekusto/Clusters/Start.yml)
 ### [Stop](azurerekusto/Clusters/Stop.yml)
 ### [Update](azurerekusto/Clusters/Update.yml)
@@ -1496,6 +1567,13 @@
 ### [List By Database](azurerekusto/DataConnections/ListByDatabase.yml)
 ### [Update](azurerekusto/DataConnections/Update.yml)
 ### [data Connection Validation](azurerekusto/DataConnections/dataConnectionValidation.yml)
+## Database Principal Assignments
+### [Overview](azurerekusto/DatabasePrincipalAssignments.yml)
+### [Check Name Availability](azurerekusto/DatabasePrincipalAssignments/CheckNameAvailability.yml)
+### [Create Or Update](azurerekusto/DatabasePrincipalAssignments/CreateOrUpdate.yml)
+### [Delete](azurerekusto/DatabasePrincipalAssignments/Delete.yml)
+### [Get](azurerekusto/DatabasePrincipalAssignments/Get.yml)
+### [List](azurerekusto/DatabasePrincipalAssignments/List.yml)
 ## Databases
 ### [Overview](azurerekusto/Databases.yml)
 ### [Add Principals](azurerekusto/Databases/AddPrincipals.yml)
@@ -1545,12 +1623,10 @@
 ### Operations
 #### [Overview](migrate/assessment/Operations.yml)
 #### [List](migrate/assessment/Operations/List.yml)
-### Project
-#### [Overview](migrate/assessment/Project.yml)
-#### [Assessment Options](migrate/assessment/Project/AssessmentOptions.yml)
-#### [Assessment Options List](migrate/assessment/Project/AssessmentOptionsList.yml)
 ### Projects
 #### [Overview](migrate/assessment/Projects.yml)
+#### [Assessment Options](migrate/assessment/Projects/AssessmentOptions.yml)
+#### [Assessment Options List](migrate/assessment/Projects/AssessmentOptionsList.yml)
 #### [Create](migrate/assessment/Projects/Create.yml)
 #### [Delete](migrate/assessment/Projects/Delete.yml)
 #### [Get](migrate/assessment/Projects/Get.yml)
@@ -1813,6 +1889,9 @@
 ### [Delete](azurestack/AcquiredPlans/Delete.yml)
 ### [Get](azurestack/AcquiredPlans/Get.yml)
 ### [List](azurestack/AcquiredPlans/List.yml)
+## Acquisitions
+### [Overview](azurestack/Acquisitions.yml)
+### [List](azurestack/Acquisitions/List.yml)
 ## Activations
 ### [Overview](azurestack/Activations.yml)
 ### [Create Or Update](azurestack/Activations/CreateOrUpdate.yml)
@@ -1825,9 +1904,31 @@
 ### [Get](azurestack/Alerts/Get.yml)
 ### [List](azurestack/Alerts/List.yml)
 ### [Repair](azurestack/Alerts/Repair.yml)
+## Application Operation Results
+### [Overview](azurestack/ApplicationOperationResults.yml)
+### [Get](azurestack/ApplicationOperationResults/Get.yml)
+### [List](azurestack/ApplicationOperationResults/List.yml)
+## Async Operations
+### [Overview](azurestack/AsyncOperations.yml)
+### [Get](azurestack/AsyncOperations/Get.yml)
+## Backup Locations
+### [Overview](azurestack/BackupLocations.yml)
+### [Create Backup](azurestack/BackupLocations/CreateBackup.yml)
+### [Get](azurestack/BackupLocations/Get.yml)
+### [List](azurestack/BackupLocations/List.yml)
+### [Update](azurestack/BackupLocations/Update.yml)
+## Backups
+### [Overview](azurestack/Backups.yml)
+### [Get](azurestack/Backups/Get.yml)
+### [List](azurestack/Backups/List.yml)
+### [Restore](azurestack/Backups/Restore.yml)
 ## Check Identity Health
 ### [Overview](azurestack/CheckIdentityHealth.yml)
 ### [Check Identity Health](azurestack/CheckIdentityHealth/CheckIdentityHealth.yml)
+## Compute Operation Results
+### [Overview](azurestack/ComputeOperationResults.yml)
+### [Get](azurestack/ComputeOperationResults/Get.yml)
+### [List](azurestack/ComputeOperationResults/List.yml)
 ## Delegated Provider Offers
 ### [Overview](azurestack/DelegatedProviderOffers.yml)
 ### [Get](azurestack/DelegatedProviderOffers/Get.yml)
@@ -1836,18 +1937,36 @@
 ### [Overview](azurestack/DelegatedProviders.yml)
 ### [Get](azurestack/DelegatedProviders/Get.yml)
 ### [List](azurestack/DelegatedProviders/List.yml)
+## DelegatedProviderOffers (Subscription.Offer)
+### [Overview](azurestack/DelegatedProviderOffers%20(Subscription.Offer).yml)
+### [Get](azurestack/DelegatedProviderOffers%20(Subscription.Offer)/Get.yml)
+### [List](azurestack/DelegatedProviderOffers%20(Subscription.Offer)/List.yml)
 ## Directory Tenants
 ### [Overview](azurestack/DirectoryTenants.yml)
 ### [Create Or Update](azurestack/DirectoryTenants/CreateOrUpdate.yml)
 ### [Delete](azurestack/DirectoryTenants/Delete.yml)
 ### [Get](azurestack/DirectoryTenants/Get.yml)
 ### [List](azurestack/DirectoryTenants/List.yml)
+## Disk Migration Jobs
+### [Overview](azurestack/DiskMigrationJobs.yml)
+### [Cancel](azurestack/DiskMigrationJobs/Cancel.yml)
+### [Create](azurestack/DiskMigrationJobs/Create.yml)
+### [Get](azurestack/DiskMigrationJobs/Get.yml)
+### [List](azurestack/DiskMigrationJobs/List.yml)
+## Disks
+### [Overview](azurestack/Disks.yml)
+### [Get](azurestack/Disks/Get.yml)
+### [List](azurestack/Disks/List.yml)
 ## Downloaded Products
 ### [Overview](azurestack/DownloadedProducts.yml)
 ### [Create](azurestack/DownloadedProducts/Create.yml)
 ### [Delete](azurestack/DownloadedProducts/Delete.yml)
 ### [Get](azurestack/DownloadedProducts/Get.yml)
 ### [List](azurestack/DownloadedProducts/List.yml)
+## Drives
+### [Overview](azurestack/Drives.yml)
+### [Get](azurestack/Drives/Get.yml)
+### [List](azurestack/Drives/List.yml)
 ## Edge Gateway Pools
 ### [Overview](azurestack/EdgeGatewayPools.yml)
 ### [Get](azurestack/EdgeGatewayPools/Get.yml)
@@ -1918,6 +2037,18 @@
 ### [Overview](azurestack/MacAddressPools.yml)
 ### [Get](azurestack/MacAddressPools/Get.yml)
 ### [List](azurestack/MacAddressPools/List.yml)
+## Manifests
+### [Overview](azurestack/Manifests.yml)
+### [Get](azurestack/Manifests/Get.yml)
+### [List](azurestack/Manifests/List.yml)
+## Nas Clusters
+### [Overview](azurestack/NasClusters.yml)
+### [Get](azurestack/NasClusters/Get.yml)
+### [List](azurestack/NasClusters/List.yml)
+## Network Operation Results
+### [Overview](azurestack/NetworkOperationResults.yml)
+### [Get](azurestack/NetworkOperationResults/Get.yml)
+### [List](azurestack/NetworkOperationResults/List.yml)
 ## Offer Delegations
 ### [Overview](azurestack/OfferDelegations.yml)
 ### [Create Or Update](azurestack/OfferDelegations/CreateOrUpdate.yml)
@@ -1935,36 +2066,45 @@
 ### [List Metric Definitions](azurestack/Offers/ListMetricDefinitions.yml)
 ### [List Metrics](azurestack/Offers/ListMetrics.yml)
 ### [Unlink](azurestack/Offers/Unlink.yml)
+## Offers (Subscription.Offer)
+### [Overview](azurestack/Offers%20(Subscription.Offer).yml)
+### [List](azurestack/Offers%20(Subscription.Offer)/List.yml)
 ## On Prem Locations
 ### [Overview](azurestack/OnPremLocations.yml)
 ### [List](azurestack/OnPremLocations/List.yml)
 ## Operations
 ### [Overview](azurestack/Operations.yml)
 ### [List](azurestack/Operations/List.yml)
+## Operations (BackupAdmin)
+### [Overview](azurestack/Operations%20(BackupAdmin).yml)
+### [List](azurestack/Operations%20(BackupAdmin)/List.yml)
 ## Operations (Commerce)
-### [Overview](azurestack/Operations (Commerce).yml)
-### [List](azurestack/Operations (Commerce)/List.yml)
+### [Overview](azurestack/Operations%20(Commerce).yml)
+### [List](azurestack/Operations%20(Commerce)/List.yml)
 ## Operations (Compute)
-### [Overview](azurestack/Operations (Compute).yml)
-### [List](azurestack/Operations (Compute)/List.yml)
+### [Overview](azurestack/Operations%20(Compute).yml)
+### [List](azurestack/Operations%20(Compute)/List.yml)
 ## Operations (Gallery)
-### [Overview](azurestack/Operations (Gallery).yml)
-### [List](azurestack/Operations (Gallery)/List.yml)
+### [Overview](azurestack/Operations%20(Gallery).yml)
+### [List](azurestack/Operations%20(Gallery)/List.yml)
 ## Operations (Health)
-### [Overview](azurestack/Operations (Health).yml)
-### [List](azurestack/Operations (Health)/List.yml)
+### [Overview](azurestack/Operations%20(Health).yml)
+### [List](azurestack/Operations%20(Health)/List.yml)
 ## Operations (KeyVault)
-### [Overview](azurestack/Operations (KeyVault).yml)
-### [List](azurestack/Operations (KeyVault)/List.yml)
+### [Overview](azurestack/Operations%20(KeyVault).yml)
+### [List](azurestack/Operations%20(KeyVault)/List.yml)
 ## Operations (Network)
-### [Overview](azurestack/Operations (Network).yml)
-### [List](azurestack/Operations (Network)/List.yml)
+### [Overview](azurestack/Operations%20(Network).yml)
+### [List](azurestack/Operations%20(Network)/List.yml)
+## Operations (StorageAdmin)
+### [Overview](azurestack/Operations%20(StorageAdmin).yml)
+### [List](azurestack/Operations%20(StorageAdmin)/List.yml)
 ## Operations (SubscriptionsAdmin)
-### [Overview](azurestack/Operations (SubscriptionsAdmin).yml)
-### [List](azurestack/Operations (SubscriptionsAdmin)/List.yml)
+### [Overview](azurestack/Operations%20(SubscriptionsAdmin).yml)
+### [List](azurestack/Operations%20(SubscriptionsAdmin)/List.yml)
 ## Operations (Update)
-### [Overview](azurestack/Operations (Update).yml)
-### [List](azurestack/Operations (Update)/List.yml)
+### [Overview](azurestack/Operations%20(Update).yml)
+### [List](azurestack/Operations%20(Update)/List.yml)
 ## Plans
 ### [Overview](azurestack/Plans.yml)
 ### [Create Or Update](azurestack/Plans/CreateOrUpdate.yml)
@@ -1988,25 +2128,25 @@
 ## Public IP Addresses
 ### [Overview](azurestack/PublicIPAddresses.yml)
 ### [List](azurestack/PublicIPAddresses/List.yml)
-## Quotas (Compute)
-### [Overview](azurestack/Quotas (Compute).yml)
-### [Create Or Update](azurestack/Quotas (Compute)/CreateOrUpdate.yml)
-### [Delete](azurestack/Quotas (Compute)/Delete.yml)
-### [Get](azurestack/Quotas (Compute)/Get.yml)
-### [List](azurestack/Quotas (Compute)/List.yml)
+## Quotas
+### [Overview](azurestack/Quotas.yml)
+### [Create Or Update](azurestack/Quotas/CreateOrUpdate.yml)
+### [Delete](azurestack/Quotas/Delete.yml)
+### [Get](azurestack/Quotas/Get.yml)
+### [List](azurestack/Quotas/List.yml)
 ## Quotas (KeyVault)
-### [Overview](azurestack/Quotas (KeyVault).yml)
-### [List](azurestack/Quotas (KeyVault)/List.yml)
+### [Overview](azurestack/Quotas%20(KeyVault).yml)
+### [List](azurestack/Quotas%20(KeyVault)/List.yml)
 ## Quotas (Network)
-### [Overview](azurestack/Quotas (Network).yml)
-### [Create Or Update](azurestack/Quotas (Network)/CreateOrUpdate.yml)
-### [Delete](azurestack/Quotas (Network)/Delete.yml)
-### [Get](azurestack/Quotas (Network)/Get.yml)
-### [List](azurestack/Quotas (Network)/List.yml)
+### [Overview](azurestack/Quotas%20(Network).yml)
+### [Create Or Update](azurestack/Quotas%20(Network)/CreateOrUpdate.yml)
+### [Delete](azurestack/Quotas%20(Network)/Delete.yml)
+### [Get](azurestack/Quotas%20(Network)/Get.yml)
+### [List](azurestack/Quotas%20(Network)/List.yml)
 ## Quotas (SubscriptionsAdmin)
-### [Overview](azurestack/Quotas (SubscriptionsAdmin).yml)
-### [Get](azurestack/Quotas (SubscriptionsAdmin)/Get.yml)
-### [List](azurestack/Quotas (SubscriptionsAdmin)/List.yml)
+### [Overview](azurestack/Quotas%20(SubscriptionsAdmin).yml)
+### [Get](azurestack/Quotas%20(SubscriptionsAdmin)/Get.yml)
+### [List](azurestack/Quotas%20(SubscriptionsAdmin)/List.yml)
 ## Region Healths
 ### [Overview](azurestack/RegionHealths.yml)
 ### [Get](azurestack/RegionHealths/Get.yml)
@@ -2045,10 +2185,40 @@
 ### [Overview](azurestack/SlbMuxInstances.yml)
 ### [Get](azurestack/SlbMuxInstances/Get.yml)
 ### [List](azurestack/SlbMuxInstances/List.yml)
+## Storage Accounts
+### [Overview](azurestack/StorageAccounts.yml)
+### [Get](azurestack/StorageAccounts/Get.yml)
+### [List](azurestack/StorageAccounts/List.yml)
+### [Reclaim Storage Capacity](azurestack/StorageAccounts/ReclaimStorageCapacity.yml)
+### [Undelete](azurestack/StorageAccounts/Undelete.yml)
+## Storage Operation Results
+### [Overview](azurestack/StorageOperationResults.yml)
+### [Get](azurestack/StorageOperationResults/Get.yml)
+### [List](azurestack/StorageOperationResults/List.yml)
 ## Storage Pools
 ### [Overview](azurestack/StoragePools.yml)
 ### [Get](azurestack/StoragePools/Get.yml)
 ### [List](azurestack/StoragePools/List.yml)
+## Storage Quotas
+### [Overview](azurestack/StorageQuotas.yml)
+### [Create Or Update](azurestack/StorageQuotas/CreateOrUpdate.yml)
+### [Delete](azurestack/StorageQuotas/Delete.yml)
+### [Get](azurestack/StorageQuotas/Get.yml)
+### [List](azurestack/StorageQuotas/List.yml)
+## Storage Services
+### [Overview](azurestack/StorageServices.yml)
+### [Create](azurestack/StorageServices/Create.yml)
+### [Get](azurestack/StorageServices/Get.yml)
+### [List RG](azurestack/StorageServices/ListRG.yml)
+### [List Sub](azurestack/StorageServices/ListSub.yml)
+## Storage Settings
+### [Overview](azurestack/StorageSettings.yml)
+### [Get](azurestack/StorageSettings/Get.yml)
+### [Update](azurestack/StorageSettings/Update.yml)
+## Storage Sub Systems
+### [Overview](azurestack/StorageSubSystems.yml)
+### [Get](azurestack/StorageSubSystems/Get.yml)
+### [List](azurestack/StorageSubSystems/List.yml)
 ## Storage Systems
 ### [Overview](azurestack/StorageSystems.yml)
 ### [Get](azurestack/StorageSystems/Get.yml)
@@ -2065,12 +2235,18 @@
 ### [List](azurestack/Subscriptions/List.yml)
 ### [Move Subscriptions](azurestack/Subscriptions/MoveSubscriptions.yml)
 ### [Validate Move Subscriptions](azurestack/Subscriptions/ValidateMoveSubscriptions.yml)
+## Subscriptions (User)
+### [Overview](azurestack/Subscriptions%20(User).yml)
+### [Create Or Update](azurestack/Subscriptions%20(User)/CreateOrUpdate.yml)
+### [Delete](azurestack/Subscriptions%20(User)/Delete.yml)
+### [Get](azurestack/Subscriptions%20(User)/Get.yml)
+### [List](azurestack/Subscriptions%20(User)/List.yml)
 ## Update Encryption (Commerce)
-### [Overview](azurestack/Update Encryption (Commerce).yml)
-### [Update Encryption](azurestack/Update Encryption (Commerce)/UpdateEncryption.yml)
+### [Overview](azurestack/Update%20Encryption%20(Commerce).yml)
+### [Update Encryption](azurestack/Update%20Encryption%20(Commerce)/UpdateEncryption.yml)
 ## Update Encryption (SubscriptionsAdmin)
-### [Overview](azurestack/Update Encryption (SubscriptionsAdmin).yml)
-### [Update Encryption](azurestack/Update Encryption (SubscriptionsAdmin)/UpdateEncryption.yml)
+### [Overview](azurestack/Update%20Encryption%20(SubscriptionsAdmin).yml)
+### [Update Encryption](azurestack/Update%20Encryption%20(SubscriptionsAdmin)/UpdateEncryption.yml)
 ## Update Locations
 ### [Overview](azurestack/UpdateLocations.yml)
 ### [Get](azurestack/UpdateLocations/Get.yml)
@@ -2357,11 +2533,14 @@
 ##### [List By Billing Account](billing/2019-10-01-preview/BillingPermissions/ListByBillingAccount.yml)
 ##### [List By Billing Profile](billing/2019-10-01-preview/BillingPermissions/ListByBillingProfile.yml)
 ##### [List By Customer](billing/2019-10-01-preview/BillingPermissions/ListByCustomer.yml)
+##### [List By Department](billing/2019-10-01-preview/BillingPermissions/ListByDepartment.yml)
+##### [List By Enrollment Account](billing/2019-10-01-preview/BillingPermissions/ListByEnrollmentAccount.yml)
 ##### [List By Invoice Sections](billing/2019-10-01-preview/BillingPermissions/ListByInvoiceSections.yml)
 #### Billing Profiles
 ##### [Overview](billing/2019-10-01-preview/BillingProfiles.yml)
 ##### [Create](billing/2019-10-01-preview/BillingProfiles/Create.yml)
 ##### [Get](billing/2019-10-01-preview/BillingProfiles/Get.yml)
+##### [Get Eligibility To Detach Payment Method](billing/2019-10-01-preview/BillingProfiles/GetEligibilityToDetachPaymentMethod.yml)
 ##### [List By Billing Account](billing/2019-10-01-preview/BillingProfiles/ListByBillingAccount.yml)
 ##### [Update](billing/2019-10-01-preview/BillingProfiles/Update.yml)
 #### Billing Property
@@ -2374,20 +2553,30 @@
 ##### [Add By Invoice Section](billing/2019-10-01-preview/BillingRoleAssignments/AddByInvoiceSection.yml)
 ##### [Delete By Billing Account](billing/2019-10-01-preview/BillingRoleAssignments/DeleteByBillingAccount.yml)
 ##### [Delete By Billing Profile](billing/2019-10-01-preview/BillingRoleAssignments/DeleteByBillingProfile.yml)
+##### [Delete By Department](billing/2019-10-01-preview/BillingRoleAssignments/DeleteByDepartment.yml)
+##### [Delete By Enrollment Account](billing/2019-10-01-preview/BillingRoleAssignments/DeleteByEnrollmentAccount.yml)
 ##### [Delete By Invoice Section](billing/2019-10-01-preview/BillingRoleAssignments/DeleteByInvoiceSection.yml)
 ##### [Get By Billing Account](billing/2019-10-01-preview/BillingRoleAssignments/GetByBillingAccount.yml)
 ##### [Get By Billing Profile](billing/2019-10-01-preview/BillingRoleAssignments/GetByBillingProfile.yml)
+##### [Get By Department](billing/2019-10-01-preview/BillingRoleAssignments/GetByDepartment.yml)
+##### [Get By Enrollment Account](billing/2019-10-01-preview/BillingRoleAssignments/GetByEnrollmentAccount.yml)
 ##### [Get By Invoice Section](billing/2019-10-01-preview/BillingRoleAssignments/GetByInvoiceSection.yml)
 ##### [List By Billing Account](billing/2019-10-01-preview/BillingRoleAssignments/ListByBillingAccount.yml)
 ##### [List By Billing Profile](billing/2019-10-01-preview/BillingRoleAssignments/ListByBillingProfile.yml)
+##### [List By Department](billing/2019-10-01-preview/BillingRoleAssignments/ListByDepartment.yml)
+##### [List By Enrollment Account](billing/2019-10-01-preview/BillingRoleAssignments/ListByEnrollmentAccount.yml)
 ##### [List By Invoice Section](billing/2019-10-01-preview/BillingRoleAssignments/ListByInvoiceSection.yml)
 #### Billing Role Definitions
 ##### [Overview](billing/2019-10-01-preview/BillingRoleDefinitions.yml)
 ##### [Get By Billing Account](billing/2019-10-01-preview/BillingRoleDefinitions/GetByBillingAccount.yml)
 ##### [Get By Billing Profile](billing/2019-10-01-preview/BillingRoleDefinitions/GetByBillingProfile.yml)
+##### [Get By Department](billing/2019-10-01-preview/BillingRoleDefinitions/GetByDepartment.yml)
+##### [Get By Enrollment Account](billing/2019-10-01-preview/BillingRoleDefinitions/GetByEnrollmentAccount.yml)
 ##### [Get By Invoice Section](billing/2019-10-01-preview/BillingRoleDefinitions/GetByInvoiceSection.yml)
 ##### [List By Billing Account](billing/2019-10-01-preview/BillingRoleDefinitions/ListByBillingAccount.yml)
 ##### [List By Billing Profile](billing/2019-10-01-preview/BillingRoleDefinitions/ListByBillingProfile.yml)
+##### [List By Department](billing/2019-10-01-preview/BillingRoleDefinitions/ListByDepartment.yml)
+##### [List By Enrollment Account](billing/2019-10-01-preview/BillingRoleDefinitions/ListByEnrollmentAccount.yml)
 ##### [List By Invoice Section](billing/2019-10-01-preview/BillingRoleDefinitions/ListByInvoiceSection.yml)
 #### Billing Subscriptions
 ##### [Overview](billing/2019-10-01-preview/BillingSubscriptions.yml)
@@ -2408,6 +2597,9 @@
 ##### [Overview](billing/2019-10-01-preview/Departments.yml)
 ##### [Get](billing/2019-10-01-preview/Departments/Get.yml)
 ##### [List By Billing Account Name](billing/2019-10-01-preview/Departments/ListByBillingAccountName.yml)
+#### Enrollment Account Role Assignments
+##### [Overview](billing/2019-10-01-preview/EnrollmentAccountRoleAssignments.yml)
+##### [Put](billing/2019-10-01-preview/EnrollmentAccountRoleAssignments/Put.yml)
 #### Enrollment Accounts
 ##### [Overview](billing/2019-10-01-preview/EnrollmentAccounts.yml)
 ##### [Get By Enrollment Account Id](billing/2019-10-01-preview/EnrollmentAccounts/GetByEnrollmentAccountId.yml)
@@ -3280,14 +3472,14 @@
 #### [Train](cognitiveservices/qnamakerruntime/Runtime/Train.yml)
 ## Text Analytics
 ### Detect Language
-#### [Overview](cognitiveservices/textanalytics/Detect Language.yml)
-#### [Detect Language](cognitiveservices/textanalytics/Detect Language/Detect Language.yml)
+#### [Overview](cognitiveservices/textanalytics/Detect%20Language.yml)
+#### [Detect Language](cognitiveservices/textanalytics/Detect%20Language/Detect%20Language.yml)
 ### Entities
 #### [Overview](cognitiveservices/textanalytics/Entities.yml)
 #### [Entities](cognitiveservices/textanalytics/Entities/Entities.yml)
 ### Key Phrases
-#### [Overview](cognitiveservices/textanalytics/Key Phrases.yml)
-#### [Key Phrases](cognitiveservices/textanalytics/Key Phrases/Key Phrases.yml)
+#### [Overview](cognitiveservices/textanalytics/Key%20Phrases.yml)
+#### [Key Phrases](cognitiveservices/textanalytics/Key%20Phrases/Key%20Phrases.yml)
 ### Sentiment
 #### [Overview](cognitiveservices/textanalytics/Sentiment.yml)
 #### [Sentiment](cognitiveservices/textanalytics/Sentiment/Sentiment.yml)
@@ -3573,8 +3765,8 @@
 #### [Update](compute/VirtualMachineScaleSets/Update.yml)
 #### [Update Instances](compute/VirtualMachineScaleSets/UpdateInstances.yml)
 ### Virtual Machine ScaleSetVMs Run Commands
-#### [Overview](compute/Virtual Machine ScaleSetVMs Run Commands.yml)
-#### [Run Command](compute/Virtual Machine ScaleSetVMs Run Commands/RunCommand.yml)
+#### [Overview](compute/Virtual%20Machine%20ScaleSetVMs%20Run%20Commands.yml)
+#### [Run Command](compute/Virtual%20Machine%20ScaleSetVMs%20Run%20Commands/RunCommand.yml)
 ### Virtual Machine Sizes
 #### [Overview](compute/VirtualMachineSizes.yml)
 #### [List](compute/VirtualMachineSizes/List.yml)
@@ -3602,8 +3794,8 @@
 #### [Update](compute/VirtualMachines/Update.yml)
 #### [simulate Eviction](compute/VirtualMachines/simulateEviction.yml)
 ### Virtual Machines Run Commands
-#### [Overview](compute/Virtual Machines Run Commands.yml)
-#### [Run Command](compute/Virtual Machines Run Commands/RunCommand.yml)
+#### [Overview](compute/Virtual%20Machines%20Run%20Commands.yml)
+#### [Run Command](compute/Virtual%20Machines%20Run%20Commands/RunCommand.yml)
 # Consumption
 ## [Overview](../docs-ref-conceptual/consumption/index.md)
 ## Aggregated Cost
@@ -3654,6 +3846,7 @@
 ## Reservation Transactions
 ### [Overview](consumption/ReservationTransactions.yml)
 ### [List](consumption/ReservationTransactions/List.yml)
+### [List By Billing Profile](consumption/ReservationTransactions/ListByBillingProfile.yml)
 ## Reservations Details
 ### [Overview](consumption/ReservationsDetails.yml)
 ### [List](consumption/ReservationsDetails/List.yml)
@@ -3672,13 +3865,6 @@
 ### [List](consumption/UsageDetails/List.yml)
 # Container Instances
 ## [Overview](../docs-ref-conceptual/container-instances/index.md)
-## Container
-### [Overview](container-instances/Container.yml)
-### [Execute Command](container-instances/Container/ExecuteCommand.yml)
-### [List Logs](container-instances/Container/ListLogs.yml)
-## Container Group Usage
-### [Overview](container-instances/ContainerGroupUsage.yml)
-### [List](container-instances/ContainerGroupUsage/List.yml)
 ## Container Groups
 ### [Overview](container-instances/ContainerGroups.yml)
 ### [Create Or Update](container-instances/ContainerGroups/CreateOrUpdate.yml)
@@ -3690,18 +3876,18 @@
 ### [Start](container-instances/ContainerGroups/Start.yml)
 ### [Stop](container-instances/ContainerGroups/Stop.yml)
 ### [Update](container-instances/ContainerGroups/Update.yml)
-## List Cached Images
-### [Overview](container-instances/ListCachedImages.yml)
-### [List Cached Images](container-instances/ListCachedImages/ListCachedImages.yml)
-## List Capabilities
-### [Overview](container-instances/ListCapabilities.yml)
-### [List Capabilities](container-instances/ListCapabilities/ListCapabilities.yml)
+## Containers
+### [Overview](container-instances/Containers.yml)
+### [Execute Command](container-instances/Containers/ExecuteCommand.yml)
+### [List Logs](container-instances/Containers/ListLogs.yml)
+## Location
+### [Overview](container-instances/Location.yml)
+### [List Cached Images](container-instances/Location/ListCachedImages.yml)
+### [List Capabilities](container-instances/Location/ListCapabilities.yml)
+### [List Usage](container-instances/Location/ListUsage.yml)
 ## Operations
 ### [Overview](container-instances/Operations.yml)
 ### [List](container-instances/Operations/List.yml)
-## Service Association Link
-### [Overview](container-instances/ServiceAssociationLink.yml)
-### [Delete](container-instances/ServiceAssociationLink/Delete.yml)
 # Container Registry
 ## [Overview](../docs-ref-conceptual/containerregistry/index.md)
 ## Access Tokens
@@ -3749,9 +3935,9 @@
 ### [Regenerate Credential](containerregistry/Registries/RegenerateCredential.yml)
 ### [Update](containerregistry/Registries/Update.yml)
 ## Registries (Tasks)
-### [Overview](containerregistry/Registries (Tasks).yml)
-### [Get Build Source Upload Url](containerregistry/Registries (Tasks)/GetBuildSourceUploadUrl.yml)
-### [Schedule Run](containerregistry/Registries (Tasks)/ScheduleRun.yml)
+### [Overview](containerregistry/Registries%20(Tasks).yml)
+### [Get Build Source Upload Url](containerregistry/Registries%20(Tasks)/GetBuildSourceUploadUrl.yml)
+### [Schedule Run](containerregistry/Registries%20(Tasks)/ScheduleRun.yml)
 ## Replications
 ### [Overview](containerregistry/Replications.yml)
 ### [Create](containerregistry/Replications/Create.yml)
@@ -3802,8 +3988,8 @@
 # Container Service
 ## [Overview](../docs-ref-conceptual/container-service/index.md)
 ## Container Service Client
-### [Overview](container-service/Container Service Client.yml)
-### [List Orchestrators](container-service/Container Service Client/ListOrchestrators.yml)
+### [Overview](container-service/Container%20Service%20Client.yml)
+### [List Orchestrators](container-service/Container%20Service%20Client/ListOrchestrators.yml)
 ## Container Services
 ### [Overview](container-service/ContainerServices.yml)
 ### [Create Or Update](container-service/ContainerServices/CreateOrUpdate.yml)
@@ -3904,6 +4090,10 @@
 #### [Get Cassandra Table Throughput](cosmos-db-resource-provider/CassandraResources/GetCassandraTableThroughput.yml)
 #### [List Cassandra Keyspaces](cosmos-db-resource-provider/CassandraResources/ListCassandraKeyspaces.yml)
 #### [List Cassandra Tables](cosmos-db-resource-provider/CassandraResources/ListCassandraTables.yml)
+#### [Migrate Cassandra Keyspace To Autoscale](cosmos-db-resource-provider/CassandraResources/MigrateCassandraKeyspaceToAutoscale.yml)
+#### [Migrate Cassandra Keyspace To Manual Throughput](cosmos-db-resource-provider/CassandraResources/MigrateCassandraKeyspaceToManualThroughput.yml)
+#### [Migrate Cassandra Table To Autoscale](cosmos-db-resource-provider/CassandraResources/MigrateCassandraTableToAutoscale.yml)
+#### [Migrate Cassandra Table To Manual Throughput](cosmos-db-resource-provider/CassandraResources/MigrateCassandraTableToManualThroughput.yml)
 #### [Update Cassandra Keyspace Throughput](cosmos-db-resource-provider/CassandraResources/UpdateCassandraKeyspaceThroughput.yml)
 #### [Update Cassandra Table Throughput](cosmos-db-resource-provider/CassandraResources/UpdateCassandraTableThroughput.yml)
 ### Collection
@@ -3961,6 +4151,10 @@
 #### [Get Gremlin Graph Throughput](cosmos-db-resource-provider/GremlinResources/GetGremlinGraphThroughput.yml)
 #### [List Gremlin Databases](cosmos-db-resource-provider/GremlinResources/ListGremlinDatabases.yml)
 #### [List Gremlin Graphs](cosmos-db-resource-provider/GremlinResources/ListGremlinGraphs.yml)
+#### [Migrate Gremlin Database To Autoscale](cosmos-db-resource-provider/GremlinResources/MigrateGremlinDatabaseToAutoscale.yml)
+#### [Migrate Gremlin Database To Manual Throughput](cosmos-db-resource-provider/GremlinResources/MigrateGremlinDatabaseToManualThroughput.yml)
+#### [Migrate Gremlin Graph To Autoscale](cosmos-db-resource-provider/GremlinResources/MigrateGremlinGraphToAutoscale.yml)
+#### [Migrate Gremlin Graph To Manual Throughput](cosmos-db-resource-provider/GremlinResources/MigrateGremlinGraphToManualThroughput.yml)
 #### [Update Gremlin Database Throughput](cosmos-db-resource-provider/GremlinResources/UpdateGremlinDatabaseThroughput.yml)
 #### [Update Gremlin Graph Throughput](cosmos-db-resource-provider/GremlinResources/UpdateGremlinGraphThroughput.yml)
 ### Mongo DB Resources
@@ -3975,8 +4169,21 @@
 #### [Get Mongo DB Database Throughput](cosmos-db-resource-provider/MongoDBResources/GetMongoDBDatabaseThroughput.yml)
 #### [List Mongo DB Collections](cosmos-db-resource-provider/MongoDBResources/ListMongoDBCollections.yml)
 #### [List Mongo DB Databases](cosmos-db-resource-provider/MongoDBResources/ListMongoDBDatabases.yml)
+#### [Migrate Mongo DB Collection To Autoscale](cosmos-db-resource-provider/MongoDBResources/MigrateMongoDBCollectionToAutoscale.yml)
+#### [Migrate Mongo DB Collection To Manual Throughput](cosmos-db-resource-provider/MongoDBResources/MigrateMongoDBCollectionToManualThroughput.yml)
+#### [Migrate Mongo DB Database To Autoscale](cosmos-db-resource-provider/MongoDBResources/MigrateMongoDBDatabaseToAutoscale.yml)
+#### [Migrate Mongo DB Database To Manual Throughput](cosmos-db-resource-provider/MongoDBResources/MigrateMongoDBDatabaseToManualThroughput.yml)
 #### [Update Mongo DB Collection Throughput](cosmos-db-resource-provider/MongoDBResources/UpdateMongoDBCollectionThroughput.yml)
 #### [Update Mongo DB Database Throughput](cosmos-db-resource-provider/MongoDBResources/UpdateMongoDBDatabaseThroughput.yml)
+### Notebook Workspaces
+#### [Overview](cosmos-db-resource-provider/NotebookWorkspaces.yml)
+#### [Create Or Update](cosmos-db-resource-provider/NotebookWorkspaces/CreateOrUpdate.yml)
+#### [Delete](cosmos-db-resource-provider/NotebookWorkspaces/Delete.yml)
+#### [Get](cosmos-db-resource-provider/NotebookWorkspaces/Get.yml)
+#### [List By Database Account](cosmos-db-resource-provider/NotebookWorkspaces/ListByDatabaseAccount.yml)
+#### [List Connection Info](cosmos-db-resource-provider/NotebookWorkspaces/ListConnectionInfo.yml)
+#### [Regenerate Auth Token](cosmos-db-resource-provider/NotebookWorkspaces/RegenerateAuthToken.yml)
+#### [Start](cosmos-db-resource-provider/NotebookWorkspaces/Start.yml)
 ### Operations
 #### [Overview](cosmos-db-resource-provider/Operations.yml)
 #### [List](cosmos-db-resource-provider/Operations/List.yml)
@@ -4019,6 +4226,10 @@
 #### [List Sql Stored Procedures](cosmos-db-resource-provider/SqlResources/ListSqlStoredProcedures.yml)
 #### [List Sql Triggers](cosmos-db-resource-provider/SqlResources/ListSqlTriggers.yml)
 #### [List Sql User Defined Functions](cosmos-db-resource-provider/SqlResources/ListSqlUserDefinedFunctions.yml)
+#### [Migrate Sql Container To Autoscale](cosmos-db-resource-provider/SqlResources/MigrateSqlContainerToAutoscale.yml)
+#### [Migrate Sql Container To Manual Throughput](cosmos-db-resource-provider/SqlResources/MigrateSqlContainerToManualThroughput.yml)
+#### [Migrate Sql Database To Autoscale](cosmos-db-resource-provider/SqlResources/MigrateSqlDatabaseToAutoscale.yml)
+#### [Migrate Sql Database To Manual Throughput](cosmos-db-resource-provider/SqlResources/MigrateSqlDatabaseToManualThroughput.yml)
 #### [Update Sql Container Throughput](cosmos-db-resource-provider/SqlResources/UpdateSqlContainerThroughput.yml)
 #### [Update Sql Database Throughput](cosmos-db-resource-provider/SqlResources/UpdateSqlDatabaseThroughput.yml)
 ### Table Resources
@@ -4028,6 +4239,8 @@
 #### [Get Table](cosmos-db-resource-provider/TableResources/GetTable.yml)
 #### [Get Table Throughput](cosmos-db-resource-provider/TableResources/GetTableThroughput.yml)
 #### [List Tables](cosmos-db-resource-provider/TableResources/ListTables.yml)
+#### [Migrate Table To Autoscale](cosmos-db-resource-provider/TableResources/MigrateTableToAutoscale.yml)
+#### [Migrate Table To Manual Throughput](cosmos-db-resource-provider/TableResources/MigrateTableToManualThroughput.yml)
 #### [Update Table Throughput](cosmos-db-resource-provider/TableResources/UpdateTableThroughput.yml)
 # Cost Management
 ## [Overview](../docs-ref-conceptual/cost-management/index.md)
@@ -4299,6 +4512,7 @@
 #### [List By Factory](datafactory/Pipelines/ListByFactory.yml)
 ### Trigger Runs
 #### [Overview](datafactory/TriggerRuns.yml)
+#### [Cancel](datafactory/TriggerRuns/Cancel.yml)
 #### [Query By Factory](datafactory/TriggerRuns/QueryByFactory.yml)
 #### [Rerun](datafactory/TriggerRuns/Rerun.yml)
 ### Triggers
@@ -4648,6 +4862,64 @@
 ### [Delete](deploymentmanager/Steps/Delete.yml)
 ### [Get](deploymentmanager/Steps/Get.yml)
 ### [List](deploymentmanager/Steps/List.yml)
+# Desktop Virtualization
+## [Overview](../docs-ref-conceptual/desktopvirtualization/index.md)
+## Application Groups
+### [Overview](desktopvirtualization/ApplicationGroups.yml)
+### [Create Or Update](desktopvirtualization/ApplicationGroups/CreateOrUpdate.yml)
+### [Delete](desktopvirtualization/ApplicationGroups/Delete.yml)
+### [Get](desktopvirtualization/ApplicationGroups/Get.yml)
+### [List By Resource Group](desktopvirtualization/ApplicationGroups/ListByResourceGroup.yml)
+### [List By Subscription](desktopvirtualization/ApplicationGroups/ListBySubscription.yml)
+### [Update](desktopvirtualization/ApplicationGroups/Update.yml)
+## Applications
+### [Overview](desktopvirtualization/Applications.yml)
+### [Create Or Update](desktopvirtualization/Applications/CreateOrUpdate.yml)
+### [Delete](desktopvirtualization/Applications/Delete.yml)
+### [Get](desktopvirtualization/Applications/Get.yml)
+### [List](desktopvirtualization/Applications/List.yml)
+### [Update](desktopvirtualization/Applications/Update.yml)
+## Desktops
+### [Overview](desktopvirtualization/Desktops.yml)
+### [Get](desktopvirtualization/Desktops/Get.yml)
+### [List](desktopvirtualization/Desktops/List.yml)
+### [Update](desktopvirtualization/Desktops/Update.yml)
+## Host Pools
+### [Overview](desktopvirtualization/HostPools.yml)
+### [Create Or Update](desktopvirtualization/HostPools/CreateOrUpdate.yml)
+### [Delete](desktopvirtualization/HostPools/Delete.yml)
+### [Get](desktopvirtualization/HostPools/Get.yml)
+### [List](desktopvirtualization/HostPools/List.yml)
+### [List By Resource Group](desktopvirtualization/HostPools/ListByResourceGroup.yml)
+### [Update](desktopvirtualization/HostPools/Update.yml)
+## Operations
+### [Overview](desktopvirtualization/Operations.yml)
+### [List](desktopvirtualization/Operations/List.yml)
+## Session Hosts
+### [Overview](desktopvirtualization/SessionHosts.yml)
+### [Delete](desktopvirtualization/SessionHosts/Delete.yml)
+### [Get](desktopvirtualization/SessionHosts/Get.yml)
+### [List](desktopvirtualization/SessionHosts/List.yml)
+### [Update](desktopvirtualization/SessionHosts/Update.yml)
+## Start Menu Items
+### [Overview](desktopvirtualization/StartMenuItems.yml)
+### [List](desktopvirtualization/StartMenuItems/List.yml)
+## User Sessions
+### [Overview](desktopvirtualization/UserSessions.yml)
+### [Delete](desktopvirtualization/UserSessions/Delete.yml)
+### [Disconnect](desktopvirtualization/UserSessions/Disconnect.yml)
+### [Get](desktopvirtualization/UserSessions/Get.yml)
+### [List](desktopvirtualization/UserSessions/List.yml)
+### [List By Host Pool](desktopvirtualization/UserSessions/ListByHostPool.yml)
+### [Send Message](desktopvirtualization/UserSessions/SendMessage.yml)
+## Workspaces
+### [Overview](desktopvirtualization/Workspaces.yml)
+### [Create Or Update](desktopvirtualization/Workspaces/CreateOrUpdate.yml)
+### [Delete](desktopvirtualization/Workspaces/Delete.yml)
+### [Get](desktopvirtualization/Workspaces/Get.yml)
+### [List By Resource Group](desktopvirtualization/Workspaces/ListByResourceGroup.yml)
+### [List By Subscription](desktopvirtualization/Workspaces/ListBySubscription.yml)
+### [Update](desktopvirtualization/Workspaces/Update.yml)
 # Dev Test Labs
 ## [Overview](../docs-ref-conceptual/DTL/index.md)
 ## Arm Templates
@@ -4880,6 +5152,10 @@
 #### [Update](dns/privatedns/VirtualNetworkLinks/Update.yml)
 # Event Grid
 ## [Overview](../docs-ref-conceptual/eventgrid/index.md)
+## Data Plane
+### Publish Events
+#### [Overview](eventgrid/dataplane/PublishEvents.yml)
+#### [Publish Events](eventgrid/dataplane/PublishEvents/PublishEvents.yml)
 ## Version 2020-04-01-preview
 ### Domain Topics
 #### [Overview](eventgrid/version2020-04-01-preview/DomainTopics.yml)
@@ -5090,6 +5366,7 @@
 #### [Get partition runtime metadata](../docs-ref-conceptual/EventHub/get-partition-runtime-metadata.md)
 #### [List partition runtime metadata](../docs-ref-conceptual/EventHub/list-partition-runtime-metadata.md)
 ### [Generate SAS token](../docs-ref-conceptual/EventHub/generate-sas-token.md)
+### [Get token from Azure Active Directory](../docs-ref-conceptual/EventHub/get-azure-active-directory-token.md)
 ### [Send event](../docs-ref-conceptual/EventHub/send-event.md)
 ### [Send event with publisher ID](../docs-ref-conceptual/EventHub/send-event-with-publisher-id.md)
 ### [Send partition event](../docs-ref-conceptual/EventHub/send-partition-event.md)
@@ -5097,29 +5374,29 @@
 ## Reference
 ### 2017-04-01
 #### Authorization Rules - DisasterRecoveryConfigs
-##### [Overview](EventHub/2017-04-01/Authorization Rules - DisasterRecoveryConfigs.yml)
-##### [Get Authorization Rule](EventHub/2017-04-01/Authorization Rules - DisasterRecoveryConfigs/GetAuthorizationRule.yml)
-##### [List Authorization Rules](EventHub/2017-04-01/Authorization Rules - DisasterRecoveryConfigs/ListAuthorizationRules.yml)
-##### [List Keys](EventHub/2017-04-01/Authorization Rules - DisasterRecoveryConfigs/ListKeys.yml)
+##### [Overview](EventHub/2017-04-01/Authorization%20Rules%20-%20DisasterRecoveryConfigs.yml)
+##### [Get Authorization Rule](EventHub/2017-04-01/Authorization%20Rules%20-%20DisasterRecoveryConfigs/GetAuthorizationRule.yml)
+##### [List Authorization Rules](EventHub/2017-04-01/Authorization%20Rules%20-%20DisasterRecoveryConfigs/ListAuthorizationRules.yml)
+##### [List Keys](EventHub/2017-04-01/Authorization%20Rules%20-%20DisasterRecoveryConfigs/ListKeys.yml)
 #### Authorization Rules - Event Hubs
-##### [Overview](EventHub/2017-04-01/Authorization Rules - Event Hubs.yml)
-##### [Create Or Update Authorization Rule](EventHub/2017-04-01/Authorization Rules - Event Hubs/CreateOrUpdateAuthorizationRule.yml)
-##### [Delete Authorization Rule](EventHub/2017-04-01/Authorization Rules - Event Hubs/DeleteAuthorizationRule.yml)
-##### [Get Authorization Rule](EventHub/2017-04-01/Authorization Rules - Event Hubs/GetAuthorizationRule.yml)
-##### [List Authorization Rules](EventHub/2017-04-01/Authorization Rules - Event Hubs/ListAuthorizationRules.yml)
-##### [List Keys](EventHub/2017-04-01/Authorization Rules - Event Hubs/ListKeys.yml)
-##### [Regenerate Keys](EventHub/2017-04-01/Authorization Rules - Event Hubs/RegenerateKeys.yml)
+##### [Overview](EventHub/2017-04-01/Authorization%20Rules%20-%20Event%20Hubs.yml)
+##### [Create Or Update Authorization Rule](EventHub/2017-04-01/Authorization%20Rules%20-%20Event%20Hubs/CreateOrUpdateAuthorizationRule.yml)
+##### [Delete Authorization Rule](EventHub/2017-04-01/Authorization%20Rules%20-%20Event%20Hubs/DeleteAuthorizationRule.yml)
+##### [Get Authorization Rule](EventHub/2017-04-01/Authorization%20Rules%20-%20Event%20Hubs/GetAuthorizationRule.yml)
+##### [List Authorization Rules](EventHub/2017-04-01/Authorization%20Rules%20-%20Event%20Hubs/ListAuthorizationRules.yml)
+##### [List Keys](EventHub/2017-04-01/Authorization%20Rules%20-%20Event%20Hubs/ListKeys.yml)
+##### [Regenerate Keys](EventHub/2017-04-01/Authorization%20Rules%20-%20Event%20Hubs/RegenerateKeys.yml)
 #### Authorization Rules - Namespaces
-##### [Overview](EventHub/2017-04-01/Authorization Rules - Namespaces.yml)
-##### [Create Or Update Authorization Rule](EventHub/2017-04-01/Authorization Rules - Namespaces/CreateOrUpdateAuthorizationRule.yml)
-##### [Delete Authorization Rule](EventHub/2017-04-01/Authorization Rules - Namespaces/DeleteAuthorizationRule.yml)
-##### [Get Authorization Rule](EventHub/2017-04-01/Authorization Rules - Namespaces/GetAuthorizationRule.yml)
-##### [List Authorization Rules](EventHub/2017-04-01/Authorization Rules - Namespaces/ListAuthorizationRules.yml)
-##### [List Keys](EventHub/2017-04-01/Authorization Rules - Namespaces/ListKeys.yml)
-##### [Regenerate Keys](EventHub/2017-04-01/Authorization Rules - Namespaces/RegenerateKeys.yml)
+##### [Overview](EventHub/2017-04-01/Authorization%20Rules%20-%20Namespaces.yml)
+##### [Create Or Update Authorization Rule](EventHub/2017-04-01/Authorization%20Rules%20-%20Namespaces/CreateOrUpdateAuthorizationRule.yml)
+##### [Delete Authorization Rule](EventHub/2017-04-01/Authorization%20Rules%20-%20Namespaces/DeleteAuthorizationRule.yml)
+##### [Get Authorization Rule](EventHub/2017-04-01/Authorization%20Rules%20-%20Namespaces/GetAuthorizationRule.yml)
+##### [List Authorization Rules](EventHub/2017-04-01/Authorization%20Rules%20-%20Namespaces/ListAuthorizationRules.yml)
+##### [List Keys](EventHub/2017-04-01/Authorization%20Rules%20-%20Namespaces/ListKeys.yml)
+##### [Regenerate Keys](EventHub/2017-04-01/Authorization%20Rules%20-%20Namespaces/RegenerateKeys.yml)
 #### Check Name Availability - Namespaces
-##### [Overview](EventHub/2017-04-01/Check Name Availability - Namespaces.yml)
-##### [Check Name Availability](EventHub/2017-04-01/Check Name Availability - Namespaces/CheckNameAvailability.yml)
+##### [Overview](EventHub/2017-04-01/Check%20Name%20Availability%20-%20Namespaces.yml)
+##### [Check Name Availability](EventHub/2017-04-01/Check%20Name%20Availability%20-%20Namespaces/CheckNameAvailability.yml)
 #### Consumer Groups
 ##### [Overview](EventHub/2017-04-01/ConsumerGroups.yml)
 ##### [Create Or Update](EventHub/2017-04-01/ConsumerGroups/CreateOrUpdate.yml)
@@ -5151,10 +5428,10 @@
 ##### [List By Resource Group](EventHub/2017-04-01/Namespaces/ListByResourceGroup.yml)
 ##### [Update](EventHub/2017-04-01/Namespaces/Update.yml)
 #### Network Rule Sets
-##### [Overview](EventHub/2017-04-01/Network Rule Sets.yml)
-##### [Create Or Update Network Rule Set](EventHub/2017-04-01/Network Rule Sets/CreateOrUpdateNetworkRuleSet.yml)
-##### [Get Network Rule Set](EventHub/2017-04-01/Network Rule Sets/GetNetworkRuleSet.yml)
-##### [List Network Rule Sets](EventHub/2017-04-01/Network Rule Sets/ListNetworkRuleSets.yml)
+##### [Overview](EventHub/2017-04-01/Network%20Rule%20Sets.yml)
+##### [Create Or Update Network Rule Set](EventHub/2017-04-01/Network%20Rule%20Sets/CreateOrUpdateNetworkRuleSet.yml)
+##### [Get Network Rule Set](EventHub/2017-04-01/Network%20Rule%20Sets/GetNetworkRuleSet.yml)
+##### [List Network Rule Sets](EventHub/2017-04-01/Network%20Rule%20Sets/ListNetworkRuleSets.yml)
 #### Operations
 ##### [Overview](EventHub/2017-04-01/Operations.yml)
 ##### [List](EventHub/2017-04-01/Operations/List.yml)
@@ -5163,8 +5440,8 @@
 ##### [List By Sku](EventHub/2017-04-01/Regions/ListBySku.yml)
 ### 2018-01-01-preview
 #### Available Cluster Regions
-##### [Overview](EventHub/2018-01-01-preview/Available Cluster Regions.yml)
-##### [List Available Cluster Region](EventHub/2018-01-01-preview/Available Cluster Regions/ListAvailableClusterRegion.yml)
+##### [Overview](EventHub/2018-01-01-preview/Available%20Cluster%20Regions.yml)
+##### [List Available Cluster Region](EventHub/2018-01-01-preview/Available%20Cluster%20Regions/ListAvailableClusterRegion.yml)
 #### Clusters
 ##### [Overview](EventHub/2018-01-01-preview/Clusters.yml)
 ##### [Create Or Update](EventHub/2018-01-01-preview/Clusters/CreateOrUpdate.yml)
@@ -5174,11 +5451,11 @@
 ##### [List Namespaces](EventHub/2018-01-01-preview/Clusters/ListNamespaces.yml)
 ##### [Update](EventHub/2018-01-01-preview/Clusters/Update.yml)
 #### IP Filter Rules
-##### [Overview](EventHub/2018-01-01-preview/IP Filter Rules.yml)
-##### [Create Or Update Ip Filter Rule](EventHub/2018-01-01-preview/IP Filter Rules/CreateOrUpdateIpFilterRule.yml)
-##### [Delete Ip Filter Rule](EventHub/2018-01-01-preview/IP Filter Rules/DeleteIpFilterRule.yml)
-##### [Get Ip Filter Rule](EventHub/2018-01-01-preview/IP Filter Rules/GetIpFilterRule.yml)
-##### [List IP Filter Rules](EventHub/2018-01-01-preview/IP Filter Rules/ListIPFilterRules.yml)
+##### [Overview](EventHub/2018-01-01-preview/IP%20Filter%20Rules.yml)
+##### [Create Or Update Ip Filter Rule](EventHub/2018-01-01-preview/IP%20Filter%20Rules/CreateOrUpdateIpFilterRule.yml)
+##### [Delete Ip Filter Rule](EventHub/2018-01-01-preview/IP%20Filter%20Rules/DeleteIpFilterRule.yml)
+##### [Get Ip Filter Rule](EventHub/2018-01-01-preview/IP%20Filter%20Rules/GetIpFilterRule.yml)
+##### [List IP Filter Rules](EventHub/2018-01-01-preview/IP%20Filter%20Rules/ListIPFilterRules.yml)
 #### Namespaces
 ##### [Overview](EventHub/2018-01-01-preview/Namespaces.yml)
 ##### [Create Or Update](EventHub/2018-01-01-preview/Namespaces/CreateOrUpdate.yml)
@@ -5188,22 +5465,22 @@
 ##### [List By Resource Group](EventHub/2018-01-01-preview/Namespaces/ListByResourceGroup.yml)
 ##### [Update](EventHub/2018-01-01-preview/Namespaces/Update.yml)
 #### Network Rule Sets
-##### [Overview](EventHub/2018-01-01-preview/Network Rule Sets.yml)
-##### [Create Or Update Network Rule Set](EventHub/2018-01-01-preview/Network Rule Sets/CreateOrUpdateNetworkRuleSet.yml)
-##### [Get Network Rule Set](EventHub/2018-01-01-preview/Network Rule Sets/GetNetworkRuleSet.yml)
+##### [Overview](EventHub/2018-01-01-preview/Network%20Rule%20Sets.yml)
+##### [Create Or Update Network Rule Set](EventHub/2018-01-01-preview/Network%20Rule%20Sets/CreateOrUpdateNetworkRuleSet.yml)
+##### [Get Network Rule Set](EventHub/2018-01-01-preview/Network%20Rule%20Sets/GetNetworkRuleSet.yml)
 #### Operations
 ##### [Overview](EventHub/2018-01-01-preview/Operations.yml)
 ##### [List](EventHub/2018-01-01-preview/Operations/List.yml)
 #### Quota Configuration
-##### [Overview](EventHub/2018-01-01-preview/Quota Configuration.yml)
-##### [Get](EventHub/2018-01-01-preview/Quota Configuration/Get.yml)
-##### [Patch](EventHub/2018-01-01-preview/Quota Configuration/Patch.yml)
+##### [Overview](EventHub/2018-01-01-preview/Quota%20Configuration.yml)
+##### [Get](EventHub/2018-01-01-preview/Quota%20Configuration/Get.yml)
+##### [Patch](EventHub/2018-01-01-preview/Quota%20Configuration/Patch.yml)
 #### Virtual Network Rules
-##### [Overview](EventHub/2018-01-01-preview/Virtual Network Rules.yml)
-##### [Create Or Update Virtual Network Rule](EventHub/2018-01-01-preview/Virtual Network Rules/CreateOrUpdateVirtualNetworkRule.yml)
-##### [Delete Virtual Network Rule](EventHub/2018-01-01-preview/Virtual Network Rules/DeleteVirtualNetworkRule.yml)
-##### [Get Virtual Network Rule](EventHub/2018-01-01-preview/Virtual Network Rules/GetVirtualNetworkRule.yml)
-##### [List Virtual Network Rules](EventHub/2018-01-01-preview/Virtual Network Rules/ListVirtualNetworkRules.yml)
+##### [Overview](EventHub/2018-01-01-preview/Virtual%20Network%20Rules.yml)
+##### [Create Or Update Virtual Network Rule](EventHub/2018-01-01-preview/Virtual%20Network%20Rules/CreateOrUpdateVirtualNetworkRule.yml)
+##### [Delete Virtual Network Rule](EventHub/2018-01-01-preview/Virtual%20Network%20Rules/DeleteVirtualNetworkRule.yml)
+##### [Get Virtual Network Rule](EventHub/2018-01-01-preview/Virtual%20Network%20Rules/GetVirtualNetworkRule.yml)
+##### [List Virtual Network Rules](EventHub/2018-01-01-preview/Virtual%20Network%20Rules/ListVirtualNetworkRules.yml)
 # ExpressRoute
 ## [Overview](../docs-ref-conceptual/expressroute/index.md)
 ## Bgp Service Communities
@@ -5406,6 +5683,7 @@
 #### [Resize](hdinsight/Clusters/Resize.yml)
 #### [Rotate Disk Encryption Key](hdinsight/Clusters/RotateDiskEncryptionKey.yml)
 #### [Update](hdinsight/Clusters/Update.yml)
+#### [Update Auto Scale Configuration](hdinsight/Clusters/UpdateAutoScaleConfiguration.yml)
 #### [Update Gateway Settings](hdinsight/Clusters/UpdateGatewaySettings.yml)
 ### Configurations
 #### [Overview](hdinsight/Configurations.yml)
@@ -5428,6 +5706,10 @@
 ### Operations
 #### [Overview](hdinsight/Operations.yml)
 #### [List](hdinsight/Operations/List.yml)
+### Virtual Machines
+#### [Overview](hdinsight/VirtualMachines.yml)
+#### [List Hosts](hdinsight/VirtualMachines/ListHosts.yml)
+#### [Restart Hosts](hdinsight/VirtualMachines/RestartHosts.yml)
 ### Script Actions
 #### Clusters
 ##### [Overview](hdinsight/scriptactions/Clusters.yml)
@@ -5610,6 +5892,9 @@
 #### [Get Module Properties](iotcentral/Devices/GetModuleProperties.yml)
 #### [Get Properties](iotcentral/Devices/GetProperties.yml)
 #### [List](iotcentral/Devices/List.yml)
+#### [List Components](iotcentral/Devices/ListComponents.yml)
+#### [List Module Components](iotcentral/Devices/ListModuleComponents.yml)
+#### [List Modules](iotcentral/Devices/ListModules.yml)
 #### [Remove](iotcentral/Devices/Remove.yml)
 #### [Remove Attestation](iotcentral/Devices/RemoveAttestation.yml)
 #### [Set](iotcentral/Devices/Set.yml)
@@ -5623,6 +5908,12 @@
 #### [Overview](iotcentral/Roles.yml)
 #### [Get](iotcentral/Roles/Get.yml)
 #### [List](iotcentral/Roles/List.yml)
+### Users
+#### [Overview](iotcentral/Users.yml)
+#### [Get](iotcentral/Users/Get.yml)
+#### [List](iotcentral/Users/List.yml)
+#### [Remove](iotcentral/Users/Remove.yml)
+#### [Set](iotcentral/Users/Set.yml)
 # IoT Hub
 ## [Overview](../docs-ref-conceptual/iothub/index.md)
 ## [Common error codes](../docs-ref-conceptual/iothub/common-error-codes.md)
@@ -5676,66 +5967,38 @@
 ### Resource Provider Common
 #### [Overview](iothub/ResourceProviderCommon.yml)
 #### [Get Subscription Quota](iothub/ResourceProviderCommon/GetSubscriptionQuota.yml)
-### Digital Twin Model
-#### Digital Twin
-##### [Overview](iothub/digitaltwinmodel/DigitalTwin.yml)
-##### [Get Digital Twin Model](iothub/digitaltwinmodel/DigitalTwin/GetDigitalTwinModel.yml)
-##### [Get Interface](iothub/digitaltwinmodel/DigitalTwin/GetInterface.yml)
-##### [Get Interfaces](iothub/digitaltwinmodel/DigitalTwin/GetInterfaces.yml)
-##### [Invoke Interface Command](iothub/digitaltwinmodel/DigitalTwin/InvokeInterfaceCommand.yml)
-##### [Update Interfaces](iothub/digitaltwinmodel/DigitalTwin/UpdateInterfaces.yml)
-#### Service
-##### [Overview](iothub/digitaltwinmodel/Service.yml)
-##### [Apply Configuration On Edge Device](iothub/digitaltwinmodel/Service/ApplyConfigurationOnEdgeDevice.yml)
-##### [Bulk Create Or Update Devices](iothub/digitaltwinmodel/Service/BulkCreateOrUpdateDevices.yml)
-##### [Cancel Import Export Job](iothub/digitaltwinmodel/Service/CancelImportExportJob.yml)
-##### [Cancel Job](iothub/digitaltwinmodel/Service/CancelJob.yml)
-##### [Create Import Export Job](iothub/digitaltwinmodel/Service/CreateImportExportJob.yml)
-##### [Create Job](iothub/digitaltwinmodel/Service/CreateJob.yml)
-##### [Create Or Update Configuration](iothub/digitaltwinmodel/Service/CreateOrUpdateConfiguration.yml)
-##### [Create Or Update Device](iothub/digitaltwinmodel/Service/CreateOrUpdateDevice.yml)
-##### [Create Or Update Module](iothub/digitaltwinmodel/Service/CreateOrUpdateModule.yml)
-##### [Delete Configuration](iothub/digitaltwinmodel/Service/DeleteConfiguration.yml)
-##### [Delete Device](iothub/digitaltwinmodel/Service/DeleteDevice.yml)
-##### [Delete Module](iothub/digitaltwinmodel/Service/DeleteModule.yml)
-##### [Get Configuration](iothub/digitaltwinmodel/Service/GetConfiguration.yml)
-##### [Get Configurations](iothub/digitaltwinmodel/Service/GetConfigurations.yml)
-##### [Get Device](iothub/digitaltwinmodel/Service/GetDevice.yml)
-##### [Get Device Registry Statistics](iothub/digitaltwinmodel/Service/GetDeviceRegistryStatistics.yml)
-##### [Get Devices](iothub/digitaltwinmodel/Service/GetDevices.yml)
-##### [Get Fault Injection](iothub/digitaltwinmodel/Service/GetFaultInjection.yml)
-##### [Get Import Export Job](iothub/digitaltwinmodel/Service/GetImportExportJob.yml)
-##### [Get Import Export Jobs](iothub/digitaltwinmodel/Service/GetImportExportJobs.yml)
-##### [Get Job](iothub/digitaltwinmodel/Service/GetJob.yml)
-##### [Get Module](iothub/digitaltwinmodel/Service/GetModule.yml)
-##### [Get Module Twin](iothub/digitaltwinmodel/Service/GetModuleTwin.yml)
-##### [Get Modules On Device](iothub/digitaltwinmodel/Service/GetModulesOnDevice.yml)
-##### [Get Service Statistics](iothub/digitaltwinmodel/Service/GetServiceStatistics.yml)
-##### [Get Twin](iothub/digitaltwinmodel/Service/GetTwin.yml)
-##### [Invoke Device Method](iothub/digitaltwinmodel/Service/InvokeDeviceMethod.yml)
-##### [Invoke Device Module Method](iothub/digitaltwinmodel/Service/InvokeDeviceModuleMethod.yml)
-##### [Purge Command Queue](iothub/digitaltwinmodel/Service/PurgeCommandQueue.yml)
-##### [Query Iot Hub](iothub/digitaltwinmodel/Service/QueryIotHub.yml)
-##### [Query Jobs](iothub/digitaltwinmodel/Service/QueryJobs.yml)
-##### [Replace Module Twin](iothub/digitaltwinmodel/Service/ReplaceModuleTwin.yml)
-##### [Replace Twin](iothub/digitaltwinmodel/Service/ReplaceTwin.yml)
-##### [Set Fault Injection](iothub/digitaltwinmodel/Service/SetFaultInjection.yml)
-##### [Test Configuration Queries](iothub/digitaltwinmodel/Service/TestConfigurationQueries.yml)
-##### [Update Module Twin](iothub/digitaltwinmodel/Service/UpdateModuleTwin.yml)
-##### [Update Twin](iothub/digitaltwinmodel/Service/UpdateTwin.yml)
 ### Digital Twin Model Repository Service
-#### Create Or Update Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateModel.yml)
-##### [Create Or Update Model](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateModel/CreateOrUpdateModel.yml)
-#### Delete Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/DeleteModel.yml)
-##### [Delete Model](iothub/digitaltwinmodelrepositoryservice/DeleteModel/DeleteModel.yml)
-#### Get Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/GetModel.yml)
-##### [Get Model](iothub/digitaltwinmodelrepositoryservice/GetModel/GetModel.yml)
-#### Search Model
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModel.yml)
-##### [Search Model](iothub/digitaltwinmodelrepositoryservice/SearchModel/SearchModel.yml)
+#### Are Valid Models
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/AreValidModels.yml)
+##### [Are Valid Models](iothub/digitaltwinmodelrepositoryservice/AreValidModels/AreValidModels.yml)
+#### Create Or Update Async
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateAsync.yml)
+##### [Create Or Update Async](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateAsync/CreateOrUpdateAsync.yml)
+#### Get Model Async
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/GetModelAsync.yml)
+##### [Get Model Async](iothub/digitaltwinmodelrepositoryservice/GetModelAsync/GetModelAsync.yml)
+#### Search Models Async
+##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModelsAsync.yml)
+##### [Search Models Async](iothub/digitaltwinmodelrepositoryservice/SearchModelsAsync/SearchModelsAsync.yml)
+### Digital Twin Model Repository Service Control Plane
+#### Assign Roles
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles.yml)
+##### [Assign Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles/AssignRoles.yml)
+#### Create Tenant
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant.yml)
+##### [Create Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant/CreateTenant.yml)
+#### Get Subjects For Resources
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources.yml)
+##### [Get Subjects For Resources](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources/GetSubjectsForResources.yml)
+#### Get Subjects For Resources By Type
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType.yml)
+##### [Get Subjects For Resources By Type](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType/GetSubjectsForResourcesByType.yml)
+#### Get Tenant
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant.yml)
+##### [Get Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant/GetTenant.yml)
+#### Remove Roles
+##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles.yml)
+##### [Remove Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles/RemoveRoles.yml)
 ### Service
 #### Configuration
 ##### [Overview](iothub/service/Configuration.yml)
@@ -5749,6 +6012,12 @@
 ##### [Overview](iothub/service/DeviceMethod.yml)
 ##### [Invoke Device Method](iothub/service/DeviceMethod/InvokeDeviceMethod.yml)
 ##### [Invoke Module Method](iothub/service/DeviceMethod/InvokeModuleMethod.yml)
+#### Digital Twin
+##### [Overview](iothub/service/DigitalTwin.yml)
+##### [Get Digital Twin](iothub/service/DigitalTwin/GetDigitalTwin.yml)
+##### [Invoke Component Command](iothub/service/DigitalTwin/InvokeComponentCommand.yml)
+##### [Invoke Root Level Command](iothub/service/DigitalTwin/InvokeRootLevelCommand.yml)
+##### [Update Digital Twin](iothub/service/DigitalTwin/UpdateDigitalTwin.yml)
 #### Fault Injection
 ##### [Overview](iothub/service/FaultInjection.yml)
 ##### [Get](iothub/service/FaultInjection/Get.yml)
@@ -6306,15 +6575,15 @@
 #### [Get Purge Status](loganalytics/WorkspacePurge/GetPurgeStatus.yml)
 #### [Purge](loganalytics/WorkspacePurge/Purge.yml)
 ### Workspace Schema
-#### [Overview](loganalytics/Workspace Schema.yml)
-#### [Get](loganalytics/Workspace Schema/Get.yml)
+#### [Overview](loganalytics/Workspace%20Schema.yml)
+#### [Get](loganalytics/Workspace%20Schema/Get.yml)
 ### Workspace Shared Keys
-#### [Overview](loganalytics/Workspace Shared Keys.yml)
-#### [Get Shared Keys](loganalytics/Workspace Shared Keys/GetSharedKeys.yml)
-#### [Regenerate](loganalytics/Workspace Shared Keys/Regenerate.yml)
+#### [Overview](loganalytics/Workspace%20Shared%20Keys.yml)
+#### [Get Shared Keys](loganalytics/Workspace%20Shared%20Keys/GetSharedKeys.yml)
+#### [Regenerate](loganalytics/Workspace%20Shared%20Keys/Regenerate.yml)
 ### Workspace Usages
-#### [Overview](loganalytics/Workspace Usages.yml)
-#### [List](loganalytics/Workspace Usages/List.yml)
+#### [Overview](loganalytics/Workspace%20Usages.yml)
+#### [List](loganalytics/Workspace%20Usages/List.yml)
 ### Workspaces
 #### [Overview](loganalytics/Workspaces.yml)
 #### [Create Or Update](loganalytics/Workspaces/CreateOrUpdate.yml)
@@ -6331,11 +6600,11 @@
 ##### [Overview](loganalytics/connectedsources/ManagementGroups.yml)
 ##### [List](loganalytics/connectedsources/ManagementGroups/List.yml)
 #### Storage Insights
-##### [Overview](loganalytics/connectedsources/Storage Insights.yml)
-##### [Create Or Update](loganalytics/connectedsources/Storage Insights/CreateOrUpdate.yml)
-##### [Delete](loganalytics/connectedsources/Storage Insights/Delete.yml)
-##### [Get](loganalytics/connectedsources/Storage Insights/Get.yml)
-##### [List By Workspace](loganalytics/connectedsources/Storage Insights/ListByWorkspace.yml)
+##### [Overview](loganalytics/connectedsources/Storage%20Insights.yml)
+##### [Create Or Update](loganalytics/connectedsources/Storage%20Insights/CreateOrUpdate.yml)
+##### [Delete](loganalytics/connectedsources/Storage%20Insights/Delete.yml)
+##### [Get](loganalytics/connectedsources/Storage%20Insights/Get.yml)
+##### [List By Workspace](loganalytics/connectedsources/Storage%20Insights/ListByWorkspace.yml)
 ### Data Access
 #### Metadata
 ##### [Overview](loganalytics/dataaccess/Metadata.yml)
@@ -6490,117 +6759,6 @@
 ### [Validate Workflow](logic/Workflows/ValidateWorkflow.yml)
 # Machine Learning
 ## [Overview](../docs-ref-conceptual/azureml/index.md)
-## Artifacts
-### [Overview](azureml/Artifacts.yml)
-### [Batch Create Empty Artifacts](azureml/Artifacts/BatchCreateEmptyArtifacts.yml)
-### [Batch Get By Id](azureml/Artifacts/BatchGetById.yml)
-### [Batch Get Storage By Id](azureml/Artifacts/BatchGetStorageById.yml)
-### [Batch Ingest From Sas](azureml/Artifacts/BatchIngestFromSas.yml)
-### [Create](azureml/Artifacts/Create.yml)
-### [Delete Batch Meta Data](azureml/Artifacts/DeleteBatchMetaData.yml)
-### [Delete Meta Data](azureml/Artifacts/DeleteMetaData.yml)
-### [Delete Meta Data In Container](azureml/Artifacts/DeleteMetaDataInContainer.yml)
-### [Download](azureml/Artifacts/Download.yml)
-### [Get](azureml/Artifacts/Get.yml)
-### [Get Content Information](azureml/Artifacts/GetContentInformation.yml)
-### [Get Sas](azureml/Artifacts/GetSas.yml)
-### [Get Storage Content Information](azureml/Artifacts/GetStorageContentInformation.yml)
-### [List In Container](azureml/Artifacts/ListInContainer.yml)
-### [List Sas By Prefix](azureml/Artifacts/ListSasByPrefix.yml)
-### [List Storage Uri By Prefix](azureml/Artifacts/ListStorageUriByPrefix.yml)
-### [Register](azureml/Artifacts/Register.yml)
-### [Upload](azureml/Artifacts/Upload.yml)
-## Data Stores
-### [Overview](azureml/DataStores.yml)
-### [Create](azureml/DataStores/Create.yml)
-### [Delete](azureml/DataStores/Delete.yml)
-### [Delete All](azureml/DataStores/DeleteAll.yml)
-### [Get](azureml/DataStores/Get.yml)
-### [Get Default](azureml/DataStores/GetDefault.yml)
-### [List](azureml/DataStores/List.yml)
-### [Set Default](azureml/DataStores/SetDefault.yml)
-### [Update](azureml/DataStores/Update.yml)
-## Hyperparameter Tuning
-### [Overview](azureml/HyperparameterTuning.yml)
-### [Cancel Experiment](azureml/HyperparameterTuning/CancelExperiment.yml)
-### [Create Experiment](azureml/HyperparameterTuning/CreateExperiment.yml)
-## Runs
-### [Overview](azureml/Runs.yml)
-### [Cancel Run With Uri](azureml/Runs/CancelRunWithUri.yml)
-### [Start Local Run](azureml/Runs/StartLocalRun.yml)
-### [Start Run](azureml/Runs/StartRun.yml)
-### [Start Snapshot Run](azureml/Runs/StartSnapshotRun.yml)
-## Models and Deployments
-### Assets
-#### [Overview](azureml/modelsanddeployments/Assets.yml)
-#### [Create](azureml/modelsanddeployments/Assets/Create.yml)
-#### [Delete](azureml/modelsanddeployments/Assets/Delete.yml)
-#### [List Query](azureml/modelsanddeployments/Assets/ListQuery.yml)
-#### [Patch](azureml/modelsanddeployments/Assets/Patch.yml)
-#### [Query By Id](azureml/modelsanddeployments/Assets/QueryById.yml)
-### ML Models
-#### [Overview](azureml/modelsanddeployments/MLModels.yml)
-#### [Delete](azureml/modelsanddeployments/MLModels/Delete.yml)
-#### [Get Metrics](azureml/modelsanddeployments/MLModels/GetMetrics.yml)
-#### [List Query](azureml/modelsanddeployments/MLModels/ListQuery.yml)
-#### [Patch](azureml/modelsanddeployments/MLModels/Patch.yml)
-#### [Query By Id](azureml/modelsanddeployments/MLModels/QueryById.yml)
-#### [Register](azureml/modelsanddeployments/MLModels/Register.yml)
-### Operations
-#### [Overview](azureml/modelsanddeployments/Operations.yml)
-#### [Get](azureml/modelsanddeployments/Operations/Get.yml)
-### Profiles
-#### [Overview](azureml/modelsanddeployments/Profiles.yml)
-#### [Create](azureml/modelsanddeployments/Profiles/Create.yml)
-#### [List Query](azureml/modelsanddeployments/Profiles/ListQuery.yml)
-#### [Query By Id](azureml/modelsanddeployments/Profiles/QueryById.yml)
-### Services
-#### [Overview](azureml/modelsanddeployments/Services.yml)
-#### [Create](azureml/modelsanddeployments/Services/Create.yml)
-#### [Delete](azureml/modelsanddeployments/Services/Delete.yml)
-#### [Get Service Token](azureml/modelsanddeployments/Services/GetServiceToken.yml)
-#### [List Query](azureml/modelsanddeployments/Services/ListQuery.yml)
-#### [List Service Keys](azureml/modelsanddeployments/Services/ListServiceKeys.yml)
-#### [Patch](azureml/modelsanddeployments/Services/Patch.yml)
-#### [Query By Id](azureml/modelsanddeployments/Services/QueryById.yml)
-#### [Regenerate Service Keys](azureml/modelsanddeployments/Services/RegenerateServiceKeys.yml)
-## Run Tracking
-### Events
-#### [Overview](azureml/runtracking/Events.yml)
-#### [Batch Post](azureml/runtracking/Events/BatchPost.yml)
-#### [Post](azureml/runtracking/Events/Post.yml)
-### Experiments
-#### [Overview](azureml/runtracking/Experiments.yml)
-#### [Create](azureml/runtracking/Experiments/Create.yml)
-#### [Delete Tags](azureml/runtracking/Experiments/DeleteTags.yml)
-#### [Get](azureml/runtracking/Experiments/Get.yml)
-#### [Get By Id](azureml/runtracking/Experiments/GetById.yml)
-#### [Get By Query](azureml/runtracking/Experiments/GetByQuery.yml)
-#### [Update](azureml/runtracking/Experiments/Update.yml)
-### Run Artifacts
-#### [Overview](azureml/runtracking/RunArtifacts.yml)
-#### [Batch Create Empty Artifacts](azureml/runtracking/RunArtifacts/BatchCreateEmptyArtifacts.yml)
-#### [Get By Id](azureml/runtracking/RunArtifacts/GetById.yml)
-#### [Get Content Information](azureml/runtracking/RunArtifacts/GetContentInformation.yml)
-#### [Get Sas Uri](azureml/runtracking/RunArtifacts/GetSasUri.yml)
-#### [List In Container](azureml/runtracking/RunArtifacts/ListInContainer.yml)
-#### [List In Path](azureml/runtracking/RunArtifacts/ListInPath.yml)
-#### [List Sas By Prefix](azureml/runtracking/RunArtifacts/ListSasByPrefix.yml)
-### Run Metrics
-#### [Overview](azureml/runtracking/RunMetrics.yml)
-#### [Batch Post](azureml/runtracking/RunMetrics/BatchPost.yml)
-#### [Get](azureml/runtracking/RunMetrics/Get.yml)
-#### [Get By Query](azureml/runtracking/RunMetrics/GetByQuery.yml)
-#### [Post](azureml/runtracking/RunMetrics/Post.yml)
-### Runs
-#### [Overview](azureml/runtracking/Runs.yml)
-#### [Batch Add Or Modify](azureml/runtracking/Runs/BatchAddOrModify.yml)
-#### [Delete Tags](azureml/runtracking/Runs/DeleteTags.yml)
-#### [Get](azureml/runtracking/Runs/Get.yml)
-#### [Get By Query](azureml/runtracking/Runs/GetByQuery.yml)
-#### [Get Child](azureml/runtracking/Runs/GetChild.yml)
-#### [Get Details](azureml/runtracking/Runs/GetDetails.yml)
-#### [Patch](azureml/runtracking/Runs/Patch.yml)
 ## Workspaces and Computes
 ### Machine Learning Compute
 #### [Overview](azureml/workspacesandcomputes/MachineLearningCompute.yml)
@@ -6737,7 +6895,6 @@
 ### [Post Route Matrix](maps/Route/PostRouteMatrix.yml)
 ## Search
 ### [Overview](maps/Search.yml)
-### [Get POI Category Tree](maps/Search/GetPOICategoryTree.yml)
 ### [Get Search Address](maps/Search/GetSearchAddress.yml)
 ### [Get Search Address Reverse](maps/Search/GetSearchAddressReverse.yml)
 ### [Get Search Address Reverse Cross Street](maps/Search/GetSearchAddressReverseCrossStreet.yml)
@@ -6746,6 +6903,7 @@
 ### [Get Search Nearby](maps/Search/GetSearchNearby.yml)
 ### [Get Search POI](maps/Search/GetSearchPOI.yml)
 ### [Get Search POI Category](maps/Search/GetSearchPOICategory.yml)
+### [Get Search POI Category Tree Preview](maps/Search/GetSearchPOICategoryTreePreview.yml)
 ### [Get Search Polygon](maps/Search/GetSearchPolygon.yml)
 ### [Post Search Address Batch](maps/Search/PostSearchAddressBatch.yml)
 ### [Post Search Address Reverse Batch](maps/Search/PostSearchAddressReverseBatch.yml)
@@ -7175,6 +7333,12 @@
 #### [Get](monitor/LogProfiles/Get.yml)
 #### [List](monitor/LogProfiles/List.yml)
 #### [Update](monitor/LogProfiles/Update.yml)
+### Management Group Diagnostic Settings
+#### [Overview](monitor/ManagementGroupDiagnosticSettings.yml)
+#### [Create Or Update](monitor/ManagementGroupDiagnosticSettings/CreateOrUpdate.yml)
+#### [Delete](monitor/ManagementGroupDiagnosticSettings/Delete.yml)
+#### [Get](monitor/ManagementGroupDiagnosticSettings/Get.yml)
+#### [List](monitor/ManagementGroupDiagnosticSettings/List.yml)
 ### Metric Alerts
 #### [Overview](monitor/MetricAlerts.yml)
 #### [Create Or Update](monitor/MetricAlerts/CreateOrUpdate.yml)
@@ -7200,8 +7364,8 @@
 #### [Overview](monitor/Metrics.yml)
 #### [List](monitor/Metrics/List.yml)
 ### Metrics (Data plane)
-#### [Overview](monitor/Metrics (Data plane).yml)
-#### [Create](monitor/Metrics (Data plane)/Create.yml)
+#### [Overview](monitor/Metrics%20(Data%20plane).yml)
+#### [Create](monitor/Metrics%20(Data%20plane)/Create.yml)
 ### Operations
 #### [Overview](monitor/Operations.yml)
 #### [List](monitor/Operations/List.yml)
@@ -7213,6 +7377,14 @@
 #### [List By Resource Group](monitor/ScheduledQueryRules/ListByResourceGroup.yml)
 #### [List By Subscription](monitor/ScheduledQueryRules/ListBySubscription.yml)
 #### [Update](monitor/ScheduledQueryRules/Update.yml)
+### Smart Detector Alert Rules
+#### [Overview](monitor/SmartDetectorAlertRules.yml)
+#### [Create Or Update](monitor/SmartDetectorAlertRules/CreateOrUpdate.yml)
+#### [Delete](monitor/SmartDetectorAlertRules/Delete.yml)
+#### [Get](monitor/SmartDetectorAlertRules/Get.yml)
+#### [List](monitor/SmartDetectorAlertRules/List.yml)
+#### [List By Resource Group](monitor/SmartDetectorAlertRules/ListByResourceGroup.yml)
+#### [Patch](monitor/SmartDetectorAlertRules/Patch.yml)
 ### Subscription Diagnostic Settings
 #### [Overview](monitor/SubscriptionDiagnosticSettings.yml)
 #### [Create Or Update](monitor/SubscriptionDiagnosticSettings/CreateOrUpdate.yml)
@@ -7307,10 +7479,6 @@
 ### [Delete](mysql/ServerAdministrators/Delete.yml)
 ### [Get](mysql/ServerAdministrators/Get.yml)
 ### [List](mysql/ServerAdministrators/List.yml)
-## Server Security Alert Policies
-### [Overview](mysql/ServerSecurityAlertPolicies.yml)
-### [Create Or Update](mysql/ServerSecurityAlertPolicies/CreateOrUpdate.yml)
-### [Get](mysql/ServerSecurityAlertPolicies/Get.yml)
 ## Servers
 ### [Overview](mysql/Servers.yml)
 ### [Create](mysql/Servers/Create.yml)
@@ -7572,7 +7740,6 @@
 ### [List](policy-insights/Operations/List.yml)
 ## Policy Events
 ### [Overview](policy-insights/PolicyEvents.yml)
-### [Get Metadata](policy-insights/PolicyEvents/GetMetadata.yml)
 ### [List Query Results For Management Group](policy-insights/PolicyEvents/ListQueryResultsForManagementGroup.yml)
 ### [List Query Results For Policy Definition](policy-insights/PolicyEvents/ListQueryResultsForPolicyDefinition.yml)
 ### [List Query Results For Policy Set Definition](policy-insights/PolicyEvents/ListQueryResultsForPolicySetDefinition.yml)
@@ -7677,10 +7844,6 @@
 ### [Delete](postgresql/ServerAdministrators/Delete.yml)
 ### [Get](postgresql/ServerAdministrators/Get.yml)
 ### [List](postgresql/ServerAdministrators/List.yml)
-## Server Security Alert Policies
-### [Overview](postgresql/ServerSecurityAlertPolicies.yml)
-### [Create Or Update](postgresql/ServerSecurityAlertPolicies/CreateOrUpdate.yml)
-### [Get](postgresql/ServerSecurityAlertPolicies/Get.yml)
 ## Servers
 ### [Overview](postgresql/Servers.yml)
 ### [Create](postgresql/Servers/Create.yml)
@@ -7737,8 +7900,8 @@
 # Recovery Services
 ## [Overview](../docs-ref-conceptual/recoveryservices/index.md)
 ## Operations Vaults
-### [Overview](recoveryservices/Operations Vaults.yml)
-### [List](recoveryservices/Operations Vaults/List.yml)
+### [Overview](recoveryservices/Operations%20Vaults.yml)
+### [List](recoveryservices/Operations%20Vaults/List.yml)
 ## Private Link Resources
 ### [Overview](recoveryservices/PrivateLinkResources.yml)
 ### [Get](recoveryservices/PrivateLinkResources/Get.yml)
@@ -8085,6 +8248,15 @@
 ### [List By Replication Protected Items](site-recovery/TargetComputeSizes/ListByReplicationProtectedItems.yml)
 # Red Hat OpenShift
 ## [Overview](../docs-ref-conceptual/openshift/index.md)
+## Open Shift Clusters
+### [Overview](openshift/OpenShiftClusters.yml)
+### [Create Or Update](openshift/OpenShiftClusters/CreateOrUpdate.yml)
+### [Delete](openshift/OpenShiftClusters/Delete.yml)
+### [Get](openshift/OpenShiftClusters/Get.yml)
+### [List](openshift/OpenShiftClusters/List.yml)
+### [List By Resource Group](openshift/OpenShiftClusters/ListByResourceGroup.yml)
+### [List Credentials](openshift/OpenShiftClusters/ListCredentials.yml)
+### [Update](openshift/OpenShiftClusters/Update.yml)
 ## Open Shift Managed Clusters
 ### [Overview](openshift/OpenShiftManagedClusters.yml)
 ### [Create Or Update](openshift/OpenShiftManagedClusters/CreateOrUpdate.yml)
@@ -8093,6 +8265,9 @@
 ### [List](openshift/OpenShiftManagedClusters/List.yml)
 ### [List By Resource Group](openshift/OpenShiftManagedClusters/ListByResourceGroup.yml)
 ### [Update Tags](openshift/OpenShiftManagedClusters/UpdateTags.yml)
+## Operations
+### [Overview](openshift/Operations.yml)
+### [List](openshift/Operations/List.yml)
 # Redis Cache
 ## [Overview](../docs-ref-conceptual/redis/index.md)
 ## Firewall Rules
@@ -8322,7 +8497,9 @@
 ### [Validate At Subscription Scope](resources/Deployments/ValidateAtSubscriptionScope.yml)
 ### [Validate At Tenant Scope](resources/Deployments/ValidateAtTenantScope.yml)
 ### [What If](resources/Deployments/WhatIf.yml)
+### [What If At Management Group Scope](resources/Deployments/WhatIfAtManagementGroupScope.yml)
 ### [What If At Subscription Scope](resources/Deployments/WhatIfAtSubscriptionScope.yml)
+### [What If At Tenant Scope](resources/Deployments/WhatIfAtTenantScope.yml)
 ## Entities
 ### [Overview](resources/Entities.yml)
 ### [List](resources/Entities/List.yml)
@@ -8374,14 +8551,14 @@
 ### [List At Subscription Level](resources/ManagementLocks/ListAtSubscriptionLevel.yml)
 ### [List By Scope](resources/ManagementLocks/ListByScope.yml)
 ## Operation (2020-02-01)
-### [Overview](resources/Operation (2020-02-01).yml)
-### [List](resources/Operation (2020-02-01)/List.yml)
+### [Overview](resources/Operation%20(2020-02-01).yml)
+### [List](resources/Operation%20(2020-02-01)/List.yml)
 ## Operations
 ### [Overview](resources/Operations.yml)
 ### [List](resources/Operations/List.yml)
 ## Operations (Subscription)
-### [Overview](resources/Operations (Subscription).yml)
-### [List](resources/Operations (Subscription)/List.yml)
+### [Overview](resources/Operations%20(Subscription).yml)
+### [List](resources/Operations%20(Subscription)/List.yml)
 ## Policy Assignments
 ### [Overview](resources/PolicyAssignments.yml)
 ### [Create](resources/PolicyAssignments/Create.yml)
@@ -8459,8 +8636,8 @@
 ### [Update By Id](resources/Resources/UpdateById.yml)
 ### [Validate Move Resources](resources/Resources/ValidateMoveResources.yml)
 ## Resources (Preview)
-### [Overview](resources/Resources (Preview).yml)
-### [List](resources/Resources (Preview)/List.yml)
+### [Overview](resources/Resources%20(Preview).yml)
+### [List](resources/Resources%20(Preview)/List.yml)
 ## Start Tenant Backfill
 ### [Overview](resources/StartTenantBackfill.yml)
 ### [Start Tenant Backfill](resources/StartTenantBackfill/StartTenantBackfill.yml)
@@ -8470,10 +8647,10 @@
 ### [List](resources/Subscriptions/List.yml)
 ### [List Locations](resources/Subscriptions/ListLocations.yml)
 ## Subscriptions (Preview)
-### [Overview](resources/Subscriptions (Preview).yml)
-### [Cancel](resources/Subscriptions (Preview)/Cancel.yml)
-### [Enable](resources/Subscriptions (Preview)/Enable.yml)
-### [Rename](resources/Subscriptions (Preview)/Rename.yml)
+### [Overview](resources/Subscriptions%20(Preview).yml)
+### [Cancel](resources/Subscriptions%20(Preview)/Cancel.yml)
+### [Enable](resources/Subscriptions%20(Preview)/Enable.yml)
+### [Rename](resources/Subscriptions%20(Preview)/Rename.yml)
 ## Tags
 ### [Overview](resources/Tags.yml)
 ### [Create Or Update](resources/Tags/CreateOrUpdate.yml)
@@ -8485,12 +8662,30 @@
 ### [Get At Scope](resources/Tags/GetAtScope.yml)
 ### [List](resources/Tags/List.yml)
 ### [Update At Scope](resources/Tags/UpdateAtScope.yml)
+## Template Spec Versions
+### [Overview](resources/TemplateSpecVersions.yml)
+### [Create Or Update](resources/TemplateSpecVersions/CreateOrUpdate.yml)
+### [Delete](resources/TemplateSpecVersions/Delete.yml)
+### [Get](resources/TemplateSpecVersions/Get.yml)
+### [List](resources/TemplateSpecVersions/List.yml)
+### [Update](resources/TemplateSpecVersions/Update.yml)
+## Template Specs
+### [Overview](resources/TemplateSpecs.yml)
+### [Create Or Update](resources/TemplateSpecs/CreateOrUpdate.yml)
+### [Delete](resources/TemplateSpecs/Delete.yml)
+### [Get](resources/TemplateSpecs/Get.yml)
+### [List By Resource Group](resources/TemplateSpecs/ListByResourceGroup.yml)
+### [List By Subscription](resources/TemplateSpecs/ListBySubscription.yml)
+### [Update](resources/TemplateSpecs/Update.yml)
 ## Tenant Backfill Status
 ### [Overview](resources/TenantBackfillStatus.yml)
 ### [Tenant Backfill Status](resources/TenantBackfillStatus/TenantBackfillStatus.yml)
 ## Tenants
 ### [Overview](resources/Tenants.yml)
 ### [List](resources/Tenants/List.yml)
+## check Resource Name
+### [Overview](resources/checkResourceName.yml)
+### [check Resource Name](resources/checkResourceName/checkResourceName.yml)
 # Scheduler
 ## [Overview](../docs-ref-conceptual/scheduler/index.md)
 ## Job Collections
@@ -8564,16 +8759,16 @@
 ## [HTTP request and response headers](../docs-ref-conceptual/searchservice/common-http-request-and-response-headers-used-in-azure-search.md)
 ## [OData support](../docs-ref-conceptual/searchservice/support-for-odata.md)
 ## Reference (Preview)
-### [Introduction](../docs-ref-conceptual/searchservice/index-2019-05-06-preview.md)
+### [Introduction](../docs-ref-conceptual/searchservice/index-preview.md)
 ### Documents
-#### [Search Documents](../docs-ref-conceptual/searchservice/2019-05-06-preview/search-documents.md)
+#### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)
 ### Indexers
-#### [Create Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-indexer.md)
-#### [Update Indexer](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-indexer.md)
+#### [Create Indexer](../docs-ref-conceptual/searchservice/preview-api/create-indexer.md)
+#### [Update Indexer](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
 ### Skillsets
-#### [Create Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/create-skillset.md)
-#### [Reset Skills](../docs-ref-conceptual/searchservice/2019-05-06-preview/reset-skills.md)
-#### [Update Skillset](../docs-ref-conceptual/searchservice/2019-05-06-preview/update-skillset.md)
+#### [Create Skillset](../docs-ref-conceptual/searchservice/create-skillset.md)
+#### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
+#### [Update Skillset](../docs-ref-conceptual/searchservice/update-skillset.md)
 ## Reference (Stable)
 ### Indexes
 #### [Overview](../docs-ref-conceptual/searchservice/index-operations.md)
@@ -8603,7 +8798,7 @@
 #### [Get Indexer Status](../docs-ref-conceptual/searchservice/get-indexer-status.md)
 #### [List Data Sources](../docs-ref-conceptual/searchservice/list-data-sources.md)
 #### [List Indexers](../docs-ref-conceptual/searchservice/list-indexers.md)
-#### [Reset Indexer ](../docs-ref-conceptual/searchservice/reset-indexer.md)
+#### [Reset Indexer](../docs-ref-conceptual/searchservice/reset-indexer.md)
 #### [Run Indexer](../docs-ref-conceptual/searchservice/run-indexer.md)
 #### [Update Data Source](../docs-ref-conceptual/searchservice/update-data-source.md)
 #### [Update Indexer](../docs-ref-conceptual/searchservice/update-indexer.md)
@@ -8822,6 +9017,50 @@
 ### [Get](securitycenter/WorkspaceSettings/Get.yml)
 ### [List](securitycenter/WorkspaceSettings/List.yml)
 ### [Update](securitycenter/WorkspaceSettings/Update.yml)
+# SecurityInsights
+## [Overview](../docs-ref-conceptual/securityinsights/index.md)
+## Actions
+### [Overview](securityinsights/Actions.yml)
+### [List By Alert Rule](securityinsights/Actions/ListByAlertRule.yml)
+## Alert Rule Templates
+### [Overview](securityinsights/AlertRuleTemplates.yml)
+### [Get](securityinsights/AlertRuleTemplates/Get.yml)
+### [List](securityinsights/AlertRuleTemplates/List.yml)
+## Alert Rules
+### [Overview](securityinsights/AlertRules.yml)
+### [Create Or Update](securityinsights/AlertRules/CreateOrUpdate.yml)
+### [Create Or Update Action](securityinsights/AlertRules/CreateOrUpdateAction.yml)
+### [Delete](securityinsights/AlertRules/Delete.yml)
+### [Delete Action](securityinsights/AlertRules/DeleteAction.yml)
+### [Get](securityinsights/AlertRules/Get.yml)
+### [Get Action](securityinsights/AlertRules/GetAction.yml)
+### [List](securityinsights/AlertRules/List.yml)
+## Bookmarks
+### [Overview](securityinsights/Bookmarks.yml)
+### [Create Or Update](securityinsights/Bookmarks/CreateOrUpdate.yml)
+### [Delete](securityinsights/Bookmarks/Delete.yml)
+### [Get](securityinsights/Bookmarks/Get.yml)
+### [List](securityinsights/Bookmarks/List.yml)
+## Data Connectors
+### [Overview](securityinsights/DataConnectors.yml)
+### [Create Or Update](securityinsights/DataConnectors/CreateOrUpdate.yml)
+### [Delete](securityinsights/DataConnectors/Delete.yml)
+### [Get](securityinsights/DataConnectors/Get.yml)
+### [List](securityinsights/DataConnectors/List.yml)
+## Incident Comments
+### [Overview](securityinsights/IncidentComments.yml)
+### [Create Comment](securityinsights/IncidentComments/CreateComment.yml)
+### [Get](securityinsights/IncidentComments/Get.yml)
+### [List By Incident](securityinsights/IncidentComments/ListByIncident.yml)
+## Incidents
+### [Overview](securityinsights/Incidents.yml)
+### [Create Or Update](securityinsights/Incidents/CreateOrUpdate.yml)
+### [Delete](securityinsights/Incidents/Delete.yml)
+### [Get](securityinsights/Incidents/Get.yml)
+### [List](securityinsights/Incidents/List.yml)
+## Operations
+### [Overview](securityinsights/Operations.yml)
+### [List](securityinsights/Operations/List.yml)
 # Serial Console
 ## [Overview](../docs-ref-conceptual/serialconsole/index.md)
 ## Disable Console
@@ -8840,17 +9079,14 @@
 ## [Overview](../docs-ref-conceptual/servicebus/index.md)
 ## Service Bus service REST
 ### [Overview](../docs-ref-conceptual/servicebus/service-bus-runtime-rest.md)
-### [Introduction](../docs-ref-conceptual/servicebus/introduction.md)
-### [REST vs. .NET Client Support](../docs-ref-conceptual/servicebus/rest-dotnet-client-support.md)
 ### Namespace Access
 #### [Overview](../docs-ref-conceptual/servicebus/addressing-and-protocol.md)
-#### [Overview](../docs-ref-conceptual/servicebus/overview.md)
+#### [Simplified REST API sets](../docs-ref-conceptual/servicebus/overview.md)
 #### [Get Entity](../docs-ref-conceptual/servicebus/get-entity.md)
 #### [Entities Discovery](../docs-ref-conceptual/servicebus/entities-discovery.md)
 #### [Delete Entity](../docs-ref-conceptual/servicebus/delete-entity.md)
 #### [Enumeration](../docs-ref-conceptual/servicebus/enumeration.md)
 #### [Update Entity](../docs-ref-conceptual/servicebus/update-entity.md)
-### [Message Headers and Properties](../docs-ref-conceptual/servicebus/message-headers-and-properties.md)
 ### Resource Provider APIs
 #### [Overview](../docs-ref-conceptual/servicebus/resource-provider-apis.md)
 #### [Create Namespace](../docs-ref-conceptual/servicebus/create-namespace.md)
@@ -8868,6 +9104,7 @@
 #### [Delete Subscription](../docs-ref-conceptual/servicebus/delete-subscription.md)
 #### [Get SB Regions](../docs-ref-conceptual/servicebus/get-sb-regions.md)
 #### [Get Relays](../docs-ref-conceptual/servicebus/get-relays.md)
+### [Message headers and Properties](../docs-ref-conceptual/servicebus/message-headers-and-properties.md)
 ### [Send messages to queue](../docs-ref-conceptual/servicebus/send-message-to-queue.md)
 ### [Send Message Batch](../docs-ref-conceptual/servicebus/send-message-batch.md)
 ### [Receive and Delete Message (Destructive Read)](../docs-ref-conceptual/servicebus/receive-and-delete-message-destructive-read.md)
@@ -8876,6 +9113,8 @@
 ### [Delete Message](../docs-ref-conceptual/servicebus/delete-message.md)
 ### [Renew-Lock for a Message](../docs-ref-conceptual/servicebus/renew-lock-for-a-message.md)
 ### [Request a Token from ACS](../docs-ref-conceptual/servicebus/request-a-token-from-acs.md)
+### [Get Azure Active Directory token](../docs-ref-conceptual/servicebus/get-azure-active-directory-token.md)
+### [REST vs. .NET Client Support](../docs-ref-conceptual/servicebus/rest-dotnet-client-support.md)
 ## Reference
 ### Disaster Recovery Configs
 #### [Overview](servicebus/DisasterRecoveryConfigs.yml)
@@ -12485,19 +12724,19 @@
 #### [List By Database](sql/DatabaseAdvisors/ListByDatabase.yml)
 #### [Update](sql/DatabaseAdvisors/Update.yml)
 ### Database Auditing Settings
-#### [Overview](sql/Database Auditing Settings.yml)
-#### [Create Or Update](sql/Database Auditing Settings/CreateOrUpdate.yml)
-#### [Get](sql/Database Auditing Settings/Get.yml)
-#### [List By Database](sql/Database Auditing Settings/ListByDatabase.yml)
+#### [Overview](sql/Database%20Auditing%20Settings.yml)
+#### [Create Or Update](sql/Database%20Auditing%20Settings/CreateOrUpdate.yml)
+#### [Get](sql/Database%20Auditing%20Settings/Get.yml)
+#### [List By Database](sql/Database%20Auditing%20Settings/ListByDatabase.yml)
 ### Database Automatic Tuning
 #### [Overview](sql/DatabaseAutomaticTuning.yml)
 #### [Get](sql/DatabaseAutomaticTuning/Get.yml)
 #### [Update](sql/DatabaseAutomaticTuning/Update.yml)
 ### Database Extended Auditing Settings
-#### [Overview](sql/Database Extended Auditing Settings.yml)
-#### [Create Or Update](sql/Database Extended Auditing Settings/CreateOrUpdate.yml)
-#### [Get](sql/Database Extended Auditing Settings/Get.yml)
-#### [List By Database](sql/Database Extended Auditing Settings/ListByDatabase.yml)
+#### [Overview](sql/Database%20Extended%20Auditing%20Settings.yml)
+#### [Create Or Update](sql/Database%20Extended%20Auditing%20Settings/CreateOrUpdate.yml)
+#### [Get](sql/Database%20Extended%20Auditing%20Settings/Get.yml)
+#### [List By Database](sql/Database%20Extended%20Auditing%20Settings/ListByDatabase.yml)
 ### Database Operations
 #### [Overview](sql/DatabaseOperations.yml)
 #### [Cancel](sql/DatabaseOperations/Cancel.yml)
@@ -12541,10 +12780,10 @@
 #### [Update](sql/Databases/Update.yml)
 #### [Upgrade Data Warehouse](sql/Databases/UpgradeDataWarehouse.yml)
 ### Databases - Import Export
-#### [Overview](sql/Databases - Import Export.yml)
-#### [Create Import Operation](sql/Databases - Import Export/CreateImportOperation.yml)
-#### [Export](sql/Databases - Import Export/Export.yml)
-#### [Import](sql/Databases - Import Export/Import.yml)
+#### [Overview](sql/Databases%20-%20Import%20Export.yml)
+#### [Create Import Operation](sql/Databases%20-%20Import%20Export/CreateImportOperation.yml)
+#### [Export](sql/Databases%20-%20Import%20Export/Export.yml)
+#### [Import](sql/Databases%20-%20Import%20Export/Import.yml)
 ### Databases(Failover)
 #### [Overview](sql/Databases(Failover).yml)
 #### [Failover](sql/Databases(Failover)/Failover.yml)
@@ -12749,6 +12988,9 @@
 #### [List By Instance Pool](sql/ManagedInstances/ListByInstancePool.yml)
 #### [List By Resource Group](sql/ManagedInstances/ListByResourceGroup.yml)
 #### [Update](sql/ManagedInstances/Update.yml)
+### Managed Instances - Failover
+#### [Overview](sql/Managed%20Instances%20-%20Failover.yml)
+#### [Failover](sql/Managed%20Instances%20-%20Failover/Failover.yml)
 ### Operations
 #### [Overview](sql/Operations.yml)
 #### [List](sql/Operations/List.yml)
@@ -12790,10 +13032,10 @@
 #### [List By Server](sql/ServerAdvisors/ListByServer.yml)
 #### [Update](sql/ServerAdvisors/Update.yml)
 ### Server Auditing Settings
-#### [Overview](sql/Server Auditing Settings.yml)
-#### [Create Or Update](sql/Server Auditing Settings/CreateOrUpdate.yml)
-#### [Get](sql/Server Auditing Settings/Get.yml)
-#### [List By Server](sql/Server Auditing Settings/ListByServer.yml)
+#### [Overview](sql/Server%20Auditing%20Settings.yml)
+#### [Create Or Update](sql/Server%20Auditing%20Settings/CreateOrUpdate.yml)
+#### [Get](sql/Server%20Auditing%20Settings/Get.yml)
+#### [List By Server](sql/Server%20Auditing%20Settings/ListByServer.yml)
 ### Server Automatic Tuning
 #### [Overview](sql/ServerAutomaticTuning.yml)
 #### [Get](sql/ServerAutomaticTuning/Get.yml)
@@ -12812,10 +13054,10 @@
 #### [Get](sql/ServerDnsAliases/Get.yml)
 #### [List By Server](sql/ServerDnsAliases/ListByServer.yml)
 ### Server Extended Auditing Settings
-#### [Overview](sql/Server Extended Auditing Settings.yml)
-#### [Create Or Update](sql/Server Extended Auditing Settings/CreateOrUpdate.yml)
-#### [Get](sql/Server Extended Auditing Settings/Get.yml)
-#### [List By Server](sql/Server Extended Auditing Settings/ListByServer.yml)
+#### [Overview](sql/Server%20Extended%20Auditing%20Settings.yml)
+#### [Create Or Update](sql/Server%20Extended%20Auditing%20Settings/CreateOrUpdate.yml)
+#### [Get](sql/Server%20Extended%20Auditing%20Settings/Get.yml)
+#### [List By Server](sql/Server%20Extended%20Auditing%20Settings/ListByServer.yml)
 ### Server Keys
 #### [Overview](sql/ServerKeys.yml)
 #### [Create Or Update](sql/ServerKeys/CreateOrUpdate.yml)
@@ -12843,8 +13085,8 @@
 #### [List By Resource Group](sql/Servers/ListByResourceGroup.yml)
 #### [Update](sql/Servers/Update.yml)
 ### Servers - Name Availability
-#### [Overview](sql/Servers - Name Availability.yml)
-#### [Check Name Availability](sql/Servers - Name Availability/CheckNameAvailability.yml)
+#### [Overview](sql/Servers%20-%20Name%20Availability.yml)
+#### [Check Name Availability](sql/Servers%20-%20Name%20Availability/CheckNameAvailability.yml)
 ### Service Tier Advisors
 #### [Overview](sql/ServiceTierAdvisors.yml)
 #### [Get](sql/ServiceTierAdvisors/Get.yml)
@@ -13096,6 +13338,7 @@
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
 ### Previous Azure Storage services versions
 #### [Overview](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
+#### [Version 2019-07-07](../docs-ref-conceptual/storageservices/version-2019-07-07.md)
 #### [Version 2019-02-02](../docs-ref-conceptual/storageservices/version-2019-02-02.md)
 #### [Version 2018-11-09](../docs-ref-conceptual/storageservices/version-2018-11-09.md)
 #### [Version 2018-03-28](../docs-ref-conceptual/storageservices/version-2018-03-28.md)
@@ -13182,6 +13425,9 @@
 #### [Set Blob Properties](../docs-ref-conceptual/storageservices/set-blob-properties.md)
 #### [Get Blob Metadata](../docs-ref-conceptual/storageservices/get-blob-metadata.md)
 #### [Set Blob Metadata](../docs-ref-conceptual/storageservices/set-blob-metadata.md)
+#### [Get Blob Tags](../docs-ref-conceptual/storageservices/get-blob-tags.md)
+#### [Set Blob Tags](../docs-ref-conceptual/storageservices/set-blob-tags.md)
+#### [Find Blobs by Tags](../docs-ref-conceptual/storageservices/find-blobs-by-tags.md)
 #### [Lease Blob](../docs-ref-conceptual/storageservices/lease-blob.md)
 #### [Snapshot Blob](../docs-ref-conceptual/storageservices/snapshot-blob.md)
 #### [Copy Blob](../docs-ref-conceptual/storageservices/copy-blob.md)
@@ -13197,6 +13443,7 @@
 ##### [Put Block From URL](../docs-ref-conceptual/storageservices/put-block-from-url.md)
 ##### [Put Block List](../docs-ref-conceptual/storageservices/put-block-list.md)
 ##### [Get Block List](../docs-ref-conceptual/storageservices/get-block-list.md)
+##### [Query Blob Contents](../docs-ref-conceptual/storageservices/query-blob-contents.md)
 #### Operations on Page Blobs
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-page-blobs.md)
 ##### [Put Page](../docs-ref-conceptual/storageservices/put-page.md)
@@ -13583,16 +13830,183 @@
 #### [Get](support/SupportTickets/Get.yml)
 #### [List](support/SupportTickets/List.yml)
 #### [Update](support/SupportTickets/Update.yml)
+# Synapse
+## [Overview](../docs-ref-conceptual/synapse/index.md)
+## Big Data Pools
+### [Overview](synapse/BigDataPools.yml)
+### [Create Or Update](synapse/BigDataPools/CreateOrUpdate.yml)
+### [Delete](synapse/BigDataPools/Delete.yml)
+### [Get](synapse/BigDataPools/Get.yml)
+### [List By Workspace](synapse/BigDataPools/ListByWorkspace.yml)
+### [Update](synapse/BigDataPools/Update.yml)
+## Integration Runtime Auth Keys
+### [Overview](synapse/IntegrationRuntimeAuthKeys.yml)
+### [List](synapse/IntegrationRuntimeAuthKeys/List.yml)
+### [Regenerate](synapse/IntegrationRuntimeAuthKeys/Regenerate.yml)
+## Integration Runtime Connection Infos
+### [Overview](synapse/IntegrationRuntimeConnectionInfos.yml)
+### [Get](synapse/IntegrationRuntimeConnectionInfos/Get.yml)
+## Integration Runtime Credentials
+### [Overview](synapse/IntegrationRuntimeCredentials.yml)
+### [Sync](synapse/IntegrationRuntimeCredentials/Sync.yml)
+## Integration Runtime Monitoring Data
+### [Overview](synapse/IntegrationRuntimeMonitoringData.yml)
+### [Get](synapse/IntegrationRuntimeMonitoringData/Get.yml)
+## Integration Runtime Node Ip Address
+### [Overview](synapse/IntegrationRuntimeNodeIpAddress.yml)
+### [Get](synapse/IntegrationRuntimeNodeIpAddress/Get.yml)
+## Integration Runtime Nodes
+### [Overview](synapse/IntegrationRuntimeNodes.yml)
+### [Delete](synapse/IntegrationRuntimeNodes/Delete.yml)
+### [Get](synapse/IntegrationRuntimeNodes/Get.yml)
+### [Update](synapse/IntegrationRuntimeNodes/Update.yml)
+## Integration Runtime Object Metadata
+### [Overview](synapse/IntegrationRuntimeObjectMetadata.yml)
+### [Get](synapse/IntegrationRuntimeObjectMetadata/Get.yml)
+### [Refresh](synapse/IntegrationRuntimeObjectMetadata/Refresh.yml)
+## Integration Runtime Status
+### [Overview](synapse/IntegrationRuntimeStatus.yml)
+### [Get](synapse/IntegrationRuntimeStatus/Get.yml)
+## Integration Runtimes
+### [Overview](synapse/IntegrationRuntimes.yml)
+### [Create](synapse/IntegrationRuntimes/Create.yml)
+### [Delete](synapse/IntegrationRuntimes/Delete.yml)
+### [Get](synapse/IntegrationRuntimes/Get.yml)
+### [List By Workspace](synapse/IntegrationRuntimes/ListByWorkspace.yml)
+### [Start](synapse/IntegrationRuntimes/Start.yml)
+### [Stop](synapse/IntegrationRuntimes/Stop.yml)
+### [Update](synapse/IntegrationRuntimes/Update.yml)
+### [Upgrade](synapse/IntegrationRuntimes/Upgrade.yml)
+## Ip Firewall Rules
+### [Overview](synapse/IpFirewallRules.yml)
+### [Create Or Update](synapse/IpFirewallRules/CreateOrUpdate.yml)
+### [Delete](synapse/IpFirewallRules/Delete.yml)
+### [Get](synapse/IpFirewallRules/Get.yml)
+### [List By Workspace](synapse/IpFirewallRules/ListByWorkspace.yml)
+### [Replace All](synapse/IpFirewallRules/ReplaceAll.yml)
+## Operations
+### [Overview](synapse/Operations.yml)
+### [Check Name Availability](synapse/Operations/CheckNameAvailability.yml)
+## Operations (Preview)
+### [Overview](synapse/Operations%20(Preview).yml)
+### [Get Azure Async Header Result](synapse/Operations%20(Preview)/GetAzureAsyncHeaderResult.yml)
+### [Get Location Header Result](synapse/Operations%20(Preview)/GetLocationHeaderResult.yml)
+### [List](synapse/Operations%20(Preview)/List.yml)
+## Sql Pool Blob Auditing Policies
+### [Overview](synapse/SqlPoolBlobAuditingPolicies.yml)
+### [Create Or Update](synapse/SqlPoolBlobAuditingPolicies/CreateOrUpdate.yml)
+### [Get](synapse/SqlPoolBlobAuditingPolicies/Get.yml)
+## Sql Pool Connection Policies
+### [Overview](synapse/SqlPoolConnectionPolicies.yml)
+### [Get](synapse/SqlPoolConnectionPolicies/Get.yml)
+## Sql Pool Data Warehouse User Activities
+### [Overview](synapse/SqlPoolDataWarehouseUserActivities.yml)
+### [Get](synapse/SqlPoolDataWarehouseUserActivities/Get.yml)
+## Sql Pool Geo Backup Policies
+### [Overview](synapse/SqlPoolGeoBackupPolicies.yml)
+### [Get](synapse/SqlPoolGeoBackupPolicies/Get.yml)
+## Sql Pool Metadata Sync Configs
+### [Overview](synapse/SqlPoolMetadataSyncConfigs.yml)
+### [Create](synapse/SqlPoolMetadataSyncConfigs/Create.yml)
+### [Get](synapse/SqlPoolMetadataSyncConfigs/Get.yml)
+## Sql Pool Operation Results
+### [Overview](synapse/SqlPoolOperationResults.yml)
+### [Get Location Header Result](synapse/SqlPoolOperationResults/GetLocationHeaderResult.yml)
+## Sql Pool Operations
+### [Overview](synapse/SqlPoolOperations.yml)
+### [List](synapse/SqlPoolOperations/List.yml)
+## Sql Pool Replication Links
+### [Overview](synapse/SqlPoolReplicationLinks.yml)
+### [List](synapse/SqlPoolReplicationLinks/List.yml)
+## Sql Pool Restore Points
+### [Overview](synapse/SqlPoolRestorePoints.yml)
+### [Create](synapse/SqlPoolRestorePoints/Create.yml)
+### [List](synapse/SqlPoolRestorePoints/List.yml)
+## Sql Pool Schemas
+### [Overview](synapse/SqlPoolSchemas.yml)
+### [List](synapse/SqlPoolSchemas/List.yml)
+## Sql Pool Security Alert Policies
+### [Overview](synapse/SqlPoolSecurityAlertPolicies.yml)
+### [Create Or Update](synapse/SqlPoolSecurityAlertPolicies/CreateOrUpdate.yml)
+### [Get](synapse/SqlPoolSecurityAlertPolicies/Get.yml)
+## Sql Pool Sensitivity Labels
+### [Overview](synapse/SqlPoolSensitivityLabels.yml)
+### [Create Or Update](synapse/SqlPoolSensitivityLabels/CreateOrUpdate.yml)
+### [Delete](synapse/SqlPoolSensitivityLabels/Delete.yml)
+### [Disable Recommendation](synapse/SqlPoolSensitivityLabels/DisableRecommendation.yml)
+### [Enable Recommendation](synapse/SqlPoolSensitivityLabels/EnableRecommendation.yml)
+### [List Current](synapse/SqlPoolSensitivityLabels/ListCurrent.yml)
+### [List Recommended](synapse/SqlPoolSensitivityLabels/ListRecommended.yml)
+## Sql Pool Table Columns
+### [Overview](synapse/SqlPoolTableColumns.yml)
+### [List By Table Name](synapse/SqlPoolTableColumns/ListByTableName.yml)
+## Sql Pool Tables
+### [Overview](synapse/SqlPoolTables.yml)
+### [List By Schema](synapse/SqlPoolTables/ListBySchema.yml)
+## Sql Pool Transparent Data Encryptions
+### [Overview](synapse/SqlPoolTransparentDataEncryptions.yml)
+### [Create Or Update](synapse/SqlPoolTransparentDataEncryptions/CreateOrUpdate.yml)
+### [Get](synapse/SqlPoolTransparentDataEncryptions/Get.yml)
+## Sql Pool Usages
+### [Overview](synapse/SqlPoolUsages.yml)
+### [List](synapse/SqlPoolUsages/List.yml)
+## Sql Pool Vulnerability Assessment Rule Baselines
+### [Overview](synapse/SqlPoolVulnerabilityAssessmentRuleBaselines.yml)
+### [Create Or Update](synapse/SqlPoolVulnerabilityAssessmentRuleBaselines/CreateOrUpdate.yml)
+### [Delete](synapse/SqlPoolVulnerabilityAssessmentRuleBaselines/Delete.yml)
+## Sql Pool Vulnerability Assessment Scans
+### [Overview](synapse/SqlPoolVulnerabilityAssessmentScans.yml)
+### [Export](synapse/SqlPoolVulnerabilityAssessmentScans/Export.yml)
+### [Initiate Scan](synapse/SqlPoolVulnerabilityAssessmentScans/InitiateScan.yml)
+### [List](synapse/SqlPoolVulnerabilityAssessmentScans/List.yml)
+## Sql Pool Vulnerability Assessments
+### [Overview](synapse/SqlPoolVulnerabilityAssessments.yml)
+### [Create Or Update](synapse/SqlPoolVulnerabilityAssessments/CreateOrUpdate.yml)
+### [Delete](synapse/SqlPoolVulnerabilityAssessments/Delete.yml)
+### [Get](synapse/SqlPoolVulnerabilityAssessments/Get.yml)
+### [List](synapse/SqlPoolVulnerabilityAssessments/List.yml)
+## Sql Pools
+### [Overview](synapse/SqlPools.yml)
+### [Create](synapse/SqlPools/Create.yml)
+### [Delete](synapse/SqlPools/Delete.yml)
+### [Get](synapse/SqlPools/Get.yml)
+### [List By Workspace](synapse/SqlPools/ListByWorkspace.yml)
+### [Pause](synapse/SqlPools/Pause.yml)
+### [Rename](synapse/SqlPools/Rename.yml)
+### [Resume](synapse/SqlPools/Resume.yml)
+### [Update](synapse/SqlPools/Update.yml)
+## Workspace Aad Admins
+### [Overview](synapse/WorkspaceAadAdmins.yml)
+### [Create Or Update](synapse/WorkspaceAadAdmins/CreateOrUpdate.yml)
+### [Delete](synapse/WorkspaceAadAdmins/Delete.yml)
+### [Get](synapse/WorkspaceAadAdmins/Get.yml)
+## Workspace Managed Identity Sql Control Settings
+### [Overview](synapse/WorkspaceManagedIdentitySqlControlSettings.yml)
+### [Create Or Update](synapse/WorkspaceManagedIdentitySqlControlSettings/CreateOrUpdate.yml)
+### [Get](synapse/WorkspaceManagedIdentitySqlControlSettings/Get.yml)
+## Workspaces
+### [Overview](synapse/Workspaces.yml)
+### [Create Or Update](synapse/Workspaces/CreateOrUpdate.yml)
+### [Delete](synapse/Workspaces/Delete.yml)
+### [Get](synapse/Workspaces/Get.yml)
+### [List](synapse/Workspaces/List.yml)
+### [List By Resource Group](synapse/Workspaces/ListByResourceGroup.yml)
+### [Update](synapse/Workspaces/Update.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
-## Data Access (GA)
-### [Overview](../docs-ref-conceptual/time-series-insights/ga.md)
-### Query
-#### [Overview](../docs-ref-conceptual/time-series-insights/ga-query.md)
-#### [API](../docs-ref-conceptual/time-series-insights/ga-query-api.md)
-#### [Syntax](../docs-ref-conceptual/time-series-insights/ga-query-syntax.md)
-### [Reference Data API](../docs-ref-conceptual/time-series-insights/ga-reference-data-api.md)
-## [Data Access Concepts (Preview)](../docs-ref-conceptual/time-series-insights/preview.md)
+## Data Access (Gen2)
+### [Overview](../docs-ref-conceptual/time-series-insights/reference-data-access-overview.md)
+### [Environments APIs](../docs-ref-conceptual/time-series-insights/reference-environments-apis.md)
+### [Model APIs](../docs-ref-conceptual/time-series-insights/reference-model-apis.md)
+### [Query APIs](../docs-ref-conceptual/time-series-insights/reference-query-apis.md)
+### [Time Series expression syntax](../docs-ref-conceptual/time-series-insights/reference-time-series-expression-syntax.md)
+### [API limits](../docs-ref-conceptual/time-series-insights/reference-api-limits.md)
+## Data Access (Gen1)
+### [Overview](../docs-ref-conceptual/time-series-insights/gen1.md)
+### [Query](../docs-ref-conceptual/time-series-insights/gen1-query.md)
+### [API](../docs-ref-conceptual/time-series-insights/gen1-query-api.md)
+### [Syntax](../docs-ref-conceptual/time-series-insights/gen1-query-syntax.md)
+### [Reference Data API](../docs-ref-conceptual/time-series-insights/gen1-reference-data-api.md)
 ## Reference
 ### Data Access (Preview)
 #### Model Settings
@@ -13618,39 +14032,96 @@
 ##### [Overview](time-series-insights/dataaccess(preview)/TimeSeriesTypes.yml)
 ##### [Execute Batch](time-series-insights/dataaccess(preview)/TimeSeriesTypes/ExecuteBatch.yml)
 ##### [Get](time-series-insights/dataaccess(preview)/TimeSeriesTypes/Get.yml)
-### Management
+### Data Access Gen2
+#### Model Settings
+##### [Overview](time-series-insights/dataaccessgen2/ModelSettings.yml)
+##### [Get](time-series-insights/dataaccessgen2/ModelSettings/Get.yml)
+##### [Update](time-series-insights/dataaccessgen2/ModelSettings/Update.yml)
+#### Query
+##### [Overview](time-series-insights/dataaccessgen2/Query.yml)
+##### [Execute](time-series-insights/dataaccessgen2/Query/Execute.yml)
+##### [Get Availability](time-series-insights/dataaccessgen2/Query/GetAvailability.yml)
+##### [Get Event Schema](time-series-insights/dataaccessgen2/Query/GetEventSchema.yml)
+#### Time Series Hierarchies
+##### [Overview](time-series-insights/dataaccessgen2/TimeSeriesHierarchies.yml)
+##### [Execute Batch](time-series-insights/dataaccessgen2/TimeSeriesHierarchies/ExecuteBatch.yml)
+##### [List](time-series-insights/dataaccessgen2/TimeSeriesHierarchies/List.yml)
+#### Time Series Instances
+##### [Overview](time-series-insights/dataaccessgen2/TimeSeriesInstances.yml)
+##### [Execute Batch](time-series-insights/dataaccessgen2/TimeSeriesInstances/ExecuteBatch.yml)
+##### [List](time-series-insights/dataaccessgen2/TimeSeriesInstances/List.yml)
+##### [Search](time-series-insights/dataaccessgen2/TimeSeriesInstances/Search.yml)
+##### [Suggest](time-series-insights/dataaccessgen2/TimeSeriesInstances/Suggest.yml)
+#### Time Series Types
+##### [Overview](time-series-insights/dataaccessgen2/TimeSeriesTypes.yml)
+##### [Execute Batch](time-series-insights/dataaccessgen2/TimeSeriesTypes/ExecuteBatch.yml)
+##### [List](time-series-insights/dataaccessgen2/TimeSeriesTypes/List.yml)
+### Management (Gen1/Gen2)
 #### Access Policies
-##### [Overview](time-series-insights/management/AccessPolicies.yml)
-##### [Create Or Update](time-series-insights/management/AccessPolicies/CreateOrUpdate.yml)
-##### [Delete](time-series-insights/management/AccessPolicies/Delete.yml)
-##### [Get](time-series-insights/management/AccessPolicies/Get.yml)
-##### [List By Environment](time-series-insights/management/AccessPolicies/ListByEnvironment.yml)
-##### [Update](time-series-insights/management/AccessPolicies/Update.yml)
+##### [Overview](time-series-insights/management(gen1/gen2)/AccessPolicies.yml)
+##### [Create Or Update](time-series-insights/management(gen1/gen2)/AccessPolicies/CreateOrUpdate.yml)
+##### [Delete](time-series-insights/management(gen1/gen2)/AccessPolicies/Delete.yml)
+##### [Get](time-series-insights/management(gen1/gen2)/AccessPolicies/Get.yml)
+##### [List By Environment](time-series-insights/management(gen1/gen2)/AccessPolicies/ListByEnvironment.yml)
+##### [Update](time-series-insights/management(gen1/gen2)/AccessPolicies/Update.yml)
 #### Environments
-##### [Overview](time-series-insights/management/Environments.yml)
-##### [Create Or Update](time-series-insights/management/Environments/CreateOrUpdate.yml)
-##### [Delete](time-series-insights/management/Environments/Delete.yml)
-##### [Get](time-series-insights/management/Environments/Get.yml)
-##### [List By Resource Group](time-series-insights/management/Environments/ListByResourceGroup.yml)
-##### [List By Subscription](time-series-insights/management/Environments/ListBySubscription.yml)
-##### [Update](time-series-insights/management/Environments/Update.yml)
+##### [Overview](time-series-insights/management(gen1/gen2)/Environments.yml)
+##### [Create Or Update](time-series-insights/management(gen1/gen2)/Environments/CreateOrUpdate.yml)
+##### [Delete](time-series-insights/management(gen1/gen2)/Environments/Delete.yml)
+##### [Get](time-series-insights/management(gen1/gen2)/Environments/Get.yml)
+##### [List By Resource Group](time-series-insights/management(gen1/gen2)/Environments/ListByResourceGroup.yml)
+##### [List By Subscription](time-series-insights/management(gen1/gen2)/Environments/ListBySubscription.yml)
+##### [Update](time-series-insights/management(gen1/gen2)/Environments/Update.yml)
 #### Event Sources
-##### [Overview](time-series-insights/management/EventSources.yml)
-##### [Create Or Update](time-series-insights/management/EventSources/CreateOrUpdate.yml)
-##### [Delete](time-series-insights/management/EventSources/Delete.yml)
-##### [Get](time-series-insights/management/EventSources/Get.yml)
-##### [List By Environment](time-series-insights/management/EventSources/ListByEnvironment.yml)
-##### [Update](time-series-insights/management/EventSources/Update.yml)
+##### [Overview](time-series-insights/management(gen1/gen2)/EventSources.yml)
+##### [Create Or Update](time-series-insights/management(gen1/gen2)/EventSources/CreateOrUpdate.yml)
+##### [Delete](time-series-insights/management(gen1/gen2)/EventSources/Delete.yml)
+##### [Get](time-series-insights/management(gen1/gen2)/EventSources/Get.yml)
+##### [List By Environment](time-series-insights/management(gen1/gen2)/EventSources/ListByEnvironment.yml)
+##### [Update](time-series-insights/management(gen1/gen2)/EventSources/Update.yml)
 #### Operations
-##### [Overview](time-series-insights/management/Operations.yml)
-##### [List](time-series-insights/management/Operations/List.yml)
+##### [Overview](time-series-insights/management(gen1/gen2)/Operations.yml)
+##### [List](time-series-insights/management(gen1/gen2)/Operations/List.yml)
 #### Reference Data Sets
-##### [Overview](time-series-insights/management/ReferenceDataSets.yml)
-##### [Create Or Update](time-series-insights/management/ReferenceDataSets/CreateOrUpdate.yml)
-##### [Delete](time-series-insights/management/ReferenceDataSets/Delete.yml)
-##### [Get](time-series-insights/management/ReferenceDataSets/Get.yml)
-##### [List By Environment](time-series-insights/management/ReferenceDataSets/ListByEnvironment.yml)
-##### [Update](time-series-insights/management/ReferenceDataSets/Update.yml)
+##### [Overview](time-series-insights/management(gen1/gen2)/ReferenceDataSets.yml)
+##### [Create Or Update](time-series-insights/management(gen1/gen2)/ReferenceDataSets/CreateOrUpdate.yml)
+##### [Delete](time-series-insights/management(gen1/gen2)/ReferenceDataSets/Delete.yml)
+##### [Get](time-series-insights/management(gen1/gen2)/ReferenceDataSets/Get.yml)
+##### [List By Environment](time-series-insights/management(gen1/gen2)/ReferenceDataSets/ListByEnvironment.yml)
+##### [Update](time-series-insights/management(gen1/gen2)/ReferenceDataSets/Update.yml)
+### Management (Preview)
+#### Access Policies
+##### [Overview](time-series-insights/management(preview)/AccessPolicies.yml)
+##### [Create Or Update](time-series-insights/management(preview)/AccessPolicies/CreateOrUpdate.yml)
+##### [Delete](time-series-insights/management(preview)/AccessPolicies/Delete.yml)
+##### [Get](time-series-insights/management(preview)/AccessPolicies/Get.yml)
+##### [List By Environment](time-series-insights/management(preview)/AccessPolicies/ListByEnvironment.yml)
+##### [Update](time-series-insights/management(preview)/AccessPolicies/Update.yml)
+#### Environments
+##### [Overview](time-series-insights/management(preview)/Environments.yml)
+##### [Create Or Update](time-series-insights/management(preview)/Environments/CreateOrUpdate.yml)
+##### [Delete](time-series-insights/management(preview)/Environments/Delete.yml)
+##### [Get](time-series-insights/management(preview)/Environments/Get.yml)
+##### [List By Resource Group](time-series-insights/management(preview)/Environments/ListByResourceGroup.yml)
+##### [List By Subscription](time-series-insights/management(preview)/Environments/ListBySubscription.yml)
+##### [Update](time-series-insights/management(preview)/Environments/Update.yml)
+#### Event Sources
+##### [Overview](time-series-insights/management(preview)/EventSources.yml)
+##### [Create Or Update](time-series-insights/management(preview)/EventSources/CreateOrUpdate.yml)
+##### [Delete](time-series-insights/management(preview)/EventSources/Delete.yml)
+##### [Get](time-series-insights/management(preview)/EventSources/Get.yml)
+##### [List By Environment](time-series-insights/management(preview)/EventSources/ListByEnvironment.yml)
+##### [Update](time-series-insights/management(preview)/EventSources/Update.yml)
+#### Operations
+##### [Overview](time-series-insights/management(preview)/Operations.yml)
+##### [List](time-series-insights/management(preview)/Operations/List.yml)
+#### Reference Data Sets
+##### [Overview](time-series-insights/management(preview)/ReferenceDataSets.yml)
+##### [Create Or Update](time-series-insights/management(preview)/ReferenceDataSets/CreateOrUpdate.yml)
+##### [Delete](time-series-insights/management(preview)/ReferenceDataSets/Delete.yml)
+##### [Get](time-series-insights/management(preview)/ReferenceDataSets/Get.yml)
+##### [List By Environment](time-series-insights/management(preview)/ReferenceDataSets/ListByEnvironment.yml)
+##### [Update](time-series-insights/management(preview)/ReferenceDataSets/Update.yml)
 # Traffic Manager
 ## [Overview](../docs-ref-conceptual/trafficmanager/index.md)
 ## Endpoints
@@ -13747,12 +14218,12 @@
 ### [Get](virtualnetwork/FirewallPolicies/Get.yml)
 ### [List](virtualnetwork/FirewallPolicies/List.yml)
 ### [List All](virtualnetwork/FirewallPolicies/ListAll.yml)
-## Firewall Policy Rule Groups
-### [Overview](virtualnetwork/FirewallPolicyRuleGroups.yml)
-### [Create Or Update](virtualnetwork/FirewallPolicyRuleGroups/CreateOrUpdate.yml)
-### [Delete](virtualnetwork/FirewallPolicyRuleGroups/Delete.yml)
-### [Get](virtualnetwork/FirewallPolicyRuleGroups/Get.yml)
-### [List](virtualnetwork/FirewallPolicyRuleGroups/List.yml)
+## Firewall Policy Rule Collection Groups
+### [Overview](virtualnetwork/FirewallPolicyRuleCollectionGroups.yml)
+### [Create Or Update](virtualnetwork/FirewallPolicyRuleCollectionGroups/CreateOrUpdate.yml)
+### [Delete](virtualnetwork/FirewallPolicyRuleCollectionGroups/Delete.yml)
+### [Get](virtualnetwork/FirewallPolicyRuleCollectionGroups/Get.yml)
+### [List](virtualnetwork/FirewallPolicyRuleCollectionGroups/List.yml)
 ## Get Active Sessions
 ### [Overview](virtualnetwork/GetActiveSessions.yml)
 ### [Get Active Sessions](virtualnetwork/GetActiveSessions/GetActiveSessions.yml)
@@ -13838,12 +14309,12 @@
 ### [List By Resource Group](virtualnetwork/NetworkVirtualAppliances/ListByResourceGroup.yml)
 ### [Update Tags](virtualnetwork/NetworkVirtualAppliances/UpdateTags.yml)
 ## NetworkInterface In VMSS
-### [Overview](virtualnetwork/NetworkInterface In VMSS.yml)
-### [Get Virtual Machine Scale Set Ip Configuration](virtualnetwork/NetworkInterface In VMSS/GetVirtualMachineScaleSetIpConfiguration.yml)
-### [Get Virtual Machine Scale Set Network Interface](virtualnetwork/NetworkInterface In VMSS/GetVirtualMachineScaleSetNetworkInterface.yml)
-### [List Virtual Machine Scale Set Ip Configurations](virtualnetwork/NetworkInterface In VMSS/ListVirtualMachineScaleSetIpConfigurations.yml)
-### [List Virtual Machine Scale Set Network Interfaces](virtualnetwork/NetworkInterface In VMSS/ListVirtualMachineScaleSetNetworkInterfaces.yml)
-### [List Virtual Machine Scale Set VM Network Interfaces](virtualnetwork/NetworkInterface In VMSS/ListVirtualMachineScaleSetVMNetworkInterfaces.yml)
+### [Overview](virtualnetwork/NetworkInterface%20In%20VMSS.yml)
+### [Get Virtual Machine Scale Set Ip Configuration](virtualnetwork/NetworkInterface%20In%20VMSS/GetVirtualMachineScaleSetIpConfiguration.yml)
+### [Get Virtual Machine Scale Set Network Interface](virtualnetwork/NetworkInterface%20In%20VMSS/GetVirtualMachineScaleSetNetworkInterface.yml)
+### [List Virtual Machine Scale Set Ip Configurations](virtualnetwork/NetworkInterface%20In%20VMSS/ListVirtualMachineScaleSetIpConfigurations.yml)
+### [List Virtual Machine Scale Set Network Interfaces](virtualnetwork/NetworkInterface%20In%20VMSS/ListVirtualMachineScaleSetNetworkInterfaces.yml)
+### [List Virtual Machine Scale Set VM Network Interfaces](virtualnetwork/NetworkInterface%20In%20VMSS/ListVirtualMachineScaleSetVMNetworkInterfaces.yml)
 ## Private Dns Zone Groups
 ### [Overview](virtualnetwork/PrivateDnsZoneGroups.yml)
 ### [Create Or Update](virtualnetwork/PrivateDnsZoneGroups/CreateOrUpdate.yml)
@@ -13889,10 +14360,10 @@
 ### [List All](virtualnetwork/PublicIPPrefixes/ListAll.yml)
 ### [Update Tags](virtualnetwork/PublicIPPrefixes/UpdateTags.yml)
 ## PublicIPAddress In VMSS
-### [Overview](virtualnetwork/PublicIPAddress In VMSS.yml)
-### [Get Virtual Machine Scale Set Public IP Address](virtualnetwork/PublicIPAddress In VMSS/GetVirtualMachineScaleSetPublicIPAddress.yml)
-### [List Virtual Machine Scale Set Public IP Addresses](virtualnetwork/PublicIPAddress In VMSS/ListVirtualMachineScaleSetPublicIPAddresses.yml)
-### [List Virtual Machine Scale Set VM Public IP Addresses](virtualnetwork/PublicIPAddress In VMSS/ListVirtualMachineScaleSetVMPublicIPAddresses.yml)
+### [Overview](virtualnetwork/PublicIPAddress%20In%20VMSS.yml)
+### [Get Virtual Machine Scale Set Public IP Address](virtualnetwork/PublicIPAddress%20In%20VMSS/GetVirtualMachineScaleSetPublicIPAddress.yml)
+### [List Virtual Machine Scale Set Public IP Addresses](virtualnetwork/PublicIPAddress%20In%20VMSS/ListVirtualMachineScaleSetPublicIPAddresses.yml)
+### [List Virtual Machine Scale Set VM Public IP Addresses](virtualnetwork/PublicIPAddress%20In%20VMSS/ListVirtualMachineScaleSetVMPublicIPAddresses.yml)
 ## Put Bastion Shareable Link
 ### [Overview](virtualnetwork/PutBastionShareableLink.yml)
 ### [Put Bastion Shareable Link](virtualnetwork/PutBastionShareableLink/PutBastionShareableLink.yml)
@@ -13944,6 +14415,16 @@
 ## Usages
 ### [Overview](virtualnetwork/Usages.yml)
 ### [List](virtualnetwork/Usages/List.yml)
+## Virtual Appliance Sites
+### [Overview](virtualnetwork/VirtualApplianceSites.yml)
+### [Create Or Update](virtualnetwork/VirtualApplianceSites/CreateOrUpdate.yml)
+### [Delete](virtualnetwork/VirtualApplianceSites/Delete.yml)
+### [Get](virtualnetwork/VirtualApplianceSites/Get.yml)
+### [List](virtualnetwork/VirtualApplianceSites/List.yml)
+## Virtual Appliance Skus
+### [Overview](virtualnetwork/VirtualApplianceSkus.yml)
+### [Get](virtualnetwork/VirtualApplianceSkus/Get.yml)
+### [List](virtualnetwork/VirtualApplianceSkus/List.yml)
 ## Virtual Network Peerings
 ### [Overview](virtualnetwork/VirtualNetworkPeerings.yml)
 ### [Create Or Update](virtualnetwork/VirtualNetworkPeerings/CreateOrUpdate.yml)
@@ -13973,13 +14454,6 @@
 ### [Get](virtualnetwork/VirtualRouters/Get.yml)
 ### [List](virtualnetwork/VirtualRouters/List.yml)
 ### [List By Resource Group](virtualnetwork/VirtualRouters/ListByResourceGroup.yml)
-## Web Application Firewall Policies
-### [Overview](virtualnetwork/WebApplicationFirewallPolicies.yml)
-### [Create Or Update](virtualnetwork/WebApplicationFirewallPolicies/CreateOrUpdate.yml)
-### [Delete](virtualnetwork/WebApplicationFirewallPolicies/Delete.yml)
-### [Get](virtualnetwork/WebApplicationFirewallPolicies/Get.yml)
-### [List](virtualnetwork/WebApplicationFirewallPolicies/List.yml)
-### [List All](virtualnetwork/WebApplicationFirewallPolicies/ListAll.yml)
 # Virtual WAN
 ## [Overview](../docs-ref-conceptual/virtualwan/index.md)
 ## Express Route Connections
@@ -14003,6 +14477,8 @@
 ### [List](virtualwan/HubRouteTables/List.yml)
 ## Hub Virtual Network Connections
 ### [Overview](virtualwan/HubVirtualNetworkConnections.yml)
+### [Create Or Update](virtualwan/HubVirtualNetworkConnections/CreateOrUpdate.yml)
+### [Delete](virtualwan/HubVirtualNetworkConnections/Delete.yml)
 ### [Get](virtualwan/HubVirtualNetworkConnections/Get.yml)
 ### [List](virtualwan/HubVirtualNetworkConnections/List.yml)
 ## P2s Vpn Gateways
@@ -14020,6 +14496,20 @@
 ## Supported Security Providers
 ### [Overview](virtualwan/SupportedSecurityProviders.yml)
 ### [Supported Security Providers](virtualwan/SupportedSecurityProviders/SupportedSecurityProviders.yml)
+## Virtual Hub Bgp Connection
+### [Overview](virtualwan/VirtualHubBgpConnection.yml)
+### [Create Or Update](virtualwan/VirtualHubBgpConnection/CreateOrUpdate.yml)
+### [Delete](virtualwan/VirtualHubBgpConnection/Delete.yml)
+### [Get](virtualwan/VirtualHubBgpConnection/Get.yml)
+## Virtual Hub Bgp Connections
+### [Overview](virtualwan/VirtualHubBgpConnections.yml)
+### [List](virtualwan/VirtualHubBgpConnections/List.yml)
+## Virtual Hub Ip Configuration
+### [Overview](virtualwan/VirtualHubIpConfiguration.yml)
+### [Create Or Update](virtualwan/VirtualHubIpConfiguration/CreateOrUpdate.yml)
+### [Delete](virtualwan/VirtualHubIpConfiguration/Delete.yml)
+### [Get](virtualwan/VirtualHubIpConfiguration/Get.yml)
+### [List](virtualwan/VirtualHubIpConfiguration/List.yml)
 ## Virtual Hub Route Table V2s
 ### [Overview](virtualwan/VirtualHubRouteTableV2s.yml)
 ### [Create Or Update](virtualwan/VirtualHubRouteTableV2s/CreateOrUpdate.yml)
@@ -14031,6 +14521,7 @@
 ### [Create Or Update](virtualwan/VirtualHubs/CreateOrUpdate.yml)
 ### [Delete](virtualwan/VirtualHubs/Delete.yml)
 ### [Get](virtualwan/VirtualHubs/Get.yml)
+### [Get Effective Virtual Hub Routes](virtualwan/VirtualHubs/GetEffectiveVirtualHubRoutes.yml)
 ### [List](virtualwan/VirtualHubs/List.yml)
 ### [List By Resource Group](virtualwan/VirtualHubs/ListByResourceGroup.yml)
 ### [Update Tags](virtualwan/VirtualHubs/UpdateTags.yml)

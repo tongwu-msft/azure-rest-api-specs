@@ -1,23 +1,22 @@
 ---
 title: List Skillset (Azure Cognitive Search REST API)
 description: Returns a list of cognitive search skillsets created in the current Azure Cognitive Search service.
-
-ms.manager: nitinme
-author: luiscabrer
-ms.author: luisca
+ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.devlang: rest-api
-ms.workload: search
 ms.topic: language-reference
-ms.date: 01/30/2020
+ms.devlang: rest-api
+
+author: luiscabrer
+ms.author: luisca
+ms.manager: nitinme
 ---
 # List Skillset (Azure Cognitive Search REST API)
 
 The **List Skillset** operation returns the list of skillsets in your Azure Cognitive Search service.  
 
 ```http
-GET https://[service name].search.windows.net/skillsets?api-version=2019-05-06 
+GET https://[service name].search.windows.net/skillsets?api-version=[api-version]
   Content-Type: application/json  
   api-key: [admin key]  
 ```  
@@ -26,7 +25,7 @@ GET https://[service name].search.windows.net/skillsets?api-version=2019-05-06
 | Parameter	  | Description  | 
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
-| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ## Request Headers 
 

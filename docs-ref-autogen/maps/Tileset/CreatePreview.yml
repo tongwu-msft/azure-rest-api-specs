@@ -4,13 +4,13 @@ name: Create Preview
 service: Maps Creator
 groupName: Tileset
 apiVersion: "1.0"
-summary: "**Tileset Create API**\n\n**Applies to**: S1 pricing tiers.\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API \nand SDK. The Tileset API is part of Creator.\n\nThe Tileset Create API allows the caller to create a tileset from a dataset. A tileset contains a set of tiles that can be consumed \nfrom the [Get Map Tile](/rest/api/maps/render/getmaptile) to retrieve custom tiles. To make a dataset, use the \n[DataSet Create API](/rest/api/maps/dataset/createpreview).\n\n## Submit Create Request\n\nTo create your tileset you will make a `POST` request with an empty body. The `datasetId` query parameter will be \nused as the source of the tileset data.\n\nThe Create Tileset API is a \n[long-running request](https://aka.ms/am-creator-lrt)."
+summary: "**Tileset Create API**\n\n**Applies to**: S1 pricing tier.\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API \nand SDK. The Tileset API is part of Creator.\n\nThe Tileset Create API allows the caller to create a tileset from a dataset. A tileset contains a set of tiles that can be consumed \nfrom the [Get Map Tile](/rest/api/maps/render/getmaptile) to retrieve custom tiles. To make a dataset, use the \n[DataSet Create API](/rest/api/maps/dataset/createpreview).\n\n## Submit Create Request\n\nTo create your tileset you will make a `POST` request with an empty body. The `datasetId` query parameter will be \nused as the source of the tileset data.\n\nThe Create Tileset API is a \n[long-running request](https://aka.ms/am-creator-lrt)."
 consumes: []
 produces:
 - application/json
 paths:
 - content: POST https://atlas.microsoft.com/tileset/create/vector?api-version=1.0&datasetId={datasetId}
-- content: POST https://atlas.microsoft.com/tileset/create/vector?subscription-key={subscription-key}&api-version=1.0&datasetId={datasetId}&minZoom={minZoom}&maxZoom={maxZoom}
+- content: POST https://atlas.microsoft.com/tileset/create/vector?subscription-key={subscription-key}&api-version=1.0&datasetId={datasetId}&minZoom={minZoom}&maxZoom={maxZoom}&description={description}
   isOptional: true
 uriParameters:
 - name: subscription-key
@@ -48,12 +48,15 @@ uriParameters:
     Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details.
   types:
   - uid: integer
+- name: description
+  in: query
+  description: User provided description of the tileset.
+  types:
+  - uid: string
 responses:
 - name: 201 Created
   headers:
   - name: Location
-    value: string
-  - name: Access-Control-Expose-Headers
     value: string
   description: The resource has been created successfully.
   types:
@@ -62,9 +65,10 @@ responses:
   headers:
   - name: Location
     value: string
-  - name: Access-Control-Expose-Headers
-    value: string
-  description: 'Request Accepted: The request has been accepted for processing. Please use the URL in the Location Header to retry or access the results.'
+  description: >-
+    **Supported only for async request.**
+
+    Request Accepted: The request has been accepted for processing. Please use the URL in the Location Header to retry or access the results.
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:

@@ -265,6 +265,10 @@ definitions:
     description: the name of the metric that defines what the rule monitors.
     types:
     - uid: string
+  - name: metricNamespace
+    description: the namespace of the metric that defines what the rule monitors.
+    types:
+    - uid: string
   - name: metricResourceUri
     description: the resource identifier of the resource the rule monitors.
     types:
@@ -293,6 +297,11 @@ definitions:
     description: the threshold of the metric that triggers the scale action.
     types:
     - uid: number
+  - name: dimensions
+    description: 'List of dimension conditions. For example: [{"DimensionName":"AppName","Operator":"Equals","Values":["App1"]},{"DimensionName":"Deployment","Operator":"Equals","Values":["default"]}].'
+    types:
+    - uid: ScaleRuleMetricDimension
+      isArray: true
 - name: ScaleAction
   description: The parameters for the scaling action.
   kind: object
@@ -424,6 +433,23 @@ definitions:
   - name: LessThanOrEqual
     types:
     - uid: string
+- name: ScaleRuleMetricDimension
+  description: Specifies an auto scale rule metric dimension.
+  kind: object
+  properties:
+  - name: DimensionName
+    description: Name of the dimension.
+    types:
+    - uid: string
+  - name: Operator
+    description: the dimension operator. Only 'Equals' and 'NotEquals' are supported. 'Equals' being equal to any of the values. 'NotEquals' being not equal to all of the values
+    types:
+    - uid: ScaleRuleMetricDimensionOperationType
+  - name: Values
+    description: 'list of dimension values. For example: ["App1","App2"].'
+    types:
+    - uid: string
+      isArray: true
 - name: ScaleDirection
   description: the scale direction. Whether the scaling action increases or decreases the number of instances.
   kind: enum
@@ -448,6 +474,16 @@ definitions:
     types:
     - uid: string
   - name: ExactCount
+    types:
+    - uid: string
+- name: ScaleRuleMetricDimensionOperationType
+  description: the dimension operator. Only 'Equals' and 'NotEquals' are supported. 'Equals' being equal to any of the values. 'NotEquals' being not equal to all of the values
+  kind: enum
+  properties:
+  - name: Equals
+    types:
+    - uid: string
+  - name: NotEquals
     types:
     - uid: string
 examples:

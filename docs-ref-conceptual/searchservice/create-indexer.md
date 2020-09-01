@@ -1,14 +1,15 @@
 ---
-title: Create Indexer (Azure Cognitive Search REST API-version=2019-05-06)
+title: Create Indexer (Azure Cognitive Search REST API-version=2020-06-30)
 description: Indexers are resources that automate many aspects of data ingestion into an Azure Cognitive Search indexes. You must use a supported Azure data source to use this API.
-manager: pablocas
+ms.date: 06/30/2020
+
+ms.service: cognitive-search
+ms.topic: language-reference
+ms.devlang: rest-api
+
 author: luiscabrer
 ms.author: luisca
-ms.date: 01/30/2020
-ms.service: cognitive-search
-ms.devlang: rest-api
-ms.workload: search
-ms.topic: language-reference
+ms.manager: nitinme
 ---
 # Create Indexer (Azure Cognitive Search REST API)
 
@@ -19,7 +20,7 @@ Creating an indexer adds it to your search service and runs it. If the request i
 You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
 
 ```http
-POST https://[service name].search.windows.net/indexers?api-version=2019-05-06
+POST https://[service name].search.windows.net/indexers?api-version=[api-version]
     Content-Type: application/json  
     api-key: [admin key]  
 ```  
@@ -36,16 +37,13 @@ HTTPS is required for all service requests. If the indexer doesn't exist, it is 
 
 Indexer configuration varies based on the type of data source. For data-platform-specific guidance on creating indexers, start with [Indexers overview](https://docs.microsoft.com/azure/search/search-indexer-overview), which includes the complete list of [related articles](https://docs.microsoft.com/azure/search/search-indexer-overview#next-steps).
 
-> [!NOTE]
-> A preview version of this API provides a new [cache property](2019-05-06-preview/create-indexer.md#cache) used for incremental processing in AI enrichment pipelines, achieved by reusing previously processed content. The REST API version **2019-05-06-Preview** provides this feature. 
-
 ## URI Parameters
 
 | Parameter	  | Description  | 
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | indexer name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
-| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ## Request Headers 
  The following table describes the required and optional request headers.  
@@ -131,11 +129,23 @@ An indexer can optionally specify a schedule. Without a schedule, the indexer ru
 An indexer can optionally take configuration parameters that modify runtime behaviors. Configuration parameters are comma-delimited on the indexer request. 
 
 ```json
-    {
-      "name" : "my-blob-indexer-for-cognitive-search",
-      ... other indexer properties
-      "parameters" : { "maxFailedItems" : "15", "batchSize" : "100", "configuration" : { "parsingMode" : "json", "indexedFileNameExtensions" : ".json, .jpg, .png", "imageAction" : "generateNormalizedImages", "dataToExtract" : "contentAndMetadata" } }
-    }
+  {
+    "name" : "my-blob-indexer-for-cognitive-search",
+    ... other indexer properties
+    "parameters" : 
+      { 
+      "maxFailedItems" : "15", 
+      "batchSize" : "100", 
+      "configuration" : 
+          { 
+          "parsingMode" : "json", 
+          "indexedFileNameExtensions" : ".json, .jpg, .png",
+          "imageAction" : "generateNormalizedImages",
+          "dataToExtract" : "contentAndMetadata" ,
+          "executionEnvironment": "Standard"
+          } 
+      }
+  }
 ```
 
 #### General parameters for all indexers
@@ -145,6 +155,8 @@ An indexer can optionally take configuration parameters that modify runtime beha
 | `"batchSize"` | Integer<br/>Default is source-specific (1000 for Azure SQL Database and Azure Cosmos DB, 10 for Azure Blob Storage) | Specifies the number of items that are read from the data source and indexed as a single batch in order to improve performance. |
 | `"maxFailedItems"` | Integer<br/>Default is 0 | Number of errors to tolerate before an indexer run is considered a failure. Set to -1 if you don’t want any errors to stop the indexing process. You can retrieve information about failed items using [Get Indexer Status](https://docs.microsoft.com/rest/api/searchservice/get-indexer-status).  |
 | `"maxFailedItemsPerBatch"` | Integer<br/>Default is 0 | Number of errors to tolerate in each batch before an indexer run is considered a failure. Set to -1 if you don’t want any errors to stop the indexing process. |
+| `"executionEnvironment"` | String<br/>Valid values are case-insensitive and consist of [null or unspecified], `Standard` (default), or `Private`. | Overrides the execution environment chosen by internal system processes. Explicitly setting the execution environment to `Private` is required if indexers are accessing external resources over private endpoint connections. For data ingestion, this setting is valid only for services that are provisioned as Basic or Standard (S1, S2, S3). For AI enrichment content processing, this setting is valid for S2 and S3 only. This setting is located in the `"configuration"` section. |
+
 
 #### Blob configuration parameters
 

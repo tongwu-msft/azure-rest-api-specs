@@ -6,11 +6,15 @@ ms.reviewer: prkumar
 tags: billing
 ms.service: cost-management-billing
 ms.topic: article
-ms.date: 02/12/2020
+ms.date: 06/22/2020
 ms.author: banders
 
 ---
 # Reporting APIs for Enterprise customers - Usage Details
+
+> [!Note]
+> Microsoft no longer updates the Enterprise Reporting APIs. Instead, you should use [Azure Consumption](/rest/api/consumption) APIs.
+> The Azure Billing - Usage Details API is replaced by the [Azure Consumption - Usage Details API](/rest/api/consumption/usagedetails).
 
 The Usage Detail API offers a daily breakdown of consumed quantities and estimated charges by an Enrollment. The result also includes information on instances, meters, and departments. The API can be queried by Billing period or by a specified start and end date.
 
@@ -62,7 +66,7 @@ The call is a two-step process that requires you to submit your request first fo
 |startDate| string| Corresponds to the beginning of the time range used while making the submit call. |
 |endDate| string| Corresponds to the end of the time range used while making the submit call.|
 
-The reportUrl is the URL that can be used for further polling calls (GET operation). When the status field in the response of polling request comes back as 3, the request is completed. We have the blobPath field in the response populated with a URL pointing to the csv data. The blob is available for 1 hour from the date time in requestedOn field of response. Status 4, 5 and 7 are failure status where the API call has hit an error condition. For all other status, the polling call should be repeated.
+The reportUrl is the URL that can be used for further polling calls (GET operation). When the status field in the response of polling request comes back as 3, the request is completed. We have the blobPath field in the response populated with a URL pointing to the csv data. The blob is available for 1 day from the date time in requestedOn field of response. Status 4, 5 and 7 are failure status where the API call has hit an error condition. For all other status, the polling call should be repeated.
 
 ## JSON Format
 The API listed below provide data in JSON format. If a billing period is not specified, then data for the current billing period is returned. The maximum supported time range is 36 months.

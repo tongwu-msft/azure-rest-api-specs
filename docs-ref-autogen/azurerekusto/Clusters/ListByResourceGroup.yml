@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.clusters.listbyresourcegroup
 name: List By Resource Group
 service: Azure Kusto
 groupName: Clusters
-apiVersion: 2019-01-21
+apiVersion: 2020-06-14
 summary: Lists all Kusto clusters within a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters?api-version=2019-01-21
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters?api-version=2020-06-14
 uriParameters:
 - name: subscriptionId
   in: path
@@ -66,6 +66,15 @@ definitions:
     description: The SKU of the cluster.
     types:
     - uid: AzureSku
+  - name: zones
+    description: The availability zones of the cluster.
+    types:
+    - uid: string
+      isArray: true
+  - name: identity
+    description: The identity of the cluster, if configured.
+    types:
+    - uid: Identity
   - name: properties.state
     isReadyOnly: true
     description: The state of the resource.
@@ -86,11 +95,49 @@ definitions:
     description: The cluster data ingestion URI.
     types:
     - uid: string
+  - name: properties.stateReason
+    isReadyOnly: true
+    description: The reason for the cluster's current state.
+    types:
+    - uid: string
   - name: properties.trustedExternalTenants
     description: The cluster's external tenants.
     types:
     - uid: TrustedExternalTenant
       isArray: true
+  - name: properties.optimizedAutoscale
+    description: Optimized auto scale definition.
+    types:
+    - uid: OptimizedAutoscale
+  - name: properties.enableDiskEncryption
+    description: A boolean value that indicates if the cluster's disks are encrypted.
+    types:
+    - uid: boolean
+  - name: properties.enableStreamingIngest
+    description: A boolean value that indicates if the streaming ingest is enabled.
+    types:
+    - uid: boolean
+  - name: properties.virtualNetworkConfiguration
+    description: Virtual network definition.
+    types:
+    - uid: VirtualNetworkConfiguration
+  - name: properties.keyVaultProperties
+    description: KeyVault properties for the cluster encryption.
+    types:
+    - uid: KeyVaultProperties
+  - name: properties.enablePurge
+    description: A boolean value that indicates if the purge operations are enabled.
+    types:
+    - uid: boolean
+  - name: properties.languageExtensions
+    isReadyOnly: true
+    description: List of the cluster's language extensions.
+    types:
+    - uid: LanguageExtensionsList
+  - name: properties.enableDoubleEncryption
+    description: A boolean value that indicates if double encryption is enabled.
+    types:
+    - uid: boolean
   - name: tags
     description: Resource tags.
     types:
@@ -155,6 +202,28 @@ definitions:
     description: SKU tier.
     types:
     - uid: AzureSkuTier
+- name: Identity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type.
+    types:
+    - uid: IdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with the Kusto cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
 - name: State
   description: The state of the resource.
   kind: enum
@@ -205,6 +274,9 @@ definitions:
   - name: Failed
     types:
     - uid: string
+  - name: Moving
+    types:
+    - uid: string
 - name: TrustedExternalTenant
   description: Represents a tenant ID that is trusted by the cluster.
   kind: object
@@ -213,6 +285,67 @@ definitions:
     description: GUID representing an external tenant.
     types:
     - uid: string
+- name: OptimizedAutoscale
+  description: A class that contains the optimized auto scale definition.
+  kind: object
+  properties:
+  - name: version
+    description: The version of the template defined, for instance 1.
+    types:
+    - uid: integer
+  - name: isEnabled
+    description: A boolean value that indicate if the optimized autoscale feature is enabled or not.
+    types:
+    - uid: boolean
+  - name: minimum
+    description: Minimum allowed instances count.
+    types:
+    - uid: integer
+  - name: maximum
+    description: Maximum allowed instances count.
+    types:
+    - uid: integer
+- name: VirtualNetworkConfiguration
+  description: A class that contains virtual network definition.
+  kind: object
+  properties:
+  - name: subnetId
+    description: The subnet resource id.
+    types:
+    - uid: string
+  - name: enginePublicIpId
+    description: Engine service's public IP address resource id.
+    types:
+    - uid: string
+  - name: dataManagementPublicIpId
+    description: Data management's service public IP address resource id.
+    types:
+    - uid: string
+- name: KeyVaultProperties
+  description: Properties of the key vault.
+  kind: object
+  properties:
+  - name: keyName
+    description: The name of the key vault key.
+    types:
+    - uid: string
+  - name: keyVersion
+    description: The version of the key vault key.
+    types:
+    - uid: string
+  - name: keyVaultUri
+    description: The Uri of the key vault.
+    types:
+    - uid: string
+- name: LanguageExtensionsList
+  description: The list of language extension objects.
+  kind: object
+  properties:
+  - name: value
+    description: The list of language extensions.
+    types:
+    - uid: LanguageExtension
+      isArray: true
 - name: AzureSkuName
   description: SKU name.
   kind: enum
@@ -253,6 +386,33 @@ definitions:
   - name: Dev(No SLA)_Standard_D11_v2
     types:
     - uid: string
+  - name: Standard_E2a_v4
+    types:
+    - uid: string
+  - name: Standard_E4a_v4
+    types:
+    - uid: string
+  - name: Standard_E8a_v4
+    types:
+    - uid: string
+  - name: Standard_E16a_v4
+    types:
+    - uid: string
+  - name: Standard_E8as_v4+1TB_PS
+    types:
+    - uid: string
+  - name: Standard_E8as_v4+2TB_PS
+    types:
+    - uid: string
+  - name: Standard_E16as_v4+3TB_PS
+    types:
+    - uid: string
+  - name: Standard_E16as_v4+4TB_PS
+    types:
+    - uid: string
+  - name: Dev(No SLA)_Standard_E2a_v4
+    types:
+    - uid: string
 - name: AzureSkuTier
   description: SKU tier.
   kind: enum
@@ -263,39 +423,80 @@ definitions:
   - name: Standard
     types:
     - uid: string
+- name: IdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with the Kusto cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+- name: LanguageExtension
+  description: The language extension object.
+  kind: object
+  properties:
+  - name: languageExtensionName
+    description: The language extension name.
+    types:
+    - uid: languageExtensionName
+- name: languageExtensionName
+  description: The language extension name.
+  kind: enum
+  properties:
+  - name: PYTHON
+    types:
+    - uid: string
+  - name: R
+    types:
+    - uid: string
 examples:
 - name: KustoClustersListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters?api-version=2019-01-21
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters?api-version=2020-06-14
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/KustoClusterRPTest4",
+            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest4",
             "name": "KustoClusterRPTest4",
-            "type": "Microsoft.Kusto/clusters",
+            "type": "Microsoft.Kusto/Clusters",
             "location": "westus",
             "properties": {
-              "provisioningState": "Succeeded"
+              "provisioningState": "Succeeded",
+              "keyVaultProperties": {
+                "keyVaultUri": "https://dummy.keyvault.com",
+                "keyName": "keyName",
+                "keyVersion": "keyVersion"
+              }
             },
             "sku": {
-              "name": "L8",
+              "name": "Standard_L8s",
               "capacity": 2,
               "tier": "Standard"
             }
           },
           {
-            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/KustoClusterRPTest3",
+            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest3",
             "name": "KustoClusterRPTest3",
-            "type": "Microsoft.Kusto/clusters",
+            "type": "Microsoft.Kusto/Clusters",
             "location": "westus",
             "properties": {
               "provisioningState": "Succeeded"
             },
             "sku": {
-              "name": "L8",
+              "name": "Standard_L8s",
               "capacity": 2,
               "tier": "Standard"
             }

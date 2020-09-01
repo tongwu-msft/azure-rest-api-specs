@@ -24,7 +24,7 @@ Creates a new consumer group. When creating a consumer group, you can specify th
   
 |Property Name|Default|  
 |-------------------|-------------|  
-|UserMetadata|(empty)|  
+|`UserMetadata`|(empty)|  
   
 ## Request  
   
@@ -34,7 +34,7 @@ Creates a new consumer group. When creating a consumer group, you can specify th
   
 ### Request Headers  
 
-See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
 
@@ -42,8 +42,8 @@ The response includes an HTTP status code, a set of response headers, and a resp
   
 |Element name|Required|Type|Version|Description|  
 |------------------|--------------|----------|-------------|-----------------|  
-|CreatedAt|Yes, read-only|string|2014-01|The exact time the consumer group was created.|  
-|UpdatedAt|Yes, read-only|string|2014-01|The exact time the consumer group was updated.|  
+|`CreatedAt`|Yes, read-only|string|2014-01|The exact time the consumer group was created.|  
+|`UpdatedAt`|Yes, read-only|string|2014-01|The exact time the consumer group was updated.|  
   
 ### Response Codes  
   
@@ -63,6 +63,9 @@ If the request is successful, the response body contains the description of the 
 ## Examples  
 
 **Request**  
+
+> [!NOTE]
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.
   
 ```  
 PUT https://your-namespace.servicebus.windows.net/your-event-hub/consumergroups/testCG?timeout=60&api-version=2014-01 HTTP/1.1  

@@ -1,7 +1,7 @@
 ---
 title: "Generate SAS token"
 ms.custom: ""
-ms.date: 06/19/2018
+ms.date: 07/14/2020
 ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "event-hubs"
@@ -10,12 +10,12 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 1a1f5bbc-0ae2-4246-9c86-92ca0b1a2e2c
 caps.latest.revision: 4
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 ---
 # Generate SAS token
-This section shows how to programmatically generate a SAS token for using the Event Hubs REST APIs.  
+This section shows how to programmatically generate a SAS token for using Azure Event Hubs and Azure Service Bus REST APIs.  
 
 ## NodeJS
 ```js

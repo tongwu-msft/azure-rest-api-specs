@@ -6,11 +6,15 @@ ms.reviewer: prkumar
 tags: billing
 ms.service: cost-management-billing
 ms.topic: article
-ms.date: 08/06/2019
+ms.date: 06/22/2020
 ms.author: banders
 
 ---
 # Reporting APIs for Enterprise customers - Balance and Summary
+
+> [!Note]
+> Microsoft no longer updates the Enterprise Reporting APIs. Instead, you should use [Azure Consumption](/rest/api/consumption) APIs.
+> The Azure Billing - Balance and Summary API is replaced by the [Azure Consumption - Balances API](/rest/api/consumption/balances).
 
 The Balance and Summary API offers a monthly summary of information on balances, new purchases, Azure Marketplace service charges, adjustments, and overage charges.
 
