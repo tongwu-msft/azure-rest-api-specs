@@ -6237,9 +6237,9 @@
 ##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles.yml)
 ##### [Remove Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles/RemoveRoles.yml)
 ### Service
-#### Bulk Registry Rest Client
-##### [Overview](iothub/service/BulkRegistryRestClient.yml)
-##### [Update Registry](iothub/service/BulkRegistryRestClient/UpdateRegistry.yml)
+#### Bulk Registry
+##### [Overview](iothub/service/BulkRegistry.yml)
+##### [Update Registry](iothub/service/BulkRegistry/UpdateRegistry.yml)
 #### Cloud To Device Messages
 ##### [Overview](iothub/service/CloudToDeviceMessages.yml)
 ##### [Abandon Feedback Notification](iothub/service/CloudToDeviceMessages/AbandonFeedbackNotification.yml)
