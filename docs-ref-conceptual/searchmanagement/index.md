@@ -16,15 +16,13 @@ Azure Cognitive Search provides a REST API used with [Azure Resource Manager](ht
 
 ## Other SDKs
 
-The REST APIs are foundational to Azure Cognitive Search. All API additions, deletions, and enhancements are reflected in the REST APIs first.
+The REST APIs are foundational to Azure Cognitive Search. Any changes to the programming model are reflected in the REST APIs first.
 
 Alternatives include the following SDKs, which are independently updated on separate release schedules:
 
 + [.NET](https://docs.microsoft.com/dotnet/api/overview/azure/search/management)
 + [Python](https://docs.microsoft.com/python/api/overview/azure/search/management?view=azure-python)
-+ [Go (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.go.md)
 + [Node.js (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.nodejs.md)
-+ [Ruby (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.ruby.md)
 + [TypeScript (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.typescript.md)
 
 ## Next steps

@@ -24,7 +24,7 @@ For all other tasks, such as creating and querying an index, use the [Search Ser
 
 To fully administer your service programmatically, you will need two APIs: the Management REST API of Azure Cognitive Search documented here, plus the common [Azure Resource Manager REST API](https://docs.microsoft.com/rest/api/searchmanagement/). The Resource Manager API is used for general-purpose operations that are not service specific, such as querying subscription data, listing geo-locations, and so forth. 
 
-To get started, see [Manage a search service with PowerShell](https://docs.microsoft.com/azure/search/search-manage-powershell) for step-by-step instruction.
+To get started with the Management REST API, see [Manage a search service with PowerShell](https://docs.microsoft.com/azure/search/search-manage-powershell) for step-by-step instruction.
 
 ## Connect to the management endpoint
 
@@ -53,9 +53,9 @@ Visit these links for more information about search service endpoint protection:
 
 ## Authentication and access control
 
-The Azure Cognitive Search Management REST API is an extension of the Azure Resource Manager and shares its dependencies. As such, Active Directory is a prerequisite to service administration of Azure Cognitive Search. All administrative requests from client code must be authenticated using Azure Active Directory before the request reaches the Resource Manager.
+The Azure Cognitive Search Management REST API is an extension of the Azure Resource Manager and shares its dependencies. As such, Azure Active Directory (AD) is a prerequisite to service administration of Azure Cognitive Search. All administrative requests from client code must be authenticated using Azure AD before the request reaches the Resource Manager.
 
-Service and key administration, due to the dependency on Resource Manager, relies on Active Directory for authentication.
+Service and key administration, due to the dependency on Resource Manager, relies on Azure AD for authentication.
 
 Data requests against the Azure Cognitive Search service endpoint, such as [Create Index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/rest/api/searchservice/create-index) or [Search Documents &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/rest/api/searchservice/search-documents), use an `api-key` in the request header. See [Azure Cognitive Search REST APIs](https://docs.microsoft.com/rest/api/searchservice/) for information about authenticating a data request.
 
