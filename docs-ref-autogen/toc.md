@@ -8999,6 +8999,12 @@
 #### [List By Resource Group](searchmanagement/Services/ListByResourceGroup.yml)
 #### [List By Subscription](searchmanagement/Services/ListBySubscription.yml)
 #### [Update](searchmanagement/Services/Update.yml)
+### Shared Private Link Resources
+#### [Overview](searchmanagement/SharedPrivateLinkResources.yml)
+#### [Create Or Update](searchmanagement/SharedPrivateLinkResources/CreateOrUpdate.yml)
+#### [Delete](searchmanagement/SharedPrivateLinkResources/Delete.yml)
+#### [Get](searchmanagement/SharedPrivateLinkResources/Get.yml)
+#### [List By Service](searchmanagement/SharedPrivateLinkResources/ListByService.yml)
 # Search Service
 ## [Overview](../docs-ref-conceptual/searchservice/index.md)
 ## [API versions](../docs-ref-conceptual/searchservice/search-service-api-versions.md)
