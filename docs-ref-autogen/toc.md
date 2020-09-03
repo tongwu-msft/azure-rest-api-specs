@@ -2825,8 +2825,17 @@
 ## Operations
 ### [Overview](cdn/Operations.yml)
 ### [List](cdn/Operations/List.yml)
+## Origin Groups
+### [Overview](cdn/OriginGroups.yml)
+### [Create](cdn/OriginGroups/Create.yml)
+### [Delete](cdn/OriginGroups/Delete.yml)
+### [Get](cdn/OriginGroups/Get.yml)
+### [List By Endpoint](cdn/OriginGroups/ListByEndpoint.yml)
+### [Update](cdn/OriginGroups/Update.yml)
 ## Origins
 ### [Overview](cdn/Origins.yml)
+### [Create](cdn/Origins/Create.yml)
+### [Delete](cdn/Origins/Delete.yml)
 ### [Get](cdn/Origins/Get.yml)
 ### [List By Endpoint](cdn/Origins/ListByEndpoint.yml)
 ### [Update](cdn/Origins/Update.yml)
@@ -4430,54 +4439,55 @@
 ##### [Update Table Throughput](cosmos-db-resource-provider/2020-06-01-preview/TableResources/UpdateTableThroughput.yml)
 # Cost Management
 ## [Overview](../docs-ref-conceptual/cost-management/index.md)
-## 2019-11-01
+## Prices
+### [Get Azure Retail Prices](../docs-ref-conceptual/cost-management/retail-prices/azure-retail-prices.md)
+## Reference
 ### Alerts
-#### [Overview](cost-management/2019-11-01/Alerts.yml)
-#### [Dismiss](cost-management/2019-11-01/Alerts/Dismiss.yml)
-#### [Get](cost-management/2019-11-01/Alerts/Get.yml)
-#### [List](cost-management/2019-11-01/Alerts/List.yml)
-#### [List External](cost-management/2019-11-01/Alerts/ListExternal.yml)
-### Dimensions
-#### [Overview](cost-management/2019-11-01/Dimensions.yml)
-#### [By External Cloud Provider Type](cost-management/2019-11-01/Dimensions/ByExternalCloudProviderType.yml)
-#### [List](cost-management/2019-11-01/Dimensions/List.yml)
-### Exports
-#### [Overview](cost-management/2019-11-01/Exports.yml)
-#### [Create Or Update](cost-management/2019-11-01/Exports/CreateOrUpdate.yml)
-#### [Delete](cost-management/2019-11-01/Exports/Delete.yml)
-#### [Execute](cost-management/2019-11-01/Exports/Execute.yml)
-#### [Get](cost-management/2019-11-01/Exports/Get.yml)
-#### [Get Execution History](cost-management/2019-11-01/Exports/GetExecutionHistory.yml)
-#### [List](cost-management/2019-11-01/Exports/List.yml)
-### Forecast
-#### [Overview](cost-management/2019-11-01/Forecast.yml)
-#### [External Cloud Provider Usage](cost-management/2019-11-01/Forecast/ExternalCloudProviderUsage.yml)
-#### [Usage](cost-management/2019-11-01/Forecast/Usage.yml)
-### Operations
-#### [Overview](cost-management/2019-11-01/Operations.yml)
-#### [List](cost-management/2019-11-01/Operations/List.yml)
-### Query
-#### [Overview](cost-management/2019-11-01/Query.yml)
-#### [Usage](cost-management/2019-11-01/Query/Usage.yml)
-#### [Usage By External Cloud Provider Type](cost-management/2019-11-01/Query/UsageByExternalCloudProviderType.yml)
-### Views
-#### [Overview](cost-management/2019-11-01/Views.yml)
-#### [Create Or Update](cost-management/2019-11-01/Views/CreateOrUpdate.yml)
-#### [Create Or Update By Scope](cost-management/2019-11-01/Views/CreateOrUpdateByScope.yml)
-#### [Delete](cost-management/2019-11-01/Views/Delete.yml)
-#### [Delete By Scope](cost-management/2019-11-01/Views/DeleteByScope.yml)
-#### [Get](cost-management/2019-11-01/Views/Get.yml)
-#### [Get By Scope](cost-management/2019-11-01/Views/GetByScope.yml)
-#### [List](cost-management/2019-11-01/Views/List.yml)
-#### [List By Scope](cost-management/2019-11-01/Views/ListByScope.yml)
-## 2020-03-01-preview
+#### [Overview](cost-management/Alerts.yml)
+#### [Dismiss](cost-management/Alerts/Dismiss.yml)
+#### [Get](cost-management/Alerts/Get.yml)
+#### [List](cost-management/Alerts/List.yml)
+#### [List External](cost-management/Alerts/ListExternal.yml)
 ### Cost Allocation Rules
-#### [Overview](cost-management/2020-03-01-preview/CostAllocationRules.yml)
-#### [Check Name Availability](cost-management/2020-03-01-preview/CostAllocationRules/CheckNameAvailability.yml)
-#### [Create Or Update](cost-management/2020-03-01-preview/CostAllocationRules/CreateOrUpdate.yml)
-#### [Delete](cost-management/2020-03-01-preview/CostAllocationRules/Delete.yml)
-#### [Get](cost-management/2020-03-01-preview/CostAllocationRules/Get.yml)
-#### [List](cost-management/2020-03-01-preview/CostAllocationRules/List.yml)
+#### [Overview](cost-management/CostAllocationRules.yml)
+#### [Check Name Availability](cost-management/CostAllocationRules/CheckNameAvailability.yml)
+#### [Create Or Update](cost-management/CostAllocationRules/CreateOrUpdate.yml)
+#### [Delete](cost-management/CostAllocationRules/Delete.yml)
+#### [Get](cost-management/CostAllocationRules/Get.yml)
+#### [List](cost-management/CostAllocationRules/List.yml)
+### Dimensions
+#### [Overview](cost-management/Dimensions.yml)
+#### [By External Cloud Provider Type](cost-management/Dimensions/ByExternalCloudProviderType.yml)
+#### [List](cost-management/Dimensions/List.yml)
+### Exports
+#### [Overview](cost-management/Exports.yml)
+#### [Create Or Update](cost-management/Exports/CreateOrUpdate.yml)
+#### [Delete](cost-management/Exports/Delete.yml)
+#### [Execute](cost-management/Exports/Execute.yml)
+#### [Get](cost-management/Exports/Get.yml)
+#### [Get Execution History](cost-management/Exports/GetExecutionHistory.yml)
+#### [List](cost-management/Exports/List.yml)
+### Forecast
+#### [Overview](cost-management/Forecast.yml)
+#### [External Cloud Provider Usage](cost-management/Forecast/ExternalCloudProviderUsage.yml)
+#### [Usage](cost-management/Forecast/Usage.yml)
+### Operations
+#### [Overview](cost-management/Operations.yml)
+#### [List](cost-management/Operations/List.yml)
+### Query
+#### [Overview](cost-management/Query.yml)
+#### [Usage](cost-management/Query/Usage.yml)
+#### [Usage By External Cloud Provider Type](cost-management/Query/UsageByExternalCloudProviderType.yml)
+### Views
+#### [Overview](cost-management/Views.yml)
+#### [Create Or Update](cost-management/Views/CreateOrUpdate.yml)
+#### [Create Or Update By Scope](cost-management/Views/CreateOrUpdateByScope.yml)
+#### [Delete](cost-management/Views/Delete.yml)
+#### [Delete By Scope](cost-management/Views/DeleteByScope.yml)
+#### [Get](cost-management/Views/Get.yml)
+#### [Get By Scope](cost-management/Views/GetByScope.yml)
+#### [List](cost-management/Views/List.yml)
+#### [List By Scope](cost-management/Views/ListByScope.yml)
 # Custom Providers
 ## [Overview](../docs-ref-conceptual/customproviders/index.md)
 ## Associations
@@ -6230,9 +6240,9 @@
 ##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles.yml)
 ##### [Remove Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles/RemoveRoles.yml)
 ### Service
-#### Bulk Registry Rest Client
-##### [Overview](iothub/service/BulkRegistryRestClient.yml)
-##### [Update Registry](iothub/service/BulkRegistryRestClient/UpdateRegistry.yml)
+#### Bulk Registry
+##### [Overview](iothub/service/BulkRegistry.yml)
+##### [Update Registry](iothub/service/BulkRegistry/UpdateRegistry.yml)
 #### Cloud To Device Messages
 ##### [Overview](iothub/service/CloudToDeviceMessages.yml)
 ##### [Abandon Feedback Notification](iothub/service/CloudToDeviceMessages/AbandonFeedbackNotification.yml)
@@ -8989,6 +8999,12 @@
 #### [List By Resource Group](searchmanagement/Services/ListByResourceGroup.yml)
 #### [List By Subscription](searchmanagement/Services/ListBySubscription.yml)
 #### [Update](searchmanagement/Services/Update.yml)
+### Shared Private Link Resources
+#### [Overview](searchmanagement/SharedPrivateLinkResources.yml)
+#### [Create Or Update](searchmanagement/SharedPrivateLinkResources/CreateOrUpdate.yml)
+#### [Delete](searchmanagement/SharedPrivateLinkResources/Delete.yml)
+#### [Get](searchmanagement/SharedPrivateLinkResources/Get.yml)
+#### [List By Service](searchmanagement/SharedPrivateLinkResources/ListByService.yml)
 # Search Service
 ## [Overview](../docs-ref-conceptual/searchservice/index.md)
 ## [API versions](../docs-ref-conceptual/searchservice/search-service-api-versions.md)
