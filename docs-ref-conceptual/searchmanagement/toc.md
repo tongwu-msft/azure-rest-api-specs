@@ -2,4 +2,3 @@
 # [How to use the Management REST API](search-howto-management-rest-api.md)
 # Reference (Preview)
 ## [Overview](index-preview.md)
-# Reference (Stable)
