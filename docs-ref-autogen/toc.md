@@ -8967,8 +8967,8 @@
 ## [API versions](../docs-ref-conceptual/searchmanagement/management-api-versions.md)
 ## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
 ## Reference (Preview)
-### [Overview](../docs-ref-conceptual/searchmanagement/index-2019-10-01-preview.md)
-## Reference
+### [Overview](../docs-ref-conceptual/searchmanagement/index-preview.md)
+## Reference (Stable)
 ### Admin Keys
 #### [Overview](searchmanagement/AdminKeys.yml)
 #### [Get](searchmanagement/AdminKeys/Get.yml)
