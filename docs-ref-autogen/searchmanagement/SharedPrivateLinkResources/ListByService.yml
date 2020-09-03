@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.searchmanagement.privateendpointconnections.listbyservice
+uid: management.azure.com.searchmanagement.sharedprivatelinkresources.listbyservice
 name: List By Service
 service: Search Management
-groupName: Private Endpoint Connections
+groupName: Shared Private Link Resources
 apiVersion: 2020-08-01
-summary: Gets a list of all private endpoint connections in the given service.
+summary: Gets a list of all shared private link resources managed by the given service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections?api-version=2020-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources?api-version=2020-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,9 +38,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The operation succeeded. The response contains the list of all private endpoint connections for the given service.
+  description: The operation succeeded. The response contains the list of all shared private link resources managed by the given service.
   types:
-  - uid: PrivateEndpointConnectionListResult
+  - uid: SharedPrivateLinkResourceListResult
 - name: Other Status Codes
   description: An unexpected error occurred during the operation.
   types:
@@ -53,19 +53,18 @@ requestHeader:
   - uid: string
   format: uuid
 definitions:
-- name: PrivateEndpointConnectionListResult
-  description: Response containing a list of Private Endpoint connections.
+- name: SharedPrivateLinkResourceListResult
+  description: Response containing a list of Shared Private Link Resources.
   kind: object
   properties:
   - name: value
     isReadyOnly: true
-    description: The list of Private Endpoint connections.
+    description: The list of Shared Private Link Resources.
     types:
-    - uid: PrivateEndpointConnection
+    - uid: SharedPrivateLinkResource
       isArray: true
   - name: nextLink
-    isReadyOnly: true
-    description: Request URL that can be used to query next page of private endpoint connections. Returned when the total number of requested private endpoint connections exceed maximum page size.
+    description: The URL to get the next set of shared private link resources, if there are any.
     types:
     - uid: string
 - name: CloudError
@@ -76,14 +75,14 @@ definitions:
     description: Describes a particular API error with an error code and a message.
     types:
     - uid: CloudErrorBody
-- name: PrivateEndpointConnection
-  description: Describes an existing Private Endpoint connection to the Azure Cognitive Search service.
+- name: SharedPrivateLinkResource
+  description: Describes a Shared Private Link Resource managed by the Azure Cognitive Search service.
   kind: object
   properties:
   - name: properties
-    description: Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service.
+    description: Describes the properties of a Shared Private Link Resource managed by the Azure Cognitive Search service.
     types:
-    - uid: PrivateEndpointConnectionProperties
+    - uid: SharedPrivateLinkResourceProperties
   - name: id
     isReadyOnly: true
     description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -120,44 +119,36 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: PrivateEndpointConnectionProperties
-  description: Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service.
+- name: SharedPrivateLinkResourceProperties
+  description: Describes the properties of an existing Shared Private Link Resource managed by the Azure Cognitive Search service.
   kind: object
   properties:
-  - name: privateEndpoint
-    description: The private endpoint resource from Microsoft.Network provider.
-    types:
-    - uid: PrivateEndpoint
-  - name: privateLinkServiceConnectionState
-    description: Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint.
-    types:
-    - uid: PrivateLinkServiceConnectionState
-- name: PrivateEndpoint
-  description: The private endpoint resource from Microsoft.Network provider.
-  kind: object
-  properties:
-  - name: id
-    description: The resource id of the private endpoint resource from Microsoft.Network provider.
+  - name: privateLinkResourceId
+    description: The resource id of the resource the shared private link resource is for.
     types:
     - uid: string
-- name: PrivateLinkServiceConnectionState
-  description: Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint.
-  kind: object
-  properties:
+  - name: groupId
+    description: The group id from the provider of resource the shared private link resource is for.
+    types:
+    - uid: string
+  - name: requestMessage
+    description: The request message for requesting approval of the shared private link resource.
+    types:
+    - uid: string
+  - name: resourceRegion
+    description: Optional. Can be used to specify the Azure Resource Manager location of the resource to which a shared private link is to be created. This is only required for those resources whose DNS configuration are regional (such as Azure Kubernetes Service).
+    types:
+    - uid: string
   - name: status
-    description: Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected.
+    description: Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected.
     types:
-    - uid: PrivateLinkServiceConnectionStatus
-  - name: description
-    description: The description for the private link service connection state.
+    - uid: SharedPrivateLinkResourceStatus
+  - name: provisioningState
+    description: The provisioning state of the shared private link resource. Can be Updating, Deleting, Failed, Succeeded or Incomplete.
     types:
-    - uid: string
-  - name: actionsRequired
-    description: A description of any extra actions that may be required.
-    types:
-    - uid: string
-- name: PrivateLinkServiceConnectionStatus
-  description: Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected.
+    - uid: SharedPrivateLinkResourceProvisioningState
+- name: SharedPrivateLinkResourceStatus
+  description: Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected.
   kind: enum
   properties:
   - name: Pending
@@ -172,28 +163,44 @@ definitions:
   - name: Disconnected
     types:
     - uid: string
+- name: SharedPrivateLinkResourceProvisioningState
+  description: The provisioning state of the shared private link resource. Can be Updating, Deleting, Failed, Succeeded or Incomplete.
+  kind: enum
+  properties:
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Incomplete
+    types:
+    - uid: string
 examples:
-- name: ListPrivateEndpointConnectionsByService
+- name: ListSharedPrivateLinkResourcesByService
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/privateEndpointConnections?api-version=2020-08-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/sharedPrivateLinkResources?api-version=2020-08-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/privateEndpointConnections/testEndpoint.50bf4fbe-d7c1-4b48-a642-4f5892642546",
-            "name": "testEndpoint.50bf4fbe-d7c1-4b48-a642-4f5892642546",
-            "type": "Microsoft.Search/searchServices/privateEndpointConnections",
+            "name": "testResource",
+            "type": "Microsoft.Search/searchServices/sharedPrivateLinkResources",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/sharedPrivateLinkResources/testResource",
             "properties": {
-              "privateEndpoint": {
-                "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testEndpoint"
-              },
-              "privateLinkServiceConnectionState": {
-                "status": "Approved",
-                "description": "",
-                "actionsRequired": "None"
-              }
+              "requestMessage": "please approve",
+              "groupId": "blob",
+              "privateLinkResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/storageAccountName",
+              "status": "Pending",
+              "resourceRegion": null
             }
           }
         ]
