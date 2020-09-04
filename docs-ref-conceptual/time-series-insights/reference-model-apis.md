@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 08/05/2020
+ms.date: 09/04/2020
 ---
 
 # Azure Time Series Insights Gen2 Model APIs
@@ -32,7 +32,7 @@ Read [Time Series Model](https://docs.microsoft.com/azure/time-series-insights/t
 
 The [Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeseriesinstances) enables **CREATE**, **READ**, **UPDATE**, and **DELETE** operations to be performed on Time Series Instances:
 
-* The [Get Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeseriesinstances/get) returns all the Time Series Instances that match the request.
+* The [Get Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeseriesinstances/list) returns all the Time Series Instances that match the request.
 * The [Manage Instances API](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/timeseriesinstances/executebatch) enables batch operations on instances. All operations against this API are HTTP **POST** operations. Each operation accepts a payload. The payload is a JSON object. This object defines a single property. The property key is the name of an operation allowed by the API. Supported operations are **PUT**, **UPDATE**, and **DELETE**.
 * These APIs enable discovery of Time Series Instances:
 
