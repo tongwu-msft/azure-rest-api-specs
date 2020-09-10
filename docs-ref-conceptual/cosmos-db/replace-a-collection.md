@@ -92,7 +92,7 @@ translation.priority.mt:
   
 |Code|Description|  
 |----------|-----------------|  
-|201 Created|The operation was successful.|  
+|201 OK|The PUT operation was successful.|  
 |400 Bad Request|The JSON body is invalid. Check for missing curly brackets or quotes.|  
   
 ### Body  
