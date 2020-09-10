@@ -217,7 +217,6 @@ User Delegation SAS supports an optional user OID carried in either the saoid or
 
 - The user delegating access (skoid) must have **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/runAsSuperUser/action** or **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/manageOwnership/action** RBAC permission when using a SAS with an optional user OID.
 - If the sticky bit is set on the parent folder and the operation is delete or rename, then the owner of the parent folder or the owner of the resource must match the value specified by the optional user OID.
-- If the operation is SetAccessControl and x-ms-owner is being set, the value must match the value specified by the optional user OID.
 - If the operation is SetAccessControl and x-ms-owner is being set, the value of x-ms-owner must match the value specified by the optional user OID.
 - If the operation is SetAccessControl and x-ms-group is being set, then the value specified by the optional user OID must be a member of the group specified by x-ms-group.
 
