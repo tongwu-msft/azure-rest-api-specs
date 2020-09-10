@@ -3,14 +3,14 @@ uid: management.azure.com.searchmanagement.services.createorupdate
 name: Create Or Update
 service: Search Management
 groupName: Services
-apiVersion: 2020-03-13
-summary: Creates or updates a Search service in the given resource group. If the Search service already exists, all properties will be updated with the given values.
+apiVersion: 2020-08-01
+summary: Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}?api-version=2020-03-13
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}?api-version=2020-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,7 +33,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for each request. The current version is 2019-10-01-Preview.
+  description: The API version to use for each request.
   types:
   - uid: string
 responses:
@@ -42,7 +42,7 @@ responses:
   types:
   - uid: SearchService
 - name: 201 Created
-  description: If you requested creation of a free Search service, the service is now provisioned and ready to use, subject to DNS propagation delay. For other SKU types, provisioning happens asynchronously. You can periodically get your service definition and monitor progress via the provisioningState property.
+  description: If you requested creation of a free search service, the service is now provisioned and ready to use, subject to DNS propagation delay. For other SKU types, provisioning happens asynchronously. You can periodically get your service definition and monitor progress via the provisioningState property.
   types:
   - uid: SearchService
 - name: Other Status Codes
@@ -57,14 +57,19 @@ requestBody:
     description: The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service.
     types:
     - uid: Sku
+  - name: identity
+    in: body
+    description: The identity of the resource.
+    types:
+    - uid: Identity
   - name: properties.replicaCount
     in: body
-    description: The number of replicas in the Search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.
+    description: The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.
     types:
     - uid: integer
   - name: properties.partitionCount
     in: body
-    description: The number of partitions in the Search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3.
+    description: The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3.
     types:
     - uid: integer
   - name: properties.hostingMode
@@ -82,25 +87,21 @@ requestBody:
     description: Network specific rules that determine how the Azure Cognitive Search service may be reached.
     types:
     - uid: NetworkRuleSet
-  - name: location
-    in: body
-    description: The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth). This property is required when creating a new resource.
-    types:
-    - uid: string
   - name: tags
     in: body
-    description: Tags to help categorize the resource in the Azure portal.
+    description: Resource tags.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-  - name: identity
+  - name: location
     in: body
-    description: The identity of the resource.
+    isRequired: true
+    description: The geo-location where the resource lives
     types:
-    - uid: Identity
+    - uid: string
 requestHeader:
 - name: x-ms-client-request-id
   in: header
@@ -114,41 +115,9 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: "The SKU of the Search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.'"
+    description: "The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.'"
     types:
     - uid: SkuName
-- name: NetworkRuleSet
-  description: Network specific rules that determine how the Azure Cognitive Search service may be reached.
-  kind: object
-  properties:
-  - name: ipRules
-    description: A list of IP restriction rules that defines the inbound network(s) with allowing access to the search service endpoint. At the meantime, all other public IP networks are blocked by the firewall. These restriction rules are applied only when the 'publicNetworkAccess' of the search service is 'enabled'; otherwise, traffic over public interface is not allowed even with any public IP rules, and private endpoint connections would be the exclusive access method.
-    types:
-    - uid: IpRule
-      isArray: true
-- name: PrivateEndpointConnection
-  description: Describes an existing Private Endpoint connection to the Azure Cognitive Search service.
-  kind: object
-  properties:
-  - name: id
-    isReadyOnly: true
-    description: The ID of the private endpoint connection. This can be used with the Azure Resource Manager to link resources together.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the private endpoint connection.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The resource type.
-    types:
-    - uid: string
-  - name: properties
-    description: Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service.
-    types:
-    - uid: PrivateEndpointConnectionProperties
 - name: Identity
   description: Identity for the resource.
   kind: object
@@ -167,6 +136,61 @@ definitions:
     description: The identity type.
     types:
     - uid: IdentityType
+- name: NetworkRuleSet
+  description: Network specific rules that determine how the Azure Cognitive Search service may be reached.
+  kind: object
+  properties:
+  - name: ipRules
+    description: A list of IP restriction rules that defines the inbound network(s) with allowing access to the search service endpoint. At the meantime, all other public IP networks are blocked by the firewall. These restriction rules are applied only when the 'publicNetworkAccess' of the search service is 'enabled'; otherwise, traffic over public interface is not allowed even with any public IP rules, and private endpoint connections would be the exclusive access method.
+    types:
+    - uid: IpRule
+      isArray: true
+- name: PrivateEndpointConnection
+  description: Describes an existing Private Endpoint connection to the Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: properties
+    description: Describes the properties of an existing Private Endpoint connection to the Azure Cognitive Search service.
+    types:
+    - uid: PrivateEndpointConnectionProperties
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+- name: SharedPrivateLinkResource
+  description: Describes a Shared Private Link Resource managed by the Azure Cognitive Search service.
+  kind: object
+  properties:
+  - name: properties
+    description: Describes the properties of a Shared Private Link Resource managed by the Azure Cognitive Search service.
+    types:
+    - uid: SharedPrivateLinkResourceProperties
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
 - name: SearchService
   description: Describes an Azure Cognitive Search service and its current state.
   kind: object
@@ -175,12 +199,16 @@ definitions:
     description: The SKU of the Search Service, which determines price tier and capacity limits. This property is required when creating a new Search Service.
     types:
     - uid: Sku
+  - name: identity
+    description: The identity of the resource.
+    types:
+    - uid: Identity
   - name: properties.replicaCount
-    description: The number of replicas in the Search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.
+    description: The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.
     types:
     - uid: integer
   - name: properties.partitionCount
-    description: The number of partitions in the Search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3.
+    description: The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3.
     types:
     - uid: integer
   - name: properties.hostingMode
@@ -193,17 +221,17 @@ definitions:
     - uid: PublicNetworkAccess
   - name: properties.status
     isReadyOnly: true
-    description: "The status of the Search service. Possible values include: 'running': The Search service is running and no provisioning operations are underway. 'provisioning': The Search service is being provisioned or scaled up or down. 'deleting': The Search service is being deleted. 'degraded': The Search service is degraded. This can occur when the underlying search units are not healthy. The Search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The Search service is disabled. In this state, the service will reject all API requests. 'error': The Search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned."
+    description: "The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned."
     types:
     - uid: SearchServiceStatus
   - name: properties.statusDetails
     isReadyOnly: true
-    description: The details of the Search service status.
+    description: The details of the search service status.
     types:
     - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The state of the last provisioning operation performed on the Search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create Search service. This is because the free service uses capacity that is already set up.
+    description: The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create search service. This is because the free service uses capacity that is already set up.
     types:
     - uid: ProvisioningState
   - name: properties.networkRuleSet
@@ -216,37 +244,39 @@ definitions:
     types:
     - uid: PrivateEndpointConnection
       isArray: true
-  - name: id
+  - name: properties.sharedPrivateLinkResources
     isReadyOnly: true
-    description: The ID of the resource. This can be used with the Azure Resource Manager to link resources together.
+    description: The list of shared private link resources managed by the Azure Cognitive Search service.
     types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the resource.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The resource type.
-    types:
-    - uid: string
-  - name: location
-    description: The geographic location of the resource. This must be one of the supported and registered Azure Geo Regions (for example, West US, East US, Southeast Asia, and so forth). This property is required when creating a new resource.
-    types:
-    - uid: string
+    - uid: SharedPrivateLinkResource
+      isArray: true
   - name: tags
-    description: Tags to help categorize the resource in the Azure portal.
+    description: Resource tags.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-  - name: identity
-    description: The identity of the resource.
+  - name: location
+    description: The geo-location where the resource lives
     types:
-    - uid: Identity
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
 - name: CloudError
   description: Contains information about an API error.
   kind: object
@@ -256,7 +286,7 @@ definitions:
     types:
     - uid: CloudErrorBody
 - name: SkuName
-  description: "The SKU of the Search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.'"
+  description: "The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.'"
   kind: enum
   properties:
   - name: free
@@ -280,6 +310,16 @@ definitions:
   - name: storage_optimized_l2
     types:
     - uid: string
+- name: IdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
 - name: IpRule
   description: The IP restriction rule of the Azure Cognitive Search service.
   kind: object
@@ -300,16 +340,34 @@ definitions:
     description: Describes the current state of an existing Private Link Service connection to the Azure Private Endpoint.
     types:
     - uid: PrivateLinkServiceConnectionState
-- name: IdentityType
-  description: The identity type.
-  kind: enum
+- name: SharedPrivateLinkResourceProperties
+  description: Describes the properties of an existing Shared Private Link Resource managed by the Azure Cognitive Search service.
+  kind: object
   properties:
-  - name: None
+  - name: privateLinkResourceId
+    description: The resource id of the resource the shared private link resource is for.
     types:
     - uid: string
-  - name: SystemAssigned
+  - name: groupId
+    description: The group id from the provider of resource the shared private link resource is for.
     types:
     - uid: string
+  - name: requestMessage
+    description: The request message for requesting approval of the shared private link resource.
+    types:
+    - uid: string
+  - name: resourceRegion
+    description: Optional. Can be used to specify the Azure Resource Manager location of the resource to which a shared private link is to be created. This is only required for those resources whose DNS configuration are regional (such as Azure Kubernetes Service).
+    types:
+    - uid: string
+  - name: status
+    description: Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected.
+    types:
+    - uid: SharedPrivateLinkResourceStatus
+  - name: provisioningState
+    description: The provisioning state of the shared private link resource. Can be Updating, Deleting, Failed, Succeeded or Incomplete.
+    types:
+    - uid: SharedPrivateLinkResourceProvisioningState
 - name: HostingMode
   description: Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'.
   kind: enum
@@ -331,7 +389,7 @@ definitions:
     types:
     - uid: string
 - name: SearchServiceStatus
-  description: "The status of the Search service. Possible values include: 'running': The Search service is running and no provisioning operations are underway. 'provisioning': The Search service is being provisioned or scaled up or down. 'deleting': The Search service is being deleted. 'degraded': The Search service is degraded. This can occur when the underlying search units are not healthy. The Search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The Search service is disabled. In this state, the service will reject all API requests. 'error': The Search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned."
+  description: "The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned."
   kind: enum
   properties:
   - name: running
@@ -353,7 +411,7 @@ definitions:
     types:
     - uid: string
 - name: ProvisioningState
-  description: The state of the last provisioning operation performed on the Search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create Search service. This is because the free service uses capacity that is already set up.
+  description: The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'succeeded' directly in the call to Create search service. This is because the free service uses capacity that is already set up.
   kind: enum
   properties:
   - name: succeeded
@@ -410,6 +468,41 @@ definitions:
     description: A description of any extra actions that may be required.
     types:
     - uid: string
+- name: SharedPrivateLinkResourceStatus
+  description: Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+- name: SharedPrivateLinkResourceProvisioningState
+  description: The provisioning state of the shared private link resource. Can be Updating, Deleting, Failed, Succeeded or Incomplete.
+  kind: enum
+  properties:
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Incomplete
+    types:
+    - uid: string
 - name: PrivateLinkServiceConnectionStatus
   description: Status of the the private link service connection. Can be Pending, Approved, Rejected, or Disconnected.
   kind: enum
@@ -429,7 +522,7 @@ definitions:
 examples:
 - name: SearchCreateOrUpdateService
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2020-03-13
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2020-08-01
     body: >-
       {
         "location": "westus",
@@ -502,7 +595,7 @@ examples:
       }
 - name: SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2020-03-13
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2020-08-01
     body: >-
       {
         "location": "westus",
@@ -599,7 +692,7 @@ examples:
       }
 - name: SearchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2020-03-13
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2020-08-01
     body: >-
       {
         "location": "westus",
@@ -673,7 +766,7 @@ examples:
       }
 - name: SearchCreateOrUpdateServiceWithIdentity
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2020-03-13
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2020-08-01
     body: >-
       {
         "location": "westus",
