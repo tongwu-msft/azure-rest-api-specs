@@ -169,7 +169,7 @@ translation.priority.mt:
   
 ```  
 PUT https://querydemo.documents.azure.com/dbs/XrdaAA==/colls/XrdaAKx3Hgw= HTTP/1.1  
-x-ms.date: 09/10/2020
+x-ms-date: Mon, 28 Mar 2016 22:12:16 GMT  
 authorization: type%3dmaster%26ver%3d1.0%26sig%3dZY2s2H1TuPFKk1H2od5qVLbn57vjI9rKz0CMXKOk3GA%3d  
 Cache-Control: no-cache  
 User-Agent: Microsoft.Azure.Documents.Client/1.6.0.0  
