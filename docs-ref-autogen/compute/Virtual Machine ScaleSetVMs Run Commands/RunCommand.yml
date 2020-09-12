@@ -3,7 +3,7 @@ uid: management.azure.com.compute.virtualmachinescalesetvmsruncommands.runcomman
 name: Run Command
 service: Compute
 groupName: Virtual Machine ScaleSetVMs Run Commands
-apiVersion: 2019-03-01
+apiVersion: 2020-06-01
 summary: Run command on a virtual machine in a VM scale set.
 consumes:
 - application/json
@@ -12,7 +12,7 @@ produces:
 - application/json
 - text/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/runCommand?api-version=2019-03-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/runCommand?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -149,7 +149,37 @@ definitions:
   - name: Error
     types:
     - uid: string
-examples: []
+examples:
+- name: VirtualMachineScaleSetVMs_RunCommand
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myVirtualMachineScaleSet/virtualmachines/0/runCommand?api-version=2020-06-01
+    body: >-
+      {
+        "commandId": "RunPowerShellScript",
+        "script": [
+          "Write-Host Hello World!"
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "code": "ComponentStatus/StdOut/succeeded",
+            "level": "Info",
+            "displayStatus": "Provisioning succeeded",
+            "message": "Hello World!"
+          },
+          {
+            "code": "ComponentStatus/StdErr/succeeded",
+            "level": "Info",
+            "displayStatus": "Provisioning succeeded",
+            "message": ""
+          }
+        ]
+      }
+  - statusCode: "202"
 security:
 - name: azure_auth
   type: oauth2
