@@ -45,6 +45,7 @@ The `Set Share Properties` operation sets service-defined properties for the spe
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
 |`x-ms-share-quota`|Optional. Supported in version 2015-02-21 and above. Specifies the maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5 TiB (5120 GiB).|  
+|`x-ms-access-tier`|Optional. Supported in version 2019-12-12 and above, for general purpose v2 accounts only. Specifies the access tier of the share. Valid values are `Hot`/`Cool`/`TransactionOptimized`.For detailed information about file share tiering see [Azure files storage tiers](https://docs.microsoft.com/en-us/azure/storage/files/storage-files-planning#storage-tiers)|  
   
 ## Request Body  
  None.  
