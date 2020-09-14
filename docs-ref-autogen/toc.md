@@ -14146,6 +14146,145 @@
 ### [List](synapse/Workspaces/List.yml)
 ### [List By Resource Group](synapse/Workspaces/ListByResourceGroup.yml)
 ### [Update](synapse/Workspaces/Update.yml)
+## Data-plane
+### Big Data Pools
+#### [Overview](synapse/data-plane/BigDataPools.yml)
+#### [Get](synapse/data-plane/BigDataPools/Get.yml)
+#### [List](synapse/data-plane/BigDataPools/List.yml)
+### Create Role Assignment
+#### [Overview](synapse/data-plane/CreateRoleAssignment.yml)
+#### [Create Role Assignment](synapse/data-plane/CreateRoleAssignment/CreateRoleAssignment.yml)
+### Data Flow
+#### [Overview](synapse/data-plane/DataFlow.yml)
+#### [Create Or Update Data Flow](synapse/data-plane/DataFlow/CreateOrUpdateDataFlow.yml)
+#### [Delete Data Flow](synapse/data-plane/DataFlow/DeleteDataFlow.yml)
+#### [Get Data Flow](synapse/data-plane/DataFlow/GetDataFlow.yml)
+#### [Get Data Flows By Workspace](synapse/data-plane/DataFlow/GetDataFlowsByWorkspace.yml)
+### Data Flow Debug Session
+#### [Overview](synapse/data-plane/DataFlowDebugSession.yml)
+#### [Add Data Flow](synapse/data-plane/DataFlowDebugSession/AddDataFlow.yml)
+#### [Create Data Flow Debug Session](synapse/data-plane/DataFlowDebugSession/CreateDataFlowDebugSession.yml)
+#### [Delete Data Flow Debug Session](synapse/data-plane/DataFlowDebugSession/DeleteDataFlowDebugSession.yml)
+#### [Execute Command](synapse/data-plane/DataFlowDebugSession/ExecuteCommand.yml)
+#### [Query Data Flow Debug Sessions By Workspace](synapse/data-plane/DataFlowDebugSession/QueryDataFlowDebugSessionsByWorkspace.yml)
+### Dataset
+#### [Overview](synapse/data-plane/Dataset.yml)
+#### [Create Or Update Dataset](synapse/data-plane/Dataset/CreateOrUpdateDataset.yml)
+#### [Delete Dataset](synapse/data-plane/Dataset/DeleteDataset.yml)
+#### [Get Dataset](synapse/data-plane/Dataset/GetDataset.yml)
+#### [Get Datasets By Workspace](synapse/data-plane/Dataset/GetDatasetsByWorkspace.yml)
+### Delete Role Assignment By Id
+#### [Overview](synapse/data-plane/DeleteRoleAssignmentById.yml)
+#### [Delete Role Assignment By Id](synapse/data-plane/DeleteRoleAssignmentById/DeleteRoleAssignmentById.yml)
+### Get Caller Role Assignments
+#### [Overview](synapse/data-plane/GetCallerRoleAssignments.yml)
+#### [Get Caller Role Assignments](synapse/data-plane/GetCallerRoleAssignments/GetCallerRoleAssignments.yml)
+### Get Role Assignment By Id
+#### [Overview](synapse/data-plane/GetRoleAssignmentById.yml)
+#### [Get Role Assignment By Id](synapse/data-plane/GetRoleAssignmentById/GetRoleAssignmentById.yml)
+### Get Role Assignments
+#### [Overview](synapse/data-plane/GetRoleAssignments.yml)
+#### [Get Role Assignments](synapse/data-plane/GetRoleAssignments/GetRoleAssignments.yml)
+### Get Role Definition By Id
+#### [Overview](synapse/data-plane/GetRoleDefinitionById.yml)
+#### [Get Role Definition By Id](synapse/data-plane/GetRoleDefinitionById/GetRoleDefinitionById.yml)
+### Get Role Definitions
+#### [Overview](synapse/data-plane/GetRoleDefinitions.yml)
+#### [Get Role Definitions](synapse/data-plane/GetRoleDefinitions/GetRoleDefinitions.yml)
+### Integration Runtimes
+#### [Overview](synapse/data-plane/IntegrationRuntimes.yml)
+#### [Get](synapse/data-plane/IntegrationRuntimes/Get.yml)
+#### [List](synapse/data-plane/IntegrationRuntimes/List.yml)
+### Linked Service
+#### [Overview](synapse/data-plane/LinkedService.yml)
+#### [Create Or Update Linked Service](synapse/data-plane/LinkedService/CreateOrUpdateLinkedService.yml)
+#### [Delete Linked Service](synapse/data-plane/LinkedService/DeleteLinkedService.yml)
+#### [Get Linked Service](synapse/data-plane/LinkedService/GetLinkedService.yml)
+#### [Get Linked Services By Workspace](synapse/data-plane/LinkedService/GetLinkedServicesByWorkspace.yml)
+### Managed Private Endpoints
+#### [Overview](synapse/data-plane/ManagedPrivateEndpoints.yml)
+#### [Create](synapse/data-plane/ManagedPrivateEndpoints/Create.yml)
+#### [Delete](synapse/data-plane/ManagedPrivateEndpoints/Delete.yml)
+#### [Get](synapse/data-plane/ManagedPrivateEndpoints/Get.yml)
+#### [List](synapse/data-plane/ManagedPrivateEndpoints/List.yml)
+### Monitoring
+#### [Overview](synapse/data-plane/Monitoring.yml)
+#### [Get Spark Job List](synapse/data-plane/Monitoring/GetSparkJobList.yml)
+#### [Get Sql Job Query String](synapse/data-plane/Monitoring/GetSqlJobQueryString.yml)
+### Notebook
+#### [Overview](synapse/data-plane/Notebook.yml)
+#### [Create Or Update Notebook](synapse/data-plane/Notebook/CreateOrUpdateNotebook.yml)
+#### [Delete Notebook](synapse/data-plane/Notebook/DeleteNotebook.yml)
+#### [Get Notebook](synapse/data-plane/Notebook/GetNotebook.yml)
+#### [Get Notebook Summary By Work Space](synapse/data-plane/Notebook/GetNotebookSummaryByWorkSpace.yml)
+#### [Get Notebooks By Workspace](synapse/data-plane/Notebook/GetNotebooksByWorkspace.yml)
+### Pipeline
+#### [Overview](synapse/data-plane/Pipeline.yml)
+#### [Create Or Update Pipeline](synapse/data-plane/Pipeline/CreateOrUpdatePipeline.yml)
+#### [Create Pipeline Run](synapse/data-plane/Pipeline/CreatePipelineRun.yml)
+#### [Delete Pipeline](synapse/data-plane/Pipeline/DeletePipeline.yml)
+#### [Get Pipeline](synapse/data-plane/Pipeline/GetPipeline.yml)
+#### [Get Pipelines By Workspace](synapse/data-plane/Pipeline/GetPipelinesByWorkspace.yml)
+### Pipeline Run
+#### [Overview](synapse/data-plane/PipelineRun.yml)
+#### [Cancel Pipeline Run](synapse/data-plane/PipelineRun/CancelPipelineRun.yml)
+#### [Get Pipeline Run](synapse/data-plane/PipelineRun/GetPipelineRun.yml)
+#### [Query Activity Runs](synapse/data-plane/PipelineRun/QueryActivityRuns.yml)
+#### [Query Pipeline Runs By Workspace](synapse/data-plane/PipelineRun/QueryPipelineRunsByWorkspace.yml)
+### Spark Batch
+#### [Overview](synapse/data-plane/SparkBatch.yml)
+#### [Cancel Spark Batch Job](synapse/data-plane/SparkBatch/CancelSparkBatchJob.yml)
+#### [Create Spark Batch Job](synapse/data-plane/SparkBatch/CreateSparkBatchJob.yml)
+#### [Get Spark Batch Job](synapse/data-plane/SparkBatch/GetSparkBatchJob.yml)
+#### [Get Spark Batch Jobs](synapse/data-plane/SparkBatch/GetSparkBatchJobs.yml)
+### Spark Job Definition
+#### [Overview](synapse/data-plane/SparkJobDefinition.yml)
+#### [Create Or Update Spark Job Definition](synapse/data-plane/SparkJobDefinition/CreateOrUpdateSparkJobDefinition.yml)
+#### [Debug Spark Job Definition](synapse/data-plane/SparkJobDefinition/DebugSparkJobDefinition.yml)
+#### [Delete Spark Job Definition](synapse/data-plane/SparkJobDefinition/DeleteSparkJobDefinition.yml)
+#### [Execute Spark Job Definition](synapse/data-plane/SparkJobDefinition/ExecuteSparkJobDefinition.yml)
+#### [Get Spark Job Definition](synapse/data-plane/SparkJobDefinition/GetSparkJobDefinition.yml)
+#### [Get Spark Job Definitions By Workspace](synapse/data-plane/SparkJobDefinition/GetSparkJobDefinitionsByWorkspace.yml)
+### Spark Session
+#### [Overview](synapse/data-plane/SparkSession.yml)
+#### [Cancel Spark Session](synapse/data-plane/SparkSession/CancelSparkSession.yml)
+#### [Cancel Spark Statement](synapse/data-plane/SparkSession/CancelSparkStatement.yml)
+#### [Create Spark Session](synapse/data-plane/SparkSession/CreateSparkSession.yml)
+#### [Create Spark Statement](synapse/data-plane/SparkSession/CreateSparkStatement.yml)
+#### [Get Spark Session](synapse/data-plane/SparkSession/GetSparkSession.yml)
+#### [Get Spark Sessions](synapse/data-plane/SparkSession/GetSparkSessions.yml)
+#### [Get Spark Statement](synapse/data-plane/SparkSession/GetSparkStatement.yml)
+#### [Get Spark Statements](synapse/data-plane/SparkSession/GetSparkStatements.yml)
+#### [Reset Spark Session Timeout](synapse/data-plane/SparkSession/ResetSparkSessionTimeout.yml)
+### Sql Pools
+#### [Overview](synapse/data-plane/SqlPools.yml)
+#### [Get](synapse/data-plane/SqlPools/Get.yml)
+#### [List](synapse/data-plane/SqlPools/List.yml)
+### Sql Script
+#### [Overview](synapse/data-plane/SqlScript.yml)
+#### [Create Or Update Sql Script](synapse/data-plane/SqlScript/CreateOrUpdateSqlScript.yml)
+#### [Delete Sql Script](synapse/data-plane/SqlScript/DeleteSqlScript.yml)
+#### [Get Sql Script](synapse/data-plane/SqlScript/GetSqlScript.yml)
+#### [Get Sql Scripts By Workspace](synapse/data-plane/SqlScript/GetSqlScriptsByWorkspace.yml)
+### Trigger
+#### [Overview](synapse/data-plane/Trigger.yml)
+#### [Create Or Update Trigger](synapse/data-plane/Trigger/CreateOrUpdateTrigger.yml)
+#### [Delete Trigger](synapse/data-plane/Trigger/DeleteTrigger.yml)
+#### [Get Event Subscription Status](synapse/data-plane/Trigger/GetEventSubscriptionStatus.yml)
+#### [Get Trigger](synapse/data-plane/Trigger/GetTrigger.yml)
+#### [Get Triggers By Workspace](synapse/data-plane/Trigger/GetTriggersByWorkspace.yml)
+#### [Start Trigger](synapse/data-plane/Trigger/StartTrigger.yml)
+#### [Stop Trigger](synapse/data-plane/Trigger/StopTrigger.yml)
+#### [Subscribe Trigger To Events](synapse/data-plane/Trigger/SubscribeTriggerToEvents.yml)
+#### [Unsubscribe Trigger From Events](synapse/data-plane/Trigger/UnsubscribeTriggerFromEvents.yml)
+### Trigger Run
+#### [Overview](synapse/data-plane/TriggerRun.yml)
+#### [Cancel Trigger Instance](synapse/data-plane/TriggerRun/CancelTriggerInstance.yml)
+#### [Query Trigger Runs By Workspace](synapse/data-plane/TriggerRun/QueryTriggerRunsByWorkspace.yml)
+#### [Rerun Trigger Instance](synapse/data-plane/TriggerRun/RerunTriggerInstance.yml)
+### Workspace
+#### [Overview](synapse/data-plane/Workspace.yml)
+#### [Get](synapse/data-plane/Workspace/Get.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
 ## Data Access (Gen2)
