@@ -22,7 +22,7 @@ All Azure Resource Manager REST calls require a valid authorization token in the
 
 | Operation Group | Description |
 |-----------------|-------------|
-|[Database Accounts](~/docs-ref-autogen/cosmos-db-resource-provider/databaseaccounts.yml)| Provides operations to manage Azure Cosmos DB accounts, including key management, and failover region priority changes for geo-distributed accounts. |
+|[Database Accounts](../../docs-ref-autogen/cosmos-db-resource-provider/databaseaccounts.yml)| Provides operations to manage Azure Cosmos DB accounts, including key management, and failover region priority changes for geo-distributed accounts. |
 |[Core (SQL) API Resources](~/docs-ref-autogen/cosmos-db-resource-provider/sqlresources.yml)| Provides operations to manage Azure Cosmos DB accounts for Core (SQL) API including managing database and container resources and setting throughput. |
 |[Cassandra API Resources](~/docs-ref-autogen/cosmos-db-resource-provider/cassandraresources.yml)| Provides operations to manage Azure Cosmos DB accounts for Cassandra API including managing keyspace and table resources and setting throughput. |
 |[MongoDB API Resources](~/docs-ref-autogen/cosmos-db-resource-provider/mongodbresources.yml)| Provides operations to manage Azure Cosmos DB accounts for MongoDB API including managing database and collection resources and setting throughput. |
