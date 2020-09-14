@@ -1,6 +1,6 @@
 ---
 title: "RESTful interactions with Azure Cosmos DB resources"
-description:
+description: Learn how the standard HTTP methods work with Azure Cosmos DB resources, how does Azure Cosmos DB support concurrency control and the connectivity options for HTTPS and TCP.
 ms.date: "01/08/2018"
 ms.service: "cosmos-db"
 ms.topic: "reference"
@@ -50,7 +50,7 @@ Azure Cosmos DB resources support the following HTTP verbs with their standard i
   
 As illustrated in the following HTTP verbs diagram, POST can only be issued against a feed resource; PUT and DELETE can only be issued against an item resource; GET and HEAD can be issued against either feed or item resources.  
   
-![interactions-with-resources2](./media/interactions-with-resources2.png "interactions-with-resources2")  
+![interactions-with-resources2](./media/interactions-with-resources2.png "Interaction model using the standard HTTP methods")  
   
 **Interaction model using the standard HTTP methods**  
   
@@ -198,9 +198,8 @@ Content-Type: application/json1
   
 -   **Direct Connectivity Mode:** The clients directly manage the routing table in their process space and periodically refresh it. Client can directly connect with the replicas and bypass the edge machines.  
   
-|||||  
-|-|-|-|-|  
 |Connectivity Mode|Protocol|Details|Azure Cosmos DB SDKs|  
+|---|---|---|---|  
 |Gateway|HTTPS|Applications directly connect with the edge nodes using logical URIs. This incurs an extra network hop.|REST API, .NET, Node.js, Java, Python, JavaScript|  
 |Direct Connectivity|HTTPS and TCP|The applications can directly access the routing table and perform the client side routing to directly connect with replicas.|.NET, Java|  
   
