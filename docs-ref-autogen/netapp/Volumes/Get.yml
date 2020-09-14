@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.volumes.get
 name: Get
 service: Azure NetApp Files
 groupName: Volumes
-apiVersion: 2020-02-01
+apiVersion: 2020-06-01
 summary: "Describe a volume  \nGet the details of the specified volume"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}?api-version=2020-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -103,7 +103,7 @@ definitions:
   - name: properties.serviceLevel
     description: "serviceLevel  \nThe service level of the file system"
     types:
-    - uid: VolumeServiceLevel
+    - uid: ServiceLevel
   - name: properties.usageThreshold
     description: "usageThreshold  \nMaximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB. Specified in bytes."
     types:
@@ -124,6 +124,10 @@ definitions:
     - uid: string
   - name: properties.snapshotId
     description: "Snapshot ID  \nUUID v4 or resource identifier used to identify the Snapshot."
+    types:
+    - uid: string
+  - name: properties.backupId
+    description: "Backup ID  \nUUID v4 or resource identifier used to identify the Backup."
     types:
     - uid: string
   - name: properties.baremetalTenantId
@@ -156,7 +160,19 @@ definitions:
     description: If enabled (true) the volume will contain a read-only .snapshot directory which provides access to each of the volume's snapshots (default to true).
     types:
     - uid: boolean
-- name: VolumeServiceLevel
+  - name: properties.kerberosEnabled
+    description: Describe if a volume is KerberosEnabled. To be use with swagger version 2020-05-01 or later
+    types:
+    - uid: boolean
+  - name: properties.securityStyle
+    description: The security style of volume
+    types:
+    - uid: SecurityStyle
+  - name: properties.throughputMibps
+    description: Maximum throughput in Mibps that can be achieved by this volume
+    types:
+    - uid: number
+- name: ServiceLevel
   description: serviceLevel
   kind: enum
   properties:
@@ -199,26 +215,6 @@ definitions:
     description: "ipAddress  \nThe mount target's IPv4 address"
     types:
     - uid: string
-  - name: subnet
-    description: "subnet  \nThe subnet"
-    types:
-    - uid: string
-  - name: startIp
-    description: "startIp  \nThe start of IPv4 address range to use when creating a new mount target"
-    types:
-    - uid: string
-  - name: endIp
-    description: "endIp  \nThe end of IPv4 address range to use when creating a new mount target"
-    types:
-    - uid: string
-  - name: gateway
-    description: "gateway  \nThe gateway of the IPv4 address range to use when creating a new mount target"
-    types:
-    - uid: string
-  - name: netmask
-    description: "netmask  \nThe netmask of the IPv4 address range to use when creating a new mount target"
-    types:
-    - uid: string
   - name: smbServerFqdn
     description: "smbServerFQDN  \nThe SMB server's Fully Qualified Domain Name, FQDN"
     types:
@@ -227,6 +223,10 @@ definitions:
   description: DataProtection
   kind: object
   properties:
+  - name: backup
+    description: "Backup  \nBackup Properties"
+    types:
+    - uid: volumeBackupProperties
   - name: replication
     description: "Replication  \nReplication properties"
     types:
@@ -235,6 +235,16 @@ definitions:
     description: "Snapshot  \nSnapshot properties."
     types:
     - uid: volumeSnapshotProperties
+- name: SecurityStyle
+  description: The security style of volume
+  kind: enum
+  properties:
+  - name: ntfs
+    types:
+    - uid: string
+  - name: unix
+    types:
+    - uid: string
 - name: exportPolicyRule
   description: Volume Export Policy Rule
   kind: object
@@ -249,6 +259,30 @@ definitions:
     - uid: boolean
   - name: unixReadWrite
     description: Read and write access
+    types:
+    - uid: boolean
+  - name: kerberos5ReadOnly
+    description: Kerberos5 Read only access. To be use with swagger version 2020-05-01 or later
+    types:
+    - uid: boolean
+  - name: kerberos5ReadWrite
+    description: Kerberos5 Read and write access. To be use with swagger version 2020-05-01 or later
+    types:
+    - uid: boolean
+  - name: kerberos5iReadOnly
+    description: Kerberos5i Read only access. To be use with swagger version 2020-05-01 or later
+    types:
+    - uid: boolean
+  - name: kerberos5iReadWrite
+    description: Kerberos5i Read and write access. To be use with swagger version 2020-05-01 or later
+    types:
+    - uid: boolean
+  - name: kerberos5pReadOnly
+    description: Kerberos5p Read only access. To be use with swagger version 2020-05-01 or later
+    types:
+    - uid: boolean
+  - name: kerberos5pReadWrite
+    description: Kerberos5p Read and write access. To be use with swagger version 2020-05-01 or later
     types:
     - uid: boolean
   - name: cifs
@@ -267,6 +301,30 @@ definitions:
     description: Client ingress specification as comma separated string with IPv4 CIDRs, IPv4 host addresses and host names
     types:
     - uid: string
+  - name: hasRootAccess
+    description: Has root access to volume
+    types:
+    - uid: boolean
+- name: volumeBackupProperties
+  description: Volume Backup Properties
+  kind: object
+  properties:
+  - name: backupPolicyId
+    description: Backup Policy Resource ID
+    types:
+    - uid: string
+  - name: policyEnforced
+    description: Policy Enforced
+    types:
+    - uid: boolean
+  - name: vaultId
+    description: Vault Resource ID
+    types:
+    - uid: string
+  - name: backupEnabled
+    description: Backup Enabled
+    types:
+    - uid: boolean
 - name: replicationObject
   description: Replication properties
   kind: object
@@ -322,16 +380,10 @@ definitions:
   - name: daily
     types:
     - uid: string
-  - name: weekly
-    types:
-    - uid: string
-  - name: monthly
-    types:
-    - uid: string
 examples:
 - name: Volumes_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1?api-version=2020-02-01
+    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1?api-version=2020-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -346,6 +398,7 @@ examples:
           "usageThreshold": 107374182400,
           "serviceLevel": "Premium",
           "provisioningState": "Succeeded",
+          "throughputMibps": 128,
           "subnetId": "/subscriptions/9760acf5-4638-11e7-9bdb-020073ca7778/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3"
         }
       }
