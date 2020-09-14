@@ -1,5 +1,6 @@
 ---
 title: "Create a Collection - Azure Cosmos DB REST API"
+description: Create collection REST API syntax. Request and response headers, body, status codes and examples.
 ms.date: "08/6/2020"
 ms.service: "cosmos-db"
 ms.topic: "reference"

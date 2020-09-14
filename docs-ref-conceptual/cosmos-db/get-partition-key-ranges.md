@@ -1,5 +1,6 @@
 ---
 title: "Get Partition Key Ranges - Azure Cosmos DB REST API"
+description: Get partition key ranges REST API syntax. Request and response headers, body, status codes and examples.
 ms.date: "12/11/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"

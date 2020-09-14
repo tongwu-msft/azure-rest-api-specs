@@ -1,5 +1,6 @@
 ---
 title: "RESTful interactions with Azure Cosmos DB resources"
+description:
 ms.date: "01/08/2018"
 ms.service: "cosmos-db"
 ms.topic: "reference"

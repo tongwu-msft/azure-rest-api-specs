@@ -1,5 +1,6 @@
 ---
 title: "Create an Attachment - Azure Cosmos DB REST API"
+description: Create an attachment REST API syntax. Request and response headers, body, status codes and examples.
 ms.date: "02/25/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"
