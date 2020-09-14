@@ -8952,6 +8952,33 @@
 ## check Resource Name
 ### [Overview](resources/checkResourceName.yml)
 ### [check Resource Name](resources/checkResourceName/checkResourceName.yml)
+# Resource Mover
+## [Overview](../docs-ref-conceptual/regionmove/index.md)
+## Move Collections
+### [Overview](resourcemover/MoveCollections.yml)
+### [Commit](resourcemover/MoveCollections/Commit.yml)
+### [Create](resourcemover/MoveCollections/Create.yml)
+### [Delete](resourcemover/MoveCollections/Delete.yml)
+### [Discard](resourcemover/MoveCollections/Discard.yml)
+### [Get](resourcemover/MoveCollections/Get.yml)
+### [Initiate Move](resourcemover/MoveCollections/InitiateMove.yml)
+### [List Move Collections By Resource Group](resourcemover/MoveCollections/ListMoveCollectionsByResourceGroup.yml)
+### [List Move Collections By Subscription](resourcemover/MoveCollections/ListMoveCollectionsBySubscription.yml)
+### [Prepare](resourcemover/MoveCollections/Prepare.yml)
+### [Resolve Dependencies](resourcemover/MoveCollections/ResolveDependencies.yml)
+### [Update](resourcemover/MoveCollections/Update.yml)
+## Move Resources
+### [Overview](resourcemover/MoveResources.yml)
+### [Create](resourcemover/MoveResources/Create.yml)
+### [Delete](resourcemover/MoveResources/Delete.yml)
+### [Get](resourcemover/MoveResources/Get.yml)
+### [List](resourcemover/MoveResources/List.yml)
+## Operations Discovery
+### [Overview](resourcemover/OperationsDiscovery.yml)
+### [Get](resourcemover/OperationsDiscovery/Get.yml)
+## Unresolved Dependencies
+### [Overview](resourcemover/UnresolvedDependencies.yml)
+### [Get](resourcemover/UnresolvedDependencies/Get.yml)
 # Scheduler
 ## [Overview](../docs-ref-conceptual/scheduler/index.md)
 ## Job Collections
