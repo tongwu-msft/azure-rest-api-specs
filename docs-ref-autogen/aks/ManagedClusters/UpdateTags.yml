@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.updatetags
 name: Update Tags
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2020-06-01
+apiVersion: 2020-09-01
 summary: "Updates tags on a managed cluster.  \nUpdates a managed cluster with the specified tags."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2020-06-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}?api-version=2020-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -104,6 +104,11 @@ definitions:
     description: The current deployment or provisioning state, which only appears in the response.
     types:
     - uid: string
+  - name: properties.powerState
+    isReadyOnly: true
+    description: Represents the Power State of the cluster
+    types:
+    - uid: PowerState
   - name: properties.maxAgentPools
     isReadyOnly: true
     description: The max number of agent pools for the managed cluster.
@@ -241,6 +246,14 @@ definitions:
     description: "The user identity associated with the managed cluster. This identity will be used in control plane and only one user assigned identity is allowed. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
     types:
     - uid: UserAssignedIdentities
+- name: PowerState
+  description: Describes the Power State of the cluster
+  kind: object
+  properties:
+  - name: code
+    description: Tells whether the cluster is Running or Stopped
+    types:
+    - uid: code
 - name: ManagedClusterAgentPoolProfile
   description: Profile for the container service agent pool.
   kind: object
@@ -257,6 +270,10 @@ definitions:
     description: OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.
     types:
     - uid: integer
+  - name: osDiskType
+    description: OS disk type to be used for machines in a given agent pool. Allowed values are 'Ephemeral' and 'Managed'. Defaults to 'Managed'. May not be changed after creation.
+    types:
+    - uid: OSDiskType
   - name: vnetSubnetID
     description: VNet SubnetID specifies the VNet's subnet identifier.
     types:
@@ -294,6 +311,7 @@ definitions:
     types:
     - uid: string
   - name: nodeImageVersion
+    isReadyOnly: true
     description: Version of node image
     types:
     - uid: string
@@ -306,6 +324,11 @@ definitions:
     description: The current deployment or provisioning state, which only appears in the response.
     types:
     - uid: string
+  - name: powerState
+    isReadyOnly: true
+    description: Describes whether the Agent Pool is Running or Stopped
+    types:
+    - uid: PowerState
   - name: availabilityZones
     description: Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
     types:
@@ -380,6 +403,10 @@ definitions:
     description: The administrator password to use for Windows VMs.
     types:
     - uid: string
+  - name: licenseType
+    description: The licenseType to use for Windows VMs. Windows_Server is used to enable Azure Hybrid User Benefits for Windows VMs.
+    types:
+    - uid: licenseType
 - name: ManagedClusterServicePrincipalProfile
   description: Information about a service principal identity for the cluster to use for manipulating Azure APIs.
   kind: object
@@ -498,6 +525,30 @@ definitions:
     description: ''
     types:
     - uid: string
+  - name: expander
+    description: ''
+    types:
+    - uid: expander
+  - name: max-empty-bulk-delete
+    description: ''
+    types:
+    - uid: string
+  - name: max-graceful-termination-sec
+    description: ''
+    types:
+    - uid: string
+  - name: max-total-unready-percentage
+    description: ''
+    types:
+    - uid: string
+  - name: new-pod-scale-up-delay
+    description: ''
+    types:
+    - uid: string
+  - name: ok-total-unready-count
+    description: ''
+    types:
+    - uid: string
   - name: scan-interval
     description: ''
     types:
@@ -526,7 +577,11 @@ definitions:
     description: ''
     types:
     - uid: string
-  - name: max-graceful-termination-sec
+  - name: skip-nodes-with-local-storage
+    description: ''
+    types:
+    - uid: string
+  - name: skip-nodes-with-system-pods
     description: ''
     types:
     - uid: string
@@ -602,6 +657,16 @@ definitions:
     description: ''
     types:
     - uid: ''
+- name: code
+  description: Tells whether the cluster is Running or Stopped
+  kind: enum
+  properties:
+  - name: Running
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
 - name: ContainerServiceVMSizeTypes
   description: Size of agent VMs.
   kind: enum
@@ -1128,6 +1193,16 @@ definitions:
   - name: Standard_NV6
     types:
     - uid: string
+- name: OSDiskType
+  description: OSDiskType represents the type of an OS disk on an agent pool.
+  kind: enum
+  properties:
+  - name: Managed
+    types:
+    - uid: string
+  - name: Ephemeral
+    types:
+    - uid: string
 - name: OSType
   description: OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
   kind: enum
@@ -1195,6 +1270,16 @@ definitions:
     types:
     - uid: ContainerServiceSshPublicKey
       isArray: true
+- name: licenseType
+  description: The licenseType to use for Windows VMs. Windows_Server is used to enable Azure Hybrid User Benefits for Windows VMs.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Windows_Server
+    types:
+    - uid: string
 - name: Identity
   description: Information of user assigned identity used by this add-on.
   kind: object
@@ -1290,6 +1375,18 @@ definitions:
     description: Desired outbound flow idle timeout in minutes. Allowed values must be in the range of 4 to 120 (inclusive). The default value is 30 minutes.
     types:
     - uid: integer
+- name: expander
+  kind: enum
+  properties:
+  - name: least-waste
+    types:
+    - uid: string
+  - name: most-pods
+    types:
+    - uid: string
+  - name: random
+    types:
+    - uid: string
 - name: ContainerServiceSshPublicKey
   description: Contains information about SSH certificate public key data.
   kind: object
@@ -1335,7 +1432,7 @@ definitions:
 examples:
 - name: Update Managed Cluster Tags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2020-06-01
+    uri: PATCH https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1?api-version=2020-09-01
     body: >-
       {
         "tags": {

@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.aks.managedclusters.getaccessprofile
-name: Get Access Profile
+uid: management.azure.com.aks.resolveprivatelinkserviceid.post
+name: P OS T
 service: AKS
-groupName: Managed Clusters
+groupName: Resolve Private Link Service Id
 apiVersion: 2020-09-01
-summary: "Gets an access profile of a managed cluster.  \nGets the accessProfile for the specified role name of the managed cluster with a specified resource group and name. **WARNING**: This API will be deprecated. Instead use [ListClusterUserCredentials](https://docs.microsoft.com/en-us/rest/api/aks/managedclusters/listclusterusercredentials) or [ListClusterAdminCredentials](https://docs.microsoft.com/en-us/rest/api/aks/managedclusters/listclusteradmincredentials) ."
+summary: "Gets the private link service ID for the specified managed cluster.  \nGets the private link service ID the specified managed cluster."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/accessProfiles/{roleName}/listCredential?api-version=2020-09-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resolvePrivateLinkServiceId?api-version=2020-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,12 +31,6 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$
-- name: roleName
-  in: path
-  isRequired: true
-  description: The name of the role for managed cluster accessProfile resource.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -47,46 +41,70 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: ManagedClusterAccessProfile
+  - uid: PrivateLinkResource
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
-requestHeader: []
-definitions:
-- name: ManagedClusterAccessProfile
-  description: Managed cluster Access Profile.
-  kind: object
-  properties:
+requestBody:
+- name: default
+  parameters:
   - name: id
-    isReadyOnly: true
-    description: Resource Id
+    in: body
+    description: The ID of the private link resource.
     types:
     - uid: string
   - name: name
-    isReadyOnly: true
-    description: Resource name
+    in: body
+    description: The name of the private link resource.
     types:
     - uid: string
   - name: type
+    in: body
+    description: The resource type.
+    types:
+    - uid: string
+  - name: groupId
+    in: body
+    description: The group ID of the resource.
+    types:
+    - uid: string
+  - name: requiredMembers
+    in: body
+    description: RequiredMembers of the resource
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: PrivateLinkResource
+  description: A private link resource
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the private link resource.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the private link resource.
+    types:
+    - uid: string
+  - name: type
+    description: The resource type.
+    types:
+    - uid: string
+  - name: groupId
+    description: The group ID of the resource.
+    types:
+    - uid: string
+  - name: requiredMembers
+    description: RequiredMembers of the resource
+    types:
+    - uid: string
+      isArray: true
+  - name: privateLinkServiceID
     isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: properties.kubeConfig
-    description: Base64-encoded Kubernetes configuration file.
+    description: The private link service ID of the resource, this field is exposed only to NRP internally.
     types:
     - uid: string
 - name: CloudError
@@ -119,20 +137,18 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: Get Managed Cluster
+- name: Resolve the Private Link Service ID for Managed Cluster
   request:
-    uri: POST https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/accessProfiles/clusterUser/listCredential?api-version=2020-09-01
+    uri: POST https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/resolvePrivateLinkServiceId?api-version=2020-09-01
+    body: >-
+      {
+        "name": "management"
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/accessProfiles/clusterUser",
-        "location": "location1",
-        "name": "clusterUser",
-        "properties": {
-          "kubeConfig": "kubeConfig1"
-        },
-        "type": "Microsoft.ContainerService/ManagedClusters/AccessProfiles"
+        "privateLinkServiceID": "/subscriptions/subid2/resourceGroups/rg2/providers/Microsoft.Network/privateLinkServices/plsName"
       }
 security:
 - name: azure_auth

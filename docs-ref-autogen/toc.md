@@ -51,7 +51,10 @@
 ### [Reset AAD Profile](aks/ManagedClusters/ResetAADProfile.yml)
 ### [Reset Service Principal Profile](aks/ManagedClusters/ResetServicePrincipalProfile.yml)
 ### [Rotate Cluster Certificates](aks/ManagedClusters/RotateClusterCertificates.yml)
+### [Start](aks/ManagedClusters/Start.yml)
+### [Stop](aks/ManagedClusters/Stop.yml)
 ### [Update Tags](aks/ManagedClusters/UpdateTags.yml)
+### [Upgrade Node Image Version](aks/ManagedClusters/UpgradeNodeImageVersion.yml)
 ## Operations
 ### [Overview](aks/Operations.yml)
 ### [List](aks/Operations/List.yml)
@@ -61,6 +64,12 @@
 ### [Get](aks/PrivateEndpointConnections/Get.yml)
 ### [List](aks/PrivateEndpointConnections/List.yml)
 ### [Update](aks/PrivateEndpointConnections/Update.yml)
+## Private Link Resources
+### [Overview](aks/PrivateLinkResources.yml)
+### [List](aks/PrivateLinkResources/List.yml)
+## Resolve Private Link Service Id
+### [Overview](aks/ResolvePrivateLinkServiceId.yml)
+### [P OS T](aks/ResolvePrivateLinkServiceId/POST.yml)
 # Analysis Services
 ## [Overview](../docs-ref-conceptual/analysisservices/index.md)
 ## Operations
