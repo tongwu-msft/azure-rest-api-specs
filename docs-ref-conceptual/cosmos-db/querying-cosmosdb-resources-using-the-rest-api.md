@@ -1,5 +1,6 @@
 ---
 title: "Querying Azure Cosmos DB resources using the REST API"
+description: Learn how to query Azure Cosmos DB resources using REST API. Request and response headers, body, status codes and examples.
 ms.date: "04/18/2019"
 ms.service: "cosmos-db"
 ms.topic: "reference"

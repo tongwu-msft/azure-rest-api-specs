@@ -1,5 +1,6 @@
 ---
 title: "HTTP Status Codes for Azure Cosmos DB"
+description: HTTP status and sub-status codes when using Azure Cosmos DB with REST API.
 ms.date: "06/23/2020"
 ms.service: "cosmos-db"
 ms.topic: "reference"

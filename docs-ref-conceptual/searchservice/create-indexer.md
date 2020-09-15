@@ -89,7 +89,7 @@ The following JSON is a high-level representation of the main parts of the defin
 |[parameters](#indexer-parameters)| Optional. Properties for modifying runtime behavior.|
 |[fieldMappings](#field-mappings)| Optional. Used when source and destination fields have different names. |
 |[outputFieldMappings](#output-fieldmappings)| Required for AI enrichment. Maps output from a skillset to an index or projection. |
-|disabled| Optional. Boolean value indicating whether the indexer is disabled. False by default. |
+|[disabled](#disabled)| Optional. Boolean value indicating whether the indexer is disabled. False by default. |
 
 
 <a name="dataSourceName"></a>
@@ -297,6 +297,12 @@ The second example demonstrates an AI enrichment, indicated by the reference to 
   }
 }
 ```
+
+<a name="disabled"></a>
+
+### "disabled"
+
+The disabled property is an optional Boolean value to indicate whether the indexer is disabled.  It is set to false by default.  To stop an indexer run, set disabled to true.  
 
 ## See also
 

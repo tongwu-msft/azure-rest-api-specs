@@ -3,15 +3,15 @@ uid: management.azure.com.compute.virtualmachinescalesetvms.list
 name: List
 service: Compute
 groupName: Virtual Machine Scale Set VMs
-apiVersion: 2019-12-01
+apiVersion: 2020-06-01
 summary: Gets a list of all virtual machines in a VM scale sets.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines?api-version=2019-12-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines?$filter={$filter}&$select={$select}&$expand={$expand}&api-version=2019-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines?api-version=2020-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines?$filter={$filter}&$select={$select}&$expand={$expand}&api-version=2020-06-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -134,6 +134,10 @@ definitions:
     description: Specifies the operating system settings for the virtual machine.
     types:
     - uid: OSProfile
+  - name: properties.securityProfile
+    description: Specifies the Security related profile settings for the virtual machine.
+    types:
+    - uid: SecurityProfile
   - name: properties.networkProfile
     description: Specifies the network interfaces of the virtual machine.
     types:
@@ -255,6 +259,10 @@ definitions:
     description: Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.
     types:
     - uid: boolean
+  - name: properties.enableAutomaticUpgrade
+    description: Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available.
+    types:
+    - uid: boolean
   - name: properties.settings
     description: Json formatted public settings for the extension.
     types:
@@ -347,6 +355,11 @@ definitions:
     types:
     - uid: InstanceViewStatus
       isArray: true
+  - name: assignedHost
+    isReadyOnly: true
+    description: 'Resource id of the dedicated host, on which the virtual machine is allocated through automatic placement, when the virtual machine is associated with a dedicated host group that has automatic placement enabled. <br><br>Minimum api-version: 2020-06-01.'
+    types:
+    - uid: string
   - name: placementGroupId
     description: The placement group in which the VM is running. If the VM is deallocated it will not have a placementGroupId.
     types:
@@ -422,7 +435,15 @@ definitions:
     types:
     - uid: boolean
   - name: requireGuestProvisionSignal
-    description: Specifies whether the guest provision signal is required to infer provision success of the virtual machine.
+    description: 'Specifies whether the guest provision signal is required to infer provision success of the virtual machine.  **Note: This property is for private testing only, and all customers must not set the property to false.**'
+    types:
+    - uid: boolean
+- name: SecurityProfile
+  description: Specifies the Security profile settings for the virtual machine or virtual machine scale set.
+  kind: object
+  properties:
+  - name: encryptionAtHost
+    description: 'This property can be used by user in the request to enable or disable the Host Encryption for the virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp disk at host itself. <br><br> Default: The Encryption at host will be disabled unless this property is set to true for the resource.'
     types:
     - uid: boolean
 - name: NetworkProfile
@@ -579,12 +600,12 @@ definitions:
   properties:
   - name: consoleScreenshotBlobUri
     isReadyOnly: true
-    description: The console screenshot blob URI.
+    description: 'The console screenshot blob URI. <br><br>NOTE: This will **not** be set if boot diagnostics is currently enabled with managed storage.'
     types:
     - uid: string
   - name: serialConsoleLogBlobUri
     isReadyOnly: true
-    description: The Linux serial console log blob Uri.
+    description: 'The serial console log blob Uri. <br><br>NOTE: This will **not** be set if boot diagnostics is currently enabled with managed storage.'
     types:
     - uid: string
   - name: status
@@ -1270,6 +1291,10 @@ definitions:
     types:
     - uid: AdditionalUnattendContent
       isArray: true
+  - name: patchSettings
+    description: Specifies settings related to in-guest patching (KBs).
+    types:
+    - uid: PatchSettings
   - name: winRM
     description: Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.
     types:
@@ -1361,7 +1386,7 @@ definitions:
     types:
     - uid: boolean
   - name: storageUri
-    description: Uri of the storage account to use for placing the console output and screenshot.
+    description: Uri of the storage account to use for placing the console output and screenshot. <br><br>If storageUri is not specified while enabling boot diagnostics, managed storage will be used.
     types:
     - uid: string
 - name: VirtualMachineExtensionHandlerInstanceView
@@ -1517,6 +1542,13 @@ definitions:
     description: Specifies the XML formatted content that is added to the unattend.xml file for the specified path and component. The XML must be less than 4KB and must include the root element for the setting or feature that is being inserted.
     types:
     - uid: string
+- name: PatchSettings
+  kind: object
+  properties:
+  - name: patchMode
+    description: 'Specifies the mode of in-guest patching to IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of patches to a virtual machine. You do this by applying patches manually inside the VM. In this mode, automatic updates are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br /> **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> ** AutomaticByPlatform** - the virtual machine will automatically updated by the platform. The properties provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true '
+    types:
+    - uid: InGuestPatchMode
 - name: WinRMConfiguration
   description: Describes Windows Remote Management configuration of the VM
   kind: object
@@ -1691,6 +1723,19 @@ definitions:
     types:
     - uid: string
   - name: FirstLogonCommands
+    types:
+    - uid: string
+- name: InGuestPatchMode
+  description: 'Specifies the mode of in-guest patching to IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of patches to a virtual machine. You do this by applying patches manually inside the VM. In this mode, automatic updates are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br /> **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> ** AutomaticByPlatform** - the virtual machine will automatically updated by the platform. The properties provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true '
+  kind: enum
+  properties:
+  - name: Manual
+    types:
+    - uid: string
+  - name: AutomaticByOS
+    types:
+    - uid: string
+  - name: AutomaticByPlatform
     types:
     - uid: string
 - name: WinRMListener

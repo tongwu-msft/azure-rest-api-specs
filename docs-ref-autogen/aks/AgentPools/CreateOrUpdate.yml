@@ -3,14 +3,14 @@ uid: management.azure.com.aks.agentpools.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Agent Pools
-apiVersion: 2020-06-01
+apiVersion: 2020-09-01
 summary: "Creates or updates an agent pool.  \nCreates or updates an agent pool in the specified managed cluster."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2020-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2020-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -74,6 +74,11 @@ requestBody:
     description: OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.
     types:
     - uid: integer
+  - name: properties.osDiskType
+    in: body
+    description: OS disk type to be used for machines in a given agent pool. Allowed values are 'Ephemeral' and 'Managed'. Defaults to 'Managed'. May not be changed after creation.
+    types:
+    - uid: OSDiskType
   - name: properties.vnetSubnetID
     in: body
     description: VNet SubnetID specifies the VNet's subnet identifier.
@@ -117,11 +122,6 @@ requestBody:
   - name: properties.orchestratorVersion
     in: body
     description: Version of orchestrator specified when creating the managed cluster.
-    types:
-    - uid: string
-  - name: properties.nodeImageVersion
-    in: body
-    description: Version of node image
     types:
     - uid: string
   - name: properties.upgradeSettings
@@ -194,6 +194,14 @@ definitions:
     description: Count or percentage of additional nodes to be added during upgrade. If empty uses AKS default
     types:
     - uid: string
+- name: PowerState
+  description: Describes the Power State of the cluster
+  kind: object
+  properties:
+  - name: code
+    description: Tells whether the cluster is Running or Stopped
+    types:
+    - uid: code
 - name: AgentPool
   description: Agent Pool.
   kind: object
@@ -225,6 +233,10 @@ definitions:
     description: OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.
     types:
     - uid: integer
+  - name: properties.osDiskType
+    description: OS disk type to be used for machines in a given agent pool. Allowed values are 'Ephemeral' and 'Managed'. Defaults to 'Managed'. May not be changed after creation.
+    types:
+    - uid: OSDiskType
   - name: properties.vnetSubnetID
     description: VNet SubnetID specifies the VNet's subnet identifier.
     types:
@@ -262,6 +274,7 @@ definitions:
     types:
     - uid: string
   - name: properties.nodeImageVersion
+    isReadyOnly: true
     description: Version of node image
     types:
     - uid: string
@@ -274,6 +287,11 @@ definitions:
     description: The current deployment or provisioning state, which only appears in the response.
     types:
     - uid: string
+  - name: properties.powerState
+    isReadyOnly: true
+    description: Describes whether the Agent Pool is Running or Stopped
+    types:
+    - uid: PowerState
   - name: properties.availabilityZones
     description: Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
     types:
@@ -328,6 +346,16 @@ definitions:
     description: Details about the error.
     types:
     - uid: CloudErrorBody
+- name: code
+  description: Tells whether the cluster is Running or Stopped
+  kind: enum
+  properties:
+  - name: Running
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
 - name: ContainerServiceVMSizeTypes
   description: Size of agent VMs.
   kind: enum
@@ -854,6 +882,16 @@ definitions:
   - name: Standard_NV6
     types:
     - uid: string
+- name: OSDiskType
+  description: OSDiskType represents the type of an OS disk on an agent pool.
+  kind: enum
+  properties:
+  - name: Managed
+    types:
+    - uid: string
+  - name: Ephemeral
+    types:
+    - uid: string
 - name: OSType
   description: OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
   kind: enum
@@ -928,7 +966,7 @@ definitions:
 examples:
 - name: Create/Update Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-09-01
     body: >-
       {
         "properties": {
@@ -1008,7 +1046,7 @@ examples:
       }
 - name: Update Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-09-01
     body: >-
       {
         "properties": {
@@ -1075,7 +1113,7 @@ examples:
       }
 - name: Create Spot Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-09-01
     body: >-
       {
         "properties": {
@@ -1153,7 +1191,7 @@ examples:
       }
 - name: Create Agent Pool with PPG
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-09-01
     body: >-
       {
         "properties": {
@@ -1195,6 +1233,55 @@ examples:
           "maxPods": 110,
           "osType": "Linux",
           "proximityPlacementGroupID": "/subscriptions/subid1/resourcegroups/rg1/providers//Microsoft.Compute/proximityPlacementGroups/ppg1"
+        }
+      }
+- name: Create Agent Pool with Ephemeral OS Disk
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-09-01
+    body: >-
+      {
+        "properties": {
+          "orchestratorVersion": "",
+          "count": 3,
+          "vmSize": "Standard_DS2_v2",
+          "osType": "Linux",
+          "osDiskType": "Ephemeral",
+          "osDiskSizeGB": 64
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "orchestratorVersion": "1.17.8",
+          "count": 3,
+          "vmSize": "Standard_DS2_v2",
+          "maxPods": 110,
+          "osType": "Linux",
+          "osDiskType": "Ephemeral",
+          "osDiskSizeGB": 64
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Creating",
+          "orchestratorVersion": "1.17.8",
+          "count": 3,
+          "vmSize": "Standard_DS2_v2",
+          "maxPods": 110,
+          "osType": "Linux",
+          "osDiskType": "Ephemeral",
+          "osDiskSizeGB": 64
         }
       }
 security:

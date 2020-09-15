@@ -1,5 +1,6 @@
 ---
 title: "Get Partition Key Ranges - Azure Cosmos DB REST API"
+description: Get partition key ranges REST API syntax. Request and response headers, body, status codes and examples.
 ms.date: "12/11/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"
@@ -72,6 +73,7 @@ Returns the list of partition key ranges for the collection.
   
 You can retrieve the Partition Key Ranges by requesting the `pkranges` resource within a collection. For example the following request retrieves the list of partition key ranges for the `serverlogs` collection:
 
+```
     GET https://querydemo.documents.azure.com/dbs/bigdb/colls/serverlogs/pkranges HTTP/1.1
     x-ms-date: Tue, 15 Nov 2016 07:26:51 GMT
     authorization: type%3dmaster%26ver%3d1.0%26sig%3dEConYmRgDExu6q%2bZ8GjfUGOH0AcOx%2behkancw3LsGQ8%3d
@@ -79,9 +81,11 @@ You can retrieve the Partition Key Ranges by requesting the `pkranges` resource 
     x-ms-version: 2016-07-11
     Accept: application/json
     Host: querydemo.documents.azure.com
+```
 
 This request returns the following response containing metadata about the partition key ranges:
 
+```
     HTTP/1.1 200 Ok
     Content-Type: application/json
     x-ms-item-count: 25
@@ -104,7 +108,7 @@ This request returns the following response containing metadata about the partit
        ],
        "_count": 25
     }
-
+```
   
 ## See Also  
 * [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
