@@ -7193,8 +7193,8 @@
 ### [Get Hourly Forecast Preview](maps/Weather/GetHourlyForecastPreview.yml)
 ### [Get Minute Forecast Preview](maps/Weather/GetMinuteForecastPreview.yml)
 ### [Get Quarter Day Forecast Preview](maps/Weather/GetQuarterDayForecastPreview.yml)
+### [Get Severe Weather Alerts Preview](maps/Weather/GetSevereWeatherAlertsPreview.yml)
 ### [Get Weather Along Route Preview](maps/Weather/GetWeatherAlongRoutePreview.yml)
-### [Preview,](maps/Weather/GetSevereWeatherAlertsPreview,.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
 ## Alias
