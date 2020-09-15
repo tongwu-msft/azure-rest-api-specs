@@ -5908,6 +5908,16 @@
 ### [Delete](guestconfiguration/GuestConfigurationAssignments/Delete.yml)
 ### [Get](guestconfiguration/GuestConfigurationAssignments/Get.yml)
 ### [List](guestconfiguration/GuestConfigurationAssignments/List.yml)
+## Guest Configuration HCRP Assignment Reports
+### [Overview](guestconfiguration/GuestConfigurationHCRPAssignmentReports.yml)
+### [Get](guestconfiguration/GuestConfigurationHCRPAssignmentReports/Get.yml)
+### [List](guestconfiguration/GuestConfigurationHCRPAssignmentReports/List.yml)
+## Guest Configuration HCRP Assignments
+### [Overview](guestconfiguration/GuestConfigurationHCRPAssignments.yml)
+### [Create Or Update](guestconfiguration/GuestConfigurationHCRPAssignments/CreateOrUpdate.yml)
+### [Delete](guestconfiguration/GuestConfigurationHCRPAssignments/Delete.yml)
+### [Get](guestconfiguration/GuestConfigurationHCRPAssignments/Get.yml)
+### [List](guestconfiguration/GuestConfigurationHCRPAssignments/List.yml)
 ## Operations
 ### [Overview](guestconfiguration/Operations.yml)
 ### [List](guestconfiguration/Operations/List.yml)
