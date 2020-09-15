@@ -21,7 +21,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create Permission
+# Create a new permission within the Azure Cosmos database
 The `Create Permission` operation creates a new permission in a database.
   
 ## Request  

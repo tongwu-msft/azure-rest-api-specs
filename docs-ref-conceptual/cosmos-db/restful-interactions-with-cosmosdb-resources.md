@@ -50,7 +50,7 @@ Azure Cosmos DB resources support the following HTTP verbs with their standard i
   
 As illustrated in the following HTTP verbs diagram, POST can only be issued against a feed resource; PUT and DELETE can only be issued against an item resource; GET and HEAD can be issued against either feed or item resources.  
   
-![interactions-with-resources2](./media/interactions-with-resources2.png "Interaction model using the standard HTTP methods")  
+![Interaction model using the standard HTTP methods](./media/interactions-with-resources2.png "Interaction model using the standard HTTP methods")  
   
 **Interaction model using the standard HTTP methods**  
   
