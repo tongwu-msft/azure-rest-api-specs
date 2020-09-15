@@ -113,7 +113,7 @@ This section describes core syntax concepts and query operators that are concate
 ### Supported literals
 
   > [!NOTE]
-  > The literals below are used to form expressions, see the [Supported data types](https://docs.microsoft.com/azure/time-series-insights/concepts-supported-data-types) article for the full list of data types, and review the [JSON flattening and escaping rules](https://docs.microsoft.com/azure/time-series-insights/concepts-json-flattening-escaping-rules) to understand how your events will be flattened and stored.
+  > The literals below are used to form expressions, see the [Supported data types](https://docs.microsoft.com/azure/time-series-insights/concepts-supported-data-types) article for the full list of data types.
 
 | Primitive type | Literals |
 |--|--|
