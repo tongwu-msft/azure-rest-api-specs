@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.guestconfiguration.guestconfigurationassignmentreports.list
-name: List
+uid: management.azure.com.guestconfiguration.guestconfigurationhcrpassignmentreports.get
+name: Get
 service: Guest Configuration
-groupName: Guest Configuration Assignment Reports
+groupName: Guest Configuration HCRP Assignment Reports
 apiVersion: 2020-06-25
-summary: List all reports for the guest configuration assignment, latest report first.
+summary: Get a report for the guest configuration assignment, by reportId.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports?api-version=2020-06-25
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports/{reportId}?api-version=2020-06-25
 uriParameters:
 - name: subscriptionId
   in: path
@@ -25,16 +25,22 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-\w\._]+$
-- name: vmName
+- name: machineName
   in: path
   isRequired: true
-  description: The name of the virtual machine.
+  description: The name of the ARC machine.
   types:
   - uid: string
 - name: guestConfigurationAssignmentName
   in: path
   isRequired: true
   description: The guest configuration assignment name.
+  types:
+  - uid: string
+- name: reportId
+  in: path
+  isRequired: true
+  description: The GUID for the guest configuration assignment report.
   types:
   - uid: string
 - name: api-version
@@ -45,32 +51,15 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: 'OK. This response is due one of these two reasons: 1. Reports were returned successfully 2. Guest configuration assignment was found, but VM is not registered yet, hence no reports returned.'
+  description: 'OK. This response is due one of these two reasons: 1. Report was returned successfully 2. Guest configuration assignment was found, but machine is not registered yet, hence no report was returned.'
   types:
-  - uid: GuestConfigurationAssignmentReportList
+  - uid: GuestConfigurationAssignmentReport
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: GuestConfigurationAssignmentReportList
-  description: List of guest configuration assignment reports.
-  kind: object
-  properties:
-  - name: value
-    description: List of reports for the guest configuration. Report contains information such as compliance status, reason and more.
-    types:
-    - uid: GuestConfigurationAssignmentReport
-      isArray: true
-- name: ErrorResponse
-  description: Error response of an operation failure
-  kind: object
-  properties:
-  - name: error
-    description: ''
-    types:
-    - uid: Error
 - name: GuestConfigurationAssignmentReport
   description: Report for the guest configuration assignment. Report contains information such as compliance status, reason, and more.
   kind: object
@@ -89,17 +78,14 @@ definitions:
     description: Properties of the guest configuration report.
     types:
     - uid: GuestConfigurationAssignmentReportProperties
-- name: Error
+- name: ErrorResponse
+  description: Error response of an operation failure
   kind: object
   properties:
-  - name: code
-    description: Error code.
+  - name: error
+    description: ''
     types:
-    - uid: string
-  - name: message
-    description: Detail error message indicating why the operation failed.
-    types:
-    - uid: string
+    - uid: Error
 - name: GuestConfigurationAssignmentReportProperties
   description: Report for the guest configuration assignment. Report contains information such as compliance status, reason, and more.
   kind: object
@@ -136,6 +122,17 @@ definitions:
     description: Details of the assignment report.
     types:
     - uid: AssignmentReportDetails
+- name: Error
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Detail error message indicating why the operation failed.
+    types:
+    - uid: string
 - name: complianceStatus
   description: A value indicating compliance status of the machine for the assigned guest configuration.
   kind: enum
@@ -273,57 +270,91 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List all guest configuration assignments for a virtual machine
+- name: Get a guest configuration assignment report by Id for a virtual machine
   request:
-    uri: GET https://management.azure.com/subscriptions/mySubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myVMName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports?api-version=2020-06-25
+    uri: GET https://management.azure.com/subscriptions/mySubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.HybridCompute/machines/myMachineName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports/7367cbb8-ae99-47d0-a33b-a283564d2cb1?api-version=2020-06-25
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports/7367cbb8-ae99-47d0-a33b-a283564d2cb1",
-            "name": "7367cbb8-ae99-47d0-a33b-a283564d2cb1",
-            "properties": {
-              "complianceStatus": "Compliant",
-              "assignment": {
-                "name": "AuditSecureProtocol",
-                "configuration": {
-                  "name": "AuditSecureProtocol"
-                }
-              },
-              "reportId": "7367cbb8-ae99-47d0-a33b-a283564d2cb1",
-              "vm": {
-                "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm",
-                "uuid": "vmuuid"
-              },
-              "details": null,
-              "startTime": "2018-08-29T22:13:53Z",
-              "endTime": "2018-08-29T22:14:13Z"
+        "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.HybridCompute/machines/myMachineName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports/7367cbb8-ae99-47d0-a33b-a283564d2cb1",
+        "name": "7367cbb8-ae99-47d0-a33b-a283564d2cb1",
+        "properties": {
+          "complianceStatus": "Compliant",
+          "assignment": {
+            "name": "AuditSecureProtocol",
+            "configuration": {
+              "name": "AuditSecureProtocol",
+              "version": "1.0.0.0"
             }
           },
-          {
-            "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports/41ee2caf-48f9-4999-a793-82ec7c6beb2c",
-            "name": "41ee2caf-48f9-4999-a793-82ec7c6beb2c",
-            "properties": {
-              "complianceStatus": "Compliant",
-              "assignment": {
-                "name": "AuditSecureProtocol",
-                "configuration": {
-                  "name": "AuditSecureProtocol"
+          "reportId": "7367cbb8-ae99-47d0-a33b-a283564d2cb1",
+          "vm": {
+            "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.HybridCompute/machines/myMachineName",
+            "uuid": "vmuuid"
+          },
+          "details": {
+            "complianceStatus": "Compliant",
+            "startTime": "2018-08-29T22:13:53Z",
+            "endTime": "2018-08-29T22:14:13Z",
+            "jobId": "7367cbb8-ae99-47d0-a33b-a283564d2cb1",
+            "resources": [
+              {
+                "complianceStatus": "Compliant",
+                "reasons": [
+                  {
+                    "phrase": "Operation successful.",
+                    "code": "DSC::RESOURCE::SUCCESS"
+                  }
+                ],
+                "properties": {
+                  "ConfigurationName": "IsWebServerSecure",
+                  "DependsOn": null,
+                  "IsSingleInstance": "Yes",
+                  "ModuleName": "SecureProtocolWebServer",
+                  "ModuleVersion": "1.0.0.3",
+                  "Protocols": [
+                    {
+                      "Ensure": "Absent",
+                      "Protocol": "SSL 2.0"
+                    },
+                    {
+                      "Ensure": "Absent",
+                      "Protocol": "SSL 3.0"
+                    },
+                    {
+                      "Ensure": "Absent",
+                      "Protocol": "TLS 1.0"
+                    },
+                    {
+                      "Ensure": "Absent",
+                      "Protocol": "PCT 1.0"
+                    },
+                    {
+                      "Ensure": "Absent",
+                      "Protocol": "Multi-Protocol Unified Hello"
+                    },
+                    {
+                      "Ensure": "Absent",
+                      "Protocol": "TLS 1.1"
+                    },
+                    {
+                      "Ensure": "Absent",
+                      "Protocol": "TLS 1.2"
+                    }
+                  ],
+                  "PsDscRunAsCredential": null,
+                  "Reasons": null,
+                  "ResourceId": "[SecureWebServer]s1",
+                  "SourceInfo": null
                 }
-              },
-              "reportId": "41ee2caf-48f9-4999-a793-82ec7c6beb2c",
-              "vm": {
-                "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm",
-                "uuid": "vmuuid"
-              },
-              "details": null,
-              "startTime": "2018-08-29T20:13:53Z",
-              "endTime": "2018-08-29T20:14:13Z"
-            }
-          }
-        ]
+              }
+            ],
+            "operationType": "Consistency"
+          },
+          "startTime": "2018-08-29T22:13:53Z",
+          "endTime": "2018-08-29T22:14:13Z"
+        }
       }
 security:
 - name: azure_auth
