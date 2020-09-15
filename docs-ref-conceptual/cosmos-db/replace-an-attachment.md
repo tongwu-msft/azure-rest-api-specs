@@ -1,5 +1,6 @@
 ---
 title: "Replace an Attachment - Azure Cosmos DB REST API"
+description: Learn how to replace an attachment's properties by using a REST API request, the request and response object formats for this operation. 
 ms.date: "02/25/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"

@@ -1,5 +1,6 @@
 ---
 title: "Create a Permission - Azure Cosmos DB REST API"
+description: Create permission REST API syntax. Request and response headers, body, status codes and examples.
 ms.date: "02/25/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"
@@ -20,7 +21,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create Permission
+# Create a new permission within the Azure Cosmos database
 The `Create Permission` operation creates a new permission in a database.
   
 ## Request  

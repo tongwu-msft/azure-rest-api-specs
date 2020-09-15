@@ -1,5 +1,6 @@
 ---
 title: "Azure Cosmos DB REST API Reference"
+description: Lists different REST API versions for Azure Cosmos DB
 ms.date: "05/24/2019"
 ms.service: "cosmos-db"
 ms.topic: "reference"

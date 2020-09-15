@@ -1,5 +1,6 @@
 ---
 title: "Azure Cosmos DB Resource URI Syntax for REST"
+description: Resource URI syntax for when using Azure Cosmos DB resources with REST API. 
 ms.date: "03/29/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"
