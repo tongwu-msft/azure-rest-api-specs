@@ -6038,7 +6038,6 @@
 ### [Get](hybridcompute/Machines/Get.yml)
 ### [List By Resource Group](hybridcompute/Machines/ListByResourceGroup.yml)
 ### [List By Subscription](hybridcompute/Machines/ListBySubscription.yml)
-### [Reconnect](hybridcompute/Machines/Reconnect.yml)
 ### [Update](hybridcompute/Machines/Update.yml)
 ## Operations
 ### [Overview](hybridcompute/Operations.yml)
