@@ -4481,14 +4481,6 @@
 #### [Overview](cost-management/Dimensions.yml)
 #### [By External Cloud Provider Type](cost-management/Dimensions/ByExternalCloudProviderType.yml)
 #### [List](cost-management/Dimensions/List.yml)
-### Exports
-#### [Overview](cost-management/Exports.yml)
-#### [Create Or Update](cost-management/Exports/CreateOrUpdate.yml)
-#### [Delete](cost-management/Exports/Delete.yml)
-#### [Execute](cost-management/Exports/Execute.yml)
-#### [Get](cost-management/Exports/Get.yml)
-#### [Get Execution History](cost-management/Exports/GetExecutionHistory.yml)
-#### [List](cost-management/Exports/List.yml)
 ### Forecast
 #### [Overview](cost-management/Forecast.yml)
 #### [External Cloud Provider Usage](cost-management/Forecast/ExternalCloudProviderUsage.yml)
