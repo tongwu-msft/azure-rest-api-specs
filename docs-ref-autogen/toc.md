@@ -5386,6 +5386,12 @@
 # Event Grid
 ## [Overview](../docs-ref-conceptual/eventgrid/index.md)
 ## Data Plane
+### Publish Cloud Event Events
+#### [Overview](eventgrid/dataplane/PublishCloudEventEvents.yml)
+#### [Publish Cloud Event Events](eventgrid/dataplane/PublishCloudEventEvents/PublishCloudEventEvents.yml)
+### Publish Custom Event Events
+#### [Overview](eventgrid/dataplane/PublishCustomEventEvents.yml)
+#### [Publish Custom Event Events](eventgrid/dataplane/PublishCustomEventEvents/PublishCustomEventEvents.yml)
 ### Publish Events
 #### [Overview](eventgrid/dataplane/PublishEvents.yml)
 #### [Publish Events](eventgrid/dataplane/PublishEvents/PublishEvents.yml)
