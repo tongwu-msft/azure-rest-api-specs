@@ -25,7 +25,7 @@ For information about using your account key to secure a SAS, see [Create a serv
 
 ## User delegation SAS support for Directory scoped access
 
-User delegation SAS will support directory scope (sr=d) access when the authentication version (sv) is 2020-02-10 or higher and namespace is enabled. The semantics for directory scope (sr=d) are similar to container scope (sr=c), except access is restricted to a directory and the files within. When sr=d is specified, the sdd query parameter is also required (See below for more details on sdd parameter).
+User delegation SAS will support directory scope (sr=d) access when the authentication version (sv) is 2020-02-10 or higher and hierarchical namespace (HNS) is enabled. The semantics for directory scope (sr=d) are similar to container scope (sr=c), except access is restricted to a directory and the files and directories within. When sr=d is specified, the sdd query parameter is also required (See below for more details on sdd parameter).
 
 ## User delegation SAS support for user OID
 
@@ -93,7 +93,7 @@ The `signedresource` (`sr`) field specifies which resources are accessible via t
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedresource`|`sr`|Required.<br /><br /> Specify `b` if the shared resource is a blob. Use to grant access to the content and metadata of the blob.<br /><br /> Specify `d` if the shared resource is a directory. This grants access to the content and metadata of any blob within the directory.<br /><br /> Specify `bv` if the shared resource is a blob version (version 2019-12-12 or later). Use to grant access to the content and metadata of the blob version, but not the base blob.<br /><br /> Specify `bs` if the shared resource is a blob snapshot (version 2018-11-09 and later). Use to grant access to the content and metadata of the blob snapshot, but not the base blob.<br /><br /> Specify `c` if the shared resource is a container. This grants access to the content and metadata of any blob in the container, and to the list of blobs in the container.|
+|`signedresource`|`sr`|Required.<br /><br /> Specify `b` if the shared resource is a blob. Use to grant access to the content and metadata of the blob.<br /><br /> Specify `d` if the shared resource is a directory (version 2020-02-10 or later and hierarchical namespace is enabled). This grants access to the content and metadata of any blob within the directory.<br /><br /> Specify `bv` if the shared resource is a blob version (version 2019-12-12 or later). Use to grant access to the content and metadata of the blob version, but not the base blob.<br /><br /> Specify `bs` if the shared resource is a blob snapshot (version 2018-11-09 and later). Use to grant access to the content and metadata of the blob snapshot, but not the base blob.<br /><br /> Specify `c` if the shared resource is a container. This grants access to the content and metadata of any blob in the container, and to the list of blobs in the container.|
 
 ### Specify the signature validity interval
 
@@ -213,7 +213,7 @@ If you create a shared access signature that specifies response headers as query
 
 ### Specify the user OID
 
-User Delegation SAS supports an optional user OID carried in either the saoid or suoid parameter when the authentication version (sv) is 2020-02-10 or higher:
+User Delegation SAS supports an optional user OID carried in either the Signed Authorized User Object Id (`saoid`) or Signed Unauthorized User Object Id (`suoid`) parameter when the authentication version (sv) is 2020-02-10 or higher:
 
 - The user delegating access (skoid) must have **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/runAsSuperUser/action** or **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/manageOwnership/action** RBAC permission when using a SAS with an optional user OID.
 - If the sticky bit is set on the parent folder and the operation is delete or rename, then the owner of the parent folder or the owner of the resource must match the value specified by the optional user OID.
