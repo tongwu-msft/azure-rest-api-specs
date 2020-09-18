@@ -1,15 +1,8 @@
----
-title: Set Blob Expiry (REST API) - Azure Storage
-description: The Set Blob Expiry operation sets an expiry time on the blob.
-author: abar-msft
-ms.date: 07/06/2020
-ms.service: storage
-ms.topic: reference
-ms.author: abar
----
 # Set Blob Expiry
-The `Set Blob Expiry` operation sets an expiry time on a blob. This API is only allowed on an Hierarchical Namespace(HNS) enabled account.   
-  
+The `Set Blob Expiry` operation sets an expiry time on an existing blob. This operation is only allowed on an Hierarchical Namespace enabled account.   
+
+Note that version
+
 ## Request  
  The `Set Blob Expiry` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
@@ -27,7 +20,8 @@ The `Set Blob Expiry` operation sets an expiry time on a blob. This API is only 
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
 ### URI Parameters  
-  
+The following additional parameters may be specified on the request URI.
+
 |Parameter|Description|  
 |---------------|-----------------|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
@@ -42,17 +36,17 @@ The `Set Blob Expiry` operation sets an expiry time on a blob. This API is only 
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-expiry-option`|Required. Specify the expiry option for the request see  [Expiry Option](#ExpiryOption).|  
-|`x-ms-expiry-time`|Required. The time when to expire the following corresponding to the x-ms-expiry-option.|  
+|`x-ms-expiry-time`|Optional. The time when to expire the file. The format for expiry time varies corresponding to the x-ms-expiry-option, see [Expiry Option](#ExpiryOption)|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### ExpiryOption
 The following values can be sent as x-ms-expiry-option header. Please note this header is not case-sensitive.
 |Expiry Option|Description|  
 |---------------------|-----------------|  
-|`RelativeToCreation `|Set the expiry relative to the time when the file was created. User will pass the number of milliseconds elapsed from creation time as x-ms-expiry-time.|  
-|`RelativeToNow `|Set the expiry relative to the current time. User will pass the number of milliseconds elapsed from now as x-ms-expiry-time.|  
-|`Absolute`|With this expiry-option user can give x-ms-expiry time as an Absolute time in RFC 1123 Format.|  
-|`Neverexpire `|Set the file to never expire or removes the current expiry time set, x-ms-expiry-time is not needed to be specified with this option .|  
+|`RelativeToCreation `|Sets the expiry time relative to the file creation time, x-ms-expiry-time must be specified as the number of milliseconds to elapse from creation time.|  
+|`RelativeToNow `|Sets the expiry relative to the current time, x-ms-expiry-time must be specified as the number of milliseconds to elapse from now.|  
+|`Absolute`|x-ms-expiry-time must be specified as an Absolute time in RFC 1123 Format.|  
+|`Neverexpire `|Sets the file to never expire or removes the current expiry time, x-ms-expiry-time must not to be specified.|  
 
 ### Request Body  
  The request body for this request is empty.
@@ -108,9 +102,9 @@ This operation can be called by the account owner and by anyone with a Shared Ac
   
 -   Set Expiry can only be set on a file not a directory.  
 
--   Set expiry with expiryOption as "Absolute" and expiryTime given in past is not allowed.  
+-   Set expiry with expiryTime given in past is not allowed.  
 
--    Set expiry with expiryOption as “Never” and expiryTime non-null should fail will fail. 
+-   ExpiryTime should not be specified with expiryOption as “Never” . 
   
 ## See Also  
  [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
