@@ -7697,15 +7697,10 @@
 ##### [Get By Id](monitor/alertsmanagement/Alerts/GetById.yml)
 ##### [Get History](monitor/alertsmanagement/Alerts/GetHistory.yml)
 ##### [Get Summary](monitor/alertsmanagement/Alerts/GetSummary.yml)
+##### [Meta Data](monitor/alertsmanagement/Alerts/MetaData.yml)
 #### Operations
 ##### [Overview](monitor/alertsmanagement/Operations.yml)
 ##### [List](monitor/alertsmanagement/Operations/List.yml)
-#### Smart Groups
-##### [Overview](monitor/alertsmanagement/SmartGroups.yml)
-##### [Change State](monitor/alertsmanagement/SmartGroups/ChangeState.yml)
-##### [Get All](monitor/alertsmanagement/SmartGroups/GetAll.yml)
-##### [Get By Id](monitor/alertsmanagement/SmartGroups/GetById.yml)
-##### [Get History](monitor/alertsmanagement/SmartGroups/GetHistory.yml)
 ### Microsoft.WorkloadMonitor
 #### Components
 ##### [Overview](monitor/microsoft.workloadmonitor/Components.yml)
