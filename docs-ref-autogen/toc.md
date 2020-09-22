@@ -1790,6 +1790,11 @@
 #### [Put Solution](migrate/projects/Solutions/PutSolution.yml)
 # Azure NetApp Files
 ## [Overview](../docs-ref-conceptual/netapp/index.md)
+## Account Backups
+### [Overview](netapp/AccountBackups.yml)
+### [Delete](netapp/AccountBackups/Delete.yml)
+### [Get](netapp/AccountBackups/Get.yml)
+### [List](netapp/AccountBackups/List.yml)
 ## Accounts
 ### [Overview](netapp/Accounts.yml)
 ### [Create Or Update](netapp/Accounts/CreateOrUpdate.yml)
@@ -1797,10 +1802,25 @@
 ### [Get](netapp/Accounts/Get.yml)
 ### [List](netapp/Accounts/List.yml)
 ### [Update](netapp/Accounts/Update.yml)
+## Backup Policies
+### [Overview](netapp/BackupPolicies.yml)
+### [Create](netapp/BackupPolicies/Create.yml)
+### [Delete](netapp/BackupPolicies/Delete.yml)
+### [Get](netapp/BackupPolicies/Get.yml)
+### [List](netapp/BackupPolicies/List.yml)
+### [Update](netapp/BackupPolicies/Update.yml)
+## Backups
+### [Overview](netapp/Backups.yml)
+### [Create](netapp/Backups/Create.yml)
+### [Delete](netapp/Backups/Delete.yml)
+### [Get](netapp/Backups/Get.yml)
+### [List](netapp/Backups/List.yml)
+### [Update](netapp/Backups/Update.yml)
 ## NetApp Resource
 ### [Overview](netapp/NetAppResource.yml)
 ### [Check File Path Availability](netapp/NetAppResource/CheckFilePathAvailability.yml)
 ### [Check Name Availability](netapp/NetAppResource/CheckNameAvailability.yml)
+### [Check Quota Availability](netapp/NetAppResource/CheckQuotaAvailability.yml)
 ## Operations
 ### [Overview](netapp/Operations.yml)
 ### [List](netapp/Operations/List.yml)
@@ -1811,6 +1831,14 @@
 ### [Get](netapp/Pools/Get.yml)
 ### [List](netapp/Pools/List.yml)
 ### [Update](netapp/Pools/Update.yml)
+## Snapshot Policies
+### [Overview](netapp/SnapshotPolicies.yml)
+### [Create](netapp/SnapshotPolicies/Create.yml)
+### [Delete](netapp/SnapshotPolicies/Delete.yml)
+### [Get](netapp/SnapshotPolicies/Get.yml)
+### [List](netapp/SnapshotPolicies/List.yml)
+### [List Volumes](netapp/SnapshotPolicies/ListVolumes.yml)
+### [Update](netapp/SnapshotPolicies/Update.yml)
 ## Snapshots
 ### [Overview](netapp/Snapshots.yml)
 ### [Create](netapp/Snapshots/Create.yml)
@@ -1818,6 +1846,9 @@
 ### [Get](netapp/Snapshots/Get.yml)
 ### [List](netapp/Snapshots/List.yml)
 ### [Update](netapp/Snapshots/Update.yml)
+## Vaults
+### [Overview](netapp/Vaults.yml)
+### [List](netapp/Vaults/List.yml)
 ## Volumes
 ### [Overview](netapp/Volumes.yml)
 ### [Authorize Replication](netapp/Volumes/AuthorizeReplication.yml)
@@ -1827,6 +1858,8 @@
 ### [Delete Replication](netapp/Volumes/DeleteReplication.yml)
 ### [Get](netapp/Volumes/Get.yml)
 ### [List](netapp/Volumes/List.yml)
+### [Pool Change](netapp/Volumes/PoolChange.yml)
+### [Re Initialize Replication](netapp/Volumes/ReInitializeReplication.yml)
 ### [Replication Status](netapp/Volumes/ReplicationStatus.yml)
 ### [Resync Replication](netapp/Volumes/ResyncReplication.yml)
 ### [Revert](netapp/Volumes/Revert.yml)
@@ -8810,6 +8843,9 @@
 ## List Operations
 ### [Overview](resources/ListOperations.yml)
 ### [List Operations](resources/ListOperations/ListOperations.yml)
+## List Operations (managed applications)
+### [Overview](resources/List%20Operations%20(managed%20applications).yml)
+### [List Operations](resources/List%20Operations%20(managed%20applications)/ListOperations.yml)
 ## Management Group Subscriptions
 ### [Overview](resources/ManagementGroupSubscriptions.yml)
 ### [Create](resources/ManagementGroupSubscriptions/Create.yml)
