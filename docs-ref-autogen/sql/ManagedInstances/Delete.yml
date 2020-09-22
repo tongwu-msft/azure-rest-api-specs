@@ -3,14 +3,14 @@ uid: management.azure.com.sql.managedinstances.delete
 name: Delete
 service: SQL Database
 groupName: Managed Instances
-apiVersion: 2018-06-01-preview
+apiVersion: 2020-02-02-preview
 summary: Deletes a managed instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}?api-version=2018-06-01-preview
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}?api-version=2020-02-02-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,6 +45,8 @@ responses:
 
      * 400 SubscriptionNotFound - The requested subscription was not found.
 
+     * 400 ProvisioningDisabled - Displays error message from resources operation authorizer as is, without changes
+
      * 400 ManagementServiceFeatureDisabled - User attempted to use a feature which is disabled.
 
      * 404 ServerNotInSubscription - Specified server does not exist on the specified subscription.
@@ -56,6 +58,10 @@ responses:
      * 404 ResourceNotFound - The requested resource was not found.
 
      * 409 ConflictingManagedInstanceOperation - An operation is currently in progress for the managed instance.
+
+     * 409 MiDropFailedOnAuthLocks - User tried to drop last Managed Instance in subnet that has Lock applied on resource(s).
+
+     * 409 MiCreateFailedNonDelegatedSubnet - User tried to deploy Managed Instance or Managed Instance pool in subnet that is not delegated to Microsoft.Sql/managedInstances.
 
      * 409 OperationCancelled - The operation has been cancelled by user.
 
@@ -89,7 +95,7 @@ definitions: []
 examples:
 - name: Delete managed instance
   request:
-    uri: DELETE https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance?api-version=2018-06-01-preview
+    uri: DELETE https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance?api-version=2020-02-02-preview
   responses:
   - statusCode: "200"
   - statusCode: "202"
