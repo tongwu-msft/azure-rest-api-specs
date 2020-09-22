@@ -4481,14 +4481,6 @@
 #### [Overview](cost-management/Dimensions.yml)
 #### [By External Cloud Provider Type](cost-management/Dimensions/ByExternalCloudProviderType.yml)
 #### [List](cost-management/Dimensions/List.yml)
-### Exports
-#### [Overview](cost-management/Exports.yml)
-#### [Create Or Update](cost-management/Exports/CreateOrUpdate.yml)
-#### [Delete](cost-management/Exports/Delete.yml)
-#### [Execute](cost-management/Exports/Execute.yml)
-#### [Get](cost-management/Exports/Get.yml)
-#### [Get Execution History](cost-management/Exports/GetExecutionHistory.yml)
-#### [List](cost-management/Exports/List.yml)
 ### Forecast
 #### [Overview](cost-management/Forecast.yml)
 #### [External Cloud Provider Usage](cost-management/Forecast/ExternalCloudProviderUsage.yml)
@@ -5394,6 +5386,12 @@
 # Event Grid
 ## [Overview](../docs-ref-conceptual/eventgrid/index.md)
 ## Data Plane
+### Publish Cloud Event Events
+#### [Overview](eventgrid/dataplane/PublishCloudEventEvents.yml)
+#### [Publish Cloud Event Events](eventgrid/dataplane/PublishCloudEventEvents/PublishCloudEventEvents.yml)
+### Publish Custom Event Events
+#### [Overview](eventgrid/dataplane/PublishCustomEventEvents.yml)
+#### [Publish Custom Event Events](eventgrid/dataplane/PublishCustomEventEvents/PublishCustomEventEvents.yml)
 ### Publish Events
 #### [Overview](eventgrid/dataplane/PublishEvents.yml)
 #### [Publish Events](eventgrid/dataplane/PublishEvents/PublishEvents.yml)
@@ -7699,15 +7697,10 @@
 ##### [Get By Id](monitor/alertsmanagement/Alerts/GetById.yml)
 ##### [Get History](monitor/alertsmanagement/Alerts/GetHistory.yml)
 ##### [Get Summary](monitor/alertsmanagement/Alerts/GetSummary.yml)
+##### [Meta Data](monitor/alertsmanagement/Alerts/MetaData.yml)
 #### Operations
 ##### [Overview](monitor/alertsmanagement/Operations.yml)
 ##### [List](monitor/alertsmanagement/Operations/List.yml)
-#### Smart Groups
-##### [Overview](monitor/alertsmanagement/SmartGroups.yml)
-##### [Change State](monitor/alertsmanagement/SmartGroups/ChangeState.yml)
-##### [Get All](monitor/alertsmanagement/SmartGroups/GetAll.yml)
-##### [Get By Id](monitor/alertsmanagement/SmartGroups/GetById.yml)
-##### [Get History](monitor/alertsmanagement/SmartGroups/GetHistory.yml)
 ### Microsoft.WorkloadMonitor
 #### Components
 ##### [Overview](monitor/microsoft.workloadmonitor/Components.yml)
