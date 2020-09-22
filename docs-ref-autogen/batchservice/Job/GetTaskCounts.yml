@@ -3,15 +3,15 @@ uid: batchservice.job.gettaskcounts
 name: Get Task Counts
 service: Batch Service
 groupName: Job
-apiVersion: 2020-03-01.11.0
+apiVersion: 2020-09-01.12.0
 summary: "Gets the Task counts for the specified Job.  \nTask counts provide a count of the Tasks by active, running or completed Task state, and a count of Tasks which succeeded or failed. Tasks in the preparing state are counted as running. Note that the numbers returned may not always be up to date. If you need exact task counts, use a list query."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET {batchUrl}/jobs/{jobId}/taskcounts?api-version=2020-03-01.11.0
-- content: GET {batchUrl}/jobs/{jobId}/taskcounts?timeout={timeout}&api-version=2020-03-01.11.0
+- content: GET {batchUrl}/jobs/{jobId}/taskcounts?api-version=2020-09-01.12.0
+- content: GET {batchUrl}/jobs/{jobId}/taskcounts?timeout={timeout}&api-version=2020-09-01.12.0
   isOptional: true
 uriParameters:
 - name: batchUrl
@@ -48,7 +48,7 @@ responses:
     value: string
   description: A response containing the Task counts for the specified Job.
   types:
-  - uid: TaskCounts
+  - uid: TaskCountsResult
 - name: Other Status Codes
   description: The error from the Batch service.
   types:
@@ -72,6 +72,35 @@ requestHeader:
   - uid: string
   format: date-time-rfc1123
 definitions:
+- name: TaskCountsResult
+  description: The Task and TaskSlot counts for a Job.
+  kind: object
+  properties:
+  - name: taskCounts
+    description: The number of Tasks per state.
+    types:
+    - uid: TaskCounts
+  - name: taskSlotCounts
+    description: The number of TaskSlots required by Tasks per state.
+    types:
+    - uid: TaskSlotCounts
+- name: BatchError
+  description: An error response received from the Azure Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: ErrorMessage
+  - name: values
+    description: A collection of key-value pairs containing additional details about the error.
+    types:
+    - uid: BatchErrorDetail
+      isArray: true
 - name: TaskCounts
   description: The Task counts for a Job.
   kind: object
@@ -96,23 +125,30 @@ definitions:
     description: The number of Tasks which failed. A Task fails if its result (found in the executionInfo property) is 'failure'.
     types:
     - uid: integer
-- name: BatchError
-  description: An error response received from the Azure Batch service.
+- name: TaskSlotCounts
+  description: The TaskSlot counts for a Job.
   kind: object
   properties:
-  - name: code
-    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+  - name: active
+    description: The number of TaskSlots for active Tasks.
     types:
-    - uid: string
-  - name: message
-    description: A message describing the error, intended to be suitable for display in a user interface.
+    - uid: integer
+  - name: running
+    description: The number of TaskSlots for running Tasks.
     types:
-    - uid: ErrorMessage
-  - name: values
-    description: A collection of key-value pairs containing additional details about the error.
+    - uid: integer
+  - name: completed
+    description: The number of TaskSlots for completed Tasks.
     types:
-    - uid: BatchErrorDetail
-      isArray: true
+    - uid: integer
+  - name: succeeded
+    description: The number of TaskSlots for succeeded Tasks.
+    types:
+    - uid: integer
+  - name: failed
+    description: The number of TaskSlots for failed Tasks.
+    types:
+    - uid: integer
 - name: ErrorMessage
   description: An error message received in an Azure Batch error response.
   kind: object
@@ -140,7 +176,7 @@ definitions:
 examples:
 - name: Job get task counts
   request:
-    uri: GET account.region.batch.azure.com/jobs/jobId/taskcounts?api-version=2020-03-01.11.0
+    uri: GET account.region.batch.azure.com/jobs/jobId/taskcounts?api-version=2020-09-01.12.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
@@ -150,11 +186,20 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "active": 5,
-        "running": 7,
-        "completed": 4,
-        "succeeded": 2,
-        "failed": 2
+        "taskCounts": {
+          "active": 5,
+          "running": 7,
+          "completed": 4,
+          "succeeded": 2,
+          "failed": 2
+        },
+        "taskSlotCounts": {
+          "active": 5,
+          "running": 7,
+          "completed": 4,
+          "succeeded": 2,
+          "failed": 2
+        }
       }
 security:
 - name: azure_auth
