@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.netapp.backuppolicies2nd.update
-name: Update
+uid: management.azure.com.netapp.backuppolicies.create
+name: Create
 service: Azure NetApp Files
-groupName: Backup Policies 2nd
+groupName: Backup Policies
 apiVersion: 2020-06-01
-summary: "Patch a backup policy  \nPatch a backup policy for Netapp Account"
+summary: "Create a backup policy  \nCreate a backup policy for Netapp Account"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}?api-version=2020-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/backupPolicies/{backupPolicyName}?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,9 +45,15 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
+  description: Backup Policy created
   types:
   - uid: backupPolicy
+- name: 201 Created
+  description: Backup created
+  types:
+  - uid: backupPolicy
+- name: 202 Accepted
+  description: Accepted -- Create request accepted; operation will complete asynchronously
 - name: Other Status Codes
   description: Error response describing why the operation failed.
 requestBody:
@@ -55,9 +61,19 @@ requestBody:
   parameters:
   - name: location
     in: body
+    isRequired: true
     description: Resource location
     types:
     - uid: string
+  - name: tags
+    in: body
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: properties.dailyBackupsToKeep
     in: body
     description: Daily backups count to keep
@@ -182,65 +198,18 @@ definitions:
     types:
     - uid: volumeBackups
       isArray: true
-- name: backupPolicyPatch
-  description: Backup policy Details for create and update
-  kind: object
-  properties:
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
-  - name: properties.name
-    isReadyOnly: true
-    description: Name of backup policy
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: Azure lifecycle management
-    types:
-    - uid: string
-  - name: properties.dailyBackupsToKeep
-    description: Daily backups count to keep
-    types:
-    - uid: integer
-  - name: properties.weeklyBackupsToKeep
-    description: Weekly backups count to keep
-    types:
-    - uid: integer
-  - name: properties.monthlyBackupsToKeep
-    description: Monthly backups count to keep
-    types:
-    - uid: integer
-  - name: properties.yearlyBackupsToKeep
-    description: Yearly backups count to keep
-    types:
-    - uid: integer
-  - name: properties.volumesAssigned
-    description: Volumes using current backup policy
-    types:
-    - uid: integer
-  - name: properties.enabled
-    description: The property to decide policy is enabled or not
-    types:
-    - uid: boolean
-  - name: properties.volumeBackups
-    description: A list of volumes assigned to this policy
-    types:
-    - uid: volumeBackups
-      isArray: true
 examples:
-- name: BackupPolicies_Update
+- name: BackupPolicies_Create
   request:
-    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/backupPolicies/backupPolicyName?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/backupPolicies/backupPolicyName?api-version=2020-06-01
     body: >-
       {
         "location": "westus",
         "properties": {
-          "dailyBackupsToKeep": 5,
+          "dailyBackupsToKeep": 10,
           "weeklyBackupsToKeep": 10,
           "monthlyBackupsToKeep": 10,
-          "enabled": false
+          "enabled": true
         }
       }
   responses:
@@ -252,22 +221,29 @@ examples:
         "type": "Microsoft.NetApp/netAppAccounts/backupPolicies",
         "location": "westus",
         "properties": {
-          "provisioningState": "Succeeded",
-          "dailyBackupsToKeep": 5,
+          "dailyBackupsToKeep": 10,
           "weeklyBackupsToKeep": 10,
           "monthlyBackupsToKeep": 10,
-          "yearlyBackupsToKeep": 0,
-          "volumesAssigned": 1,
-          "enabled": false,
-          "volumeBackups": [
-            {
-              "volumeName": "volume 1",
-              "backupsCount": 5,
-              "policyEnabled": true
-            }
-          ]
+          "enabled": true,
+          "provisioningState": "creating"
         }
       }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/backupPolocies/backupPolicyName",
+        "name": "account1/backupPolicyName",
+        "type": "Microsoft.NetApp/netAppAccounts/backupPolicies",
+        "location": "westus",
+        "properties": {
+          "dailyBackupsToKeep": 10,
+          "weeklyBackupsToKeep": 10,
+          "monthlyBackupsToKeep": 10,
+          "enabled": true,
+          "provisioningState": "creating"
+        }
+      }
+  - statusCode: "202"
 security:
 - name: azure_auth
   type: oauth2

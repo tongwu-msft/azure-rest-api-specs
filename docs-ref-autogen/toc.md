@@ -1795,13 +1795,11 @@
 ### [Update](netapp/Accounts/Update.yml)
 ## Backup Policies
 ### [Overview](netapp/BackupPolicies.yml)
+### [Create](netapp/BackupPolicies/Create.yml)
+### [Delete](netapp/BackupPolicies/Delete.yml)
+### [Get](netapp/BackupPolicies/Get.yml)
 ### [List](netapp/BackupPolicies/List.yml)
-## Backup Policies 2nd
-### [Overview](netapp/Backup%20Policies%202nd.yml)
-### [Create](netapp/Backup%20Policies%202nd/Create.yml)
-### [Delete](netapp/Backup%20Policies%202nd/Delete.yml)
-### [Get](netapp/Backup%20Policies%202nd/Get.yml)
-### [Update](netapp/Backup%20Policies%202nd/Update.yml)
+### [Update](netapp/BackupPolicies/Update.yml)
 ## Backups
 ### [Overview](netapp/Backups.yml)
 ### [Create](netapp/Backups/Create.yml)
@@ -1826,14 +1824,12 @@
 ### [Update](netapp/Pools/Update.yml)
 ## Snapshot Policies
 ### [Overview](netapp/SnapshotPolicies.yml)
+### [Create](netapp/SnapshotPolicies/Create.yml)
+### [Delete](netapp/SnapshotPolicies/Delete.yml)
+### [Get](netapp/SnapshotPolicies/Get.yml)
 ### [List](netapp/SnapshotPolicies/List.yml)
 ### [List Volumes](netapp/SnapshotPolicies/ListVolumes.yml)
-## SnapshotPolicies 2nd
-### [Overview](netapp/SnapshotPolicies%202nd.yml)
-### [Create](netapp/SnapshotPolicies%202nd/Create.yml)
-### [Delete](netapp/SnapshotPolicies%202nd/Delete.yml)
-### [Get](netapp/SnapshotPolicies%202nd/Get.yml)
-### [Update](netapp/SnapshotPolicies%202nd/Update.yml)
+### [Update](netapp/SnapshotPolicies/Update.yml)
 ## Snapshots
 ### [Overview](netapp/Snapshots.yml)
 ### [Create](netapp/Snapshots/Create.yml)
@@ -4496,14 +4492,6 @@
 #### [Overview](cost-management/Dimensions.yml)
 #### [By External Cloud Provider Type](cost-management/Dimensions/ByExternalCloudProviderType.yml)
 #### [List](cost-management/Dimensions/List.yml)
-### Exports
-#### [Overview](cost-management/Exports.yml)
-#### [Create Or Update](cost-management/Exports/CreateOrUpdate.yml)
-#### [Delete](cost-management/Exports/Delete.yml)
-#### [Execute](cost-management/Exports/Execute.yml)
-#### [Get](cost-management/Exports/Get.yml)
-#### [Get Execution History](cost-management/Exports/GetExecutionHistory.yml)
-#### [List](cost-management/Exports/List.yml)
 ### Forecast
 #### [Overview](cost-management/Forecast.yml)
 #### [External Cloud Provider Usage](cost-management/Forecast/ExternalCloudProviderUsage.yml)
@@ -5409,6 +5397,12 @@
 # Event Grid
 ## [Overview](../docs-ref-conceptual/eventgrid/index.md)
 ## Data Plane
+### Publish Cloud Event Events
+#### [Overview](eventgrid/dataplane/PublishCloudEventEvents.yml)
+#### [Publish Cloud Event Events](eventgrid/dataplane/PublishCloudEventEvents/PublishCloudEventEvents.yml)
+### Publish Custom Event Events
+#### [Overview](eventgrid/dataplane/PublishCustomEventEvents.yml)
+#### [Publish Custom Event Events](eventgrid/dataplane/PublishCustomEventEvents/PublishCustomEventEvents.yml)
 ### Publish Events
 #### [Overview](eventgrid/dataplane/PublishEvents.yml)
 #### [Publish Events](eventgrid/dataplane/PublishEvents/PublishEvents.yml)
@@ -7240,8 +7234,8 @@
 ### [Get Hourly Forecast Preview](maps/Weather/GetHourlyForecastPreview.yml)
 ### [Get Minute Forecast Preview](maps/Weather/GetMinuteForecastPreview.yml)
 ### [Get Quarter Day Forecast Preview](maps/Weather/GetQuarterDayForecastPreview.yml)
+### [Get Severe Weather Alerts Preview](maps/Weather/GetSevereWeatherAlertsPreview.yml)
 ### [Get Weather Along Route Preview](maps/Weather/GetWeatherAlongRoutePreview.yml)
-### [Preview,](maps/Weather/GetSevereWeatherAlertsPreview,.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
 ## Alias
@@ -8833,6 +8827,9 @@
 ## List Operations
 ### [Overview](resources/ListOperations.yml)
 ### [List Operations](resources/ListOperations/ListOperations.yml)
+## List Operations (managed applications)
+### [Overview](resources/List%20Operations%20(managed%20applications).yml)
+### [List Operations](resources/List%20Operations%20(managed%20applications)/ListOperations.yml)
 ## Management Group Subscriptions
 ### [Overview](resources/ManagementGroupSubscriptions.yml)
 ### [Create](resources/ManagementGroupSubscriptions/Create.yml)

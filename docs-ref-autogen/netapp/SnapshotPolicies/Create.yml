@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.netapp.snapshotpolicies2nd.get
-name: Get
+uid: management.azure.com.netapp.snapshotpolicies.create
+name: Create
 service: Azure NetApp Files
-groupName: SnapshotPolicies 2nd
+groupName: Snapshot Policies
 apiVersion: 2020-06-01
-summary: Get a snapshot Policy
+summary: Create a snapshot policy
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}?api-version=2020-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,37 +45,26 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
+  description: OK - snapshot Policy updated
+  types:
+  - uid: snapshotPolicy
+- name: 201 Created
+  description: Snapshot Policy created
   types:
   - uid: snapshotPolicy
 - name: Other Status Codes
   description: Error response describing why the operation failed.
-requestHeader: []
-definitions:
-- name: snapshotPolicy
-  description: Snapshot policy information
-  kind: object
-  properties:
+requestBody:
+- name: default
+  parameters:
   - name: location
+    in: body
+    isRequired: true
     description: Resource location
     types:
     - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
   - name: tags
+    in: body
     description: Resource tags
     types:
     - uid: object
@@ -84,29 +73,32 @@ definitions:
       - uid: string
       - uid: string
   - name: properties.hourlySchedule
+    in: body
     description: "hourlySchedule  \nSchedule for hourly snapshots"
     types:
     - uid: hourlySchedule
-      isArray: true
   - name: properties.dailySchedule
+    in: body
     description: "dailySchedule  \nSchedule for daily snapshots"
     types:
     - uid: dailySchedule
-      isArray: true
   - name: properties.weeklySchedule
+    in: body
     description: "weeklySchedule  \nSchedule for weekly snapshots"
     types:
     - uid: weeklySchedule
-      isArray: true
   - name: properties.monthlySchedule
+    in: body
     description: "monthlySchedule  \nSchedule for monthly snapshots"
     types:
     - uid: monthlySchedule
-      isArray: true
   - name: properties.enabled
+    in: body
     description: The property to decide policy is enabled or not
     types:
     - uid: boolean
+requestHeader: []
+definitions:
 - name: hourlySchedule
   description: Hourly Schedule properties
   kind: object
@@ -191,45 +183,165 @@ definitions:
     description: Resource size in bytes, current storage usage for the volume in bytes
     types:
     - uid: integer
+- name: snapshotPolicy
+  description: Snapshot policy information
+  kind: object
+  properties:
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.name
+    isReadyOnly: true
+    description: Snapshot policy name
+    types:
+    - uid: string
+  - name: properties.hourlySchedule
+    description: "hourlySchedule  \nSchedule for hourly snapshots"
+    types:
+    - uid: hourlySchedule
+  - name: properties.dailySchedule
+    description: "dailySchedule  \nSchedule for daily snapshots"
+    types:
+    - uid: dailySchedule
+  - name: properties.weeklySchedule
+    description: "weeklySchedule  \nSchedule for weekly snapshots"
+    types:
+    - uid: weeklySchedule
+  - name: properties.monthlySchedule
+    description: "monthlySchedule  \nSchedule for monthly snapshots"
+    types:
+    - uid: monthlySchedule
+  - name: properties.enabled
+    description: The property to decide policy is enabled or not
+    types:
+    - uid: boolean
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Azure lifecycle management
+    types:
+    - uid: string
 examples:
-- name: SnapshotPolicies_Get
+- name: SnapshotPolicies_Create
   request:
-    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/snapshotPolicies/snapshotPolicyName?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/snapshotPolicies/snapshotPolicyName?api-version=2020-06-01
+    body: >-
+      {
+        "location": "eastus",
+        "properties": {
+          "hourlySchedule": {
+            "snapshotsToKeep": 2,
+            "minute": 50
+          },
+          "dailySchedule": {
+            "snapshotsToKeep": 4,
+            "hour": 14,
+            "minute": 30
+          },
+          "weeklySchedule": {
+            "snapshotsToKeep": 3,
+            "day": "Wednesday",
+            "hour": 14,
+            "minute": 45
+          },
+          "monthlySchedule": {
+            "snapshotsToKeep": 5,
+            "daysOfMonth": "10,11,12",
+            "hour": 14,
+            "minute": 15
+          }
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
+        "location": "eastus",
         "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/snapshotPolicies/snapshotPolicy1",
         "name": "account1/snapshotPolicy1",
         "type": "Microsoft.NetApp/netAppAccounts/snapshotPolicies",
-        "location": "eastus",
         "properties": {
+          "name": "sdk-net-tests-snapshotPolicy-1",
+          "enabled": true,
           "hourlySchedule": {
-            "snapshotsToKeep": 10,
-            "minute": 10,
-            "usedBytes": 100000
+            "snapshotsToKeep": 2,
+            "minute": 50
           },
           "dailySchedule": {
-            "snapshotsToKeep": 10,
-            "hour": 10,
-            "minute": 10,
-            "usedBytes": 100000
+            "snapshotsToKeep": 4,
+            "hour": 14,
+            "minute": 30
           },
           "weeklySchedule": {
-            "snapshotsToKeep": 10,
-            "day": "Monday",
-            "hour": 10,
-            "minute": 10,
-            "usedBytes": 100000
+            "snapshotsToKeep": 3,
+            "day": "Wednesday",
+            "hour": 14,
+            "minute": 45
           },
           "monthlySchedule": {
-            "snapshotsToKeep": 10,
-            "DaysOfMonth": "1,5,11",
-            "hour": 10,
-            "minute": 10,
-            "usedBytes": 100000
+            "snapshotsToKeep": 5,
+            "daysOfMonth": "10,11,12",
+            "hour": 14,
+            "minute": 15
           },
-          "enabled": true
+          "provisioningState": "Succeeded"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "location": "eastus",
+        "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/snapshotPolicies/snapshotPolicy1",
+        "name": "account1/snapshotPolicy1",
+        "type": "Microsoft.NetApp/netAppAccounts/snapshotPolicies",
+        "properties": {
+          "name": "sdk-net-tests-snapshotPolicy-1",
+          "enabled": true,
+          "hourlySchedule": {
+            "snapshotsToKeep": 2,
+            "minute": 50
+          },
+          "dailySchedule": {
+            "snapshotsToKeep": 4,
+            "hour": 14,
+            "minute": 30
+          },
+          "weeklySchedule": {
+            "snapshotsToKeep": 3,
+            "day": "Wednesday",
+            "hour": 14,
+            "minute": 45
+          },
+          "monthlySchedule": {
+            "snapshotsToKeep": 5,
+            "daysOfMonth": "10,11,12",
+            "hour": 14,
+            "minute": 15
+          },
+          "provisioningState": "Succeeded"
         }
       }
 security:
