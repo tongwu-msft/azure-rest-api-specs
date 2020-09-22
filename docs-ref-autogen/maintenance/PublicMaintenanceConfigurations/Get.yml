@@ -1,20 +1,26 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.maintenance.maintenanceconfigurations.list
-name: List
+uid: management.azure.com.maintenance.publicmaintenanceconfigurations.get
+name: Get
 service: Maintenance
-groupName: Maintenance Configurations
+groupName: Public Maintenance Configurations
 apiVersion: 2020-07-01-preview
-summary: Get Configuration records within a subscription
+summary: Get Public Maintenance Configuration record
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/maintenanceConfigurations?api-version=2020-07-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/{resourceName}?api-version=2020-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: Resource Identifier
   types:
   - uid: string
 - name: api-version
@@ -27,30 +33,13 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: ListMaintenanceConfigurationsResult
+  - uid: MaintenanceConfiguration
 - name: Other Status Codes
   description: BadRequest
   types:
   - uid: MaintenanceError
 requestHeader: []
 definitions:
-- name: ListMaintenanceConfigurationsResult
-  description: Response for MaintenanceConfigurations list
-  kind: object
-  properties:
-  - name: value
-    description: The list of maintenance Configurations
-    types:
-    - uid: MaintenanceConfiguration
-      isArray: true
-- name: MaintenanceError
-  description: An error response received from the Azure Maintenance service.
-  kind: object
-  properties:
-  - name: error
-    description: Details of the error
-    types:
-    - uid: ErrorDetails
 - name: MaintenanceConfiguration
   description: Maintenance configuration record type
   kind: object
@@ -122,18 +111,14 @@ definitions:
     description: Type of the resource
     types:
     - uid: string
-- name: ErrorDetails
-  description: An error response details received from the Azure Maintenance service.
+- name: MaintenanceError
+  description: An error response received from the Azure Maintenance service.
   kind: object
   properties:
-  - name: code
-    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+  - name: error
+    description: Details of the error
     types:
-    - uid: string
-  - name: message
-    description: Human-readable representation of the error.
-    types:
-    - uid: string
+    - uid: ErrorDetails
 - name: MaintenanceScope
   description: Gets or sets maintenanceScope of the configuration
   kind: enum
@@ -175,33 +160,41 @@ definitions:
   - name: Public
     types:
     - uid: string
+- name: ErrorDetails
+  description: An error response details received from the Azure Maintenance service.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
 examples:
-- name: MaintenanceConfigurations_List
+- name: PublicMaintenanceConfigurations_GetForResource
   request:
-    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.Maintenance/maintenanceConfigurations?api-version=2020-07-01-preview
+    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/configuration1?api-version=2020-07-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourcegroups/examplerg/providers/Microsoft.Maintenance/maintenanceConfigurations/configuration1",
-            "name": "configuration1",
-            "location": "westus2",
-            "properties": {
-              "namespace": "Microsoft.Maintenance",
-              "maintenanceScope": "OSImage",
-              "visibility": "Custom",
-              "maintenanceWindow": {
-                "startDateTime": "2020-04-30 08:00",
-                "expirationDateTime": "9999-12-31 00:00",
-                "duration": "05:00",
-                "timeZone": "Pacific Standard Time",
-                "recurEvery": "Week Saturday,Sunday"
-              }
-            }
+        "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/configuration1",
+        "name": "configuration1",
+        "location": "westus2",
+        "properties": {
+          "namespace": "Microsoft.Maintenance",
+          "maintenanceScope": "SQLDB",
+          "visibility": "Public",
+          "maintenanceWindow": {
+            "startDateTime": "2020-04-30 08:00",
+            "expirationDateTime": "9999-12-31 00:00",
+            "duration": "05:00",
+            "timeZone": "Pacific Standard Time",
+            "recurEvery": "2Weeks"
           }
-        ]
+        }
       }
 security: []
 errorCodes: []

@@ -4481,6 +4481,14 @@
 #### [Overview](cost-management/Dimensions.yml)
 #### [By External Cloud Provider Type](cost-management/Dimensions/ByExternalCloudProviderType.yml)
 #### [List](cost-management/Dimensions/List.yml)
+### Exports
+#### [Overview](cost-management/Exports.yml)
+#### [Create Or Update](cost-management/Exports/CreateOrUpdate.yml)
+#### [Delete](cost-management/Exports/Delete.yml)
+#### [Execute](cost-management/Exports/Execute.yml)
+#### [Get](cost-management/Exports/Get.yml)
+#### [Get Execution History](cost-management/Exports/GetExecutionHistory.yml)
+#### [List](cost-management/Exports/List.yml)
 ### Forecast
 #### [Overview](cost-management/Forecast.yml)
 #### [External Cloud Provider Usage](cost-management/Forecast/ExternalCloudProviderUsage.yml)
@@ -7092,6 +7100,10 @@
 ## Operations
 ### [Overview](maintenance/Operations.yml)
 ### [List](maintenance/Operations/List.yml)
+## Public Maintenance Configurations
+### [Overview](maintenance/PublicMaintenanceConfigurations.yml)
+### [Get](maintenance/PublicMaintenanceConfigurations/Get.yml)
+### [List](maintenance/PublicMaintenanceConfigurations/List.yml)
 ## Updates
 ### [Overview](maintenance/Updates.yml)
 ### [List](maintenance/Updates/List.yml)
@@ -8810,6 +8822,9 @@
 ## List Operations
 ### [Overview](resources/ListOperations.yml)
 ### [List Operations](resources/ListOperations/ListOperations.yml)
+## List Operations (managed applications)
+### [Overview](resources/List%20Operations%20(managed%20applications).yml)
+### [List Operations](resources/List%20Operations%20(managed%20applications)/ListOperations.yml)
 ## Management Group Subscriptions
 ### [Overview](resources/ManagementGroupSubscriptions.yml)
 ### [Create](resources/ManagementGroupSubscriptions/Create.yml)
