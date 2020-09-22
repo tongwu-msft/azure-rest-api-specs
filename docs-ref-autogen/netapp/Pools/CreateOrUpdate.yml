@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.pools.createorupdate
 name: Create Or Update
 service: Azure NetApp Files
 groupName: Pools
-apiVersion: 2020-02-01
+apiVersion: 2020-06-01
 summary: "Create or Update the specified capacity pool within the resource group  \nCreate or Update a capacity pool"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}?api-version=2020-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -86,7 +86,12 @@ requestBody:
     isRequired: true
     description: "serviceLevel  \nThe service level of the file system"
     types:
-    - uid: PoolServiceLevel
+    - uid: ServiceLevel
+  - name: properties.qosType
+    in: body
+    description: "qosType  \nThe qos type of the pool"
+    types:
+    - uid: qosType
 requestHeader: []
 definitions:
 - name: capacityPool
@@ -132,13 +137,27 @@ definitions:
   - name: properties.serviceLevel
     description: "serviceLevel  \nThe service level of the file system"
     types:
-    - uid: PoolServiceLevel
+    - uid: ServiceLevel
   - name: properties.provisioningState
     isReadyOnly: true
     description: Azure lifecycle management
     types:
     - uid: string
-- name: PoolServiceLevel
+  - name: properties.totalThroughputMibps
+    isReadyOnly: true
+    description: Total throughput of pool in Mibps
+    types:
+    - uid: number
+  - name: properties.utilizedThroughputMibps
+    isReadyOnly: true
+    description: Utilized throughput of pool in Mibps
+    types:
+    - uid: number
+  - name: properties.qosType
+    description: "qosType  \nThe qos type of the pool"
+    types:
+    - uid: qosType
+- name: ServiceLevel
   description: serviceLevel
   kind: enum
   properties:
@@ -154,16 +173,29 @@ definitions:
     description: Ultra service level
     types:
     - uid: string
+- name: qosType
+  description: qosType
+  kind: enum
+  properties:
+  - name: Auto
+    description: qos type Auto
+    types:
+    - uid: string
+  - name: Manual
+    description: qos type Manual
+    types:
+    - uid: string
 examples:
 - name: Pools_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1?api-version=2020-02-01
+    uri: PUT https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1?api-version=2020-06-01
     body: >-
       {
         "location": "eastus",
         "properties": {
           "size": 4398046511104,
-          "serviceLevel": "Premium"
+          "serviceLevel": "Premium",
+          "qosType": "Auto"
         }
       }
   responses:
@@ -178,7 +210,9 @@ examples:
           "provisioningState": "Succeeded",
           "poolId": "9760acf5-4638-11e7-9bdb-020073ca7778",
           "serviceLevel": "Premium",
-          "size": 4398046511104
+          "size": 4398046511104,
+          "qosType": "Auto",
+          "totalThroughputMibps": 281.474
         }
       }
   - statusCode: "201"
@@ -192,7 +226,9 @@ examples:
           "provisioningState": "Succeeded",
           "poolId": "9760acf5-4638-11e7-9bdb-020073ca7778",
           "serviceLevel": "Premium",
-          "size": 4398046511104
+          "size": 4398046511104,
+          "qosType": "Auto",
+          "totalThroughputMibps": 281.474
         }
       }
   - statusCode: "202"

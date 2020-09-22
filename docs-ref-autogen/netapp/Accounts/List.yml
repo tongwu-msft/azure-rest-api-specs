@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.accounts.list
 name: List
 service: Azure NetApp Files
 groupName: Accounts
-apiVersion: 2020-02-01
+apiVersion: 2020-06-01
 summary: "Describe all NetApp Accounts in a resource group  \nList and describe all NetApp accounts in the resource group."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts?api-version=2020-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -103,7 +103,7 @@ definitions:
     types:
     - uid: string
   - name: password
-    description: Plain text password of Active Directory domain administrator
+    description: Plain text password of Active Directory domain administrator, value is masked in the response
     types:
     - uid: string
   - name: domain
@@ -115,7 +115,13 @@ definitions:
     types:
     - uid: string
   - name: status
+    isReadyOnly: true
     description: Status of the Active Directory
+    types:
+    - uid: ActiveDirectoryStatus
+  - name: statusDetails
+    isReadyOnly: true
+    description: Any details in regards to the Status of the Active Directory
     types:
     - uid: string
   - name: smbServerName
@@ -135,10 +141,46 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: kdcIP
+    description: kdc server IP addresses for the active directory machine. This optional parameter is used only while creating kerberos volume.
+    types:
+    - uid: string
+  - name: adName
+    description: Name of the active directory machine. This optional parameter is used only while creating kerberos volume
+    types:
+    - uid: string
+  - name: serverRootCACertificate
+    description: When LDAP over SSL/TLS is enabled, the LDAP client is required to have base64 encoded Active Directory Certificate Service's self-signed root CA certificate, this optional parameter is used only for dual protocol with LDAP user-mapping volumes.
+    types:
+    - uid: string
+- name: ActiveDirectoryStatus
+  description: Status of the Active Directory
+  kind: enum
+  properties:
+  - name: Created
+    description: Active Directory created but not in use
+    types:
+    - uid: string
+  - name: Updating
+    description: Active Directory Updating
+    types:
+    - uid: string
+  - name: InUse
+    description: Active Directory in use by SMB Volume
+    types:
+    - uid: string
+  - name: Deleted
+    description: Active Directory Deleted
+    types:
+    - uid: string
+  - name: Error
+    description: Error with the Active Directory
+    types:
+    - uid: string
 examples:
 - name: Accounts_List
   request:
-    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts?api-version=2020-02-01
+    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts?api-version=2020-06-01
   responses:
   - statusCode: "200"
     body: >-

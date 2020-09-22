@@ -3,14 +3,14 @@ uid: management.azure.com.guestconfiguration.guestconfigurationassignmentreports
 name: List
 service: Guest Configuration
 groupName: Guest Configuration Assignment Reports
-apiVersion: 2018-06-30-preview
+apiVersion: 2020-06-25
 summary: List all reports for the guest configuration assignment, latest report first.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports?api-version=2018-06-30-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports?api-version=2020-06-25
 uriParameters:
 - name: subscriptionId
   in: path
@@ -106,7 +106,7 @@ definitions:
   properties:
   - name: complianceStatus
     isReadyOnly: true
-    description: A value indicating compliance status of the virtual machine for the assigned guest configuration.
+    description: A value indicating compliance status of the machine for the assigned guest configuration.
     types:
     - uid: complianceStatus
   - name: reportId
@@ -137,7 +137,7 @@ definitions:
     types:
     - uid: AssignmentReportDetails
 - name: complianceStatus
-  description: A value indicating compliance status of the virtual machine for the assigned guest configuration.
+  description: A value indicating compliance status of the machine for the assigned guest configuration.
   kind: enum
   properties:
   - name: Compliant
@@ -182,7 +182,7 @@ definitions:
   properties:
   - name: complianceStatus
     isReadyOnly: true
-    description: A value indicating compliance status of the virtual machine for the assigned guest configuration.
+    description: A value indicating compliance status of the machine for the assigned guest configuration.
     types:
     - uid: complianceStatus
   - name: startTime
@@ -219,6 +219,11 @@ definitions:
     description: Name of the configuration.
     types:
     - uid: string
+  - name: version
+    isReadyOnly: true
+    description: Version of the configuration.
+    types:
+    - uid: string
 - name: type
   description: Type of report, Consistency or Initial
   kind: enum
@@ -235,9 +240,14 @@ definitions:
   properties:
   - name: complianceStatus
     isReadyOnly: true
-    description: A value indicating compliance status of the virtual machine for the assigned guest configuration.
+    description: A value indicating compliance status of the machine for the assigned guest configuration.
     types:
     - uid: complianceStatus
+  - name: resourceId
+    isReadyOnly: true
+    description: Name of the guest configuration assignment resource setting.
+    types:
+    - uid: string
   - name: reasons
     description: Compliance reason and reason code for a resource.
     types:
@@ -265,7 +275,7 @@ definitions:
 examples:
 - name: List all guest configuration assignments for a virtual machine
   request:
-    uri: GET https://management.azure.com/subscriptions/mySubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myVMName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports?api-version=2018-06-30-preview
+    uri: GET https://management.azure.com/subscriptions/mySubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myVMName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/AuditSecureProtocol/reports?api-version=2020-06-25
   responses:
   - statusCode: "200"
     body: >-
@@ -287,65 +297,7 @@ examples:
                 "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm",
                 "uuid": "vmuuid"
               },
-              "details": {
-                "complianceStatus": "Compliant",
-                "startTime": "2018-08-29T22:13:53Z",
-                "endTime": "2018-08-29T22:14:13Z",
-                "jobId": "7367cbb8-ae99-47d0-a33b-a283564d2cb1",
-                "resources": [
-                  {
-                    "complianceStatus": "Compliant",
-                    "reasons": [
-                      {
-                        "phrase": "Operation successful.",
-                        "code": "DSC::RESOURCE::SUCCESS"
-                      }
-                    ],
-                    "properties": {
-                      "ConfigurationName": "IsWebServerSecure",
-                      "DependsOn": null,
-                      "IsSingleInstance": "Yes",
-                      "ModuleName": "SecureProtocolWebServer",
-                      "ModuleVersion": "1.0.0.3",
-                      "Protocols": [
-                        {
-                          "Ensure": "Absent",
-                          "Protocol": "SSL 2.0"
-                        },
-                        {
-                          "Ensure": "Absent",
-                          "Protocol": "SSL 3.0"
-                        },
-                        {
-                          "Ensure": "Absent",
-                          "Protocol": "TLS 1.0"
-                        },
-                        {
-                          "Ensure": "Absent",
-                          "Protocol": "PCT 1.0"
-                        },
-                        {
-                          "Ensure": "Absent",
-                          "Protocol": "Multi-Protocol Unified Hello"
-                        },
-                        {
-                          "Ensure": "Absent",
-                          "Protocol": "TLS 1.1"
-                        },
-                        {
-                          "Ensure": "Absent",
-                          "Protocol": "TLS 1.2"
-                        }
-                      ],
-                      "PsDscRunAsCredential": null,
-                      "Reasons": null,
-                      "ResourceId": "[SecureWebServer]s1",
-                      "SourceInfo": null
-                    }
-                  }
-                ],
-                "operationType": "Consistency"
-              },
+              "details": null,
               "startTime": "2018-08-29T22:13:53Z",
               "endTime": "2018-08-29T22:14:13Z"
             }
@@ -366,67 +318,9 @@ examples:
                 "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm",
                 "uuid": "vmuuid"
               },
-              "details": {
-                "complianceStatus": "Compliant",
-                "startTime": "2018-08-29T21:58:54Z",
-                "endTime": "2018-08-29T21:59:13Z",
-                "jobId": "41ee2caf-48f9-4999-a793-82ec7c6beb2c",
-                "resources": [
-                  {
-                    "complianceStatus": "Compliant",
-                    "reasons": [
-                      {
-                        "phrase": "Operation successful.",
-                        "code": "DSC::RESOURCE::SUCCESS"
-                      }
-                    ],
-                    "properties": {
-                      "ConfigurationName": "IsWebServerSecure",
-                      "DependsOn": null,
-                      "IsSingleInstance": "Yes",
-                      "ModuleName": "SecureProtocolWebServer",
-                      "ModuleVersion": "1.0.0.3",
-                      "Protocols": [
-                        {
-                          "Ensure": "Absent",
-                          "Protocol": "SSL 2.0"
-                        },
-                        {
-                          "Ensure": "Absent",
-                          "Protocol": "SSL 3.0"
-                        },
-                        {
-                          "Ensure": "Absent",
-                          "Protocol": "TLS 1.0"
-                        },
-                        {
-                          "Ensure": "Absent",
-                          "Protocol": "PCT 1.0"
-                        },
-                        {
-                          "Ensure": "Absent",
-                          "Protocol": "Multi-Protocol Unified Hello"
-                        },
-                        {
-                          "Ensure": "Absent",
-                          "Protocol": "TLS 1.1"
-                        },
-                        {
-                          "Ensure": "Absent",
-                          "Protocol": "TLS 1.2"
-                        }
-                      ],
-                      "PsDscRunAsCredential": null,
-                      "Reasons": null,
-                      "ResourceId": "[SecureWebServer]s1",
-                      "SourceInfo": null
-                    }
-                  }
-                ],
-                "operationType": "Consistency"
-              },
-              "startTime": "2018-08-29T21:58:54Z",
-              "endTime": "2018-08-29T21:59:13Z"
+              "details": null,
+              "startTime": "2018-08-29T20:13:53Z",
+              "endTime": "2018-08-29T20:14:13Z"
             }
           }
         ]

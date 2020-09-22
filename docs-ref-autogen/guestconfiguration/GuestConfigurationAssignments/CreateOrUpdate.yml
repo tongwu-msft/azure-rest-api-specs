@@ -3,14 +3,14 @@ uid: management.azure.com.guestconfiguration.guestconfigurationassignments.creat
 name: Create Or Update
 service: Guest Configuration
 groupName: Guest Configuration Assignments
-apiVersion: 2018-06-30-preview
+apiVersion: 2020-06-25
 summary: Creates an association between a VM and guest configuration
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}?api-version=2018-06-30-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}?api-version=2020-06-25
 uriParameters:
 - name: subscriptionId
   in: path
@@ -80,13 +80,18 @@ definitions:
   description: Guest configuration assignment properties.
   kind: object
   properties:
+  - name: targetResourceId
+    isReadyOnly: true
+    description: VM resource Id.
+    types:
+    - uid: string
   - name: guestConfiguration
     description: The guest configuration to assign.
     types:
     - uid: GuestConfigurationNavigation
   - name: complianceStatus
     isReadyOnly: true
-    description: A value indicating compliance status of the virtual machine for the assigned guest configuration.
+    description: A value indicating compliance status of the machine for the assigned guest configuration.
     types:
     - uid: complianceStatus
   - name: lastComplianceStatusChecked
@@ -99,6 +104,10 @@ definitions:
     description: 'Id of the latest report for the guest configuration assignment. '
     types:
     - uid: string
+  - name: latestAssignmentReport
+    description: Last reported guest configuration assignment report.
+    types:
+    - uid: AssignmentReport
   - name: context
     description: 'The source which initiated the guest configuration assignment. Ex: Azure Policy'
     types:
@@ -114,7 +123,7 @@ definitions:
     types:
     - uid: provisioningState
 - name: GuestConfigurationAssignment
-  description: Guest configuration assignment is an association between a VM and guest configuration.
+  description: Guest configuration assignment is an association between a machine and guest configuration.
   kind: object
   properties:
   - name: properties
@@ -183,7 +192,7 @@ definitions:
     types:
     - uid: ConfigurationSetting
 - name: complianceStatus
-  description: A value indicating compliance status of the virtual machine for the assigned guest configuration.
+  description: A value indicating compliance status of the machine for the assigned guest configuration.
   kind: enum
   properties:
   - name: Compliant
@@ -195,6 +204,52 @@ definitions:
   - name: Pending
     types:
     - uid: string
+- name: AssignmentReport
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: ARM resource id of the report for the guest configuration assignment.
+    types:
+    - uid: string
+  - name: reportId
+    isReadyOnly: true
+    description: GUID that identifies the guest configuration assignment report under a subscription, resource group.
+    types:
+    - uid: string
+  - name: assignment
+    description: Configuration details of the guest configuration assignment.
+    types:
+    - uid: AssignmentInfo
+  - name: vm
+    description: Information about the VM.
+    types:
+    - uid: VMInfo
+  - name: startTime
+    isReadyOnly: true
+    description: Start date and time of the guest configuration assignment compliance status check.
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: End date and time of the guest configuration assignment compliance status check.
+    types:
+    - uid: string
+  - name: complianceStatus
+    isReadyOnly: true
+    description: A value indicating compliance status of the machine for the assigned guest configuration.
+    types:
+    - uid: complianceStatus
+  - name: operationType
+    isReadyOnly: true
+    description: Type of report, Consistency or Initial
+    types:
+    - uid: type
+  - name: resources
+    description: The list of resources for which guest configuration assignment compliance is checked.
+    types:
+    - uid: AssignmentReportResource
+      isArray: true
 - name: provisioningState
   description: The provisioning state, which only appears in the response.
   kind: enum
@@ -234,12 +289,10 @@ definitions:
   kind: object
   properties:
   - name: name
-    isReadyOnly: true
     description: Name of the configuration parameter.
     types:
     - uid: string
   - name: value
-    isReadyOnly: true
     description: Value of the configuration parameter.
     types:
     - uid: string
@@ -248,7 +301,6 @@ definitions:
   kind: object
   properties:
   - name: configurationMode
-    isReadyOnly: true
     description: Specifies how the LCM(Local Configuration Manager) actually applies the configuration to the target nodes. Possible values are ApplyOnly, ApplyAndMonitor, and ApplyAndAutoCorrect.
     types:
     - uid: configurationMode
@@ -257,25 +309,82 @@ definitions:
     types:
     - uid: allowModuleOverwrite
   - name: actionAfterReboot
-    isReadyOnly: true
     description: Specifies what happens after a reboot during the application of a configuration. The possible values are ContinueConfiguration and StopConfiguration
     types:
     - uid: actionAfterReboot
   - name: refreshFrequencyMins
-    isReadyOnly: true
     description: The time interval, in minutes, at which the LCM checks a pull service to get updated configurations. This value is ignored if the LCM is not configured in pull mode. The default value is 30.
     types:
     - uid: number
   - name: rebootIfNeeded
-    isReadyOnly: true
     description: Set this to true to automatically reboot the node after a configuration that requires reboot is applied. Otherwise, you will have to manually reboot the node for any configuration that requires it. The default value is false. To use this setting when a reboot condition is enacted by something other than DSC (such as Windows Installer), combine this setting with the xPendingReboot module.
     types:
     - uid: rebootIfNeeded
   - name: configurationModeFrequencyMins
-    isReadyOnly: true
     description: How often, in minutes, the current configuration is checked and applied. This property is ignored if the ConfigurationMode property is set to ApplyOnly. The default value is 15.
     types:
     - uid: number
+- name: AssignmentInfo
+  description: Information about the guest configuration assignment.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the guest configuration assignment.
+    types:
+    - uid: string
+  - name: configuration
+    description: Information about the configuration.
+    types:
+    - uid: ConfigurationInfo
+- name: VMInfo
+  description: Information about the VM.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id of the VM.
+    types:
+    - uid: string
+  - name: uuid
+    isReadyOnly: true
+    description: UUID(Universally Unique Identifier) of the VM.
+    types:
+    - uid: string
+- name: type
+  description: Type of report, Consistency or Initial
+  kind: enum
+  properties:
+  - name: Consistency
+    types:
+    - uid: string
+  - name: Initial
+    types:
+    - uid: string
+- name: AssignmentReportResource
+  description: The guest configuration assignment resource.
+  kind: object
+  properties:
+  - name: complianceStatus
+    isReadyOnly: true
+    description: A value indicating compliance status of the machine for the assigned guest configuration.
+    types:
+    - uid: complianceStatus
+  - name: resourceId
+    isReadyOnly: true
+    description: Name of the guest configuration assignment resource setting.
+    types:
+    - uid: string
+  - name: reasons
+    description: Compliance reason and reason code for a resource.
+    types:
+    - uid: AssignmentReportResourceComplianceReason
+      isArray: true
+  - name: properties
+    isReadyOnly: true
+    description: Properties of a guest configuration assignment resource.
+    types:
+    - uid: object
 - name: configurationMode
   description: Specifies how the LCM(Local Configuration Manager) actually applies the configuration to the target nodes. Possible values are ApplyOnly, ApplyAndMonitor, and ApplyAndAutoCorrect.
   kind: enum
@@ -319,19 +428,59 @@ definitions:
   - name: "False"
     types:
     - uid: string
+- name: ConfigurationInfo
+  description: Information about the configuration.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the configuration.
+    types:
+    - uid: string
+  - name: version
+    isReadyOnly: true
+    description: Version of the configuration.
+    types:
+    - uid: string
+- name: AssignmentReportResourceComplianceReason
+  description: Reason and code for the compliance of the guest configuration assignment resource.
+  kind: object
+  properties:
+  - name: phrase
+    isReadyOnly: true
+    description: Reason for the compliance of the guest configuration assignment resource.
+    types:
+    - uid: string
+  - name: code
+    isReadyOnly: true
+    description: Code for the compliance of the guest configuration assignment resource.
+    types:
+    - uid: string
 examples:
 - name: Create or update guest configuration assignment
   request:
-    uri: PUT https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myVMName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/SecureProtocol?api-version=2018-06-30-preview
+    uri: PUT https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myVMName/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/WhitelistedApplication?api-version=2020-06-25
     body: >-
       {
         "location": "westcentralus",
-        "name": "multiconfigassignment2",
+        "name": "WhitelistedApplication",
         "properties": {
           "context": "Azure policy",
           "guestConfiguration": {
-            "name": "AuditSecureProtocol",
-            "version": "1.0.0.3"
+            "name": "WhitelistedApplication",
+            "version": "1.*",
+            "configurationParameter": [
+              {
+                "name": "[InstalledApplication]bwhitelistedapp;Name",
+                "value": "NotePad,sql"
+              }
+            ],
+            "configurationSetting": {
+              "rebootIfNeeded": "False",
+              "actionAfterReboot": "ContinueConfiguration",
+              "configurationModeFrequencyMins": 15,
+              "configurationMode": "MonitorOnly"
+            }
           }
         }
       }
@@ -340,22 +489,32 @@ examples:
     body: >-
       {
         "location": "westcentralus",
-        "id": null,
-        "name": "multiconfigassignment2",
+        "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/WhitelistedApplication",
+        "name": "WhitelistedApplication",
         "properties": {
           "complianceStatus": "Pending",
           "assignmentHash": null,
           "latestReportId": null,
           "lastComplianceStatusChecked": null,
-          "context": "Azure policy A",
+          "context": "Azure policy",
           "guestConfiguration": {
             "kind": null,
-            "name": "AuditSecureProtocol",
+            "name": "WhitelistedApplication",
             "version": "1.0.0.3",
             "contentUri": null,
             "contentHash": null,
-            "configurationParameter": null,
-            "configurationSetting": null
+            "configurationParameter": [
+              {
+                "name": "[InstalledApplication]bwhitelistedapp;Name",
+                "value": "NotePad,sql"
+              }
+            ],
+            "configurationSetting": {
+              "rebootIfNeeded": "False",
+              "actionAfterReboot": "ContinueConfiguration",
+              "configurationModeFrequencyMins": 15,
+              "configurationMode": "MonitorOnly"
+            }
           },
           "provisioningState": "Succeeded"
         }
@@ -364,22 +523,32 @@ examples:
     body: >-
       {
         "location": "westcentralus",
-        "id": null,
-        "name": "multiconfigassignment2",
+        "id": "/subscriptions/mysubscriptionid/resourceGroups/myResourceGroupName/providers/Microsoft.Compute/virtualMachines/myvm/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/WhitelistedApplication",
+        "name": "WhitelistedApplication",
         "properties": {
           "complianceStatus": "Pending",
           "assignmentHash": null,
           "latestReportId": null,
           "lastComplianceStatusChecked": null,
-          "context": "Azure policy A",
+          "context": "Azure policy",
           "guestConfiguration": {
             "kind": null,
-            "name": "AuditSecureProtocol",
+            "name": "WhitelistedApplication",
             "version": "1.0.0.3",
             "contentUri": null,
             "contentHash": null,
-            "configurationParameter": null,
-            "configurationSetting": null
+            "configurationParameter": [
+              {
+                "name": "[InstalledApplication]bwhitelistedapp;Name",
+                "value": "NotePad,sql"
+              }
+            ],
+            "configurationSetting": {
+              "rebootIfNeeded": "False",
+              "actionAfterReboot": "ContinueConfiguration",
+              "configurationModeFrequencyMins": 15,
+              "configurationMode": "MonitorOnly"
+            }
           },
           "provisioningState": "Succeeded"
         }
