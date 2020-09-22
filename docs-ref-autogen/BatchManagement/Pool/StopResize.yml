@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.pool.stopresize
 name: Stop Resize
 service: Batch Management
 groupName: Pool
-apiVersion: 2020-05-01
+apiVersion: 2020-09-01
 summary: "Stops an ongoing resize operation on the pool.  \nThis does not restore the pool to its previous state before the resize operation: it only stops any further changes being made, and the pool maintains its current state. After stopping, the pool stabilizes at the number of nodes it was at when the stop operation was done. During the stop operation, the pool allocation state changes first to stopping and then to steady. A resize operation need not be an explicit resize pool request; this API can also be used to halt the initial sizing of the pool when it is created."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}/stopResize?api-version=2020-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}/stopResize?api-version=2020-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -131,8 +131,8 @@ definitions:
     description: "The network configuration for the pool.  \nThe network configuration for a pool."
     types:
     - uid: NetworkConfiguration
-  - name: properties.maxTasksPerNode
-    description: "The maximum number of tasks that can run concurrently on a single compute node in the pool.  \nThe default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256."
+  - name: properties.taskSlotsPerNode
+    description: "The number of task slots that can be used to run concurrent tasks on a single compute node in the pool.  \nThe default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256."
     types:
     - uid: integer
   - name: properties.taskSchedulingPolicy
@@ -582,7 +582,7 @@ definitions:
   kind: object
   properties:
   - name: inboundNatPools
-    description: "A list of inbound NAT pools that can be used to address specific ports on an individual compute node externally.  \nThe maximum number of inbound NAT pools per Batch pool is 5. If the maximum number of inbound NAT pools is exceeded the request fails with HTTP status code 400."
+    description: "A list of inbound NAT pools that can be used to address specific ports on an individual compute node externally.  \nThe maximum number of inbound NAT pools per Batch pool is 5. If the maximum number of inbound NAT pools is exceeded the request fails with HTTP status code 400. This cannot be specified if the IPAddressProvisioningType is NoPublicIPAddresses."
     types:
     - uid: InboundNatPool
       isArray: true
@@ -595,7 +595,7 @@ definitions:
     types:
     - uid: IPAddressProvisioningType
   - name: ipAddressIds
-    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 50 dedicated nodes or 20 low-priority nodes can be allocated for each public IP. For example, a pool needing 150 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
+    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
     types:
     - uid: string
       isArray: true
@@ -608,7 +608,7 @@ definitions:
     types:
     - uid: string
   - name: Pack
-    description: As many tasks as possible (maxTasksPerNode) should be assigned to each node in the pool before any tasks are assigned to the next node in the pool.
+    description: As many tasks as possible (taskSlotsPerNode) should be assigned to each node in the pool before any tasks are assigned to the next node in the pool.
     types:
     - uid: string
 - name: ElevationLevel
@@ -897,7 +897,7 @@ definitions:
   kind: object
   properties:
   - name: lun
-    description: "The logical unit number.  \nThe lun is used to uniquely identify each data disk. If attaching multiple disks, each should have a distinct lun."
+    description: "The logical unit number.  \nThe lun is used to uniquely identify each data disk. If attaching multiple disks, each should have a distinct lun. The value must be between 0 and 63, inclusive."
     types:
     - uid: integer
   - name: caching
@@ -1132,7 +1132,7 @@ definitions:
 examples:
 - name: StopPoolResize
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/stopResize?api-version=2020-05-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/stopResize?api-version=2020-09-01
   responses:
   - statusCode: "200"
     headers:
@@ -1153,7 +1153,7 @@ examples:
           "allocationStateTransitionTime": "2017-08-28T10:22:55.9407275Z",
           "vmSize": "STANDARD_D4",
           "interNodeCommunication": "Disabled",
-          "maxTasksPerNode": 1,
+          "taskSlotsPerNode": 1,
           "taskSchedulingPolicy": {
             "nodeFillType": "Spread"
           },
