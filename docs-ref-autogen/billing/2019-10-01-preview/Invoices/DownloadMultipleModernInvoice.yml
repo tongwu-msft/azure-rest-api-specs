@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.billing.2019-10-01-preview.instructions.get
-name: Get
+uid: management.azure.com.billing.2019-10-01-preview.invoices.downloadmultiplemoderninvoice
+name: Download Multiple Modern Invoice
 service: Billing
-groupName: Instructions
+groupName: Invoices
 apiVersion: 2019-10-01-preview
-summary: Get the instruction by name. These are custom billing instructions and are only applicable for certain customers.
+summary: Gets a URL to download multiple invoices documents (invoice pdf, tax receipts, credit notes) as a zip file.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/instructions/{instructionName}?api-version=2019-10-01-preview
+- content: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/downloadDocuments?api-version=2019-10-01-preview
 uriParameters:
 - name: billingAccountName
   in: path
@@ -24,12 +24,6 @@ uriParameters:
   description: The ID that uniquely identifies a billing profile.
   types:
   - uid: string
-- name: instructionName
-  in: path
-  isRequired: true
-  description: Instruction Name.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -37,49 +31,44 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  - name: Retry-After
+    value: string
+  description: Accepted.
 - name: 200 OK
   description: OK. The request has succeeded.
   types:
-  - uid: Instruction
+  - uid: DownloadUrl
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: downloadUrls
+    in: body
+    description: An array of download urls for individual documents. The download url paths in the request body should match the path of the original request.
+    types:
+    - uid: string
+      isArray: true
 requestHeader: []
 definitions:
-- name: Instruction
-  description: An instruction.
+- name: DownloadUrl
+  description: A secure URL that can be used to download a an entity until the URL expires.
   kind: object
   properties:
-  - name: properties.amount
-    description: The amount budgeted for this billing instruction.
-    types:
-    - uid: number
-  - name: properties.startDate
-    description: The date this billing instruction goes into effect.
-    types:
-    - uid: string
-  - name: properties.endDate
-    description: The date this billing instruction is no longer in effect.
-    types:
-    - uid: string
-  - name: properties.creationDate
-    description: The date this billing instruction was created.
-    types:
-    - uid: string
-  - name: id
+  - name: expiryTime
     isReadyOnly: true
-    description: Resource Id.
+    description: The time in UTC when the download URL will expire.
     types:
     - uid: string
-  - name: name
+  - name: url
     isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
+    description: The URL to the PDF file.
     types:
     - uid: string
 - name: ErrorResponse
@@ -134,21 +123,26 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Instruction
+- name: ModernInvoiceDownload
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/instructions/{instructionName}?api-version=2019-10-01-preview
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/downloadDocuments?api-version=2019-10-01-preview
+    body: >-
+      [
+        "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}billingProfiles/{billingProfileName}/invoices/{invoiceName}/download?downloadToken={downloadToken}&useCache=True&api-version=2019-10-01-preview",
+        "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}billingProfiles/{billingProfileName}/invoices/{invoiceName}/download?downloadToken={downloadToken}&useCache=True&api-version=2019-10-01-preview",
+        "https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}billingProfiles/{billingProfileName}/invoices/{invoiceName}/download?downloadToken={downloadToken}&useCache=True&api-version=2019-10-01-preview"
+      ]
   responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}billingProfiles/{billingProfileName}/invoices/{invoiceName}/operationResults/invoiceDownload_{operationId}?api-version=2019-10-01-preview
+    - name: Retry-After
+      value: "10"
   - statusCode: "200"
     body: >-
       {
-        "id": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/instructions/{instructionName}",
-        "name": "{instructionName}",
-        "type": "Microsoft.Billing/billingAccounts/billingProfiles/instructions",
-        "properties": {
-          "amount": 5000,
-          "startDate": "2019-12-30T21:26:47.997Z",
-          "endDate": "2020-12-30T21:26:47.997Z"
-        }
+        "url": "https://myaccount.blob.core.windows.net/invoices/1383724.pdf?sv=2019-02-02&sr=b&sp=r"
       }
 security:
 - name: azure_auth
