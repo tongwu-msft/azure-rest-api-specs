@@ -28,6 +28,6 @@ The Blob service exposes the following resource types via the REST API:
  [Working with the Root Container](Working-with-the-Root-Container.md)   
  [Operations on Containers](Operations-on-Containers.md)   
  [Operations on Blobs](Operations-on-Blobs.md)   
- [Operations on Blobs Hierarchial Namespace](Operations-on-Blobs-Hierarchical-Namespace.md)  
+ [Operations on Blobs (Hierarchical Namespace enabled accounts)](Operations-on-Blobs-Hierarchical-Namespace.md)  
  [Blob Service Concepts](Blob-Service-Concepts.md)   
  [Blob Service REST API](Blob-Service-REST-API.md)

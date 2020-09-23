@@ -80,7 +80,7 @@ The REST API for the Blob service defines HTTP operations against the storage ac
   
  [Operations on Blobs](Operations-on-Blobs.md)  
 
- [Operations on Blobs Hierarchial Namespace](Operations-on-Blobs-Hierarchical-Namespace.md)  
+ [Operations on Blobs (Hierarchical Namespace enabled accounts)](Operations-on-Blobs-Hierarchical-Namespace.md)  
   
 ## See also
 
