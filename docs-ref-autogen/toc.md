@@ -36,6 +36,7 @@
 ### [Get Available Agent Pool Versions](aks/AgentPools/GetAvailableAgentPoolVersions.yml)
 ### [Get Upgrade Profile](aks/AgentPools/GetUpgradeProfile.yml)
 ### [List](aks/AgentPools/List.yml)
+### [Upgrade Node Image Version](aks/AgentPools/UpgradeNodeImageVersion.yml)
 ## Managed Clusters
 ### [Overview](aks/ManagedClusters.yml)
 ### [Create Or Update](aks/ManagedClusters/CreateOrUpdate.yml)
@@ -54,7 +55,6 @@
 ### [Start](aks/ManagedClusters/Start.yml)
 ### [Stop](aks/ManagedClusters/Stop.yml)
 ### [Update Tags](aks/ManagedClusters/UpdateTags.yml)
-### [Upgrade Node Image Version](aks/ManagedClusters/UpgradeNodeImageVersion.yml)
 ## Operations
 ### [Overview](aks/Operations.yml)
 ### [List](aks/Operations/List.yml)
@@ -2698,6 +2698,9 @@
 ##### [Update](billing/2019-10-01-preview/InvoiceSections/Update.yml)
 #### Invoices
 ##### [Overview](billing/2019-10-01-preview/Invoices.yml)
+##### [Download Multiple Billing Subscription Invoice](billing/2019-10-01-preview/Invoices/DownloadMultipleBillingSubscriptionInvoice.yml)
+##### [Download Multiple EA Invoice](billing/2019-10-01-preview/Invoices/DownloadMultipleEAInvoice.yml)
+##### [Download Multiple Modern Invoice](billing/2019-10-01-preview/Invoices/DownloadMultipleModernInvoice.yml)
 ##### [Get](billing/2019-10-01-preview/Invoices/Get.yml)
 ##### [Get Billing Account Invoice](billing/2019-10-01-preview/Invoices/GetBillingAccountInvoice.yml)
 ##### [Get By Id](billing/2019-10-01-preview/Invoices/GetById.yml)
@@ -8917,6 +8920,15 @@
 ### [List](resources/PolicyDefinitions/List.yml)
 ### [List Built In](resources/PolicyDefinitions/ListBuiltIn.yml)
 ### [List By Management Group](resources/PolicyDefinitions/ListByManagementGroup.yml)
+## Policy Exemptions
+### [Overview](resources/PolicyExemptions.yml)
+### [Create Or Update](resources/PolicyExemptions/CreateOrUpdate.yml)
+### [Delete](resources/PolicyExemptions/Delete.yml)
+### [Get](resources/PolicyExemptions/Get.yml)
+### [List](resources/PolicyExemptions/List.yml)
+### [List For Management Group](resources/PolicyExemptions/ListForManagementGroup.yml)
+### [List For Resource](resources/PolicyExemptions/ListForResource.yml)
+### [List For Resource Group](resources/PolicyExemptions/ListForResourceGroup.yml)
 ## Policy Set Definitions
 ### [Overview](resources/PolicySetDefinitions.yml)
 ### [Create Or Update](resources/PolicySetDefinitions/CreateOrUpdate.yml)
