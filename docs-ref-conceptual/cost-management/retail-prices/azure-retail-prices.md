@@ -4,7 +4,7 @@ description: Provides operations to programmatically get Azure service retail pr
 author: bandersmsft
 ms.author: banders
 ms.reviewer: mumami
-ms.date: 09/01/2020
+ms.date: 09/25/2020
 ms.topic: reference
 ms.service: cost-management-billing
 ms.subservice: cost-management
@@ -19,9 +19,7 @@ Azure customers have been looking for a programmatic way to retrieve retail pric
 
 `https://prices.azure.com/api/retail/prices`
 
-## API version
-
-2020-08-01
+## API response examples
 
 Here's a sample API response, without reservation prices.
 
@@ -77,6 +75,9 @@ Here's a sample API response with reservation prices and term in the response.
             "armSkuName": "Standard_E64_v4"
         }
 ```
+
+## API property details
+
 Here's all the property details that are a part of the API response.
 
 | Field | Example Values | Definition |
@@ -103,6 +104,8 @@ Here's all the property details that are a part of the API response.
 | isPrimaryMeterRegion | True |  |
 | armSkuName | Standard\_F16s | SKU name registered in Azure |
 
+## API filters
+
 Filters are supported for the following fields:
 
 - armRegionName
@@ -116,8 +119,26 @@ Filters are supported for the following fields:
 - serviceName
 - serviceId
 - serviceFamily
-- Type
+- priceType
 - armSkuName
+ 
+You append the filters to the API endpoint in the next section.
+
+## API sample calls 
+
+Here are some examples:
+
+Example call filtered for only virtual machines
+[https://prices.azure.com:443/api/retail/prices?$filter=serviceName eq 'Virtual Machines'](https://prices.azure.com/api/retail/prices?$filter=serviceName%20eq%20%27Virtual%20Machines%27)
+
+Exaample call filtered for only reservations
+[https://prices.azure.com:443/api/retail/prices?$filter=priceType eq 'Reservation'](https://prices.azure.com/api/retail/prices?$filter=priceType%20eq%20%27Reservation%27)
+
+Example call filtered for reserved instance virtual machines
+[https://prices.azure.com:443/api/retail/prices?$filter=serviceName eq 'Virtual Machines' and priceType eq 'Reservation'](https://prices.azure.com/api/retail/prices?$filter=serviceName%20eq%20%27Virtual%20Machines%27%20and%20priceType%20eq%20%27Reservation%27)
+
+Example call filtered for compute resources
+[https://prices.azure.com:443/api/retail/prices?$filter=serviceFamily eq 'Compute'](https://prices.azure.com/api/retail/prices?$filter=serviceFamily%20eq%20%27Compute%27)
 
 ## Unsupported functions
 
