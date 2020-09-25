@@ -134,15 +134,11 @@ Example call filtered for only virtual machines
 https://prices.azure.com/api/retail/prices?$filter=serviceName eq 'Virtual Machines'
 ```
 
-[https://prices.azure.com/api/retail/prices?$filter=serviceName eq 'Virtual Machines'](https://prices.azure.com/api/retail/prices?$filter=serviceName%20eq%20%27Virtual%20Machines%27)
-
 Example call filtered for only reservations
 
 ```http
 https://prices.azure.com/api/retail/prices?$filter=priceType eq 'Reservation
 ```
-
-[https://prices.azure.com/api/retail/prices?$filter=priceType eq 'Reservation'](https://prices.azure.com/api/retail/prices?$filter=priceType%20eq%20%27Reservation%27)
 
 Example call filtered for reserved instance virtual machines
 
@@ -150,15 +146,11 @@ Example call filtered for reserved instance virtual machines
 https://prices.azure.com/api/retail/prices?$filter=serviceName eq 'Virtual Machines' and priceType eq 'Reservation'
 ```
 
-[https://prices.azure.com/api/retail/prices?$filter=serviceName eq 'Virtual Machines' and priceType eq 'Reservation'](https://prices.azure.com/api/retail/prices?$filter=serviceName%20eq%20%27Virtual%20Machines%27%20and%20priceType%20eq%20%27Reservation%27)
-
 Example call filtered for compute resources
 
 ```http
 https://prices.azure.com/api/retail/prices?$filter=serviceFamily eq 'Compute'
 ```
-
-[https://prices.azure.com/api/retail/prices?$filter=serviceFamily eq 'Compute'](https://prices.azure.com/api/retail/prices?$filter=serviceFamily%20eq%20%27Compute%27)
 
 ## Unsupported functions
 
