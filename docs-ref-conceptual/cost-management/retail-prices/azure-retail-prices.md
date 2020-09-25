@@ -19,6 +19,34 @@ Azure customers have been looking for a programmatic way to retrieve retail pric
 
 `https://prices.azure.com/api/retail/prices`
 
+## API sample calls 
+
+Here are some examples:
+
+Example call filtered for only virtual machines
+
+```http
+https://prices.azure.com/api/retail/prices?$filter=serviceName eq 'Virtual Machines'
+```
+
+Example call filtered for only reservations
+
+```http
+https://prices.azure.com/api/retail/prices?$filter=priceType eq 'Reservation'
+```
+
+Example call filtered for reserved instance virtual machines
+
+```http
+https://prices.azure.com/api/retail/prices?$filter=serviceName eq 'Virtual Machines' and priceType eq 'Reservation'
+```
+
+Example call filtered for compute resources
+
+```http
+https://prices.azure.com/api/retail/prices?$filter=serviceFamily eq 'Compute'
+```
+
 ## API response examples
 
 Here's a sample API response, without reservation prices.
@@ -122,35 +150,7 @@ Filters are supported for the following fields:
 - priceType
 - armSkuName
  
-You append the filters to the API endpoint in the next section.
-
-## API sample calls 
-
-Here are some examples:
-
-Example call filtered for only virtual machines
-
-```http
-https://prices.azure.com/api/retail/prices?$filter=serviceName eq 'Virtual Machines'
-```
-
-Example call filtered for only reservations
-
-```http
-https://prices.azure.com/api/retail/prices?$filter=priceType eq 'Reservation
-```
-
-Example call filtered for reserved instance virtual machines
-
-```http
-https://prices.azure.com/api/retail/prices?$filter=serviceName eq 'Virtual Machines' and priceType eq 'Reservation'
-```
-
-Example call filtered for compute resources
-
-```http
-https://prices.azure.com/api/retail/prices?$filter=serviceFamily eq 'Compute'
-```
+You append the filters to the API endpoint, as shown in the API sample calls.
 
 ## Unsupported functions
 
