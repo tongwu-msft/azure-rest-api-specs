@@ -36,6 +36,7 @@
 ### [Get Available Agent Pool Versions](aks/AgentPools/GetAvailableAgentPoolVersions.yml)
 ### [Get Upgrade Profile](aks/AgentPools/GetUpgradeProfile.yml)
 ### [List](aks/AgentPools/List.yml)
+### [Upgrade Node Image Version](aks/AgentPools/UpgradeNodeImageVersion.yml)
 ## Managed Clusters
 ### [Overview](aks/ManagedClusters.yml)
 ### [Create Or Update](aks/ManagedClusters/CreateOrUpdate.yml)
@@ -54,7 +55,6 @@
 ### [Start](aks/ManagedClusters/Start.yml)
 ### [Stop](aks/ManagedClusters/Stop.yml)
 ### [Update Tags](aks/ManagedClusters/UpdateTags.yml)
-### [Upgrade Node Image Version](aks/ManagedClusters/UpgradeNodeImageVersion.yml)
 ## Operations
 ### [Overview](aks/Operations.yml)
 ### [List](aks/Operations/List.yml)
