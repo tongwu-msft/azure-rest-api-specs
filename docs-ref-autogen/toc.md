@@ -8934,6 +8934,15 @@
 ### [List](resources/PolicyDefinitions/List.yml)
 ### [List Built In](resources/PolicyDefinitions/ListBuiltIn.yml)
 ### [List By Management Group](resources/PolicyDefinitions/ListByManagementGroup.yml)
+## Policy Exemptions
+### [Overview](resources/PolicyExemptions.yml)
+### [Create Or Update](resources/PolicyExemptions/CreateOrUpdate.yml)
+### [Delete](resources/PolicyExemptions/Delete.yml)
+### [Get](resources/PolicyExemptions/Get.yml)
+### [List](resources/PolicyExemptions/List.yml)
+### [List For Management Group](resources/PolicyExemptions/ListForManagementGroup.yml)
+### [List For Resource](resources/PolicyExemptions/ListForResource.yml)
+### [List For Resource Group](resources/PolicyExemptions/ListForResourceGroup.yml)
 ## Policy Set Definitions
 ### [Overview](resources/PolicySetDefinitions.yml)
 ### [Create Or Update](resources/PolicySetDefinitions/CreateOrUpdate.yml)
