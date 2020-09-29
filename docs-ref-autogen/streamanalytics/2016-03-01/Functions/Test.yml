@@ -1,0 +1,286 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.streamanalytics.2016-03-01.functions.test
+name: Test
+service: Stream Analytics
+groupName: Functions
+apiVersion: 2016-03-01
+summary: Tests if the information provided for a function is valid. This can range from testing the connection to the underlying web service behind the function or making sure the function code provided is syntactically correct.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{functionName}/test?api-version=2016-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: GUID which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: jobName
+  in: path
+  isRequired: true
+  description: The name of the streaming job.
+  types:
+  - uid: string
+- name: functionName
+  in: path
+  isRequired: true
+  description: The name of the function.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The test operation completed successfully.
+  types:
+  - uid: ResourceTestStatus
+- name: 202 Accepted
+  description: The test request was successfully initiated.
+requestBody:
+- name: default
+  parameters:
+  - name: properties
+    in: body
+    description: The properties that are associated with a function.
+    types:
+    - uid: ScalarFunctionProperties
+    typesTitle: FunctionProperties
+  - name: name
+    in: body
+    description: Resource name
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ResourceTestStatus
+  description: Describes the status of the test operation along with error information, if applicable.
+  kind: object
+  properties:
+  - name: status
+    isReadyOnly: true
+    description: The status of the test operation.
+    types:
+    - uid: string
+  - name: error
+    isReadyOnly: true
+    description: Describes the error that occurred.
+    types:
+    - uid: ErrorResponse
+- name: Function
+  description: A function object, containing all information associated with the named function. All functions are contained under a streaming job.
+  kind: object
+  properties:
+  - name: properties
+    description: The properties that are associated with a function.
+    types:
+    - uid: ScalarFunctionProperties
+    typesTitle: FunctionProperties
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: ScalarFunctionProperties
+  description: The properties that are associated with a scalar function.
+  kind: object
+  properties:
+  - name: properties.inputs
+    description: A list of inputs describing the parameters of the function.
+    types:
+    - uid: FunctionInput
+      isArray: true
+  - name: properties.output
+    description: The output of the function.
+    types:
+    - uid: FunctionOutput
+  - name: properties.binding
+    description: The physical binding of the function. For example, in the Azure Machine Learning web service’s case, this describes the endpoint.
+    types:
+    - uid: AzureMachineLearningWebServiceFunctionBinding
+    - uid: JavaScriptFunctionBinding
+    typesTitle: FunctionBinding
+  - name: type
+    description: Indicates the type of function.
+    types:
+    - uid: Scalar
+    typesTitle: string
+  - name: etag
+    isReadyOnly: true
+    description: The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Describes the error that occurred.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code associated with the error that occurred.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Describes the error in detail.
+    types:
+    - uid: string
+- name: FunctionInput
+  description: Describes one input parameter of a function.
+  kind: object
+  properties:
+  - name: dataType
+    description: The (Azure Stream Analytics supported) data type of the function input parameter. A list of valid Azure Stream Analytics data types are described at https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx
+    types:
+    - uid: string
+  - name: isConfigurationParameter
+    description: A flag indicating if the parameter is a configuration parameter. True if this input parameter is expected to be a constant. Default is false.
+    types:
+    - uid: boolean
+- name: FunctionOutput
+  description: Describes the output of a function.
+  kind: object
+  properties:
+  - name: dataType
+    description: The (Azure Stream Analytics supported) data type of the function output. A list of valid Azure Stream Analytics data types are described at https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx
+    types:
+    - uid: string
+- name: AzureMachineLearningWebServiceFunctionBinding
+  description: The binding to an Azure Machine Learning web service.
+  kind: object
+  properties:
+  - name: properties.endpoint
+    description: 'The Request-Response execute endpoint of the Azure Machine Learning web service. Find out more here: https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-consume-web-services#request-response-service-rrs'
+    types:
+    - uid: string
+  - name: properties.apiKey
+    description: The API key used to authenticate with Request-Response endpoint.
+    types:
+    - uid: string
+  - name: properties.inputs
+    description: The inputs for the Azure Machine Learning web service endpoint.
+    types:
+    - uid: AzureMachineLearningWebServiceInputs
+  - name: properties.outputs
+    description: A list of outputs from the Azure Machine Learning web service endpoint execution.
+    types:
+    - uid: AzureMachineLearningWebServiceOutputColumn
+      isArray: true
+  - name: properties.batchSize
+    description: Number between 1 and 10000 describing maximum number of rows for every Azure ML RRS execute request. Default is 1000.
+    types:
+    - uid: integer
+  - name: type
+    description: Indicates the function binding type.
+    types:
+    - uid: Microsoft.MachineLearning/WebService
+    typesTitle: string
+- name: JavaScriptFunctionBinding
+  description: The binding to a JavaScript function.
+  kind: object
+  properties:
+  - name: properties.script
+    description: "The JavaScript code containing a single function definition. For example: 'function (x, y) { return x + y; }'"
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the function binding type.
+    types:
+    - uid: Microsoft.StreamAnalytics/JavascriptUdf
+    typesTitle: string
+- name: AzureMachineLearningWebServiceInputs
+  description: The inputs for the Azure Machine Learning web service endpoint.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the input. This is the name provided while authoring the endpoint.
+    types:
+    - uid: string
+  - name: columnNames
+    description: A list of input columns for the Azure Machine Learning web service endpoint.
+    types:
+    - uid: AzureMachineLearningWebServiceInputColumn
+      isArray: true
+- name: AzureMachineLearningWebServiceOutputColumn
+  description: Describes an output column for the Azure Machine Learning web service endpoint.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the output column.
+    types:
+    - uid: string
+  - name: dataType
+    description: The (Azure Machine Learning supported) data type of the output column. A list of valid  Azure Machine Learning data types are described at https://msdn.microsoft.com/en-us/library/azure/dn905923.aspx .
+    types:
+    - uid: string
+- name: AzureMachineLearningWebServiceInputColumn
+  description: Describes an input column for the Azure Machine Learning web service endpoint.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the input column.
+    types:
+    - uid: string
+  - name: dataType
+    description: The (Azure Machine Learning supported) data type of the input column. A list of valid  Azure Machine Learning data types are described at https://msdn.microsoft.com/en-us/library/azure/dn905923.aspx .
+    types:
+    - uid: string
+  - name: mapTo
+    description: The zero based index of the function parameter this input maps to.
+    types:
+    - uid: integer
+examples:
+- name: Test the connection for an Azure ML function
+  request:
+    uri: POST https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg7/providers/Microsoft.StreamAnalytics/streamingjobs/sj9093/functions/function588/test?api-version=2016-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "TestSucceeded"
+      }
+  - statusCode: "202"
+- name: Test the connection for a JavaScript function
+  request:
+    uri: POST https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg1637/providers/Microsoft.StreamAnalytics/streamingjobs/sj8653/functions/function8197/test?api-version=2016-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "TestFailed",
+        "error": {
+          "code": "BadRequest",
+          "message": "Test operation is not supported for function type: Microsoft.StreamAnalytics/JavascriptUdf"
+        }
+      }
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
