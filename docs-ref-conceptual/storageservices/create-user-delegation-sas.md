@@ -3,7 +3,7 @@ title: Create a user delegation SAS - Azure Storage
 description: A SAS token for access to a container or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a user delegation SAS, because the token used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice. 
 author: tamram
 
-ms.date: 04/08/2020
+ms.date: 09/29/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -69,7 +69,25 @@ Once you have the user delegation key, you can use that key to create any number
 
 ## Construct a user delegation SAS
 
-The following sections describe how to specify the parameters that comprise the user delegation SAS token.
+The following table summarizes the fields supported for a user delegation SAS token. Subsequent sections provide additional detail about how to specify these parameters.
+
+| SAS field name | SAS token parameter | Required or optional | Version support | Description |
+|------------------------------|----------------------------|-------------------------------|------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `signedversion` | `sv` | Required | 2018-11-09 or later | Indicates the version of the service used to construct the signature field, and also specifies the service version that handles a request made with this shared access signature. |
+| `signedresource` | `sr` | Required | | Specifies which blob resources are accessible via the shared access signature. |
+| `signedstart` | `st` | Optional | | Indicates the start time for the SAS in UTC time. If omitted, the current UTC time is used as the start time. |
+| `signedexpiry` | `se` | Required | | Indicates the expiry time for the SAS in UTC time. |
+| `signedpermissions` | `sp` | Required | | Indicates which operations a client who possesses the SAS may perform on the resource. Permissions may be combined. |
+| `signedip` | `sip` | Optional | 2015-04-05 or later | Specifies an IP address or an inclusive range of IP addresses from which to accept requests. |
+| `signedprotocol` | `spr` | Optional | 2015-04-05 or later | Specifies the protocol permitted for a request made with the SAS. Include this field to require that requests made with the SAS token use HTTPS. |
+| `signedobjectid` | `skoid` | Required | 2018-11-09 or later | Identifies an Azure AD security principal. |
+| `signedtenantid` | `sktid` | Required | 2018-11-09 or later | Specifies the Azure AD tenant in which a security principal is defined. |
+| `signedkeytime` | `skt` | Optional. | 2018-11-09 or later | Value is returned by the Get User Delegation Key operation.  Indicates the start of the lifetime of the user delegation key in ISO Date format. If omitted, the current time is assumed. |
+| `signedkeyexpirytime` | `ske` | Required | 2018-11-09 or later | Value is returned by the Get User Delegation Key operation. Indicates the end of the lifetime of the user delegation key in ISO Date format. |
+| `signedkeyservice` | `sks` | Required | 2018-11-09 or later | Indicates the service for which the user delegation key is valid. Currently only the Blob service is supported. |
+| `signedauthorizedobjectid` (preview) | `saoid` | Optional | 2020-02-10 or later | Specifies the object ID for an Azure AD security principal that is authorized by the owner of the user delegation key to perform the action granted by the SAS token. |
+| `signedunauthorizedobjectid` (preview) | `suoid` | Optional | 2020-02-10 or later | Specifies the object ID for an Azure AD security principal when a hierarchical namespace is enabled and the security principal is assumed to be unauthorized by Azure AD. |
+| `signature` | `sig` | Required | | The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding. |
 
 ### Specify the signed version field
 
@@ -146,7 +164,7 @@ The tables in the following sections show the permissions supported for each res
 
 ### Specify an IP address or IP range  
 
-The optional signed IP (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates does not match the IP address or address range specified on the SAS token, the request is not authorized.  
+The optional `signedip` (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates does not match the IP address or address range specified on the SAS token, the request is not authorized.  
   
 When you specify a range of IP addresses, the range is inclusive.  
   
@@ -154,34 +172,57 @@ For example, specifying `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70` on the S
   
 ### Specify the HTTP protocol  
 
-The optional signed protocol (`spr`) field specifies the protocol permitted for a request made with the SAS. Possible values are both HTTPS and HTTP (`https,http`) or HTTPS only (`https`). The default value is `https,http`.
+The optional `signedprotocol` (`spr`) field specifies the protocol permitted for a request made with the SAS. Possible values are both HTTPS and HTTP (`https,http`) or HTTPS only (`https`). The default value is `https,http`.
 
 > [!NOTE]
 > It is not possible to specify HTTP for the `spr` field.
 
 ### Specify the signed object ID
 
-The signed object ID (`skoid`) field is required for a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response. The signed object ID is a GUID value that serves the immutable identifier for a security principal in the Microsoft identity platform.  
+The `signedobjectid` (`skoid`) field is required for a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response. The signed object ID is a GUID value that serves the immutable identifier for a security principal in the Microsoft identity platform.  
 
 ### Specify the signed tenant ID
 
-The signed tenant ID (`sktid`) field is required for a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response. The signed tenant ID is a GUID value that represents the Azure AD tenant in which a security principal is defined.  
+The `signedtenantid` (`sktid`) field is required for a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response. The signed tenant ID is a GUID value that represents the Azure AD tenant in which a security principal is defined.  
 
 ### Specify the signed key start time
 
-The optional signed key  time (`skt`) field indicates the start of the lifetime of the user delegation key in ISO Date format. The **Get User Delegation Key** operation returns this value as part of the response. If omitted, the signed key start time is assumed to be the current time.  
+The optional `signedkeystarttime` (`skt`) field indicates the start of the lifetime of the user delegation key in ISO Date format. The **Get User Delegation Key** operation returns this value as part of the response. If omitted, the signed key start time is assumed to be the current time.  
 
 ### Specify the signed key expiry time
 
-The signed key expiry time (`ske`) field is required for a user delegation SAS in ISO Date format. The **Get User Delegation Key** operation returns this value as part of the response. The signed key expiry time indicates the end of the lifetime of the user delegation key. The value of the expiry time may be a maximum of seven days from the start time of the SAS.
+The `signedkeyexpirytime` (`ske`) field is required for a user delegation SAS in ISO Date format. The **Get User Delegation Key** operation returns this value as part of the response. The signed key expiry time indicates the end of the lifetime of the user delegation key. The value of the expiry time may be a maximum of seven days from the start time of the SAS.
 
 ### Specify the signed key service
 
-The signed key service (`sks`) field is required for a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response. The signed key service field indicates the service for which the user delegation key is valid. The value for the signed key service field for the Blob service is `b`.
+The `signedkeyservice` (`sks`) field is required for a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response. The signed key service field indicates the service for which the user delegation key is valid. The value for the signed key service field for the Blob service is `b`.
 
 ### Specify the signed key version
 
-The signed key version field is required for a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response. The signed key version field specifies the storage service version used to get the user delegation key. This field must specify version 2018-11-09 or later.
+The `signedkeyversion` (`skv`) field is required for a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response. The signed key version field specifies the storage service version used to get the user delegation key. This field must specify version 2018-11-09 or later.
+
+### Specify an agent object ID (preview)
+
+To specify the object ID for an Azure AD security principal (a user, group, service principal, or managed identity) on the SAS token, include either the `saoid` field or the `suoid` field. Use the `suoid` field if the storage account has a hierarchical namespace enabled. Otherwise, use the `saoid` field.
+
+The object ID for the agent is included in diagnostic logs when a request is made using the SAS token.
+
+Only one of these fields may be included on the SAS token. The `saoid` or `suoid` field is supported only if the `signedversion` (`sv`) field is set to version 2020-02-10 or later.
+
+### Specify an agent object ID to act on behalf of an authorized user (preview)
+
+The `saoid` field (preview) specifies the object ID for an Azure AD security principal that is authorized by the owner of the user delegation key to perform the action granted by the SAS token. Azure Storage validates the SAS token and ensures that the owner of the user delegation key has the required permissions before granting access. No additional permission check is performed on the security principal.
+
+### Specify an agent object ID when a hierarchical namespace is enabled (preview)
+
+The `suoid` field (preview) specifies the object ID for an Azure AD security principal when a hierarchical namespace is enabled. When the `suoid` field is included on the SAS token, Azure Storage performs a POSIX ACL check against the object ID before authorizing the operation. A hierarchical namespace must be enabled for the storage account if the `suoid` field is included on the SAS token. Otherwise, the permission check will fail with an authorization error.
+
+d.	The agent OID also restricts operations related to file or folder ownership:
+i.	If the operation creates a file or folder, the owner of the file or folder will be set to the value specified by the agent OID.  If an agent OID is not specified, then the owner of the file or folder will be set to the value specified by the skoid parameter.
+ii.	If the sticky bit is set on the parent folder and the operation is delete or rename, then the owner of the parent folder or the owner of the resource must match the value specified by the agent OID. 
+iii.	If the operation is SetAccessControl and x-ms-owner is being set, the value must match the value specified by saoid.  
+iv.	If the operation is SetAccessControl and x-ms-owner is being set, the value of x-ms-owner must match the value specified by the agent OID. 
+v.	If the operation is SetAccessControl and x-ms-group is being set, then the value specified by the agent OID must be a member of the group specified by x-ms-group. 
 
 ### Specify query parameters to override response headers
 
@@ -211,25 +252,25 @@ To construct the signature string of a user delegation SAS, first create the str
 
 ```
 StringToSign = signedPermissions + "\n" +  
-               signedStart + "\n" +  
-               signedExpiry + "\n" +  
-               canonicalizedResource + "\n" +  
-               signedObjectId + "\n" +
-               signedTenantId + "\n" +
-               signedKeyStart + "\n" +
-               signedKeyExpiry  + "\n" +
-               signedKeyService + "\n" +
-               signedKeyVersion + "\n" +
-               signedIP + "\n" +  
-               signedProtocol + "\n" +  
-               signedVersion + "\n" +  
-               signedResource + "\n" +
-               signedSnapshotTime + "\n" +
-               rscc + "\n" +
-               rscd + "\n" +  
-               rsce + "\n" +  
-               rscl + "\n" +  
-               rsct
+   signedStart + "\n" +  
+   signedExpiry + "\n" +  
+   canonicalizedResource + "\n" +  
+   signedObjectId + "\n" +
+   signedTenantId + "\n" +
+   signedKeyStart + "\n" +
+   signedKeyExpiry  + "\n" +
+   signedKeyService + "\n" +
+   signedKeyVersion + "\n" +
+   signedIP + "\n" +  
+   signedProtocol + "\n" +  
+   signedVersion + "\n" +  
+   signedResource + "\n" +
+   signedSnapshotTime + "\n" +
+   rscc + "\n" +
+   rscd + "\n" +  
+   rsce + "\n" +  
+   rscl + "\n" +  
+   rsct
 ```  
 
 #### Canonicalized resource
