@@ -253,6 +253,22 @@
 ##### [Get](apimanagement/2019-12-01/Certificate/Get.yml)
 ##### [Get Entity Tag](apimanagement/2019-12-01/Certificate/GetEntityTag.yml)
 ##### [List By Service](apimanagement/2019-12-01/Certificate/ListByService.yml)
+#### Content Item
+##### [Overview](apimanagement/2019-12-01/ContentItem.yml)
+##### [Create Or Update](apimanagement/2019-12-01/ContentItem/CreateOrUpdate.yml)
+##### [Delete](apimanagement/2019-12-01/ContentItem/Delete.yml)
+##### [Get](apimanagement/2019-12-01/ContentItem/Get.yml)
+##### [Get Entity Tag](apimanagement/2019-12-01/ContentItem/GetEntityTag.yml)
+##### [List By Service](apimanagement/2019-12-01/ContentItem/ListByService.yml)
+#### Content Type
+##### [Overview](apimanagement/2019-12-01/ContentType.yml)
+##### [Create Or Update](apimanagement/2019-12-01/ContentType/CreateOrUpdate.yml)
+##### [Delete](apimanagement/2019-12-01/ContentType/Delete.yml)
+##### [Get Entity Tag](apimanagement/2019-12-01/ContentType/GetEntityTag.yml)
+##### [List By Service](apimanagement/2019-12-01/ContentType/ListByService.yml)
+#### Content Types
+##### [Overview](apimanagement/2019-12-01/ContentTypes.yml)
+##### [Get](apimanagement/2019-12-01/ContentTypes/Get.yml)
 #### Delegation Settings
 ##### [Overview](apimanagement/2019-12-01/DelegationSettings.yml)
 ##### [Create Or Update](apimanagement/2019-12-01/DelegationSettings/CreateOrUpdate.yml)
@@ -7734,6 +7750,14 @@
 #### [Overview](monitor/TenantActivityLogs.yml)
 #### [List](monitor/TenantActivityLogs/List.yml)
 ### Alerts Management
+#### Action Rules
+##### [Overview](monitor/alertsmanagement/ActionRules.yml)
+##### [Create Update](monitor/alertsmanagement/ActionRules/CreateUpdate.yml)
+##### [Delete](monitor/alertsmanagement/ActionRules/Delete.yml)
+##### [Get By Name](monitor/alertsmanagement/ActionRules/GetByName.yml)
+##### [List By Resource Group](monitor/alertsmanagement/ActionRules/ListByResourceGroup.yml)
+##### [List By Subscription](monitor/alertsmanagement/ActionRules/ListBySubscription.yml)
+##### [Update](monitor/alertsmanagement/ActionRules/Update.yml)
 #### Alerts
 ##### [Overview](monitor/alertsmanagement/Alerts.yml)
 ##### [Change State](monitor/alertsmanagement/Alerts/ChangeState.yml)
@@ -7745,6 +7769,12 @@
 #### Operations
 ##### [Overview](monitor/alertsmanagement/Operations.yml)
 ##### [List](monitor/alertsmanagement/Operations/List.yml)
+#### Smart Groups
+##### [Overview](monitor/alertsmanagement/SmartGroups.yml)
+##### [Change State](monitor/alertsmanagement/SmartGroups/ChangeState.yml)
+##### [Get All](monitor/alertsmanagement/SmartGroups/GetAll.yml)
+##### [Get By Id](monitor/alertsmanagement/SmartGroups/GetById.yml)
+##### [Get History](monitor/alertsmanagement/SmartGroups/GetHistory.yml)
 ### Microsoft.WorkloadMonitor
 #### Components
 ##### [Overview](monitor/microsoft.workloadmonitor/Components.yml)
