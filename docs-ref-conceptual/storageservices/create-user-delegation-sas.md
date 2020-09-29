@@ -74,10 +74,10 @@ The following table summarizes the fields supported for a user delegation SAS to
 | SAS field name | SAS token parameter | Required or optional | Version support | Description |
 |------------------------------|----------------------------|-------------------------------|------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `signedversion` | `sv` | Required | 2018-11-09 or later | Indicates the version of the service used to construct the signature field, and also specifies the service version that handles a request made with this shared access signature. |
-| `signedresource` | `sr` | Required | | Specifies which blob resources are accessible via the shared access signature. |
-| `signedstart` | `st` | Optional | | Indicates the start time for the SAS in UTC time. If omitted, the current UTC time is used as the start time. |
-| `signedexpiry` | `se` | Required | | Indicates the expiry time for the SAS in UTC time. |
-| `signedpermissions` | `sp` | Required | | Indicates which operations a client who possesses the SAS may perform on the resource. Permissions may be combined. |
+| `signedresource` | `sr` | Required | All | Specifies which blob resources are accessible via the shared access signature. |
+| `signedstart` | `st` | Optional | All | Indicates the start time for the SAS in UTC time. If omitted, the current UTC time is used as the start time. |
+| `signedexpiry` | `se` | Required | All | Indicates the expiry time for the SAS in UTC time. |
+| `signedpermissions` | `sp` | Required | All | Indicates which operations a client who possesses the SAS may perform on the resource. Permissions may be combined. |
 | `signedip` | `sip` | Optional | 2015-04-05 or later | Specifies an IP address or an inclusive range of IP addresses from which to accept requests. |
 | `signedprotocol` | `spr` | Optional | 2015-04-05 or later | Specifies the protocol permitted for a request made with the SAS. Include this field to require that requests made with the SAS token use HTTPS. |
 | `signedobjectid` | `skoid` | Required | 2018-11-09 or later | Identifies an Azure AD security principal. |
@@ -87,23 +87,30 @@ The following table summarizes the fields supported for a user delegation SAS to
 | `signedkeyservice` | `sks` | Required | 2018-11-09 or later | Indicates the service for which the user delegation key is valid. Currently only the Blob service is supported. |
 | `signedauthorizedobjectid` (preview) | `saoid` | Optional | 2020-02-10 or later | Specifies the object ID for an Azure AD security principal that is authorized by the owner of the user delegation key to perform the action granted by the SAS token. |
 | `signedunauthorizedobjectid` (preview) | `suoid` | Optional | 2020-02-10 or later | Specifies the object ID for an Azure AD security principal when a hierarchical namespace is enabled and the security principal is assumed to be unauthorized by Azure AD. |
-| `signature` | `sig` | Required | | The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding. |
+| `signedcorrelationid` (preview) | `scid` | Optional | 2020-02-10 or later | Correlate the storage audit logs with the audit logs used by the principal generating and distributing SAS. |
+| `signeddirectorydepth` (preview) | `sdd` | Required when `sr=d` | 2020-02-10 or later | Indicates the number of directories beneath the root folder of the directory specified in the `canonicalizedresource` field of the string-to-sign. |
+| `signature` | `sig` | Required | All | The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding. |
+| `Cache-Control` response header | `rscc` | Optional | 2013-08-15 or later | Azure Storage sets the `Cache-Control` response header to the value specified on the SAS token. |
+| `Content-Disposition` response header | `rscd` | Optional | 2013-08-15 or later | Azure Storage sets the `Content-Disposition` response header to the value specified on the SAS token. |
+| `Content-Encoding` response header | `rsce` | Optional | 2013-08-15 or later | Azure Storage sets the `Content-Encoding` response header to the value specified on the SAS token. |
+| `Content-Language` response header | `rscl` | Optional | 2013-08-15 or later | Azure Storage sets the `Content-Language` response header to the value specified on the SAS token. |
+| `Content-Type` response header | `rsct` | Optional | 2013-08-15 or later | Azure Storage sets the `Content-Type` response header to the value specified on the SAS token. |
 
 ### Specify the signed version field
 
-The `signedversion` (`sv`) field specifies the service version for the shared access signature. This value indicates the version of the service used to construct the `signature` field, and also specifies the service version that handles a request made with this shared access signature.
+The required `signedversion` (`sv`) field specifies the service version for the shared access signature. This value indicates the version of the service used to construct the `signature` field, and also specifies the service version that handles a request made with this shared access signature. The value of the `sv` field must be version 2018-11-09 or later.
   
-|Field name|Query parameter|Description|  
-|----------------|---------------------|-----------------|  
-|`signedversion`|`sv`|Required. For a user delegation SAS, must be version 2018-11-09 or later. The storage service version to use to authorize requests made with this shared access signature, and the service version to use when handling requests made with this shared access signature.|
-
 ### Specify the signed resource field
 
-The `signedresource` (`sr`) field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob or container resource in the SAS token.  
-  
-|Field name|Query parameter|Description|  
-|----------------|---------------------|-----------------|  
-|`signedresource`|`sr`|Required.<br /><br /> Specify `b` if the shared resource is a blob. Use to grant access to the content and metadata of the blob.<br /><br /> Specify `bv` if the shared resource is a blob version (version 2019-12-12 or later). Use to grant access to the content and metadata of the blob version, but not the base blob.<br /><br /> Specify `bs` if the shared resource is a blob snapshot (version 2018-11-09 and later). Use to grant access to the content and metadata of the blob snapshot, but not the base blob.<br /><br /> Specify `c` if the shared resource is a container. This grants access to the content and metadata of any blob in the container, and to the list of blobs in the container.|  
+The required `signedresource` (`sr`) field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob, container, or directory resource in the SAS token.  
+
+| Resource      | Parameter value | Description |
+|---------------|-----------------|-------------|
+| Blob          | b               | Grants access to the content and metadata of the blob. |
+| Blob version  | bv              | Grants access to the content and metadata of the blob version, but not the base blob. |
+| Blob snapshot | bs              | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
+| Container     | c               | Grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. |
+| Directory     | d               | Grants access to the content and metadata of any file in the directory, and to the list of files in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedresource` field, then the `signeddirectorydepth` parameter is also required. |
 
 ### Specify the signature validity interval
 
@@ -149,6 +156,10 @@ The tables in the following sections show the permissions supported for each res
 |Tags|t|Read or write the tags on a blob (version 2019-12-12 or later).|  
 |Delete|d|Delete the blob. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a blob. For more information, see the [Lease Blob](Lease-Blob.md) operation.|  
 |Delete version|x|Delete a blob version (version 2019-12-12 or later).|
+|Move (preview)|m|Move a blob or a directory and its contents to a new location (version 2020-02-10 or later).|
+|Execute (preview)|e|Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. Does not permit the caller to read user-defined metadata (version 2020-02-10 or later).|
+|Ownership (preview)|o|When the hierarchical namespace is enabled, the `Ownership` permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or file within a directory that has the sticky bit set.|
+|Permissions (preview)|p|When the hierarchical namespace is enabled, the `Permissions` permission allows the caller to set permissions and POSIX ACLs on directories and files.|
   
 #### Permissions for a container  
   
@@ -209,20 +220,34 @@ The object ID for the agent is included in diagnostic logs when a request is mad
 
 Only one of these fields may be included on the SAS token. The `saoid` or `suoid` field is supported only if the `signedversion` (`sv`) field is set to version 2020-02-10 or later.
 
-### Specify an agent object ID to act on behalf of an authorized user (preview)
+#### Specify an agent object ID to act on behalf of an authorized user (preview)
 
-The `saoid` field (preview) specifies the object ID for an Azure AD security principal that is authorized by the owner of the user delegation key to perform the action granted by the SAS token. Azure Storage validates the SAS token and ensures that the owner of the user delegation key has the required permissions before granting access. No additional permission check is performed on the security principal.
+The `signedauthorizedobjectid` (`saoid`) field (preview) specifies the object ID for an Azure AD security principal that is authorized by the owner of the user delegation key to perform the action granted by the SAS token. Azure Storage validates the SAS token and ensures that the owner of the user delegation key has the required permissions before granting access. No additional permission check is performed on the security principal.
 
-### Specify an agent object ID when a hierarchical namespace is enabled (preview)
+#### Specify an agent object ID when a hierarchical namespace is enabled (preview)
 
-The `suoid` field (preview) specifies the object ID for an Azure AD security principal when a hierarchical namespace is enabled. When the `suoid` field is included on the SAS token, Azure Storage performs a POSIX ACL check against the object ID before authorizing the operation. A hierarchical namespace must be enabled for the storage account if the `suoid` field is included on the SAS token. Otherwise, the permission check will fail with an authorization error.
+The `signedunauthorizedobjectid` (`suoid`) field (preview) specifies the object ID for an Azure AD security principal when a hierarchical namespace is enabled. The security principal may not be authorized with Azure AD, but may have permissions to directories and files with POSIX ACLs. When the `suoid` field is included on the SAS token, Azure Storage performs a POSIX ACL check against the object ID before authorizing the operation. A hierarchical namespace must be enabled for the storage account if the `suoid` field is included on the SAS token. Otherwise, the permission check will fail with an authorization error.
 
-d.	The agent OID also restricts operations related to file or folder ownership:
-i.	If the operation creates a file or folder, the owner of the file or folder will be set to the value specified by the agent OID.  If an agent OID is not specified, then the owner of the file or folder will be set to the value specified by the skoid parameter.
-ii.	If the sticky bit is set on the parent folder and the operation is delete or rename, then the owner of the parent folder or the owner of the resource must match the value specified by the agent OID. 
-iii.	If the operation is SetAccessControl and x-ms-owner is being set, the value must match the value specified by saoid.  
-iv.	If the operation is SetAccessControl and x-ms-owner is being set, the value of x-ms-owner must match the value specified by the agent OID. 
-v.	If the operation is SetAccessControl and x-ms-group is being set, then the value specified by the agent OID must be a member of the group specified by x-ms-group. 
+Specifying the agent object ID also restricts operations related to directory or file ownership:
+
+- If an operation creates a directory or file, then Azure Storage sets the owner of the directory or file to the value specified by the agent object ID. If the agent object ID is not specified, then Azure Storage sets the owner of the directory or file to the value specified by the `skoid` parameter.
+- If the sticky bit is set on the parent directory and the operation deletes or renames a directory or file, then the owner of the parent directory or the owner of the resource must match the value specified by the agent object ID.
+- If an operation sets the ACL for a directory or file and the `x-ms-owner` header is specified, then the value specified by the agent object ID must match the value specified by the `x-ms-owner` header.  
+- If an operation sets the ACL for a directory or file and the `x-ms-group` header is specified, then the value specified by the agent object ID must be a member of the group specified by the `x-ms-group` header.
+
+### Specify a correlation ID (preview)
+
+The `signedcorrelationid` (`scid`) (preview) field specifies a correlation ID that may be used to correlate the storage audit logs with the audit logs used by the principal that generates and distributes the SAS. For example, a trusted authorization service will typically have a managed identity that authenticates and authorizes users, generates a SAS, adds an entry to the local audit log, and returns the SAS to a user, who can then use the SAS to access Azure Storage resources. Including a correlation ID in both the local audit log and the storage audit log allows these events to later be correlated. The value is a GUID without braces in lower case.
+
+This field is supported with version 2020-02-10 or later.
+
+### Specify the directory depth (preview)
+
+If the `signedresource` field (preview) specifies a directory (`sr=d`), then you must also specify the `signeddirectorydepth` (`sdd`) field to indicate the number of subdirectories under the root directory. The value of the `sdd` field must be a non-negative integer.
+
+For example, the root directory `https://{account}.blob.core.windows.net/{container}/` has a depth of 0. Each subdirectory beneath the root directory adds to the depth by one. The directory `https://{account}.blob.core.windows.net/{container}/d1/d2` has a depth of two.  
+
+This field is supported with version 2020-02-10 or later.
 
 ### Specify query parameters to override response headers
 
@@ -230,11 +255,11 @@ To define values for certain response headers to be returned when the shared acc
   
 |Response header name|Corresponding SAS query parameter|  
 |--------------------------|---------------------------------------|  
-|`Cache-Control`|`rscc`|  
-|`Content-Disposition`|`rscd`|  
-|`Content-Encoding`|`rsce`|  
-|`Content-Language`|`rscl`|  
-|`Content-Type`|`rsct`|  
+| `Cache-Control` | `rscc` |  
+| `Content-Disposition` | `rscd` |  
+| `Content-Encoding` | `rsce` |  
+| `Content-Language` | `rscl` |  
+| `Content-Type` | `rsct` |  
   
 For example, if you specify the `rsct=binary` query parameter on a SAS token, the `Content-Type` response header is set to `binary`. This value overrides the `Content-Type` header value stored for the blob for a request using this shared access signature only.  
   
@@ -246,7 +271,7 @@ The signature (`sig`) field is used to authorize a request made by a client with
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signature`|`sig`|The string-to-sign is a unique string constructed from the fields that must be verified in order to authorize the request. The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding.|  
+| `signature` | `sig` |The string-to-sign is a unique string constructed from the fields that must be verified in order to authorize the request. The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding.|  
   
 To construct the signature string of a user delegation SAS, first create the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Fields included in the string-to-sign must be URL-decoded. Use the following format for the string-to-sign:
 
