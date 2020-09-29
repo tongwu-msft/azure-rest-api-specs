@@ -253,22 +253,6 @@
 ##### [Get](apimanagement/2019-12-01/Certificate/Get.yml)
 ##### [Get Entity Tag](apimanagement/2019-12-01/Certificate/GetEntityTag.yml)
 ##### [List By Service](apimanagement/2019-12-01/Certificate/ListByService.yml)
-#### Content Item
-##### [Overview](apimanagement/2019-12-01/ContentItem.yml)
-##### [Create Or Update](apimanagement/2019-12-01/ContentItem/CreateOrUpdate.yml)
-##### [Delete](apimanagement/2019-12-01/ContentItem/Delete.yml)
-##### [Get](apimanagement/2019-12-01/ContentItem/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/ContentItem/GetEntityTag.yml)
-##### [List By Service](apimanagement/2019-12-01/ContentItem/ListByService.yml)
-#### Content Type
-##### [Overview](apimanagement/2019-12-01/ContentType.yml)
-##### [Create Or Update](apimanagement/2019-12-01/ContentType/CreateOrUpdate.yml)
-##### [Delete](apimanagement/2019-12-01/ContentType/Delete.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/ContentType/GetEntityTag.yml)
-##### [List By Service](apimanagement/2019-12-01/ContentType/ListByService.yml)
-#### Content Types
-##### [Overview](apimanagement/2019-12-01/ContentTypes.yml)
-##### [Get](apimanagement/2019-12-01/ContentTypes/Get.yml)
 #### Delegation Settings
 ##### [Overview](apimanagement/2019-12-01/DelegationSettings.yml)
 ##### [Create Or Update](apimanagement/2019-12-01/DelegationSettings/CreateOrUpdate.yml)
