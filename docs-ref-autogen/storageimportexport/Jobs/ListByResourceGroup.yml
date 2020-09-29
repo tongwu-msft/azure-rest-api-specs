@@ -3,15 +3,15 @@ uid: management.azure.com.storageimportexport.jobs.listbyresourcegroup
 name: List By Resource Group
 service: Storage Import-Export
 groupName: Jobs
-apiVersion: 2016-11-01
+apiVersion: 2020-08-01
 summary: Returns all active and completed jobs in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs?api-version=2016-11-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs?$top={$top}&$filter={$filter}&api-version=2016-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs?api-version=2020-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs?$top={$top}&$filter={$filter}&api-version=2020-08-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -127,6 +127,10 @@ definitions:
     description: Specifies the job properties
     types:
     - uid: JobDetails
+  - name: identity
+    description: Specifies the job identity details
+    types:
+    - uid: IdentityDetails
 - name: Details
   description: Describes the error details if present.
   kind: object
@@ -170,11 +174,11 @@ definitions:
   - name: deliveryPackage
     description: 'Contains information about the package being shipped by the customer to the Microsoft data center. '
     types:
-    - uid: PackageInfomation
+    - uid: PackageInformation
   - name: returnPackage
     description: 'Contains information about the package being shipped from the Microsoft data center to the customer to return the drives. The format is the same as the deliveryPackage property above. This property is not included if the drives have not yet been returned. '
     types:
-    - uid: PackageInfomation
+    - uid: PackageInformation
   - name: diagnosticsPath
     description: The virtual blob directory to which the copy logs and backups of drive manifest files (if enabled) will be stored.
     types:
@@ -214,6 +218,31 @@ definitions:
     - uid: Export
   - name: provisioningState
     description: Specifies the provisioning state of the job.
+    types:
+    - uid: string
+  - name: encryptionKey
+    description: Contains information about the encryption key.
+    types:
+    - uid: EncryptionKeyDetails
+- name: IdentityDetails
+  description: 'Specifies the identity properties. '
+  kind: object
+  properties:
+  - name: type
+    description: The type of identity
+    types:
+    - uid: None
+    - uid: SystemAssigned
+    - uid: UserAssigned
+    typesTitle: enum
+  - name: principalId
+    isReadyOnly: true
+    description: 'Specifies the principal id for the identity for the job. '
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: 'Specifies the tenant id for the identity for the job. '
     types:
     - uid: string
 - name: ReturnAddress
@@ -304,7 +333,12 @@ definitions:
     description: Phone number of the recipient of the returned drives.
     types:
     - uid: string
-- name: PackageInfomation
+  - name: additionalInformation
+    isReadyOnly: true
+    description: Additional shipping information for customer, specific to datacenter to which customer should send their disks.
+    types:
+    - uid: string
+- name: PackageInformation
   description: Contains information about the package being shipped by the customer to the Microsoft data center.
   kind: object
   properties:
@@ -380,7 +414,7 @@ definitions:
   description: A property containing information about the blobs to be exported for an export job. This property is required for export jobs, but must not be specified for import jobs.
   kind: object
   properties:
-  - name: blobListblobPath
+  - name: blobListBlobPath
     description: 'The relative URI to the block blob that contains the list of blob paths or blob path prefixes as defined above, beginning with the container name. If the blob is in root container, the URI must begin with $root. '
     types:
     - uid: string
@@ -394,6 +428,24 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: EncryptionKeyDetails
+  description: Specifies the encryption key properties
+  kind: object
+  properties:
+  - name: kekType
+    description: The type of kek encryption key
+    types:
+    - uid: MicrosoftManaged
+    - uid: CustomerManaged
+    typesTitle: enum
+  - name: kekUrl
+    description: 'Specifies the url for kek encryption key. '
+    types:
+    - uid: string
+  - name: kekVaultResourceID
+    description: 'Specifies the keyvault resource id for kek encryption key. '
+    types:
+    - uid: string
 - name: DriveState
   description: "The drive's current state. "
   kind: enum
@@ -422,7 +474,7 @@ definitions:
 examples:
 - name: List jobs in a resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ImportExport/jobs?api-version=2016-11-01
+    uri: GET https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ImportExport/jobs?api-version=2020-08-01
   responses:
   - statusCode: "200"
     body: >-
@@ -443,6 +495,10 @@ examples:
                 "phone": "4250000000",
                 "email": "test@contoso.com"
               },
+              "returnShipping": {
+                "carrierName": "FedEx",
+                "carrierAccountNumber": "989ffff"
+              },
               "shippingInformation": {
                 "recipientName": "Microsoft Azure Import/Export Service",
                 "streetAddress1": "2045 Lafayette Street",
@@ -451,7 +507,8 @@ examples:
                 "stateOrProvince": "CA",
                 "postalCode": "95050",
                 "countryOrRegion": "USA",
-                "phone": "408 352 7600"
+                "phone": "408 352 7600",
+                "additionalInformation": ""
               },
               "deliveryPackage": {
                 "carrierName": "FedEx",
@@ -464,7 +521,13 @@ examples:
               "backupDriveManifest": true,
               "cancelRequested": false,
               "state": "Received",
-              "provisioningState": "Succeeded"
+              "provisioningState": "Succeeded",
+              "encryptionKey": {
+                "kekType": "MicrosoftManaged"
+              }
+            },
+            "identity": {
+              "type": "None"
             },
             "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ImportExport/jobs/test-by1-ssd-2",
             "name": "test-by1-ssd-2",
