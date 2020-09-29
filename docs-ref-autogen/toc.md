@@ -7734,6 +7734,14 @@
 #### [Overview](monitor/TenantActivityLogs.yml)
 #### [List](monitor/TenantActivityLogs/List.yml)
 ### Alerts Management
+#### Action Rules
+##### [Overview](monitor/alertsmanagement/ActionRules.yml)
+##### [Create Update](monitor/alertsmanagement/ActionRules/CreateUpdate.yml)
+##### [Delete](monitor/alertsmanagement/ActionRules/Delete.yml)
+##### [Get By Name](monitor/alertsmanagement/ActionRules/GetByName.yml)
+##### [List By Resource Group](monitor/alertsmanagement/ActionRules/ListByResourceGroup.yml)
+##### [List By Subscription](monitor/alertsmanagement/ActionRules/ListBySubscription.yml)
+##### [Update](monitor/alertsmanagement/ActionRules/Update.yml)
 #### Alerts
 ##### [Overview](monitor/alertsmanagement/Alerts.yml)
 ##### [Change State](monitor/alertsmanagement/Alerts/ChangeState.yml)
@@ -7745,6 +7753,12 @@
 #### Operations
 ##### [Overview](monitor/alertsmanagement/Operations.yml)
 ##### [List](monitor/alertsmanagement/Operations/List.yml)
+#### Smart Groups
+##### [Overview](monitor/alertsmanagement/SmartGroups.yml)
+##### [Change State](monitor/alertsmanagement/SmartGroups/ChangeState.yml)
+##### [Get All](monitor/alertsmanagement/SmartGroups/GetAll.yml)
+##### [Get By Id](monitor/alertsmanagement/SmartGroups/GetById.yml)
+##### [Get History](monitor/alertsmanagement/SmartGroups/GetHistory.yml)
 ### Microsoft.WorkloadMonitor
 #### Components
 ##### [Overview](monitor/microsoft.workloadmonitor/Components.yml)
@@ -8920,6 +8934,15 @@
 ### [List](resources/PolicyDefinitions/List.yml)
 ### [List Built In](resources/PolicyDefinitions/ListBuiltIn.yml)
 ### [List By Management Group](resources/PolicyDefinitions/ListByManagementGroup.yml)
+## Policy Exemptions
+### [Overview](resources/PolicyExemptions.yml)
+### [Create Or Update](resources/PolicyExemptions/CreateOrUpdate.yml)
+### [Delete](resources/PolicyExemptions/Delete.yml)
+### [Get](resources/PolicyExemptions/Get.yml)
+### [List](resources/PolicyExemptions/List.yml)
+### [List For Management Group](resources/PolicyExemptions/ListForManagementGroup.yml)
+### [List For Resource](resources/PolicyExemptions/ListForResource.yml)
+### [List For Resource Group](resources/PolicyExemptions/ListForResourceGroup.yml)
 ## Policy Set Definitions
 ### [Overview](resources/PolicySetDefinitions.yml)
 ### [Create Or Update](resources/PolicySetDefinitions/CreateOrUpdate.yml)
