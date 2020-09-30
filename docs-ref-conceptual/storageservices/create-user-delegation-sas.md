@@ -96,6 +96,9 @@ The following table summarizes the fields supported for a user delegation SAS to
 | `Content-Language` response header | `rscl` | Optional | 2013-08-15 or later | Azure Storage sets the `Content-Language` response header to the value specified on the SAS token. |
 | `Content-Type` response header | `rsct` | Optional | 2013-08-15 or later | Azure Storage sets the `Content-Type` response header to the value specified on the SAS token. |
 
+> [!IMPORTANT]
+> All features added with version 2020-02-10 are currently in preview. The preview is intended for non-production use only.
+
 ### Specify the signed version field
 
 The required `signedversion` (`sv`) field specifies the service version for the shared access signature. This value indicates the version of the service used to construct the `signature` field, and also specifies the service version that handles a request made with this shared access signature. The value of the `sv` field must be version 2018-11-09 or later.
@@ -104,13 +107,13 @@ The required `signedversion` (`sv`) field specifies the service version for the 
 
 The required `signedresource` (`sr`) field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob, container, or directory resource in the SAS token.  
 
-| Resource      | Parameter value | Description |
+| Resource | Parameter value | Description |
 |---------------|-----------------|-------------|
-| Blob          | b               | Grants access to the content and metadata of the blob. |
-| Blob version  | bv              | Grants access to the content and metadata of the blob version, but not the base blob. |
-| Blob snapshot | bs              | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
-| Container     | c               | Grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. |
-| Directory     | d               | Grants access to the content and metadata of any file in the directory, and to the list of files in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedresource` field, then the `signeddirectorydepth` parameter is also required. |
+| Blob | b | Grants access to the content and metadata of the blob. |
+| Blob version | bv | Grants access to the content and metadata of the blob version, but not the base blob. |
+| Blob snapshot | bs | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
+| Container | c | Grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. |
+| Directory | d | Grants access to the content and metadata of any file in the directory, and to the list of files in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedresource` field, then the `signeddirectorydepth` parameter is also required. |
 
 ### Specify the signature validity interval
 
@@ -147,20 +150,20 @@ The tables in the following sections show the permissions supported for each res
   
 #### Permissions for a blob
   
-|Permission|URI symbol|Allowed operations|  
-|----------------|----------------|------------------------|  
-|Read|r|Read the content, properties, metadata, and block list. Use the blob as the source of a copy operation.|  
-|Add|a|Add a block to an append blob.|  
-|Create|c|Write a new blob, snapshot a blob, or copy a blob to a new blob.|  
-|Write|w|Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation.|  
-|Tags|t|Read or write the tags on a blob (version 2019-12-12 or later).|  
-|Delete|d|Delete the blob. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a blob. For more information, see the [Lease Blob](Lease-Blob.md) operation.|  
-|Delete version|x|Delete a blob version (version 2019-12-12 or later).|
-|Move (preview)|m|Move a blob or a directory and its contents to a new location (version 2020-02-10 or later).|
-|Execute (preview)|e|Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. Does not permit the caller to read user-defined metadata (version 2020-02-10 or later).|
-|Ownership (preview)|o|When the hierarchical namespace is enabled, the `Ownership` permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or file within a directory that has the sticky bit set.|
-|Permissions (preview)|p|When the hierarchical namespace is enabled, the `Permissions` permission allows the caller to set permissions and POSIX ACLs on directories and files.|
-  
+| Permission | URI symbol | Version support | Allowed operations |
+|------------------------------|---------------------|------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Read | r | All | Read the content, properties, metadata, and block list. Use the blob as the source of a copy operation. |
+| Add | a | All | Add a block to an append blob. |
+| Create | c | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
+| Write | w | All | Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
+| Tags | t | Version 2019-12-12 or later | Read or write the tags on a blob. |
+| Delete | d | All | Delete the blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the Lease Blob operation. |
+| Delete version | x | Version 2019-12-12 or later | Delete a blob version. |
+| Move (preview) | m | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. |
+| Execute (preview) | e | Version 2020-02-10 or later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. Does not permit the caller to read user-defined metadata. |
+| Ownership (preview) | o | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Ownership permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or file within a directory that has the sticky bit set. |
+| Permissions (preview) | p | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Permissions permission allows the caller to set permissions and POSIX ACLs on directories and files. |
+
 #### Permissions for a container  
   
 |Permission|URI symbol|Allowed operations|  
@@ -267,35 +270,33 @@ If you create a shared access signature that specifies response headers as query
 
 ### Specify the signature
 
-The signature (`sig`) field is used to authorize a request made by a client with the shared access signature. Azure Storage uses Azure AD to authorize a user delegation SAS. The following table describes how to specify the signature on the URI.  
-  
-|Field name|Query parameter|Description|  
-|----------------|---------------------|-----------------|  
-| `signature` | `sig` |The string-to-sign is a unique string constructed from the fields that must be verified in order to authorize the request. The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding.|  
-  
+The `signature` (`sig`) field is used to authorize a request made by a client with the shared access signature. The string-to-sign is a unique string constructed from the fields that must be verified in order to authorize the request. The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding.
+
 To construct the signature string of a user delegation SAS, first create the string-to-sign from the fields comprising the request, then encode the string as UTF-8 and compute the signature using the HMAC-SHA256 algorithm. Fields included in the string-to-sign must be URL-decoded. Use the following format for the string-to-sign:
 
 ```
-StringToSign = signedPermissions + "\n" +  
-   signedStart + "\n" +  
-   signedExpiry + "\n" +  
-   canonicalizedResource + "\n" +  
-   signedObjectId + "\n" +
-   signedTenantId + "\n" +
-   signedKeyStart + "\n" +
-   signedKeyExpiry  + "\n" +
-   signedKeyService + "\n" +
-   signedKeyVersion + "\n" +
-   signedIP + "\n" +  
-   signedProtocol + "\n" +  
-   signedVersion + "\n" +  
-   signedResource + "\n" +
-   signedSnapshotTime + "\n" +
-   rscc + "\n" +
-   rscd + "\n" +  
-   rsce + "\n" +  
-   rscl + "\n" +  
-   rsct
+StringToSign = sp + "\n" +  
+ st + "\n" +  
+ se + "\n" +  
+ canonicalizedResource + "\n" +  
+ skoid + "\n" +
+ sktid + "\n" +
+ skt + "\n" +
+ ske  + "\n" +
+ sks + "\n" +
+ skv + "\n" +
+ saoid + "\n" +
+ suoid + "\n" +
+ scid + "\n" +
+ sip + "\n" +  
+ spr + "\n" +  
+ sv + "\n" +  
+ sr + "\n" +
+ rscc + "\n" +
+ rscd + "\n" +  
+ rsce + "\n" +  
+ rscl + "\n" +  
+ rsct
 ```  
 
 #### Canonicalized resource
@@ -322,8 +323,15 @@ canonicalizedresource = "/blob/myaccount/music/intro.mp3"
 URL = https://myaccount.dfs.core.windows.net/music  
 canonicalizedresource = "/blob/myaccount/music"  
 ```  
-  
-##### Blob example (Azure Data Lake Store)
+
+##### Directory example (Azure Data Lake Store)
+
+```
+URL = https://myaccount.dfs.core.windows.net/music/instruments/guitar/intro.mp3  
+canonicalizedresource = "/blob/myaccount/music/instruments/guitar/intro.mp3"  
+```  
+
+##### File example (Azure Data Lake Store)
   
 ```
 URL = https://myaccount.dfs.core.windows.net/music/intro.mp3  
