@@ -146,57 +146,23 @@ A user delegation SAS cannot grant access to certain operations:
 
 To construct a SAS that grants access to these operations, use an account SAS. For more information, see [Create an account SAS](create-account-sas.md).
   
-The tables in the following sections show the permissions supported for each resource type.  
+The following table shows the permissions supported for each resource type.  
+
+| Permission | URI symbol | Resource | Version support | Allowed operations |
+|-----------------------|------------|--------------------------|-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Read | r | Blob<br /><br />Container<br /><br />Directory | All | Read the content, block list, properties, and metadata of any blob in the container or directory. Use a blob as the source of a copy operation. |
+| Add | a | Blob<br /><br />Container<br /><br />Directory | All | Add a block to an append blob. |
+| Create | c | Blob<br /><br />Container<br /><br />Directory | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
+| Write | w | Blob<br /><br />Container<br /><br />Directory | All | Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the  blob as the destination of a copy operation. |
+| Tags | t | Blob | Version 2019-12-12 or later | Read or write the tags on a blob. |
+| Delete | d | Blob | All | Delete the blob. For version 2017-07-29 and later, the Delete  permission also allows breaking a lease on a blob. For more information,  see the Lease Blob operation. |
+| Delete version | x | Blob | Version 2019-12-12 or later | Delete a blob version. |
+| List | l | Container<br /><br />Directory | All | List blobs non-recursively. |
+| Move (preview) | m | Blob<br /><br />Container<br /><br />Directory | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. The  move operation can optionally be restricted to the child file or  directory owner or the parent directory owner if the saoid parameter is included on the SAS token and the sticky bit is set on the parent directory. |
+| Execute (preview) | e | Blob<br /><br />Container<br /><br />Directory | Version 2020-02-10 or later | Get the system properties and, if the hierarchical namespace is  enabled for the storage account, get the POSIX ACL of a blob. If the  hierarchical namespace is enabled and the caller is the owner of a blob,  this permission grants the ability to set the owning group, POSIX  permissions, and POSIX ACL of the blob. Does not permit the caller to  read user-defined metadata. |
+| Ownership (preview) | o | Blob<br /><br />Container<br /><br />Directory | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Ownership permission  enables the caller to set the owner or the owning group, or to act as  the owner when renaming or deleting a directory or file within a  directory that has the sticky bit set. |
+| Permissions (preview) | p | Blob<br /><br />Container<br /><br />Directory | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Permissions  permission allows the caller to set permissions and POSIX ACLs on  directories and files. |
   
-#### Permissions for a blob
-  
-| Permission | URI symbol | Version support | Allowed operations |
-|------------------------------|---------------------|------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Read | r | All | Read the content, properties, metadata, and block list. Use the blob as the source of a copy operation. |
-| Add | a | All | Add a block to an append blob. |
-| Create | c | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
-| Write | w | All | Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
-| Tags | t | Version 2019-12-12 or later | Read or write the tags on a blob. |
-| Delete | d | All | Delete the blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the Lease Blob operation. |
-| Delete version | x | Version 2019-12-12 or later | Delete a blob version. |
-| Move (preview) | m | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. |
-| Execute (preview) | e | Version 2020-02-10 or later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. Does not permit the caller to read user-defined metadata. |
-| Ownership (preview) | o | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Ownership permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or file within a directory that has the sticky bit set. |
-| Permissions (preview) | p | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Permissions permission allows the caller to set permissions and POSIX ACLs on directories and files. |
-
-#### Permissions for a container  
-  
-| Permission | URI symbol | Version support | Allowed operations |
-|------------------------------|---------------------|-----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Read | r | All | Read the content, properties, metadata, or block list of any blob in the container. Use any blob in the container as the source of a copy operation. |
-| Add | a | All | Add a block to any append blob in the container. |
-| Create | c | All | Write a new blob to the container, snapshot any blob in the container, or copy a blob to a new blob in the container. |
-| Write | w | All | For any blob in the container, create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. You cannot grant permissions to read or write container properties or metadata, nor to lease a container,  with a user delegation SAS. Use an account SAS instead. |
-| Tags | t | 2019-12-12 or later | Read or write the tags on any blob in a container. |
-| Delete | d | All | Delete any blob in the container. You cannot grant permissions to delete a container with a user delegation SAS. Use an account SAS instead. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a container. For more information, see Lease Container. |
-| List | l | All | List blobs in the container non-recursively. |
-| Move (preview) | m | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. |
-| Execute (preview) | e | Version 2020-02-10 or later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. Does not permit the caller to read user-defined metadata. |
-| Ownership (preview) | o | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Ownership permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or file within a directory that has the sticky bit set. |
-| Permissions (preview) | p | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Permissions permission allows the caller to set permissions and POSIX ACLs on directories and files. |
-
-#### Permissions for a directory
-
-| Permission | URI symbol | Version support | Allowed operations |
-|------------------------------|---------------------|------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Read | r | All | Read the content, properties, and metadata of any blob in the directory. Use a blob as the source of a copy operation. |
-| Add | a | All | Add a block to an append blob. |
-| Create | c | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
-| Write | w | All | Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
-| Tags | t | Version 2019-12-12 or later | Read or write the tags on a blob. |
-| Delete | d | All | Delete the blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the Lease Blob operation. |
-| Delete version | x | Version 2019-12-12 or later | Delete a blob version. |
-| List | l | All | List any blobs in the directory non-recursively. |  
-| Move (preview) | m | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. The move operation can optionally be restricted to the child file or directory owner or the parent directory owner if the `saoid` parameter is included on the SAS token and the sticky bit is set on the parent directory. |
-| Execute (preview) | e | Version 2020-02-10 or later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. Does not permit the caller to read user-defined metadata. |
-| Ownership (preview) | o | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Ownership permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or file within a directory that has the sticky bit set. |
-| Permissions (preview) | p | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Permissions permission allows the caller to set permissions and POSIX ACLs on directories and files. |
-
 ### Specify an IP address or IP range  
 
 The optional `signedip` (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates does not match the IP address or address range specified on the SAS token, the request is not authorized.  
