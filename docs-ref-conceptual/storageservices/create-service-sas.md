@@ -147,10 +147,10 @@ The following table shows the permissions supported for each resource type.
 
 | Permission | URI symbol | Resource | Version support | Allowed operations |
 |-----------------------|------------|--------------------------|-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Read | r | Blob<br /><br />Container | All | Read the content, block list, properties, and metadata of any blob in the container. Use a blob as the source of a copy operation. |
-| Add | a | Blob<br /><br />Container | All | Add a block to an append blob. |
-| Create | c | Blob<br /><br />Container | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
-| Write | w | Blob<br /><br />Container | All | Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
+| Read | r | Blob<br />Container | All | Read the content, block list, properties, and metadata of any blob in the container. Use a blob as the source of a copy operation. |
+| Add | a | Blob<br />Container | All | Add a block to an append blob. |
+| Create | c | Blob<br />Container | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
+| Write | w | Blob<br />Container | All | Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
 | Tags | t | Blob | Version 2019-12-12 or later | Read or write the tags on a blob. |
 | Delete | d | Blob | All | Delete the blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the Lease Blob operation. |
 | Delete version | x | Blob | Version 2019-12-12 or later | Delete a blob version. |
