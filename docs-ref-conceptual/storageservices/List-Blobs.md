@@ -135,7 +135,7 @@ For version 2019-12-12 and above, `List Blobs` returns the `IsCurrentVersion` el
 
 For version 2019-12-12 and above, `List Blobs` returns the `TagCount` element for blobs with any tags. The `Tags` element appears only when this operation includes the `include={tags}` parameter. These elements do not appear if there are no tags on the blob.
 
-For version 2020-02-02 and above, `List Blobs` returns the `LastAccessTime` element. The elements shows when the blob's data was last accessed according to account's last access time tracking policy. The element will not be returned if there's no policy or the policy is disabled. For information about setting account's last access time time tracking policy, see [Blob Service API](https://docs.microsoft.com/en-us/rest/api/storagerp/blobservices/setserviceproperties). The `LastAccessTime` element does not track the last time when the blob's metadata is accessed.
+For version 2020-02-10 and above, `List Blobs` returns the `LastAccessTime` element. The elements shows when the blob's data was last accessed according to the storage account's last access time tracking policy. The element will not be returned if the storage account does not have a last access time tracking policy, or the policy is disabled. For information about setting account's last access time tracking policy, see [Blob Service API](https://docs.microsoft.com/en-us/rest/api/storagerp/blobservices/setserviceproperties). The `LastAccessTime` element does not track the last time when the blob's metadata is accessed.
 
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
