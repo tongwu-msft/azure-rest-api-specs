@@ -166,15 +166,36 @@ The tables in the following sections show the permissions supported for each res
 
 #### Permissions for a container  
   
-|Permission|URI symbol|Allowed operations|  
-|----------------|----------------|------------------------|  
-|Read|r|Read the content, properties, metadata, or block list of any blob in the container. Use any blob in the container as the source of a copy operation.|  
-|Add|a|Add a block to any append blob in the container.|  
-|Create|c|Write a new blob to the container, snapshot any blob in the container, or copy a blob to a new blob in the container.|  
-|Write|w|For any blob in the container, create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. **Note:**  You cannot grant permissions to read or write container properties or metadata, nor to lease a container, with a service SAS. Use an account SAS instead.|  
-|Tags|t|Read or write the tags on any blob in a container (version 2019-12-12 or later).|  
-|Delete|d|Delete any blob in the container. **Note:**  You cannot grant permissions to delete a container with a service SAS. Use an account SAS instead. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a container. For more information, see [Lease Container](Lease-Container.md).|  
-|List|l|List blobs in the container.|  
+| Permission | URI symbol | Version support | Allowed operations |
+|------------------------------|---------------------|-----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Read | r | All | Read the content, properties, metadata, or block list of any blob in the container. Use any blob in the container as the source of a copy operation. |
+| Add | a | All | Add a block to any append blob in the container. |
+| Create | c | All | Write a new blob to the container, snapshot any blob in the container, or copy a blob to a new blob in the container. |
+| Write | w | All | For any blob in the container, create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. You cannot grant permissions to read or write container properties or metadata, nor to lease a container,  with a user delegation SAS. Use an account SAS instead. |
+| Tags | t | 2019-12-12 or later | Read or write the tags on any blob in a container. |
+| Delete | d | All | Delete any blob in the container. You cannot grant permissions to delete a container with a user delegation SAS. Use an account SAS instead. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a container. For more information, see Lease Container. |
+| List | l | All | List blobs in the container non-recursively. |
+| Move (preview) | m | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. |
+| Execute (preview) | e | Version 2020-02-10 or later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. Does not permit the caller to read user-defined metadata. |
+| Ownership (preview) | o | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Ownership permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or file within a directory that has the sticky bit set. |
+| Permissions (preview) | p | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Permissions permission allows the caller to set permissions and POSIX ACLs on directories and files. |
+
+#### Permissions for a directory
+
+| Permission | URI symbol | Version support | Allowed operations |
+|------------------------------|---------------------|------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Read | r | All | Read the content, properties, and metadata of any blob in the directory. Use a blob as the source of a copy operation. |
+| Add | a | All | Add a block to an append blob. |
+| Create | c | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
+| Write | w | All | Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
+| Tags | t | Version 2019-12-12 or later | Read or write the tags on a blob. |
+| Delete | d | All | Delete the blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the Lease Blob operation. |
+| Delete version | x | Version 2019-12-12 or later | Delete a blob version. |
+| List | l | All | List any blobs in the directory non-recursively. |  
+| Move (preview) | m | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. The move operation can optionally be restricted to the child file or directory owner or the parent directory owner if the `saoid` parameter is included on the SAS token and the sticky bit is set on the parent directory. |
+| Execute (preview) | e | Version 2020-02-10 or later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. Does not permit the caller to read user-defined metadata. |
+| Ownership (preview) | o | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Ownership permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or file within a directory that has the sticky bit set. |
+| Permissions (preview) | p | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Permissions permission allows the caller to set permissions and POSIX ACLs on directories and files. |
 
 ### Specify an IP address or IP range  
 
@@ -215,28 +236,26 @@ The `signedkeyservice` (`sks`) field is required for a user delegation SAS. The 
 
 The `signedkeyversion` (`skv`) field is required for a user delegation SAS. The **Get User Delegation Key** operation returns this value as part of the response. The signed key version field specifies the storage service version used to get the user delegation key. This field must specify version 2018-11-09 or later.
 
-### Specify an agent object ID (preview)
+### Specify a signed object ID for a user (preview)
 
-To specify the object ID for an Azure AD security principal (a user, group, service principal, or managed identity) on the SAS token, include either the `saoid` field or the `suoid` field. Use the `suoid` field if the storage account has a hierarchical namespace enabled. Otherwise, use the `saoid` field.
+The optional `signedauthorizedobjectid` (`saoid`) and `signedunauthorizedobjectid` (`suoid`) fields (preview) enable integration with Apache Hadoop and Apache Ranger for Azure Data Lake Storage Gen2 workloads. Only one of these fields may be included on the SAS token. Use the `suoid` field to specify the optional user object ID if the storage account has a hierarchical namespace enabled. Otherwise, use the `saoid` field.
 
-The object ID for the agent is included in diagnostic logs when a request is made using the SAS token.
+The `saoid` field specifies the object ID for an Azure AD user that is authorized by the owner of the user delegation key to perform the action granted by the SAS token. Azure Storage validates the SAS token and ensures that the owner of the user delegation key has the required permissions before granting access. No additional permission check is performed.
 
-Only one of these fields may be included on the SAS token. The `saoid` or `suoid` field is supported only if the `signedversion` (`sv`) field is set to version 2020-02-10 or later.
+The `suoid` field specifies the object ID for an Azure AD security principal when a hierarchical namespace is enabled. The security principal may not be authorized with Azure AD, but may have permissions to directories and files with POSIX ACLs. When the `suoid` field is included on the SAS token, Azure Storage performs a POSIX ACL check against the object ID before authorizing the operation. If this ACL check does not succeed, then the operation fails. A hierarchical namespace must be enabled for the storage account if the `suoid` field is included on the SAS token. Otherwise, the permission check will fail with an authorization error.
 
-#### Specify an agent object ID to act on behalf of an authorized user (preview)
+The object ID for the security principal who requests the user delegation key is captured in the required `skoid` field. To specify the optional object ID for a user on the SAS token with the `saoid` or `suoid` field, the security principal identified in the `skoid` field must be assigned an RBAC role that includes the **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/runAsSuperUser/action** or **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/manageOwnership/action**. For more information about these actions, see [Azure resource provider operations](/azure/role-based-access-control/resource-provider-operations).
 
-The `signedauthorizedobjectid` (`saoid`) field (preview) specifies the object ID for an Azure AD security principal that is authorized by the owner of the user delegation key to perform the action granted by the SAS token. Azure Storage validates the SAS token and ensures that the owner of the user delegation key has the required permissions before granting access. No additional permission check is performed on the security principal.
+Specifying the optional object ID for a user also restricts operations related to directory or file ownership:
 
-#### Specify an agent object ID when a hierarchical namespace is enabled (preview)
+- If an operation creates a directory or file, then Azure Storage sets the owner of the directory or file to the value specified by the user object ID. If the user object ID is not specified, then Azure Storage sets the owner of the directory or file to the value specified by the `skoid` parameter.
+- If the sticky bit is set on the parent directory and the operation deletes or renames a directory or file, then the owner of the parent directory or the owner of the resource must match the value specified by the user object ID.
+- If an operation sets the ACL for a directory or file and the `x-ms-owner` header is specified, then the value specified by the user object ID must match the value specified by the `x-ms-owner` header.  
+- If an operation sets the ACL for a directory or file and the `x-ms-group` header is specified, then the value specified by the user object ID must be a member of the group specified by the `x-ms-group` header.
 
-The `signedunauthorizedobjectid` (`suoid`) field (preview) specifies the object ID for an Azure AD security principal when a hierarchical namespace is enabled. The security principal may not be authorized with Azure AD, but may have permissions to directories and files with POSIX ACLs. When the `suoid` field is included on the SAS token, Azure Storage performs a POSIX ACL check against the object ID before authorizing the operation. A hierarchical namespace must be enabled for the storage account if the `suoid` field is included on the SAS token. Otherwise, the permission check will fail with an authorization error.
+The object ID specified in the the `saoid` or `suoid` field is included in diagnostic logs when a request is made using the SAS token.
 
-Specifying the agent object ID also restricts operations related to directory or file ownership:
-
-- If an operation creates a directory or file, then Azure Storage sets the owner of the directory or file to the value specified by the agent object ID. If the agent object ID is not specified, then Azure Storage sets the owner of the directory or file to the value specified by the `skoid` parameter.
-- If the sticky bit is set on the parent directory and the operation deletes or renames a directory or file, then the owner of the parent directory or the owner of the resource must match the value specified by the agent object ID.
-- If an operation sets the ACL for a directory or file and the `x-ms-owner` header is specified, then the value specified by the agent object ID must match the value specified by the `x-ms-owner` header.  
-- If an operation sets the ACL for a directory or file and the `x-ms-group` header is specified, then the value specified by the agent object ID must be a member of the group specified by the `x-ms-group` header.
+The `saoid` or `suoid` field is supported only if the `signedversion` (`sv`) field is set to version 2020-02-10 or later.
 
 ### Specify a correlation ID (preview)
 
@@ -301,7 +320,7 @@ StringToSign = sp + "\n" +
 
 #### Canonicalized resource
 
-The `canonicalizedresouce` portion of the string is a canonical path to the signed resource. It must include the Blob service endpoint and the resource name, and must be URL-decoded. The name of a blob must include its container. The following examples show how to construct the `canonicalizedresource` portion of the string, depending on the type of resource.  
+The `canonicalizedresouce` portion of the string is a canonical path to the signed resource. It must include the Blob service endpoint and the resource name, and must be URL-decoded. A blob path must include its container. A directory path must include the number of subdirectories corresponding to the `sdd` parameter. The following examples show how to construct the `canonicalizedresource` portion of the string, depending on the type of resource.  
   
 ##### Container example (Azure Blob Store)
   
