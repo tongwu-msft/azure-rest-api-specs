@@ -113,7 +113,7 @@ The required `signedresource` (`sr`) field specifies which resources are accessi
 | Blob version | bv | Grants access to the content and metadata of the blob version, but not the base blob. |
 | Blob snapshot | bs | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
 | Container | c | Grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. |
-| Directory | d | Grants access to the content and metadata of any file in the directory, and to the list of files in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedresource` field, then the `signeddirectorydepth` parameter is also required. |
+| Directory | d | Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedresource` field, then the `signeddirectorydepth` parameter is also required. |
 
 ### Specify the signature validity interval
 
@@ -158,10 +158,10 @@ The following table shows the permissions supported for each resource type.
 | Delete | d | Blob | All | Delete the blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the Lease Blob operation. |
 | Delete version | x | Blob | Version 2019-12-12 or later | Delete a blob version. |
 | List | l | Container<br />Directory | All | List blobs non-recursively. |
-| Move (preview) | m | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. The move operation can optionally be restricted to the child file or directory owner or the parent directory owner if the `saoid` parameter is included on the SAS token and the sticky bit is set on the parent directory. |
+| Move (preview) | m | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. The move operation can optionally be restricted to the child blob, directory owner, or parent directory owner if the `saoid` parameter is included on the SAS token and the sticky bit is set on the parent directory. |
 | Execute (preview) | e | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. Does not permit the caller to read user-defined metadata. |
-| Ownership (preview) | o | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Ownership permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or file within a directory that has the sticky bit set. |
-| Permissions (preview) | p | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Permissions permission allows the caller to set permissions and POSIX ACLs on directories and files. |
+| Ownership (preview) | o | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Ownership permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or blob within a directory that has the sticky bit set. |
+| Permissions (preview) | p | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Permissions permission allows the caller to set permissions and POSIX ACLs on directories and blobs. |
   
 ### Specify an IP address or IP range  
 
@@ -211,12 +211,12 @@ The optional `signedauthorizedobjectid` (`saoid`) and `signedunauthorizedobjecti
 
 The object ID for the security principal who requests the user delegation key is captured in the required `skoid` field. To specify an object ID on the SAS token with the `saoid` or `suoid` field, the security principal identified in the `skoid` field must be assigned an RBAC role that includes the **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/runAsSuperUser/action** or **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/manageOwnership/action**. For more information about these actions, see [Azure resource provider operations](/azure/role-based-access-control/resource-provider-operations).
 
-Specifying the object ID in the `saoid` or `suoid` field also restricts operations related to directory or file ownership:
+Specifying the object ID in the `saoid` or `suoid` field also restricts operations related to directory or blob ownership:
 
-- If an operation creates a directory or file, then Azure Storage sets the owner of the directory or file to the value specified by the object ID. If the object ID is not specified, then Azure Storage sets the owner of the directory or file to the value specified by the `skoid` parameter.
-- If the sticky bit is set on the parent directory and the operation deletes or renames a directory or file, then the object ID of the owner of the parent directory or the owner of the resource must match the value specified by the object ID.
-- If an operation sets the ACL for a directory or file and the `x-ms-owner` header is specified, then the value specified by the object ID must match the value specified by the `x-ms-owner` header.  
-- If an operation sets the ACL for a directory or file and the `x-ms-group` header is specified, then the value specified by the object ID must be a member of the group specified by the `x-ms-group` header.
+- If an operation creates a directory or blob, then Azure Storage sets the owner of the directory or blob to the value specified by the object ID. If the object ID is not specified, then Azure Storage sets the owner of the directory or blob to the value specified by the `skoid` parameter.
+- If the sticky bit is set on the parent directory and the operation deletes or renames a directory or blob, then the object ID of the owner of the parent directory or the owner of the resource must match the value specified by the object ID.
+- If an operation sets the ACL for a directory or blob and the `x-ms-owner` header is specified, then the value specified by the object ID must match the value specified by the `x-ms-owner` header.  
+- If an operation sets the ACL for a directory or blob and the `x-ms-group` header is specified, then the value specified by the object ID must be a member of the group specified by the `x-ms-group` header.
 
 The object ID specified in the the `saoid` or `suoid` field is included in diagnostic logs when a request is made using the SAS token.
 
@@ -287,35 +287,35 @@ StringToSign = sp + "\n" +
 
 The `canonicalizedresouce` portion of the string is a canonical path to the signed resource. It must include the Blob service endpoint and the resource name, and must be URL-decoded. A blob path must include its container. A directory path must include the number of subdirectories corresponding to the `sdd` parameter. The following examples show how to construct the `canonicalizedresource` portion of the string, depending on the type of resource.  
   
-##### Container example (Azure Blob Store)
+##### Container example (Azure Blob storage)
   
 ```
 URL = https://myaccount.blob.core.windows.net/music  
 canonicalizedresource = "/blob/myaccount/music"  
 ```  
   
-##### Blob example (Azure Blob Store)
+##### Blob example (Azure Blob storage)
   
 ```
 URL = https://myaccount.blob.core.windows.net/music/intro.mp3  
 canonicalizedresource = "/blob/myaccount/music/intro.mp3"  
 ```  
 
-##### Container example (Azure Data Lake Store)
+##### Container example (Azure Data Lake Storage Gen2)
   
 ```
 URL = https://myaccount.dfs.core.windows.net/music  
 canonicalizedresource = "/blob/myaccount/music"  
 ```  
 
-##### Directory example (Azure Data Lake Store)
+##### Directory example (Azure Data Lake Storage Gen2)
 
 ```
 URL = https://myaccount.dfs.core.windows.net/music/instruments/guitar/intro.mp3  
 canonicalizedresource = "/blob/myaccount/music/instruments/guitar/intro.mp3"  
 ```  
 
-##### File example (Azure Data Lake Store)
+##### Blob example (Azure Data Lake Storage Gen2)
   
 ```
 URL = https://myaccount.dfs.core.windows.net/music/intro.mp3  
