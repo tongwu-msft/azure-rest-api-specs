@@ -23,6 +23,10 @@ A service SAS is secured using the storage account key. To create a service SAS,
 
 To use Azure AD credentials to secure a SAS for a container or blob, create a user delegation SAS. For more information, see [Create a user delegation SAS](create-user-delegation-sas.md).
 
+## Service SAS support for Directory scoped access
+
+Service SAS will support directory scope (sr=d) acess when the authentication version (sv) is 2020-02-10 or higher and hierarchical namespace (HNS) is enabled. The semantics for directory scope (sr=d) are similar to container scope (sr=c), except access is restricted to a directory and the files and directories within. When sr=d is specified, the sdd query parameter is also required (See below for more details on sdd parameter). The string-to-sign format for authentication version 2020-02-10 is unchanged.
+
 ## Construct a service SAS
 
 The following figure represents the parts of the shared access signature URI. Required parts appear in orange. The fields comprising the SAS token are described in the subsequent sections.  
@@ -52,7 +56,7 @@ The `signedresource` (`sr`) field specifies which resources are accessible via t
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedresource`|`sr`|Required.<br /><br /> Specify `b` if the shared resource is a blob. Use to grant access to the content and metadata of the blob.<br /><br /> Specify `bv` if the shared resource is a blob version (version 2019-12-12 or later). Use to grant access to the content and metadata of the blob version, but not the base blob.<br /><br /> Specify `bs` if the shared resource is a blob snapshot (version 2018-11-09 and later). Use to grant access to the content and metadata of the blob snapshot, but not the base blob.<br /><br /> Specify `c` if the shared resource is a container. This grants access to the content and metadata of any blob in the container, and to the list of blobs in the container.|  
+|`signedresource`|`sr`|Required.<br /><br /> Specify `b` if the shared resource is a blob. Use to grant access to the content and metadata of the blob.<br /><br /> Specify `d` if the shared resource is a directory (version 2020-02-10 or later and hierarchical namespace is enabled). This grants access to the content and metadata of any blob within the directory.<br /><br /> Specify `bv` if the shared resource is a blob version (version 2019-12-12 or later). Use to grant access to the content and metadata of the blob version, but not the base blob.<br /><br /> Specify `bs` if the shared resource is a blob snapshot (version 2018-11-09 and later). Use to grant access to the content and metadata of the blob snapshot, but not the base blob.<br /><br /> Specify `c` if the shared resource is a container. This grants access to the content and metadata of any blob in the container, and to the list of blobs in the container.|
   
 ### Specifying the signed resource (File service)
 
@@ -148,6 +152,10 @@ The tables in the following sections show the permissions supported for each res
 |Tags|t|Read or write the tags on a blob (version 2019-12-12 or later).|  
 |Delete|d|Delete a blob. For version 2017-07-29 and later, the `Delete` permission also allows breaking a lease on a blob. See [Lease Blob](Lease-Blob.md) for more information.|  
 |Delete version|x|Delete a blob version (version 2019-12-12 or later).|
+|Move|m|Move a file or directory to a new location (version 2020-02-10 or later). If the path is a directory, the directory and its contents can be moved to a new location.|
+|Execute|e|Get the system properties and, when namespace is enabled, get the POSIX ACL of a blob (version 2020-02-10 or later). This permission allows the caller to read system properties, but not user defined metadata. Furthermore, if the namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob.|
+|Ownership|o|When namespace is enabled, allows the caller to set owner, owning group, or act as the owner when renaming or deleting a blob (file or directory) within a folder that has the sticky bit set (version 2020-02-10 or later).|
+|Permissions|p|When namespace is enabled, Allows the caller to set permissions and POSIX ACLs on blobs (files or directories), when namespace is enabled (version 2020-02-10 or later).|
 
 #### Permissions for a container  
   
@@ -232,7 +240,13 @@ The following table describes how to refer to a signed identifier on the URI.
 |`signedidentifier`|`si`|Optional. A unique value up to 64 characters in length that correlates to an access policy specified for the container, queue, or table.|  
   
 A stored access policy includes a signed identifier, a value up to 64 characters long that is unique within the resource. The value of this signed identifier can be specified for the `signedidentifier` field in the URI for the shared access signature. Specifying a signed identifier on the URI associates the signature with the stored access policy. To establish a container-level access policy using the REST API, see [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md).  
-  
+
+### Specifying the signed directory depth
+
+When sr=d is specified, the sdd query parameter is also required (version 2020-02-10 or later and hierarchical namespace is enabled). The sdd query parameter indicates the depth of the directory specified in the canonicalizedResource field of the string-to-sign (see below). The depth of the directory is the number of directories beneath the root folder.
+
+For example, the directory https://{account}.blob.core.windows.net/{container}/d1/d2 has a depth of 2 and the root directory https://{account}.blob.core.windows.net/{container}/ has a depth of 0. The value of sdd must be a non-negative integer.
+
 ### Specifying the signature  
 
 The signature part of the URI is used to authorize the request made with the shared access signature. Azure Storage uses a Shared Key authorization scheme to authorize a service SAS. The following table describes how to specify the signature on the URI.  
