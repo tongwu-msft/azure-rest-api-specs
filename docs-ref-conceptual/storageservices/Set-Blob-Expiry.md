@@ -1,7 +1,5 @@
 # Set Blob Expiry
-The `Set Blob Expiry` operation sets an expiry time on an existing blob. This operation is only allowed on an Hierarchical Namespace enabled account.   
-
-Note that version
+The `Set Blob Expiry` operation sets an expiry time on an existing blob. This operation is only allowed on Hierarchical Namespace enabled accounts. Applies to service version 2020-02-10 and above.
 
 ## Request  
  The `Set Blob Expiry` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -31,8 +29,8 @@ The following additional parameters may be specified on the request URI.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. See [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md) for more information.|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. See [Authentication for the Azure Storage Services](authorize-requests-to-azure-storage.md) for more information.|
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](authorize-requests-to-azure-storage.md).|
 |`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-expiry-option`|Required. Specify the expiry option for the request see  [Expiry Option](#ExpiryOption).|  
