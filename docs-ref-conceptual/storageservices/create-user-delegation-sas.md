@@ -204,11 +204,10 @@ The `signedkeyversion` (`skv`) field is required for a user delegation SAS. The 
 
 ### Specify a signed object ID for a security principal (preview)
 
-The optional `signedauthorizedobjectid` (`saoid`) and `signedunauthorizedobjectid` (`suoid`) fields (preview) enable integration with Apache Hadoop and Apache Ranger for Azure Data Lake Storage Gen2 workloads. Use these fields on the SAS token to specify the object ID for a security principal. The `suoid` field is valid only with accounts that have a hierarchical namespace. Only one of these fields may be included on the SAS token.
+The optional `signedauthorizedobjectid` (`saoid`) and `signedunauthorizedobjectid` (`suoid`) fields (preview) enable integration with Apache Hadoop and Apache Ranger for Azure Data Lake Storage Gen2 workloads. Use one of these fields on the SAS token to specify the object ID for a security principal:
 
-The `saoid` field specifies the object ID for an Azure AD security principal that is authorized by the owner of the user delegation key to perform the action granted by the SAS token. Azure Storage validates the SAS token and ensures that the owner of the user delegation key has the required permissions before granting access. No additional permission check on POSIX ACLs is performed.
-
-The `suoid` field specifies the object ID for an Azure AD security principal when a hierarchical namespace is enabled. When the `suoid` field is included on the SAS token, Azure Storage performs a POSIX ACL check against the object ID before authorizing the operation. If this ACL check does not succeed, then the operation fails. A hierarchical namespace must be enabled for the storage account if the `suoid` field is included on the SAS token. Otherwise, the permission check will fail with an authorization error.
+- The `saoid` field specifies the object ID for an Azure AD security principal that is authorized by the owner of the user delegation key to perform the action granted by the SAS token. Azure Storage validates the SAS token and ensures that the owner of the user delegation key has the required permissions before granting access. No additional permission check on POSIX ACLs is performed.
+- The `suoid` field specifies the object ID for an Azure AD security principal when a hierarchical namespace is enabled for a storage account. The `suoid` field is valid only for accounts that have a hierarchical namespace. When the `suoid` field is included on the SAS token, Azure Storage performs a POSIX ACL check against the object ID before authorizing the operation. If this ACL check does not succeed, then the operation fails. A hierarchical namespace must be enabled for the storage account if the `suoid` field is included on the SAS token. Otherwise, the permission check will fail with an authorization error.
 
 The object ID for the security principal who requests the user delegation key is captured in the required `skoid` field. To specify an object ID on the SAS token with the `saoid` or `suoid` field, the security principal identified in the `skoid` field must be assigned an RBAC role that includes the **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/runAsSuperUser/action** or **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/manageOwnership/action**. For more information about these actions, see [Azure resource provider operations](/azure/role-based-access-control/resource-provider-operations).
 
@@ -221,7 +220,7 @@ Specifying the object ID in the `saoid` or `suoid` field also restricts operatio
 
 The object ID specified in the the `saoid` or `suoid` field is included in diagnostic logs when a request is made using the SAS token.
 
-The `saoid` or `suoid` field is supported only if the `signedversion` (`sv`) field is set to version 2020-02-10 or later.
+The `saoid` or `suoid` field is supported only if the `signedversion` (`sv`) field is set to version 2020-02-10 or later. Only one of these fields may be included on the SAS token.
 
 ### Specify a correlation ID (preview)
 
