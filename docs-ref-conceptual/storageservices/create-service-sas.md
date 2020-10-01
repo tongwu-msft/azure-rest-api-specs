@@ -48,7 +48,7 @@ In legacy scenarios where `signedversion` is not used, the Blob service applies 
   
 ### Specifying the signed resource (Blob service only)
 
-The required `signedresource` (`sr`) field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob, container, or directory resource in the SAS token.  
+The required `signedresource` (`sr`) field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob, or container resource in the SAS token.  
 
 | Resource      | Parameter value | Description |
 |---------------|-----------------|-------------|
@@ -56,7 +56,6 @@ The required `signedresource` (`sr`) field specifies which resources are accessi
 | Blob version  | bv              | Grants access to the content and metadata of the blob version, but not the base blob. |
 | Blob snapshot | bs              | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
 | Container     | c               | Grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. |
-| Directory     | d               | Grants access to the content and metadata of any file in the directory, and to the list of files in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedresource` field, then the `signeddirectorydepth` parameter is also required. |
   
 ### Specifying the signed resource (File service)
 
@@ -141,7 +140,7 @@ To construct a SAS that grants access to these operations, use an account SAS. F
 
 The tables in the following sections show the permissions supported for each resource type.  
   
-#### Permissions for a container, directory, or blob
+#### Permissions for a container or blob
   
 The following table shows the permissions supported for each resource type.  
 
