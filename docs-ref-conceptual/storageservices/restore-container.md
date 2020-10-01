@@ -30,6 +30,7 @@ The `Restore Container` operation is available on service versions beginning wit
 |---------------|-----------------|  
 |`restype`|Required. The `restype` parameter value must be `container`.|  
 |`comp`|Required. The `comp` parameter value must be `undelete`.|  
+|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
  The following table describes required and optional request headers.  
@@ -38,7 +39,7 @@ The `Restore Container` operation is available on service versions beginning wit
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
-|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For this operation, the version must be `2018-03-28` or newer. For more information, see [Versioning for the Azure Storage Services](ListContainers2.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For this operation, the version must be `2018-03-28` or newer. For more information, see [Versioning for the Azure Storage Services](List-Containers2.md).|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md).|  
 |`x-ms-deleted-container-name`|Required. This header is used to uniquely identify the soft-deleted container that should be restored.|  
 |`x-ms-deleted-container-version`|Required. This header is used to uniquely identify the soft-deleted container that should be restored. This value can be obtained from specifying the `deleted` value in the `include` query parameter of the List Containers operation. For more information, see [List Containers](List-Containers2.md).|  
