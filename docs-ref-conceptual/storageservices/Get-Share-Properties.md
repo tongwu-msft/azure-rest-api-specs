@@ -18,7 +18,7 @@ The `Get Share Properties` request may be constructed as follows. HTTPS is recom
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare?restype=share`|HTTP/1.1|  
-|`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare?restype=share&snapshot=<DateTime>`|HTTP/1.1|  
+|`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare?restype=share&sharesnapshot=<DateTime>`|HTTP/1.1|  
   
 Replace the path components shown in the request URI with your own, as follows:  
   
@@ -35,7 +35,8 @@ The following additional parameters can be specified in the request URI.
 |Parameter|Description|  
 |---------------|-----------------|  
 |`sharesnapshot`|Optional. Version 2017-04-17 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query to retrieve the properties|
-|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
+|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|
+|`x-ms-lease-id:<ID>`|Optional. Version 2020-02-10 and newer. If the header is specified, the operation will be performed only if the share's lease is currently active and the lease ID specified in the request matches the that of the share. Otherwise, the operation fails with status code 412 (Precondition Failed).|
   
 ## Request headers  
 The following table describes required and optional request headers.  
@@ -75,7 +76,10 @@ The response for this operation includes the following headers. The response may
 |`x-ms-share-next-allowed-quota-downgrade-time`|Version 2019-07-07 or newer. This header is only returned for premium file shares (file shares within the FileStorage storage account type). A DateTime value that specifies when the quota for the premium file share is permitted to be reduced. The date format follows RFC 1123.|
 |`x-ms-access-tier`|Version 2019-12-12 or newer. Returns the current access tier of the share. In general purpose version 2 (GPv2) storage accounts, `TransationOptimized` is the default tier of the share. In FileStorage storage account types, `Premium` is the default tier of the share. |  
 |`x-ms-access-tier-change-time`|Version 2019-12-12 or newer. Returns the date and time the access tier on the share was last modified.|  
-|`x-ms-access-tier-transition-state`|Version 2019-12-12 or newer. If the share is undergoing tier transition, this indicates the tier it is transitioning from.|  
+|`x-ms-access-tier-transition-state`|Version 2019-12-12 or newer. If the share is undergoing tier transition, this indicates the tier it is transitioning from.|
+|`x-ms-lease-duration:<fixed,infinite>`|Version 2020-02-10 and newer. Specifies whether the lease on a share is of infinite or fixed duration. |
+|`x-ms-lease-state: <available;leased;expired;breaking;broken>`|Version 2020-02-10 and newer. When a share is leased, specifies the lease state of the share.| 
+|`x-ms-lease-status: <locked;unlocked>`|Version 2020-02-10 and newer. When a share is leased, specifies the lease status of the share. |
 |`x-ms-enabled-protocols: <SMB | NFS>`|Returns the current share enabled protocols for version 2020-02-10 and above.<br /><br /><ul><li>`SMB`: The share can be accessed by SMBv3.0, SMBv2.1 and REST.</li><li>`NFS`: The share can be accessed by NFSv4.1.</li></ul>| 
 |`x-ms-root-squash: <NoRootSquash | RootSquash | AllSquash>`|Returns the current share root squashing behavior for version 2020-02-10 and above.<br /><br /><ul><li>`NoRootSquash`: Root squashing is off.</li><li>`RootSquash`: Requests from uid/gid 0 are mapped to the anonymous uid/gid.</li><li>`AllSquash`: All uids and gids are mapped to the anonymous user.</li></ul>| 
 

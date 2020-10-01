@@ -117,7 +117,7 @@ The format of the response body for version 2020-02-10 is as follows:
 |`AllowedMethods`|A comma-separated list of HTTP methods that are allowed to be executed by the origin. For Azure Storage, permitted methods are DELETE, GET, HEAD, MERGE, POST, OPTIONS or PUT.|  
 |`ProtocolSettings`|Groups the settings for file system protocols.|
 |`SMB`|Groups the settings for SMB.|
-|`Multichannel`|Contains the settings for SMB multichannel. This setting has one property: enabled/disabled.|
+|`Multichannel`|Contains the settings for SMB Multichannel. This setting has one property: enabled/disabled.|
   
 ### Authorization  
 Only the storage account owner may call this operation.  

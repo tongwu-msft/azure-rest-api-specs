@@ -25,13 +25,15 @@ The `Lease Share` request may be constructed as follows. HTTPS is recommended. R
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|`PUT`|`https://myaccount.file.core.windows.net/myshare?comp=lease&restype=share`|HTTP/1.1|  
+|`PUT`|`https://myaccount.file.core.windows.net/myshare?comp=lease&restype=share`|HTTP/1.1|
+|`PUT`|`https://myaccount.file.core.windows.net/myshare?comp=lease&sharesnapshot=<DateTime>&restype=share`|HTTP/1.1|
   
 ### URI parameters  
 The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
-|---------------|-----------------|  
+|---------------|-----------------|
+|`sharesnapshot`|Optional. Version 2020-02-10 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot perform the leasing operation.|
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request Headers  
@@ -122,7 +124,13 @@ Date: Thu, 26 Jan 2012 23:30:18 GMT
 Only the account owner may call this operation.  
   
 ## Remarks  
-A lease on a file share provides exclusive delete access to the file share. A file share lease only controls the ability to delete the file share using the [`Delete Share`](Delete-Share.md) operation. To delete a file share with an active lease, a client must include the active lease ID with the delete request. If the lease ID is not included, the operation fails with 412 (Precondition failed). All other file share operations succeed on a leased file share without including the lease ID. The lease is granted for the duration specified when the lease is acquired, which can be between 15 seconds and one minute, or an infinite duration.  
+A lease on a file share provides exclusive write access to the file share.
+
+For Get Operations on a share - [`Get Share ACL`](Get-Share-ACL.md), [`Get Share Properties`](Get-Share-Properties.md), [`Get Share Metadata`](Get-Share-Metadata.md), and [`Get Share Stats`](Get-Share-Stats.md), `x-ms-lease-id` is optional, but if provided it must match the ID of the active lease on the share, or the operation will fail with status code 412 (Precondition Failed).
+
+For Set Operations on a share - [`Set Share ACL`](Set-Share-ACL.md). [`Set Share Properties`](Set-Share-Properties.md), and [`Set Share Metadata`](Set-Share-Metadata.md), `x-ms-lease-id` is required, and the operation will fail with status code 412 (Precondition Failed) if the ID does not match the lease ID of the active lease on the share.
+
+A file share lease only controls the ability to delete the file share using the [`Delete Share`](Delete-Share.md) operation. To delete a file share with an active lease, a client must include the active lease ID with the delete request. If the lease ID is not included, the operation fails with 412 (Precondition failed). All other file share operations succeed on a leased file share without including the lease ID. The lease is granted for the duration specified when the lease is acquired, which can be between 15 seconds and one minute, or an infinite duration.  
   
 When a client acquires a lease, a lease ID is returned. Azure Files will generate a lease ID if one is not specified in the acquire request. The client may use this lease ID to renew the lease, change its lease ID, or release the lease. The following diagram shows the five states of a lease, and the commands or events that cause lease state changes.  
   
