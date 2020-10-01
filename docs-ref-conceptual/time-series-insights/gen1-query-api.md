@@ -10,10 +10,13 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/29/2020
+ms.date: 10/01/2020
 ---
 
 # Azure Time Series Insights Gen1 Query API
+
+> [!CAUTION]
+> This is a Gen1 article.
 
 This article describes various REST Query APIs. REST APIs are service endpoints that support sets of HTTP operations (methods), which enable you to query Azure Time Series Insights Gen1 environments.
 
