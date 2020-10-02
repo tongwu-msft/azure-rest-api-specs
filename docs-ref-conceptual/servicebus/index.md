@@ -33,10 +33,10 @@ The Service Bus REST API provides operations for working with the following reso
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
-| [Namespaces](xref:management.azure.com.servicebus.namespaces)          | Provides operations for managing Service Bus namespaces. |
-| [Queues](xref:management.azure.com.servicebus.queues)  | Operations for managing Service Bus queues. |
-| [Subscriptions](xref:management.azure.com.servicebus.subscriptions)  | Operations for managing Service Bus topic subscriptions. |
-| [Topics](xref:management.azure.com.servicebus.topics)  | Operations for managing Service Bus topics. |
+| [Namespaces](xref:management.azure.com.servicebus.stable.namespaces)          | Provides operations for managing Service Bus namespaces. |
+| [Queues](xref:management.azure.com.servicebus.stable.queues)  | Operations for managing Service Bus queues. |
+| [Subscriptions](xref:management.azure.com.servicebus.stable.subscriptions)  | Operations for managing Service Bus topic subscriptions. |
+| [Topics](xref:management.azure.com.servicebus.stable.topics)  | Operations for managing Service Bus topics. |
 
 ### Service Bus service
 
