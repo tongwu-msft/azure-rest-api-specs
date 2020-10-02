@@ -33,22 +33,22 @@ The following sections describe how to specify the parameters that comprise the 
   
 ### Specifying the signed version field
 
-The `signedversion` (`sv`) field contains the service version of the shared access signature. This value specifies the version of Shared Key authorization used by this shared access signature (in the `signature` field), and also specifies the service version for requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) for information on which version is used when to execute requests via a shared access signature. See [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md) for details about how this parameter affects the authorization of requests made with a shared access signature.
+The `signedVersion` (`sv`) field contains the service version of the shared access signature. This value specifies the version of Shared Key authorization used by this shared access signature (in the `signature` field), and also specifies the service version for requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) for information on which version is used when to execute requests via a shared access signature. See [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md) for details about how this parameter affects the authorization of requests made with a shared access signature.
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedversion`|`sv`|Required. Supported in versions 2012-02-12 and newer. The storage service version to use to authorize requests made with this shared access signature, and the service version to use when handling requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md for information about which version is used when to execute requests via a shared access signature, and how clients executing the request can control the version using the `api-version` query parameter or the `x-ms-version` header.|
+|`signedVersion`|`sv`|Required. Supported in versions 2012-02-12 and newer. The storage service version to use to authorize requests made with this shared access signature, and the service version to use when handling requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md for information about which version is used when to execute requests via a shared access signature, and how clients executing the request can control the version using the `api-version` query parameter or the `x-ms-version` header.|
   
 #### Determining the version of a legacy shared access signature request
 
-In legacy scenarios where `signedversion` is not used, the Blob service applies rules to determine the version. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) for more information about these rules.  
+In legacy scenarios where `signedVersion` is not used, the Blob service applies rules to determine the version. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) for more information about these rules.  
   
 > [!IMPORTANT]
 > Client software might experience unexpected protocol behavior when using a shared access signature URI that uses a storage service version that is newer than the client software. Code that constructs shared access signature URIs should rely on versions that are understood by client software that makes storage service requests.  
   
 ### Specifying the signed resource (Blob service only)
 
-The required `signedresource` (`sr`) field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob, or container resource in the SAS token.  
+The required `signedResource` (`sr`) field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob, or container resource in the SAS token.  
 
 | Resource      | Parameter value | Description |
 |---------------|-----------------|-------------|
@@ -61,11 +61,11 @@ The required `signedresource` (`sr`) field specifies which resources are accessi
 
 SAS is supported for the File service in version 2015-02-21 and later.  
   
-The `signedresource` field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a file or share resource on the URI.  
+The `signedResource` field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a file or share resource on the URI.  
   
 |Field name|Query Parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedresource`|`sr`|Required.<br /><br /> Specify `f` if the shared resource is a file. This grants access to the content and metadata of the file.<br /><br /> Specify `s` if the shared resource is a share. This grants access to the content and metadata of any file in the share, and to the list of directories and files in the share.|  
+|`signedResource`|`sr`|Required.<br /><br /> Specify `f` if the shared resource is a file. This grants access to the content and metadata of the file.<br /><br /> Specify `s` if the shared resource is a share. This grants access to the content and metadata of any file in the share, and to the list of directories and files in the share.|  
   
 ### Specifying query parameters to override response headers (Blob and File services only)
 
@@ -87,11 +87,11 @@ Note that if you create a shared access signature that specifies response header
   
 ### Specifying the table name (Table service only)
 
-The `tablename` field specifies the name of the table to share.  
+The `tableName` field specifies the name of the table to share.  
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`tablename`|`tn`|Required. The name of the table to share.|  
+|`tableName`|`tn`|Required. The name of the table to share.|  
   
 ### Specifying the access policy
 
@@ -99,30 +99,30 @@ The access policy portion of the URI indicates the period of time over which the
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedstart`|`st`|Optional. The time at which the shared access signature becomes valid, in a UTC format compatible with ISO 8601. If omitted, start time for this call is assumed to be the time when the storage service receives the request.<br /><br /> In versions before 2012-02-12, the duration between `signedstart` and `signedexpiry` cannot exceed one hour unless a container policy is used.|  
-|`signedexpiry`|`se`|Required. The time at which the shared access signature becomes invalid, in a UTC format compatible with ISO 8601. This field must be omitted if it has been specified in an associated stored access policy. For details, see Lifetime and Revocation of a shared access signature.|  
-|`signedpermissions`|`sp`|Required. The permissions associated with the shared access signature. The user is restricted to operations allowed by the permissions. This field must be omitted if it has been specified in an associated stored access policy.|  
-|`startpk`<br /><br /> `startrk`|`spk`<br /><br /> `srk`|Table service only.<br /><br /> Optional, but `startpk` must accompany `startrk`. The minimum partition and row keys accessible with this shared access signature. Key values are inclusive. If omitted, there is no lower bound on the table entities that can be accessed.|  
-|`endpk`<br /><br /> `endrk`|`epk`<br /><br /> `erk`|Table service only.<br /><br /> Optional, but `endpk` must accompany `endrk`. The maximum partition and row keys accessible with this shared access signature. Key values are inclusive. If omitted, there is no upper bound on the table entities that can be accessed.|  
+|`signedStart`|`st`|Optional. The time at which the shared access signature becomes valid, in a UTC format compatible with ISO 8601. If omitted, start time for this call is assumed to be the time when the storage service receives the request.<br /><br /> In versions before 2012-02-12, the duration between `signedStart` and `signedExpiry` cannot exceed one hour unless a container policy is used.|  
+|`signedExpiry`|`se`|Required. The time at which the shared access signature becomes invalid, in a UTC format compatible with ISO 8601. This field must be omitted if it has been specified in an associated stored access policy. For details, see Lifetime and Revocation of a shared access signature.|  
+|`signedPermissions`|`sp`|Required. The permissions associated with the shared access signature. The user is restricted to operations allowed by the permissions. This field must be omitted if it has been specified in an associated stored access policy.|  
+|`startPk`<br /><br /> `startRk`|`spk`<br /><br /> `srk`|Table service only.<br /><br /> Optional, but `startPk` must accompany `startRk`. The minimum partition and row keys accessible with this shared access signature. Key values are inclusive. If omitted, there is no lower bound on the table entities that can be accessed.|  
+|`endPk`<br /><br /> `endRk`|`epk`<br /><br /> `erk`|Table service only.<br /><br /> Optional, but `endPk` must accompany `endRk`. The maximum partition and row keys accessible with this shared access signature. Key values are inclusive. If omitted, there is no upper bound on the table entities that can be accessed.|  
   
-The `signedpermissions` field is required on the URI unless it is specified as part of a stored access policy. The `startpk`, `startrk`, `endpk`, and `endrk` fields can only be specified on a table resource.  
+The `signedPermissions` field is required on the URI unless it is specified as part of a stored access policy. The `startPk`, `startRk`, `endPk`, and `endRk` fields can only be specified on a table resource.  
   
 ### Specifying the signature validity interval
 
-The `signedstart` (`st`) and `signedexpiry` (`se`) fields must be expressed as UTC times and must adhere to a valid UTC format that is compatible ISO 8601 format. Supported ISO 8601 formats include the following:  
+The `signedStart` (`st`) and `signedExpiry` (`se`) fields must be expressed as UTC times and must adhere to a valid UTC format that is compatible ISO 8601 format. Supported ISO 8601 formats include the following:  
   
 - `YYYY-MM-DD`  
 - `YYYY-MM-DDThh:mmTZD`  
 - `YYYY-MM-DDThh:mm:ssTZD`  
   
 > [!NOTE]
-> All values for `signedstart` and `signedexpiry` must be in UTC time.
+> All values for `signedStart` and `signedExpiry` must be in UTC time.
   
 For the date portion of these formats, `YYYY` is a four-digit year representation, `MM` is a two-digit month representation, and `DD` is a two-digit day representation. For the time portion, `hh` is the hour representation in 24-hour notation, `mm` is the two-digit minute representation, and `ss` is the two-digit second representation. A time designator `T` separates the date and time portions of the string, while a time zone designator `TZD` specifies a time zone (UTC).
   
 ### Specifying permissions
   
-The permissions specified for the `signedpermissions` (`sp`) field on the SAS token indicate which operations a client may perform on the resource.
+The permissions specified for the `signedPermissions` (`sp`) field on the SAS token indicate which operations a client may perform on the resource.
 
 Permissions can be combined to permit a client to perform multiple operations with the same signature. When you construct the SAS, you must include permissions in the order that they appear in the table for the resource type. For example, to grant all permissions to a container, the SAS token must specify `sp=rwdl`. To grant only read/write permissions, the URI must specify `sp=rw`.  
   
@@ -194,7 +194,7 @@ The following table shows the permissions supported for each resource type.
 
 ### Specifying IP address or IP range  
 
-Beginning with version 2015-04-05, the optional signed IP (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates does not match the IP address or address range specified on the SAS token, the request is not authorized.  
+Beginning with version 2015-04-05, the optional `signedIp` (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates does not match the IP address or address range specified on the SAS token, the request is not authorized.  
   
 When specifying a range of IP addresses, note that the range is inclusive.  
   
@@ -202,30 +202,30 @@ For example, specifying `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70` on the S
   
 ### Specifying the HTTP protocol  
 
-Beginning with version 2015-04-05, the optional signed protocol (`spr`) field specifies the protocol permitted for a request made with the SAS. Possible values are both HTTPS and HTTP (`https,http`) or HTTPS only (`https`).  The default value is `https,http`.  Note that HTTP only is not a permitted value.  
+Beginning with version 2015-04-05, the optional `signedProtocol` (`spr`) field specifies the protocol permitted for a request made with the SAS. Possible values are both HTTPS and HTTP (`https,http`) or HTTPS only (`https`).  The default value is `https,http`.  Note that HTTP only is not a permitted value.  
   
 ### Specifying table access ranges  
 
-The `startpk`, `startrk`, `endpk`, and `endrk` fields define a range of table entities associated with a shared access signature. Table queries will only return results that are within the range, and attempts to use the shared access signature to add, update, or delete entities outside this range will fail. If `startpk` equals `endpk`, the shared access signature only authorizes access to entities in one partition in the table. If `startpk` equals `endpk` and `startrk` equals `endrk`, the shared access signature can only access one entity  in one partition. Use the following table to understand how these fields constrain access to entities in a table.  
+The `startPk`, `startRk`, `endPk`, and `endRk` fields define a range of table entities associated with a shared access signature. Table queries will only return results that are within the range, and attempts to use the shared access signature to add, update, or delete entities outside this range will fail. If `startPk` equals `endPk`, the shared access signature only authorizes access to entities in one partition in the table. If `startPk` equals `endPk` and `startRk` equals `endRk`, the shared access signature can only access one entity  in one partition. Use the following table to understand how these fields constrain access to entities in a table.  
   
 |Fields present|Scope of constraint|  
 |--------------------|-------------------------|  
-|`startpk`|partitionKey >= `startpk`|  
-|`endpk`|partitionKey <= `endpk`|  
-|`startpk`, `startrk`|(partitionKey > `startpk`) &#124;&#124; (partitionKey == `startpk` && rowKey >= `startrk`)|  
-|`endpk`, `endrk`|(partitionKey < `endpk`) &#124;&#124; (partitionKey == `endpk` && rowKey <= `endrk`)|  
+|`startPk`|partitionKey >= `startPk`|  
+|`endPk`|partitionKey <= `endPk`|  
+|`startPk`, `startRk`|(partitionKey > `startPk`) &#124;&#124; (partitionKey == `startPk` && rowKey >= `startRk`)|  
+|`endPk`, `endRk`|(partitionKey < `endPk`) &#124;&#124; (partitionKey == `endPk` && rowKey <= `endRk`)|  
   
 ### Specifying the signed identifier  
 
-Specifying the `signedidentifier` field on the URI relates the given shared access signature to a corresponding stored access policy. A stored access policy provides an additional measure of control over one or more shared access signatures, including the ability to revoke the signature if needed. Each container, queue, table, or share can have up to 5 stored access policies.  
+Specifying the `signedIdentifier` field on the URI relates the given shared access signature to a corresponding stored access policy. A stored access policy provides an additional measure of control over one or more shared access signatures, including the ability to revoke the signature if needed. Each container, queue, table, or share can have up to 5 stored access policies.  
   
 The following table describes how to refer to a signed identifier on the URI.  
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedidentifier`|`si`|Optional. A unique value up to 64 characters in length that correlates to an access policy specified for the container, queue, or table.|  
+|`signedIdentifier`|`si`|Optional. A unique value up to 64 characters in length that correlates to an access policy specified for the container, queue, or table.|  
   
-A stored access policy includes a signed identifier, a value up to 64 characters long that is unique within the resource. The value of this signed identifier can be specified for the `signedidentifier` field in the URI for the shared access signature. Specifying a signed identifier on the URI associates the signature with the stored access policy. To establish a container-level access policy using the REST API, see [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md).  
+A stored access policy includes a signed identifier, a value up to 64 characters long that is unique within the resource. The value of this signed identifier can be specified for the `signedIdentifier` field in the URI for the shared access signature. Specifying a signed identifier on the URI associates the signature with the stored access policy. To establish a container-level access policy using the REST API, see [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md).  
   
 ### Specifying the signature  
 
@@ -244,14 +244,14 @@ To construct the signature string of a shared access signature, first construct 
 Version 2018-11-09 adds support for the signed resource and signed blob snapshot time fields. These must be included in the string-to-sign. To construct the string-to-sign for Blob service resources, use the following format:  
   
 ``` 
-StringToSign = signedpermissions + "\n" +  
-               signedstart + "\n" +  
-               signedexpiry + "\n" +  
-               canonicalizedresource + "\n" +  
-               signedidentifier + "\n" +  
+StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
                signedIP + "\n" +  
                signedProtocol + "\n" +  
-               signedversion + "\n" +  
+               signedVersion + "\n" +  
                signedResource + "\n"
                signedSnapshotTime + "\n" +
                rscc + "\n" +  
@@ -266,14 +266,14 @@ StringToSign = signedpermissions + "\n" +
  Version 2015-04-05 adds support for the signed IP  and signed protocol fields. These must be included in the string-to-sign. To construct the string-to-sign for Blob or File service resources, use the following format:  
   
 ```
-StringToSign = signedpermissions + "\n" +  
-               signedstart + "\n" +  
-               signedexpiry + "\n" +  
-               canonicalizedresource + "\n" +  
-               signedidentifier + "\n" +  
+StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
                signedIP + "\n" +  
                signedProtocol + "\n" +  
-               signedversion + "\n" +  
+               signedVersion + "\n" +  
                rscc + "\n" +  
                rscd + "\n" +  
                rsce + "\n" +  
@@ -284,14 +284,14 @@ StringToSign = signedpermissions + "\n" +
  To construct the string-to-sign for Table service resources, use the following format:  
   
 ```
-StringToSign = signedpermissions + "\n" +  
-               signedstart + "\n" +  
-               signedexpiry + "\n" +  
-               canonicalizedresource + "\n" +  
-               signedidentifier + "\n" +  
+StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
                signedIP + "\n" +  
                signedProtocol + "\n" +  
-               signedversion + "\n" +  
+               signedVersion + "\n" +  
                startingPartitionKey + "\n"  
                startingRowKey + "\n"  
                endingPartitionKey + "\n"  
@@ -302,14 +302,14 @@ StringToSign = signedpermissions + "\n" +
  To construct the string-to-sign for Queue service resources, use the following format:  
   
 ```
-StringToSign = signedpermissions + "\n" +  
-               signedstart + "\n" +  
-               signedexpiry + "\n" +  
-               canonicalizedresource + "\n" +  
-               signedidentifier + "\n" +  
+StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
                signedIP + "\n" +  
                signedProtocol + "\n" +  
-               signedversion  
+               signedVersion  
   
 ```  
   
@@ -318,12 +318,12 @@ StringToSign = signedpermissions + "\n" +
 To construct the string-to-sign for Blob or File service resources using the 2013-08-15 version through version 2015-02-21, use the following format. Note that for the File service, SAS is supported beginning with version 2015-02-21.  
   
 ```  
-StringToSign = signedpermissions + "\n" +  
-               signedstart + "\n" +  
-               signedexpiry + "\n" +  
-               canonicalizedresource + "\n" +  
-               signedidentifier + "\n" +  
-               signedversion + "\n" +  
+StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
+               signedVersion + "\n" +  
                rscc + "\n" +  
                rscd + "\n" +  
                rsce + "\n" +  
@@ -334,28 +334,28 @@ StringToSign = signedpermissions + "\n" +
 To construct the string-to-sign for a table, use the following format:  
   
 ```  
-StringToSign = signedpermissions + "\n" +  
-               signedstart + "\n" +  
-               signedexpiry + "\n" +  
-               canonicalizedresource + "\n" +  
-               signedidentifier + "\n" +  
-               signedversion + "\n" +  
-               startpk + "\n" +  
-               startrk + "\n" +  
-               endpk + "\n" +  
-               endrk  
+StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
+               signedVersion + "\n" +  
+               startPk + "\n" +  
+               startRk + "\n" +  
+               endPk + "\n" +  
+               endRk  
   
 ```  
   
 To construct the string-to-sign for a queue, use the following format:  
   
 ```  
-StringToSign = signedpermissions + "\n" +  
-               signedstart + "\n" +  
-               signedexpiry + "\n" +  
-               canonicalizedresource + "\n" +  
-               signedidentifier + "\n" +  
-               signedversion 
+StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
+               signedVersion 
 ```  
   
 ##### Version 2012-02-12
@@ -363,12 +363,12 @@ StringToSign = signedpermissions + "\n" +
 To construct the string-to-sign for Blob service resources for version 2012-02-12, use the following format:  
   
 ```
-StringToSign = signedpermissions + "\n" +  
-               signedstart + "\n" +  
-               signedexpiry + "\n" +  
-               canonicalizedresource + "\n" +  
-               signedidentifier + "\n" +  
-               signedversion  
+StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier + "\n" +  
+               signedVersion  
 ```  
   
 ##### Versions Prior to 2012-02-12
@@ -376,11 +376,11 @@ StringToSign = signedpermissions + "\n" +
  To construct the string-to-sign for Blob service resources for versions prior to 2012-02-12, use the following format:  
   
 ```
-StringToSign = signedpermissions + "\n" +  
-               signedstart + "\n" +  
-               signedexpiry + "\n" +  
-               canonicalizedresource + "\n" +  
-               signedidentifier  
+StringToSign = signedPermissions + "\n" +  
+               signedStart + "\n" +  
+               signedExpiry + "\n" +  
+               canonicalizedResource + "\n" +  
+               signedIdentifier  
   
 ```  
   
@@ -403,7 +403,7 @@ When constructing the string to be signed, keep in mind the following:
   
     For example, examples of valid permissions settings for a container include `rw`, `rd`, `rl`, `wd`, `wl`, and `rl`. Examples of invalid settings include `wr`, `dr`, `lr`, and `dw`. Specifying a permission designation more than once is not permitted.  
   
-- The `canonicalizedresource` portion of the string is a canonical path to the signed resource. It must include the service name (blob, table, queue or file) for version 2015-02-21 or later, the storage account name, and the resource name, and must be URL-decoded. Names of blobs must include the blob’s container. Table names must be lower-case. The following examples show how to construct the `canonicalizedresource` portion of the string, depending on the type of resource.  
+- The `canonicalizedResource` portion of the string is a canonical path to the signed resource. It must include the service name (blob, table, queue or file) for version 2015-02-21 or later, the storage account name, and the resource name, and must be URL-decoded. Names of blobs must include the blob’s container. Table names must be lower-case. The following examples show how to construct the `canonicalizedResource` portion of the string, depending on the type of resource.  
   
      **Containers**  
   
@@ -411,14 +411,14 @@ When constructing the string to be signed, keep in mind the following:
   
     ```  
     URL = https://myaccount.blob.core.windows.net/music  
-    canonicalizedresource = "/blob/myaccount/music"  
+    canonicalizedResource = "/blob/myaccount/music"  
     ```  
   
      For versions prior to 2015-02-21:  
   
     ```  
     URL = https://myaccount.blob.core.windows.net/music
-    canonicalizedresource = "/myaccount/music"  
+    canonicalizedResource = "/myaccount/music"  
     ```  
   
      **Blobs**  
@@ -427,7 +427,7 @@ When constructing the string to be signed, keep in mind the following:
   
     ```  
     URL = https://myaccount.blob.core.windows.net/music/intro.mp3  
-    canonicalizedresource = "/blob/myaccount/music/intro.mp3"  
+    canonicalizedResource = "/blob/myaccount/music/intro.mp3"  
   
     ```  
   
@@ -435,21 +435,21 @@ When constructing the string to be signed, keep in mind the following:
   
     ```  
     URL = https://myaccount.blob.core.windows.net/music/intro.mp3
-    canonicalizedresource = "/myaccount/music/intro.mp3"  
+    canonicalizedResource = "/myaccount/music/intro.mp3"  
     ```  
   
      **File Shares**  
   
     ```  
     URL = https://myaccount.file.core.windows.net/music
-    canonicalizedresource = "/file/myaccount/music"  
+    canonicalizedResource = "/file/myaccount/music"  
     ```  
   
      **Files**  
   
     ```  
     URL = https://myaccount.file.core.windows.net/music/intro.mp3
-    canonicalizedresource = "/file/myaccount/music/intro.mp3"  
+    canonicalizedResource = "/file/myaccount/music/intro.mp3"  
     ```  
   
      **Queues**  
@@ -458,7 +458,7 @@ When constructing the string to be signed, keep in mind the following:
   
     ```  
     URL = https://myaccount.queue.core.windows.net/thumbnails  
-    canonicalizedresource = "/queue/myaccount/thumbnails"  
+    canonicalizedResource = "/queue/myaccount/thumbnails"  
   
     ```  
   
@@ -466,7 +466,7 @@ When constructing the string to be signed, keep in mind the following:
   
     ```  
     URL = https://myaccount.queue.core.windows.net/thumbnails  
-    canonicalizedresource = "/myaccount/thumbnails"  
+    canonicalizedResource = "/myaccount/thumbnails"  
   
     ```  
   
@@ -478,7 +478,7 @@ When constructing the string to be signed, keep in mind the following:
   
     ```  
     URL = https://myaccount.table.core.windows.net/Employees(PartitionKey='Jeff',RowKey='Price')  
-    canonicalizedresource = "/table/myaccount/employees"  
+    canonicalizedResource = "/table/myaccount/employees"  
   
     ```  
   
@@ -486,13 +486,13 @@ When constructing the string to be signed, keep in mind the following:
   
     ```  
     URL = https://myaccount.table.core.windows.net/Employees(PartitionKey='Jeff',RowKey='Price')  
-    canonicalizedresource = "/myaccount/employees"  
+    canonicalizedResource = "/myaccount/employees"  
   
     ```  
   
-- Provide a value for the `signedidentifier` portion of the string if you are associating the request with a stored access policy.  
+- Provide a value for the `signedIdentifier` portion of the string if you are associating the request with a stored access policy.  
   
-- A shared access signature that specifies a storage service version before 2012-02-12 can only share a blob or container, and must omit `signedversion` and the newline before it.  
+- A shared access signature that specifies a storage service version before 2012-02-12 can only share a blob or container, and must omit `signedVersion` and the newline before it.  
 
 ## Lifetime and revocation of a shared access signature  
 
@@ -504,11 +504,11 @@ A service SAS can take one of two forms:
 
 - **Ad hoc SAS:** When you create an ad hoc SAS, the start time, expiry time, and permissions for the SAS are all specified in the SAS URI (or implied, if start time is omitted). Any type of SAS can be an ad hoc SAS.
 
-    You can manage the lifetime of an ad hoc SAS via the `signedexpiry` field. If you want to continue to grant a client access to the resource after the expiry time, you must issue a new signature. It’s recommended that you keep the lifetime of a shared access signature short. Prior to version 2012-02-12, a shared access signature not associated with a stored access policy could not have an active period that exceeded one hour.
+    You can manage the lifetime of an ad hoc SAS via the `signedExpiry` field. If you want to continue to grant a client access to the resource after the expiry time, you must issue a new signature. It’s recommended that you keep the lifetime of a shared access signature short. Prior to version 2012-02-12, a shared access signature not associated with a stored access policy could not have an active period that exceeded one hour.
 
 - **SAS with stored access policy:** A stored access policy is defined on a resource container, which can be a blob container, table, queue, or file share. The stored access policy can be used to manage constraints for one or more shared access signatures. When you associate a SAS with a stored access policy, the SAS inherits the constraints&mdash;the start time, expiry time, and permissions&mdash;defined for the stored access policy.
 
-    The stored access policy is represented by the `signedidentifier` field on the URI. A stored access policy provides an additional measure of control over one or more shared access signatures, including the ability to revoke the signature if needed.  
+    The stored access policy is represented by the `signedIdentifier` field on the URI. A stored access policy provides an additional measure of control over one or more shared access signatures, including the ability to revoke the signature if needed.  
 
 ### Revocation of a SAS
 
