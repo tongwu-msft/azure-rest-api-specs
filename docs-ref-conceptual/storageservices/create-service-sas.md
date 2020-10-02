@@ -3,7 +3,7 @@ title: Create a service SAS - Azure Storage
 description: A service shared access signature (SAS) delegates access to a resource in the Blob, Queue, Table, or File service.
 author: tamram
 
-ms.date: 09/29/2020
+ms.date: 10/02/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -38,6 +38,9 @@ The `signedVersion` (`sv`) field contains the service version of the shared acce
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
 |`signedVersion`|`sv`|Required. Supported in versions 2012-02-12 and newer. The storage service version to use to authorize requests made with this shared access signature, and the service version to use when handling requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md for information about which version is used when to execute requests via a shared access signature, and how clients executing the request can control the version using the `api-version` query parameter or the `x-ms-version` header.|
+
+> [!IMPORTANT]
+> All features added with version 2020-02-10 are currently in preview. The preview is intended for non-production use only.
   
 #### Determining the version of a legacy shared access signature request
 
@@ -50,13 +53,14 @@ In legacy scenarios where `signedVersion` is not used, the Blob service applies 
 
 The required `signedResource` (`sr`) field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob, or container resource in the SAS token.  
 
-| Resource      | Parameter value | Description |
-|---------------|-----------------|-------------|
-| Blob          | b               | Grants access to the content and metadata of the blob. |
-| Blob version  | bv              | Grants access to the content and metadata of the blob version, but not the base blob. |
-| Blob snapshot | bs              | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
-| Container     | c               | Grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. |
-  
+| Resource | Parameter value | Supported versions | Description |
+|--|--|--|
+| Blob | b | All | Grants access to the content and metadata of the blob. |
+| Blob version | bv | Version 2018-11-09 and later | Grants access to the content and metadata of the blob version, but not the base blob. |
+| Blob snapshot | bs | Version 2018-11-09 and later | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
+| Container | c | All | Grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. |
+| Directory (preview) | d | Version 2020-02-10 and later | Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedResource` field, then the `signedDirectoryDepth` parameter is also required. |
+
 ### Specifying the signed resource (File service)
 
 SAS is supported for the File service in version 2015-02-21 and later.  
@@ -140,20 +144,24 @@ To construct a SAS that grants access to these operations, use an account SAS. F
 
 The tables in the following sections show the permissions supported for each resource type.  
   
-#### Permissions for a container or blob
+#### Permissions for a directory, container, or blob
   
 The following table shows the permissions supported for each resource type.  
 
 | Permission | URI symbol | Resource | Version support | Allowed operations |
-|-----------------------|------------|--------------------------|-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Read | r | Blob<br />Container | All | Read the content, block list, properties, and metadata of any blob in the container. Use a blob as the source of a copy operation. |
-| Add | a | Blob<br />Container | All | Add a block to an append blob. |
-| Create | c | Blob<br />Container | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
-| Write | w | Blob<br />Container | All | Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
+|--|--|--|--|--|
+| Read | r | Container<br />Directory<br />Blob | All | Read the content, block list, properties, and metadata of any blob in the container or directory. Use a blob as the source of a copy operation. |
+| Add | a | Container<br />Directory<br />Blob | All | Add a block to an append blob. |
+| Create | c | Container<br />Directory<br />Blob | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
+| Write | w | Container<br />Directory<br />Blob | All | Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
 | Tags | t | Blob | Version 2019-12-12 or later | Read or write the tags on a blob. |
 | Delete | d | Blob | All | Delete the blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the Lease Blob operation. |
 | Delete version | x | Blob | Version 2019-12-12 or later | Delete a blob version. |
-| List | l | Container | All | List blobs non-recursively. |
+| List | l | Container<br />Directory | All | List blobs non-recursively. |
+| Move (preview) | m | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. This operation can optionally be restricted to the owner of the child blob, directory, or parent directory if the `saoid` parameter is included on the SAS token and the sticky bit is set on the parent directory. |
+| Execute (preview) | e | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. Does not permit the caller to read user-defined metadata. |
+| Ownership (preview) | o | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, this permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or blob within a directory that has the sticky bit set. |
+| Permissions (preview) | p | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, this permission allows the caller to set permissions and POSIX ACLs on directories and blobs. |
   
 #### Permissions for a file
   

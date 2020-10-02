@@ -1,9 +1,9 @@
 ---
 title: Create a user delegation SAS - Azure Storage
-description: A SAS token for access to a container or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a user delegation SAS, because the token used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice. 
+description: A SAS token for access to a container, directory, or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a user delegation SAS, because the token used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice. 
 author: tamram
 
-ms.date: 09/29/2020
+ms.date: 10/02/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -12,7 +12,7 @@ ms.topic: reference
 
 # Create a user delegation SAS
 
-A SAS token for access to a container or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a *user delegation* SAS. Microsoft recommends that you use Azure AD credentials when possible as a security best practice, rather than using the account key, which can be more easily compromised. When your application design requires shared access signatures, use Azure AD credentials to create a user delegation SAS for superior security.
+A SAS token for access to a container, directory, or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a *user delegation* SAS. Microsoft recommends that you use Azure AD credentials when possible as a security best practice, rather than using the account key, which can be more easily compromised. When your application design requires shared access signatures, use Azure AD credentials to create a user delegation SAS for superior security.
 
 Every SAS is signed with a key. To create a user delegation SAS, you must first request a *user delegation key*, which is then used to sign the SAS. The user delegation key is analogous to the account key used to sign a service SAS or an account SAS, except that it relies on your Azure AD credentials. To request the user delegation key, call the [Get User Delegation Key](Get-User-Delegation-Key.md) operation. You can then use the user delegation key to create the SAS.
 
@@ -25,7 +25,7 @@ For information about using your account key to secure a SAS, see [Create a serv
 
 ## Authorization of a user delegation SAS
 
-When a client accesses a blob service resource with a user delegation SAS, the request to Azure Storage is authorized with the Azure AD credentials that were used to create the SAS. The role-based access control (RBAC) permissions granted for that Azure AD account, together with the permissions explicitly granted on the SAS, determine the client's access to the resource. This approach provides an additional level of security and avoids the need to store your account access key with your application code. For these reasons, creating a SAS using Azure AD credentials is a security best practice.
+When a client accesses a Blob storage resource with a user delegation SAS, the request to Azure Storage is authorized with the Azure AD credentials that were used to create the SAS. The role-based access control (RBAC) permissions granted for that Azure AD account, together with the permissions explicitly granted on the SAS, determine the client's access to the resource. This approach provides an additional level of security and avoids the need to store your account access key with your application code. For these reasons, creating a SAS using Azure AD credentials is a security best practice.
 
 The permissions granted to a client who possesses the SAS are the intersection of the permissions granted to the security principal that requested the user delegation key and the permissions granted to the resource on the SAS token using the `signedPermissions` (`sp`) field. If a permission granted to the security principal via RBAC is not also granted on the SAS token, then that permission is not granted to the client who attempts to use the SAS to access the resource. When creating a user delegation SAS, make sure that the permissions granted via RBAC and the permissions granted via the SAS token both align to the level of access required by the client.  
 
@@ -72,7 +72,7 @@ Once you have the user delegation key, you can use that key to create any number
 The following table summarizes the fields supported for a user delegation SAS token. Subsequent sections provide additional detail about how to specify these parameters.
 
 | SAS field name | SAS token parameter | Required or optional | Version support | Description |
-|------------------------------|----------------------------|-------------------------------|------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|--|--|--|--|--|
 | `signedVersion` | `sv` | Required | 2018-11-09 or later | Indicates the version of the service used to construct the signature field, and also specifies the service version that handles a request made with this shared access signature. |
 | `signedResource` | `sr` | Required | All | Specifies which blob resources are accessible via the shared access signature. |
 | `signedStart` | `st` | Optional | All | Indicates the start time for the SAS in UTC time. If omitted, the current UTC time is used as the start time. |
@@ -108,12 +108,12 @@ The required `signedVersion` (`sv`) field specifies the service version for the 
 The required `signedResource` (`sr`) field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob, container, or directory resource in the SAS token.  
 
 | Resource | Parameter value | Supported versions | Description |
-|---------------|-----------------|-------------|
+|--|--|--|
 | Blob | b | All | Grants access to the content and metadata of the blob. |
-| Blob version | bv | Grants access to the content and metadata of the blob version, but not the base blob. |
-| Blob snapshot | bs | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
+| Blob version | bv | Version 2018-11-09 and later | Grants access to the content and metadata of the blob version, but not the base blob. |
+| Blob snapshot | bs | Version 2018-11-09 and later | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
 | Container | c | All | Grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. |
-| Directory (preview) | d | Version 2020-02-10 or later | Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedResource` field, then the `signedDirectoryDepth` parameter is also required. |
+| Directory (preview) | d | Version 2020-02-10 and later | Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedResource` field, then the `signedDirectoryDepth` parameter is also required. |
 
 ### Specify the signature validity interval
 
@@ -149,7 +149,7 @@ To construct a SAS that grants access to these operations, use an account SAS. F
 The following table shows the permissions supported for each resource type.  
 
 | Permission | URI symbol | Resource | Version support | Allowed operations |
-|-----------------------|------------|--------------------------|-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|--|--|--|--|--|
 | Read | r | Container<br />Directory<br />Blob | All | Read the content, block list, properties, and metadata of any blob in the container or directory. Use a blob as the source of a copy operation. |
 | Add | a | Container<br />Directory<br />Blob | All | Add a block to an append blob. |
 | Create | c | Container<br />Directory<br />Blob | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
@@ -160,9 +160,9 @@ The following table shows the permissions supported for each resource type.
 | List | l | Container<br />Directory | All | List blobs non-recursively. |
 | Move (preview) | m | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. This operation can optionally be restricted to the owner of the child blob, directory, or parent directory if the `saoid` parameter is included on the SAS token and the sticky bit is set on the parent directory. |
 | Execute (preview) | e | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. Does not permit the caller to read user-defined metadata. |
-| Ownership (preview) | o | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Ownership permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or blob within a directory that has the sticky bit set. |
-| Permissions (preview) | p | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, the Permissions permission allows the caller to set permissions and POSIX ACLs on directories and blobs. |
-  
+| Ownership (preview) | o | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, this permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or blob within a directory that has the sticky bit set. |
+| Permissions (preview) | p | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, this permission allows the caller to set permissions and POSIX ACLs on directories and blobs. |
+
 ### Specify an IP address or IP range  
 
 The optional `signedIp` (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates does not match the IP address or address range specified on the SAS token, the request is not authorized.  
@@ -219,7 +219,7 @@ Specifying the object ID in the `saoid` or `suoid` field also restricts operatio
 - If an operation sets the group for a directory or blob and the `x-ms-group` header is specified, then the value specified by the object ID must be a member of the group specified by the `x-ms-group` header.
 - If an operation sets the permissions or ACL for a directory or blob, then one of the following two conditions must also be met:
   - The value specified for the object ID must be owner of the directory or blob.
-  - The value of the `signedPermissions` (`sp`) field must include the `Ownership` (`o`) permission in addition to the `Permission` (`p`) permission.
+  - The value of the `signedPermissions` (`sp`) field must include the `Ownership` (`o`) permission in addition to the `Permissions` (`p`) permission.
 
 The object ID specified in the the `saoid` or `suoid` field is included in diagnostic logs when a request is made using the SAS token.
 
@@ -243,13 +243,13 @@ This field is supported with version 2020-02-10 or later.
 
 To define values for certain response headers to be returned when the shared access signature is used in a request, you can specify response headers in query parameters. The response headers and corresponding query parameters are as follows:  
   
-|Response header name|Corresponding SAS query parameter|  
-|--------------------------|---------------------------------------|  
-| `Cache-Control` | `rscc` |  
-| `Content-Disposition` | `rscd` |  
-| `Content-Encoding` | `rsce` |  
-| `Content-Language` | `rscl` |  
-| `Content-Type` | `rsct` |  
+| Response header name | Corresponding SAS query parameter |  |
+|--|--|--|
+| `Cache-Control` | `rscc` |  |
+| `Content-Disposition` | `rscd` |  |
+| `Content-Encoding` | `rsce` |  |
+| `Content-Language` | `rscl` |  |
+| `Content-Type` | `rsct` |  | 
   
 For example, if you specify the `rsct=binary` query parameter on a SAS token, the `Content-Type` response header is set to `binary`. This value overrides the `Content-Type` header value stored for the blob for a request using this shared access signature only.  
   
@@ -333,10 +333,10 @@ If a field is optional and not provided as part of the SAS token, then specify a
 
 The `signedpermission` portion of the string must include the permission designations in a fixed order that is specific to each resource type. Any combination of these permissions is acceptable, but the order of permission letters must match the order in the following table.  
   
-|Resource type|Ordering of permissions|  
-|-------------------|-----------------------------|  
-|Blob|racwd|  
-|Container|racwdl|  
+| Resource type | Ordering of permissions |  |
+|--|--|--|
+| Blob | racwd |  |
+| Container | racwdl |  |
 
 For example, examples of valid permissions settings for a container include `rw`, `rd`, `rl`, `wd`, `wl`, and `rl`. Examples of invalid settings include `wr`, `dr`, `lr`, and `dw`. Specifying a permission designation more than once is not permitted.  
 
