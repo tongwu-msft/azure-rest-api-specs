@@ -5,7 +5,7 @@ ms.service: service-bus-messaging
 author: spelluru
 ms.author: spelluru
 ms.manager: femila
-service_description: To be added
+service_description: Microsoft Azure Service Bus is a fully managed enterprise integration message broker. Service Bus can decouple applications and services. Service Bus offers a reliable and secure platform for asynchronous transfer of data and state.
 ---
 
 # Azure Service Bus REST API
