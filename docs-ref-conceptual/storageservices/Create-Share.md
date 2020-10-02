@@ -112,7 +112,7 @@ Shares are created immediately beneath the storage account. It's not possible to
   
 You can specify metadata for a share at the time it is created by including one or more metadata headers on the request. The format for the metadata header is `x-ms-meta-name:value`.  
   
-If a share by the same name is being deleted when `Create Shawre` is called, the server will return status code 409 (Conflict), with additional error information indicating that the share is being deleted.  
+If a share by the same name is being deleted when `Create Share` is called, the server will return status code 409 (Conflict), with additional error information indicating that the share is being deleted.  
   
 The share size quota can be used to limit the size of files stored on the share.  It does not limit the size of snapshots.  The overhead associated with files that is used in computing the billing size for the storage account is not accounted for in the quota.  
   
