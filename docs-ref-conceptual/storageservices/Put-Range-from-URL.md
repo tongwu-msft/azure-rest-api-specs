@@ -24,7 +24,7 @@ The `Put Range from URL` request may be constructed as follows. HTTPS is recomme
 |---------------|-----------------|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
-### Request headers  
+### Request Headers  
 The following table describes required and optional request headers.  
   
 |Request Header|Description|  
@@ -43,7 +43,7 @@ The following table describes required and optional request headers.
 |`x-ms-source-if-none-match-crc64`|Optional. A CRC64 checksum value. Specify this header to perform the operation only if the checksum of the given range read from source is different from the provided checksum.<br /><br />If the specified condition isn't met, Azure Files returns status code 412 (Precondition Failed). | 
 |`x-ms-lease-id:<ID>`|Required if the file has an active lease. To perform this operation on a file with an active lease, specify the valid lease ID for this header.|  
   
-### Request body  
+### Request Body  
 No request body.  
   
 ### Sample Request  

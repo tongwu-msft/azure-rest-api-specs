@@ -21,13 +21,13 @@ The `Get File Service Properties` request may be specified as follows. HTTPS is 
   
 Note that the URI must always include the forward slash (/) to separate the host name from the path and query portions of the URI. In the case of this operation, the path portion of the URI is empty.  
   
-### URI parameters  
+### URI Parameters  
 |URI Parameter|Description|  
 |-------------------|-----------------|  
 |*restype=service&comp=properties*|Required. The combination of both query strings is required to set the storage service properties.|  
 |*Timeout*|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
-### Request headers  
+### Request Headers  
 The following table describes required and optional request headers.  
   
 |Request header|Description|  
@@ -36,24 +36,24 @@ The following table describes required and optional request headers.
 |*Date or x-ms-date*|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |*x-ms-version*|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later. To retrieve metrics properties for the File service, you must specify version 2015-04-05 or later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
   
-### Request body  
+### Request Body  
 None.  
   
 ## Response  
 The response includes an HTTP status code, a set of response headers, and a response body.  
   
-### Status code  
+### Status Code  
 A successful operation returns status code 200 (OK).  
   
-### Response headers  
-The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 rotocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
+### Response Headers  
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response Header|Description|  
 |---------------------|-----------------|  
 |*x-ms-request-id*|A value that uniquely identifies a request made against the service.|  
 |*x-ms-version*|Specifies the version of the operation used for the response. For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
   
-### Response body  
+### Response Body  
 The format of the response body for version 2020-02-10 is as follows:  
   
 ```xml

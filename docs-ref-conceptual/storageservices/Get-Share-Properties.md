@@ -29,7 +29,7 @@ Replace the path components shown in the request URI with your own, as follows:
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-## URI parameters  
+## URI Parameters  
 The following additional parameters can be specified in the request URI.  
   
 |Parameter|Description|  
@@ -38,7 +38,7 @@ The following additional parameters can be specified in the request URI.
 |`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|
 |`x-ms-lease-id:<ID>`|Optional. Version 2020-02-10 and newer. If the header is specified, the operation will be performed only if the share's lease is currently active and the lease ID specified in the request matches the that of the share. Otherwise, the operation fails with status code 412 (Precondition Failed).|
   
-## Request headers  
+## Request Headers  
 The following table describes required and optional request headers.  
   
 |Request Header|Description|  
@@ -47,18 +47,18 @@ The following table describes required and optional request headers.
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
   
-## Request body  
+## Request Body  
 None.  
   
 ## Response  
 The response includes an HTTP status code and a set of response headers.  
   
-## Status code  
+## Status Code  
 A successful operation returns status code 200 (OK).  
   
 For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
-## Response headers  
+## Response Headers  
 The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?LinkId=73147).  
   
 |Response header|Description|  
@@ -83,7 +83,7 @@ The response for this operation includes the following headers. The response may
 |`x-ms-enabled-protocols: <SMB | NFS>`|Returns the current share enabled protocols for version 2020-02-10 and above.<br /><br /><ul><li>`SMB`: The share can be accessed by SMBv3.0, SMBv2.1 and REST.</li><li>`NFS`: The share can be accessed by NFSv4.1.</li></ul>| 
 |`x-ms-root-squash: <NoRootSquash | RootSquash | AllSquash>`|Returns the current share root squashing behavior for version 2020-02-10 and above.<br /><br /><ul><li>`NoRootSquash`: Root squashing is off.</li><li>`RootSquash`: Requests from uid/gid 0 are mapped to the anonymous uid/gid.</li><li>`AllSquash`: All uids and gids are mapped to the anonymous user.</li></ul>| 
 
-## Response body  
+## Response Body  
 None.  
   
 ## Sample Response   

@@ -19,7 +19,7 @@ The `Get Share Metadata` operation returns all user-defined metadata for the sha
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare?restype=share&comp=metadata`|HTTP/1.1|  
-|`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare?restype=share&comp=metadata&snapshot=<DateTime>`|HTTP/1.1|  
+|`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare?restype=share&comp=metadata&sharesnapshot=<DateTime>`|HTTP/1.1|  
   
  Replace the path components shown in the request URI with your own, as follows:  
   
