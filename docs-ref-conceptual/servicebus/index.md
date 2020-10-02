@@ -1,6 +1,7 @@
 ---
 ms.assetid: 650f91bc-3b04-4bca-b10f-16da6c509b80
 title: Azure Service Bus REST API reference
+description: REST API reference documentation for Azure Service Bus. 
 ms.service: service-bus-messaging
 author: spelluru
 ms.author: spelluru
