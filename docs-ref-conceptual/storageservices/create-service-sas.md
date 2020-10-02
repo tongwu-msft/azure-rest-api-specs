@@ -128,7 +128,11 @@ For the date portion of these formats, `YYYY` is a four-digit year representatio
   
 The permissions specified for the `signedPermissions` (`sp`) field on the SAS token indicate which operations a client may perform on the resource.
 
-Permissions can be combined to permit a client to perform multiple operations with the same signature. When you construct the SAS, you must include permissions in the order that they appear in the table for the resource type. For example, to grant all permissions to a container, the SAS token must specify `sp=rwdl`. To grant only read/write permissions, the URI must specify `sp=rw`.  
+Permissions can be combined to permit a client to perform multiple operations with the same SAS. When you construct the SAS, you must include permissions in the following order:
+
+`racwdxltmeop`
+
+Examples of valid permissions settings for a container include `rw`, `rd`, `rl`, `wd`, `wl`, and `rl`. Examples of invalid settings include `wr`, `dr`, `lr`, and `dw`. Specifying a permission designation more than once is not permitted.  
   
 A service SAS cannot grant access to certain operations:
   
@@ -154,10 +158,10 @@ The following table shows the permissions supported for each resource type.
 | Add | a | Container<br />Directory<br />Blob | All | Add a block to an append blob. |
 | Create | c | Container<br />Directory<br />Blob | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
 | Write | w | Container<br />Directory<br />Blob | All | Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
-| Tags | t | Blob | Version 2019-12-12 or later | Read or write the tags on a blob. |
 | Delete | d | Blob | All | Delete the blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the Lease Blob operation. |
 | Delete version | x | Blob | Version 2019-12-12 or later | Delete a blob version. |
 | List | l | Container<br />Directory | All | List blobs non-recursively. |
+| Tags | t | Blob | Version 2019-12-12 or later | Read or write the tags on a blob. |
 | Move (preview) | m | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. This operation can optionally be restricted to the owner of the child blob, directory, or parent directory if the `saoid` parameter is included on the SAS token and the sticky bit is set on the parent directory. |
 | Execute (preview) | e | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. Does not permit the caller to read user-defined metadata. |
 | Ownership (preview) | o | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, this permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or blob within a directory that has the sticky bit set. |
