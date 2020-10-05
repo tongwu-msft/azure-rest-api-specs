@@ -176,19 +176,23 @@ definitions:
   kind: object
   properties:
   - name: cpu
-    description: Required CPU
+    description: Required CPU, basic tier should be 1, standard tier should be in range (1, 4)
     types:
     - uid: integer
   - name: memoryInGB
-    description: Required Memory size in GB
+    description: Required Memory size in GB, basic tier should be in range (1, 2), standard tier should be in range (1, 8)
     types:
     - uid: integer
   - name: jvmOptions
     description: JVM parameter
     types:
     - uid: string
+  - name: netCoreMainEntryPath
+    description: The path to the .NET executable relative to zip root
+    types:
+    - uid: string
   - name: instanceCount
-    description: Instance count
+    description: Instance count, basic tier should be in range (1, 25), standard tier should be in range (1, 500)
     types:
     - uid: integer
   - name: environmentVariables
@@ -268,6 +272,11 @@ definitions:
     description: Discovery status of the deployment instance
     types:
     - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: Start time of the deployment instance
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -296,6 +305,9 @@ definitions:
   - name: Jar
     types:
     - uid: string
+  - name: NetCoreZip
+    types:
+    - uid: string
   - name: Source
     types:
     - uid: string
@@ -307,6 +319,9 @@ definitions:
     types:
     - uid: string
   - name: Java_11
+    types:
+    - uid: string
+  - name: NetCore_31
     types:
     - uid: string
 examples:
@@ -357,14 +372,15 @@ examples:
             },
             "runtimeVersion": "Java_8"
           },
-          "provisioningState": "Updating",
-          "status": "Compiling",
+          "provisioningState": "Creating",
+          "status": "Running",
           "active": false,
           "instances": [
             {
               "name": "instance1",
               "status": "Running",
-              "discoveryStatus": "pending"
+              "discoveryStatus": "pending",
+              "startTime": "2020-08-26T01:55:02Z"
             }
           ]
         },
@@ -400,7 +416,8 @@ examples:
             {
               "name": "instance1",
               "status": "Running",
-              "discoveryStatus": "pending"
+              "discoveryStatus": "pending",
+              "startTime": "2020-08-26T01:55:02Z"
             }
           ]
         },

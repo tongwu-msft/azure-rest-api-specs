@@ -11,7 +11,7 @@ produces:
 - application/json
 paths:
 - content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}?api-version=2019-12-01
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}?notify={notify}&api-version=2019-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/subscriptions/{sid}?notify={notify}&api-version=2019-12-01&appType={appType}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -51,6 +51,11 @@ uriParameters:
   description: Version of the API to be used with the client request.
   types:
   - uid: string
+- name: appType
+  in: query
+  description: Determines the type of application which send the create user request. Default is legacy publisher portal.
+  types:
+  - uid: AppType
 responses:
 - name: 201 Created
   headers:
@@ -117,6 +122,18 @@ requestHeader:
   types:
   - uid: string
 definitions:
+- name: AppType
+  description: Determines the type of application which send the create user request. Default is legacy publisher portal.
+  kind: enum
+  properties:
+  - name: portal
+    description: User create request was sent by legacy developer portal.
+    types:
+    - uid: string
+  - name: developerPortal
+    description: User create request was sent by new developer portal.
+    types:
+    - uid: string
 - name: SubscriptionContract
   description: Subscription details.
   kind: object
@@ -167,7 +184,7 @@ definitions:
     types:
     - uid: string
   - name: properties.stateComment
-    description: Optional subscription comment added by an administrator.
+    description: Optional subscription comment added by an administrator when the state is changed to the 'rejected'.
     types:
     - uid: string
   - name: properties.allowTracing

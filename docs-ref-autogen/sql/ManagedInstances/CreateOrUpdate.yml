@@ -3,14 +3,14 @@ uid: management.azure.com.sql.managedinstances.createorupdate
 name: Create Or Update
 service: SQL Database
 groupName: Managed Instances
-apiVersion: 2018-06-01-preview
+apiVersion: 2020-02-02-preview
 summary: Creates or updates a managed instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}?api-version=2018-06-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}?api-version=2020-02-02-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -66,6 +66,10 @@ responses:
      * 400 VnetPrepareNIPFailed - User tried to prepare subnet that has a conflict with NetworkIntentPolicy.
 
      * 400 InvalidUsername - Supplied user name contains invalid characters.
+
+     * 400 ManagedInstanceDeprecatedHardwareFamily - Changing the hardware generation to deprecated {0} generation is not possible.
+
+     * 400 ManagedInstanceBackupStorageTypeNotSupported - Backup storage type parameter is not allowed in the instance update operation.
 
      * 400 InvalidParameterValue - An invalid value was given to a parameter.
 
@@ -173,6 +177,8 @@ responses:
 
      * 400 InvalidMinimalTlsVersion - Invalid minimal TLS version.
 
+     * 400 InvalidResourceId - Invalid resource identifier.
+
      * 400 InvalidMaintenanceWindowSettings - Invalid maintenance window settings.
 
      * 400 InvalidMaintenanceWindowProperty - Invalid maintenance window property was specified.
@@ -218,6 +224,8 @@ responses:
      * 409 ConflictingManagedInstanceOperation - An operation is currently in progress for the managed instance.
 
      * 409 MiDropFailedOnAuthLocks - User tried to drop last Managed Instance in subnet that has Lock applied on resource(s).
+
+     * 409 MiCreateFailedNonDelegatedSubnet - User tried to deploy Managed Instance or Managed Instance pool in subnet that is not delegated to Microsoft.Sql/managedInstances.
 
      * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
 
@@ -362,11 +370,21 @@ requestBody:
     description: The Id of the instance pool this managed server belongs to.
     types:
     - uid: string
+  - name: properties.maintenanceConfigurationId
+    in: body
+    description: Specifies maintenance configuration id to apply to this managed instance.
+    types:
+    - uid: string
   - name: properties.minimalTlsVersion
     in: body
     description: "Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'"
     types:
     - uid: string
+  - name: properties.storageAccountType
+    in: body
+    description: The storage account type used to store backups for this instance. The options are LRS (LocallyRedundantStorage), ZRS (ZoneRedundantStorage) and GRS (GeoRedundantStorage)
+    types:
+    - uid: StorageAccountType
   - name: location
     in: body
     isRequired: true
@@ -438,6 +456,17 @@ definitions:
     description: 'Managed instance SKU. Allowed values for sku.name: GP_Gen4, GP_Gen5, BC_Gen4, BC_Gen5'
     types:
     - uid: Sku
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: Creating
+    - uid: Deleting
+    - uid: Updating
+    - uid: Unknown
+    - uid: Succeeded
+    - uid: Failed
+    typesTitle: enum
   - name: properties.managedInstanceCreateMode
     description: >-
       Specifies the mode of database creation.
@@ -531,10 +560,18 @@ definitions:
     description: The Id of the instance pool this managed server belongs to.
     types:
     - uid: string
+  - name: properties.maintenanceConfigurationId
+    description: Specifies maintenance configuration id to apply to this managed instance.
+    types:
+    - uid: string
   - name: properties.minimalTlsVersion
     description: "Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'"
     types:
     - uid: string
+  - name: properties.storageAccountType
+    description: The storage account type used to store backups for this instance. The options are LRS (LocallyRedundantStorage), ZRS (ZoneRedundantStorage) and GRS (GeoRedundantStorage)
+    types:
+    - uid: StorageAccountType
   - name: location
     description: Resource location.
     types:
@@ -611,10 +648,23 @@ definitions:
   - name: Default
     types:
     - uid: string
+- name: StorageAccountType
+  description: The storage account type used to store backups for this instance. The options are LRS (LocallyRedundantStorage), ZRS (ZoneRedundantStorage) and GRS (GeoRedundantStorage)
+  kind: enum
+  properties:
+  - name: GRS
+    types:
+    - uid: string
+  - name: LRS
+    types:
+    - uid: string
+  - name: ZRS
+    types:
+    - uid: string
 examples:
 - name: Create managed instance with minimal properties
   request:
-    uri: PUT https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance?api-version=2018-06-01-preview
+    uri: PUT https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance?api-version=2020-02-02-preview
     body: >-
       {
         "sku": {
@@ -646,12 +696,13 @@ examples:
           "administratorLogin": "dummylogin",
           "subnetId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
           "state": "Ready",
+          "provisioningState": "Creating",
           "vCores": 8,
           "storageSizeInGB": 1024,
           "licenseType": "LicenseIncluded",
           "collation": "SQL_Latin1_General_CP1_CI_AS",
           "publicDataEndpointEnabled": false,
-          "proxyOverride": "Default",
+          "proxyOverride": "Redirect",
           "dnsZone": "1b4e2caff2530"
         },
         "location": "japaneast",
@@ -674,6 +725,7 @@ examples:
           "administratorLogin": "dummylogin",
           "subnetId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
           "state": "Ready",
+          "provisioningState": "Creating",
           "vCores": 8,
           "storageSizeInGB": 1024,
           "licenseType": "LicenseIncluded",
@@ -691,7 +743,7 @@ examples:
   - statusCode: "202"
 - name: Create managed instance with all properties
   request:
-    uri: PUT https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance?api-version=2018-06-01-preview
+    uri: PUT https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance?api-version=2020-02-02-preview
     body: >-
       {
         "tags": {
@@ -714,7 +766,9 @@ examples:
           "publicDataEndpointEnabled": false,
           "proxyOverride": "Redirect",
           "timezoneId": "UTC",
-          "instancePoolId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/instancePools/pool1"
+          "instancePoolId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/instancePools/pool1",
+          "maintenanceConfigurationId": "/subscriptions/ab0e51c0-83c0-4380-8ae9-025516df392f/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_WestEurope_MI_Mon_Fri_10PM_6AM",
+          "storageAccountType": "GRS"
         }
       }
   responses:
@@ -732,6 +786,7 @@ examples:
           "administratorLogin": "dummylogin",
           "subnetId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
           "state": "Ready",
+          "provisioningState": "Creating",
           "vCores": 8,
           "storageSizeInGB": 1024,
           "licenseType": "LicenseIncluded",
@@ -740,13 +795,15 @@ examples:
           "proxyOverride": "Redirect",
           "dnsZone": "1b4e2caff2530",
           "timezoneId": "UTC",
-          "instancePoolId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/instancePools/pool1"
+          "instancePoolId": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/instancePools/pool1",
+          "maintenanceConfigurationId": "/subscriptions/ab0e51c0-83c0-4380-8ae9-025516df392f/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_WestEurope_MI_Mon_Fri_10PM_6AM",
+          "storageAccountType": "GRS"
         },
         "location": "japaneast",
         "tags": {
           "tagKey1": "TagValue1"
         },
-        "id": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance",
+        "id": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance",
         "name": "testinstance",
         "type": "Microsoft.Sql/managedInstances"
       }
@@ -764,6 +821,7 @@ examples:
           "administratorLogin": "dummylogin",
           "subnetId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
           "state": "Ready",
+          "provisioningState": "Creating",
           "vCores": 8,
           "storageSizeInGB": 1024,
           "licenseType": "LicenseIncluded",
@@ -772,7 +830,9 @@ examples:
           "proxyOverride": "Redirect",
           "dnsZone": "1b4e2caff2530",
           "timezoneId": "UTC",
-          "instancePoolId": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/instancePools/pool1"
+          "instancePoolId": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/instancePools/pool1",
+          "maintenanceConfigurationId": "/subscriptions/ab0e51c0-83c0-4380-8ae9-025516df392f/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_WestEurope_MI_Mon_Fri_10PM_6AM",
+          "storageAccountType": "GRS"
         },
         "location": "japaneast",
         "tags": {

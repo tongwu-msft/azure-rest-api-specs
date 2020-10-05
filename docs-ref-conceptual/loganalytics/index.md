@@ -20,15 +20,18 @@ The Log Analytics REST API provides operations for working with the following re
 | Operation Group | Description |
 |-----------------|-------------|
 | [Data](create-request.md) | Write data to the Log Analytics repository. |
+| [Workspaces](xref:management.azure.com.loganalytics.workspaces) | Manage Log Analytics workspaces. |
+| [Clusters](xref:management.azure.com.loganalytics.clusters) | Manage Log Analytics clusters. |
 | [Data sources](xref:management.azure.com.loganalytics.datasources) | Create or update data sources. |
 | [Linked services](xref:management.azure.com.loganalytics.datasources) | Create or update linked services. |
 | [Saved searches](xref:management.azure.com.loganalytics.savedsearches) | Create or update saved searches. |
 | [Storage insights](xref:management.azure.com.loganalytics.storageinsights) | Create or update storage insights. |
-| [Workspaces](xref:management.azure.com.loganalytics.workspaces) | Create or update a workspace. |
-| [Workspace schemas](xref:management.azure.com.loganalytics.workspaces2015-03-20) | Get the schema for a workspace. |
 
 ## See Also
 
-- [Log Analytics documentation](/azure/log-analytics)
-- [Operations Management Suite documentation](/azure/azure-monitor/azure-management)
-- [Create management solutions](/azure/operations-management-suite/operations-management-suite-solutions-creating)
+- [Azure Monitor documentation](/azure/azure-monitor)
+- [Azure Monitor overview](/azure/azure-monitor/overview)
+- [Azure Log Analytics Workspaces](azure/azure-monitor/platform/design-logs-deployment)
+- [Azure Management Solutions](/azure/azure-monitor/insights/solutions-creating)
+- [Azure Monitor Data Sources](/azure/azure-monitor/platform/data-sources)
+

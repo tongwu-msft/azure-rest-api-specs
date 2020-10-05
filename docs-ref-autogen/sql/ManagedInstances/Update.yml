@@ -3,14 +3,14 @@ uid: management.azure.com.sql.managedinstances.update
 name: Update
 service: SQL Database
 groupName: Managed Instances
-apiVersion: 2018-06-01-preview
+apiVersion: 2020-02-02-preview
 summary: Updates a managed instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}?api-version=2018-06-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}?api-version=2020-02-02-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -66,6 +66,10 @@ responses:
      * 400 VnetPrepareNIPFailed - User tried to prepare subnet that has a conflict with NetworkIntentPolicy.
 
      * 400 InvalidUsername - Supplied user name contains invalid characters.
+
+     * 400 ManagedInstanceDeprecatedHardwareFamily - Changing the hardware generation to deprecated {0} generation is not possible.
+
+     * 400 ManagedInstanceBackupStorageTypeNotSupported - Backup storage type parameter is not allowed in the instance update operation.
 
      * 400 InvalidParameterValue - An invalid value was given to a parameter.
 
@@ -171,6 +175,8 @@ responses:
 
      * 400 InvalidMinimalTlsVersion - Invalid minimal TLS version.
 
+     * 400 InvalidResourceId - Invalid resource identifier.
+
      * 400 InvalidMaintenanceWindowSettings - Invalid maintenance window settings.
 
      * 400 InvalidMaintenanceWindowProperty - Invalid maintenance window property was specified.
@@ -216,6 +222,8 @@ responses:
      * 409 ConflictingManagedInstanceOperation - An operation is currently in progress for the managed instance.
 
      * 409 MiDropFailedOnAuthLocks - User tried to drop last Managed Instance in subnet that has Lock applied on resource(s).
+
+     * 409 MiCreateFailedNonDelegatedSubnet - User tried to deploy Managed Instance or Managed Instance pool in subnet that is not delegated to Microsoft.Sql/managedInstances.
 
      * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
 
@@ -360,11 +368,21 @@ requestBody:
     description: The Id of the instance pool this managed server belongs to.
     types:
     - uid: string
+  - name: properties.maintenanceConfigurationId
+    in: body
+    description: Specifies maintenance configuration id to apply to this managed instance.
+    types:
+    - uid: string
   - name: properties.minimalTlsVersion
     in: body
     description: "Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'"
     types:
     - uid: string
+  - name: properties.storageAccountType
+    in: body
+    description: The storage account type used to store backups for this instance. The options are LRS (LocallyRedundantStorage), ZRS (ZoneRedundantStorage) and GRS (GeoRedundantStorage)
+    types:
+    - uid: StorageAccountType
 requestHeader: []
 definitions:
 - name: Sku
@@ -403,6 +421,17 @@ definitions:
     description: 'Managed instance SKU. Allowed values for sku.name: GP_Gen4, GP_Gen5, BC_Gen4, BC_Gen5'
     types:
     - uid: Sku
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: Creating
+    - uid: Deleting
+    - uid: Updating
+    - uid: Unknown
+    - uid: Succeeded
+    - uid: Failed
+    typesTitle: enum
   - name: properties.managedInstanceCreateMode
     description: >-
       Specifies the mode of database creation.
@@ -496,10 +525,18 @@ definitions:
     description: The Id of the instance pool this managed server belongs to.
     types:
     - uid: string
+  - name: properties.maintenanceConfigurationId
+    description: Specifies maintenance configuration id to apply to this managed instance.
+    types:
+    - uid: string
   - name: properties.minimalTlsVersion
     description: "Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'"
     types:
     - uid: string
+  - name: properties.storageAccountType
+    description: The storage account type used to store backups for this instance. The options are LRS (LocallyRedundantStorage), ZRS (ZoneRedundantStorage) and GRS (GeoRedundantStorage)
+    types:
+    - uid: StorageAccountType
   - name: location
     description: Resource location.
     types:
@@ -543,6 +580,17 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: Creating
+    - uid: Deleting
+    - uid: Updating
+    - uid: Unknown
+    - uid: Succeeded
+    - uid: Failed
+    typesTitle: enum
   - name: properties.managedInstanceCreateMode
     description: >-
       Specifies the mode of database creation.
@@ -636,10 +684,18 @@ definitions:
     description: The Id of the instance pool this managed server belongs to.
     types:
     - uid: string
+  - name: properties.maintenanceConfigurationId
+    description: Specifies maintenance configuration id to apply to this managed instance.
+    types:
+    - uid: string
   - name: properties.minimalTlsVersion
     description: "Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'"
     types:
     - uid: string
+  - name: properties.storageAccountType
+    description: The storage account type used to store backups for this instance. The options are LRS (LocallyRedundantStorage), ZRS (ZoneRedundantStorage) and GRS (GeoRedundantStorage)
+    types:
+    - uid: StorageAccountType
 - name: ResourceIdentity
   description: Azure Active Directory identity configuration for a resource.
   kind: object
@@ -700,6 +756,19 @@ definitions:
   - name: Default
     types:
     - uid: string
+- name: StorageAccountType
+  description: The storage account type used to store backups for this instance. The options are LRS (LocallyRedundantStorage), ZRS (ZoneRedundantStorage) and GRS (GeoRedundantStorage)
+  kind: enum
+  properties:
+  - name: GRS
+    types:
+    - uid: string
+  - name: LRS
+    types:
+    - uid: string
+  - name: ZRS
+    types:
+    - uid: string
 - name: IdentityType
   description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
   kind: enum
@@ -710,7 +779,7 @@ definitions:
 examples:
 - name: Update managed instance with minimal properties
   request:
-    uri: PATCH https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance?api-version=2018-06-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance?api-version=2020-02-02-preview
     body: >-
       {
         "tags": {
@@ -739,7 +808,8 @@ examples:
           "publicDataEndpointEnabled": false,
           "proxyOverride": "Default",
           "dnsZone": "1b4e2caff2530",
-          "instancePoolId": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/instancePools/instancePool1"
+          "instancePoolId": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/instancePools/instancePool1",
+          "maintenanceConfigurationId": "/subscriptions/ab0e51c0-83c0-4380-8ae9-025516df392f/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_WestEurope_MI_Mon_Fri_10PM_6AM"
         },
         "location": "japaneast",
         "tags": {
@@ -752,7 +822,7 @@ examples:
   - statusCode: "202"
 - name: Update managed instance with all properties
   request:
-    uri: PATCH https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance?api-version=2018-06-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testinstance?api-version=2020-02-02-preview
     body: >-
       {
         "tags": {
@@ -771,7 +841,8 @@ examples:
           "licenseType": "BasePrice",
           "vCores": 8,
           "storageSizeInGB": 448,
-          "collation": "SQL_Latin1_General_CP1_CI_AS"
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "maintenanceConfigurationId": "/subscriptions/ab0e51c0-83c0-4380-8ae9-025516df392f/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_WestEurope_MI_Mon_Fri_10PM_6AM"
         }
       }
   responses:
@@ -803,7 +874,8 @@ examples:
           "publicDataEndpointEnabled": false,
           "proxyOverride": "Redirect",
           "dnsZone": "1b4e2caff2530",
-          "instancePoolId": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/instancePools/instancePool1"
+          "instancePoolId": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/testrg/providers/Microsoft.Sql/instancePools/instancePool1",
+          "maintenanceConfigurationId": "/subscriptions/ab0e51c0-83c0-4380-8ae9-025516df392f/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_WestEurope_MI_Mon_Fri_10PM_6AM"
         }
       }
   - statusCode: "202"

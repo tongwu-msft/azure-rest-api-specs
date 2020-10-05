@@ -1,6 +1,6 @@
 ---
 title: "ApplicationLoadInfo"
-ms.date: "11/23/2019"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -37,7 +37,7 @@ Load Information about a Service Fabric application.
 | [`MinimumNodes`](#minimumnodes) | integer (int64) | No |
 | [`MaximumNodes`](#maximumnodes) | integer (int64) | No |
 | [`NodeCount`](#nodecount) | integer (int64) | No |
-| [`ApplicationLoadMetricInformation`](#applicationloadmetricinformation) | array of [ApplicationMetricDescription](sfclient-model-applicationmetricdescription.md) | No |
+| [`ApplicationLoadMetricInformation`](#applicationloadmetricinformation) | array of [ApplicationLoadMetricInformation](sfclient-model-applicationloadmetricinformation.md) | No |
 
 ____
 ### `Id`
@@ -80,7 +80,7 @@ For applications that do not have application capacity defined this value will b
 
 ____
 ### `ApplicationLoadMetricInformation`
-__Type__: array of [ApplicationMetricDescription](sfclient-model-applicationmetricdescription.md) <br/>
+__Type__: array of [ApplicationLoadMetricInformation](sfclient-model-applicationloadmetricinformation.md) <br/>
 __Required__: No<br/>
 <br/>
-List of application capacity metric description.
+List of application load metric information.

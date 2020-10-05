@@ -3,14 +3,14 @@ uid: management.azure.com.searchmanagement.sharedprivatelinkresources.get
 name: Get
 service: Search Management
 groupName: Shared Private Link Resources
-apiVersion: 2020-03-13
-summary: Gets the details of the shared private link resource managed by the Search service in the given resource group.
+apiVersion: 2020-08-01
+summary: Gets the details of the shared private link resource managed by the search service in the given resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}?api-version=2020-03-13
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}?api-version=2020-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,7 +39,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for each request. The current version is 2019-10-01-Preview.
+  description: The API version to use for each request.
   types:
   - uid: string
 responses:
@@ -48,7 +48,7 @@ responses:
   types:
   - uid: SharedPrivateLinkResource
 - name: Other Status Codes
-  description: 'HTTP 404 (Not Found): The subscription, resource group, Search service or shared private link resource could not be found.'
+  description: 'HTTP 404 (Not Found): The subscription, resource group, search service or shared private link resource could not be found.'
   types:
   - uid: CloudError
 requestHeader:
@@ -63,14 +63,25 @@ definitions:
   description: Describes a Shared Private Link Resource managed by the Azure Cognitive Search service.
   kind: object
   properties:
-  - name: name
-    description: The name of the shared private link resource.
-    types:
-    - uid: string
   - name: properties
     description: Describes the properties of a Shared Private Link Resource managed by the Azure Cognitive Search service.
     types:
     - uid: SharedPrivateLinkResourceProperties
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
 - name: CloudError
   description: Contains information about an API error.
   kind: object
@@ -95,10 +106,18 @@ definitions:
     description: The request message for requesting approval of the shared private link resource.
     types:
     - uid: string
+  - name: resourceRegion
+    description: Optional. Can be used to specify the Azure Resource Manager location of the resource to which a shared private link is to be created. This is only required for those resources whose DNS configuration are regional (such as Azure Kubernetes Service).
+    types:
+    - uid: string
   - name: status
-    description: Status of the shared private link resource. Can be Pending, Approved, Rejected, Disconnected, or Timeout.
+    description: Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected.
     types:
     - uid: SharedPrivateLinkResourceStatus
+  - name: provisioningState
+    description: The provisioning state of the shared private link resource. Can be Updating, Deleting, Failed, Succeeded or Incomplete.
+    types:
+    - uid: SharedPrivateLinkResourceProvisioningState
 - name: CloudErrorBody
   description: Describes a particular API error with an error code and a message.
   kind: object
@@ -121,7 +140,7 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 - name: SharedPrivateLinkResourceStatus
-  description: Status of the shared private link resource. Can be Pending, Approved, Rejected, Disconnected, or Timeout.
+  description: Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected.
   kind: enum
   properties:
   - name: Pending
@@ -136,23 +155,42 @@ definitions:
   - name: Disconnected
     types:
     - uid: string
-  - name: Timeout
+- name: SharedPrivateLinkResourceProvisioningState
+  description: The provisioning state of the shared private link resource. Can be Updating, Deleting, Failed, Succeeded or Incomplete.
+  kind: enum
+  properties:
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Incomplete
     types:
     - uid: string
 examples:
 - name: SharedPrivateLinkResourceGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/sharedPrivateLinkResources/testResource?api-version=2020-03-13
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/sharedPrivateLinkResources/testResource?api-version=2020-08-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "name": "testResource",
+        "type": "Microsoft.Search/searchServices/sharedPrivateLinkResources",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/sharedPrivateLinkResources/testResource",
         "properties": {
           "requestMessage": "please approve",
           "groupId": "blob",
           "privateLinkResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/storageAccountName",
-          "status": "Pending"
+          "status": "Pending",
+          "resourceRegion": null
         }
       }
 security:

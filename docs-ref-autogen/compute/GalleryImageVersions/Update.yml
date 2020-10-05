@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleryimageversions.update
 name: Update
 service: Compute
 groupName: Gallery Image Versions
-apiVersion: 2019-07-01
+apiVersion: 2019-12-01
 summary: Update a gallery Image Version.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?api-version=2019-07-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?api-version=2019-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -274,6 +274,10 @@ definitions:
     description: Specifies the storage account type to be used to store the image. This property is not updatable.
     types:
     - uid: StorageAccountType
+  - name: encryption
+    description: Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in the gallery artifact.
+    types:
+    - uid: EncryptionImages
 - name: StorageAccountType
   description: Specifies the storage account type to be used to store the image. This property is not updatable.
   kind: enum
@@ -282,6 +286,9 @@ definitions:
     types:
     - uid: string
   - name: Standard_ZRS
+    types:
+    - uid: string
+  - name: Premium_LRS
     types:
     - uid: string
 - name: GalleryArtifactVersionSource
@@ -395,6 +402,19 @@ definitions:
     description: The error message.
     types:
     - uid: string
+- name: EncryptionImages
+  description: Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in the gallery artifact.
+  kind: object
+  properties:
+  - name: osDiskImage
+    description: Contains encryption settings for an OS disk image.
+    types:
+    - uid: OSDiskImageEncryption
+  - name: dataDiskImages
+    description: A list of encryption specifications for data disk images.
+    types:
+    - uid: DataDiskImageEncryption
+      isArray: true
 - name: HostCaching
   description: The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite'
   kind: enum
@@ -452,10 +472,30 @@ definitions:
     description: The internal error message or exception dump.
     types:
     - uid: string
+- name: OSDiskImageEncryption
+  description: Contains encryption settings for an OS disk image.
+  kind: object
+  properties:
+  - name: diskEncryptionSetId
+    description: A relative URI containing the resource ID of the disk encryption set.
+    types:
+    - uid: string
+- name: DataDiskImageEncryption
+  description: Contains encryption settings for a data disk image.
+  kind: object
+  properties:
+  - name: lun
+    description: This property specifies the logical unit number of the data disk. This value is used to identify data disks within the Virtual Machine and therefore must be unique for each data disk attached to the Virtual Machine.
+    types:
+    - uid: integer
+  - name: diskEncryptionSetId
+    description: A relative URI containing the resource ID of the disk encryption set.
+    types:
+    - uid: string
 examples:
 - name: Update a simple Gallery Image Version (Managed Image as source).
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2019-07-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2019-12-01
     body: >-
       {
         "properties": {
@@ -489,7 +529,18 @@ examples:
               {
                 "name": "West US",
                 "regionalReplicaCount": 1,
-                "storageAccountType": "Standard_LRS"
+                "storageAccountType": "Standard_LRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet"
+                    }
+                  ]
+                }
               },
               {
                 "name": "East US",

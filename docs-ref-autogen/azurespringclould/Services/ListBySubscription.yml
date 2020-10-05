@@ -67,6 +67,10 @@ definitions:
     description: Properties of the Service resource
     types:
     - uid: ClusterResourceProperties
+  - name: sku
+    description: Sku of the Service resource
+    types:
+    - uid: Sku
   - name: location
     description: The GEO location of the resource.
     types:
@@ -132,6 +136,10 @@ definitions:
     description: Trace properties of the Service
     types:
     - uid: TraceProperties
+  - name: networkProfile
+    description: Network profile of the Service
+    types:
+    - uid: NetworkProfile
   - name: version
     isReadyOnly: true
     description: Version of the Service
@@ -142,6 +150,22 @@ definitions:
     description: ServiceInstanceEntity GUID which uniquely identifies a created resource
     types:
     - uid: string
+- name: Sku
+  description: Sku of Azure Spring Cloud
+  kind: object
+  properties:
+  - name: name
+    description: Name of the Sku
+    types:
+    - uid: string
+  - name: tier
+    description: Tier of the Sku
+    types:
+    - uid: string
+  - name: capacity
+    description: Current capacity of the target resource
+    types:
+    - uid: integer
 - name: ProvisioningState
   description: Provisioning state of the Service
   kind: enum
@@ -211,6 +235,35 @@ definitions:
     description: Target application insight instrumentation key
     types:
     - uid: string
+- name: NetworkProfile
+  description: Service network profile payload
+  kind: object
+  properties:
+  - name: serviceRuntimeSubnetId
+    description: Fully qualified resource Id of the subnet to host Azure Spring Cloud Service Runtime
+    types:
+    - uid: string
+  - name: appSubnetId
+    description: Fully qualified resource Id of the subnet to host Azure Spring Cloud Apps
+    types:
+    - uid: string
+  - name: serviceCidr
+    description: Azure Spring Cloud service reserved CIDR
+    types:
+    - uid: string
+  - name: serviceRuntimeNetworkResourceGroup
+    description: Name of the resource group containing network resources of Azure Spring Cloud Service Runtime
+    types:
+    - uid: string
+  - name: appNetworkResourceGroup
+    description: Name of the resource group containing network resources of Azure Spring Cloud Apps
+    types:
+    - uid: string
+  - name: outboundIPs
+    isReadyOnly: true
+    description: Desired outbound IP resources for Azure Spring Cloud instance.
+    types:
+    - uid: OutboundIPs
 - name: ConfigServerState
   description: State of the config server.
   kind: enum
@@ -266,6 +319,16 @@ definitions:
   - name: Updating
     types:
     - uid: string
+- name: OutboundIPs
+  description: Desired outbound IP resources for Azure Spring Cloud instance.
+  kind: object
+  properties:
+  - name: publicIPs
+    isReadyOnly: true
+    description: A list of public IP addresses.
+    types:
+    - uid: string
+      isArray: true
 - name: ConfigServerGitProperty
   description: Property of git.
   kind: object
@@ -391,9 +454,21 @@ examples:
                 "enabled": true,
                 "appInsightInstrumentationKey": "00000000-0000-0000-0000-000000000000"
               },
-              "serviceId": "12345678abcd1234abcd12345678abcd"
+              "serviceId": "12345678abcd1234abcd12345678abcd",
+              "networkProfile": {
+                "outboundIPs": {
+                  "publicIPs": [
+                    "20.39.3.173",
+                    "40.64.67.13"
+                  ]
+                }
+              }
             },
             "type": "Microsoft.AppPlatform/Spring",
+            "sku": {
+              "name": "S0",
+              "tier": "Standard"
+            },
             "location": "eastus",
             "tags": {
               "key1": "value1"

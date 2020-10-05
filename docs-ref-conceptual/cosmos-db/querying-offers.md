@@ -1,5 +1,6 @@
 ---
 title: "Querying Offers - Azure Cosmos DB REST API"
+description: Learn how to query, offers using REST API. Request and response headers, body, status codes and examples.
 ms.date: "03/29/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"
@@ -44,8 +45,8 @@ translation.priority.mt:
 |**query**|Required|The value of this property the SQL statement to be executed.|  
   
 ```  
-{"query":"SELECT * FROM root WHERE (root[\"_self\"] = \"dbs/EVQzAA==/colls/EVQzALIIEQw=/\") "}  
-```  
+{"query":"SELECT * FROM root WHERE root.resource = \"dbs/EVQzAA==/colls/EVQzALIIEQw=/\") "}
+```
   
 ## Response  
  Returns an array of object resources that match the query.  
@@ -96,7 +97,7 @@ Host: querydemo.documents.azure.com
 Content-Length: 94  
 Expect: 100-continue  
   
-{"query":"SELECT * FROM root WHERE (root[\"_self\"] = \"dbs/EVQzAA==/colls/EVQzALIIEQw=/\") "}  
+{"query":"SELECT * FROM root WHERE root.resource = \"dbs/EVQzAA==/colls/EVQzALIIEQw=/\") "}
   
 ```  
   

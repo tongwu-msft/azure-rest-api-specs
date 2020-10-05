@@ -3,14 +3,14 @@ uid: management.azure.com.load-balancer.loadbalancers.updatetags
 name: Update Tags
 service: Load balancer
 groupName: Load Balancers
-apiVersion: 2020-03-01
+apiVersion: 2020-05-01
 summary: Updates a load balancer tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2020-03-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2020-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -269,6 +269,11 @@ definitions:
     description: Type of the resource.
     types:
     - uid: string
+  - name: properties.loadBalancerBackendAddresses
+    description: An array of backend addresses.
+    types:
+    - uid: LoadBalancerBackendAddress
+      isArray: true
   - name: properties.backendIPConfigurations
     isReadyOnly: true
     description: An array of references to IP addresses defined in network interfaces.
@@ -869,6 +874,27 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: LoadBalancerBackendAddress
+  description: Load balancer backend addresses.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the backend address.
+    types:
+    - uid: string
+  - name: properties.virtualNetwork
+    description: Reference to an existing virtual network.
+    types:
+    - uid: SubResource
+  - name: properties.ipAddress
+    description: IP Address belonging to the referenced virtual network.
+    types:
+    - uid: string
+  - name: properties.networkInterfaceIPConfiguration
+    isReadyOnly: true
+    description: Reference to IP address defined in network interfaces.
+    types:
+    - uid: SubResource
 - name: NetworkInterfaceIPConfiguration
   description: IPConfiguration in a network interface.
   kind: object
@@ -2280,7 +2306,7 @@ definitions:
 examples:
 - name: Update load balancer tags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2020-03-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2020-05-01
     body: >-
       {
         "tags": {

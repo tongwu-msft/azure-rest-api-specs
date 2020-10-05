@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.networkinterfaceloadbalancers.list
 name: List
 service: Virtual Networks
 groupName: Network Interface Load Balancers
-apiVersion: 2020-03-01
+apiVersion: 2020-05-01
 summary: List all load balancers in a network interface.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/loadBalancers?api-version=2020-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/loadBalancers?api-version=2020-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -280,6 +280,11 @@ definitions:
     description: Type of the resource.
     types:
     - uid: string
+  - name: properties.loadBalancerBackendAddresses
+    description: An array of backend addresses.
+    types:
+    - uid: LoadBalancerBackendAddress
+      isArray: true
   - name: properties.backendIPConfigurations
     isReadyOnly: true
     description: An array of references to IP addresses defined in network interfaces.
@@ -859,6 +864,27 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: LoadBalancerBackendAddress
+  description: Load balancer backend addresses.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the backend address.
+    types:
+    - uid: string
+  - name: properties.virtualNetwork
+    description: Reference to an existing virtual network.
+    types:
+    - uid: SubResource
+  - name: properties.ipAddress
+    description: IP Address belonging to the referenced virtual network.
+    types:
+    - uid: string
+  - name: properties.networkInterfaceIPConfiguration
+    isReadyOnly: true
+    description: Reference to IP address defined in network interfaces.
+    types:
+    - uid: SubResource
 - name: NetworkInterfaceIPConfiguration
   description: IPConfiguration in a network interface.
   kind: object
@@ -2270,7 +2296,7 @@ definitions:
 examples:
 - name: NetworkInterfaceLoadBalancerList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/networkInterfaces/nic1/loadBalancers?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/networkInterfaces/nic1/loadBalancers?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-

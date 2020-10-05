@@ -1,24 +1,15 @@
 ---
-title: "Analyze Text (Azure Cognitive Search REST API)"
+title: Analyze Text (Azure Cognitive Search REST API)
 description: Test predefined and custom analyzers used for breaking text into tokens during Azure Cognitive Search indexing.
-ms.date: 01/30/2020
+ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: language-reference
+ms.devlang: rest-api
+
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: nitinme
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
 ---
 # Analyze Text (Azure Cognitive Search REST API)
 
@@ -36,7 +27,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/analyze?api-
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required. The request URI specifies the name of the index that contains the field you want to analyze.   |
-| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ## Request Headers 
  The following table describes the required and optional request headers.  

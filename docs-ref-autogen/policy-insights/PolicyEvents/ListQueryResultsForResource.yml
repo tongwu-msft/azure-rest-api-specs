@@ -3,13 +3,13 @@ uid: management.azure.com.policy-insights.policyevents.listqueryresultsforresour
 name: List Query Results For Resource
 service: Policy Insights
 groupName: Policy Events
-apiVersion: 2018-04-04
+apiVersion: 2019-10-01
 summary: Queries policy events for the resource.
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/{resourceId}/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2018-04-04
-- content: POST https://management.azure.com/{resourceId}/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2018-04-04&$top={$top}&$orderby={$orderby}&$select={$select}&$from={$from}&$to={$to}&$filter={$filter}&$apply={$apply}
+- content: POST https://management.azure.com/{resourceId}/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2019-10-01
+- content: POST https://management.azure.com/{resourceId}/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2019-10-01&$top={$top}&$orderby={$orderby}&$select={$select}&$from={$from}&$to={$to}&$filter={$filter}&$apply={$apply}&$expand={$expand}&$skiptoken={$skiptoken}
   isOptional: true
 uriParameters:
 - name: resourceId
@@ -28,7 +28,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: API version to use with the client requests.
+  description: Client Api Version.
   types:
   - uid: string
 - name: $top
@@ -69,6 +69,16 @@ uriParameters:
   description: OData apply expression for aggregations.
   types:
   - uid: string
+- name: $expand
+  in: query
+  description: The $expand query parameter. For example, to expand components use $expand=components
+  types:
+  - uid: string
+- name: $skiptoken
+  in: query
+  description: Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
   description: Query results.
@@ -92,6 +102,10 @@ definitions:
     description: OData entity count; represents the number of policy event records returned.
     types:
     - uid: integer
+  - name: '@odata.nextLink'
+    description: Odata next link; URL to get the next set of results.
+    types:
+    - uid: string
   - name: value
     description: Query results.
     types:
@@ -217,6 +231,10 @@ definitions:
     description: Reference ID for the policy definition inside the policy set, if the policy assignment is for a policy set.
     types:
     - uid: string
+  - name: complianceState
+    description: Compliance state of the resource.
+    types:
+    - uid: string
   - name: tenantId
     description: Tenant ID for the policy event record.
     types:
@@ -225,6 +243,11 @@ definitions:
     description: Principal object ID for the user who initiated the resource operation that triggered the policy event.
     types:
     - uid: string
+  - name: components
+    description: Components events records populated only when URL contains $expand=components clause.
+    types:
+    - uid: ComponentEventDetails
+      isArray: true
 - name: Error
   description: Error definition.
   kind: object
@@ -239,14 +262,47 @@ definitions:
     description: Description of the error.
     types:
     - uid: string
+- name: ComponentEventDetails
+  description: Component event details.
+  kind: object
+  properties:
+  - name: id
+    description: Component Id.
+    types:
+    - uid: string
+  - name: type
+    description: Component type.
+    types:
+    - uid: string
+  - name: name
+    description: Component name.
+    types:
+    - uid: string
+  - name: timestamp
+    description: Timestamp for component policy event record.
+    types:
+    - uid: string
+  - name: tenantId
+    description: Tenant ID for the policy event record.
+    types:
+    - uid: string
+  - name: principalOid
+    description: Principal object ID for the user who initiated the resource component operation that triggered the policy event.
+    types:
+    - uid: string
+  - name: policyDefinitionAction
+    description: Policy definition action, i.e. effect.
+    types:
+    - uid: string
 examples:
 - name: Query at resource scope
   request:
-    uri: POST https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2018-04-04
+    uri: POST https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
       {
+        "@odata.nextLink": null,
         "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default",
         "@odata.count": 2,
         "value": [
@@ -279,7 +335,8 @@ examples:
             "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
             "policyDefinitionReferenceId": null,
             "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
-            "principalOid": "fff890fa-fff0-fff3-fff9-fffd7653f078"
+            "principalOid": "fff890fa-fff0-fff3-fff9-fffd7653f078",
+            "complianceState": "NonCompliant"
           },
           {
             "@odata.id": null,
@@ -310,17 +367,96 @@ examples:
             "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
             "policyDefinitionReferenceId": null,
             "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
-            "principalOid": "fff890fa-fff0-fff3-fff9-fffd7653f078"
+            "principalOid": "fff890fa-fff0-fff3-fff9-fffd7653f078",
+            "complianceState": "NonCompliant"
+          }
+        ]
+      }
+- name: Query at resource scope with next link
+  request:
+    uri: POST https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2019-10-01&$skiptoken=WpmWfBSvPhkAK6QD
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@odata.nextLink": null,
+        "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default",
+        "@odata.count": 2,
+        "value": [
+          {
+            "@odata.id": null,
+            "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default/$entity",
+            "timestamp": "2018-02-07T15:14:39.8473851Z",
+            "resourceId": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName",
+            "policyAssignmentId": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.Authorization/policyAssignments/ec8f9645-8ecb-4abb-9c0b-5292f19d4003",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/201ea587-7c90-41c3-910f-c280ae01cfd6",
+            "effectiveParameters": null,
+            "isCompliant": false,
+            "subscriptionId": "fff10b27-fff3-fff5-fff8-fffbe01e86a5",
+            "resourceType": "/Microsoft.ClassicCompute/domainNames",
+            "resourceLocation": "eastus",
+            "resourceGroup": "myResourceGroup",
+            "resourceTags": "tbd",
+            "policyAssignmentName": "ec8f9645-8ecb-4abb-9c0b-5292f19d4003",
+            "policyAssignmentOwner": "tbd",
+            "policyAssignmentParameters": "{}",
+            "policyAssignmentScope": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5",
+            "policyDefinitionName": "201ea587-7c90-41c3-910f-c280ae01cfd6",
+            "policyDefinitionAction": "audit",
+            "policyDefinitionCategory": "tbd",
+            "policySetDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/1f3afdf9-d0c9-4c3d-847f-89da613e70a8",
+            "policySetDefinitionName": "1f3afdf9-d0c9-4c3d-847f-89da613e70a8",
+            "policySetDefinitionOwner": null,
+            "policySetDefinitionCategory": null,
+            "policySetDefinitionParameters": null,
+            "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "policyDefinitionReferenceId": null,
+            "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "principalOid": "fff890fa-fff0-fff3-fff9-fffd7653f078",
+            "complianceState": "NonCompliant"
+          },
+          {
+            "@odata.id": null,
+            "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default/$entity",
+            "timestamp": "2018-02-07T15:14:39.5842458Z",
+            "resourceId": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/Microsoft.ClassicCompute/domainNames/myDomainName",
+            "policyAssignmentId": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.Authorization/policyAssignments/d15545b8-ff50-409a-a6e3-5bd5cc954003",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/201ea587-7c90-41c3-910f-c280ae01cfd6",
+            "effectiveParameters": null,
+            "isCompliant": false,
+            "subscriptionId": "fff10b27-fff3-fff5-fff8-fffbe01e86a5",
+            "resourceType": "/Microsoft.ClassicCompute/domainNames",
+            "resourceLocation": "eastus",
+            "resourceGroup": "myResourceGroup",
+            "resourceTags": "tbd",
+            "policyAssignmentName": "d15545b8-ff50-409a-a6e3-5bd5cc954003",
+            "policyAssignmentOwner": "tbd",
+            "policyAssignmentParameters": "{}",
+            "policyAssignmentScope": "/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5",
+            "policyDefinitionName": "201ea587-7c90-41c3-910f-c280ae01cfd6",
+            "policyDefinitionAction": "audit",
+            "policyDefinitionCategory": "tbd",
+            "policySetDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/1f3afdf9-d0c9-4c3d-847f-89da613e70a8",
+            "policySetDefinitionName": "1f3afdf9-d0c9-4c3d-847f-89da613e70a8",
+            "policySetDefinitionOwner": null,
+            "policySetDefinitionCategory": null,
+            "policySetDefinitionParameters": null,
+            "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "policyDefinitionReferenceId": null,
+            "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
+            "principalOid": "fff890fa-fff0-fff3-fff9-fffd7653f078",
+            "complianceState": "NonCompliant"
           }
         ]
       }
 - name: Query at subscription level resource scope
   request:
-    uri: POST https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResourceName/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2018-04-04
+    uri: POST https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResourceName/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
       {
+        "@odata.nextLink": null,
         "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResourceName/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default",
         "@odata.count": 2,
         "value": [
@@ -353,7 +489,8 @@ examples:
             "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
             "policyDefinitionReferenceId": null,
             "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
-            "principalOid": "fff890fa-fff0-fff3-fff9-fffd7653f078"
+            "principalOid": "fff890fa-fff0-fff3-fff9-fffd7653f078",
+            "complianceState": "NonCompliant"
           },
           {
             "@odata.id": null,
@@ -384,17 +521,19 @@ examples:
             "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
             "policyDefinitionReferenceId": null,
             "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
-            "principalOid": "fff890fa-fff0-fff3-fff9-fffd7653f078"
+            "principalOid": "fff890fa-fff0-fff3-fff9-fffd7653f078",
+            "complianceState": "NonCompliant"
           }
         ]
       }
 - name: Query at nested resource scope
   request:
-    uri: POST https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApplication/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2018-04-04
+    uri: POST https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ServiceFabric/clusters/myCluster/applications/myApplication/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
       {
+        "@odata.nextLink": null,
         "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourcegroups/myResourceGroup/providers/microsoft.servicefabric/clusters/myCluster/applications/myApplication/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default",
         "@odata.count": 2,
         "value": [
@@ -427,7 +566,8 @@ examples:
             "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
             "policyDefinitionReferenceId": "181565554491747128",
             "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
-            "principalOid": "fffdfc0f-fff5-fff0-fff3-fff1a968dcc6"
+            "principalOid": "fffdfc0f-fff5-fff0-fff3-fff1a968dcc6",
+            "complianceState": "NonCompliant"
           },
           {
             "@odata.id": null,
@@ -458,17 +598,19 @@ examples:
             "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
             "policyDefinitionReferenceId": "624540685646900425",
             "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
-            "principalOid": "fffdfc0f-fff5-fff0-fff3-fff1a968dcc6"
+            "principalOid": "fffdfc0f-fff5-fff0-fff3-fff1a968dcc6",
+            "complianceState": "NonCompliant"
           }
         ]
       }
 - name: Query at subscription level nested resource scope
   request:
-    uri: POST https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResource/someNestedResourceType/someNestedResource/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2018-04-04
+    uri: POST https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResource/someNestedResourceType/someNestedResource/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
       {
+        "@odata.nextLink": null,
         "@odata.context": "https://management.azure.com/subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/providers/Microsoft.SomeNamespace/someResourceType/someResource/someNestedResourceType/someNestedResource/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default",
         "@odata.count": 2,
         "value": [
@@ -501,7 +643,8 @@ examples:
             "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
             "policyDefinitionReferenceId": "181565554491747128",
             "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
-            "principalOid": "fffdfc0f-fff5-fff0-fff3-fff1a968dcc6"
+            "principalOid": "fffdfc0f-fff5-fff0-fff3-fff1a968dcc6",
+            "complianceState": "NonCompliant"
           },
           {
             "@odata.id": null,
@@ -532,7 +675,124 @@ examples:
             "managementGroupIds": "myManagementGroup,fff988bf-fff1-ffff-fffb-fffcd011db47",
             "policyDefinitionReferenceId": "624540685646900425",
             "tenantId": "fff988bf-fff1-ffff-fffb-fffcd011db47",
-            "principalOid": "fffdfc0f-fff5-fff0-fff3-fff1a968dcc6"
+            "principalOid": "fffdfc0f-fff5-fff0-fff3-fff1a968dcc6",
+            "complianceState": "NonCompliant"
+          }
+        ]
+      }
+- name: Query components policy events for resource scope filtered by given assignment.
+  request:
+    uri: POST https://management.azure.com/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/Vaults/myKVName/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2019-10-01&$filter=policyAssignmentId eq '/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/providers/microsoft.authorization/policyassignments/560050f83dbb4a24974323f8'&$expand=components
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@odata.context": "https://management.azure.com/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/resourcegroups/myResourceGroup/providers/microsoft.keyvault/vaults/myKVName/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default",
+        "@odata.count": 1,
+        "value": [
+          {
+            "@odata.id": null,
+            "@odata.context": "https://management.azure.com/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/resourcegroups/myResourceGroup/providers/microsoft.keyvault/vaults/myKVName/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default/$entity",
+            "timestamp": "2020-02-21T19:42:08.3252921Z",
+            "resourceId": "/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/resourcegroups/myResourceGroup/providers/microsoft.keyvault/vaults/myKVName",
+            "policyAssignmentId": "/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/providers/microsoft.authorization/policyassignments/560050f83dbb4a24974323f8",
+            "policyDefinitionId": "/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/providers/microsoft.authorization/policydefinitions/ab108bc4-32df-4677-8b38-fa8b2905df59",
+            "effectiveParameters": "",
+            "isCompliant": false,
+            "subscriptionId": "e78961ba-36fe-4739-9212-e3031b4c8db7",
+            "resourceType": "Microsoft.KeyVault/vaults",
+            "resourceLocation": "westcentralus",
+            "resourceGroup": "myResourceGroup",
+            "resourceTags": "tbd",
+            "policyAssignmentName": "560050f83dbb4a24974323f8",
+            "policyAssignmentOwner": "tbd",
+            "policyAssignmentParameters": "",
+            "policyAssignmentScope": "/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7",
+            "policyDefinitionName": "ab108bc4-32df-4677-8b38-fa8b2905df59",
+            "policyDefinitionAction": "audit",
+            "policyDefinitionCategory": "tbd",
+            "policySetDefinitionId": "",
+            "policySetDefinitionName": "",
+            "policySetDefinitionOwner": "",
+            "policySetDefinitionCategory": "",
+            "policySetDefinitionParameters": "",
+            "managementGroupIds": "PolicyUIMG,AzGovTest5,72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "policyDefinitionReferenceId": "",
+            "complianceState": "NonCompliant",
+            "tenantId": "",
+            "principalOid": "",
+            "components": [
+              {
+                "id": "cert-RSA-cert-3",
+                "type": "Certificate",
+                "name": "cert-RSA-cert-3",
+                "timestamp": "2020-02-21T17:45:23.0367Z",
+                "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+                "principalOid": "0d81b461-6bb0-4909-a102-d51803a7d275",
+                "policyDefinitionAction": "audit"
+              },
+              {
+                "id": "cert-RSA-cert-2",
+                "type": "Certificate",
+                "name": "cert-RSA-cert-2",
+                "timestamp": "2020-02-21T17:45:22.7682778Z",
+                "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+                "principalOid": "0d81b461-6bb0-4909-a102-d51803a7d275",
+                "policyDefinitionAction": "audit"
+              }
+            ]
+          }
+        ]
+      }
+- name: Query components policy events count grouped by user and action type for resource scope filtered by given assignment.
+  request:
+    uri: POST https://management.azure.com/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/Vaults/myKVName/providers/Microsoft.PolicyInsights/policyEvents/default/queryResults?api-version=2019-10-01&$filter=policyAssignmentId eq '/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/providers/microsoft.authorization/policyassignments/560050f83dbb4a24974323f8'&$expand=components($apply=groupby((tenantId, principalOid, policyDefinitionAction), aggregate($count as totalActions)))
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@odata.context": "https://management.azure.com/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/resourcegroups/myResourceGroup/providers/microsoft.keyvault/vaults/myKVName/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default",
+        "@odata.count": 1,
+        "value": [
+          {
+            "@odata.id": null,
+            "@odata.context": "https://management.azure.com/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/resourcegroups/myResourceGroup/providers/microsoft.keyvault/vaults/myKVName/providers/Microsoft.PolicyInsights/policyEvents/$metadata#default/$entity",
+            "timestamp": "2020-02-21T19:42:08.3252921Z",
+            "resourceId": "/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/resourcegroups/myResourceGroup/providers/microsoft.keyvault/vaults/myKVName",
+            "policyAssignmentId": "/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/providers/microsoft.authorization/policyassignments/560050f83dbb4a24974323f8",
+            "policyDefinitionId": "/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/providers/microsoft.authorization/policydefinitions/ab108bc4-32df-4677-8b38-fa8b2905df59",
+            "effectiveParameters": "",
+            "isCompliant": false,
+            "subscriptionId": "e78961ba-36fe-4739-9212-e3031b4c8db7",
+            "resourceType": "Microsoft.KeyVault/vaults",
+            "resourceLocation": "westcentralus",
+            "resourceGroup": "myResourceGroup",
+            "resourceTags": "tbd",
+            "policyAssignmentName": "560050f83dbb4a24974323f8",
+            "policyAssignmentOwner": "tbd",
+            "policyAssignmentParameters": "",
+            "policyAssignmentScope": "/subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7",
+            "policyDefinitionName": "ab108bc4-32df-4677-8b38-fa8b2905df59",
+            "policyDefinitionAction": "audit",
+            "policyDefinitionCategory": "tbd",
+            "policySetDefinitionId": "",
+            "policySetDefinitionName": "",
+            "policySetDefinitionOwner": "",
+            "policySetDefinitionCategory": "",
+            "policySetDefinitionParameters": "",
+            "managementGroupIds": "PolicyUIMG,AzGovTest5,72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "policyDefinitionReferenceId": "",
+            "complianceState": "NonCompliant",
+            "tenantId": "",
+            "principalOid": "",
+            "components": [
+              {
+                "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+                "principalOid": "0d81b461-6bb0-4909-a102-d51803a7d275",
+                "policyDefinitionAction": "audit",
+                "totalActions": 6
+              }
+            ]
           }
         ]
       }

@@ -1,24 +1,15 @@
 ---
 title: HTTP status codes for REST API call - Azure Cognitive Search
 description: A list of the HTTP status codes returned by the Azure Cognitive Search REST APIs.
-ms.date: "05/02/2019"
+ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: language-reference
+ms.devlang: rest-api
+
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: nitinme
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
 ---
 # HTTP status codes (Azure Cognitive Search)
   This page describes the HTTP status codes that are frequently returned when using the Azure Cognitive Search API.  

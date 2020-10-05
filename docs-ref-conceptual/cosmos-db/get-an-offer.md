@@ -1,5 +1,6 @@
 ---
 title: "Get an Offer - Azure Cosmos DB REST API"
+description: Get an offer REST API syntax. Request and response headers, body, status codes and examples.
 ms.date: "03/19/2019"
 ms.service: "cosmos-db"
 ms.topic: "reference"

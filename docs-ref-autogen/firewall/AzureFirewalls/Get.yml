@@ -3,14 +3,14 @@ uid: management.azure.com.firewall.azurefirewalls.get
 name: Get
 service: Firewall
 groupName: Azure Firewalls
-apiVersion: 2020-03-01
+apiVersion: 2020-05-01
 summary: Gets the specified Azure Firewall.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}?api-version=2020-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}?api-version=2020-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -102,8 +102,7 @@ definitions:
     description: The firewallPolicy associated with this azure firewall.
     types:
     - uid: SubResource
-  - name: properties.hubIpAddresses
-    isReadyOnly: true
+  - name: properties.hubIPAddresses
     description: IP addresses associated with AzureFirewall.
     types:
     - uid: HubIPAddresses
@@ -345,11 +344,10 @@ definitions:
   description: IP addresses associated with azure firewall.
   kind: object
   properties:
-  - name: publicIPAddresses
-    description: List of Public IP addresses associated with azure firewall.
+  - name: publicIPs
+    description: Public IP addresses associated with azure firewall.
     types:
-    - uid: AzureFirewallPublicIPAddress
-      isArray: true
+    - uid: HubPublicIPAddresses
   - name: privateIPAddress
     description: Private IP Address associated with azure firewall.
     types:
@@ -550,14 +548,19 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: AzureFirewallPublicIPAddress
-  description: Public IP Address associated with azure firewall.
+- name: HubPublicIPAddresses
+  description: Public IP addresses associated with azure firewall.
   kind: object
   properties:
-  - name: address
-    description: Public IP Address value.
+  - name: addresses
+    description: The list of Public IP addresses associated with azure firewall or IP addresses to be retained.
     types:
-    - uid: string
+    - uid: AzureFirewallPublicIPAddress
+      isArray: true
+  - name: count
+    description: The number of Public IP addresses associated with azure firewall.
+    types:
+    - uid: integer
 - name: AzureFirewallSkuName
   description: Name of an Azure Firewall SKU.
   kind: enum
@@ -573,6 +576,9 @@ definitions:
   kind: enum
   properties:
   - name: Standard
+    types:
+    - uid: string
+  - name: Premium
     types:
     - uid: string
 - name: AzureFirewallRCActionType
@@ -607,6 +613,14 @@ definitions:
   - name: Dnat
     types:
     - uid: string
+- name: AzureFirewallPublicIPAddress
+  description: Public IP Address associated with azure firewall.
+  kind: object
+  properties:
+  - name: address
+    description: Public IP Address value.
+    types:
+    - uid: string
 - name: AzureFirewallApplicationRuleProtocolType
   description: The protocol type of a Application Rule resource.
   kind: enum
@@ -623,7 +637,7 @@ definitions:
 examples:
 - name: Get Azure Firewall
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -794,7 +808,7 @@ examples:
       }
 - name: Get Azure Firewall With Zones
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -969,7 +983,7 @@ examples:
       }
 - name: Get Azure Firewall With management subnet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1153,7 +1167,7 @@ examples:
       }
 - name: Get Azure Firewall With Additional Properties
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1326,7 +1340,7 @@ examples:
       }
 - name: Get Azure Firewall With IpGroups
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azurefirewall?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-

@@ -1,24 +1,15 @@
 ---
 title: "Azure Cognitive Search Service REST"
 description: REST API reference for Azure Cognitive Search, used for non-managed code such as Java, JavaScript, node.js, Python, and any programming language compatible with REST.
-ms.date: "01/29/2020"
+ms.date: 06/30/2020
+
 ms.service: cognitive-search
-ms.topic: "language-reference"
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
+ms.topic: language-reference
+ms.devlang: rest-api
+
+author: HeidiSteen
+ms.author: heidist
 ms.manager: nitinme
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
-service_description: Azure Cognitive Search is an AI-Powered cloud search service for web and mobile app development.
 ---
 # Azure Cognitive Search Service REST
 
@@ -40,7 +31,7 @@ Azure Cognitive Search is a fully managed cloud search service that provides a r
 
 -   [Document operations](document-operations.md). Add, update, or delete documents in the index, query the index, or look up specific documents by ID.  
 
--   [Indexer operations](indexer-operations.md). Automate aspects of an indexing operation by configuring a **data source** and an **indexer** that you can schedule or run on demand. This feature is supported for a limited number of data source types. 
+-   [Indexer operations](indexer-operations.md). Automate aspects of an indexing operation by configuring a **data source** and an **indexer** that you can schedule or run on demand. This feature is supported for a limited number of data source types on Azure. 
 
 -   [Skillset operations](skillset-operations.md). Part of an [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) workload, a skillset defines a series of enrichment processing. A skillset is consumed by an indexer. 
 
@@ -54,11 +45,11 @@ Azure Cognitive Search is a fully managed cloud search service that provides a r
 
 -   Your search service is uniquely identified by a fully-qualified domain name (for example: \`mysearchservice.search.windows.net`).  
 
--   All API requests must include an **api-key** that was generated for the Search service you provisioned. Having a valid key establishes trust, on a per request basis, between the application sending the request and the service that handles it.
+-   All API requests must include an **api-key** that was generated for the search service you provisioned. Having a valid key establishes trust, on a per request basis, between the application sending the request and the service that handles it.
 
 -   All API requests must include the **api-version** in the URI. Its value must be set to the version of the current service release, shown in the following example:  
 
-     `GET https://[search service name].search.windows.net/indexes?api-version=2019-05-06`  
+     `GET https://[search service name].search.windows.net/indexes?api-version=2020-06-30`  
 
 -   All API requests can optionally set the Accept HTTP header. If the header is not set, the default is assumed to be `application/json`.  
 
@@ -71,7 +62,7 @@ Azure Cognitive Search is a fully managed cloud search service that provides a r
 |Key|Description|Limits|  
 |---------|-----------------|------------|  
 |Admin|Admin keys grant full rights to all operations, including the ability to manage the service, get status and object definitions, and create and delete **indexes**, **indexers**, and **data sources**.<br /><br /> Two admin **api-keys**, referred to as *primary* and *secondary* keys in the portal, are automatically generated when the service is created and can be individually regenerated on demand. Having two keys allows you to roll over one key while using the second key for continued access to the service.<br /><br /> Admin keys are only specified in HTTP request headers. You cannot place an admin **api-key** in a URL.|Maximum of 2 per service|  
-|Query|Query keys grant read-only access to content within an index (documents), and are typically distributed to client applications that issue search requests.<br /><br /> Query keys are created on demand. You can create them manually in the portal or programmatically via the [Management REST API](~/docs-ref-conceptual/searchmanagement/index.md).<br /><br /> Query keys can be specified  in an HTTP request header for search, suggestion, or lookup operation. Alternatively, you can pass a query key  as a parameter on a URL. Depending on how your client application formulates the request, it might be easier to pass the key as a query parameter:<br /><br /> `GET /indexes/hotels/docs?search=*&$orderby=lastRenovationDate desc&api-version=2019-05-06&api-key=[query key]`|50 per service|  
+|Query|Query keys grant read-only access to content within an index (documents), and are typically distributed to client applications that issue search requests.<br /><br /> Query keys are created on demand. You can create them manually in the portal or programmatically via the [Management REST API](~/docs-ref-conceptual/searchmanagement/index.md).<br /><br /> Query keys can be specified  in an HTTP request header for search, suggestion, or lookup operation. Alternatively, you can pass a query key  as a parameter on a URL. Depending on how your client application formulates the request, it might be easier to pass the key as a query parameter:<br /><br /> `GET /indexes/hotels/docs?search=*&$orderby=lastRenovationDate desc&api-version=2020-06-30&api-key=[query key]`|50 per service|  
 
  Visually, there is no distinction between an admin key or query key. Both keys are strings composed of 32 randomly-generated alpha-numeric characters. If you lose track of what type of key is specified in your application, you can [check the key values in the portal](https://portal.azure.com) or use the [REST API](~/docs-ref-conceptual/searchmanagement/index.md) to return the value and key type.  
 

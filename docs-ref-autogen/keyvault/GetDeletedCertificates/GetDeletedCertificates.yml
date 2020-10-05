@@ -3,15 +3,15 @@ uid: keyvault.getdeletedcertificates.getdeletedcertificates
 name: Get Deleted Certificates
 service: Key Vault
 groupName: Get Deleted Certificates
-apiVersion: "7.0"
+apiVersion: "7.1"
 summary: "Lists the deleted certificates in the specified vault currently available for recovery.  \nThe GetDeletedCertificates operation retrieves the certificates in the current vault which are in a deleted state and ready for recovery or purging. This operation includes deletion-specific information. This operation requires the certificates/get/list permission. This operation can only be enabled on soft-delete enabled vaults."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET {vaultBaseUrl}/deletedcertificates?api-version=7.0
-- content: GET {vaultBaseUrl}/deletedcertificates?maxresults={maxresults}&includePending={includePending}&api-version=7.0
+- content: GET {vaultBaseUrl}/deletedcertificates?api-version=7.1
+- content: GET {vaultBaseUrl}/deletedcertificates?maxresults={maxresults}&includePending={includePending}&api-version=7.1
   isOptional: true
 uriParameters:
 - name: vaultBaseUrl
@@ -134,6 +134,11 @@ definitions:
   description: The certificate management attributes.
   kind: object
   properties:
+  - name: recoverableDays
+    isReadyOnly: true
+    description: softDelete data retention days. Value should be >=7 and <=90 when softDelete enabled, otherwise 0.
+    types:
+    - uid: integer
   - name: recoveryLevel
     isReadyOnly: true
     description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
@@ -162,35 +167,51 @@ definitions:
     types:
     - uid: integer
 - name: DeletionRecoveryLevel
-  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  description: Reflects the deletion recovery level currently in effect for certificates in the current vault. If it contains 'Purgeable', the certificate can be permanently deleted by a privileged user; otherwise, only the system can purge the certificate, at the end of the retention interval.
   kind: enum
   properties:
   - name: Purgeable
+    description: Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.)
     types:
     - uid: string
   - name: Recoverable+Purgeable
+    description: Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered
     types:
     - uid: string
   - name: Recoverable
+    description: Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval(90 days) and while the subscription is still available. System wil permanently delete it after 90 days, if not recovered
     types:
     - uid: string
   - name: Recoverable+ProtectedSubscription
+    description: Denotes a vault and subscription state in which deletion is recoverable within retention interval (90 days), immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself  cannot be permanently canceled. System wil permanently delete it after 90 days, if not recovered
+    types:
+    - uid: string
+  - name: CustomizedRecoverable+Purgeable
+    description: Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays < 90). This level guarantees the recoverability of the deleted entity during the retention interval, unless a Purge operation is requested, or the subscription is cancelled.
+    types:
+    - uid: string
+  - name: CustomizedRecoverable
+    description: Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the deleted entity during the retention interval and while the subscription is still available.
+    types:
+    - uid: string
+  - name: CustomizedRecoverable+ProtectedSubscription
+    description: Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7<= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled.
     types:
     - uid: string
 examples:
 - name: GetDeletedCertificates
   request:
-    uri: GET {vaultBaseUrl}/deletedcertificates?maxresults=1&api-version=7.0
+    uri: GET https://myvault.vault.azure.net//deletedcertificates?maxresults=1&api-version=7.1
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "recoveryId": "https://kv-sdk-test.vault-int.azure-int.net/deletedcertificates/listdeletedcerttest0",
+            "recoveryId": "https://myvault.vault.azure.net/deletedcertificates/listdeletedcerttest0",
             "deletedDate": 1493937659,
             "scheduledPurgeDate": 1501713659,
-            "id": "https://kv-sdk-test.vault-int.azure-int.net/certificates/listdeletedcerttest0",
+            "id": "https://myvault.vault.azure.net/certificates/listdeletedcerttest0",
             "x5t": "fLi3U52HunIVNXubkEnf8tP6Wbo",
             "attributes": {
               "enabled": true,
@@ -202,7 +223,7 @@ examples:
             }
           }
         ],
-        "nextLink": "https://kv-sdk-test.vault-int.azure-int.net:443/deletedcertificates?api-version=7.0&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMTIhTURBd01ETTVJV05sY25ScFptbGpZWFJsTDB4SlUxUkVSVXhGVkVWRVEwVlNWRlJGVTFRd0wxQlBURWxEV1NFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"
+        "nextLink": "https://myvault.vault.azure.net:443/deletedcertificates?api-version=7.1&$skiptoken=eyJOZXh0TWFya2VyIjoiMiExMTIhTURBd01ETTVJV05sY25ScFptbGpZWFJsTDB4SlUxUkVSVXhGVkVWRVEwVlNWRlJGVTFRd0wxQlBURWxEV1NFd01EQXdNamdoT1RrNU9TMHhNaTB6TVZReU16bzFPVG8xT1M0NU9UazVPVGs1V2lFLSIsIlRhcmdldExvY2F0aW9uIjowfQ&maxresults=1"
       }
 security: []
 errorCodes: []

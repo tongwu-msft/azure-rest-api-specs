@@ -6,11 +6,15 @@ ms.reviewer: prkumar
 tags: billing
 ms.service: cost-management-billing
 ms.topic: article
-ms.date: 08/06/2019
+ms.date: 06/22/2020
 ms.author: banders
 
 ---
 # Reporting APIs for Enterprise customers - Price Sheet
+
+> [!Note]
+> Microsoft no longer updates the Enterprise Reporting APIs. Instead, you should use [Azure Consumption](/rest/api/consumption) APIs.
+> The Azure Billing - Price Sheet API is replaced by the [Azure Consumption - Price Sheet API](/rest/api/consumption/pricesheet).
 
 The Price Sheet API provides the applicable rate for each Meter for the given Enrollment and Billing Period.
 

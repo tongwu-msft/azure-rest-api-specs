@@ -12,17 +12,17 @@ summary: >-
   **Applies to**: S1 pricing tier.
 
 
-  This service will calculate a set of locations that can be reached from the origin point based on fuel, energy,  or time budget that is specified. A polygon boundary (or Isochrone) is returned in a counterclockwise  orientation as well as the precise polygon center which was the result of the origin point.
+  This service will calculate a set of locations that can be reached from the origin point based on fuel, energy,  time or distance budget that is specified. A polygon boundary (or Isochrone) is returned in a counterclockwise  orientation as well as the precise polygon center which was the result of the origin point.
 
 
-  The returned polygon can be used for further processing such as  [Search Inside Geometry](https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchinsidegeometry) to  search for POIs within the provided Isochrone.
+  The returned polygon can be used for further processing such as  [Search Inside Geometry](https://docs.microsoft.com/rest/api/maps/search/postsearchinsidegeometry) to  search for POIs within the provided Isochrone.
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
 - content: GET https://atlas.microsoft.com/route/range/{format}?api-version=1.0&query={query}
-- content: GET https://atlas.microsoft.com/route/range/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&fuelBudgetInLiters={fuelBudgetInLiters}&energyBudgetInkWh={energyBudgetInkWh}&timeBudgetInSec={timeBudgetInSec}&departAt={departAt}&routeType={routeType}&traffic={traffic}&avoid={avoid}&travelMode={travelMode}&hilliness={hilliness}&windingness={windingness}&vehicleAxleWeight={vehicleAxleWeight}&vehicleWidth={vehicleWidth}&vehicleHeight={vehicleHeight}&vehicleLength={vehicleLength}&vehicleMaxSpeed={vehicleMaxSpeed}&vehicleWeight={vehicleWeight}&vehicleCommercial={vehicleCommercial}&vehicleLoadType={vehicleLoadType}&vehicleEngineType={vehicleEngineType}&constantSpeedConsumptionInLitersPerHundredkm={constantSpeedConsumptionInLitersPerHundredkm}&currentFuelInLiters={currentFuelInLiters}&auxiliaryPowerInLitersPerHour={auxiliaryPowerInLitersPerHour}&fuelEnergyDensityInMJoulesPerLiter={fuelEnergyDensityInMJoulesPerLiter}&accelerationEfficiency={accelerationEfficiency}&decelerationEfficiency={decelerationEfficiency}&uphillEfficiency={uphillEfficiency}&downhillEfficiency={downhillEfficiency}&constantSpeedConsumptionInkWhPerHundredkm={constantSpeedConsumptionInkWhPerHundredkm}&currentChargeInkWh={currentChargeInkWh}&maxChargeInkWh={maxChargeInkWh}&auxiliaryPowerInkW={auxiliaryPowerInkW}
+- content: GET https://atlas.microsoft.com/route/range/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&fuelBudgetInLiters={fuelBudgetInLiters}&energyBudgetInkWh={energyBudgetInkWh}&timeBudgetInSec={timeBudgetInSec}&distanceBudgetInMeters={distanceBudgetInMeters}&departAt={departAt}&routeType={routeType}&traffic={traffic}&avoid={avoid}&travelMode={travelMode}&hilliness={hilliness}&windingness={windingness}&vehicleAxleWeight={vehicleAxleWeight}&vehicleWidth={vehicleWidth}&vehicleHeight={vehicleHeight}&vehicleLength={vehicleLength}&vehicleMaxSpeed={vehicleMaxSpeed}&vehicleWeight={vehicleWeight}&vehicleCommercial={vehicleCommercial}&vehicleLoadType={vehicleLoadType}&vehicleEngineType={vehicleEngineType}&constantSpeedConsumptionInLitersPerHundredkm={constantSpeedConsumptionInLitersPerHundredkm}&currentFuelInLiters={currentFuelInLiters}&auxiliaryPowerInLitersPerHour={auxiliaryPowerInLitersPerHour}&fuelEnergyDensityInMJoulesPerLiter={fuelEnergyDensityInMJoulesPerLiter}&accelerationEfficiency={accelerationEfficiency}&decelerationEfficiency={decelerationEfficiency}&uphillEfficiency={uphillEfficiency}&downhillEfficiency={downhillEfficiency}&constantSpeedConsumptionInkWhPerHundredkm={constantSpeedConsumptionInkWhPerHundredkm}&currentChargeInkWh={currentChargeInkWh}&maxChargeInkWh={maxChargeInkWh}&auxiliaryPowerInkW={auxiliaryPowerInkW}
   isOptional: true
 uriParameters:
 - name: format
@@ -50,19 +50,25 @@ uriParameters:
   - uid: string
 - name: fuelBudgetInLiters
   in: query
-  description: Fuel budget in liters that determines maximal range which can be travelled using the specified Combustion Consumption Model. This parameter is required if vehicleEngineType is Combustion and timeBudgetInSec is not used. Either fuelBudgetInLiters, energyBudgetInkWh or timeBudgetInSec must be provided.
+  description: Fuel budget in liters that determines maximal range which can be travelled using the specified Combustion Consumption Model.<br> When fuelBudgetInLiters is used, it is mandatory to specify a detailed  Combustion Consumption Model.<br> Exactly one budget (fuelBudgetInLiters, energyBudgetInkWh, timeBudgetInSec, or distanceBudgetInMeters) must be used.
   types:
   - uid: number
   format: float
 - name: energyBudgetInkWh
   in: query
-  description: Electric energy budget in kilowatt hours (kWh) that determines maximal range which can be travelled using the specified Electric Consumption Model. This parameter is required if vehicleEngineType is Electric and timeBudgetInSec is not used. Either fuelBudgetInLiters, energyBudgetInkWh or timeBudgetInSec must be provided.
+  description: Electric energy budget in kilowatt hours (kWh) that determines maximal range which can be travelled using the specified Electric Consumption Model.<br> When energyBudgetInkWh is used, it is mandatory to specify a detailed Electric Consumption Model.<br> Exactly one budget (fuelBudgetInLiters, energyBudgetInkWh, timeBudgetInSec, or distanceBudgetInMeters) must be used.
   types:
   - uid: number
   format: float
 - name: timeBudgetInSec
   in: query
-  description: Time budget in seconds that determines maximal range which can be travelled using driving time. The consumption parameters will only affect eco-routes and thereby indirectly the driving time. This parameter is required if fuelBudgetInLiters or energyBudgetInkWh are not used. Either fuelBudgetInLiters, energyBudgetInkWh or timeBudgetInSec must be provided.
+  description: Time budget in seconds that determines maximal range which can be travelled using driving time. The Consumption Model will only affect the range when routeType is eco.<br> Exactly one budget (fuelBudgetInLiters, energyBudgetInkWh, timeBudgetInSec, or distanceBudgetInMeters) must be used.
+  types:
+  - uid: number
+  format: float
+- name: distanceBudgetInMeters
+  in: query
+  description: Distance budget in meters that determines maximal range which can be travelled using driving distance.  The Consumption Model will only affect the range when routeType is eco.<br> Exactly one budget (fuelBudgetInLiters, energyBudgetInkWh, timeBudgetInSec, or distanceBudgetInMeters) must be used.
   types:
   - uid: number
   format: float
@@ -89,7 +95,7 @@ uriParameters:
   - uid: Avoid
 - name: travelMode
   in: query
-  description: The mode of travel for the requested route. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be other. Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used
+  description: The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used.
   types:
   - uid: TravelMode
 - name: hilliness
@@ -127,7 +133,7 @@ uriParameters:
   format: float
 - name: vehicleMaxSpeed
   in: query
-  description: Maximum speed of the vehicle in km/hour. A value of 0 means that an appropriate value for the vehicle will be determined and applied during route planning. A non-zero value may be overridden during route planning.
+  description: "Maximum speed of the vehicle in km/hour. The max speed in the vehicle profile is used to check whether a vehicle is allowed on motorways. \n\n* A value of 0 means that an appropriate value for the vehicle will be determined and applied during route planning.\n\n* A non-zero value may be overridden during route planning. For example, the current traffic flow is 60 km/hour. If the vehicle  maximum speed is set to 50 km/hour, the routing engine will consider 60 km/hour as this is the current situation.  If the maximum speed of the vehicle is provided as 80 km/hour but the current traffic flow is 60 km/hour, then routing engine will again use 60 km/hour."
   types:
   - uid: integer
 - name: vehicleWeight
@@ -355,30 +361,30 @@ responses:
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 401 Unauthorized
   headers:
   - name: WWW-Authenticate
     value: string
   description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 403 Forbidden
   description: Permission, capacity, or authentication issues.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 404 Not Found
   description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 500 Internal Server Error
   description: An error occurred while processing the request. Please try again later.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
-  description: 'Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.    '
+  description: Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.
   types:
   - uid: string
 definitions:
@@ -447,39 +453,39 @@ definitions:
     types:
     - uid: string
 - name: TravelMode
-  description: The mode of travel for the requested route. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be other. Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used
+  description: The mode of travel for the requested route. If not defined, default is 'car'. Note that the requested travelMode may not be available for the entire route. Where the requested travelMode is not available for a particular section, the travelMode element of the response for that section will be "other". Note that travel modes bus, motorcycle, taxi and van are BETA functionality. Full restriction data is not available in all areas. In **calculateReachableRange** requests, the values bicycle and pedestrian must not be used.
   kind: enum
   properties:
   - name: car
-    description: car
+    description: The returned routes are optimized for cars.
     types:
     - uid: string
   - name: truck
-    description: truck
+    description: The returned routes are optimized for commercial vehicles, like for trucks.
     types:
     - uid: string
   - name: taxi
-    description: taxi
+    description: The returned routes are optimized for taxis. BETA functionality.
     types:
     - uid: string
   - name: bus
-    description: bus
+    description: The returned routes are optimized for buses, including the use of bus only lanes. BETA functionality.
     types:
     - uid: string
   - name: van
-    description: van
+    description: The returned routes are optimized for vans. BETA functionality.
     types:
     - uid: string
   - name: motorcycle
-    description: motorcycle
+    description: The returned routes are optimized for motorcycles. BETA functionality.
     types:
     - uid: string
   - name: bicycle
-    description: bicycle
+    description: The returned routes are optimized for bicycles, including use of bicycle lanes.
     types:
     - uid: string
   - name: pedestrian
-    description: pedestrian
+    description: The returned routes are optimized for pedestrians, including the use of sidewalks.
     types:
     - uid: string
 - name: Hilliness
@@ -595,14 +601,14 @@ definitions:
     description: Reports the effective settings used in the current call.
     types:
     - uid: RouteResponseReport
-- name: ErrorResponse
-  description: This response object is returned when an error occurs in the Maps API
+- name: ODataErrorResponse
+  description: This response object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Maps API
+    description: This object is returned when an error occurs in the Maps API.
     types:
-    - uid: Error
+    - uid: ODataError
 - name: RouteRange
   description: Reachable Range
   kind: object
@@ -627,18 +633,28 @@ definitions:
     types:
     - uid: RouteResponseReportEffectiveSetting
       isArray: true
-- name: Error
-  description: This object is returned when an error occurs in the Maps API
+- name: ODataError
+  description: This object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The HTTP status code.
+    description: The ODataError code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
     description: If available, a human readable description of the error.
+    types:
+    - uid: string
+  - name: details
+    description: This object is returned when an error occurs in the Maps API.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: target
+    isReadyOnly: true
+    description: If available, the target causing the error.
     types:
     - uid: string
 - name: Coordinate

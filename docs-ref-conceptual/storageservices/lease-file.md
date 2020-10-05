@@ -3,7 +3,7 @@ title: Lease File (REST API) - Azure Storage
 description: The Lease File operation creates and manages a lock on a file for write and delete operations.
 author: pemari-msft
 
-ms.date: 02/12/2020
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -26,9 +26,9 @@ The `Lease File` operation creates and manages a lock on a file for write and de
 ## Request  
  The `Lease File` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.file.core.windows.net/myshare/mydirectory/myfile?comp=lease`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.file.core.windows.net/myshare/mydirectory/myfile?comp=lease`|HTTP/1.1|  
 
  Replace the path components shown in the request URI with your own, as follows:  
   
@@ -58,7 +58,7 @@ The `Lease File` operation creates and manages a lock on a file for write and de
 |`x-ms-lease-action: <acquire ¦ change ¦ release ¦ break>`|`acquire`: Requests a new lease. If the file does not have an active lease, the File service creates a lease on the file and returns a new lease ID.  If the file has an active lease, you can only request a new lease using the active lease ID.<br /><br /> `change`: Changes the lease ID of an active lease. A `change` must include the current lease ID in x-ms-lease-id and a new lease ID in x-ms-proposed-lease-id.<br /><br /> `release`: Releases the lease. The lease may be released if the lease ID specified on the request matches that associated with the file. Releasing the lease allows another client to immediately acquire the lease for the file as soon as the release is complete.<br /><br /> `break`: Breaks the lease, if the file has an active lease. Any authorized request can break the lease; the request is not required to specify a matching lease ID. An infinite lease is broken immediately.
 |`x-ms-lease-duration: -1 `|Only allowed and required on an `acquire` operation. Required to be -1 to indicate a lease that never expires.|  
 |`x-ms-proposed-lease-id: <ID>`|Optional for `acquire`, required for `change`. Proposed lease ID, in a GUID string format. The File service returns `400 (Invalid request)` if the proposed lease ID is not in the correct format. See [Guid Constructor (String)](https://msdn.microsoft.com/library/96ff78dc.aspx) for a list of valid GUID string formats.|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
  None.  
@@ -196,7 +196,7 @@ Date: <date>
   
 ### Outcomes of use attempts on files by lease state  
   
-||Available|Leased (A)|Broken (A)|
+|Action|Available|Leased (A)|Broken (A)|
 |-|--------------------|------------------|-------------------|  
 |Write using (A)|Fails (412)|Leased (A), write succeeds|Fails (412)|  
 |Write using (B)|Fails (412)|Fails (409)|Fails (412)|  
@@ -207,7 +207,7 @@ Date: <date>
   
 ### Outcomes of lease operations on files by lease state  
   
-||Available|Leased (A)|Broken (A)|  
+|Action|Available|Leased (A)|Broken (A)|  
 |-|--------------------|------------------|-------------------|  
 |`Acquire`, no proposed lease ID|Leased (X)|Fails (409)|Leased (X)|  
 |`Acquire` (A)|Leased (A)|Leased (A)|Leased (A)|  

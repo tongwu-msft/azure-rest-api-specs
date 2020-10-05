@@ -34,5 +34,5 @@ Azure Intune provides mobile device management, mobile application management, a
 
 ## See also
 
-- [Microsoft Intune](https://azure.microsoft.com/marketplace/partners/microsoft-corporation/microsoftintunemdm/)
+- [Microsoft Intune](https://www.microsoft.com/microsoft-365/enterprise-mobility-security/microsoft-intune)
 - [Learn how to get your application certified](https://azure.microsoft.com/marketplace/programs/certified/intune/)

@@ -1,8 +1,7 @@
 ---
 title: "Check Namespace Availability"
 ms.custom: ""
-ms.date: "05/14/2015"
-ms.prod: "azure"
+ms.date: "07/08/2020"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -10,9 +9,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: e6fd412c-adbc-4596-a176-5a5cfe85d025
 caps.latest.revision: 9
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"

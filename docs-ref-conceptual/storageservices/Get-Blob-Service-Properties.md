@@ -39,7 +39,7 @@ The `Get Blob Service Properties` operation gets the properties of a storage acc
 |`Authorization`|Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
  None.  
@@ -243,6 +243,62 @@ The `Get Blob Service Properties` operation gets the properties of a storage acc
 </StorageServiceProperties>  
 ```  
   
+  Beginning with 2019-12-12, the format of the response body is as follows:  
+  
+```  
+<?xml version="1.0" encoding="utf-8"?>  
+<StorageServiceProperties>  
+    <Logging>  
+        <Version>version-number</Version>  
+        <Delete>true|false</Delete>  
+        <Read>true|false</Read>  
+        <Write>true|false</Write>  
+        <RetentionPolicy>  
+            <Enabled>true|false</Enabled>  
+            <Days>number-of-days</Days>  
+        </RetentionPolicy>  
+    </Logging>  
+    <HourMetrics>  
+        <Version>version-number</Version>  
+        <Enabled>true|false</Enabled>  
+        <IncludeAPIs>true|false</IncludeAPIs>  
+        <RetentionPolicy>  
+            <Enabled>true|false</Enabled>  
+            <Days>number-of-days</Days>  
+        </RetentionPolicy>  
+    </HourMetrics>  
+    <MinuteMetrics>  
+        <Version>version-number</Version>  
+        <Enabled>true|false</Enabled>  
+        <IncludeAPIs>true|false</IncludeAPIs>  
+        <RetentionPolicy>  
+            <Enabled>true|false</Enabled>  
+            <Days>number-of-days</Days>  
+        </RetentionPolicy>  
+    </MinuteMetrics>  
+    <Cors>  
+        <CorsRule>  
+            <AllowedOrigins>comma-separated-list-of-allowed-origins</AllowedOrigins>  
+            <AllowedMethods>comma-separated-list-of-HTTP-verbs</AllowedMethods>  
+            <MaxAgeInSeconds>max-caching-age-in-seconds</MaxAgeInSeconds>  
+            <ExposedHeaders>comma-separated-list-of-response-headers</ExposedHeaders>  
+            <AllowedHeaders>comma-separated-list-of-request-headers</AllowedHeaders>  
+        </CorsRule>  
+    </Cors>    
+    <DefaultServiceVersion>default-service-version-string</DefaultServiceVersion>
+    <DeleteRetentionPolicy>
+        <Enabled>true|false</Enabled>
+        <Days>number-of-days</Days>
+    </DeleteRetentionPolicy>
+    <StaticWebsite>
+        <Enabled>true|false</Enabled>
+        <IndexDocument>default-name-of-index-page-under-each-directory</IndexDocument>
+        <DefaultIndexDocumentPath>absolute-path-of-the-default-index-page</DefaultIndexDocumentPath>
+        <ErrorDocument404Path>absolute-path-of-the-custom-404-page</ErrorDocument404Path>
+    </StaticWebsite>
+</StorageServiceProperties>  
+```  
+  
  The following table describes the elements of the response body:  
   
 |Element Name|Description|  
@@ -273,7 +329,8 @@ The `Get Blob Service Properties` operation gets the properties of a storage acc
 |**StaticWebsite**|Groups the **staticwebsite** settings. Applies only to the Blob service. |
 |**StaticWebsite/Enabled**|Indicates whether **staticwebsite** support is enabled for the given account.| 
 |**StaticWebsite/IndexDocument**|The webpage that Azure Storage serves for requests to the root of a website or any subfolder. For example, `index.html`. The value is case-sensitive. |
-|**StaticWebsite/ErrorDocument404Path**|The absolute path to a webpage that Azure Storage serves for requests that do not correspond to an existing file. For example, `error/404.html`. The value is case-sensitive. |
+|**StaticWebsite/DefaultIndexDocumentPath**|The absolute path to a webpage that Azure Storage serves for requests that do not correspond to an existing file. The contents of the page will be returned with `HTTP 200 OK`. For example, `index.html`. The element is mutually-exclusive with `StaticWebsite/IndexDocument`. The value is case-sensitive. |
+|**StaticWebsite/ErrorDocument404Path**|The absolute path to a webpage that Azure Storage serves for requests that do not correspond to an existing file. The contents of the page will be returned with `HTTP 404 Not Found`. For example, `error/404.html`. The value is case-sensitive. |
   
 ## Authorization  
  Only the storage account owner may call this operation.  

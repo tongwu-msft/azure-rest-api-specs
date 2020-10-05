@@ -13,15 +13,21 @@ ms.author: pemari-msft
 
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
- The current version of the Azure storage services is 2019-07-07, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
+ The current version of the Azure storage services is 2019-12-12, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
+
+## Version 2019-12-12
   
-## Version 2019-07-07
+The 2019-12-12 service version includes the following features:
 
-The 2019-07-07 service version includes the following features:
-
-- The [Copy File](Copy-File.md) API includes a series of new headers which control the copy behavior of SMB properties such as File Attributes. 
-- The [Get Share Properties](Get-Share-Properties.md) API now returns properties for premium file shares that relate to the provisioned limits for the share.
-- The [Force Close Handles](force-close-handles.md) API includes a new header to indicate the number of handles that failed to close. 
+- A new pair of APIs [Get Blob Tags](get-blob-tags.md) and [Set Blob Tags](set-blob-tags.md) allow user-defined tags to be added to a blob which then act as a secondary index.
+- A new API [Find Blobs by Tags](find-blobs-by-tags.md) allow blobs to be retrieved based upon their tags. 
+- A new API [Query Blob Contents](query-blob-contents.md) applies a simple Structured Query Language (SQL) statement on a blob's contents and returns only the queried subset of the data. 
+- The [Set Blob Tier](set-blob-tier.md) API can now be called on snapshots. 
+- The maximum size of a block uploaded via [Put Block](Put-Block.md) has been increased to 4 GiB (4000 MiB). This means that the maximum size of a block blob is now approximately 200 TiB.
+- The maximum size for a blob uploaded through [Put Blob](Put-Blob.md) has been increased to 5 GiB (5000 MiB).
+- Static Website Settings now support an absolute path for the index document.
+- Blob and Queue anonymous and OAuth requests will return 401 (Unauthorized) with identity provider and resource information in order to support Bearer Challenge. 
+- Blob APIs now support the Blob Versioning feature, which provides a fixed way to access a blob in subsequent requests.|  
 
 ## Specifying service versions in requests  
 

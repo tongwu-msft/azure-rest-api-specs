@@ -1,5 +1,6 @@
 ---
 title: "Databases - Azure Cosmos DB REST API"
+description: REST API operations on Azure Cosmos DB databases. Request and response headers, body, status codes and examples.
 ms.date: "02/16/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"
@@ -23,7 +24,7 @@ translation.priority.mt:
 # Databases
 [Azure Cosmos DB](/azure/cosmos-db/introduction) is a globally distributed multi-model database that supports the document, graph, and key-value data models. The content in this section is for creating, querying, and managing database [resources](/azure/cosmos-db/sql-api-resources) using the [SQL API](/azure/cosmos-db/sql-api-introduction) via REST.  
   
-Each Azure Cosmos DB account supports multiple independently named databases. A database is a logical namespace for collections, users, and permissions. The database resource is represented by **dbs** in the [Azure Cosmos DB resource model](/azure/cosmos-db/sql-api-resources/). Here’s an example of the URI: https://mydbaccount.documents.azure.com/dbs.
+Each Azure Cosmos DB account supports multiple independently named databases. A database is a logical namespace for collections, users, and permissions. The database resource is represented by **dbs** in the [Azure Cosmos DB resource model](/azure/cosmos-db/sql-api-resources/). Here’s an example of the URI: `https://mydbaccount.documents.azure.com/dbs`.
   
 Here is a sample representation of a database in Azure Cosmos DB:  
   

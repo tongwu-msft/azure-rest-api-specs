@@ -62,7 +62,7 @@ https://myaccount.table.core.windows.net
 >  Beginning with version 2009-04-14, the Table service no longer supports including the dash (-) character in property names.  
   
 ### Property Limitations  
- An entity can have up to 255 properties, including 3 system properties described in the following section. Therefore, the user may include up to 252 custom properties, in addition to the 3 system properties. The combined size of all data in an entity's properties cannot exceed 1 MB.  
+ An entity can have up to 255 properties, including 3 system properties described in the following section. Therefore, the user may include up to 252 custom properties, in addition to the 3 system properties. The combined size of all data in an entity's properties cannot exceed 1 MiB.  
   
 ### System Properties  
  An entity always has the following system properties:  
@@ -97,14 +97,14 @@ https://myaccount.table.core.windows.net
 -   Control characters from U+007F to U+009F  
   
 #### PartitionKey Property  
- Tables are partitioned to support load balancing across storage nodes. A table's entities are organized by partition. A partition is a consecutive range of entities possessing the same partition key value. The partition key is a unique identifier for the partition within a given table, specified by the `PartitionKey` property. The partition key forms the first part of an entity's primary key. The partition key may be a string value up to 1 KB in size.  
+ Tables are partitioned to support load balancing across storage nodes. A table's entities are organized by partition. A partition is a consecutive range of entities possessing the same partition key value. The partition key is a unique identifier for the partition within a given table, specified by the `PartitionKey` property. The partition key forms the first part of an entity's primary key. The partition key may be a string value up to 1 KiB in size.  
   
  You must include the `PartitionKey` property in every insert, update, and delete operation.  
   
 #### RowKey Property  
  The second part of the primary key is the row key, specified by the `RowKey` property. The row key is a unique identifier for an entity within a given partition. Together the `PartitionKey` and `RowKey` uniquely identify every entity within a table.  
   
- The row key is a string value that may be up to 1 KB in size.  
+ The row key is a string value that may be up to 1 KiB in size.  
   
  You must include the `RowKey` property in every insert, update, and delete operation.  
   
@@ -116,14 +116,14 @@ https://myaccount.table.core.windows.net
   
 |OData Data Type|Common Language Runtime type|Details|  
 |---------------------|----------------------------------|-------------|  
-|`Edm.Binary`|`byte[]`|An array of bytes up to 64 KB in size.|  
+|`Edm.Binary`|`byte[]`|An array of bytes up to 64 KiB in size.|  
 |`Edm.Boolean`|`bool`|A Boolean value.|  
 |`Edm.DateTime`|`DateTime`|A 64-bit value expressed as Coordinated Universal Time (UTC). The supported `DateTime` range begins from 12:00 midnight, January 1, 1601 A.D. (C.E.), UTC. The range ends at December 31, 9999.|  
 |`Edm.Double`|`double`|A 64-bit floating point value.|  
 |`Edm.Guid`|`Guid`|A 128-bit globally unique identifier.|  
 |`Edm.Int32`|`Int32` or `int`|A 32-bit integer.|  
 |`Edm.Int64`|`Int64` or `long`|A 64-bit integer.|  
-|`Edm.String`|`String`|A UTF-16-encoded value. String values may be up to 64 KB in size. Note that the maximum number of characters supported is about 32 K or less.|  
+|`Edm.String`|`String`|A UTF-16-encoded value. String values may be up to 64 KiB in size. Note that the maximum number of characters supported is about 32 K or less.|  
   
  By default a property is created as type `String`, unless you specify a different type. To explicitly type a property, specify its data type by using the appropriate OData data type for an [Insert Entity](Insert-Entity.md) or [Update Entity](Update-Entity2.md) operation. For more information, see [Inserting and Updating Entities](Inserting-and-Updating-Entities.md).  
   

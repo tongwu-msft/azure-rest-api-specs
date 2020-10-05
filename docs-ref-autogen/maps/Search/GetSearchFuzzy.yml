@@ -11,7 +11,7 @@ produces:
 - application/xml
 paths:
 - content: GET https://atlas.microsoft.com/search/fuzzy/{format}?api-version=1.0&query={query}
-- content: GET https://atlas.microsoft.com/search/fuzzy/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&minFuzzyLevel={minFuzzyLevel}&maxFuzzyLevel={maxFuzzyLevel}&idxSet={idxSet}&brandSet={brandSet}&connectorSet={connectorSet}&view={view}&openingHours=nextSevenDays
+- content: GET https://atlas.microsoft.com/search/fuzzy/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&typeahead={typeahead}&limit={limit}&ofs={ofs}&categorySet={categorySet}&countrySet={countrySet}&lat={lat}&lon={lon}&radius={radius}&topLeft={topLeft}&btmRight={btmRight}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&minFuzzyLevel={minFuzzyLevel}&maxFuzzyLevel={maxFuzzyLevel}&idxSet={idxSet}&brandSet={brandSet}&connectorSet={connectorSet}&view={view}&openingHours=nextSevenDays
   isOptional: true
 uriParameters:
 - name: format
@@ -52,6 +52,11 @@ uriParameters:
   description: 'Starting offset of the returned results within the full result set. Default: 0, minimum: 0 and maximum: 1900'
   types:
   - uid: integer
+- name: categorySet
+  in: query
+  description: "A comma-separated list of category set IDs which could be used to restrict the result to specific Points of Interest categories. ID order does not matter. When multiple category identifiers are provided, only POIs that belong to (at least) one of the categories from the provided list will be returned. The list of supported categories can be discovered using  [POI Categories API](https://aka.ms/AzureMapsPOICategoryTree). Usage examples: \n\n* **categorySet=7315** (Search Points of Interest from category Restaurant)\n\n* **categorySet=7315025,7315017** (Search Points of Interest of category either Italian or French Restaurant) "
+  types:
+  - uid: array
 - name: countrySet
   in: query
   description: Comma separated string of country codes, e.g. FR,ES. This will limit the search to the specified countries
@@ -98,13 +103,31 @@ uriParameters:
   - uid: string
 - name: minFuzzyLevel
   in: query
-  description: "Minimum fuzzyness level to be used. Default: 1, minimum: 1 and maximum: 4\n\n* Level 1 has no spell checking.\n\n* Level 2 uses normal n-gram spell checking. For example, query \"restrant\" can be matched to \"restaurant.\"\n\n* Level 3 uses sound-like spell checking, and shingle spell checking. Sound-like spell checking is for \"rstrnt\" to \"restaurant\" matching. Shingle spell checking is for \"mountainview\" to \"mountain view\" matching.\n\n* Level 4 doesn’t add any more spell checking functions.\n\n\n\nThe search engine will start looking for a match on the level defined by minFuzzyLevel, and will stop searching at the level specified by maxFuzzyLevel. "
+  description: >-
+    Minimum fuzziness level to be used. Default: 1, minimum: 1 and maximum: 4
+
+
+    * Level 1 has no spell checking.
+
+
+    * Level 2 uses normal n-gram spell checking. For example, query "restrant" can be matched to "restaurant."
+
+
+    * Level 3 uses sound-like spell checking, and shingle spell checking. Sound-like spell checking is for "rstrnt" to "restaurant" matching. Shingle spell checking is for "mountainview" to "mountain view" matching.
+
+
+    * Level 4 doesn’t add any more spell checking functions.
+
+
+
+
+    The search engine will start looking for a match on the level defined by minFuzzyLevel, and will stop searching at the level specified by maxFuzzyLevel.
   types:
   - uid: integer
 - name: maxFuzzyLevel
   in: query
   description: >-
-    Maximum fuzzyness level to be used. Default: 2, minimum: 1 and maximum: 4
+    Maximum fuzziness level to be used. Default: 2, minimum: 1 and maximum: 4
 
 
     * Level 1 has no spell checking.
@@ -180,7 +203,10 @@ uriParameters:
   - uid: string
 - name: openingHours
   in: query
-  description: Opening hours for a POI (Points of Interest). The availability of opening hours will vary based on the data available.
+  description: >-
+    Hours of operation for a POI (Points of Interest). The availability of hours of operation will vary based on the data available.
+
+    Supported value: nextSevenDays
   types:
   - uid: OpeningHours
 responses:
@@ -191,30 +217,30 @@ responses:
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 401 Unauthorized
   headers:
   - name: WWW-Authenticate
     value: string
   description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 403 Forbidden
   description: Permission, capacity, or authentication issues.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 404 Not Found
   description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 500 Internal Server Error
   description: An error occurred while processing the request. Please try again later.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
-  description: 'Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.    '
+  description: Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.
   types:
   - uid: string
 definitions:
@@ -231,11 +257,14 @@ definitions:
     types:
     - uid: string
 - name: OpeningHours
-  description: Opening hours for a POI (Points of Interest). The availability of opening hours will vary based on the data available.
+  description: >-
+    Hours of operation for a POI (Points of Interest). The availability of hours of operation will vary based on the data available.
+
+    Supported value: nextSevenDays
   kind: enum
   properties:
   - name: nextSevenDays
-    description: Shows the opening hours for next week, starting with the current day in the local time of the POI.
+    description: Shows the hours of operation for the next week, starting with the current day in the local time of the POI.
     types:
     - uid: string
 - name: SearchFuzzyResponse
@@ -253,14 +282,14 @@ definitions:
     types:
     - uid: SearchFuzzyResult
       isArray: true
-- name: ErrorResponse
-  description: This response object is returned when an error occurs in the Maps API
+- name: ODataErrorResponse
+  description: This response object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Maps API
+    description: This object is returned when an error occurs in the Maps API.
     types:
-    - uid: Error
+    - uid: ODataError
 - name: SearchFuzzySummary
   description: Summary object for a Search Fuzzy response
   kind: object
@@ -337,11 +366,11 @@ definitions:
     types:
     - uid: string
   - name: entityType
-    description: Defines geography entity types.
+    description: Geography entity type. Present only when entityType was requested and is available.
     types:
     - uid: EntityType
   - name: poi
-    description: Details of the poi including the name, phone, url, and categories.
+    description: Details of the returned POI including information such as the name, phone, url address, and classifications.
     types:
     - uid: SearchResultPoi
   - name: address
@@ -369,13 +398,13 @@ definitions:
     description: Optional section. Reference ids for use with the [Get Search Polygon](https://docs.microsoft.com/en-us/rest/api/maps/search/getsearchpolygon) API.
     types:
     - uid: DataSources
-- name: Error
-  description: This object is returned when an error occurs in the Maps API
+- name: ODataError
+  description: This object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The HTTP status code.
+    description: The ODataError code.
     types:
     - uid: string
   - name: message
@@ -383,8 +412,18 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
+  - name: details
+    description: This object is returned when an error occurs in the Maps API.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: target
+    isReadyOnly: true
+    description: If available, the target causing the error.
+    types:
+    - uid: string
 - name: EntityType
-  description: Defines geography entity types.
+  description: Geography entity type. Present only when entityType was requested and is available.
   kind: enum
   properties:
   - name: Country
@@ -420,24 +459,30 @@ definitions:
     types:
     - uid: string
 - name: SearchResultPoi
-  description: Details of the poi including the name, phone, url, and categories.
+  description: Details of the returned POI including information such as the name, phone, url address, and classifications.
   kind: object
   properties:
   - name: name
     isReadyOnly: true
-    description: Name property
+    description: Name of the POI property
     types:
     - uid: string
   - name: phone
     isReadyOnly: true
-    description: Phone property
+    description: Telephone number property
     types:
     - uid: string
   - name: url
     isReadyOnly: true
-    description: URL property
+    description: Website URL property
     types:
     - uid: string
+  - name: categorySet
+    isReadyOnly: true
+    description: The list of the most specific POI categories
+    types:
+    - uid: SearchResultPoiCategorySet
+      isArray: true
   - name: categories
     isReadyOnly: true
     description: __[Deprecated]__ Use classifications instead. Categories array
@@ -452,10 +497,14 @@ definitions:
       isArray: true
   - name: brands
     isReadyOnly: true
-    description: Brands array
+    description: Brands array. The name of the brand for the POI being returned.
     types:
     - uid: SearchResultPoiBrand
       isArray: true
+  - name: openingHours
+    description: Opening hours for a POI (Points of Interest).
+    types:
+    - uid: SearchResultPoiOpeningHours
 - name: SearchResultAddress
   description: The address of the result
   kind: object
@@ -553,7 +602,7 @@ definitions:
     - uid: string
   - name: countrySubdivisionName
     isReadyOnly: true
-    description: Country Subdividion Name property
+    description: Country Subdivision Name property
     types:
     - uid: string
   - name: localName
@@ -630,6 +679,15 @@ definitions:
     description: Information about the geometric shape of the result. Only present if type == Geography.
     types:
     - uid: DataSourcesGeometry
+- name: SearchResultPoiCategorySet
+  description: POI category
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Category ID
+    types:
+    - uid: integer
 - name: SearchResultPoiClassification
   description: The classification for the POI being returned
   kind: object
@@ -654,6 +712,21 @@ definitions:
     description: Name of the brand
     types:
     - uid: string
+- name: SearchResultPoiOpeningHours
+  description: Opening hours for a POI (Points of Interest).
+  kind: object
+  properties:
+  - name: mode
+    isReadyOnly: true
+    description: Value used in the Request
+    types:
+    - uid: string
+  - name: timeRanges
+    isReadyOnly: true
+    description: List of time ranges for the next 7 days
+    types:
+    - uid: SearchResultPoiOpeningHoursTimeRange
+      isArray: true
 - name: DataSourcesGeometry
   description: Information about the geometric shape of the result. Only present if type == Geography.
   kind: object
@@ -677,6 +750,37 @@ definitions:
     description: Name property
     types:
     - uid: string
+- name: SearchResultPoiOpeningHoursTimeRange
+  description: Open time range for a day
+  kind: object
+  properties:
+  - name: startTime
+    description: The point in the next 7 days range when a given POI is being opened, or the beginning of the range if it was opened before the range.
+    types:
+    - uid: SearchResultPoiOpeningHoursTimeRangeTime
+  - name: endTime
+    description: The point in the next 7 days range when a given POI is being closed, or the beginning of the range if it was closed before the range.
+    types:
+    - uid: SearchResultPoiOpeningHoursTimeRangeTime
+- name: SearchResultPoiOpeningHoursTimeRangeTime
+  description: Represents a date and time
+  kind: object
+  properties:
+  - name: date
+    isReadyOnly: true
+    description: Represents current day in calendar year in POI time zone.
+    types:
+    - uid: string
+  - name: hour
+    isReadyOnly: true
+    description: Hours are in the 24 hour format in the local time of a POI; possible values are 0 - 23.
+    types:
+    - uid: integer
+  - name: minute
+    isReadyOnly: true
+    description: Minutes are in the local time of a POI; possible values are 0 - 59.
+    types:
+    - uid: integer
 examples:
 - name: Search City Seattle
   request:
@@ -778,6 +882,11 @@ examples:
                   "name": "Seattle Coffee Company"
                 }
               ],
+              "categorySet": [
+                {
+                  "id": 9376006
+                }
+              ],
               "url": "www.seattlecoffeecompany.co.za",
               "classifications": [
                 {
@@ -843,6 +952,11 @@ examples:
               "brands": [
                 {
                   "name": "Seattle Coffee Company"
+                }
+              ],
+              "categorySet": [
+                {
+                  "id": 9376006
                 }
               ],
               "url": "www.seattlecoffeecompany.co.za",
@@ -911,6 +1025,11 @@ examples:
               "brands": [
                 {
                   "name": "Seattle Coffee Company"
+                }
+              ],
+              "categorySet": [
+                {
+                  "id": 9376006
                 }
               ],
               "url": "www.seattlecoffeecompany.co.za",
@@ -1042,6 +1161,11 @@ examples:
                   "name": "Seattle Coffee Company"
                 }
               ],
+              "categorySet": [
+                {
+                  "id": 9376006
+                }
+              ],
               "url": "www.seattlecoffeecompany.co.za",
               "classifications": [
                 {
@@ -1106,6 +1230,11 @@ examples:
               "brands": [
                 {
                   "name": "Seattle Coffee Company"
+                }
+              ],
+              "categorySet": [
+                {
+                  "id": 9376006
                 }
               ],
               "url": "www.seattlecoffeecompany.co.za",
@@ -1173,6 +1302,11 @@ examples:
                   "name": "Seattle Coffee Company"
                 }
               ],
+              "categorySet": [
+                {
+                  "id": 9376006
+                }
+              ],
               "url": "www.seattlecoffeecompany.co.za",
               "classifications": [
                 {
@@ -1237,6 +1371,11 @@ examples:
               "brands": [
                 {
                   "name": "Seattle Coffee Company"
+                }
+              ],
+              "categorySet": [
+                {
+                  "id": 9376006
                 }
               ],
               "url": "www.seattlecoffeecompany.co.za",

@@ -39,7 +39,7 @@ Organized by subject area.
 | [Activity log profiles](xref:management.azure.com.monitor.logprofiles)       | Operations to manage [activity log profiles](/azure/azure-monitor/platform/platform-logs-overview) so you can route activity log events to other locations.  |
 | ***Alerts Management and Action Groups*** | |
 | [Action groups](xref:management.azure.com.monitor.actiongroups)      | Operations you can take on [Action Groups](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-action-groups). All newer alerts call Action Groups to send notifications or trigger other actions. |
-| [Alert management](xref:monitor.alerts)             | Provides operations for managing [alert](https://docs.microsoft.com/azure/monitoring-and-diagnostics/alert-metric-overview?toc=/azure/azure-monitor/toc.json) rules. |
+| [Alert management](/rest/api/monitor/alertsmanagement/alerts)             | Provides operations for managing [alert](https://docs.microsoft.com/azure/monitoring-and-diagnostics/alert-metric-overview?toc=/azure/azure-monitor/toc.json) rules. |
 | [Metric alerts](xref:management.azure.com.monitor.metricalerts)                | Operations to manage [newer metric alerts](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-overview-unified-alerts). | 
 | [Metric alerts status](xref:management.azure.com.monitor.metricalertsstatus)   | Lists status of a [newer metric alerts](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-overview-unified-alerts). |
 | [Metric alert baseline](xref:management.azure.com.monitor.metricbaseline)            | Obtains the baselines for a metric for use in [dynamic alerts](https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-alerts-dynamic-thresholds). | 

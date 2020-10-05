@@ -3,14 +3,14 @@ uid: management.azure.com.peering.peerasns.createorupdate
 name: Create Or Update
 service: Peering
 groupName: Peer Asns
-apiVersion: 2020-01-01-preview
+apiVersion: 2020-04-01
 summary: Creates a new peer ASN or updates an existing peer ASN with the specified name under the given subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns/{peerAsnName}?api-version=2020-01-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns/{peerAsnName}?api-version=2020-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -130,16 +130,10 @@ definitions:
   description: The error response that indicates why an operation has failed.
   kind: object
   properties:
-  - name: code
-    isReadyOnly: true
-    description: The error code.
+  - name: error
+    description: The error detail that describes why an operation has failed.
     types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
+    - uid: ErrorDetail
 - name: role
   description: The role of the contact.
   kind: enum
@@ -154,6 +148,9 @@ definitions:
     types:
     - uid: string
   - name: Service
+    types:
+    - uid: string
+  - name: Escalation
     types:
     - uid: string
   - name: Other
@@ -175,10 +172,24 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: ErrorDetail
+  description: The error detail that describes why an operation has failed.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
 examples:
 - name: Create a peer ASN
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/providers/Microsoft.Peering/peerAsns/peerAsnName?api-version=2020-01-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subId/providers/Microsoft.Peering/peerAsns/peerAsnName?api-version=2020-04-01
     body: >-
       {
         "properties": {
@@ -230,7 +241,7 @@ examples:
           "validationState": "Pending"
         },
         "name": "peerAsnName",
-        "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Peering/peerAsns/peerAsnName",
+        "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/peerAsnName",
         "type": "Microsoft.Peering/peerAsns"
       }
   - statusCode: "201"
@@ -259,7 +270,7 @@ examples:
           "validationState": "Pending"
         },
         "name": "peerAsnName",
-        "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Peering/peerAsns/peerAsnName",
+        "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/peerAsnName",
         "type": "Microsoft.Peering/peerAsns"
       }
 security:

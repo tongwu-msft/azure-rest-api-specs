@@ -1,6 +1,6 @@
 ---
 title: "Create Or Update"
-ms.date: "11/23/2019"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -96,19 +96,19 @@ PUT http://localhost:19080/Resources/Applications/sampleApplication?api-version=
     "services": [
       {
         "name": "helloWorldService",
-        "identityRefs": [
-          {
-            "name": "ServiceIdentity1",
-            "identityRef": "/subscriptions/c1089427-83d3-4286-9f35-5af546a6eb67/resourcegroups/myGroup/providers/Microsoft.Identity/Identities/identity1"
-          },
-          {
-            "name": "ServiceIdentity2",
-            "identityRef": "SystemAssigned"
-          }
-        ],
         "properties": {
           "description": "SeaBreeze Hello World Service.",
-          "osType": "linux",
+          "identityRefs": [
+            {
+              "name": "ServiceIdentity1",
+              "identityRef": "/subscriptions/c1089427-83d3-4286-9f35-5af546a6eb67/resourcegroups/myGroup/providers/Microsoft.Identity/Identities/identity1"
+            },
+            {
+              "name": "ServiceIdentity2",
+              "identityRef": "SystemAssigned"
+            }
+          ],
+          "osType": "Linux",
           "codePackages": [
             {
               "name": "helloWorldCode",
@@ -234,7 +234,7 @@ PUT http://localhost:19080/Resources/Applications/sampleApplication?api-version=
         "name": "helloWorldService",
         "properties": {
           "description": "SeaBreeze Hello World Service.",
-          "osType": "linux",
+          "osType": "Linux",
           "codePackages": [
             {
               "name": "helloWorldCode",

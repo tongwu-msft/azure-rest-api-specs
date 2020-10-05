@@ -16,7 +16,9 @@ The error codes listed in the following table may be returned by an operation ag
 |Error code|HTTP status code|User message|  
 |----------------|----------------------|------------------|  
 |AppendPositionConditionNotMet|Precondition Failed (412)|The append position condition specified was not met.|  
-|BlobAlreadyExists|Conflict (409)|The specified blob already exists.|  
+|BlobAlreadyExists|Conflict (409)|The specified blob already exists.| 
+|BlobImmutableDueToLegalHold|Conflict (409)|This operation is not permitted as the blob is immutable due to one or more legal holds.| 
+|BlobImmutableDueToPolicy|Conflict (409)|This operation is not permitted as the blob is immutable due to a policy.| 
 |BlobNotFound|Not Found (404)|The specified blob does not exist.|  
 |BlobOverwritten|Conflict (409)|The blob has been recreated since the previous snapshot was taken.|  
 |BlobTierInadequateForContentLength|Conflict (409)|The specified blob tier size limit cannot be less than content length.|  
@@ -27,7 +29,9 @@ The error codes listed in the following table may be returned by an operation ag
 |CannotVerifyCopySource|Internal Server Error (500)|Could not verify the copy source within the specified time. Examine the HTTP status code and message for more information about the failure.|  
 |ContainerAlreadyExists|Conflict (409)|The specified container already exists.|  
 |ContainerBeingDeleted|Conflict (409)|The specified container is being deleted.|  
-|ContainerDisabled|Conflict (409)|The specified container has been disabled by the administrator.|  
+|ContainerDisabled|Conflict (409)|The specified container has been disabled by the administrator.|
+|ContainerHasLegalHold|Conflict (409)|The requested operation is not allowed as the container has one or more legal holds.| 
+|ContainerImmutabilityPolicyLocked|Conflict (409)|The requested operation is not allowed as the container has a locked immutability policy.| 
 |ContainerNotFound|Not Found (404)|The specified container does not exist.|  
 |ContentLengthLargerThanTierLimit|Conflict (409)|The blob's content length cannot exceed its tier limit.|  
 |CopyAcrossAccountsNotSupported|Bad Request (400)|The copy source account and destination account must be the same.|  

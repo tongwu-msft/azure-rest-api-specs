@@ -73,6 +73,21 @@ requestBody:
     description: The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5TB (5120). For Large File Shares, the maximum size is 102400.
     types:
     - uid: integer
+  - name: properties.enabledProtocols
+    in: body
+    description: The authentication protocol that is used for the file share. Can only be specified when creating a share.
+    types:
+    - uid: EnabledProtocols
+  - name: properties.rootSquash
+    in: body
+    description: The property is for NFS share only. The default is NoRootSquash.
+    types:
+    - uid: RootSquashType
+  - name: properties.accessTier
+    in: body
+    description: Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and Cool. FileStorage account can choose Premium.
+    types:
+    - uid: ShareAccessTier
 requestHeader: []
 definitions:
 - name: FileShare
@@ -94,6 +109,53 @@ definitions:
       - uid: string
   - name: properties.shareQuota
     description: The maximum size of the share, in gigabytes. Must be greater than 0, and less than or equal to 5TB (5120). For Large File Shares, the maximum size is 102400.
+    types:
+    - uid: integer
+  - name: properties.enabledProtocols
+    description: The authentication protocol that is used for the file share. Can only be specified when creating a share.
+    types:
+    - uid: EnabledProtocols
+  - name: properties.rootSquash
+    description: The property is for NFS share only. The default is NoRootSquash.
+    types:
+    - uid: RootSquashType
+  - name: properties.version
+    isReadyOnly: true
+    description: The version of the share.
+    types:
+    - uid: string
+  - name: properties.deleted
+    isReadyOnly: true
+    description: Indicates whether the share was deleted.
+    types:
+    - uid: boolean
+  - name: properties.deletedTime
+    isReadyOnly: true
+    description: The deleted time if the share was deleted.
+    types:
+    - uid: string
+  - name: properties.remainingRetentionDays
+    isReadyOnly: true
+    description: Remaining retention days for share that was soft deleted.
+    types:
+    - uid: integer
+  - name: properties.accessTier
+    description: Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and Cool. FileStorage account can choose Premium.
+    types:
+    - uid: ShareAccessTier
+  - name: properties.accessTierChangeTime
+    isReadyOnly: true
+    description: Indicates the last modification time for share access tier.
+    types:
+    - uid: string
+  - name: properties.accessTierStatus
+    isReadyOnly: true
+    description: Indicates if there is a pending transition for access tier.
+    types:
+    - uid: string
+  - name: properties.shareUsageBytes
+    isReadyOnly: true
+    description: The approximate size of the data stored on the share. Note that this value may not include all recently created or recently resized files.
     types:
     - uid: integer
   - name: etag
@@ -124,6 +186,45 @@ definitions:
     description: An error response from the Storage service.
     types:
     - uid: CloudErrorBody
+- name: EnabledProtocols
+  description: The authentication protocol that is used for the file share. Can only be specified when creating a share.
+  kind: enum
+  properties:
+  - name: SMB
+    types:
+    - uid: string
+  - name: NFS
+    types:
+    - uid: string
+- name: RootSquashType
+  description: The property is for NFS share only. The default is NoRootSquash.
+  kind: enum
+  properties:
+  - name: NoRootSquash
+    types:
+    - uid: string
+  - name: RootSquash
+    types:
+    - uid: string
+  - name: AllSquash
+    types:
+    - uid: string
+- name: ShareAccessTier
+  description: Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and Cool. FileStorage account can choose Premium.
+  kind: enum
+  properties:
+  - name: TransactionOptimized
+    types:
+    - uid: string
+  - name: Hot
+    types:
+    - uid: string
+  - name: Cool
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the Storage service.
   kind: object
@@ -164,6 +265,66 @@ examples:
         "id": "/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/fileServices/default/shares/share6185",
         "name": "share6185",
         "type": "Microsoft.Storage/storageAccounts/fileServices/shares"
+      }
+- name: Create NFS Shares
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res346/providers/Microsoft.Storage/storageAccounts/sto666/fileServices/default/shares/share1235?api-version=2019-06-01
+    body: >-
+      {
+        "properties": {
+          "enabledProtocols": "NFS"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res346/providers/Microsoft.Storage/storageAccounts/sto666/fileServices/default/shares/share1235",
+        "name": "share1235",
+        "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+        "properties": {
+          "enabledProtocols": "NFS"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res346/providers/Microsoft.Storage/storageAccounts/sto666/fileServices/default/shares/share1235",
+        "name": "share1235",
+        "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+        "properties": {
+          "enabledProtocols": "NFS"
+        }
+      }
+- name: PutShares with Access Tier
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res346/providers/Microsoft.Storage/storageAccounts/sto666/fileServices/default/shares/share1235?api-version=2019-06-01
+    body: >-
+      {
+        "properties": {
+          "accessTier": "Hot"
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res346/providers/Microsoft.Storage/storageAccounts/sto666/fileServices/default/shares/share1235",
+        "name": "share1235",
+        "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+        "properties": {
+          "accessTier": "Hot"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res346/providers/Microsoft.Storage/storageAccounts/sto666/fileServices/default/shares/share1235",
+        "name": "share1235",
+        "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+        "properties": {
+          "accessTier": "Hot"
+        }
       }
 security:
 - name: azure_auth

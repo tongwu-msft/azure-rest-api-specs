@@ -1,46 +1,32 @@
 ---
 title: Management REST APIs in Azure Cognitive Search | Microsoft Docs
-description: Script or automate Azure Cognitive Search service provisioning, key management, or resource configuration using REST APIs and Resource Manager APIs.
-ms.prod: azure
+description: API reference for provisioning an Azure Cognitive Search service for public or private access. You can also manage API keys and configure capacity.
 ms.service: cognitive-search
 ms.topic: "language-reference"
 
-ms.date: 04/06/2020
+ms.date: 09/01/2020
 author: HeidiSteen
 ms.author: heidist
 ms.manager: nitinme
 ---
 
-# Search Management 
+# Search Management
 
-Azure Cognitive Search provides a REST API used with [Azure Resource Manager](https://docs.microsoft.com/rest/api/resources/) to provision and administer a search service in your Azure subscription. To manage your search service programmatically, specify the Resource Manager endpoint `https://management.azure.com` with a search management operation:
+Azure Cognitive Search provides a REST API used with [Azure Resource Manager](https://docs.microsoft.com/rest/api/resources/) to provision and administer a search service in an Azure subscription.
 
-```http
-https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2020-03-13
-```
+## Other SDKs
 
-Alternatively, you can use [.NET](https://aka.ms/search-mgmt-sdk) or [PowerShell](https://docs.microsoft.com/azure/search/search-manage-powershell) for search management, or write code that includes an HTTP client. The functionality is the same across all APIs and tools.
+The REST APIs are foundational to Azure Cognitive Search. Any changes to the programming model are reflected in the REST APIs first.
 
-## Private endpoints
+Alternatives include the following SDKs, which are independently updated on separate release schedules:
 
-To isolate the service's API endpoint from the internet by either setting up your IP address based firewall rules or by provisioning search service in private mode which can be accessed only from private endpoints, you must request access to this feature.
++ [.NET](https://docs.microsoft.com/dotnet/api/overview/azure/search/management)
++ [Python](https://docs.microsoft.com/python/api/overview/azure/search/management?view=azure-python)
++ [Node.js (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.nodejs.md)
++ [TypeScript (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.typescript.md)
 
-For more information about mechanisms for securing access to a private endpoint, see [Create a Private Endpoint for a secure connection to Azure Cognitive Search (Preview)](https://docs.microsoft.com/azure/search/service-create-private-endpoint).
+## Next steps
 
-Support for IP access control and Azure Private Endpoint is available in the following regions:
-
-- East US 2 EUAP
-- West US 2
-- West Central US
-- East US
-- South Central US
-- Australia East
-- Australia Southeast
-- West US
-- East US 2
-
-## See Also
-
-- [How to use the search management API](search-howto-management-rest-api.md)
-- [Azure Cognitive Search documentation](https://azure.microsoft.com/documentation/services/search/)
-- [Search Service REST](~/docs-ref-conceptual/searchservice/index.md)   
++ [How to use the search management API](search-howto-management-rest-api.md)
++ [Azure Cognitive Search documentation](https://azure.microsoft.com/documentation/services/search/)
++ [Search Service REST](~/docs-ref-conceptual/searchservice/index.md)

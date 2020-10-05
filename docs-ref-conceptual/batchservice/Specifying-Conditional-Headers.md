@@ -2,7 +2,6 @@
 title: "Specifying Conditional Headers | Microsoft Docs"
 ms.custom: ""
 ms.date: 02/01/2017
-ms.prod: "azure"
 ms.reviewer: ""
 ms.service: "batch"
 ms.suite: ""

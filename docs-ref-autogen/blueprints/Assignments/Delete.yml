@@ -11,6 +11,8 @@ produces:
 - application/json
 paths:
 - content: DELETE https://management.azure.com/{resourceScope}/providers/Microsoft.Blueprint/blueprintAssignments/{assignmentName}?api-version=2018-11-01-preview
+- content: DELETE https://management.azure.com/{resourceScope}/providers/Microsoft.Blueprint/blueprintAssignments/{assignmentName}?api-version=2018-11-01-preview&deleteBehavior={deleteBehavior}
+  isOptional: true
 uriParameters:
 - name: resourceScope
   in: path
@@ -31,6 +33,11 @@ uriParameters:
   description: Client API Version.
   types:
   - uid: string
+- name: deleteBehavior
+  in: query
+  description: When deleteBehavior=all, the resources that were created by the blueprint assignment will be deleted.
+  types:
+  - uid: AssignmentDeleteBehavior
 responses:
 - name: 202 Accepted
   description: OK -- blueprint assignment deleted.
@@ -40,6 +47,16 @@ responses:
   description: No Content
 requestHeader: []
 definitions:
+- name: AssignmentDeleteBehavior
+  description: When deleteBehavior=all, the resources that were created by the blueprint assignment will be deleted.
+  kind: enum
+  properties:
+  - name: none
+    types:
+    - uid: string
+  - name: all
+    types:
+    - uid: string
 - name: Assignment
   description: Represents a blueprint assignment.
   kind: object
@@ -339,9 +356,96 @@ examples:
         "name": "assignSimpleBlueprint"
       }
   - statusCode: "204"
+- name: Assignment_Delete at subscription scope, and delete the resources created by the assignment
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint?api-version=2018-11-01-preview&deleteBehavior=all
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "identity": {
+          "type": "SystemAssigned",
+          "tenantId": "00000000-0000-0000-0000-000000000000",
+          "principalId": "00000000-0000-0000-0000-000000000000"
+        },
+        "location": "eastus",
+        "properties": {
+          "description": "enforce pre-defined simpleBlueprint to this XXXXXXXX subscription.",
+          "provisioningState": "deleting",
+          "blueprintId": "/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint",
+          "parameters": {
+            "storageAccountType": {
+              "value": "Standard_LRS"
+            },
+            "costCenter": {
+              "value": "Contoso/Online/Shopping/Production"
+            },
+            "owners": {
+              "value": [
+                "johnDoe@contoso.com",
+                "johnsteam@contoso.com"
+              ]
+            }
+          },
+          "resourceGroups": {
+            "storageRG": {
+              "name": "defaultRG",
+              "location": "eastus"
+            }
+          }
+        },
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint",
+        "type": "Microsoft.Blueprint/Assignment",
+        "name": "assignSimpleBlueprint"
+      }
+  - statusCode: "204"
 - name: Assignment_Delete at management group scope
   request:
     uri: DELETE https://management.azure.com/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "identity": {
+          "type": "SystemAssigned",
+          "tenantId": "00000000-0000-0000-0000-000000000000",
+          "principalId": "00000000-0000-0000-0000-000000000000"
+        },
+        "location": "eastus",
+        "properties": {
+          "description": "enforce pre-defined simpleBlueprint to this XXXXXXXX subscription.",
+          "provisioningState": "deleting",
+          "blueprintId": "/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint",
+          "scope": "subscriptions/00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "storageAccountType": {
+              "value": "Standard_LRS"
+            },
+            "costCenter": {
+              "value": "Contoso/Online/Shopping/Production"
+            },
+            "owners": {
+              "value": [
+                "johnDoe@contoso.com",
+                "johnsteam@contoso.com"
+              ]
+            }
+          },
+          "resourceGroups": {
+            "storageRG": {
+              "name": "defaultRG",
+              "location": "eastus"
+            }
+          }
+        },
+        "id": "/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint",
+        "type": "Microsoft.Blueprint/Assignment",
+        "name": "assignSimpleBlueprint"
+      }
+  - statusCode: "204"
+- name: Assignment_Delete at management group scope, and delete the resources created by the assignment
+  request:
+    uri: DELETE https://management.azure.com/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprintAssignments/assignSimpleBlueprint?api-version=2018-11-01-preview&deleteBehavior=all
   responses:
   - statusCode: "202"
     body: >-

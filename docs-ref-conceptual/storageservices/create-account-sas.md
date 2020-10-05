@@ -117,6 +117,9 @@ The following table lists Blob service operations and indicates which signed res
 |Set Blob Properties|Blob (b)|Object (o)|Write (w)|  
 |Get Blob Metadata|Blob (b)|Object (o)|Read (r)|  
 |Set Blob Metadata|Blob (b)|Object (o)|Write (w)|  
+|Get Blob Tags|Blob (b)|Object (o)|Tags (t)|  
+|Set Blob Tags|Blob (b)|Object (o)|Tags (t)|  
+|Find Blobs by Tags|Blob (b)|Object (o)|Find (f)|  
 |Delete Blob|Blob (b)|Object (o)|Delete (d)|  
 |Lease Blob|Blob (b)|Object (o)|Write (w) or Delete (d)<Sup>1</Sup>|  
 |Snapshot Blob|Blob (b)|Object (o)|Create (c)  or Write (w)|  

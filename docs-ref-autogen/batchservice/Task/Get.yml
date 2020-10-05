@@ -3,15 +3,15 @@ uid: batchservice.task.get
 name: Get
 service: Batch Service
 groupName: Task
-apiVersion: 2019-08-01.10.0
+apiVersion: 2020-09-01.12.0
 summary: "Gets information about the specified Task.  \nFor multi-instance Tasks, information such as affinityId, executionInfo and nodeInfo refer to the primary Task. Use the list subtasks API to retrieve information about subtasks."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET {batchUrl}/jobs/{jobId}/tasks/{taskId}?api-version=2019-08-01.10.0
-- content: GET {batchUrl}/jobs/{jobId}/tasks/{taskId}?$select={$select}&$expand={$expand}&timeout={timeout}&api-version=2019-08-01.10.0
+- content: GET {batchUrl}/jobs/{jobId}/tasks/{taskId}?api-version=2020-09-01.12.0
+- content: GET {batchUrl}/jobs/{jobId}/tasks/{taskId}?$select={$select}&$expand={$expand}&timeout={timeout}&api-version=2020-09-01.12.0
   isOptional: true
 uriParameters:
 - name: batchUrl
@@ -195,6 +195,10 @@ definitions:
     description: The execution constraints that apply to this Task.
     types:
     - uid: TaskConstraints
+  - name: requiredSlots
+    description: "The number of scheduling slots that the Task requires to run.  \nThe default is 1. A Task can only be scheduled to run on a compute node if the node has enough free scheduling slots available. For multi-instance Tasks, this must be 1."
+    types:
+    - uid: integer
   - name: userIdentity
     description: "The user identity under which the Task runs.  \nIf omitted, the Task runs as a non-administrative user unique to the Task."
     types:
@@ -863,7 +867,7 @@ definitions:
 examples:
 - name: Task get
   request:
-    uri: GET account.region.batch.azure.com/jobs/jobId/tasks/taskId?api-version=2019-08-01.10.0
+    uri: GET account.region.batch.azure.com/jobs/jobId/tasks/taskId?api-version=2020-09-01.12.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
@@ -896,6 +900,7 @@ examples:
           "retentionTime": "P10675199DT2H48M5.4775807S",
           "maxTaskRetryCount": 0
         },
+        "requiredSlots": 2,
         "executionInfo": {
           "retryCount": 0,
           "requeueCount": 0

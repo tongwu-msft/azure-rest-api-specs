@@ -124,6 +124,16 @@ requestBody:
     description: Maintains information about the network routing choice opted by the user for data transfer
     types:
     - uid: RoutingPreference
+  - name: properties.allowBlobPublicAccess
+    in: body
+    description: Allow or disallow public access to all blobs or containers in the storage account. The default interpretation is true for this property.
+    types:
+    - uid: boolean
+  - name: properties.minimumTlsVersion
+    in: body
+    description: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property.
+    types:
+    - uid: MinimumTlsVersion
 requestHeader: []
 definitions:
 - name: Sku
@@ -181,6 +191,10 @@ definitions:
     description: 'The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage, Microsoft.Keyvault'
     types:
     - uid: KeySource
+  - name: requireInfrastructureEncryption
+    description: A boolean indicating whether or not the service applies a secondary layer of encryption with platform managed keys for data at rest.
+    types:
+    - uid: boolean
   - name: keyvaultproperties
     description: Properties provided by key vault.
     types:
@@ -359,6 +373,14 @@ definitions:
     description: Blob restore status
     types:
     - uid: BlobRestoreStatus
+  - name: properties.allowBlobPublicAccess
+    description: Allow or disallow public access to all blobs or containers in the storage account. The default interpretation is true for this property.
+    types:
+    - uid: boolean
+  - name: properties.minimumTlsVersion
+    description: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property.
+    types:
+    - uid: MinimumTlsVersion
   - name: tags
     description: Resource tags.
     types:
@@ -450,6 +472,14 @@ definitions:
     description: Maintains information about the network routing choice opted by the user for data transfer
     types:
     - uid: RoutingPreference
+  - name: properties.allowBlobPublicAccess
+    description: Allow or disallow public access to all blobs or containers in the storage account. The default interpretation is true for this property.
+    types:
+    - uid: boolean
+  - name: properties.minimumTlsVersion
+    description: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property.
+    types:
+    - uid: MinimumTlsVersion
 - name: SkuName
   description: The SKU name. Required for account creation; optional for update. Note that in older versions, SKU name was called accountType.
   kind: enum
@@ -835,6 +865,19 @@ definitions:
     description: Blob restore request parameters.
     types:
     - uid: BlobRestoreParameters
+- name: MinimumTlsVersion
+  description: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS 1.0 for this property.
+  kind: enum
+  properties:
+  - name: TLS1_0
+    types:
+    - uid: string
+  - name: TLS1_1
+    types:
+    - uid: string
+  - name: TLS1_2
+    types:
+    - uid: string
 - name: EncryptionService
   description: A service that allows server-side encryption to be used.
   kind: object
@@ -1064,6 +1107,8 @@ examples:
         "location": "eastus",
         "properties": {
           "isHnsEnabled": true,
+          "allowBlobPublicAccess": false,
+          "minimumTlsVersion": "TLS1_2",
           "routingPreference": {
             "routingChoice": "MicrosoftRouting",
             "publishMicrosoftEndpoints": true,
@@ -1080,6 +1125,7 @@ examples:
                 "enabled": true
               }
             },
+            "requireInfrastructureEncryption": false,
             "keySource": "Microsoft.Storage"
           }
         },
@@ -1098,6 +1144,8 @@ examples:
         "name": "sto4445",
         "properties": {
           "isHnsEnabled": true,
+          "allowBlobPublicAccess": false,
+          "minimumTlsVersion": "TLS1_2",
           "creationTime": "2017-05-24T13:25:33.4863236Z",
           "primaryEndpoints": {
             "web": "https://sto4445.web.core.windows.net/",
@@ -1141,6 +1189,7 @@ examples:
                 "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
               }
             },
+            "requireInfrastructureEncryption": false,
             "keySource": "Microsoft.Storage"
           },
           "secondaryLocation": "centraluseuap",

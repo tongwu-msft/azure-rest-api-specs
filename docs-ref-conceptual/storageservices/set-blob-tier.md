@@ -27,6 +27,8 @@ The following additional parameters may be specified on the request URI.
 
 |Parameter|Description|
 |-------------|-----------|
+|`snapshot`|Optional. The snapshot parameter is an opaque `DateTime` value that, when present, specifies the blob snapshot to set tier on. For more information on working with blob snapshots, see [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md)|  
+|`versionid`|Optional for versions 2019-12-12 and newer. The versionid parameter is an opaque `DateTime` value that, when present, specifies the version of the blob to set tier on.| 
 |`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|
 
 ### Request Headers
@@ -39,7 +41,9 @@ The following table describes required and optional request headers.
 |`x-ms-access-tier`|Required. Indicates the tier to be set on the blob. For a list of allowed premium page blob tiers, see [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd). For blob storage or general purpose v2 account, valid values are `Hot`/`Cool`/`Archive`. For detailed information about standard blob account blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
-|`x-ms-rehydrate-priority`|Optional. Indicates the priority with which to rehydrate an archived blob. Supported on version 2019-02-02 and newer for Block blobs. Valid values are `High`/`Standard`. The priority can be set on a blob only once. This header will be ignored on subsequent requests to the same blob. Default priority without this header is `Standard`. Setting priority is in preview. |
+|`x-ms-rehydrate-priority`|Optional. Indicates the priority with which to rehydrate an archived blob. Supported on version 2019-02-02 and newer for Block blobs. Valid values are `High`/`Standard`. The priority can be set on a blob only once. This header will be ignored on subsequent requests to the same blob. Default priority without this header is `Standard`. |
+
+ This operation also supports the use of conditional headers to tier the blob only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
 
 ### Request Body
 None.
@@ -78,8 +82,8 @@ Setting a blob's tier for page blobs in premium accounts have the following rest
   * The new blob tier may not be lower than the existing one.
   * The new blob tier should be able to accommodate the blob's content length. For a list of tiers and allowed content length, see [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd).
 
-Setting the block blob's tier on a blob storage or general purpose v2 account have the following restriction:
-  * Setting the tier on a snapshot or a block blob with snapshots is not allowed.
+Setting the block blob's tier on a blob storage or general purpose v2 account have the following restrictions:
+  * Setting tier on a snapshot is allowed starting REST version 2019-12-12.
   
 The list of supported tiers is not restricted by the request version, and new tiers may be added in the future. 
 

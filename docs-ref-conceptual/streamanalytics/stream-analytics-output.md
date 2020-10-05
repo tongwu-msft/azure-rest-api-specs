@@ -94,8 +94,8 @@ Azure Data Lake Stores are discussed in the [Azure Data Lake output article](htt
 |**accountName**|Yes|This element indicates the name of the Storage account where the table resides or will reside.|  
 |**accountKey**|Yes|This element indicates the account key to access the Storage account.|  
 |**table**|Yes|This element indicates the name of the table to use.|  
-|**partitionKey**|Yes|This element indicates the name of a column from the **SELECT** statement in the query. Characters not valid for partition keys are removed from values used.|  
-|**rowKey**|Yes|This element indicates the name of a column from the **SELECT** statement in the query. Characters not valid for row keys are removed from values used.|  
+|**partitionKey**|Yes|This element indicates the name of a column from the **SELECT** statement in the query. Ensure that the value of partition key column does not contain [invalid characters](https://docs.microsoft.com/rest/api/storageservices/understanding-the-table-service-data-model#characters-disallowed-in-key-fields).|  
+|**rowKey**|Yes|This element indicates the name of a column from the **SELECT** statement in the query. Ensure that the value of row key column does not contain [invalid characters](https://docs.microsoft.com/rest/api/storageservices/understanding-the-table-service-data-model#characters-disallowed-in-key-fields).|  
 |**columnsToRemove**|No|If specified, each item in the array is the name of a column to remove (if present) from output event entities.|  
 |**batchSize**|No|This element indicates the number of rows to write to the table at a time. It is an integer from 1 through 100. The default value, if not specified, is 100.|  
   

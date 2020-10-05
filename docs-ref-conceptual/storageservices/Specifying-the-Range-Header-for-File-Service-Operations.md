@@ -1,6 +1,6 @@
 ---
 title: Specifying the Range header for File service operations (REST API) - Azure Storage
-description: Some File service GET operations support the use of the standard HTTP `Range` header. Many HTTP clients, including the .NET client library, limit the size of the `Range` header to a 32-bit integer, and thus its value is limited to a maximum of 4 GB. Since files can be larger than 4 GB in size, the File service accepts a custom range header `x-ms-range` for any operation that takes an HTTP `Range` header.
+description: Some File service GET operations support the use of the standard HTTP `Range` header. Many HTTP clients, including the .NET client library, limit the size of the `Range` header to a 32-bit integer, and thus its value is limited to a maximum of 4 GiB. Since files can be larger than 4 GiB in size, the File service accepts a custom range header `x-ms-range` for any operation that takes an HTTP `Range` header.
 author: pemari-msft
 
 ms.date: 09/30/2019
@@ -11,7 +11,7 @@ ms.author: pemari
 
 # Specifying the Range header for File service operations
 
-Some File service GET operations support the use of the standard HTTP `Range` header. Many HTTP clients, including the .NET client library, limit the size of the `Range` header to a 32-bit integer, and thus its value is limited to a maximum of 4 GB. Since files can be larger than 4 GB in size, the File service accepts a custom range header `x-ms-range` for any operation that takes an HTTP `Range` header.  
+Some File service GET operations support the use of the standard HTTP `Range` header. Many HTTP clients, including the .NET client library, limit the size of the `Range` header to a 32-bit integer, and thus its value is limited to a maximum of 4 GiB. Since files can be larger than 4 GiB in size, the File service accepts a custom range header `x-ms-range` for any operation that takes an HTTP `Range` header.  
   
  Some HTTP clients, including the Microsoft Silverlight library, limit access to the `Range` header altogether. The `x-ms-range` header can be used to circumvent these limitations as well.  
   

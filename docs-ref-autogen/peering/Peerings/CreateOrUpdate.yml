@@ -3,14 +3,14 @@ uid: management.azure.com.peering.peerings.createorupdate
 name: Create Or Update
 service: Peering
 groupName: Peerings
-apiVersion: 2020-01-01-preview
+apiVersion: 2020-04-01
 summary: Creates a new peering or updates an existing peering with the specified name under the given subscription and resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}?api-version=2020-01-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}?api-version=2020-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -211,16 +211,10 @@ definitions:
   description: The error response that indicates why an operation has failed.
   kind: object
   properties:
-  - name: code
-    isReadyOnly: true
-    description: The error code.
+  - name: error
+    description: The error detail that describes why an operation has failed.
     types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
+    - uid: ErrorDetail
 - name: tier
   description: The tier of the peering SKU.
   kind: enum
@@ -377,6 +371,20 @@ definitions:
     types:
     - uid: string
   - name: Failed
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail that describes why an operation has failed.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
 - name: sessionAddressProvider
@@ -544,7 +552,7 @@ definitions:
 examples:
 - name: Create a direct peering
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName?api-version=2020-01-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName?api-version=2020-04-01
     body: >-
       {
         "sku": {
@@ -577,7 +585,7 @@ examples:
               }
             ],
             "peerAsn": {
-              "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Peering/peerAsns/myAsn1"
+              "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/myAsn1"
             },
             "directPeeringType": "Edge"
           },
@@ -639,7 +647,7 @@ examples:
             ],
             "useForPeeringService": true,
             "peerAsn": {
-              "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Peering/peerAsns/myAsn1"
+              "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/myAsn1"
             },
             "directPeeringType": "Edge"
           },
@@ -648,7 +656,7 @@ examples:
         },
         "location": "eastus",
         "name": "peeringName",
-        "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.Peering/peerings/myPeering",
+        "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName",
         "type": "Microsoft.Peering/peerings"
       }
   - statusCode: "201"
@@ -694,7 +702,7 @@ examples:
             ],
             "useForPeeringService": true,
             "peerAsn": {
-              "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Peering/peerAsns/myAsn1"
+              "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/myAsn1"
             },
             "directPeeringType": "Edge"
           },
@@ -703,12 +711,12 @@ examples:
         },
         "location": "eastus",
         "name": "peeringName",
-        "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.Peering/peerings/myPeering",
+        "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName",
         "type": "Microsoft.Peering/peerings"
       }
 - name: Create an exchange peering
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName?api-version=2020-01-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName?api-version=2020-04-01
     body: >-
       {
         "sku": {
@@ -742,7 +750,7 @@ examples:
               }
             ],
             "peerAsn": {
-              "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Peering/peerAsns/myAsn1"
+              "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/myAsn1"
             }
           },
           "peeringLocation": "peeringLocation0"
@@ -798,7 +806,7 @@ examples:
               }
             ],
             "peerAsn": {
-              "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Peering/peerAsns/myAsn1"
+              "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/myAsn1"
             }
           },
           "peeringLocation": "peeringLocation0",
@@ -806,7 +814,7 @@ examples:
         },
         "location": "eastus",
         "name": "peeringName",
-        "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.Peering/peerings/myPeering",
+        "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName",
         "type": "Microsoft.Peering/peerings"
       }
   - statusCode: "201"
@@ -856,7 +864,7 @@ examples:
               }
             ],
             "peerAsn": {
-              "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Peering/peerAsns/myAsn1"
+              "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/myAsn1"
             }
           },
           "peeringLocation": "peeringLocation0",
@@ -864,12 +872,12 @@ examples:
         },
         "location": "eastus",
         "name": "peeringName",
-        "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.Peering/peerings/myPeering",
+        "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName",
         "type": "Microsoft.Peering/peerings"
       }
 - name: Create a peering with exchange route server
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName?api-version=2020-01-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName?api-version=2020-04-01
     body: >-
       {
         "sku": {
@@ -895,7 +903,7 @@ examples:
               }
             ],
             "peerAsn": {
-              "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Peering/peerAsns/myAsn1"
+              "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/myAsn1"
             },
             "directPeeringType": "IxRs"
           },
@@ -938,7 +946,7 @@ examples:
             ],
             "useForPeeringService": true,
             "peerAsn": {
-              "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Peering/peerAsns/myAsn1"
+              "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/myAsn1"
             },
             "directPeeringType": "IxRs"
           },
@@ -947,7 +955,7 @@ examples:
         },
         "location": "eastus",
         "name": "peeringName",
-        "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.Peering/peerings/myPeering",
+        "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName",
         "type": "Microsoft.Peering/peerings"
       }
   - statusCode: "201"
@@ -984,7 +992,7 @@ examples:
             ],
             "useForPeeringService": true,
             "peerAsn": {
-              "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Peering/peerAsns/myAsn1"
+              "id": "/subscriptions/subId/providers/Microsoft.Peering/peerAsns/myAsn1"
             },
             "directPeeringType": "IxRs"
           },
@@ -993,7 +1001,7 @@ examples:
         },
         "location": "eastus",
         "name": "peeringName",
-        "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.Peering/peerings/myPeering",
+        "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName",
         "type": "Microsoft.Peering/peerings"
       }
 security:

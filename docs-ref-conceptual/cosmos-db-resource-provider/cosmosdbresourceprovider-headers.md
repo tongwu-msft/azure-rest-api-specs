@@ -1,6 +1,7 @@
 ---
 ms.assetid: 4267b12c-2539-4d76-bc23-9f04c942554b
 title: "Azure Cosmos DB: Resource Provider REST Headers for SQL API"
+description: Lists the common request and response headers for the Azure Cosmos DB REST API.
 ms.date: "02/05/2018"
 ms.service: cosmos-db
 author: SnehaGunda

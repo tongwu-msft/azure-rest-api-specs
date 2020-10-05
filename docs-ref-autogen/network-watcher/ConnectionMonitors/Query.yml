@@ -3,14 +3,14 @@ uid: management.azure.com.network-watcher.connectionmonitors.query
 name: Query
 service: Network Watcher
 groupName: Connection Monitors
-apiVersion: 2020-03-01
+apiVersion: 2020-05-01
 summary: Query a snapshot of the most recent connection states.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query?api-version=2020-03-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}/query?api-version=2020-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -209,12 +209,79 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: previousHopIds
+    isReadyOnly: true
+    description: List of previous hop identifiers.
+    types:
+    - uid: string
+      isArray: true
+  - name: links
+    isReadyOnly: true
+    description: List of hop links.
+    types:
+    - uid: HopLink
+      isArray: true
+  - name: previousLinks
+    isReadyOnly: true
+    description: List of previous hop links.
+    types:
+    - uid: HopLink
+      isArray: true
   - name: issues
     isReadyOnly: true
     description: List of issues.
     types:
     - uid: ConnectivityIssue
       isArray: true
+- name: HopLink
+  description: Hop link.
+  kind: object
+  properties:
+  - name: nextHopId
+    isReadyOnly: true
+    description: The ID of the next hop.
+    types:
+    - uid: string
+  - name: linkType
+    isReadyOnly: true
+    description: Link type.
+    types:
+    - uid: string
+  - name: issues
+    isReadyOnly: true
+    description: List of issues.
+    types:
+    - uid: ConnectivityIssue
+      isArray: true
+  - name: context
+    isReadyOnly: true
+    description: Provides additional context on links.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: resourceId
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: properties.roundTripTimeMin
+    isReadyOnly: true
+    description: Minimum roundtrip time in milliseconds.
+    types:
+    - uid: integer
+  - name: properties.roundTripTimeAvg
+    isReadyOnly: true
+    description: Average roundtrip time in milliseconds.
+    types:
+    - uid: integer
+  - name: properties.roundTripTimeMax
+    isReadyOnly: true
+    description: Maximum roundtrip time in milliseconds.
+    types:
+    - uid: integer
 - name: ConnectivityIssue
   description: Information about an issue encountered in the process of checking for connectivity.
   kind: object
@@ -297,7 +364,7 @@ definitions:
 examples:
 - name: Query connection monitor
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1/query?api-version=2020-03-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1/query?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-

@@ -3,15 +3,15 @@ uid: batchservice.job.listfromjobschedule
 name: List From Job Schedule
 service: Batch Service
 groupName: Job
-apiVersion: 2019-08-01.10.0
+apiVersion: 2020-09-01.12.0
 summary: Lists the Jobs that have been created under the specified Job Schedule.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET {batchUrl}/jobschedules/{jobScheduleId}/jobs?api-version=2019-08-01.10.0
-- content: GET {batchUrl}/jobschedules/{jobScheduleId}/jobs?$filter={$filter}&$select={$select}&$expand={$expand}&maxresults={maxresults}&timeout={timeout}&api-version=2019-08-01.10.0
+- content: GET {batchUrl}/jobschedules/{jobScheduleId}/jobs?api-version=2020-09-01.12.0
+- content: GET {batchUrl}/jobschedules/{jobScheduleId}/jobs?$filter={$filter}&$select={$select}&$expand={$expand}&maxresults={maxresults}&timeout={timeout}&api-version=2020-09-01.12.0
   isOptional: true
 uriParameters:
 - name: batchUrl
@@ -336,6 +336,10 @@ definitions:
     description: Constraints that apply to the Job Manager Task.
     types:
     - uid: TaskConstraints
+  - name: requiredSlots
+    description: "The number of scheduling slots that the Task requires to run.  \nThe default is 1. A Task can only be scheduled to run on a compute node if the node has enough free scheduling slots available. For multi-instance Tasks, this must be 1."
+    types:
+    - uid: integer
   - name: killJobOnCompletion
     description: "Whether completion of the Job Manager Task signifies completion of the entire Job.  \nIf true, when the Job Manager Task completes, the Batch service marks the Job as complete. If any Tasks are still running at this time (other than Job Release), those Tasks are terminated. If false, the completion of the Job Manager Task does not affect the Job status. In this case, you should either use the onAllTasksComplete attribute to terminate the Job, or have a client or user terminate the Job explicitly. An example of this is if the Job Manager creates a set of Tasks but then takes no further role in their execution. The default value is true. If you are using the onAllTasksComplete and onTaskFailure attributes to control Job lifetime, and using the Job Manager Task only to create the Tasks for the Job (not to monitor progress), then it is important to set killJobOnCompletion to false."
     types:
@@ -835,8 +839,8 @@ definitions:
     description: "The virtual machine configuration for the Pool.  \nThis property must be specified if the Pool needs to be created with Azure IaaS VMs. This property and cloudServiceConfiguration are mutually exclusive and one of the properties must be specified. If neither is specified then the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request)."
     types:
     - uid: VirtualMachineConfiguration
-  - name: maxTasksPerNode
-    description: "The maximum number of Tasks that can run concurrently on a single Compute Node in the Pool.  \nThe default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the Pool or 256."
+  - name: taskSlotsPerNode
+    description: "The number of task slots that can be used to run concurrent tasks on a single compute node in the pool.  \nThe default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256."
     types:
     - uid: integer
   - name: taskSchedulingPolicy
@@ -1026,6 +1030,10 @@ definitions:
     description: "The container configuration for the Pool.  \nIf specified, setup is performed on each Compute Node in the Pool to allow Tasks to run in containers. All regular Tasks and Job manager Tasks run on this Pool must specify the containerSettings property, and all other Tasks may specify it."
     types:
     - uid: ContainerConfiguration
+  - name: diskEncryptionConfiguration
+    description: "The disk encryption configuration for the pool.  \nIf specified, encryption is performed on each node in the pool during node provisioning."
+    types:
+    - uid: DiskEncryptionConfiguration
 - name: TaskSchedulingPolicy
   description: Specifies how Tasks should be distributed across Compute Nodes.
   kind: object
@@ -1039,7 +1047,7 @@ definitions:
   kind: object
   properties:
   - name: subnetId
-    description: "The ARM resource identifier of the virtual network subnet which the Compute Nodes of the Pool will join. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}.  \nThe virtual network must be in the same region and subscription as the Azure Batch Account. The specified subnet should have enough free IP addresses to accommodate the number of Compute Nodes in the Pool. If the subnet doesn't have enough free IP addresses, the Pool will partially allocate Nodes, and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule Tasks on the Nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the Nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the Compute Nodes to unusable. For Pools created with virtualMachineConfiguration only ARM virtual networks ('Microsoft.Network/virtualNetworks') are supported, but for Pools created with cloudServiceConfiguration both ARM and classic virtual networks are supported. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. For Pools created with a virtual machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. For Pools created with a cloud service configuration, enable ports 10100, 20100, and 30100. Also enable outbound connections to Azure Storage on port 443. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration"
+    description: "The ARM resource identifier of the virtual network subnet which the Compute Nodes of the Pool will join. This is of the form /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}.  \nThe virtual network must be in the same region and subscription as the Azure Batch Account. The specified subnet should have enough free IP addresses to accommodate the number of Compute Nodes in the Pool. If the subnet doesn't have enough free IP addresses, the Pool will partially allocate Nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule Tasks on the Nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the Nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the Compute Nodes to unusable. For Pools created with virtualMachineConfiguration only ARM virtual networks ('Microsoft.Network/virtualNetworks') are supported, but for Pools created with cloudServiceConfiguration both ARM and classic virtual networks are supported. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. For Pools created with a virtual machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. For Pools created with a cloud service configuration, enable ports 10100, 20100, and 30100. Also enable outbound connections to Azure Storage on port 443. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration"
     types:
     - uid: string
   - name: dynamicVNetAssignmentScope
@@ -1050,11 +1058,10 @@ definitions:
     description: "The configuration for endpoints on Compute Nodes in the Batch Pool.  \nPool endpoint configuration is only supported on Pools with the virtualMachineConfiguration property."
     types:
     - uid: PoolEndpointConfiguration
-  - name: publicIPs
-    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 50 dedicated nodes or 20 low-priority nodes can be allocated for each public IP. For example, a pool needing 150 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
+  - name: publicIPAddressConfiguration
+    description: "The Public IPAddress configuration for Compute Nodes in the Batch Pool.  \nPublic IP configuration property is only supported on Pools with the virtualMachineConfiguration property."
     types:
-    - uid: string
-      isArray: true
+    - uid: PublicIPAddressConfiguration
 - name: StartTask
   description: A Task which is run when a Node joins a Pool in the Azure Batch service, or when the Compute Node is rebooted or reimaged.
   kind: object
@@ -1159,7 +1166,7 @@ definitions:
     types:
     - uid: AzureFileShareConfiguration
 - name: ImageReference
-  description: A reference to an Azure Virtual Machines Marketplace Image or a custom Azure Virtual Machine Image. To get the list of all Azure Marketplace Image references verified by Azure Batch, see the 'List supported Images' operation.
+  description: A reference to an Azure Virtual Machines Marketplace Image or a Shared Image Gallery Image. To get the list of all Azure Marketplace Image references verified by Azure Batch, see the 'List Supported Images' operation.
   kind: object
   properties:
   - name: publisher
@@ -1179,7 +1186,7 @@ definitions:
     types:
     - uid: string
   - name: virtualMachineImageId
-    description: "The ARM resource identifier of the Virtual Machine Image or Shared Image Gallery Image. Computes Compute Nodes of the Pool will be created using this Image Id. This is of either the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName} for Virtual Machine Image or /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionId} for SIG image.  \nThis property is mutually exclusive with other ImageReference properties. For Virtual Machine Image it must be in the same region and subscription as the Azure Batch account. For SIG image it must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch Compute Node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration."
+    description: "The ARM resource identifier of the Shared Image Gallery Image. Compute Nodes in the Pool will be created using this Image Id. This is of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{VersionId} or /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName} for always defaulting to the latest image version.  \nThis property is mutually exclusive with other ImageReference properties. The Shared Image Gallery Image must have replicas in the same region and must be in the same subscription as the Azure Batch account. If the image version is not specified in the imageId, the latest version will be used. For information about the firewall settings for the Batch Compute Node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration."
     types:
     - uid: string
 - name: WindowsConfiguration
@@ -1195,7 +1202,7 @@ definitions:
   kind: object
   properties:
   - name: lun
-    description: "The logical unit number.  \nThe lun is used to uniquely identify each data disk. If attaching multiple disks, each should have a distinct lun."
+    description: "The logical unit number.  \nThe lun is used to uniquely identify each data disk. If attaching multiple disks, each should have a distinct lun. The value must be between 0 and 63, inclusive."
     types:
     - uid: integer
   - name: caching
@@ -1228,6 +1235,15 @@ definitions:
     types:
     - uid: ContainerRegistry
       isArray: true
+- name: DiskEncryptionConfiguration
+  description: The disk encryption configuration applied on compute nodes in the pool. Disk encryption configuration is not supported on Linux pool created with Shared Image Gallery Image.
+  kind: object
+  properties:
+  - name: targets
+    description: "The list of disk targets Batch Service will encrypt on the compute node.  \nIf omitted, no disks on the compute nodes in the pool will be encrypted. On Linux pool, only \"TemporaryDisk\" is supported; on Windows pool, \"OsDisk\" and \"TemporaryDisk\" must be specified."
+    types:
+    - uid: string
+      isArray: true
 - name: ComputeNodeFillType
   description: How Tasks are distributed across Compute Nodes in a Pool.
   kind: enum
@@ -1237,7 +1253,7 @@ definitions:
     types:
     - uid: string
   - name: pack
-    description: As many Tasks as possible (maxTasksPerNode) should be assigned to each Compute Node in the Pool before any Tasks are assigned to the next Compute Node in the Pool.
+    description: As many Tasks as possible (taskSlotsPerNode) should be assigned to each Compute Node in the Pool before any Tasks are assigned to the next Compute Node in the Pool.
     types:
     - uid: string
 - name: DynamicVNetAssignmentScope
@@ -1257,9 +1273,22 @@ definitions:
   kind: object
   properties:
   - name: inboundNATPools
-    description: "A list of inbound NAT Pools that can be used to address specific ports on an individual Compute Node externally.  \nThe maximum number of inbound NAT Pools per Batch Pool is 5. If the maximum number of inbound NAT Pools is exceeded the request fails with HTTP status code 400."
+    description: "A list of inbound NAT Pools that can be used to address specific ports on an individual Compute Node externally.  \nThe maximum number of inbound NAT Pools per Batch Pool is 5. If the maximum number of inbound NAT Pools is exceeded the request fails with HTTP status code 400. This cannot be specified if the IPAddressProvisioningType is NoPublicIPAddresses."
     types:
     - uid: InboundNATPool
+      isArray: true
+- name: PublicIPAddressConfiguration
+  description: The public IP Address configuration of the networking configuration of a Pool.
+  kind: object
+  properties:
+  - name: provision
+    description: "The provisioning type for Public IP Addresses for the Pool.  \nThe default value is BatchManaged."
+    types:
+    - uid: IPAddressProvisioningType
+  - name: ipAddressIds
+    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
+    types:
+    - uid: string
       isArray: true
 - name: CertificateStoreLocation
   description: The location of the Certificate store on the Compute Node into which to install the Certificate.
@@ -1454,6 +1483,22 @@ definitions:
     types:
     - uid: NetworkSecurityGroupRule
       isArray: true
+- name: IPAddressProvisioningType
+  description: The provisioning type for Public IP Addresses for the Pool.
+  kind: enum
+  properties:
+  - name: batchmanaged
+    description: A public IP will be created and managed by Batch. There may be multiple public IPs depending on the size of the Pool.
+    types:
+    - uid: string
+  - name: usermanaged
+    description: Public IPs are provided by the user and will be used to provision the Compute Nodes.
+    types:
+    - uid: string
+  - name: nopublicipaddresses
+    description: No public IP Address will be created.
+    types:
+    - uid: string
 - name: LoginMode
   description: The login mode for the user
   kind: enum
@@ -1483,7 +1528,7 @@ definitions:
   kind: object
   properties:
   - name: priority
-    description: "The priority for this rule.  \nPriorities within a Pool must be unique and are evaluated in order of priority. The lower the number the higher the priority. For example, rules could be specified with order numbers of 150, 250, and 350. The rule with the order number of 150 takes precedence over the rule that has an order of 250. Allowed priorities are 150 to 3500. If any reserved or duplicate values are provided the request fails with HTTP status code 400."
+    description: "The priority for this rule.  \nPriorities within a Pool must be unique and are evaluated in order of priority. The lower the number the higher the priority. For example, rules could be specified with order numbers of 150, 250, and 350. The rule with the order number of 150 takes precedence over the rule that has an order of 250. Allowed priorities are 150 to 4096. If any reserved or duplicate values are provided the request fails with HTTP status code 400."
     types:
     - uid: integer
   - name: access
@@ -1514,7 +1559,7 @@ definitions:
 examples:
 - name: List Job Under Job Schedule
   request:
-    uri: GET account.region.batch.azure.com/jobschedules/jobScheduleId/jobs?api-version=2019-08-01.10.0
+    uri: GET account.region.batch.azure.com/jobschedules/jobScheduleId/jobs?api-version=2020-09-01.12.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000

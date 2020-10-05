@@ -3,7 +3,7 @@ title: Design a scalable partitioning strategy for Azure Table storage (REST API
 description: This article discusses partitioning a table in Azure Table storage and strategies you can use to ensure efficient scalability.
 author: pemari-msft
 
-ms.date: 09/23/2019
+ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -27,12 +27,12 @@ Table entities represent the units of data that are stored in a table. Table ent
 - **Timestamp**: The **Timestamp** property provides traceability for an entity. A timestamp is a date/time value that tells you the last time the entity was modified. A timestamp is sometimes referred to as the entity's *version*. Modifications to timestamps are ignored because the table service maintains the value for this property during all insert and update operations.
   
 ##  <a name="yyy"></a> Table primary key  
-The primary key for an Azure entity consists of the combined **PartitionKey** and **RowKey** properties. The two properties form a single clustered index within the table. The **PartitionKey** and **RowKey** properties can store up to 1 KB of string values. Empty strings also are permitted; however, null values are not permitted. 
+The primary key for an Azure entity consists of the combined **PartitionKey** and **RowKey** properties. The two properties form a single clustered index within the table. The **PartitionKey** and **RowKey** properties can store up to 1 KiB of string values. Empty strings also are permitted; however, null values are not permitted. 
 
 The clustered index sorts by the **PartitionKey** in ascending order and then by **RowKey** in ascending order. The sort order is observed in all query responses. Lexical comparisons are used during the sorting operation. A string value of "111" appears before a string value of "2". In some cases, you might want the sort order to be numeric. To sort in a numeric and ascending order, you must use fixed-length, zero-padded strings. In the preceding example, "002" appears before "111".
   
 ##  <a name="uyuyuyuyuy"></a> Table partitions  
-Partitions represent a collection of entities with the same **PartitionKey** values. Partitions are always served from one partition server. Each partition server can serve one or more partitions. A partition server has a rate limit of the number of entities it can serve from one partition over time. Specifically, a partition has a scalability target of 500 entities per second. This throughput might be higher during minimal load on the storage node, but it's throttled down when the node becomes hot or active. 
+Partitions represent a collection of entities with the same **PartitionKey** values. Partitions are always served from one partition server. Each partition server can serve one or more partitions. A partition server has a rate limit of the number of entities it can serve from one partition over time. Specifically, a partition has a scalability target of 2000 entities per second. This throughput might be higher during minimal load on the storage node, but it's throttled down when the node becomes hot or active.
 
 To better illustrate the concept of partitioning, the following figure shows a table that contains a small subset of data for foot race event registrations. The figure presents a conceptual view of partitioning where the **PartitionKey** contains three different values: the event's name combined with three distances (full marathon, half marathon, and 10 km). This example uses two partition servers. Server A contains registrations for the half-marathon and 10-km distances. Server B contains only the full-marathon distances. The **RowKey** values are shown to provide context, but the values aren't meaningful for this example.
   
@@ -45,7 +45,7 @@ Because a partition is always served from a single partition server and each par
   
 ### Entity group transactions
 
-An entity group transaction is a set of storage operations that are implemented atomically on entities that have the same **PartitionKey** value. If any storage operation in the entity group fails, all the storage operations in the entity are rolled back. An entity group transaction consists of no more than 100 storage operations and might be no more than 4 MB in size. Entity group transactions provide Azure Table storage with a limited form of the atomicity, consistency, isolation, and durability (ACID) semantics provided by relational databases. 
+An entity group transaction is a set of storage operations that are implemented atomically on entities that have the same **PartitionKey** value. If any storage operation in the entity group fails, all the storage operations in the entity are rolled back. An entity group transaction consists of no more than 100 storage operations and might be no more than 4 MiB in size. Entity group transactions provide Azure Table storage with a limited form of the atomicity, consistency, isolation, and durability (ACID) semantics provided by relational databases. 
 
 Entity group transactions improve throughput because they reduce the number of individual storage operations that must be submitted to Azure Table storage. Entity group transactions also provide an economic benefit. An entity group transaction is billed as a single storage operation regardless of how many storage operations it contains. Because all the storage operations in an entity group transaction affect entities that have the same **PartitionKey** value, a need to use entity group transactions can drive the selection of **PartitionKey** value.
   
@@ -53,9 +53,8 @@ Entity group transactions improve throughput because they reduce the number of i
 
 If you use unique **PartitionKey** values for your entities, each entity belongs in its own partition. If the unique values you use increase or decrease in value, it's possible that Azure will create range partitions. Range partitions group entities that have sequential, unique **PartitionKey** values to improve the performance of range queries. Without range partitions, a range query must cross partition boundaries or server boundaries, which can decrease query performance. Consider an application that uses the following table, which has an increasing sequence value for **PartitionKey**:
   
-|||  
-|-|-|  
 |**PartitionKey**|**RowKey**|  
+|-|-|  
 |"0001"|-|  
 |"0002"|-|  
 |"0003"|-|  
@@ -82,9 +81,8 @@ In an Azure table, you don't have the luxury of performance-tuning your table by
 
 Partition sizing refers to the number of entities a partition contains. As we discuss in [Scalability](#scalability), having more partitions means you get better load balancing. The granularity of the **PartitionKey** value affects the size of the partitions. At the coarsest level, if a single value is used as the **PartitionKey**, all the entities are in a single partition that is very large. At the finest level of granularity, the **PartitionKey** can contain unique values for each entity. The result is that there's a partition for each entity. The following table shows the advantages and disadvantages for the range of granularities: 
   
-|||||  
-|-|-|-|-|  
 |**PartitionKey granularity**|**Partition size**|**Advantages**|**Disadvantages**|  
+|-|-|-|-|  
 |Single value|Small number of entities|Batch transactions are possible with any entity.<br /><br /> All entities are local and served from the same storage node.||  
 |Single value|Large number of entities|Entity group transactions might be possible with any entity. For more information about the limits of entity group transactions, see [Performing entity group transactions](Performing-Entity-Group-Transactions.md).|Scaling is limited.<br /><br /> Throughput is limited to the performance of a single server.|  
 |Multiple values|Multiple partitions<br /><br /> Partition sizes depend on entity distribution.|Batch transactions are possible on some entities.<br /><br /> Dynamic partitioning is possible.<br /><br /> Single-request queries are possible (no continuation tokens).<br /><br /> Load balancing across more partition servers is possible.|A highly uneven distribution of entities across partitions might limit the performance of the larger and more active partitions.|  
@@ -96,10 +94,8 @@ The table shows how scaling is affected by **PartitionKey** values. It's a best 
 
 Queries retrieve data from tables. When you analyze the data for a table in Azure Table storage, it's important to consider which queries the application will use. If an application has several queries, you might need to prioritize them, although your decisions might be subjective. In many cases, dominant queries are discernable from other queries. In terms of performance, queries fall into different categories. Because a table has only one index, query performance usually is related to the **PartitionKey** and **RowKey** properties. The following table shows the different types of queries and their performance ratings: 
   
-|||||  
-|-|-|-|-|  
 |**Query type**|**PartitionKey match**|**RowKey match**|**Performance rating**|  
-|Point|Exact|Exact|Best|  
+|-|-|-|-|  
 |Row range scan|Exact|Partial|Better with smaller-sized partitions.<br /><br /> Bad with partitions that are very large.|  
 |Partition range scan|Partial|Partial|Good with a small number of partition servers being touched.<br /><br /> Worse with more servers being touched.|  
 |Full table scan|Partial, none|Partial, none|Worse with a subset of partitions being scanned.<br /><br /> Worst with all partitions being scanned.|  
@@ -138,9 +134,8 @@ Query selectivity is another factor that can affect the performance of the query
 
 Knowing the queries that you'll use can help you determine which properties are important to consider for the **PartitionKey** value. The properties that you use in the queries are candidates for the **PartitionKey** value. The following table provides a general guideline of how to determine the **PartitionKey** value:
   
-|||  
-|-|-|  
 |**If the entity…**|**Action**|  
+|-|-|  
 |Has one key property|Use it as the **PartitionKey**.|  
 |Has two key properties|Use one as the **PartitionKey** and the other as the **RowKey**.|  
 |Has more than two key properties|Use a composite key of concatenated values.|  
@@ -151,9 +146,8 @@ If there's more than one equally dominant query, you can insert the information 
   
 To serve both dominant queries, insert two rows as an entity group transaction. The following table shows the **PartitionKey** and **RowKey** properties for this scenario. The **RowKey** values provide a prefix for the bib and age so that the application can distinguish between the two values.
   
-|||  
-|-|-|  
 |**PartitionKey**|**RowKey**|  
+|-|-|  
 |2011 New York City Marathon__Full|BIB:01234__John__M__55|  
 |2011 New York City Marathon__Full|AGE:055__1234__John__M|  
   

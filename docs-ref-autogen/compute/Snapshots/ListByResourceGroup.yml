@@ -3,14 +3,14 @@ uid: management.azure.com.compute.snapshots.listbyresourcegroup
 name: List By Resource Group
 service: Compute
 groupName: Snapshots
-apiVersion: 2019-07-01
+apiVersion: 2020-06-30
 summary: Lists snapshots under a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots?api-version=2019-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots?api-version=2020-06-30
 uriParameters:
 - name: subscriptionId
   in: path
@@ -65,7 +65,7 @@ definitions:
     - uid: SnapshotSku
   - name: properties.timeCreated
     isReadyOnly: true
-    description: The time when the disk was created.
+    description: The time when the snapshot was created.
     types:
     - uid: string
   - name: properties.osType
@@ -89,6 +89,11 @@ definitions:
     description: The size of the disk in bytes. This field is read only.
     types:
     - uid: integer
+  - name: properties.diskState
+    isReadyOnly: true
+    description: The state of the snapshot.
+    types:
+    - uid: DiskState
   - name: properties.uniqueId
     isReadyOnly: true
     description: Unique Guid identifying the resource.
@@ -111,6 +116,14 @@ definitions:
     description: Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
     types:
     - uid: Encryption
+  - name: properties.networkAccessPolicy
+    description: Policy for accessing the disk via network.
+    types:
+    - uid: NetworkAccessPolicy
+  - name: properties.diskAccessId
+    description: ARM id of the DiskAccess resource for using private endpoints on disks.
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -187,6 +200,10 @@ definitions:
     description: Disk source information.
     types:
     - uid: ImageDiskReference
+  - name: galleryImageReference
+    description: Required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of the shared galley image version from which to create a disk.
+    types:
+    - uid: ImageDiskReference
   - name: sourceUri
     description: If createOption is Import, this is the URI of a blob to be imported into a managed disk.
     types:
@@ -204,6 +221,38 @@ definitions:
     description: If createOption is Upload, this is the size of the contents of the upload including the VHD footer. This value should be between 20972032 (20 MiB + 512 bytes for the VHD footer) and 35183298347520 bytes (32 TiB + 512 bytes for the VHD footer).
     types:
     - uid: integer
+  - name: logicalSectorSize
+    description: Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.
+    types:
+    - uid: integer
+- name: DiskState
+  description: This enumerates the possible state of the disk.
+  kind: enum
+  properties:
+  - name: Unattached
+    description: The disk is not being used and can be attached to a VM.
+    types:
+    - uid: string
+  - name: Attached
+    description: The disk is currently mounted to a running VM.
+    types:
+    - uid: string
+  - name: Reserved
+    description: The disk is mounted to a stopped-deallocated VM
+    types:
+    - uid: string
+  - name: ActiveSAS
+    description: The disk currently has an Active SAS Uri associated with it.
+    types:
+    - uid: string
+  - name: ReadyToUpload
+    description: A disk is ready to be created by upload by requesting a write token.
+    types:
+    - uid: string
+  - name: ActiveUpload
+    description: A disk is created for upload and a write token has been issued for uploading to it.
+    types:
+    - uid: string
 - name: EncryptionSettingsCollection
   description: Encryption settings for disk or snapshot
   kind: object
@@ -233,6 +282,22 @@ definitions:
     description: The type of key used to encrypt the data of the disk.
     types:
     - uid: EncryptionType
+- name: NetworkAccessPolicy
+  description: Policy for accessing the disk via network.
+  kind: enum
+  properties:
+  - name: AllowAll
+    description: The disk can be exported or uploaded to from any network.
+    types:
+    - uid: string
+  - name: AllowPrivate
+    description: The disk can be exported or uploaded to using a DiskAccess resource's private endpoints.
+    types:
+    - uid: string
+  - name: DenyAll
+    description: The disk cannot be exported.
+    types:
+    - uid: string
 - name: SnapshotStorageAccountTypes
   description: The sku name.
   kind: enum
@@ -262,7 +327,7 @@ definitions:
     types:
     - uid: string
   - name: FromImage
-    description: Create a new disk from a platform image specified by the given imageReference.
+    description: Create a new disk from a platform image specified by the given imageReference or galleryImageReference.
     types:
     - uid: string
   - name: Import
@@ -310,11 +375,15 @@ definitions:
   kind: enum
   properties:
   - name: EncryptionAtRestWithPlatformKey
-    description: Disk is encrypted with XStore managed key at rest. It is the default encryption type.
+    description: Disk is encrypted at rest with Platform managed key. It is the default encryption type. This is not a valid encryption type for disk encryption sets.
     types:
     - uid: string
   - name: EncryptionAtRestWithCustomerKey
-    description: Disk is encrypted with Customer managed key at rest.
+    description: Disk is encrypted at rest with Customer managed key that can be changed and revoked by a customer.
+    types:
+    - uid: string
+  - name: EncryptionAtRestWithPlatformAndCustomerKeys
+    description: Disk is encrypted at rest with 2 layers of encryption. One of the keys is Customer managed and the other key is Platform managed.
     types:
     - uid: string
 - name: KeyVaultAndSecretReference
@@ -352,7 +421,7 @@ definitions:
 examples:
 - name: List all snapshots in a resource group.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots?api-version=2019-07-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots?api-version=2020-06-30
   responses:
   - statusCode: "200"
     body: >-

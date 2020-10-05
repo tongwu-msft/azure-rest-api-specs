@@ -1,6 +1,6 @@
 ---
 title: "Submit Property Batch"
-ms.date: "11/23/2019"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -110,7 +110,7 @@ POST http://localhost:19080/Names/samples/apps/$/GetProperties/$/SubmitBatch?api
     {
       "Kind": "CheckExists",
       "PropertyName": "PersistentQueueAppData",
-      "Exits": true
+      "Exists": true
     },
     {
       "Kind": "CheckSequence",

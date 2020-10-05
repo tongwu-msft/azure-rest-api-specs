@@ -55,6 +55,16 @@ definitions:
     description: The name of the invoice section.
     types:
     - uid: string
+  - name: properties.state
+    isReadyOnly: true
+    description: Identifies the state of an invoice section.
+    types:
+    - uid: InvoiceSectionState
+  - name: properties.targetCloud
+    isReadyOnly: true
+    description: Identifies the cloud environments that are associated with an invoice section. This is a system managed optional field and gets updated as the invoice section gets associated with accounts in various clouds.
+    types:
+    - uid: targetCloud
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -78,8 +88,55 @@ definitions:
     description: The details of the error.
     types:
     - uid: ErrorDetails
+- name: InvoiceSectionState
+  description: Identifies the state of an invoice section.
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Restricted
+    types:
+    - uid: string
+- name: targetCloud
+  description: Identifies the cloud environments that are associated with an invoice section. This is a system managed optional field and gets updated as the invoice section gets associated with accounts in various clouds.
+  kind: enum
+  properties:
+  - name: USGov
+    types:
+    - uid: string
+  - name: USNat
+    types:
+    - uid: string
+  - name: USSec
+    types:
+    - uid: string
 - name: ErrorDetails
   description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The sub details of the error.
+    types:
+    - uid: ErrorSubDetails
+      isArray: true
+- name: ErrorSubDetails
   kind: object
   properties:
   - name: code
@@ -109,7 +166,8 @@ examples:
         "name": "{invoiceSectionName}",
         "type": "Microsoft.Billing/billingAccounts/billingProfiles/invoiceSections",
         "properties": {
-          "displayName": "invoiceSection1"
+          "displayName": "invoiceSection1",
+          "state": "Active"
         }
       }
 security:

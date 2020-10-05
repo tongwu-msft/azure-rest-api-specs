@@ -1,0 +1,356 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.migrate.assessment.machines.listbyproject
+name: List By Project
+service: Azure Migrate
+groupName: Machines
+apiVersion: 2019-10-01
+summary: "Get all machines in the project  \nGet data of all the machines available in the project. Returns a json array of objects of type 'machine' defined in Models section."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/machines?api-version=2019-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription Id in which project was created.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Azure Resource Group that project is part of.
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: Name of the Azure Migrate project.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Standard request header. Used by service to identify API version used by client.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: OK. Returns list of all machine objects.
+  types:
+  - uid: MachineResultList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: MachineResultList
+  description: List of machines.
+  kind: object
+  properties:
+  - name: value
+    description: List of machines.
+    types:
+    - uid: Machine
+      isArray: true
+  - name: nextLink
+    description: ''
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Azure Migrate service.
+    types:
+    - uid: CloudErrorBody
+- name: Machine
+  description: A machine in a migration project.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Path reference to this machine. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/machines/{machineName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the machine. It is a GUID which is unique identifier of machine in private data center. For user-readable name, we have a displayName property on this machine.
+    types:
+    - uid: string
+  - name: eTag
+    description: For optimistic concurrency control.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the object = [Microsoft.Migrate/assessmentProjects/machines].
+    types:
+    - uid: string
+  - name: properties
+    description: Properties of the machine.
+    types:
+    - uid: MachineProperties
+- name: CloudErrorBody
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: MachineProperties
+  description: Properties of a machine.
+  kind: object
+  properties:
+  - name: bootType
+    isReadyOnly: true
+    description: Boot type of the machine.
+    types:
+    - uid: MachineBootType
+  - name: datacenterManagementServerArmId
+    isReadyOnly: true
+    description: ARM ID of the data center as tracked by the Microsoft.OffAzure.
+    types:
+    - uid: string
+  - name: discoveryMachineArmId
+    isReadyOnly: true
+    description: ARM ID of the machine as tracked by the Microsoft.OffAzure.
+    types:
+    - uid: string
+  - name: datacenterManagementServerName
+    isReadyOnly: true
+    description: Name of the server hosting the datacenter management solution.
+    types:
+    - uid: string
+  - name: displayName
+    isReadyOnly: true
+    description: User readable name of the machine as defined by the user in their private datacenter.
+    types:
+    - uid: string
+  - name: megabytesOfMemory
+    isReadyOnly: true
+    description: Memory in Megabytes.
+    types:
+    - uid: number
+  - name: numberOfCores
+    isReadyOnly: true
+    description: Processor count.
+    types:
+    - uid: integer
+  - name: operatingSystemType
+    isReadyOnly: true
+    description: Operating System type of the machine.
+    types:
+    - uid: string
+  - name: operatingSystemName
+    isReadyOnly: true
+    description: Operating System name of the machine.
+    types:
+    - uid: string
+  - name: operatingSystemVersion
+    isReadyOnly: true
+    description: Operating System version of the machine.
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: Description of the machine
+    types:
+    - uid: string
+  - name: groups
+    isReadyOnly: true
+    description: List of references to the groups that the machine is member of.
+    types:
+    - uid: string
+      isArray: true
+  - name: createdTimestamp
+    isReadyOnly: true
+    description: Time when this machine was created. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: updatedTimestamp
+    isReadyOnly: true
+    description: Time when this machine was last updated. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: disks
+    isReadyOnly: true
+    description: Dictionary of disks attached to the machine. Key is ID of disk. Value is a disk object
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: Disk
+  - name: networkAdapters
+    isReadyOnly: true
+    description: Dictionary of network adapters attached to the machine. Key is ID of network adapter. Value is a network adapter object
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: NetworkAdapter
+- name: MachineBootType
+  description: Boot type of the machine.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: EFI
+    types:
+    - uid: string
+  - name: BIOS
+    types:
+    - uid: string
+- name: Disk
+  description: A disk discovered on a machine.
+  kind: object
+  properties:
+  - name: gigabytesAllocated
+    isReadyOnly: true
+    description: Gigabytes of storage provisioned for this disk.
+    types:
+    - uid: number
+  - name: displayName
+    isReadyOnly: true
+    description: User friendly name of the disk.
+    types:
+    - uid: string
+- name: NetworkAdapter
+  description: A network adapter discovered on a machine.
+  kind: object
+  properties:
+  - name: macAddress
+    isReadyOnly: true
+    description: MAC Address of the network adapter.
+    types:
+    - uid: string
+  - name: ipAddresses
+    isReadyOnly: true
+    description: List of IP Addresses on the network adapter.
+    types:
+    - uid: string
+      isArray: true
+  - name: displayName
+    isReadyOnly: true
+    description: User friendly name of the network adapter.
+    types:
+    - uid: string
+examples:
+- name: Machines_ListByProject
+  request:
+    uri: GET https://management.azure.com/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourceGroups/abgoyal-westEurope/providers/Microsoft.Migrate/assessmentProjects/abgoyalWEselfhostb72bproject/machines?api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourceGroups/abgoyal-westeurope/providers/Microsoft.Migrate/assessmentprojects/abgoyalWEselfhostb72bproject/machines/269ef295-a38d-4f8f-9779-77ce79088311",
+            "name": "269ef295-a38d-4f8f-9779-77ce79088311",
+            "type": "Microsoft.Migrate/assessmentprojects/machines",
+            "eTag": "\"04006052-0000-0d00-0000-5cd4065a0000\"",
+            "properties": {
+              "discoveryMachineArmId": "/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourcegroups/abgoyal-westeurope/providers/microsoft.offazure/vmwaresites/portalvcenterbc2fsite/machines/idclab-a360-fareast-corp-micros-86617dcf-effe-59ad-8c3a-cdd3ea7300d3_52bd4eeb-faf4-7d95-4dd5-5524350ce2bb",
+              "datacenterManagementServerArmId": "/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourceGroups/abgoyal-westEurope/providers/Microsoft.OffAzure/VMwareSites/PortalvCenterbc2fsite/vcenters/idclab-a360-fareast-corp-micros-86617dcf-effe-59ad-8c3a-cdd3ea7300d3",
+              "datacenterManagementServerName": "IDCLAB-A360.fareast.corp.microsoft.com",
+              "bootType": "BIOS",
+              "displayName": "ShubhamFirstAndThird",
+              "megabytesOfMemory": 16384,
+              "numberOfCores": 8,
+              "operatingSystemType": "windowsGuest",
+              "operatingSystemName": "Microsoft Windows Server 2016 (64-bit)",
+              "operatingSystemVersion": null,
+              "description": "Microsoft Azure Migration Image on Windows Server 2016",
+              "createdTimestamp": "2019-05-09T09:58:22.1734149Z",
+              "disks": {
+                "6000C29f-9065-8fe0-ab83-7e58ff6ba442": {
+                  "gigabytesAllocated": 80,
+                  "displayName": "scsi0:0"
+                }
+              },
+              "groups": [
+                "/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourceGroups/abgoyal-westeurope/providers/Microsoft.Migrate/assessmentprojects/abgoyalWEselfhostb72bproject/groups/test1"
+              ],
+              "networkAdapters": {
+                "4000": {
+                  "macAddress": "00:0c:29:ac:e3:6d",
+                  "ipAddresses": [],
+                  "displayName": "VM Network"
+                }
+              },
+              "updatedTimestamp": "2019-05-09T09:58:22.2990529Z"
+            }
+          },
+          {
+            "id": "/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourceGroups/abgoyal-westeurope/providers/Microsoft.Migrate/assessmentprojects/abgoyalWEselfhostb72bproject/machines/3ad6c8b7-08d6-45dc-87f5-cd533501f553",
+            "name": "3ad6c8b7-08d6-45dc-87f5-cd533501f553",
+            "type": "Microsoft.Migrate/assessmentprojects/machines",
+            "eTag": "\"04005652-0000-0d00-0000-5cd4065a0000\"",
+            "properties": {
+              "discoveryMachineArmId": "/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourcegroups/abgoyal-westeurope/providers/microsoft.offazure/vmwaresites/portalvcenterbc2fsite/machines/idclab-a360-fareast-corp-micros-86617dcf-effe-59ad-8c3a-cdd3ea7300d3_52e5be9c-2758-a483-c252-eeef7919095c",
+              "datacenterManagementServerArmId": "/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourceGroups/abgoyal-westEurope/providers/Microsoft.OffAzure/VMwareSites/PortalvCenterbc2fsite/vcenters/idclab-a360-fareast-corp-micros-86617dcf-effe-59ad-8c3a-cdd3ea7300d3",
+              "datacenterManagementServerName": "IDCLAB-A360.fareast.corp.microsoft.com",
+              "bootType": "BIOS",
+              "displayName": "shsinglaVM5",
+              "megabytesOfMemory": 16384,
+              "numberOfCores": 8,
+              "operatingSystemType": "windowsGuest",
+              "operatingSystemName": "Microsoft Windows Server 2016 (64-bit)",
+              "operatingSystemVersion": null,
+              "description": "Microsoft Azure Migration Image on Windows Server 2016",
+              "createdTimestamp": "2019-05-09T09:58:22.1734149Z",
+              "disks": {
+                "6000C296-54c9-e29c-51be-125e76850958": {
+                  "gigabytesAllocated": 80,
+                  "displayName": "scsi0:0"
+                }
+              },
+              "groups": [
+                "/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourceGroups/abgoyal-westeurope/providers/Microsoft.Migrate/assessmentprojects/abgoyalWEselfhostb72bproject/groups/test1"
+              ],
+              "networkAdapters": {
+                "4000": {
+                  "macAddress": "00:0c:29:1f:ac:0a",
+                  "ipAddresses": [],
+                  "displayName": "VM Network"
+                }
+              },
+              "updatedTimestamp": "2019-05-09T09:58:22.3142054Z"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

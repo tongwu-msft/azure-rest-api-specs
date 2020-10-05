@@ -1,6 +1,6 @@
 ---
 title: "Create Or Update"
-ms.date: "11/23/2019"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -90,6 +90,7 @@ PUT http://localhost:19080/Resources/Volumes/sampleVolume?api-version=6.4-previe
 ##### Body
 ```json
 {
+  "name": "sampleVolume",
   "properties": {
     "description": "Service Fabric Mesh sample volume.",
     "provider": "SFAzureFile",

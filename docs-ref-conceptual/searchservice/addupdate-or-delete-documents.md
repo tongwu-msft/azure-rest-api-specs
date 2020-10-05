@@ -1,23 +1,15 @@
 ---
 title: "Add, Update or Delete Documents (Azure Cognitive Search REST API)"
 description: Refresh content of an index by replacing, removing, or creating new documents.
-ms.date: 01/30/2020
+ms.date: 06/30/2020
+
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: language-reference
+ms.devlang: rest-api
+
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: nitinme
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
 ---
 # Add, Update or Delete Documents (Azure Cognitive Search REST API)
 You can [upload, merge or delete documents](https://docs.microsoft.com/azure/search/search-what-is-data-import) from a specified index using HTTP POST. For large numbers of updates, batching of documents (up to 1000 documents per batch, or about 16 MB per batch) is recommended and will significantly improve indexing performance.  
@@ -29,7 +21,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/index?a
 ```  
 
 > [!NOTE]  
->  For supported Azure data sources, [indexers](https://docs.microsoft.com/azure/search/search-indexer-overview) offer a different way to add and update documents in Azure Cognitive Search on demand or on aschedule. See [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md) for details.  
+>  For supported Azure data sources, [indexers](https://docs.microsoft.com/azure/search/search-indexer-overview) offer a different way to add and update documents in Azure Cognitive Search on demand or on a schedule. See [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md) for details.  
 
 ## URI Parameters
 
@@ -37,7 +29,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/index?a
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required on the URI, specifying which index to post documents. You can only post documents to one index at a time.  |
-| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 
 ## Request Headers 

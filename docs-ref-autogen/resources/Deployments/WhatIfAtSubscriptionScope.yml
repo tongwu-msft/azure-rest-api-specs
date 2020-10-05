@@ -3,14 +3,14 @@ uid: management.azure.com.resources.deployments.whatifatsubscriptionscope
 name: What If At Subscription Scope
 service: Resource Management
 groupName: Deployments
-apiVersion: 2019-10-01
+apiVersion: 2020-06-01
 summary: Returns changes that will be made by the deployment if executed at the scope of the subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf?api-version=2019-10-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -149,7 +149,15 @@ definitions:
   kind: object
   properties:
   - name: uri
-    description: The URI of the template to deploy.
+    description: The URI of the template to deploy. Use either the uri or id property, but not both.
+    types:
+    - uid: string
+  - name: id
+    description: The resource id of a Template Spec. Use either the id or uri property, but not both.
+    types:
+    - uid: string
+  - name: relativePath
+    description: Applicable only if this template link references a Template Spec. This relativePath property can optionally be used to reference a Template Spec artifact by path.
     types:
     - uid: string
   - name: contentVersion
@@ -364,7 +372,7 @@ definitions:
 examples:
 - name: Predict template changes at subscription scope
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000001/providers/Microsoft.Resources/deployments/exampleDeploymentName/whatIf?api-version=2019-10-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000001/providers/Microsoft.Resources/deployments/my-deployment/whatIf?api-version=2020-06-01
     body: >-
       {
         "location": "westus",
@@ -382,18 +390,18 @@ examples:
         "properties": {
           "changes": [
             {
-              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myExistingIdentity",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/my-resource-group/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myExistingIdentity",
               "changeType": "Modify",
               "before": {
                 "apiVersion": "2018-11-30",
-                "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myExistingIdentity",
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/my-resource-group/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myExistingIdentity",
                 "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
                 "name": "myExistingIdentity",
                 "location": "westus2"
               },
               "after": {
                 "apiVersion": "2018-11-30",
-                "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myExistingIdentity",
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/my-resource-group/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myExistingIdentity",
                 "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
                 "name": "myExistingIdentity",
                 "location": "westus2",
@@ -410,11 +418,11 @@ examples:
               ]
             },
             {
-              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myNewIdentity",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/my-resource-group/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myNewIdentity",
               "changeType": "Create",
               "after": {
                 "apiVersion": "2018-11-30",
-                "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/myResourceGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myNewIdentity",
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/my-resource-group/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myNewIdentity",
                 "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
                 "name": "myNewIdentity",
                 "location": "eastus",
@@ -424,13 +432,13 @@ examples:
               }
             },
             {
-              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/myResourceGroup2",
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/my-resource-group2",
               "changeType": "Create",
               "after": {
                 "apiVersion": "2019-03-01",
-                "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/myResourceGroup2",
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/my-resource-group2",
                 "type": "Microsoft.Resources/resourceGroups",
-                "name": "myResourceGroup2",
+                "name": "my-resource-group2",
                 "location": "{location3}"
               }
             }
@@ -440,7 +448,7 @@ examples:
   - statusCode: "202"
     headers:
     - name: Location
-      value: /subscriptions/4d0ca63b-7939-4c9c-afbe-5fafae501724/operationresults/ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
+      value: /subscriptions/00000000-0000-0000-0000-000000000000/ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
 security:
 - name: azure_auth
   type: oauth2

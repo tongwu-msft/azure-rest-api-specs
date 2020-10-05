@@ -233,26 +233,26 @@ responses:
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 401 Unauthorized
   headers:
   - name: WWW-Authenticate
     value: string
   description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 403 Forbidden
   description: Permission, capacity, or authentication issues.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 404 Not Found
   description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 500 Internal Server Error
   description: An error occurred while processing the request. Please try again later.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -265,7 +265,7 @@ requestBody:
 requestHeader:
 - name: x-ms-client-id
   in: header
-  description: 'Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.    '
+  description: Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.
   types:
   - uid: string
 definitions:
@@ -300,14 +300,14 @@ definitions:
     types:
     - uid: object
       isArray: true
-- name: ErrorResponse
-  description: This response object is returned when an error occurs in the Maps API
+- name: ODataErrorResponse
+  description: This response object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Maps API
+    description: This object is returned when an error occurs in the Maps API.
     types:
-    - uid: Error
+    - uid: ODataError
 - name: BatchRequestBody
   description: This type represents the request body for the Batch service.
   kind: object
@@ -331,18 +331,28 @@ definitions:
     description: Total number of requests in the batch
     types:
     - uid: integer
-- name: Error
-  description: This object is returned when an error occurs in the Maps API
+- name: ODataError
+  description: This object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The HTTP status code.
+    description: The ODataError code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
     description: If available, a human readable description of the error.
+    types:
+    - uid: string
+  - name: details
+    description: This object is returned when an error occurs in the Maps API.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: target
+    isReadyOnly: true
+    description: If available, the target causing the error.
     types:
     - uid: string
 examples:
@@ -396,6 +406,11 @@ examples:
                     "brands": [
                       {
                         "name": "US Bank ATM"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7397
                       }
                     ],
                     "classifications": [
@@ -461,6 +476,11 @@ examples:
                     "brands": [
                       {
                         "name": "US Bank ATM"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7397
                       }
                     ],
                     "classifications": [
@@ -550,6 +570,11 @@ examples:
                         "name": "US Bank ATM"
                       }
                     ],
+                    "categorySet": [
+                      {
+                        "id": 7397
+                      }
+                    ],
                     "classifications": [
                       {
                         "code": "CASH_DISPENSER",
@@ -616,6 +641,11 @@ examples:
                         "name": "US Bank ATM"
                       }
                     ],
+                    "categorySet": [
+                      {
+                        "id": 7397
+                      }
+                    ],
                     "classifications": [
                       {
                         "code": "CASH_DISPENSER",
@@ -680,6 +710,11 @@ examples:
                     "brands": [
                       {
                         "name": "US Bank ATM"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 7397
                       }
                     ],
                     "url": "www.usbank.com",
@@ -758,6 +793,11 @@ examples:
                   "info": "search:ta:840369001174316-US",
                   "poi": {
                     "name": "Statue of Liberty",
+                    "categorySet": [
+                      {
+                        "id": 7376003
+                      }
+                    ],
                     "classifications": [
                       {
                         "code": "IMPORTANT_TOURIST_ATTRACTION",
@@ -820,6 +860,11 @@ examples:
                   "poi": {
                     "name": "Statue of Liberty",
                     "phone": "+(1)-(205)-9700251",
+                    "categorySet": [
+                      {
+                        "id": 7376003
+                      }
+                    ],
                     "url": "www.1bsa.org",
                     "classifications": [
                       {
@@ -905,6 +950,11 @@ examples:
                     "brands": [
                       {
                         "name": "Starbucks"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 9376006
                       }
                     ],
                     "url": "www.starbucks.com/site-selector",
@@ -1000,6 +1050,11 @@ examples:
                         "name": "Starbucks"
                       }
                     ],
+                    "categorySet": [
+                      {
+                        "id": 9376006
+                      }
+                    ],
                     "url": "www.starbucks.com/store/15097",
                     "classifications": [
                       {
@@ -1071,6 +1126,11 @@ examples:
                         "name": "Starbucks"
                       }
                     ],
+                    "categorySet": [
+                      {
+                        "id": 9376006
+                      }
+                    ],
                     "url": "www.starbucks.com/site-selector",
                     "classifications": [
                       {
@@ -1140,6 +1200,11 @@ examples:
                     "brands": [
                       {
                         "name": "Starbucks"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 9376006
                       }
                     ],
                     "url": "https://www.starbucks.com/store-locator/store/15901",
@@ -1220,6 +1285,11 @@ examples:
                         "name": "Starbucks"
                       }
                     ],
+                    "categorySet": [
+                      {
+                        "id": 9376006
+                      }
+                    ],
                     "url": "www.starbucks.com/site-selector",
                     "classifications": [
                       {
@@ -1289,6 +1359,11 @@ examples:
                     "brands": [
                       {
                         "name": "Starbucks"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 9376006
                       }
                     ],
                     "url": "www.starbucks.com/site-selector",
@@ -1363,6 +1438,11 @@ examples:
                         "name": "Starbucks"
                       }
                     ],
+                    "categorySet": [
+                      {
+                        "id": 9376006
+                      }
+                    ],
                     "url": "www.starbucks.com/store/15022",
                     "classifications": [
                       {
@@ -1435,6 +1515,11 @@ examples:
                         "name": "Starbucks"
                       }
                     ],
+                    "categorySet": [
+                      {
+                        "id": 9376006
+                      }
+                    ],
                     "url": "www.starbucks.com/site-selector",
                     "classifications": [
                       {
@@ -1505,6 +1590,11 @@ examples:
                     "brands": [
                       {
                         "name": "Starbucks"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 9376006
                       }
                     ],
                     "url": "www.starbucks.com/site-selector",
@@ -1584,6 +1674,11 @@ examples:
                     "brands": [
                       {
                         "name": "Starbucks"
+                      }
+                    ],
+                    "categorySet": [
+                      {
+                        "id": 9376006
                       }
                     ],
                     "url": "www.starbucks.com/site-selector",

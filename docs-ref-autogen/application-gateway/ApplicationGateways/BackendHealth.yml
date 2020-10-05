@@ -3,15 +3,15 @@ uid: management.azure.com.application-gateway.applicationgateways.backendhealth
 name: Backend Health
 service: Application Gateway
 groupName: Application Gateways
-apiVersion: 2020-03-01
+apiVersion: 2020-05-01
 summary: Gets the backend health of the specified application gateway in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth?api-version=2020-03-01
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth?api-version=2020-03-01&$expand={$expand}
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth?api-version=2020-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth?api-version=2020-05-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -444,6 +444,11 @@ definitions:
     description: Type of the resource.
     types:
     - uid: string
+  - name: properties.loadBalancerBackendAddresses
+    description: An array of backend addresses.
+    types:
+    - uid: LoadBalancerBackendAddress
+      isArray: true
   - name: properties.backendIPConfigurations
     isReadyOnly: true
     description: An array of references to IP addresses defined in network interfaces.
@@ -989,6 +994,27 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: LoadBalancerBackendAddress
+  description: Load balancer backend addresses.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the backend address.
+    types:
+    - uid: string
+  - name: properties.virtualNetwork
+    description: Reference to an existing virtual network.
+    types:
+    - uid: SubResource
+  - name: properties.ipAddress
+    description: IP Address belonging to the referenced virtual network.
+    types:
+    - uid: string
+  - name: properties.networkInterfaceIPConfiguration
+    isReadyOnly: true
+    description: Reference to IP address defined in network interfaces.
+    types:
+    - uid: SubResource
 - name: TransportProtocol
   description: The transport protocol for the endpoint.
   kind: enum
@@ -2076,7 +2102,7 @@ definitions:
 examples:
 - name: Get Backend Health
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/appgw/providers/Microsoft.Network/applicationGateways/appgw/backendhealth?api-version=2020-03-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/appgw/providers/Microsoft.Network/applicationGateways/appgw/backendhealth?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-

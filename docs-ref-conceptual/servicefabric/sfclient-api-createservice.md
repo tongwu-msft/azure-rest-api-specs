@@ -1,6 +1,6 @@
 ---
 title: "Create Service"
-ms.date: "11/23/2019"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -182,8 +182,8 @@ POST http://localhost:19080/Applications/test/$/GetServices/$/Create?api-version
       "ScalingTrigger": {
         "Kind": "AveragePartitionLoad",
         "MetricName": "servicefabric:/_CpuCores",
-        "LowerLoadThreshold": "0.3",
-        "UpperLoadThreshold": "0.8",
+        "LowerLoadThreshold": "0.300000",
+        "UpperLoadThreshold": "0.800000",
         "ScaleIntervalInSeconds": "600"
       },
       "ScalingMechanism": {
@@ -218,7 +218,7 @@ POST http://localhost:19080/Applications/test/$/GetServices/$/Create?api-version
   "ServiceTypeName": "StatefulBackendService",
   "InitializationData": [],
   "PartitionDescription": {
-    "PartitionScheme": "NamedPartitionSchemeDescription",
+    "PartitionScheme": "Named",
     "Count": "1",
     "Names": [
       "0"

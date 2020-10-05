@@ -15,7 +15,7 @@ produces:
 - application/xml
 paths:
 - content: POST https://atlas.microsoft.com/search/geometry/{format}?api-version=1.0&query={query}
-- content: POST https://atlas.microsoft.com/search/geometry/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&limit={limit}&language={language}&extendedPostalCodesFor={extendedPostalCodesFor}&idxSet={idxSet}&view={view}&openingHours=nextSevenDays
+- content: POST https://atlas.microsoft.com/search/geometry/{format}?subscription-key={subscription-key}&api-version=1.0&query={query}&limit={limit}&language={language}&categorySet={categorySet}&extendedPostalCodesFor={extendedPostalCodesFor}&idxSet={idxSet}&view={view}&openingHours=nextSevenDays
   isOptional: true
 uriParameters:
 - name: format
@@ -55,6 +55,11 @@ uriParameters:
     Please refer to [Supported Languages](https://docs.microsoft.com/en-us/azure/azure-maps/supported-languages) for details.
   types:
   - uid: string
+- name: categorySet
+  in: query
+  description: "A comma-separated list of category set IDs which could be used to restrict the result to specific Points of Interest categories. ID order does not matter. When multiple category identifiers are provided, only POIs that belong to (at least) one of the categories from the provided list will be returned. The list of supported categories can be discovered using  [POI Categories API](https://aka.ms/AzureMapsPOICategoryTree). Usage examples: \n\n* **categorySet=7315** (Search Points of Interest from category Restaurant)\n\n* **categorySet=7315025,7315017** (Search Points of Interest of category either Italian or French Restaurant) "
+  types:
+  - uid: array
 - name: extendedPostalCodesFor
   in: query
   description: "Indexes for which extended postal codes should be included in the results.\n\nAvailable indexes are: \n\n **Addr** = Address ranges \n\n **Geo** = Geographies \n\n **PAD** = Point Addresses \n\n **POI** = Points of Interest \n\n **Str** = Streets \n\n **XStr** = Cross Streets (intersections)\n\nValue should be a comma separated list of index types (in any order) or **None** for no indexes.\n\nBy default extended postal codes are included for all indexes except Geo. Extended postal code lists for geographies can be quite long so they have to be explicitly requested when needed.\n\nUsage examples:\n\n extendedPostalCodesFor=POI \n\n extendedPostalCodesFor=PAD,Addr,POI \n\n extendedPostalCodesFor=None\n\nExtended postal code is returned as an **extendedPostalCode** property of an address. Availability is region-dependent."
@@ -76,7 +81,10 @@ uriParameters:
   - uid: string
 - name: openingHours
   in: query
-  description: Opening hours for a POI (Points of Interest). The availability of opening hours will vary based on the data available.
+  description: >-
+    Hours of operation for a POI (Points of Interest). The availability of hours of operation will vary based on the data available.
+
+    Supported value: nextSevenDays
   types:
   - uid: OpeningHours
 responses:
@@ -87,26 +95,26 @@ responses:
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 401 Unauthorized
   headers:
   - name: WWW-Authenticate
     value: string
   description: Access denied due to invalid subscription key or invalid Azure Active Directory bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided AAD bearer token.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 403 Forbidden
   description: Permission, capacity, or authentication issues.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 404 Not Found
   description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 - name: 500 Internal Server Error
   description: An error occurred while processing the request. Please try again later.
   types:
-  - uid: ErrorResponse
+  - uid: ODataErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -118,7 +126,7 @@ requestBody:
 requestHeader:
 - name: x-ms-client-id
   in: header
-  description: 'Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.    '
+  description: Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.
   types:
   - uid: string
 definitions:
@@ -135,11 +143,14 @@ definitions:
     types:
     - uid: string
 - name: OpeningHours
-  description: Opening hours for a POI (Points of Interest). The availability of opening hours will vary based on the data available.
+  description: >-
+    Hours of operation for a POI (Points of Interest). The availability of hours of operation will vary based on the data available.
+
+    Supported value: nextSevenDays
   kind: enum
   properties:
   - name: nextSevenDays
-    description: Shows the opening hours for next week, starting with the current day in the local time of the POI.
+    description: Shows the hours of operation for the next week, starting with the current day in the local time of the POI.
     types:
     - uid: string
 - name: SearchGeometryResponse
@@ -157,14 +168,14 @@ definitions:
     types:
     - uid: SearchGeometryResult
       isArray: true
-- name: ErrorResponse
-  description: This response object is returned when an error occurs in the Maps API
+- name: ODataErrorResponse
+  description: This response object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Maps API
+    description: This object is returned when an error occurs in the Maps API.
     types:
-    - uid: Error
+    - uid: ODataError
 - name: SearchInsideGeometryRequestBody
   description: This type represents the request body for the Search Inside Geometry service.
   kind: object
@@ -237,11 +248,11 @@ definitions:
     types:
     - uid: string
   - name: entityType
-    description: Defines geography entity types.
+    description: Geography entity type. Present only when entityType was requested and is available.
     types:
     - uid: EntityType
   - name: poi
-    description: Details of the poi including the name, phone, url, and categories.
+    description: Details of the returned POI including information such as the name, phone, url address, and classifications.
     types:
     - uid: SearchResultPoi
   - name: address
@@ -261,13 +272,13 @@ definitions:
     types:
     - uid: SearchResultEntryPoint
       isArray: true
-- name: Error
-  description: This object is returned when an error occurs in the Maps API
+- name: ODataError
+  description: This object is returned when an error occurs in the Maps API.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The HTTP status code.
+    description: The ODataError code.
     types:
     - uid: string
   - name: message
@@ -275,8 +286,18 @@ definitions:
     description: If available, a human readable description of the error.
     types:
     - uid: string
+  - name: details
+    description: This object is returned when an error occurs in the Maps API.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: target
+    isReadyOnly: true
+    description: If available, the target causing the error.
+    types:
+    - uid: string
 - name: EntityType
-  description: Defines geography entity types.
+  description: Geography entity type. Present only when entityType was requested and is available.
   kind: enum
   properties:
   - name: Country
@@ -312,24 +333,30 @@ definitions:
     types:
     - uid: string
 - name: SearchResultPoi
-  description: Details of the poi including the name, phone, url, and categories.
+  description: Details of the returned POI including information such as the name, phone, url address, and classifications.
   kind: object
   properties:
   - name: name
     isReadyOnly: true
-    description: Name property
+    description: Name of the POI property
     types:
     - uid: string
   - name: phone
     isReadyOnly: true
-    description: Phone property
+    description: Telephone number property
     types:
     - uid: string
   - name: url
     isReadyOnly: true
-    description: URL property
+    description: Website URL property
     types:
     - uid: string
+  - name: categorySet
+    isReadyOnly: true
+    description: The list of the most specific POI categories
+    types:
+    - uid: SearchResultPoiCategorySet
+      isArray: true
   - name: categories
     isReadyOnly: true
     description: __[Deprecated]__ Use classifications instead. Categories array
@@ -344,10 +371,14 @@ definitions:
       isArray: true
   - name: brands
     isReadyOnly: true
-    description: Brands array
+    description: Brands array. The name of the brand for the POI being returned.
     types:
     - uid: SearchResultPoiBrand
       isArray: true
+  - name: openingHours
+    description: Opening hours for a POI (Points of Interest).
+    types:
+    - uid: SearchResultPoiOpeningHours
 - name: SearchResultAddress
   description: The address of the result
   kind: object
@@ -445,7 +476,7 @@ definitions:
     - uid: string
   - name: countrySubdivisionName
     isReadyOnly: true
-    description: Country Subdividion Name property
+    description: Country Subdivision Name property
     types:
     - uid: string
   - name: localName
@@ -494,6 +525,15 @@ definitions:
     description: A location represented as a latitude and longitude.
     types:
     - uid: CoordinateAbbreviated
+- name: SearchResultPoiCategorySet
+  description: POI category
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Category ID
+    types:
+    - uid: integer
 - name: SearchResultPoiClassification
   description: The classification for the POI being returned
   kind: object
@@ -518,6 +558,21 @@ definitions:
     description: Name of the brand
     types:
     - uid: string
+- name: SearchResultPoiOpeningHours
+  description: Opening hours for a POI (Points of Interest).
+  kind: object
+  properties:
+  - name: mode
+    isReadyOnly: true
+    description: Value used in the Request
+    types:
+    - uid: string
+  - name: timeRanges
+    isReadyOnly: true
+    description: List of time ranges for the next 7 days
+    types:
+    - uid: SearchResultPoiOpeningHoursTimeRange
+      isArray: true
 - name: SearchResultPoiClassificationName
   description: Name for the classification
   kind: object
@@ -532,6 +587,37 @@ definitions:
     description: Name property
     types:
     - uid: string
+- name: SearchResultPoiOpeningHoursTimeRange
+  description: Open time range for a day
+  kind: object
+  properties:
+  - name: startTime
+    description: The point in the next 7 days range when a given POI is being opened, or the beginning of the range if it was opened before the range.
+    types:
+    - uid: SearchResultPoiOpeningHoursTimeRangeTime
+  - name: endTime
+    description: The point in the next 7 days range when a given POI is being closed, or the beginning of the range if it was closed before the range.
+    types:
+    - uid: SearchResultPoiOpeningHoursTimeRangeTime
+- name: SearchResultPoiOpeningHoursTimeRangeTime
+  description: Represents a date and time
+  kind: object
+  properties:
+  - name: date
+    isReadyOnly: true
+    description: Represents current day in calendar year in POI time zone.
+    types:
+    - uid: string
+  - name: hour
+    isReadyOnly: true
+    description: Hours are in the 24 hour format in the local time of a POI; possible values are 0 - 23.
+    types:
+    - uid: integer
+  - name: minute
+    isReadyOnly: true
+    description: Minutes are in the local time of a POI; possible values are 0 - 59.
+    types:
+    - uid: integer
 examples:
 - name: Search for pizza places inside a geometry represented as a GeoJSON FeatureCollection type
   request:
@@ -611,11 +697,12 @@ examples:
             "poi": {
               "name": "Tutta Bella",
               "phone": "+(1)-(425)-5027402",
-              "url": "TuttaBella.com",
-              "categories": [
-                "pizza",
-                "restaurant"
+              "categorySet": [
+                {
+                  "id": 7315036
+                }
               ],
+              "url": "TuttaBella.com",
               "classifications": [
                 {
                   "code": "RESTAURANT",
@@ -680,9 +767,10 @@ examples:
             "poi": {
               "name": "Q & S Food Co LLC",
               "phone": "+(1)-(425)-7464764",
-              "categories": [
-                "pizza",
-                "restaurant"
+              "categorySet": [
+                {
+                  "id": 7315036
+                }
               ],
               "classifications": [
                 {
@@ -865,6 +953,11 @@ examples:
                   "name": "Mod Pizza"
                 }
               ],
+              "categorySet": [
+                {
+                  "id": 7315036
+                }
+              ],
               "url": "https://modpizza.com/locations/bellevue-overlake",
               "classifications": [
                 {
@@ -933,6 +1026,11 @@ examples:
               "brands": [
                 {
                   "name": "Pizza Hut"
+                }
+              ],
+              "categorySet": [
+                {
+                  "id": 7315036
                 }
               ],
               "url": "www.pizzahut.com",
@@ -1091,6 +1189,11 @@ examples:
                   "name": "Mod Pizza"
                 }
               ],
+              "categorySet": [
+                {
+                  "id": 7315036
+                }
+              ],
               "url": "https://modpizza.com/locations/bellevue-overlake",
               "classifications": [
                 {
@@ -1159,6 +1262,11 @@ examples:
               "brands": [
                 {
                   "name": "Pizza Hut"
+                }
+              ],
+              "categorySet": [
+                {
+                  "id": 7315036
                 }
               ],
               "url": "www.pizzahut.com",

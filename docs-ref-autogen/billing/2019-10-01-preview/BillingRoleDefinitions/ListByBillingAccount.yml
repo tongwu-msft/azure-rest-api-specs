@@ -4,7 +4,7 @@ name: List By Billing Account
 service: Billing
 groupName: Billing Role Definitions
 apiVersion: 2019-10-01-preview
-summary: Lists the role definitions for a billing account. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+summary: Lists the role definitions for a billing account. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement, Microsoft Customer Agreement or Enterprise Agreement.
 consumes:
 - application/json
 produces:
@@ -45,6 +45,11 @@ definitions:
     types:
     - uid: BillingRoleDefinition
       isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
@@ -106,6 +111,12 @@ definitions:
     description: The target of the particular error.
     types:
     - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The sub details of the error.
+    types:
+    - uid: ErrorSubDetails
+      isArray: true
 - name: BillingPermissionsProperties
   description: The set of allowed action and not allowed actions a caller has on a billing account
   kind: object
@@ -122,6 +133,24 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: ErrorSubDetails
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
 examples:
 - name: BillingAccountRoleDefinitionsList
   request:
@@ -278,6 +307,72 @@ examples:
               "roleName": "project_creator"
             },
             "type": "Microsoft.Billing/billingRoleDefinitions"
+          }
+        ]
+      }
+- name: BillingAccountEaRoleDefinitionsList
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingRoleDefinitions?api-version=2019-10-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/8608480/billingRoleDefinitions/9f1983cb-2574-400c-87e9-34cf8e2280db",
+            "name": "9f1983cb-2574-400c-87e9-34cf8e2280db",
+            "properties": {
+              "description": "The enrollment administrator role gives the user all permissions including access management rights to an Enrollment and its departments and accounts.",
+              "permissions": [
+                {
+                  "actions": [
+                    "Microsoft.Billing/billingAccounts/read",
+                    "Microsoft.Billing/billingAccounts/write",
+                    "Microsoft.Billing/billingAccounts/action",
+                    "Microsoft.Billing/billingAccounts/enrollmentPolicies/read",
+                    "Microsoft.Billing/billingAccounts/enrollmentPolicies/write",
+                    "Microsoft.Billing/billingAccounts/enrollmentPolicies/action",
+                    "Microsoft.Billing/billingAccounts/enrollmentNotificationContacts/read",
+                    "Microsoft.Billing/billingAccounts/enrollmentNotificationContacts/write",
+                    "Microsoft.Billing/billingAccounts/enrollmentNotificationContacts/action",
+                    "Microsoft.Billing/billingAccounts/departments/read",
+                    "Microsoft.Billing/billingAccounts/departments/write",
+                    "Microsoft.Billing/billingAccounts/departments/action",
+                    "Microsoft.Billing/billingAccounts/departments/delete",
+                    "Microsoft.Billing/billingAccounts/enrollmentAccounts/read",
+                    "Microsoft.Billing/billingAccounts/enrollmentAccounts/write",
+                    "Microsoft.Billing/billingAccounts/enrollmentAccounts/action",
+                    "Microsoft.Billing/billingAccounts/enrollmentAccounts/delete",
+                    "Microsoft.Billing/billingAccounts/enrollmentAccounts/billingSubscriptions/read",
+                    "Microsoft.Billing/billingAccounts/enrollmentAccounts/billingSubscriptions/write",
+                    "Microsoft.Billing/billingAccounts/enrollmentAccounts/billingSubscriptions/action"
+                  ]
+                }
+              ],
+              "roleName": "Enrollment administrator"
+            },
+            "type": "Microsoft.Billing/billingAccounts/billingRoleDefinitions"
+          },
+          {
+            "id": "/providers/Microsoft.Billing/billingAccounts/8608480/billingRoleDefinitions/24f8edb6-1668-4659-b5e2-40bb5f3a7d7e",
+            "name": "24f8edb6-1668-4659-b5e2-40bb5f3a7d7e",
+            "properties": {
+              "description": "The enrollment reader role gives the user read-only permissions to an Enrollment and its departments and accounts.",
+              "permissions": [
+                {
+                  "actions": [
+                    "Microsoft.Billing/billingAccounts/read",
+                    "Microsoft.Billing/billingAccounts/enrollmentPolicies/read",
+                    "Microsoft.Billing/billingAccounts/enrollmentNotificationContacts/read",
+                    "Microsoft.Billing/billingAccounts/departments/read",
+                    "Microsoft.Billing/billingAccounts/enrollmentAccounts/read",
+                    "Microsoft.Billing/billingAccounts/enrollmentAccounts/billingSubscriptions/read"
+                  ]
+                }
+              ],
+              "roleName": "Enrollment reader"
+            },
+            "type": "Microsoft.Billing/billingAccounts/billingRoleDefinitions"
           }
         ]
       }

@@ -3,14 +3,14 @@ uid: management.azure.com.peering.registeredprefixes.listbypeering
 name: List By Peering
 service: Peering
 groupName: Registered Prefixes
-apiVersion: 2020-01-01-preview
+apiVersion: 2020-04-01
 summary: Lists all registered prefixes under the given subscription, resource group and peering.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredPrefixes?api-version=2020-01-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredPrefixes?api-version=2020-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -64,16 +64,10 @@ definitions:
   description: The error response that indicates why an operation has failed.
   kind: object
   properties:
-  - name: code
-    isReadyOnly: true
-    description: The error code.
+  - name: error
+    description: The error detail that describes why an operation has failed.
     types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
+    - uid: ErrorDetail
 - name: PeeringRegisteredPrefix
   description: The customer's prefix that is registered by the peering service provider.
   kind: object
@@ -115,6 +109,20 @@ definitions:
   - name: type
     isReadyOnly: true
     description: The type of the resource.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail that describes why an operation has failed.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
 - name: prefixValidationState
@@ -161,7 +169,7 @@ definitions:
 examples:
 - name: List all the registered prefixes associated with the peering
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName/registeredPrefixes?api-version=2020-01-01-preview
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName/registeredPrefixes?api-version=2020-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -170,30 +178,33 @@ examples:
           {
             "properties": {
               "prefix": "10.22.20.0/24",
+              "prefixValidationState": "Verified",
               "peeringServicePrefixKey": "00000000-0000-0000-0000-000000000000",
               "provisioningState": "Succeeded"
             },
             "name": "registeredPrefixName0",
-            "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.Peering/peerings/myPeering/registeredPrefixes/myRegisteredPrefix0",
+            "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName/registeredPrefixes/registeredPrefixName0",
             "type": "Microsoft.Peering/registeredPrefixes"
           },
           {
             "properties": {
               "prefix": "10.22.21.0/24",
+              "prefixValidationState": "Verified",
               "peeringServicePrefixKey": "00000000-0000-0000-0000-000000000000",
               "provisioningState": "Succeeded"
             },
             "name": "registeredPrefixName1",
-            "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.Peering/peerings/myPeering/registeredPrefixes/myRegisteredPrefix1",
+            "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName/registeredPrefixes/registeredPrefixName1",
             "type": "Microsoft.Peering/registeredPrefixes"
           },
           {
             "properties": {
               "prefix": "10.22.22.0/24",
+              "prefixValidationState": "Pending",
               "provisioningState": "Succeeded"
             },
             "name": "registeredPrefixName2",
-            "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.Peering/peerings/myPeering/registeredPrefixes/myRegisteredPrefix2",
+            "id": "/subscriptions/subId/resourceGroups/rgName/providers/Microsoft.Peering/peerings/peeringName/registeredPrefixes/registeredPrefixName2",
             "type": "Microsoft.Peering/registeredPrefixes"
           }
         ]

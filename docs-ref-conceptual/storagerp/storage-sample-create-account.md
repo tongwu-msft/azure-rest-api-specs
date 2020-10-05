@@ -1,14 +1,14 @@
 ---
-title: Create an Azure Storage account using the REST APIs | Microsoft Docs
+title: Create an Azure Storage account using the REST APIs
 description: Use REST APIs to create a new Azure Storage account.
 service: storage
 author: tamram
+
 ms.reviewer: routlaw
-manager: twooley
 ms.service: storage
 ms.custom: REST
 ms.topic: article
-ms.date: 6/6/2017
+ms.date: 04/22/2020
 ms.author: tamram
 ---
 
@@ -16,7 +16,7 @@ ms.author: tamram
 
 This sample shows how to create a new [Azure Storage Account](/azure/storage/common/storage-introduction) using the [Azure REST API](/rest/api/azure/).
 
-Complete reference documention and additional samples are available in the [Azure Storage Services REST API Reference](/rest/api/storagerp/).
+Complete reference documentation and additional samples are available in the [Storage Resource Provider REST API Reference](/rest/api/storagerp/).
 
 ## Build the request
 
@@ -28,7 +28,7 @@ PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{
 
 ### Request headers
 
-The following headers are required: 
+The following headers are required:
 
 |Request header|Description|  
 |--------------------|-----------------|  
@@ -39,7 +39,7 @@ The following headers are required:
 
 | Name | Description |
 | :--- | :---------- |
-| subscriptionId | The subscription ID that identifies an Azure subscription. If you have multiple subscriptions, see [Working with multiple subscriptions](/cli/azure/manage-azure-subscriptions-azure-cli) |
+| subscriptionId | The subscription ID that identifies an Azure subscription. If you have multiple subscriptions, see [Working with multiple subscriptions](/cli/azure/manage-azure-subscriptions-azure-cli). |
 | resourceGroupName | The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API, CLI, or the portal. |
 | accountName | The name of the storage account. Following [naming accounts best practices](/azure/azure-resource-manager/management/resource-name-rules#microsoftstorage) is recommended.  |
 | api-version | The API version to use for the request.<br /><br /> This document covers api-version `2018-02-01`, included in the above URL.  |

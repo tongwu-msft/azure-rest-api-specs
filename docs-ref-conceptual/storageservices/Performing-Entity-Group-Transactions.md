@@ -21,7 +21,7 @@ The Table service supports batch transactions on entities that are in the same t
   
 -   An entity can appear only once in the transaction, and only one operation may be performed against it.  
   
--   The transaction can include at most 100 entities, and its total payload may be no more than 4 MB in size.  
+-   The transaction can include at most 100 entities, and its total payload may be no more than 4 MiB in size.  
   
 -   All entities are subject to the limitations described in [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md).  
   

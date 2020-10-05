@@ -1,9 +1,9 @@
 ---
 title: Copy Blob From URL (REST API) - Azure Storage
-description: The Copy Blob From URL operation copies a blob to a destination within the storage account synchronously for source blob sizes up to 256 MB. This API is available starting in version 2018-03-28. 
+description: The Copy Blob From URL operation copies a blob to a destination within the storage account synchronously for source blob sizes up to 256 MiB. This API is available starting in version 2018-03-28. 
 author: pemari-msft
 
-ms.date: 09/09/2019
+ms.date: 07/06/2020
 ms.author: pemari-msft
 ms.service: storage
 ms.topic: reference
@@ -11,31 +11,30 @@ ms.topic: reference
 
 # Copy Blob From URL
 
-The `Copy Blob From URL` operation copies a blob to a destination within the storage account synchronously for source blob sizes up to 256 MB. This API is available starting in version 2018-03-28.  
+The `Copy Blob From URL` operation copies a blob to a destination within the storage account synchronously for source blob sizes up to 256 MiB. This API is available starting in version 2018-03-28.  
 
 The source for a Copy Blob From URL operation can be any committed block blob in any Azure storage account which is either public or authorized with a shared access signature.
 
-The size of the source blob can be a maximum length of up to 256 MB.
+The size of the source blob can be a maximum length of up to 256 MiB.
   
 ## Request  
  The `Copy Blob From URL` request may be constructed as follows. HTTPS is recommended. Replace `myaccount` with the name of your storage account, `mycontainer` with the name of your container, and `myblob` with the name of your destination blob.  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob`|HTTP/1.1|  
   
 ### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob`|HTTP/1.1|  
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
 ### URI parameters
 
-  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -52,6 +51,7 @@ The size of the source blob can be a maximum length of up to 256 MB.
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-meta-name:value`|Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination blob. If one or more name-value pairs are specified, the destination blob is created with the specified metadata, and metadata is not copied from the source blob or file.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).  See [Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md) for more information.|  
+|`x-ms-tags`|Optional. Sets the given query-string encoded tags on the blob. Tags are not copied from the copy source. See the Remarks for additional information. Supported in version 2019-12-12 and newer.|  
 |`x-ms-source-if-modified-since`|Optional. A `DateTime` value. Specify this conditional header to copy the blob only if the source blob has been modified since the specified date/time. If the source blob has not been modified, the Blob service returns status code 412 (Precondition Failed). This header cannot be specified if the source is an Azure File.|  
 |`x-ms-source-if-unmodified-since`|Optional. A `DateTime` value. Specify this conditional header to copy the blob only if the source blob has not been modified since the specified date/time. If the source blob has been modified, the Blob service returns status code 412 (Precondition Failed). This header cannot be specified if the source is an Azure File.|  
 |`x-ms-source-if-match`|Optional. An ETag value. Specify this conditional header to copy the source blob only if its ETag matches the value specified. If the ETag values do not match, the Blob service returns status code 412 (Precondition Failed). This header cannot be specified if the source is an Azure File.|  
@@ -60,11 +60,11 @@ The size of the source blob can be a maximum length of up to 256 MB.
 |`If-Unmodified-Since`|Optional. A `DateTime` value. Specify this conditional header to copy the blob only if the destination blob has not been modified since the specified date/time. If the destination blob has been modified, the Blob service returns status code 412 (Precondition Failed).|  
 |`If-Match`|Optional. An ETag value. Specify an ETag value for this conditional header to copy the blob only if the specified ETag value matches the `ETag` value for an existing destination blob. If the ETag for the destination blob does not match the ETag specified for `If-Match`, the Blob service returns status code 412 (Precondition Failed).|  
 |`If-None-Match`|Optional. An ETag value, or the wildcard character (*).<br /><br /> Specify an ETag value for this conditional header to copy the blob only if the specified ETag value does not match the ETag value for the destination blob.<br /><br /> Specify the wildcard character (\*) to perform the operation only if the destination blob does not exist.<br /><br /> If the specified condition isn't met, the Blob service returns status code 412 (Precondition Failed).|  
-|`x-ms-copy-source:name`|Required. Specifies the URL of the source blob. The value may be a URL of up to 2 KB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. The source blob must either be public or must be authorized via a shared access signature. If the source blob is public, no authorization is required to perform the operation. If the size of the source blob is greater than 256 MB, the request will fail with 409 (Conflict). The blob type of the source blob has to be block blob. Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|  
+|`x-ms-copy-source:name`|Required. Specifies the URL of the source blob. The value may be a URL of up to 2 KiB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. The source blob must either be public or must be authorized via a shared access signature. If the source blob is public, no authorization is required to perform the operation. If the size of the source blob is greater than 256 MiB, the request will fail with 409 (Conflict). The blob type of the source blob has to be block blob. Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?versionid=<DateTime>`|  
 |`x-ms-requires-sync:true`|Required. This header indicates that this is a synchronous Copy Blob From URL instead of a Asynchronous Copy Blob.|
 |`x-ms-source-content-md5`|Optional. A MD5 hash of the blob content from the URI. This hash is used to verify the integrity of the blob during transport of the data from the URI. When this header is specified, the storage service compares the hash of the content that has arrived from the copy source with this header value.<br /><br /> Note that this md5 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).|  
 |`x-ms-lease-id:<ID>`|Required if the destination blob has an active lease. The lease ID specified for this header must match the lease ID of the destination blob. If the request does not include the lease ID or it is not valid, the operation fails with status code 412 (Precondition Failed).<br /><br /> If this header is specified and the destination blob does not currently have an active lease, the operation will also fail with status code 412 (Precondition Failed).<br /><br /> In version 2012-02-12 and newer, this value must specify an active, infinite lease for a leased blob. A finite-duration lease ID fails with 412 (Precondition Failed).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests]
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests]
   
 ### Request Body  
  No request body.  
@@ -118,6 +118,8 @@ Date: <date>
 
  Access to the source blob or file is authorized separately, as described in the details for the request header `x-ms-copy-source`. 
   
+ If a request specifies tags with the `x-ms-tags` request header, the caller must meet the authorization requirements of the [Set Blob Tags](Set-Blob-Tags.md) operation.  
+  
 ## Remarks
  The source and destination blob for a copy from URL operation must be a block blob.  
   
@@ -152,6 +154,10 @@ When a block blob is copied, the following system properties are copied to the d
 The source blob's committed block list is also copied to the destination blob. Any uncommitted blocks are not copied.  
   
 The destination blob is always the same size as the source blob, so the value of the `Content-Length` header for the destination blob matches that for the source blob.  
+  
+If tags for the destination blob are provided in the `x-ms-tags` header, they must be query-string encoded. Tag keys and values must conform to the naming and length requirements as specified in Set Blob Tags. Further, the `x-ms-tags` header may contain up to 2kb of tags. If more tags are required, use the [Set Blob Tags](Set-Blob-Tags.md) operation.  
+  
+If tags are not provided in the `x-ms-tags` header, then they are not copied from the source blob.  
   
 **Copying a Leased Blob**  
   

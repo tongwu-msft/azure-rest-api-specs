@@ -3,15 +3,15 @@ uid: management.azure.com.virtualnetwork.subnets.get
 name: Get
 service: Virtual Networks
 groupName: Subnets
-apiVersion: 2020-03-01
+apiVersion: 2020-05-01
 summary: Gets the specified subnet by virtual network and resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}?api-version=2020-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}?api-version=2020-03-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}?api-version=2020-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}?api-version=2020-05-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -1622,6 +1622,11 @@ definitions:
     description: Type of the resource.
     types:
     - uid: string
+  - name: properties.loadBalancerBackendAddresses
+    description: An array of backend addresses.
+    types:
+    - uid: LoadBalancerBackendAddress
+      isArray: true
   - name: properties.backendIPConfigurations
     isReadyOnly: true
     description: An array of references to IP addresses defined in network interfaces.
@@ -1877,6 +1882,27 @@ definitions:
     description: IP address.
     types:
     - uid: string
+- name: LoadBalancerBackendAddress
+  description: Load balancer backend addresses.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the backend address.
+    types:
+    - uid: string
+  - name: properties.virtualNetwork
+    description: Reference to an existing virtual network.
+    types:
+    - uid: SubResource
+  - name: properties.ipAddress
+    description: IP Address belonging to the referenced virtual network.
+    types:
+    - uid: string
+  - name: properties.networkInterfaceIPConfiguration
+    isReadyOnly: true
+    description: Reference to IP address defined in network interfaces.
+    types:
+    - uid: SubResource
 - name: TransportProtocol
   description: The transport protocol for the endpoint.
   kind: enum
@@ -1893,7 +1919,7 @@ definitions:
 examples:
 - name: Get subnet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1907,7 +1933,7 @@ examples:
       }
 - name: Get subnet with a delegation
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-

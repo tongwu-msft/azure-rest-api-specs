@@ -1,7 +1,7 @@
 ---
 title: "Azure NetApp Files REST API"
 ms.custom: na
-ms.date: 07/30/2019
+ms.date: 04/21/2020
 ms.prod: azure-netapp-files
 ms.reviewer: na
 ms.service: storage
@@ -12,7 +12,7 @@ author: b-juche
 manager: na
 ---
 # Azure NetApp Files REST API
-The Azure NetApp Files service is an enterprise-class, high-performant, metered file storage service. It offers the following resources: NetApp accounts, mount targets, capacity pools, snapshots, and volumes. 
+The Azure NetApp Files service is an enterprise-class, high-performant, metered file storage service. It offers several resources that you can manage by using REST API. 
 
 ## REST operation groups
 
@@ -20,9 +20,9 @@ The REST API for the Azure NetApp Files service defines HTTP operations against 
 
 |Operation|Resource Type|Description|  
 |---------------|-------------------|-----------------|  
-|[List Operations](https://docs.microsoft.com/rest/api/netapp/operations/list) |N/A |Lists all available Microsoft.NetApp Rest API operations |
 |[Accounts](https://docs.microsoft.com/rest/api/netapp/accounts) |NetApp account |Manage and provide information about NetApp accounts |
-|[Mount Targets](https://docs.microsoft.com/rest/api/netapp/mounttargets) |Mount target |Manage and provide information about mount targets |
+|[NetApp Resource](https://docs.microsoft.com/rest/api/netapp/netappresource) |NetApp resource |Manage and provide information about Azure NetApp Files resources, including whether a file path or resource name is available |
+|[Operations - List](https://docs.microsoft.com/rest/api/netapp/operations/list) |Operations |Describe the Resource Provider and list all available Microsoft.NetApp Rest API operations |
 |[Pools](https://docs.microsoft.com/rest/api/netapp/pools) |Capacity pool |Manage and provide information about capacity pools in the NetApp account |
 |[Snapshots](https://docs.microsoft.com/rest/api/netapp/snapshots) |Snapshot |Manage and provide information about snapshots |
 |[Volumes](https://docs.microsoft.com/rest/api/netapp/volumes) |Volume |Manage and provide information about volumes |

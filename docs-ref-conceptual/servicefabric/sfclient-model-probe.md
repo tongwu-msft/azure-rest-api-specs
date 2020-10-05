@@ -1,6 +1,6 @@
 ---
 title: "Probe"
-ms.date: "11/23/2019"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -46,6 +46,7 @@ ____
 ### `initialDelaySeconds`
 __Type__: integer <br/>
 __Required__: No<br/>
+__Default__: `0` <br/>
 <br/>
 The initial delay in seconds to start executing probe once codepackage has started.
 
@@ -53,6 +54,7 @@ ____
 ### `periodSeconds`
 __Type__: integer <br/>
 __Required__: No<br/>
+__Default__: `10` <br/>
 <br/>
 Periodic seconds to execute probe.
 
@@ -60,6 +62,7 @@ ____
 ### `timeoutSeconds`
 __Type__: integer <br/>
 __Required__: No<br/>
+__Default__: `1` <br/>
 <br/>
 Period after which probe is considered as failed if it hasn't completed successfully.
 
@@ -67,6 +70,7 @@ ____
 ### `successThreshold`
 __Type__: integer <br/>
 __Required__: No<br/>
+__Default__: `1` <br/>
 <br/>
 The count of succcessful probe executions after which probe is considered success.
 
@@ -74,6 +78,7 @@ ____
 ### `failureThreshold`
 __Type__: integer <br/>
 __Required__: No<br/>
+__Default__: `3` <br/>
 <br/>
 The count of failures after which probe is considered failed.
 

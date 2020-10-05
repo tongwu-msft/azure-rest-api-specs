@@ -3,14 +3,14 @@ uid: management.azure.com.load-balancer.loadbalancerbackendaddresspools.get
 name: Get
 service: Load balancer
 groupName: Load Balancer Backend Address Pools
-apiVersion: 2020-03-01
+apiVersion: 2020-05-01
 summary: Gets load balancer backend address pool.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}?api-version=2020-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}?api-version=2020-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -71,6 +71,11 @@ definitions:
     description: Type of the resource.
     types:
     - uid: string
+  - name: properties.loadBalancerBackendAddresses
+    description: An array of backend addresses.
+    types:
+    - uid: LoadBalancerBackendAddress
+      isArray: true
   - name: properties.backendIPConfigurations
     isReadyOnly: true
     description: An array of references to IP addresses defined in network interfaces.
@@ -111,6 +116,27 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
+- name: LoadBalancerBackendAddress
+  description: Load balancer backend addresses.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the backend address.
+    types:
+    - uid: string
+  - name: properties.virtualNetwork
+    description: Reference to an existing virtual network.
+    types:
+    - uid: SubResource
+  - name: properties.ipAddress
+    description: IP Address belonging to the referenced virtual network.
+    types:
+    - uid: string
+  - name: properties.networkInterfaceIPConfiguration
+    isReadyOnly: true
+    description: Reference to IP address defined in network interfaces.
+    types:
+    - uid: SubResource
 - name: NetworkInterfaceIPConfiguration
   description: IPConfiguration in a network interface.
   kind: object
@@ -1886,7 +1912,7 @@ definitions:
 examples:
 - name: LoadBalancerBackendAddressPoolGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/backend?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/backend?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1900,6 +1926,46 @@ examples:
           "backendIPConfigurations": [
             {
               "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/networkInterfaces/nic/ipConfigurations/default-ip-config"
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+            }
+          ]
+        }
+      }
+- name: LoadBalancer with BackendAddressPool with BackendAddresses
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/backend?api-version=2020-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "backend",
+        "id": "/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/backend",
+        "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
+        "type": "Microsoft.Network/loadBalancers/backendAddressPools",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "loadBalancerBackendAddresses": [
+            {
+              "name": "address1",
+              "properties": {
+                "virtualNetwork": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb"
+                },
+                "ipAddress": "10.0.0.4"
+              }
+            },
+            {
+              "name": "address2",
+              "properties": {
+                "virtualNetwork": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb"
+                },
+                "ipAddress": "10.0.0.5"
+              }
             }
           ],
           "loadBalancingRules": [

@@ -1,10 +1,10 @@
 ### YamlMime:RESTOperation
-uid: api.preview.iotcentral.devicetemplates.set
+uid: apps.azureiotcentral.com.api.preview.iotcentral.devicetemplates.set
 name: Set
 service: IoT Central
 groupName: Device Templates
 apiVersion: preview
-summary: Create or update a device template
+summary: Publish a new device template or update the cloud properties and overrides of an existing device template. Default views will be automatically generated for new device templates created this way.
 consumes:
 - application/json
 produces:
@@ -15,7 +15,7 @@ uriParameters:
 - name: subdomain
   in: path
   isRequired: true
-  description: Application subdomain.
+  description: The application subdomain.
   types:
   - uid: string
 - name: centralDnsSuffixInPath
@@ -102,15 +102,15 @@ definitions:
     description: Developer comment about the entity.
     types:
     - uid: string
+  - name: contents
+    description: The data definitions contained by the interface.
+    types:
+    - uid: Capability
+      isArray: true
   - name: implements
     description: The component implemented by the capability model.
     types:
     - uid: Component
-      isArray: true
-  - name: contents
-    description: The relationships contained by the capability model.
-    types:
-    - uid: Capability
       isArray: true
 - name: SolutionModel
   kind: object
@@ -188,42 +188,6 @@ definitions:
     description: The solution model utilized by this device template.
     types:
     - uid: SolutionModel
-- name: Component
-  kind: object
-  properties:
-  - name: '@context'
-    description: JSON-LD context for the entity.
-    types:
-    - {}
-  - name: '@id'
-    description: Unique ID of the entity.
-    types:
-    - uid: string
-  - name: '@type'
-    description: Type of the entity.
-    types:
-    - uid: string
-      isArray: true
-  - name: displayName
-    description: Display name of the entity.
-    types:
-    - uid: string
-  - name: description
-    description: Detailed description of the entity.
-    types:
-    - uid: string
-  - name: comment
-    description: Developer comment about the entity.
-    types:
-    - uid: string
-  - name: name
-    description: The programmatic name of the named entity.
-    types:
-    - uid: string
-  - name: schema
-    description: The interface used by this component.
-    types:
-    - uid: Interface
 - name: Capability
   kind: object
   properties:
@@ -271,7 +235,9 @@ definitions:
   - name: commandType
     description: The call pattern of this command.
     types:
-    - uid: CommandTypes
+    - uid: synchronous
+    - uid: asynchronous
+    typesTitle: enum
   - name: request
     description: The request definition for this command.
     types:
@@ -287,12 +253,48 @@ definitions:
   - name: target
     description: The target capability models for this relationship.
     types:
-    - uid: string
+    - uid: Target
       isArray: true
   - name: maxMultiplicity
     description: The maximum multiplicity for this relationship.
     types:
     - uid: integer
+- name: Component
+  kind: object
+  properties:
+  - name: '@context'
+    description: JSON-LD context for the entity.
+    types:
+    - {}
+  - name: '@id'
+    description: Unique ID of the entity.
+    types:
+    - uid: string
+  - name: '@type'
+    description: Type of the entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: displayName
+    description: Display name of the entity.
+    types:
+    - uid: string
+  - name: description
+    description: Detailed description of the entity.
+    types:
+    - uid: string
+  - name: comment
+    description: Developer comment about the entity.
+    types:
+    - uid: string
+  - name: name
+    description: The programmatic name of the named entity.
+    types:
+    - uid: string
+  - name: schema
+    description: The interface used by this component.
+    types:
+    - uid: Interface
 - name: InitialValue
   kind: object
   properties:
@@ -377,49 +379,6 @@ definitions:
     description: Visualization details for the referenced capability.
     types:
     - uid: ValueDetail
-- name: Interface
-  kind: object
-  properties:
-  - name: '@context'
-    description: JSON-LD context for the entity.
-    types:
-    - {}
-  - name: '@id'
-    description: Unique ID of the entity.
-    types:
-    - uid: string
-  - name: '@type'
-    description: Type of the entity.
-    types:
-    - uid: string
-      isArray: true
-  - name: displayName
-    description: Display name of the entity.
-    types:
-    - uid: string
-  - name: description
-    description: Detailed description of the entity.
-    types:
-    - uid: string
-  - name: comment
-    description: Developer comment about the entity.
-    types:
-    - uid: string
-  - name: contents
-    description: The data definitions contained by the interface.
-    types:
-    - uid: Capability
-      isArray: true
-- name: CommandTypes
-  description: The call pattern of this command.
-  kind: enum
-  properties:
-  - name: synchronous
-    types:
-    - uid: string
-  - name: asynchronous
-    types:
-    - uid: string
 - name: SchemaField
   kind: object
   properties:
@@ -464,6 +423,39 @@ definitions:
     description: The unit of this field.
     types:
     - uid: string
+- name: Interface
+  kind: object
+  properties:
+  - name: '@context'
+    description: JSON-LD context for the entity.
+    types:
+    - {}
+  - name: '@id'
+    description: Unique ID of the entity.
+    types:
+    - uid: string
+  - name: '@type'
+    description: Type of the entity.
+    types:
+    - uid: string
+      isArray: true
+  - name: displayName
+    description: Display name of the entity.
+    types:
+    - uid: string
+  - name: description
+    description: Detailed description of the entity.
+    types:
+    - uid: string
+  - name: comment
+    description: Developer comment about the entity.
+    types:
+    - uid: string
+  - name: contents
+    description: The data definitions contained by the interface.
+    types:
+    - uid: Capability
+      isArray: true
 - name: CapabilityReference
   kind: object
   properties:
@@ -543,7 +535,10 @@ definitions:
   - name: severity
     description: Specifies the severity of the event.
     types:
-    - uid: EventSeverity
+    - uid: error
+    - uid: warning
+    - uid: information
+    typesTitle: enum
   - name: decimalPlaces
     description: The number of decimal places that should be displayed for the number.
     types:
@@ -565,22 +560,9 @@ definitions:
     types:
     - uid: integer
   - name: trimWhitespace
-    description: Specifies the visual and storage treatment of white spaces in the string.
+    description: Specifies the visual and storage treatment of whitespaces in the string.
     types:
     - uid: boolean
-- name: EventSeverity
-  description: Specifies the severity of the event.
-  kind: enum
-  properties:
-  - name: error
-    types:
-    - uid: string
-  - name: warning
-    types:
-    - uid: string
-  - name: information
-    types:
-    - uid: string
 examples:
 - name: Create a device template
   request:
@@ -620,7 +602,7 @@ examples:
                     "displayName": "Temperature",
                     "name": "Temperature",
                     "schema": "double",
-                    "unit": "Units/Temperature/celsius"
+                    "unit": "celsius"
                   },
                   {
                     "@id": "urn:storeAnalyticsCheckoutPnp:Interface:Humidity:1",
@@ -631,7 +613,7 @@ examples:
                     "displayName": "Humidity",
                     "name": "Humidity",
                     "schema": "double",
-                    "unit": "Units/Humidity/percent"
+                    "unit": "percent"
                   },
                   {
                     "@id": "urn:storeAnalyticsCheckoutPnp:Interface:Occupancy:1",
@@ -691,7 +673,7 @@ examples:
                     "displayName": "Temperature",
                     "name": "Temperature",
                     "schema": "double",
-                    "unit": "Units/Temperature/celsius"
+                    "unit": "celsius"
                   },
                   {
                     "@id": "urn:storeAnalyticsCheckoutPnp:Interface:Humidity:1",
@@ -702,7 +684,7 @@ examples:
                     "displayName": "Humidity",
                     "name": "Humidity",
                     "schema": "double",
-                    "unit": "Units/Humidity/percent"
+                    "unit": "percent"
                   },
                   {
                     "@id": "urn:storeAnalyticsCheckoutPnp:Interface:Occupancy:1",

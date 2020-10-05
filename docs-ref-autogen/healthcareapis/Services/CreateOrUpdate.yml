@@ -117,10 +117,24 @@ definitions:
     description: The settings for the CORS configuration of the service instance.
     types:
     - uid: ServiceCorsConfigurationInfo
+  - name: exportConfiguration
+    description: The settings for the export operation of the service instance.
+    types:
+    - uid: ServiceExportConfigurationInfo
 - name: Identity
   description: Setting indicating whether the service has a managed identity associated with it.
   kind: object
   properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of the resource.
+    types:
+    - uid: string
   - name: type
     description: Type of identity being specified, currently SystemAssigned and None are allowed.
     types:
@@ -270,6 +284,14 @@ definitions:
     description: If credentials are allowed via CORS.
     types:
     - uid: boolean
+- name: ServiceExportConfigurationInfo
+  description: Export operation configuration information
+  kind: object
+  properties:
+  - name: storageAccountName
+    description: The name of the default export storage account.
+    types:
+    - uid: string
 - name: ManagedServiceIdentityType
   description: Type of identity being specified, currently SystemAssigned and None are allowed.
   kind: enum
@@ -355,7 +377,13 @@ examples:
             ],
             "maxAge": 1440,
             "allowCredentials": false
+          },
+          "exportConfiguration": {
+            "storageAccountName": "existingStorageAccount"
           }
+        },
+        "identity": {
+          "type": "SystemAssigned"
         }
       }
   responses:
@@ -404,7 +432,15 @@ examples:
             ],
             "maxAge": 1440,
             "allowCredentials": false
+          },
+          "exportConfiguration": {
+            "storageAccountName": "existingStorageAccount"
           }
+        },
+        "identity": {
+          "principalId": "03fe6ae0-952c-4e4b-954b-cc0364dd252e",
+          "tenantId": "72f988bf-86f1-41af-91ab-2d8cd011db47",
+          "type": "SystemAssigned"
         }
       }
   - statusCode: "201"
@@ -452,7 +488,15 @@ examples:
             ],
             "maxAge": 1440,
             "allowCredentials": false
+          },
+          "exportConfiguration": {
+            "storageAccountName": "existingStorageAccount"
           }
+        },
+        "identity": {
+          "principalId": "03fe6ae0-952c-4e4b-954b-cc0364dd252e",
+          "tenantId": "72f988bf-86f1-41af-91ab-2d8cd011db47",
+          "type": "SystemAssigned"
         }
       }
 - name: Create or Update a service with minimum parameters

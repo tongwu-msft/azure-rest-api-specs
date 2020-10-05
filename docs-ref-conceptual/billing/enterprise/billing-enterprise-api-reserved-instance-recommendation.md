@@ -6,11 +6,15 @@ ms.reviewer: prkumar
 tags: billing
 ms.service: cost-management-billing
 ms.topic: article
-ms.date: 08/06/2019
+ms.date: 06/22/2020
 ms.author: banders
 
 ---
 # Reserved instance purchase recommendation APIs for enterprise customers
+
+> [!Note]
+> Microsoft no longer updates the Enterprise Reporting APIs. Instead, you should use [Azure Consumption](/rest/api/consumption) APIs.
+> The Azure Billing - Reserved Instance Recommendations API is replaced by the [Azure Consumption - Reservation Recommendations](/rest/api/consumption/reservationrecommendations).
 
 The Reserved Instance recommendations API looks at Customer's 7, 30 or 60 days virtual machine usage and offers Single and Shared Purchase recommendations.
 

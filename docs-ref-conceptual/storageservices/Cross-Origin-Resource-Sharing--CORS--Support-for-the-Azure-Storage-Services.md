@@ -3,7 +3,7 @@ title: Cross-Origin Resource Sharing (CORS) support for Azure Storage
 description: CORS is an HTTP feature that enables a web application running under one domain to access resources in another domain. You can set CORS rules individually for each of the Azure Storage services. When CORS rules are set, then a properly authorized request made against the service from a different domain will be evaluated to determine whether it is allowed according to the rules you have specified.
 author: tamram
 
-ms.date: 09/09/2019
+ms.date: 07/06/2020
 ms.author: tamram
 ms.service: storage
 ms.topic: reference
@@ -85,7 +85,7 @@ The following limitations apply to CORS rules:
   
 - You can specify up to five CORS rules per storage service (Blob, File, Table, and Queue).  
   
-- The maximum size of all CORS rules settings on the request, excluding XML tags, should not exceed 2 KB.  
+- The maximum size of all CORS rules settings on the request, excluding XML tags, should not exceed 2 KiB.  
   
 - The length of an allowed header, exposed header, or allowed origin should not exceed 256 characters.  
   
@@ -142,10 +142,8 @@ The following example shows a partial request body for an operation to set CORS 
   
  Next, consider the following CORS requests:  
   
-||||||  
+|Method|Origin|Request headers|Rule Match|Result|
 |-|-|-|-|-|  
-|`Request`|`Request`|`Request`|`Response`|`Response`|  
-|`Method`|`Origin`|`Request headers`|`Rule Match`|`Result`|  
 |**PUT**|`http://www.contoso.com`|`x-ms-blob-content-type`|First rule|Success|  
 |**GET**|`http://www.contoso.com`|`x-ms-blob-content-type`|Second rule|Success|  
 |**GET**|`http://www.contoso.com`|`x-ms-client-request-id`|Second rule|Failure|  
@@ -177,10 +175,8 @@ Note that for requests using methods other than GET/HEAD, the storage services w
   
 The following table indicates how Azure storage will respond to GET/HEAD requests based on the previously mentioned cases:  
   
-||||||||  
-|-|-|-|-|-|-|-|  
-|**Request**|**Account setting and result of rule evaluation**|**Account setting and result of rule evaluation**|**Account setting and result of rule evaluation**|**Response**|**Response**|**Response**|  
 |**Origin header present on request**|**CORS rule(s) specified for this service**|**Matching  rule exists that allows all origins (\*)**|**Matching rule exists for exact origin match**|**Response includes Vary header set to Origin**|**Response includes Access-Control-Allowed-Origin: "\*"**|**Response includes Access-Control-Exposed-Headers**|  
+|-|-|-|-|-|-|-|  
 |No|No|No|No|No|No|No|  
 |No|Yes|No|No|Yes|No|No|  
 |No|Yes|Yes|No|No|Yes|Yes|  

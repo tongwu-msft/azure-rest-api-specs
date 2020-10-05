@@ -3,13 +3,13 @@ title: Delete Queue (REST API) - Azure Storage
 description: The Delete Queue operation permanently deletes the specified queue. 
 author: pemari-msft
 
-ms.date: 09/23/2019
+ms.date: 08/10/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
 ---
 
-# Delete Queue
+# Delete Queue (Azure Storage)
 
 The `Delete Queue` operation permanently deletes the specified queue.  
   
@@ -42,7 +42,7 @@ The `Delete Queue` operation permanently deletes the specified queue.
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
  None.  
@@ -72,7 +72,8 @@ The `Delete Queue` operation permanently deletes the specified queue.
  Only the account owner may call this operation.  
   
 ## Remarks  
- When a queue is successfully deleted, the queue is immediately marked for deletion and is no longer accessible to clients. The queue is later removed from the Queue service during garbage collection.  
+
+ When a queue is deleted, a queue with the same name cannot be created for at least 30 seconds; the queue may not be available for more than 30 seconds if the service is still processing the request. While the queue is being deleted, attempts to create a queue of the same name will fail with status code 409 (Conflict), with the service returning additional error information indicating that the queue is being deleted. All other operations, including operations on any messages in the queue, will fail with status code 404 (Not Found) while the queue is being deleted.  
   
 ## See also  
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)   

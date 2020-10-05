@@ -1,0 +1,166 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurestack.acquisitions.list
+name: List
+service: Azure Stack Admin
+groupName: Acquisitions
+apiVersion: 2019-08-08-preview
+summary: Returns a list of BLOB acquisitions.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Storage.Admin/locations/{location}/acquisitions?api-version=2019-08-08-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription Id.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Resource location.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: REST Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- The list of acquisitions has been returned.
+  types:
+  - uid: AcquisitionList
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: AcquisitionList
+  description: The list of page BLOB acquisitions.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of acquisitions.
+    types:
+    - uid: Acquisition
+      isArray: true
+- name: ErrorResponse
+  description: The error response for request which failed.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error description code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error description message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target description.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details information.
+    types:
+    - uid: string
+      isArray: true
+- name: Acquisition
+  description: The acquisition of the page BLOB.
+  kind: object
+  properties:
+  - name: susbcriptionid
+    isReadyOnly: true
+    description: ID of the subscription associated with the page BLOB.
+    types:
+    - uid: string
+  - name: storageaccount
+    isReadyOnly: true
+    description: The storage account that holds the page BLOB.
+    types:
+    - uid: string
+  - name: container
+    isReadyOnly: true
+    description: The container associated with the page BLOB.
+    types:
+    - uid: string
+  - name: blob
+    isReadyOnly: true
+    description: The name of the page BLOB.
+    types:
+    - uid: string
+  - name: acquisitionid
+    isReadyOnly: true
+    description: The ID of page BLOB acquisition.
+    types:
+    - uid: string
+  - name: filePath
+    isReadyOnly: true
+    description: The file path of the page BLOB file on storage cluster.
+    types:
+    - uid: string
+  - name: filePathUnc
+    isReadyOnly: true
+    description: The file path unc of the page BLOB file on storage cluster.
+    types:
+    - uid: string
+  - name: maximumblobsize
+    isReadyOnly: true
+    description: The maximum size of the page BLOB.
+    types:
+    - uid: integer
+  - name: status
+    isReadyOnly: true
+    description: The status of the page BLOB acquisition.
+    types:
+    - uid: AcquisitionStatus
+- name: AcquisitionStatus
+  description: The status of page BLOB acquisition.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: NotAcquired
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Success
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: Returns a list of page BLOB acquisitions.
+  request:
+    uri: GET https://management.azure.com/subscriptions/9ad61516-995c-4873-a21f-7e44904f0ed2/providers/Microsoft.Storage.Admin/locations/local/acquisitions?api-version=2019-08-08-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": []
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

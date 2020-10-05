@@ -1,6 +1,6 @@
 ---
 title: "ExecutionPolicyType"
-ms.date: "11/23/2019"
+ms.date: "04/15/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -34,5 +34,6 @@ Enumerates the execution policy types for services.
 
 Possible values are: 
 
-  - `runToCompletion` - Indicates that the service will perform its desired operation and complete successfully. If the service encounters failure, it will restarted based on restart policy specified. If the service completes its operation successfully, it will not be restarted again.
+  - `Default` - Indicates the default execution policy, always restart the service if an exit occurs.
+  - `RunToCompletion` - Indicates that the service will perform its desired operation and complete successfully. If the service encounters failure, it will restarted based on restart policy specified. If the service completes its operation successfully, it will not be restarted again.
 

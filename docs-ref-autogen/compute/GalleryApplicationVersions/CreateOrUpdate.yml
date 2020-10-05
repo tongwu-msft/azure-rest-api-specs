@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleryapplicationversions.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Gallery Application Versions
-apiVersion: 2019-07-01
+apiVersion: 2019-12-01
 summary: Create or update a gallery Application Version.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}?api-version=2019-07-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}?api-version=2019-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -235,6 +235,10 @@ definitions:
     description: Specifies the storage account type to be used to store the image. This property is not updatable.
     types:
     - uid: StorageAccountType
+  - name: encryption
+    description: Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in the gallery artifact.
+    types:
+    - uid: EncryptionImages
 - name: StorageAccountType
   description: Specifies the storage account type to be used to store the image. This property is not updatable.
   kind: enum
@@ -243,6 +247,9 @@ definitions:
     types:
     - uid: string
   - name: Standard_ZRS
+    types:
+    - uid: string
+  - name: Premium_LRS
     types:
     - uid: string
 - name: AggregatedReplicationState
@@ -310,6 +317,19 @@ definitions:
     description: The error message.
     types:
     - uid: string
+- name: EncryptionImages
+  description: Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in the gallery artifact.
+  kind: object
+  properties:
+  - name: osDiskImage
+    description: Contains encryption settings for an OS disk image.
+    types:
+    - uid: OSDiskImageEncryption
+  - name: dataDiskImages
+    description: A list of encryption specifications for data disk images.
+    types:
+    - uid: DataDiskImageEncryption
+      isArray: true
 - name: ReplicationState
   description: This is the regional replication state.
   kind: enum
@@ -354,10 +374,30 @@ definitions:
     description: The internal error message or exception dump.
     types:
     - uid: string
+- name: OSDiskImageEncryption
+  description: Contains encryption settings for an OS disk image.
+  kind: object
+  properties:
+  - name: diskEncryptionSetId
+    description: A relative URI containing the resource ID of the disk encryption set.
+    types:
+    - uid: string
+- name: DataDiskImageEncryption
+  description: Contains encryption settings for a data disk image.
+  kind: object
+  properties:
+  - name: lun
+    description: This property specifies the logical unit number of the data disk. This value is used to identify data disks within the Virtual Machine and therefore must be unique for each data disk attached to the Virtual Machine.
+    types:
+    - uid: integer
+  - name: diskEncryptionSetId
+    description: A relative URI containing the resource ID of the disk encryption set.
+    types:
+    - uid: string
 examples:
 - name: Create or update a simple gallery Application Version.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/applications/myGalleryApplicationName/versions/1.0.0?api-version=2019-07-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/applications/myGalleryApplicationName/versions/1.0.0?api-version=2019-12-01
     body: >-
       {
         "location": "West US",

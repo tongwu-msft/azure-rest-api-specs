@@ -3,14 +3,14 @@ uid: keyvault.createkey.createkey
 name: Create Key
 service: Key Vault
 groupName: Create Key
-apiVersion: "7.0"
+apiVersion: "7.1"
 summary: "Creates a new key, stores it, then returns key parameters and attributes to the client.  \nThe create key operation can be used to create any key type in Azure Key Vault. If the named key already exists, Azure Key Vault creates a new version of the key. It requires the keys/create permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {vaultBaseUrl}/keys/{key-name}/create?api-version=7.0
+- content: POST {vaultBaseUrl}/keys/{key-name}/create?api-version=7.1
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -86,6 +86,11 @@ definitions:
   description: The attributes of a key managed by the key vault service.
   kind: object
   properties:
+  - name: recoverableDays
+    isReadyOnly: true
+    description: softDelete data retention days. Value should be >=7 and <=90 when softDelete enabled, otherwise 0.
+    types:
+    - uid: integer
   - name: recoveryLevel
     isReadyOnly: true
     description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
@@ -185,15 +190,31 @@ definitions:
   kind: enum
   properties:
   - name: Purgeable
+    description: Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.)
     types:
     - uid: string
   - name: Recoverable+Purgeable
+    description: Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered
     types:
     - uid: string
   - name: Recoverable
+    description: Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval(90 days) and while the subscription is still available. System wil permanently delete it after 90 days, if not recovered
     types:
     - uid: string
   - name: Recoverable+ProtectedSubscription
+    description: Denotes a vault and subscription state in which deletion is recoverable within retention interval (90 days), immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself  cannot be permanently canceled. System wil permanently delete it after 90 days, if not recovered
+    types:
+    - uid: string
+  - name: CustomizedRecoverable+Purgeable
+    description: Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays < 90). This level guarantees the recoverability of the deleted entity during the retention interval, unless a Purge operation is requested, or the subscription is cancelled.
+    types:
+    - uid: string
+  - name: CustomizedRecoverable
+    description: Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the deleted entity during the retention interval and while the subscription is still available.
+    types:
+    - uid: string
+  - name: CustomizedRecoverable+ProtectedSubscription
+    description: Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7<= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled.
     types:
     - uid: string
 - name: JsonWebKey
@@ -305,7 +326,7 @@ definitions:
     types:
     - uid: string
   - name: oct
-    description: Octet sequence (used to represent symmetric keys)
+    description: Not supported in this version. Octet sequence (used to represent symmetric keys)
     types:
     - uid: string
 - name: JsonWebKeyCurveName
@@ -331,7 +352,7 @@ definitions:
 examples:
 - name: Create key
   request:
-    uri: POST {vaultBaseUrl}/keys/CreateSoftKeyTest/create?api-version=7.0
+    uri: POST https://myvault.vault.azure.net//keys/CreateSoftKeyTest/create?api-version=7.1
     body: >-
       {
         "kty": "RSA",
@@ -355,7 +376,7 @@ examples:
     body: >-
       {
         "key": {
-          "kid": "https://kv-sdk-test.vault-int.azure-int.net/keys/CreateSoftKeyTest/78deebed173b48e48f55abf87ed4cf71",
+          "kid": "https://myvault.vault.azure.net/keys/CreateSoftKeyTest/78deebed173b48e48f55abf87ed4cf71",
           "kty": "RSA",
           "key_ops": [
             "encrypt",
