@@ -1,7 +1,6 @@
 ---
 title: Use Azure Active Directory authentication to send messages to a Service Bus queue
 ms.date: "07/15/2020"
-ms.prod: "azure"
 ms.service: "service-bus"
 ms.topic: "reference"
 author: "spelluru"

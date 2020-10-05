@@ -3,7 +3,6 @@ title: "Azure Cloud Services REST - Get Cloud Service Properties | Microsoft Doc
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"
-ms.prod: "azure"
 ms.reviewer: ""
 
 ms.suite: ""

@@ -1,7 +1,6 @@
 ---
 title: Use Azure Active Directory authentication to send messages to an event hub
 ms.date: "07/15/2020"
-ms.prod: "azure"
 ms.service: "event-hubs"
 ms.topic: "reference"
 author: "spelluru"

@@ -1,5 +1,6 @@
 ---
 title: "Create a Document - Azure Cosmos DB REST API"
+description: Create document REST API syntax. Request and response headers, body, status codes and examples.
 ms.date: "07/07/2017"
 ms.service: "cosmos-db"
 ms.topic: "reference"

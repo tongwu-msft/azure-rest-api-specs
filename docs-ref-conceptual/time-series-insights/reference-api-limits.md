@@ -26,13 +26,14 @@ The following limits are applied during query execution to fairly utilize resour
 | All | Max number of TSM objects per request | 10,000 or 8 MB | Gen2 |
 | All | Max model request execution time | 30 seconds | Gen2 |
 | All | Max number of instances per environment | 1,000,000 | Gen2 |
-| All | Max number of instance fields per instance | 50 | Gen2 |
+| All | Max number of instance fields per instance | 100 | Gen2 |
 | All | Max number of types per environment | 1,000 | Gen2 |
 | All | Max number of variables per type | 50 | Gen2 |
 | All | Max number of hierarchies per environment | 32 | Gen2 |
 | All | Max number of hierarchies associated with an instance | 32 | Gen2 |
 | All | Max hierarchy depth | 32 | Gen2 |
 | All | Max number of characters in type name, hierarchy name, instance fields name, Time Series ID property value, Time Series ID each property name, Time Series name | 1,024 | Gen2 |
+| All | Max size per instance | 16 KB | Gen2 |
 
 ## Query APIs - limits
 
@@ -40,7 +41,8 @@ The following limits are applied during query execution to evenly utilize resour
 
 | Applicable APIs | Limit name | Limit value | SKUs affected |
 |-|-|-|-|
-| [Get Availability](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/getavailability), [Get EventSchema](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/geteventschema), [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#aggregateseries) | Max number of concurrent requests per environment | 30 | Gen2 |
+| [Get Availability](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/getavailability), [Get EventSchema](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/geteventschema), [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#aggregateseries) | Max number of concurrent requests per environment for Warm Store | 30 | Gen2 |
+| [Get Availability](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/getavailability), [Get EventSchema](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/geteventschema), [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#aggregateseries) | Max number of concurrent requests per environment for Cold Store | 20 | Gen2 |
 | [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#aggregateseries) | Max response size | 16 MB | Gen2 |
 | [Get Events](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getevents), [Get Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#getseries), [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#aggregateseries) | Max number of projected properties or variables | 50 | Gen2 |
 | [Aggregate Series](https://docs.microsoft.com/rest/api/time-series-insights/dataaccessgen2/query/execute#aggregateseries) | Max number of intervals in the response | 200,000 | Gen2 |

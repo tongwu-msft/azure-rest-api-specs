@@ -10,10 +10,13 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/29/2020
+ms.date: 10/01/2020
 ---
 
 # Azure Time Series Insights Gen1 data access
+
+> [!CAUTION]
+> This is a Gen1 article.
 
 There are three ways to access and view your data in Azure Time Series Insights Gen1. You can query by using the [Azure Time Series Insights Gen1 Explorer](https://docs.microsoft.com/azure/time-series-insights/time-series-quickstart), create a query on behalf of an environment to be deployed through a custom URL, or create a custom application by using the Azure Time Series Insights Gen1 Query APIs.
 

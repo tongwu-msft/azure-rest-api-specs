@@ -1,5 +1,6 @@
 ---
 title: "Common response headers - Azure Cosmos DB REST API"
+description: This article lists different REST API response headers available when using Azure Cosmos DB. 
 ms.date: "03/29/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"

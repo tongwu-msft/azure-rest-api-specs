@@ -3,14 +3,14 @@ uid: management.azure.com.aks.agentpools.list
 name: List
 service: AKS
 groupName: Agent Pools
-apiVersion: 2020-06-01
+apiVersion: 2020-09-01
 summary: "Gets a list of agent pools in the specified managed cluster.  \nGets a list of agent pools in the specified managed cluster. The operation returns properties of each agent pool."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools?api-version=2020-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools?api-version=2020-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -101,6 +101,10 @@ definitions:
     description: OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.
     types:
     - uid: integer
+  - name: properties.osDiskType
+    description: OS disk type to be used for machines in a given agent pool. Allowed values are 'Ephemeral' and 'Managed'. Defaults to 'Managed'. May not be changed after creation.
+    types:
+    - uid: OSDiskType
   - name: properties.vnetSubnetID
     description: VNet SubnetID specifies the VNet's subnet identifier.
     types:
@@ -138,6 +142,7 @@ definitions:
     types:
     - uid: string
   - name: properties.nodeImageVersion
+    isReadyOnly: true
     description: Version of node image
     types:
     - uid: string
@@ -150,6 +155,11 @@ definitions:
     description: The current deployment or provisioning state, which only appears in the response.
     types:
     - uid: string
+  - name: properties.powerState
+    isReadyOnly: true
+    description: Describes whether the Agent Pool is Running or Stopped
+    types:
+    - uid: PowerState
   - name: properties.availabilityZones
     description: Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
     types:
@@ -743,6 +753,16 @@ definitions:
   - name: Standard_NV6
     types:
     - uid: string
+- name: OSDiskType
+  description: OSDiskType represents the type of an OS disk on an agent pool.
+  kind: enum
+  properties:
+  - name: Managed
+    types:
+    - uid: string
+  - name: Ephemeral
+    types:
+    - uid: string
 - name: OSType
   description: OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
   kind: enum
@@ -781,6 +801,14 @@ definitions:
     description: Count or percentage of additional nodes to be added during upgrade. If empty uses AKS default
     types:
     - uid: string
+- name: PowerState
+  description: Describes the Power State of the cluster
+  kind: object
+  properties:
+  - name: code
+    description: Tells whether the cluster is Running or Stopped
+    types:
+    - uid: code
 - name: ScaleSetPriority
   description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
   kind: enum
@@ -801,10 +829,20 @@ definitions:
   - name: Deallocate
     types:
     - uid: string
+- name: code
+  description: Tells whether the cluster is Running or Stopped
+  kind: enum
+  properties:
+  - name: Running
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
 examples:
 - name: List Agent Pools by Managed Cluster
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools?api-version=2020-06-01
+    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools?api-version=2020-09-01
   responses:
   - statusCode: "200"
     body: >-

@@ -3,14 +3,14 @@ uid: keyvault.importkey.importkey
 name: Import Key
 service: Key Vault
 groupName: Import Key
-apiVersion: "7.0"
+apiVersion: "7.1"
 summary: "Imports an externally created key, stores it, and returns key parameters and attributes to the client.  \nThe import key operation may be used to import any key type into an Azure Key Vault. If the named key already exists, Azure Key Vault creates a new version of the key. This operation requires the keys/import permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT {vaultBaseUrl}/keys/{key-name}?api-version=7.0
+- content: PUT {vaultBaseUrl}/keys/{key-name}?api-version=7.1
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -144,6 +144,11 @@ definitions:
   description: The attributes of a key managed by the key vault service.
   kind: object
   properties:
+  - name: recoverableDays
+    isReadyOnly: true
+    description: softDelete data retention days. Value should be >=7 and <=90 when softDelete enabled, otherwise 0.
+    types:
+    - uid: integer
   - name: recoveryLevel
     isReadyOnly: true
     description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
@@ -250,7 +255,7 @@ definitions:
     types:
     - uid: string
   - name: oct
-    description: Octet sequence (used to represent symmetric keys)
+    description: Not supported in this version. Octet sequence (used to represent symmetric keys)
     types:
     - uid: string
 - name: JsonWebKeyCurveName
@@ -327,7 +332,7 @@ definitions:
 examples:
 - name: Import key
   request:
-    uri: PUT {vaultBaseUrl}/keys/ImportSoftKeyTest?api-version=7.0
+    uri: PUT https://myvault.vault.azure.net//keys/ImportSoftKeyTest?api-version=7.1
     body: >-
       {
         "key": {
@@ -350,7 +355,7 @@ examples:
     body: >-
       {
         "key": {
-          "kid": "https://kv-sdk-test.vault-int.azure-int.net/keys/ImportSoftKeyTest/2eb4a15d74184c6f84159c3ca90f0f4b",
+          "kid": "https://myvault.vault.azure.net/keys/ImportSoftKeyTest/2eb4a15d74184c6f84159c3ca90f0f4b",
           "kty": "RSA",
           "key_ops": [
             "encrypt",

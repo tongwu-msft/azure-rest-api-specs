@@ -3,14 +3,14 @@ uid: management.azure.com.compute.diskencryptionsets.get
 name: Get
 service: Compute
 groupName: Disk Encryption Sets
-apiVersion: 2019-07-01
+apiVersion: 2020-06-30
 summary: Gets information about a disk encryption set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}?api-version=2019-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}?api-version=2020-06-30
 uriParameters:
 - name: subscriptionId
   in: path
@@ -55,6 +55,10 @@ definitions:
     description: The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.
     types:
     - uid: EncryptionSetIdentity
+  - name: properties.encryptionType
+    description: The type of key used to encrypt the data of the disk.
+    types:
+    - uid: DiskEncryptionSetType
   - name: properties.activeKey
     description: The key vault key which is currently used by this disk encryption set.
     types:
@@ -121,6 +125,18 @@ definitions:
   - name: tenantId
     isReadyOnly: true
     description: The tenant id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-client-tenant-id header in the PUT request if the resource has a systemAssigned(implicit) identity
+    types:
+    - uid: string
+- name: DiskEncryptionSetType
+  description: The type of key used to encrypt the data of the disk.
+  kind: enum
+  properties:
+  - name: EncryptionAtRestWithCustomerKey
+    description: Resource using diskEncryptionSet would be encrypted at rest with Customer managed key that can be changed and revoked by a customer.
+    types:
+    - uid: string
+  - name: EncryptionAtRestWithPlatformAndCustomerKeys
+    description: Resource using diskEncryptionSet would be encrypted at rest with two layers of encryption. One of the keys is Customer managed and the other key is Platform managed.
     types:
     - uid: string
 - name: KeyVaultAndKeyReference
@@ -206,7 +222,7 @@ definitions:
 examples:
 - name: Get information about a disk encryption set.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2019-07-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2020-06-30
   responses:
   - statusCode: "200"
     body: >-
@@ -221,16 +237,17 @@ examples:
             },
             "keyUrl": "https://myvmvault.vault-int.azure-int.net/keys/{key}"
           },
+          "encryptionType": "EncryptionAtRestWithCustomerKey",
           "previousKeys": [],
           "provisioningState": "Succeeded"
         },
-        "type": "Microsoft.Compute/diskEncryptionSet",
+        "type": "Microsoft.Compute/diskEncryptionSets",
         "location": "westus",
         "tags": {
           "department": "Development",
           "project": "Encryption"
         },
-        "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet",
+        "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet",
         "name": "myDiskEncryptionSet"
       }
 security:

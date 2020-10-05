@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.pool.create
 name: Create
 service: Batch Management
 groupName: Pool
-apiVersion: 2020-05-01
+apiVersion: 2020-09-01
 summary: Creates a new pool inside the specified account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}?api-version=2020-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}?api-version=2020-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -89,9 +89,9 @@ requestBody:
     description: "The network configuration for the pool.  \nThe network configuration for a pool."
     types:
     - uid: NetworkConfiguration
-  - name: properties.maxTasksPerNode
+  - name: properties.taskSlotsPerNode
     in: body
-    description: "The maximum number of tasks that can run concurrently on a single compute node in the pool.  \nThe default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256."
+    description: "The number of task slots that can be used to run concurrent tasks on a single compute node in the pool.  \nThe default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256."
     types:
     - uid: integer
   - name: properties.taskSchedulingPolicy
@@ -441,8 +441,8 @@ definitions:
     description: "The network configuration for the pool.  \nThe network configuration for a pool."
     types:
     - uid: NetworkConfiguration
-  - name: properties.maxTasksPerNode
-    description: "The maximum number of tasks that can run concurrently on a single compute node in the pool.  \nThe default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256."
+  - name: properties.taskSlotsPerNode
+    description: "The number of task slots that can be used to run concurrent tasks on a single compute node in the pool.  \nThe default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256."
     types:
     - uid: integer
   - name: properties.taskSchedulingPolicy
@@ -615,7 +615,7 @@ definitions:
   kind: object
   properties:
   - name: inboundNatPools
-    description: "A list of inbound NAT pools that can be used to address specific ports on an individual compute node externally.  \nThe maximum number of inbound NAT pools per Batch pool is 5. If the maximum number of inbound NAT pools is exceeded the request fails with HTTP status code 400."
+    description: "A list of inbound NAT pools that can be used to address specific ports on an individual compute node externally.  \nThe maximum number of inbound NAT pools per Batch pool is 5. If the maximum number of inbound NAT pools is exceeded the request fails with HTTP status code 400. This cannot be specified if the IPAddressProvisioningType is NoPublicIPAddresses."
     types:
     - uid: InboundNatPool
       isArray: true
@@ -628,7 +628,7 @@ definitions:
     types:
     - uid: IPAddressProvisioningType
   - name: ipAddressIds
-    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 50 dedicated nodes or 20 low-priority nodes can be allocated for each public IP. For example, a pool needing 150 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
+    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
     types:
     - uid: string
       isArray: true
@@ -641,7 +641,7 @@ definitions:
     types:
     - uid: string
   - name: Pack
-    description: As many tasks as possible (maxTasksPerNode) should be assigned to each node in the pool before any tasks are assigned to the next node in the pool.
+    description: As many tasks as possible (taskSlotsPerNode) should be assigned to each node in the pool before any tasks are assigned to the next node in the pool.
     types:
     - uid: string
 - name: ElevationLevel
@@ -991,7 +991,7 @@ definitions:
   kind: object
   properties:
   - name: lun
-    description: "The logical unit number.  \nThe lun is used to uniquely identify each data disk. If attaching multiple disks, each should have a distinct lun."
+    description: "The logical unit number.  \nThe lun is used to uniquely identify each data disk. If attaching multiple disks, each should have a distinct lun. The value must be between 0 and 63, inclusive."
     types:
     - uid: integer
   - name: caching
@@ -1226,7 +1226,7 @@ definitions:
 examples:
 - name: CreatePool - Minimal CloudServiceConfiguration
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-09-01
     body: >-
       {
         "properties": {
@@ -1263,7 +1263,7 @@ examples:
           "allocationStateTransitionTime": "2017-08-28T10:22:55.9407275Z",
           "vmSize": "STANDARD_D4",
           "interNodeCommunication": "Disabled",
-          "maxTasksPerNode": 1,
+          "taskSlotsPerNode": 1,
           "taskSchedulingPolicy": {
             "nodeFillType": "Spread"
           },
@@ -1292,7 +1292,7 @@ examples:
       }
 - name: CreatePool - Minimal VirtualMachineConfiguration
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-09-01
     body: >-
       {
         "properties": {
@@ -1336,7 +1336,7 @@ examples:
           "allocationStateTransitionTime": "2017-08-28T10:22:55.9407275Z",
           "vmSize": "STANDARD_D4",
           "interNodeCommunication": "Disabled",
-          "maxTasksPerNode": 1,
+          "taskSlotsPerNode": 1,
           "taskSchedulingPolicy": {
             "nodeFillType": "Spread"
           },
@@ -1363,14 +1363,14 @@ examples:
       }
 - name: CreatePool - Full Example
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-09-01
     body: >-
       {
         "properties": {
           "displayName": "my-pool-name",
           "vmSize": "STANDARD_D4",
           "interNodeCommunication": "Enabled",
-          "maxTasksPerNode": 13,
+          "taskSlotsPerNode": 13,
           "taskSchedulingPolicy": {
             "nodeFillType": "Pack"
           },
@@ -1515,7 +1515,7 @@ examples:
           "allocationStateTransitionTime": "2017-08-28T10:22:55.9407275Z",
           "vmSize": "STANDARD_D4",
           "interNodeCommunication": "Enabled",
-          "maxTasksPerNode": 13,
+          "taskSlotsPerNode": 13,
           "taskSchedulingPolicy": {
             "nodeFillType": "Pack"
           },
@@ -1642,7 +1642,7 @@ examples:
       }
 - name: CreatePool - Custom Image
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-09-01
     body: >-
       {
         "properties": {
@@ -1650,7 +1650,7 @@ examples:
           "deploymentConfiguration": {
             "virtualMachineConfiguration": {
               "imageReference": {
-                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/images/image-123"
+                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1"
               },
               "nodeAgentSkuId": "batch.node.ubuntu 18.04"
             }
@@ -1677,14 +1677,14 @@ examples:
           "allocationStateTransitionTime": "2017-08-28T10:22:55.9407275Z",
           "vmSize": "STANDARD_D4",
           "interNodeCommunication": "Disabled",
-          "maxTasksPerNode": 1,
+          "taskSlotsPerNode": 1,
           "taskSchedulingPolicy": {
             "nodeFillType": "Spread"
           },
           "deploymentConfiguration": {
             "virtualMachineConfiguration": {
               "imageReference": {
-                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/images/image-123"
+                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1"
               },
               "nodeAgentSkuId": "batch.node.ubuntu 18.04"
             }
@@ -1701,7 +1701,7 @@ examples:
       }
 - name: CreatePool - Public IPs
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-09-01
     body: >-
       {
         "properties": {
@@ -1718,7 +1718,7 @@ examples:
           "deploymentConfiguration": {
             "virtualMachineConfiguration": {
               "imageReference": {
-                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/images/image-123"
+                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1"
               },
               "nodeAgentSkuId": "batch.node.ubuntu 18.04"
             }
@@ -1745,7 +1745,7 @@ examples:
           "allocationStateTransitionTime": "2017-08-28T10:22:55.9407275Z",
           "vmSize": "STANDARD_D4",
           "interNodeCommunication": "Disabled",
-          "maxTasksPerNode": 1,
+          "taskSlotsPerNode": 1,
           "taskSchedulingPolicy": {
             "nodeFillType": "Spread"
           },
@@ -1761,7 +1761,7 @@ examples:
           "deploymentConfiguration": {
             "virtualMachineConfiguration": {
               "imageReference": {
-                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/images/image-123"
+                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1"
               },
               "nodeAgentSkuId": "batch.node.ubuntu 18.04"
             }
@@ -1778,7 +1778,7 @@ examples:
       }
 - name: CreatePool - Full VirtualMachineConfiguration
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-09-01
     body: >-
       {
         "properties": {
@@ -1878,7 +1878,7 @@ examples:
           "allocationStateTransitionTime": "2017-08-28T10:22:55.9407275Z",
           "vmSize": "STANDARD_D4",
           "interNodeCommunication": "Disabled",
-          "maxTasksPerNode": 1,
+          "taskSlotsPerNode": 1,
           "taskSchedulingPolicy": {
             "nodeFillType": "Spread"
           },
@@ -1961,7 +1961,7 @@ examples:
       }
 - name: CreatePool - No public IP
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2020-09-01
     body: >-
       {
         "properties": {
@@ -1975,7 +1975,7 @@ examples:
           "deploymentConfiguration": {
             "virtualMachineConfiguration": {
               "imageReference": {
-                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/images/image-123"
+                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1"
               },
               "nodeAgentSkuId": "batch.node.ubuntu 18.04"
             }
@@ -2002,7 +2002,7 @@ examples:
           "allocationStateTransitionTime": "2017-08-28T10:22:55.9407275Z",
           "vmSize": "STANDARD_D4",
           "interNodeCommunication": "Disabled",
-          "maxTasksPerNode": 1,
+          "taskSlotsPerNode": 1,
           "taskSchedulingPolicy": {
             "nodeFillType": "Spread"
           },
@@ -2015,7 +2015,7 @@ examples:
           "deploymentConfiguration": {
             "virtualMachineConfiguration": {
               "imageReference": {
-                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/images/image-123"
+                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1"
               },
               "nodeAgentSkuId": "batch.node.ubuntu 18.04"
             }

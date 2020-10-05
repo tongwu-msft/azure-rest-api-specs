@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.pools.list
 name: List
 service: Azure NetApp Files
 groupName: Pools
-apiVersion: 2020-02-01
+apiVersion: 2020-06-01
 summary: "Describe all Capacity Pools  \nList all capacity pools in the NetApp Account"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools?api-version=2020-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -104,6 +104,20 @@ definitions:
     description: Azure lifecycle management
     types:
     - uid: string
+  - name: properties.totalThroughputMibps
+    isReadyOnly: true
+    description: Total throughput of pool in Mibps
+    types:
+    - uid: number
+  - name: properties.utilizedThroughputMibps
+    isReadyOnly: true
+    description: Utilized throughput of pool in Mibps
+    types:
+    - uid: number
+  - name: properties.qosType
+    description: "qosType  \nThe qos type of the pool"
+    types:
+    - uid: qosType
 - name: ServiceLevel
   description: serviceLevel
   kind: enum
@@ -120,10 +134,22 @@ definitions:
     description: Ultra service level
     types:
     - uid: string
+- name: qosType
+  description: qosType
+  kind: enum
+  properties:
+  - name: Auto
+    description: qos type Auto
+    types:
+    - uid: string
+  - name: Manual
+    description: qos type Manual
+    types:
+    - uid: string
 examples:
 - name: Pools_List
   request:
-    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools?api-version=2020-02-01
+    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools?api-version=2020-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -138,7 +164,9 @@ examples:
               "provisioningState": "Succeeded",
               "poolId": "9760acf5-4638-11e7-9bdb-020073ca7778",
               "serviceLevel": "Premium",
-              "size": 4398046511104
+              "size": 4398046511104,
+              "qosType": "Auto",
+              "totalThroughputMibps": 281.474
             }
           }
         ]

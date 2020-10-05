@@ -1,5 +1,6 @@
 ---
 title: "Delete a Database - Azure Cosmos DB REST API"
+description: Delete a database REST API syntax. Request and response headers, body, status codes and examples.
 ms.date: "02/25/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"
