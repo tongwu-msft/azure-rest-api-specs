@@ -3,7 +3,7 @@ title: Create a user delegation SAS - Azure Storage
 description: A SAS token for access to a container, directory, or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a user delegation SAS, because the token used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice. 
 author: tamram
 
-ms.date: 10/02/2020
+ms.date: 10/05/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -113,7 +113,7 @@ The required `signedResource` (`sr`) field specifies which resources are accessi
 | Blob version | bv | Version 2018-11-09 and later | Grants access to the content and metadata of the blob version, but not the base blob. |
 | Blob snapshot | bs | Version 2018-11-09 and later | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
 | Container | c | All | Grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. |
-| Directory (preview) | d | Version 2020-02-10 and later | Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedResource` field, then the `signedDirectoryDepth` parameter is also required. |
+| Directory (preview) | d | Version 2020-02-10 and later | Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedResource` field, then the `signedDirectoryDepth` (`sdd`) parameter is also required. |
 
 ### Specify the signature validity interval
 
