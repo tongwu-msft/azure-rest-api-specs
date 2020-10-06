@@ -3,7 +3,7 @@ title: Create a service SAS - Azure Storage
 description: A service shared access signature (SAS) delegates access to a resource in the Blob, Queue, Table, or File service.
 author: tamram
 
-ms.date: 10/02/2020
+ms.date: 10/05/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -59,7 +59,7 @@ The required `signedResource` (`sr`) field specifies which resources are accessi
 | Blob version | bv | Version 2018-11-09 and later | Grants access to the content and metadata of the blob version, but not the base blob. |
 | Blob snapshot | bs | Version 2018-11-09 and later | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
 | Container | c | All | Grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. |
-| Directory (preview) | d | Version 2020-02-10 and later | Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedResource` field, then the `signedDirectoryDepth` parameter is also required. |
+| Directory (preview) | d | Version 2020-02-10 and later | Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedResource` field, then the `signedDirectoryDepth` (`sdd`) parameter is also required. |
 
 ### Specifying the signed resource (File service)
 
@@ -226,6 +226,14 @@ The `startPk`, `startRk`, `endPk`, and `endRk` fields define a range of table en
 |`endPk`|partitionKey <= `endPk`|  
 |`startPk`, `startRk`|(partitionKey > `startPk`) &#124;&#124; (partitionKey == `startPk` && rowKey >= `startRk`)|  
 |`endPk`, `endRk`|(partitionKey < `endPk`) &#124;&#124; (partitionKey == `endPk` && rowKey <= `endRk`)|  
+
+### Specify the directory depth (preview)
+
+If the `signedResource` field (preview) specifies a directory (`sr=d`), then you must also specify the `signedDirectoryDepth` (`sdd`) field to indicate the number of subdirectories under the root directory. The value of the `sdd` field must be a non-negative integer.
+
+For example, the root directory `https://{account}.blob.core.windows.net/{container}/` has a depth of 0. Each subdirectory beneath the root directory adds to the depth by one. The directory `https://{account}.blob.core.windows.net/{container}/d1/d2` has a depth of two.  
+
+This field is supported with version 2020-02-10 or later.
   
 ### Specifying the signed identifier  
 
