@@ -8978,6 +8978,7 @@
 ### [List](resources/Providers/List.yml)
 ### [List At Tenant Scope](resources/Providers/ListAtTenantScope.yml)
 ### [Register](resources/Providers/Register.yml)
+### [Register At Management Group Scope](resources/Providers/RegisterAtManagementGroupScope.yml)
 ### [Unregister](resources/Providers/Unregister.yml)
 ## Resource Groups
 ### [Overview](resources/ResourceGroups.yml)
