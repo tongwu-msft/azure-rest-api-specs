@@ -25,6 +25,7 @@ Azure Resource Manager enables you to deploy and manage the infrastructure for y
 | [Management Locks](xref:management.azure.com.resources.managementlocks)           | Provides operations to prevent users in your organization from deleting or modifying certain resources. |
 | [Policy Assignments](xref:management.azure.com.resources.policyassignments)       | Provides operations to assign policy definitions to a scope in your subscription. |
 | [Policy Definitions](xref:management.azure.com.resources.policydefinitions)       | Provides operations to create policies that specify how users in your organization work with resources. |
+| [Policy Exemptions](xref:management.azure.com.resources.policyexemptions)         | Provides operations to create policy exemptions to exempt a scope from a policy assignment. |
 | [Policy Set Definitions](xref:management.azure.com.resources.policysetdefinitions)       | Provides operations to create groups of policy definitions. |
 | [Providers](xref:management.azure.com.resources.providers)                        | Provides operations to work with resource providers that support resources. |
 | [Resource Groups](xref:management.azure.com.resources.resourcegroups)             | Provides operations to create, delete, and access resource groups. |
