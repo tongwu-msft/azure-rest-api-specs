@@ -6863,11 +6863,6 @@
 #### [List](loganalytics/Clusters/List.yml)
 #### [List By Resource Group](loganalytics/Clusters/ListByResourceGroup.yml)
 #### [Update](loganalytics/Clusters/Update.yml)
-### Data Collector Logs
-#### [Overview](loganalytics/DataCollectorLogs.yml)
-#### [Delete](loganalytics/DataCollectorLogs/Delete.yml)
-#### [Get](loganalytics/DataCollectorLogs/Get.yml)
-#### [List By Workspace](loganalytics/DataCollectorLogs/ListByWorkspace.yml)
 ### Data Exports
 #### [Overview](loganalytics/DataExports.yml)
 #### [Create Or Update](loganalytics/DataExports/CreateOrUpdate.yml)
@@ -6880,6 +6875,11 @@
 #### [Delete](loganalytics/DataSources/Delete.yml)
 #### [Get](loganalytics/DataSources/Get.yml)
 #### [List By Workspace](loganalytics/DataSources/ListByWorkspace.yml)
+### DataCollectorLogs (Preview)
+#### [Overview](loganalytics/DataCollectorLogs%20(Preview).yml)
+#### [Delete](loganalytics/DataCollectorLogs%20(Preview)/Delete.yml)
+#### [Get](loganalytics/DataCollectorLogs%20(Preview)/Get.yml)
+#### [List By Workspace](loganalytics/DataCollectorLogs%20(Preview)/ListByWorkspace.yml)
 ### Deleted Workspaces
 #### [Overview](loganalytics/DeletedWorkspaces.yml)
 #### [List](loganalytics/DeletedWorkspaces/List.yml)
