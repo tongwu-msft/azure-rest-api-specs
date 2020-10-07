@@ -3,7 +3,7 @@ title: Get Blob Properties (REST API) - Azure Storage
 description: The Get Blob Properties operation returns all user-defined metadata, standard HTTP properties, and system properties for the blob. It does not return the content of the blob.
 author: pemari-msft
 
-ms.date: 07/06/2020
+ms.date: 10/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -119,7 +119,7 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 |`x-ms-rehydrate-priority`|Version 2019-12-12 or newer. If an object is in rehydrate pending state then this header is returned with priority of rehydrate. Valid values are `High`/`Standard`. For detailed information about standard blob account block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).|  
 |`x-ms-or-{policy-id}_{rule-id}`|Version 2019-12-12 or newer, returned only for block blobs. `policy-id` is a guid value representing the identifier of an object replication policy on the storage account. `rule-id` is a guid value which represents the identifier of a policy rule on the blob container. If the account is  `ObjectReplication` enabled, the value of this header represents the replication status of blob with the given policy and rule identifiers, either `complete` or `failed`. |  
 |`x-ms-or-policy-id`|Version 2019-12-12 or newer, returned only for block blobs. If the account is `ObjectReplication` enabled, the value of this header represents the policy that governs the replication. |  
-|`x-ms-last-access-time`|Version 2020-02-10 or newer. Indicates the last time when the blob's data was accessed based on the storage account's last access time tracking policy. The header will not be returned if the storage account does not have a last access time tracking policy, or the policy is disabled. For information about setting the storage account's last access time tracking policy, see [Blob Service API](https://docs.microsoft.com/en-us/rest/api/storagerp/blobservices/setserviceproperties).|  
+|`x-ms-last-access-time`|Version 2020-02-10 or newer. Indicates the last time when the blob's data was accessed based on the storage account's last access time tracking policy. The header will not be returned if the storage account does not have a last access time tracking policy, or the policy is disabled. For information about setting the storage account's last access time tracking policy, see [Blob Service API](https://docs.microsoft.com/rest/api/storagerp/blobservices/setserviceproperties).|  
 
 ### Response Body  
  None.  
