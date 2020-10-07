@@ -39,7 +39,7 @@ Sends a batch of messages to a Service Bus queue or topic.
 |Request Header|Description|  
 |--------------------|-----------------|  
 |Authorization|Specify one of the following token values:<ul><li> Azure Active Directory (Azure AD) JSON Web Token (JWT) token. <br/>Example: `Authorization: Bearer <Azure AD JWT token>`. <br/>For information on generating an Azure AD token, see [Authenticate from an application](get-azure-active-directory-token.md).</li><li>A SAS token. <br/>Example: `Authorization: SharedAccessSignature sr=<NAMESPACE NAME>.servicebus.windows.net&sig=<SHARED ACCESS KEY>&se=<TOKEN EXPIRY INSTANT>&skn=<SHARED KEY NAME>`. <br/>For information on generating a SAS token, see [Generate a Shared Access Signature token](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas#generate-a-shared-access-signature-token) and [Generate SAS token](https://docs.microsoft.com/rest/api/eventhub/generate-sas-token).</li></ul> |  
-|Content-Type|Set to **application/vnd.microsoft.servicebus.yml**.|  
+|Content-Type|Set to **application/vnd.microsoft.servicebus.json**.|  
 |x-ms-retrypolicy|(Optional) Set to `NoRetry` to disable automatic retry on send operations in the case of transient errors.|  
   
 ### Request Body  
@@ -73,7 +73,7 @@ Sends a batch of messages to a Service Bus queue or topic.
 ```  
 POST https://your-namespace.servicebus.windows.net/HttpClientSampleQueue/messages?timeout=60 HTTP/1.1  
 Authorization: SharedAccessSignature sr=your-namespace&sig=Fg8yUyR4MOmXfHfj55f5hY4jGb8x2Yc%2b3%2fULKZYxKZk%3d&se=1404256819&skn=RootManageSharedAccessKey  
-Content-Type: application/vnd.microsoft.servicebus.yml  
+Content-Type: application/vnd.microsoft.servicebus.json  
 Host: your-namespace.servicebus.windows.net  
 Content-Length: 18  
 Expect: 100-continue  
