@@ -1,5 +1,6 @@
 ---
 title: "Send Message Batch"
+description: "Provides details about the REST API: Send Message Batch"
 ms.custom: ""
 ms.date: 07/08/2020
 ms.reviewer: ""
