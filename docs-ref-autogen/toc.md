@@ -6863,6 +6863,11 @@
 #### [List](loganalytics/Clusters/List.yml)
 #### [List By Resource Group](loganalytics/Clusters/ListByResourceGroup.yml)
 #### [Update](loganalytics/Clusters/Update.yml)
+### Data Collector Logs
+#### [Overview](loganalytics/DataCollectorLogs.yml)
+#### [Delete](loganalytics/DataCollectorLogs/Delete.yml)
+#### [Get](loganalytics/DataCollectorLogs/Get.yml)
+#### [List By Workspace](loganalytics/DataCollectorLogs/ListByWorkspace.yml)
 ### Data Exports
 #### [Overview](loganalytics/DataExports.yml)
 #### [Create Or Update](loganalytics/DataExports/CreateOrUpdate.yml)
@@ -9067,6 +9072,7 @@
 ## [Overview](../docs-ref-conceptual/regionmove/index.md)
 ## Move Collections
 ### [Overview](resourcemover/MoveCollections.yml)
+### [Bulk Remove](resourcemover/MoveCollections/BulkRemove.yml)
 ### [Commit](resourcemover/MoveCollections/Commit.yml)
 ### [Create](resourcemover/MoveCollections/Create.yml)
 ### [Delete](resourcemover/MoveCollections/Delete.yml)
