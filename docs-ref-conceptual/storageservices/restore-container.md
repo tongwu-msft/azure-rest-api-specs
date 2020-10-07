@@ -3,7 +3,7 @@ title: Restore Container (REST API) - Azure Storage
 description: The Restore Container operation restores the contents and properties of a soft deleted container to a specified container.
 author: pemari-msft
 
-ms.date: 06/15/2020
+ms.date: 10/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari

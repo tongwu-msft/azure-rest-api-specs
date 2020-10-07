@@ -1,9 +1,9 @@
 ---
 title: Operations on Blobs (Hierarchical Namespace enabled accounts) (REST API) - Azure Storage
 description: Operations on Blobs (Hierarchical Namespace enabled accounts)
-author: abar-msft
+author: pemari-msft
 
-ms.date: 09/30/2019
+ms.date: 10/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari

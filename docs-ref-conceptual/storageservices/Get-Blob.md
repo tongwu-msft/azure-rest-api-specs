@@ -3,7 +3,7 @@ title: Get Blob (REST API) - Azure Storage
 description: The Get Blob operation reads or downloads a blob from the system, including its metadata and properties. You can also call Get Blob to read a snapshot.
 author: pemari-msft
 
-ms.date: 07/06/2020
+ms.date: 10/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -122,7 +122,7 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 |`x-ms-encryption-scope`|Version 2019-02-02 or newer. This header is returned if the blob is encrypted with an encryption scope.|  
 |`x-ms-blob-content-md5`|Starting from version 2016-05-31, if the blob has a MD5 hash, and if request contains range header (Range or x-ms-range), this response header is returned with the value of the whole blob’s MD5 value. This value may or may not be equal to the value returned in Content-MD5 header, with the latter calculated from the requested range.|
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
-|`x-ms-last-access-time`|Version 2020-02-10 or newer. Indicates the last time when the blob's data was accessed based on the storage account's last access time tracking policy. The header will not be returned if the storage account does not have a last access time tracking policy, or the policy is disabled. For information about setting the storage account's last access time tracking policy, see [Blob Service API](https://docs.microsoft.com/en-us/rest/api/storagerp/blobservices/setserviceproperties).|  
+|`x-ms-last-access-time`|Version 2020-02-10 or newer. Indicates the last time when the blob's data was accessed based on the storage account's last access time tracking policy. The header will not be returned if the storage account does not have a last access time tracking policy, or the policy is disabled. For information about setting the storage account's last access time tracking policy, see [Blob Service API](https://docs.microsoft.com/rest/api/storagerp/blobservices/setserviceproperties).|  
   
 ### Response Body  
  The response body contains the content of the blob.  
