@@ -9067,6 +9067,7 @@
 ## [Overview](../docs-ref-conceptual/regionmove/index.md)
 ## Move Collections
 ### [Overview](resourcemover/MoveCollections.yml)
+### [Bulk Remove](resourcemover/MoveCollections/BulkRemove.yml)
 ### [Commit](resourcemover/MoveCollections/Commit.yml)
 ### [Create](resourcemover/MoveCollections/Create.yml)
 ### [Delete](resourcemover/MoveCollections/Delete.yml)
