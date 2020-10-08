@@ -3635,6 +3635,82 @@
 ## Bing Web Search API
 ### [Bing Web Search API v7](../docs-ref-conceptual/cognitiveservices-bingsearch/bing-web-api-v7-reference.md)
 ### [Bing Web Search API v5](../docs-ref-conceptual/cognitiveservices-bingsearch/bing-web-api-v5-reference.md)
+# Communication
+## [Overview](../docs-ref-conceptual/communication/index.md)
+## Add Chat Thread Members
+### [Overview](communication/AddChatThreadMembers.yml)
+### [Add Chat Thread Members](communication/AddChatThreadMembers/AddChatThreadMembers.yml)
+## Communication Identity
+### [Overview](communication/CommunicationIdentity.yml)
+### [Create](communication/CommunicationIdentity/Create.yml)
+### [Delete](communication/CommunicationIdentity/Delete.yml)
+### [Issue Token](communication/CommunicationIdentity/IssueToken.yml)
+### [Update](communication/CommunicationIdentity/Update.yml)
+## Communication Service
+### [Overview](communication/CommunicationService.yml)
+### [Create Or Update](communication/CommunicationService/CreateOrUpdate.yml)
+### [Delete](communication/CommunicationService/Delete.yml)
+### [Get](communication/CommunicationService/Get.yml)
+### [Link Notification Hub](communication/CommunicationService/LinkNotificationHub.yml)
+### [List By Resource Group](communication/CommunicationService/ListByResourceGroup.yml)
+### [List By Subscription](communication/CommunicationService/ListBySubscription.yml)
+### [List Keys](communication/CommunicationService/ListKeys.yml)
+### [Regenerate Key](communication/CommunicationService/RegenerateKey.yml)
+### [Update](communication/CommunicationService/Update.yml)
+## Create Chat Thread
+### [Overview](communication/CreateChatThread.yml)
+### [Create Chat Thread](communication/CreateChatThread/CreateChatThread.yml)
+## Delete Chat Message
+### [Overview](communication/DeleteChatMessage.yml)
+### [Delete Chat Message](communication/DeleteChatMessage/DeleteChatMessage.yml)
+## Delete Chat Thread
+### [Overview](communication/DeleteChatThread.yml)
+### [Delete Chat Thread](communication/DeleteChatThread/DeleteChatThread.yml)
+## Get Chat Message
+### [Overview](communication/GetChatMessage.yml)
+### [Get Chat Message](communication/GetChatMessage/GetChatMessage.yml)
+## Get Chat Thread
+### [Overview](communication/GetChatThread.yml)
+### [Get Chat Thread](communication/GetChatThread/GetChatThread.yml)
+## List Chat Messages
+### [Overview](communication/ListChatMessages.yml)
+### [List Chat Messages](communication/ListChatMessages/ListChatMessages.yml)
+## List Chat Read Receipts
+### [Overview](communication/ListChatReadReceipts.yml)
+### [List Chat Read Receipts](communication/ListChatReadReceipts/ListChatReadReceipts.yml)
+## List Chat Thread Members
+### [Overview](communication/ListChatThreadMembers.yml)
+### [List Chat Thread Members](communication/ListChatThreadMembers/ListChatThreadMembers.yml)
+## List Chat Threads
+### [Overview](communication/ListChatThreads.yml)
+### [List Chat Threads](communication/ListChatThreads/ListChatThreads.yml)
+## Operation Statuses
+### [Overview](communication/OperationStatuses.yml)
+### [Get](communication/OperationStatuses/Get.yml)
+## Operations
+### [Overview](communication/Operations.yml)
+### [List](communication/Operations/List.yml)
+## Remove Chat Thread Member
+### [Overview](communication/RemoveChatThreadMember.yml)
+### [Remove Chat Thread Member](communication/RemoveChatThreadMember/RemoveChatThreadMember.yml)
+## Send Chat Message
+### [Overview](communication/SendChatMessage.yml)
+### [Send Chat Message](communication/SendChatMessage/SendChatMessage.yml)
+## Send Chat Read Receipt
+### [Overview](communication/SendChatReadReceipt.yml)
+### [Send Chat Read Receipt](communication/SendChatReadReceipt/SendChatReadReceipt.yml)
+## Send Typing Notification
+### [Overview](communication/SendTypingNotification.yml)
+### [Send Typing Notification](communication/SendTypingNotification/SendTypingNotification.yml)
+## Sms
+### [Overview](communication/Sms.yml)
+### [Send](communication/Sms/Send.yml)
+## Update Chat Message
+### [Overview](communication/UpdateChatMessage.yml)
+### [Update Chat Message](communication/UpdateChatMessage/UpdateChatMessage.yml)
+## Update Chat Thread
+### [Overview](communication/UpdateChatThread.yml)
+### [Update Chat Thread](communication/UpdateChatThread/UpdateChatThread.yml)
 # Compute
 ## [Overview](../docs-ref-conceptual/compute/index.md)
 ## Cloud Services (classic)
@@ -9067,6 +9143,7 @@
 ## [Overview](../docs-ref-conceptual/regionmove/index.md)
 ## Move Collections
 ### [Overview](resourcemover/MoveCollections.yml)
+### [Bulk Remove](resourcemover/MoveCollections/BulkRemove.yml)
 ### [Commit](resourcemover/MoveCollections/Commit.yml)
 ### [Create](resourcemover/MoveCollections/Create.yml)
 ### [Delete](resourcemover/MoveCollections/Delete.yml)
