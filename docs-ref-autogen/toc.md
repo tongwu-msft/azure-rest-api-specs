@@ -7228,6 +7228,10 @@
 ## Operations
 ### [Overview](maintenance/Operations.yml)
 ### [List](maintenance/Operations/List.yml)
+## Public Maintenance Configurations
+### [Overview](maintenance/PublicMaintenanceConfigurations.yml)
+### [Get](maintenance/PublicMaintenanceConfigurations/Get.yml)
+### [List](maintenance/PublicMaintenanceConfigurations/List.yml)
 ## Updates
 ### [Overview](maintenance/Updates.yml)
 ### [List](maintenance/Updates/List.yml)
