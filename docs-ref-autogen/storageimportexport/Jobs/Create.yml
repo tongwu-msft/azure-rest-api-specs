@@ -3,14 +3,14 @@ uid: management.azure.com.storageimportexport.jobs.create
 name: Create
 service: Storage Import-Export
 groupName: Jobs
-apiVersion: 2016-11-01
+apiVersion: 2020-08-01
 summary: Creates a new job or updates an existing job in the specified subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs/{jobName}?api-version=2016-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ImportExport/jobs/{jobName}?api-version=2020-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -106,11 +106,11 @@ definitions:
   - name: deliveryPackage
     description: 'Contains information about the package being shipped by the customer to the Microsoft data center. '
     types:
-    - uid: PackageInfomation
+    - uid: PackageInformation
   - name: returnPackage
     description: 'Contains information about the package being shipped from the Microsoft data center to the customer to return the drives. The format is the same as the deliveryPackage property above. This property is not included if the drives have not yet been returned. '
     types:
-    - uid: PackageInfomation
+    - uid: PackageInformation
   - name: diagnosticsPath
     description: The virtual blob directory to which the copy logs and backups of drive manifest files (if enabled) will be stored.
     types:
@@ -152,6 +152,10 @@ definitions:
     description: Specifies the provisioning state of the job.
     types:
     - uid: string
+  - name: encryptionKey
+    description: Contains information about the encryption key.
+    types:
+    - uid: EncryptionKeyDetails
 - name: JobResponse
   description: Contains the job information.
   kind: object
@@ -183,6 +187,10 @@ definitions:
     description: Specifies the job properties
     types:
     - uid: JobDetails
+  - name: identity
+    description: Specifies the job identity details
+    types:
+    - uid: IdentityDetails
 - name: ErrorResponse
   description: Response when errors occurred
   kind: object
@@ -312,7 +320,12 @@ definitions:
     description: Phone number of the recipient of the returned drives.
     types:
     - uid: string
-- name: PackageInfomation
+  - name: additionalInformation
+    isReadyOnly: true
+    description: Additional shipping information for customer, specific to datacenter to which customer should send their disks.
+    types:
+    - uid: string
+- name: PackageInformation
   description: Contains information about the package being shipped by the customer to the Microsoft data center.
   kind: object
   properties:
@@ -388,7 +401,7 @@ definitions:
   description: A property containing information about the blobs to be exported for an export job. This property is required for export jobs, but must not be specified for import jobs.
   kind: object
   properties:
-  - name: blobListblobPath
+  - name: blobListBlobPath
     description: 'The relative URI to the block blob that contains the list of blob paths or blob path prefixes as defined above, beginning with the container name. If the blob is in root container, the URI must begin with $root. '
     types:
     - uid: string
@@ -402,6 +415,45 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: EncryptionKeyDetails
+  description: Specifies the encryption key properties
+  kind: object
+  properties:
+  - name: kekType
+    description: The type of kek encryption key
+    types:
+    - uid: MicrosoftManaged
+    - uid: CustomerManaged
+    typesTitle: enum
+  - name: kekUrl
+    description: 'Specifies the url for kek encryption key. '
+    types:
+    - uid: string
+  - name: kekVaultResourceID
+    description: 'Specifies the keyvault resource id for kek encryption key. '
+    types:
+    - uid: string
+- name: IdentityDetails
+  description: 'Specifies the identity properties. '
+  kind: object
+  properties:
+  - name: type
+    description: The type of identity
+    types:
+    - uid: None
+    - uid: SystemAssigned
+    - uid: UserAssigned
+    typesTitle: enum
+  - name: principalId
+    isReadyOnly: true
+    description: 'Specifies the principal id for the identity for the job. '
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: 'Specifies the tenant id for the identity for the job. '
+    types:
+    - uid: string
 - name: Details
   description: Describes the error details if present.
   kind: object
@@ -444,9 +496,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Create job
+- name: Create import job
   request:
-    uri: PUT https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ImportExport/jobs/myJob?api-version=2016-11-01
+    uri: PUT https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ImportExport/jobs/myJob?api-version=2020-08-01
     body: >-
       {
         "location": "West US",
@@ -454,7 +506,7 @@ examples:
           "storageAccountId": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ClassicStorage/storageAccounts/test",
           "jobType": "Import",
           "returnAddress": {
-            "recipientName": "Tets",
+            "recipientName": "Test",
             "streetAddress1": "Street1",
             "streetAddress2": "street2",
             "city": "Redmond",
@@ -464,6 +516,10 @@ examples:
             "phone": "4250000000",
             "email": "Test@contoso.com"
           },
+          "returnShipping": {
+            "carrierName": "FedEx",
+            "carrierAccountNumber": "989ffff"
+          },
           "diagnosticsPath": "waimportexport",
           "logLevel": "Verbose",
           "backupDriveManifest": true,
@@ -471,9 +527,9 @@ examples:
             {
               "driveId": "9CA995BB",
               "bitLockerKey": "238810-662376-448998-450120-652806-203390-606320-483076",
-              "manifestFile": "\\DriveManifest.xml",
-              "manifestHash": "109B21108597EF36D5785F08303F3638",
-              "driveHeaderHash": ""
+              "manifestFile": "\\8a0c23f7-14b7-470a-9633-fcd46590a1bc.manifest",
+              "manifestHash": "4228EC5D8E048CB9B515338C789314BE8D0B2FDBC7C7A0308E1C826242CDE74E",
+              "driveHeaderHash": "0:1048576:FB6B6ED500D49DA6E0D723C98D42C657F2881CC13357C28DCECA6A524F1292501571A321238540E621AB5BD9C9A32637615919A75593E6CB5C1515DAE341CABF;135266304:143360:C957A189AFC38C4E80731252301EB91427CE55E61448FA3C73C6FDDE70ABBC197947EC8D0249A2C639BB10B95957D5820A4BE8DFBBF76FFFA688AE5CE0D42EC3"
             }
           ]
         }
@@ -486,7 +542,7 @@ examples:
           "storageAccountId": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ClassicStorage/storageAccounts/test",
           "jobType": "Import",
           "returnAddress": {
-            "recipientName": "Tets",
+            "recipientName": "Test",
             "streetAddress1": "Street1",
             "streetAddress2": "street2",
             "city": "Redmond",
@@ -496,6 +552,10 @@ examples:
             "phone": "4250000000",
             "email": "Test@contoso.com"
           },
+          "returnShipping": {
+            "carrierName": "FedEx",
+            "carrierAccountNumber": "989ffff"
+          },
           "shippingInformation": {
             "recipientName": "Microsoft Azure Import/Export Service",
             "streetAddress1": "2045 Lafayette Street",
@@ -504,7 +564,8 @@ examples:
             "stateOrProvince": "CA",
             "postalCode": "95050",
             "countryOrRegion": "USA",
-            "phone": "408 0000 0000"
+            "phone": "408 0000 0000",
+            "additionalInformation": ""
           },
           "diagnosticsPath": "waimportexport",
           "logLevel": "Verbose",
@@ -514,13 +575,19 @@ examples:
           "driveList": [
             {
               "driveId": "9CA995BB",
-              "manifestFile": "\\DriveManifest.xml",
-              "manifestHash": "109B21108597EF36D5785F08303F3638",
-              "driveHeaderHash": "",
+              "manifestFile": "\\8a0c23f7-14b7-470a-9633-fcd46590a1bc.manifest",
+              "manifestHash": "4228EC5D8E048CB9B515338C789314BE8D0B2FDBC7C7A0308E1C826242CDE74E",
+              "driveHeaderHash": "0:1048576:FB6B6ED500D49DA6E0D723C98D42C657F2881CC13357C28DCECA6A524F1292501571A321238540E621AB5BD9C9A32637615919A75593E6CB5C1515DAE341CABF;135266304:143360:C957A189AFC38C4E80731252301EB91427CE55E61448FA3C73C6FDDE70ABBC197947EC8D0249A2C639BB10B95957D5820A4BE8DFBBF76FFFA688AE5CE0D42EC3",
               "state": "Specified"
             }
           ],
-          "provisioningState": "Succeeded"
+          "provisioningState": "Succeeded",
+          "encryptionKey": {
+            "kekType": "MicrosoftManaged"
+          }
+        },
+        "identity": {
+          "type": "None"
         },
         "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ImportExport/jobs/myJob",
         "name": "myJob",
@@ -534,7 +601,7 @@ examples:
           "storageAccountId": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ClassicStorage/storageAccounts/test",
           "jobType": "Import",
           "returnAddress": {
-            "recipientName": "Tets",
+            "recipientName": "Test",
             "streetAddress1": "Street1",
             "streetAddress2": "street2",
             "city": "Redmond",
@@ -544,6 +611,10 @@ examples:
             "phone": "4250000000",
             "email": "Test@contoso.com"
           },
+          "returnShipping": {
+            "carrierName": "FedEx",
+            "carrierAccountNumber": "989ffff"
+          },
           "shippingInformation": {
             "recipientName": "Microsoft Azure Import/Export Service",
             "streetAddress1": "2045 Lafayette Street",
@@ -552,7 +623,8 @@ examples:
             "stateOrProvince": "CA",
             "postalCode": "95050",
             "countryOrRegion": "USA",
-            "phone": "408 0000 0000"
+            "phone": "408 0000 0000",
+            "additionalInformation": ""
           },
           "diagnosticsPath": "waimportexport",
           "logLevel": "Verbose",
@@ -562,16 +634,173 @@ examples:
           "driveList": [
             {
               "driveId": "9CA995BB",
-              "manifestFile": "\\DriveManifest.xml",
-              "manifestHash": "109B21108597EF36D5785F08303F3638",
-              "driveHeaderHash": "",
+              "manifestFile": "\\8a0c23f7-14b7-470a-9633-fcd46590a1bc.manifest",
+              "manifestHash": "4228EC5D8E048CB9B515338C789314BE8D0B2FDBC7C7A0308E1C826242CDE74E",
+              "driveHeaderHash": "0:1048576:FB6B6ED500D49DA6E0D723C98D42C657F2881CC13357C28DCECA6A524F1292501571A321238540E621AB5BD9C9A32637615919A75593E6CB5C1515DAE341CABF;135266304:143360:C957A189AFC38C4E80731252301EB91427CE55E61448FA3C73C6FDDE70ABBC197947EC8D0249A2C639BB10B95957D5820A4BE8DFBBF76FFFA688AE5CE0D42EC3",
               "state": "Specified"
             }
           ],
-          "provisioningState": "Succeeded"
+          "provisioningState": "Succeeded",
+          "encryptionKey": {
+            "kekType": "MicrosoftManaged"
+          }
+        },
+        "identity": {
+          "type": "None"
         },
         "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ImportExport/jobs/myJob",
         "name": "myJob",
+        "type": "Microsoft.ImportExport/jobs",
+        "location": "West US"
+      }
+- name: Create export job
+  request:
+    uri: PUT https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ImportExport/jobs/myExportJob?api-version=2020-08-01
+    body: >-
+      {
+        "location": "West US",
+        "properties": {
+          "storageAccountId": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ClassicStorage/storageAccounts/test",
+          "jobType": "Export",
+          "returnAddress": {
+            "recipientName": "Test",
+            "streetAddress1": "Street1",
+            "streetAddress2": "street2",
+            "city": "Redmond",
+            "stateOrProvince": "wa",
+            "postalCode": "98007",
+            "countryOrRegion": "USA",
+            "phone": "4250000000",
+            "email": "Test@contoso.com"
+          },
+          "returnShipping": {
+            "carrierName": "FedEx",
+            "carrierAccountNumber": "989ffff"
+          },
+          "diagnosticsPath": "waimportexport",
+          "logLevel": "Verbose",
+          "backupDriveManifest": true,
+          "export": {
+            "blobList": {
+              "blobPathPrefix": [
+                "/"
+              ]
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "storageAccountId": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ClassicStorage/storageAccounts/test",
+          "jobType": "Export",
+          "returnAddress": {
+            "recipientName": "Test",
+            "streetAddress1": "Street1",
+            "streetAddress2": "street2",
+            "city": "Redmond",
+            "stateOrProvince": "wa",
+            "postalCode": "98007",
+            "countryOrRegion": "USA",
+            "phone": "4250000000",
+            "email": "Test@contoso.com"
+          },
+          "returnShipping": {
+            "carrierName": "FedEx",
+            "carrierAccountNumber": "989ffff"
+          },
+          "shippingInformation": {
+            "recipientName": "Microsoft Azure Import/Export Service",
+            "streetAddress1": "2045 Lafayette Street",
+            "streetAddress2": "",
+            "city": "Santa Clara",
+            "stateOrProvince": "CA",
+            "postalCode": "95050",
+            "countryOrRegion": "USA",
+            "phone": "408 0000 0000",
+            "additionalInformation": ""
+          },
+          "diagnosticsPath": "waimportexport",
+          "logLevel": "Verbose",
+          "backupDriveManifest": true,
+          "cancelRequested": false,
+          "state": "Creating",
+          "export": {
+            "blobList": {
+              "blobPathPrefix": [
+                "/"
+              ]
+            }
+          },
+          "provisioningState": "Succeeded",
+          "encryptionKey": {
+            "kekType": "MicrosoftManaged"
+          }
+        },
+        "identity": {
+          "type": "None"
+        },
+        "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ImportExport/jobs/myExportJob",
+        "name": "myExportJob",
+        "type": "Microsoft.ImportExport/jobs",
+        "location": "West US"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "storageAccountId": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ClassicStorage/storageAccounts/test",
+          "jobType": "Export",
+          "returnAddress": {
+            "recipientName": "Test",
+            "streetAddress1": "Street1",
+            "streetAddress2": "street2",
+            "city": "Redmond",
+            "stateOrProvince": "wa",
+            "postalCode": "98007",
+            "countryOrRegion": "USA",
+            "phone": "4250000000",
+            "email": "Test@contoso.com"
+          },
+          "returnShipping": {
+            "carrierName": "FedEx",
+            "carrierAccountNumber": "989ffff"
+          },
+          "shippingInformation": {
+            "recipientName": "Microsoft Azure Import/Export Service",
+            "streetAddress1": "2045 Lafayette Street",
+            "streetAddress2": "",
+            "city": "Santa Clara",
+            "stateOrProvince": "CA",
+            "postalCode": "95050",
+            "countryOrRegion": "USA",
+            "phone": "408 0000 0000",
+            "additionalInformation": ""
+          },
+          "diagnosticsPath": "waimportexport",
+          "logLevel": "Verbose",
+          "backupDriveManifest": true,
+          "cancelRequested": false,
+          "state": "Creating",
+          "export": {
+            "blobList": {
+              "blobPathPrefix": [
+                "/"
+              ]
+            }
+          },
+          "provisioningState": "Succeeded",
+          "encryptionKey": {
+            "kekType": "MicrosoftManaged"
+          }
+        },
+        "identity": {
+          "type": "None"
+        },
+        "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ImportExport/jobs/myExportJob",
+        "name": "myExportJob",
         "type": "Microsoft.ImportExport/jobs",
         "location": "West US"
       }

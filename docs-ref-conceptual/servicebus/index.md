@@ -1,11 +1,12 @@
 ---
 ms.assetid: 650f91bc-3b04-4bca-b10f-16da6c509b80
 title: Azure Service Bus REST API reference
+description: REST API reference documentation for Azure Service Bus. 
 ms.service: service-bus-messaging
 author: spelluru
 ms.author: spelluru
 ms.manager: femila
-service_description: To be added
+service_description: Microsoft Azure Service Bus is a fully managed enterprise integration message broker. Service Bus can decouple applications and services. Service Bus offers a reliable and secure platform for asynchronous transfer of data and state.
 ---
 
 # Azure Service Bus REST API
@@ -33,10 +34,10 @@ The Service Bus REST API provides operations for working with the following reso
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
-| [Namespaces](xref:management.azure.com.servicebus.namespaces)          | Provides operations for managing Service Bus namespaces. |
-| [Queues](xref:management.azure.com.servicebus.queues)  | Operations for managing Service Bus queues. |
-| [Subscriptions](xref:management.azure.com.servicebus.subscriptions)  | Operations for managing Service Bus topic subscriptions. |
-| [Topics](xref:management.azure.com.servicebus.topics)  | Operations for managing Service Bus topics. |
+| [Namespaces](xref:management.azure.com.servicebus.stable.namespaces)          | Provides operations for managing Service Bus namespaces. |
+| [Queues](xref:management.azure.com.servicebus.stable.queues)  | Operations for managing Service Bus queues. |
+| [Subscriptions](xref:management.azure.com.servicebus.stable.subscriptions)  | Operations for managing Service Bus topic subscriptions. |
+| [Topics](xref:management.azure.com.servicebus.stable.topics)  | Operations for managing Service Bus topics. |
 
 ### Service Bus service
 

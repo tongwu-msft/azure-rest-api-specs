@@ -253,6 +253,22 @@
 ##### [Get](apimanagement/2019-12-01/Certificate/Get.yml)
 ##### [Get Entity Tag](apimanagement/2019-12-01/Certificate/GetEntityTag.yml)
 ##### [List By Service](apimanagement/2019-12-01/Certificate/ListByService.yml)
+#### Content Item
+##### [Overview](apimanagement/2019-12-01/ContentItem.yml)
+##### [Create Or Update](apimanagement/2019-12-01/ContentItem/CreateOrUpdate.yml)
+##### [Delete](apimanagement/2019-12-01/ContentItem/Delete.yml)
+##### [Get](apimanagement/2019-12-01/ContentItem/Get.yml)
+##### [Get Entity Tag](apimanagement/2019-12-01/ContentItem/GetEntityTag.yml)
+##### [List By Service](apimanagement/2019-12-01/ContentItem/ListByService.yml)
+#### Content Type
+##### [Overview](apimanagement/2019-12-01/ContentType.yml)
+##### [Create Or Update](apimanagement/2019-12-01/ContentType/CreateOrUpdate.yml)
+##### [Delete](apimanagement/2019-12-01/ContentType/Delete.yml)
+##### [Get Entity Tag](apimanagement/2019-12-01/ContentType/GetEntityTag.yml)
+##### [List By Service](apimanagement/2019-12-01/ContentType/ListByService.yml)
+#### Content Types
+##### [Overview](apimanagement/2019-12-01/ContentTypes.yml)
+##### [Get](apimanagement/2019-12-01/ContentTypes/Get.yml)
 #### Delegation Settings
 ##### [Overview](apimanagement/2019-12-01/DelegationSettings.yml)
 ##### [Create Or Update](apimanagement/2019-12-01/DelegationSettings/CreateOrUpdate.yml)
@@ -3619,6 +3635,82 @@
 ## Bing Web Search API
 ### [Bing Web Search API v7](../docs-ref-conceptual/cognitiveservices-bingsearch/bing-web-api-v7-reference.md)
 ### [Bing Web Search API v5](../docs-ref-conceptual/cognitiveservices-bingsearch/bing-web-api-v5-reference.md)
+# Communication
+## [Overview](../docs-ref-conceptual/communication/index.md)
+## Add Chat Thread Members
+### [Overview](communication/AddChatThreadMembers.yml)
+### [Add Chat Thread Members](communication/AddChatThreadMembers/AddChatThreadMembers.yml)
+## Communication Identity
+### [Overview](communication/CommunicationIdentity.yml)
+### [Create](communication/CommunicationIdentity/Create.yml)
+### [Delete](communication/CommunicationIdentity/Delete.yml)
+### [Issue Token](communication/CommunicationIdentity/IssueToken.yml)
+### [Update](communication/CommunicationIdentity/Update.yml)
+## Communication Service
+### [Overview](communication/CommunicationService.yml)
+### [Create Or Update](communication/CommunicationService/CreateOrUpdate.yml)
+### [Delete](communication/CommunicationService/Delete.yml)
+### [Get](communication/CommunicationService/Get.yml)
+### [Link Notification Hub](communication/CommunicationService/LinkNotificationHub.yml)
+### [List By Resource Group](communication/CommunicationService/ListByResourceGroup.yml)
+### [List By Subscription](communication/CommunicationService/ListBySubscription.yml)
+### [List Keys](communication/CommunicationService/ListKeys.yml)
+### [Regenerate Key](communication/CommunicationService/RegenerateKey.yml)
+### [Update](communication/CommunicationService/Update.yml)
+## Create Chat Thread
+### [Overview](communication/CreateChatThread.yml)
+### [Create Chat Thread](communication/CreateChatThread/CreateChatThread.yml)
+## Delete Chat Message
+### [Overview](communication/DeleteChatMessage.yml)
+### [Delete Chat Message](communication/DeleteChatMessage/DeleteChatMessage.yml)
+## Delete Chat Thread
+### [Overview](communication/DeleteChatThread.yml)
+### [Delete Chat Thread](communication/DeleteChatThread/DeleteChatThread.yml)
+## Get Chat Message
+### [Overview](communication/GetChatMessage.yml)
+### [Get Chat Message](communication/GetChatMessage/GetChatMessage.yml)
+## Get Chat Thread
+### [Overview](communication/GetChatThread.yml)
+### [Get Chat Thread](communication/GetChatThread/GetChatThread.yml)
+## List Chat Messages
+### [Overview](communication/ListChatMessages.yml)
+### [List Chat Messages](communication/ListChatMessages/ListChatMessages.yml)
+## List Chat Read Receipts
+### [Overview](communication/ListChatReadReceipts.yml)
+### [List Chat Read Receipts](communication/ListChatReadReceipts/ListChatReadReceipts.yml)
+## List Chat Thread Members
+### [Overview](communication/ListChatThreadMembers.yml)
+### [List Chat Thread Members](communication/ListChatThreadMembers/ListChatThreadMembers.yml)
+## List Chat Threads
+### [Overview](communication/ListChatThreads.yml)
+### [List Chat Threads](communication/ListChatThreads/ListChatThreads.yml)
+## Operation Statuses
+### [Overview](communication/OperationStatuses.yml)
+### [Get](communication/OperationStatuses/Get.yml)
+## Operations
+### [Overview](communication/Operations.yml)
+### [List](communication/Operations/List.yml)
+## Remove Chat Thread Member
+### [Overview](communication/RemoveChatThreadMember.yml)
+### [Remove Chat Thread Member](communication/RemoveChatThreadMember/RemoveChatThreadMember.yml)
+## Send Chat Message
+### [Overview](communication/SendChatMessage.yml)
+### [Send Chat Message](communication/SendChatMessage/SendChatMessage.yml)
+## Send Chat Read Receipt
+### [Overview](communication/SendChatReadReceipt.yml)
+### [Send Chat Read Receipt](communication/SendChatReadReceipt/SendChatReadReceipt.yml)
+## Send Typing Notification
+### [Overview](communication/SendTypingNotification.yml)
+### [Send Typing Notification](communication/SendTypingNotification/SendTypingNotification.yml)
+## Sms
+### [Overview](communication/Sms.yml)
+### [Send](communication/Sms/Send.yml)
+## Update Chat Message
+### [Overview](communication/UpdateChatMessage.yml)
+### [Update Chat Message](communication/UpdateChatMessage/UpdateChatMessage.yml)
+## Update Chat Thread
+### [Overview](communication/UpdateChatThread.yml)
+### [Update Chat Thread](communication/UpdateChatThread/UpdateChatThread.yml)
 # Compute
 ## [Overview](../docs-ref-conceptual/compute/index.md)
 ## Cloud Services (classic)
@@ -7136,6 +7228,10 @@
 ## Operations
 ### [Overview](maintenance/Operations.yml)
 ### [List](maintenance/Operations/List.yml)
+## Public Maintenance Configurations
+### [Overview](maintenance/PublicMaintenanceConfigurations.yml)
+### [Get](maintenance/PublicMaintenanceConfigurations/Get.yml)
+### [List](maintenance/PublicMaintenanceConfigurations/List.yml)
 ## Updates
 ### [Overview](maintenance/Updates.yml)
 ### [List](maintenance/Updates/List.yml)
@@ -7734,6 +7830,14 @@
 #### [Overview](monitor/TenantActivityLogs.yml)
 #### [List](monitor/TenantActivityLogs/List.yml)
 ### Alerts Management
+#### Action Rules
+##### [Overview](monitor/alertsmanagement/ActionRules.yml)
+##### [Create Update](monitor/alertsmanagement/ActionRules/CreateUpdate.yml)
+##### [Delete](monitor/alertsmanagement/ActionRules/Delete.yml)
+##### [Get By Name](monitor/alertsmanagement/ActionRules/GetByName.yml)
+##### [List By Resource Group](monitor/alertsmanagement/ActionRules/ListByResourceGroup.yml)
+##### [List By Subscription](monitor/alertsmanagement/ActionRules/ListBySubscription.yml)
+##### [Update](monitor/alertsmanagement/ActionRules/Update.yml)
 #### Alerts
 ##### [Overview](monitor/alertsmanagement/Alerts.yml)
 ##### [Change State](monitor/alertsmanagement/Alerts/ChangeState.yml)
@@ -7745,6 +7849,12 @@
 #### Operations
 ##### [Overview](monitor/alertsmanagement/Operations.yml)
 ##### [List](monitor/alertsmanagement/Operations/List.yml)
+#### Smart Groups
+##### [Overview](monitor/alertsmanagement/SmartGroups.yml)
+##### [Change State](monitor/alertsmanagement/SmartGroups/ChangeState.yml)
+##### [Get All](monitor/alertsmanagement/SmartGroups/GetAll.yml)
+##### [Get By Id](monitor/alertsmanagement/SmartGroups/GetById.yml)
+##### [Get History](monitor/alertsmanagement/SmartGroups/GetHistory.yml)
 ### Microsoft.WorkloadMonitor
 #### Components
 ##### [Overview](monitor/microsoft.workloadmonitor/Components.yml)
@@ -8920,6 +9030,15 @@
 ### [List](resources/PolicyDefinitions/List.yml)
 ### [List Built In](resources/PolicyDefinitions/ListBuiltIn.yml)
 ### [List By Management Group](resources/PolicyDefinitions/ListByManagementGroup.yml)
+## Policy Exemptions
+### [Overview](resources/PolicyExemptions.yml)
+### [Create Or Update](resources/PolicyExemptions/CreateOrUpdate.yml)
+### [Delete](resources/PolicyExemptions/Delete.yml)
+### [Get](resources/PolicyExemptions/Get.yml)
+### [List](resources/PolicyExemptions/List.yml)
+### [List For Management Group](resources/PolicyExemptions/ListForManagementGroup.yml)
+### [List For Resource](resources/PolicyExemptions/ListForResource.yml)
+### [List For Resource Group](resources/PolicyExemptions/ListForResourceGroup.yml)
 ## Policy Set Definitions
 ### [Overview](resources/PolicySetDefinitions.yml)
 ### [Create Or Update](resources/PolicySetDefinitions/CreateOrUpdate.yml)
@@ -8939,6 +9058,7 @@
 ### [List](resources/Providers/List.yml)
 ### [List At Tenant Scope](resources/Providers/ListAtTenantScope.yml)
 ### [Register](resources/Providers/Register.yml)
+### [Register At Management Group Scope](resources/Providers/RegisterAtManagementGroupScope.yml)
 ### [Unregister](resources/Providers/Unregister.yml)
 ## Resource Groups
 ### [Overview](resources/ResourceGroups.yml)
@@ -9027,6 +9147,7 @@
 ## [Overview](../docs-ref-conceptual/regionmove/index.md)
 ## Move Collections
 ### [Overview](resourcemover/MoveCollections.yml)
+### [Bulk Remove](resourcemover/MoveCollections/BulkRemove.yml)
 ### [Commit](resourcemover/MoveCollections/Commit.yml)
 ### [Create](resourcemover/MoveCollections/Create.yml)
 ### [Delete](resourcemover/MoveCollections/Delete.yml)
@@ -9455,6 +9576,184 @@
 ## List Operations
 ### [Overview](serialconsole/ListOperations.yml)
 ### [List Operations](serialconsole/ListOperations/ListOperations.yml)
+# Service Bus
+## [Overview](../docs-ref-conceptual/servicebus/index.md)
+## Service Bus service REST
+### [Overview](../docs-ref-conceptual/servicebus/service-bus-runtime-rest.md)
+### Namespace Access
+#### [Overview](../docs-ref-conceptual/servicebus/addressing-and-protocol.md)
+#### [Simplified REST API sets](../docs-ref-conceptual/servicebus/overview.md)
+#### [Get Entity](../docs-ref-conceptual/servicebus/get-entity.md)
+#### [Entities Discovery](../docs-ref-conceptual/servicebus/entities-discovery.md)
+#### [Delete Entity](../docs-ref-conceptual/servicebus/delete-entity.md)
+#### [Enumeration](../docs-ref-conceptual/servicebus/enumeration.md)
+#### [Update Entity](../docs-ref-conceptual/servicebus/update-entity.md)
+### Resource Provider APIs
+#### [Overview](../docs-ref-conceptual/servicebus/resource-provider-apis.md)
+#### [Create Namespace](../docs-ref-conceptual/servicebus/create-namespace.md)
+#### [Delete Namespace](../docs-ref-conceptual/servicebus/delete-namespace.md)
+#### [Get Namespace](../docs-ref-conceptual/servicebus/get-namespace.md)
+#### [Check Namespace Availability](../docs-ref-conceptual/servicebus/check-namespace-availability.md)
+#### [Namespace Description](../docs-ref-conceptual/servicebus/namespace-description.md)
+#### [Create Queue](../docs-ref-conceptual/servicebus/create-queue.md)
+#### [Delete Queue](../docs-ref-conceptual/servicebus/delete-queue.md)
+#### [Update Queue](../docs-ref-conceptual/servicebus/update-queue.md)
+#### [Create Topic](../docs-ref-conceptual/servicebus/create-topic.md)
+#### [Delete Topic](../docs-ref-conceptual/servicebus/delete-topic.md)
+#### [Update Topic](../docs-ref-conceptual/servicebus/update-topic.md)
+#### [Create Subscription](../docs-ref-conceptual/servicebus/create-subscription.md)
+#### [Delete Subscription](../docs-ref-conceptual/servicebus/delete-subscription.md)
+#### [Get SB Regions](../docs-ref-conceptual/servicebus/get-sb-regions.md)
+#### [Get Relays](../docs-ref-conceptual/servicebus/get-relays.md)
+### [Message headers and Properties](../docs-ref-conceptual/servicebus/message-headers-and-properties.md)
+### [Send messages to queue](../docs-ref-conceptual/servicebus/send-message-to-queue.md)
+### [Send Message Batch](../docs-ref-conceptual/servicebus/send-message-batch.md)
+### [Receive and Delete Message (Destructive Read)](../docs-ref-conceptual/servicebus/receive-and-delete-message-destructive-read.md)
+### [Peek-Lock Message (Non-Destructive Read)](../docs-ref-conceptual/servicebus/peek-lock-message-non-destructive-read.md)
+### [Unlock Message](../docs-ref-conceptual/servicebus/unlock-message.md)
+### [Delete Message](../docs-ref-conceptual/servicebus/delete-message.md)
+### [Renew-Lock for a Message](../docs-ref-conceptual/servicebus/renew-lock-for-a-message.md)
+### [Request a Token from ACS](../docs-ref-conceptual/servicebus/request-a-token-from-acs.md)
+### [Get Azure Active Directory token](../docs-ref-conceptual/servicebus/get-azure-active-directory-token.md)
+### [REST vs. .NET Client Support](../docs-ref-conceptual/servicebus/rest-dotnet-client-support.md)
+## Reference
+### Preview
+#### IP Filter Rules
+##### [Overview](servicebus/preview/IP%20Filter%20Rules.yml)
+##### [Create Or Update Ip Filter Rule](servicebus/preview/IP%20Filter%20Rules/CreateOrUpdateIpFilterRule.yml)
+##### [Delete Ip Filter Rule](servicebus/preview/IP%20Filter%20Rules/DeleteIpFilterRule.yml)
+##### [Get Ip Filter Rule](servicebus/preview/IP%20Filter%20Rules/GetIpFilterRule.yml)
+##### [List Ip Filter Rules](servicebus/preview/IP%20Filter%20Rules/ListIpFilterRules.yml)
+#### Namespaces
+##### [Overview](servicebus/preview/Namespaces.yml)
+##### [Create Or Update](servicebus/preview/Namespaces/CreateOrUpdate.yml)
+##### [Delete](servicebus/preview/Namespaces/Delete.yml)
+##### [Get](servicebus/preview/Namespaces/Get.yml)
+##### [List](servicebus/preview/Namespaces/List.yml)
+##### [List By Resource Group](servicebus/preview/Namespaces/ListByResourceGroup.yml)
+##### [Update](servicebus/preview/Namespaces/Update.yml)
+#### Network Rule Sets
+##### [Overview](servicebus/preview/Network%20Rule%20Sets.yml)
+##### [Create Or Update Network Rule Set](servicebus/preview/Network%20Rule%20Sets/CreateOrUpdateNetworkRuleSet.yml)
+##### [Get Network Rule Set](servicebus/preview/Network%20Rule%20Sets/GetNetworkRuleSet.yml)
+#### Operations
+##### [Overview](servicebus/preview/Operations.yml)
+##### [List](servicebus/preview/Operations/List.yml)
+#### Private Endpoint Connections
+##### [Overview](servicebus/preview/PrivateEndpointConnections.yml)
+##### [Create Or Update](servicebus/preview/PrivateEndpointConnections/CreateOrUpdate.yml)
+##### [Delete](servicebus/preview/PrivateEndpointConnections/Delete.yml)
+##### [Get](servicebus/preview/PrivateEndpointConnections/Get.yml)
+##### [List](servicebus/preview/PrivateEndpointConnections/List.yml)
+#### Private Link Resources
+##### [Overview](servicebus/preview/PrivateLinkResources.yml)
+##### [Get](servicebus/preview/PrivateLinkResources/Get.yml)
+#### Virtual Network Rules
+##### [Overview](servicebus/preview/Virtual%20Network%20Rules.yml)
+##### [Create Or Update Virtual Network Rule](servicebus/preview/Virtual%20Network%20Rules/CreateOrUpdateVirtualNetworkRule.yml)
+##### [Delete Virtual Network Rule](servicebus/preview/Virtual%20Network%20Rules/DeleteVirtualNetworkRule.yml)
+##### [Get Virtual Network Rule](servicebus/preview/Virtual%20Network%20Rules/GetVirtualNetworkRule.yml)
+##### [List Virtual Network Rules](servicebus/preview/Virtual%20Network%20Rules/ListVirtualNetworkRules.yml)
+### Stable
+#### Disaster Recovery Configs
+##### [Overview](servicebus/stable/DisasterRecoveryConfigs.yml)
+##### [Break Pairing](servicebus/stable/DisasterRecoveryConfigs/BreakPairing.yml)
+##### [Check Name Availability](servicebus/stable/DisasterRecoveryConfigs/CheckNameAvailability.yml)
+##### [Create Or Update](servicebus/stable/DisasterRecoveryConfigs/CreateOrUpdate.yml)
+##### [Delete](servicebus/stable/DisasterRecoveryConfigs/Delete.yml)
+##### [Fail Over](servicebus/stable/DisasterRecoveryConfigs/FailOver.yml)
+##### [Get](servicebus/stable/DisasterRecoveryConfigs/Get.yml)
+##### [Get Authorization Rule](servicebus/stable/DisasterRecoveryConfigs/GetAuthorizationRule.yml)
+##### [List](servicebus/stable/DisasterRecoveryConfigs/List.yml)
+##### [List Authorization Rules](servicebus/stable/DisasterRecoveryConfigs/ListAuthorizationRules.yml)
+##### [List Keys](servicebus/stable/DisasterRecoveryConfigs/ListKeys.yml)
+#### Event Hubs
+##### [Overview](servicebus/stable/EventHubs.yml)
+##### [List By Namespace](servicebus/stable/EventHubs/ListByNamespace.yml)
+#### Migration Configs
+##### [Overview](servicebus/stable/MigrationConfigs.yml)
+##### [Complete Migration](servicebus/stable/MigrationConfigs/CompleteMigration.yml)
+##### [Create And Start Migration](servicebus/stable/MigrationConfigs/CreateAndStartMigration.yml)
+##### [Delete](servicebus/stable/MigrationConfigs/Delete.yml)
+##### [Get](servicebus/stable/MigrationConfigs/Get.yml)
+##### [List](servicebus/stable/MigrationConfigs/List.yml)
+##### [Revert](servicebus/stable/MigrationConfigs/Revert.yml)
+#### Namespaces
+##### [Overview](servicebus/stable/Namespaces.yml)
+##### [Create Or Update](servicebus/stable/Namespaces/CreateOrUpdate.yml)
+##### [Delete](servicebus/stable/Namespaces/Delete.yml)
+##### [Get](servicebus/stable/Namespaces/Get.yml)
+##### [List](servicebus/stable/Namespaces/List.yml)
+##### [List By Resource Group](servicebus/stable/Namespaces/ListByResourceGroup.yml)
+##### [Update](servicebus/stable/Namespaces/Update.yml)
+#### Namespaces - Authorization Rules
+##### [Overview](servicebus/stable/Namespaces%20-%20Authorization%20Rules.yml)
+##### [Create Or Update Authorization Rule](servicebus/stable/Namespaces%20-%20Authorization%20Rules/CreateOrUpdateAuthorizationRule.yml)
+##### [Delete Authorization Rule](servicebus/stable/Namespaces%20-%20Authorization%20Rules/DeleteAuthorizationRule.yml)
+##### [Get Authorization Rule](servicebus/stable/Namespaces%20-%20Authorization%20Rules/GetAuthorizationRule.yml)
+##### [List Authorization Rules](servicebus/stable/Namespaces%20-%20Authorization%20Rules/ListAuthorizationRules.yml)
+##### [List Keys](servicebus/stable/Namespaces%20-%20Authorization%20Rules/ListKeys.yml)
+##### [Regenerate Keys](servicebus/stable/Namespaces%20-%20Authorization%20Rules/RegenerateKeys.yml)
+#### Namespaces - CheckName Availability
+##### [Overview](servicebus/stable/Namespaces%20-%20CheckName%20Availability.yml)
+##### [Check Name Availability](servicebus/stable/Namespaces%20-%20CheckName%20Availability/CheckNameAvailability.yml)
+#### Namespaces - Migrate
+##### [Overview](servicebus/stable/Namespaces%20-%20Migrate.yml)
+##### [Migrate](servicebus/stable/Namespaces%20-%20Migrate/Migrate.yml)
+#### Namespaces - Network Rule Sets
+##### [Overview](servicebus/stable/Namespaces%20-%20Network%20Rule%20Sets.yml)
+##### [Create Or Update Network Rule Set](servicebus/stable/Namespaces%20-%20Network%20Rule%20Sets/CreateOrUpdateNetworkRuleSet.yml)
+##### [Get Network Rule Set](servicebus/stable/Namespaces%20-%20Network%20Rule%20Sets/GetNetworkRuleSet.yml)
+##### [List Network Rule Sets](servicebus/stable/Namespaces%20-%20Network%20Rule%20Sets/ListNetworkRuleSets.yml)
+#### Operations
+##### [Overview](servicebus/stable/Operations.yml)
+##### [List](servicebus/stable/Operations/List.yml)
+#### Premium Messaging Regions
+##### [Overview](servicebus/stable/PremiumMessagingRegions.yml)
+##### [List](servicebus/stable/PremiumMessagingRegions/List.yml)
+#### Queues
+##### [Overview](servicebus/stable/Queues.yml)
+##### [Create Or Update](servicebus/stable/Queues/CreateOrUpdate.yml)
+##### [Delete](servicebus/stable/Queues/Delete.yml)
+##### [Get](servicebus/stable/Queues/Get.yml)
+##### [List By Namespace](servicebus/stable/Queues/ListByNamespace.yml)
+#### Queues - Authorization Rules
+##### [Overview](servicebus/stable/Queues%20-%20Authorization%20Rules.yml)
+##### [Create Or Update Authorization Rule](servicebus/stable/Queues%20-%20Authorization%20Rules/CreateOrUpdateAuthorizationRule.yml)
+##### [Delete Authorization Rule](servicebus/stable/Queues%20-%20Authorization%20Rules/DeleteAuthorizationRule.yml)
+##### [Get Authorization Rule](servicebus/stable/Queues%20-%20Authorization%20Rules/GetAuthorizationRule.yml)
+##### [List Authorization Rules](servicebus/stable/Queues%20-%20Authorization%20Rules/ListAuthorizationRules.yml)
+##### [List Keys](servicebus/stable/Queues%20-%20Authorization%20Rules/ListKeys.yml)
+##### [Regenerate Keys](servicebus/stable/Queues%20-%20Authorization%20Rules/RegenerateKeys.yml)
+#### Regions
+##### [Overview](servicebus/stable/Regions.yml)
+##### [List By Sku](servicebus/stable/Regions/ListBySku.yml)
+#### Rules
+##### [Overview](servicebus/stable/Rules.yml)
+##### [Create Or Update](servicebus/stable/Rules/CreateOrUpdate.yml)
+##### [Delete](servicebus/stable/Rules/Delete.yml)
+##### [Get](servicebus/stable/Rules/Get.yml)
+##### [List By Subscriptions](servicebus/stable/Rules/ListBySubscriptions.yml)
+#### Subscriptions
+##### [Overview](servicebus/stable/Subscriptions.yml)
+##### [Create Or Update](servicebus/stable/Subscriptions/CreateOrUpdate.yml)
+##### [Delete](servicebus/stable/Subscriptions/Delete.yml)
+##### [Get](servicebus/stable/Subscriptions/Get.yml)
+##### [List By Topic](servicebus/stable/Subscriptions/ListByTopic.yml)
+#### Topics
+##### [Overview](servicebus/stable/Topics.yml)
+##### [Create Or Update](servicebus/stable/Topics/CreateOrUpdate.yml)
+##### [Delete](servicebus/stable/Topics/Delete.yml)
+##### [Get](servicebus/stable/Topics/Get.yml)
+##### [List By Namespace](servicebus/stable/Topics/ListByNamespace.yml)
+#### Topics – Authorization Rules
+##### [Overview](servicebus/stable/Topics%20–%20Authorization%20Rules.yml)
+##### [Create Or Update Authorization Rule](servicebus/stable/Topics%20–%20Authorization%20Rules/CreateOrUpdateAuthorizationRule.yml)
+##### [Delete Authorization Rule](servicebus/stable/Topics%20–%20Authorization%20Rules/DeleteAuthorizationRule.yml)
+##### [Get Authorization Rule](servicebus/stable/Topics%20–%20Authorization%20Rules/GetAuthorizationRule.yml)
+##### [List Authorization Rules](servicebus/stable/Topics%20–%20Authorization%20Rules/ListAuthorizationRules.yml)
+##### [List Keys](servicebus/stable/Topics%20–%20Authorization%20Rules/ListKeys.yml)
+##### [Regenerate Keys](servicebus/stable/Topics%20–%20Authorization%20Rules/RegenerateKeys.yml)
 # Service Fabric
 ## [Overview](../docs-ref-conceptual/servicefabric/index.md)
 ## Azure Service Fabric Mesh Resource Manager APIs
@@ -13023,9 +13322,11 @@
 #### [Overview](sql/Databases.yml)
 #### [Create Or Update](sql/Databases/CreateOrUpdate.yml)
 #### [Delete](sql/Databases/Delete.yml)
+#### [Failover](sql/Databases/Failover.yml)
 #### [Get](sql/Databases/Get.yml)
 #### [List By Elastic Pool](sql/Databases/ListByElasticPool.yml)
 #### [List By Server](sql/Databases/ListByServer.yml)
+#### [List Inaccessible By Server](sql/Databases/ListInaccessibleByServer.yml)
 #### [Pause](sql/Databases/Pause.yml)
 #### [Rename](sql/Databases/Rename.yml)
 #### [Resume](sql/Databases/Resume.yml)

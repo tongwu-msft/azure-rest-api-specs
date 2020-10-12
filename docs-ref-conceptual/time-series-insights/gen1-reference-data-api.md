@@ -10,10 +10,13 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 07/29/2020
+ms.date: 10/01/2020
 ---
 
 # Azure Time Series Insights Gen1 Reference Data API
+
+> [!CAUTION]
+> This is a Gen1 article.
 
 This article describes the Azure Time Series Insights Gen1 Reference Data Management API that's used to manage items within a reference dataset. It assumes that the reference dataset has already been created within the environment.
 

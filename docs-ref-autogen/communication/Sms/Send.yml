@@ -1,0 +1,121 @@
+### YamlMime:RESTOperation
+uid: communication.sms.send
+name: Send
+service: Communication
+groupName: Sms
+apiVersion: 2020-07-20-preview1
+summary: Sends a SMS message from a phone number that belongs to the authenticated account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/sms?api-version=2020-07-20-preview1
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The endpoint of the Azure Communication resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: SMS message is successfully scheduled for sending.
+  types:
+  - uid: SendSmsResponse
+requestBody:
+- name: default
+  parameters:
+  - name: from
+    in: body
+    isRequired: true
+    description: The sender's phone number in E.164 format that is owned by the authenticated account.
+    types:
+    - uid: string
+  - name: to
+    in: body
+    isRequired: true
+    description: The recipients' phone number in E.164 format. In this version, only one recipient in the list is supported.
+    types:
+    - uid: string
+      isArray: true
+  - name: message
+    in: body
+    isRequired: true
+    description: The contents of the message that will be sent to the recipient. The allowable content is defined by RFC 5724.
+    types:
+    - uid: string
+  - name: sendSmsOptions
+    in: body
+    description: Optional configuration for sending SMS messages
+    types:
+    - uid: SendSmsOptions
+requestHeader: []
+definitions:
+- name: SendSmsOptions
+  description: Optional configuration for sending SMS messages
+  kind: object
+  properties:
+  - name: enableDeliveryReport
+    description: Enable this flag to receive a delivery report for this message on the Azure Resource EventGrid
+    types:
+    - uid: boolean
+- name: SendSmsResponse
+  description: Response for a successful send Sms request.
+  kind: object
+  properties:
+  - name: messageId
+    description: The identifier of the outgoing SMS message
+    types:
+    - uid: string
+- name: SendMessageRequest
+  description: Represents the properties of a send message request.
+  kind: object
+  properties:
+  - name: from
+    description: The sender's phone number in E.164 format that is owned by the authenticated account.
+    types:
+    - uid: string
+  - name: to
+    description: The recipients' phone number in E.164 format. In this version, only one recipient in the list is supported.
+    types:
+    - uid: string
+      isArray: true
+  - name: message
+    description: The contents of the message that will be sent to the recipient. The allowable content is defined by RFC 5724.
+    types:
+    - uid: string
+  - name: sendSmsOptions
+    description: Optional configuration for sending SMS messages
+    types:
+    - uid: SendSmsOptions
+examples:
+- name: SuccessfulSend
+  request:
+    uri: POST https://contoso.communication.azure.com//sms?api-version=2020-07-20-preview1
+    body: >-
+      {
+        "from": "+18001110000",
+        "to": [
+          "+18002220000"
+        ],
+        "message": "Hello world!",
+        "sendSmsOptions": {
+          "enableDeliveryReport": true
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "messageId": "Outgoing_20200610203725bfd4ba70-70bf-4f77-925d-c0bdb5161bb3"
+      }
+security: []
+errorCodes: []

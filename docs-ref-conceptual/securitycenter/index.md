@@ -2,9 +2,9 @@
 ms.assetid: 
 title: Azure Security Center REST APIs
 ms.service: security-center
-author: msmbaldwin
-ms.author: mbaldwin
-ms.manager: mbaldwin
+author: memildin
+ms.author: memildin
+ms.manager: rkarlin
 service_description: Unified security management and advanced threat protection across hybrid cloud workloads
 ---
 
@@ -22,6 +22,7 @@ Azure Security Center provides unified security management and advanced threat p
 | [Adaptive Network Hardenings](../../docs-ref-autogen/securitycenter/AdaptiveNetworkHardenings.yml) | Controls for Adaptive Network Hardening resources and rules.|
 | [Advanced Threat Protection](../../docs-ref-autogen/securitycenter/AdvancedThreatProtection.yml) | Advanced Threat Protection settings on a specified resource.|
 | [Alerts](../../docs-ref-autogen/securitycenter/Alerts.yml) |Alerts on security events that happened on the subscription.|
+| [Alerts Suppression Rules](../../docs-ref-autogen/securitycenter/alertssuppressionrules.yml) | View and edit alert suppression rules.|
 | [Allowed Connections](../../docs-ref-autogen/securitycenter/AllowedConnections.yml) |Lists the permissible traffic routes between resources.|
 | [Assessments](../../docs-ref-autogen/securitycenter/Assessments.yml) |Manage security assessments.|
 | [Assessments Metadata](../../docs-ref-autogen/securitycenter/AssessmentsMetadata.yml) |Manage metadata for the security assessments.|
@@ -32,6 +33,10 @@ Azure Security Center provides unified security management and advanced threat p
 | [Discovered Security Solutions](../../docs-ref-autogen/securitycenter/DiscoveredSecuritySolutions.yml) | Details of specific discovered Security Solution. |
 | [External Security Solutions](../../docs-ref-autogen/securitycenter/ExternalSecuritySolutions.yml) | External Security Solutions for the subscription and location. |
 | [Information Protection Policies](../../docs-ref-autogen/securitycenter/InformationProtectionPolicies.yml) |Details of the information protection policies.|
+| [lot Alert Types](../../docs-ref-autogen/securitycenter/iotalerttypes.yml) | Details of an IoT alert type. |
+| [lot Alerts](../../docs-ref-autogen/securitycenter/iotalerts.yml) | Get the IoT alerts. |
+| [lot Recommendation Types](../../docs-ref-autogen/securitycenter/iotrecommendationtypes.yml) | Get IoT recommendation types. |
+| [lot Recommendations](../../docs-ref-autogen/securitycenter/iotrecommendations.yml) | Get IoT recommendations. |
 | [lot Security Solution](https://docs.microsoft.com/rest/api/securitycenter/iotsecuritysolution) |Manage your IoT Security solution by name, resource group, subscription, or tag.|
 | [lot Security Solution Analytics](https://docs.microsoft.com/rest/api/securitycenter/iotsecuritysolutionanalytics) |List IoT Security Analytics metrics.|
 | [lot Security Solutions Analytics Aggregated Alert](https://docs.microsoft.com/rest/api/securitycenter/iotsecuritysolutionsanalyticsaggregatedalert) |Manage an aggregated IoT Security Solution Alert.|
@@ -43,6 +48,9 @@ Azure Security Center provides unified security management and advanced threat p
 | [Regulatory Compliance Assessments](../../docs-ref-autogen/securitycenter/RegulatoryComplianceAssessments.yml) |Get the details and state of your regulatory compliance or the assessments mapped to them.|
 | [Regulatory Compliance Controls](../../docs-ref-autogen/securitycenter/RegulatoryComplianceControls.yml) |Get the details and state of your regulatory compliance controls.|
 | [Regulatory Compliance Standards](../../docs-ref-autogen/securitycenter/RegulatoryComplianceStandards.yml) |Get the details and state of your supported regulatory compliance standards.|
+| [Secure Score Control Definitions](../../docs-ref-autogen/securitycenter/securescorecontroldefinitions.yml) | List the available security controls, their assessments, and the max score. |
+| [Secure Score Controls](../../docs-ref-autogen/securitycenter/securescorecontrols.yml) | Get all security controls within a scope or for a specific initiative.|
+| [Secure Scores](../../docs-ref-autogen/securitycenter/securescores.yml) | Get secure score for a specific Security Center initiative or List secure scores for all your Security Center initiatives.|
 | [Security Contacts](../../docs-ref-autogen/securitycenter/SecurityContacts.yml) |Security contact configurations for the subscription.|
 | [Settings](../../docs-ref-autogen/securitycenter/Settings.yml)|Configuration settings for Azure Security Center.|
 | [Sub Assessments](../../docs-ref-autogen/securitycenter/SubAssessments.yml)|Get a security sub-assessment on your scanned resources.|
