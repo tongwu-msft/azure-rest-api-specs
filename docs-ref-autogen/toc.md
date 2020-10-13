@@ -3900,8 +3900,13 @@
 #### [List Skus](compute/VirtualMachineImages/ListSkus.yml)
 ### Virtual Machine Run Commands
 #### [Overview](compute/VirtualMachineRunCommands.yml)
+#### [Create Or Update](compute/VirtualMachineRunCommands/CreateOrUpdate.yml)
+#### [Delete](compute/VirtualMachineRunCommands/Delete.yml)
 #### [Get](compute/VirtualMachineRunCommands/Get.yml)
+#### [Get By Virtual Machine](compute/VirtualMachineRunCommands/GetByVirtualMachine.yml)
 #### [List](compute/VirtualMachineRunCommands/List.yml)
+#### [List By Virtual Machine](compute/VirtualMachineRunCommands/ListByVirtualMachine.yml)
+#### [Update](compute/VirtualMachineRunCommands/Update.yml)
 ### Virtual Machine Scale Set Extensions
 #### [Overview](compute/VirtualMachineScaleSetExtensions.yml)
 #### [Create Or Update](compute/VirtualMachineScaleSetExtensions/CreateOrUpdate.yml)
@@ -3922,6 +3927,13 @@
 #### [Get](compute/VirtualMachineScaleSetVMExtensions/Get.yml)
 #### [List](compute/VirtualMachineScaleSetVMExtensions/List.yml)
 #### [Update](compute/VirtualMachineScaleSetVMExtensions/Update.yml)
+### Virtual Machine Scale Set VM Run Commands
+#### [Overview](compute/VirtualMachineScaleSetVMRunCommands.yml)
+#### [Create Or Update](compute/VirtualMachineScaleSetVMRunCommands/CreateOrUpdate.yml)
+#### [Delete](compute/VirtualMachineScaleSetVMRunCommands/Delete.yml)
+#### [Get](compute/VirtualMachineScaleSetVMRunCommands/Get.yml)
+#### [List](compute/VirtualMachineScaleSetVMRunCommands/List.yml)
+#### [Update](compute/VirtualMachineScaleSetVMRunCommands/Update.yml)
 ### Virtual Machine Scale Set VMs
 #### [Overview](compute/VirtualMachineScaleSetVMs.yml)
 #### [Deallocate](compute/VirtualMachineScaleSetVMs/Deallocate.yml)
