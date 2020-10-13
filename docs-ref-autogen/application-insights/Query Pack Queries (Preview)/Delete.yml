@@ -1,17 +1,42 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.application-insights.operations.list
-name: List
+uid: management.azure.com.application-insights.querypackqueries(preview).delete
+name: Delete
 service: Application Insights
-groupName: Operations
+groupName: Query Pack Queries (Preview)
 apiVersion: 2019-09-01-preview
-summary: Lists all of the available insights REST API operations.
+summary: Deletes a specific Query defined within an Log Analytics QueryPack.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Insights/operations?api-version=2019-09-01-preview
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/queryPacks/{queryPackName}/queries/{id}?api-version=2019-09-01-preview
 uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: queryPackName
+  in: path
+  isRequired: true
+  description: The name of the Log Analytics QueryPack resource.
+  types:
+  - uid: string
+- name: id
+  in: path
+  isRequired: true
+  description: The id of a specific query defined in the Log Analytics QueryPack
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -20,28 +45,15 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK. The request has succeeded.
-  types:
-  - uid: OperationListResult
+  description: The query has been successfully removed from the Log Analytics QueryPack
+- name: 204 No Content
+  description: The specified query or associated QueryPack does not exist.
 - name: Other Status Codes
-  description: Insights error response describing why the operation failed.
+  description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: OperationListResult
-  description: Result of the request to list CDN operations. It contains a list of operations and a URL link to get the next set of results.
-  kind: object
-  properties:
-  - name: value
-    description: List of CDN operations supported by the CDN resource provider.
-    types:
-    - uid: Operation
-      isArray: true
-  - name: nextLink
-    description: URL to get the next set of operation list results if there are any.
-    types:
-    - uid: string
 - name: ErrorResponse
   description: Describe the format of an Error response.
   kind: object
@@ -50,26 +62,6 @@ definitions:
     description: "The code and message for an error.  \nThe error details."
     types:
     - uid: ErrorInfo
-- name: Operation
-  description: CDN REST API operation
-  kind: object
-  properties:
-  - name: name
-    description: 'Operation name: {provider}/{resource}/{operation}'
-    types:
-    - uid: string
-  - name: isDataAction
-    description: Indicates whether the operation is a data action
-    types:
-    - uid: boolean
-  - name: display
-    description: Display of the operation
-    types:
-    - uid: OperationDisplay
-  - name: origin
-    description: Origin of the operation
-    types:
-    - uid: string
 - name: ErrorInfo
   description: The code and message for an error.
   kind: object
@@ -95,26 +87,6 @@ definitions:
     description: Additional properties that can be provided on the error info object
     types:
     - uid: object
-- name: OperationDisplay
-  description: Operation display payload
-  kind: object
-  properties:
-  - name: provider
-    description: Resource provider of the operation
-    types:
-    - uid: string
-  - name: resource
-    description: Resource of the operation
-    types:
-    - uid: string
-  - name: operation
-    description: Localized friendly name for the operation
-    types:
-    - uid: string
-  - name: description
-    description: Localized friendly description for the operation
-    types:
-    - uid: string
 - name: ErrorDetail
   description: Error details.
   kind: object
@@ -144,7 +116,13 @@ definitions:
     description: Additional properties that can be provided on the error details object
     types:
     - uid: object
-examples: []
+examples:
+- name: QueryDelete
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.Insights/queryPacks/my-querypack/queries/a449f8af-8e64-4b3a-9b16-5a7165ff98c4?api-version=2019-09-01-preview
+  responses:
+  - statusCode: "200"
+  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2
