@@ -3,14 +3,14 @@ uid: management.azure.com.application-insights.operations.list
 name: List
 service: Application Insights
 groupName: Operations
-apiVersion: 2015-05-01
+apiVersion: 2019-09-01-preview
 summary: Lists all of the available insights REST API operations.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Insights/operations?api-version=2015-05-01
+- content: GET https://management.azure.com/providers/Microsoft.Insights/operations?api-version=2019-09-01-preview
 uriParameters:
 - name: api-version
   in: query
@@ -43,17 +43,13 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Error response indicates Insights service is not able to process the incoming request. The reason is provided in the error message.
+  description: Describe the format of an Error response.
   kind: object
   properties:
-  - name: code
-    description: Error code.
+  - name: error
+    description: "The code and message for an error.  \nThe error details."
     types:
-    - uid: string
-  - name: message
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
+    - uid: ErrorInfo
 - name: Operation
   description: CDN REST API operation
   kind: object
@@ -62,26 +58,92 @@ definitions:
     description: 'Operation name: {provider}/{resource}/{operation}'
     types:
     - uid: string
-  - name: display
-    description: The object that represents the operation.
+  - name: isDataAction
+    description: Indicates whether the operation is a data action
     types:
-    - uid: Display
-- name: Display
-  description: The object that represents the operation.
+    - uid: boolean
+  - name: display
+    description: Display of the operation
+    types:
+    - uid: OperationDisplay
+  - name: origin
+    description: Origin of the operation
+    types:
+    - uid: string
+- name: ErrorInfo
+  description: The code and message for an error.
+  kind: object
+  properties:
+  - name: code
+    description: A machine readable error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: details
+    description: error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: innererror
+    description: "The code and message for an error.  \nInner error details if they exist."
+    types:
+    - uid: ErrorInfo
+  - name: additionalProperties
+    description: Additional properties that can be provided on the error info object
+    types:
+    - uid: object
+- name: OperationDisplay
+  description: Operation display payload
   kind: object
   properties:
   - name: provider
-    description: 'Service provider: Microsoft.Cdn'
+    description: Resource provider of the operation
     types:
     - uid: string
   - name: resource
-    description: 'Resource on which the operation is performed: Profile, endpoint, etc.'
+    description: Resource of the operation
     types:
     - uid: string
   - name: operation
-    description: 'Operation type: Read, write, delete, etc.'
+    description: Localized friendly name for the operation
     types:
     - uid: string
+  - name: description
+    description: Localized friendly description for the operation
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error's code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: target
+    description: Indicates which property in the request is responsible for the error.
+    types:
+    - uid: string
+  - name: value
+    description: Indicates which value in 'target' is responsible for the error.
+    types:
+    - uid: string
+  - name: resources
+    description: Indicates resources which were responsible for the error.
+    types:
+    - uid: string
+      isArray: true
+  - name: additionalProperties
+    description: Additional properties that can be provided on the error details object
+    types:
+    - uid: object
 examples: []
 security:
 - name: azure_auth
