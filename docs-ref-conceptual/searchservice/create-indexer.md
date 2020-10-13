@@ -248,6 +248,12 @@ Field mappings can also be used to transform source field values using *field ma
 
 To learn more about when and how to use field mapping functions, see [Field Mapping Functions](https://docs.microsoft.com/azure/search/search-indexer-field-mappings#field-mapping-functions).
 
+<a name="disabled"></a>
+
+### "disabled"
+
+The disabled property is an optional Boolean value to indicate whether the indexer is disabled.  It is set to false by default.  To stop an indexer run, set disabled to true.  
+
 ## Response  
  201 Created for a successful request.  
 
@@ -297,12 +303,6 @@ The second example demonstrates an AI enrichment, indicated by the reference to 
   }
 }
 ```
-
-<a name="disabled"></a>
-
-### "disabled"
-
-The disabled property is an optional Boolean value to indicate whether the indexer is disabled.  It is set to false by default.  To stop an indexer run, set disabled to true.  
 
 ## See also
 
