@@ -1,21 +1,34 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.application-insights.querypacks.list
-name: List
+uid: management.azure.com.application-insights.querypacks(preview).updatetags
+name: Update Tags
 service: Application Insights
-groupName: Query Packs
+groupName: Query Packs (Preview)
 apiVersion: 2019-09-01-preview
-summary: Gets a list of all Log Analytics QueryPacks within a subscription.
+summary: Updates an existing QueryPack's tags. To update other fields use the CreateOrUpdate method.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Insights/queryPacks?api-version=2019-09-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/queryPacks/{queryPackName}?api-version=2019-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: queryPackName
+  in: path
+  isRequired: true
+  description: The name of the Log Analytics QueryPack resource.
   types:
   - uid: string
 - name: api-version
@@ -30,9 +43,21 @@ responses:
   types:
   - uid: ErrorResponse
 - name: 200 OK
-  description: A list containing 0 or more Log Analytics QueryPack definitions.
+  description: Updating the Log Analytics QueryPack's tags was successful. QueryPack tags are updated and returned with the rest of the QueryPack's object properties.
   types:
-  - uid: LogAnalyticsQueryPackListResult
+  - uid: LogAnalyticsQueryPack
+requestBody:
+- name: default
+  parameters:
+  - name: tags
+    in: body
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 requestHeader: []
 definitions:
 - name: ErrorResponse
@@ -43,44 +68,6 @@ definitions:
     description: "The code and message for an error.  \nThe error details."
     types:
     - uid: ErrorInfo
-- name: LogAnalyticsQueryPackListResult
-  description: Describes the list of Log Analytics QueryPack resources.
-  kind: object
-  properties:
-  - name: value
-    description: List of Log Analytics QueryPack definitions.
-    types:
-    - uid: LogAnalyticsQueryPack
-      isArray: true
-  - name: nextLink
-    description: The URI to get the next set of Log Analytics QueryPack definitions if too many QueryPacks where returned in the result set.
-    types:
-    - uid: string
-- name: ErrorInfo
-  description: The code and message for an error.
-  kind: object
-  properties:
-  - name: code
-    description: A machine readable error code.
-    types:
-    - uid: string
-  - name: message
-    description: A human readable error message.
-    types:
-    - uid: string
-  - name: details
-    description: error details.
-    types:
-    - uid: ErrorDetail
-      isArray: true
-  - name: innererror
-    description: "The code and message for an error.  \nInner error details if they exist."
-    types:
-    - uid: ErrorInfo
-  - name: additionalProperties
-    description: Additional properties that can be provided on the error info object
-    types:
-    - uid: object
 - name: LogAnalyticsQueryPack
   description: An Log Analytics QueryPack definition.
   kind: object
@@ -132,6 +119,43 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: TagsResource
+  description: A container holding only the Tags for a resource, allowing the user to update the tags on a QueryPack instance.
+  kind: object
+  properties:
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorInfo
+  description: The code and message for an error.
+  kind: object
+  properties:
+  - name: code
+    description: A machine readable error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: details
+    description: error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: innererror
+    description: "The code and message for an error.  \nInner error details if they exist."
+    types:
+    - uid: ErrorInfo
+  - name: additionalProperties
+    description: Additional properties that can be provided on the error info object
+    types:
+    - uid: object
 - name: ErrorDetail
   description: Error details.
   kind: object
@@ -162,42 +186,34 @@ definitions:
     types:
     - uid: object
 examples:
-- name: QueryPacksList.json
+- name: QueryPackUpdateTagsOnly
   request:
-    uri: GET https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4919/providers/Microsoft.Insights/queryPacks?api-version=2019-09-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/queryPacks/my-querypack?api-version=2019-09-01-preview
+    body: >-
+      {
+        "tags": {
+          "Tag1": "Value1",
+          "Tag2": "Value2"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4919/resourceGroups/my-resource-group/providers/microsoft.insights/queryPacks/my-querypack",
-            "name": "my-querypack",
-            "type": "microsoft.insights/querypacks",
-            "location": "South Central US",
-            "tags": {},
-            "properties": {
-              "queryPackId": "d1c8fc00-2b68-441e-8f9b-ded8748dc6aa",
-              "timeCreated": "2019-08-04T12:37:56.8543652Z",
-              "timeModified": "2019-08-04T12:37:56.8543652Z",
-              "provisioningState": "Succeeded"
-            }
-          },
-          {
-            "id": "/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4919/resourceGroups/my-other-resource-group/providers/microsoft.insights/queryPacks/my-other-querypack",
-            "name": "my-other-querypack",
-            "type": "microsoft.insights/querypacks",
-            "location": "South Central US",
-            "tags": {},
-            "properties": {
-              "queryPackId": "aac8fc00-2b68-441e-8f9b-ded8748dc635",
-              "timeCreated": "2019-06-04T12:37:56.8543652Z",
-              "timeModified": "2019-08-04T12:37:56.8543652Z",
-              "provisioningState": "Succeeded"
-            }
-          }
-        ],
-        "nextLink": null
+        "id": "/subscriptions/subid/resourceGroups/my-resource-group/providers/microsoft.insights/queryPacks/my-querypack",
+        "name": "my-querypack",
+        "type": "microsoft.insights/querypacks",
+        "location": "South Central US",
+        "tags": {
+          "Tag1": "Value1",
+          "Tag2": "Value2"
+        },
+        "properties": {
+          "queryPackId": "aac8fc00-2b68-441e-8f9b-ded8748dc635",
+          "timeCreated": "2019-06-04T12:37:56.8543652Z",
+          "timeModified": "2019-08-04T12:37:56.8543652Z",
+          "provisioningState": "Succeeded"
+        }
       }
 security:
 - name: azure_auth

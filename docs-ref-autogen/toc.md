@@ -1249,14 +1249,14 @@
 #### [Put](application-insights/Query%20Pack%20Queries%20(Preview)/Put.yml)
 #### [Search](application-insights/Query%20Pack%20Queries%20(Preview)/Search.yml)
 #### [Update](application-insights/Query%20Pack%20Queries%20(Preview)/Update.yml)
-### Query Packs
-#### [Overview](application-insights/QueryPacks.yml)
-#### [Create Or Update](application-insights/QueryPacks/CreateOrUpdate.yml)
-#### [Delete](application-insights/QueryPacks/Delete.yml)
-#### [Get](application-insights/QueryPacks/Get.yml)
-#### [List](application-insights/QueryPacks/List.yml)
-#### [List By Resource Group](application-insights/QueryPacks/ListByResourceGroup.yml)
-#### [Update Tags](application-insights/QueryPacks/UpdateTags.yml)
+### Query Packs (Preview)
+#### [Overview](application-insights/Query%20Packs%20(Preview).yml)
+#### [Create Or Update](application-insights/Query%20Packs%20(Preview)/CreateOrUpdate.yml)
+#### [Delete](application-insights/Query%20Packs%20(Preview)/Delete.yml)
+#### [Get](application-insights/Query%20Packs%20(Preview)/Get.yml)
+#### [List](application-insights/Query%20Packs%20(Preview)/List.yml)
+#### [List By Resource Group](application-insights/Query%20Packs%20(Preview)/ListByResourceGroup.yml)
+#### [Update Tags](application-insights/Query%20Packs%20(Preview)/UpdateTags.yml)
 ### Web Tests
 #### [Overview](application-insights/WebTests.yml)
 #### [Create Or Update](application-insights/WebTests/CreateOrUpdate.yml)
@@ -6878,7 +6878,8 @@
 ### [Update Tags](load-balancer/LoadBalancers/UpdateTags.yml)
 # Log Analytics
 ## [Overview](../docs-ref-conceptual/loganalytics/index.md)
-## [Data](../docs-ref-conceptual/loganalytics/create-request.md)
+## [Data Collector](../docs-ref-conceptual/loganalytics/create-request.md)
+## [Data Access](https://dev.loganalytics.io/)
 ## Reference
 ### Available Service Tiers
 #### [Overview](loganalytics/AvailableServiceTiers.yml)
