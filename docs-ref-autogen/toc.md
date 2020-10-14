@@ -2730,9 +2730,9 @@
 ##### [Update](billing/2019-10-01-preview/InvoiceSections/Update.yml)
 #### Invoices
 ##### [Overview](billing/2019-10-01-preview/Invoices.yml)
-##### [Download Multiple Billing Subscription Invoice](billing/2019-10-01-preview/Invoices/DownloadMultipleBillingSubscriptionInvoice.yml)
-##### [Download Multiple EA Invoice](billing/2019-10-01-preview/Invoices/DownloadMultipleEAInvoice.yml)
-##### [Download Multiple Modern Invoice](billing/2019-10-01-preview/Invoices/DownloadMultipleModernInvoice.yml)
+##### [Download Multiple Billing Profile Invoices](billing/2019-10-01-preview/Invoices/DownloadMultipleBillingProfileInvoices.yml)
+##### [Download Multiple Billing Subscription Invoices](billing/2019-10-01-preview/Invoices/DownloadMultipleBillingSubscriptionInvoices.yml)
+##### [Download Multiple EA Invoices](billing/2019-10-01-preview/Invoices/DownloadMultipleEAInvoices.yml)
 ##### [Get](billing/2019-10-01-preview/Invoices/Get.yml)
 ##### [Get Billing Account Invoice](billing/2019-10-01-preview/Invoices/GetBillingAccountInvoice.yml)
 ##### [Get By Id](billing/2019-10-01-preview/Invoices/GetById.yml)

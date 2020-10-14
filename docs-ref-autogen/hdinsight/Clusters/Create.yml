@@ -122,6 +122,10 @@ definitions:
     description: The minimal supported tls version.
     types:
     - uid: string
+  - name: networkProperties
+    description: The network properties.
+    types:
+    - uid: NetworkProperties
 - name: ClusterIdentity
   description: Identity for the cluster.
   kind: object
@@ -371,6 +375,18 @@ definitions:
     description: Indicates whether or not inter cluster node communication is encrypted in transit.
     types:
     - uid: boolean
+- name: NetworkProperties
+  description: The network properties.
+  kind: object
+  properties:
+  - name: resourceProviderConnection
+    description: The direction for the resource provider connection.
+    types:
+    - uid: ResourceProviderConnection
+  - name: privateLink
+    description: Indicates whether or not private link is enabled.
+    types:
+    - uid: PrivateLink
 - name: ResourceIdentityType
   description: The type of identity used for the cluster. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities.
   kind: enum
@@ -411,6 +427,10 @@ definitions:
     description: The cluster tier.
     types:
     - uid: Tier
+  - name: clusterId
+    description: The cluster id.
+    types:
+    - uid: string
   - name: clusterDefinition
     description: The cluster definition.
     types:
@@ -465,6 +485,10 @@ definitions:
     description: The minimal supported tls version.
     types:
     - uid: string
+  - name: networkProperties
+    description: The network properties.
+    types:
+    - uid: NetworkProperties
 - name: ClientGroupInfo
   description: The information of AAD security group.
   kind: object
@@ -569,6 +593,26 @@ definitions:
     types:
     - uid: string
   - name: RSA1_5
+    types:
+    - uid: string
+- name: ResourceProviderConnection
+  description: The direction for the resource provider connection.
+  kind: enum
+  properties:
+  - name: Inbound
+    types:
+    - uid: string
+  - name: Outbound
+    types:
+    - uid: string
+- name: PrivateLink
+  description: Indicates whether or not private link is enabled.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
     types:
     - uid: string
 - name: HDInsightClusterProvisioningState
@@ -1214,7 +1258,7 @@ examples:
           "osType": "Linux",
           "clusterDefinition": {
             "blueprint": "https://blueprints.azurehdinsight.net/hadoop-4.0.1000.1.1910270459.json",
-            "kind": "HADOOP",
+            "kind": "SPARK",
             "componentVersion": {
               "Hadoop": "3.1"
             }
@@ -2573,6 +2617,162 @@ examples:
             "msiResourceId": null,
             "encryptionAtHost": true
           }
+        }
+      }
+- name: Create cluster with network properties
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2018-06-01-preview
+    body: >-
+      {
+        "properties": {
+          "clusterVersion": "3.6",
+          "osType": "Linux",
+          "clusterDefinition": {
+            "kind": "hadoop",
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": true,
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "mystorage",
+                "isDefault": true,
+                "container": "containername",
+                "key": "storage account key"
+              }
+            ]
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "standard_d3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********",
+                    "sshProfile": {
+                      "publicKeys": [
+                        {
+                          "certificateData": "**********"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "virtualNetworkProfile": {
+                  "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+                  "subnet": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
+                }
+              },
+              {
+                "name": "workernode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "standard_d3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********",
+                    "sshProfile": {
+                      "publicKeys": [
+                        {
+                          "certificateData": "**********"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "virtualNetworkProfile": {
+                  "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+                  "subnet": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
+                }
+              }
+            ]
+          },
+          "networkProperties": {
+            "resourceProviderConnection": "Outbound",
+            "privateLink": "Enabled"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: location
+      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.HDInsight/pathToOperationResult
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1",
+        "name": "cluster1",
+        "type": "Microsoft.HDInsight/clusters",
+        "location": "South Central US",
+        "etag": "fdf2a6e8-ce83-42cc-8c2d-0ceb11a370ff",
+        "tags": null,
+        "properties": {
+          "clusterVersion": "3.6.1000.67",
+          "osType": "Linux",
+          "clusterId": "8186508b6234470e9d16c9e8e13bd821",
+          "clusterDefinition": {
+            "blueprint": "https://blueprints.azurehdinsight.net/hadoop-3.6.1000.67.2005040905.json",
+            "kind": "hadoop"
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "standard_d3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser"
+                  }
+                },
+                "virtualNetworkProfile": {
+                  "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+                  "subnet": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
+                }
+              },
+              {
+                "name": "workernode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "standard_d3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser"
+                  }
+                },
+                "virtualNetworkProfile": {
+                  "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+                  "subnet": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
+                }
+              }
+            ]
+          },
+          "networkProperties": {
+            "resourceProviderConnection": "Outbound",
+            "privateLink": "Enabled"
+          },
+          "provisioningState": "Succeeded",
+          "clusterState": "Running",
+          "createdDate": "2020-06-09T12:25:43.48",
+          "quotaInfo": {
+            "coresUsed": 16
+          },
+          "tier": "Standard"
         }
       }
 security:
