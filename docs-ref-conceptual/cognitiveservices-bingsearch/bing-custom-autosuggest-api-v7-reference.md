@@ -13,6 +13,14 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
+>[!WARNING]
+> Bing Search APIs are moving from Cognitive Services to
+[Bing Search Services](https://aka.ms/cogsvcs/bingmove). Bing Search APIs provisioned using Cognitive Services will be supported
+for the next three years or until the end of your Enterprise Agreement,
+whichever happens first.
+>
+> For migration instructions, see [Bing Search Services](https://aka.ms/cogsvcs/bingmigration). 
+
 # Custom Autosuggest API v7 reference
 
 The Custom Autosuggest API lets you send a partial search query string to Bing and get back a list of suggested queries. Typically, you use this API to support a richer search experience. For example, as the user enters each character of their search term, you'd call this API and populate the search box's drop-down list with the suggested query strings.  
