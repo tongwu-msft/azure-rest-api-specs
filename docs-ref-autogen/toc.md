@@ -9411,6 +9411,12 @@
 ### [Overview](securitycenter/Compliances.yml)
 ### [Get](securitycenter/Compliances/Get.yml)
 ### [List](securitycenter/Compliances/List.yml)
+## Connectors
+### [Overview](securitycenter/Connectors.yml)
+### [Create Or Update](securitycenter/Connectors/CreateOrUpdate.yml)
+### [Delete](securitycenter/Connectors/Delete.yml)
+### [Get](securitycenter/Connectors/Get.yml)
+### [List](securitycenter/Connectors/List.yml)
 ## Device Security Groups
 ### [Overview](securitycenter/DeviceSecurityGroups.yml)
 ### [Create Or Update](securitycenter/DeviceSecurityGroups/CreateOrUpdate.yml)
