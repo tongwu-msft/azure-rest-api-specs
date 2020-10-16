@@ -14427,6 +14427,19 @@
 ### [Get](synapse/BigDataPools/Get.yml)
 ### [List By Workspace](synapse/BigDataPools/ListByWorkspace.yml)
 ### [Update](synapse/BigDataPools/Update.yml)
+## Data Masking Policies
+### [Overview](synapse/DataMaskingPolicies.yml)
+### [Create Or Update](synapse/DataMaskingPolicies/CreateOrUpdate.yml)
+### [Get](synapse/DataMaskingPolicies/Get.yml)
+## Data Masking Rules
+### [Overview](synapse/DataMaskingRules.yml)
+### [Create Or Update](synapse/DataMaskingRules/CreateOrUpdate.yml)
+### [List By Sql Pool](synapse/DataMaskingRules/ListBySqlPool.yml)
+## Extended Sql Pool Blob Auditing Policies
+### [Overview](synapse/ExtendedSqlPoolBlobAuditingPolicies.yml)
+### [Create Or Update](synapse/ExtendedSqlPoolBlobAuditingPolicies/CreateOrUpdate.yml)
+### [Get](synapse/ExtendedSqlPoolBlobAuditingPolicies/Get.yml)
+### [List By Sql Pool](synapse/ExtendedSqlPoolBlobAuditingPolicies/ListBySqlPool.yml)
 ## Integration Runtime Auth Keys
 ### [Overview](synapse/IntegrationRuntimeAuthKeys.yml)
 ### [List](synapse/IntegrationRuntimeAuthKeys/List.yml)
@@ -14484,6 +14497,10 @@
 ### [Overview](synapse/SqlPoolBlobAuditingPolicies.yml)
 ### [Create Or Update](synapse/SqlPoolBlobAuditingPolicies/CreateOrUpdate.yml)
 ### [Get](synapse/SqlPoolBlobAuditingPolicies/Get.yml)
+### [List By Sql Pool](synapse/SqlPoolBlobAuditingPolicies/ListBySqlPool.yml)
+## Sql Pool Columns
+### [Overview](synapse/SqlPoolColumns.yml)
+### [Get](synapse/SqlPoolColumns/Get.yml)
 ## Sql Pool Connection Policies
 ### [Overview](synapse/SqlPoolConnectionPolicies.yml)
 ### [Get](synapse/SqlPoolConnectionPolicies/Get.yml)
@@ -14512,6 +14529,7 @@
 ### [List](synapse/SqlPoolRestorePoints/List.yml)
 ## Sql Pool Schemas
 ### [Overview](synapse/SqlPoolSchemas.yml)
+### [Get](synapse/SqlPoolSchemas/Get.yml)
 ### [List](synapse/SqlPoolSchemas/List.yml)
 ## Sql Pool Security Alert Policies
 ### [Overview](synapse/SqlPoolSecurityAlertPolicies.yml)
@@ -14523,6 +14541,7 @@
 ### [Delete](synapse/SqlPoolSensitivityLabels/Delete.yml)
 ### [Disable Recommendation](synapse/SqlPoolSensitivityLabels/DisableRecommendation.yml)
 ### [Enable Recommendation](synapse/SqlPoolSensitivityLabels/EnableRecommendation.yml)
+### [Get](synapse/SqlPoolSensitivityLabels/Get.yml)
 ### [List Current](synapse/SqlPoolSensitivityLabels/ListCurrent.yml)
 ### [List Recommended](synapse/SqlPoolSensitivityLabels/ListRecommended.yml)
 ## Sql Pool Table Columns
@@ -14530,6 +14549,7 @@
 ### [List By Table Name](synapse/SqlPoolTableColumns/ListByTableName.yml)
 ## Sql Pool Tables
 ### [Overview](synapse/SqlPoolTables.yml)
+### [Get](synapse/SqlPoolTables/Get.yml)
 ### [List By Schema](synapse/SqlPoolTables/ListBySchema.yml)
 ## Sql Pool Transparent Data Encryptions
 ### [Overview](synapse/SqlPoolTransparentDataEncryptions.yml)
@@ -14542,9 +14562,11 @@
 ### [Overview](synapse/SqlPoolVulnerabilityAssessmentRuleBaselines.yml)
 ### [Create Or Update](synapse/SqlPoolVulnerabilityAssessmentRuleBaselines/CreateOrUpdate.yml)
 ### [Delete](synapse/SqlPoolVulnerabilityAssessmentRuleBaselines/Delete.yml)
+### [Get](synapse/SqlPoolVulnerabilityAssessmentRuleBaselines/Get.yml)
 ## Sql Pool Vulnerability Assessment Scans
 ### [Overview](synapse/SqlPoolVulnerabilityAssessmentScans.yml)
 ### [Export](synapse/SqlPoolVulnerabilityAssessmentScans/Export.yml)
+### [Get](synapse/SqlPoolVulnerabilityAssessmentScans/Get.yml)
 ### [Initiate Scan](synapse/SqlPoolVulnerabilityAssessmentScans/InitiateScan.yml)
 ### [List](synapse/SqlPoolVulnerabilityAssessmentScans/List.yml)
 ## Sql Pool Vulnerability Assessments
