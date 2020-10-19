@@ -182,6 +182,7 @@ For version 2020-02-10 and above, `List Blobs` returns the `LastAccessTime` elem
         <DeletedTime>datetime</DeletedTime>
         <RemainingRetentionDays>no-of-days</RemainingRetentionDays>
         <TagCount>number of tags between 1 to 10</TagCount>
+        <RehydratePriority>rehydrate priority</RehydratePriority>
       </Properties>  
       <Metadata>     
         <Name>value</Name>  

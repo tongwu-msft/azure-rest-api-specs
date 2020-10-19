@@ -84,7 +84,12 @@ Setting a blob's tier for page blobs in premium accounts have the following rest
 
 Setting the block blob's tier on a blob storage or general purpose v2 account have the following restrictions:
   * Setting tier on a snapshot is allowed starting REST version 2019-12-12.
-  
+  * Snapshots tiered to archive cannot be rehydrated back into the snapshot. i.e the snapshot cannot be brought back to Hot/Cool tier. Only way to retrieve the data from an archived snapshot or version is to copy that to a new blob.
+  * If the version is a root blob then that can be rehydrated back to Hot or Cool.
+  * Snapshots or Versions in archived state are not allowed to be promoted to root.
+  * When versioning is enabled, delete of root blob when in rehydrate pending will result in cancellation of rehydrate and the version will be in Archived state.
+  * If a blob is overwritten when in rehydrate pending and softdeleted state, it will result in cancellation of rehydrate and the version or softdeleted snapshot will be in Archived state.
+
 The list of supported tiers is not restricted by the request version, and new tiers may be added in the future. 
 
 > [!NOTE]
