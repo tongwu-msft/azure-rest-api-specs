@@ -92,9 +92,6 @@ The format of the response body is as follows.
         <AccessTier>TransactionOptimized</AccessTier>
         <AccessTierChangeTime>Mon, 24 Aug 2020 03:56:10 GMT</AccessTierChangeTime>
         <AccessTierTransitionState>pending-from-cool</AccessTierTransitionState>
-        <LeaseStatus>locked | unlocked</LeaseStatus>  
-        <LeaseState>available | leased | expired | breaking | broken</LeaseState>  
-        <LeaseDuration>infinite | fixed</LeaseDuration> 
         <EnabledProtocols>SMB</Kind>
       </Properties>  
       <Metadata>  
@@ -116,7 +113,6 @@ The format of the response body is as follows.
 - The `AccessTier` element holds the tier of the share. If the share's tier has not been changed, this property will be the default tier `TransactionOptimized` on general purpose version 2 (GPv2) storage accounts and `Premium` on FileStorage storage accounts. Note that FileStorage storage accounts only support the `Premium` tier.
 - The `AccessTierChangeTime` element is present only if the access tier on the share is explicitly set.
 - The `AccessTierTransitionState` element is present only if the share is transitioning from one tier to another. It indicates the tier it is transitioning from.
--  `LeaseStatus`, `LeaseState`, and `LeaseDuration` only appear in version 2020-02-10 and later.  
 
 ### Sample Response  
 See the [Sample Request and Response](#sample-request-and-response) section later in this topic.  
