@@ -36,7 +36,6 @@ The following additional parameters can be specified in the request URI.
 |---------------|-----------------|  
 |`sharesnapshot`|Optional. Version 2017-04-17 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query to retrieve the properties|
 |`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|
-|`x-ms-lease-id:<ID>`|Optional. Version 2020-02-10 and newer. If the header is specified, the operation will be performed only if the share's lease is currently active and the lease ID specified in the request matches the that of the share. Otherwise, the operation fails with status code 412 (Precondition Failed).|
   
 ## Request Headers  
 The following table describes required and optional request headers.  
