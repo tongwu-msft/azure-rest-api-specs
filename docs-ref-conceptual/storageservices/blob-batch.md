@@ -1,7 +1,7 @@
 ---
 title: Blob Batch (REST API) - Azure Storage
 description: The Blob Batch operation allows multiple API calls to be embedded into a single HTTP request.
-author: pemari-msft
+author: pemari
 
 ms.date: 09/09/2019
 ms.author: pemari-msft
