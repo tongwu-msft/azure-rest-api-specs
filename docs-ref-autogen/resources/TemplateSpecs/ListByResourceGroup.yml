@@ -11,6 +11,8 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/templateSpecs/?api-version=2019-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/templateSpecs/?$expand=versions&api-version=2019-06-01-preview
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -25,6 +27,11 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-\w\._\(\)]+$
+- name: $expand
+  in: query
+  description: Allows for expansion of additional Template Spec details in the response. Optional.
+  types:
+  - uid: TemplateSpecExpandKind
 - name: api-version
   in: query
   isRequired: true
@@ -42,6 +49,14 @@ responses:
   - uid: TemplateSpecsError
 requestHeader: []
 definitions:
+- name: TemplateSpecExpandKind
+  description: Allows for expansion of additional Template Spec details in the response. Optional.
+  kind: enum
+  properties:
+  - name: versions
+    description: Includes version information with the Template Spec.
+    types:
+    - uid: string
 - name: TemplateSpecsListResult
   description: List of Template Specs.
   kind: object
@@ -88,6 +103,15 @@ definitions:
     description: Template Spec display name.
     types:
     - uid: string
+  - name: properties.versions
+    isReadyOnly: true
+    description: High-level information about the versions within this Template Spec. The keys are the version names. Only populated if the $expand query parameter is set to 'versions'.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: TemplateSpecVersionInfo
   - name: id
     isReadyOnly: true
     description: String Id used to locate any resource on Azure.
@@ -139,6 +163,25 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: TemplateSpecVersionInfo
+  description: High-level information about a Template Spec version.
+  kind: object
+  properties:
+  - name: description
+    isReadyOnly: true
+    description: Template Spec version description.
+    types:
+    - uid: string
+  - name: timeCreated
+    isReadyOnly: true
+    description: The timestamp of when the version was created.
+    types:
+    - uid: string
+  - name: timeModified
+    isReadyOnly: true
+    description: The timestamp of when the version was last modified.
+    types:
+    - uid: string
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -200,7 +243,7 @@ definitions:
 examples:
 - name: TemplateSpecsListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/?api-version=2019-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/?$expand=versions&api-version=2019-06-01-preview
   responses:
   - statusCode: "200"
     body: >-
