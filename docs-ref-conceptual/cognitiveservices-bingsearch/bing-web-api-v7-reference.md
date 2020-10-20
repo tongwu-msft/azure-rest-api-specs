@@ -13,6 +13,14 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
+>[!WARNING]
+> Bing Search APIs are moving from Cognitive Services to
+[Bing Search Services](https://aka.ms/cogsvcs/bingmove). Bing Search APIs provisioned using Cognitive Services will be supported
+for the next three years or until the end of your Enterprise Agreement,
+whichever happens first.
+>
+> For migration instructions, see [Bing Search Services](https://aka.ms/cogsvcs/bingmigration). 
+
 # Web Search API v7 reference
 
 The Web Search API lets you send a search query to Bing and get back search results that include links to webpages, images, and more. This section provides technical details about the webpages, related searches, and ranking results in addition to the query parameters that affect the search results. For examples that show how to make requests, see [Search the web](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/search-the-web). 

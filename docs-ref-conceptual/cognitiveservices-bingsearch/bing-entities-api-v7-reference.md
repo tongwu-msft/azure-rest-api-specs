@@ -13,6 +13,14 @@ ms.date: 07/06/2017
 ms.author: scottwhi
 ---
 
+>[!WARNING]
+> Bing Search APIs are moving from Cognitive Services to
+[Bing Search Services](https://aka.ms/cogsvcs/bingmove). Bing Search APIs provisioned using Cognitive Services will be supported
+for the next three years or until the end of your Enterprise Agreement,
+whichever happens first.
+>
+> For migration instructions, see [Bing Search Services](https://aka.ms/cogsvcs/bingmigration). 
+
 # Bing Entity Search API v7 reference
 
 The Entity Search API lets you send a search query to Bing and get back search results that include entities and places. Place results include restaurants, hotel, or other local businesses. For places, the query can specify the name of the local business or it can ask for a list (for example, restaurants near me). Entity results include persons, places, or things. Place in this context is tourist attractions, states, countries, etc.  
