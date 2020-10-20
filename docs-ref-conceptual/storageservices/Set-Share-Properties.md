@@ -3,7 +3,7 @@ title: Set Share Properties (REST API) - Azure Storage
 description: The Set Share Properties operation sets properties on the share.
 author: pemari-msft
 
-ms.date: 09/12/2020
+ms.date: 10/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -44,7 +44,7 @@ The following table describes required and optional request headers.
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
 |`x-ms-share-quota`|Optional. Supported in version 2015-02-21 and above. Specifies the maximum size of the share, in GiB.|  
-|`x-ms-access-tier`|Optional. Supported in version 2019-12-12 and above. Specifies the access tier of the share. Valid values are `TransactionOptimized`, `Hot`, `Cool`. For detailed information about file share tiering see [Azure files storage tiers](https://docs.microsoft.com/en-us/azure/storage/files/storage-files-planning#storage-tiers)|  
+|`x-ms-access-tier`|Optional. Supported in version 2019-12-12 and above. Specifies the access tier of the share. Valid values are `TransactionOptimized`, `Hot`, `Cool`. For detailed information about file share tiering see [Azure files storage tiers](/azure/storage/files/storage-files-planning#storage-tiers)|  
 |`x-ms-root-squash: <NoRootSquash | RootSquash | AllSquash>`|Optional. Supported in version 2020-02-10 and above. Specifies the root squashing behavior on the share when NFS is enabled. If not specified, the default is NoRootSquash. <ul><li> `NoRootSquash`: Turn off root squashing.</li><li>`RootSquash`: Map requests from uid/gid 0 to the anonymous uid/gid.</li><li>`AllSquash`: Map all uids and gids to the anonymous user.</li></ul>|  
   
 ## Request Body  

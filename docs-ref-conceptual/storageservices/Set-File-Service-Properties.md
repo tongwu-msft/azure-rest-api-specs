@@ -3,16 +3,18 @@ title: Set File Service Properties (REST API) - Azure Storage
 description: The Set File Service Properties operation sets properties for a storage account’s File service endpoint.
 author: pemari-msft
 
-ms.date: 09/12/2020
+ms.date: 10/06/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
 ---
 
 # Set File Service Properties
+
 The `Set File Service Properties` operation sets properties for a storage account's File service endpoint.
   
 ## Request  
+
 The `Set File Service Properties` request may be specified as follows. HTTPS is recommended. Replace <account-name> with the name of your storage account:  
   
 |Method|Request URI|HTTP Version|  
@@ -22,12 +24,14 @@ The `Set File Service Properties` request may be specified as follows. HTTPS is 
 Note that the URI must always include the forward slash (/) to separate the host name from the path and query portions of the URI. In the case of this operation, the path portion of the URI is empty.  
   
 ### URI parameters
+
 |URI parameter|Description|  
 |-------------------|-----------------|  
 |`restype=service&comp=properties`|Required. The combination of both query strings is required to set the storage service properties.|  
 |`Timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request headers  
+
 The following table describes required and optional request headers.  
   
 |Request Header|Description|  
@@ -37,6 +41,7 @@ The following table describes required and optional request headers.
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later. To enable metrics for the File service, you must specify version 2015-04-05 or later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
   
 ### Request body  
+
 The format of the request body for version 2020-02-10 is as follows:  
   
 ```xml
@@ -84,10 +89,10 @@ It is not necessary to specify every root element on the request. If you omit a 
   
 - `HourMetrics`  
 - `MinuteMetrics`  
-- `Cors` 
-- `ProtocolSettings` 
+- `Cors`
+- `ProtocolSettings`
   
- The following table describes the elements of the request body:  
+The following table describes the elements of the request body:  
   
 |Element name|Description|  
 |------------------|-----------------|
@@ -110,12 +115,15 @@ It is not necessary to specify every root element on the request. If you omit a 
 |`Multichannel`|Contains the settings for SMB multichannel. SMB multichannel contains the `Enabled` boolean property which toggles the state of SMB multichannel. |
   
 ## Response  
+
 The response includes an HTTP status code and a set of response headers.  
   
-### STATUS CODE  
+### Status code
+
 A successful operation returns status code 202 (Accepted).  
   
-### RESPONSE HEADERS  
+### Response headers  
+
 The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response Header|Description|  
@@ -123,13 +131,16 @@ The response for this operation includes the following headers. The response may
 |`x-ms-request-id`|A value that uniquely identifies a request made against the service.|  
 |`x-ms-version`|Specifies the version of the operation used for the response. For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
   
-### RESPONSE BODY  
+### Response body
+
 None.  
   
 ## Authorization  
+
 Only the account owner may call this operation.  
   
 ## Remarks  
+
 The following restrictions and limitations apply to CORS rules in Azure Storage:  
   
 - A maximum of five rules can be stored.  
@@ -139,10 +150,10 @@ The following restrictions and limitations apply to CORS rules in Azure Storage:
 - The length of an allowed header, exposed header, or allowed origin should not exceed 256 characters.  
   
 - Allowed headers and exposed headers may be either:  
- 
-    - Literal headers, where the exact header name is provided, such as x-ms-meta-processed. A maximum of 64 literal headers may be specified on the request.  
+
+  - Literal headers, where the exact header name is provided, such as x-ms-meta-processed. A maximum of 64 literal headers may be specified on the request.  
   
-    - Prefixed headers, where a prefix of the header is provided, such as x-ms-meta-data*. Specifying a prefix in this manner allows or exposes any header that begins with the given prefix. A maximum of two prefixed headers may be specified on the request.  
+  - Prefixed headers, where a prefix of the header is provided, such as x-ms-meta-data*. Specifying a prefix in this manner allows or exposes any header that begins with the given prefix. A maximum of two prefixed headers may be specified on the request.  
   
 - The methods (or HTTP verbs) specified in the `AllowedMethods` element must conform to the methods supported by Azure storage service APIs. Supported methods are DELETE, GET, HEAD, MERGE, POST, OPTIONS and PUT.  
   
@@ -155,6 +166,7 @@ All CORS rule elements are required if the `CorsRule` element is specified. The 
 For detailed information about CORS rules and evaluation logic, see [Cross-Origin Resource Sharing (CORS) support for Azure Storage](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
   
 ## Sample Request and Response  
+
 The following sample URI makes a request to change the File service properties for a storage account named *myaccount*:  
   
 `PUT https://myaccount.file.core.windows.net/?restype=service&comp=properties HTTP/1.1`  
@@ -222,7 +234,8 @@ x-ms-request-id: cb939a31-0cc6-49bb-9fe5-3327691f2a30
 x-ms-version: 2015-04-05  
 ```
 
-## Remarks
+## See also
+
 For detailed information about CORS rules and evaluation logic, see [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
   
-For additional information about Storage Analytics, see [Storage Analytics](Storage-Analytics.md).  
+For additional information about Storage Analytics, see [Storage Analytics](Storage-Analytics.md).
