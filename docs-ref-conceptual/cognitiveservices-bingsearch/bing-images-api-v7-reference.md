@@ -13,14 +13,6 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
->[!WARNING]
-> Bing Search APIs are moving from Cognitive Services to
-[Bing Search Services](https://aka.ms/cogsvcs/bingmove). Bing Search APIs provisioned using Cognitive Services will be supported
-for the next three years or until the end of your Enterprise Agreement,
-whichever happens first.
->
-> For migration instructions, see [Bing Search Services](https://aka.ms/cogsvcs/bingmigration). 
-
 # Image Search API v7 reference
 
 The Image Search API lets you send a search query to Bing and get back a list of relevant images. This section provides technical details about the query parameters and headers that you use to request images and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for Images](https://docs.microsoft.com/azure/cognitive-services/bing-image-search/search-the-web).  
