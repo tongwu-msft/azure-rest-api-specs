@@ -11,7 +11,7 @@ summary: >-
   **Applies to**: S1 pricing tier.
 
 
-  Returns data according to an itinerary Id previously returned by [Transit Route API](https://aka.ms/AzureMapsMobilityTransitRoute). The basic info contains data as to the various legs comprising  the itinerary, including the locations, public transit lines, start and end times. User can request additional routing information such as the  shape of the itinerary and detailed itinerary schedules is also available, depending on the options selected. An itinerary is available up to 24  hours following a search request.
+  Returns data according to an itinerary Id previously returned by [Transit Route API](https://aka.ms/AzureMapsMobilityTransitRoute). The basic info contains data as to the various legs comprising  the itinerary, including the locations, public transit lines, start and end times and fare information. Users can request additional routing information such as the  shape of the itinerary and detailed itinerary schedules is also available, depending on the options selected. An itinerary is available up to 24  hours following a search request.
 consumes: []
 produces:
 - application/json
@@ -113,6 +113,10 @@ definitions:
     types:
     - uid: Leg
       isArray: true
+  - name: itineraryFare
+    description: Itinerary level transit fare information. Returned only if fare information is available for the entire itinerary. [Get Metro Area Info API](https://aka.ms/AzureMapsMobilityMetroAreaInfo) can be requested to confirm if fare information is available in the metro area.
+    types:
+    - uid: ItineraryFare
 - name: ODataErrorResponse
   description: This response object is returned when an error occurs in the Maps API.
   kind: object
@@ -171,10 +175,27 @@ definitions:
     types:
     - uid: LineArrival
       isArray: true
+  - name: legFare
+    description: Leg level public transit fare information. Returned only if fare information is available for the entire itinerary.
+    types:
+    - uid: LegFare
   - name: waitOnVehicle
     description: Indicates whether it’s necessary to wait for the next leg on the same vehicle (i.e. the bus will only change its line number).
     types:
     - uid: string
+- name: ItineraryFare
+  description: Itinerary level transit fare information.
+  kind: object
+  properties:
+  - name: price
+    description: The total price for all tickets a user is expected to purchase in order to complete this itinerary.
+    types:
+    - uid: Price
+  - name: tickets
+    description: An array describing the individual prices of each of the tickets that the user is expected to purchase throughout this itinerary. The list isn’t ordered.
+    types:
+    - uid: Tickets
+      isArray: true
 - name: ODataError
   description: This object is returned when an error occurs in the Maps API.
   kind: object
@@ -420,6 +441,38 @@ definitions:
     description: Whether the result is based on real-time or static data.
     types:
     - uid: ScheduleType
+- name: LegFare
+  description: Leg level public transit fare information. Returned only if fare information is available for the entire itinerary level and supported by the local transit agency.
+  kind: object
+  properties:
+  - name: fares
+    description: Detailed fare information for the leg.
+    types:
+    - uid: Fares
+      isArray: true
+- name: Price
+  kind: object
+  properties:
+  - name: amount
+    description: Price of the ticket in cents. For example, $5.00 is returned as ‘500’.
+    types:
+    - uid: integer
+  - name: currencyCode
+    description: Currency code, for example for US dollars “USD”.
+    types:
+    - uid: string
+- name: Tickets
+  description: An array describing the individual prices of each of the tickets that the user is expected to purchase throughout this itinerary. The list isn’t ordered.
+  kind: object
+  properties:
+  - name: amount
+    description: Price of the ticket in cents. For example, $5.00 is returned as ‘500’.
+    types:
+    - uid: integer
+  - name: currencyCode
+    description: Currency code, for example for US dollars “USD”.
+    types:
+    - uid: string
 - name: Direction
   description: The walking directions guidance.
   kind: object
@@ -491,6 +544,24 @@ definitions:
     - uid: string
   - name: realTime
     description: Returned when estimated time of arrival is based on static data.
+    types:
+    - uid: string
+- name: Fares
+  description: Detailed fare information for the leg.
+  kind: object
+  properties:
+  - name: price
+    description: The price of the ticket when purchased for the individual leg, not for the entire route at once.
+    types:
+    - uid: Price
+  - name: usage
+    description: >-
+      Supported values are:
+
+        * pay – user is expected to pay for this ticket in order to consume the current leg
+        * transfer – user can use a ticket purchased in a previous leg in order to consume the current leg. In general, when transfer is specified, the number of transfers is counted, and has a limit.
+        * continue – user can use a ticket purchased in a previous leg in order to consume the current leg. In general, when continue is specified, the number of transfers isn’t incremented for this leg.
+        * upgrade – user is expected to upgrade a ticket purchased in a previous leg in order to consume the current leg.
     types:
     - uid: string
 - name: RelativeDirection
@@ -589,7 +660,7 @@ examples:
 - name: TransitItinerary
   request:
     uri: >-
-      GET https://atlas.microsoft.com/mobility/transit/itinerary/json?api-version=1.0&query=68fa6e31-d1a4-4457-a15b-8f5036a76a78---201909167EB6D19458C443BFAD897246FD28DAD4:0---121&detailType=[
+      GET https://atlas.microsoft.com/mobility/transit/itinerary/json?api-version=1.0&query=6f1eb44e-255f-4d06-9491-a35ee7864e19---20200929FF43D18907D24B35A1A7454DE7231C89:0---81&detailType=[
 
         "geometry"
 
@@ -598,148 +669,198 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "departureTime": "2019-09-16T18:04:53Z",
-        "arrivalTime": "2019-09-16T18:08:07Z",
+        "departureTime": "2020-09-29T20:48:05Z",
+        "arrivalTime": "2020-09-29T20:53:25Z",
         "legs": [
           {
-            "legType": "Bicycle",
-            "legStartTime": "2019-09-16T18:04:53Z",
-            "legEndTime": "2019-09-16T18:08:07Z",
-            "steps": [
+            "legType": "Wait",
+            "legStartTime": "2020-09-29T20:48:05Z",
+            "legEndTime": "2020-09-29T20:48:05Z",
+            "lineGroup": {
+              "lineGroupId": "0---211457",
+              "agencyId": "0---321",
+              "agencyName": "CTA",
+              "lineNumber": "22",
+              "caption1": "Clark",
+              "caption2": "22 Clark",
+              "color": "565A5C",
+              "transitType": "Bus"
+            },
+            "line": {
+              "lineId": "0---1151684",
+              "lineGroupId": "0---211457",
+              "direction": "forward",
+              "agencyId": "0---321",
+              "lineNumber": "22",
+              "lineDestination": "Southbound - Harrison"
+            },
+            "stops": [
               {
-                "direction": {
-                  "relativeDirection": "depart"
+                "stopId": "0---161771",
+                "stopKey": "1853",
+                "stopName": "Clark & Oak (South)",
+                "stopCode": "1853",
+                "position": {
+                  "latitude": 41.900657,
+                  "longitude": -87.631426
                 },
-                "streetName": "3rd Avenue"
+                "mainTransitType": "Bus",
+                "mainAgencyId": "0---321",
+                "mainAgencyName": "CTA"
               },
               {
-                "direction": {
-                  "relativeDirection": "right"
+                "stopId": "0---33004397",
+                "stopKey": "18255",
+                "stopName": "Clark & Huron (South)",
+                "stopCode": "18255",
+                "position": {
+                  "latitude": 41.894729,
+                  "longitude": -87.631288
                 },
-                "streetName": "Dean Street"
-              },
-              {
-                "direction": {
-                  "relativeDirection": "right"
-                },
-                "streetName": "5th Avenue"
+                "mainTransitType": "Bus",
+                "mainAgencyId": "0---321",
+                "mainAgencyName": "CTA"
               }
             ],
-            "origin": {
-              "position": {
-                "latitude": 40.680903,
-                "longitude": -73.983723
-              }
+            "waitOnVehicle": "false"
+          },
+          {
+            "legType": "Bus",
+            "legStartTime": "2020-09-29T20:48:05Z",
+            "legEndTime": "2020-09-29T20:51:15Z",
+            "lineGroup": {
+              "lineGroupId": "81---211457",
+              "agencyId": "81---321",
+              "agencyName": "CTA",
+              "lineNumber": "22",
+              "caption1": "Clark",
+              "caption2": "22 Clark",
+              "color": "565A5C",
+              "transitType": "Bus"
             },
-            "destination": {
-              "position": {
-                "latitude": 40.682051,
-                "longitude": -73.976702
-              }
+            "line": {
+              "lineId": "81---1151684",
+              "lineGroupId": "81---211457",
+              "direction": "forward",
+              "agencyId": "81---321",
+              "lineNumber": "22",
+              "lineDestination": "Southbound - Harrison"
             },
+            "stops": [
+              {
+                "stopId": "81---161771",
+                "stopKey": "1853",
+                "stopName": "Clark & Oak (South)",
+                "stopCode": "1853",
+                "position": {
+                  "latitude": 41.900657,
+                  "longitude": -87.631426
+                },
+                "mainTransitType": "Bus",
+                "mainAgencyId": "81---321",
+                "mainAgencyName": "CTA"
+              },
+              {
+                "stopId": "81---161772",
+                "stopKey": "1854",
+                "stopName": "Clark & Delaware (South)",
+                "stopCode": "1854",
+                "position": {
+                  "latitude": 41.899361,
+                  "longitude": -87.631386
+                },
+                "mainTransitType": "Bus",
+                "mainAgencyId": "81---321",
+                "mainAgencyName": "CTA"
+              },
+              {
+                "stopId": "81---33004397",
+                "stopKey": "18255",
+                "stopName": "Clark & Huron (South)",
+                "stopCode": "18255",
+                "position": {
+                  "latitude": 41.894729,
+                  "longitude": -87.631288
+                },
+                "mainTransitType": "Bus",
+                "mainAgencyId": "81---321",
+                "mainAgencyName": "CTA"
+              }
+            ],
             "geometry": {
               "type": "LineString",
               "coordinates": [
                 [
-                  -73.98373,
-                  40.6809
+                  -87.63157,
+                  41.90064
                 ],
                 [
-                  -73.98371,
-                  40.68089
+                  -87.63156,
+                  41.90057
                 ],
                 [
-                  -73.98328,
-                  40.68152
+                  -87.63153,
+                  41.90045
                 ],
                 [
-                  -73.9831,
-                  40.68179
+                  -87.6315,
+                  41.90029
                 ],
                 [
-                  -73.98303,
-                  40.68189
+                  -87.63121,
+                  41.89508
                 ],
                 [
-                  -73.98302,
-                  40.68191
+                  -87.63121,
+                  41.89498
                 ],
                 [
-                  -73.9829,
-                  40.68208
+                  -87.63121,
+                  41.89487
                 ],
                 [
-                  -73.98286,
-                  40.68214
+                  -87.63121,
+                  41.89481
                 ],
                 [
-                  -73.9828,
-                  40.68223
+                  -87.6312,
+                  41.89476
                 ],
                 [
-                  -73.98243,
-                  40.68278
+                  -87.6312,
+                  41.89473
                 ],
                 [
-                  -73.98199,
-                  40.68342
-                ],
-                [
-                  -73.98161,
-                  40.68398
-                ],
-                [
-                  -73.98157,
-                  40.68405
-                ],
-                [
-                  -73.9812,
-                  40.6839
-                ],
-                [
-                  -73.97984,
-                  40.68338
-                ],
-                [
-                  -73.9794,
-                  40.6832
-                ],
-                [
-                  -73.97924,
-                  40.68314
-                ],
-                [
-                  -73.97912,
-                  40.68309
-                ],
-                [
-                  -73.97899,
-                  40.68304
-                ],
-                [
-                  -73.97675,
-                  40.68217
-                ],
-                [
-                  -73.97659,
-                  40.68211
-                ],
-                [
-                  -73.97665,
-                  40.68203
-                ],
-                [
-                  -73.97665,
-                  40.68203
-                ],
-                [
-                  -73.97671,
-                  40.68205
+                  -87.6312,
+                  41.89472
                 ]
+              ]
+            },
+            "legFare": {
+              "fares": [
+                {
+                  "price": {
+                    "amount": 225,
+                    "currencyCode": "USD"
+                  },
+                  "usage": "pay"
+                }
               ]
             }
           }
-        ]
+        ],
+        "itineraryFare": {
+          "price": {
+            "amount": 225,
+            "currencyCode": "USD"
+          },
+          "tickets": [
+            {
+              "amount": 225,
+              "currencyCode": "USD"
+            }
+          ]
+        }
       }
   - statusCode: "400"
     body: >-
