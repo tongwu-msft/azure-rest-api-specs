@@ -12,14 +12,6 @@ ms.date: 09/06/2018
 ms.author: scottwhi
 ---
 
->[!WARNING]
-> Bing Search APIs are moving from Cognitive Services to
-[Bing Search Services](https://aka.ms/cogsvcs/bingmove). Bing Search APIs provisioned using Cognitive Services will be supported
-for the next three years or until the end of your Enterprise Agreement,
-whichever happens first.
->
-> For migration instructions, see [Bing Search Services](https://aka.ms/cogsvcs/bingmigration). 
-
 # Custom Videos Search API v7 reference
 
 The Custom Videos Search API lets you send a search query to Bing and get back a list of relevant videos from the slice of Web that your Custom Search instance defines. For information about configuring a Custom Search instance, see [Configure your custom search experience](https://docs.microsoft.com/azure/cognitive-services/bing-custom-search/define-your-custom-view).
