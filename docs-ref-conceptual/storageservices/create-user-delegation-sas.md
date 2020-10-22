@@ -23,6 +23,14 @@ A user delegation SAS is supported for Azure Blob storage and Azure Data Lake St
 
 For information about using your account key to secure a SAS, see [Create a service SAS](create-service-sas.md) and [Create an account SAS](create-account-sas.md).
 
+## User delegation SAS support for Directory scoped access
+
+User delegation SAS will support directory scope (sr=d) access when the authentication version (sv) is 2020-02-10 or higher and hierarchical namespace (HNS) is enabled. The semantics for directory scope (sr=d) are similar to container scope (sr=c), except access is restricted to a directory and the files and directories within. When sr=d is specified, the sdd query parameter is also required (See below for more details on sdd parameter).
+
+## User delegation SAS support for user OID
+
+User Delegation SAS supports an optional user OID carried in either the saoid or suoid parameter when the authentication version (sv) is 2020-02-10 or higher. This will provide an enhanced authorization model for multi-user cluster workloads like Hadoop and Spark. SAS tokens may be constrained to a specific filesystem operation and user, providing a less vulnerable access token that is safer for the purpose of distributing across a multi-user cluster. One use case for these features is the integration of the Hadoop ABFS driver with Apache Ranger.
+
 ## Authorization of a user delegation SAS
 
 When a client accesses a Blob storage resource with a user delegation SAS, the request to Azure Storage is authorized with the Azure AD credentials that were used to create the SAS. The role-based access control (RBAC) permissions granted for that Azure AD account, together with the permissions explicitly granted on the SAS, determine the client's access to the resource. This approach provides an additional level of security and avoids the need to store your account access key with your application code. For these reasons, creating a SAS using Azure AD credentials is a security best practice.
@@ -108,7 +116,7 @@ The required `signedVersion` (`sv`) field specifies the service version for the 
 The required `signedResource` (`sr`) field specifies which resources are accessible via the shared access signature. The following table describes how to refer to a blob, container, or directory resource in the SAS token.  
 
 | Resource | Parameter value | Supported versions | Description |
-|--|--|--|
+|---|---|---|---|
 | Blob | b | All | Grants access to the content and metadata of the blob. |
 | Blob version | bv | Version 2018-11-09 and later | Grants access to the content and metadata of the blob version, but not the base blob. |
 | Blob snapshot | bs | Version 2018-11-09 and later | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
@@ -259,6 +267,19 @@ For example, if you specify the `rsct=binary` query parameter on a SAS token, th
   
 If you create a shared access signature that specifies response headers as query parameters, you must include those response headers in the string-to-sign that is used to construct the signature string. See the **Constructing the Signature String** section below for details.  
 
+### Specify the user OID
+
+User Delegation SAS supports an optional user OID carried in either the Signed Authorized User Object Id (`saoid`) or Signed Unauthorized User Object Id (`suoid`) parameter when the authentication version (sv) is 2020-02-10 or higher:
+
+- The user delegating access (skoid) must have **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/runAsSuperUser/action** or **Microsoft.Storage/storageAccounts/blobServices/containers/blobs/manageOwnership/action** RBAC permission when using a SAS with an optional user OID.
+- If the sticky bit is set on the parent folder and the operation is delete or rename, then the owner of the parent folder or the owner of the resource must match the value specified by the optional user OID.
+- If the operation is SetAccessControl and x-ms-owner is being set, the value of x-ms-owner must match the value specified by the optional user OID.
+- If the operation is SetAccessControl and x-ms-group is being set, then the value specified by the optional user OID must be a member of the group specified by x-ms-group.
+
+### Specify the correlation ID
+
+User Delegation SAS supports an optional correlation ID carried in the scid parameter when the authentication version (sv) is 2020-02-10 or higher. This is a GUID value that will be logged in the storage diagnostic logs and can be used to correlate SAS generation with storage resource access.
+
 ### Specify the signature
 
 The `signature` (`sig`) field is used to authorize a request made by a client with the shared access signature. The string-to-sign is a unique string constructed from the fields that must be verified in order to authorize the request. The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding.
@@ -289,6 +310,34 @@ StringToSign = sp + "\n" +
  rscl + "\n" +  
  rsct
 ```  
+
+The string-to-sign for authentication version 2020-02-10 or higher has the following format:
+
+```
+StringToSign = signedPermissions + "\n" +
+                   signedStart + "\n" +
+                   signedExpiry + "\n" +
+                   canonicalizedResource + "\n" +
+                   signedKeyObjectId + "\n" +
+                   signedKeyTenantId + "\n" +
+                   signedKeyStart + "\n" +
+                   signedKeyExpiry  + "\n" +
+                   signedKeyService + "\n" +
+                   signedKeyVersion + "\n" +
+                   signedAuthorizedUserObjectId + "\n" +
+                   signedUnauthorizedUserObjectId + "\n" +
+                   signedCorrelationId + "\n" +
+                   signedIP + "\n" +
+                   signedProtocol + "\n" +
+                   signedVersion + "\n" +
+                   signedResource + "\n" +
+                   signedSnapshotTime + "\n" +
+                   rscc + "\n" +
+                   rscd + "\n" +
+                   rsce + "\n" +
+                   rscl + "\n" +
+                   rsct
+```
 
 #### Canonicalized resource
 
