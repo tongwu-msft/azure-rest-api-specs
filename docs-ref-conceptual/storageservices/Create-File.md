@@ -3,7 +3,7 @@ title: Create File (REST API) - Azure Storage
 description: The Create File operation creates a new file or replaces a file. Note that calling Create File only initializes the file. To add content to a file, call the Put Range operation. 
 author: pemari-msft
 
-ms.date: 09/23/2019
+ms.date: 09/12/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -48,7 +48,7 @@ The `Create File` operation creates a new file or replaces a file. Note that cal
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Length`|Optional. Must be zero if present.|  
-|`x-ms-content-length: byte value`|Required. This header specifies the maximum size for the file, up to 1 TiB.|  
+|`x-ms-content-length: byte value`|Required. This header specifies the maximum size for the file, up to 4 TiB.|  
 |`Content-Type &#124; x-ms-content-type`|Optional. The MIME content type of the file. The default type is `application/octet-stream`.|  
 |`Content-Encoding &#124; x-ms-content-encoding`|Optional. Specifies which content encodings have been applied to the file. This value is returned to the client when the [Get File](Get-File.md) operation is performed on the file resource and can be used to decode file content.|  
 |`Content-Language &#124; x-ms-content-language`|Optional. Specifies the natural languages used by this resource.|  
@@ -74,7 +74,7 @@ Request Syntax:
 PUT https://myaccount.file.core.windows.net/myshare/myfile HTTP/1.1  
   
 Request Headers:  
-x-ms-version: 2014-02-14  
+x-ms-version: 2020-02-10
 x-ms-date: Mon, 27 Jan 2014 22:41:55 GMT  
 Content-Type: text/plain; charset=UTF-8  
 x-ms-content-length: 1024  
@@ -144,7 +144,7 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 | NoScrubData | FILE_ATTRIBUTE_NO_SCRUB_DATA | The user data stream not to be read by the background data integrity scanner. This file system attribute is presented primarily to provide compatibility with Windows. |
   
 ## Remarks  
- To create a new file, first initialize the file by calling `Create File` and specify its maximum size, up to 1 TiB. When performing this operation, do not include content in the request body. Once the file has been created, call `Put Range` to add content to the file or to modify it.  
+ To create a new file, first initialize the file by calling `Create File` and specify its maximum size, up to 4 TiB. When performing this operation, do not include content in the request body. Once the file has been created, call `Put Range` to add content to the file or to modify it.  
   
  You can change the size of the file by calling `Set File Properties`.  
   

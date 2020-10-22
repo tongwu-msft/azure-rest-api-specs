@@ -47,6 +47,7 @@ The REST API for the Blob service defines HTTP operations against the storage ac
 |[Get Blob](Get-Blob.md)|Block, append, and page blobs|Reads or downloads a blob from the Blob service, including its user-defined metadata and system properties.|  
 |[Get Blob Properties](Get-Blob-Properties.md)|Block, append, and page blobs|Returns all system properties and user-defined metadata on the blob.|  
 |[Set Blob Properties](Set-Blob-Properties.md)|Block, append, and page blobs|Sets system properties defined for an existing blob.|  
+|[Set Blob Expiry](Set-Blob-Expiry.md)|Block blobs|Sets expiry time for an existing blob.| 
 |[Get Blob Metadata](Get-Blob-Metadata.md)|Block, append, and page blobs|Retrieves all user-defined metadata of an existing blob or snapshot.|  
 |[Set Blob Metadata](Set-Blob-Metadata.md)|Block, append, and page blobs|Sets user-defined metadata of an existing blob.|
 |[Get Blob Tags](get-blob-tags.md)|Block, append, and page blobs|Retrieves user-defined tags of an existing blob.|
@@ -78,6 +79,8 @@ The REST API for the Blob service defines HTTP operations against the storage ac
  [Operations on Containers](Operations-on-Containers.md)  
   
  [Operations on Blobs](Operations-on-Blobs.md)  
+
+ [Operations on Blobs (Hierarchical Namespace enabled accounts)](Operations-on-Blobs-Hierarchical-Namespace.md)  
   
 ## See also
 
