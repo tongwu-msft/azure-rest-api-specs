@@ -17,17 +17,17 @@ The `Set Blob Expiry` operation sets an expiry time on an existing blob. This op
 
 The `Set Blob Expiry` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=expiry`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=expiry`|HTTP/1.1|  
   
 ### Emulated Storage Service URI  
 
 When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=expiry`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=expiry`|HTTP/1.1|  
   
 For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
@@ -56,12 +56,13 @@ The following table describes required and optional request headers.
 ### ExpiryOption
 
 The following values can be sent as x-ms-expiry-option header. Please note this header is not case-sensitive.
+
 |Expiry Option|Description|  
 |---------------------|-----------------|  
 |`RelativeToCreation `|Sets the expiry time relative to the file creation time, x-ms-expiry-time must be specified as the number of milliseconds to elapse from creation time.|  
 |`RelativeToNow `|Sets the expiry relative to the current time, x-ms-expiry-time must be specified as the number of milliseconds to elapse from now.|  
-|`Absolute`|x-ms-expiry-time must be specified as an Absolute time in RFC 1123 Format.|  
-|`Neverexpire `|Sets the file to never expire or removes the current expiry time, x-ms-expiry-time must not to be specified.|  
+|`Absolute`|x-ms-expiry-time must be specified as an absolute time in RFC 1123 Format.|  
+|`NeverExpire `|Sets the file to never expire or removes the current expiry time, x-ms-expiry-time must not to be specified.|  
 
 ### Request Body  
 
