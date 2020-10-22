@@ -1,6 +1,6 @@
 ---
 title: "Service Fabric Client REST API Reference"
-ms.date: "04/15/2020"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -36,7 +36,7 @@ Service Fabric Client APIs allow deploying and managing microservices based appl
 
 
 > [!IMPORTANT]
->  These APIs work with Service Fabric clusters running runtime version 7.1 and above.
+>  These APIs work with Service Fabric clusters running runtime version 7.2.0.46 and above.
 >
 
 ## Versioning
@@ -230,6 +230,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [Recover All Partitions](sfclient-api-recoverallpartitions.md) | Indicates to the Service Fabric cluster that it should attempt to recover any services (including system services) which are currently stuck in quorum loss.<br/> |
 | [Move Primary Replica](sfclient-api-moveprimaryreplica.md) | Moves the primary replica of a partition of a stateful service.<br/> |
 | [Move Secondary Replica](sfclient-api-movesecondaryreplica.md) | Moves the secondary replica of a partition of a stateful service.<br/> |
+| [Update Partition Load](sfclient-api-updatepartitionload.md) | Update the loads of provided partitions for specific metrics.<br/> |
 
 ----
 ## [RepairManagement APIs](sfclient-index-repairmanagement.md)
@@ -538,6 +539,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [ApplicationHealthPolicies](sfclient-model-applicationhealthpolicies.md) | Defines the application health policy map used to evaluate the health of an application or one of its children entities.<br/> |
 | [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) | Defines a health policy used to evaluate the health of an application or one of its children entities.<br/> |
 | [ApplicationHealthPolicyMapItem](sfclient-model-applicationhealthpolicymapitem.md) | Defines an item in ApplicationHealthPolicyMap.<br/> |
+| [ApplicationHealthPolicyMapObject](sfclient-model-applicationhealthpolicymapobject.md) | Represents the map of application health policies for a ServiceFabric cluster upgrade<br/> |
 | [ApplicationHealthReportExpiredEvent](sfclient-model-applicationhealthreportexpiredevent.md) | Application Health Report Expired event.<br/> |
 | [ApplicationHealthReportExpiredEvent](sfclient-model-applicationhealthreportexpiredevent.md) | Application Health Report Expired event.<br/> |
 | [ApplicationHealthState](sfclient-model-applicationhealthstate.md) | Represents the health state of an application, which contains the application identifier and the aggregated health state.<br/> |
@@ -790,6 +792,8 @@ Following is a list of Service Fabric Client REST APIs.
 | [DiskInfo](sfclient-model-diskinfo.md) | Information about the disk<br/> |
 | [DoublePropertyValue](sfclient-model-doublepropertyvalue.md) | Describes a Service Fabric property value of type Double.<br/> |
 | [DoublePropertyValue](sfclient-model-doublepropertyvalue.md) | Describes a Service Fabric property value of type Double.<br/> |
+| [DsmsAzureBlobBackupStorageDescription](sfclient-model-dsmsazureblobbackupstoragedescription.md) | Describes the parameters for Dsms Azure blob store used for storing and enumerating backups.<br/> |
+| [DsmsAzureBlobBackupStorageDescription](sfclient-model-dsmsazureblobbackupstoragedescription.md) | Describes the parameters for Dsms Azure blob store used for storing and enumerating backups.<br/> |
 | [EnableBackupDescription](sfclient-model-enablebackupdescription.md) | Specifies the parameters needed to enable periodic backup.<br/> |
 | [EndpointProperties](sfclient-model-endpointproperties.md) | Describes a container endpoint.<br/> |
 | [EndpointRef](sfclient-model-endpointref.md) | Describes a reference to a service endpoint.<br/> |
@@ -888,6 +892,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [LocalNetworkResourceProperties](sfclient-model-localnetworkresourceproperties.md) | Information about a Service Fabric container network local to a single Service Fabric cluster.<br/> |
 | [ManagedApplicationIdentity](sfclient-model-managedapplicationidentity.md) | Describes a managed application identity.<br/> |
 | [ManagedApplicationIdentityDescription](sfclient-model-managedapplicationidentitydescription.md) | Managed application identity description.<br/> |
+| [MetricLoadDescription](sfclient-model-metricloaddescription.md) | Specifies metric load information.<br/> |
 | [MonitoringPolicyDescription](sfclient-model-monitoringpolicydescription.md) | Describes the parameters for monitoring an upgrade in Monitored mode.<br/> |
 | [MoveCost enum](sfclient-model-movecost.md) | Specifies the move cost for the service.<br/> |
 | [NameDescription](sfclient-model-namedescription.md) | Describes a Service Fabric name.<br/> |
@@ -989,6 +994,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [PagedServiceReplicaDescriptionList](sfclient-model-pagedservicereplicadescriptionlist.md) | The list of service resource replicas in the cluster. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedServiceResourceDescriptionList](sfclient-model-pagedserviceresourcedescriptionlist.md) | The list of service resources. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedSubNameInfoList](sfclient-model-pagedsubnameinfolist.md) | A paged list of Service Fabric names. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
+| [PagedUpdatePartitionLoadResultList](sfclient-model-pagedupdatepartitionloadresultlist.md) | The list of results of the call UpdatePartitionLoad. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PagedVolumeResourceDescriptionList](sfclient-model-pagedvolumeresourcedescriptionlist.md) | The list of volume resources. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
 | [PartitionAccessStatus enum](sfclient-model-partitionaccessstatus.md) | Specifies the access status of the partition.<br/> |
 | [PartitionAnalysisEvent](sfclient-model-partitionanalysisevent.md) | Represents the base for all Partition Analysis Events.<br/> |
@@ -1016,6 +1022,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [PartitionInstanceCountScaleMechanism](sfclient-model-partitioninstancecountscalemechanism.md) | Represents a scaling mechanism for adding or removing instances of stateless service partition.<br/> |
 | [PartitionInstanceCountScaleMechanism](sfclient-model-partitioninstancecountscalemechanism.md) | Represents a scaling mechanism for adding or removing instances of stateless service partition.<br/> |
 | [PartitionLoadInformation](sfclient-model-partitionloadinformation.md) | Represents load information for a partition, which contains the primary and secondary reported load metrics.<br/>In case there is no load reported, PartitionLoadInformation will contain the default load for the service of the partition.<br/>For default loads, LoadMetricReport's LastReportedUtc is set to 0.<br/> |
+| [PartitionMetricLoadDescription](sfclient-model-partitionmetricloaddescription.md) | Represents load information for a partition, which contains the metrics load information about primary, all secondary replicas/instances or a specific secondary replica/instance located on a specific node.<br/> |
 | [PartitionNewHealthReportEvent](sfclient-model-partitionnewhealthreportevent.md) | Partition Health Report Created event.<br/> |
 | [PartitionNewHealthReportEvent](sfclient-model-partitionnewhealthreportevent.md) | Partition Health Report Created event.<br/> |
 | [PartitionPrimaryMoveAnalysisEvent](sfclient-model-partitionprimarymoveanalysisevent.md) | Partition Primary Move Analysis event.<br/> |
@@ -1087,6 +1094,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [ReplicaHealthStateFilter](sfclient-model-replicahealthstatefilter.md) | Defines matching criteria to determine whether a replica should be included as a child of a partition in the cluster health chunk.<br/>The replicas are only returned if the parent entities match a filter specified in the cluster health chunk query description. The parent partition, service and application must be included in the cluster health chunk.<br/>One filter can match zero, one or multiple replicas, depending on its properties.<br/> |
 | [ReplicaInfo](sfclient-model-replicainfo.md) | Information about the identity, status, health, node name, uptime, and other details about the replica.<br/> |
 | [ReplicaKind enum](sfclient-model-replicakind.md) | The role of a replica of a stateful service.<br/> |
+| [ReplicaMetricLoadDescription](sfclient-model-replicametricloaddescription.md) | Specifies metric loads of a partition's specific secondary replica or instance.<br/> |
 | [ReplicaRole enum](sfclient-model-replicarole.md) | The role of a replica of a stateful service.<br/> |
 | [ReplicasHealthEvaluation](sfclient-model-replicashealthevaluation.md) | Represents health evaluation for replicas, containing health evaluations for each unhealthy replica that impacted current aggregated health state. Can be returned when evaluating partition health and the aggregated health state is either Error or Warning.<br/> |
 | [ReplicasHealthEvaluation](sfclient-model-replicashealthevaluation.md) | Represents health evaluation for replicas, containing health evaluations for each unhealthy replica that impacted current aggregated health state. Can be returned when evaluating partition health and the aggregated health state is either Error or Warning.<br/> |
@@ -1286,6 +1294,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [UnprovisionApplicationTypeDescriptionInfo](sfclient-model-unprovisionapplicationtypedescriptioninfo.md) | Describes the operation to unregister or unprovision an application type and its version that was registered with the Service Fabric.<br/> |
 | [UnprovisionFabricDescription](sfclient-model-unprovisionfabricdescription.md) | Describes the parameters for unprovisioning a cluster.<br/> |
 | [UpdateClusterUpgradeDescription](sfclient-model-updateclusterupgradedescription.md) | Parameters for updating a cluster upgrade.<br/> |
+| [UpdatePartitionLoadResult](sfclient-model-updatepartitionloadresult.md) | Specifies result of updating load for specified partitions. The output will be ordered based on the partition ID.<br/> |
 | [UpgradeDomainDeltaNodesCheckHealthEvaluation](sfclient-model-upgradedomaindeltanodescheckhealthevaluation.md) | Represents health evaluation for delta unhealthy cluster nodes in an upgrade domain, containing health evaluations for each unhealthy node that impacted current aggregated health state.<br/>Can be returned during cluster upgrade when cluster aggregated health state is Warning or Error.<br/> |
 | [UpgradeDomainDeltaNodesCheckHealthEvaluation](sfclient-model-upgradedomaindeltanodescheckhealthevaluation.md) | Represents health evaluation for delta unhealthy cluster nodes in an upgrade domain, containing health evaluations for each unhealthy node that impacted current aggregated health state.<br/>Can be returned during cluster upgrade when cluster aggregated health state is Warning or Error.<br/> |
 | [UpgradeDomainInfo](sfclient-model-upgradedomaininfo.md) | Information about an upgrade domain.<br/> |

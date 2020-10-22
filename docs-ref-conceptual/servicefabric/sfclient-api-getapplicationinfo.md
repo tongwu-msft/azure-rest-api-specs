@@ -1,6 +1,6 @@
 ---
 title: "Get Application Info"
-ms.date: "04/15/2020"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -114,7 +114,16 @@ GET http://localhost:19080/Applications/samples~CalculatorApp?api-version=6.0
   "TypeName": "CalculatorApp",
   "TypeVersion": "1.0",
   "Status": "Ready",
-  "Parameters": [],
+  "Parameters": [
+    {
+      "Key": "CalculatorAppParameter1",
+      "Value": "314"
+    },
+    {
+      "Key": "CalculatorAppParameter2",
+      "Value": "271"
+    }
+  ],
   "HealthState": "Ok",
   "ApplicationDefinitionKind": "ServiceFabricApplicationDescription"
 }
