@@ -25,7 +25,7 @@ To use Azure AD credentials to secure a SAS for a container or blob, create a us
 
 ## Service SAS support for Directory scoped access
 
-Service SAS will support directory scope (sr=d) acess when the authentication version (sv) is 2020-02-10 or higher and hierarchical namespace (HNS) is enabled. The semantics for directory scope (sr=d) are similar to container scope (sr=c), except access is restricted to a directory and the files and directories within. When sr=d is specified, the sdd query parameter is also required (See below for more details on sdd parameter). The string-to-sign format for authentication version 2020-02-10 is unchanged.
+Service SAS will support directory scope (sr=d) access when the authentication version (sv) is 2020-02-10 or higher and hierarchical namespace (HNS) is enabled. The semantics for directory scope (sr=d) are similar to container scope (sr=c), except access is restricted to a directory and the files and directories within. When sr=d is specified, the sdd query parameter is also required (See below for more details on sdd parameter). The string-to-sign format for authentication version 2020-02-10 is unchanged.
 
 ## Construct a service SAS
 
@@ -91,7 +91,7 @@ The response headers and corresponding query parameters are as follows:
   
 For example, if you specify the `rsct=binary` query parameter on a shared access signature created with version 2013-08-15 or later, the `Content-Type` response header is set to `binary`. This value overrides the `Content-Type` header value stored for the blob for a request using this shared access signature only.  
   
-Note that if you create a shared access signature that specifies response headers as query parameters, you must include those in the string-to-sign that is used to construct the signature string. See the **Constructing the Signature String** section below for details, and [Service SAS Examples](Service-SAS-Examples.md) for additional examples.  
+If you create a shared access signature that specifies response headers as query parameters, you must include those in the string-to-sign that is used to construct the signature string. See the **Constructing the Signature String** section below for details, and [Service SAS Examples](Service-SAS-Examples.md) for additional examples.  
   
 ### Specifying the table name (Table service only)
 
