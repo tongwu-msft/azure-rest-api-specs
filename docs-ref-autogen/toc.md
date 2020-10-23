@@ -14356,14 +14356,116 @@
 ### [List Metrics](storsimple/Volumes/ListMetrics.yml)
 # Stream Analytics
 ## [Overview](../docs-ref-conceptual/streamanalytics/index.md)
-## [Aggregate](../docs-ref-conceptual/streamanalytics/stream-analytics-aggregate.md)
-## [Definition](../docs-ref-conceptual/streamanalytics/stream-analytics-definition.md)
-## [Function](../docs-ref-conceptual/streamanalytics/stream-analytics-function.md)
-## [Input](../docs-ref-conceptual/streamanalytics/stream-analytics-input.md)
-## [Job](../docs-ref-conceptual/streamanalytics/stream-analytics-job.md)
-## [Output](../docs-ref-conceptual/streamanalytics/stream-analytics-output.md)
-## [Transformation](../docs-ref-conceptual/streamanalytics/stream-analytics-transformation.md)
-## [Publish Edge Package](../docs-ref-conceptual/streamanalytics/stream-analytics-publish-edge-package.md)
+## 2016-03-01
+### Functions
+#### [Overview](streamanalytics/2016-03-01/Functions.yml)
+#### [Create Or Replace](streamanalytics/2016-03-01/Functions/CreateOrReplace.yml)
+#### [Delete](streamanalytics/2016-03-01/Functions/Delete.yml)
+#### [Get](streamanalytics/2016-03-01/Functions/Get.yml)
+#### [List By Streaming Job](streamanalytics/2016-03-01/Functions/ListByStreamingJob.yml)
+#### [Retrieve Default Definition](streamanalytics/2016-03-01/Functions/RetrieveDefaultDefinition.yml)
+#### [Test](streamanalytics/2016-03-01/Functions/Test.yml)
+#### [Update](streamanalytics/2016-03-01/Functions/Update.yml)
+### Inputs
+#### [Overview](streamanalytics/2016-03-01/Inputs.yml)
+#### [Create Or Replace](streamanalytics/2016-03-01/Inputs/CreateOrReplace.yml)
+#### [Delete](streamanalytics/2016-03-01/Inputs/Delete.yml)
+#### [Get](streamanalytics/2016-03-01/Inputs/Get.yml)
+#### [List By Streaming Job](streamanalytics/2016-03-01/Inputs/ListByStreamingJob.yml)
+#### [Test](streamanalytics/2016-03-01/Inputs/Test.yml)
+#### [Update](streamanalytics/2016-03-01/Inputs/Update.yml)
+### Operations
+#### [Overview](streamanalytics/2016-03-01/Operations.yml)
+#### [List](streamanalytics/2016-03-01/Operations/List.yml)
+### Outputs
+#### [Overview](streamanalytics/2016-03-01/Outputs.yml)
+#### [Create Or Replace](streamanalytics/2016-03-01/Outputs/CreateOrReplace.yml)
+#### [Delete](streamanalytics/2016-03-01/Outputs/Delete.yml)
+#### [Get](streamanalytics/2016-03-01/Outputs/Get.yml)
+#### [List By Streaming Job](streamanalytics/2016-03-01/Outputs/ListByStreamingJob.yml)
+#### [Test](streamanalytics/2016-03-01/Outputs/Test.yml)
+#### [Update](streamanalytics/2016-03-01/Outputs/Update.yml)
+### Streaming Jobs
+#### [Overview](streamanalytics/2016-03-01/StreamingJobs.yml)
+#### [Create Or Replace](streamanalytics/2016-03-01/StreamingJobs/CreateOrReplace.yml)
+#### [Delete](streamanalytics/2016-03-01/StreamingJobs/Delete.yml)
+#### [Get](streamanalytics/2016-03-01/StreamingJobs/Get.yml)
+#### [List](streamanalytics/2016-03-01/StreamingJobs/List.yml)
+#### [List By Resource Group](streamanalytics/2016-03-01/StreamingJobs/ListByResourceGroup.yml)
+#### [Start](streamanalytics/2016-03-01/StreamingJobs/Start.yml)
+#### [Stop](streamanalytics/2016-03-01/StreamingJobs/Stop.yml)
+#### [Update](streamanalytics/2016-03-01/StreamingJobs/Update.yml)
+### Subscriptions
+#### [Overview](streamanalytics/2016-03-01/Subscriptions.yml)
+#### [List Quotas](streamanalytics/2016-03-01/Subscriptions/ListQuotas.yml)
+### Transformations
+#### [Overview](streamanalytics/2016-03-01/Transformations.yml)
+#### [Create Or Replace](streamanalytics/2016-03-01/Transformations/CreateOrReplace.yml)
+#### [Get](streamanalytics/2016-03-01/Transformations/Get.yml)
+#### [Update](streamanalytics/2016-03-01/Transformations/Update.yml)
+## 2017-04-01-preview
+### Functions
+#### [Overview](streamanalytics/2017-04-01-preview/Functions.yml)
+#### [Create Or Replace](streamanalytics/2017-04-01-preview/Functions/CreateOrReplace.yml)
+#### [Delete](streamanalytics/2017-04-01-preview/Functions/Delete.yml)
+#### [Get](streamanalytics/2017-04-01-preview/Functions/Get.yml)
+#### [List By Streaming Job](streamanalytics/2017-04-01-preview/Functions/ListByStreamingJob.yml)
+#### [Retrieve Default Definition](streamanalytics/2017-04-01-preview/Functions/RetrieveDefaultDefinition.yml)
+#### [Test](streamanalytics/2017-04-01-preview/Functions/Test.yml)
+#### [Update](streamanalytics/2017-04-01-preview/Functions/Update.yml)
+### Inputs
+#### [Overview](streamanalytics/2017-04-01-preview/Inputs.yml)
+#### [Create Or Replace](streamanalytics/2017-04-01-preview/Inputs/CreateOrReplace.yml)
+#### [Delete](streamanalytics/2017-04-01-preview/Inputs/Delete.yml)
+#### [Get](streamanalytics/2017-04-01-preview/Inputs/Get.yml)
+#### [List By Streaming Job](streamanalytics/2017-04-01-preview/Inputs/ListByStreamingJob.yml)
+#### [Test](streamanalytics/2017-04-01-preview/Inputs/Test.yml)
+#### [Update](streamanalytics/2017-04-01-preview/Inputs/Update.yml)
+### Operations
+#### [Overview](streamanalytics/2017-04-01-preview/Operations.yml)
+#### [List](streamanalytics/2017-04-01-preview/Operations/List.yml)
+### Outputs
+#### [Overview](streamanalytics/2017-04-01-preview/Outputs.yml)
+#### [Create Or Replace](streamanalytics/2017-04-01-preview/Outputs/CreateOrReplace.yml)
+#### [Delete](streamanalytics/2017-04-01-preview/Outputs/Delete.yml)
+#### [Get](streamanalytics/2017-04-01-preview/Outputs/Get.yml)
+#### [List By Streaming Job](streamanalytics/2017-04-01-preview/Outputs/ListByStreamingJob.yml)
+#### [Test](streamanalytics/2017-04-01-preview/Outputs/Test.yml)
+#### [Update](streamanalytics/2017-04-01-preview/Outputs/Update.yml)
+### Streaming Jobs
+#### [Overview](streamanalytics/2017-04-01-preview/StreamingJobs.yml)
+#### [Create Or Replace](streamanalytics/2017-04-01-preview/StreamingJobs/CreateOrReplace.yml)
+#### [Delete](streamanalytics/2017-04-01-preview/StreamingJobs/Delete.yml)
+#### [Get](streamanalytics/2017-04-01-preview/StreamingJobs/Get.yml)
+#### [List](streamanalytics/2017-04-01-preview/StreamingJobs/List.yml)
+#### [List By Resource Group](streamanalytics/2017-04-01-preview/StreamingJobs/ListByResourceGroup.yml)
+#### [Start](streamanalytics/2017-04-01-preview/StreamingJobs/Start.yml)
+#### [Stop](streamanalytics/2017-04-01-preview/StreamingJobs/Stop.yml)
+#### [Update](streamanalytics/2017-04-01-preview/StreamingJobs/Update.yml)
+### Subscriptions
+#### [Overview](streamanalytics/2017-04-01-preview/Subscriptions.yml)
+#### [List Quotas](streamanalytics/2017-04-01-preview/Subscriptions/ListQuotas.yml)
+### Transformations
+#### [Overview](streamanalytics/2017-04-01-preview/Transformations.yml)
+#### [Create Or Replace](streamanalytics/2017-04-01-preview/Transformations/CreateOrReplace.yml)
+#### [Get](streamanalytics/2017-04-01-preview/Transformations/Get.yml)
+#### [Update](streamanalytics/2017-04-01-preview/Transformations/Update.yml)
+## 2020-03-01-preview
+### Clusters
+#### [Overview](streamanalytics/2020-03-01-preview/Clusters.yml)
+#### [Create Or Update](streamanalytics/2020-03-01-preview/Clusters/CreateOrUpdate.yml)
+#### [Delete](streamanalytics/2020-03-01-preview/Clusters/Delete.yml)
+#### [Get](streamanalytics/2020-03-01-preview/Clusters/Get.yml)
+#### [List By Resource Group](streamanalytics/2020-03-01-preview/Clusters/ListByResourceGroup.yml)
+#### [List By Subscription](streamanalytics/2020-03-01-preview/Clusters/ListBySubscription.yml)
+#### [List Streaming Jobs](streamanalytics/2020-03-01-preview/Clusters/ListStreamingJobs.yml)
+#### [Update](streamanalytics/2020-03-01-preview/Clusters/Update.yml)
+### Private Endpoints
+#### [Overview](streamanalytics/2020-03-01-preview/PrivateEndpoints.yml)
+#### [Create Or Update](streamanalytics/2020-03-01-preview/PrivateEndpoints/CreateOrUpdate.yml)
+#### [Delete](streamanalytics/2020-03-01-preview/PrivateEndpoints/Delete.yml)
+#### [Get](streamanalytics/2020-03-01-preview/PrivateEndpoints/Get.yml)
+#### [List By Cluster](streamanalytics/2020-03-01-preview/PrivateEndpoints/ListByCluster.yml)
 # Subscription
 ## [Overview](../docs-ref-conceptual/subscription/index.md)
 ## 2018-03-01-preview
@@ -14427,6 +14529,19 @@
 ### [Get](synapse/BigDataPools/Get.yml)
 ### [List By Workspace](synapse/BigDataPools/ListByWorkspace.yml)
 ### [Update](synapse/BigDataPools/Update.yml)
+## Data Masking Policies
+### [Overview](synapse/DataMaskingPolicies.yml)
+### [Create Or Update](synapse/DataMaskingPolicies/CreateOrUpdate.yml)
+### [Get](synapse/DataMaskingPolicies/Get.yml)
+## Data Masking Rules
+### [Overview](synapse/DataMaskingRules.yml)
+### [Create Or Update](synapse/DataMaskingRules/CreateOrUpdate.yml)
+### [List By Sql Pool](synapse/DataMaskingRules/ListBySqlPool.yml)
+## Extended Sql Pool Blob Auditing Policies
+### [Overview](synapse/ExtendedSqlPoolBlobAuditingPolicies.yml)
+### [Create Or Update](synapse/ExtendedSqlPoolBlobAuditingPolicies/CreateOrUpdate.yml)
+### [Get](synapse/ExtendedSqlPoolBlobAuditingPolicies/Get.yml)
+### [List By Sql Pool](synapse/ExtendedSqlPoolBlobAuditingPolicies/ListBySqlPool.yml)
 ## Integration Runtime Auth Keys
 ### [Overview](synapse/IntegrationRuntimeAuthKeys.yml)
 ### [List](synapse/IntegrationRuntimeAuthKeys/List.yml)
@@ -14484,6 +14599,10 @@
 ### [Overview](synapse/SqlPoolBlobAuditingPolicies.yml)
 ### [Create Or Update](synapse/SqlPoolBlobAuditingPolicies/CreateOrUpdate.yml)
 ### [Get](synapse/SqlPoolBlobAuditingPolicies/Get.yml)
+### [List By Sql Pool](synapse/SqlPoolBlobAuditingPolicies/ListBySqlPool.yml)
+## Sql Pool Columns
+### [Overview](synapse/SqlPoolColumns.yml)
+### [Get](synapse/SqlPoolColumns/Get.yml)
 ## Sql Pool Connection Policies
 ### [Overview](synapse/SqlPoolConnectionPolicies.yml)
 ### [Get](synapse/SqlPoolConnectionPolicies/Get.yml)
@@ -14512,6 +14631,7 @@
 ### [List](synapse/SqlPoolRestorePoints/List.yml)
 ## Sql Pool Schemas
 ### [Overview](synapse/SqlPoolSchemas.yml)
+### [Get](synapse/SqlPoolSchemas/Get.yml)
 ### [List](synapse/SqlPoolSchemas/List.yml)
 ## Sql Pool Security Alert Policies
 ### [Overview](synapse/SqlPoolSecurityAlertPolicies.yml)
@@ -14523,6 +14643,7 @@
 ### [Delete](synapse/SqlPoolSensitivityLabels/Delete.yml)
 ### [Disable Recommendation](synapse/SqlPoolSensitivityLabels/DisableRecommendation.yml)
 ### [Enable Recommendation](synapse/SqlPoolSensitivityLabels/EnableRecommendation.yml)
+### [Get](synapse/SqlPoolSensitivityLabels/Get.yml)
 ### [List Current](synapse/SqlPoolSensitivityLabels/ListCurrent.yml)
 ### [List Recommended](synapse/SqlPoolSensitivityLabels/ListRecommended.yml)
 ## Sql Pool Table Columns
@@ -14530,6 +14651,7 @@
 ### [List By Table Name](synapse/SqlPoolTableColumns/ListByTableName.yml)
 ## Sql Pool Tables
 ### [Overview](synapse/SqlPoolTables.yml)
+### [Get](synapse/SqlPoolTables/Get.yml)
 ### [List By Schema](synapse/SqlPoolTables/ListBySchema.yml)
 ## Sql Pool Transparent Data Encryptions
 ### [Overview](synapse/SqlPoolTransparentDataEncryptions.yml)
@@ -14542,9 +14664,11 @@
 ### [Overview](synapse/SqlPoolVulnerabilityAssessmentRuleBaselines.yml)
 ### [Create Or Update](synapse/SqlPoolVulnerabilityAssessmentRuleBaselines/CreateOrUpdate.yml)
 ### [Delete](synapse/SqlPoolVulnerabilityAssessmentRuleBaselines/Delete.yml)
+### [Get](synapse/SqlPoolVulnerabilityAssessmentRuleBaselines/Get.yml)
 ## Sql Pool Vulnerability Assessment Scans
 ### [Overview](synapse/SqlPoolVulnerabilityAssessmentScans.yml)
 ### [Export](synapse/SqlPoolVulnerabilityAssessmentScans/Export.yml)
+### [Get](synapse/SqlPoolVulnerabilityAssessmentScans/Get.yml)
 ### [Initiate Scan](synapse/SqlPoolVulnerabilityAssessmentScans/InitiateScan.yml)
 ### [List](synapse/SqlPoolVulnerabilityAssessmentScans/List.yml)
 ## Sql Pool Vulnerability Assessments

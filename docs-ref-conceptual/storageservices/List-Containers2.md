@@ -41,7 +41,7 @@ The `List Containers` operation returns a list of the containers under the speci
 |`prefix`|Optional. Filters the results to return only containers whose name begins with the specified prefix.|  
 |`marker`|Optional. A string value that identifies the portion of the list of containers to be returned with the next listing operation. The operation returns the `NextMarker` value within the response body if the listing operation did not return all containers remaining to be listed with the current page. The `NextMarker` value can be used as the value for the `marker` parameter in a subsequent call to request the next page of list items.<br /><br /> The marker value is opaque to the client.|  
 |`maxresults`|Optional. Specifies the maximum number of containers to return. If the request does not specify `maxresults`, or specifies a value greater than 5000, the server will return up to 5000 items. <br /><br />Note that if the listing operation crosses a partition boundary, then the service will return a continuation token for retrieving the remainder of the results. For this reason, it is possible that the service will return fewer results than specified by `maxresults`, or than the default of 5000. <br /><br />If the parameter is set to a value less than or equal to zero, the server returns status code 400 (Bad Request).|  
-|`include=metadata`|Optional. Include this parameter to specify that the container's metadata be returned as part of the response body.<br /><br /> Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of the Blob service. Beginning with this version, all metadata names must adhere to the naming conventions for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
+|`include={metadata,deleted}`|Optional. Specifies one or more datasets to include in the response:<br /><br /> -`metadata`: Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of the Blob service. Beginning with this version, all metadata names must adhere to the naming conventions for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).<br /> -`deleted`: Version 2019-12-12 and newer. Specifies that soft deleted containers should be included in the response.|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
@@ -88,6 +88,8 @@ The `List Containers` operation returns a list of the containers under the speci
   <Containers>  
     <Container>  
       <Name>container-name</Name>  
+      <Version>container-version</Version>
+      <Deleted>true</Deleted>
       <Properties>  
         <Last-Modified>date/time-value</Last-Modified>  
         <Etag>etag</Etag>  
@@ -97,6 +99,8 @@ The `List Containers` operation returns a list of the containers under the speci
         <PublicAccess>container | blob</PublicAccess>
         <HasImmutabilityPolicy>true | false</HasImmutabilityPolicy>
         <HasLegalHold>true | false</HasLegalHold>
+        <DeletedTime>datetime</DeletedTime>
+        <RemainingRetentionDays>no-of-days</RemainingRetentionDays>
       </Properties>  
       <Metadata>  
         <metadata-name>value</metadata-name>  
@@ -139,6 +143,8 @@ If this property is not specified in the <properties> section, the container is 
 
 > [!NOTE]
 >  Beginning with version 2009-09-19, the response body for `List Containers` returns the container's last modified time in an element named `Last-Modified`. In previous versions, this element was named `LastModified`.  
+
+The `Version`, `Deleted`, `DeletedTime`, and `RemainingRetentiondays` elements only appear in version 2019-12-12 and later if the `deleted` value is specified for the query parameter `include` and the container is soft deleted and eligible to be restored.
   
 ##  <a name="Authorization"></a> Authorization  
  Only the account owner may call this operation.  
