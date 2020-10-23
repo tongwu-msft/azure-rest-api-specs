@@ -7593,6 +7593,7 @@
 #### [Update](media/Jobs/Update.yml)
 ### Live Events
 #### [Overview](media/LiveEvents.yml)
+#### [Allocate](media/LiveEvents/Allocate.yml)
 #### [Create](media/LiveEvents/Create.yml)
 #### [Delete](media/LiveEvents/Delete.yml)
 #### [Get](media/LiveEvents/Get.yml)
@@ -7624,6 +7625,16 @@
 ### Operations
 #### [Overview](media/Operations.yml)
 #### [List](media/Operations/List.yml)
+### Private Endpoint Connections
+#### [Overview](media/PrivateEndpointConnections.yml)
+#### [Create Or Update](media/PrivateEndpointConnections/CreateOrUpdate.yml)
+#### [Delete](media/PrivateEndpointConnections/Delete.yml)
+#### [Get](media/PrivateEndpointConnections/Get.yml)
+#### [List](media/PrivateEndpointConnections/List.yml)
+### Private Link Resources
+#### [Overview](media/PrivateLinkResources.yml)
+#### [Get](media/PrivateLinkResources/Get.yml)
+#### [List](media/PrivateLinkResources/List.yml)
 ### Streaming Endpoints
 #### [Overview](media/StreamingEndpoints.yml)
 #### [Create](media/StreamingEndpoints/Create.yml)
@@ -14037,11 +14048,15 @@
 ##### [Put Page](../docs-ref-conceptual/storageservices/put-page.md)
 ##### [Put Page from URL](../docs-ref-conceptual/storageservices/put-page-from-url.md)
 ##### [Get Page Ranges](../docs-ref-conceptual/storageservices/get-page-ranges.md)
+##### [Put Range from URL](../docs-ref-conceptual/storageservices/put-range-from-url.md)
 ##### [Incremental Copy Blob](../docs-ref-conceptual/storageservices/incremental-copy-blob.md)
 #### Operations on Append Blobs
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-append-blobs.md)
 ##### [Append Block](../docs-ref-conceptual/storageservices/append-block.md)
 ##### [Append Block From URL](../docs-ref-conceptual/storageservices/append-block-from-url.md)
+#### Operations on blobs in hierarchical namespaces
+##### [Overview](../docs-ref-conceptual/storageservices/operations-on-blobs-hierarchical-namespace.md)
+##### [Set Blob Expiry](../docs-ref-conceptual/storageservices/set-blob-expiry.md)
 ## [Data Lake Storage Gen2 REST API](../docs-ref-conceptual/storageservices/data-lake-storage-gen2.md)
 ## Queue Service REST API
 ### [Overview](../docs-ref-conceptual/storageservices/queue-service-rest-api.md)
