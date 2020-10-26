@@ -11,8 +11,8 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "vipulm-msft"
-ms.author: "vipulm"
+author: "jeffj6123"
+ms.author: "jejarry"
 manager: "rajak"
 translation.priority.mt: 
   - "de-de"

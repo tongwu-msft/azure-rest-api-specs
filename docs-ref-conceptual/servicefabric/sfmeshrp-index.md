@@ -7,7 +7,7 @@ ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
 ms.devlang: rest-api
-ms.author: vipulm
+ms.author: jeffj6123
 ms.manager: rajak
 ---
 
