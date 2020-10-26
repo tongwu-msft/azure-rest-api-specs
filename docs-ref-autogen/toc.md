@@ -14037,11 +14037,15 @@
 ##### [Put Page](../docs-ref-conceptual/storageservices/put-page.md)
 ##### [Put Page from URL](../docs-ref-conceptual/storageservices/put-page-from-url.md)
 ##### [Get Page Ranges](../docs-ref-conceptual/storageservices/get-page-ranges.md)
+##### [Put Range from URL](../docs-ref-conceptual/storageservices/put-range-from-url.md)
 ##### [Incremental Copy Blob](../docs-ref-conceptual/storageservices/incremental-copy-blob.md)
 #### Operations on Append Blobs
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-append-blobs.md)
 ##### [Append Block](../docs-ref-conceptual/storageservices/append-block.md)
 ##### [Append Block From URL](../docs-ref-conceptual/storageservices/append-block-from-url.md)
+#### Operations on blobs in hierarchical namespaces
+##### [Overview](../docs-ref-conceptual/storageservices/operations-on-blobs-hierarchical-namespace.md)
+##### [Set Blob Expiry](../docs-ref-conceptual/storageservices/set-blob-expiry.md)
 ## [Data Lake Storage Gen2 REST API](../docs-ref-conceptual/storageservices/data-lake-storage-gen2.md)
 ## Queue Service REST API
 ### [Overview](../docs-ref-conceptual/storageservices/queue-service-rest-api.md)
