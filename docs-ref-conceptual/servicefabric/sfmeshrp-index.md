@@ -2,12 +2,12 @@
 title: "Azure Service Fabric Mesh Resource Provider REST API Reference"
 description: Service Fabric Mesh Resource Manager API Reference
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: jeffj6123
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
 ms.devlang: rest-api
-ms.author: jeffj6123
+ms.author: jejarry
 ms.manager: rajak
 ---
 

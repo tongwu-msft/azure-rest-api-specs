@@ -1,3 +1,9 @@
+---
+title: "Service fabric client V7.1 table of contents"
+description: Service Fabric client V7.1 table of contents
+ms.service: "service-fabric"
+---
+
 # [Service Fabric Client APIs](sfclient-v71-index.md)
 ## [Authenticating Service Fabric REST Requests](sfclient-v71-authenticating-service-fabric-rest-requests.md)
 ## [Service Fabric Names and JSON Serialization](sfclient-v71-service-fabric-names-and-json-serialization.md)
