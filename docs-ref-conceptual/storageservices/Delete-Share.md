@@ -36,7 +36,7 @@ The `Delete Share` operation marks the specified share or share snapshot for del
 |Parameter|Description|  
 |---------------|-----------------|  
 |`sharesnapshot`|Optional. Version 2017-04-17 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to delete |
-|`timeout`|Optional. The timeout parameter is expressed in seconds.  For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
+|`timeout`|Optional. The timeout parameter is expressed in seconds.  For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|
   
 ## Request Headers  
  The following table describes required and optional request headers.  

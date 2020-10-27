@@ -13,14 +13,6 @@ ms.date: 04/15/2017
 ms.author: scottwhi
 ---
 
->[!WARNING]
-> Bing Search APIs are moving from Cognitive Services to
-[Bing Search Services](https://aka.ms/cogsvcs/bingmove). Bing Search APIs provisioned using Cognitive Services will be supported
-for the next three years or until the end of your Enterprise Agreement,
-whichever happens first.
->
-> For migration instructions, see [Bing Search Services](https://aka.ms/cogsvcs/bingmigration). 
-
 # News Search API v7 reference
 
 The News Search API lets you send a search query to Bing and get back a list of relevant news articles. This section provides technical details about the query parameters and headers that you use to request news articles and the JSON response objects that contain them. For examples that show how to make requests, see [Searching the Web for News](https://docs.microsoft.com/azure/cognitive-services/bing-news-search/search-the-web).  

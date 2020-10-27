@@ -3,8 +3,8 @@ title: Blob Batch (REST API) - Azure Storage
 description: The Blob Batch operation allows multiple API calls to be embedded into a single HTTP request.
 author: pemari-msft
 
-ms.date: 09/09/2019
-ms.author: pemari-msft
+ms.date: 10/20/2020
+ms.author: pemari
 ms.service: storage
 ms.topic: reference
 ---
@@ -48,6 +48,7 @@ The request body for a blob batch contains a list of all subrequests. The format
 * Each batch request supports a maximum of 256 subrequests.
 * All subrequests must be of the same request type.
 * Each subrequest will be authorized and authorized separately with the provided information in the subrequest.
+* Each line in the request body should end with \r\n characters.
 
 ### Sample Request
 

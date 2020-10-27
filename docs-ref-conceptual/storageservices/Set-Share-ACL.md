@@ -25,7 +25,7 @@ The **Set Share ACL** operation sets a stored access policy for use with shared 
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
+|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|
   
 ### Request Headers  
  The following table describes required and optional request headers.  
