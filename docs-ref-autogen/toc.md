@@ -3661,6 +3661,7 @@
 ### [Update](communication/CommunicationIdentity/Update.yml)
 ## Communication Service
 ### [Overview](communication/CommunicationService.yml)
+### [Check Name Availability](communication/CommunicationService/CheckNameAvailability.yml)
 ### [Create Or Update](communication/CommunicationService/CreateOrUpdate.yml)
 ### [Delete](communication/CommunicationService/Delete.yml)
 ### [Get](communication/CommunicationService/Get.yml)
@@ -4650,6 +4651,10 @@
 #### [Overview](cost-management/Forecast.yml)
 #### [External Cloud Provider Usage](cost-management/Forecast/ExternalCloudProviderUsage.yml)
 #### [Usage](cost-management/Forecast/Usage.yml)
+### Generate Reservation Details Report
+#### [Overview](cost-management/GenerateReservationDetailsReport.yml)
+#### [By Billing Account Id](cost-management/GenerateReservationDetailsReport/ByBillingAccountId.yml)
+#### [By Billing Profile Id](cost-management/GenerateReservationDetailsReport/ByBillingProfileId.yml)
 ### Operations
 #### [Overview](cost-management/Operations.yml)
 #### [List](cost-management/Operations/List.yml)
@@ -9411,6 +9416,12 @@
 ### [Overview](securitycenter/Compliances.yml)
 ### [Get](securitycenter/Compliances/Get.yml)
 ### [List](securitycenter/Compliances/List.yml)
+## Connectors
+### [Overview](securitycenter/Connectors.yml)
+### [Create Or Update](securitycenter/Connectors/CreateOrUpdate.yml)
+### [Delete](securitycenter/Connectors/Delete.yml)
+### [Get](securitycenter/Connectors/Get.yml)
+### [List](securitycenter/Connectors/List.yml)
 ## Device Security Groups
 ### [Overview](securitycenter/DeviceSecurityGroups.yml)
 ### [Create Or Update](securitycenter/DeviceSecurityGroups/CreateOrUpdate.yml)

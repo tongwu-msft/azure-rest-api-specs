@@ -1,6 +1,6 @@
 ---
 title: "StatefulServiceDescription"
-ms.date: "04/15/2020"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -55,6 +55,7 @@ Describes a stateful service.
 | [`QuorumLossWaitDurationSeconds`](#quorumlosswaitdurationseconds) | integer (int64) | No |
 | [`StandByReplicaKeepDurationSeconds`](#standbyreplicakeepdurationseconds) | integer (int64) | No |
 | [`ServicePlacementTimeLimitSeconds`](#serviceplacementtimelimitseconds) | integer (int64) | No |
+| [`DropSourceReplicaOnMove`](#dropsourcereplicaonmove) | boolean | No |
 
 ____
 ### `ApplicationName`
@@ -212,6 +213,7 @@ For example, if the provided value is 6 then the flags for QuorumLossWaitDuratio
 - QuorumLossWaitDuration - Indicates the QuorumLossWaitDuration property is set. The value is 2.
 - StandByReplicaKeepDuration - Indicates the StandByReplicaKeepDuration property is set. The value is 4.
 - ServicePlacementTimeLimit - Indicates the ServicePlacementTimeLimit property is set. The value is 8.
+- DropSourceReplicaOnMove - Indicates the DropSourceReplicaOnMove property is set. The value is 16.
 
 
 ____
@@ -249,3 +251,10 @@ __InclusiveMaximum__: `4294967295` <br/>
 __InclusiveMinimum__: `0` <br/>
 <br/>
 The duration for which replicas can stay InBuild before reporting that build is stuck.
+
+____
+### `DropSourceReplicaOnMove`
+__Type__: boolean <br/>
+__Required__: No<br/>
+<br/>
+Indicates whether to drop source Secondary replica even if the target replica has not finished build. If desired behavior is to drop it as soon as possible the value of this property is true, if not it is false.

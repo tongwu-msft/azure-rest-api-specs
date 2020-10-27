@@ -1,6 +1,6 @@
 ---
 title: "Get Partition Backup Progress"
-ms.date: "04/15/2020"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

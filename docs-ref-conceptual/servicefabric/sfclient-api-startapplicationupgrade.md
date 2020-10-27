@@ -1,6 +1,6 @@
 ---
 title: "Start Application Upgrade"
-ms.date: "04/15/2020"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -30,6 +30,9 @@ translation.priority.mt:
 Starts upgrading an application in the Service Fabric cluster.
 
 Validates the supplied application upgrade parameters and starts upgrading the application if the parameters are valid.
+Note, [ApplicationParameter](https://docs.microsoft.com/dotnet/api/system.fabric.description.applicationdescription.applicationparameters)s are not preserved across an application upgrade.
+In order to preserve current application parameters, the user should get the parameters using [GetApplicationInfo](./sfclient-api-GetApplicationInfo.md) operation first and pass them into the upgrade API call as shown in the example.
+
 
 ## Request
 | Method | Request URI |
@@ -91,3 +94,41 @@ Parameters for an application upgrade.
 | --- | --- | --- |
 | 200 (OK) | A successful response means that the application upgrade has started. Use GetApplicationUpgrade operation to get the status of the upgrade.<br/> |  |
 | All other status codes | The detailed error response.<br/> | [FabricError](sfclient-model-fabricerror.md) |
+
+## Examples
+
+### Upgrade an application preserving current application parameters
+
+This example shows how to start upgrading an application in a Service Fabric cluster.
+
+#### Request
+```
+POST http://localhost:19080/Applications/samples~CalculatorApp/$/Upgrade?api-version=6.0
+```
+
+##### Body
+```json
+{
+  "Name": "fabric:/samples/CalculatorApp",
+  "TargetApplicationTypeVersion": "2.0",
+  "Parameters": [
+    {
+      "Key": "CalculatorAppParameter1",
+      "Value": "314"
+    },
+    {
+      "Key": "CalculatorAppParameter2",
+      "Value": "271"
+    }
+  ],
+  "UpgradeKind": "Rolling",
+  "RollingUpgradeMode": "Monitored",
+  "MonitoringPolicy": {
+    "FailureAction": "Rollback"
+  }
+}
+```
+
+#### 200 Response
+##### Body
+The response body is empty.

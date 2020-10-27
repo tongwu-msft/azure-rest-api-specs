@@ -1,6 +1,6 @@
 ---
 title: "BackupStorageKind"
-ms.date: "04/15/2020"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -38,4 +38,5 @@ Possible values are:
   - `Invalid` - Indicates an invalid backup storage kind. All Service Fabric enumerations have the invalid type.
   - `FileShare` - Indicates file/ SMB share to be used as backup storage.
   - `AzureBlobStore` - Indicates Azure blob store to be used as backup storage.
+  - `DsmsAzureBlobStore` - Indicates Dsms Azure blob store to be used as backup storage.
 

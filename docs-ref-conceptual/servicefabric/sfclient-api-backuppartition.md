@@ -1,6 +1,6 @@
 ---
 title: "Backup Partition"
-ms.date: "04/15/2020"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -159,6 +159,29 @@ POST http://localhost:19080/Partitions/1daae3f5-7fd6-42e9-b1ba-8c05f873994d/$/Ba
     "Path": "\\\\myshare\\backupshare",
     "PrimaryUserName": "mydomain\\backupaccount",
     "PrimaryPassword": "abcd1234"
+  }
+}
+```
+
+#### 202 Response
+##### Body
+The response body is empty.
+### Backup partition to a specific Dsms Azure storage location
+
+This example shows how to trigger backup of a partition now, and save the backup to a specific Dsms Azure blob storage location.
+
+#### Request
+```
+POST http://localhost:19080/Partitions/1daae3f5-7fd6-42e9-b1ba-8c05f873994d/$/Backup?api-version=6.4
+```
+
+##### Body
+```json
+{
+  "BackupStorage": {
+    "StorageKind": "DsmsAzureBlobStore",
+    "StorageCredentialsSourceLocation": "https://sample-dsms.dsms.core.winows.net/dsms/samplecredentiallocation/storageaccounts/samplestorageac/servicefabricbackup/samplebackup",
+    "ContainerName": "BackupContainer"
   }
 }
 ```
