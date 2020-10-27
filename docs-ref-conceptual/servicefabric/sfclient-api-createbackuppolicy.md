@@ -1,6 +1,6 @@
 ---
 title: "Create Backup Policy"
-ms.date: "04/15/2020"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -154,6 +154,46 @@ POST http://localhost:19080/BackupRestore/BackupPolicies/$/Create?api-version=6.
     "RetentionPolicyType": "Basic",
     "MinimumNumberOfBackups": "20",
     "RetentionDuration": "P20D"
+  }
+}
+```
+
+#### 201 Response
+##### Body
+The response body is empty.
+### Create a time based backup policy with Dsms Azure as backup location
+
+This example shows how to create a backup policy which takes backup twice everyday at 9 AM and 5 PM UTC which shall get deleted after 3 months, with Dsms Azure blob store as the backup location.
+
+#### Request
+```
+POST http://localhost:19080/BackupRestore/BackupPolicies/$/Create?api-version=6.4
+```
+
+##### Body
+```json
+{
+  "Name": "SampleDsmsBackupPolicy",
+  "AutoRestoreOnDataLoss": false,
+  "MaxIncrementalBackups": "3",
+  "Schedule": {
+    "ScheduleKind": "TimeBased",
+    "ScheduleFrequencyType": "Daily",
+    "RunTimes": [
+      "0001-01-01T09:00:00Z",
+      "0001-01-01T17:00:00Z"
+    ]
+  },
+  "Storage": {
+    "StorageKind": "DsmsAzureBlobStore",
+    "FriendlyName": "DsmsAzure_storagesample",
+    "StorageCredentialsSourceLocation": "https://sample-dsms.dsms.core.winows.net/dsms/samplecredentiallocation/storageaccounts/samplestorageac/servicefabricbackup/samplebackup",
+    "ContainerName": "BackupContainer"
+  },
+  "RetentionPolicy": {
+    "RetentionPolicyType": "Basic",
+    "MinimumNumberOfBackups": "20",
+    "RetentionDuration": "P3M"
   }
 }
 ```

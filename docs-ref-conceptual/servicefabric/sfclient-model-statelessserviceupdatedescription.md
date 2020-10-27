@@ -1,6 +1,6 @@
 ---
 title: "StatelessServiceUpdateDescription"
-ms.date: "04/15/2020"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -70,6 +70,7 @@ For example, if the provided value is 6 then the flags for ReplicaRestartWaitDur
 - MinInstanceCount - Indicates the MinInstanceCount property is set. The value is 4096.
 - MinInstancePercentage - Indicates the MinInstancePercentage property is set. The value is 8192.
 - InstanceCloseDelayDuration - Indicates the InstanceCloseDelayDuration property is set. The value is 16384.
+- DropSourceReplicaOnMove - Indicates the DropSourceReplicaOnMove property is set. The value is 32768.
 
 
 ____

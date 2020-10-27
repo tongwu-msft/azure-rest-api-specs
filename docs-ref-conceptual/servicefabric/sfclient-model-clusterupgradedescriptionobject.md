@@ -1,6 +1,6 @@
 ---
 title: "ClusterUpgradeDescriptionObject"
-ms.date: "04/15/2020"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -44,7 +44,7 @@ Represents a ServiceFabric cluster upgrade
 | [`MonitoringPolicy`](#monitoringpolicy) | [MonitoringPolicyDescription](sfclient-model-monitoringpolicydescription.md) | No |
 | [`ClusterHealthPolicy`](#clusterhealthpolicy) | [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) | No |
 | [`ClusterUpgradeHealthPolicy`](#clusterupgradehealthpolicy) | [ClusterUpgradeHealthPolicyObject](sfclient-model-clusterupgradehealthpolicyobject.md) | No |
-| [`ApplicationHealthPolicyMap`](#applicationhealthpolicymap) | array of [ApplicationHealthPolicyMapItem](sfclient-model-applicationhealthpolicymapitem.md) | No |
+| [`ApplicationHealthPolicyMap`](#applicationhealthpolicymap) | [ApplicationHealthPolicyMapObject](sfclient-model-applicationhealthpolicymapobject.md) | No |
 
 ____
 ### `ConfigVersion`
@@ -162,11 +162,7 @@ Defines a health policy used to evaluate the health of the cluster during a clus
 
 ____
 ### `ApplicationHealthPolicyMap`
-__Type__: array of [ApplicationHealthPolicyMapItem](sfclient-model-applicationhealthpolicymapitem.md) <br/>
+__Type__: [ApplicationHealthPolicyMapObject](sfclient-model-applicationhealthpolicymapobject.md) <br/>
 __Required__: No<br/>
 <br/>
-Defines a map that contains specific application health policies for different applications.
-Each entry specifies as key the application name and as value an ApplicationHealthPolicy used to evaluate the application health.
-If an application is not specified in the map, the application health evaluation uses the ApplicationHealthPolicy found in its application manifest or the default application health policy (if no health policy is defined in the manifest).
-The map is empty by default.
-
+Represents the map of application health policies for a ServiceFabric cluster upgrade
