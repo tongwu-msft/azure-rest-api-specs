@@ -3661,6 +3661,7 @@
 ### [Update](communication/CommunicationIdentity/Update.yml)
 ## Communication Service
 ### [Overview](communication/CommunicationService.yml)
+### [Check Name Availability](communication/CommunicationService/CheckNameAvailability.yml)
 ### [Create Or Update](communication/CommunicationService/CreateOrUpdate.yml)
 ### [Delete](communication/CommunicationService/Delete.yml)
 ### [Get](communication/CommunicationService/Get.yml)
@@ -4650,6 +4651,10 @@
 #### [Overview](cost-management/Forecast.yml)
 #### [External Cloud Provider Usage](cost-management/Forecast/ExternalCloudProviderUsage.yml)
 #### [Usage](cost-management/Forecast/Usage.yml)
+### Generate Reservation Details Report
+#### [Overview](cost-management/GenerateReservationDetailsReport.yml)
+#### [By Billing Account Id](cost-management/GenerateReservationDetailsReport/ByBillingAccountId.yml)
+#### [By Billing Profile Id](cost-management/GenerateReservationDetailsReport/ByBillingProfileId.yml)
 ### Operations
 #### [Overview](cost-management/Operations.yml)
 #### [List](cost-management/Operations/List.yml)
