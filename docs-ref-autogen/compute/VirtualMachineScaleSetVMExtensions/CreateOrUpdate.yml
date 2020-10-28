@@ -52,11 +52,11 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: VirtualMachineExtension
+  - uid: VirtualMachineScaleSetVMExtension
 - name: 201 Created
   description: Created
   types:
-  - uid: VirtualMachineExtension
+  - uid: VirtualMachineScaleSetVMExtension
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -109,21 +109,6 @@ requestBody:
     description: The virtual machine extension instance view.
     types:
     - uid: VirtualMachineExtensionInstanceView
-  - name: location
-    in: body
-    isRequired: true
-    description: Resource location
-    types:
-    - uid: string
-  - name: tags
-    in: body
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 requestHeader: []
 definitions:
 - name: VirtualMachineExtensionInstanceView
@@ -152,10 +137,20 @@ definitions:
     types:
     - uid: InstanceViewStatus
       isArray: true
-- name: VirtualMachineExtension
-  description: Describes a Virtual Machine Extension.
+- name: VirtualMachineScaleSetVMExtension
+  description: Describes a VMSS VM Extension.
   kind: object
   properties:
+  - name: name
+    isReadyOnly: true
+    description: The name of the extension.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
   - name: properties.forceUpdateTag
     description: How the extension handler should be forced to update even if the extension configuration has not changed.
     types:
@@ -202,28 +197,6 @@ definitions:
     description: Resource Id
     types:
     - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: CloudError
   description: An error response from the Compute service.
   kind: object
@@ -328,7 +301,6 @@ examples:
     uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myvmScaleSet/virtualMachines/0/extensions/myVMExtension?api-version=2020-06-01
     body: >-
       {
-        "location": "westus",
         "properties": {
           "autoUpgradeMinorVersion": true,
           "publisher": "extPublisher",
@@ -344,7 +316,6 @@ examples:
     body: >-
       {
         "name": "myVMExtension",
-        "location": "westus",
         "type": "Microsoft.Compute/virtualMachineScaleSets/virtualMachines/extensions",
         "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myvmScaleSet/virtualMachines/0/extensions/myVMExtension",
         "properties": {
@@ -362,7 +333,6 @@ examples:
     body: >-
       {
         "name": "myVMExtension",
-        "location": "westus",
         "type": "Microsoft.Compute/virtualMachineScaleSets/virtualMachines/extensions",
         "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myvmScaleSet/virtualMachines/0/extensions/myVMExtension",
         "properties": {
