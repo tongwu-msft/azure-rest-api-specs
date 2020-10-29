@@ -215,7 +215,7 @@ Beginning with version 2015-04-05, the optional `signedIp` (`sip`) field specifi
 When specifying a range of IP addresses, note that the range is inclusive. For example, specifying `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70` on the SAS restricts the request to those IP addresses.  
   
 > [!IMPORTANT]
-> A SAS used by a client that is in the same Azure region as the storage account may not include a virtual IP address for the `signedIp` field. Requests made from within the same region using a SAS with a virtual IP address specified will fail.
+> A SAS used by a client that is in the same Azure region as the storage account may not include a public outbound IP address for the `signedIp` field. Requests made from within the same region using a SAS with a public outbound IP address specified will fail.
 
 ### Specifying the HTTP protocol  
 
