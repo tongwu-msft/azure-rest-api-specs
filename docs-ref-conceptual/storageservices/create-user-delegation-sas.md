@@ -256,13 +256,13 @@ This field is supported with version 2020-02-10 or later.
 
 To define values for certain response headers to be returned when the shared access signature is used in a request, you can specify response headers in query parameters. The response headers and corresponding query parameters are as follows:  
   
-| Response header name | Corresponding SAS query parameter |  |
-|--|--|--|
-| `Cache-Control` | `rscc` |  |
-| `Content-Disposition` | `rscd` |  |
-| `Content-Encoding` | `rsce` |  |
-| `Content-Language` | `rscl` |  |
-| `Content-Type` | `rsct` |  |
+| Response header name | Corresponding SAS query parameter |
+|--|--|
+| `Cache-Control` | `rscc` |
+| `Content-Disposition` | `rscd` |
+| `Content-Encoding` | `rsce` |
+| `Content-Language` | `rscl` |
+| `Content-Type` | `rsct` |
   
 For example, if you specify the `rsct=binary` query parameter on a SAS token, the `Content-Type` response header is set to `binary`. This value overrides the `Content-Type` header value stored for the blob for a request using this shared access signature only.  
   
