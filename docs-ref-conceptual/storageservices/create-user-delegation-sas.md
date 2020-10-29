@@ -3,7 +3,7 @@ title: Create a user delegation SAS - Azure Storage
 description: A SAS token for access to a container, directory, or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a user delegation SAS, because the token used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice. 
 author: tamram
 
-ms.date: 10/05/2020
+ms.date: 10/29/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -179,9 +179,10 @@ The following table shows the permissions supported for each resource type.
 
 The optional `signedIp` (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates does not match the IP address or address range specified on the SAS token, the request is not authorized.  
   
-When you specify a range of IP addresses, the range is inclusive.  
-  
-For example, specifying `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70` on the SAS restricts the request to those IP addresses.  
+When you specify a range of IP addresses, the range is inclusive. For example, specifying `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70` on the SAS restricts the request to those IP addresses.  
+
+> [!IMPORTANT]
+> A SAS used by a client that is in the same Azure region as the storage account may not include a public outbound IP address for the `signedIp` field. Requests made from within the same region using a SAS with a public outbound IP address specified will fail.
   
 ### Specify the HTTP protocol  
 
@@ -255,13 +256,13 @@ This field is supported with version 2020-02-10 or later.
 
 To define values for certain response headers to be returned when the shared access signature is used in a request, you can specify response headers in query parameters. The response headers and corresponding query parameters are as follows:  
   
-| Response header name | Corresponding SAS query parameter |  |
-|--|--|--|
-| `Cache-Control` | `rscc` |  |
-| `Content-Disposition` | `rscd` |  |
-| `Content-Encoding` | `rsce` |  |
-| `Content-Language` | `rscl` |  |
-| `Content-Type` | `rsct` |  |
+| Response header name | Corresponding SAS query parameter |
+|--|--|
+| `Cache-Control` | `rscc` |
+| `Content-Disposition` | `rscd` |
+| `Content-Encoding` | `rsce` |
+| `Content-Language` | `rscl` |
+| `Content-Type` | `rsct` |
   
 For example, if you specify the `rsct=binary` query parameter on a SAS token, the `Content-Type` response header is set to `binary`. This value overrides the `Content-Type` header value stored for the blob for a request using this shared access signature only.  
   
