@@ -14622,6 +14622,10 @@
 ### [Get Azure Async Header Result](synapse/Operations%20(Preview)/GetAzureAsyncHeaderResult.yml)
 ### [Get Location Header Result](synapse/Operations%20(Preview)/GetLocationHeaderResult.yml)
 ### [List](synapse/Operations%20(Preview)/List.yml)
+## Restorable Dropped Sql Pools
+### [Overview](synapse/RestorableDroppedSqlPools.yml)
+### [Get](synapse/RestorableDroppedSqlPools/Get.yml)
+### [List By Workspace](synapse/RestorableDroppedSqlPools/ListByWorkspace.yml)
 ## Sql Pool Blob Auditing Policies
 ### [Overview](synapse/SqlPoolBlobAuditingPolicies.yml)
 ### [Create Or Update](synapse/SqlPoolBlobAuditingPolicies/CreateOrUpdate.yml)
@@ -14655,6 +14659,8 @@
 ## Sql Pool Restore Points
 ### [Overview](synapse/SqlPoolRestorePoints.yml)
 ### [Create](synapse/SqlPoolRestorePoints/Create.yml)
+### [Delete](synapse/SqlPoolRestorePoints/Delete.yml)
+### [Get](synapse/SqlPoolRestorePoints/Get.yml)
 ### [List](synapse/SqlPoolRestorePoints/List.yml)
 ## Sql Pool Schemas
 ### [Overview](synapse/SqlPoolSchemas.yml)
