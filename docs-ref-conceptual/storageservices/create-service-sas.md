@@ -212,10 +212,11 @@ The following table shows the permissions supported for each resource type.
 
 Beginning with version 2015-04-05, the optional `signedIp` (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates does not match the IP address or address range specified on the SAS token, the request is not authorized.  
   
-When specifying a range of IP addresses, note that the range is inclusive.  
+When specifying a range of IP addresses, note that the range is inclusive. For example, specifying `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70` on the SAS restricts the request to those IP addresses.  
   
-For example, specifying `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70` on the SAS restricts the request to those IP addresses.  
-  
+> [!IMPORTANT]
+> A SAS used by a client that is in the same Azure region as the storage account may not include a virtual IP address for the `signedIp` field. Requests made from within the same region using a SAS with a virtual IP address specified will fail.
+
 ### Specifying the HTTP protocol  
 
 Beginning with version 2015-04-05, the optional `signedProtocol` (`spr`) field specifies the protocol permitted for a request made with the SAS. Possible values are both HTTPS and HTTP (`https,http`) or HTTPS only (`https`).  The default value is `https,http`.  Note that HTTP only is not a permitted value.  
