@@ -3,7 +3,7 @@ title: Create a service SAS - Azure Storage
 description: A service shared access signature (SAS) delegates access to a resource in the Blob, Queue, Table, or File service.
 author: tamram
 
-ms.date: 10/05/2020
+ms.date: 10/29/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
