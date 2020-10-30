@@ -8864,12 +8864,14 @@
 #### [List](reserved-vm-instances/QuotaRequestStatus/List.yml)
 ### Reservation
 #### [Overview](reserved-vm-instances/Reservation.yml)
+#### [Archive](reserved-vm-instances/Reservation/Archive.yml)
 #### [Available Scopes](reserved-vm-instances/Reservation/AvailableScopes.yml)
 #### [Get](reserved-vm-instances/Reservation/Get.yml)
 #### [List](reserved-vm-instances/Reservation/List.yml)
 #### [List Revisions](reserved-vm-instances/Reservation/ListRevisions.yml)
 #### [Merge](reserved-vm-instances/Reservation/Merge.yml)
 #### [Split](reserved-vm-instances/Reservation/Split.yml)
+#### [Unarchive](reserved-vm-instances/Reservation/Unarchive.yml)
 #### [Update](reserved-vm-instances/Reservation/Update.yml)
 ### Reservation Order
 #### [Overview](reserved-vm-instances/ReservationOrder.yml)
