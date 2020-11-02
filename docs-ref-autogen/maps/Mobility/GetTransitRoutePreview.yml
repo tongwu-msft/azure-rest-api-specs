@@ -11,7 +11,7 @@ summary: >-
   **Applies to**: S1 pricing tier.
 
 
-  Get Transit Route API will allow trip planning returning the best possible route options between an origin and destination by using multi-modal search. Service provides a variety of travel modes, including walk, bike, and public transit.  The API supports parameters to request one or multiple public transit types such as bus, tram and subway, and prefer a specific transit agency operating in the area. Also, service provides options to choose optimal route with least walk or transfers and specify arrival or departure times when user need to be at a specific destination by a certain time.
+  Get Transit Route API will allow trip planning returning the best possible route options between an origin and destination by using multi-modal search. Service provides a variety of travel modes, including walk, bike, and public transit.  The API supports parameters to request one or multiple public transit types such as bus, tram and subway, and prefer a specific transit agency operating in the area. Also, service provides transit fare details and options to choose optimal route with least walk or transfers and specify arrival or departure times when user need to be at a specific destination by a certain time.
 consumes: []
 produces:
 - application/json
@@ -42,6 +42,7 @@ uriParameters:
   description: The unique id of the metro area. Can be retrieved via [Get Metro Area API](https://aka.ms/AzureMapsMobilityMetro).
   types:
   - uid: integer
+  format: int32
 - name: origin
   in: query
   isRequired: true
@@ -290,6 +291,10 @@ definitions:
     types:
     - uid: RouteItineraryLeg
       isArray: true
+  - name: itineraryFare
+    description: Itinerary level transit fare information. Returned only if fare information is available for the entire itinerary. [Get Metro Area Info API](https://aka.ms/AzureMapsMobilityMetroAreaInfo) can be requested to confirm if fare information is available in the metro area.
+    types:
+    - uid: ItineraryFare
 - name: ODataError
   description: This object is returned when an error occurs in the Maps API.
   kind: object
@@ -321,6 +326,10 @@ definitions:
     description: The travel mode of the leg.
     types:
     - uid: LegType
+  - name: legFare
+    description: Leg level public transit fare information. Returned only if fare information is available for the entire itinerary.
+    types:
+    - uid: LegFare
   - name: legStartTime
     description: Start time for the leg in ISO 8601 format, e.g. 1996-12-19T19:39:57-08:00.
     types:
@@ -337,6 +346,19 @@ definitions:
     description: The total distance of the leg in meters.
     types:
     - uid: integer
+- name: ItineraryFare
+  description: Itinerary level transit fare information.
+  kind: object
+  properties:
+  - name: price
+    description: The total price for all tickets a user is expected to purchase in order to complete this itinerary.
+    types:
+    - uid: Price
+  - name: tickets
+    description: An array describing the individual prices of each of the tickets that the user is expected to purchase throughout this itinerary. The list isn’t ordered.
+    types:
+    - uid: Tickets
+      isArray: true
 - name: LegType
   kind: enum
   properties:
@@ -392,181 +414,267 @@ definitions:
     description: It’s necessary to wait for the next leg on the same vehicle (i.e. the bus will only change its line number)
     types:
     - uid: string
+- name: LegFare
+  description: Leg level public transit fare information. Returned only if fare information is available for the entire itinerary level and supported by the local transit agency.
+  kind: object
+  properties:
+  - name: fares
+    description: Detailed fare information for the leg.
+    types:
+    - uid: Fares
+      isArray: true
+- name: Price
+  kind: object
+  properties:
+  - name: amount
+    description: Price of the ticket in cents. For example, $5.00 is returned as ‘500’.
+    types:
+    - uid: integer
+  - name: currencyCode
+    description: Currency code, for example for US dollars “USD”.
+    types:
+    - uid: string
+- name: Tickets
+  description: An array describing the individual prices of each of the tickets that the user is expected to purchase throughout this itinerary. The list isn’t ordered.
+  kind: object
+  properties:
+  - name: amount
+    description: Price of the ticket in cents. For example, $5.00 is returned as ‘500’.
+    types:
+    - uid: integer
+  - name: currencyCode
+    description: Currency code, for example for US dollars “USD”.
+    types:
+    - uid: string
+- name: Fares
+  description: Detailed fare information for the leg.
+  kind: object
+  properties:
+  - name: price
+    description: The price of the ticket when purchased for the individual leg, not for the entire route at once.
+    types:
+    - uid: Price
+  - name: usage
+    description: >-
+      Supported values are:
+
+        * pay – user is expected to pay for this ticket in order to consume the current leg
+        * transfer – user can use a ticket purchased in a previous leg in order to consume the current leg. In general, when transfer is specified, the number of transfers is counted, and has a limit.
+        * continue – user can use a ticket purchased in a previous leg in order to consume the current leg. In general, when continue is specified, the number of transfers isn’t incremented for this leg.
+        * upgrade – user is expected to upgrade a ticket purchased in a previous leg in order to consume the current leg.
+    types:
+    - uid: string
 examples:
 - name: TransitRoute
   request:
-    uri: GET https://atlas.microsoft.com/mobility/transit/route/json?api-version=1.0&origin=40.680903,-73.983723&originType=position&destination=40.682051,-73.976702&destinationType=position
+    uri: GET https://atlas.microsoft.com/mobility/transit/route/json?api-version=1.0&origin=41.948437, -87.655334&originType=position&destination=41.878876, -87.635918&destinationType=position&modeType=publicTransit&transitType=bus
   responses:
   - statusCode: "200"
     body: >-
       {
         "results": [
           {
-            "itineraryId": "68fa6e31-d1a4-4457-a15b-8f5036a76a78---201909167EB6D19458C443BFAD897246FD28DAD4:0---121",
-            "departureTime": "2019-09-16T18:04:53Z",
-            "arrivalTime": "2019-09-16T18:08:07Z",
-            "travelTimeInSeconds": 194,
-            "numberOfLegs": 1,
-            "legs": [
-              {
-                "legType": "Bicycle",
-                "legStartTime": "2019-09-16T18:04:53Z",
-                "legEndTime": "2019-09-16T18:08:07Z",
-                "lengthInMeters": 877
-              }
-            ]
-          },
-          {
-            "itineraryId": "68fa6e31-d1a4-4457-a15b-8f5036a76a78---20190916E4C79AA6602341F0973B94A3A79D9D36:0---121",
-            "departureTime": "2019-09-16T18:04:53Z",
-            "arrivalTime": "2019-09-16T18:07:57Z",
-            "travelTimeInSeconds": 184,
-            "numberOfLegs": 1,
-            "legs": [
-              {
-                "legType": "Bicycle",
-                "legStartTime": "2019-09-16T18:04:53Z",
-                "legEndTime": "2019-09-16T18:07:57Z",
-                "lengthInMeters": 851
-              }
-            ]
-          },
-          {
-            "itineraryId": "68fa6e31-d1a4-4457-a15b-8f5036a76a78---201909168C38C8E44DEC41B7B6B7DB3ADE640722:0---121",
-            "departureTime": "2019-09-16T18:04:53Z",
-            "arrivalTime": "2019-09-16T18:13:33Z",
-            "travelTimeInSeconds": 520,
-            "numberOfLegs": 3,
-            "legs": [
-              {
-                "legType": "Walk",
-                "legStartTime": "2019-09-16T18:04:53Z",
-                "legEndTime": "2019-09-16T18:07:12Z",
-                "caption": "Douglass Street",
-                "lengthInMeters": 93
-              },
-              {
-                "legType": "Bicycle",
-                "legStartTime": "2019-09-16T18:07:12Z",
-                "legEndTime": "2019-09-16T18:10:22Z",
-                "caption": "Dean Street",
-                "lengthInMeters": 734
-              },
-              {
-                "legType": "Walk",
-                "legStartTime": "2019-09-16T18:10:22Z",
-                "legEndTime": "2019-09-16T18:13:33Z",
-                "lengthInMeters": 212
-              }
-            ]
-          },
-          {
-            "itineraryId": "68fa6e31-d1a4-4457-a15b-8f5036a76a78---201909168960D307482847EF9E0A2A59D22A5D2F:0---121",
-            "departureTime": "2019-09-16T18:04:53Z",
-            "arrivalTime": "2019-09-16T18:14:00Z",
-            "travelTimeInSeconds": 547,
-            "numberOfLegs": 3,
-            "legs": [
-              {
-                "legType": "Walk",
-                "legStartTime": "2019-09-16T18:04:53Z",
-                "legEndTime": "2019-09-16T18:07:12Z",
-                "caption": "Douglass Street",
-                "lengthInMeters": 93
-              },
-              {
-                "legType": "Bicycle",
-                "legStartTime": "2019-09-16T18:07:12Z",
-                "legEndTime": "2019-09-16T18:10:22Z",
-                "caption": "Dean Street",
-                "lengthInMeters": 734
-              },
-              {
-                "legType": "Walk",
-                "legStartTime": "2019-09-16T18:10:22Z",
-                "legEndTime": "2019-09-16T18:14:00Z",
-                "lengthInMeters": 237
-              }
-            ]
-          },
-          {
-            "itineraryId": "68fa6e31-d1a4-4457-a15b-8f5036a76a78---2019091632031DBD314545E19C0CD726BCE4BCD8:0---121",
-            "departureTime": "2019-09-16T18:06:17Z",
-            "arrivalTime": "2019-09-16T18:16:00Z",
-            "travelTimeInSeconds": 583,
-            "numberOfLegs": 3,
-            "legs": [
-              {
-                "legType": "Walk",
-                "legStartTime": "2019-09-16T18:06:17Z",
-                "legEndTime": "2019-09-16T18:11:56Z",
-                "caption": "Dean Street",
-                "lengthInMeters": 429
-              },
-              {
-                "legType": "Wait",
-                "legStartTime": "2019-09-16T18:11:56Z",
-                "legEndTime": "2019-09-16T18:12:57Z",
-                "caption": "B65"
-              },
-              {
-                "legType": "Bus",
-                "legStartTime": "2019-09-16T18:12:57Z",
-                "legEndTime": "2019-09-16T18:16:00Z",
-                "caption": "B65",
-                "lengthInMeters": 422
-              }
-            ]
-          },
-          {
-            "itineraryId": "68fa6e31-d1a4-4457-a15b-8f5036a76a78---2019091632031DBD314545E19C0CD726BCE4BCD8:1---121",
-            "departureTime": "2019-09-16T18:15:04Z",
-            "arrivalTime": "2019-09-16T18:24:36Z",
-            "travelTimeInSeconds": 572,
+            "itineraryId": "41372ab5-8577-481a-ab24-e84572fe69a5---2020092910DC67FA27034F15A29F4AE5415ADAF2:0---81",
+            "departureTime": "2020-09-30T00:30:29Z",
+            "arrivalTime": "2020-09-30T01:18:16Z",
+            "travelTimeInSeconds": 2867,
             "numberOfLegs": 4,
             "legs": [
               {
                 "legType": "Walk",
-                "legStartTime": "2019-09-16T18:15:04Z",
-                "legEndTime": "2019-09-16T18:15:50Z",
-                "caption": "3rd Avenue",
-                "lengthInMeters": 51
+                "legStartTime": "2020-09-30T00:30:29Z",
+                "legEndTime": "2020-09-30T00:34:01Z",
+                "caption": "North Clark Street",
+                "lengthInMeters": 196
               },
               {
                 "legType": "Wait",
-                "legStartTime": "2019-09-16T18:15:50Z",
-                "legEndTime": "2019-09-16T18:16:51Z",
-                "caption": "B37"
+                "legStartTime": "2020-09-30T00:34:01Z",
+                "legEndTime": "2020-09-30T00:35:02Z",
+                "caption": "22"
               },
               {
                 "legType": "Bus",
-                "legStartTime": "2019-09-16T18:16:51Z",
-                "legEndTime": "2019-09-16T18:21:00Z",
-                "caption": "B37",
-                "lengthInMeters": 942
+                "legStartTime": "2020-09-30T00:35:02Z",
+                "legEndTime": "2020-09-30T01:12:52Z",
+                "caption": "22",
+                "lengthInMeters": 8463,
+                "legFare": {
+                  "fares": [
+                    {
+                      "price": {
+                        "amount": 225,
+                        "currencyCode": "USD"
+                      },
+                      "usage": "pay"
+                    }
+                  ]
+                }
               },
               {
                 "legType": "Walk",
-                "legStartTime": "2019-09-16T18:21:01Z",
-                "legEndTime": "2019-09-16T18:24:36Z",
-                "lengthInMeters": 278
+                "legStartTime": "2020-09-30T01:12:53Z",
+                "legEndTime": "2020-09-30T01:18:16Z",
+                "lengthInMeters": 421
               }
-            ]
+            ],
+            "itineraryFare": {
+              "price": {
+                "amount": 225,
+                "currencyCode": "USD"
+              },
+              "tickets": [
+                {
+                  "amount": 225,
+                  "currencyCode": "USD"
+                }
+              ]
+            }
           },
           {
-            "itineraryId": "68fa6e31-d1a4-4457-a15b-8f5036a76a78---2019091632031DBD314545E19C0CD726BCE4BCD8:2---121",
-            "departureTime": "2019-09-16T18:04:53Z",
-            "arrivalTime": "2019-09-16T18:15:38Z",
-            "travelTimeInSeconds": 645,
-            "numberOfLegs": 1,
+            "itineraryId": "41372ab5-8577-481a-ab24-e84572fe69a5---2020092910DC67FA27034F15A29F4AE5415ADAF2:1---81",
+            "departureTime": "2020-09-30T00:32:42Z",
+            "arrivalTime": "2020-09-30T01:26:29Z",
+            "travelTimeInSeconds": 3227,
+            "numberOfLegs": 3,
             "legs": [
               {
                 "legType": "Walk",
-                "legStartTime": "2019-09-16T18:04:53Z",
-                "legEndTime": "2019-09-16T18:15:38Z",
-                "lengthInMeters": 829
+                "legStartTime": "2020-09-30T00:32:42Z",
+                "legEndTime": "2020-09-30T00:39:40Z",
+                "caption": "West Sheridan Road",
+                "lengthInMeters": 480
+              },
+              {
+                "legType": "Wait",
+                "legStartTime": "2020-09-30T00:39:40Z",
+                "legEndTime": "2020-09-30T00:40:41Z",
+                "caption": "151"
+              },
+              {
+                "legType": "Bus",
+                "legStartTime": "2020-09-30T00:40:41Z",
+                "legEndTime": "2020-09-30T01:26:29Z",
+                "caption": "151",
+                "lengthInMeters": 10539,
+                "legFare": {
+                  "fares": [
+                    {
+                      "price": {
+                        "amount": 225,
+                        "currencyCode": "USD"
+                      },
+                      "usage": "pay"
+                    }
+                  ]
+                }
               }
-            ]
+            ],
+            "itineraryFare": {
+              "price": {
+                "amount": 225,
+                "currencyCode": "USD"
+              },
+              "tickets": [
+                {
+                  "amount": 225,
+                  "currencyCode": "USD"
+                }
+              ]
+            }
+          },
+          {
+            "itineraryId": "41372ab5-8577-481a-ab24-e84572fe69a5---2020092910DC67FA27034F15A29F4AE5415ADAF2:2---81",
+            "departureTime": "2020-09-30T00:28:04Z",
+            "arrivalTime": "2020-09-30T01:24:46Z",
+            "travelTimeInSeconds": 3402,
+            "numberOfLegs": 7,
+            "legs": [
+              {
+                "legType": "Walk",
+                "legStartTime": "2020-09-30T00:28:04Z",
+                "legEndTime": "2020-09-30T00:35:40Z",
+                "caption": "West Waveland Avenue",
+                "lengthInMeters": 522
+              },
+              {
+                "legType": "Wait",
+                "legStartTime": "2020-09-30T00:35:40Z",
+                "legEndTime": "2020-09-30T00:36:41Z",
+                "caption": "8"
+              },
+              {
+                "legType": "Bus",
+                "legStartTime": "2020-09-30T00:36:41Z",
+                "legEndTime": "2020-09-30T01:09:41Z",
+                "caption": "8",
+                "lengthInMeters": 8059,
+                "legFare": {
+                  "fares": [
+                    {
+                      "price": {
+                        "amount": 225,
+                        "currencyCode": "USD"
+                      },
+                      "usage": "pay"
+                    }
+                  ]
+                }
+              },
+              {
+                "legType": "Walk",
+                "legStartTime": "2020-09-30T01:09:42Z",
+                "legEndTime": "2020-09-30T01:11:59Z",
+                "caption": "West Van Buren Street",
+                "lengthInMeters": 174
+              },
+              {
+                "legType": "Wait",
+                "legStartTime": "2020-09-30T01:11:59Z",
+                "legEndTime": "2020-09-30T01:18:43Z",
+                "caption": "126"
+              },
+              {
+                "legType": "Bus",
+                "legStartTime": "2020-09-30T01:18:43Z",
+                "legEndTime": "2020-09-30T01:22:45Z",
+                "caption": "126",
+                "lengthInMeters": 1092,
+                "legFare": {
+                  "fares": [
+                    {
+                      "price": {
+                        "amount": 25,
+                        "currencyCode": "USD"
+                      },
+                      "usage": "pay"
+                    }
+                  ]
+                }
+              },
+              {
+                "legType": "Walk",
+                "legStartTime": "2020-09-30T01:22:46Z",
+                "legEndTime": "2020-09-30T01:24:46Z",
+                "lengthInMeters": 102
+              }
+            ],
+            "itineraryFare": {
+              "price": {
+                "amount": 250,
+                "currencyCode": "USD"
+              },
+              "tickets": [
+                {
+                  "amount": 225,
+                  "currencyCode": "USD"
+                },
+                {
+                  "amount": 25,
+                  "currencyCode": "USD"
+                }
+              ]
+            }
           }
         ]
       }

@@ -11,7 +11,7 @@ summary: >-
   **Applies to**: S1 pricing tier.
 
 
-  Service allows to request additional information for metro areas in which the Azure Maps Mobility Service is available. Information such as supported transit types, transit agencies and active alerts is available, depending on the options selected.
+  Service allows users to request additional information for metro areas in which the Azure Maps Mobility services are available. Information such as supported transit types, transit agencies and active alerts is available, depending on the options selected. Also, the service returns information if the public transit fare information is available for the requested metro area.
 consumes: []
 produces:
 - application/json
@@ -43,6 +43,7 @@ uriParameters:
   description: metroId. The unique id of the metro area. Required parameter specifying the required metro area to search in. Can be retrieved via [Get Metro Area API](https://aka.ms/AzureMapsMobilityTransitRoute).
   types:
   - uid: integer
+  format: int32
 - name: detailType
   in: query
   isRequired: true
@@ -103,25 +104,29 @@ definitions:
     types:
     - uid: string
 - name: MetroAreaInfoResponse
-  description: This object is returned from a successful Metro Area call.
+  description: This object is returned from a successful Metro Area Info call.
   kind: object
   properties:
   - name: metroName
     description: The name of the metro area.
     types:
     - uid: string
+  - name: isFaresSupported
+    description: Indicates if public transit fares information is available in the metro area. Fare information is available through [Get Transit Route API](https://aka.ms/AzureMapsMobilityTransitRoute) and [Get Transit Itinerary APIs](https://aka.ms/AzureMapsMobilityTransitItinerary).
+    types:
+    - uid: string
   - name: transitTypes
-    description: ''
+    description: Supported transit types in the metro area. Returned if specified in the request.
     types:
     - uid: TransitTypeResult
       isArray: true
   - name: agencies
-    description: Details of the agency.
+    description: Details of the agency. Returned if specified in the request.
     types:
     - uid: Agency
       isArray: true
   - name: alerts
-    description: Basic information associated with the active alert.
+    description: Basic information associated with the active alert. Returned if specified in the request and there is an active alert in the metro area.
     types:
     - uid: Alert
       isArray: true
@@ -137,7 +142,7 @@ definitions:
   kind: object
   properties:
   - name: transitType
-    description: Supported public transit type.
+    description: Supported public transit type. Returned if specified in the request.
     types:
     - uid: TransitType
   - name: captionOverride
@@ -145,7 +150,7 @@ definitions:
     types:
     - uid: string
 - name: Agency
-  description: Details of the agency.
+  description: Details of the agency. Returned if specified in the request.
   kind: object
   properties:
   - name: agencyId
@@ -165,7 +170,7 @@ definitions:
     types:
     - uid: TransitTypeResult
 - name: Alert
-  description: Basic information associated with the active alert.
+  description: Basic information associated with the active alert. Returned if specified in the request and there is an active alert in the metro area.
   kind: object
   properties:
   - name: alertSummary
@@ -601,7 +606,8 @@ examples:
               "captionOverride": "Bus"
             }
           }
-        ]
+        ],
+        "isFaresSupported": "true"
       }
   - statusCode: "400"
     body: >-
