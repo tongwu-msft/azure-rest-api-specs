@@ -8754,42 +8754,42 @@
 ### [List](openshift/Operations/List.yml)
 # Redis Cache
 ## [Overview](../docs-ref-conceptual/redis/index.md)
-## Firewall Rules
-### [Overview](redis/FirewallRules.yml)
-### [Create Or Update](redis/FirewallRules/CreateOrUpdate.yml)
-### [Delete](redis/FirewallRules/Delete.yml)
-### [Get](redis/FirewallRules/Get.yml)
-### [List By Redis Resource](redis/FirewallRules/ListByRedisResource.yml)
-## Linked Server
-### [Overview](redis/LinkedServer.yml)
-### [Create](redis/LinkedServer/Create.yml)
-### [Delete](redis/LinkedServer/Delete.yml)
-### [Get](redis/LinkedServer/Get.yml)
-### [List](redis/LinkedServer/List.yml)
+## Databases
+### [Overview](redis/Databases.yml)
+### [Create](redis/Databases/Create.yml)
+### [Delete](redis/Databases/Delete.yml)
+### [Get](redis/Databases/Get.yml)
+### [List By Cluster](redis/Databases/ListByCluster.yml)
+### [Update](redis/Databases/Update.yml)
+## Get
+### [Overview](redis/Get.yml)
+### [Operation Status](redis/Get/OperationStatus.yml)
 ## Operations
 ### [Overview](redis/Operations.yml)
 ### [List](redis/Operations/List.yml)
-## Patch Schedules
-### [Overview](redis/PatchSchedules.yml)
-### [Create Or Update](redis/PatchSchedules/CreateOrUpdate.yml)
-### [Delete](redis/PatchSchedules/Delete.yml)
-### [Get](redis/PatchSchedules/Get.yml)
-### [List By Redis Resource](redis/PatchSchedules/ListByRedisResource.yml)
-## Redis
-### [Overview](redis/Redis.yml)
-### [Check Name Availability](redis/Redis/CheckNameAvailability.yml)
-### [Create](redis/Redis/Create.yml)
-### [Delete](redis/Redis/Delete.yml)
-### [Export Data](redis/Redis/ExportData.yml)
-### [Force Reboot](redis/Redis/ForceReboot.yml)
-### [Get](redis/Redis/Get.yml)
-### [Import Data](redis/Redis/ImportData.yml)
-### [List](redis/Redis/List.yml)
-### [List By Resource Group](redis/Redis/ListByResourceGroup.yml)
-### [List Keys](redis/Redis/ListKeys.yml)
-### [List Upgrade Notifications](redis/Redis/ListUpgradeNotifications.yml)
-### [Regenerate Key](redis/Redis/RegenerateKey.yml)
-### [Update](redis/Redis/Update.yml)
+## Private Endpoint Connections
+### [Overview](redis/PrivateEndpointConnections.yml)
+### [Delete](redis/PrivateEndpointConnections/Delete.yml)
+### [Get](redis/PrivateEndpointConnections/Get.yml)
+### [List](redis/PrivateEndpointConnections/List.yml)
+### [Put](redis/PrivateEndpointConnections/Put.yml)
+## Private Link Resources
+### [Overview](redis/PrivateLinkResources.yml)
+### [List By Redis Enterprise Cache](redis/PrivateLinkResources/ListByRedisEnterpriseCache.yml)
+## Redis Enterprise
+### [Overview](redis/RedisEnterprise.yml)
+### [Create](redis/RedisEnterprise/Create.yml)
+### [Delete](redis/RedisEnterprise/Delete.yml)
+### [Get](redis/RedisEnterprise/Get.yml)
+### [List](redis/RedisEnterprise/List.yml)
+### [List By Resource Group](redis/RedisEnterprise/ListByResourceGroup.yml)
+### [Update](redis/RedisEnterprise/Update.yml)
+## Redis Enterprise Database
+### [Overview](redis/RedisEnterpriseDatabase.yml)
+### [Export](redis/RedisEnterpriseDatabase/Export.yml)
+### [Import](redis/RedisEnterpriseDatabase/Import.yml)
+### [List Keys](redis/RedisEnterpriseDatabase/ListKeys.yml)
+### [Regenerate Key](redis/RedisEnterpriseDatabase/RegenerateKey.yml)
 # Relay
 ## [Overview](../docs-ref-conceptual/relay/index.md)
 ## Hybrid Connections
