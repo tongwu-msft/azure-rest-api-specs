@@ -35,7 +35,7 @@ The 2020-02-10 service version includes the following features:
 
 - A new API to set tier on a File Share
 
-- A ability to diff two snapshots in Azure File Share
+- The ability to diff two snapshots in Azure File Share
 
 ## Specifying service versions in requests  
 
