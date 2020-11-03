@@ -6,7 +6,7 @@ author: pemari
 ms.date: 11/03/2020
 ms.service: storage
 ms.topic: reference
-ms.author: pemari-msft
+ms.author: pemari
 ---
 
 # Versioning for the Azure Storage services
