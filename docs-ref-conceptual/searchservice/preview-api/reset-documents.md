@@ -1,6 +1,6 @@
 ---
 title: Reset Documents (api-version=2019-05-06-Preview or 2020-06-30-Preview)
-description: Re-ingest a subset of documents from datasource with provided document keys.
+description: Re-ingest a subset of documents from datasource with customer-provided document keys.
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
@@ -15,8 +15,8 @@ ms.manager: jennmar
 
 **API Version: 2019-05-06-Preview or 2020-06-30-Preview**
 
-This preview allows customers to selectively reprocess specific documents from their datasources. They would supply the document keys of the documents they wish to reset, 
-and we would use those keys to find the documents from the datasource and rerun all skills/projections in their pipeline against the fresh data.
+This preview allows you to selectively reprocess specific documents from datasource. You need to supply the document keys of the documents you wish to reset, 
+and we would use those keys to find the documents from datasource and rerun all skills/projections in your pipeline against the fresh data.
 
 You can reset documents for an existing indexer using an HTTP POST request. Specify the name of the indexer to update on the request URI: 
 
@@ -25,8 +25,10 @@ POST https://[service name].search.windows.net/indexers/[indexer name]/resetdocs
     api-key: [admin key]  
 ``` 
 
-Calling this API for an indexer does not automatically run it. Instead, at the next scheduled time, the indexer will stop indexing new documents but resetting documents 
-with provided document keys.
+Calling this API for an indexer does not automatically run it. Instead, at the next scheduled time, the indexer will pause its current indexing jobs and re-enumerate the datasource for just the subset of document keys you have asked to reset. If it finds a document in datasource with a matching document key, it will run that document through the indexer’s skillset (if any) and then update/insert the entry into the target index. Once the indexer has finished this secondary enumeration of the datasource it will continue with its normal indexing tasks. Resetting additional documents while indexer is processing previously reset documents will cause the secondary enumeration to restart with the superset of both reset operation document key sets by default. See URI parameter “overwrite” below for more details.
+
+
+
 
 ## URI Parameters
 
@@ -57,9 +59,9 @@ The following JSON is a high-level representation of the main parts of the defin
 ```json
 {
     "documentKeys" : [
-        "bW9yZXN0dWZmbG9uZ2Vya2V5bG9uZ25hbWU=",
-        "b25jZXVwb25hdGltZWluYWZhcmF3YXlsYW5kaWZvdW5kdGhpc3N0dWZm",
-        "c21hbGxuYW1l"
+        "key1",
+        "key2",
+        "key3"
     ]
 }
 ```
@@ -67,7 +69,7 @@ The following JSON is a high-level representation of the main parts of the defin
  
 |Property|Description|  
 |--------------|-----------------|
-|documentKeys|Required. This is the set of document keys the indexer will selectively reprocess from its datasource. By default, calling this action multiple times will append document key sets together. This behavior can be changed to overwrite rather than append via the overwrite url parameter (see above).|
+|documentKeys|Required. This is the set of document keys the indexer will selectively reprocess from its datasource. By default, calling this action multiple times will append document key sets together. This behavior can be changed to overwrite rather than append via the overwrite url parameter (see above). If you want the indexer to stop trying to process reset documents, you can set "documentKeys" to an empty list "[]". This will tell the indexer that no documents need to be reset on its next run.|
 
 ## Response  
 204 No Content for a successful request.
