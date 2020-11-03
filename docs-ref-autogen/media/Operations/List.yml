@@ -3,19 +3,19 @@ uid: management.azure.com.media.operations.list
 name: List
 service: Media Services
 groupName: Operations
-apiVersion: 2018-07-01
+apiVersion: 2020-05-01
 summary: "List Operations  \nLists all the Media Services operations."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Media/operations?api-version=2018-07-01
+- content: GET https://management.azure.com/providers/Microsoft.Media/operations?api-version=2020-05-01
 uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The Version of the API to be used with the client request.
+  description: The version of the API to be used with the client request.
   types:
   - uid: string
 responses:
@@ -69,7 +69,7 @@ definitions:
   - name: properties
     description: Operation properties format.
     types:
-    - uid: MetricProperties
+    - uid: Properties
 - name: ODataError
   description: Information about an error.
   kind: object
@@ -111,8 +111,8 @@ definitions:
     description: The operation description.
     types:
     - uid: string
-- name: MetricProperties
-  description: Metric properties.
+- name: Properties
+  description: The service specification property.
   kind: object
   properties:
   - name: serviceSpecification
@@ -124,13 +124,38 @@ definitions:
   description: The service metric specifications.
   kind: object
   properties:
+  - name: logSpecifications
+    isReadyOnly: true
+    description: List of log specifications.
+    types:
+    - uid: LogSpecification
+      isArray: true
   - name: metricSpecifications
     isReadyOnly: true
     description: List of metric specifications.
     types:
-    - uid: Metric
+    - uid: MetricSpecification
       isArray: true
-- name: Metric
+- name: LogSpecification
+  description: A diagnostic log emitted by service.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The diagnostic log category name.
+    types:
+    - uid: string
+  - name: displayName
+    isReadyOnly: true
+    description: The diagnostic log category display name.
+    types:
+    - uid: string
+  - name: blobDuration
+    isReadyOnly: true
+    description: The time range for requests in each blob.
+    types:
+    - uid: string
+- name: MetricSpecification
   description: A metric emitted by service.
   kind: object
   properties:
@@ -159,6 +184,11 @@ definitions:
     description: The metric aggregation type
     types:
     - uid: MetricAggregationType
+  - name: supportedAggregationTypes
+    description: Supported aggregation types.
+    types:
+    - uid: string
+      isArray: true
   - name: dimensions
     isReadyOnly: true
     description: The metric dimensions.
@@ -219,7 +249,7 @@ definitions:
 examples:
 - name: List Operations
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Media/operations?api-version=2018-07-01
+    uri: GET https://management.azure.com/providers/Microsoft.Media/operations?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-

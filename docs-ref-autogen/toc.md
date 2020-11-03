@@ -7598,6 +7598,7 @@
 #### [Update](media/Jobs/Update.yml)
 ### Live Events
 #### [Overview](media/LiveEvents.yml)
+#### [Allocate](media/LiveEvents/Allocate.yml)
 #### [Create](media/LiveEvents/Create.yml)
 #### [Delete](media/LiveEvents/Delete.yml)
 #### [Get](media/LiveEvents/Get.yml)
@@ -7629,6 +7630,16 @@
 ### Operations
 #### [Overview](media/Operations.yml)
 #### [List](media/Operations/List.yml)
+### Private Endpoint Connections
+#### [Overview](media/PrivateEndpointConnections.yml)
+#### [Create Or Update](media/PrivateEndpointConnections/CreateOrUpdate.yml)
+#### [Delete](media/PrivateEndpointConnections/Delete.yml)
+#### [Get](media/PrivateEndpointConnections/Get.yml)
+#### [List](media/PrivateEndpointConnections/List.yml)
+### Private Link Resources
+#### [Overview](media/PrivateLinkResources.yml)
+#### [Get](media/PrivateLinkResources/Get.yml)
+#### [List](media/PrivateLinkResources/List.yml)
 ### Streaming Endpoints
 #### [Overview](media/StreamingEndpoints.yml)
 #### [Create](media/StreamingEndpoints/Create.yml)
