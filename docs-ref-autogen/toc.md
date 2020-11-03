@@ -7598,6 +7598,7 @@
 #### [Update](media/Jobs/Update.yml)
 ### Live Events
 #### [Overview](media/LiveEvents.yml)
+#### [Allocate](media/LiveEvents/Allocate.yml)
 #### [Create](media/LiveEvents/Create.yml)
 #### [Delete](media/LiveEvents/Delete.yml)
 #### [Get](media/LiveEvents/Get.yml)
@@ -7629,6 +7630,16 @@
 ### Operations
 #### [Overview](media/Operations.yml)
 #### [List](media/Operations/List.yml)
+### Private Endpoint Connections
+#### [Overview](media/PrivateEndpointConnections.yml)
+#### [Create Or Update](media/PrivateEndpointConnections/CreateOrUpdate.yml)
+#### [Delete](media/PrivateEndpointConnections/Delete.yml)
+#### [Get](media/PrivateEndpointConnections/Get.yml)
+#### [List](media/PrivateEndpointConnections/List.yml)
+### Private Link Resources
+#### [Overview](media/PrivateLinkResources.yml)
+#### [Get](media/PrivateLinkResources/Get.yml)
+#### [List](media/PrivateLinkResources/List.yml)
 ### Streaming Endpoints
 #### [Overview](media/StreamingEndpoints.yml)
 #### [Create](media/StreamingEndpoints/Create.yml)
@@ -7895,34 +7906,16 @@
 ##### [Get All](monitor/alertsmanagement/SmartGroups/GetAll.yml)
 ##### [Get By Id](monitor/alertsmanagement/SmartGroups/GetById.yml)
 ##### [Get History](monitor/alertsmanagement/SmartGroups/GetHistory.yml)
-### Microsoft.WorkloadMonitor
-#### Components
-##### [Overview](monitor/microsoft.workloadmonitor/Components.yml)
-##### [Get](monitor/microsoft.workloadmonitor/Components/Get.yml)
-##### [List By Resource](monitor/microsoft.workloadmonitor/Components/ListByResource.yml)
-#### Components Summary
-##### [Overview](monitor/microsoft.workloadmonitor/ComponentsSummary.yml)
-##### [List](monitor/microsoft.workloadmonitor/ComponentsSummary/List.yml)
-#### Monitor Instances
-##### [Overview](monitor/microsoft.workloadmonitor/MonitorInstances.yml)
-##### [Get](monitor/microsoft.workloadmonitor/MonitorInstances/Get.yml)
-##### [List By Resource](monitor/microsoft.workloadmonitor/MonitorInstances/ListByResource.yml)
-#### Monitor Instances Summary
-##### [Overview](monitor/microsoft.workloadmonitor/MonitorInstancesSummary.yml)
-##### [List](monitor/microsoft.workloadmonitor/MonitorInstancesSummary/List.yml)
-#### Monitors
-##### [Overview](monitor/microsoft.workloadmonitor/Monitors.yml)
-##### [Get](monitor/microsoft.workloadmonitor/Monitors/Get.yml)
-##### [List By Resource](monitor/microsoft.workloadmonitor/Monitors/ListByResource.yml)
-##### [Update](monitor/microsoft.workloadmonitor/Monitors/Update.yml)
-#### Notification Settings
-##### [Overview](monitor/microsoft.workloadmonitor/NotificationSettings.yml)
-##### [Get](monitor/microsoft.workloadmonitor/NotificationSettings/Get.yml)
-##### [List By Resource](monitor/microsoft.workloadmonitor/NotificationSettings/ListByResource.yml)
-##### [Update](monitor/microsoft.workloadmonitor/NotificationSettings/Update.yml)
+### VM Health
+#### Health Monitors
+##### [Overview](monitor/vmhealth/HealthMonitors.yml)
+##### [Get](monitor/vmhealth/HealthMonitors/Get.yml)
+##### [Get State Change](monitor/vmhealth/HealthMonitors/GetStateChange.yml)
+##### [List](monitor/vmhealth/HealthMonitors/List.yml)
+##### [List State Changes](monitor/vmhealth/HealthMonitors/ListStateChanges.yml)
 #### Operations
-##### [Overview](monitor/microsoft.workloadmonitor/Operations.yml)
-##### [List](monitor/microsoft.workloadmonitor/Operations/List.yml)
+##### [Overview](monitor/vmhealth/Operations.yml)
+##### [List](monitor/vmhealth/Operations/List.yml)
 # MySQL
 ## [Overview](../docs-ref-conceptual/mysql/index.md)
 ## Check Name Availability
