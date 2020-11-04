@@ -15,7 +15,7 @@ ms.manager: jennmar
 
 **API Version: 2019-05-06-Preview or 2020-06-30-Preview**
 
-This preview API allows you to re-run an indexer (with or without a skillset) over a subset of documents when you provide the document keys in the request. Using the key as a reference, the indexer finds the equivalent source document and reruns all skills and projections in an enrichment pipeline.
+This new preview API allows you to selectively reprocess documents from your data source. The API accepts the index document keys as input and prioritizes the processing of those documents from the data source. If you have a indexer cache configured, reset documents are not read from the cache and all skills configured are re-run. Note that the index document key may be different from your data source document identified.
 
 You can reprocess documents for an existing indexer using an HTTP POST request. Specify the name of the indexer to update on the request URI: 
 
@@ -24,9 +24,7 @@ POST https://[service name].search.windows.net/indexers/[indexer name]/resetdocs
     api-key: [admin key]  
 ``` 
 
-Calling this API for an indexer does not automatically run it. Instead, at the next scheduled run, the indexer will modify its order of operations to handle this request first, before progressing to routine processing. The indexer will re-enumerate the data source, using the keys you have provided to identify the relevant documents. If the matching documents are found, the indexer runs them through a skillet (if any) and then updates the index or knowledge store. Once the indexer has finished reprocessing the documents you have specified, it will continue with its normal indexing tasks. Normal indexing refers to synchronizing an index or knowledge store with unspecified changes to the underlying source data, using timestamps or other highwater mark fields that indicate a change in document status.
-
-By default, resetting additional documents while the indexer is processing a previously specified keyset will cause the secondary enumeration to restart with a superset of both Reset Document request payloads. You can modify the default to specify overwrite rather than append. For more information, see the URI parameter section below.
+Reset documents is an asynchronous API. Invoking the API adds the document keys to be reset to the indexer metadata. On the next scheduled or on demand run of the indexer, the indexer prioritizes processing the reset documents before indexing any new or updated documents in the data source.
 
 ## URI Parameters
 
@@ -67,7 +65,7 @@ The following JSON is a high-level representation of the main parts of the defin
  
 |Property|Description|  
 |--------------|-----------------|
-|documentKeys|Required. This is the set of document keys the indexer will selectively reprocess from its data source. By default, calling this action multiple times will append document keysets together. This behavior can be changed to overwrite rather than append via the overwrite URI parameter (see above). If you want the indexer to stop trying to process reset documents, you can set "documentKeys" to an empty list "[]". This will tell the indexer that no documents need to be reset on its next run.|
+|documentKeys|Required. This is the set of document keys the indexer will selectively reprocess from its data source. By default, calling this action multiple times will append document keysets together. This behavior can be changed to overwrite rather than append via the overwrite URI parameter (see above). If you want the indexer to stop trying to process reset documents, you can set "documentKeys" to an empty list "[]". This will result in the indexer resuming regular indexing based on the high water mark.|
 
 ## Response  
 204 No Content for a successful request.
