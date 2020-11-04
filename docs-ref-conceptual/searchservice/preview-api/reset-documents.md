@@ -15,7 +15,7 @@ ms.manager: jennmar
 
 **API Version: 2019-05-06-Preview or 2020-06-30-Preview**
 
-This new preview API allows you to selectively reprocess documents from your data source. The API accepts the index document keys as input and prioritizes the processing of those documents from the data source. If you have a indexer cache configured, reset documents are not read from the cache and all skills configured are re-run. Note that the index document key may be different from your data source document identified.
+This new preview API allows you to selectively reprocess documents from your data source. The API accepts the index document keys as input and prioritizes the processing of those documents from the data source. If you have a indexer cache configured, reset documents are not read from the cache and all skills configured will be re-run. Note that the index document key may be different from your data source document identifier.
 
 You can reprocess documents for an existing indexer using an HTTP POST request. Specify the name of the indexer to update on the request URI: 
 
