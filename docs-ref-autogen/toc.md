@@ -8783,6 +8783,43 @@
 ### [List Upgrade Notifications](redis/Redis/ListUpgradeNotifications.yml)
 ### [Regenerate Key](redis/Redis/RegenerateKey.yml)
 ### [Update](redis/Redis/Update.yml)
+## Redis Enterprise Cache
+### Databases
+#### [Overview](redis/redisenterprisecache/Databases.yml)
+#### [Create](redis/redisenterprisecache/Databases/Create.yml)
+#### [Delete](redis/redisenterprisecache/Databases/Delete.yml)
+#### [Get](redis/redisenterprisecache/Databases/Get.yml)
+#### [List By Cluster](redis/redisenterprisecache/Databases/ListByCluster.yml)
+#### [Update](redis/redisenterprisecache/Databases/Update.yml)
+### Get
+#### [Overview](redis/redisenterprisecache/Get.yml)
+#### [Operation Status](redis/redisenterprisecache/Get/OperationStatus.yml)
+### Operations
+#### [Overview](redis/redisenterprisecache/Operations.yml)
+#### [List](redis/redisenterprisecache/Operations/List.yml)
+### Private Endpoint Connections
+#### [Overview](redis/redisenterprisecache/PrivateEndpointConnections.yml)
+#### [Delete](redis/redisenterprisecache/PrivateEndpointConnections/Delete.yml)
+#### [Get](redis/redisenterprisecache/PrivateEndpointConnections/Get.yml)
+#### [List](redis/redisenterprisecache/PrivateEndpointConnections/List.yml)
+#### [Put](redis/redisenterprisecache/PrivateEndpointConnections/Put.yml)
+### Private Link Resources
+#### [Overview](redis/redisenterprisecache/PrivateLinkResources.yml)
+#### [List By Redis Enterprise Cache](redis/redisenterprisecache/PrivateLinkResources/ListByRedisEnterpriseCache.yml)
+### Redis Enterprise
+#### [Overview](redis/redisenterprisecache/RedisEnterprise.yml)
+#### [Create](redis/redisenterprisecache/RedisEnterprise/Create.yml)
+#### [Delete](redis/redisenterprisecache/RedisEnterprise/Delete.yml)
+#### [Get](redis/redisenterprisecache/RedisEnterprise/Get.yml)
+#### [List](redis/redisenterprisecache/RedisEnterprise/List.yml)
+#### [List By Resource Group](redis/redisenterprisecache/RedisEnterprise/ListByResourceGroup.yml)
+#### [Update](redis/redisenterprisecache/RedisEnterprise/Update.yml)
+### Redis Enterprise Database
+#### [Overview](redis/redisenterprisecache/RedisEnterpriseDatabase.yml)
+#### [Export](redis/redisenterprisecache/RedisEnterpriseDatabase/Export.yml)
+#### [Import](redis/redisenterprisecache/RedisEnterpriseDatabase/Import.yml)
+#### [List Keys](redis/redisenterprisecache/RedisEnterpriseDatabase/ListKeys.yml)
+#### [Regenerate Key](redis/redisenterprisecache/RedisEnterpriseDatabase/RegenerateKey.yml)
 # Relay
 ## [Overview](../docs-ref-conceptual/relay/index.md)
 ## Hybrid Connections
