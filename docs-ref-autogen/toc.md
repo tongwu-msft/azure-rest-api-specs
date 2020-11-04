@@ -8754,42 +8754,80 @@
 ### [List](openshift/Operations/List.yml)
 # Redis Cache
 ## [Overview](../docs-ref-conceptual/redis/index.md)
-## Databases
-### [Overview](redis/Databases.yml)
-### [Create](redis/Databases/Create.yml)
-### [Delete](redis/Databases/Delete.yml)
-### [Get](redis/Databases/Get.yml)
-### [List By Cluster](redis/Databases/ListByCluster.yml)
-### [Update](redis/Databases/Update.yml)
-## Get
-### [Overview](redis/Get.yml)
-### [Operation Status](redis/Get/OperationStatus.yml)
-## Operations
-### [Overview](redis/Operations.yml)
-### [List](redis/Operations/List.yml)
-## Private Endpoint Connections
-### [Overview](redis/PrivateEndpointConnections.yml)
-### [Delete](redis/PrivateEndpointConnections/Delete.yml)
-### [Get](redis/PrivateEndpointConnections/Get.yml)
-### [List](redis/PrivateEndpointConnections/List.yml)
-### [Put](redis/PrivateEndpointConnections/Put.yml)
-## Private Link Resources
-### [Overview](redis/PrivateLinkResources.yml)
-### [List By Redis Enterprise Cache](redis/PrivateLinkResources/ListByRedisEnterpriseCache.yml)
-## Redis Enterprise
-### [Overview](redis/RedisEnterprise.yml)
-### [Create](redis/RedisEnterprise/Create.yml)
-### [Delete](redis/RedisEnterprise/Delete.yml)
-### [Get](redis/RedisEnterprise/Get.yml)
-### [List](redis/RedisEnterprise/List.yml)
-### [List By Resource Group](redis/RedisEnterprise/ListByResourceGroup.yml)
-### [Update](redis/RedisEnterprise/Update.yml)
-## Redis Enterprise Database
-### [Overview](redis/RedisEnterpriseDatabase.yml)
-### [Export](redis/RedisEnterpriseDatabase/Export.yml)
-### [Import](redis/RedisEnterpriseDatabase/Import.yml)
-### [List Keys](redis/RedisEnterpriseDatabase/ListKeys.yml)
-### [Regenerate Key](redis/RedisEnterpriseDatabase/RegenerateKey.yml)
+## Redis 2018
+### Firewall Rules
+#### [Overview](redis/redis2018/FirewallRules.yml)
+#### [Create Or Update](redis/redis2018/FirewallRules/CreateOrUpdate.yml)
+#### [Delete](redis/redis2018/FirewallRules/Delete.yml)
+#### [Get](redis/redis2018/FirewallRules/Get.yml)
+#### [List By Redis Resource](redis/redis2018/FirewallRules/ListByRedisResource.yml)
+### Linked Server
+#### [Overview](redis/redis2018/LinkedServer.yml)
+#### [Create](redis/redis2018/LinkedServer/Create.yml)
+#### [Delete](redis/redis2018/LinkedServer/Delete.yml)
+#### [Get](redis/redis2018/LinkedServer/Get.yml)
+#### [List](redis/redis2018/LinkedServer/List.yml)
+### Operations
+#### [Overview](redis/redis2018/Operations.yml)
+#### [List](redis/redis2018/Operations/List.yml)
+### Patch Schedules
+#### [Overview](redis/redis2018/PatchSchedules.yml)
+#### [Create Or Update](redis/redis2018/PatchSchedules/CreateOrUpdate.yml)
+#### [Delete](redis/redis2018/PatchSchedules/Delete.yml)
+#### [Get](redis/redis2018/PatchSchedules/Get.yml)
+#### [List By Redis Resource](redis/redis2018/PatchSchedules/ListByRedisResource.yml)
+### Redis
+#### [Overview](redis/redis2018/Redis.yml)
+#### [Check Name Availability](redis/redis2018/Redis/CheckNameAvailability.yml)
+#### [Create](redis/redis2018/Redis/Create.yml)
+#### [Delete](redis/redis2018/Redis/Delete.yml)
+#### [Export Data](redis/redis2018/Redis/ExportData.yml)
+#### [Force Reboot](redis/redis2018/Redis/ForceReboot.yml)
+#### [Get](redis/redis2018/Redis/Get.yml)
+#### [Import Data](redis/redis2018/Redis/ImportData.yml)
+#### [List](redis/redis2018/Redis/List.yml)
+#### [List By Resource Group](redis/redis2018/Redis/ListByResourceGroup.yml)
+#### [List Keys](redis/redis2018/Redis/ListKeys.yml)
+#### [List Upgrade Notifications](redis/redis2018/Redis/ListUpgradeNotifications.yml)
+#### [Regenerate Key](redis/redis2018/Redis/RegenerateKey.yml)
+#### [Update](redis/redis2018/Redis/Update.yml)
+## Redis 2020
+### Databases
+#### [Overview](redis/redis2020/Databases.yml)
+#### [Create](redis/redis2020/Databases/Create.yml)
+#### [Delete](redis/redis2020/Databases/Delete.yml)
+#### [Get](redis/redis2020/Databases/Get.yml)
+#### [List By Cluster](redis/redis2020/Databases/ListByCluster.yml)
+#### [Update](redis/redis2020/Databases/Update.yml)
+### Get
+#### [Overview](redis/redis2020/Get.yml)
+#### [Operation Status](redis/redis2020/Get/OperationStatus.yml)
+### Operations
+#### [Overview](redis/redis2020/Operations.yml)
+#### [List](redis/redis2020/Operations/List.yml)
+### Private Endpoint Connections
+#### [Overview](redis/redis2020/PrivateEndpointConnections.yml)
+#### [Delete](redis/redis2020/PrivateEndpointConnections/Delete.yml)
+#### [Get](redis/redis2020/PrivateEndpointConnections/Get.yml)
+#### [List](redis/redis2020/PrivateEndpointConnections/List.yml)
+#### [Put](redis/redis2020/PrivateEndpointConnections/Put.yml)
+### Private Link Resources
+#### [Overview](redis/redis2020/PrivateLinkResources.yml)
+#### [List By Redis Enterprise Cache](redis/redis2020/PrivateLinkResources/ListByRedisEnterpriseCache.yml)
+### Redis Enterprise
+#### [Overview](redis/redis2020/RedisEnterprise.yml)
+#### [Create](redis/redis2020/RedisEnterprise/Create.yml)
+#### [Delete](redis/redis2020/RedisEnterprise/Delete.yml)
+#### [Get](redis/redis2020/RedisEnterprise/Get.yml)
+#### [List](redis/redis2020/RedisEnterprise/List.yml)
+#### [List By Resource Group](redis/redis2020/RedisEnterprise/ListByResourceGroup.yml)
+#### [Update](redis/redis2020/RedisEnterprise/Update.yml)
+### Redis Enterprise Database
+#### [Overview](redis/redis2020/RedisEnterpriseDatabase.yml)
+#### [Export](redis/redis2020/RedisEnterpriseDatabase/Export.yml)
+#### [Import](redis/redis2020/RedisEnterpriseDatabase/Import.yml)
+#### [List Keys](redis/redis2020/RedisEnterpriseDatabase/ListKeys.yml)
+#### [Regenerate Key](redis/redis2020/RedisEnterpriseDatabase/RegenerateKey.yml)
 # Relay
 ## [Overview](../docs-ref-conceptual/relay/index.md)
 ## Hybrid Connections
@@ -14583,7 +14621,7 @@
 ### [Sync](synapse/IntegrationRuntimeCredentials/Sync.yml)
 ## Integration Runtime Monitoring Data
 ### [Overview](synapse/IntegrationRuntimeMonitoringData.yml)
-### [Get](synapse/IntegrationRuntimeMonitoringData/Get.yml)
+### [List](synapse/IntegrationRuntimeMonitoringData/List.yml)
 ## Integration Runtime Node Ip Address
 ### [Overview](synapse/IntegrationRuntimeNodeIpAddress.yml)
 ### [Get](synapse/IntegrationRuntimeNodeIpAddress/Get.yml)
@@ -14594,7 +14632,7 @@
 ### [Update](synapse/IntegrationRuntimeNodes/Update.yml)
 ## Integration Runtime Object Metadata
 ### [Overview](synapse/IntegrationRuntimeObjectMetadata.yml)
-### [Get](synapse/IntegrationRuntimeObjectMetadata/Get.yml)
+### [List](synapse/IntegrationRuntimeObjectMetadata/List.yml)
 ### [Refresh](synapse/IntegrationRuntimeObjectMetadata/Refresh.yml)
 ## Integration Runtime Status
 ### [Overview](synapse/IntegrationRuntimeStatus.yml)
@@ -14603,6 +14641,7 @@
 ### [Overview](synapse/IntegrationRuntimes.yml)
 ### [Create](synapse/IntegrationRuntimes/Create.yml)
 ### [Delete](synapse/IntegrationRuntimes/Delete.yml)
+### [Enable Interactive Query](synapse/IntegrationRuntimes/EnableInteractiveQuery.yml)
 ### [Get](synapse/IntegrationRuntimes/Get.yml)
 ### [List By Workspace](synapse/IntegrationRuntimes/ListByWorkspace.yml)
 ### [Start](synapse/IntegrationRuntimes/Start.yml)
@@ -14624,10 +14663,6 @@
 ### [Get Azure Async Header Result](synapse/Operations%20(Preview)/GetAzureAsyncHeaderResult.yml)
 ### [Get Location Header Result](synapse/Operations%20(Preview)/GetLocationHeaderResult.yml)
 ### [List](synapse/Operations%20(Preview)/List.yml)
-## Restorable Dropped Sql Pools
-### [Overview](synapse/RestorableDroppedSqlPools.yml)
-### [Get](synapse/RestorableDroppedSqlPools/Get.yml)
-### [List By Workspace](synapse/RestorableDroppedSqlPools/ListByWorkspace.yml)
 ## Sql Pool Blob Auditing Policies
 ### [Overview](synapse/SqlPoolBlobAuditingPolicies.yml)
 ### [Create Or Update](synapse/SqlPoolBlobAuditingPolicies/CreateOrUpdate.yml)
@@ -14645,6 +14680,7 @@
 ## Sql Pool Geo Backup Policies
 ### [Overview](synapse/SqlPoolGeoBackupPolicies.yml)
 ### [Get](synapse/SqlPoolGeoBackupPolicies/Get.yml)
+### [List](synapse/SqlPoolGeoBackupPolicies/List.yml)
 ## Sql Pool Metadata Sync Configs
 ### [Overview](synapse/SqlPoolMetadataSyncConfigs.yml)
 ### [Create](synapse/SqlPoolMetadataSyncConfigs/Create.yml)
@@ -14657,6 +14693,7 @@
 ### [List](synapse/SqlPoolOperations/List.yml)
 ## Sql Pool Replication Links
 ### [Overview](synapse/SqlPoolReplicationLinks.yml)
+### [Get By Name](synapse/SqlPoolReplicationLinks/GetByName.yml)
 ### [List](synapse/SqlPoolReplicationLinks/List.yml)
 ## Sql Pool Restore Points
 ### [Overview](synapse/SqlPoolRestorePoints.yml)
@@ -14672,6 +14709,7 @@
 ### [Overview](synapse/SqlPoolSecurityAlertPolicies.yml)
 ### [Create Or Update](synapse/SqlPoolSecurityAlertPolicies/CreateOrUpdate.yml)
 ### [Get](synapse/SqlPoolSecurityAlertPolicies/Get.yml)
+### [List](synapse/SqlPoolSecurityAlertPolicies/List.yml)
 ## Sql Pool Sensitivity Labels
 ### [Overview](synapse/SqlPoolSensitivityLabels.yml)
 ### [Create Or Update](synapse/SqlPoolSensitivityLabels/CreateOrUpdate.yml)
@@ -14722,23 +14760,6 @@
 ### [Rename](synapse/SqlPools/Rename.yml)
 ### [Resume](synapse/SqlPools/Resume.yml)
 ### [Update](synapse/SqlPools/Update.yml)
-## Workspace Aad Admins
-### [Overview](synapse/WorkspaceAadAdmins.yml)
-### [Create Or Update](synapse/WorkspaceAadAdmins/CreateOrUpdate.yml)
-### [Delete](synapse/WorkspaceAadAdmins/Delete.yml)
-### [Get](synapse/WorkspaceAadAdmins/Get.yml)
-## Workspace Managed Identity Sql Control Settings
-### [Overview](synapse/WorkspaceManagedIdentitySqlControlSettings.yml)
-### [Create Or Update](synapse/WorkspaceManagedIdentitySqlControlSettings/CreateOrUpdate.yml)
-### [Get](synapse/WorkspaceManagedIdentitySqlControlSettings/Get.yml)
-## Workspaces
-### [Overview](synapse/Workspaces.yml)
-### [Create Or Update](synapse/Workspaces/CreateOrUpdate.yml)
-### [Delete](synapse/Workspaces/Delete.yml)
-### [Get](synapse/Workspaces/Get.yml)
-### [List](synapse/Workspaces/List.yml)
-### [List By Resource Group](synapse/Workspaces/ListByResourceGroup.yml)
-### [Update](synapse/Workspaces/Update.yml)
 ## Data-plane
 ### Big Data Pools
 #### [Overview](synapse/data-plane/BigDataPools.yml)
@@ -14760,12 +14781,18 @@
 #### [Delete Data Flow Debug Session](synapse/data-plane/DataFlowDebugSession/DeleteDataFlowDebugSession.yml)
 #### [Execute Command](synapse/data-plane/DataFlowDebugSession/ExecuteCommand.yml)
 #### [Query Data Flow Debug Sessions By Workspace](synapse/data-plane/DataFlowDebugSession/QueryDataFlowDebugSessionsByWorkspace.yml)
+### Data Flows
+#### [Overview](synapse/data-plane/DataFlows.yml)
+#### [Rename](synapse/data-plane/DataFlows/Rename.yml)
 ### Dataset
 #### [Overview](synapse/data-plane/Dataset.yml)
 #### [Create Or Update Dataset](synapse/data-plane/Dataset/CreateOrUpdateDataset.yml)
 #### [Delete Dataset](synapse/data-plane/Dataset/DeleteDataset.yml)
 #### [Get Dataset](synapse/data-plane/Dataset/GetDataset.yml)
 #### [Get Datasets By Workspace](synapse/data-plane/Dataset/GetDatasetsByWorkspace.yml)
+### Datasets
+#### [Overview](synapse/data-plane/Datasets.yml)
+#### [Rename](synapse/data-plane/Datasets/Rename.yml)
 ### Delete Role Assignment By Id
 #### [Overview](synapse/data-plane/DeleteRoleAssignmentById.yml)
 #### [Delete Role Assignment By Id](synapse/data-plane/DeleteRoleAssignmentById/DeleteRoleAssignmentById.yml)
@@ -14794,6 +14821,9 @@
 #### [Delete Linked Service](synapse/data-plane/LinkedService/DeleteLinkedService.yml)
 #### [Get Linked Service](synapse/data-plane/LinkedService/GetLinkedService.yml)
 #### [Get Linked Services By Workspace](synapse/data-plane/LinkedService/GetLinkedServicesByWorkspace.yml)
+### Linked Services
+#### [Overview](synapse/data-plane/LinkedServices.yml)
+#### [Rename](synapse/data-plane/LinkedServices/Rename.yml)
 ### Managed Private Endpoints
 #### [Overview](synapse/data-plane/ManagedPrivateEndpoints.yml)
 #### [Create](synapse/data-plane/ManagedPrivateEndpoints/Create.yml)
@@ -14811,6 +14841,9 @@
 #### [Get Notebook](synapse/data-plane/Notebook/GetNotebook.yml)
 #### [Get Notebook Summary By Work Space](synapse/data-plane/Notebook/GetNotebookSummaryByWorkSpace.yml)
 #### [Get Notebooks By Workspace](synapse/data-plane/Notebook/GetNotebooksByWorkspace.yml)
+### Notebooks
+#### [Overview](synapse/data-plane/Notebooks.yml)
+#### [Rename](synapse/data-plane/Notebooks/Rename.yml)
 ### Pipeline
 #### [Overview](synapse/data-plane/Pipeline.yml)
 #### [Create Or Update Pipeline](synapse/data-plane/Pipeline/CreateOrUpdatePipeline.yml)
@@ -14824,6 +14857,9 @@
 #### [Get Pipeline Run](synapse/data-plane/PipelineRun/GetPipelineRun.yml)
 #### [Query Activity Runs](synapse/data-plane/PipelineRun/QueryActivityRuns.yml)
 #### [Query Pipeline Runs By Workspace](synapse/data-plane/PipelineRun/QueryPipelineRunsByWorkspace.yml)
+### Pipelines
+#### [Overview](synapse/data-plane/Pipelines.yml)
+#### [Rename](synapse/data-plane/Pipelines/Rename.yml)
 ### Spark Batch
 #### [Overview](synapse/data-plane/SparkBatch.yml)
 #### [Cancel Spark Batch Job](synapse/data-plane/SparkBatch/CancelSparkBatchJob.yml)
@@ -14838,6 +14874,9 @@
 #### [Execute Spark Job Definition](synapse/data-plane/SparkJobDefinition/ExecuteSparkJobDefinition.yml)
 #### [Get Spark Job Definition](synapse/data-plane/SparkJobDefinition/GetSparkJobDefinition.yml)
 #### [Get Spark Job Definitions By Workspace](synapse/data-plane/SparkJobDefinition/GetSparkJobDefinitionsByWorkspace.yml)
+### Spark Job Definitions
+#### [Overview](synapse/data-plane/SparkJobDefinitions.yml)
+#### [Rename](synapse/data-plane/SparkJobDefinitions/Rename.yml)
 ### Spark Session
 #### [Overview](synapse/data-plane/SparkSession.yml)
 #### [Cancel Spark Session](synapse/data-plane/SparkSession/CancelSparkSession.yml)
@@ -14859,6 +14898,9 @@
 #### [Delete Sql Script](synapse/data-plane/SqlScript/DeleteSqlScript.yml)
 #### [Get Sql Script](synapse/data-plane/SqlScript/GetSqlScript.yml)
 #### [Get Sql Scripts By Workspace](synapse/data-plane/SqlScript/GetSqlScriptsByWorkspace.yml)
+### Sql Scripts
+#### [Overview](synapse/data-plane/SqlScripts.yml)
+#### [Rename](synapse/data-plane/SqlScripts/Rename.yml)
 ### Trigger
 #### [Overview](synapse/data-plane/Trigger.yml)
 #### [Create Or Update Trigger](synapse/data-plane/Trigger/CreateOrUpdateTrigger.yml)
@@ -14875,9 +14917,6 @@
 #### [Cancel Trigger Instance](synapse/data-plane/TriggerRun/CancelTriggerInstance.yml)
 #### [Query Trigger Runs By Workspace](synapse/data-plane/TriggerRun/QueryTriggerRunsByWorkspace.yml)
 #### [Rerun Trigger Instance](synapse/data-plane/TriggerRun/RerunTriggerInstance.yml)
-### Workspace
-#### [Overview](synapse/data-plane/Workspace.yml)
-#### [Get](synapse/data-plane/Workspace/Get.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
 ## Data Access (Gen2)
