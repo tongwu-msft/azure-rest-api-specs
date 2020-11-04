@@ -14576,7 +14576,7 @@
 ### [Sync](synapse/IntegrationRuntimeCredentials/Sync.yml)
 ## Integration Runtime Monitoring Data
 ### [Overview](synapse/IntegrationRuntimeMonitoringData.yml)
-### [Get](synapse/IntegrationRuntimeMonitoringData/Get.yml)
+### [List](synapse/IntegrationRuntimeMonitoringData/List.yml)
 ## Integration Runtime Node Ip Address
 ### [Overview](synapse/IntegrationRuntimeNodeIpAddress.yml)
 ### [Get](synapse/IntegrationRuntimeNodeIpAddress/Get.yml)
@@ -14587,7 +14587,7 @@
 ### [Update](synapse/IntegrationRuntimeNodes/Update.yml)
 ## Integration Runtime Object Metadata
 ### [Overview](synapse/IntegrationRuntimeObjectMetadata.yml)
-### [Get](synapse/IntegrationRuntimeObjectMetadata/Get.yml)
+### [List](synapse/IntegrationRuntimeObjectMetadata/List.yml)
 ### [Refresh](synapse/IntegrationRuntimeObjectMetadata/Refresh.yml)
 ## Integration Runtime Status
 ### [Overview](synapse/IntegrationRuntimeStatus.yml)
@@ -14596,6 +14596,7 @@
 ### [Overview](synapse/IntegrationRuntimes.yml)
 ### [Create](synapse/IntegrationRuntimes/Create.yml)
 ### [Delete](synapse/IntegrationRuntimes/Delete.yml)
+### [Enable Interactive Query](synapse/IntegrationRuntimes/EnableInteractiveQuery.yml)
 ### [Get](synapse/IntegrationRuntimes/Get.yml)
 ### [List By Workspace](synapse/IntegrationRuntimes/ListByWorkspace.yml)
 ### [Start](synapse/IntegrationRuntimes/Start.yml)
@@ -14617,10 +14618,6 @@
 ### [Get Azure Async Header Result](synapse/Operations%20(Preview)/GetAzureAsyncHeaderResult.yml)
 ### [Get Location Header Result](synapse/Operations%20(Preview)/GetLocationHeaderResult.yml)
 ### [List](synapse/Operations%20(Preview)/List.yml)
-## Restorable Dropped Sql Pools
-### [Overview](synapse/RestorableDroppedSqlPools.yml)
-### [Get](synapse/RestorableDroppedSqlPools/Get.yml)
-### [List By Workspace](synapse/RestorableDroppedSqlPools/ListByWorkspace.yml)
 ## Sql Pool Blob Auditing Policies
 ### [Overview](synapse/SqlPoolBlobAuditingPolicies.yml)
 ### [Create Or Update](synapse/SqlPoolBlobAuditingPolicies/CreateOrUpdate.yml)
@@ -14638,6 +14635,7 @@
 ## Sql Pool Geo Backup Policies
 ### [Overview](synapse/SqlPoolGeoBackupPolicies.yml)
 ### [Get](synapse/SqlPoolGeoBackupPolicies/Get.yml)
+### [List](synapse/SqlPoolGeoBackupPolicies/List.yml)
 ## Sql Pool Metadata Sync Configs
 ### [Overview](synapse/SqlPoolMetadataSyncConfigs.yml)
 ### [Create](synapse/SqlPoolMetadataSyncConfigs/Create.yml)
@@ -14650,6 +14648,7 @@
 ### [List](synapse/SqlPoolOperations/List.yml)
 ## Sql Pool Replication Links
 ### [Overview](synapse/SqlPoolReplicationLinks.yml)
+### [Get By Name](synapse/SqlPoolReplicationLinks/GetByName.yml)
 ### [List](synapse/SqlPoolReplicationLinks/List.yml)
 ## Sql Pool Restore Points
 ### [Overview](synapse/SqlPoolRestorePoints.yml)
@@ -14665,6 +14664,7 @@
 ### [Overview](synapse/SqlPoolSecurityAlertPolicies.yml)
 ### [Create Or Update](synapse/SqlPoolSecurityAlertPolicies/CreateOrUpdate.yml)
 ### [Get](synapse/SqlPoolSecurityAlertPolicies/Get.yml)
+### [List](synapse/SqlPoolSecurityAlertPolicies/List.yml)
 ## Sql Pool Sensitivity Labels
 ### [Overview](synapse/SqlPoolSensitivityLabels.yml)
 ### [Create Or Update](synapse/SqlPoolSensitivityLabels/CreateOrUpdate.yml)
@@ -14715,23 +14715,6 @@
 ### [Rename](synapse/SqlPools/Rename.yml)
 ### [Resume](synapse/SqlPools/Resume.yml)
 ### [Update](synapse/SqlPools/Update.yml)
-## Workspace Aad Admins
-### [Overview](synapse/WorkspaceAadAdmins.yml)
-### [Create Or Update](synapse/WorkspaceAadAdmins/CreateOrUpdate.yml)
-### [Delete](synapse/WorkspaceAadAdmins/Delete.yml)
-### [Get](synapse/WorkspaceAadAdmins/Get.yml)
-## Workspace Managed Identity Sql Control Settings
-### [Overview](synapse/WorkspaceManagedIdentitySqlControlSettings.yml)
-### [Create Or Update](synapse/WorkspaceManagedIdentitySqlControlSettings/CreateOrUpdate.yml)
-### [Get](synapse/WorkspaceManagedIdentitySqlControlSettings/Get.yml)
-## Workspaces
-### [Overview](synapse/Workspaces.yml)
-### [Create Or Update](synapse/Workspaces/CreateOrUpdate.yml)
-### [Delete](synapse/Workspaces/Delete.yml)
-### [Get](synapse/Workspaces/Get.yml)
-### [List](synapse/Workspaces/List.yml)
-### [List By Resource Group](synapse/Workspaces/ListByResourceGroup.yml)
-### [Update](synapse/Workspaces/Update.yml)
 ## Data-plane
 ### Big Data Pools
 #### [Overview](synapse/data-plane/BigDataPools.yml)
@@ -14753,12 +14736,18 @@
 #### [Delete Data Flow Debug Session](synapse/data-plane/DataFlowDebugSession/DeleteDataFlowDebugSession.yml)
 #### [Execute Command](synapse/data-plane/DataFlowDebugSession/ExecuteCommand.yml)
 #### [Query Data Flow Debug Sessions By Workspace](synapse/data-plane/DataFlowDebugSession/QueryDataFlowDebugSessionsByWorkspace.yml)
+### Data Flows
+#### [Overview](synapse/data-plane/DataFlows.yml)
+#### [Rename](synapse/data-plane/DataFlows/Rename.yml)
 ### Dataset
 #### [Overview](synapse/data-plane/Dataset.yml)
 #### [Create Or Update Dataset](synapse/data-plane/Dataset/CreateOrUpdateDataset.yml)
 #### [Delete Dataset](synapse/data-plane/Dataset/DeleteDataset.yml)
 #### [Get Dataset](synapse/data-plane/Dataset/GetDataset.yml)
 #### [Get Datasets By Workspace](synapse/data-plane/Dataset/GetDatasetsByWorkspace.yml)
+### Datasets
+#### [Overview](synapse/data-plane/Datasets.yml)
+#### [Rename](synapse/data-plane/Datasets/Rename.yml)
 ### Delete Role Assignment By Id
 #### [Overview](synapse/data-plane/DeleteRoleAssignmentById.yml)
 #### [Delete Role Assignment By Id](synapse/data-plane/DeleteRoleAssignmentById/DeleteRoleAssignmentById.yml)
@@ -14787,6 +14776,9 @@
 #### [Delete Linked Service](synapse/data-plane/LinkedService/DeleteLinkedService.yml)
 #### [Get Linked Service](synapse/data-plane/LinkedService/GetLinkedService.yml)
 #### [Get Linked Services By Workspace](synapse/data-plane/LinkedService/GetLinkedServicesByWorkspace.yml)
+### Linked Services
+#### [Overview](synapse/data-plane/LinkedServices.yml)
+#### [Rename](synapse/data-plane/LinkedServices/Rename.yml)
 ### Managed Private Endpoints
 #### [Overview](synapse/data-plane/ManagedPrivateEndpoints.yml)
 #### [Create](synapse/data-plane/ManagedPrivateEndpoints/Create.yml)
@@ -14804,6 +14796,9 @@
 #### [Get Notebook](synapse/data-plane/Notebook/GetNotebook.yml)
 #### [Get Notebook Summary By Work Space](synapse/data-plane/Notebook/GetNotebookSummaryByWorkSpace.yml)
 #### [Get Notebooks By Workspace](synapse/data-plane/Notebook/GetNotebooksByWorkspace.yml)
+### Notebooks
+#### [Overview](synapse/data-plane/Notebooks.yml)
+#### [Rename](synapse/data-plane/Notebooks/Rename.yml)
 ### Pipeline
 #### [Overview](synapse/data-plane/Pipeline.yml)
 #### [Create Or Update Pipeline](synapse/data-plane/Pipeline/CreateOrUpdatePipeline.yml)
@@ -14817,6 +14812,9 @@
 #### [Get Pipeline Run](synapse/data-plane/PipelineRun/GetPipelineRun.yml)
 #### [Query Activity Runs](synapse/data-plane/PipelineRun/QueryActivityRuns.yml)
 #### [Query Pipeline Runs By Workspace](synapse/data-plane/PipelineRun/QueryPipelineRunsByWorkspace.yml)
+### Pipelines
+#### [Overview](synapse/data-plane/Pipelines.yml)
+#### [Rename](synapse/data-plane/Pipelines/Rename.yml)
 ### Spark Batch
 #### [Overview](synapse/data-plane/SparkBatch.yml)
 #### [Cancel Spark Batch Job](synapse/data-plane/SparkBatch/CancelSparkBatchJob.yml)
@@ -14831,6 +14829,9 @@
 #### [Execute Spark Job Definition](synapse/data-plane/SparkJobDefinition/ExecuteSparkJobDefinition.yml)
 #### [Get Spark Job Definition](synapse/data-plane/SparkJobDefinition/GetSparkJobDefinition.yml)
 #### [Get Spark Job Definitions By Workspace](synapse/data-plane/SparkJobDefinition/GetSparkJobDefinitionsByWorkspace.yml)
+### Spark Job Definitions
+#### [Overview](synapse/data-plane/SparkJobDefinitions.yml)
+#### [Rename](synapse/data-plane/SparkJobDefinitions/Rename.yml)
 ### Spark Session
 #### [Overview](synapse/data-plane/SparkSession.yml)
 #### [Cancel Spark Session](synapse/data-plane/SparkSession/CancelSparkSession.yml)
@@ -14852,6 +14853,9 @@
 #### [Delete Sql Script](synapse/data-plane/SqlScript/DeleteSqlScript.yml)
 #### [Get Sql Script](synapse/data-plane/SqlScript/GetSqlScript.yml)
 #### [Get Sql Scripts By Workspace](synapse/data-plane/SqlScript/GetSqlScriptsByWorkspace.yml)
+### Sql Scripts
+#### [Overview](synapse/data-plane/SqlScripts.yml)
+#### [Rename](synapse/data-plane/SqlScripts/Rename.yml)
 ### Trigger
 #### [Overview](synapse/data-plane/Trigger.yml)
 #### [Create Or Update Trigger](synapse/data-plane/Trigger/CreateOrUpdateTrigger.yml)
@@ -14868,9 +14872,6 @@
 #### [Cancel Trigger Instance](synapse/data-plane/TriggerRun/CancelTriggerInstance.yml)
 #### [Query Trigger Runs By Workspace](synapse/data-plane/TriggerRun/QueryTriggerRunsByWorkspace.yml)
 #### [Rerun Trigger Instance](synapse/data-plane/TriggerRun/RerunTriggerInstance.yml)
-### Workspace
-#### [Overview](synapse/data-plane/Workspace.yml)
-#### [Get](synapse/data-plane/Workspace/Get.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
 ## Data Access (Gen2)
