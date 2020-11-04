@@ -39,6 +39,7 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
 |`snapshot`|Optional. The snapshot parameter is an opaque `DateTime` value that, when present, specifies the blob snapshot to delete. For more information on working with blob snapshots, see [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md).|  
 |`versionid`|Optional, version 2019-12-12 and newer. The versionid parameter is an opaque `DateTime` value that, when present, specifies the Version of the blob to delete.|    
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
+|`deletetype`|Opeional. Available for version 2020-02-10 or later. The value of `deletetype` could only be `permanent`. For more information, see Remarks below.
   
 ### Request Headers  
  The following table describes required and optional request headers.  
@@ -101,6 +102,17 @@ After the specified number of days, the blob’s data is removed from the servic
 
  For any other operation on soft deleted blob or snapshot, Blob Service returns error 404 (ResourceNotFound). 
   
+**Permanent Delete**
+
+A feature to permanetly delete a snapshot / version has been added into deletet blob API with version 2020-02-10 and later. In order to leverage the feature, the account has to have the feature turned on. For more info about how to turn on permanent deleted for account, see [Set Blob Service Properties](Set-Blob-Service-Properties.md).
+
+Account with such feature turned on could use `deletetype=permanent` in delete blob request to permanently delete a single soft-deleted snapshot or deleted version. Blob service would return 409 (Conflict) if the query parameter presents with any of the following:
+- The feature is not turned on for the account.
+- Neither `versionid` nor `snapshot` are provided.
+- The targeting snapshot or version is not (soft) deleted.
+
+A new SAS token (y) is also introduced to grant permission of permantly delete a blob. For more information, see [Create a service SAS](create-service-sas.md).
+
 ## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
