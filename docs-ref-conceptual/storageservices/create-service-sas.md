@@ -163,8 +163,8 @@ The following table shows the permissions supported for each resource type.
 | Create | c | Container<br />Directory<br />Blob | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
 | Write | w | Container<br />Directory<br />Blob | All | Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
 | Delete | d | Blob | All | Delete the blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the Lease Blob operation. |
-|Permanent delete|y|Permantly delete a blob snapshot or version (version 2020-02-10 or later).|
 | Delete version | x | Blob | Version 2019-12-12 or later | Delete a blob version. |
+|Permanent delete| y | Blob | Version 2020-02-10 or later | Permantly delete a blob snapshot or version.|
 | List | l | Container<br />Directory | All | List blobs non-recursively. |
 | Tags | t | Blob | Version 2019-12-12 or later | Read or write the tags on a blob. |
 | Move (preview) | m | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. This operation can optionally be restricted to the owner of the child blob, directory, or parent directory if the `saoid` parameter is included on the SAS token and the sticky bit is set on the parent directory. |
