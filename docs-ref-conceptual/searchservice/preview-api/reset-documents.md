@@ -1,7 +1,7 @@
 ---
 title: Reset Documents (api-version=2019-05-06-Preview or 2020-06-30-Preview)
-description: Re-ingest a subset of documents from datasource with customer-provided document keys.
-ms.date: 06/30/2020
+description: Re-ingest a subset of documents from a data source with customer-provided document keys.
+ms.date: 11/10/2020
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -15,20 +15,18 @@ ms.manager: jennmar
 
 **API Version: 2019-05-06-Preview or 2020-06-30-Preview**
 
-This preview allows you to selectively reprocess specific documents from datasource. You need to supply the document keys of the documents you wish to reset, 
-and we would use those keys to find the documents from datasource and rerun all skills/projections in your pipeline against the fresh data.
+This preview API allows you to re-run an indexer (with or without a skillset) over a subset of documents when you provide the document keys in the request. Using the key as a reference, the indexer finds the equivalent source document and reruns all skills and projections in an enrichment pipeline.
 
-You can reset documents for an existing indexer using an HTTP POST request. Specify the name of the indexer to update on the request URI: 
+You can reprocess documents for an existing indexer using an HTTP POST request. Specify the name of the indexer to update on the request URI: 
 
 ```http
 POST https://[service name].search.windows.net/indexers/[indexer name]/resetdocs?api-version=[api-version]   
     api-key: [admin key]  
 ``` 
 
-Calling this API for an indexer does not automatically run it. Instead, at the next scheduled time, the indexer will pause its current indexing jobs and re-enumerate the datasource for just the subset of document keys you have asked to reset. If it finds a document in datasource with a matching document key, it will run that document through the indexer’s skillset (if any) and then update/insert the entry into the target index. Once the indexer has finished this secondary enumeration of the datasource it will continue with its normal indexing tasks. Resetting additional documents while indexer is processing previously reset documents will cause the secondary enumeration to restart with the superset of both reset operation document key sets by default. See URI parameter “overwrite” below for more details.
+Calling this API for an indexer does not automatically run it. Instead, at the next scheduled run, the indexer will modify its order of operations to handle this request first, before progressing to routine processing. The indexer will re-enumerate the data source, using the keys you have provided to identify the relevant documents. If the matching documents are found, the indexer runs them through a skillet (if any) and then updates the index or knowledge store. Once the indexer has finished reprocessing the documents you have specified, it will continue with its normal indexing tasks. Normal indexing refers to synchronizing an index or knowledge store with unspecified changes to the underlying source data, using timestamps or other highwater mark fields that indicate a change in document status.
 
-
-
+By default, resetting additional documents while the indexer is processing a previously specified keyset will cause the secondary enumeration to restart with a superset of both Reset Document request payloads. You can modify the default to specify overwrite rather than append. For more information, see the URI parameter section below.
 
 ## URI Parameters
 
@@ -37,7 +35,7 @@ Calling this API for an indexer does not automatically run it. Instead, at the n
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | indexer name  | Required. The request URI specifies the name of the indexer to update. |
 | api-version | Required. The current preview version is `api-version=2019-05-06-Preview` or `api-version=2020-06-30-Preview` (case-sensitive). See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
-| overwrite | Optional. Defaults to false. When false, the call’s payload of document keys will be appended to any existing document keys queued up to be reset. When true, the call’s payload of document keys will overwrite any existing document keys queued up to be reset. This can be used to clear the list of reset documents.|
+| overwrite | Optional. This parameter determines whether consecutive Reset Document operations are combined or overwritten. Default is false. When false, the call’s payload of document keys will be added to the list of keys already queued up for reprocessing. If true, the call’s payload of document keys will overwrite the existing list, including clearing the list of reset documents if you set the keys to null.|
 
 ## Request Headers
 
@@ -52,7 +50,7 @@ You can get the `api-key` from your service dashboard in the Azure portal. For m
 
 ## Request Body
 
-The body should contain a list of document keys that the indexer will look for in the datasource. 
+The body should contain a list of document keys that the indexer will look for in the data source. 
 
 The following JSON is a high-level representation of the main parts of the definition. 
 
@@ -69,7 +67,7 @@ The following JSON is a high-level representation of the main parts of the defin
  
 |Property|Description|  
 |--------------|-----------------|
-|documentKeys|Required. This is the set of document keys the indexer will selectively reprocess from its datasource. By default, calling this action multiple times will append document key sets together. This behavior can be changed to overwrite rather than append via the overwrite url parameter (see above). If you want the indexer to stop trying to process reset documents, you can set "documentKeys" to an empty list "[]". This will tell the indexer that no documents need to be reset on its next run.|
+|documentKeys|Required. This is the set of document keys the indexer will selectively reprocess from its data source. By default, calling this action multiple times will append document keysets together. This behavior can be changed to overwrite rather than append via the overwrite URI parameter (see above). If you want the indexer to stop trying to process reset documents, you can set "documentKeys" to an empty list "[]". This will tell the indexer that no documents need to be reset on its next run.|
 
 ## Response  
 204 No Content for a successful request.
