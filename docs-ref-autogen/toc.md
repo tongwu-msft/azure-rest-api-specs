@@ -8666,6 +8666,11 @@
 ### [List](site-recovery/ReplicationProtectionContainers/List.yml)
 ### [List By Replication Fabrics](site-recovery/ReplicationProtectionContainers/ListByReplicationFabrics.yml)
 ### [Switch Protection](site-recovery/ReplicationProtectionContainers/SwitchProtection.yml)
+## Replication Protection Intents
+### [Overview](site-recovery/ReplicationProtectionIntents.yml)
+### [Create](site-recovery/ReplicationProtectionIntents/Create.yml)
+### [Get](site-recovery/ReplicationProtectionIntents/Get.yml)
+### [List](site-recovery/ReplicationProtectionIntents/List.yml)
 ## Replication Recovery Plans
 ### [Overview](site-recovery/ReplicationRecoveryPlans.yml)
 ### [Create](site-recovery/ReplicationRecoveryPlans/Create.yml)
@@ -14722,6 +14727,7 @@
 ### [Overview](synapse/SqlPoolTransparentDataEncryptions.yml)
 ### [Create Or Update](synapse/SqlPoolTransparentDataEncryptions/CreateOrUpdate.yml)
 ### [Get](synapse/SqlPoolTransparentDataEncryptions/Get.yml)
+### [List](synapse/SqlPoolTransparentDataEncryptions/List.yml)
 ## Sql Pool Usages
 ### [Overview](synapse/SqlPoolUsages.yml)
 ### [List](synapse/SqlPoolUsages/List.yml)
@@ -14742,6 +14748,18 @@
 ### [Delete](synapse/SqlPoolVulnerabilityAssessments/Delete.yml)
 ### [Get](synapse/SqlPoolVulnerabilityAssessments/Get.yml)
 ### [List](synapse/SqlPoolVulnerabilityAssessments/List.yml)
+## Sql Pool Workload Classifier
+### [Overview](synapse/SqlPoolWorkloadClassifier.yml)
+### [Create Or Update](synapse/SqlPoolWorkloadClassifier/CreateOrUpdate.yml)
+### [Delete](synapse/SqlPoolWorkloadClassifier/Delete.yml)
+### [Get](synapse/SqlPoolWorkloadClassifier/Get.yml)
+### [List](synapse/SqlPoolWorkloadClassifier/List.yml)
+## Sql Pool Workload Group
+### [Overview](synapse/SqlPoolWorkloadGroup.yml)
+### [Create Or Update](synapse/SqlPoolWorkloadGroup/CreateOrUpdate.yml)
+### [Delete](synapse/SqlPoolWorkloadGroup/Delete.yml)
+### [Get](synapse/SqlPoolWorkloadGroup/Get.yml)
+### [List](synapse/SqlPoolWorkloadGroup/List.yml)
 ## Sql Pools
 ### [Overview](synapse/SqlPools.yml)
 ### [Create](synapse/SqlPools/Create.yml)
