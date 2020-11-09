@@ -2607,19 +2607,6 @@
 ### [Get reserved instance charges](../docs-ref-conceptual/billing/enterprise/billing-enterprise-api-reserved-instance-charges.md)
 ### [Get reserved instance usage](../docs-ref-conceptual/billing/enterprise/billing-enterprise-api-reserved-instance-usage.md)
 ## Reference
-### 2017-04-24-preview
-#### Billing Periods
-##### [Overview](billing/2017-04-24-preview/BillingPeriods.yml)
-##### [Get](billing/2017-04-24-preview/BillingPeriods/Get.yml)
-##### [List](billing/2017-04-24-preview/BillingPeriods/List.yml)
-#### Invoices
-##### [Overview](billing/2017-04-24-preview/Invoices.yml)
-##### [Get](billing/2017-04-24-preview/Invoices/Get.yml)
-##### [Get Latest](billing/2017-04-24-preview/Invoices/GetLatest.yml)
-##### [List](billing/2017-04-24-preview/Invoices/List.yml)
-#### Operations
-##### [Overview](billing/2017-04-24-preview/Operations.yml)
-##### [List](billing/2017-04-24-preview/Operations/List.yml)
 ### 2019-10-01-preview
 #### Address
 ##### [Overview](billing/2019-10-01-preview/Address.yml)
@@ -2796,6 +2783,116 @@
 ##### [Get](billing/2019-10-01-preview/Transfers/Get.yml)
 ##### [Initiate](billing/2019-10-01-preview/Transfers/Initiate.yml)
 ##### [List](billing/2019-10-01-preview/Transfers/List.yml)
+### 2020-05-01
+#### Address
+##### [Overview](billing/2020-05-01/Address.yml)
+##### [Validate](billing/2020-05-01/Address/Validate.yml)
+#### Agreements
+##### [Overview](billing/2020-05-01/Agreements.yml)
+##### [Get](billing/2020-05-01/Agreements/Get.yml)
+##### [List By Billing Account](billing/2020-05-01/Agreements/ListByBillingAccount.yml)
+#### Available Balances
+##### [Overview](billing/2020-05-01/AvailableBalances.yml)
+##### [Get](billing/2020-05-01/AvailableBalances/Get.yml)
+#### Billing Accounts
+##### [Overview](billing/2020-05-01/BillingAccounts.yml)
+##### [Get](billing/2020-05-01/BillingAccounts/Get.yml)
+##### [List](billing/2020-05-01/BillingAccounts/List.yml)
+##### [List Invoice Sections By Create Subscription Permission](billing/2020-05-01/BillingAccounts/ListInvoiceSectionsByCreateSubscriptionPermission.yml)
+##### [Update](billing/2020-05-01/BillingAccounts/Update.yml)
+#### Billing Permissions
+##### [Overview](billing/2020-05-01/BillingPermissions.yml)
+##### [List By Billing Account](billing/2020-05-01/BillingPermissions/ListByBillingAccount.yml)
+##### [List By Billing Profile](billing/2020-05-01/BillingPermissions/ListByBillingProfile.yml)
+##### [List By Customer](billing/2020-05-01/BillingPermissions/ListByCustomer.yml)
+##### [List By Invoice Sections](billing/2020-05-01/BillingPermissions/ListByInvoiceSections.yml)
+#### Billing Profiles
+##### [Overview](billing/2020-05-01/BillingProfiles.yml)
+##### [Create Or Update](billing/2020-05-01/BillingProfiles/CreateOrUpdate.yml)
+##### [Get](billing/2020-05-01/BillingProfiles/Get.yml)
+##### [List By Billing Account](billing/2020-05-01/BillingProfiles/ListByBillingAccount.yml)
+#### Billing Property
+##### [Overview](billing/2020-05-01/BillingProperty.yml)
+##### [Get](billing/2020-05-01/BillingProperty/Get.yml)
+##### [Update](billing/2020-05-01/BillingProperty/Update.yml)
+#### Billing Role Assignments
+##### [Overview](billing/2020-05-01/BillingRoleAssignments.yml)
+##### [Delete By Billing Account](billing/2020-05-01/BillingRoleAssignments/DeleteByBillingAccount.yml)
+##### [Delete By Billing Profile](billing/2020-05-01/BillingRoleAssignments/DeleteByBillingProfile.yml)
+##### [Delete By Invoice Section](billing/2020-05-01/BillingRoleAssignments/DeleteByInvoiceSection.yml)
+##### [Get By Billing Account](billing/2020-05-01/BillingRoleAssignments/GetByBillingAccount.yml)
+##### [Get By Billing Profile](billing/2020-05-01/BillingRoleAssignments/GetByBillingProfile.yml)
+##### [Get By Invoice Section](billing/2020-05-01/BillingRoleAssignments/GetByInvoiceSection.yml)
+##### [List By Billing Account](billing/2020-05-01/BillingRoleAssignments/ListByBillingAccount.yml)
+##### [List By Billing Profile](billing/2020-05-01/BillingRoleAssignments/ListByBillingProfile.yml)
+##### [List By Invoice Section](billing/2020-05-01/BillingRoleAssignments/ListByInvoiceSection.yml)
+#### Billing Role Definitions
+##### [Overview](billing/2020-05-01/BillingRoleDefinitions.yml)
+##### [Get By Billing Account](billing/2020-05-01/BillingRoleDefinitions/GetByBillingAccount.yml)
+##### [Get By Billing Profile](billing/2020-05-01/BillingRoleDefinitions/GetByBillingProfile.yml)
+##### [Get By Invoice Section](billing/2020-05-01/BillingRoleDefinitions/GetByInvoiceSection.yml)
+##### [List By Billing Account](billing/2020-05-01/BillingRoleDefinitions/ListByBillingAccount.yml)
+##### [List By Billing Profile](billing/2020-05-01/BillingRoleDefinitions/ListByBillingProfile.yml)
+##### [List By Invoice Section](billing/2020-05-01/BillingRoleDefinitions/ListByInvoiceSection.yml)
+#### Billing Subscriptions
+##### [Overview](billing/2020-05-01/BillingSubscriptions.yml)
+##### [Get](billing/2020-05-01/BillingSubscriptions/Get.yml)
+##### [List By Billing Account](billing/2020-05-01/BillingSubscriptions/ListByBillingAccount.yml)
+##### [List By Billing Profile](billing/2020-05-01/BillingSubscriptions/ListByBillingProfile.yml)
+##### [List By Customer](billing/2020-05-01/BillingSubscriptions/ListByCustomer.yml)
+##### [List By Invoice Section](billing/2020-05-01/BillingSubscriptions/ListByInvoiceSection.yml)
+##### [Move](billing/2020-05-01/BillingSubscriptions/Move.yml)
+##### [Update](billing/2020-05-01/BillingSubscriptions/Update.yml)
+##### [Validate Move](billing/2020-05-01/BillingSubscriptions/ValidateMove.yml)
+#### Customers
+##### [Overview](billing/2020-05-01/Customers.yml)
+##### [Get](billing/2020-05-01/Customers/Get.yml)
+##### [List By Billing Account](billing/2020-05-01/Customers/ListByBillingAccount.yml)
+##### [List By Billing Profile](billing/2020-05-01/Customers/ListByBillingProfile.yml)
+#### Instructions
+##### [Overview](billing/2020-05-01/Instructions.yml)
+##### [Get](billing/2020-05-01/Instructions/Get.yml)
+##### [List By Billing Profile](billing/2020-05-01/Instructions/ListByBillingProfile.yml)
+##### [Put](billing/2020-05-01/Instructions/Put.yml)
+#### Invoice Sections
+##### [Overview](billing/2020-05-01/InvoiceSections.yml)
+##### [Create Or Update](billing/2020-05-01/InvoiceSections/CreateOrUpdate.yml)
+##### [Get](billing/2020-05-01/InvoiceSections/Get.yml)
+##### [List By Billing Profile](billing/2020-05-01/InvoiceSections/ListByBillingProfile.yml)
+#### Invoices
+##### [Overview](billing/2020-05-01/Invoices.yml)
+##### [Download Billing Subscription Invoice](billing/2020-05-01/Invoices/DownloadBillingSubscriptionInvoice.yml)
+##### [Download Invoice](billing/2020-05-01/Invoices/DownloadInvoice.yml)
+##### [Download Multiple Billing Profile Invoices](billing/2020-05-01/Invoices/DownloadMultipleBillingProfileInvoices.yml)
+##### [Download Multiple Billing Subscription Invoices](billing/2020-05-01/Invoices/DownloadMultipleBillingSubscriptionInvoices.yml)
+##### [Get](billing/2020-05-01/Invoices/Get.yml)
+##### [Get By Id](billing/2020-05-01/Invoices/GetById.yml)
+##### [Get By Subscription And Invoice Id](billing/2020-05-01/Invoices/GetBySubscriptionAndInvoiceId.yml)
+##### [List By Billing Account](billing/2020-05-01/Invoices/ListByBillingAccount.yml)
+##### [List By Billing Profile](billing/2020-05-01/Invoices/ListByBillingProfile.yml)
+##### [List By Billing Subscription](billing/2020-05-01/Invoices/ListByBillingSubscription.yml)
+#### Operations
+##### [Overview](billing/2020-05-01/Operations.yml)
+##### [List](billing/2020-05-01/Operations/List.yml)
+#### Policies
+##### [Overview](billing/2020-05-01/Policies.yml)
+##### [Get By Billing Profile](billing/2020-05-01/Policies/GetByBillingProfile.yml)
+##### [Get By Customer](billing/2020-05-01/Policies/GetByCustomer.yml)
+##### [Update](billing/2020-05-01/Policies/Update.yml)
+##### [Update Customer](billing/2020-05-01/Policies/UpdateCustomer.yml)
+#### Products
+##### [Overview](billing/2020-05-01/Products.yml)
+##### [Get](billing/2020-05-01/Products/Get.yml)
+##### [List By Billing Account](billing/2020-05-01/Products/ListByBillingAccount.yml)
+##### [List By Billing Profile](billing/2020-05-01/Products/ListByBillingProfile.yml)
+##### [List By Customer](billing/2020-05-01/Products/ListByCustomer.yml)
+##### [List By Invoice Section](billing/2020-05-01/Products/ListByInvoiceSection.yml)
+##### [Move](billing/2020-05-01/Products/Move.yml)
+##### [Update](billing/2020-05-01/Products/Update.yml)
+##### [Validate Move](billing/2020-05-01/Products/ValidateMove.yml)
+#### Transactions
+##### [Overview](billing/2020-05-01/Transactions.yml)
+##### [List By Invoice](billing/2020-05-01/Transactions/ListByInvoice.yml)
 # Blockchain
 ## [Overview](../docs-ref-conceptual/blockchain/index.md)
 ## 2019-06-01-preview
