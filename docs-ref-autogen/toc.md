@@ -3567,37 +3567,41 @@
 ### Rank
 #### [Overview](cognitiveservices/personalizer/Rank.yml)
 #### [Rank](cognitiveservices/personalizer/Rank/Rank.yml)
-## QnA Maker
-### Alterations
-#### [Overview](cognitiveservices/qnamaker/Alterations.yml)
-#### [Get](cognitiveservices/qnamaker/Alterations/Get.yml)
-#### [Replace](cognitiveservices/qnamaker/Alterations/Replace.yml)
-### Endpoint Keys
-#### [Overview](cognitiveservices/qnamaker/EndpointKeys.yml)
-#### [Get Keys](cognitiveservices/qnamaker/EndpointKeys/GetKeys.yml)
-#### [Refresh Keys](cognitiveservices/qnamaker/EndpointKeys/RefreshKeys.yml)
-### Endpoint Settings
-#### [Overview](cognitiveservices/qnamaker/EndpointSettings.yml)
-#### [Get Settings](cognitiveservices/qnamaker/EndpointSettings/GetSettings.yml)
-#### [Update Settings](cognitiveservices/qnamaker/EndpointSettings/UpdateSettings.yml)
-### Knowledgebase
-#### [Overview](cognitiveservices/qnamaker/Knowledgebase.yml)
-#### [Create](cognitiveservices/qnamaker/Knowledgebase/Create.yml)
-#### [Delete](cognitiveservices/qnamaker/Knowledgebase/Delete.yml)
-#### [Download](cognitiveservices/qnamaker/Knowledgebase/Download.yml)
-#### [Get Details](cognitiveservices/qnamaker/Knowledgebase/GetDetails.yml)
-#### [List All](cognitiveservices/qnamaker/Knowledgebase/ListAll.yml)
-#### [Publish](cognitiveservices/qnamaker/Knowledgebase/Publish.yml)
-#### [Replace](cognitiveservices/qnamaker/Knowledgebase/Replace.yml)
-#### [Update](cognitiveservices/qnamaker/Knowledgebase/Update.yml)
-### Operations
-#### [Overview](cognitiveservices/qnamaker/Operations.yml)
-#### [Get Details](cognitiveservices/qnamaker/Operations/GetDetails.yml)
-## QnA Maker Runtime
+## QnAMaker 4.0
 ### Runtime
-#### [Overview](cognitiveservices/qnamakerruntime/Runtime.yml)
-#### [Generate Answer](cognitiveservices/qnamakerruntime/Runtime/GenerateAnswer.yml)
-#### [Train](cognitiveservices/qnamakerruntime/Runtime/Train.yml)
+#### [Overview](cognitiveservices/qnamaker4.0/Runtime.yml)
+#### [Generate Answer](cognitiveservices/qnamaker4.0/Runtime/GenerateAnswer.yml)
+#### [Train](cognitiveservices/qnamaker4.0/Runtime/Train.yml)
+## QnAMaker v5.0-preview.1
+### Alterations
+#### [Overview](cognitiveservices/qnamakerv5.0-preview.1/Alterations.yml)
+#### [Get](cognitiveservices/qnamakerv5.0-preview.1/Alterations/Get.yml)
+#### [Get Alterations For Kb](cognitiveservices/qnamakerv5.0-preview.1/Alterations/GetAlterationsForKb.yml)
+#### [Replace](cognitiveservices/qnamakerv5.0-preview.1/Alterations/Replace.yml)
+#### [Replace Alterations For Kb](cognitiveservices/qnamakerv5.0-preview.1/Alterations/ReplaceAlterationsForKb.yml)
+### Endpoint Keys
+#### [Overview](cognitiveservices/qnamakerv5.0-preview.1/EndpointKeys.yml)
+#### [Get Keys](cognitiveservices/qnamakerv5.0-preview.1/EndpointKeys/GetKeys.yml)
+#### [Refresh Keys](cognitiveservices/qnamakerv5.0-preview.1/EndpointKeys/RefreshKeys.yml)
+### Endpoint Settings
+#### [Overview](cognitiveservices/qnamakerv5.0-preview.1/EndpointSettings.yml)
+#### [Get Settings](cognitiveservices/qnamakerv5.0-preview.1/EndpointSettings/GetSettings.yml)
+#### [Update Settings](cognitiveservices/qnamakerv5.0-preview.1/EndpointSettings/UpdateSettings.yml)
+### Knowledgebase
+#### [Overview](cognitiveservices/qnamakerv5.0-preview.1/Knowledgebase.yml)
+#### [Create](cognitiveservices/qnamakerv5.0-preview.1/Knowledgebase/Create.yml)
+#### [Delete](cognitiveservices/qnamakerv5.0-preview.1/Knowledgebase/Delete.yml)
+#### [Download](cognitiveservices/qnamakerv5.0-preview.1/Knowledgebase/Download.yml)
+#### [Generate Answer](cognitiveservices/qnamakerv5.0-preview.1/Knowledgebase/GenerateAnswer.yml)
+#### [Get Details](cognitiveservices/qnamakerv5.0-preview.1/Knowledgebase/GetDetails.yml)
+#### [List All](cognitiveservices/qnamakerv5.0-preview.1/Knowledgebase/ListAll.yml)
+#### [Publish](cognitiveservices/qnamakerv5.0-preview.1/Knowledgebase/Publish.yml)
+#### [Replace](cognitiveservices/qnamakerv5.0-preview.1/Knowledgebase/Replace.yml)
+#### [Train](cognitiveservices/qnamakerv5.0-preview.1/Knowledgebase/Train.yml)
+#### [Update](cognitiveservices/qnamakerv5.0-preview.1/Knowledgebase/Update.yml)
+### Operations
+#### [Overview](cognitiveservices/qnamakerv5.0-preview.1/Operations.yml)
+#### [Get Details](cognitiveservices/qnamakerv5.0-preview.1/Operations/GetDetails.yml)
 ## Text Analytics
 ### Detect Language
 #### [Overview](cognitiveservices/textanalytics/Detect%20Language.yml)
@@ -8666,6 +8670,11 @@
 ### [List](site-recovery/ReplicationProtectionContainers/List.yml)
 ### [List By Replication Fabrics](site-recovery/ReplicationProtectionContainers/ListByReplicationFabrics.yml)
 ### [Switch Protection](site-recovery/ReplicationProtectionContainers/SwitchProtection.yml)
+## Replication Protection Intents
+### [Overview](site-recovery/ReplicationProtectionIntents.yml)
+### [Create](site-recovery/ReplicationProtectionIntents/Create.yml)
+### [Get](site-recovery/ReplicationProtectionIntents/Get.yml)
+### [List](site-recovery/ReplicationProtectionIntents/List.yml)
 ## Replication Recovery Plans
 ### [Overview](site-recovery/ReplicationRecoveryPlans.yml)
 ### [Create](site-recovery/ReplicationRecoveryPlans/Create.yml)
@@ -8783,6 +8792,43 @@
 ### [List Upgrade Notifications](redis/Redis/ListUpgradeNotifications.yml)
 ### [Regenerate Key](redis/Redis/RegenerateKey.yml)
 ### [Update](redis/Redis/Update.yml)
+## Redis Enterprise Cache
+### Databases
+#### [Overview](redis/redisenterprisecache/Databases.yml)
+#### [Create](redis/redisenterprisecache/Databases/Create.yml)
+#### [Delete](redis/redisenterprisecache/Databases/Delete.yml)
+#### [Get](redis/redisenterprisecache/Databases/Get.yml)
+#### [List By Cluster](redis/redisenterprisecache/Databases/ListByCluster.yml)
+#### [Update](redis/redisenterprisecache/Databases/Update.yml)
+### Get
+#### [Overview](redis/redisenterprisecache/Get.yml)
+#### [Operation Status](redis/redisenterprisecache/Get/OperationStatus.yml)
+### Operations
+#### [Overview](redis/redisenterprisecache/Operations.yml)
+#### [List](redis/redisenterprisecache/Operations/List.yml)
+### Private Endpoint Connections
+#### [Overview](redis/redisenterprisecache/PrivateEndpointConnections.yml)
+#### [Delete](redis/redisenterprisecache/PrivateEndpointConnections/Delete.yml)
+#### [Get](redis/redisenterprisecache/PrivateEndpointConnections/Get.yml)
+#### [List](redis/redisenterprisecache/PrivateEndpointConnections/List.yml)
+#### [Put](redis/redisenterprisecache/PrivateEndpointConnections/Put.yml)
+### Private Link Resources
+#### [Overview](redis/redisenterprisecache/PrivateLinkResources.yml)
+#### [List By Redis Enterprise Cache](redis/redisenterprisecache/PrivateLinkResources/ListByRedisEnterpriseCache.yml)
+### Redis Enterprise
+#### [Overview](redis/redisenterprisecache/RedisEnterprise.yml)
+#### [Create](redis/redisenterprisecache/RedisEnterprise/Create.yml)
+#### [Delete](redis/redisenterprisecache/RedisEnterprise/Delete.yml)
+#### [Get](redis/redisenterprisecache/RedisEnterprise/Get.yml)
+#### [List](redis/redisenterprisecache/RedisEnterprise/List.yml)
+#### [List By Resource Group](redis/redisenterprisecache/RedisEnterprise/ListByResourceGroup.yml)
+#### [Update](redis/redisenterprisecache/RedisEnterprise/Update.yml)
+### Redis Enterprise Database
+#### [Overview](redis/redisenterprisecache/RedisEnterpriseDatabase.yml)
+#### [Export](redis/redisenterprisecache/RedisEnterpriseDatabase/Export.yml)
+#### [Import](redis/redisenterprisecache/RedisEnterpriseDatabase/Import.yml)
+#### [List Keys](redis/redisenterprisecache/RedisEnterpriseDatabase/ListKeys.yml)
+#### [Regenerate Key](redis/redisenterprisecache/RedisEnterpriseDatabase/RegenerateKey.yml)
 # Relay
 ## [Overview](../docs-ref-conceptual/relay/index.md)
 ## Hybrid Connections
@@ -14576,7 +14622,7 @@
 ### [Sync](synapse/IntegrationRuntimeCredentials/Sync.yml)
 ## Integration Runtime Monitoring Data
 ### [Overview](synapse/IntegrationRuntimeMonitoringData.yml)
-### [Get](synapse/IntegrationRuntimeMonitoringData/Get.yml)
+### [List](synapse/IntegrationRuntimeMonitoringData/List.yml)
 ## Integration Runtime Node Ip Address
 ### [Overview](synapse/IntegrationRuntimeNodeIpAddress.yml)
 ### [Get](synapse/IntegrationRuntimeNodeIpAddress/Get.yml)
@@ -14587,7 +14633,7 @@
 ### [Update](synapse/IntegrationRuntimeNodes/Update.yml)
 ## Integration Runtime Object Metadata
 ### [Overview](synapse/IntegrationRuntimeObjectMetadata.yml)
-### [Get](synapse/IntegrationRuntimeObjectMetadata/Get.yml)
+### [List](synapse/IntegrationRuntimeObjectMetadata/List.yml)
 ### [Refresh](synapse/IntegrationRuntimeObjectMetadata/Refresh.yml)
 ## Integration Runtime Status
 ### [Overview](synapse/IntegrationRuntimeStatus.yml)
@@ -14596,6 +14642,7 @@
 ### [Overview](synapse/IntegrationRuntimes.yml)
 ### [Create](synapse/IntegrationRuntimes/Create.yml)
 ### [Delete](synapse/IntegrationRuntimes/Delete.yml)
+### [Enable Interactive Query](synapse/IntegrationRuntimes/EnableInteractiveQuery.yml)
 ### [Get](synapse/IntegrationRuntimes/Get.yml)
 ### [List By Workspace](synapse/IntegrationRuntimes/ListByWorkspace.yml)
 ### [Start](synapse/IntegrationRuntimes/Start.yml)
@@ -14617,10 +14664,6 @@
 ### [Get Azure Async Header Result](synapse/Operations%20(Preview)/GetAzureAsyncHeaderResult.yml)
 ### [Get Location Header Result](synapse/Operations%20(Preview)/GetLocationHeaderResult.yml)
 ### [List](synapse/Operations%20(Preview)/List.yml)
-## Restorable Dropped Sql Pools
-### [Overview](synapse/RestorableDroppedSqlPools.yml)
-### [Get](synapse/RestorableDroppedSqlPools/Get.yml)
-### [List By Workspace](synapse/RestorableDroppedSqlPools/ListByWorkspace.yml)
 ## Sql Pool Blob Auditing Policies
 ### [Overview](synapse/SqlPoolBlobAuditingPolicies.yml)
 ### [Create Or Update](synapse/SqlPoolBlobAuditingPolicies/CreateOrUpdate.yml)
@@ -14638,6 +14681,7 @@
 ## Sql Pool Geo Backup Policies
 ### [Overview](synapse/SqlPoolGeoBackupPolicies.yml)
 ### [Get](synapse/SqlPoolGeoBackupPolicies/Get.yml)
+### [List](synapse/SqlPoolGeoBackupPolicies/List.yml)
 ## Sql Pool Metadata Sync Configs
 ### [Overview](synapse/SqlPoolMetadataSyncConfigs.yml)
 ### [Create](synapse/SqlPoolMetadataSyncConfigs/Create.yml)
@@ -14650,6 +14694,7 @@
 ### [List](synapse/SqlPoolOperations/List.yml)
 ## Sql Pool Replication Links
 ### [Overview](synapse/SqlPoolReplicationLinks.yml)
+### [Get By Name](synapse/SqlPoolReplicationLinks/GetByName.yml)
 ### [List](synapse/SqlPoolReplicationLinks/List.yml)
 ## Sql Pool Restore Points
 ### [Overview](synapse/SqlPoolRestorePoints.yml)
@@ -14665,6 +14710,7 @@
 ### [Overview](synapse/SqlPoolSecurityAlertPolicies.yml)
 ### [Create Or Update](synapse/SqlPoolSecurityAlertPolicies/CreateOrUpdate.yml)
 ### [Get](synapse/SqlPoolSecurityAlertPolicies/Get.yml)
+### [List](synapse/SqlPoolSecurityAlertPolicies/List.yml)
 ## Sql Pool Sensitivity Labels
 ### [Overview](synapse/SqlPoolSensitivityLabels.yml)
 ### [Create Or Update](synapse/SqlPoolSensitivityLabels/CreateOrUpdate.yml)
@@ -14685,6 +14731,7 @@
 ### [Overview](synapse/SqlPoolTransparentDataEncryptions.yml)
 ### [Create Or Update](synapse/SqlPoolTransparentDataEncryptions/CreateOrUpdate.yml)
 ### [Get](synapse/SqlPoolTransparentDataEncryptions/Get.yml)
+### [List](synapse/SqlPoolTransparentDataEncryptions/List.yml)
 ## Sql Pool Usages
 ### [Overview](synapse/SqlPoolUsages.yml)
 ### [List](synapse/SqlPoolUsages/List.yml)
@@ -14705,6 +14752,18 @@
 ### [Delete](synapse/SqlPoolVulnerabilityAssessments/Delete.yml)
 ### [Get](synapse/SqlPoolVulnerabilityAssessments/Get.yml)
 ### [List](synapse/SqlPoolVulnerabilityAssessments/List.yml)
+## Sql Pool Workload Classifier
+### [Overview](synapse/SqlPoolWorkloadClassifier.yml)
+### [Create Or Update](synapse/SqlPoolWorkloadClassifier/CreateOrUpdate.yml)
+### [Delete](synapse/SqlPoolWorkloadClassifier/Delete.yml)
+### [Get](synapse/SqlPoolWorkloadClassifier/Get.yml)
+### [List](synapse/SqlPoolWorkloadClassifier/List.yml)
+## Sql Pool Workload Group
+### [Overview](synapse/SqlPoolWorkloadGroup.yml)
+### [Create Or Update](synapse/SqlPoolWorkloadGroup/CreateOrUpdate.yml)
+### [Delete](synapse/SqlPoolWorkloadGroup/Delete.yml)
+### [Get](synapse/SqlPoolWorkloadGroup/Get.yml)
+### [List](synapse/SqlPoolWorkloadGroup/List.yml)
 ## Sql Pools
 ### [Overview](synapse/SqlPools.yml)
 ### [Create](synapse/SqlPools/Create.yml)
@@ -14715,23 +14774,6 @@
 ### [Rename](synapse/SqlPools/Rename.yml)
 ### [Resume](synapse/SqlPools/Resume.yml)
 ### [Update](synapse/SqlPools/Update.yml)
-## Workspace Aad Admins
-### [Overview](synapse/WorkspaceAadAdmins.yml)
-### [Create Or Update](synapse/WorkspaceAadAdmins/CreateOrUpdate.yml)
-### [Delete](synapse/WorkspaceAadAdmins/Delete.yml)
-### [Get](synapse/WorkspaceAadAdmins/Get.yml)
-## Workspace Managed Identity Sql Control Settings
-### [Overview](synapse/WorkspaceManagedIdentitySqlControlSettings.yml)
-### [Create Or Update](synapse/WorkspaceManagedIdentitySqlControlSettings/CreateOrUpdate.yml)
-### [Get](synapse/WorkspaceManagedIdentitySqlControlSettings/Get.yml)
-## Workspaces
-### [Overview](synapse/Workspaces.yml)
-### [Create Or Update](synapse/Workspaces/CreateOrUpdate.yml)
-### [Delete](synapse/Workspaces/Delete.yml)
-### [Get](synapse/Workspaces/Get.yml)
-### [List](synapse/Workspaces/List.yml)
-### [List By Resource Group](synapse/Workspaces/ListByResourceGroup.yml)
-### [Update](synapse/Workspaces/Update.yml)
 ## Data-plane
 ### Big Data Pools
 #### [Overview](synapse/data-plane/BigDataPools.yml)
@@ -14753,12 +14795,18 @@
 #### [Delete Data Flow Debug Session](synapse/data-plane/DataFlowDebugSession/DeleteDataFlowDebugSession.yml)
 #### [Execute Command](synapse/data-plane/DataFlowDebugSession/ExecuteCommand.yml)
 #### [Query Data Flow Debug Sessions By Workspace](synapse/data-plane/DataFlowDebugSession/QueryDataFlowDebugSessionsByWorkspace.yml)
+### Data Flows
+#### [Overview](synapse/data-plane/DataFlows.yml)
+#### [Rename](synapse/data-plane/DataFlows/Rename.yml)
 ### Dataset
 #### [Overview](synapse/data-plane/Dataset.yml)
 #### [Create Or Update Dataset](synapse/data-plane/Dataset/CreateOrUpdateDataset.yml)
 #### [Delete Dataset](synapse/data-plane/Dataset/DeleteDataset.yml)
 #### [Get Dataset](synapse/data-plane/Dataset/GetDataset.yml)
 #### [Get Datasets By Workspace](synapse/data-plane/Dataset/GetDatasetsByWorkspace.yml)
+### Datasets
+#### [Overview](synapse/data-plane/Datasets.yml)
+#### [Rename](synapse/data-plane/Datasets/Rename.yml)
 ### Delete Role Assignment By Id
 #### [Overview](synapse/data-plane/DeleteRoleAssignmentById.yml)
 #### [Delete Role Assignment By Id](synapse/data-plane/DeleteRoleAssignmentById/DeleteRoleAssignmentById.yml)
@@ -14787,6 +14835,9 @@
 #### [Delete Linked Service](synapse/data-plane/LinkedService/DeleteLinkedService.yml)
 #### [Get Linked Service](synapse/data-plane/LinkedService/GetLinkedService.yml)
 #### [Get Linked Services By Workspace](synapse/data-plane/LinkedService/GetLinkedServicesByWorkspace.yml)
+### Linked Services
+#### [Overview](synapse/data-plane/LinkedServices.yml)
+#### [Rename](synapse/data-plane/LinkedServices/Rename.yml)
 ### Managed Private Endpoints
 #### [Overview](synapse/data-plane/ManagedPrivateEndpoints.yml)
 #### [Create](synapse/data-plane/ManagedPrivateEndpoints/Create.yml)
@@ -14804,6 +14855,9 @@
 #### [Get Notebook](synapse/data-plane/Notebook/GetNotebook.yml)
 #### [Get Notebook Summary By Work Space](synapse/data-plane/Notebook/GetNotebookSummaryByWorkSpace.yml)
 #### [Get Notebooks By Workspace](synapse/data-plane/Notebook/GetNotebooksByWorkspace.yml)
+### Notebooks
+#### [Overview](synapse/data-plane/Notebooks.yml)
+#### [Rename](synapse/data-plane/Notebooks/Rename.yml)
 ### Pipeline
 #### [Overview](synapse/data-plane/Pipeline.yml)
 #### [Create Or Update Pipeline](synapse/data-plane/Pipeline/CreateOrUpdatePipeline.yml)
@@ -14817,6 +14871,9 @@
 #### [Get Pipeline Run](synapse/data-plane/PipelineRun/GetPipelineRun.yml)
 #### [Query Activity Runs](synapse/data-plane/PipelineRun/QueryActivityRuns.yml)
 #### [Query Pipeline Runs By Workspace](synapse/data-plane/PipelineRun/QueryPipelineRunsByWorkspace.yml)
+### Pipelines
+#### [Overview](synapse/data-plane/Pipelines.yml)
+#### [Rename](synapse/data-plane/Pipelines/Rename.yml)
 ### Spark Batch
 #### [Overview](synapse/data-plane/SparkBatch.yml)
 #### [Cancel Spark Batch Job](synapse/data-plane/SparkBatch/CancelSparkBatchJob.yml)
@@ -14831,6 +14888,9 @@
 #### [Execute Spark Job Definition](synapse/data-plane/SparkJobDefinition/ExecuteSparkJobDefinition.yml)
 #### [Get Spark Job Definition](synapse/data-plane/SparkJobDefinition/GetSparkJobDefinition.yml)
 #### [Get Spark Job Definitions By Workspace](synapse/data-plane/SparkJobDefinition/GetSparkJobDefinitionsByWorkspace.yml)
+### Spark Job Definitions
+#### [Overview](synapse/data-plane/SparkJobDefinitions.yml)
+#### [Rename](synapse/data-plane/SparkJobDefinitions/Rename.yml)
 ### Spark Session
 #### [Overview](synapse/data-plane/SparkSession.yml)
 #### [Cancel Spark Session](synapse/data-plane/SparkSession/CancelSparkSession.yml)
@@ -14852,6 +14912,9 @@
 #### [Delete Sql Script](synapse/data-plane/SqlScript/DeleteSqlScript.yml)
 #### [Get Sql Script](synapse/data-plane/SqlScript/GetSqlScript.yml)
 #### [Get Sql Scripts By Workspace](synapse/data-plane/SqlScript/GetSqlScriptsByWorkspace.yml)
+### Sql Scripts
+#### [Overview](synapse/data-plane/SqlScripts.yml)
+#### [Rename](synapse/data-plane/SqlScripts/Rename.yml)
 ### Trigger
 #### [Overview](synapse/data-plane/Trigger.yml)
 #### [Create Or Update Trigger](synapse/data-plane/Trigger/CreateOrUpdateTrigger.yml)
@@ -14868,9 +14931,6 @@
 #### [Cancel Trigger Instance](synapse/data-plane/TriggerRun/CancelTriggerInstance.yml)
 #### [Query Trigger Runs By Workspace](synapse/data-plane/TriggerRun/QueryTriggerRunsByWorkspace.yml)
 #### [Rerun Trigger Instance](synapse/data-plane/TriggerRun/RerunTriggerInstance.yml)
-### Workspace
-#### [Overview](synapse/data-plane/Workspace.yml)
-#### [Get](synapse/data-plane/Workspace/Get.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
 ## Data Access (Gen2)
