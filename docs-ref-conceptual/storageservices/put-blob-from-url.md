@@ -1,7 +1,7 @@
 ---
 title: Put Blob From URL (REST API) - Azure Storage
 description: The Put Blob from URL operation creates a new Block Blob where the contents of the blob are read from a given URL. 
-author: pemari-msft
+author: rosirosh
 
 ms.date: 11/06/2020
 ms.service: storage
@@ -41,28 +41,28 @@ The size of the source blob can be up to a maximum length of 256 Mib.
 |---------------|-----------------|  
 |`timeout`|Optional. The<br /><br /> timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
-### Request Headers (All Blob Types)  
- The following table describes required and optional request headers for all blob types.  
+### Request Headers 
+ The following table describes required and optional request headers.  
   
 |Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`Content-Length`|Required. Must be set to `0`, as there is no request body.|  
-|`Content-Type`|Optional. The MIME content type of the blob. The default type is `application/octet-stream`.|  
+|`Content-Length`|Required. Specifies the number of bytes being transmitted in the request body. The value of this header must be set to zero. When the length is not zero, the operation will fail with the status code 400 (Bad Request).|  
+|`x-ms-copy-source:name`|Required. Specifies the URL of the source blob. The value may be a URL of up to 2 KiB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. The source blob must either be public or must be authorized via a shared access signature. If the source blob is public, no authorization is required to perform the operation. If the size of the source blob is greater than 256 MiB, the request will fail with 409 (Conflict). Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?versionid=<DateTime>`|
+|`x-ms-blob-type: BlockBlob`|Required. Specifies the type of blob to create. Must be `BlockBlob`. When the blob type is not `BlockBlob`, the operation will fail with status code 400 (Bad Request).|
+|`Content-Type`|Optional. The MIME content type of the blob. The default type is `application/octet-stream`.|
 |`Content-Encoding`|Optional. Specifies which content encodings have been applied to the blob. This value is returned to the client when the [Get Blob](Get-Blob.md) operation is performed on the blob resource. The client can use this value when returned to decode the blob content.|  
 |`Content-Language`|Optional. Specifies the natural languages used by this resource.|  
 |`Content-MD5`|Optional. An MD5 hash of the blob content. This hash is used to verify the integrity of the blob during transport. When this header is specified, the storage service checks the hash that has arrived with the one that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> When omitted in version 2012-02-12 and later, the Blob service generates an MD5 hash.<br /><br /> Results from [Get Blob](Get-Blob.md), [Get Blob Properties](Get-Blob-Properties.md), and [List Blobs](List-Blobs.md) include the MD5 hash.|
 |`Cache-Control`|Optional. The Blob service stores this value but does not use or modify it.|  
-|`x-ms-copy-source:name`|Required. Specifies the URL of the source blob. The value may be a URL of up to 2 KiB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. The source blob must either be public or must be authorized via a shared access signature. If the source blob is public, no authorization is required to perform the operation. If the size of the source blob is greater than 256 MiB, the request will fail with 409 (Conflict). Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?versionid=<DateTime>`|    
 |`x-ms-content-crc64`|Optional. A CRC64 hash of the blob content. This hash is used to verify the integrity of the blob during transport. When this header is specified, the storage service checks the hash that has arrived with the one that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request). This header is supported in versions 02-02-2019 or later. <br /><br /> If both Content-MD5 and x-ms-content-crc64 headers are present, the request will fail with a 400 (Bad Request).|  
 |`x-ms-blob-content-type`|Optional. Set the blob’s content type.|  
 |`x-ms-blob-content-encoding`|Optional. Set the blob’s content encoding.|  
 |`x-ms-blob-content-language`|Optional. Set the blob's content language.|  
 |`x-ms-blob-content-md5`|Optional. Set the blob’s MD5 hash.|  
 |`x-ms-blob-cache-control`|Optional. Sets the blob's cache control.|  
-|<code>x-ms-blob-type: <BlockBlob &#124; PageBlob &#124; AppendBlob></code>|Required. Specifies the type of blob to create. Must be <code>BlockBlob</code>.|  
 |`x-ms-meta-name:value`|Optional. Name-value pairs associated with the blob as metadata.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
 |`x-ms-encryption-scope`|Optional. Indicates the encryption scope to use to encrypt the request contents. This header is supported in versions 2019-02-02 or later.|  
 |`x-ms-tags`|Optional. Sets the given query-string encoded tags on the blob. See the Remarks for additional information. Supported in version 2019-12-12 and newer.|  
@@ -70,14 +70,14 @@ The size of the source blob can be up to a maximum length of 256 Mib.
 |`x-ms-blob-content-disposition`|Optional. Sets the blob’s `Content-Disposition` header. Available for versions 2013-08-15 and later.<br /><br /> The `Content-Disposition` response header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to `attachment`, it indicates that the user-agent should not display the response, but instead show a **Save As** dialog with a filename other than the blob name specified.<br /><br /> The response from the [Get Blob](Get-Blob.md) and [Get Blob Properties](Get-Blob-Properties.md) operations includes the `content-disposition` header.|  
 |`Origin`|Optional. Specifies the origin from which the request is issued. The presence of this header results in cross-origin resource sharing headers on the response. See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for details.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
-|`x-ms-access-tier`|Optional. Indicates the tier to be set on blob. For page blobs on a premium storage account only with version 2017-04-17 and newer. Check [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd) for a full list of page blob supported tiers. For block blobs, supported on blob storage or general purpose v2 accounts only with version 2018-11-09 and newer. Valid values for block blob tiers are `Hot`/`Cool`/`Archive`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).|  
+|`x-ms-access-tier`|Optional. Indicates the tier to be set on blob. Valid values for block blob tiers are `Hot`/`Cool`/`Archive` and are supported on blob storage or general purpose v2 accounts beginning with version 2018-11-09. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).|  
   
- This operation also supports the use of conditional headers to write the blob only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
+This operation also supports the use of conditional headers to write the blob only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
 
 ### Request Headers (Customer-provided encryption keys)
   
-Beginning with version 2019-02-02, the following headers may be specified on the request to encrypt a blob with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional.
+The following headers may be specified on the request to encrypt a blob with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional.
   
 |Request header|Description|  
 |--------------------|-----------------|  
@@ -103,9 +103,9 @@ x-ms-blob-content-disposition: attachment; filename="fname.ext"
 x-ms-blob-type: BlockBlob  
 x-ms-meta-m1: v1  
 x-ms-meta-m2: v2  
+x-ms-copy-source: https://myaccount.blob.core.windows.net/mycontainer/myblob
 Authorization: SharedKey myaccount:YhuFJjN4fAR8/AmBrqBz7MG2uFinQ4rkh4dscbj598g=  
-Content-Length: 0  
-  
+Content-Length: 0
 ```  
 
 ## Response  
@@ -121,20 +121,20 @@ Content-Length: 0
   
 |Response header|Description|  
 |---------------------|-----------------|  
-|`ETag`|The ETag contains a value that the client can use to perform conditional `PUT` operations by using the `If-Match` request header. If the request version is 2011-08-18 or newer, the ETag value will be in quotes.|  
+|`ETag`|The ETag contains a value that the client can use to perform conditional `PUT` operations by using the `If-Match` request header. The ETag value will be in quotes.|  
 |`Last-Modified`|The date/time that the blob was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md).<br /><br /> Any write operation on the blob (including updates on the blob's metadata or properties) changes the last modified time of the blob.|  
-|`Content-MD5`|This header is returned for a block blob so the client can check the integrity of message content. The `Content-MD5` value returned is computed by the Blob service. In version 2012-02-12 and later, this header is returned even when the request does not include `Content-MD5` or `x-ms-blob-content-md5` headers.|  
-|`x-ms-content-crc64`|This header is returned for a block blob so the client can check the integrity of message content. The `x-ms-content-crc64` value returned is computed by the Blob service. This header will always be returned starting from version 2019-02-02.| 
+|`Content-MD5`|This header is returned for a block blob so the client can check the integrity of message content. The `Content-MD5` value returned is computed by the Blob service. This header is returned even when the request does not include `Content-MD5` or `x-ms-blob-content-md5` headers.|  
+|`x-ms-content-crc64`|This header is returned for a block blob so the client can check the integrity of message content. The `x-ms-content-crc64` value returned is computed by the Blob service. This header will always be returned.| 
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
-|`x-ms-version`|Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and later.|  
+|`x-ms-version`|Indicates the version of the Blob service used to execute the request.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
 |`Access-Control-Allow-Origin`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule. This header returns the value of the origin request header in case of a match.|  
 |`Access-Control-Expose-Headers`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule. Returns the list of response headers that are to be exposed to the client or issuer of the request.|  
 |`Access-Control-Allow-Credentials`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule that does not allow all origins. This header will be set to true.|  
-|`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
-|`x-ms-encryption-key-sha256`|Version 2019-02-02 or newer. This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
-|`x-ms-encryption-scope`|Version 2019-02-02 or newer. This header is returned if the request used an encryption scope, so the client can ensure the contents of the request are successfully encrypted using the encryption scope.|  
-|`x-ms-version-id: <DateTime>`|Version 2019-12-12 and newer. This header returns an opaque `DateTime` value that uniquely identifies the blob. The value of this header indicates the Version of the blob, and may be used in subsequent requests to access the blob.|  
+|`x-ms-request-server-encrypted: true/false`|The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
+|`x-ms-encryption-key-sha256`|This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
+|`x-ms-encryption-scope`|This header is returned if the request used an encryption scope, so the client can ensure the contents of the request are successfully encrypted using the encryption scope.|  
+|`x-ms-version-id: <DateTime>`|This header returns an opaque `DateTime` value that uniquely identifies the blob. The value of this header indicates the Version of the blob, and may be used in subsequent requests to access the blob.|  
   
 ### Response Body  
  None.  

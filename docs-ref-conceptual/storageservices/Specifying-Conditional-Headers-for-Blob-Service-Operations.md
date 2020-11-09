@@ -150,6 +150,7 @@ Several Blob service operations support the use of conditional headers. You can 
 |[Get Page Ranges](Get-Page-Ranges.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Lease Blob](Lease-Blob.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Lease Container](Lease-Container.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**|  
+|[Put Blob From URL](put-blob-from-url.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Put Blob](Put-Blob.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Put Block From URL](Put-Block-From-URL.md)<br /><br /> (version 2018-03-28 and later)|Write|**x-ms-source-If-Modified-Since**<br /><br /> **x-ms-source-If-Unmodified-Since**<br /><br /> **x-ms-source-If-Match**<br /><br /> **x-ms-source-If-None-Match**| 
 |[Put Block List](Put-Block-List.md)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
