@@ -14585,6 +14585,21 @@
 #### [Cancel](subscription/2019-03-01-preview/Subscriptions/Cancel.yml)
 #### [Enable](subscription/2019-03-01-preview/Subscriptions/Enable.yml)
 #### [Rename](subscription/2019-03-01-preview/Subscriptions/Rename.yml)
+## 2020-09-01
+### Alias
+#### [Overview](subscription/2020-09-01/Alias.yml)
+#### [Create](subscription/2020-09-01/Alias/Create.yml)
+#### [Delete](subscription/2020-09-01/Alias/Delete.yml)
+#### [Get](subscription/2020-09-01/Alias/Get.yml)
+#### [List](subscription/2020-09-01/Alias/List.yml)
+### Operations
+#### [Overview](subscription/2020-09-01/Operations.yml)
+#### [List](subscription/2020-09-01/Operations/List.yml)
+### Subscription
+#### [Overview](subscription/2020-09-01/Subscription.yml)
+#### [Cancel](subscription/2020-09-01/Subscription/Cancel.yml)
+#### [Enable](subscription/2020-09-01/Subscription/Enable.yml)
+#### [Rename](subscription/2020-09-01/Subscription/Rename.yml)
 # Support
 ## [Overview](../docs-ref-conceptual/support/index.md)
 ## [Increase Quota limits via Support API](../docs-ref-conceptual/support/quota-payload.md)
