@@ -14667,6 +14667,7 @@
 ### [Overview](synapse/IntegrationRuntimes.yml)
 ### [Create](synapse/IntegrationRuntimes/Create.yml)
 ### [Delete](synapse/IntegrationRuntimes/Delete.yml)
+### [Disable Interactive Query](synapse/IntegrationRuntimes/DisableInteractiveQuery.yml)
 ### [Enable Interactive Query](synapse/IntegrationRuntimes/EnableInteractiveQuery.yml)
 ### [Get](synapse/IntegrationRuntimes/Get.yml)
 ### [List By Workspace](synapse/IntegrationRuntimes/ListByWorkspace.yml)
