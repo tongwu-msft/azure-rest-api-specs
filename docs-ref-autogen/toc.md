@@ -8786,7 +8786,7 @@
 ### [Create Or Update](redis/FirewallRules/CreateOrUpdate.yml)
 ### [Delete](redis/FirewallRules/Delete.yml)
 ### [Get](redis/FirewallRules/Get.yml)
-### [List By Redis Resource](redis/FirewallRules/ListByRedisResource.yml)
+### [List](redis/FirewallRules/List.yml)
 ## Linked Server
 ### [Overview](redis/LinkedServer.yml)
 ### [Create](redis/LinkedServer/Create.yml)
@@ -8802,6 +8802,15 @@
 ### [Delete](redis/PatchSchedules/Delete.yml)
 ### [Get](redis/PatchSchedules/Get.yml)
 ### [List By Redis Resource](redis/PatchSchedules/ListByRedisResource.yml)
+## Private Endpoint Connections
+### [Overview](redis/PrivateEndpointConnections.yml)
+### [Delete](redis/PrivateEndpointConnections/Delete.yml)
+### [Get](redis/PrivateEndpointConnections/Get.yml)
+### [List](redis/PrivateEndpointConnections/List.yml)
+### [Put](redis/PrivateEndpointConnections/Put.yml)
+## Private Link Resources
+### [Overview](redis/PrivateLinkResources.yml)
+### [List By Redis Cache](redis/PrivateLinkResources/ListByRedisCache.yml)
 ## Redis
 ### [Overview](redis/Redis.yml)
 ### [Check Name Availability](redis/Redis/CheckNameAvailability.yml)
@@ -8811,8 +8820,8 @@
 ### [Force Reboot](redis/Redis/ForceReboot.yml)
 ### [Get](redis/Redis/Get.yml)
 ### [Import Data](redis/Redis/ImportData.yml)
-### [List](redis/Redis/List.yml)
 ### [List By Resource Group](redis/Redis/ListByResourceGroup.yml)
+### [List By Subscription](redis/Redis/ListBySubscription.yml)
 ### [List Keys](redis/Redis/ListKeys.yml)
 ### [List Upgrade Notifications](redis/Redis/ListUpgradeNotifications.yml)
 ### [Regenerate Key](redis/Redis/RegenerateKey.yml)
