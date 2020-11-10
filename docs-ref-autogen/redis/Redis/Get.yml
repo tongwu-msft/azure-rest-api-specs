@@ -3,14 +3,14 @@ uid: management.azure.com.redis.redis.get
 name: Get
 service: Redis Cache
 groupName: Redis
-apiVersion: 2018-03-01
+apiVersion: 2020-06-01
 summary: Gets a Redis cache (resource description).
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/Redis/{name}?api-version=2018-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,6 +41,10 @@ responses:
   description: The redis cache was successfully found.
   types:
   - uid: RedisResource
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: RedisResource
@@ -87,6 +91,18 @@ definitions:
     description: List of the linked servers associated with the cache
     types:
     - uid: RedisLinkedServer
+      isArray: true
+  - name: properties.instances
+    isReadyOnly: true
+    description: List of the Redis instances associated with the cache
+    types:
+    - uid: RedisInstanceDetails
+      isArray: true
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: List of private endpoint connection associated with the specified redis cache
+    types:
+    - uid: PrivateEndpointConnection
       isArray: true
   - name: tags
     description: Resource tags.
@@ -139,6 +155,10 @@ definitions:
     description: Specifies whether the non-ssl Redis server port (6379) is enabled.
     types:
     - uid: boolean
+  - name: replicasPerMaster
+    description: The number of replicas to be created per master.
+    types:
+    - uid: integer
   - name: tenantSettings
     description: A dictionary of tenant settings
     types:
@@ -155,6 +175,18 @@ definitions:
     description: "Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2')"
     types:
     - uid: TlsVersion
+  - name: publicNetworkAccess
+    description: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'
+    types:
+    - uid: PublicNetworkAccess
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
 - name: ProvisioningState
   description: Redis instance provisioning status.
   kind: enum
@@ -218,6 +250,67 @@ definitions:
     description: Linked server Id.
     types:
     - uid: string
+- name: RedisInstanceDetails
+  description: Details of single instance of redis.
+  kind: object
+  properties:
+  - name: sslPort
+    isReadyOnly: true
+    description: Redis instance SSL port.
+    types:
+    - uid: integer
+  - name: nonSslPort
+    isReadyOnly: true
+    description: If enableNonSslPort is true, provides Redis instance Non-SSL port.
+    types:
+    - uid: integer
+  - name: zone
+    isReadyOnly: true
+    description: If the Cache uses availability zones, specifies availability zone where this instance is located.
+    types:
+    - uid: string
+  - name: shardId
+    isReadyOnly: true
+    description: If clustering is enabled, the Shard ID of Redis Instance
+    types:
+    - uid: integer
+  - name: isMaster
+    isReadyOnly: true
+    description: Specifies whether the instance is a master node.
+    types:
+    - uid: boolean
+- name: PrivateEndpointConnection
+  description: The Private Endpoint Connection resource.
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: The resource of private end point.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: A collection of information about the state of the connection between service consumer and provider.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private endpoint connection resource.
+    types:
+    - uid: PrivateEndpointConnectionProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
 - name: Sku
   description: SKU parameters supplied to the create Redis operation.
   kind: object
@@ -231,7 +324,7 @@ definitions:
     types:
     - uid: SkuFamily
   - name: capacity
-    description: 'The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3, 4, 5).'
+    description: 'The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3, 4).'
     types:
     - uid: integer
 - name: TlsVersion
@@ -245,6 +338,88 @@ definitions:
     types:
     - uid: string
   - name: "1.2"
+    types:
+    - uid: string
+- name: PublicNetworkAccess
+  description: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: PrivateEndpoint
+  description: The Private Endpoint resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ARM identifier for Private Endpoint
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: A collection of information about the state of the connection between service consumer and provider.
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+    types:
+    - uid: PrivateEndpointServiceConnectionStatus
+  - name: description
+    description: The reason for approval/rejection of the connection.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
+    types:
+    - uid: string
+- name: PrivateEndpointConnectionProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
     types:
     - uid: string
 - name: SkuName
@@ -270,10 +445,37 @@ definitions:
   - name: P
     types:
     - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: PrivateEndpointServiceConnectionStatus
+  description: The private endpoint connection status.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
 examples:
 - name: RedisCacheGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1?api-version=2018-03-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1?api-version=2020-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -287,11 +489,12 @@ examples:
           "provisioningState": "Creating",
           "redisVersion": "3.2",
           "sku": {
-            "name": "Standard",
-            "family": "C",
-            "capacity": 6
+            "name": "Premium",
+            "family": "P",
+            "capacity": 3
           },
           "enableNonSslPort": true,
+          "replicasPerMaster": 2,
           "redisConfiguration": {},
           "hostName": "cache1.redis.cache.windows.net",
           "port": 6379,
@@ -299,6 +502,39 @@ examples:
           "linkedServers": [
             {
               "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/linkedServers/cache2"
+            }
+          ],
+          "instances": [
+            {
+              "sslPort": 15000,
+              "nonSslPort": 13000,
+              "isMaster": true
+            },
+            {
+              "sslPort": 15001,
+              "nonSslPort": 13001,
+              "isMaster": false
+            },
+            {
+              "sslPort": 15002,
+              "nonSslPort": 13002,
+              "isMaster": false
+            }
+          ],
+          "publicNetworkAccess": "Enabled",
+          "privateEndpointConnections": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/Redis/cache1/privateEndpointConnections/cachePec",
+              "properties": {
+                "privateEndpoint": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/cachePe"
+                },
+                "privateLinkServiceConnectionState": {
+                  "status": "Approved",
+                  "description": "Please approve my connection",
+                  "actionsRequired": "None"
+                }
+              }
             }
           ]
         }
