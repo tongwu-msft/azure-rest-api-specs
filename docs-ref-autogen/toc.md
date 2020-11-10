@@ -3568,6 +3568,31 @@
 #### [Overview](cognitiveservices/personalizer/Rank.yml)
 #### [Rank](cognitiveservices/personalizer/Rank/Rank.yml)
 ## QnAMaker 4.0
+### Alterations
+#### [Overview](cognitiveservices/qnamaker4.0/Alterations.yml)
+#### [Get](cognitiveservices/qnamaker4.0/Alterations/Get.yml)
+#### [Replace](cognitiveservices/qnamaker4.0/Alterations/Replace.yml)
+### Endpoint Keys
+#### [Overview](cognitiveservices/qnamaker4.0/EndpointKeys.yml)
+#### [Get Keys](cognitiveservices/qnamaker4.0/EndpointKeys/GetKeys.yml)
+#### [Refresh Keys](cognitiveservices/qnamaker4.0/EndpointKeys/RefreshKeys.yml)
+### Endpoint Settings
+#### [Overview](cognitiveservices/qnamaker4.0/EndpointSettings.yml)
+#### [Get Settings](cognitiveservices/qnamaker4.0/EndpointSettings/GetSettings.yml)
+#### [Update Settings](cognitiveservices/qnamaker4.0/EndpointSettings/UpdateSettings.yml)
+### Knowledgebase
+#### [Overview](cognitiveservices/qnamaker4.0/Knowledgebase.yml)
+#### [Create](cognitiveservices/qnamaker4.0/Knowledgebase/Create.yml)
+#### [Delete](cognitiveservices/qnamaker4.0/Knowledgebase/Delete.yml)
+#### [Download](cognitiveservices/qnamaker4.0/Knowledgebase/Download.yml)
+#### [Get Details](cognitiveservices/qnamaker4.0/Knowledgebase/GetDetails.yml)
+#### [List All](cognitiveservices/qnamaker4.0/Knowledgebase/ListAll.yml)
+#### [Publish](cognitiveservices/qnamaker4.0/Knowledgebase/Publish.yml)
+#### [Replace](cognitiveservices/qnamaker4.0/Knowledgebase/Replace.yml)
+#### [Update](cognitiveservices/qnamaker4.0/Knowledgebase/Update.yml)
+### Operations
+#### [Overview](cognitiveservices/qnamaker4.0/Operations.yml)
+#### [Get Details](cognitiveservices/qnamaker4.0/Operations/GetDetails.yml)
 ### Runtime
 #### [Overview](cognitiveservices/qnamaker4.0/Runtime.yml)
 #### [Generate Answer](cognitiveservices/qnamaker4.0/Runtime/GenerateAnswer.yml)
