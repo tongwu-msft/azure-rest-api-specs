@@ -1201,6 +1201,13 @@
 ### [Start](application-gateway/ApplicationGateways/Start.yml)
 ### [Stop](application-gateway/ApplicationGateways/Stop.yml)
 ### [Update Tags](application-gateway/ApplicationGateways/UpdateTags.yml)
+## Web Application Firewall Policies
+### [Overview](application-gateway/WebApplicationFirewallPolicies.yml)
+### [Create Or Update](application-gateway/WebApplicationFirewallPolicies/CreateOrUpdate.yml)
+### [Delete](application-gateway/WebApplicationFirewallPolicies/Delete.yml)
+### [Get](application-gateway/WebApplicationFirewallPolicies/Get.yml)
+### [List](application-gateway/WebApplicationFirewallPolicies/List.yml)
+### [List All](application-gateway/WebApplicationFirewallPolicies/ListAll.yml)
 # Application Insights
 ## [Overview](../docs-ref-conceptual/application-insights/index.md)
 ## Data Access
@@ -6084,13 +6091,15 @@
 #### [Get](frontdoorservice/frontdoor/FrontendEndpoints/Get.yml)
 #### [List By Front Door](frontdoorservice/frontdoor/FrontendEndpoints/ListByFrontDoor.yml)
 ## Web Application Firewall
-### Web Application Firewall Policies
-#### [Overview](frontdoorservice/webapplicationfirewall/WebApplicationFirewallPolicies.yml)
-#### [Create Or Update](frontdoorservice/webapplicationfirewall/WebApplicationFirewallPolicies/CreateOrUpdate.yml)
-#### [Delete](frontdoorservice/webapplicationfirewall/WebApplicationFirewallPolicies/Delete.yml)
-#### [Get](frontdoorservice/webapplicationfirewall/WebApplicationFirewallPolicies/Get.yml)
-#### [List](frontdoorservice/webapplicationfirewall/WebApplicationFirewallPolicies/List.yml)
-#### [List All](frontdoorservice/webapplicationfirewall/WebApplicationFirewallPolicies/ListAll.yml)
+### Managed Rule Sets
+#### [Overview](frontdoorservice/webapplicationfirewall/ManagedRuleSets.yml)
+#### [List](frontdoorservice/webapplicationfirewall/ManagedRuleSets/List.yml)
+### Policies
+#### [Overview](frontdoorservice/webapplicationfirewall/Policies.yml)
+#### [Create Or Update](frontdoorservice/webapplicationfirewall/Policies/CreateOrUpdate.yml)
+#### [Delete](frontdoorservice/webapplicationfirewall/Policies/Delete.yml)
+#### [Get](frontdoorservice/webapplicationfirewall/Policies/Get.yml)
+#### [List](frontdoorservice/webapplicationfirewall/Policies/List.yml)
 # Guest Configuration
 ## [Overview](../docs-ref-conceptual/guestconfiguration/index.md)
 ## Guest Configuration Assignment Reports
@@ -14821,6 +14830,7 @@
 #### [Delete Data Flow](synapse/data-plane/DataFlow/DeleteDataFlow.yml)
 #### [Get Data Flow](synapse/data-plane/DataFlow/GetDataFlow.yml)
 #### [Get Data Flows By Workspace](synapse/data-plane/DataFlow/GetDataFlowsByWorkspace.yml)
+#### [Rename Data Flow](synapse/data-plane/DataFlow/RenameDataFlow.yml)
 ### Data Flow Debug Session
 #### [Overview](synapse/data-plane/DataFlowDebugSession.yml)
 #### [Add Data Flow](synapse/data-plane/DataFlowDebugSession/AddDataFlow.yml)
@@ -14828,18 +14838,13 @@
 #### [Delete Data Flow Debug Session](synapse/data-plane/DataFlowDebugSession/DeleteDataFlowDebugSession.yml)
 #### [Execute Command](synapse/data-plane/DataFlowDebugSession/ExecuteCommand.yml)
 #### [Query Data Flow Debug Sessions By Workspace](synapse/data-plane/DataFlowDebugSession/QueryDataFlowDebugSessionsByWorkspace.yml)
-### Data Flows
-#### [Overview](synapse/data-plane/DataFlows.yml)
-#### [Rename](synapse/data-plane/DataFlows/Rename.yml)
 ### Dataset
 #### [Overview](synapse/data-plane/Dataset.yml)
 #### [Create Or Update Dataset](synapse/data-plane/Dataset/CreateOrUpdateDataset.yml)
 #### [Delete Dataset](synapse/data-plane/Dataset/DeleteDataset.yml)
 #### [Get Dataset](synapse/data-plane/Dataset/GetDataset.yml)
 #### [Get Datasets By Workspace](synapse/data-plane/Dataset/GetDatasetsByWorkspace.yml)
-### Datasets
-#### [Overview](synapse/data-plane/Datasets.yml)
-#### [Rename](synapse/data-plane/Datasets/Rename.yml)
+#### [Rename Dataset](synapse/data-plane/Dataset/RenameDataset.yml)
 ### Delete Role Assignment By Id
 #### [Overview](synapse/data-plane/DeleteRoleAssignmentById.yml)
 #### [Delete Role Assignment By Id](synapse/data-plane/DeleteRoleAssignmentById/DeleteRoleAssignmentById.yml)
@@ -14868,9 +14873,7 @@
 #### [Delete Linked Service](synapse/data-plane/LinkedService/DeleteLinkedService.yml)
 #### [Get Linked Service](synapse/data-plane/LinkedService/GetLinkedService.yml)
 #### [Get Linked Services By Workspace](synapse/data-plane/LinkedService/GetLinkedServicesByWorkspace.yml)
-### Linked Services
-#### [Overview](synapse/data-plane/LinkedServices.yml)
-#### [Rename](synapse/data-plane/LinkedServices/Rename.yml)
+#### [Rename Linked Service](synapse/data-plane/LinkedService/RenameLinkedService.yml)
 ### Managed Private Endpoints
 #### [Overview](synapse/data-plane/ManagedPrivateEndpoints.yml)
 #### [Create](synapse/data-plane/ManagedPrivateEndpoints/Create.yml)
@@ -14888,9 +14891,7 @@
 #### [Get Notebook](synapse/data-plane/Notebook/GetNotebook.yml)
 #### [Get Notebook Summary By Work Space](synapse/data-plane/Notebook/GetNotebookSummaryByWorkSpace.yml)
 #### [Get Notebooks By Workspace](synapse/data-plane/Notebook/GetNotebooksByWorkspace.yml)
-### Notebooks
-#### [Overview](synapse/data-plane/Notebooks.yml)
-#### [Rename](synapse/data-plane/Notebooks/Rename.yml)
+#### [Rename Notebook](synapse/data-plane/Notebook/RenameNotebook.yml)
 ### Pipeline
 #### [Overview](synapse/data-plane/Pipeline.yml)
 #### [Create Or Update Pipeline](synapse/data-plane/Pipeline/CreateOrUpdatePipeline.yml)
@@ -14898,15 +14899,13 @@
 #### [Delete Pipeline](synapse/data-plane/Pipeline/DeletePipeline.yml)
 #### [Get Pipeline](synapse/data-plane/Pipeline/GetPipeline.yml)
 #### [Get Pipelines By Workspace](synapse/data-plane/Pipeline/GetPipelinesByWorkspace.yml)
+#### [Rename Pipeline](synapse/data-plane/Pipeline/RenamePipeline.yml)
 ### Pipeline Run
 #### [Overview](synapse/data-plane/PipelineRun.yml)
 #### [Cancel Pipeline Run](synapse/data-plane/PipelineRun/CancelPipelineRun.yml)
 #### [Get Pipeline Run](synapse/data-plane/PipelineRun/GetPipelineRun.yml)
 #### [Query Activity Runs](synapse/data-plane/PipelineRun/QueryActivityRuns.yml)
 #### [Query Pipeline Runs By Workspace](synapse/data-plane/PipelineRun/QueryPipelineRunsByWorkspace.yml)
-### Pipelines
-#### [Overview](synapse/data-plane/Pipelines.yml)
-#### [Rename](synapse/data-plane/Pipelines/Rename.yml)
 ### Spark Batch
 #### [Overview](synapse/data-plane/SparkBatch.yml)
 #### [Cancel Spark Batch Job](synapse/data-plane/SparkBatch/CancelSparkBatchJob.yml)
@@ -14921,9 +14920,7 @@
 #### [Execute Spark Job Definition](synapse/data-plane/SparkJobDefinition/ExecuteSparkJobDefinition.yml)
 #### [Get Spark Job Definition](synapse/data-plane/SparkJobDefinition/GetSparkJobDefinition.yml)
 #### [Get Spark Job Definitions By Workspace](synapse/data-plane/SparkJobDefinition/GetSparkJobDefinitionsByWorkspace.yml)
-### Spark Job Definitions
-#### [Overview](synapse/data-plane/SparkJobDefinitions.yml)
-#### [Rename](synapse/data-plane/SparkJobDefinitions/Rename.yml)
+#### [Rename Spark Job Definition](synapse/data-plane/SparkJobDefinition/RenameSparkJobDefinition.yml)
 ### Spark Session
 #### [Overview](synapse/data-plane/SparkSession.yml)
 #### [Cancel Spark Session](synapse/data-plane/SparkSession/CancelSparkSession.yml)
@@ -14945,9 +14942,7 @@
 #### [Delete Sql Script](synapse/data-plane/SqlScript/DeleteSqlScript.yml)
 #### [Get Sql Script](synapse/data-plane/SqlScript/GetSqlScript.yml)
 #### [Get Sql Scripts By Workspace](synapse/data-plane/SqlScript/GetSqlScriptsByWorkspace.yml)
-### Sql Scripts
-#### [Overview](synapse/data-plane/SqlScripts.yml)
-#### [Rename](synapse/data-plane/SqlScripts/Rename.yml)
+#### [Rename Sql Script](synapse/data-plane/SqlScript/RenameSqlScript.yml)
 ### Trigger
 #### [Overview](synapse/data-plane/Trigger.yml)
 #### [Create Or Update Trigger](synapse/data-plane/Trigger/CreateOrUpdateTrigger.yml)

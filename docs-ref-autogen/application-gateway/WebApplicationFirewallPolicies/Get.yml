@@ -1,21 +1,33 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.frontdoorservice.webapplicationfirewall.webapplicationfirewallpolicies.listall
-name: List All
-service: Front Door Service
+uid: management.azure.com.application-gateway.webapplicationfirewallpolicies.get
+name: Get
+service: Application Gateway
 groupName: Web Application Firewall Policies
 apiVersion: 2020-07-01
-summary: Gets all the WAF policies in a subscription.
+summary: Retrieve protection policy with specified name within a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies?api-version=2020-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}?api-version=2020-07-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: policyName
+  in: path
+  isRequired: true
+  description: The name of the policy.
   types:
   - uid: string
 - name: api-version
@@ -28,36 +40,13 @@ responses:
 - name: 200 OK
   description: OK. The request has succeeded.
   types:
-  - uid: WebApplicationFirewallPolicyListResult
+  - uid: WebApplicationFirewallPolicy
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: WebApplicationFirewallPolicyListResult
-  description: Result of the request to list WebApplicationFirewallPolicies. It contains a list of WebApplicationFirewallPolicy objects and a URL link to get the next set of results.
-  kind: object
-  properties:
-  - name: value
-    isReadyOnly: true
-    description: List of WebApplicationFirewallPolicies within a resource group.
-    types:
-    - uid: WebApplicationFirewallPolicy
-      isArray: true
-  - name: nextLink
-    isReadyOnly: true
-    description: URL to get the next set of WebApplicationFirewallPolicy objects if there are any.
-    types:
-    - uid: string
-- name: CloudError
-  description: An error response from the service.
-  kind: object
-  properties:
-  - name: error
-    description: Cloud error body.
-    types:
-    - uid: CloudErrorBody
 - name: WebApplicationFirewallPolicy
   description: Defines web application firewall policy.
   kind: object
@@ -134,27 +123,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: CloudErrorBody
+- name: CloudError
   description: An error response from the service.
   kind: object
   properties:
-  - name: code
-    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-  - name: message
-    description: A message describing the error, intended to be suitable for display in a user interface.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error. For example, the name of the property in error.
-    types:
-    - uid: string
-  - name: details
-    description: A list of additional details about the error.
+  - name: error
+    description: Cloud error body.
     types:
     - uid: CloudErrorBody
-      isArray: true
 - name: PolicySettings
   description: Defines contents of a web application firewall global configuration.
   kind: object
@@ -456,6 +432,27 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: WebApplicationFirewallEnabledState
   description: The state of the policy.
   kind: enum
@@ -3886,103 +3883,139 @@ definitions:
     types:
     - uid: integer
 examples:
-- name: Lists all WAF policies in a subscription
+- name: Gets a WAF policy within a resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies?api-version=2020-07-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/Policy1?api-version=2020-07-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "name": "Policy1",
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/Policy1",
-            "type": "Microsoft.Network/applicationgatewaywebapplicationfirewallpolicies",
-            "tags": {
-              "key1": "value1",
-              "key2": "value2"
-            },
-            "location": "WestUs",
-            "properties": {
-              "resourceState": "Enabled",
-              "provisioningState": "Succeeded",
-              "policySettings": {
-                "state": "Enabled",
-                "mode": "Prevention",
-                "maxRequestBodySizeInKb": 128,
-                "fileUploadLimitInMb": 750,
-                "requestBodyCheck": true
-              },
-              "customRules": [
+        "name": "Policy1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/Policy1",
+        "type": "Microsoft.Network/applicationgatewaywebapplicationfirewallpolicies",
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "location": "WestUs",
+        "properties": {
+          "resourceState": "Enabled",
+          "provisioningState": "Succeeded",
+          "policySettings": {
+            "state": "Enabled",
+            "mode": "Prevention",
+            "maxRequestBodySizeInKb": 128,
+            "fileUploadLimitInMb": 750,
+            "requestBodyCheck": true
+          },
+          "customRules": [
+            {
+              "name": "Rule1",
+              "priority": 1,
+              "ruleType": "MatchRule",
+              "matchConditions": [
                 {
-                  "name": "Rule1",
-                  "priority": 1,
-                  "ruleType": "MatchRule",
-                  "matchConditions": [
+                  "matchVariables": [
                     {
-                      "matchVariables": [
-                        {
-                          "variableName": "RemoteAddr",
-                          "selector": null
-                        }
-                      ],
-                      "operator": "IPMatch",
-                      "negationConditon": false,
-                      "matchValues": [
-                        "192.168.1.0/24",
-                        "10.0.0.0/24"
-                      ],
-                      "transforms": []
+                      "variableName": "RemoteAddr",
+                      "selector": null
                     }
                   ],
-                  "action": "Block"
-                },
-                {
-                  "name": "Rule2",
-                  "priority": 2,
-                  "ruleType": "MatchRule",
-                  "matchConditions": [
-                    {
-                      "matchVariables": [
-                        {
-                          "variableName": "RemoteAddr",
-                          "selector": null
-                        }
-                      ],
-                      "operator": "IPMatch",
-                      "negationConditon": false,
-                      "matchValues": [
-                        "192.168.1.0/24"
-                      ]
-                    },
-                    {
-                      "matchVariables": [
-                        {
-                          "variableName": "RequestHeader",
-                          "selector": "UserAgent"
-                        }
-                      ],
-                      "operator": "Contains",
-                      "negationConditon": false,
-                      "matchValues": [
-                        "Windows"
-                      ]
-                    }
+                  "operator": "IPMatch",
+                  "negationConditon": false,
+                  "matchValues": [
+                    "192.168.1.0/24",
+                    "10.0.0.0/24"
                   ],
-                  "action": "Block"
+                  "transforms": []
                 }
               ],
-              "managedRules": {
-                "managedRuleSets": [
+              "action": "Block"
+            },
+            {
+              "name": "Rule2",
+              "priority": 2,
+              "ruleType": "MatchRule",
+              "matchConditions": [
+                {
+                  "matchVariables": [
+                    {
+                      "variableName": "RemoteAddr",
+                      "selector": null
+                    }
+                  ],
+                  "operator": "IPMatch",
+                  "negationConditon": false,
+                  "matchValues": [
+                    "192.168.1.0/24"
+                  ]
+                },
+                {
+                  "matchVariables": [
+                    {
+                      "variableName": "RequestHeader",
+                      "selector": "UserAgent"
+                    }
+                  ],
+                  "operator": "Contains",
+                  "negationConditon": false,
+                  "matchValues": [
+                    "Windows"
+                  ]
+                }
+              ],
+              "action": "Block"
+            }
+          ],
+          "managedRules": {
+            "managedRuleSets": [
+              {
+                "ruleSetType": "OWASP",
+                "ruleSetVersion": "3.0",
+                "ruleGroupOverrides": [
                   {
-                    "ruleSetType": "OWASP",
-                    "ruleSetVersion": "3.0"
+                    "ruleGroupName": "REQUEST-942-APPLICATION-ATTACK-SQLI",
+                    "rules": [
+                      {
+                        "ruleId": "942130",
+                        "state": "Disabled"
+                      },
+                      {
+                        "ruleId": "942110",
+                        "state": "Disabled"
+                      }
+                    ]
+                  },
+                  {
+                    "ruleGroupName": "REQUEST-920-PROTOCOL-ENFORCEMENT",
+                    "rules": [
+                      {
+                        "ruleId": "920100",
+                        "state": "Disabled"
+                      },
+                      {
+                        "ruleId": "920120",
+                        "state": "Disabled"
+                      }
+                    ]
                   }
                 ]
               }
-            }
+            ],
+            "exclusions": [
+              {
+                "matchVariable": "RequestHeaderNames",
+                "selectorMatchOperator": "Equals",
+                "selector": "testHeader1"
+              },
+              {
+                "matchVariable": "RequestHeaderNames",
+                "selectorMatchOperator": "StartsWith",
+                "selector": "testHeader2"
+              }
+            ]
           }
-        ]
+        }
       }
 security:
 - name: azure_auth
