@@ -104,14 +104,14 @@ After the specified number of days, the blob’s data is removed from the servic
   
 **Permanent Delete**
 
-A feature to permanetly delete a snapshot / version has been added into deletet blob API with version 2020-02-10 and later. In order to leverage the feature, the account has to have the feature turned on. For more info about how to turn on permanent deleted for account, see [Set Blob Service Properties](Set-Blob-Service-Properties.md).
+A feature to permanently delete a snapshot / version has been added into delete blob API with version 2020-04-08 and later. In order to leverage the feature, the storage account needs to have permanent delete enabled. For more for information, see [Set Blob Service Properties](Set-Blob-Service-Properties.md).
 
-Account with such feature turned on could use `deletetype=permanent` in delete blob request to permanently delete a single soft-deleted snapshot or deleted version. Blob service would return 409 (Conflict) if the query parameter presents with any of the following:
-- The feature is not turned on for the account.
+Storage accounts with permanent delete enabled can use the `deletetype=permanent` query parameter  to permanently delete a soft-deleted snapshot or deleted blob version. Blob service would return 409 (Conflict) if the query parameter presents with any of the following:
+- The permanent delete is not enabled for the storage account.
 - Neither `versionid` nor `snapshot` are provided.
-- The targeting snapshot or version is not (soft) deleted.
+- The specified snapshot or version is not (soft) deleted.
 
-A new SAS token (y) is also introduced to grant permission of permantly delete a blob. For more information, see [Create a service SAS](create-service-sas.md).
+A new SAS token (y) was also introduced to grant permission of permantly delete a blob. For more information, see [Create a service SAS](create-service-sas.md).
 
 ## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
