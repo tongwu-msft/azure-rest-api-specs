@@ -68,7 +68,7 @@ The following JSON is a high-level representation of the main parts of the defin
  
 |Property|Description|  
 |--------------|-----------------|
-|documentKeys|Required. This is the set of document keys the indexer will selectively reprocess from its data source. By default, calling this action multiple times will append document key sets together. This behavior can be changed to overwrite rather than append via the overwrite URI parameter (see above). If you want the indexer to stop trying to process reset documents, you can set "documentKeys" to an empty list "[]". This will result in the indexer resuming regular indexing based on the high water mark.|
+|documentKeys|Required. This is the set of document keys the indexer will selectively reprocess from its data source. By default, calling this action multiple times will append document key sets together. This behavior can be changed to overwrite rather than append via the overwrite URI parameter (see above). If you want the indexer to stop trying to process reset documents, you can set "documentKeys" to an empty list "[]". This will result in the indexer resuming regular indexing based on the high water mark. Invalid document keys or document keys that don't exist will be ignored.|
 
 ## Response  
 204 No Content for a successful request.
