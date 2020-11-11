@@ -6084,15 +6084,13 @@
 #### [Get](frontdoorservice/frontdoor/FrontendEndpoints/Get.yml)
 #### [List By Front Door](frontdoorservice/frontdoor/FrontendEndpoints/ListByFrontDoor.yml)
 ## Web Application Firewall
-### Managed Rule Sets
-#### [Overview](frontdoorservice/webapplicationfirewall/ManagedRuleSets.yml)
-#### [List](frontdoorservice/webapplicationfirewall/ManagedRuleSets/List.yml)
-### Policies
-#### [Overview](frontdoorservice/webapplicationfirewall/Policies.yml)
-#### [Create Or Update](frontdoorservice/webapplicationfirewall/Policies/CreateOrUpdate.yml)
-#### [Delete](frontdoorservice/webapplicationfirewall/Policies/Delete.yml)
-#### [Get](frontdoorservice/webapplicationfirewall/Policies/Get.yml)
-#### [List](frontdoorservice/webapplicationfirewall/Policies/List.yml)
+### Web Application Firewall Policies
+#### [Overview](frontdoorservice/webapplicationfirewall/WebApplicationFirewallPolicies.yml)
+#### [Create Or Update](frontdoorservice/webapplicationfirewall/WebApplicationFirewallPolicies/CreateOrUpdate.yml)
+#### [Delete](frontdoorservice/webapplicationfirewall/WebApplicationFirewallPolicies/Delete.yml)
+#### [Get](frontdoorservice/webapplicationfirewall/WebApplicationFirewallPolicies/Get.yml)
+#### [List](frontdoorservice/webapplicationfirewall/WebApplicationFirewallPolicies/List.yml)
+#### [List All](frontdoorservice/webapplicationfirewall/WebApplicationFirewallPolicies/ListAll.yml)
 # Guest Configuration
 ## [Overview](../docs-ref-conceptual/guestconfiguration/index.md)
 ## Guest Configuration Assignment Reports
