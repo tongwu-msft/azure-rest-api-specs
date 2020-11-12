@@ -12,23 +12,25 @@ ms.author: "brjohnst"
 ms.manager: nitinme
 ---
 # Get Indexer Status (Azure Cognitive Search REST API)
+
 The **Get Indexer Status** operation retrieves the current status and execution history of an indexer:  
 
 ```http  
-GET https://[service name].search.windows.net/indexers/[indexer name]/status?api-version=[api-version]  
+GET https://[service name].search.windows.net/indexers/[indexer name]/status?api-version=[api-version]&failIfCannotDecrypt=[true|false]
   Content-Type: application/json  
-  api-key: [admin key]   
+  api-key: [admin key]
 ```  
 
- ## URI Parameters
+## URI Parameters
 
-| Parameter	  | Description  | 
+| Parameter   | Description  |
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | indexer name  | Required. The request URI specifies the name of the indexer for which status should be returned. |
 | api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| failIfCannotDecrypt | Optional, defaults to true if not specified. If the indexer was created using an [encryption key](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys) and the search service doesn't have access to the encryption key, retrieving indexer status fails. If false, the indexer status returned has encrypted properties replaced with `"<encrypted>"` placeholders.
 
-## Request Headers 
+## Request Headers
 
 The following table describes the required and optional request headers.  
 
@@ -37,15 +39,16 @@ The following table describes the required and optional request headers.
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Get requests about objects in your service must include an api-key field set to your admin key (as opposed to a query key).|  
 
-You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys). 
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).
 
-## Request Body  
+## Request Body
+
 None.  
 
-## Response  
+## Response
 Status Code: 200 OK for a successful response. The response body contains information about overall indexer health status, the last indexer invocation, as well as the history of recent indexer invocations (if present).  
 
- A sample response body looks like this:  
+A sample response body looks like this:  
 
 ```json
 {
@@ -107,6 +110,9 @@ Status Code: 200 OK for a successful response. The response body contains inform
     ]
 }
 ```
+
+> [!NOTE]
+> If the indexer was created using an [encryption key](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys), encrypted properties of the status can only be retrieved if the search service has access to the encryption key. If the search service does not have access to the encryption key, a 400 Bad Request is returned by default. Specify `failIfCannotDecrypt=false` to retrieve the status with `"<encrypted>"` placeholders replacing encrypted properties.
 
 ### Indexer status  
  Indexer status can be one of the following values:  
