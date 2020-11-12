@@ -14033,7 +14033,6 @@
 ### Operations on Blobs
 #### [Overview](../docs-ref-conceptual/storageservices/operations-on-blobs.md)
 #### [Put Blob](../docs-ref-conceptual/storageservices/put-blob.md)
-#### [Put Blob From URL](../docs-ref-conceptual/storageservices/put-blob-from-url.md)
 #### [Get Blob](../docs-ref-conceptual/storageservices/get-blob.md)
 #### [Get Blob Properties](../docs-ref-conceptual/storageservices/get-blob-properties.md)
 #### [Set Blob Properties](../docs-ref-conceptual/storageservices/set-blob-properties.md)
