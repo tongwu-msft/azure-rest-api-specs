@@ -39,7 +39,7 @@ The `Delete Blob` operation marks the specified blob or snapshot for deletion. T
 |`snapshot`|Optional. The snapshot parameter is an opaque `DateTime` value that, when present, specifies the blob snapshot to delete. For more information on working with blob snapshots, see [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md).|  
 |`versionid`|Optional, version 2019-12-12 and newer. The versionid parameter is an opaque `DateTime` value that, when present, specifies the Version of the blob to delete.|    
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
-|`deletetype`|Optional. Available for version 2020-02-10 or later. The value of `deletetype` could only be `permanent`. For more information, see Remarks below.
+|`deletetype`|Optional, version 2020-02-10 or later. The value of `deletetype` can only be `permanent`. For more information, see Remarks below.
   
 ### Request Headers  
  The following table describes required and optional request headers.  
