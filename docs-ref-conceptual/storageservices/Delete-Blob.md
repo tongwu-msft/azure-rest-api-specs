@@ -111,7 +111,7 @@ Storage accounts with permanent delete enabled can use the `deletetype=permanent
 - Neither `versionid` nor `snapshot` are provided.
 - The specified snapshot or version is not (soft) deleted.
 
-A new SAS token (y) was also introduced to grant permission of permantly delete a blob. For more information, see [Create a service SAS](create-service-sas.md).
+Permanent delete also includes a new SAS permission (y) grant permission to permanently delete a blob snapshot or blob version. For more information, see [Create a service SAS](create-service-sas.md).
 
 ## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   

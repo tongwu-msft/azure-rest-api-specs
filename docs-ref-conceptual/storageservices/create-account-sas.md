@@ -121,7 +121,7 @@ The following table lists Blob service operations and indicates which signed res
 |Set Blob Tags|Blob (b)|Object (o)|Tags (t)|  
 |Find Blobs by Tags|Blob (b)|Object (o)|Find (f)|  
 |Delete Blob|Blob (b)|Object (o)|Delete (d)|  
-|Permenantly delete snapshot / version |Blob (b)|Object (o)|Permanet Delete (y)|
+|Permanently delete snapshot / version |Blob (b)|Object (o)|Permanent Delete (y)|
 |Lease Blob|Blob (b)|Object (o)|Write (w) or Delete (d)<Sup>1</Sup>|  
 |Snapshot Blob|Blob (b)|Object (o)|Create (c)  or Write (w)|  
 |Copy Blob (destination is new blob)|Blob (b)|Object (o)|Create (c)  or Write (w)|  
