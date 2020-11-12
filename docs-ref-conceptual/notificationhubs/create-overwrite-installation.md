@@ -39,6 +39,7 @@ The following table describes the properties of the JSON request body for instal
 | Name | Type | Required | Read-only | Description | 
 | ---- | ---- | -------- | --------- | ----------- |
 | installationId | String | Yes | No | Globally unique identifier string |
+| userID | String | No | No | Custom string containing a combination of alphanumeric characters and -_@#.:=\. There is a one to many relationship between UserID and Installation ID (i.e one User ID can be associated with multiple installations)  |
 | lastActiveOn | String | No | Yes | The date when the installation was made inactivate by the PNS. | 
 | expirationTime | String | No | Yes | A string containing the date and time in W3C DTF, YYYY-MM-DDThh:mmTZD (for example, 1997-07-16T19:20+01:00)) in which the registration will expire. The value can be set at the hub level on create or update, and will default to never expire (9999-12-31T23:59:59). | 
 | lastUpdate | String | Ignored when updating. Returned when reading. | Yes | Date in W3C format of last update to this installation. | 
@@ -74,6 +75,7 @@ Example to register with APNS:
 ``` json
 { 
     "installationId": "12234", 
+    "userID": "MyAmazingUser",
     "tags": ["foo", "bar"], 
     "platform": "apns", 
     "pushChannel": "ABCDEF-123456-…" 
@@ -91,6 +93,7 @@ Example to register natively with WNS including a template and no tags:
 ``` json
 { 
     "installationId": "12234", 
+    "userID": "MyAmazingUser",
     "platform": "wns", 
     "pushChannel": "https://db3...", 
     "templates": { 
@@ -109,6 +112,7 @@ A skeleton listing of many possible elements
 ``` json
 { 
     installationId: "", 
+    userID: "",
     expirationTime: "", 
     tags: ["foo", "bar"],
     lastUpdate: “”, 

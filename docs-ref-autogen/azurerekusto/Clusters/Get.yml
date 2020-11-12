@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.clusters.get
 name: Get
 service: Azure Kusto
 groupName: Clusters
-apiVersion: 2020-06-14
+apiVersion: 2020-09-18
 summary: Gets a Kusto cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}?api-version=2020-06-14
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}?api-version=2020-09-18
 uriParameters:
 - name: subscriptionId
   in: path
@@ -127,6 +127,10 @@ definitions:
     description: A boolean value that indicates if double encryption is enabled.
     types:
     - uid: boolean
+  - name: properties.engineType
+    description: The engine type
+    types:
+    - uid: EngineType
   - name: tags
     description: Resource tags.
     types:
@@ -141,7 +145,7 @@ definitions:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
@@ -151,7 +155,7 @@ definitions:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
 - name: CloudError
@@ -193,7 +197,7 @@ definitions:
     types:
     - uid: string
   - name: type
-    description: The identity type.
+    description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove all identities.
     types:
     - uid: IdentityType
   - name: userAssignedIdentities
@@ -313,6 +317,10 @@ definitions:
     description: The Uri of the key vault.
     types:
     - uid: string
+  - name: userIdentity
+    description: The user assigned identity (ARM resource id) that has access to the key.
+    types:
+    - uid: string
 - name: LanguageExtensionsList
   description: The list of language extension objects.
   kind: object
@@ -322,6 +330,16 @@ definitions:
     types:
     - uid: LanguageExtension
       isArray: true
+- name: EngineType
+  description: The engine type
+  kind: enum
+  properties:
+  - name: V2
+    types:
+    - uid: string
+  - name: V3
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from Kusto.
   kind: object
@@ -383,6 +401,9 @@ definitions:
   - name: Dev(No SLA)_Standard_D11_v2
     types:
     - uid: string
+  - name: Standard_E64i_v3
+    types:
+    - uid: string
   - name: Standard_E2a_v4
     types:
     - uid: string
@@ -421,13 +442,19 @@ definitions:
     types:
     - uid: string
 - name: IdentityType
-  description: The identity type.
+  description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove all identities.
   kind: enum
   properties:
   - name: None
     types:
     - uid: string
   - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
     types:
     - uid: string
 - name: UserAssignedIdentities
@@ -459,7 +486,7 @@ definitions:
 examples:
 - name: KustoClustersGet
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4?api-version=2020-06-14
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4?api-version=2020-09-18
   responses:
   - statusCode: "200"
     body: >-
@@ -476,7 +503,8 @@ examples:
             "keyVaultUri": "https://dummy.keyvault.com",
             "keyName": "keyName",
             "keyVersion": "keyVersion"
-          }
+          },
+          "engineType": "V2"
         },
         "sku": {
           "name": "Standard_L8s",

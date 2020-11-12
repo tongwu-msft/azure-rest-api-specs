@@ -1,6 +1,6 @@
 ## REST API content developer cheat sheet
 
-Being a collection of guidance assembled throughout the migration of REST API documentation from ACOM to [docs.microsoft.com](http://docs.microsoft.com).
+Being a collection of guidance assembled throughout the migration of REST API documentation from ACOM to [docs.microsoft.com](https://docs.microsoft.com).
 
 * [Repo layout](#azure-docs-rest-apis-repo-layout)
 * [Linking](#linking)

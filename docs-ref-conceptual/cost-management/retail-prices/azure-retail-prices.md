@@ -4,7 +4,7 @@ description: Provides operations to programmatically get Azure service retail pr
 author: bandersmsft
 ms.author: banders
 ms.reviewer: mumami
-ms.date: 08/26/2020
+ms.date: 09/25/2020
 ms.topic: reference
 ms.service: cost-management-billing
 ms.subservice: cost-management
@@ -13,15 +13,41 @@ ms.devlang: rest-api
 
 # Azure Retail Prices overview
 
-Many Azure customers have been looking for a programmatic way to retrieve Azure service retail prices. Previously, the only way that you could retrieve prices for Azure services was to either use the Azure Pricing Calculator or go to the Azure portal. This API gives you an unauthenticated way to get retail rates for all Azure services. Use the API to explore prices for Azure services against different regions and different SKUs. The programmatic API can also help you build your own tools for internal analysis and price comparison.
+Azure customers have been looking for a programmatic way to retrieve retail prices for all Azure services. Now you can use the Unified Pricing API – Retail Rates endpoint to get retail prices. Previously, the only way that you could retrieve prices for Azure services was to either use the Azure Pricing Calculator or use the Azure portal. This API gives you an unauthenticated experience to get retail rates for all Azure services. Use the API to explore prices for Azure services against different regions and different SKUs. The programmatic API can also help you create your own tools for internal analysis and price comparison across SKUs and regions.
 
 ## API endpoint
 
 `https://prices.azure.com/api/retail/prices`
 
-## API version
+## API sample calls 
 
-2020-08-01
+Here are some examples:
+
+Example call filtered for only virtual machines
+
+```http
+https://prices.azure.com/api/retail/prices?$filter=serviceName eq 'Virtual Machines'
+```
+
+Example call filtered for only reservations
+
+```http
+https://prices.azure.com/api/retail/prices?$filter=priceType eq 'Reservation'
+```
+
+Example call filtered for reserved instance virtual machines
+
+```http
+https://prices.azure.com/api/retail/prices?$filter=serviceName eq 'Virtual Machines' and priceType eq 'Reservation'
+```
+
+Example call filtered for compute resources
+
+```http
+https://prices.azure.com/api/retail/prices?$filter=serviceFamily eq 'Compute'
+```
+
+## API response examples
 
 Here's a sample API response, without reservation prices.
 
@@ -77,6 +103,9 @@ Here's a sample API response with reservation prices and term in the response.
             "armSkuName": "Standard_E64_v4"
         }
 ```
+
+## API property details
+
 Here's all the property details that are a part of the API response.
 
 | Field | Example Values | Definition |
@@ -86,7 +115,7 @@ Here's all the property details that are a part of the API response.
 | reservationTerm | 1 year | Reservation term – 1 year or 3 years |
 | retailPrice | 0.176346 | Prices without discount |
 | unitPrice | 0.176346 |  |
-| armRegionName | westeurope | ARM region where the service is available.This version only supports prices on Commercial Cloud. |
+| armRegionName | westeurope | ARM region where the service is available. This version only supports prices on Commercial Cloud. |
 | Location | EU West | Azure data center where the resource is deployed |
 | effectiveStartDate | 2020-08-01T00:00:00Z | Optional field. Shows the date when the retail prices are effective.  |
 | meterId | 000a794b-bdb0-58be-a0cd-0c3a0f222923 | Unique identifier of the resource |
@@ -103,6 +132,8 @@ Here's all the property details that are a part of the API response.
 | isPrimaryMeterRegion | True |  |
 | armSkuName | Standard\_F16s | SKU name registered in Azure |
 
+## API filters
+
 Filters are supported for the following fields:
 
 - armRegionName
@@ -116,8 +147,10 @@ Filters are supported for the following fields:
 - serviceName
 - serviceId
 - serviceFamily
-- Type
+- priceType
 - armSkuName
+ 
+You append the filters to the API endpoint, as shown in the API sample calls.
 
 ## Unsupported functions
 

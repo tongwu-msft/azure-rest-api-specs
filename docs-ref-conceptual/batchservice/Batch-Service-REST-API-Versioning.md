@@ -1,14 +1,14 @@
 ---
 title: "Batch Service REST API Versioning | Microsoft Docs"
 ms.custom: ""
-ms.date: "08/22/2019"
+ms.date: "09/29/2020"
 ms.reviewer: ""
 ms.service: "batch"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: b4b1f270-69e7-4d7d-af45-416efbd7d1cf
-caps.latest.revision: 24
+caps.latest.revision: 25
 author: "laurenhughes"
 ms.author: "lahugh"
 manager: "gwallace"
@@ -20,18 +20,17 @@ Operations provided by the Batch service REST API may have multiple versions for
 
 To specify which version of an operation to use, set the *api-version* query parameter. The version is of the format Group.Major.Minor where Group is in the format ‘YYYY-MM-DD’ and Major is an integer and Minor is an integer.
 
-## Latest version: 2020-03-01.11.0
+## Latest version: 2020-09-01.12.0
 
-- Added ability to encrypt ComputeNode disk drives using the new [`DiskEncryptionConfiguration`](/rest/api/batchservice/pool/add#diskencryptionconfiguration) property of [`VirtualMachineConfiguration`](/rest/api/batchservice/pool/add#virtualmachineconfiguration).
-- [Breaking] The `virtualMachineImageId` property of [`ImageReference`](/rest/api/batchservice/pool/add#imagereference) can now only refer to a Shared Image Gallery image.
-- [Breaking] The `password` property of the request body of [`Add Certificate`](/rest/api/batchservice/certificate/add) operation is optional for PFX formatted certificates.
-- [Breaking] Pools can now be provisioned without a public IP using the new [`PublicIPAddressConfiguration`](/rest/api/batchservice/pool/add#publicipaddressconfiguration) property of [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration).
-- [Breaking] The `publicIPs` property of [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration) has renamed as `ipAddressIds` and moved in to [`PublicIPAddressConfiguration`](/rest/api/batchservice/pool/add#publicipaddressconfiguration) as well. This property can only be specified if `provision` property is `usermanaged`.
+- [Breaking] Replaced property `maxTasksPerNode` with `taskSlotsPerNode` on the pool. Using this property tasks in a job can consume a dynamic amount of slots allowing for more fine-grained control over resource consumption.
+- [Breaking] Changed the response type of [`GetTaskCounts`](/rest/api/batchservice/job/gettaskcounts) to return [`TaskCountsResult`](/rest/api/batchservice/job/gettaskcounts#taskcountsresult), which is a complex object containing the previous [`TaskCounts`](/rest/api/batchservice/job/gettaskcounts#taskcounts) object and a new [`TaskSlotCounts`](/rest/api/batchservice/job/gettaskcounts#taskcounts) object providing similar information in the context of slots being used.
+- Added property `requiredSlots` to the task allowing user to specify how many slots on a node it should take up.
 
 ## Previous Versions
- 
+
  Previous versions include:
 
+- [2020-03-01.11.0](#version-2020-03-01110)
 - [2019-08-01.10.0](#version-2019-08-01100)
 - [2019-06-01.9.0](#version-2019-06-0190)
 - [2018-12-01.8.0](#version-2018-12-0180)
@@ -48,6 +47,14 @@ To specify which version of an operation to use, set the *api-version* query par
 - 2015-06-01.2.0
 - 2015-03-01.1.1
 - 2014-10-01.1.0
+
+## Version: 2020-03-01.11.0
+
+- Added ability to encrypt ComputeNode disk drives using the new [`DiskEncryptionConfiguration`](/rest/api/batchservice/pool/add#diskencryptionconfiguration) property of [`VirtualMachineConfiguration`](/rest/api/batchservice/pool/add#virtualmachineconfiguration).
+- [Breaking] The `virtualMachineImageId` property of [`ImageReference`](/rest/api/batchservice/pool/add#imagereference) can now only refer to a Shared Image Gallery image.
+- [Breaking] The `password` property of the request body of [`Add Certificate`](/rest/api/batchservice/certificate/add) operation is optional for PFX formatted certificates.
+- [Breaking] Pools can now be provisioned without a public IP using the new [`PublicIPAddressConfiguration`](/rest/api/batchservice/pool/add#publicipaddressconfiguration) property of [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration).
+- [Breaking] The `publicIPs` property of [`NetworkConfiguration`](/rest/api/batchservice/pool/add#networkconfiguration) has renamed as `ipAddressIds` and moved in to [`PublicIPAddressConfiguration`](/rest/api/batchservice/pool/add#publicipaddressconfiguration) as well. This property can only be specified if `provision` property is `usermanaged`.
 
 ## Version: 2019-08-01.10.0
 
@@ -89,7 +96,7 @@ To specify which version of an operation to use, set the *api-version* query par
   > This feature is in public preview. It is disabled for all Batch accounts except for those which have contacted us and requested to be in the pilot.
 
 - The maximum lifetime of a task is now 180 days (previously it was 7).
-- Added support on Windows pools for creating users with a specific login mode (either `batch` or `interactive`) via [`LoginMode`](/rest/api/batchservice/job/add#loginmode). 
+- Added support on Windows pools for creating users with a specific login mode (either `batch` or `interactive`) via [`LoginMode`](/rest/api/batchservice/job/add#loginmode).
 - The default task retention time for all tasks is now 7 days, previously it was infinite.
 
 ### Version 2018-08-01.7.0
@@ -108,7 +115,7 @@ New features in version 2018-08-01.7.0 include:
 
 New features in version 2018-03-01.6.1 include:
 
-- Pool node counts by state: This version adds the ability to query pool node counts by state, via the new [ListPoolNodeCounts](/rest/api/batchservice/account/listpoolnodecounts) operation. This operation gives you the ability to query all pools in a Batch account for node states including creating, idle, offline, preempted, rebooting, reimaging, starting, and others. 
+- Pool node counts by state: This version adds the ability to query pool node counts by state, via the new [ListPoolNodeCounts](/rest/api/batchservice/account/listpoolnodecounts) operation. This operation gives you the ability to query all pools in a Batch account for node states including creating, idle, offline, preempted, rebooting, reimaging, starting, and others.
 - Node agent logs: This version adds the ability to upload Azure Batch node agent logs from a particular node, via the [UploadBatchServiceLogs](/rest/api/batchservice/computenode/uploadbatchservicelogs) operation. This is intended for use in debugging by Microsoft Support if problems occur on a node.
 
 
@@ -143,7 +150,7 @@ New features in version 2017-06-01.5.1 include:
 The following sections outline new and changed features in version 2017-05-01.5.0.
 
 > [!IMPORTANT]
-> Version 2017-05-01.5.0 includes several breaking changes. Please review the breaking changes noted below and update your code in order to call version 2017-05-01.5.0. 
+> Version 2017-05-01.5.0 includes several breaking changes. Please review the breaking changes noted below and update your code in order to call version 2017-05-01.5.0.
 >
 >
 
@@ -151,16 +158,16 @@ The following sections outline new and changed features in version 2017-05-01.5.
 
 Azure Batch now offers low-priority compute nodes to reduce the cost of Batch workloads. Low-priority VMs make new types of Batch workloads possible by providing a large amount of compute power that is also economical.
 
-There are several changes to the REST API for low-priority nodes:  
+There are several changes to the REST API for low-priority nodes:
 
 - (**Breaking change**) The **targetDedicated** and **currentDedicated** properties of a pool or pool specification have been renamed to **targetDedicatedNodes** and **currentComputeNodes**.
-- (**Breaking change**) The **resizeError** property of a pool is now a collection called **resizeErrors**. 
+- (**Breaking change**) The **resizeError** property of a pool is now a collection called **resizeErrors**.
 - Compute nodes have a new **isDedicated** property. This property is **true** for dedicated nodes, and **false** for low-priority nodes.
 - A Job Manager task has a new **allowLowPriorityNode** property. If this property is **true**, the Job Manager task may run on a low-priority node. If it is **false**, then the Job Manager task will run on a dedicated compute node.
 
 #### Named users on Linux
 
-Azure Batch now offers additional support for creating named users on Linux nodes. 
+Azure Batch now offers additional support for creating named users on Linux nodes.
 
 - The new **linuxUserConfiguration** property supports specifying a **uid** (user ID) and **gid** (group ID) when creating a Linux user.
 - (**Breaking change**) The **sshPrivateKey** property has been moved from the **userAccount** property to the new **linuxUserConfiguration** property. The **linuxUserConfiguration** property is itself a property of the **userAccount** property.
@@ -192,63 +199,63 @@ You can now request that application licenses be provisioned to your pool, via t
 
  This version release extends all support from the previous version, 2016-07-01.3.1. Additionally, it supports the following capabilities:
 
-- **Run a task under a specified user identity.** 
+- **Run a task under a specified user identity.**
 
     You can now run a task or task collection under one of the following user identities, specified via the new **userIdentity** property on the task resource:
 
     - A user account with a name that you define.
     - A user account that is created automatically (an auto-user). An auto-user can run as an administrative user or as a non-administrative user. By default, an auto-user runs as a non-administrative user.
-    
+
     > [!IMPORTANT]
     > The **userIdentity** property, with its **elevationLevel** property, replaces the **runElevated** property in requests that add a task or a task collection, and in responses that get information about a task or that list tasks.
     >
-    If you make a request that includes the **runElevated** property to version 2017-01-01.4.0 of the Batch service, the request will fail. 
+    If you make a request that includes the **runElevated** property to version 2017-01-01.4.0 of the Batch service, the request will fail.
     >
     To run as an administrative user, update your application to use the **userIdentity** property, setting the **elevationLevel** property to *admin*.
-    > 
-    To run as a non-administrative user, update your application to use the **userIdentity** property, setting the **elevationLevel** property to *nonAdmin*. Since this is the default, you can also omit the setting.  
+    >
+    To run as a non-administrative user, update your application to use the **userIdentity** property, setting the **elevationLevel** property to *nonAdmin*. Since this is the default, you can also omit the setting.
     >
     >
 
-- **Define user accounts across all nodes in a pool.** 
+- **Define user accounts across all nodes in a pool.**
 
     You can now run a task or task collection under a user account that you define on the pool resource. Define a user account via the new **userAccounts** property in requests to [Add Pool](../batchservice/add-a-pool-to-an-account.md). When you define the account, you can specify the account name, password, elevation level (admin or non-admin), and SSH private key (for Linux pools).
-    
+
     Once you define the user account, you can specify that user account for the **userIdentity** property in requests that add a task or a task collection.
 
-- **Provide a task with a token to authenticate to the Batch service when the task runs.** 
+- **Provide a task with a token to authenticate to the Batch service when the task runs.**
 
     The Batch service can now provide an authentication token to a task when it runs. The authentication token enables a task to issue requests related to the job to the Batch service, without the Batch account keys. The token is provided via the AZ_BATCH_AUTHENTICATION_TOKEN environment variable.
-    
-    Currently authentication tokens are supported for calling operations on the job resource only. The authentication token grants access to all operations on the job that contains the task. 
+
+    Currently authentication tokens are supported for calling operations on the job resource only. The authentication token grants access to all operations on the job that contains the task.
 
     To have the Batch service provide the authentication token, specify the new **authenticationTokenSettings** property, together with its **access** property, in requests to [Add Task](../batchservice/add-a-task-to-a-job.md) or [Add Task Collection](../batchservice/add-a-collection-of-tasks-to-a-job.md).
 
-- **Specify an action to take on a task's dependencies if the task fails.** 
-    
+- **Specify an action to take on a task's dependencies if the task fails.**
+
     You can now specify that dependent tasks proceed even if the task that they depend on fails. Set the new **dependencyAction** property of a task resource to *satisfy* to run dependent tasks even if the parent task fails. Alternately, set **dependencyAction** to *block* to prevent running of dependent tasks if the parent task fails.
 
     Specify the **dependencyAction** property in requests to [Add Task](../batchservice/add-a-task-to-a-job.md) or [Add Task Collection](../batchservice/add-a-collection-of-tasks-to-a-job.md).
 
     For more information about using dependency actions, see [Dependency actions](https://docs.microsoft.com/azure/batch/batch-task-dependencies#dependency-actions).
 
-- **Use custom OS disk images when creating a pool.** 
+- **Use custom OS disk images when creating a pool.**
 
-    You can now use custom OS disk images to create a pool.  
-    
+    You can now use custom OS disk images to create a pool.
+
     To do so, you must specify when you create your Batch account that pools are to be provisioned in the user subscription, rather than in a subscription managed by the Batch service. In a call to [Create Account](xref:management.azure.com.batchmanagement.batchaccount), set the **poolAllocationMode** property to _UserSubscription_. Then   use the **osDisk** property to specify a reference to a disk image in a request to [Add Pool](../batchservice/add-a-pool-to-an-account.md).
 
-    > [!IMPORTANT] 
+    > [!IMPORTANT]
     > When you create your Batch account, if you specify that pools are to be provisioned in the user subscription, then you must use Azure Active Directory-based authentication for all requests made through that account.
     >
     >
 
 
-- **Use Azure Active Directory-based authentication for requests to the Batch service.** 
+- **Use Azure Active Directory-based authentication for requests to the Batch service.**
 
     Azure Active Directory (AAD) is now supported for authenticating calls to the Batch service.
 
-    If your Batch account is set up to provision pools in the user subscription, then using AAD authentication is required.  
+    If your Batch account is set up to provision pools in the user subscription, then using AAD authentication is required.
 
 ### Version 2016-07-01.3.1
  This version release extends all support from previous version, 2016-02-01.3.0. Additionally, it supports the following capabilities:
@@ -270,7 +277,7 @@ You can now request that application licenses be provisioned to your pool, via t
 
 - Capability to reactivate a failed task.
 
-    - A new operation [Reactivate a task](../batchservice/reactivate-a-task.md) has been added to reset a failed task's state to active. This allows failures to be retried, for example if the failure was transient or if you have been able to fix the cause of the failure, without recreating the task.  
+    - A new operation [Reactivate a task](../batchservice/reactivate-a-task.md) has been added to reset a failed task's state to active. This allows failures to be retried, for example if the failure was transient or if you have been able to fix the cause of the failure, without recreating the task.
 
 ### Version 2016-02-01.3.0
  This version release extends all support from previous version, 2015-12-01.2.2. Additionally, it supports the following capabilities:

@@ -10,10 +10,13 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 08/05/2020
+ms.date: 10/01/2020
 ---
 
 # Azure Time Series Insights Gen1 query syntax
+
+> [!CAUTION]
+> This is a Gen1 article.
 
 This article describes the query request format and syntax for the Azure Time Series Insights Gen1 [Query API](gen1-query-api.md).
 

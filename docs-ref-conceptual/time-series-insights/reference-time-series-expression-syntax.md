@@ -112,6 +112,9 @@ This section describes core syntax concepts and query operators that are concate
 
 ### Supported literals
 
+  > [!NOTE]
+  > The literals below are used to form expressions, see the [Supported data types](https://docs.microsoft.com/azure/time-series-insights/concepts-supported-data-types) article for the full list of data types.
+
 | Primitive type | Literals |
 |--|--|
 | **Bool**  | `TRUE`, `FALSE` |
@@ -131,6 +134,15 @@ This section describes core syntax concepts and query operators that are concate
 | **+**, **-**, **\***, **/** |  **Double**, **Long**, **DateTime**, **TimeSpan** | |
 
 For comparison expressions (**<**, **>**, **<=**, **>=**, **=**, **!=**), the operands can be **NULL** or be of the same type. In each predicate expression, types of left hand side (LHS) and right hand side (RHS) operands are validated to match. Errors occur when types of LHS and RHS don't agree, or an operation is not allowed on particular types.
+
+> [!NOTE]
+> **String** type is not nullable in Warm Store:
+>   * Comparison of **String** against **NULL** and empty string (**''**) behaves the same way: `$event.p1.String = NULL` is equivalent to `$event.p1.String = ''`.
+>   * API may return **NULL** values even if original events contained empty strings.
+>
+> In the future, the same behavior will be on Cold Store.
+>
+> Do not take dependency on **NULL** values in **String** columns and treat them the same way as empty strings.
 
 * A type check is applied:
   * Any property type is accepted against a `NULL` literal.

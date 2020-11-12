@@ -3,14 +3,14 @@ uid: management.azure.com.compute.diskencryptionsets.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Disk Encryption Sets
-apiVersion: 2019-07-01
+apiVersion: 2020-06-30
 summary: Creates or updates a disk encryption set
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}?api-version=2019-07-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}?api-version=2020-06-30
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,8 +41,8 @@ responses:
   description: OK
   types:
   - uid: DiskEncryptionSet
-- name: 201 Created
-  description: Created
+- name: 202 Accepted
+  description: Accepted
   types:
   - uid: DiskEncryptionSet
 - name: Other Status Codes
@@ -57,6 +57,11 @@ requestBody:
     description: The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.
     types:
     - uid: EncryptionSetIdentity
+  - name: properties.encryptionType
+    in: body
+    description: The type of key used to encrypt the data of the disk.
+    types:
+    - uid: DiskEncryptionSetType
   - name: properties.activeKey
     in: body
     description: The key vault key which is currently used by this disk encryption set.
@@ -117,6 +122,10 @@ definitions:
     description: The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.
     types:
     - uid: EncryptionSetIdentity
+  - name: properties.encryptionType
+    description: The type of key used to encrypt the data of the disk.
+    types:
+    - uid: DiskEncryptionSetType
   - name: properties.activeKey
     description: The key vault key which is currently used by this disk encryption set.
     types:
@@ -182,6 +191,18 @@ definitions:
     description: Resource Id
     types:
     - uid: string
+- name: DiskEncryptionSetType
+  description: The type of key used to encrypt the data of the disk.
+  kind: enum
+  properties:
+  - name: EncryptionAtRestWithCustomerKey
+    description: Resource using diskEncryptionSet would be encrypted at rest with Customer managed key that can be changed and revoked by a customer.
+    types:
+    - uid: string
+  - name: EncryptionAtRestWithPlatformAndCustomerKeys
+    description: Resource using diskEncryptionSet would be encrypted at rest with two layers of encryption. One of the keys is Customer managed and the other key is Platform managed.
+    types:
+    - uid: string
 - name: ApiError
   description: Api error.
   kind: object
@@ -238,7 +259,7 @@ definitions:
 examples:
 - name: Create a disk encryption set.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2019-07-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/myDiskEncryptionSet?api-version=2020-06-30
     body: >-
       {
         "location": "West US",
@@ -251,11 +272,12 @@ examples:
               "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault"
             },
             "keyUrl": "https://myvmvault.vault-int.azure-int.net/keys/{key}"
-          }
+          },
+          "encryptionType": "EncryptionAtRestWithCustomerKey"
         }
       }
   responses:
-  - statusCode: "201"
+  - statusCode: "202"
     body: >-
       {
         "name": "myDiskEncryptionSet",
@@ -270,6 +292,7 @@ examples:
             },
             "keyUrl": "https://myvmvault.vault-int.azure-int.net/keys/{key}"
           },
+          "encryptionType": "EncryptionAtRestWithCustomerKey",
           "previousKeys": []
         }
       }
@@ -288,6 +311,7 @@ examples:
             },
             "keyUrl": "https://myvmvault.vault-int.azure-int.net/keys/{key}"
           },
+          "encryptionType": "EncryptionAtRestWithCustomerKey",
           "previousKeys": []
         }
       }

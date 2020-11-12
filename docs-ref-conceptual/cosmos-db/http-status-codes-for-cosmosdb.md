@@ -1,6 +1,7 @@
 ---
 title: "HTTP Status Codes for Azure Cosmos DB"
-ms.date: "06/23/2020"
+description: HTTP status and sub-status codes when using Azure Cosmos DB with REST API.
+ms.date: "10/16/2020"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 7104e4ef-fa51-4194-93f0-bb5f53fe9d61
@@ -39,6 +40,8 @@ This article provides the HTTP status codes returned by the REST operations.
 |**409 Conflict**|The ID provided for a resource on a `PUT` or `POST` operation has been taken by an existing resource. Use another ID for the resource to resolve this issue. For partitioned collections, ID must be unique within all documents with the same partition key value.|  
 |**412 Precondition failure**|The operation specified an eTag that is different from the version available at the server, that is, an optimistic concurrency error. Retry the request after reading the latest version of the resource and updating the eTag on the request.|  
 |**413 Entity too large**|The document size in the request exceeded the allowable document size for a request. The max allowable document size is 2 MB.|  
+|**423 Locked**|The throughput scale operation cannot be performed because there is another scale operation in progress.|
+|**424 Failed dependency**|When a document operation fails within the transactional scope of a TransactionalBatch operation, all other operations within the batch are considered failed dependencies. This status code indicates that the current operation was considered failed because of another failure within the same transactional scope.|  
 |**429 Too many requests**|The collection has exceeded the provisioned throughput limit. Retry the request after the server specified retry after duration. For more information, see [request units](https://docs.microsoft.com/azure/cosmos-db/request-units).|  
 |**449 Retry With**|The operation encountered a transient error. This code only occurs on write operations. It is safe to retry the operation.|  
 |**500 Internal Server Error**|The operation failed due to an unexpected service error. Contact support. See [Filing an Azure support issue](https://portal.azure.com/?#blade/Microsoft_Azure_Support/HelpAndSupportBlade).|  

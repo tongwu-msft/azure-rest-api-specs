@@ -1,5 +1,6 @@
 ---
 title: "Replace an Offer - Azure Cosmos DB REST API"
+description: Learn how to replace an offer's properties by using a REST API request, the request and response object formats for this operation. 
 ms.date: "08/06/2020"
 ms.service: "cosmos-db"
 ms.topic: "reference"

@@ -1,5 +1,6 @@
 ---
 title: "Documents - Azure Cosmos DB REST API"
+description: REST API operations on Azure Cosmos DB documents. Request and response headers, body, status codes and examples.
 ms.date: "06/24/2020"
 ms.service: "cosmos-db"
 ms.topic: "reference"

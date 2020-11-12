@@ -1,5 +1,6 @@
 ---
 title: "Access Control on Azure Cosmos DB Resources"
+description: Learn how to use REST API to query resource tokens, master keys, authorization header, and how to construct hash tokens.  
 ms.date: "08/15/2017"
 ms.service: "cosmos-db"
 ms.topic: "reference"

@@ -3,14 +3,14 @@ uid: management.azure.com.searchmanagement.sharedprivatelinkresources.delete
 name: Delete
 service: Search Management
 groupName: Shared Private Link Resources
-apiVersion: 2020-03-13
-summary: Deletes the shared private link resource from the Search service.
+apiVersion: 2020-08-01
+summary: Initiates the deletion of the shared private link resource from the search service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}?api-version=2020-03-13
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}?api-version=2020-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,14 +39,16 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for each request. The current version is 2019-10-01-Preview.
+  description: The API version to use for each request.
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: The shared private link resource was successfully deleted from the search service.
+- name: 202 Accepted
+  description: The shared private link resource deletion operation was accepted and will complete asynchronously.
+- name: 204 No Content
+  description: The backing private endpoint for the shared private link resource could not be found.
 - name: 404 Not Found
-  description: The subscription, resource group, Search service or shared private link resource could not be found.
+  description: The subscription, resource group, search service or shared private link resource could not be found.
 - name: Other Status Codes
   description: An unexpected error occurred during the operation.
   types:
@@ -91,9 +93,15 @@ definitions:
 examples:
 - name: SharedPrivateLinkResourceDelete
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/sharedPrivateLinkResources/testResource?api-version=2020-03-13
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/sharedPrivateLinkResources/testResource?api-version=2020-08-01
   responses:
-  - statusCode: "200"
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchService/sharedPrivateLinkResources/testResource/operationStatuses/159c5e07-c829-4896-8aba-a1d4fcc7c89c?api-version=2020-08-01
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchService/sharedPrivateLinkResources/testResource/operationStatuses/159c5e07-c829-4896-8aba-a1d4fcc7c89c?api-version=2020-08-01
+  - statusCode: "204"
   - statusCode: "404"
 security:
 - name: azure_auth

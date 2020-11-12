@@ -3,25 +3,25 @@ uid: management.azure.com.hybridcompute.machines.listbysubscription
 name: List By Subscription
 service: Hybrid Compute
 groupName: Machines
-apiVersion: 2019-12-12
-summary: Lists all the hybrid machines in the specified subscription. Use the nextLink property in the response to get the next page of hybrid machines.
+apiVersion: 2020-08-02
+summary: Lists all the hybrid machines in the specified subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/machines?api-version=2019-12-12
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/machines?api-version=2020-08-02
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The ID of the target subscription.
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for this operation.
+  description: Client Api Version.
   types:
   - uid: string
 responses:
@@ -49,36 +49,13 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: The resource management error response.
+  description: Error response.
   kind: object
   properties:
-  - name: code
-    isReadyOnly: true
-    description: The error code.
+  - name: error
+    description: "Error details.  \nThe error details."
     types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-  - name: target
-    isReadyOnly: true
-    description: The error target.
-    types:
-    - uid: string
-  - name: details
-    isReadyOnly: true
-    description: The error details.
-    types:
-    - uid: ErrorResponse
-      isArray: true
-  - name: additionalInfo
-    isReadyOnly: true
-    description: The error additional info.
-    types:
-    - uid: ErrorAdditionalInfo
-      isArray: true
+    - uid: ErrorDetail
 - name: Machine
   description: Describes a hybrid machine.
   kind: object
@@ -101,7 +78,7 @@ definitions:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
@@ -111,7 +88,7 @@ definitions:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
   - name: properties.locationData
@@ -176,43 +153,76 @@ definitions:
     description: The version of Operating System running on the hybrid machine.
     types:
     - uid: string
+  - name: properties.vmUuid
+    isReadyOnly: true
+    description: Specifies the Arc Machine's unique SMBIOS ID
+    types:
+    - uid: string
   - name: properties.extensions
+    isReadyOnly: true
     description: Machine Extensions information
     types:
     - uid: MachineExtensionInstanceView
       isArray: true
-- name: ErrorAdditionalInfo
-  description: The resource management error additional info.
+  - name: properties.osSku
+    isReadyOnly: true
+    description: Specifies the Operating System product SKU.
+    types:
+    - uid: string
+  - name: properties.domainName
+    isReadyOnly: true
+    description: Specifies the Windows domain name.
+    types:
+    - uid: string
+  - name: properties.adFqdn
+    isReadyOnly: true
+    description: Specifies the AD fully qualified display name.
+    types:
+    - uid: string
+  - name: properties.dnsFqdn
+    isReadyOnly: true
+    description: Specifies the DNS fully qualified display name.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error's code.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: target
+    description: Indicates which property in the request is responsible for the error.
+    types:
+    - uid: string
+  - name: details
+    description: Additional error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+- name: Identity
+  description: Managed Identity.
   kind: object
   properties:
   - name: type
-    isReadyOnly: true
-    description: The additional info type.
+    description: The identity type.
     types:
     - uid: string
-  - name: info
-    isReadyOnly: true
-    description: The additional info.
-    types:
-    - uid: object
-- name: Identity
-  description: Identity for the resource.
-  kind: object
-  properties:
   - name: principalId
     isReadyOnly: true
-    description: The principal ID of resource identity.
+    description: The identity's principal id.
     types:
     - uid: string
   - name: tenantId
     isReadyOnly: true
-    description: The tenant ID of resource.
+    description: The identity's tenant id.
     types:
     - uid: string
-  - name: type
-    description: The identity type.
-    types:
-    - uid: ResourceIdentityType
 - name: locationData
   description: Metadata pertaining to the geographic location of the resource.
   kind: object
@@ -255,40 +265,22 @@ definitions:
   - name: Error
     types:
     - uid: string
-- name: ErrorDetail
-  description: Error details.
-  kind: object
-  properties:
-  - name: code
-    description: The error's code.
-    types:
-    - uid: string
-  - name: message
-    description: A human readable error message.
-    types:
-    - uid: string
-  - name: target
-    description: Indicates which property in the request is responsible for the error.
-    types:
-    - uid: string
-  - name: details
-    description: Additional error details.
-    types:
-    - uid: ErrorDetail
-      isArray: true
 - name: MachineExtensionInstanceView
   description: Describes the Machine Extension Instance View.
   kind: object
   properties:
   - name: name
+    isReadyOnly: true
     description: The machine extension name.
     types:
     - uid: string
   - name: type
+    isReadyOnly: true
     description: Specifies the type of the extension; an example is "CustomScriptExtension".
     types:
     - uid: string
   - name: typeHandlerVersion
+    isReadyOnly: true
     description: Specifies the version of the script handler.
     types:
     - uid: string
@@ -296,34 +288,32 @@ definitions:
     description: Instance view status.
     types:
     - uid: Status
-- name: ResourceIdentityType
-  description: The identity type.
-  kind: enum
-  properties:
-  - name: SystemAssigned
-    types:
-    - uid: string
 - name: Status
   description: Instance view status.
   kind: object
   properties:
   - name: code
+    isReadyOnly: true
     description: The status code.
     types:
     - uid: string
   - name: level
+    isReadyOnly: true
     description: The level code.
     types:
     - uid: StatusLevelTypes
   - name: displayStatus
+    isReadyOnly: true
     description: The short localizable label for the status.
     types:
     - uid: string
   - name: message
+    isReadyOnly: true
     description: The detailed status message, including for alerts and error messages.
     types:
     - uid: string
   - name: time
+    isReadyOnly: true
     description: The time of the status.
     types:
     - uid: string
@@ -341,23 +331,23 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get all machine resources in a subscription.
+- name: List Machines by resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.HybridCompute/machines?api-version=2019-12-12
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.HybridCompute/machines?api-version=2020-08-02
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup1/providers/Microsoft.HybridCompute/machines/myMachine",
+            "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine",
             "name": "myMachine",
             "location": "eastus2euap",
             "tags": null,
             "identity": {
               "type": "SystemAssigned",
-              "principalId": "f7a068cc-b0b8-46e8-a203-22f301a62a8f",
-              "tenantId": "c4098cc-91b8-46c2-a205-d82ab1a62a8f"
+              "principalId": "string",
+              "tenantId": "string"
             },
             "type": "Microsoft.HybridCompute/machines",
             "properties": {
@@ -368,6 +358,11 @@ examples:
               "errorDetails": null,
               "displayName": null,
               "machineFqdn": null,
+              "vmUuid": null,
+              "osSku": null,
+              "domainName": null,
+              "adFqdn": null,
+              "dnsFqdn": null,
               "osName": null,
               "osVersion": null,
               "osProfile": {
@@ -377,11 +372,11 @@ examples:
               "locationData": {
                 "name": "Redmond"
               },
-              "clientPublicKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqGKukO1De7zhZj6+H0qtjTkVxwTCpvKe4eCZ0FPqri0cb2JZfXJ/DgYSF6vUpwmJG8wVQZKjeGcjDOL5UlsuusFncCzWBQ7RKNUSesmQRMSGkVb1/3j+skZ6UtW+5u09lHNsj6tQ51s1SPrCBkedbNf0Tp0GbMJDyR4e9T04ZZwIDAQAB"
+              "clientPublicKey": "string"
             }
           },
           {
-            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup2/providers/Microsoft.HybridCompute/machines/myMachine2",
+            "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup2/providers/Microsoft.HybridCompute/machines/myMachine2",
             "name": "myMachine2",
             "location": "westus2",
             "tags": null,
@@ -408,7 +403,7 @@ examples:
               "locationData": {
                 "name": "Redmond"
               },
-              "clientPublicKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqGKukO1De7zhZj6+H0qtjpkVxwTCpvKe4eCZ0FPqri0cb2JZfXJ/DgYSF6vUpwmJG8wVQZKjfGcjDOL5UlsuusFncCzWBQ7RKNUSesmQRMSGkVb1/3j+skZ6UtW+5u09lHNsj6tQ51s1SPrCBkedbNf0Tp0GbMJDyR4e9T04ZZwIDAQAB"
+              "clientPublicKey": "string"
             }
           }
         ],

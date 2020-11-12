@@ -1,5 +1,6 @@
 ---
 title: "List User Defined Functions - Azure Cosmos DB REST API"
+description: List user defined functions REST API syntax. Request and response headers, body, status codes and examples.
 ms.date: "02/25/2016"
 ms.service: "cosmos-db"
 ms.topic: "reference"

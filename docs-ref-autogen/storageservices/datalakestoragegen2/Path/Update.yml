@@ -3,7 +3,7 @@ uid: storageservices.datalakestoragegen2.path.update
 name: Update
 service: Storage Services
 groupName: Path
-apiVersion: 2018-11-09
+apiVersion: 2019-12-12
 summary: "Append Data | Flush Data | Set Properties | Set Access Control  \nUploads data to be appended to a file, flushes (writes) previously uploaded data to a file, sets properties for a file or directory, or sets access control for a file or directory. Data can only be appended to a file. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations)."
 consumes:
 - application/octet-stream
@@ -12,7 +12,7 @@ produces:
 - application/json
 paths:
 - content: PATCH https://{accountName}.{dnsSuffix}/{filesystem}/{path}?action={action}
-- content: PATCH https://{accountName}.{dnsSuffix}/{filesystem}/{path}?action={action}&position={position}&retainUncommittedData={retainUncommittedData}&close={close}&timeout={timeout}
+- content: PATCH https://{accountName}.{dnsSuffix}/{filesystem}/{path}?action={action}&position={position}&retainUncommittedData={retainUncommittedData}&close={close}&mode={mode}&maxRecords={maxRecords}&forceFlag={forceFlag}&continuation={continuation}&timeout={timeout}
   isOptional: true
 uriParameters:
 - name: accountName
@@ -45,7 +45,7 @@ uriParameters:
 - name: action
   in: query
   isRequired: true
-  description: The action must be "append" to upload data to be appended to a file, "flush" to flush previously uploaded data to a file, "setProperties" to set the properties of a file or directory, or "setAccessControl" to set the owner, group, permissions, or access control list for a file or directory.  Note that Hierarchical Namespace must be enabled for the account in order to use access control.  Also note that the Access Control List (ACL) includes permissions for the owner, owning group, and others, so the x-ms-permissions and x-ms-acl request headers are mutually exclusive.
+  description: The action must be "append" to upload data to be appended to a file, "flush" to flush previously uploaded data to a file, "setProperties" to set the properties of a file or directory, or "setAccessControl" to set the owner, group, permissions, or access control list for a file or directory, or "setAccessControlRecursive" to set the access control list for a directory recursively. Note that Hierarchical Namespace must be enabled for the account in order to use access control.  Also note that the Access Control List (ACL) includes permissions for the owner, owning group, and others, so the x-ms-permissions and x-ms-acl request headers are mutually exclusive.
   types:
   - uid: PathUpdateAction
 - name: position
@@ -64,6 +64,27 @@ uriParameters:
   description: Azure Storage Events allow applications to receive notifications when files change. When Azure Storage Events are enabled, a file changed event is raised. This event has a property indicating whether this is the final change to distinguish the difference between an intermediate flush to a file stream and the final close of a file stream. The close query parameter is valid only when the action is "flush" and change notifications are enabled. If the value of close is "true" and the flush operation completes successfully, the service raises a file change notification with a property indicating that this is the final update (the file stream has been closed). If "false" a change notification is raised indicating the file has changed. The default is false. This query parameter is set to true by the Hadoop ABFS driver to indicate that the file stream has been closed."
   types:
   - uid: boolean
+- name: mode
+  in: query
+  description: Optional. Valid and required for "setAccessControlRecursive" operation. Mode "set" sets POSIX access control rights on files and directories, "modify" modifies one or more POSIX access control rights  that pre-exist on files and directories, "remove" removes one or more POSIX access control rights that were present earlier on files and directories
+  types:
+  - uid: string
+- name: maxRecords
+  in: query
+  description: Optional and valid only for "setAccessControlRecursive" operation. It specifies the maximum number of files or directories on which the acl change will be applied. If omitted or greater than 2,000, the request will process up to 2,000 items
+  types:
+  - uid: integer
+  format: int32
+- name: forceFlag
+  in: query
+  description: Optional and valid only for "setAccessControlRecursive" operation. If this is "false" operation will terminate fast on encountering user errors (4XX). If "true" the api will ignore user errors and proceed with the operation on other sub-entities of the directory. Detailed status of user errors will be returned in the response for either scenario. Continuation token will only be returned when forceFlag is "true" in case of user errors. Default value for forceFlag is false.
+  types:
+  - uid: boolean
+- name: continuation
+  in: query
+  description: Optional and valid only for "setAccessControlRecursive" operation. The number of paths processed with each invocation is limited. If the number of paths to be processed exceeds this limit, a continuation token is returned in the response header x-ms-continuation. When a continuation token is returned in the response, it must be percent-encoded and specified in a subsequent invocation of setAccessControlRecursive operation.
+  types:
+  - uid: string
 - name: timeout
   in: query
   description: An optional operation timeout value in seconds. The period begins when the request is received by the service. If the timeout value elapses before the operation completes, the operation fails.
@@ -99,11 +120,15 @@ responses:
     value: string
   - name: x-ms-properties
     value: string
+  - name: x-ms-continuation
+    value: string
   - name: x-ms-request-id
     value: string
   - name: x-ms-version
     value: string
-  description: The data was flushed (written) to the file or the properties were set successfully.
+  description: The data was flushed (written) to the file or the properties were set successfully. Response body is optional and is valid only for "SetAccessControlRecursive"
+  types:
+  - uid: SetAccessControlRecursiveResponse
 - name: 202 Accepted
   headers:
   - name: Content-MD5
@@ -271,7 +296,7 @@ requestHeader:
   - uid: string
 - name: x-ms-lease-id
   in: header
-  description: The lease ID must be specified if there is an active lease.
+  description: The lease ID must be specified if there is an active lease. Invalid for "setAccessControlRecursive" operations.
   types:
   - uid: string
   pattern: ^[{(]?[0-9a-f]{8}[-]?([0-9a-f]{4}[-]?){3}[0-9a-f]{12}[)}]?$
@@ -302,7 +327,7 @@ requestHeader:
   - uid: string
 - name: x-ms-content-md5
   in: header
-  description: Optional and only valid for "Flush & Set Properties" operations.  The service stores this value and includes it in the "Content-Md5" response header for "Read & Get Properties" operations. If this property is not specified on the request, then the property will be cleared for the file. Subsequent calls to "Read & Get Properties" will not return this property unless it is explicitly set on that file again.
+  description: Optional and only valid for "Flush and Set Properties" operations.  The service stores this value and includes it in the "Content-Md5" response header for "Read and Get Properties" operations. If this property is not specified on the request, then the property will be cleared for the file. Subsequent calls to "Read and Get Properties" will not return this property unless it is explicitly set on that file again.
   types:
   - uid: string
 - name: x-ms-properties
@@ -327,27 +352,27 @@ requestHeader:
   - uid: string
 - name: x-ms-acl
   in: header
-  description: "Optional and valid only for the setAccessControl operation. Sets POSIX access control rights on files and directories. The value is a comma-separated list of access control entries that fully replaces the existing access control list (ACL).  Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format \"[scope:][type]:[id]:[permissions]\". The scope must be \"default\" to indicate the ACE belongs to the default ACL for a directory; otherwise scope is implicit and the ACE belongs to the access ACL.  There are four ACE types: \"user\" grants rights to the owner or a named user, \"group\" grants rights to the owning group or a named group, \"mask\" restricts rights granted to named users and the members of groups, and \"other\" grants rights to all users not found in any of the other entries. The user or group identifier is omitted for entries of type \"mask\" and \"other\".  The user or group identifier is also omitted for the owner and owning group.  The permission field is a 3-character sequence where the first character is 'r' to grant read access, the second character is 'w' to grant write access, and the third character is 'x' to grant execute permission.  If access is not granted, the '-' character is used to denote that the permission is denied. For example, the following ACL grants read, write, and execute rights to the file owner and john.doe@contoso, the read right to the owning group, and nothing to everyone else: \"user::rwx,user:john.doe@contoso:rwx,group::r--,other::---,mask=rwx\". Invalid in conjunction with x-ms-permissions."
+  description: "Optional and valid only for the setAccessControl and setAccessControlRecursive operations. Required for setAccessControlRecursive operation. Sets POSIX access control rights on files and directories. The value is a comma-separated list of access control entries that fully replaces the existing access control list (ACL) in case of setAccessControl and \"set\" mode of setAccessControlRecursive. \"modify\" mode of setAccessControlRecursive updates the pre-existing ACLS. Each access control entry (ACE) consists of a scope, a type, a user or group identifier, and permissions in the format \"[scope:][type]:[id]:[permissions]\". The scope must be \"default\" to indicate the ACE belongs to the default ACL for a directory; otherwise scope is implicit and the ACE belongs to the access ACL.  There are four ACE types: \"user\" grants rights to the owner or a named user, \"group\" grants rights to the owning group or a named group, \"mask\" restricts rights granted to named users and the members of groups, and \"other\" grants rights to all users not found in any of the other entries. The user or group identifier is omitted for entries of type \"mask\" and \"other\".  The user or group identifier is also omitted for the owner and owning group.  The permission field is a 3-character sequence where the first character is 'r' to grant read access, the second character is 'w' to grant write access, and the third character is 'x' to grant execute permission.  If access is not granted, the '-' character is used to denote that the permission is denied. For example, the following ACL grants read, write, and execute rights to the file owner and john.doe@contoso, the read right to the owning group, and nothing to everyone else: \"user::rwx,user:john.doe@contoso:rwx,group::r--,other::---,mask=rwx\". Invalid in conjunction with x-ms-permissions. \"remove\" mode of setAccessControlRecursive removes the pre-existing ACLs and should not contain permissions in the access control list specified : \"user:john.doe@contoso:, mask:\". \"set\" mode of setAccessControlRecursive sets the ACLs replacing the pre-existing ACLs of the scope specified and must contain all three - owning user, owning group and other info if access scope is getting set or if either of owning user, owning group or other is being set in default scope. \"set\" and \"modify\" modes of setAccessControlRecursive must contain permissions as part of access control list."
   types:
   - uid: string
 - name: If-Match
   in: header
-  description: Optional for Flush Data and Set Properties, but invalid for Append Data.  An ETag value. Specify this header to perform the operation only if the resource's ETag matches the value specified. The ETag must be specified in quotes.
+  description: Optional for Flush Data, Set Access Control and Set Properties, but invalid for Append Data and Set Access Control Recursive.  An ETag value. Specify this header to perform the operation only if the resource's ETag matches the value specified. The ETag must be specified in quotes.
   types:
   - uid: string
 - name: If-None-Match
   in: header
-  description: Optional for Flush Data and Set Properties, but invalid for Append Data.  An ETag value or the special wildcard ("*") value. Specify this header to perform the operation only if the resource's ETag does not match the value specified. The ETag must be specified in quotes.
+  description: Optional for Flush Data, Set Access Control and Set Properties, but invalid for Append Data and Set Access Control Recursive.  An ETag value or the special wildcard ("*") value. Specify this header to perform the operation only if the resource's ETag does not match the value specified. The ETag must be specified in quotes.
   types:
   - uid: string
 - name: If-Modified-Since
   in: header
-  description: Optional for Flush Data and Set Properties, but invalid for Append Data. A date and time value. Specify this header to perform the operation only if the resource has been modified since the specified date and time.
+  description: Optional for Flush Data and Set Properties, but invalid for Append Data and Set Access Control Recursive. A date and time value. Specify this header to perform the operation only if the resource has been modified since the specified date and time.
   types:
   - uid: string
 - name: If-Unmodified-Since
   in: header
-  description: Optional for Flush Data and Set Properties, but invalid for Append Data. A date and time value. Specify this header to perform the operation only if the resource has not been modified since the specified date and time.
+  description: Optional for Flush Data and Set Properties, but invalid for Append Data and Set Access Control Recursive. A date and time value. Specify this header to perform the operation only if the resource has not been modified since the specified date and time.
   types:
   - uid: string
 - name: x-ms-client-request-id
@@ -368,7 +393,7 @@ requestHeader:
   - uid: string
 definitions:
 - name: PathUpdateAction
-  description: The action must be "append" to upload data to be appended to a file, "flush" to flush previously uploaded data to a file, "setProperties" to set the properties of a file or directory, or "setAccessControl" to set the owner, group, permissions, or access control list for a file or directory.  Note that Hierarchical Namespace must be enabled for the account in order to use access control.  Also note that the Access Control List (ACL) includes permissions for the owner, owning group, and others, so the x-ms-permissions and x-ms-acl request headers are mutually exclusive.
+  description: The action must be "append" to upload data to be appended to a file, "flush" to flush previously uploaded data to a file, "setProperties" to set the properties of a file or directory, or "setAccessControl" to set the owner, group, permissions, or access control list for a file or directory, or "setAccessControlRecursive" to set the access control list for a directory recursively. Note that Hierarchical Namespace must be enabled for the account in order to use access control.  Also note that the Access Control List (ACL) includes permissions for the owner, owning group, and others, so the x-ms-permissions and x-ms-acl request headers are mutually exclusive.
   kind: enum
   properties:
   - name: append
@@ -383,6 +408,29 @@ definitions:
   - name: setAccessControl
     types:
     - uid: string
+  - name: setAccessControlRecursive
+    types:
+    - uid: string
+- name: SetAccessControlRecursiveResponse
+  kind: object
+  properties:
+  - name: directoriesSuccessful
+    description: ''
+    types:
+    - uid: integer
+  - name: filesSuccessful
+    description: ''
+    types:
+    - uid: integer
+  - name: failureCount
+    description: ''
+    types:
+    - uid: integer
+  - name: failedEntries
+    description: ''
+    types:
+    - uid: AclFailedEntryList
+      isArray: true
 - name: DataLakeStorageError
   kind: object
   properties:
@@ -390,6 +438,21 @@ definitions:
     description: The service error response object.
     types:
     - uid: Error
+- name: AclFailedEntryList
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: type
+    description: ''
+    types:
+    - uid: string
+  - name: errorMessage
+    description: ''
+    types:
+    - uid: string
 - name: Error
   description: The service error response object.
   kind: object

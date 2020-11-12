@@ -17,26 +17,29 @@ The Azure Storage client library gives you control over which storage requests y
   
 ## How to enable client library logging  
 
-The following example shows the system.diagnostics configuration necessary to collect and persist storage log messages to a text file. The configuration section can be added to either app.config or web.config files.  
+The following example shows the system.diagnostics configuration necessary to collect and persist storage log messages to a text file. The configuration section can be added to either app.config or web.config files.
+
+>[!Note]
+> If you are using a version older than 10.0.0, use the name `Microsoft.WindowsAzure.Storage` instead of `Microsoft.Azure.Storage`.
 
 ```xml
 <system.diagnostics>  
-     <!—In a dev/test environment you can set autoflush to true in order to autoflush to the log file. -->  
+     <!--In a dev/test environment you can set autoflush to true in order to autoflush to the log file. -->  
   <trace autoflush="false">  
     <listeners>  
-      ...   
+      ...
       <add name="storageListener" />  
     </listeners>  
   </trace>  
   <sources>  
-    <source name="Microsoft.WindowsAzure.Storage">  
+    <source name="Microsoft.Azure.Storage">  
       <listeners>  
         <add name="storageListener"/>  
       </listeners>  
     </source>  
   </sources>  
   <switches>  
-    <add name="Microsoft.WindowsAzure.Storage" value="Verbose" />  
+    <add name="Microsoft.Azure.Storage" value="Verbose" />  
   </switches>  
   <sharedListeners>  
     <add name="storageListener"  
@@ -46,8 +49,11 @@ The following example shows the system.diagnostics configuration necessary to co
   </sharedListeners>  
 </system.diagnostics>  
   
-```  
-  
+```
+
+>[!NOTE]
+> .NET Framework users on versions 4.6.1-4.7.1 (inclusive) may experience logging issues when using the .NET Standard 2.0 artifacts of the Azure Storage libraries, which may be automatically selected by Visual Studio's NuGet package manager. The libraries are also published as .NET Framework 4.5.2 artifacts, which do not experience these issues. For more information, read about [.NET Standard version support](https://docs.microsoft.com/dotnet/standard/net-standard#net-implementation-support).
+
 This example configures the client library to write log messages to the physical file `C:\logs\WebRole.log`. You could also use other trace listeners such as the **EventLogTraceListener** to write to the Windows event log, or the **EventProviderTraceListener** to write trace data to the ETW subsystem.
 
 >[!IMPORTANT]
@@ -110,32 +116,32 @@ public ActionResult Create(Subscriber subscriber)
   
 |||  
 |-|-|  
-|**Source**|Microsoft.WindowsAzure.Storage|  
+|**Source**|Microsoft.Azure.Storage|  
 |**Verbosity**|Information|  
 |**Verbosity No**|3|  
 |**Client Request ID**|c3aa328b...|  
 |**Operation Text**|Starting operation with location Primary per location mode PrimaryOnly.|  
   
- `Microsoft.WindowsAzure.Storage Information: 3 : c3aa328b...: Starting operation with location Primary per location mode PrimaryOnly.`   
+ `Microsoft.Azure.Storage Information: 3 : c3aa328b...: Starting operation with location Primary per location mode PrimaryOnly.`   
  *The preceding trace message shows that the [location mode](https://docs.microsoft.com/dotnet/api/microsoft.azure.storage.retrypolicies.locationmode) is set to primary only, meaning that a failed request will not be sent to a secondary location.*   
- `Microsoft.WindowsAzure.Storage Information: 3 : c3aa328b...: Starting synchronous request to https://storageaccountname.table.core.windows.net/mailinglist.`   
+ `Microsoft.Azure.Storage Information: 3 : c3aa328b...: Starting synchronous request to https://storageaccountname.table.core.windows.net/mailinglist.`   
  *The preceding trace message shows that the request is synchronous.*   
- `Microsoft.WindowsAzure.Storage Information: 3 : c3aa328b...: Setting payload format for the request to 'Json'.`   
+ `Microsoft.Azure.Storage Information: 3 : c3aa328b...: Setting payload format for the request to 'Json'.`   
  *The preceding trace message shows that the response should be return formatted as JSON.*   
- `Microsoft.WindowsAzure.Storage Verbose: 4 : c3aa328b...: StringToSign = GET...Fri, 23 May 2014 06:19:48 GMT./storageaccountname/mailinglist.`   
+ `Microsoft.Azure.Storage Verbose: 4 : c3aa328b...: StringToSign = GET...Fri, 23 May 2014 06:19:48 GMT./storageaccountname/mailinglist.`   
  *The preceding trace message includes the StringToSign information, which is useful for debugging auth failures. Verbose messages also contain full request details, including operation type and request parameters.*   
- `Microsoft.WindowsAzure.Storage Information: 3 : c3aa328b...: Waiting for response.`   
+ `Microsoft.Azure.Storage Information: 3 : c3aa328b...: Waiting for response.`   
  *The preceding trace message shows that the request has been sent and the client is awaiting a response.*   
- `Microsoft.WindowsAzure.Storage Information: 3 : c3aa328b...: Response received. Status code = 200, Request ID = 417db530-853d-48a7-a23c-0c8d5f728178, Content-MD5 = , ETag =`   
+ `Microsoft.Azure.Storage Information: 3 : c3aa328b...: Response received. Status code = 200, Request ID = 417db530-853d-48a7-a23c-0c8d5f728178, Content-MD5 = , ETag =`   
  *The preceding trace message shows that the response has been received and its http status code.*   
- `Microsoft.WindowsAzure.Storage Information: 3 : c3aa328b...: Response headers were processed successfully, proceeding with the rest of the operation.`   
- `Microsoft.WindowsAzure.Storage Information: 3 : c3aa328b...: Processing response body.`   
- `Microsoft.WindowsAzure.Storage Information: 3 : c3aa328b...: Retrieved '8' results with continuation token ''.`   
+ `Microsoft.Azure.Storage Information: 3 : c3aa328b...: Response headers were processed successfully, proceeding with the rest of the operation.`   
+ `Microsoft.Azure.Storage Information: 3 : c3aa328b...: Processing response body.`   
+ `Microsoft.Azure.Storage Information: 3 : c3aa328b...: Retrieved '8' results with continuation token ''.`   
  *The preceding trace message shows that 8 results were retrieved and no continuation token was provided, meaning there are no more results for this query.*   
- `Microsoft.WindowsAzure.Storage Information: 3 : c3aa328b...: Operation completed successfully.`   
+ `Microsoft.Azure.Storage Information: 3 : c3aa328b...: Operation completed successfully.`   
  *The preceding trace message shows that the operation completed successfully.*  
   
  The following two verbose (level 4) log entries show a HEAD and a DELETE request and illustrate the detailed information in the **Operation Text** field:   
-`Microsoft.WindowsAzure.Storage Verbose: 4 : 07b26a5d...: StringToSign = HEAD............x-ms-client-request-id:07b26a5d....x-ms-date:Tue, 03 Jun 2014 10:33:11 GMT.x-ms-version:2014-02-14./storageaccountname/azuremmblobcontainer.restype:container.`  
-`Microsoft.WindowsAzure.Storage Verbose: 4 : 07b26a5d...: StringToSign = DELETE............x-ms-client-request-id:07b26a5d....x-ms-date:Tue, 03 Jun 2014 10:33:12 GMT.x-ms-version:2014-02-14./storageaccountname/azuremmblobcontainer.restype:container.`  
+`Microsoft.Azure.Storage Verbose: 4 : 07b26a5d...: StringToSign = HEAD............x-ms-client-request-id:07b26a5d....x-ms-date:Tue, 03 Jun 2014 10:33:11 GMT.x-ms-version:2014-02-14./storageaccountname/azuremmblobcontainer.restype:container.`  
+`Microsoft.Azure.Storage Verbose: 4 : 07b26a5d...: StringToSign = DELETE............x-ms-client-request-id:07b26a5d....x-ms-date:Tue, 03 Jun 2014 10:33:12 GMT.x-ms-version:2014-02-14./storageaccountname/azuremmblobcontainer.restype:container.`  
 *The preceding trace message shows the OperationText field within verbose trace messages, including detailed information related to a specific request. These details include the HTTP operation type (for example, HEAD, DELETE, POST), the client request ID, the timestamp, SDK version, and additional operation-specific data.*
