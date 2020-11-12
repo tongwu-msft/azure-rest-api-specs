@@ -1201,6 +1201,13 @@
 ### [Start](application-gateway/ApplicationGateways/Start.yml)
 ### [Stop](application-gateway/ApplicationGateways/Stop.yml)
 ### [Update Tags](application-gateway/ApplicationGateways/UpdateTags.yml)
+## Web Application Firewall Policies
+### [Overview](application-gateway/WebApplicationFirewallPolicies.yml)
+### [Create Or Update](application-gateway/WebApplicationFirewallPolicies/CreateOrUpdate.yml)
+### [Delete](application-gateway/WebApplicationFirewallPolicies/Delete.yml)
+### [Get](application-gateway/WebApplicationFirewallPolicies/Get.yml)
+### [List](application-gateway/WebApplicationFirewallPolicies/List.yml)
+### [List All](application-gateway/WebApplicationFirewallPolicies/ListAll.yml)
 # Application Insights
 ## [Overview](../docs-ref-conceptual/application-insights/index.md)
 ## Data Access
