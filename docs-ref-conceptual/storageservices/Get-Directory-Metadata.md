@@ -23,10 +23,10 @@ The `Get Directory Metadata` operation returns all user-defined metadata for the
   
 |Path Component|Description|  
 |--------------------|-----------------|  
-|`myaccount`|The name of your storage account.|  
-|`myshare`|The name of your file share.|  
-|`myparentdirectorypath`|Optional. The path to the parent directory.|  
-|`mydirectory`|The name of the directory.|  
+|*myaccount*|The name of your storage account.|  
+|*myshare*|The name of your file share.|  
+|*myparentdirectorypath*|Optional. The path to the parent directory.|  
+|*mydirectory*|The name of the directory.|  
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   

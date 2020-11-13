@@ -25,10 +25,10 @@ The **Abort Copy File** operation aborts a pending **Copy File** operation, and 
   
 |Path Component|Description|  
 |--------------------|-----------------|  
-|myaccount|The name of your storage account.|  
-|myshare|The name of your file share.|  
-|mydirectorypath|Optional. The path to the parent directory.|  
-|Myfile|The name of the file.|  
+|*myaccount*|The name of your storage account.|  
+|*myshare*|The name of your file share.|  
+|*mydirectorypath*|Optional. The path to the parent directory.|  
+|*myfile*|The name of the file.|  
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
@@ -37,7 +37,7 @@ The **Abort Copy File** operation aborts a pending **Copy File** operation, and 
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|Timeout|Optional. The timeout parameter is expressed in seconds. For more information, see Setting Timeouts for File Service Operations.|  
+|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see Setting Timeouts for File Service Operations.|  
   
 ### Request Headers  
  The following table describes required and optional request headers.  

@@ -25,7 +25,7 @@ Note that the URI must always include the forward slash (/) to separate the host
 |URI Parameter|Description|  
 |-------------------|-----------------|  
 |*restype=service&comp=properties*|Required. The combination of both query strings is required to set the storage service properties.|  
-|*Timeout*|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
+|*timeout*|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request Headers  
 The following table describes required and optional request headers.  

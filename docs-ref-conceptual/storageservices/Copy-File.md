@@ -28,10 +28,10 @@ Available in version 2015-02-21 and newer.
   
 |Path Component|Description|  
 |--------------------|-----------------|  
-|`Myaccount`|The name of your storage account.|  
-|`Myshare`|The name of your file share.|  
-|`Mydirectorypath`|Optional. The path to the parent directory.|  
-|`Myfile`|The name of the file.|  
+|*myaccount*|The name of your storage account.|  
+|*myshare*|The name of your file share.|  
+|*mydirectorypath*|Optional. The path to the parent directory.|  
+|*myfile*|The name of the file.|  
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
