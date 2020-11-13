@@ -75,6 +75,7 @@
 ### [List Blobs](list-blobs.md)
 ## [Operations on Blobs](operations-on-blobs.md)
 ### [Put Blob](put-blob.md)
+### [Put Blob From URL](put-blob-from-url.md)
 ### [Get Blob](get-blob.md)
 ### [Get Blob Properties](get-blob-properties.md)
 ### [Set Blob Properties](set-blob-properties.md)
