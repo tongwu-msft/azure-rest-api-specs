@@ -50,8 +50,8 @@ The following table describes the required and optional parameters for the SAS t
 |`SignedServices (ss)`|Required. Specifies the signed services accessible with the account SAS. Possible values include:<br /><br /> -   Blob (`b`)<br />-   Queue (`q`)<br />-   Table (`t`)<br />-   File (`f`)<br /><br /> You can combine values to provide access to more than one service. For example, `ss=bf` specifies access to the Blob and File endpoints.|  
 |`SignedResourceTypes (srt)`|Required. Specifies the signed resource types that are accessible with the account SAS.<br /><br /> -   Service (`s`): Access to service-level APIs (*e.g.*, Get/Set Service Properties, Get Service Stats, List Containers/Queues/Tables/Shares)<br />-   Container (`c`): Access to container-level APIs (*e.g.*, Create/Delete Container, Create/Delete Queue, Create/Delete Table, Create/Delete Share, List Blobs/Files and Directories)<br />-   Object (`o`): Access to object-level APIs for  blobs, queue messages,  table entities, and files(*e.g.* Put Blob, Query Entity, Get Messages, Create File, etc.)<br /><br /> You can combine values to provide access to more than one resource type. For example, `srt=sc` specifies access to service and container resources.|  
 |`SignedPermission (sp)`|Required. Specifies the signed permissions for the account SAS. Permissions are only valid if they match the specified signed resource type; otherwise they are ignored.<br /><br /> -   Read (`r`): Valid for all signed resources types (Service, Container, and Object). Permits read permissions to the specified resource type.<br />-   Write (`w`): Valid for all signed resources types (Service, Container, and Object). Permits write permissions to the specified resource type.<br />-   Delete (`d`): Valid for Container and Object resource types, except for queue messages.<br />-   List (`l`): Valid for Service and Container resource types only.<br />-   Add (`a`): Valid for the following Object resource types only: queue messages, table entities, and append blobs.<br />-   Create (`c`): Valid for the following Object resource types only: blobs and files. Users can create new blobs or files, but may not overwrite existing blobs or files.<br />-   Update (`u`): Valid for the following Object resource types only:   queue messages and table entities.<br />-   Process (`p`): Valid for the following Object resource type only: queue messages.|  
-|`SignedStart (st)`|Optional. The time at which the SAS becomes valid, in an ISO 8601 format. If omitted, start time for this call is assumed to be the time when the storage service receives the request.|  
-|`SignedExpiry (se)`|Required. The time at which the shared access signature becomes invalid, in an ISO 8601 format.|  
+|`SignedStart (st)`|Optional. The time at which the SAS becomes valid, expressed in UTC time and in an ISO 8601 format. If omitted, start time for this call is assumed to be the time when the storage service receives the request.|  
+|`SignedExpiry (se)`|Required. The time at which the shared access signature becomes invalid, expressed in UTC time and in an ISO 8601 format.|  
 |`SignedIP (sip)`|Optional. Specifies an IP address or a range of IP addresses from which to accept requests. When specifying a range, note that the range is inclusive.<br /><br /> For example, `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70`.|  
 |`SignedProtocol (spr)`|Optional. Specifies the protocol permitted for a request made with the account SAS. Possible values are both HTTPS and HTTP (`https,http`) or HTTPS only (`https`).  The default value is `https,http`.<br /><br /> Note that HTTP only is not a permitted value.|  
 |`Signature (sig)`|Required.  The signature part of the URI is used to authorize the request made with the shared access signature.<br /><br /> The string-to-sign is a unique string constructed from the fields that must be verified in order to authorize the request. The signature is an HMAC computed over the string-to-sign and key using the SHA256 algorithm, and then encoded using Base64 encoding.|  
@@ -61,12 +61,12 @@ The following table describes the required and optional parameters for the SAS t
 The `SignedStart` and `SignedExpiry` fields must be expressed as UTC times and must adhere to a valid ISO 8601 format. Supported ISO 8601 formats include the following:  
   
 - YYYY-MM-DD  
-  
 - YYYY-MM-DDThh:mmTZD  
-  
 - YYYY-MM-DDThh:mm:ssTZD  
   
 For the date portion of these formats, YYYY is a four-digit year representation, MM is a two-digit month representation, and DD is a two-digit day representation. For the time portion, hh is the hour representation in 24-hour notation, mm is the two-digit minute representation, and ss is the two-digit second representation. A time designator T separates the date and time portions of the string, while a time zone designator TZD specifies the UTC time zone.
+
+For more information about supported UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).
 
 ### Constructing the signature string
 

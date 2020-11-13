@@ -135,10 +135,9 @@ Both fields must be expressed as UTC times and must adhere to a valid UTC format
 - `YYYY-MM-DDThh:mmTZD`  
 - `YYYY-MM-DDThh:mm:ssTZD`  
   
-> [!NOTE]
-> All values for `signedStart` and `signedExpiry` must be in UTC time.
-  
 For the date portion of these formats, `YYYY` is a four-digit year representation, `MM` is a two-digit month representation, and `DD` is a two-digit day representation. For the time portion, `hh` is the hour representation in 24-hour notation, `mm` is the two-digit minute representation, and `ss` is the two-digit second representation. A time designator `T` separates the date and time portions of the string, while a time zone designator `TZD` specifies a time zone (UTC).
+
+For more information about supported UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).
 
 ### Specify permissions
   
