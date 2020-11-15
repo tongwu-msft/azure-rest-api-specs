@@ -2,7 +2,7 @@
 ms.assetid: 48c74a5e-ffb7-460f-9aa8-7078d54c16cb
 title: Log Analytics REST API
 description: Operation groups for the Log Analytics REST API
-ms.service: LogAnalytics
+ms.service: log-analytics
 ms.date: 10/01/2020
 author: bwren
 ms.author: bwren
@@ -23,7 +23,7 @@ The Log Analytics REST API provides operations for managing the following resour
 | [Data Sources](xref:management.azure.com.loganalytics.datasources) | Create or update data sources. |
 | [Linked Services](xref:management.azure.com.loganalytics.linkedservices) | Create or update linked services. |
 | [Saved Searches](xref:management.azure.com.loganalytics.savedsearches) | Create or update saved searches. |
-| [Storage Insights](xref:management.azure.com.loganalytics.connectedsources.storageinsights) | Create or update storage insights. |
+| [Storage Insights](xref:management.azure.com.loganalytics.storageinsights) | Create or update storage insights. |
 | [Clusters](xref:management.azure.com.loganalytics.clusters) | Manage Log Analytics clusters. |
 
 ## Send Custom Log Data to Log Analytics
