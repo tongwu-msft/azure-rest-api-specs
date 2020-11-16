@@ -9454,8 +9454,10 @@
 ### [List Subscription Level Alerts By Region](securitycenter/Alerts/ListSubscriptionLevelAlertsByRegion.yml)
 ### [Update Resource Group Level Alert State To Dismiss](securitycenter/Alerts/UpdateResourceGroupLevelAlertStateToDismiss.yml)
 ### [Update Resource Group Level Alert State To Reactivate](securitycenter/Alerts/UpdateResourceGroupLevelAlertStateToReactivate.yml)
+### [Update Resource Group Level State To Resolve](securitycenter/Alerts/UpdateResourceGroupLevelStateToResolve.yml)
 ### [Update Subscription Level Alert State To Dismiss](securitycenter/Alerts/UpdateSubscriptionLevelAlertStateToDismiss.yml)
 ### [Update Subscription Level Alert State To Reactivate](securitycenter/Alerts/UpdateSubscriptionLevelAlertStateToReactivate.yml)
+### [Update Subscription Level State To Resolve](securitycenter/Alerts/UpdateSubscriptionLevelStateToResolve.yml)
 ## Alerts Suppression Rules
 ### [Overview](securitycenter/AlertsSuppressionRules.yml)
 ### [Delete](securitycenter/AlertsSuppressionRules/Delete.yml)
