@@ -17,6 +17,8 @@ The Microsoft Azure storage services support multiple versions. To make a reques
   
  Additional supported versions include:
 
+-   [Version 2019-12-12](version-2019-12-12.md)
+
 -   [Version 2019-07-07](version-2019-07-07.md)
 
 -   [Version 2019-02-02](version-2019-02-02.md)
