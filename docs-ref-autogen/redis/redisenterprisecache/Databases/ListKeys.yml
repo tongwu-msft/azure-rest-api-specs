@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.redis.redisenterprisecache.redisenterprisedatabase.import
-name: Import
+uid: management.azure.com.redis.redisenterprisecache.databases.listkeys
+name: List Keys
 service: Redis Cache
-groupName: Redis Enterprise Database
+groupName: Databases
 apiVersion: 2020-10-01-preview
-summary: Imports a database file to target database.
+summary: Retrieves the access keys for the RedisEnterprise database.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/import?api-version=2020-10-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/listKeys?api-version=2020-10-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,24 +44,29 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Import operation succeeded.
-- name: 202 Accepted
-  description: The import operation was started. GET the URL in the Azure-AsyncOperation or Location headers to retrieve updated status.
+  description: The access keys for the specified database.
+  types:
+  - uid: AccessKeys
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-requestBody:
-- name: default
-  parameters:
-  - name: sasUri
-    in: body
-    isRequired: true
-    description: SAS Uri for the target blob to import from
-    types:
-    - uid: string
 requestHeader: []
 definitions:
+- name: AccessKeys
+  description: Access keys
+  kind: object
+  properties:
+  - name: primaryKey
+    isReadyOnly: true
+    description: The current primary key that clients can use to authenticate
+    types:
+    - uid: string
+  - name: secondaryKey
+    isReadyOnly: true
+    description: The current secondary key that clients can use to authenticate
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -70,14 +75,6 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: ImportClusterParameters
-  description: Import an RDB file into a target database
-  kind: object
-  properties:
-  - name: sasUri
-    description: SAS Uri for the target blob to import from
-    types:
-    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -124,21 +121,16 @@ definitions:
     types:
     - uid: object
 examples:
-- name: RedisEnterpriseImportCluster
+- name: RedisEnterpriseDatabasesListKeys
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default/import?api-version=2020-10-01-preview
-    body: >-
-      {
-        "sasUri": "https://contosostorage.blob.core.window.net/urltoBlobFile?sasKeyParameters"
-      }
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default/listKeys?api-version=2020-10-01-preview
   responses:
   - statusCode: "200"
-  - statusCode: "202"
-    headers:
-    - name: Azure-AsyncOperation
-      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Cache/...pathToOperationStatus...
-    - name: Location
-      value: https://management.azure.com/subscriptions/subid/providers/Microsoft.Cache/...pathToOperationResult...
+    body: >-
+      {
+        "primaryKey": "secretkey1",
+        "secondaryKey": "secretKey2"
+      }
 security:
 - name: azure_auth
   type: oauth2

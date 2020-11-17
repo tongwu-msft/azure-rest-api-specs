@@ -64,8 +64,9 @@ The following JSON is a high-level representation of the main parts of the defin
     "type" : (required) "Must be a supported data source",
     "credentials" : (required) { "connectionString" : "Connection string for your data source" },  
     "container" : (required) { "name" : "Name of the table, collection, or blob container you wish to index" },  
-    "dataChangeDetectionPolicy" : (optional) {See below for details },   
-    "dataDeletionDetectionPolicy" : (optional) {See below for details }  
+    "dataChangeDetectionPolicy" : (optional) {See below for details },
+    "dataDeletionDetectionPolicy" : (optional) {See below for details },
+    "encryptionKey":(optional) { }
 }  
 ```  
 
@@ -77,9 +78,11 @@ The following JSON is a high-level representation of the main parts of the defin
 |description|An optional description.|  
 |type|Required. Must be one of the supported data source types:<br /><br /> 1. `azuresql` for Azure SQL Database<br />2. `cosmosdb` for the Azure Cosmos DB SQL API<br />3. `azureblob` - Azure Blob Storage <br />4. `azuretable` - Azure Table Storage|
 |credentials|The required **connectionString** property specifies the connection string for the data source. The format of the connection string depends on the data source type:<br /><br /> -   For Azure SQL Database, this is the usual SQL Server connection string. If you're using Azure portal to retrieve the connection string, use the `ADO.NET connection string` option.<br />-   For Azure Cosmos DB, the connection string must be in the following format: `"AccountEndpoint=https://[your account name].documents.azure.com;AccountKey=[your account key];Database=[your database id]"`. All of the values are required. You can find them in the [Azure portal](https://portal.azure.com).<br /><br />Azure Storage, Azure SQL Database, and Azure Cosmos DB also support a managed identity connection string that does not include an account key in the connection string. To use the managed identity connection string format, follow the instructions for [Setting up an indexer connection to a data source using a managed identity](https://docs.microsoft.com/azure/search/search-howto-managed-identities-data-sources).<br /><br />If you are updating the data source, the connection string is not required. The values `<unchanged>` or `<redacted>` can be used in place of the actual connection string.|  
-|container|Required. Specifies the data to index using the `name` and `query` properties: <br /><br />`name`, required:<br />- Azure SQL: specifies the table or view. You can use schema-qualified names, such as `[dbo].[mytable]`.<br />- Azure Cosmos DB: specifies the SQL API collection. <br />- Azure Blob Storage: specifies the storage container.<br />- Azure Table Storage: specifies the name of the table. <br /><br />`query`, optional:<br />- Azure Cosmos DB: allows you to specify a query that flattens an arbitrary JSON document layout into a flat schema that Azure Cognitive Search can index.<br />- Azure Blob Storage: allows you to specify a virtual folder within the blob container. For example, for blob path `mycontainer/documents/blob.pdf`, `documents` can be used as the virtual folder.<br />- Azure Table Storage: allows you to specify a query that filters the set of rows to be imported.<br />- Azure SQL: query is not supported. Use views instead. |  
+|container|Required. Specifies the data to index using the `name` and `query` properties: <br /><br />`name`, required:<br />- Azure SQL: specifies the table or view. You can use schema-qualified names, such as `[dbo].[mytable]`.<br />- Azure Cosmos DB: specifies the SQL API collection. <br />- Azure Blob Storage: specifies the storage container.<br />- Azure Table Storage: specifies the name of the table. <br /><br />`query`, optional:<br />- Azure Cosmos DB: allows you to specify a query that flattens an arbitrary JSON document layout into a flat schema that Azure Cognitive Search can index.<br />- Azure Blob Storage: allows you to specify a virtual folder within the blob container. For example, for blob path `mycontainer/documents/blob.pdf`, `documents` can be used as the virtual folder.<br />- Azure Table Storage: allows you to specify a query that filters the set of rows to be imported.<br />- Azure SQL: query is not supported. Use views instead. |
+|[encryptionKey](#encryption-key)| Optional. Used to encrypt the data source at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys). |
+|disabled| Optional. Boolean value indicating whether the indexer is disabled. False by default. |  
 
- The optional **dataChangeDetectionPolicy** and **dataDeletionDetectionPolicy** are described below.  
+ The optional **dataChangeDetectionPolicy**, **dataDeletionDetectionPolicy**, and **encryptionKey** are described below.  
 
 ### Data Change Detection Policies  
  The purpose of a data change detection policy is to efficiently identify changed data items. Supported policies vary based on the data source type. Sections below describe each policy  
@@ -153,6 +156,26 @@ When using Azure Blob data sources, Azure Cognitive Search automatically uses a 
 
 > [!NOTE]  
 >  Only columns with string, integer, or boolean values are supported. The value used as **softDeleteMarkerValue** must be a string, even if the corresponding column holds integers or booleans. For example, if the value that appears in your data source is 1, use **"1"** as the **softDeleteMarkerValue**.  
+
+<a name="encryption-key"></a>
+
+### "encryptionKey"
+
+While data sources are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), you can also encrypt them with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
+
+```json
+"encryptionKey": (optional) { 
+  "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
+  "keyVaultKeyVersion": "Version of the Azure Key Vault key",
+  "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net",
+  "accessCredentials": (optional, only if not using managed system identity) {
+    "applicationId": "Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault",
+    "applicationSecret": "Authentication key of the specified Azure AD application)"}
+  }
+```
+
+> [!NOTE]
+> Encryption with customer-managed keys is not available for free services. For billable services, it is only available for search services created on or after 2019-01-01.
 
 ## Response  
  For a successful request: 201 Created.  

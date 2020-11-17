@@ -51,7 +51,7 @@ A blob name must conforming to the following naming rules:
 - The number of path segments comprising the blob name cannot exceed 254. A path segment is the string between consecutive delimiter characters (*e.g.*, the forward slash '/') that corresponds to the name of a virtual directory.  
   
 > [!NOTE]
-> Avoid blob names that end with a dot (.), a forward slash (/), or a sequence or combination of the two.  
+> Avoid blob names that end with a dot (.), a forward slash (/), or a sequence or combination of the two. No path segments should end with a dot (.).
   
 The Blob service is based on a flat storage scheme, not a hierarchical scheme. However, you may specify a character or string delimiter within a blob name to create a virtual hierarchy. For example, the following list shows valid and unique blob names. Notice that a string can be valid as both a blob name and as a virtual directory name in the same container:  
   

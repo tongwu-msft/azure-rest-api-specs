@@ -81,6 +81,7 @@ The following JSON is a high-level representation of the main parts of the defin
     "parameters" : (optional) { ... },  
     "fieldMappings" : (optional) { ... },
     "outputFieldMappings" : (required for AI enrichment) { ... },
+    "encryptionKey":(optional) { },
     "disabled" : (optional) Boolean value indicating whether the indexer is disabled. False by default.
 }  
 ```
@@ -97,6 +98,7 @@ The following JSON is a high-level representation of the main parts of the defin
 |[parameters](#indexer-parameters)| Optional. Properties for modifying runtime behavior.|
 |[fieldMappings](#field-mappings)| Optional. Used when source and destination fields have different names. |
 |[outputFieldMappings](#output-fieldmappings)| Required for AI enrichment. Maps output from a skillset to an index or projection. |
+|[encryptionKey](#encryption-key)| Optional. Used to encrypt indexer data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys). |
 |disabled| Optional. Boolean value indicating whether the indexer is disabled. False by default. |
 
 <a name="dataSourceName"></a>
@@ -320,6 +322,26 @@ New in this preview, you can specify the [cache property](#cache) to reuse docum
   }
 }
 ```
+
+<a name="encryption-key"></a>
+
+### "encryptionKey"
+
+While indexers are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), you can also encrypt them with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
+
+```json
+"encryptionKey": (optional) { 
+  "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
+  "keyVaultKeyVersion": "Version of the Azure Key Vault key",
+  "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net",
+  "accessCredentials": (optional, only if not using managed system identity) {
+    "applicationId": "Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault",
+    "applicationSecret": "Authentication key of the specified Azure AD application)"}
+  }
+```
+
+> [!NOTE]
+> Encryption with customer-managed keys is not available for free services. For billable services, it is only available for search services created on or after 2019-01-01.
 
 ## See also
 

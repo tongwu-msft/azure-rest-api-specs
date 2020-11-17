@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.redis.redisenterprisecache.redisenterprisedatabase.export
-name: Export
+uid: management.azure.com.redis.redisenterprisecache.databases.regeneratekey
+name: Regenerate Key
 service: Redis Cache
-groupName: Redis Enterprise Database
+groupName: Databases
 apiVersion: 2020-10-01-preview
-summary: Exports a database file from target database.
+summary: Regenerates the RedisEnterprise database's access keys.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/export?api-version=2020-10-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}/regenerateKey?api-version=2020-10-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,9 +44,11 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Export operation succeeded.
+  description: Returns the new access keys for the database
+  types:
+  - uid: AccessKeys
 - name: 202 Accepted
-  description: Export operation successfully enqueued; follow the Location header to poll for final outcome.
+  description: The cluster update operation was started. GET the URL in the Azure-AsyncOperation or Location headers to retrieve updated status.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -54,14 +56,28 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: sasUri
+  - name: keyType
     in: body
     isRequired: true
-    description: SAS Uri for the target directory to export to
+    description: Which access key to regenerate.
     types:
-    - uid: string
+    - uid: AccessKeyType
 requestHeader: []
 definitions:
+- name: AccessKeys
+  description: Access keys
+  kind: object
+  properties:
+  - name: primaryKey
+    isReadyOnly: true
+    description: The current primary key that clients can use to authenticate
+    types:
+    - uid: string
+  - name: secondaryKey
+    isReadyOnly: true
+    description: The current secondary key that clients can use to authenticate
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -70,14 +86,14 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: ExportClusterParameters
-  description: Export an RDB file into a target database
+- name: RegenerateKeyParameters
+  description: Regenerate access keys request
   kind: object
   properties:
-  - name: sasUri
-    description: SAS Uri for the target directory to export to
+  - name: keyType
+    description: Which access key to regenerate.
     types:
-    - uid: string
+    - uid: AccessKeyType
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -109,6 +125,16 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: AccessKeyType
+  description: Which access key to regenerate.
+  kind: enum
+  properties:
+  - name: Primary
+    types:
+    - uid: string
+  - name: Secondary
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -124,15 +150,20 @@ definitions:
     types:
     - uid: object
 examples:
-- name: RedisEnterpriseExportCluster
+- name: RedisEnterpriseDatabasesRegenerateKey
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default/export?api-version=2020-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default/regenerateKey?api-version=2020-10-01-preview
     body: >-
       {
-        "sasUri": "https://contosostorage.blob.core.window.net/urlToBlobContainer?sasKeyParameters"
+        "keyType": "Primary"
       }
   responses:
   - statusCode: "200"
+    body: >-
+      {
+        "primaryKey": "secretkey1",
+        "secondaryKey": "secretKey2"
+      }
   - statusCode: "202"
     headers:
     - name: Azure-AsyncOperation

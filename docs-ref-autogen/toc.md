@@ -1201,6 +1201,13 @@
 ### [Start](application-gateway/ApplicationGateways/Start.yml)
 ### [Stop](application-gateway/ApplicationGateways/Stop.yml)
 ### [Update Tags](application-gateway/ApplicationGateways/UpdateTags.yml)
+## Web Application Firewall Policies
+### [Overview](application-gateway/WebApplicationFirewallPolicies.yml)
+### [Create Or Update](application-gateway/WebApplicationFirewallPolicies/CreateOrUpdate.yml)
+### [Delete](application-gateway/WebApplicationFirewallPolicies/Delete.yml)
+### [Get](application-gateway/WebApplicationFirewallPolicies/Get.yml)
+### [List](application-gateway/WebApplicationFirewallPolicies/List.yml)
+### [List All](application-gateway/WebApplicationFirewallPolicies/ListAll.yml)
 # Application Insights
 ## [Overview](../docs-ref-conceptual/application-insights/index.md)
 ## Data Access
@@ -8831,8 +8838,12 @@
 #### [Overview](redis/redisenterprisecache/Databases.yml)
 #### [Create](redis/redisenterprisecache/Databases/Create.yml)
 #### [Delete](redis/redisenterprisecache/Databases/Delete.yml)
+#### [Export](redis/redisenterprisecache/Databases/Export.yml)
 #### [Get](redis/redisenterprisecache/Databases/Get.yml)
+#### [Import](redis/redisenterprisecache/Databases/Import.yml)
 #### [List By Cluster](redis/redisenterprisecache/Databases/ListByCluster.yml)
+#### [List Keys](redis/redisenterprisecache/Databases/ListKeys.yml)
+#### [Regenerate Key](redis/redisenterprisecache/Databases/RegenerateKey.yml)
 #### [Update](redis/redisenterprisecache/Databases/Update.yml)
 ### Get
 #### [Overview](redis/redisenterprisecache/Get.yml)
@@ -8857,12 +8868,6 @@
 #### [List](redis/redisenterprisecache/RedisEnterprise/List.yml)
 #### [List By Resource Group](redis/redisenterprisecache/RedisEnterprise/ListByResourceGroup.yml)
 #### [Update](redis/redisenterprisecache/RedisEnterprise/Update.yml)
-### Redis Enterprise Database
-#### [Overview](redis/redisenterprisecache/RedisEnterpriseDatabase.yml)
-#### [Export](redis/redisenterprisecache/RedisEnterpriseDatabase/Export.yml)
-#### [Import](redis/redisenterprisecache/RedisEnterpriseDatabase/Import.yml)
-#### [List Keys](redis/redisenterprisecache/RedisEnterpriseDatabase/ListKeys.yml)
-#### [Regenerate Key](redis/redisenterprisecache/RedisEnterpriseDatabase/RegenerateKey.yml)
 # Relay
 ## [Overview](../docs-ref-conceptual/relay/index.md)
 ## Hybrid Connections
@@ -9447,8 +9452,10 @@
 ### [List Subscription Level Alerts By Region](securitycenter/Alerts/ListSubscriptionLevelAlertsByRegion.yml)
 ### [Update Resource Group Level Alert State To Dismiss](securitycenter/Alerts/UpdateResourceGroupLevelAlertStateToDismiss.yml)
 ### [Update Resource Group Level Alert State To Reactivate](securitycenter/Alerts/UpdateResourceGroupLevelAlertStateToReactivate.yml)
+### [Update Resource Group Level State To Resolve](securitycenter/Alerts/UpdateResourceGroupLevelStateToResolve.yml)
 ### [Update Subscription Level Alert State To Dismiss](securitycenter/Alerts/UpdateSubscriptionLevelAlertStateToDismiss.yml)
 ### [Update Subscription Level Alert State To Reactivate](securitycenter/Alerts/UpdateSubscriptionLevelAlertStateToReactivate.yml)
+### [Update Subscription Level State To Resolve](securitycenter/Alerts/UpdateSubscriptionLevelStateToResolve.yml)
 ## Alerts Suppression Rules
 ### [Overview](securitycenter/AlertsSuppressionRules.yml)
 ### [Delete](securitycenter/AlertsSuppressionRules/Delete.yml)
@@ -14058,6 +14065,7 @@
 #### [SAS error codes](../docs-ref-conceptual/storageservices/sas-error-codes.md)
 ## [Representation of Date-Time Values in Headers](../docs-ref-conceptual/storageservices/representation-of-date-time-values-in-headers.md)
 ## [Cross-Origin Resource Sharing (CORS) Support for the Azure Storage Services](../docs-ref-conceptual/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services.md)
+## [Formatting DateTime Values](../docs-ref-conceptual/storageservices/formatting-datetime-values.md)
 ## Status and Error Codes
 ### [Overview](../docs-ref-conceptual/storageservices/status-and-error-codes2.md)
 ### [Common REST API Error Codes](../docs-ref-conceptual/storageservices/common-rest-api-error-codes.md)
@@ -14185,7 +14193,6 @@
 #### [Query Timeout and Pagination](../docs-ref-conceptual/storageservices/query-timeout-and-pagination.md)
 #### [Querying Tables and Entities](../docs-ref-conceptual/storageservices/querying-tables-and-entities.md)
 #### [Inserting and Updating Entities](../docs-ref-conceptual/storageservices/inserting-and-updating-entities.md)
-#### [Formatting DateTime Property Values](../docs-ref-conceptual/storageservices/formatting-datetime-property-values.md)
 #### [Performing Entity Group Transactions](../docs-ref-conceptual/storageservices/performing-entity-group-transactions.md)
 #### [Setting Timeouts for Table Service Operations](../docs-ref-conceptual/storageservices/setting-timeouts-for-table-service-operations.md)
 #### [Setting the OData Data Service Version Headers](../docs-ref-conceptual/storageservices/setting-the-odata-data-service-version-headers.md)

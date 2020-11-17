@@ -13,8 +13,6 @@ ms.author: pemari
 
 Azure Files supports a subset of the SMB 3.0 and 2.1 protocols. The majority of applications do not use the SMB features that are not supported by Azure Files, so most applications will work as designed when using files stored in Azure Files. However, some applications may not work properly with Azure Files if they rely on these unsupported features. The following is a list of the SMB features that are not supported by Azure Files:  
   
-- [SMB Multichannel](https://blogs.technet.com/b/josebda/archive/2012/05/13/the-basics-of-smb-multichannel-a-feature-of-windows-server-2012-and-smb-3-0.aspx) 
-  
 - [SMB Direct](https://technet.microsoft.com/library/jj134210.aspx)  
   
 - [SMB Directory Leasing](https://technet.microsoft.com/library/hh831795.aspx)  

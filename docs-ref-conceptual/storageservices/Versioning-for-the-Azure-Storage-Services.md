@@ -3,10 +3,10 @@ title: Versioning for the Azure Storage services
 description: The Azure Storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.
 author: pemari
 
-ms.date: 09/19/2019
+ms.date: 11/03/2020
 ms.service: storage
 ms.topic: reference
-ms.author: pemari-msft
+ms.author: pemari
 ---
 
 # Versioning for the Azure Storage services
@@ -15,19 +15,27 @@ The Microsoft Azure storage services support multiple versions. To make a reques
   
  The current version of the Azure storage services is 2019-12-12, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
 
-## Version 2019-12-12
+## Version 2020-02-10
   
-The 2019-12-12 service version includes the following features:
+The 2020-02-10 service version includes the following features:
 
-- A new pair of APIs [Get Blob Tags](get-blob-tags.md) and [Set Blob Tags](set-blob-tags.md) allow user-defined tags to be added to a blob which then act as a secondary index.
-- A new API [Find Blobs by Tags](find-blobs-by-tags.md) allow blobs to be retrieved based upon their tags. 
-- A new API [Query Blob Contents](query-blob-contents.md) applies a simple Structured Query Language (SQL) statement on a blob's contents and returns only the queried subset of the data. 
-- The [Set Blob Tier](set-blob-tier.md) API can now be called on snapshots. 
-- The maximum size of a block uploaded via [Put Block](Put-Block.md) has been increased to 4 GiB (4000 MiB). This means that the maximum size of a block blob is now approximately 200 TiB.
-- The maximum size for a blob uploaded through [Put Blob](Put-Blob.md) has been increased to 5 GiB (5000 MiB).
-- Static Website Settings now support an absolute path for the index document.
-- Blob and Queue anonymous and OAuth requests will return 401 (Unauthorized) with identity provider and resource information in order to support Bearer Challenge. 
-- Blob APIs now support the Blob Versioning feature, which provides a fixed way to access a blob in subsequent requests.|  
+- A new API to set the ACL recursively on ADLS Gen2 path.
+
+- A new SAS permission type to get access to only a subtree of the ADLS Gen2 filesystem.
+
+- Query Acceleration now supports querying Arrow file formats for output in Blobs and ADLS Gen2 accounts.
+
+- A new API to support soft delete of containers.
+
+- The ability to schedule delete of ADLS Gen2 files.
+
+- Support for 4TB files in standard File Share accounts.
+
+- The ability to get and set SMB Multi-channel property
+
+- A new API to set tier on a File Share
+
+- The ability to diff two snapshots in Azure File Share
 
 ## Specifying service versions in requests  
 
