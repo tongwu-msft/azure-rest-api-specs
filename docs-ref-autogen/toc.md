@@ -8838,8 +8838,12 @@
 #### [Overview](redis/redisenterprisecache/Databases.yml)
 #### [Create](redis/redisenterprisecache/Databases/Create.yml)
 #### [Delete](redis/redisenterprisecache/Databases/Delete.yml)
+#### [Export](redis/redisenterprisecache/Databases/Export.yml)
 #### [Get](redis/redisenterprisecache/Databases/Get.yml)
+#### [Import](redis/redisenterprisecache/Databases/Import.yml)
 #### [List By Cluster](redis/redisenterprisecache/Databases/ListByCluster.yml)
+#### [List Keys](redis/redisenterprisecache/Databases/ListKeys.yml)
+#### [Regenerate Key](redis/redisenterprisecache/Databases/RegenerateKey.yml)
 #### [Update](redis/redisenterprisecache/Databases/Update.yml)
 ### Get
 #### [Overview](redis/redisenterprisecache/Get.yml)
@@ -8864,12 +8868,6 @@
 #### [List](redis/redisenterprisecache/RedisEnterprise/List.yml)
 #### [List By Resource Group](redis/redisenterprisecache/RedisEnterprise/ListByResourceGroup.yml)
 #### [Update](redis/redisenterprisecache/RedisEnterprise/Update.yml)
-### Redis Enterprise Database
-#### [Overview](redis/redisenterprisecache/RedisEnterpriseDatabase.yml)
-#### [Export](redis/redisenterprisecache/RedisEnterpriseDatabase/Export.yml)
-#### [Import](redis/redisenterprisecache/RedisEnterpriseDatabase/Import.yml)
-#### [List Keys](redis/redisenterprisecache/RedisEnterpriseDatabase/ListKeys.yml)
-#### [Regenerate Key](redis/redisenterprisecache/RedisEnterpriseDatabase/RegenerateKey.yml)
 # Relay
 ## [Overview](../docs-ref-conceptual/relay/index.md)
 ## Hybrid Connections
