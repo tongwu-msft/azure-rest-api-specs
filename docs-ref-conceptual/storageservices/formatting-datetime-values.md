@@ -13,6 +13,8 @@ ms.author: pemari
 
 Azure Storage `DateTime` values must be represented as combined Coordinated Universal Time (UTC) values. UTC formats are described by [ISO 8601](https://go.microsoft.com/fwlink/?LinkId=156016).
 
+## Accepted ISO 8601 UTC formats
+
 The following ISO 8601 UTC formats are currently accepted by Azure Storage:  
   
 - `YYYY-MM-DD`  
