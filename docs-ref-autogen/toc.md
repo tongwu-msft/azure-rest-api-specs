@@ -14067,6 +14067,7 @@
 #### [SAS error codes](../docs-ref-conceptual/storageservices/sas-error-codes.md)
 ## [Representation of Date-Time Values in Headers](../docs-ref-conceptual/storageservices/representation-of-date-time-values-in-headers.md)
 ## [Cross-Origin Resource Sharing (CORS) Support for the Azure Storage Services](../docs-ref-conceptual/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services.md)
+## [Formatting DateTime Values](../docs-ref-conceptual/storageservices/formatting-datetime-values.md)
 ## Status and Error Codes
 ### [Overview](../docs-ref-conceptual/storageservices/status-and-error-codes2.md)
 ### [Common REST API Error Codes](../docs-ref-conceptual/storageservices/common-rest-api-error-codes.md)
@@ -14194,7 +14195,6 @@
 #### [Query Timeout and Pagination](../docs-ref-conceptual/storageservices/query-timeout-and-pagination.md)
 #### [Querying Tables and Entities](../docs-ref-conceptual/storageservices/querying-tables-and-entities.md)
 #### [Inserting and Updating Entities](../docs-ref-conceptual/storageservices/inserting-and-updating-entities.md)
-#### [Formatting DateTime Property Values](../docs-ref-conceptual/storageservices/formatting-datetime-property-values.md)
 #### [Performing Entity Group Transactions](../docs-ref-conceptual/storageservices/performing-entity-group-transactions.md)
 #### [Setting Timeouts for Table Service Operations](../docs-ref-conceptual/storageservices/setting-timeouts-for-table-service-operations.md)
 #### [Setting the OData Data Service Version Headers](../docs-ref-conceptual/storageservices/setting-the-odata-data-service-version-headers.md)
