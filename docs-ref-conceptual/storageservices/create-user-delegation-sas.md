@@ -3,7 +3,7 @@ title: Create a user delegation SAS - Azure Storage
 description: A SAS token for access to a container, directory, or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a user delegation SAS, because the token used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice. 
 author: tamram
 
-ms.date: 10/29/2020
+ms.date: 11/16/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -83,15 +83,15 @@ The following table summarizes the fields supported for a user delegation SAS to
 |--|--|--|--|--|
 | `signedVersion` | `sv` | Required | 2018-11-09 or later | Indicates the version of the service used to construct the signature field, and also specifies the service version that handles a request made with this shared access signature. |
 | `signedResource` | `sr` | Required | All | Specifies which blob resources are accessible via the shared access signature. |
-| `signedStart` | `st` | Optional | All | Indicates the start time for the SAS in UTC time. If omitted, the current UTC time is used as the start time. |
-| `signedExpiry` | `se` | Required | All | Indicates the expiry time for the SAS in UTC time. |
+| `signedStart` | `st` | Optional | All | Optional. The time at which the shared access signature becomes valid, expressed in one of the accepted ISO 8601 UTC formats. If omitted, the current UTC time is used as the start time. For more information about accepted UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).|
+| `signedExpiry` | `se` | Required | All | The time at which the shared access signature becomes invalid, expressed in one of the accepted ISO 8601 UTC formats. For more information about accepted UTC formats, see [Formatting DateTime values](formatting-datetime-values.md). |
 | `signedPermissions` | `sp` | Required | All | Indicates which operations a client who possesses the SAS may perform on the resource. Permissions may be combined. |
 | `signedIp` | `sip` | Optional | 2015-04-05 or later | Specifies an IP address or an inclusive range of IP addresses from which to accept requests. |
 | `signedProtocol` | `spr` | Optional | 2015-04-05 or later | Specifies the protocol permitted for a request made with the SAS. Include this field to require that requests made with the SAS token use HTTPS. |
 | `signedObjectId` | `skoid` | Required | 2018-11-09 or later | Identifies an Azure AD security principal. |
 | `signedTenantId` | `sktid` | Required | 2018-11-09 or later | Specifies the Azure AD tenant in which a security principal is defined. |
-| `signedKeyStartTime` | `skt` | Optional. | 2018-11-09 or later | Value is returned by the Get User Delegation Key operation.  Indicates the start of the lifetime of the user delegation key in ISO Date format. If omitted, the current time is assumed. |
-| `signedKeyExpiryTime` | `ske` | Required | 2018-11-09 or later | Value is returned by the Get User Delegation Key operation. Indicates the end of the lifetime of the user delegation key in ISO Date format. |
+| `signedKeyStartTime` | `skt` | Optional. | 2018-11-09 or later | Value is returned by the **Get User Delegation Key** operation.  Indicates the start of the lifetime of the user delegation key, expressed in one of the accepted ISO 8601 UTC formats. If omitted, the current time is assumed. For more information about accepted UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).|
+| `signedKeyExpiryTime` | `ske` | Required | 2018-11-09 or later | Value is returned by the **Get User Delegation Key** operation. Indicates the end of the lifetime of the user delegation key, expressed in one of the accepted ISO 8601 UTC formats. For more information about accepted UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).|
 | `signedKeyService` | `sks` | Required | 2018-11-09 or later | Indicates the service for which the user delegation key is valid. Currently only the Blob service is supported. |
 | `signedAuthorizedObjectId` (preview) | `saoid` | Optional | 2020-02-10 or later | Specifies the object ID for an Azure AD security principal that is authorized by the owner of the user delegation key to perform the action granted by the SAS token. No additional permission check on POSIX ACLs is performed. |
 | `signedUnauthorizedObjectId` (preview) | `suoid` | Optional | 2020-02-10 or later | Specifies the object ID for an Azure AD security principal when a hierarchical namespace is enabled. Azure Storage performs a POSIX ACL check against the object ID before authorizing the operation. |
@@ -129,16 +129,7 @@ The `signedStart` (`st`) and `signedExpiry` (`se`) fields indicate the start tim
 
 For a user delegation SAS, the start time and expiry time for the SAS should be within the interval defined for the user delegation key. If a client attempts to use a SAS after the user delegation key has expired, the SAS will fail with an authorization error, regardless of whether the SAS itself is still valid.
 
-Both fields must be expressed as UTC times and must adhere to a valid UTC format that is compatible ISO 8601 format. Supported ISO 8601 formats include:  
-  
-- `YYYY-MM-DD`  
-- `YYYY-MM-DDThh:mmTZD`  
-- `YYYY-MM-DDThh:mm:ssTZD`  
-  
-> [!NOTE]
-> All values for `signedStart` and `signedExpiry` must be in UTC time.
-  
-For the date portion of these formats, `YYYY` is a four-digit year representation, `MM` is a two-digit month representation, and `DD` is a two-digit day representation. For the time portion, `hh` is the hour representation in 24-hour notation, `mm` is the two-digit minute representation, and `ss` is the two-digit second representation. A time designator `T` separates the date and time portions of the string, while a time zone designator `TZD` specifies a time zone (UTC).
+For more information about accepted UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).
 
 ### Specify permissions
   
