@@ -3,7 +3,7 @@ title: Understanding the Table service data model (REST API) - Azure Storage
 description: The Table service offers structured storage in the form of tables.
 author: pemari-msft
 
-ms.date: 11/13/2020
+ms.date: 11/16/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -117,9 +117,9 @@ You must include the `RowKey` property in every insert, update, and delete opera
   
 #### Timestamp Property  
 
-The `Timestamp` property is a `DateTime` value that is maintained on the server side to record the time an entity was last modified. The Table service uses the `Timestamp` property internally to provide optimistic concurrency. The value of `Timestamp` is a monotonically increasing value, meaning that each time the entity is modified, the value of `Timestamp` increases for that entity. This property should not be set on insert or update operations (the value will be ignored).
+The `Timestamp` property is a `DateTime` value that is maintained on the server side to record the time an entity was last modified. The Table service uses the `Timestamp` property internally to provide optimistic concurrency. The value of the `Timestamp` property for an entity advances each time the entity is modified. This property should not be set on insert or update operations (the value will be ignored).
 
-The `Timestamp` property should be specified in UTC format. For more information, see [Formatting DateTime values](formatting-datetime-values.md).
+The `Timestamp` property must be expressed in one of the accepted ISO 8601 UTC formats. For more information about accepted UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).
   
 ### Property Types  
 

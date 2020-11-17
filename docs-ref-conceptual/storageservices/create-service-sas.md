@@ -3,7 +3,7 @@ title: Create a service SAS - Azure Storage
 description: A service shared access signature (SAS) delegates access to a resource in the Blob, Queue, Table, or File service.
 author: tamram
 
-ms.date: 10/29/2020
+ms.date: 11/16/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -107,8 +107,8 @@ The access policy portion of the URI indicates the period of time over which the
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedStart`|`st`|Optional. The time at which the shared access signature becomes valid, in a UTC format compatible with ISO 8601. If omitted, start time for this call is assumed to be the time when the storage service receives the request.<br /><br /> In versions before 2012-02-12, the duration between `signedStart` and `signedExpiry` cannot exceed one hour unless a container policy is used. For more information about supported UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).|  
-|`signedExpiry`|`se`|Required. The time at which the shared access signature becomes invalid, in a UTC format compatible with ISO 8601. This field must be omitted if it has been specified in an associated stored access policy. For more information about supported UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).|  
+|`signedStart`|`st`|Optional. The time at which the shared access signature becomes valid, expressed in one of the accepted ISO 8601 UTC formats. If omitted, the current UTC time is used as the start time.<br /><br /> In versions before 2012-02-12, the duration between `signedStart` and `signedExpiry` cannot exceed one hour unless a container policy is used. For more information about accepted UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).|  
+|`signedExpiry`|`se`|Required. The time at which the shared access signature becomes invalid, expressed in one of the accepted ISO 8601 UTC formats. This field must be omitted if it has been specified in an associated stored access policy. For more information about accepted UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).|  
 |`signedPermissions`|`sp`|Required. The permissions associated with the shared access signature. The user is restricted to operations allowed by the permissions. This field must be omitted if it has been specified in an associated stored access policy.|  
 |`startPk`<br /><br /> `startRk`|`spk`<br /><br /> `srk`|Table service only.<br /><br /> Optional, but `startPk` must accompany `startRk`. The minimum partition and row keys accessible with this shared access signature. Key values are inclusive. If omitted, there is no lower bound on the table entities that can be accessed.|  
 |`endPk`<br /><br /> `endRk`|`epk`<br /><br /> `erk`|Table service only.<br /><br /> Optional, but `endPk` must accompany `endRk`. The maximum partition and row keys accessible with this shared access signature. Key values are inclusive. If omitted, there is no upper bound on the table entities that can be accessed.|  
