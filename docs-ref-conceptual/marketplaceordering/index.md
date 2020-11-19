@@ -20,4 +20,4 @@ MarketplaceCommerce is called by ARM\CLI for the purchase. This includes validat
 
 |Operation Group    |Description    |
 |-------------------|---------------|
-|[Marketplace Agreements](https://nam06.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Frest%2Fapi%2Fadvisor%2Foperations&data=04%7C01%7Cv-abenetti%40microsoft.com%7C19ad5a097c8647f9010a08d88abfb575%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C637411903305758246%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&sdata=pT7pNS8TB4SsBfgmIHk8qkr3Za%2Br8OcEruROs2awG7g%3D&reserved=0) | Lists all available REST APIs for Marketplace agreements. |
+|[Marketplace Agreements](/rest/api/marketplaceordering/marketplaceagreements) | Lists all available REST APIs for Marketplace agreements. |
