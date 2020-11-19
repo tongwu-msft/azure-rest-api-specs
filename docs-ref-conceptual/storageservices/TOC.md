@@ -192,6 +192,7 @@
 ### [Get Share Metadata](get-share-metadata.md)
 ### [Set Share Metadata](set-share-metadata.md)
 ### [Delete Share](delete-share.md)
+### [Restore Share](Restore-Share.md)
 ### [Get Share ACL](get-share-acl.md)
 ### [Set Share ACL](set-share-acl.md)
 ### [Get Share Stats](get-share-stats.md)
