@@ -2848,6 +2848,19 @@
 ### [Overview](azurestack/Volumes.yml)
 ### [Get](azurestack/Volumes/Get.yml)
 ### [List](azurestack/Volumes/List.yml)
+# Azure Stack HCI
+## [Overview](../docs-ref-conceptual/stackhci/index.md)
+## Clusters
+### [Overview](stackhci/Clusters.yml)
+### [Create](stackhci/Clusters/Create.yml)
+### [Delete](stackhci/Clusters/Delete.yml)
+### [Get](stackhci/Clusters/Get.yml)
+### [List By Resource Group](stackhci/Clusters/ListByResourceGroup.yml)
+### [List By Subscription](stackhci/Clusters/ListBySubscription.yml)
+### [Update](stackhci/Clusters/Update.yml)
+## Operations
+### [Overview](stackhci/Operations.yml)
+### [List](stackhci/Operations/List.yml)
 # Batch AI
 ## [Overview](../docs-ref-conceptual/BatchAI/index.md)
 ## Clusters
