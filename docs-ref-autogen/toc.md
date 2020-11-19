@@ -15287,7 +15287,6 @@
 ### [Get](synapse/SqlPools/Get.yml)
 ### [List By Workspace](synapse/SqlPools/ListByWorkspace.yml)
 ### [Pause](synapse/SqlPools/Pause.yml)
-### [Rename](synapse/SqlPools/Rename.yml)
 ### [Resume](synapse/SqlPools/Resume.yml)
 ### [Update](synapse/SqlPools/Update.yml)
 ## Data-plane
