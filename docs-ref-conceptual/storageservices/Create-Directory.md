@@ -56,6 +56,7 @@ The `Create Directory` operation creates a new directory under the specified sha
 | `x-ms-file-attributes` | Required. Version 2019-02-02 and newer. The file system attributes to be set on the directory. See the list of [available attributes](#file-system-attributes). |
 | `x-ms-file-creation-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) creation time property for the directory. A value of `now` may be used to indicate the time of the request. |
 | `x-ms-file-last-write-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) last write property for the directory. A value of `now` may be used to indicate the time of the request. |
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).| 
   
 ### Sample Request  
   
@@ -95,6 +96,7 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 | `x-ms-file-change-time` | The UTC date/time that value that represents the change time property for the directory. |
 | `x-ms-file-file-id` | The file ID of the directory. |
 | `x-ms-file-parent-id` | The parent file ID of the directory. |
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
  None.  

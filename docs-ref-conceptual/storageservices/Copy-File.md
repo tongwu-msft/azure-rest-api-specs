@@ -28,10 +28,10 @@ Available in version 2015-02-21 and newer.
   
 |Path Component|Description|  
 |--------------------|-----------------|  
-|`Myaccount`|The name of your storage account.|  
-|`Myshare`|The name of your file share.|  
-|`Mydirectorypath`|Optional. The path to the parent directory.|  
-|`Myfile`|The name of the file.|  
+|*myaccount*|The name of your storage account.|  
+|*myshare*|The name of your file share.|  
+|*mydirectorypath*|Optional. The path to the parent directory.|  
+|*myfile*|The name of the file.|  
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
@@ -49,7 +49,7 @@ Available in version 2015-02-21 and newer.
 |Request Header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
-|`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
 |`x-ms-meta-name:value`|Optional. Name-value pairs associated with the file as metadata. If no name-value pairs are specified, the operation will copy the metadata from the source blob or file to the destination file. If one or more name-value pairs are specified, the destination file is created with the specified metadata, and the metadata is not copied from the source blob or file. Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).<br /><br /> Note that file metadata specified via the File service is not accessible from an SMB client.|  
 |`x-ms-copy-source:name`|Required. Specifies the URL of the source file or blob, up to 2 KiB in length.<br /><br /> To copy a file to another file within the same storage account, you may use Shared Key to authorize the source file. If you are copying a file from another storage account, or if you are copying a blob from the same storage account or another storage account, then you must authorize the source file or blob using a shared access signature. If the source is a public blob, no authorization is required to perform the copy operation. A file in a share snapshot can also be specified as a copy source.<br /><br /> Here are some examples of source object URLs:<br /><br /> - `https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`<br />- `https://myaccount.blob.core.windows.net/mycontainer/myblob?sastoken` <br /> - `http://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sharesnapshot=<DateTime>` <br /> <br />
@@ -61,7 +61,8 @@ Available in version 2015-02-21 and newer.
 | `x-ms-file-attributes` | Optional. Version 2019-07-07 and newer. The file system attributes to be set on the destination file. See the list of [available attributes](#file-system-attributes). A value of `source` may be used to copy the attributes from the source file to the destination file; a value of `none` may be used to clear all attributes on the destination file.|
 |`x-ms-file-creation-time`| Optional. Version 2019-07-07 and newer. The Coordinated Universal Time (UTC) creation time property to set on the destination file. A value of `source` may be used to copy the creation time from the source file to the destination file.|
 |`x-ms-file-last-write-time`|Optional. Version 2019-07-07 and newer. The Coordinated Universal Time (UTC) last write time property to set on the destination file. A value of `source` may be used to copy the last write time from the source file to the destination file.|
-|`x-ms-file-copy-set-archive`|Optional. Version 2019-07-07 and newer. A boolean value that specifies whether the `Archive` attribute should be set, irrespective of the `x-ms-file-attributes` header value.
+|`x-ms-file-copy-set-archive`|Optional. Version 2019-07-07 and newer. A boolean value that specifies whether the `Archive` attribute should be set, irrespective of the `x-ms-file-attributes` header value.|
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|
 
 ### Request Body  
  None.  
@@ -85,7 +86,8 @@ Available in version 2015-02-21 and newer.
 |`x-ms-version`|Indicates the version of the File service used to execute the request.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
 |`x-ms-copy-id: <id>`|String identifier for this copy operation. Use with Get File or Get File Properties to check the status of this copy operation, or pass to Abort Copy File to abort a pending copy.|  
-|`x-ms-copy-status: <success &#124; pending>`|State of the copy operation with these values:<br /><br /> - **success**: the copy completed successfully.<br />- **pending**: the copy is still in progress.|  
+|`x-ms-copy-status: <success &#124; pending>`|State of the copy operation with these values:<br /><br /> - **success**: the copy completed successfully.<br />- **pending**: the copy is still in progress.|
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
   
 ### Response Body  
  None  

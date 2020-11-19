@@ -53,6 +53,7 @@ The `Get File` operation reads or downloads a file from the system, including it
 |`x-ms-range`|Optional. Return file data only from the specified byte range. If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. If neither are specified, the entire file contents are returned. See [Specifying the Range Header for File Service Operations](Specifying-the-Range-Header-for-File-Service-Operations.md) for more information.|  
 |`x-ms-range-get-content-md5: true`|Optional. When this header is set to `true` and specified together with the `Range` header, the service returns the MD5 hash for the range, as long as the range is less than or equal to 4 MiB in size.<br /><br /> If this header is specified without the `Range` header, the service returns status code 400 (Bad Request).<br /><br /> If this header is set to `true` when the range exceeds 4 MiB in size, the service returns status code 400 (Bad Request).|  
 |`x-ms-lease-id:<ID>`|Optional. Version 2019-02-02 and newer. If the header is specified, the operation will be performed only if the file's lease is currently active and the lease ID specified in the request matches the that of the file. Otherwise, the operation fails with status code 412 (Precondition Failed).|
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|
 
 ### Request Body  
  None.  
@@ -103,6 +104,7 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 |`x-ms-lease-duration:infinite`|Version 2019-02-02 and newer. When a file is leased, specifies that the lease is of infinite duration. |
 |`x-ms-lease-state:<available;leased;broken>`|Version 2019-02-02 and newer. When a file is leased, specifies the lease state of the file. |
 |`x-ms-lease-status:<locked;unlocked>`|Version 2019-02-02 and newer. When a file is leased, specifies the lease status of the file. |
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
   
 ### Response Body  
  The response body contains the content of the file.  
