@@ -2030,26 +2030,17 @@
 ### [Update](avs/PrivateClouds/Update.yml)
 # Azure Attestation
 ## [Overview](../docs-ref-conceptual/attestation/index.md)
-## Attestation Providers
-### [Overview](attestation/AttestationProviders.yml)
-### [Create](attestation/AttestationProviders/Create.yml)
-### [Delete](attestation/AttestationProviders/Delete.yml)
-### [Get](attestation/AttestationProviders/Get.yml)
-### [Get Default By Location](attestation/AttestationProviders/GetDefaultByLocation.yml)
-### [List](attestation/AttestationProviders/List.yml)
-### [List By Resource Group](attestation/AttestationProviders/ListByResourceGroup.yml)
-### [List Default](attestation/AttestationProviders/ListDefault.yml)
-### [Update](attestation/AttestationProviders/Update.yml)
+## Attestation
+### [Overview](attestation/Attestation.yml)
+### [Attest Open Enclave](attestation/Attestation/AttestOpenEnclave.yml)
+### [Attest Sgx Enclave](attestation/Attestation/AttestSgxEnclave.yml)
+### [Attest Tpm](attestation/Attestation/AttestTpm.yml)
 ## Metadata Configuration
 ### [Overview](attestation/MetadataConfiguration.yml)
 ### [Get](attestation/MetadataConfiguration/Get.yml)
-## Operations
-### [Overview](attestation/Operations.yml)
-### [List](attestation/Operations/List.yml)
 ## Policy
 ### [Overview](attestation/Policy.yml)
 ### [Get](attestation/Policy/Get.yml)
-### [Prepare To Set](attestation/Policy/PrepareToSet.yml)
 ### [Reset](attestation/Policy/Reset.yml)
 ### [Set](attestation/Policy/Set.yml)
 ## Policy Certificates
