@@ -58,10 +58,22 @@ definitions:
     description: The object that represents the operation.
     types:
     - uid: Display
+  - name: origin
+    description: Origin of the operation.
+    types:
+    - uid: string
+  - name: isDataAction
+    description: The flag that indicates whether the operation applies to data plane.
+    types:
+    - uid: boolean
   - name: name
     description: 'Operation name: {provider}/{resource}/{operation}'
     types:
     - uid: string
+  - name: properties.serviceSpecification
+    description: Specification of the all the metrics provided for a resource type.
+    types:
+    - uid: ServiceSpecification
 - name: CloudErrorBody
   description: An error response.
   kind: object
@@ -99,6 +111,77 @@ definitions:
     description: 'Resource on which the operation is performed: Cache, etc.'
     types:
     - uid: string
+  - name: description
+    description: The description of the operation
+    types:
+    - uid: string
+- name: ServiceSpecification
+  description: Specification of the all the metrics provided for a resource type.
+  kind: object
+  properties:
+  - name: metricSpecifications
+    description: Details about operations related to metrics.
+    types:
+    - uid: MetricSpecification
+      isArray: true
+- name: MetricSpecification
+  description: Details about operation related to metrics.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the metric.
+    types:
+    - uid: string
+  - name: displayName
+    description: Localized display name of the metric.
+    types:
+    - uid: string
+  - name: displayDescription
+    description: The description of the metric.
+    types:
+    - uid: string
+  - name: unit
+    description: The unit that the metric is measured in.
+    types:
+    - uid: string
+  - name: aggregationType
+    description: The type of metric aggregation.
+    types:
+    - uid: string
+  - name: supportedAggregationTypes
+    description: Support metric aggregation type.
+    types:
+    - uid: string
+      isArray: true
+  - name: metricClass
+    description: Type of metrics.
+    types:
+    - uid: string
+  - name: dimensions
+    description: Dimensions of the metric
+    types:
+    - uid: MetricDimension
+      isArray: true
+- name: MetricDimension
+  description: Specifications of the Dimension of metrics.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the dimension
+    types:
+    - uid: string
+  - name: displayName
+    description: Localized friendly display name of the dimension
+    types:
+    - uid: string
+  - name: internalName
+    description: Internal name of the dimension.
+    types:
+    - uid: string
+  - name: toBeExportedForShoebox
+    description: To be exported to shoe box.
+    types:
+    - uid: boolean
 examples:
 - name: StorageTargets_List
   request:
@@ -122,6 +205,49 @@ examples:
               "operation": "Delete Cache",
               "provider": "Azure Storage Cache",
               "resource": "Caches"
+            }
+          },
+          {
+            "origin": "system",
+            "name": "Microsoft.StorageCache/caches/providers/Microsoft.Insights/metricDefinitions/read",
+            "isDataAction": false,
+            "display": {
+              "operation": "Get Cache Metric Definitions",
+              "provider": "Microsoft Azure HPC Cache",
+              "resource": "StorageCache Metric Definitions",
+              "description": "Reads Cache Metric Definitions."
+            },
+            "properties": {
+              "serviceSpecification": {
+                "metricSpecifications": [
+                  {
+                    "name": "ClientIOPS",
+                    "displayName": "Total Client IOPS",
+                    "displayDescription": "The rate of client file operations processed by the Cache.",
+                    "unit": "Count",
+                    "aggregationType": "Average",
+                    "supportedAggregationTypes": [
+                      "Minimum",
+                      "Maximum",
+                      "Average"
+                    ],
+                    "metricClass": "Transactions"
+                  },
+                  {
+                    "name": "ClientLatency",
+                    "displayName": "Average Client Latency",
+                    "displayDescription": "Average latency of client file operations to the Cache.",
+                    "unit": "Milliseconds",
+                    "aggregationType": "Average",
+                    "supportedAggregationTypes": [
+                      "Minimum",
+                      "Maximum",
+                      "Average"
+                    ],
+                    "metricClass": "Latency"
+                  }
+                ]
+              }
             }
           }
         ]

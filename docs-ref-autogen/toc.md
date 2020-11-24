@@ -2488,6 +2488,7 @@
 ### [Create Backup](azurestack/BackupLocations/CreateBackup.yml)
 ### [Get](azurestack/BackupLocations/Get.yml)
 ### [List](azurestack/BackupLocations/List.yml)
+### [Prune External Store](azurestack/BackupLocations/PruneExternalStore.yml)
 ### [Update](azurestack/BackupLocations/Update.yml)
 ## Backups
 ### [Overview](azurestack/Backups.yml)

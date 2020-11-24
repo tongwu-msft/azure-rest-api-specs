@@ -46,6 +46,10 @@ responses:
   description: Cache creation or update has been initiated. Poll the new Cache's provisioningState property to monitor creation progress.
   types:
   - uid: Cache
+- name: 202 Accepted
+  description: Cache creation or update has been initiated. Poll the new Cache's provisioningState property to monitor creation progress.
+  types:
+  - uid: Cache
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -128,6 +132,34 @@ definitions:
     description: The type of identity used for the cache
     types:
     - uid: CacheIdentityType
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: string
 - name: Sku
   description: SKU for the Cache.
   kind: object
@@ -238,6 +270,11 @@ definitions:
     description: The identity of the cache, if configured.
     types:
     - uid: CacheIdentity
+  - name: systemData
+    isReadyOnly: true
+    description: The system meta data relating to this resource.
+    types:
+    - uid: systemData
   - name: sku
     description: SKU for the Cache.
     types:
@@ -297,6 +334,22 @@ definitions:
     types:
     - uid: string
   - name: None
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
     types:
     - uid: string
 - name: HealthStateType
@@ -422,6 +475,43 @@ examples:
         }
       }
   responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "tags": {
+          "Dept": "ContosoAds"
+        },
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.StorageCache/caches/sc1",
+        "location": "westus",
+        "name": "sc1",
+        "type": "Microsoft.StorageCache/Cache",
+        "properties": {
+          "cacheSizeGB": 3072,
+          "health": {
+            "state": "Transitioning",
+            "statusDescription": "Cache is being created."
+          },
+          "mountAddresses": [
+            "192.168.1.1",
+            "192.168.1.2"
+          ],
+          "provisioningState": "Succeeded",
+          "subnet": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
+          "upgradeStatus": {
+            "currentFirmwareVersion": "5.3.23",
+            "firmwareUpdateStatus": "available",
+            "firmwareUpdateDeadline": "2019-04-21T18:25:43.511Z",
+            "lastFirmwareUpdate": "2019-01-21T18:25:43.511Z",
+            "pendingFirmwareVersion": "5.3.24"
+          },
+          "networkSettings": {
+            "mtu": 1500
+          }
+        },
+        "sku": {
+          "name": "Standard_2G"
+        }
+      }
   - statusCode: "201"
     body: >-
       {
