@@ -3,7 +3,7 @@ title: Create a user delegation SAS - Azure Storage
 description: A SAS token for access to a container, directory, or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a user delegation SAS, because the token used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice. 
 author: tamram
 
-ms.date: 11/16/2020
+ms.date: 11/23/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -23,13 +23,15 @@ A user delegation SAS is supported for Azure Blob storage and Azure Data Lake St
 
 For information about using your account key to secure a SAS, see [Create a service SAS](create-service-sas.md) and [Create an account SAS](create-account-sas.md).
 
-## User delegation SAS support for Directory scoped access
+## User delegation SAS support for directory scoped access (preview)
 
-User delegation SAS will support directory scope (sr=d) access when the authentication version (sv) is 2020-02-10 or higher and hierarchical namespace (HNS) is enabled. The semantics for directory scope (sr=d) are similar to container scope (sr=c), except access is restricted to a directory and the files and directories within. When sr=d is specified, the sdd query parameter is also required (See below for more details on sdd parameter).
+A user delegation SAS supports directory scope (`sr=d`) (preview) when the authentication version (`sv`) is 2020-02-10 or higher and a hierarchical namespace (HNS) is enabled. The semantics for directory scope (`sr=d`) are similar to container scope (`sr=c`), except that access is restricted to a directory and any files and subdirectories beneath it. When `sr=d` is specified, the `sdd` query parameter is also required.
+
+The string-to-sign format for authentication version 2020-02-10 is unchanged.
 
 ## User delegation SAS support for user OID
 
-User Delegation SAS supports an optional user OID carried in either the saoid or suoid parameter when the authentication version (sv) is 2020-02-10 or higher. This will provide an enhanced authorization model for multi-user cluster workloads like Hadoop and Spark. SAS tokens may be constrained to a specific filesystem operation and user, providing a less vulnerable access token that is safer for the purpose of distributing across a multi-user cluster. One use case for these features is the integration of the Hadoop ABFS driver with Apache Ranger.
+User Delegation SAS supports an optional user OID carried in either the `saoid` or `suoid` parameter when the authentication version (`sv`) is 2020-02-10 or higher. This optional parameter provides an enhanced authorization model for multi-user cluster workloads like Hadoop and Spark. SAS tokens may be constrained to a specific filesystem operation and user, providing a less vulnerable access token that is safer for the purpose of distributing across a multi-user cluster. One use case for these features is the integration of the Hadoop ABFS driver with Apache Ranger.
 
 ## Authorization of a user delegation SAS
 
@@ -121,7 +123,7 @@ The required `signedResource` (`sr`) field specifies which resources are accessi
 | Blob version | bv | Version 2018-11-09 and later | Grants access to the content and metadata of the blob version, but not the base blob. |
 | Blob snapshot | bs | Version 2018-11-09 and later | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
 | Container | c | All | Grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. |
-| Directory (preview) | d | Version 2020-02-10 and later | Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedResource` field, then the `signedDirectoryDepth` (`sdd`) parameter is also required. |
+| Directory (preview) | d | Version 2020-02-10 and later | Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedResource` field, then the `signedDirectoryDepth` (`sdd`) parameter is also required. A directory is always beneath a container.|
 
 ### Specify the signature validity interval
 
