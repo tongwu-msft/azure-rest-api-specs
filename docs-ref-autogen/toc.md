@@ -14237,6 +14237,13 @@
 #### [Create Or Update](sql/ServerSecurityAlertPolicies/CreateOrUpdate.yml)
 #### [Get](sql/ServerSecurityAlertPolicies/Get.yml)
 #### [List By Server](sql/ServerSecurityAlertPolicies/ListByServer.yml)
+### Server Trust Groups
+#### [Overview](sql/ServerTrustGroups.yml)
+#### [Create Or Update](sql/ServerTrustGroups/CreateOrUpdate.yml)
+#### [Delete](sql/ServerTrustGroups/Delete.yml)
+#### [Get](sql/ServerTrustGroups/Get.yml)
+#### [List By Instance](sql/ServerTrustGroups/ListByInstance.yml)
+#### [List By Location](sql/ServerTrustGroups/ListByLocation.yml)
 ### Server Vulnerability Assessments
 #### [Overview](sql/ServerVulnerabilityAssessments.yml)
 #### [Create Or Update](sql/ServerVulnerabilityAssessments/CreateOrUpdate.yml)
