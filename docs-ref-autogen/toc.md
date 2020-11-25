@@ -8114,6 +8114,19 @@
 ### [Delete](MariaDB/VirtualNetworkRules/Delete.yml)
 ### [Get](MariaDB/VirtualNetworkRules/Get.yml)
 ### [List By Server](MariaDB/VirtualNetworkRules/ListByServer.yml)
+# Marketplace Ordering
+## [Overview](../docs-ref-conceptual/marketplaceordering/index.md)
+## Marketplace Agreements
+### [Overview](marketplaceordering/MarketplaceAgreements.yml)
+### [Cancel](marketplaceordering/MarketplaceAgreements/Cancel.yml)
+### [Create](marketplaceordering/MarketplaceAgreements/Create.yml)
+### [Get](marketplaceordering/MarketplaceAgreements/Get.yml)
+### [Get Agreement](marketplaceordering/MarketplaceAgreements/GetAgreement.yml)
+### [List](marketplaceordering/MarketplaceAgreements/List.yml)
+### [Sign](marketplaceordering/MarketplaceAgreements/Sign.yml)
+## Operations
+### [Overview](marketplaceordering/Operations.yml)
+### [List](marketplaceordering/Operations/List.yml)
 # Media Services
 ## [Overview](../docs-ref-conceptual/media/index.md)
 ## REST API v2 (legacy)
