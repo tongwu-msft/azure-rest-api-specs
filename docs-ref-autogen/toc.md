@@ -14040,9 +14040,6 @@
 #### [Create Import Operation](sql/Databases%20-%20Import%20Export/CreateImportOperation.yml)
 #### [Export](sql/Databases%20-%20Import%20Export/Export.yml)
 #### [Import](sql/Databases%20-%20Import%20Export/Import.yml)
-### Databases(Failover)
-#### [Overview](sql/Databases(Failover).yml)
-#### [Failover](sql/Databases(Failover)/Failover.yml)
 ### Elastic Pool Activities
 #### [Overview](sql/ElasticPoolActivities.yml)
 #### [List By Elastic Pool](sql/ElasticPoolActivities/ListByElasticPool.yml)
