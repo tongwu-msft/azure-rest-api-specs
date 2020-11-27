@@ -8518,6 +8518,15 @@
 ##### [Get All](monitor/alertsmanagement/SmartGroups/GetAll.yml)
 ##### [Get By Id](monitor/alertsmanagement/SmartGroups/GetById.yml)
 ##### [Get History](monitor/alertsmanagement/SmartGroups/GetHistory.yml)
+### Scheduled Query Rule-Preview
+#### Scheduled Query Rules
+##### [Overview](monitor/scheduledqueryrule-preview/ScheduledQueryRules.yml)
+##### [Create Or Update](monitor/scheduledqueryrule-preview/ScheduledQueryRules/CreateOrUpdate.yml)
+##### [Delete](monitor/scheduledqueryrule-preview/ScheduledQueryRules/Delete.yml)
+##### [Get](monitor/scheduledqueryrule-preview/ScheduledQueryRules/Get.yml)
+##### [List By Resource Group](monitor/scheduledqueryrule-preview/ScheduledQueryRules/ListByResourceGroup.yml)
+##### [List By Subscription](monitor/scheduledqueryrule-preview/ScheduledQueryRules/ListBySubscription.yml)
+##### [Update](monitor/scheduledqueryrule-preview/ScheduledQueryRules/Update.yml)
 ### VM Health
 #### Health Monitors
 ##### [Overview](monitor/vmhealth/HealthMonitors.yml)
