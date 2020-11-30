@@ -7917,6 +7917,13 @@
 ### [List Preview](maps/Data/ListPreview.yml)
 ### [Update Preview](maps/Data/UpdatePreview.yml)
 ### [Upload Preview](maps/Data/UploadPreview.yml)
+## Elevation
+### [Overview](maps/Elevation.yml)
+### [Get Data For Bounding Box](maps/Elevation/GetDataForBoundingBox.yml)
+### [Get Data For Points](maps/Elevation/GetDataForPoints.yml)
+### [Get Data For Polyline](maps/Elevation/GetDataForPolyline.yml)
+### [Post Data For Points](maps/Elevation/PostDataForPoints.yml)
+### [Post Data For Polyline](maps/Elevation/PostDataForPolyline.yml)
 ## Geolocation
 ### [Overview](maps/Geolocation.yml)
 ### [Get IP To Location Preview](maps/Geolocation/GetIPToLocationPreview.yml)
