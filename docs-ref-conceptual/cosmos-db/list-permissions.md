@@ -1,7 +1,7 @@
 ---
 title: "List Permissions - Azure Cosmos DB REST API"
 description: List permissions REST API syntax. Request and response headers, body, status codes and examples.
-ms.date: "02/25/2016"
+ms.date: "12/01/2020"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 11ab7146-eca8-412a-8274-f7f168e0ca83
@@ -32,10 +32,6 @@ translation.priority.mt:
   
 ### Headers  
  See [Common Azure Cosmos DBREST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Azure Cosmos DB requests.  
-  
-|Header|Required|Type|Description|  
-|------------|--------------|----------|-----------------|  
-|**x-ms-documentdb-expiry-seconds**|Optional|Integer|The validity period of the resource token returned from the operation. By default, a resource token is valid for one hour. To override the default, set this header with the desired validity period in seconds. The max override value is 18000, which is five hours.|  
   
 ### Body  
  None.  
