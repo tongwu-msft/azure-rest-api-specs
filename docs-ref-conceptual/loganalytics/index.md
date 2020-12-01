@@ -2,7 +2,7 @@
 ms.assetid: 48c74a5e-ffb7-460f-9aa8-7078d54c16cb
 title: Log Analytics REST API
 description: Operation groups for the Log Analytics REST API
-ms.service: LogAnalytics
+ms.service: log-analytics
 ms.date: 10/01/2020
 author: bwren
 ms.author: bwren
