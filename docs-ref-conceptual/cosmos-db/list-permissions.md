@@ -57,7 +57,7 @@ translation.priority.mt:
 |**Permissions**|This the array containing the permissions returned as part of the list operation.|  
 |**id**|The user generated unique name for the permission.|  
 |**permissionMode**|The access mode on the resource for the user: **All** or **Read**. **All** provides read, write, and delete access to a resource. **Read** restricts the user to read access on the resource.|  
-|**resource**|The full addressable path of the resource associated with the permission. For example, dbs/ruJjAA==/colls/ruJjAM9UnAA=/.|  
+|**resource**|The full addressable path of the resource associated with the permission. For example, dbs/volcanodb/colls/volcano1.|  
 |**_rid**|This is a [system generated property](/azure/cosmos-db/stored-procedures-triggers-udfs). The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement of and navigation to the user resource.|  
 |**_ts**|This is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
 |**_self**|This is a system generated property. It is the unique addressable URI for the resource.|  
