@@ -54,9 +54,9 @@ The size of the source blob can be up to a maximum length of 256 Mib.
 |`x-ms-blob-type: BlockBlob`|Required. Specifies the type of blob to create. Must be `BlockBlob`. When the blob type is not `BlockBlob`, the operation will fail with status code 400 (Bad Request).|
 |`Content-Type`|Optional. The MIME content type of the blob. The default type is `application/octet-stream`.|
 |`Content-Encoding`|Optional. Specifies which content encodings have been applied to the blob. This value is returned to the client when the [Get Blob](Get-Blob.md) operation is performed on the blob resource. The client can use this value when returned to decode the blob content.|  
-|`Content-Language`|Optional. Specifies the natural languages used by this resource.|  
-|`Content-MD5`|Optional. An MD5 hash of the blob content. This hash is used to verify the integrity of the blob during transport. When this header is specified, the storage service checks the hash that has arrived with the one that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> When omitted in version 2012-02-12 and later, the Blob service generates an MD5 hash.<br /><br /> Results from [Get Blob](Get-Blob.md), [Get Blob Properties](Get-Blob-Properties.md), and [List Blobs](List-Blobs.md) include the MD5 hash.|
-|`Cache-Control`|Optional. The Blob service stores this value but does not use or modify it.|  
+|`Content-Language`|Optional. Specifies the natural languages used by this resource.|
+|`Cache-Control`|Optional. The Blob service stores this value but does not use or modify it.|
+|`x-ms-source-content-md5`|Optional. A MD5 hash of the blob content from the URI. This hash is used to verify the integrity of the blob during transport of the data from the URI. When this header is specified, the storage service compares the hash of the content that has arrived from the copy source with this header value. When omitted, the Blob service generates an MD5 hash.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).|  
 |`x-ms-content-crc64`|Optional. A CRC64 hash of the blob content. This hash is used to verify the integrity of the blob during transport. When this header is specified, the storage service checks the hash that has arrived with the one that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request). This header is supported in versions 02-02-2019 or later. <br /><br /> If both Content-MD5 and x-ms-content-crc64 headers are present, the request will fail with a 400 (Bad Request).|  
 |`x-ms-blob-content-type`|Optional. Set the blob’s content type.|  
 |`x-ms-blob-content-encoding`|Optional. Set the blob’s content encoding.|  
@@ -183,19 +183,15 @@ When using a block blob as the source object, all committed blob content is copi
 
  **Put Blob Properties and Metadata**
 
- When creating a block blob from a copy source, the standard blob properties are copied by default from the source blob. To explicitly set any of these properties, you may specify the corresponding HTTP content header in the request. 
+ When creating a block blob from a copy source, the standard blob properties are copied by default from the source blob. If application metadata is specified in the request, it will be stored without copying source blob metadata. To explicitly set any HTTP content headers, you may specify the corresponding header in the request. 
 
  - `Content-Type` 
 
  - `Content-Encoding` 
 
- - `Content-Language` 
-
  - `Content-Length` 
 
- - `Cache-Control` 
-
- - `Content-MD5` 
+ - `Cache-Control`
 
  - `Content-Disposition` 
 
