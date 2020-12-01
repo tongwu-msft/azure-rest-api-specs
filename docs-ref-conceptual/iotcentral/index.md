@@ -3,11 +3,10 @@ title: Azure IoT Central REST API
 description: The Azure IoT Central REST API allows you to develop client and web applications that use REST calls to work with IoT Central. The API surface lets you manage IoT Central applications programmatically. 
 services: iot-central
 ms.service: iot-central
-ms.subservice: core
 ms.topic: reference
 author: avneet723
 ms.author: avneets
-ms.date: 7/15/2020
+ms.date: 11/17/2020
 ---
 
 # Azure IoT Central REST API reference
@@ -34,8 +33,10 @@ The IoT Central REST API provides operations for working with the following reso
 | [Continuous Data Exports](https://docs.microsoft.com/rest/api/iotcentral/continuousdataexports) | Manage data exports within your IoT Central application | [Export your data](/azure/iot-central/preview/howto-export-data)|
 | [Device Templates](https://docs.microsoft.com/rest/api/iotcentral/devicetemplates) | Create, read, and delete device templates within an IoT Central application| [Setup device template](https://docs.microsoft.com/azure/iot-central/core/howto-set-up-template)|
 | [Devices](https://docs.microsoft.com/rest/api/iotcentral/devices) | Get information about and manage devices and IoT Edge modules in your IoT Central application| [Manage your devices](/azure/iot-central/preview/howto-manage-devices)|
-| [Roles](https://docs.microsoft.com/rest/api/iotcentral/roles)| List roles within your application | [Manage users and roles](/azure/iot-central/preview/howto-manage-users-roles)|
-| [Users](https://docs.microsoft.com/rest/api/iotcentral/users)| Add, update, and remove users within your application | [Manage users and roles](/azure/iot-central/preview/howto-manage-users-roles) |
+| [Device Groups](https://docs.microsoft.com/rest/api/iotcentral/devicegroups)| List the set of device groups within your application | [List Device Groups](https://docs.microsoft.com/azure/iot-central/core/tutorial-use-device-groups) |
+| [Jobs](https://docs.microsoft.com/rest/api/iotcentral/jobs)|Get information about and manage jobs within your application | [Manage your jobs](/azure/iot-central/core/howto-run-a-job) |
+| [Roles](https://docs.microsoft.com/rest/api/iotcentral/roles)| List roles within your application | [Manage users and roles](/azure/iot-central/core/howto-manage-users-roles)|
+| [Users](https://docs.microsoft.com/rest/api/iotcentral/users)| Add, update, and remove users within your application | [Manage users and roles](/azure/iot-central/core/howto-manage-users-roles) |
 
 ## Next steps
 
