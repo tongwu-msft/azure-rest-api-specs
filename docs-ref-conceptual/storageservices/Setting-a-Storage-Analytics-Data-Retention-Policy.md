@@ -3,7 +3,7 @@ title: Setting a Storage Analytics data retention policy (REST API) - Azure Stor
 description: By default, Storage Analytics will not delete any logging or metrics data. Blobs and table entities will continue to be written until the shared 20 TiB limit is reached. Once the 20 TiB limit is reached, Storage Analytics will stop writing new data and will not resume until free space is available. This 20 TiB limit is independent of the total limit for your storage account.
 author: pemari-msft
 
-ms.date: 09/30/2019
+ms.date: 11/13/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -11,9 +11,7 @@ ms.author: pemari
 
 # Setting a Storage Analytics data retention policy
 
-By default, Storage Analytics will not delete any logging or metrics data. Blobs and table entities will continue to be written until the shared 20 TiB limit is reached. Once the 20 TiB limit is reached, Storage Analytics will stop writing new data and will not resume until free space is available. This 20 TiB limit is independent of the total limit for your storage account. For more information on storage account limits, see [Azure Storage Scalability and Performance Targets](/azure/storage/storage-scalability-targets).  
-  
- There are two ways to delete Storage Analytics data: by manually making deletion requests or by setting a data retention policy. Manual requests to delete Storage Analytics data are billable, but delete requests resulting from a retention policy are not billable.  
+By default, Storage Analytics will not delete any logging or metrics data. There are two ways to delete Storage Analytics data: by manually making deletion requests or by setting a data retention policy. Manual requests to delete Storage Analytics data are billable, but delete requests resulting from a retention policy are not billable.  
   
 > [!IMPORTANT]
 >  To avoid unnecessary charges, set a retention policy for logging and metrics.  

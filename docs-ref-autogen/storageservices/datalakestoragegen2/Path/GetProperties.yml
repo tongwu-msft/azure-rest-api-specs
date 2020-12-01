@@ -3,13 +3,13 @@ uid: storageservices.datalakestoragegen2.path.getproperties
 name: Get Properties
 service: Storage Services
 groupName: Path
-apiVersion: 2018-11-09
-summary: "Get Properties | Get Status | Get Access Control List  \nGet Properties returns all system and user defined properties for a path. Get Status returns all system defined properties for a path. Get Access Control List returns the access control list for a path. This operation supports conditional HTTP requests.  For more information, see [Specifying Conditional Headers for Blob Service Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations)."
+apiVersion: 2019-12-12
+summary: "Get Properties | Get Status | Get Access Control List | Check Access  \nGet Properties returns all system and user defined properties for a path. Get Status returns all system defined properties for a path. Get Access Control List returns the access control list for a path. This operation supports conditional HTTP requests.  For more information, see [Specifying Conditional Headers for Blob Service Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations)."
 produces:
 - application/json
 paths:
 - content: HEAD https://{accountName}.{dnsSuffix}/{filesystem}/{path}
-- content: HEAD https://{accountName}.{dnsSuffix}/{filesystem}/{path}?action={action}&upn={upn}&timeout={timeout}
+- content: HEAD https://{accountName}.{dnsSuffix}/{filesystem}/{path}?action={action}&upn={upn}&fsAction={fsAction}&timeout={timeout}
   isOptional: true
 uriParameters:
 - name: accountName
@@ -49,6 +49,11 @@ uriParameters:
   description: Optional. Valid only when Hierarchical Namespace is enabled for the account. If "true", the user identity values returned in the x-ms-owner, x-ms-group, and x-ms-acl response headers will be transformed from Azure Active Directory Object IDs to User Principal Names.  If "false", the values will be returned as Azure Active Directory Object IDs. The default value is false. Note that group and application Object IDs are not translated because they do not have unique friendly names.
   types:
   - uid: boolean
+- name: fsAction
+  in: query
+  description: Required only for check access action. Valid only when Hierarchical Namespace is enabled for the account. File system operation read/write/execute in string form, matching regex pattern '[rwx-]{3}'
+  types:
+  - uid: string
 - name: timeout
   in: query
   description: An optional operation timeout value in seconds. The period begins when the request is received by the service. If the timeout value elapses before the operation completes, the operation fails.
@@ -291,6 +296,9 @@ definitions:
     types:
     - uid: string
   - name: getStatus
+    types:
+    - uid: string
+  - name: checkAccess
     types:
     - uid: string
 - name: DataLakeStorageError

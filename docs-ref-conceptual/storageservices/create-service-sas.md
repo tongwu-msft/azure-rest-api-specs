@@ -3,7 +3,7 @@ title: Create a service SAS - Azure Storage
 description: A service shared access signature (SAS) delegates access to a resource in the Blob, Queue, Table, or File service.
 author: tamram
 
-ms.date: 10/29/2020
+ms.date: 11/23/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -23,9 +23,11 @@ A service SAS is secured using the storage account key. To create a service SAS,
 
 To use Azure AD credentials to secure a SAS for a container or blob, create a user delegation SAS. For more information, see [Create a user delegation SAS](create-user-delegation-sas.md).
 
-## Service SAS support for Directory scoped access
+## Service SAS support for directory scoped access (preview)
 
-Service SAS will support directory scope (sr=d) access when the authentication version (sv) is 2020-02-10 or higher and hierarchical namespace (HNS) is enabled. The semantics for directory scope (sr=d) are similar to container scope (sr=c), except access is restricted to a directory and the files and directories within. When sr=d is specified, the sdd query parameter is also required (See below for more details on sdd parameter). The string-to-sign format for authentication version 2020-02-10 is unchanged.
+A service SAS supports directory scope (`sr=d`) (preview) when the authentication version (`sv`) is 2020-02-10 or higher and a hierarchical namespace (HNS) is enabled. The semantics for directory scope (`sr=d`) are similar to container scope (`sr=c`), except that access is restricted to a directory and any files and subdirectories beneath it. When `sr=d` is specified, the `sdd` query parameter is also required.
+
+The string-to-sign format for authentication version 2020-02-10 is unchanged.
 
 ## Construct a service SAS
 
@@ -63,7 +65,7 @@ The required `signedResource` (`sr`) field specifies which resources are accessi
 | Blob version | bv | Version 2018-11-09 and later | Grants access to the content and metadata of the blob version, but not the base blob. |
 | Blob snapshot | bs | Version 2018-11-09 and later | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
 | Container | c | All | Grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. |
-| Directory (preview) | d | Version 2020-02-10 and later | Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedResource` field, then the `signedDirectoryDepth` (`sdd`) parameter is also required. |
+| Directory (preview) | d | Version 2020-02-10 and later | Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedResource` field, then the `signedDirectoryDepth` (`sdd`) parameter is also required. A directory is always beneath a container. |
 
 ### Specifying the signed resource (File service)
 
@@ -107,26 +109,13 @@ The access policy portion of the URI indicates the period of time over which the
   
 |Field name|Query parameter|Description|  
 |----------------|---------------------|-----------------|  
-|`signedStart`|`st`|Optional. The time at which the shared access signature becomes valid, in a UTC format compatible with ISO 8601. If omitted, start time for this call is assumed to be the time when the storage service receives the request.<br /><br /> In versions before 2012-02-12, the duration between `signedStart` and `signedExpiry` cannot exceed one hour unless a container policy is used.|  
-|`signedExpiry`|`se`|Required. The time at which the shared access signature becomes invalid, in a UTC format compatible with ISO 8601. This field must be omitted if it has been specified in an associated stored access policy. For details, see Lifetime and Revocation of a shared access signature.|  
+|`signedStart`|`st`|Optional. The time at which the shared access signature becomes valid, expressed in one of the accepted ISO 8601 UTC formats. If omitted, the current UTC time is used as the start time.<br /><br /> In versions before 2012-02-12, the duration between `signedStart` and `signedExpiry` cannot exceed one hour unless a container policy is used. For more information about accepted UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).|  
+|`signedExpiry`|`se`|Required. The time at which the shared access signature becomes invalid, expressed in one of the accepted ISO 8601 UTC formats. This field must be omitted if it has been specified in an associated stored access policy. For more information about accepted UTC formats, see [Formatting DateTime values](formatting-datetime-values.md).|  
 |`signedPermissions`|`sp`|Required. The permissions associated with the shared access signature. The user is restricted to operations allowed by the permissions. This field must be omitted if it has been specified in an associated stored access policy.|  
 |`startPk`<br /><br /> `startRk`|`spk`<br /><br /> `srk`|Table service only.<br /><br /> Optional, but `startPk` must accompany `startRk`. The minimum partition and row keys accessible with this shared access signature. Key values are inclusive. If omitted, there is no lower bound on the table entities that can be accessed.|  
 |`endPk`<br /><br /> `endRk`|`epk`<br /><br /> `erk`|Table service only.<br /><br /> Optional, but `endPk` must accompany `endRk`. The maximum partition and row keys accessible with this shared access signature. Key values are inclusive. If omitted, there is no upper bound on the table entities that can be accessed.|  
   
 The `signedPermissions` field is required on the URI unless it is specified as part of a stored access policy. The `startPk`, `startRk`, `endPk`, and `endRk` fields can only be specified on a table resource.  
-  
-### Specifying the signature validity interval
-
-The `signedStart` (`st`) and `signedExpiry` (`se`) fields must be expressed as UTC times and must adhere to a valid UTC format that is compatible ISO 8601 format. Supported ISO 8601 formats include the following:  
-  
-- `YYYY-MM-DD`  
-- `YYYY-MM-DDThh:mmTZD`  
-- `YYYY-MM-DDThh:mm:ssTZD`  
-  
-> [!NOTE]
-> All values for `signedStart` and `signedExpiry` must be in UTC time.
-  
-For the date portion of these formats, `YYYY` is a four-digit year representation, `MM` is a two-digit month representation, and `DD` is a two-digit day representation. For the time portion, `hh` is the hour representation in 24-hour notation, `mm` is the two-digit minute representation, and `ss` is the two-digit second representation. A time designator `T` separates the date and time portions of the string, while a time zone designator `TZD` specifies a time zone (UTC).
   
 ### Specifying permissions
   
@@ -235,7 +224,7 @@ The `startPk`, `startRk`, `endPk`, and `endRk` fields define a range of table en
 
 ### Specify the directory depth (preview)
 
-If the `signedResource` field (preview) specifies a directory (`sr=d`), then you must also specify the `signedDirectoryDepth` (`sdd`) field to indicate the number of subdirectories under the root directory. The value of the `sdd` field must be a non-negative integer.
+When a hierarchical namespace is enabled and the `signedResource` field specifies a directory (`sr=d`), then you must also specify the `signedDirectoryDepth` (`sdd`) field (preview) to indicate the number of subdirectories under the root directory. The value of the `sdd` field must be a non-negative integer.
 
 For example, the root directory `https://{account}.blob.core.windows.net/{container}/` has a depth of 0. Each subdirectory beneath the root directory adds to the depth by one. The directory `https://{account}.blob.core.windows.net/{container}/d1/d2` has a depth of two.  
 
@@ -252,12 +241,6 @@ The following table describes how to refer to a signed identifier on the URI.
 |`signedIdentifier`|`si`|Optional. A unique value up to 64 characters in length that correlates to an access policy specified for the container, queue, or table.|  
   
 A stored access policy includes a signed identifier, a value up to 64 characters long that is unique within the resource. The value of this signed identifier can be specified for the `signedidentifier` field in the URI for the shared access signature. Specifying a signed identifier on the URI associates the signature with the stored access policy. To establish a container-level access policy using the REST API, see [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md).  
-
-### Specifying the signed directory depth
-
-When sr=d is specified, the sdd query parameter is also required (version 2020-02-10 or later and hierarchical namespace is enabled). The sdd query parameter indicates the depth of the directory specified in the canonicalizedResource field of the string-to-sign (see below). The depth of the directory is the number of directories beneath the root folder.
-
-For example, the directory https://{account}.blob.core.windows.net/{container}/d1/d2 has a depth of 2 and the root directory https://{account}.blob.core.windows.net/{container}/ has a depth of 0. The value of sdd must be a non-negative integer.
 
 ### Specifying the signature  
 

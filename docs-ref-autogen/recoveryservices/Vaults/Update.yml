@@ -58,6 +58,11 @@ requestBody:
     description: Identifies the unique system identifier for each Azure resource.
     types:
     - uid: Sku
+  - name: identity
+    in: body
+    description: Identity for the resource.
+    types:
+    - uid: IdentityData
   - name: location
     in: body
     description: Resource location.
@@ -116,6 +121,24 @@ definitions:
     description: The Sku name.
     types:
     - uid: SkuName
+- name: IdentityData
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type.
+    types:
+    - uid: ResourceIdentityType
 - name: Vault
   description: Resource information, as returned by the resource provider.
   kind: object
@@ -175,6 +198,10 @@ definitions:
     description: Identifies the unique system identifier for each Azure resource.
     types:
     - uid: Sku
+  - name: identity
+    description: Identity for the resource.
+    types:
+    - uid: IdentityData
   - name: location
     description: Resource location.
     types:
@@ -289,24 +316,16 @@ definitions:
   - name: RS0
     types:
     - uid: string
-- name: IdentityData
-  description: Identity for the resource.
-  kind: object
+- name: ResourceIdentityType
+  description: The identity type.
+  kind: enum
   properties:
-  - name: principalId
-    isReadyOnly: true
-    description: The principal ID of resource identity.
+  - name: SystemAssigned
     types:
     - uid: string
-  - name: tenantId
-    isReadyOnly: true
-    description: The tenant ID of resource.
+  - name: None
     types:
     - uid: string
-  - name: type
-    description: The identity type.
-    types:
-    - uid: ResourceIdentityType
 - name: VaultUpgradeState
   description: Status of the vault upgrade operation.
   kind: enum
@@ -352,16 +371,6 @@ definitions:
     description: Gets or sets private link service connection state.
     types:
     - uid: PrivateLinkServiceConnectionState
-- name: ResourceIdentityType
-  description: The identity type.
-  kind: enum
-  properties:
-  - name: SystemAssigned
-    types:
-    - uid: string
-  - name: None
-    types:
-    - uid: string
 - name: ProvisioningState
   description: Gets or sets provisioning state of the private endpoint connection.
   kind: enum

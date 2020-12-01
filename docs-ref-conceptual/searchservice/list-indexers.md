@@ -71,7 +71,10 @@ GET /indexers?api-version=2020-06-30&$select=name
     }  
 ```  
 
- This is a useful technique to save bandwidth if you have a lot of indexers in your Search service.  
+ This is a useful technique to save bandwidth if you have a lot of indexers in your Search service.
+
+> [!NOTE]
+> If an indexer has an [encryption key](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys), the search service must have access to the encryption key to retrieve encrypted properties in that indexer's definition. Without access to the encryption key, an `"<encrypted>"` placeholder is returned in place of the encrypted properties. Restoring access to the key allows the search service to retrieve the complete indexer definition again.
 
 ## See also  
 

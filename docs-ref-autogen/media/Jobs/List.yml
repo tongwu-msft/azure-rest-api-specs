@@ -3,15 +3,15 @@ uid: management.azure.com.media.jobs.list
 name: List
 service: Media Services
 groupName: Jobs
-apiVersion: 2018-07-01
+apiVersion: 2020-05-01
 summary: "List Jobs  \nLists all of the Jobs for the Transform."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs?api-version=2018-07-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs?api-version=2018-07-01&$filter={$filter}&$orderby={$orderby}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs?api-version=2020-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs?api-version=2020-05-01&$filter={$filter}&$orderby={$orderby}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -41,7 +41,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The Version of the API to be used with the client request.
+  description: The version of the API to be used with the client request.
   types:
   - uid: string
 - name: $filter
@@ -92,7 +92,7 @@ definitions:
   properties:
   - name: properties.created
     isReadyOnly: true
-    description: The UTC date and time when the Job was created, in 'YYYY-MM-DDThh:mm:ssZ' format.
+    description: The UTC date and time when the customer has created the Job, in 'YYYY-MM-DDThh:mm:ssZ' format.
     types:
     - uid: string
   - name: properties.state
@@ -114,7 +114,7 @@ definitions:
     typesTitle: JobInput
   - name: properties.lastModified
     isReadyOnly: true
-    description: The UTC date and time when the Job was last updated, in 'YYYY-MM-DDThh:mm:ssZ' format.
+    description: The UTC date and time when the customer has last updated the Job, in 'YYYY-MM-DDThh:mm:ssZ' format.
     types:
     - uid: string
   - name: properties.outputs
@@ -147,17 +147,17 @@ definitions:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: Fully qualified resource ID for the resource.
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: The name of the resource.
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of the resource.
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
 - name: ODataError
@@ -242,11 +242,13 @@ definitions:
     description: Defines a point on the timeline of the input media at which processing will start. Defaults to the beginning of the input media.
     types:
     - uid: AbsoluteClipTime
+    - uid: UtcClipTime
     typesTitle: ClipTime
   - name: end
     description: Defines a point on the timeline of the input media at which processing will end. Defaults to the end of the input media.
     types:
     - uid: AbsoluteClipTime
+    - uid: UtcClipTime
     typesTitle: ClipTime
   - name: label
     description: A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
@@ -295,11 +297,13 @@ definitions:
     description: Defines a point on the timeline of the input media at which processing will start. Defaults to the beginning of the input media.
     types:
     - uid: AbsoluteClipTime
+    - uid: UtcClipTime
     typesTitle: ClipTime
   - name: end
     description: Defines a point on the timeline of the input media at which processing will end. Defaults to the end of the input media.
     types:
     - uid: AbsoluteClipTime
+    - uid: UtcClipTime
     typesTitle: ClipTime
   - name: label
     description: A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
@@ -327,11 +331,13 @@ definitions:
     description: Defines a point on the timeline of the input media at which processing will start. Defaults to the beginning of the input media.
     types:
     - uid: AbsoluteClipTime
+    - uid: UtcClipTime
     typesTitle: ClipTime
   - name: end
     description: Defines a point on the timeline of the input media at which processing will end. Defaults to the end of the input media.
     types:
     - uid: AbsoluteClipTime
+    - uid: UtcClipTime
     typesTitle: ClipTime
   - name: label
     description: A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
@@ -427,6 +433,19 @@ definitions:
     types:
     - uid: '#Microsoft.Media.AbsoluteClipTime'
     typesTitle: string
+- name: UtcClipTime
+  description: Specifies the clip time as a Utc time position in the media file.  The Utc time can point to a different position depending on whether the media file starts from a timestamp of zero or not.
+  kind: object
+  properties:
+  - name: time
+    description: The time position on the timeline of the input media based on Utc time.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.UtcClipTime'
+    typesTitle: string
 - name: JobErrorCode
   description: Error code describing the error.
   kind: enum
@@ -520,7 +539,7 @@ definitions:
 examples:
 - name: Lists all of the Jobs for the Transform.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2018-07-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -539,7 +558,7 @@ examples:
                   {
                     "@odata.type": "#Microsoft.Media.JobInputAsset",
                     "files": [],
-                    "assetName": "job1 input"
+                    "assetName": "job1-InputAsset"
                   }
                 ]
               },
@@ -550,7 +569,7 @@ examples:
                   "state": "Queued",
                   "progress": 0,
                   "label": "example-custom-label",
-                  "assetName": "job1 output"
+                  "assetName": "job1-OutputAsset"
                 }
               ],
               "priority": "Low",
@@ -570,7 +589,7 @@ examples:
                   {
                     "@odata.type": "#Microsoft.Media.JobInputAsset",
                     "files": [],
-                    "assetName": "job2 input"
+                    "assetName": "job2-InputAsset"
                   }
                 ]
               },
@@ -581,13 +600,13 @@ examples:
                   "state": "Processing",
                   "progress": 50,
                   "label": "example-custom-label",
-                  "startTime": "2019-10-10T22:28:02.6465994Z",
-                  "assetName": "job2 output"
+                  "startTime": "2020-09-25T03:42:06.7140175Z",
+                  "assetName": "job2-OutputAsset"
                 }
               ],
               "priority": "Low",
               "correlationData": {},
-              "startTime": "2019-10-10T22:28:02.6465994Z"
+              "startTime": "2020-09-25T03:42:06.7140175Z"
             }
           },
           {
@@ -603,7 +622,7 @@ examples:
                   {
                     "@odata.type": "#Microsoft.Media.JobInputAsset",
                     "files": [],
-                    "assetName": "job3 input"
+                    "assetName": "job3-InputAsset"
                   }
                 ]
               },
@@ -614,22 +633,22 @@ examples:
                   "state": "Finished",
                   "progress": 100,
                   "label": "example-custom-label",
-                  "startTime": "2019-10-10T22:28:02.6465994Z",
-                  "endTime": "2019-10-10T22:38:02.6465994Z",
-                  "assetName": "job3 output"
+                  "startTime": "2020-09-25T03:42:06.7140175Z",
+                  "endTime": "2020-09-25T03:52:06.7140175Z",
+                  "assetName": "job3-OutputAsset"
                 }
               ],
               "priority": "Low",
               "correlationData": {},
-              "startTime": "2019-10-10T22:28:02.6465994Z",
-              "endTime": "2019-10-10T22:38:02.6465994Z"
+              "startTime": "2020-09-25T03:42:06.7140175Z",
+              "endTime": "2020-09-25T03:52:06.7140175Z"
             }
           }
         ]
       }
 - name: Lists Jobs for the Transform filter by name.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2018-07-01&$filter=name eq 'job1' or name eq 'job2'&$orderby=name
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2020-05-01&$filter=name eq 'job1' or name eq 'job2'&$orderby=name
   responses:
   - statusCode: "200"
     body: >-
@@ -648,7 +667,7 @@ examples:
                   {
                     "@odata.type": "#Microsoft.Media.JobInputAsset",
                     "files": [],
-                    "assetName": "job1 input"
+                    "assetName": "job1-InputAsset"
                   }
                 ]
               },
@@ -659,7 +678,7 @@ examples:
                   "state": "Queued",
                   "progress": 0,
                   "label": "example-custom-label",
-                  "assetName": "job1 output"
+                  "assetName": "job1-OutputAsset"
                 }
               ],
               "priority": "Low",
@@ -679,7 +698,7 @@ examples:
                   {
                     "@odata.type": "#Microsoft.Media.JobInputAsset",
                     "files": [],
-                    "assetName": "job2 input"
+                    "assetName": "job2-InputAsset"
                   }
                 ]
               },
@@ -690,20 +709,20 @@ examples:
                   "state": "Processing",
                   "progress": 50,
                   "label": "example-custom-label",
-                  "startTime": "2019-10-10T22:28:02.7835215Z",
-                  "assetName": "job2 output"
+                  "startTime": "2020-09-25T03:42:07.1140078Z",
+                  "assetName": "job2-OutputAsset"
                 }
               ],
               "priority": "Low",
               "correlationData": {},
-              "startTime": "2019-10-10T22:28:02.7835215Z"
+              "startTime": "2020-09-25T03:42:07.1140078Z"
             }
           }
         ]
       }
 - name: Lists Jobs for the Transform filter by state equal.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2018-07-01&$filter=properties/state eq Microsoft.Media.JobState'Processing'
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2020-05-01&$filter=properties/state eq Microsoft.Media.JobState'Processing'
   responses:
   - statusCode: "200"
     body: >-
@@ -722,7 +741,7 @@ examples:
                   {
                     "@odata.type": "#Microsoft.Media.JobInputAsset",
                     "files": [],
-                    "assetName": "job2 input"
+                    "assetName": "job2-InputAsset"
                   }
                 ]
               },
@@ -733,13 +752,13 @@ examples:
                   "state": "Processing",
                   "progress": 50,
                   "label": "example-custom-label",
-                  "startTime": "2019-10-10T22:28:02.8754914Z",
-                  "assetName": "job2 output"
+                  "startTime": "2020-09-25T03:42:07.1901996Z",
+                  "assetName": "job2-OutputAsset"
                 }
               ],
               "priority": "Low",
               "correlationData": {},
-              "startTime": "2019-10-10T22:28:02.8754914Z"
+              "startTime": "2020-09-25T03:42:07.1901996Z"
             }
           },
           {
@@ -755,7 +774,7 @@ examples:
                   {
                     "@odata.type": "#Microsoft.Media.JobInputAsset",
                     "files": [],
-                    "assetName": "job3 input"
+                    "assetName": "job3-InputAsset"
                   }
                 ]
               },
@@ -766,20 +785,20 @@ examples:
                   "state": "Processing",
                   "progress": 50,
                   "label": "example-custom-label",
-                  "startTime": "2019-10-10T22:28:02.8754914Z",
-                  "assetName": "job3 output"
+                  "startTime": "2020-09-25T03:42:07.1901996Z",
+                  "assetName": "job3-OutputAsset"
                 }
               ],
               "priority": "Low",
               "correlationData": {},
-              "startTime": "2019-10-10T22:28:02.8754914Z"
+              "startTime": "2020-09-25T03:42:07.1901996Z"
             }
           }
         ]
       }
 - name: Lists Jobs for the Transform filter by state not equal.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2018-07-01&$filter=properties/state ne Microsoft.Media.JobState'processing'
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2020-05-01&$filter=properties/state ne Microsoft.Media.JobState'processing'
   responses:
   - statusCode: "200"
     body: >-
@@ -798,7 +817,7 @@ examples:
                   {
                     "@odata.type": "#Microsoft.Media.JobInputAsset",
                     "files": [],
-                    "assetName": "job1 input"
+                    "assetName": "job1-InputAsset"
                   }
                 ]
               },
@@ -809,7 +828,7 @@ examples:
                   "state": "Queued",
                   "progress": 0,
                   "label": "example-custom-label",
-                  "assetName": "job1 output"
+                  "assetName": "job1-OutputAsset"
                 }
               ],
               "priority": "Low",
@@ -829,7 +848,7 @@ examples:
                   {
                     "@odata.type": "#Microsoft.Media.JobInputAsset",
                     "files": [],
-                    "assetName": "job4 input"
+                    "assetName": "job4-InputAsset"
                   }
                 ]
               },
@@ -840,22 +859,22 @@ examples:
                   "state": "Finished",
                   "progress": 100,
                   "label": "example-custom-label",
-                  "startTime": "2019-10-10T22:28:02.9885137Z",
-                  "endTime": "2019-10-10T22:38:02.9885137Z",
-                  "assetName": "job4 output"
+                  "startTime": "2020-09-25T03:42:07.3301954Z",
+                  "endTime": "2020-09-25T03:52:07.3301954Z",
+                  "assetName": "job4-OutputAsset"
                 }
               ],
               "priority": "Low",
               "correlationData": {},
-              "startTime": "2019-10-10T22:28:02.9885137Z",
-              "endTime": "2019-10-10T22:38:02.9885137Z"
+              "startTime": "2020-09-25T03:42:07.3301954Z",
+              "endTime": "2020-09-25T03:52:07.3301954Z"
             }
           }
         ]
       }
 - name: Lists Jobs for the Transform filter by name and state.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2018-07-01&$filter=name eq 'job3' and properties/state eq Microsoft.Media.JobState'finished'
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2020-05-01&$filter=name eq 'job3' and properties/state eq Microsoft.Media.JobState'finished'
   responses:
   - statusCode: "200"
     body: >-
@@ -874,7 +893,7 @@ examples:
                   {
                     "@odata.type": "#Microsoft.Media.JobInputAsset",
                     "files": [],
-                    "assetName": "job3 input"
+                    "assetName": "job3-InputAsset"
                   }
                 ]
               },
@@ -885,22 +904,22 @@ examples:
                   "state": "Finished",
                   "progress": 100,
                   "label": "example-custom-label",
-                  "startTime": "2019-10-10T22:28:03.0624915Z",
-                  "endTime": "2019-10-10T22:38:03.0624915Z",
-                  "assetName": "job3 output"
+                  "startTime": "2020-09-25T03:42:07.4002063Z",
+                  "endTime": "2020-09-25T03:52:07.4002063Z",
+                  "assetName": "job3-OutputAsset"
                 }
               ],
               "priority": "Low",
               "correlationData": {},
-              "startTime": "2019-10-10T22:28:03.0624915Z",
-              "endTime": "2019-10-10T22:38:03.0624915Z"
+              "startTime": "2020-09-25T03:42:07.4002063Z",
+              "endTime": "2020-09-25T03:52:07.4002063Z"
             }
           }
         ]
       }
 - name: Lists Jobs for the Transform filter by created.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2018-07-01&$filter=properties/created ge 2019-10-10T22:38:13.1259050Z and properties/created le 2019-10-10T22:38:23.1259050Z&$orderby=properties/created
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2020-05-01&$filter=properties/created ge 2020-09-25T03:52:17.4802005Z and properties/created le 2020-09-25T03:52:27.4802005Z&$orderby=properties/created
   responses:
   - statusCode: "200"
     body: >-
@@ -911,7 +930,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2019-10-10T22:38:13.125905Z",
+              "created": "2020-09-25T03:52:17.4802005Z",
               "state": "Processing",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -919,24 +938,24 @@ examples:
                   {
                     "@odata.type": "#Microsoft.Media.JobInputAsset",
                     "files": [],
-                    "assetName": "job2 input"
+                    "assetName": "job2-InputAsset"
                   }
                 ]
               },
-              "lastModified": "2019-10-10T22:38:13.125905Z",
+              "lastModified": "2020-09-25T03:52:17.4802005Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
                   "state": "Processing",
                   "progress": 50,
                   "label": "example-custom-label",
-                  "startTime": "2019-10-10T22:28:03.125905Z",
-                  "assetName": "job2 output"
+                  "startTime": "2020-09-25T03:42:07.4802005Z",
+                  "assetName": "job2-OutputAsset"
                 }
               ],
               "priority": "Low",
               "correlationData": {},
-              "startTime": "2019-10-10T22:28:03.125905Z"
+              "startTime": "2020-09-25T03:42:07.4802005Z"
             }
           },
           {
@@ -944,7 +963,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2019-10-10T22:38:23.125905Z",
+              "created": "2020-09-25T03:52:27.4802005Z",
               "state": "Finished",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -952,33 +971,33 @@ examples:
                   {
                     "@odata.type": "#Microsoft.Media.JobInputAsset",
                     "files": [],
-                    "assetName": "job3 input"
+                    "assetName": "job3-InputAsset"
                   }
                 ]
               },
-              "lastModified": "2019-10-10T22:38:23.125905Z",
+              "lastModified": "2020-09-25T03:52:27.4802005Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
                   "state": "Finished",
                   "progress": 100,
                   "label": "example-custom-label",
-                  "startTime": "2019-10-10T22:28:03.125905Z",
-                  "endTime": "2019-10-10T22:38:03.125905Z",
-                  "assetName": "job3 output"
+                  "startTime": "2020-09-25T03:42:07.4802005Z",
+                  "endTime": "2020-09-25T03:52:07.4802005Z",
+                  "assetName": "job3-OutputAsset"
                 }
               ],
               "priority": "Low",
               "correlationData": {},
-              "startTime": "2019-10-10T22:28:03.125905Z",
-              "endTime": "2019-10-10T22:38:03.125905Z"
+              "startTime": "2020-09-25T03:42:07.4802005Z",
+              "endTime": "2020-09-25T03:52:07.4802005Z"
             }
           }
         ]
       }
 - name: Lists Jobs for the Transform filter by lastmodified.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2018-07-01&$filter=properties/lastmodified ge 2019-10-10T22:38:13.1931019Z and properties/lastmodified le 2019-10-10T22:38:23.1931019Z&$orderby=properties/lastmodified desc
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2020-05-01&$filter=properties/lastmodified ge 2020-09-25T03:52:17.5701994Z and properties/lastmodified le 2020-09-25T03:52:27.5701994Z&$orderby=properties/lastmodified desc
   responses:
   - statusCode: "200"
     body: >-
@@ -989,7 +1008,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2019-10-10T22:38:23.1931019Z",
+              "created": "2020-09-25T03:52:27.5701994Z",
               "state": "Finished",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -997,26 +1016,26 @@ examples:
                   {
                     "@odata.type": "#Microsoft.Media.JobInputAsset",
                     "files": [],
-                    "assetName": "job3 input"
+                    "assetName": "job3-InputAsset"
                   }
                 ]
               },
-              "lastModified": "2019-10-10T22:38:23.1931019Z",
+              "lastModified": "2020-09-25T03:52:27.5701994Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
                   "state": "Finished",
                   "progress": 100,
                   "label": "example-custom-label",
-                  "startTime": "2019-10-10T22:28:03.1931019Z",
-                  "endTime": "2019-10-10T22:38:03.1931019Z",
-                  "assetName": "job3 output"
+                  "startTime": "2020-09-25T03:42:07.5701994Z",
+                  "endTime": "2020-09-25T03:52:07.5701994Z",
+                  "assetName": "job3-OutputAsset"
                 }
               ],
               "priority": "Low",
               "correlationData": {},
-              "startTime": "2019-10-10T22:28:03.1931019Z",
-              "endTime": "2019-10-10T22:38:03.1931019Z"
+              "startTime": "2020-09-25T03:42:07.5701994Z",
+              "endTime": "2020-09-25T03:52:07.5701994Z"
             }
           },
           {
@@ -1024,7 +1043,7 @@ examples:
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
             "type": "Microsoft.Media/mediaservices/transforms/jobs",
             "properties": {
-              "created": "2019-10-10T22:38:13.1931019Z",
+              "created": "2020-09-25T03:52:17.5701994Z",
               "state": "Processing",
               "input": {
                 "@odata.type": "#Microsoft.Media.JobInputs",
@@ -1032,24 +1051,24 @@ examples:
                   {
                     "@odata.type": "#Microsoft.Media.JobInputAsset",
                     "files": [],
-                    "assetName": "job2 input"
+                    "assetName": "job2-InputAsset"
                   }
                 ]
               },
-              "lastModified": "2019-10-10T22:38:13.1931019Z",
+              "lastModified": "2020-09-25T03:52:17.5701994Z",
               "outputs": [
                 {
                   "@odata.type": "#Microsoft.Media.JobOutputAsset",
                   "state": "Processing",
                   "progress": 50,
                   "label": "example-custom-label",
-                  "startTime": "2019-10-10T22:28:03.1931019Z",
-                  "assetName": "job2 output"
+                  "startTime": "2020-09-25T03:42:07.5701994Z",
+                  "assetName": "job2-OutputAsset"
                 }
               ],
               "priority": "Low",
               "correlationData": {},
-              "startTime": "2019-10-10T22:28:03.1931019Z"
+              "startTime": "2020-09-25T03:42:07.5701994Z"
             }
           }
         ]

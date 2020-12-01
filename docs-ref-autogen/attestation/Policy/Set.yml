@@ -3,45 +3,39 @@ uid: attestation.policy.set
 name: Set
 service: Azure Attestation
 groupName: Policy
-apiVersion: 2018-09-01-preview
-summary: Sets the policy for a given kind of TEE.
+apiVersion: 2020-10-01
+summary: Sets the policy for a given attestation type.
 consumes:
 - text/plain
 produces:
 - application/json
 paths:
-- content: PUT {tenantBaseUrl}/operations/policy/current?api-version=2018-09-01-preview&tee={tee}
+- content: PUT {instanceUrl}/policies/{attestationType}?api-version=2020-10-01
 uriParameters:
-- name: tenantBaseUrl
+- name: instanceUrl
   in: path
   isRequired: true
   skipUrlEncoding: true
-  description: The tenant name, for example https://mytenant.attest.azure.net.
+  description: The attestation instance base URI, for example https://mytenant.attest.azure.net.
   types:
   - uid: string
-- name: api-version
-  in: query
-  isRequired: true
-  description: Client API version.
-  types:
-  - uid: string
-- name: tee
-  in: query
+- name: attestationType
+  in: path
   isRequired: true
   description: Specifies the trusted execution environment to be used to validate the evidence
   types:
-  - uid: TeeKind
+  - uid: AttestationType
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version. Current version is 2010-10-01
+  types:
+  - uid: string
 responses:
 - name: 200 OK
   description: Success
-- name: 400 Bad Request
-  description: Bad request
   types:
-  - uid: CloudError
-- name: 401 Unauthorized
-  description: Request is unauthorized
-  types:
-  - uid: string
+  - uid: PolicyResponse
 - name: Other Status Codes
   description: Error response describing why the operation failed
   types:
@@ -51,12 +45,12 @@ requestBody:
   parameters:
   - name: newAttestationPolicy
     in: body
-    description: JWT Expressing the new policy
+    description: JWT Expressing the new policy whose body is a StoredAttestationPolicy object.
     types:
     - uid: string
 requestHeader: []
 definitions:
-- name: TeeKind
+- name: AttestationType
   description: Specifies the trusted execution environment to be used to validate the evidence
   kind: enum
   properties:
@@ -68,12 +62,16 @@ definitions:
     description: OpenEnclave extensions to SGX
     types:
     - uid: string
-  - name: CyResComponent
-    description: IoT Edge validation
+  - name: Tpm
+    description: Edge TPM Virtualization Based Security
     types:
     - uid: string
-  - name: VSMEnclave
-    description: VSM Enclave Attestation
+- name: PolicyResponse
+  description: The response to an attestation policy operation
+  kind: object
+  properties:
+  - name: token
+    description: An RFC7519 JSON Web Token structure whose body is an PolicyResult object.
     types:
     - uid: string
 - name: CloudError
@@ -99,19 +97,13 @@ definitions:
 examples:
 - name: Set Policy
   request:
-    uri: PUT 'https://mytest.attest.azure.net'/operations/policy/current?api-version=2018-09-01-preview&tee=SgxEnclave
-    body: "\"newAttestationPolicyname\""
+    uri: PUT https://instance.attest.azure.net/policies/SgxEnclave?api-version=2020-10-01
+    body: "\"eyJhbGciOiAiUlMyNTYiLCAiamt1IjogImh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9jZXJ0cyIsICJraWQiOiAieWtJd00rcnRNcnhFZkZJVHY2TGZjVG03eWszUkxXRXBkN1lsZmJyTk1JST0iLCAidHlwIjogIkpXVCJ9.eyJhYXMtcG9saWN5SGFzaCI6ICJ2MG9QNG9KWkVKWnh4SXhFNmJiVVAxa1JSbWVfZXgtUHV4NlF0c1U4STdNIiwgImV4cCI6IDE1NzM4NjI5NzQsICJpYXQiOiAxNTczODU5Mzc0LCAiaXNzIjogImh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsICJuYmYiOiAxNTczODU5Mzc0fQ.FTMpKwZHJa5l9_Mdxl60FtSDOr9kLRDYw3UAofMXJ-eOEvm4FdNM69YHR6Oy_i1uUEnVDAnMHhR0APTXgKqoR7gDxxfJG_RgiQqsTmQ-ucmXNL2Ck--sH3bz9OfIocPYSN0FBWiq6fgG6iX_oMX1hs-ENsF7B3jSp1nVL8NWtWk\""
   responses:
   - statusCode: "200"
-  - statusCode: "400"
     body: >-
       {
-        "error": {
-          "code": "400",
-          "message": "error message"
-        }
+        "token": "eyJhbGciOiJub25lIn0.eyJBdHRlc3RhdGlvblBvbGljeSI6ICJEUXAyWlhKemFXOXVQVEV1TURzTkNtRjFkR2h2Y21sNllYUnBiMjV5ZFd4bGN5QjdJRDAtSUhCbGNtMXBkQ2dwT3lCOU93MEthWE56ZFdGdVkyVnlkV3hsY3lCN2ZUcyJ9."
       }
-  - statusCode: "401"
-    body: "\"\""
 security: []
 errorCodes: []

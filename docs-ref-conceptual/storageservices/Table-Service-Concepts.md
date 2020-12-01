@@ -3,7 +3,7 @@ title: Table service concepts (REST API) - Azure Storage
 description: Table service concepts.
 author: pemari-msft
 
-ms.date: 09/30/2019
+ms.date: 11/13/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -23,8 +23,6 @@ You can use the Table service API to create tables for structured storage, and t
  [Querying Tables and Entities](Querying-Tables-and-Entities.md)  
   
  [Inserting and Updating Entities](Inserting-and-Updating-Entities.md)  
-  
- [Formatting DateTime Property Values](Formatting-DateTime-Property-Values.md)  
   
  [Performing Entity Group Transactions](Performing-Entity-Group-Transactions.md)  
   

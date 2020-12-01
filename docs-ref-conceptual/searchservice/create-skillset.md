@@ -63,7 +63,8 @@ The following JSON is a high-level representation of the main parts of the defin
         "description": "Optional. Anything you want, or null",
         "key": "<YOUR-COGNITIVE-SERVICES-ALL-IN-ONE-KEY>"
       },
-  "knowledgeStore": (optional) { ... }
+  "knowledgeStore": (optional) { ... },
+  "encryptionKey": (optional) { }
 } 
 ```
 
@@ -74,7 +75,9 @@ The following JSON is a high-level representation of the main parts of the defin
 |name|Required. The name of the skillset. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.|  
 |skills| You can use built-in or custom skills. At least one skill is required. If you are using a knowledge store, you must use a Shaper skill unless you are defining the data shape within the projection. | 
 |cognitiveServices | A Cognitive Services all-in-one key that attaches all of the resources that back the built-in skills (for image analysis and natural language processing). The key is used for billing but not authentication. For more information, see [Attach a Cognitive Services resource ](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).|
- 
+|[knowledgeStore](#kstore)| Optional. Destination for enrichment output to Azure Storage. Requires a connection string to an Azure Storage account and [projections](https://docs.microsoft.com/azure/search/knowledge-store-projection-overview). |
+|[encryptionKey](#encryption-key)| Optional. Used to encrypt skillset data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys). |
+
 > [!NOTE]
 > Skillsets are the basis of [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) in Azure Cognitive Search. A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Cognitive Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).
 
@@ -206,6 +209,26 @@ The body of request is a JSON document. This particular skillset uses two skills
     } 
 }
 ```
+
+<a name="encryption-key"></a>
+
+### "encryptionKey"
+
+While skillsets are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), you can also encrypt them with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
+
+```json
+"encryptionKey": (optional) { 
+  "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
+  "keyVaultKeyVersion": "Version of the Azure Key Vault key",
+  "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net",
+  "accessCredentials": (optional, only if not using managed system identity) {
+    "applicationId": "Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault",
+    "applicationSecret": "Authentication key of the specified Azure AD application)"}
+  }
+```
+
+> [!NOTE]
+> Encryption with customer-managed keys is not available for free services. For billable services, it is only available for search services created on or after 2019-01-01.
 
 ## See also
 

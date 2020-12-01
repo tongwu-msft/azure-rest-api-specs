@@ -63,10 +63,9 @@ definitions:
   kind: object
   properties:
   - name: error
-    isReadyOnly: true
-    description: Error response indicates Azure Resource Manager is not able to process the incoming request. The reason is provided in the error message.
+    description: The error details.
     types:
-    - uid: Error
+    - uid: ErrorDefinition
 - name: RegistrationAssignment
   description: Registration assignment.
   kind: object
@@ -90,7 +89,7 @@ definitions:
     description: Name of the registration assignment.
     types:
     - uid: string
-- name: Error
+- name: ErrorDefinition
   description: Error response indicates Azure Resource Manager is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
@@ -102,6 +101,11 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
+  - name: details
+    description: Internal error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
 - name: RegistrationAssignmentProperties
   description: Properties of a registration assignment.
   kind: object
@@ -246,10 +250,19 @@ definitions:
     description: Principal Id of the security group/service principal/user that would be assigned permissions to the projected subscription
     types:
     - uid: string
+  - name: principalIdDisplayName
+    description: Display name of the principal Id.
+    types:
+    - uid: string
   - name: roleDefinitionId
     description: The role definition identifier. This role will define all the permissions that the security group/service principal/user must have on the projected subscription. This role cannot be an owner role.
     types:
     - uid: string
+  - name: delegatedRoleDefinitionIds
+    description: The delegatedRoleDefinitionIds field is required when the roleDefinitionId refers to the User Access Administrator Role. It is the list of role definition ids which define all the permissions that the user in the authorization can assign to other security groups/service principals/users.
+    types:
+    - uid: string
+      isArray: true
 examples:
 - name: Get Registration Assignments
   request:
@@ -270,7 +283,16 @@ examples:
                   "authorizations": [
                     {
                       "principalId": "f98d86a2-4cc4-4e9d-ad47-b3e80a1bcdfc",
+                      "principalIdDisplayName": "Support User",
                       "roleDefinitionId": "acdd72a7-3385-48ef-bd42-f606fba81ae7"
+                    },
+                    {
+                      "principalId": "f98d86a2-4cc4-4e9d-ad47-b3e80a1bcdfc",
+                      "principalIdDisplayName": "User Access Administrator",
+                      "roleDefinitionId": "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9",
+                      "delegatedRoleDefinitionIds": [
+                        "b24988ac-6180-42a0-ab88-20f7382dd24c"
+                      ]
                     }
                   ],
                   "provisioningState": "Succeeded",

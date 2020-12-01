@@ -19,15 +19,16 @@ The **List Skillset** operation returns the list of skillsets in your Azure Cogn
 GET https://[service name].search.windows.net/skillsets?api-version=[api-version]
   Content-Type: application/json  
   api-key: [admin key]  
-```  
+```
+
 ## URI Parameters
 
-| Parameter	  | Description  | 
+| Parameter  | Description  |
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
-## Request Headers 
+## Request Headers
 
 The following table describes the required and optional request headers.  
 
@@ -36,12 +37,18 @@ The following table describes the required and optional request headers.
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Get requests about objects in your service must include an api-key field set to your admin key (as opposed to a query key).|  
 
-You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).
 
-## Request Body  
+## Request Body
+
 None.
-## Response  
- For a successful request: 200 OK. 
+
+## Response
+
+For a successful request: 200 OK.
+
+> [!NOTE]
+> If a skillset has an [encryption key](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys), the search service must have access to the encryption key to retrieve encrypted properties in that skillset's definition. Without access to the encryption key, an `"<encrypted>"` placeholder is returned in place of the encrypted properties. Restoring access to the key allows the search service to retrieve the complete skillset definition again.
 
 ## See also  
 

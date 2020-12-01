@@ -3,20 +3,20 @@ uid: attestation.metadataconfiguration.get
 name: Get
 service: Azure Attestation
 groupName: Metadata Configuration
-apiVersion: 2018-09-01-preview
-summary: "Retrieves the OpenID Configuration data for the Azure Attestation Service  \nRetrieves metadata about the attestation signing keys in use by the  attestation service"
+apiVersion: 2020-10-01
+summary: "Retrieves the OpenID Configuration data for the Azure Attestation Service  \nRetrieves metadata about the attestation signing keys in use by the attestation service"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET {tenantBaseUrl}/.well-known/openid-configuration
+- content: GET {instanceUrl}/.well-known/openid-configuration
 uriParameters:
-- name: tenantBaseUrl
+- name: instanceUrl
   in: path
   isRequired: true
   skipUrlEncoding: true
-  description: The tenant name, for example https://mytenant.attest.azure.net.
+  description: The attestation instance base URI, for example https://mytenant.attest.azure.net.
   types:
   - uid: string
 responses:
@@ -24,10 +24,6 @@ responses:
   description: Success
   types:
   - uid: object
-- name: 400 Bad Request
-  description: Error processing the request
-  types:
-  - uid: CloudError
 - name: Other Status Codes
   description: Error response describing why the operation failed
   types:
@@ -55,9 +51,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Reset Policy
+- name: Get OpenID Metadata
   request:
-    uri: GET 'https://mytest.attest.azure.net'/.well-known/openid-configuration
+    uri: GET https://instance.attest.azure.net/.well-known/openid-configuration
   responses:
   - statusCode: "200"
     body: >-
@@ -82,14 +78,6 @@ examples:
           "component_0_id",
           "expected_components"
         ]
-      }
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400",
-          "message": "error message"
-        }
       }
 security: []
 errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.media.mediaservices.listbysubscription
 name: List By Subscription
 service: Media Services
 groupName: Mediaservices
-apiVersion: 2018-07-01
+apiVersion: 2020-05-01
 summary: "List Media Services accounts  \nList Media Services accounts in the subscription."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Media/mediaservices?api-version=2018-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Media/mediaservices?api-version=2020-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,28 +21,28 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The Version of the API to be used with the client request.
+  description: The version of the API to be used with the client request.
   types:
   - uid: string
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SubscriptionMediaServiceCollection
+  - uid: MediaServiceCollection
 - name: Other Status Codes
   description: Detailed error information.
   types:
   - uid: ApiError
 requestHeader: []
 definitions:
-- name: SubscriptionMediaServiceCollection
-  description: A collection of SubscriptionMediaService items.
+- name: MediaServiceCollection
+  description: A collection of MediaService items.
   kind: object
   properties:
   - name: value
-    description: A collection of SubscriptionMediaService items.
+    description: A collection of MediaService items.
     types:
-    - uid: SubscriptionMediaService
+    - uid: MediaService
       isArray: true
   - name: '@odata.nextLink'
     description: A link to the next page of the collection (when the collection contains too many results to return in one response).
@@ -56,10 +56,14 @@ definitions:
     description: The error properties.
     types:
     - uid: ODataError
-- name: SubscriptionMediaService
+- name: MediaService
   description: A Media Services account.
   kind: object
   properties:
+  - name: identity
+    description: The Managed Identity for the Media Services account.
+    types:
+    - uid: MediaServiceIdentity
   - name: properties.mediaServiceId
     isReadyOnly: true
     description: The Media Services account ID.
@@ -70,6 +74,14 @@ definitions:
     types:
     - uid: StorageAccount
       isArray: true
+  - name: properties.storageAuthentication
+    description: ''
+    types:
+    - uid: StorageAuthentication
+  - name: properties.encryption
+    description: The account encryption properties.
+    types:
+    - uid: AccountEncryption
   - name: tags
     description: Resource tags.
     types:
@@ -79,22 +91,22 @@ definitions:
       - uid: string
       - uid: string
   - name: location
-    description: The Azure Region of the resource.
+    description: The geo-location where the resource lives
     types:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: Fully qualified resource ID for the resource.
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: The name of the resource.
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of the resource.
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
 - name: ODataError
@@ -118,6 +130,23 @@ definitions:
     types:
     - uid: ODataError
       isArray: true
+- name: MediaServiceIdentity
+  kind: object
+  properties:
+  - name: type
+    description: The identity type.
+    types:
+    - uid: ManagedIdentityType
+  - name: principalId
+    isReadyOnly: true
+    description: The Principal ID of the identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The Tenant ID of the identity.
+    types:
+    - uid: string
 - name: StorageAccount
   description: The storage account details.
   kind: object
@@ -130,6 +159,40 @@ definitions:
     description: The type of the storage account.
     types:
     - uid: StorageAccountType
+- name: StorageAuthentication
+  kind: enum
+  properties:
+  - name: System
+    description: System authentication.
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    description: Managed Identity authentication.
+    types:
+    - uid: string
+- name: AccountEncryption
+  kind: object
+  properties:
+  - name: type
+    description: The type of key used to encrypt the Account Key.
+    types:
+    - uid: AccountEncryptionKeyType
+  - name: keyVaultProperties
+    description: The properties of the key used to encrypt the account.
+    types:
+    - uid: KeyVaultProperties
+- name: ManagedIdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    description: A system-assigned managed identity.
+    types:
+    - uid: string
+  - name: None
+    description: No managed identity.
+    types:
+    - uid: string
 - name: StorageAccountType
   description: The type of the storage account.
   kind: enum
@@ -142,10 +205,34 @@ definitions:
     description: A secondary storage account for the Media Services account.
     types:
     - uid: string
+- name: AccountEncryptionKeyType
+  description: The type of key used to encrypt the Account Key.
+  kind: enum
+  properties:
+  - name: SystemKey
+    description: The Account Key is encrypted with a System Key.
+    types:
+    - uid: string
+  - name: CustomerKey
+    description: The Account Key is encrypted with a Customer Key.
+    types:
+    - uid: string
+- name: KeyVaultProperties
+  kind: object
+  properties:
+  - name: keyIdentifier
+    description: The URL of the Key Vault key used to encrypt the account. The key may either be versioned (for example https://vault/keys/mykey/version1) or reference a key without a version (for example https://vault/keys/mykey).
+    types:
+    - uid: string
+  - name: currentKeyIdentifier
+    isReadyOnly: true
+    description: The current key used to encrypt the Media Services account, including the key version.
+    types:
+    - uid: string
 examples:
 - name: List all Media Services accounts
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Media/mediaservices?api-version=2018-07-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Media/mediaservices?api-version=2020-05-01
   responses:
   - statusCode: "200"
     body: >-
