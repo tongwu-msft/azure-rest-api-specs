@@ -43,7 +43,7 @@ The `Create Permission` operation creates a new permission in a database.
 |--------------|--------------|----------|-----------------|  
 |**id**|Required|String|It is a user settable property. It is a unique name to identify the permission, that is, no two permissions owned by a user can share the same id. The **id** must not exceed 255 characters.|  
 |**permissionMode**|Required|String|The access mode for the resource: **All** or **Read**. **All** provides read, write, and delete access to a resource. **Read** restricts the user to read access on the resource.|  
-|**resource**|Required|String|The full addressable path of the resource associated with the permission. For example, dbs/ruJjAA==/colls/ruJjAM9UnAA=/.|  
+|**resource**|Required|String|The full addressable path of the resource associated with the permission. For example, dbs/volcanodb/colls/volcano1.|  
   
 ```  
 {  
