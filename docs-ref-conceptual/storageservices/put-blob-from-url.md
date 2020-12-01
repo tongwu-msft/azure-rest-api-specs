@@ -1,7 +1,7 @@
 ---
 title: Put Blob From URL (REST API) - Azure Storage
 description: The Put Blob from URL operation creates a new Block Blob where the contents of the blob are read from a given URL. 
-author: rosirosh
+author: rsirosh
 
 ms.date: 11/06/2020
 ms.service: storage

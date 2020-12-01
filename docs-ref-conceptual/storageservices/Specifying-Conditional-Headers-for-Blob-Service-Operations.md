@@ -134,9 +134,8 @@ Several Blob service operations support the use of conditional headers. You can 
 ##  <a name="Subheading2"></a> Operations Supporting Conditional Headers  
  The operations that support conditional headers are described in the following table.  
   
-||||  
+|REST Operation|Operation type|Supported conditional headers|
 |-|-|-|  
-|**REST Operation**|**Operation type**|**Supported conditional headers**|  
 |[Append Block](Append-Block.md)<br /><br /> (version 2015-02-21 and later)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Append Block From URL](Append-Block-From-Url.md)<br /><br /> (version 2018-11-09 and later)|Write|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
 |[Copy Blob](Copy-Blob.md)|Read and Write|For conditions on the destination blob:<br /><br /> -                     **If-Modified-Since**<br /><br /> -                     **If-Unmodified-Since**<br /><br /> -                     **If-Match**<br /><br /> -                     **If-None-Match**<br /><br /> -                     **x-ms-if-tags**<br /><br /> For conditions on the source blob:<br /><br /> -                     **x-ms-source-if-modified-since**<br /><br /> -                     **x-ms-source-if-unmodified-since**<br /><br /> -                     **x-ms-source-if-match**<br /><br /> -                     **x-ms-source-if-none-match**<br /><br /> -                     **x-ms-source-if-tags**|  

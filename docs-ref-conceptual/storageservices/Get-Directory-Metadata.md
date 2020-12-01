@@ -18,7 +18,8 @@ The `Get Directory Metadata` operation returns all user-defined metadata for the
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |GET/HEAD|`https://myaccount.file.core.windows.net/myshare/ myparentdirectorypath/mydirectory?restype=directory&comp=metadata`|HTTP/1.1|  
-|GET/HEAD|`https://myaccount.file.core.windows.net/myshare/ myparentdirectorypath/mydirectory?restype=directory&comp=metadata&sharesnapshot=<DateTime>`|HTTP/1.1|  
+|GET/HEAD|`https://myaccount.file.core.windows.net/myshare/ myparentdirectorypath/mydirectory?restype=directory&comp=metadata&sharesnapshot=<DateTime>`|HTTP/1.1|
+ 
  Replace the path components shown in the request URI with your own, as follows:  
   
 |Path Component|Description|  

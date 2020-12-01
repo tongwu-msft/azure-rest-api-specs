@@ -20,7 +20,8 @@ The `Get File Properties` operation returns all user-defined metadata, standard 
 |------------|-----------------|------------------|  
 |`HEAD`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`|HTTP/1.1|  
 |`HEAD`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sharesnapshot=<DateTime>`|HTTP/1.1|  
- Replace the path components shown in the request URI with your own, as follows:  
+
+Replace the path components shown in the request URI with your own, as follows:  
   
 |Path Component|Description|  
 |--------------------|-----------------|  

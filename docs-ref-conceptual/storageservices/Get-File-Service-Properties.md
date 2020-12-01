@@ -101,7 +101,7 @@ The format of the response body for version 2020-02-10 is as follows:
   
  The following table describes the elements of the response body:  
   
-|||  
+|Name|Description|  
 |-|-|  
 |`HourMetrics`|Groups the Storage Analytics `HourMetrics` settings. The `HourMetrics` settings provide a summary of request statistics grouped by API in hourly aggregates.|  
 |`MinuteMetrics`|Groups the Azure Analytics `MinuteMetrics` settings. The `MinuteMetrics` settings provide request statistics for each minute.|  
@@ -127,7 +127,7 @@ Only the storage account owner may call this operation.
 ### Sample Request and Response  
 The following sample URI makes a request to get the File service properties for a storage account named *myaccount*:  
   
-||||
+|Method|URL|Protocol|
 |-|-|-|  
 |GET|`https://myaccount.file.core.windows.net/?restype=service&comp=properties`|HTTP/1.1|  
   
