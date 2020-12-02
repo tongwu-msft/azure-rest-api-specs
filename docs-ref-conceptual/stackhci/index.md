@@ -8,7 +8,7 @@ ms.service: azure-stack
 ms.devlang: rest-api
 ---
 
-# Subscription
+# Azure Stack HCI REST API reference
 
 Azure Stack HCI is a hyperconverged cluster that uses validated hardware to run virtualized workloads on-premises, making it easy for customers to consolidate aging infrastructure and connect to Azure for cloud services. For a more detailed overview, see the [Azure Stack HCI product page](https://azure.microsoft.com/products/azure-stack/hci/).
 
