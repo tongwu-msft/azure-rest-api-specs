@@ -19,7 +19,7 @@ The Microsoft Azure storage services support multiple versions. To make a reques
   
 The 2020-04-08 service version includes the following features:
 
-- The ability to permanently delete a soft-deleted blob version or snapshot.
+- The ability to permanently delete a soft-deleted blob version or snapshot.  For more information, see [Delete Blob](Delete-Blob.md).
 - [Get Blob Tags](get-blob-tags.md) and [Set Blob Tags](set-blob-tags.md) now support the `x-ms-lease-id` header.
 - A new API [Put Blob from URL](put-blob-from-url.md) allows a block blob to be created from an existing blob.
 - The ability to specify protocol and squash root when creating a File Share.  Squash root can also be set with [Set Share Properties](Set-Share-Properties.md).
