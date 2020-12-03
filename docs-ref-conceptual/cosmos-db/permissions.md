@@ -26,9 +26,9 @@ translation.priority.mt:
   
 A permission is an authorization token associated with a user for authorized access to a specific resource. It is used to manage access to collections, documents, attachments, stored procedures, triggers, and user-defined functions for a particular user.  
   
-You can associate only one permission to a particular resource for a user. For example, MarketingCollection with _rid xynsa== can only be associated with one permission for user JanetSmith@contoso.com. An attempt to add another permission to MarketingCollection for Janet results in an error (409 Conflict).  
+You can associate only one permission to a particular resource for a user. For example, MarketingCollection with id "permision2" can only be associated with one permission for user JanetSmith@contoso.com. An attempt to add another permission to MarketingCollection for Janet results in an error (409 Conflict).  
   
-There are only two permission modes, **All** and **Read.** The **All** mode provides read, write, and delete access to a resource. The **Read** mode provides read-only access to a resource. A resource token is created every time a GET, PUT, or POST is performed on a permission. By default, the validity period of a resource token is one hour. The validity period can be overridden to up to 5 hours. The following example illustrates the JSON construct of a permission:  
+There are only two permission modes, **All** and **Read.** The **All** mode provides read, write, and delete access to a resource. The **Read** mode provides read-only access to a resource. A resource token is created every time a GET, PUT, or POST is performed on a permission. By default, the validity period of a resource token is one hour and it can be extended to up to 5 hours by specifying the desired value in the `x-ms-documentdb-expiry-seconds` header setting. To learn how to set this header, see the headers section of [Create a Permission](create-a-permission.md#headers) article. The validity period can be overridden to up to 5 hours. The following example illustrates the JSON construct of a permission:  
   
 ```  
 {  

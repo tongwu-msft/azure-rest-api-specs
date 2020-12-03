@@ -1,7 +1,7 @@
 ---
 title: "Create a Permission - Azure Cosmos DB REST API"
 description: Create permission REST API syntax. Request and response headers, body, status codes and examples.
-ms.date: "02/25/2016"
+ms.date: "12/01/2020"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: a64359ed-8eb3-4e7d-90e0-63a4d4710acd
@@ -43,7 +43,7 @@ The `Create Permission` operation creates a new permission in a database.
 |--------------|--------------|----------|-----------------|  
 |**id**|Required|String|It is a user settable property. It is a unique name to identify the permission, that is, no two permissions owned by a user can share the same id. The **id** must not exceed 255 characters.|  
 |**permissionMode**|Required|String|The access mode for the resource: **All** or **Read**. **All** provides read, write, and delete access to a resource. **Read** restricts the user to read access on the resource.|  
-|**resource**|Required|String|The full addressable path of the resource associated with the permission. For example, dbs/ruJjAA==/colls/ruJjAM9UnAA=/.|  
+|**resource**|Required|String|The full addressable path of the resource associated with the permission. For example, dbs/volcanodb/colls/volcano1.|  
   
 ```  
 {  
