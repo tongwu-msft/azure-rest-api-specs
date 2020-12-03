@@ -3,14 +3,14 @@ uid: management.azure.com.application-gateway.applicationgateways.list
 name: List
 service: Application Gateway
 groupName: Application Gateways
-apiVersion: 2020-05-01
+apiVersion: 2020-06-01
 summary: Lists all application gateways in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways?api-version=2020-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -108,6 +108,11 @@ definitions:
     types:
     - uid: ApplicationGatewayTrustedRootCertificate
       isArray: true
+  - name: properties.trustedClientCertificates
+    description: Trusted client certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+    types:
+    - uid: ApplicationGatewayTrustedClientCertificate
+      isArray: true
   - name: properties.sslCertificates
     description: SSL certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
     types:
@@ -142,6 +147,11 @@ definitions:
     description: Http listeners of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
     types:
     - uid: ApplicationGatewayHttpListener
+      isArray: true
+  - name: properties.sslProfiles
+    description: SSL profiles of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+    types:
+    - uid: ApplicationGatewaySslProfile
       isArray: true
   - name: properties.urlPathMaps
     description: URL path map of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
@@ -431,6 +441,37 @@ definitions:
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the trusted root certificate resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ApplicationGatewayTrustedClientCertificate
+  description: Trusted client certificates of an application gateway.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the trusted client certificate that is unique within an Application Gateway.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+  - name: properties.data
+    description: Certificate public data.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the trusted client certificate resource.
     types:
     - uid: ProvisioningState
   - name: id
@@ -783,6 +824,10 @@ definitions:
     description: SSL certificate resource of an application gateway.
     types:
     - uid: SubResource
+  - name: properties.sslProfile
+    description: SSL profile resource of the application gateway.
+    types:
+    - uid: SubResource
   - name: properties.requireServerNameIndication
     description: Applicable only if protocol is https. Enables SNI for multi-hosting.
     types:
@@ -806,6 +851,46 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ApplicationGatewaySslProfile
+  description: SSL profile of an application gateway.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the SSL profile that is unique within an Application Gateway.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+  - name: properties.trustedClientCertificates
+    description: Array of references to application gateway trusted client certificates.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.sslPolicy
+    description: SSL policy of the application gateway resource.
+    types:
+    - uid: ApplicationGatewaySslPolicy
+  - name: properties.clientAuthConfiguration
+    description: Client authentication configuration of the application gateway resource.
+    types:
+    - uid: ApplicationGatewayClientAuthConfiguration
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the HTTP listener resource.
+    types:
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -1412,6 +1497,14 @@ definitions:
     description: The number of seconds connection draining is active. Acceptable values are from 1 second to 3600 seconds.
     types:
     - uid: integer
+- name: ApplicationGatewayClientAuthConfiguration
+  description: Application gateway client authentication configuration.
+  kind: object
+  properties:
+  - name: verifyClientCertIssuerDN
+    description: Verify client certificate issuer name on the application gateway.
+    types:
+    - uid: boolean
 - name: ApplicationGatewayPathRule
   description: Path rule of URL path map of an application gateway.
   kind: object
@@ -2235,6 +2328,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.dscpConfiguration
+    isReadyOnly: true
+    description: A reference to the dscp configuration to which the network interface is linked.
+    types:
+    - uid: SubResource
   - name: properties.resourceGuid
     isReadyOnly: true
     description: The resource GUID property of the network interface resource.
@@ -3339,7 +3437,7 @@ definitions:
 examples:
 - name: Lists all application gateways in a resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways?api-version=2020-05-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways?api-version=2020-06-01
   responses:
   - statusCode: "200"
     body: >-
