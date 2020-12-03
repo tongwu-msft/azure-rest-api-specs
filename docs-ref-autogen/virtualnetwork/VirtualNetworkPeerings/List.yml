@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.virtualnetworkpeerings.list
 name: List
 service: Virtual Networks
 groupName: Virtual Network Peerings
-apiVersion: 2020-05-01
+apiVersion: 2020-06-01
 summary: Gets all virtual network peerings in a virtual network.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings?api-version=2020-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -105,6 +105,10 @@ definitions:
     description: The reference to the remote virtual network address space.
     types:
     - uid: AddressSpace
+  - name: properties.remoteBgpCommunities
+    description: The reference to the remote virtual network's Bgp Communities.
+    types:
+    - uid: VirtualNetworkBgpCommunities
   - name: properties.peeringState
     description: The status of the virtual network peering.
     types:
@@ -156,6 +160,19 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: VirtualNetworkBgpCommunities
+  description: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
+  kind: object
+  properties:
+  - name: virtualNetworkCommunity
+    description: The BGP community associated with the virtual network.
+    types:
+    - uid: string
+  - name: regionalCommunity
+    isReadyOnly: true
+    description: The BGP community associated with the region of the virtual network.
+    types:
+    - uid: string
 - name: VirtualNetworkPeeringState
   description: The status of the virtual network peering.
   kind: enum
@@ -188,7 +205,7 @@ definitions:
 examples:
 - name: List peerings
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings?api-version=2020-05-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings?api-version=2020-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -210,6 +227,10 @@ examples:
                   "12.0.0.0/8"
                 ]
               },
+              "remoteBgpCommunities": {
+                "virtualNetworkCommunity": "12076:20002",
+                "regionalCommunity": "12076:50004"
+              },
               "peeringState": "Initiated",
               "provisioningState": "Succeeded"
             }
@@ -229,6 +250,10 @@ examples:
                 "addressPrefixes": [
                   "13.0.0.0/8"
                 ]
+              },
+              "remoteBgpCommunities": {
+                "virtualNetworkCommunity": "12076:20003",
+                "regionalCommunity": "12076:50004"
               },
               "peeringState": "Initiated",
               "provisioningState": "Succeeded"

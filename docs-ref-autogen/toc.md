@@ -6547,6 +6547,7 @@
 ### [Overview](expressroute/ExpressRoutePorts.yml)
 ### [Create Or Update](expressroute/ExpressRoutePorts/CreateOrUpdate.yml)
 ### [Delete](expressroute/ExpressRoutePorts/Delete.yml)
+### [Generate LOA](expressroute/ExpressRoutePorts/GenerateLOA.yml)
 ### [Get](expressroute/ExpressRoutePorts/Get.yml)
 ### [List](expressroute/ExpressRoutePorts/List.yml)
 ### [List By Resource Group](expressroute/ExpressRoutePorts/ListByResourceGroup.yml)
@@ -8706,6 +8707,7 @@
 ### [Delete](network-watcher/FlowLogs/Delete.yml)
 ### [Get](network-watcher/FlowLogs/Get.yml)
 ### [List](network-watcher/FlowLogs/List.yml)
+### [Update Tags](network-watcher/FlowLogs/UpdateTags.yml)
 ## Network Watchers
 ### [Overview](network-watcher/NetworkWatchers.yml)
 ### [Check Connectivity](network-watcher/NetworkWatchers/CheckConnectivity.yml)
@@ -15785,6 +15787,14 @@
 ## Check Dns Name Availability
 ### [Overview](virtualnetwork/CheckDnsNameAvailability.yml)
 ### [Check Dns Name Availability](virtualnetwork/CheckDnsNameAvailability/CheckDnsNameAvailability.yml)
+## Custom IP Prefixes
+### [Overview](virtualnetwork/CustomIPPrefixes.yml)
+### [Create Or Update](virtualnetwork/CustomIPPrefixes/CreateOrUpdate.yml)
+### [Delete](virtualnetwork/CustomIPPrefixes/Delete.yml)
+### [Get](virtualnetwork/CustomIPPrefixes/Get.yml)
+### [List](virtualnetwork/CustomIPPrefixes/List.yml)
+### [List All](virtualnetwork/CustomIPPrefixes/ListAll.yml)
+### [Update Tags](virtualnetwork/CustomIPPrefixes/UpdateTags.yml)
 ## Ddos Custom Policies
 ### [Overview](virtualnetwork/DdosCustomPolicies.yml)
 ### [Create Or Update](virtualnetwork/DdosCustomPolicies/CreateOrUpdate.yml)
@@ -15809,6 +15819,13 @@
 ## Disconnect Active Sessions
 ### [Overview](virtualnetwork/DisconnectActiveSessions.yml)
 ### [Disconnect Active Sessions](virtualnetwork/DisconnectActiveSessions/DisconnectActiveSessions.yml)
+## Dscp Configuration
+### [Overview](virtualnetwork/DscpConfiguration.yml)
+### [Create Or Update](virtualnetwork/DscpConfiguration/CreateOrUpdate.yml)
+### [Delete](virtualnetwork/DscpConfiguration/Delete.yml)
+### [Get](virtualnetwork/DscpConfiguration/Get.yml)
+### [List](virtualnetwork/DscpConfiguration/List.yml)
+### [List All](virtualnetwork/DscpConfiguration/ListAll.yml)
 ## Firewall Policies
 ### [Overview](virtualnetwork/FirewallPolicies.yml)
 ### [Create Or Update](virtualnetwork/FirewallPolicies/CreateOrUpdate.yml)
@@ -15828,6 +15845,9 @@
 ## Get Bastion Shareable Link
 ### [Overview](virtualnetwork/GetBastionShareableLink.yml)
 ### [Get Bastion Shareable Link](virtualnetwork/GetBastionShareableLink/GetBastionShareableLink.yml)
+## Inbound Security Rule
+### [Overview](virtualnetwork/InboundSecurityRule.yml)
+### [Create Or Update](virtualnetwork/InboundSecurityRule/CreateOrUpdate.yml)
 ## Interface Endpoints
 ### [Overview](virtualnetwork/InterfaceEndpoints.yml)
 ### [Create Or Update](virtualnetwork/InterfaceEndpoints/CreateOrUpdate.yml)
@@ -16035,7 +16055,6 @@
 ### [Create Or Update](virtualnetwork/VirtualNetworks/CreateOrUpdate.yml)
 ### [Delete](virtualnetwork/VirtualNetworks/Delete.yml)
 ### [Get](virtualnetwork/VirtualNetworks/Get.yml)
-### [Get Bastion Hosts](virtualnetwork/VirtualNetworks/GetBastionHosts.yml)
 ### [List](virtualnetwork/VirtualNetworks/List.yml)
 ### [List All](virtualnetwork/VirtualNetworks/ListAll.yml)
 ### [List Usage](virtualnetwork/VirtualNetworks/ListUsage.yml)
@@ -16080,6 +16099,9 @@
 ### [Delete](virtualwan/HubVirtualNetworkConnections/Delete.yml)
 ### [Get](virtualwan/HubVirtualNetworkConnections/Get.yml)
 ### [List](virtualwan/HubVirtualNetworkConnections/List.yml)
+## P2SVpnGateways 2
+### [Overview](virtualwan/P2SVpnGateways%202.yml)
+### [Reset](virtualwan/P2SVpnGateways%202/Reset.yml)
 ## P2s Vpn Gateways
 ### [Overview](virtualwan/P2sVpnGateways.yml)
 ### [Create Or Update](virtualwan/P2sVpnGateways/CreateOrUpdate.yml)
@@ -16103,6 +16125,8 @@
 ## Virtual Hub Bgp Connections
 ### [Overview](virtualwan/VirtualHubBgpConnections.yml)
 ### [List](virtualwan/VirtualHubBgpConnections/List.yml)
+### [List Advertised Routes](virtualwan/VirtualHubBgpConnections/ListAdvertisedRoutes.yml)
+### [List Learned Routes](virtualwan/VirtualHubBgpConnections/ListLearnedRoutes.yml)
 ## Virtual Hub Ip Configuration
 ### [Overview](virtualwan/VirtualHubIpConfiguration.yml)
 ### [Create Or Update](virtualwan/VirtualHubIpConfiguration/CreateOrUpdate.yml)
@@ -16138,6 +16162,8 @@
 ### [Delete](virtualwan/VpnConnections/Delete.yml)
 ### [Get](virtualwan/VpnConnections/Get.yml)
 ### [List By Vpn Gateway](virtualwan/VpnConnections/ListByVpnGateway.yml)
+### [Start Packet Capture](virtualwan/VpnConnections/StartPacketCapture.yml)
+### [Stop Packet Capture](virtualwan/VpnConnections/StopPacketCapture.yml)
 ## Vpn Gateways
 ### [Overview](virtualwan/VpnGateways.yml)
 ### [Create Or Update](virtualwan/VpnGateways/CreateOrUpdate.yml)
@@ -16146,6 +16172,8 @@
 ### [List](virtualwan/VpnGateways/List.yml)
 ### [List By Resource Group](virtualwan/VpnGateways/ListByResourceGroup.yml)
 ### [Reset](virtualwan/VpnGateways/Reset.yml)
+### [Start Packet Capture](virtualwan/VpnGateways/StartPacketCapture.yml)
+### [Stop Packet Capture](virtualwan/VpnGateways/StopPacketCapture.yml)
 ### [Update Tags](virtualwan/VpnGateways/UpdateTags.yml)
 ## Vpn Link Connections
 ### [Overview](virtualwan/VpnLinkConnections.yml)

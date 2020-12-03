@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.virtualnetworks.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Virtual Networks
-apiVersion: 2020-05-01
+apiVersion: 2020-06-01
 summary: Creates or updates a virtual network in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version=2020-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -282,6 +282,10 @@ definitions:
     description: The reference to the remote virtual network address space.
     types:
     - uid: AddressSpace
+  - name: properties.remoteBgpCommunities
+    description: The reference to the remote virtual network's Bgp Communities.
+    types:
+    - uid: VirtualNetworkBgpCommunities
   - name: properties.peeringState
     description: The status of the virtual network peering.
     types:
@@ -1057,6 +1061,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.dscpConfiguration
+    isReadyOnly: true
+    description: A reference to the dscp configuration to which the network interface is linked.
+    types:
+    - uid: SubResource
   - name: properties.resourceGuid
     isReadyOnly: true
     description: The resource GUID property of the network interface resource.
@@ -2158,7 +2167,7 @@ definitions:
 examples:
 - name: Create virtual network
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2020-06-01
     body: >-
       {
         "properties": {
@@ -2209,7 +2218,7 @@ examples:
       }
 - name: Create virtual network with subnet
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2020-06-01
     body: >-
       {
         "properties": {
@@ -2286,7 +2295,7 @@ examples:
       }
 - name: Create virtual network with subnet containing address prefixes
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2020-06-01
     body: >-
       {
         "properties": {
@@ -2372,7 +2381,7 @@ examples:
       }
 - name: Create virtual network with Bgp Communities
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2020-06-01
     body: >-
       {
         "properties": {
@@ -2390,7 +2399,7 @@ examples:
             }
           ],
           "bgpCommunities": {
-            "virtualNetworkCommunity": "12076:60000"
+            "virtualNetworkCommunity": "12076:20000"
           }
         },
         "location": "eastus"
@@ -2421,8 +2430,8 @@ examples:
             }
           ],
           "bgpCommunities": {
-            "virtualNetworkCommunity": "12076:60000",
-            "regionalCommunity": "12076:51004"
+            "virtualNetworkCommunity": "12076:20000",
+            "regionalCommunity": "12076:50004"
           },
           "virtualNetworkPeerings": []
         }
@@ -2452,15 +2461,15 @@ examples:
             }
           ],
           "bgpCommunities": {
-            "virtualNetworkCommunity": "12076:60000",
-            "regionalCommunity": "12076:51004"
+            "virtualNetworkCommunity": "12076:20000",
+            "regionalCommunity": "12076:50004"
           },
           "virtualNetworkPeerings": []
         }
       }
 - name: Create virtual network with service endpoints
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2020-06-01
     body: >-
       {
         "properties": {
@@ -2566,7 +2575,7 @@ examples:
       }
 - name: Create virtual network with service endpoints and service endpoint policy
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2020-06-01
     body: >-
       {
         "properties": {
@@ -2687,7 +2696,7 @@ examples:
       }
 - name: Create virtual network with delegated subnets
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2020-06-01
     body: >-
       {
         "properties": {

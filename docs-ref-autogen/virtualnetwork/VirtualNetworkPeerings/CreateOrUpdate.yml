@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.virtualnetworkpeerings.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Virtual Network Peerings
-apiVersion: 2020-05-01
+apiVersion: 2020-06-01
 summary: Creates or updates a peering in the specified virtual network.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}?api-version=2020-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -93,6 +93,11 @@ requestBody:
     description: The reference to the remote virtual network address space.
     types:
     - uid: AddressSpace
+  - name: properties.remoteBgpCommunities
+    in: body
+    description: The reference to the remote virtual network's Bgp Communities.
+    types:
+    - uid: VirtualNetworkBgpCommunities
   - name: properties.peeringState
     in: body
     description: The status of the virtual network peering.
@@ -122,6 +127,19 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: VirtualNetworkBgpCommunities
+  description: Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
+  kind: object
+  properties:
+  - name: virtualNetworkCommunity
+    description: The BGP community associated with the virtual network.
+    types:
+    - uid: string
+  - name: regionalCommunity
+    isReadyOnly: true
+    description: The BGP community associated with the region of the virtual network.
+    types:
+    - uid: string
 - name: VirtualNetworkPeering
   description: Peerings in a virtual network resource.
   kind: object
@@ -159,6 +177,10 @@ definitions:
     description: The reference to the remote virtual network address space.
     types:
     - uid: AddressSpace
+  - name: properties.remoteBgpCommunities
+    description: The reference to the remote virtual network's Bgp Communities.
+    types:
+    - uid: VirtualNetworkBgpCommunities
   - name: properties.peeringState
     description: The status of the virtual network peering.
     types:
@@ -233,7 +255,7 @@ definitions:
 examples:
 - name: Create peering
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer?api-version=2020-06-01
     body: >-
       {
         "properties": {
@@ -265,6 +287,10 @@ examples:
               "12.0.0.0/8"
             ]
           },
+          "remoteBgpCommunities": {
+            "virtualNetworkCommunity": "12076:20002",
+            "regionalCommunity": "12076:50004"
+          },
           "peeringState": "Initiated",
           "provisioningState": "Succeeded"
         }
@@ -286,6 +312,10 @@ examples:
             "addressPrefixes": [
               "12.0.0.0/8"
             ]
+          },
+          "remoteBgpCommunities": {
+            "virtualNetworkCommunity": "12076:20002",
+            "regionalCommunity": "12076:50004"
           },
           "peeringState": "Initiated",
           "provisioningState": "Succeeded"

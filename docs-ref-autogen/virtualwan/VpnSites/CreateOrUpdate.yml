@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.vpnsites.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: Vpn Sites
-apiVersion: 2020-05-01
+apiVersion: 2020-06-01
 summary: Creates a VpnSite resource if it doesn't exist else updates the existing VpnSite.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}?api-version=2020-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -93,6 +93,11 @@ requestBody:
     types:
     - uid: VpnSiteLink
       isArray: true
+  - name: properties.o365Policy
+    in: body
+    description: Office365 Policy.
+    types:
+    - uid: O365PolicyProperties
   - name: id
     in: body
     description: Resource ID.
@@ -211,6 +216,14 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: O365PolicyProperties
+  description: The Office365 breakout policy.
+  kind: object
+  properties:
+  - name: breakOutCategories
+    description: Office365 breakout categories.
+    types:
+    - uid: O365BreakOutCategoryPolicies
 - name: VpnSite
   description: VpnSite Resource.
   kind: object
@@ -258,6 +271,10 @@ definitions:
     types:
     - uid: VpnSiteLink
       isArray: true
+  - name: properties.o365Policy
+    description: Office365 Policy.
+    types:
+    - uid: O365PolicyProperties
   - name: id
     description: Resource ID.
     types:
@@ -357,6 +374,22 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: O365BreakOutCategoryPolicies
+  description: Office365 breakout categories.
+  kind: object
+  properties:
+  - name: allow
+    description: Flag to control allow category.
+    types:
+    - uid: boolean
+  - name: optimize
+    description: Flag to control optimize category.
+    types:
+    - uid: boolean
+  - name: default
+    description: Flag to control default category.
+    types:
+    - uid: boolean
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -381,7 +414,7 @@ definitions:
 examples:
 - name: VpnSiteCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1?api-version=2020-06-01
     body: >-
       {
         "tags": {
@@ -414,7 +447,14 @@ examples:
                 }
               }
             }
-          ]
+          ],
+          "o365Policy": {
+            "breakOutCategories": {
+              "allow": true,
+              "optimize": true,
+              "default": false
+            }
+          }
         }
       }
   responses:
