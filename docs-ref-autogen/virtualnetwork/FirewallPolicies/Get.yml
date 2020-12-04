@@ -3,15 +3,15 @@ uid: management.azure.com.virtualnetwork.firewallpolicies.get
 name: Get
 service: Virtual Networks
 groupName: Firewall Policies
-apiVersion: 2020-06-01
+apiVersion: 2020-07-01
 summary: Gets the specified Firewall Policy.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2020-06-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2020-06-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2020-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2020-07-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -63,6 +63,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: identity
+    description: The identity of the firewall policy.
+    types:
+    - uid: ManagedServiceIdentity
   - name: properties.ruleCollectionGroups
     isReadyOnly: true
     description: List of references to FirewallPolicyRuleCollectionGroups.
@@ -102,6 +106,18 @@ definitions:
     description: DNS Proxy Settings definition.
     types:
     - uid: DnsSettings
+  - name: properties.intrusionDetection
+    description: The configuration for Intrusion detection.
+    types:
+    - uid: FirewallPolicyIntrusionDetection
+  - name: properties.transportSecurity
+    description: TLS Configuration definition.
+    types:
+    - uid: FirewallPolicyTransportSecurity
+  - name: properties.sku
+    description: The Firewall Policy SKU.
+    types:
+    - uid: FirewallPolicySku
   - name: id
     description: Resource ID.
     types:
@@ -136,6 +152,28 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
+- name: ManagedServiceIdentity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
+    types:
+    - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
 - name: SubResource
   description: Reference to another subresource.
   kind: object
@@ -204,6 +242,34 @@ definitions:
     description: FQDNs in Network Rules are supported when set to true.
     types:
     - uid: boolean
+- name: FirewallPolicyIntrusionDetection
+  description: Configuration for intrusion detection mode and rules.
+  kind: object
+  properties:
+  - name: mode
+    description: Intrusion detection general state.
+    types:
+    - uid: FirewallPolicyIntrusionDetectionStateType
+  - name: configuration
+    description: Intrusion detection configuration properties.
+    types:
+    - uid: FirewallPolicyIntrusionDetectionConfiguration
+- name: FirewallPolicyTransportSecurity
+  description: Configuration needed to perform TLS termination & initiation.
+  kind: object
+  properties:
+  - name: certificateAuthority
+    description: The CA used for intermediate CA generation.
+    types:
+    - uid: FirewallPolicyCertificateAuthority
+- name: FirewallPolicySku
+  description: SKU of Firewall policy.
+  kind: object
+  properties:
+  - name: tier
+    description: Tier of Firewall Policy.
+    types:
+    - uid: FirewallPolicySkuTier
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -225,10 +291,152 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: ResourceIdentityType
+  description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+- name: FirewallPolicyIntrusionDetectionStateType
+  description: Intrusion detection general state.
+  kind: enum
+  properties:
+  - name: Off
+    types:
+    - uid: string
+  - name: Alert
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+- name: FirewallPolicyIntrusionDetectionConfiguration
+  description: The operation for configuring intrusion detection.
+  kind: object
+  properties:
+  - name: signatureOverrides
+    description: List of specific signatures states.
+    types:
+    - uid: FirewallPolicyIntrusionDetectionSignatureSpecification
+      isArray: true
+  - name: bypassTrafficSettings
+    description: List of rules for traffic to bypass.
+    types:
+    - uid: FirewallPolicyIntrusionDetectionBypassTrafficSpecifications
+      isArray: true
+- name: FirewallPolicyCertificateAuthority
+  description: Trusted Root certificates properties for tls.
+  kind: object
+  properties:
+  - name: keyVaultSecretId
+    description: Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
+    types:
+    - uid: string
+  - name: name
+    description: Name of the CA certificate.
+    types:
+    - uid: string
+- name: FirewallPolicySkuTier
+  description: Tier of Firewall Policy.
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+- name: FirewallPolicyIntrusionDetectionSignatureSpecification
+  description: Intrusion detection signatures specification states.
+  kind: object
+  properties:
+  - name: id
+    description: Signature id.
+    types:
+    - uid: string
+  - name: mode
+    description: The signature state.
+    types:
+    - uid: FirewallPolicyIntrusionDetectionStateType
+- name: FirewallPolicyIntrusionDetectionBypassTrafficSpecifications
+  description: Intrusion detection bypass traffic specification.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the bypass traffic rule.
+    types:
+    - uid: string
+  - name: description
+    description: Description of the bypass traffic rule.
+    types:
+    - uid: string
+  - name: protocol
+    description: The rule bypass protocol.
+    types:
+    - uid: FirewallPolicyIntrusionDetectionProtocol
+  - name: sourceAddresses
+    description: List of source IP addresses or ranges for this rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: destinationAddresses
+    description: List of destination IP addresses or ranges for this rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: destinationPorts
+    description: List of destination ports or ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: sourceIpGroups
+    description: List of source IpGroups for this rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: destinationIpGroups
+    description: List of destination IpGroups for this rule.
+    types:
+    - uid: string
+      isArray: true
+- name: FirewallPolicyIntrusionDetectionProtocol
+  description: The rule bypass protocol.
+  kind: enum
+  properties:
+  - name: TCP
+    types:
+    - uid: string
+  - name: UDP
+    types:
+    - uid: string
+  - name: ICMP
+    types:
+    - uid: string
+  - name: ANY
+    types:
+    - uid: string
 examples:
 - name: Get FirewallPolicy
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy?api-version=2020-06-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy?api-version=2020-07-01
   responses:
   - statusCode: "200"
     body: >-
@@ -264,6 +472,42 @@ examples:
             ],
             "enableProxy": true,
             "requireProxyForNetworkRules": false
+          },
+          "sku": {
+            "tier": "Premium"
+          },
+          "intrusionDetection": {
+            "mode": "Alert",
+            "configuration": {
+              "signatureOverrides": [
+                {
+                  "id": "2525004",
+                  "mode": "Deny"
+                }
+              ],
+              "bypassTrafficSettings": [
+                {
+                  "name": "bypassRule1",
+                  "description": "Rule 1",
+                  "protocol": "TCP",
+                  "sourceAddresses": [
+                    "1.2.3.4"
+                  ],
+                  "destinationAddresses": [
+                    "5.6.7.8"
+                  ],
+                  "destinationPorts": [
+                    "*"
+                  ]
+                }
+              ]
+            }
+          },
+          "transportSecurity": {
+            "certificateAuthority": {
+              "name": "clientcert",
+              "keyVaultSecretId": "https://kv/secret"
+            }
           }
         }
       }

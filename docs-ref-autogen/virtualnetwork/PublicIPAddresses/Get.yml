@@ -3,15 +3,15 @@ uid: management.azure.com.virtualnetwork.publicipaddresses.get
 name: Get
 service: Virtual Networks
 groupName: Public IP Addresses
-apiVersion: 2020-06-01
+apiVersion: 2020-07-01
 summary: Gets the specified public IP address in a specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2020-06-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2020-06-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2020-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2020-07-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -29,7 +29,7 @@ uriParameters:
 - name: publicIpAddressName
   in: path
   isRequired: true
-  description: The name of the subnet.
+  description: The name of the public IP address.
   types:
   - uid: string
 - name: api-version
@@ -58,6 +58,10 @@ definitions:
   description: Public IP address resource.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the public ip address.
+    types:
+    - uid: ExtendedLocation
   - name: sku
     description: The public IP address SKU.
     types:
@@ -154,6 +158,18 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
+- name: ExtendedLocation
+  description: ExtendedLocation complex type.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: PublicIPAddressSku
   description: SKU of a public IP address.
   kind: object
@@ -162,6 +178,10 @@ definitions:
     description: Name of a public IP address SKU.
     types:
     - uid: PublicIPAddressSkuName
+  - name: tier
+    description: Tier of a public IP address SKU.
+    types:
+    - uid: PublicIPAddressSkuTier
 - name: IPAllocationMethod
   description: IP address allocation method.
   kind: enum
@@ -309,6 +329,13 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 - name: PublicIPAddressSkuName
   description: Name of a public IP address SKU.
   kind: enum
@@ -317,6 +344,16 @@ definitions:
     types:
     - uid: string
   - name: Standard
+    types:
+    - uid: string
+- name: PublicIPAddressSkuTier
+  description: Tier of a public IP address SKU.
+  kind: enum
+  properties:
+  - name: Regional
+    types:
+    - uid: string
+  - name: Global
     types:
     - uid: string
 - name: Subnet
@@ -938,6 +975,10 @@ definitions:
   description: A network interface in a resource group.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the network interface.
+    types:
+    - uid: ExtendedLocation
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
@@ -1902,6 +1943,10 @@ definitions:
     description: Reference to IP address defined in network interfaces.
     types:
     - uid: SubResource
+  - name: properties.loadBalancerFrontendIPConfiguration
+    description: Reference to the frontend ip address configuration defined in regional loadbalancer.
+    types:
+    - uid: SubResource
 - name: TransportProtocol
   description: The transport protocol for the endpoint.
   kind: enum
@@ -1918,7 +1963,7 @@ definitions:
 examples:
 - name: Get public IP address
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/testDNS-ip?api-version=2020-06-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/testDNS-ip?api-version=2020-07-01
   responses:
   - statusCode: "200"
     body: >-

@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.networkinterfaces.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Network Interfaces
-apiVersion: 2020-06-01
+apiVersion: 2020-07-01
 summary: Creates or updates a network interface.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}?api-version=2020-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}?api-version=2020-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,6 +52,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: extendedLocation
+    in: body
+    description: The extended location of the network interface.
+    types:
+    - uid: ExtendedLocation
   - name: properties.networkSecurityGroup
     in: body
     description: The reference to the NetworkSecurityGroup resource.
@@ -99,6 +104,18 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
+- name: ExtendedLocation
+  description: ExtendedLocation complex type.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: SubResource
   description: Reference to another subresource.
   kind: object
@@ -386,6 +403,10 @@ definitions:
   description: A network interface in a resource group.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the network interface.
+    types:
+    - uid: ExtendedLocation
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
@@ -493,6 +514,13 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 - name: SecurityRule
   description: Network security rule.
   kind: object
@@ -1069,6 +1097,10 @@ definitions:
   description: Public IP address resource.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the public ip address.
+    types:
+    - uid: ExtendedLocation
   - name: sku
     description: The public IP address SKU.
     types:
@@ -1756,6 +1788,10 @@ definitions:
     description: Reference to IP address defined in network interfaces.
     types:
     - uid: SubResource
+  - name: properties.loadBalancerFrontendIPConfiguration
+    description: Reference to the frontend ip address configuration defined in regional loadbalancer.
+    types:
+    - uid: SubResource
 - name: TransportProtocol
   description: The transport protocol for the endpoint.
   kind: enum
@@ -1777,6 +1813,10 @@ definitions:
     description: Name of a public IP address SKU.
     types:
     - uid: PublicIPAddressSkuName
+  - name: tier
+    description: Tier of a public IP address SKU.
+    types:
+    - uid: PublicIPAddressSkuTier
 - name: PublicIPAddressDnsSettings
   description: Contains FQDN of the DNS record associated with the public IP address.
   kind: object
@@ -1931,6 +1971,16 @@ definitions:
   - name: Standard
     types:
     - uid: string
+- name: PublicIPAddressSkuTier
+  description: Tier of a public IP address SKU.
+  kind: enum
+  properties:
+  - name: Regional
+    types:
+    - uid: string
+  - name: Global
+    types:
+    - uid: string
 - name: DdosSettingsProtectionCoverage
   description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
   kind: enum
@@ -1963,7 +2013,7 @@ definitions:
 examples:
 - name: Create network interface
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic?api-version=2020-07-01
     body: >-
       {
         "properties": {
