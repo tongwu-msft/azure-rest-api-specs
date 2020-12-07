@@ -1,21 +1,17 @@
 ---
-title: Azure REST API Reference | Microsoft Docs
-description: Azure REST API Reference
-keywords: Azure REST, Azure REST API Reference
+title: Azure REST API reference
+description: Azure REST API reference documentation
 author: bryanla
-manager: douge
 ms.author: bryanla
-ms.date: 12/04/2020
+ms.date: 12/07/2020
 ms.topic: reference
 ms.prod: azure
-ms.technology: azure
 ms.devlang: rest-api
-ms.assetid: D35E3780-B2BC-4450-8EF6-2710A11F99A7
 ---
 
-# Azure REST API Reference
+# Azure REST API reference
 
-Welcome to the Azure REST API Reference.
+Welcome to the Azure REST API reference documentation.
 
 Representational State Transfer (REST) APIs are service endpoints that support sets of HTTP operations (methods), which provide create, retrieve, update, or delete access to the service's resources. This article walks you through:
 
