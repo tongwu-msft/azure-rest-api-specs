@@ -13,29 +13,16 @@ ms.author: pemari
 
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
- The current version of the Azure storage services is 2019-12-12, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
+ The current version of the Azure storage services is 2020-04-08, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
 
-## Version 2020-02-10
+## Version 2020-04-08
   
-The 2020-02-10 service version includes the following features:
+The 2020-04-08 service version includes the following features:
 
-- A new API to set the ACL recursively on ADLS Gen2 path.
-
-- A new SAS permission type to get access to only a subtree of the ADLS Gen2 filesystem.
-
-- Query Acceleration now supports querying Arrow file formats for output in Blobs and ADLS Gen2 accounts.
-
-- A new API to support soft delete of containers.
-
-- The ability to schedule delete of ADLS Gen2 files.
-
-- Support for 4TB files in standard File Share accounts.
-
-- The ability to get and set SMB Multi-channel property
-
-- A new API to set tier on a File Share
-
-- The ability to diff two snapshots in Azure File Share
+- The ability to permanently delete a soft-deleted blob version or snapshot.  For more information, see [Delete Blob](Delete-Blob.md).
+- [Get Blob Tags](get-blob-tags.md) and [Set Blob Tags](set-blob-tags.md) now support the `x-ms-lease-id` header.
+- A new API [Put Blob from URL](put-blob-from-url.md) allows a block blob to be created from an existing blob.
+- The ability to specify protocol and squash root when creating a File Share.  Squash root can also be set with [Set Share Properties](Set-Share-Properties.md).
 
 ## Specifying service versions in requests  
 
