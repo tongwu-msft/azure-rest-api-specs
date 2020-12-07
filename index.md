@@ -1,6 +1,6 @@
 ---
 title: Azure REST API reference documentation
-description: Reference documentation Azure REST APIs including their supported operations, request URI parameters and request bodies, responses, and object definitions.
+description: Reference documentation for Azure REST APIs including their supported operations, request URI parameters and request bodies, responses, and object definitions.
 author: bryanla
 ms.author: bryanla
 ms.date: 12/07/2020
