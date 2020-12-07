@@ -1,6 +1,6 @@
 ---
-title: Azure REST API reference
-description: Azure REST API reference documentation
+title: Azure REST API reference documentation
+description: Reference documentation Azure REST APIs including their supported operations, request URI parameters and request bodies, responses, and object definitions.
 author: bryanla
 ms.author: bryanla
 ms.date: 12/07/2020
@@ -20,14 +20,10 @@ Representational State Transfer (REST) APIs are service endpoints that support s
 * How to register your client application with Azure Active Directory (Azure AD) to secure your REST requests.
 * Overviews of creating and sending a REST request, and handling the response.
 
-> [!NOTE]
-> Most Azure service REST APIs have client libraries that provide a native interface for using Azure services.
+> [!TIP]
+> Most Azure service REST APIs have client libraries that provide a native interface for using Azure services:
 >
-> [.NET][SDK-NET]
-> [Java][SDK-JAVA]
-> [Node.js][SDK-NODE]
-> [Python][SDK-PYTHON]
-> [Azure CLI 2.0 SDK][SDK-CLI]
+> [.NET][SDK-NET] | [Java][SDK-JAVA] | [Node.js][SDK-NODE] | [Python][SDK-PYTHON]
 
 ## How to call Azure REST APIs with Postman
 
@@ -35,11 +31,11 @@ The following video will show you how to quickly authenticate with the Azure RES
 
 > [!VIDEO https://www.youtube.com/embed/fh37VQ3_exk]
 
-You can read the full walk through on Jon Gallant's blog here: [Azure REST APIs with Postman in 2 Minutes](https://aka.ms/azurerest2minsblog)
+You can read the full walk-through on Jon Gallant's blog here: [Azure REST APIs with Postman in 2 Minutes](https://aka.ms/azurerest2minsblog)
 
-## How to call Azure REST APIs with cUrl
+## How to call Azure REST APIs with curl
 
-The process is very similar to the one used for Postman, with the exception that it shows how you can call Azure REST API using [cUrl](https://curl.se/) which is more suitable to be embedded in scripts and used in a DevOps process.
+The process described in the following blog entry is similar to the one used for Postman, but shows how to call an Azure REST API using [curl](https://curl.se/).You might consider using curl in unattended scripts, for example in DevOps automation scenarios.
 
 [Calling Azure REST API via curl](https://aka.ms/azurerestcurl)
 
@@ -104,7 +100,7 @@ If your client accesses an API other than an Azure Resource Manager API, refer t
 * [Configure a client application to access a web API](/azure/active-directory/develop/quickstart-configure-app-access-web-apis)
   * Add permission requests as required by the scopes defined for the API, in the "Add permissions to access your web API" section.
 
-Now that you've completed registration of your client application, you can move to your client code, where you create the REST request and handle the response.
+Now that you've completed registration of your client application, move on to your client code where you create the REST request and handle the response.
 
 ## Create the request
 
