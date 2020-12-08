@@ -14665,6 +14665,8 @@
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
 ### Previous Azure Storage services versions
 #### [Overview](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
+#### [Version 2020-02-10](../docs-ref-conceptual/storageservices/version-2020-02-10.md)
+#### [Version 2019-12-12](../docs-ref-conceptual/storageservices/version-2019-12-12.md)
 #### [Version 2019-07-07](../docs-ref-conceptual/storageservices/version-2019-07-07.md)
 #### [Version 2019-02-02](../docs-ref-conceptual/storageservices/version-2019-02-02.md)
 #### [Version 2018-11-09](../docs-ref-conceptual/storageservices/version-2018-11-09.md)
@@ -14748,6 +14750,7 @@
 ### Operations on Blobs
 #### [Overview](../docs-ref-conceptual/storageservices/operations-on-blobs.md)
 #### [Put Blob](../docs-ref-conceptual/storageservices/put-blob.md)
+#### [Put Blob From URL](../docs-ref-conceptual/storageservices/put-blob-from-url.md)
 #### [Get Blob](../docs-ref-conceptual/storageservices/get-blob.md)
 #### [Get Blob Properties](../docs-ref-conceptual/storageservices/get-blob-properties.md)
 #### [Set Blob Properties](../docs-ref-conceptual/storageservices/set-blob-properties.md)
@@ -14881,6 +14884,7 @@
 #### [Get Share Metadata](../docs-ref-conceptual/storageservices/get-share-metadata.md)
 #### [Set Share Metadata](../docs-ref-conceptual/storageservices/set-share-metadata.md)
 #### [Delete Share](../docs-ref-conceptual/storageservices/delete-share.md)
+#### [Restore Share](../docs-ref-conceptual/storageservices/restore-share.md)
 #### [Get Share ACL](../docs-ref-conceptual/storageservices/get-share-acl.md)
 #### [Set Share ACL](../docs-ref-conceptual/storageservices/set-share-acl.md)
 #### [Get Share Stats](../docs-ref-conceptual/storageservices/get-share-stats.md)
