@@ -3,7 +3,7 @@ title: Create a user delegation SAS - Azure Storage
 description: A SAS token for access to a container, directory, or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a user delegation SAS, because the token used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice. 
 author: tamram
 
-ms.date: 11/23/2020
+ms.date: 12/08/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -159,8 +159,8 @@ The following table shows the permissions supported for each resource type.
 | Add | a | Container<br />Directory<br />Blob | All | Add a block to an append blob. |
 | Create | c | Container<br />Directory<br />Blob | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
 | Write | w | Container<br />Directory<br />Blob | All | Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
-| Delete | d | Blob | All | Delete the blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the Lease Blob operation. |
-| Delete version | x | Blob | Version 2019-12-12 or later | Delete a blob version. |
+| Delete | d | Container<br />Directory<br />Blob | All | Delete a blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the [Lease Blob](Lease-Blob.md) operation. |
+| Delete version | x | Container<br />Blob | Version 2019-12-12 or later | Delete a blob version. |
 | Permanent Delete | y | Blob | Version 2020-02-10 or later | Permanently delete a blob snapshot or version.|
 | List | l | Container<br />Directory | All | List blobs non-recursively. |
 | Tags | t | Blob | Version 2019-12-12 or later | Read or write the tags on a blob. |
