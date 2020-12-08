@@ -3,14 +3,14 @@ uid: management.azure.com.network-watcher.connectionmonitors.list
 name: List
 service: Network Watcher
 groupName: Connection Monitors
-apiVersion: 2020-05-01
+apiVersion: 2020-06-01
 summary: Lists all connection monitors for the specified Network Watcher.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors?api-version=2020-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors?api-version=2020-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -238,6 +238,10 @@ definitions:
     description: The name of the connection monitor endpoint.
     types:
     - uid: string
+  - name: type
+    description: The endpoint type.
+    types:
+    - uid: EndpointType
   - name: resourceId
     description: Resource ID of the connection monitor endpoint.
     types:
@@ -250,6 +254,14 @@ definitions:
     description: Filter for sub-items within the endpoint.
     types:
     - uid: ConnectionMonitorEndpointFilter
+  - name: scope
+    description: Endpoint scope.
+    types:
+    - uid: ConnectionMonitorEndpointScope
+  - name: coverageLevel
+    description: Test coverage for the endpoint.
+    types:
+    - uid: CoverageLevel
 - name: ConnectionMonitorTestConfiguration
   description: Describes a connection monitor test configuration.
   kind: object
@@ -325,6 +337,28 @@ definitions:
     description: Describes the settings for producing output into a log analytics workspace.
     types:
     - uid: ConnectionMonitorWorkspaceSettings
+- name: EndpointType
+  description: The endpoint type.
+  kind: enum
+  properties:
+  - name: AzureVM
+    types:
+    - uid: string
+  - name: AzureVNet
+    types:
+    - uid: string
+  - name: AzureSubnet
+    types:
+    - uid: string
+  - name: ExternalAddress
+    types:
+    - uid: string
+  - name: MMAWorkspaceMachine
+    types:
+    - uid: string
+  - name: MMAWorkspaceNetwork
+    types:
+    - uid: string
 - name: ConnectionMonitorEndpointFilter
   description: Describes the connection monitor endpoint filter.
   kind: object
@@ -338,6 +372,42 @@ definitions:
     types:
     - uid: ConnectionMonitorEndpointFilterItem
       isArray: true
+- name: ConnectionMonitorEndpointScope
+  description: Describes the connection monitor endpoint scope.
+  kind: object
+  properties:
+  - name: include
+    description: List of items which needs to be included to the endpoint scope.
+    types:
+    - uid: ConnectionMonitorEndpointScopeItem
+      isArray: true
+  - name: exclude
+    description: List of items which needs to be excluded from the endpoint scope.
+    types:
+    - uid: ConnectionMonitorEndpointScopeItem
+      isArray: true
+- name: CoverageLevel
+  description: Test coverage for the endpoint.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: Low
+    types:
+    - uid: string
+  - name: BelowAverage
+    types:
+    - uid: string
+  - name: Average
+    types:
+    - uid: string
+  - name: AboveAverage
+    types:
+    - uid: string
+  - name: Full
+    types:
+    - uid: string
 - name: ConnectionMonitorTestConfigurationProtocol
   description: The protocol to use in test evaluation.
   kind: enum
@@ -403,6 +473,10 @@ definitions:
     description: Value indicating whether path evaluation with trace route should be disabled.
     types:
     - uid: boolean
+  - name: destinationPortBehavior
+    description: Destination port behavior.
+    types:
+    - uid: DestinationPortBehavior
 - name: ConnectionMonitorIcmpConfiguration
   description: Describes the ICMP configuration.
   kind: object
@@ -457,6 +531,14 @@ definitions:
     description: The address of the filter item.
     types:
     - uid: string
+- name: ConnectionMonitorEndpointScopeItem
+  description: Describes the connection monitor endpoint scope item.
+  kind: object
+  properties:
+  - name: address
+    description: The address of the endpoint item. Supported types are IPv4/IPv6 subnet mask or IPv4/IPv6 IP address.
+    types:
+    - uid: string
 - name: HTTPConfigurationMethod
   description: The HTTP method to use.
   kind: enum
@@ -479,6 +561,16 @@ definitions:
     description: The value in HTTP header.
     types:
     - uid: string
+- name: DestinationPortBehavior
+  description: Destination port behavior.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: ListenIfAvailable
+    types:
+    - uid: string
 - name: ConnectionMonitorEndpointFilterItemType
   description: The type of item included in the filter. Currently only 'AgentAddress' is supported.
   kind: enum
@@ -489,7 +581,7 @@ definitions:
 examples:
 - name: List connection monitors
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors?api-version=2020-05-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors?api-version=2020-06-01
   responses:
   - statusCode: "200"
     body: >-

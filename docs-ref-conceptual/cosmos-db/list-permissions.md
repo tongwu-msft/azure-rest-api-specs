@@ -1,7 +1,7 @@
 ---
 title: "List Permissions - Azure Cosmos DB REST API"
 description: List permissions REST API syntax. Request and response headers, body, status codes and examples.
-ms.date: "02/25/2016"
+ms.date: "12/01/2020"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 11ab7146-eca8-412a-8274-f7f168e0ca83
@@ -33,10 +33,6 @@ translation.priority.mt:
 ### Headers  
  See [Common Azure Cosmos DBREST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Azure Cosmos DB requests.  
   
-|Header|Required|Type|Description|  
-|------------|--------------|----------|-----------------|  
-|**x-ms-documentdb-expiry-seconds**|Optional|Integer|The validity period of the resource token returned from the operation. By default, a resource token is valid for one hour. To override the default, set this header with the desired validity period in seconds. The max override value is 18000, which is five hours.|  
-  
 ### Body  
  None.  
   
@@ -61,7 +57,7 @@ translation.priority.mt:
 |**Permissions**|This the array containing the permissions returned as part of the list operation.|  
 |**id**|The user generated unique name for the permission.|  
 |**permissionMode**|The access mode on the resource for the user: **All** or **Read**. **All** provides read, write, and delete access to a resource. **Read** restricts the user to read access on the resource.|  
-|**resource**|The full addressable path of the resource associated with the permission. For example, dbs/ruJjAA==/colls/ruJjAM9UnAA=/.|  
+|**resource**|The full addressable path of the resource associated with the permission. For example, dbs/volcanodb/colls/volcano1.|  
 |**_rid**|This is a [system generated property](/azure/cosmos-db/stored-procedures-triggers-udfs). The resource ID (**_rid**) is a unique identifier that is also hierarchical per the resource stack on the resource model. It is used internally for placement of and navigation to the user resource.|  
 |**_ts**|This is a system generated property. It specifies the last updated timestamp of the resource. The value is a timestamp.|  
 |**_self**|This is a system generated property. It is the unique addressable URI for the resource.|  

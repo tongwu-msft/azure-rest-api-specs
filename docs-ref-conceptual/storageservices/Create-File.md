@@ -62,7 +62,8 @@ The `Create File` operation creates a new file or replaces a file. Note that cal
 | `x-ms-file-attributes` | Required. Version 2019-02-02 and newer. The file system attributes to be set on the file. See the list of [available attributes](#file-system-attributes). |
 | `x-ms-file-creation-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) creation time property for the file. A value of `now` may be used to indicate the time of the request. |
 | `x-ms-file-last-write-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) last write property for the file. A value of `now` may be used to indicate the time of the request. |
-| `x-ms-lease-id:<ID>`| Required if the file has an active lease. Available for versions 2019-02-02 and later.| 
+| `x-ms-lease-id:<ID>`| Required if the file has an active lease. Available for versions 2019-02-02 and later.|
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
   
 ### Request Body  
 None.  
@@ -108,6 +109,7 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 | `x-ms-file-change-time` | The UTC date/time that value that represents the change time property for the file. |
 | `x-ms-file-file-id` | The file ID of the file. |
 | `x-ms-file-parent-id` | The parent file ID of the file. |
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
   
 ### Response body  
  None.  

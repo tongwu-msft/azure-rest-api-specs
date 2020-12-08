@@ -25,16 +25,17 @@ Note that the URI must always include the forward slash (/) to separate the host
 |URI Parameter|Description|  
 |-------------------|-----------------|  
 |*restype=service&comp=properties*|Required. The combination of both query strings is required to set the storage service properties.|  
-|*Timeout*|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
+|*timeout*|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request Headers  
 The following table describes required and optional request headers.  
   
 |Request header|Description|  
 |--------------------|-----------------|  
-|*Authorization*|Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
-|*Date or x-ms-date*|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
-|*x-ms-version*|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later. To retrieve metrics properties for the File service, you must specify version 2015-04-05 or later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later. To retrieve metrics properties for the File service, you must specify version 2015-04-05 or later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
   
 ### Request Body  
 None.  
@@ -50,8 +51,9 @@ The response for this operation includes the following headers. The response may
   
 |Response Header|Description|  
 |---------------------|-----------------|  
-|*x-ms-request-id*|A value that uniquely identifies a request made against the service.|  
-|*x-ms-version*|Specifies the version of the operation used for the response. For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
+|`x-ms-request-id`|A value that uniquely identifies a request made against the service.|  
+|`x-ms-version`|Specifies the version of the operation used for the response. For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
 The format of the response body for version 2020-02-10 is as follows:  
@@ -99,7 +101,7 @@ The format of the response body for version 2020-02-10 is as follows:
   
  The following table describes the elements of the response body:  
   
-|||  
+|Name|Description|  
 |-|-|  
 |`HourMetrics`|Groups the Storage Analytics `HourMetrics` settings. The `HourMetrics` settings provide a summary of request statistics grouped by API in hourly aggregates.|  
 |`MinuteMetrics`|Groups the Azure Analytics `MinuteMetrics` settings. The `MinuteMetrics` settings provide request statistics for each minute.|  
@@ -125,7 +127,7 @@ Only the storage account owner may call this operation.
 ### Sample Request and Response  
 The following sample URI makes a request to get the File service properties for a storage account named *myaccount*:  
   
-||||
+|Method|URL|Protocol|
 |-|-|-|  
 |GET|`https://myaccount.file.core.windows.net/?restype=service&comp=properties`|HTTP/1.1|  
   

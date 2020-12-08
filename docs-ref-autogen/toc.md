@@ -2361,70 +2361,70 @@
 #### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/Resources.yml)
 #### [Resources](azureresourcegraph/resourcegraph(2020-04-01-preview)/Resources/Resources.yml)
 # Azure Spring Cloud
-## [Overview](../docs-ref-conceptual/azurespringclould/index.md)
+## [Overview](../docs-ref-conceptual/azurespringcloud/index.md)
 ## Apps
-### [Overview](azurespringclould/Apps.yml)
-### [Create Or Update](azurespringclould/Apps/CreateOrUpdate.yml)
-### [Delete](azurespringclould/Apps/Delete.yml)
-### [Get](azurespringclould/Apps/Get.yml)
-### [Get Resource Upload Url](azurespringclould/Apps/GetResourceUploadUrl.yml)
-### [List](azurespringclould/Apps/List.yml)
-### [Update](azurespringclould/Apps/Update.yml)
+### [Overview](azurespringcloud/Apps.yml)
+### [Create Or Update](azurespringcloud/Apps/CreateOrUpdate.yml)
+### [Delete](azurespringcloud/Apps/Delete.yml)
+### [Get](azurespringcloud/Apps/Get.yml)
+### [Get Resource Upload Url](azurespringcloud/Apps/GetResourceUploadUrl.yml)
+### [List](azurespringcloud/Apps/List.yml)
+### [Update](azurespringcloud/Apps/Update.yml)
 ## Bindings
-### [Overview](azurespringclould/Bindings.yml)
-### [Create Or Update](azurespringclould/Bindings/CreateOrUpdate.yml)
-### [Delete](azurespringclould/Bindings/Delete.yml)
-### [Get](azurespringclould/Bindings/Get.yml)
-### [List](azurespringclould/Bindings/List.yml)
-### [Update](azurespringclould/Bindings/Update.yml)
+### [Overview](azurespringcloud/Bindings.yml)
+### [Create Or Update](azurespringcloud/Bindings/CreateOrUpdate.yml)
+### [Delete](azurespringcloud/Bindings/Delete.yml)
+### [Get](azurespringcloud/Bindings/Get.yml)
+### [List](azurespringcloud/Bindings/List.yml)
+### [Update](azurespringcloud/Bindings/Update.yml)
 ## Certificates
-### [Overview](azurespringclould/Certificates.yml)
-### [Create Or Update](azurespringclould/Certificates/CreateOrUpdate.yml)
-### [Delete](azurespringclould/Certificates/Delete.yml)
-### [Get](azurespringclould/Certificates/Get.yml)
-### [List](azurespringclould/Certificates/List.yml)
+### [Overview](azurespringcloud/Certificates.yml)
+### [Create Or Update](azurespringcloud/Certificates/CreateOrUpdate.yml)
+### [Delete](azurespringcloud/Certificates/Delete.yml)
+### [Get](azurespringcloud/Certificates/Get.yml)
+### [List](azurespringcloud/Certificates/List.yml)
 ## Custom Domains
-### [Overview](azurespringclould/CustomDomains.yml)
-### [Create Or Update](azurespringclould/CustomDomains/CreateOrUpdate.yml)
-### [Delete](azurespringclould/CustomDomains/Delete.yml)
-### [Get](azurespringclould/CustomDomains/Get.yml)
-### [List](azurespringclould/CustomDomains/List.yml)
-### [Patch](azurespringclould/CustomDomains/Patch.yml)
-### [Validate](azurespringclould/CustomDomains/Validate.yml)
+### [Overview](azurespringcloud/CustomDomains.yml)
+### [Create Or Update](azurespringcloud/CustomDomains/CreateOrUpdate.yml)
+### [Delete](azurespringcloud/CustomDomains/Delete.yml)
+### [Get](azurespringcloud/CustomDomains/Get.yml)
+### [List](azurespringcloud/CustomDomains/List.yml)
+### [Patch](azurespringcloud/CustomDomains/Patch.yml)
+### [Validate](azurespringcloud/CustomDomains/Validate.yml)
 ## Deployments
-### [Overview](azurespringclould/Deployments.yml)
-### [Create Or Update](azurespringclould/Deployments/CreateOrUpdate.yml)
-### [Delete](azurespringclould/Deployments/Delete.yml)
-### [Get](azurespringclould/Deployments/Get.yml)
-### [Get Log File Url](azurespringclould/Deployments/GetLogFileUrl.yml)
-### [List](azurespringclould/Deployments/List.yml)
-### [List Cluster All Deployments](azurespringclould/Deployments/ListClusterAllDeployments.yml)
-### [Restart](azurespringclould/Deployments/Restart.yml)
-### [Start](azurespringclould/Deployments/Start.yml)
-### [Stop](azurespringclould/Deployments/Stop.yml)
-### [Update](azurespringclould/Deployments/Update.yml)
+### [Overview](azurespringcloud/Deployments.yml)
+### [Create Or Update](azurespringcloud/Deployments/CreateOrUpdate.yml)
+### [Delete](azurespringcloud/Deployments/Delete.yml)
+### [Get](azurespringcloud/Deployments/Get.yml)
+### [Get Log File Url](azurespringcloud/Deployments/GetLogFileUrl.yml)
+### [List](azurespringcloud/Deployments/List.yml)
+### [List Cluster All Deployments](azurespringcloud/Deployments/ListClusterAllDeployments.yml)
+### [Restart](azurespringcloud/Deployments/Restart.yml)
+### [Start](azurespringcloud/Deployments/Start.yml)
+### [Stop](azurespringcloud/Deployments/Stop.yml)
+### [Update](azurespringcloud/Deployments/Update.yml)
 ## Operations
-### [Overview](azurespringclould/Operations.yml)
-### [List](azurespringclould/Operations/List.yml)
+### [Overview](azurespringcloud/Operations.yml)
+### [List](azurespringcloud/Operations/List.yml)
 ## Runtime Versions
-### [Overview](azurespringclould/RuntimeVersions.yml)
-### [List Runtime Versions](azurespringclould/RuntimeVersions/ListRuntimeVersions.yml)
+### [Overview](azurespringcloud/RuntimeVersions.yml)
+### [List Runtime Versions](azurespringcloud/RuntimeVersions/ListRuntimeVersions.yml)
 ## Services
-### [Overview](azurespringclould/Services.yml)
-### [Check Name Availability](azurespringclould/Services/CheckNameAvailability.yml)
-### [Create Or Update](azurespringclould/Services/CreateOrUpdate.yml)
-### [Delete](azurespringclould/Services/Delete.yml)
-### [Disable Test Endpoint](azurespringclould/Services/DisableTestEndpoint.yml)
-### [Enable Test Endpoint](azurespringclould/Services/EnableTestEndpoint.yml)
-### [Get](azurespringclould/Services/Get.yml)
-### [List](azurespringclould/Services/List.yml)
-### [List By Subscription](azurespringclould/Services/ListBySubscription.yml)
-### [List Test Keys](azurespringclould/Services/ListTestKeys.yml)
-### [Regenerate Test Key](azurespringclould/Services/RegenerateTestKey.yml)
-### [Update](azurespringclould/Services/Update.yml)
+### [Overview](azurespringcloud/Services.yml)
+### [Check Name Availability](azurespringcloud/Services/CheckNameAvailability.yml)
+### [Create Or Update](azurespringcloud/Services/CreateOrUpdate.yml)
+### [Delete](azurespringcloud/Services/Delete.yml)
+### [Disable Test Endpoint](azurespringcloud/Services/DisableTestEndpoint.yml)
+### [Enable Test Endpoint](azurespringcloud/Services/EnableTestEndpoint.yml)
+### [Get](azurespringcloud/Services/Get.yml)
+### [List](azurespringcloud/Services/List.yml)
+### [List By Subscription](azurespringcloud/Services/ListBySubscription.yml)
+### [List Test Keys](azurespringcloud/Services/ListTestKeys.yml)
+### [Regenerate Test Key](azurespringcloud/Services/RegenerateTestKey.yml)
+### [Update](azurespringcloud/Services/Update.yml)
 ## Sku
-### [Overview](azurespringclould/Sku.yml)
-### [List](azurespringclould/Sku/List.yml)
+### [Overview](azurespringcloud/Sku.yml)
+### [List](azurespringcloud/Sku/List.yml)
 # Azure Stack Admin
 ## [Overview](../docs-ref-conceptual/azure-stack/index.md)
 ## Acquired Plans
@@ -6547,6 +6547,7 @@
 ### [Overview](expressroute/ExpressRoutePorts.yml)
 ### [Create Or Update](expressroute/ExpressRoutePorts/CreateOrUpdate.yml)
 ### [Delete](expressroute/ExpressRoutePorts/Delete.yml)
+### [Generate LOA](expressroute/ExpressRoutePorts/GenerateLOA.yml)
 ### [Get](expressroute/ExpressRoutePorts/Get.yml)
 ### [List](expressroute/ExpressRoutePorts/List.yml)
 ### [List By Resource Group](expressroute/ExpressRoutePorts/ListByResourceGroup.yml)
@@ -8092,9 +8093,18 @@
 ## Operations
 ### [Overview](MariaDB/Operations.yml)
 ### [List](MariaDB/Operations/List.yml)
+## Recoverable Servers
+### [Overview](MariaDB/RecoverableServers.yml)
+### [Get](MariaDB/RecoverableServers/Get.yml)
 ## Replicas
 ### [Overview](MariaDB/Replicas.yml)
 ### [List By Server](MariaDB/Replicas/ListByServer.yml)
+## Server Based Performance Tier
+### [Overview](MariaDB/ServerBasedPerformanceTier.yml)
+### [List](MariaDB/ServerBasedPerformanceTier/List.yml)
+## Server Parameters
+### [Overview](MariaDB/ServerParameters.yml)
+### [List Update Configurations](MariaDB/ServerParameters/ListUpdateConfigurations.yml)
 ## Server Security Alert Policies
 ### [Overview](MariaDB/ServerSecurityAlertPolicies.yml)
 ### [Create Or Update](MariaDB/ServerSecurityAlertPolicies/CreateOrUpdate.yml)
@@ -8611,6 +8621,9 @@
 ## Operations
 ### [Overview](mysql/Operations.yml)
 ### [List](mysql/Operations/List.yml)
+## Recoverable Servers
+### [Overview](mysql/RecoverableServers.yml)
+### [Get](mysql/RecoverableServers/Get.yml)
 ## Replicas
 ### [Overview](mysql/Replicas.yml)
 ### [List By Server](mysql/Replicas/ListByServer.yml)
@@ -8620,6 +8633,12 @@
 ### [Delete](mysql/ServerAdministrators/Delete.yml)
 ### [Get](mysql/ServerAdministrators/Get.yml)
 ### [List](mysql/ServerAdministrators/List.yml)
+## Server Based Performance Tier
+### [Overview](mysql/ServerBasedPerformanceTier.yml)
+### [List](mysql/ServerBasedPerformanceTier/List.yml)
+## Server Parameters
+### [Overview](mysql/ServerParameters.yml)
+### [List Update Configurations](mysql/ServerParameters/ListUpdateConfigurations.yml)
 ## Servers
 ### [Overview](mysql/Servers.yml)
 ### [Create](mysql/Servers/Create.yml)
@@ -8706,6 +8725,7 @@
 ### [Delete](network-watcher/FlowLogs/Delete.yml)
 ### [Get](network-watcher/FlowLogs/Get.yml)
 ### [List](network-watcher/FlowLogs/List.yml)
+### [Update Tags](network-watcher/FlowLogs/UpdateTags.yml)
 ## Network Watchers
 ### [Overview](network-watcher/NetworkWatchers.yml)
 ### [Check Connectivity](network-watcher/NetworkWatchers/CheckConnectivity.yml)
@@ -8976,6 +8996,9 @@
 ## Operations
 ### [Overview](postgresql/Operations.yml)
 ### [List](postgresql/Operations/List.yml)
+## Recoverable Servers
+### [Overview](postgresql/RecoverableServers.yml)
+### [Get](postgresql/RecoverableServers/Get.yml)
 ## Replicas
 ### [Overview](postgresql/Replicas.yml)
 ### [List By Server](postgresql/Replicas/ListByServer.yml)
@@ -8985,6 +9008,12 @@
 ### [Delete](postgresql/ServerAdministrators/Delete.yml)
 ### [Get](postgresql/ServerAdministrators/Get.yml)
 ### [List](postgresql/ServerAdministrators/List.yml)
+## Server Based Performance Tier
+### [Overview](postgresql/ServerBasedPerformanceTier.yml)
+### [List](postgresql/ServerBasedPerformanceTier/List.yml)
+## Server Parameters
+### [Overview](postgresql/ServerParameters.yml)
+### [List Update Configurations](postgresql/ServerParameters/ListUpdateConfigurations.yml)
 ## Servers
 ### [Overview](postgresql/Servers.yml)
 ### [Create](postgresql/Servers/Create.yml)
@@ -14663,6 +14692,8 @@
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
 ### Previous Azure Storage services versions
 #### [Overview](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
+#### [Version 2020-02-10](../docs-ref-conceptual/storageservices/version-2020-02-10.md)
+#### [Version 2019-12-12](../docs-ref-conceptual/storageservices/version-2019-12-12.md)
 #### [Version 2019-07-07](../docs-ref-conceptual/storageservices/version-2019-07-07.md)
 #### [Version 2019-02-02](../docs-ref-conceptual/storageservices/version-2019-02-02.md)
 #### [Version 2018-11-09](../docs-ref-conceptual/storageservices/version-2018-11-09.md)
@@ -14746,6 +14777,7 @@
 ### Operations on Blobs
 #### [Overview](../docs-ref-conceptual/storageservices/operations-on-blobs.md)
 #### [Put Blob](../docs-ref-conceptual/storageservices/put-blob.md)
+#### [Put Blob From URL](../docs-ref-conceptual/storageservices/put-blob-from-url.md)
 #### [Get Blob](../docs-ref-conceptual/storageservices/get-blob.md)
 #### [Get Blob Properties](../docs-ref-conceptual/storageservices/get-blob-properties.md)
 #### [Set Blob Properties](../docs-ref-conceptual/storageservices/set-blob-properties.md)
@@ -14879,6 +14911,7 @@
 #### [Get Share Metadata](../docs-ref-conceptual/storageservices/get-share-metadata.md)
 #### [Set Share Metadata](../docs-ref-conceptual/storageservices/set-share-metadata.md)
 #### [Delete Share](../docs-ref-conceptual/storageservices/delete-share.md)
+#### [Restore Share](../docs-ref-conceptual/storageservices/restore-share.md)
 #### [Get Share ACL](../docs-ref-conceptual/storageservices/get-share-acl.md)
 #### [Set Share ACL](../docs-ref-conceptual/storageservices/set-share-acl.md)
 #### [Get Share Stats](../docs-ref-conceptual/storageservices/get-share-stats.md)
@@ -15785,6 +15818,14 @@
 ## Check Dns Name Availability
 ### [Overview](virtualnetwork/CheckDnsNameAvailability.yml)
 ### [Check Dns Name Availability](virtualnetwork/CheckDnsNameAvailability/CheckDnsNameAvailability.yml)
+## Custom IP Prefixes
+### [Overview](virtualnetwork/CustomIPPrefixes.yml)
+### [Create Or Update](virtualnetwork/CustomIPPrefixes/CreateOrUpdate.yml)
+### [Delete](virtualnetwork/CustomIPPrefixes/Delete.yml)
+### [Get](virtualnetwork/CustomIPPrefixes/Get.yml)
+### [List](virtualnetwork/CustomIPPrefixes/List.yml)
+### [List All](virtualnetwork/CustomIPPrefixes/ListAll.yml)
+### [Update Tags](virtualnetwork/CustomIPPrefixes/UpdateTags.yml)
 ## Ddos Custom Policies
 ### [Overview](virtualnetwork/DdosCustomPolicies.yml)
 ### [Create Or Update](virtualnetwork/DdosCustomPolicies/CreateOrUpdate.yml)
@@ -15809,6 +15850,13 @@
 ## Disconnect Active Sessions
 ### [Overview](virtualnetwork/DisconnectActiveSessions.yml)
 ### [Disconnect Active Sessions](virtualnetwork/DisconnectActiveSessions/DisconnectActiveSessions.yml)
+## Dscp Configuration
+### [Overview](virtualnetwork/DscpConfiguration.yml)
+### [Create Or Update](virtualnetwork/DscpConfiguration/CreateOrUpdate.yml)
+### [Delete](virtualnetwork/DscpConfiguration/Delete.yml)
+### [Get](virtualnetwork/DscpConfiguration/Get.yml)
+### [List](virtualnetwork/DscpConfiguration/List.yml)
+### [List All](virtualnetwork/DscpConfiguration/ListAll.yml)
 ## Firewall Policies
 ### [Overview](virtualnetwork/FirewallPolicies.yml)
 ### [Create Or Update](virtualnetwork/FirewallPolicies/CreateOrUpdate.yml)
@@ -15828,6 +15876,9 @@
 ## Get Bastion Shareable Link
 ### [Overview](virtualnetwork/GetBastionShareableLink.yml)
 ### [Get Bastion Shareable Link](virtualnetwork/GetBastionShareableLink/GetBastionShareableLink.yml)
+## Inbound Security Rule
+### [Overview](virtualnetwork/InboundSecurityRule.yml)
+### [Create Or Update](virtualnetwork/InboundSecurityRule/CreateOrUpdate.yml)
 ## Interface Endpoints
 ### [Overview](virtualnetwork/InterfaceEndpoints.yml)
 ### [Create Or Update](virtualnetwork/InterfaceEndpoints/CreateOrUpdate.yml)
@@ -16035,7 +16086,6 @@
 ### [Create Or Update](virtualnetwork/VirtualNetworks/CreateOrUpdate.yml)
 ### [Delete](virtualnetwork/VirtualNetworks/Delete.yml)
 ### [Get](virtualnetwork/VirtualNetworks/Get.yml)
-### [Get Bastion Hosts](virtualnetwork/VirtualNetworks/GetBastionHosts.yml)
 ### [List](virtualnetwork/VirtualNetworks/List.yml)
 ### [List All](virtualnetwork/VirtualNetworks/ListAll.yml)
 ### [List Usage](virtualnetwork/VirtualNetworks/ListUsage.yml)
@@ -16080,6 +16130,9 @@
 ### [Delete](virtualwan/HubVirtualNetworkConnections/Delete.yml)
 ### [Get](virtualwan/HubVirtualNetworkConnections/Get.yml)
 ### [List](virtualwan/HubVirtualNetworkConnections/List.yml)
+## P2SVpnGateways 2
+### [Overview](virtualwan/P2SVpnGateways%202.yml)
+### [Reset](virtualwan/P2SVpnGateways%202/Reset.yml)
 ## P2s Vpn Gateways
 ### [Overview](virtualwan/P2sVpnGateways.yml)
 ### [Create Or Update](virtualwan/P2sVpnGateways/CreateOrUpdate.yml)
@@ -16103,6 +16156,8 @@
 ## Virtual Hub Bgp Connections
 ### [Overview](virtualwan/VirtualHubBgpConnections.yml)
 ### [List](virtualwan/VirtualHubBgpConnections/List.yml)
+### [List Advertised Routes](virtualwan/VirtualHubBgpConnections/ListAdvertisedRoutes.yml)
+### [List Learned Routes](virtualwan/VirtualHubBgpConnections/ListLearnedRoutes.yml)
 ## Virtual Hub Ip Configuration
 ### [Overview](virtualwan/VirtualHubIpConfiguration.yml)
 ### [Create Or Update](virtualwan/VirtualHubIpConfiguration/CreateOrUpdate.yml)
@@ -16138,6 +16193,8 @@
 ### [Delete](virtualwan/VpnConnections/Delete.yml)
 ### [Get](virtualwan/VpnConnections/Get.yml)
 ### [List By Vpn Gateway](virtualwan/VpnConnections/ListByVpnGateway.yml)
+### [Start Packet Capture](virtualwan/VpnConnections/StartPacketCapture.yml)
+### [Stop Packet Capture](virtualwan/VpnConnections/StopPacketCapture.yml)
 ## Vpn Gateways
 ### [Overview](virtualwan/VpnGateways.yml)
 ### [Create Or Update](virtualwan/VpnGateways/CreateOrUpdate.yml)
@@ -16146,6 +16203,8 @@
 ### [List](virtualwan/VpnGateways/List.yml)
 ### [List By Resource Group](virtualwan/VpnGateways/ListByResourceGroup.yml)
 ### [Reset](virtualwan/VpnGateways/Reset.yml)
+### [Start Packet Capture](virtualwan/VpnGateways/StartPacketCapture.yml)
+### [Stop Packet Capture](virtualwan/VpnGateways/StopPacketCapture.yml)
 ### [Update Tags](virtualwan/VpnGateways/UpdateTags.yml)
 ## Vpn Link Connections
 ### [Overview](virtualwan/VpnLinkConnections.yml)
