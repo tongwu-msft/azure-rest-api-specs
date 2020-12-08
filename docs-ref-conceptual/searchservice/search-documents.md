@@ -161,6 +161,9 @@ Indicates the values for each parameter defined in a scoring function (such as `
 
 A value that specifies whether we want to calculate scoring statistics (such as document frequency) globally for more consistent scoring, or locally, for lower latency. See [Scoring Statistics in Azure Cognitive Search](https://docs.microsoft.com/azure/search/index-similarity-and-scoring#scoring-statistics)
 
+> [!NOTE]  
+>  Scoring statistics cannot be computed globally for terms that use edit-distance or fuzzy search. 
+
 ### `sessionId=[string] (optional)`
 
 Using sessionId help improve relevance score consistency for search services with multiple replicas. In multi-replica configurations, you can notice slight differences between relevance scores of individual documents for the same query. When a session ID is provided, the service will make best-effort to route a given request to the same replica for that session. Be wary that reusing the same session ID values repeatedly can interfere with load balancing of the requests across replicas and adversely affect the performance of the search service. The value used as sessionId cannot start with a '_' character. If a service doesn't have any replicas, this parameter has no effect on performance or score consistency.
