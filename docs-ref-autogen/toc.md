@@ -8093,9 +8093,18 @@
 ## Operations
 ### [Overview](MariaDB/Operations.yml)
 ### [List](MariaDB/Operations/List.yml)
+## Recoverable Servers
+### [Overview](MariaDB/RecoverableServers.yml)
+### [Get](MariaDB/RecoverableServers/Get.yml)
 ## Replicas
 ### [Overview](MariaDB/Replicas.yml)
 ### [List By Server](MariaDB/Replicas/ListByServer.yml)
+## Server Based Performance Tier
+### [Overview](MariaDB/ServerBasedPerformanceTier.yml)
+### [List](MariaDB/ServerBasedPerformanceTier/List.yml)
+## Server Parameters
+### [Overview](MariaDB/ServerParameters.yml)
+### [List Update Configurations](MariaDB/ServerParameters/ListUpdateConfigurations.yml)
 ## Server Security Alert Policies
 ### [Overview](MariaDB/ServerSecurityAlertPolicies.yml)
 ### [Create Or Update](MariaDB/ServerSecurityAlertPolicies/CreateOrUpdate.yml)
@@ -8612,6 +8621,9 @@
 ## Operations
 ### [Overview](mysql/Operations.yml)
 ### [List](mysql/Operations/List.yml)
+## Recoverable Servers
+### [Overview](mysql/RecoverableServers.yml)
+### [Get](mysql/RecoverableServers/Get.yml)
 ## Replicas
 ### [Overview](mysql/Replicas.yml)
 ### [List By Server](mysql/Replicas/ListByServer.yml)
@@ -8621,6 +8633,12 @@
 ### [Delete](mysql/ServerAdministrators/Delete.yml)
 ### [Get](mysql/ServerAdministrators/Get.yml)
 ### [List](mysql/ServerAdministrators/List.yml)
+## Server Based Performance Tier
+### [Overview](mysql/ServerBasedPerformanceTier.yml)
+### [List](mysql/ServerBasedPerformanceTier/List.yml)
+## Server Parameters
+### [Overview](mysql/ServerParameters.yml)
+### [List Update Configurations](mysql/ServerParameters/ListUpdateConfigurations.yml)
 ## Servers
 ### [Overview](mysql/Servers.yml)
 ### [Create](mysql/Servers/Create.yml)
@@ -8978,6 +8996,9 @@
 ## Operations
 ### [Overview](postgresql/Operations.yml)
 ### [List](postgresql/Operations/List.yml)
+## Recoverable Servers
+### [Overview](postgresql/RecoverableServers.yml)
+### [Get](postgresql/RecoverableServers/Get.yml)
 ## Replicas
 ### [Overview](postgresql/Replicas.yml)
 ### [List By Server](postgresql/Replicas/ListByServer.yml)
@@ -8987,6 +9008,12 @@
 ### [Delete](postgresql/ServerAdministrators/Delete.yml)
 ### [Get](postgresql/ServerAdministrators/Get.yml)
 ### [List](postgresql/ServerAdministrators/List.yml)
+## Server Based Performance Tier
+### [Overview](postgresql/ServerBasedPerformanceTier.yml)
+### [List](postgresql/ServerBasedPerformanceTier/List.yml)
+## Server Parameters
+### [Overview](postgresql/ServerParameters.yml)
+### [List Update Configurations](postgresql/ServerParameters/ListUpdateConfigurations.yml)
 ## Servers
 ### [Overview](postgresql/Servers.yml)
 ### [Create](postgresql/Servers/Create.yml)
