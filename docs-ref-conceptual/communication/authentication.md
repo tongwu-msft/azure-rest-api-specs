@@ -11,27 +11,27 @@ ms.devlang: rest-api
 ---
 # Authentication
 
-When making REST Calls to Azure Communication Services(ACS), authentication of some kind is usually required. Handling authentication, is usually handled by our SDKs but if you're making the requests manually using your own client or systems you will have to handle this yourself. Here you'll find some guidance and information on how to do this.
+When making REST Calls to Azure Communication Services(ACS), authentication is required. Providing this authentication is handled automatically when you use our SDKs, but when you're making the requests manually using your own REST client or systems you will have to handle authentication yourself.
 
 ## Types of Authentication
 
-ACS has two types of Authentication, they are used for slightly different purposes which are explained below:
+ACS has two types of Authentication, they are used for slightly different purposes:
 
 - **Access Key authentication** for SMS and Administration operations. Access Key authentication is suitable for applications running in a trusted service environment.
 - **User Access Token authentication** for Chat and Calling. User access tokens let your client applications authenticate directly against Azure Communication Services. These tokens are generated on a server-side token provisioning service that you create. They're then provided to client devices that use the token to initialize the Chat and Calling client libraries.
 
 ## Access Key Authentication
 
-Access Key authentication is used when the operations you are carrying out are not related to an individual User but instead are related more to your overall application or service. These requests should be ran within a trusted service environment where its details are not exposed to end users. 
+Access Key authentication is used when operations are not related to an individual user or end user application, but instead are related more to your overall application or service. These requests should be ran within a trusted service environment where its details are not exposed to end users. 
 
-In this authentication method, requests are signed requests includes a client generated [hash-based message authentication code(HMAC)](https://en.wikipedia.org/wiki/HMAC) once this is calculated it is included within an `Authorization` header of each HTTP Request. Additionally, each request must be signed in a specific way.
+In this authentication method, requests are signed using a client generated [hash-based message authentication code(HMAC)](https://en.wikipedia.org/wiki/HMAC).
 
 Before getting started ensure you have:
 
 - Your Azure Communication Services Access Key
 - Your Azure Communication Service Endpoint
 - The URL Path and HTTP Verb that you're calling
-- A programming/development environment which is capable of generating HMACs, SHA256 hashes and Base64 Encoding and Decoding.
+- A development environment, which is capable of generating HMACs, SHA256 hashes, and Base64 operations.
 
 Once you have these items you can proceed with signing your request.
 
@@ -39,7 +39,7 @@ Once you have these items you can proceed with signing your request.
 
 1. Specify the Coordinated Universal Time (UTC) timestamp for the request in either the `x-ms-date` header, or in the standard HTTP `Date` header. The service validates this to guard against certain security attacks, including replay attacks.
 2. Hash the HTTP request body using the SHA256 algorithm then pass it, with the request, via the `x-ms-content-sha256` header.
-3. Construct the string to be signed by concatenating the HTTP Verb (e.g. `GET` or `PUT`), HTTP request path, and values of the `Date`, `Host` and `x-ms-content-sha256` HTTP headers in the following format:
+3. Construct the string to be signed by concatenating the HTTP Verb (for example, `GET` or `PUT`), HTTP request path, and values of the `Date`, `Host` and, `x-ms-content-sha256` HTTP headers in the following format:
 
     ```pseudocode
     VERB + "\n"
@@ -47,7 +47,7 @@ Once you have these items you can proceed with signing your request.
     DateHeaderValue + ";" + HostHeaderValue + ";" + ContentHashHeaderValue
     ```
 
-4. Generate an HMAC-256 signature of the UTF-8 encoded string that you created in the previous step. Next, encode your results as Base64. Note that you also need to Base64-decode your access key. Use the following format (shown as pseudo code):
+4. Generate an HMAC-256 signature of the UTF-8 encoded string that you created in the previous step. Next, encode your results as Base64. You also need to Base64-decode your access key. Use the following format (shown as pseudo code):
 
     ```pseudocode
     Signature=Base64(HMAC-SHA256(UTF8(StringToSign), Base64.decode(<your_access_key>)))
@@ -61,7 +61,7 @@ Once you have these items you can proceed with signing your request.
 
     Where `<hmac-sha256-signature>` is the HMAC computed in the previous step.
 
-With all of the other details known and the headers set you can now specify the `Authorization` header, its format is as follows: `Authorization: "HMAC-SHA256 SignedHeaders=date;host;x-ms-content-sha256&Signature=<hmac-sha256-signature>"`
+With, all of the other details known and the headers set you can now specify the `Authorization` header, its format is as follows: `Authorization: "HMAC-SHA256 SignedHeaders=date;host;x-ms-content-sha256&Signature=<hmac-sha256-signature>"`
 
 ## User Access Token Authentication
 
@@ -69,10 +69,7 @@ User access tokens let your client applications authenticate directly against Az
 
 ### Generating / Obtaining a User Access Tokens
 
-These tokens must be generated by you on a trusted service that authenticates your application users and issues user access tokens with the Administration client library. You can generate these in a number of ways but using our SDKs is the easiest way. Please see our guide on [creating and managing user access tokens](https://docs.microsoft.com/azure/communication-services/quickstarts/access-tokens) for more information.
-
-
-For more information on this see our conceptual documentation on [client and server architecture](https://docs.microsoft.com/azure/communication-services/concepts/client-and-server-architecture) conceptual documentation to learn more about our architectural considerations.
+These tokens must be generated by you on a trusted service that authenticates your application users and issues user access tokens with the Administration client library. You can generate these in a number of ways but using our SDKs is the easiest way. For more information, see our guide on [creating and managing user access tokens](https://docs.microsoft.com/azure/communication-services/quickstarts/access-tokens) for more information.
 
 ### Using a User Access Token in a request
 
@@ -83,4 +80,4 @@ Once you have a suitable User Access Token, you can include it in your requests 
 For additional information on Azure Communication Services authentication, you can also review:
 
 - [Conceptual Authentication documentation](https://docs.microsoft.com/azure/communication-services/concepts/authentication) - Provides information on how to use our SDKs to authenticate against our REST APIs
-- [Building a User Access Token Service](https://docs.microsoft.com/azure/communication-services/tutorials/trusted-service-tutorial) - An ACS tutorial which shows you how to create a trusted authentication service to generate User Access Tokens with Azure Functions.
+- [Building a User Access Token Service](https://docs.microsoft.com/azure/communication-services/tutorials/trusted-service-tutorial) - An ACS tutorial, which shows you how to create a trusted authentication service to generate User Access Tokens with Azure Functions.
