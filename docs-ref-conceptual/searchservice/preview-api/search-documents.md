@@ -1,7 +1,7 @@
 ---
 title: Search Documents (api-version=2020-06-30-Preview)
 description: Query an Azure Cognitive Search index and return search results.
-ms.date: 06/30/2020
+ms.date: 12/08/2020
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -165,7 +165,10 @@ Indicates the values for each parameter defined in a scoring function (such as `
 
 ### `scoringStatistics=local | global (optional)`
 
-A value that specifies whether we want to calculate scoring statistics (such as document frequency) globally for more consistent scoring, or locally, for lower latency. See [Scoring statistics in Azure Cognitive Search](https://docs.microsoft.com/azure/search/index-similarity-and-scoring#scoring-statistics)
+A value that specifies whether we want to calculate scoring statistics such as document frequency globally (across all shards) for more consistent scoring, or locally (on the current shard) for lower latency. See [Scoring Statistics in Azure Cognitive Search](https://docs.microsoft.com/azure/search/index-similarity-and-scoring#scoring-statistics)
+
+> [!NOTE]  
+>  Scoring statistics will always be calculated locally for terms that use [fuzzy search ('~')](https://docs.microsoft.com/azure/search/search-query-fuzzy#how-to-use-fuzzy-search). 
 
 ### `sessionId=[string] (optional)`
 
