@@ -6452,9 +6452,6 @@
 ##### [Overview](EventHub/2018-01-01-preview/Network%20Rule%20Sets.yml)
 ##### [Create Or Update Network Rule Set](EventHub/2018-01-01-preview/Network%20Rule%20Sets/CreateOrUpdateNetworkRuleSet.yml)
 ##### [Get Network Rule Set](EventHub/2018-01-01-preview/Network%20Rule%20Sets/GetNetworkRuleSet.yml)
-#### Operations
-##### [Overview](EventHub/2018-01-01-preview/Operations.yml)
-##### [List](EventHub/2018-01-01-preview/Operations/List.yml)
 #### Private Endpoint Connections
 ##### [Overview](EventHub/2018-01-01-preview/PrivateEndpointConnections.yml)
 ##### [Create Or Update](EventHub/2018-01-01-preview/PrivateEndpointConnections/CreateOrUpdate.yml)
@@ -8913,6 +8910,10 @@
 ### [Overview](policy-insights/PolicyMetadata.yml)
 ### [Get Resource](policy-insights/PolicyMetadata/GetResource.yml)
 ### [List](policy-insights/PolicyMetadata/List.yml)
+## Policy Restrictions
+### [Overview](policy-insights/PolicyRestrictions.yml)
+### [Check At Resource Group Scope](policy-insights/PolicyRestrictions/CheckAtResourceGroupScope.yml)
+### [Check At Subscription Scope](policy-insights/PolicyRestrictions/CheckAtSubscriptionScope.yml)
 ## Policy States
 ### [Overview](policy-insights/PolicyStates.yml)
 ### [List Query Results For Management Group](policy-insights/PolicyStates/ListQueryResultsForManagementGroup.yml)
