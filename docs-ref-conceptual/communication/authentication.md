@@ -11,7 +11,7 @@ ms.devlang: rest-api
 ---
 # Authentication
 
-When making REST Calls to Azure Communication Services(ACS), several steps are required to authenticate properly. Our SDKs handle this process automatically but when you make requests manually you need to handle it yourself.
+When making REST Calls, several steps are required to authenticate properly. Our SDKs handle this process for you, but making requests manually means you'll need to handle it yourself.
 
 ## Types of Authentication
 
