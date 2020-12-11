@@ -11,7 +11,7 @@ ms.devlang: rest-api
 ---
 # Authentication
 
-When making REST Calls to Azure Communication Services(ACS), authentication is required. When you use our SDKs, they will provide authentication to requests automatically. When you're making requests manually using your own REST client, you need to handle authentication yourself.
+When making REST Calls to Azure Communication Services(ACS), several steps are required to authenticate properly. Our SDKs, will handle this automatically but when you're making requests manually you need to handle authentication yourself.
 
 ## Types of Authentication
 
@@ -22,7 +22,7 @@ ACS has two types of Authentication, they're used for slightly different purpose
 
 ## Access Key Authentication
 
-Access Key authentication is used when requests aren't made by an end-user application. These requests should be ran within a trusted service environment where its details aren't exposed to end users.
+Access Key authentication is used when requests aren't made by your end-user application. You should run these requests within trusted service environment.
 
 In this authentication method, requests are signed using a client generated [hash-based message authentication code(HMAC)](https://en.wikipedia.org/wiki/HMAC).
 
@@ -35,7 +35,7 @@ Before getting started, ensure you have:
 
 Once you have these items, you can continue with signing your request.
 
-## Signing a HTTP Request
+## Signing an HTTP Request
 
 1. Specify the Coordinated Universal Time (UTC) timestamp for the request in either the `x-ms-date` header, or in the standard HTTP `Date` header. The service validates this timestamp to guard against certain security attacks, including replay attacks.
 2. Hash the HTTP request body using the SHA256 algorithm then pass it, with the request, via the `x-ms-content-sha256` header.
