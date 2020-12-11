@@ -11,7 +11,7 @@ ms.devlang: rest-api
 ---
 # Authentication
 
-When making REST Calls to Azure Communication Services(ACS), several steps are required to authenticate properly. Our SDKs, will handle this automatically but when you're making requests manually you need to handle authentication yourself.
+When making REST Calls to Azure Communication Services(ACS), several steps are required to authenticate properly. Our SDKs handle this process automatically but when you make requests manually you need to handle it yourself.
 
 ## Types of Authentication
 
@@ -22,7 +22,7 @@ ACS has two types of Authentication, they're used for slightly different purpose
 
 ## Access Key Authentication
 
-Access Key authentication is used when requests aren't made by your end-user application. You should run these requests within trusted service environment.
+Access Key authentication is used when requests aren't made by your end-user application. Run these requests within trusted service environment.
 
 In this authentication method, requests are signed using a client generated [hash-based message authentication code(HMAC)](https://en.wikipedia.org/wiki/HMAC).
 
