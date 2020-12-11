@@ -15964,6 +15964,11 @@
 ### [List Virtual Machine Scale Set Ip Configurations](virtualnetwork/NetworkInterface%20In%20VMSS/ListVirtualMachineScaleSetIpConfigurations.yml)
 ### [List Virtual Machine Scale Set Network Interfaces](virtualnetwork/NetworkInterface%20In%20VMSS/ListVirtualMachineScaleSetNetworkInterfaces.yml)
 ### [List Virtual Machine Scale Set VM Network Interfaces](virtualnetwork/NetworkInterface%20In%20VMSS/ListVirtualMachineScaleSetVMNetworkInterfaces.yml)
+## NetworkInterfaces In CloudService
+### [Overview](virtualnetwork/NetworkInterfaces%20In%20CloudService.yml)
+### [Get Cloud Service Network Interface](virtualnetwork/NetworkInterfaces%20In%20CloudService/GetCloudServiceNetworkInterface.yml)
+### [List Cloud Service Network Interfaces](virtualnetwork/NetworkInterfaces%20In%20CloudService/ListCloudServiceNetworkInterfaces.yml)
+### [List Cloud Service Role Instance Network Interfaces](virtualnetwork/NetworkInterfaces%20In%20CloudService/ListCloudServiceRoleInstanceNetworkInterfaces.yml)
 ## Private Dns Zone Groups
 ### [Overview](virtualnetwork/PrivateDnsZoneGroups.yml)
 ### [Create Or Update](virtualnetwork/PrivateDnsZoneGroups/CreateOrUpdate.yml)
@@ -16008,6 +16013,11 @@
 ### [List](virtualnetwork/PublicIPPrefixes/List.yml)
 ### [List All](virtualnetwork/PublicIPPrefixes/ListAll.yml)
 ### [Update Tags](virtualnetwork/PublicIPPrefixes/UpdateTags.yml)
+## PublicIPAddress In CloudService
+### [Overview](virtualnetwork/PublicIPAddress%20In%20CloudService.yml)
+### [Get Cloud Service Public IP Address](virtualnetwork/PublicIPAddress%20In%20CloudService/GetCloudServicePublicIPAddress.yml)
+### [List Cloud Service Public IP Addresses](virtualnetwork/PublicIPAddress%20In%20CloudService/ListCloudServicePublicIPAddresses.yml)
+### [List Cloud Service Role Instance Public IP Addresses](virtualnetwork/PublicIPAddress%20In%20CloudService/ListCloudServiceRoleInstancePublicIPAddresses.yml)
 ## PublicIPAddress In VMSS
 ### [Overview](virtualnetwork/PublicIPAddress%20In%20VMSS.yml)
 ### [Get Virtual Machine Scale Set Public IP Address](virtualnetwork/PublicIPAddress%20In%20VMSS/GetVirtualMachineScaleSetPublicIPAddress.yml)
@@ -16103,6 +16113,10 @@
 ### [Get](virtualnetwork/VirtualRouters/Get.yml)
 ### [List](virtualnetwork/VirtualRouters/List.yml)
 ### [List By Resource Group](virtualnetwork/VirtualRouters/ListByResourceGroup.yml)
+## Web Categories
+### [Overview](virtualnetwork/WebCategories.yml)
+### [Get](virtualnetwork/WebCategories/Get.yml)
+### [List By Subscription](virtualnetwork/WebCategories/ListBySubscription.yml)
 # Virtual WAN
 ## [Overview](../docs-ref-conceptual/virtualwan/index.md)
 ## Express Route Connections

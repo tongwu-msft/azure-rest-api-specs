@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.networkinterfacetapconfigurations.creat
 name: Create Or Update
 service: Virtual Networks
 groupName: Network Interface Tap Configurations
-apiVersion: 2020-06-01
+apiVersion: 2020-07-01
 summary: Creates or updates a Tap configuration in the specified NetworkInterface.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}?api-version=2020-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations/{tapConfigurationName}?api-version=2020-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -653,6 +653,10 @@ definitions:
   description: Public IP address resource.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the public ip address.
+    types:
+    - uid: ExtendedLocation
   - name: sku
     description: The public IP address SKU.
     types:
@@ -845,6 +849,10 @@ definitions:
   - name: properties.networkInterfaceIPConfiguration
     isReadyOnly: true
     description: Reference to IP address defined in network interfaces.
+    types:
+    - uid: SubResource
+  - name: properties.loadBalancerFrontendIPConfiguration
+    description: Reference to the frontend ip address configuration defined in regional loadbalancer.
     types:
     - uid: SubResource
 - name: TransportProtocol
@@ -1309,6 +1317,18 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: ExtendedLocation
+  description: ExtendedLocation complex type.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: PublicIPAddressSku
   description: SKU of a public IP address.
   kind: object
@@ -1317,6 +1337,10 @@ definitions:
     description: Name of a public IP address SKU.
     types:
     - uid: PublicIPAddressSkuName
+  - name: tier
+    description: Tier of a public IP address SKU.
+    types:
+    - uid: PublicIPAddressSkuTier
 - name: PublicIPAddressDnsSettings
   description: Contains FQDN of the DNS record associated with the public IP address.
   kind: object
@@ -1453,6 +1477,10 @@ definitions:
   description: A network interface in a resource group.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the network interface.
+    types:
+    - uid: ExtendedLocation
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
@@ -1747,6 +1775,13 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 - name: PublicIPAddressSkuName
   description: Name of a public IP address SKU.
   kind: enum
@@ -1755,6 +1790,16 @@ definitions:
     types:
     - uid: string
   - name: Standard
+    types:
+    - uid: string
+- name: PublicIPAddressSkuTier
+  description: Tier of a public IP address SKU.
+  kind: enum
+  properties:
+  - name: Regional
+    types:
+    - uid: string
+  - name: Global
     types:
     - uid: string
 - name: DdosSettingsProtectionCoverage
@@ -1939,7 +1984,7 @@ definitions:
 examples:
 - name: Create Network Interface Tap Configurations
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/networkInterfaces/mynic/tapConfigurations/tapconfiguration1?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/networkInterfaces/mynic/tapConfigurations/tapconfiguration1?api-version=2020-07-01
     body: >-
       {
         "properties": {
