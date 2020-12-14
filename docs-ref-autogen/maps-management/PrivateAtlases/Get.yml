@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.maps-management.accounts.get
+uid: management.azure.com.maps-management.privateatlases.get
 name: Get
 service: Maps Management
-groupName: Accounts
+groupName: Private Atlases
 apiVersion: 2020-02-01-preview
-summary: Get a Maps Account.
+summary: Get a Private Atlas resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}?api-version=2020-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/privateAtlases/{privateAtlasName}?api-version=2020-02-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,6 +31,12 @@ uriParameters:
   description: The name of the Maps Account.
   types:
   - uid: string
+- name: privateAtlasName
+  in: path
+  isRequired: true
+  description: The name of the Private Atlas instance.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -41,32 +47,21 @@ responses:
 - name: 200 OK
   description: The request was successful.
   types:
-  - uid: MapsAccount
+  - uid: PrivateAtlas
 - name: Other Status Codes
   description: An unexpected error occurred.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: MapsAccount
-  description: An Azure resource which represents access to a suite of Maps REST APIs.
+- name: PrivateAtlas
+  description: An Azure resource which represents which will provision the ability to create private location data.
   kind: object
   properties:
-  - name: sku
-    isReadyOnly: true
-    description: The SKU of this account.
-    types:
-    - uid: Sku
-  - name: systemData
-    isReadyOnly: true
-    description: The system meta data relating to this resource.
-    types:
-    - uid: systemData
   - name: properties
-    isReadyOnly: true
-    description: The map account properties.
+    description: The Private Atlas resource properties.
     types:
-    - uid: MapsAccountProperties
+    - uid: PrivateAtlasProperties
   - name: tags
     description: Resource tags.
     types:
@@ -102,53 +97,12 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: Sku
-  description: The SKU of the Maps Account.
+- name: PrivateAtlasProperties
+  description: Private Atlas resource properties
   kind: object
   properties:
-  - name: name
-    description: The name of the SKU, in standard format (such as S0).
-    types:
-    - uid: string
-  - name: tier
-    isReadyOnly: true
-    description: Gets the sku tier. This is based on the SKU name.
-    types:
-    - uid: string
-- name: systemData
-  description: Metadata pertaining to creation and last modification of the resource.
-  kind: object
-  properties:
-  - name: createdBy
-    description: The identity that created the resource.
-    types:
-    - uid: string
-  - name: createdByType
-    description: The type of identity that created the resource.
-    types:
-    - uid: createdByType
-  - name: createdAt
-    description: The timestamp of resource creation (UTC).
-    types:
-    - uid: string
-  - name: lastModifiedBy
-    description: The identity that last modified the resource.
-    types:
-    - uid: string
-  - name: lastModifiedByType
-    description: The type of identity that last modified the resource.
-    types:
-    - uid: createdByType
-  - name: lastModifiedAt
-    description: The type of identity that last modified the resource.
-    types:
-    - uid: string
-- name: MapsAccountProperties
-  description: Additional Map account properties
-  kind: object
-  properties:
-  - name: x-ms-client-id
-    description: A unique identifier for the maps account
+  - name: provisioningState
+    description: 'The state of the resource provisioning, terminal states: Succeeded, Failed, Canceled'
     types:
     - uid: string
 - name: ErrorDetail
@@ -182,22 +136,6 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: createdByType
-  description: The type of identity that created the resource.
-  kind: enum
-  properties:
-  - name: User
-    types:
-    - uid: string
-  - name: Application
-    types:
-    - uid: string
-  - name: ManagedIdentity
-    types:
-    - uid: string
-  - name: Key
-    types:
-    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -213,34 +151,22 @@ definitions:
     types:
     - uid: object
 examples:
-- name: GetAccount
+- name: GetPrivateAtlas
   request:
-    uri: GET https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount?api-version=2020-02-01-preview
+    uri: GET https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount/privateAtlases/myPrivateAtlas?api-version=2020-02-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount",
-        "name": "myMapsAccount",
-        "type": "Microsoft.Maps/accounts",
-        "location": "global",
-        "systemData": {
-          "createdBy": "string",
-          "createdByType": "Application",
-          "createdAt": "2020-02-01T01:01:01.1075056Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "Application",
-          "lastModifiedAt": "2020-02-01T01:01:01.1075056Z"
-        },
+        "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount/privateAtlases/myPrivateAtlas",
+        "name": "myPrivateAtlas",
+        "type": "Microsoft.Maps/accounts/privateAtlases",
+        "location": "unitedstates",
         "tags": {
           "test": "true"
         },
-        "sku": {
-          "name": "S0",
-          "tier": "Standard"
-        },
         "properties": {
-          "x-ms-client-id": "string"
+          "provisioningState": "Succeeded"
         }
       }
 security:

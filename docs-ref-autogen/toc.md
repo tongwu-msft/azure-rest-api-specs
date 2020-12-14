@@ -8055,10 +8055,25 @@
 ### [List By Resource Group](maps-management/Accounts/ListByResourceGroup.yml)
 ### [List By Subscription](maps-management/Accounts/ListBySubscription.yml)
 ### [List Keys](maps-management/Accounts/ListKeys.yml)
-### [List Operations](maps-management/Accounts/ListOperations.yml)
-### [Move](maps-management/Accounts/Move.yml)
 ### [Regenerate Keys](maps-management/Accounts/RegenerateKeys.yml)
 ### [Update](maps-management/Accounts/Update.yml)
+## Creators
+### [Overview](maps-management/Creators.yml)
+### [Create Or Update](maps-management/Creators/CreateOrUpdate.yml)
+### [Delete](maps-management/Creators/Delete.yml)
+### [Get](maps-management/Creators/Get.yml)
+### [List By Account](maps-management/Creators/ListByAccount.yml)
+### [Update](maps-management/Creators/Update.yml)
+## Maps
+### [Overview](maps-management/Maps.yml)
+### [List Operations](maps-management/Maps/ListOperations.yml)
+## Private Atlases
+### [Overview](maps-management/PrivateAtlases.yml)
+### [Create Or Update](maps-management/PrivateAtlases/CreateOrUpdate.yml)
+### [Delete](maps-management/PrivateAtlases/Delete.yml)
+### [Get](maps-management/PrivateAtlases/Get.yml)
+### [List By Account](maps-management/PrivateAtlases/ListByAccount.yml)
+### [Update](maps-management/PrivateAtlases/Update.yml)
 # MariaDB
 ## [Overview](../docs-ref-conceptual/mariadb/index.md)
 ## Check Name Availability

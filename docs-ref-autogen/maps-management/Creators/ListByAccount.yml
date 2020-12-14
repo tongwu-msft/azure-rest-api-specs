@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.maps-management.accounts.regeneratekeys
-name: Regenerate Keys
+uid: management.azure.com.maps-management.creators.listbyaccount
+name: List By Account
 service: Maps Management
-groupName: Accounts
+groupName: Creators
 apiVersion: 2020-02-01-preview
-summary: Regenerate either the primary or secondary key for use with the Maps APIs. The old key will stop working immediately.
+summary: Get all Creator instances for an Azure Maps Account
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/regenerateKey?api-version=2020-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators?api-version=2020-02-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,41 +41,23 @@ responses:
 - name: 200 OK
   description: The request was successful.
   types:
-  - uid: MapsAccountKeys
+  - uid: CreatorList
 - name: Other Status Codes
   description: An unexpected error occurred.
   types:
   - uid: ErrorResponse
-requestBody:
-- name: default
-  parameters:
-  - name: keyType
-    in: body
-    isRequired: true
-    description: Whether the operation refers to the primary or secondary key.
-    types:
-    - uid: KeyType
 requestHeader: []
 definitions:
-- name: MapsAccountKeys
-  description: The set of keys which can be used to access the Maps REST APIs. Two keys are provided for key rotation without interruption.
+- name: CreatorList
+  description: A list of Creator resources.
   kind: object
   properties:
-  - name: id
+  - name: value
     isReadyOnly: true
-    description: The full Azure resource identifier of the Maps Account.
+    description: a Creator account.
     types:
-    - uid: string
-  - name: primaryKey
-    isReadyOnly: true
-    description: The primary key for accessing the Maps REST APIs.
-    types:
-    - uid: string
-  - name: secondaryKey
-    isReadyOnly: true
-    description: The secondary key for accessing the Maps REST APIs.
-    types:
-    - uid: string
+    - uid: Creator
+      isArray: true
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -84,14 +66,41 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: MapsKeySpecification
-  description: Whether the operation refers to the primary or secondary key.
+- name: Creator
+  description: An Azure resource which represents Maps Creator product and provides ability to manage private location data.
   kind: object
   properties:
-  - name: keyType
-    description: Whether the operation refers to the primary or secondary key.
+  - name: properties
+    description: The Creator resource properties.
     types:
-    - uid: KeyType
+    - uid: CreatorProperties
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -123,14 +132,12 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: KeyType
-  description: Whether the operation refers to the primary or secondary key.
-  kind: enum
+- name: CreatorProperties
+  description: Creator resource properties
+  kind: object
   properties:
-  - name: primary
-    types:
-    - uid: string
-  - name: secondary
+  - name: provisioningState
+    description: 'The state of the resource provisioning, terminal states: Succeeded, Failed, Canceled'
     types:
     - uid: string
 - name: ErrorAdditionalInfo
@@ -148,20 +155,27 @@ definitions:
     types:
     - uid: object
 examples:
-- name: RegenerateKey
+- name: ListPrivateAtlasByAccount
   request:
-    uri: POST https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount/regenerateKey?api-version=2020-02-01-preview
-    body: >-
-      {
-        "keyType": "primary"
-      }
+    uri: GET https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount/creators?api-version=2020-02-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount",
-        "primaryKey": "<primaryKey>",
-        "secondaryKey": "<secondaryKey>"
+        "value": [
+          {
+            "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount/creators/myCreator",
+            "name": "myCreator",
+            "type": "Microsoft.Maps/accounts/creators",
+            "location": "unitedstates",
+            "tags": {
+              "test": "true"
+            },
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
       }
 security:
 - name: azure_auth

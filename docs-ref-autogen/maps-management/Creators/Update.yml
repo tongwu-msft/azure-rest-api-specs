@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.maps-management.accounts.get
-name: Get
+uid: management.azure.com.maps-management.creators.update
+name: Update
 service: Maps Management
-groupName: Accounts
+groupName: Creators
 apiVersion: 2020-02-01-preview
-summary: Get a Maps Account.
+summary: Updates the Maps Creator resource. Only a subset of the parameters may be updated after creation, such as Tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}?api-version=2020-02-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}?api-version=2020-02-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,6 +31,12 @@ uriParameters:
   description: The name of the Maps Account.
   types:
   - uid: string
+- name: creatorName
+  in: path
+  isRequired: true
+  description: The name of the Maps Creator instance.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -39,34 +45,35 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The request was successful.
+  description: The Maps Creator was successfully updated.
   types:
-  - uid: MapsAccount
+  - uid: Creator
 - name: Other Status Codes
   description: An unexpected error occurred.
   types:
   - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: tags
+    in: body
+    description: Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 requestHeader: []
 definitions:
-- name: MapsAccount
-  description: An Azure resource which represents access to a suite of Maps REST APIs.
+- name: Creator
+  description: An Azure resource which represents Maps Creator product and provides ability to manage private location data.
   kind: object
   properties:
-  - name: sku
-    isReadyOnly: true
-    description: The SKU of this account.
-    types:
-    - uid: Sku
-  - name: systemData
-    isReadyOnly: true
-    description: The system meta data relating to this resource.
-    types:
-    - uid: systemData
   - name: properties
-    isReadyOnly: true
-    description: The map account properties.
+    description: The Creator resource properties.
     types:
-    - uid: MapsAccountProperties
+    - uid: CreatorProperties
   - name: tags
     description: Resource tags.
     types:
@@ -102,53 +109,24 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: Sku
-  description: The SKU of the Maps Account.
+- name: CreatorUpdateParameters
+  description: Parameters used to update an existing Creator resource.
   kind: object
   properties:
-  - name: name
-    description: The name of the SKU, in standard format (such as S0).
+  - name: tags
+    description: Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters.
     types:
-    - uid: string
-  - name: tier
-    isReadyOnly: true
-    description: Gets the sku tier. This is based on the SKU name.
-    types:
-    - uid: string
-- name: systemData
-  description: Metadata pertaining to creation and last modification of the resource.
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CreatorProperties
+  description: Creator resource properties
   kind: object
   properties:
-  - name: createdBy
-    description: The identity that created the resource.
-    types:
-    - uid: string
-  - name: createdByType
-    description: The type of identity that created the resource.
-    types:
-    - uid: createdByType
-  - name: createdAt
-    description: The timestamp of resource creation (UTC).
-    types:
-    - uid: string
-  - name: lastModifiedBy
-    description: The identity that last modified the resource.
-    types:
-    - uid: string
-  - name: lastModifiedByType
-    description: The type of identity that last modified the resource.
-    types:
-    - uid: createdByType
-  - name: lastModifiedAt
-    description: The type of identity that last modified the resource.
-    types:
-    - uid: string
-- name: MapsAccountProperties
-  description: Additional Map account properties
-  kind: object
-  properties:
-  - name: x-ms-client-id
-    description: A unique identifier for the maps account
+  - name: provisioningState
+    description: 'The state of the resource provisioning, terminal states: Succeeded, Failed, Canceled'
     types:
     - uid: string
 - name: ErrorDetail
@@ -182,22 +160,6 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: createdByType
-  description: The type of identity that created the resource.
-  kind: enum
-  properties:
-  - name: User
-    types:
-    - uid: string
-  - name: Application
-    types:
-    - uid: string
-  - name: ManagedIdentity
-    types:
-    - uid: string
-  - name: Key
-    types:
-    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -213,34 +175,28 @@ definitions:
     types:
     - uid: object
 examples:
-- name: GetAccount
+- name: UpdateAccount
   request:
-    uri: GET https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount?api-version=2020-02-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount/creators/myCreator?api-version=2020-02-01-preview
+    body: >-
+      {
+        "tags": {
+          "specialTag": "true"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount",
-        "name": "myMapsAccount",
-        "type": "Microsoft.Maps/accounts",
-        "location": "global",
-        "systemData": {
-          "createdBy": "string",
-          "createdByType": "Application",
-          "createdAt": "2020-02-01T01:01:01.1075056Z",
-          "lastModifiedBy": "string",
-          "lastModifiedByType": "Application",
-          "lastModifiedAt": "2020-02-01T01:01:01.1075056Z"
-        },
+        "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount/creators/myCreator",
+        "name": "myCreator",
+        "type": "Microsoft.Maps/accounts/creators",
+        "location": "unitedstates",
         "tags": {
-          "test": "true"
-        },
-        "sku": {
-          "name": "S0",
-          "tier": "Standard"
+          "specialTag": "true"
         },
         "properties": {
-          "x-ms-client-id": "string"
+          "provisioningState": "Succeeded"
         }
       }
 security:

@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.maps-management.accounts.listkeys
-name: List Keys
+uid: management.azure.com.maps-management.creators.delete
+name: Delete
 service: Maps Management
-groupName: Accounts
+groupName: Creators
 apiVersion: 2020-02-01-preview
-summary: Get the keys to use with the Maps APIs. A key is used to authenticate and authorize access to the Maps REST APIs. Only one key is needed at a time; two are given to provide seamless key regeneration.
+summary: Delete a Maps Creator resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listKeys?api-version=2020-02-01-preview
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}?api-version=2020-02-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,6 +31,12 @@ uriParameters:
   description: The name of the Maps Account.
   types:
   - uid: string
+- name: creatorName
+  in: path
+  isRequired: true
+  description: The name of the Maps Creator instance.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -39,34 +45,15 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: The request was successful.
-  types:
-  - uid: MapsAccountKeys
+  description: The Maps Creator was deleted successfully.
+- name: 204 No Content
+  description: The specified Maps Creator resource was not found. Nothing was deleted.
 - name: Other Status Codes
   description: An unexpected error occurred.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: MapsAccountKeys
-  description: The set of keys which can be used to access the Maps REST APIs. Two keys are provided for key rotation without interruption.
-  kind: object
-  properties:
-  - name: id
-    isReadyOnly: true
-    description: The full Azure resource identifier of the Maps Account.
-    types:
-    - uid: string
-  - name: primaryKey
-    isReadyOnly: true
-    description: The primary key for accessing the Maps REST APIs.
-    types:
-    - uid: string
-  - name: secondaryKey
-    isReadyOnly: true
-    description: The secondary key for accessing the Maps REST APIs.
-    types:
-    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -121,17 +108,12 @@ definitions:
     types:
     - uid: object
 examples:
-- name: ListKeys
+- name: DeletePrivateAtlas
   request:
-    uri: POST https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount/listKeys?api-version=2020-02-01-preview
+    uri: DELETE https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount/creators/myCreator?api-version=2020-02-01-preview
   responses:
   - statusCode: "200"
-    body: >-
-      {
-        "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount",
-        "primaryKey": "<primaryKey>",
-        "secondaryKey": "<secondaryKey>"
-      }
+  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2
