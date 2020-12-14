@@ -6452,9 +6452,6 @@
 ##### [Overview](EventHub/2018-01-01-preview/Network%20Rule%20Sets.yml)
 ##### [Create Or Update Network Rule Set](EventHub/2018-01-01-preview/Network%20Rule%20Sets/CreateOrUpdateNetworkRuleSet.yml)
 ##### [Get Network Rule Set](EventHub/2018-01-01-preview/Network%20Rule%20Sets/GetNetworkRuleSet.yml)
-#### Operations
-##### [Overview](EventHub/2018-01-01-preview/Operations.yml)
-##### [List](EventHub/2018-01-01-preview/Operations/List.yml)
 #### Private Endpoint Connections
 ##### [Overview](EventHub/2018-01-01-preview/PrivateEndpointConnections.yml)
 ##### [Create Or Update](EventHub/2018-01-01-preview/PrivateEndpointConnections/CreateOrUpdate.yml)
