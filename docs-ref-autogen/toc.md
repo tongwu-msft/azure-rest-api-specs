@@ -8910,6 +8910,10 @@
 ### [Overview](policy-insights/PolicyMetadata.yml)
 ### [Get Resource](policy-insights/PolicyMetadata/GetResource.yml)
 ### [List](policy-insights/PolicyMetadata/List.yml)
+## Policy Restrictions
+### [Overview](policy-insights/PolicyRestrictions.yml)
+### [Check At Resource Group Scope](policy-insights/PolicyRestrictions/CheckAtResourceGroupScope.yml)
+### [Check At Subscription Scope](policy-insights/PolicyRestrictions/CheckAtSubscriptionScope.yml)
 ## Policy States
 ### [Overview](policy-insights/PolicyStates.yml)
 ### [List Query Results For Management Group](policy-insights/PolicyStates/ListQueryResultsForManagementGroup.yml)
