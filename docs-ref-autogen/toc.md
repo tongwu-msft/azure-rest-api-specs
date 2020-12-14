@@ -6452,9 +6452,6 @@
 ##### [Overview](EventHub/2018-01-01-preview/Network%20Rule%20Sets.yml)
 ##### [Create Or Update Network Rule Set](EventHub/2018-01-01-preview/Network%20Rule%20Sets/CreateOrUpdateNetworkRuleSet.yml)
 ##### [Get Network Rule Set](EventHub/2018-01-01-preview/Network%20Rule%20Sets/GetNetworkRuleSet.yml)
-#### Operations
-##### [Overview](EventHub/2018-01-01-preview/Operations.yml)
-##### [List](EventHub/2018-01-01-preview/Operations/List.yml)
 #### Private Endpoint Connections
 ##### [Overview](EventHub/2018-01-01-preview/PrivateEndpointConnections.yml)
 ##### [Create Or Update](EventHub/2018-01-01-preview/PrivateEndpointConnections/CreateOrUpdate.yml)
@@ -8058,10 +8055,25 @@
 ### [List By Resource Group](maps-management/Accounts/ListByResourceGroup.yml)
 ### [List By Subscription](maps-management/Accounts/ListBySubscription.yml)
 ### [List Keys](maps-management/Accounts/ListKeys.yml)
-### [List Operations](maps-management/Accounts/ListOperations.yml)
-### [Move](maps-management/Accounts/Move.yml)
 ### [Regenerate Keys](maps-management/Accounts/RegenerateKeys.yml)
 ### [Update](maps-management/Accounts/Update.yml)
+## Creators
+### [Overview](maps-management/Creators.yml)
+### [Create Or Update](maps-management/Creators/CreateOrUpdate.yml)
+### [Delete](maps-management/Creators/Delete.yml)
+### [Get](maps-management/Creators/Get.yml)
+### [List By Account](maps-management/Creators/ListByAccount.yml)
+### [Update](maps-management/Creators/Update.yml)
+## Maps
+### [Overview](maps-management/Maps.yml)
+### [List Operations](maps-management/Maps/ListOperations.yml)
+## Private Atlases
+### [Overview](maps-management/PrivateAtlases.yml)
+### [Create Or Update](maps-management/PrivateAtlases/CreateOrUpdate.yml)
+### [Delete](maps-management/PrivateAtlases/Delete.yml)
+### [Get](maps-management/PrivateAtlases/Get.yml)
+### [List By Account](maps-management/PrivateAtlases/ListByAccount.yml)
+### [Update](maps-management/PrivateAtlases/Update.yml)
 # MariaDB
 ## [Overview](../docs-ref-conceptual/mariadb/index.md)
 ## Check Name Availability
@@ -8474,9 +8486,6 @@
 ### Metrics (Data plane)
 #### [Overview](monitor/Metrics%20(Data%20plane).yml)
 #### [Create](monitor/Metrics%20(Data%20plane)/Create.yml)
-### Operations
-#### [Overview](monitor/Operations.yml)
-#### [List](monitor/Operations/List.yml)
 ### Private Endpoint Connections (Preview)
 #### [Overview](monitor/Private%20Endpoint%20Connections%20(Preview).yml)
 #### [Create Or Update](monitor/Private%20Endpoint%20Connections%20(Preview)/CreateOrUpdate.yml)
@@ -8504,22 +8513,6 @@
 #### [List](monitor/Private%20Link%20Scopes%20(Preview)/List.yml)
 #### [List By Resource Group](monitor/Private%20Link%20Scopes%20(Preview)/ListByResourceGroup.yml)
 #### [Update Tags](monitor/Private%20Link%20Scopes%20(Preview)/UpdateTags.yml)
-### Query Pack Queries (Preview)
-#### [Overview](monitor/Query%20Pack%20Queries%20(Preview).yml)
-#### [Delete](monitor/Query%20Pack%20Queries%20(Preview)/Delete.yml)
-#### [Get](monitor/Query%20Pack%20Queries%20(Preview)/Get.yml)
-#### [List](monitor/Query%20Pack%20Queries%20(Preview)/List.yml)
-#### [Put](monitor/Query%20Pack%20Queries%20(Preview)/Put.yml)
-#### [Search](monitor/Query%20Pack%20Queries%20(Preview)/Search.yml)
-#### [Update](monitor/Query%20Pack%20Queries%20(Preview)/Update.yml)
-### Query Packs (Preview)
-#### [Overview](monitor/Query%20Packs%20(Preview).yml)
-#### [Create Or Update](monitor/Query%20Packs%20(Preview)/CreateOrUpdate.yml)
-#### [Delete](monitor/Query%20Packs%20(Preview)/Delete.yml)
-#### [Get](monitor/Query%20Packs%20(Preview)/Get.yml)
-#### [List](monitor/Query%20Packs%20(Preview)/List.yml)
-#### [List By Resource Group](monitor/Query%20Packs%20(Preview)/ListByResourceGroup.yml)
-#### [Update Tags](monitor/Query%20Packs%20(Preview)/UpdateTags.yml)
 ### Scheduled Query Rules
 #### [Overview](monitor/ScheduledQueryRules.yml)
 #### [Create Or Update](monitor/ScheduledQueryRules/CreateOrUpdate.yml)
@@ -14269,9 +14262,6 @@
 #### [List By Resource Group Database](sql/LongTermRetentionManagedInstanceBackups/ListByResourceGroupDatabase.yml)
 #### [List By Resource Group Instance](sql/LongTermRetentionManagedInstanceBackups/ListByResourceGroupInstance.yml)
 #### [List By Resource Group Location](sql/LongTermRetentionManagedInstanceBackups/ListByResourceGroupLocation.yml)
-### Managed Database Restore Details
-#### [Overview](sql/ManagedDatabaseRestoreDetails.yml)
-#### [Get](sql/ManagedDatabaseRestoreDetails/Get.yml)
 ### Managed Database Vulnerability Assessment Rule Baselines
 #### [Overview](sql/ManagedDatabaseVulnerabilityAssessmentRuleBaselines.yml)
 #### [Create Or Update](sql/ManagedDatabaseVulnerabilityAssessmentRuleBaselines/CreateOrUpdate.yml)
@@ -14330,9 +14320,11 @@
 #### [Overview](sql/ManagedInstances.yml)
 #### [Create Or Update](sql/ManagedInstances/CreateOrUpdate.yml)
 #### [Delete](sql/ManagedInstances/Delete.yml)
+#### [Failover](sql/ManagedInstances/Failover.yml)
 #### [Get](sql/ManagedInstances/Get.yml)
 #### [List](sql/ManagedInstances/List.yml)
 #### [List By Instance Pool](sql/ManagedInstances/ListByInstancePool.yml)
+#### [List By Managed Instance](sql/ManagedInstances/ListByManagedInstance.yml)
 #### [List By Resource Group](sql/ManagedInstances/ListByResourceGroup.yml)
 #### [Update](sql/ManagedInstances/Update.yml)
 ### Managed Instances - Failover
@@ -14807,7 +14799,6 @@
 ##### [Put Page](../docs-ref-conceptual/storageservices/put-page.md)
 ##### [Put Page from URL](../docs-ref-conceptual/storageservices/put-page-from-url.md)
 ##### [Get Page Ranges](../docs-ref-conceptual/storageservices/get-page-ranges.md)
-##### [Put Range from URL](../docs-ref-conceptual/storageservices/put-range-from-url.md)
 ##### [Incremental Copy Blob](../docs-ref-conceptual/storageservices/incremental-copy-blob.md)
 #### Operations on Append Blobs
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-append-blobs.md)
@@ -14935,6 +14926,7 @@
 #### [Get File Properties](../docs-ref-conceptual/storageservices/get-file-properties.md)
 #### [Set File Properties](../docs-ref-conceptual/storageservices/set-file-properties.md)
 #### [Put Range](../docs-ref-conceptual/storageservices/put-range.md)
+#### [Put Range from URL](../docs-ref-conceptual/storageservices/put-range-from-url.md)
 #### [List Ranges](../docs-ref-conceptual/storageservices/list-ranges.md)
 #### [Get File Metadata](../docs-ref-conceptual/storageservices/get-file-metadata.md)
 #### [Set File Metadata](../docs-ref-conceptual/storageservices/set-file-metadata.md)

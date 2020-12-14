@@ -3,27 +3,28 @@ uid: management.azure.com.maps-management.accounts.listkeys
 name: List Keys
 service: Maps Management
 groupName: Accounts
-apiVersion: 2018-05-01
+apiVersion: 2020-02-01-preview
 summary: Get the keys to use with the Maps APIs. A key is used to authenticate and authorize access to the Maps REST APIs. Only one key is needed at a time; two are given to provide seamless key regeneration.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listKeys?api-version=2018-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listKeys?api-version=2020-02-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the Azure Resource Group.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
+  pattern: ^[-\w\._\(\)]+$
 - name: accountName
   in: path
   isRequired: true
@@ -33,7 +34,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -41,12 +42,10 @@ responses:
   description: The request was successful.
   types:
   - uid: MapsAccountKeys
-- name: 404 Not Found
-  description: The specified Account does not exist.
 - name: Other Status Codes
   description: An unexpected error occurred.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: MapsAccountKeys
@@ -68,63 +67,71 @@ definitions:
     description: The secondary key for accessing the Maps REST APIs.
     types:
     - uid: string
-- name: Error
-  description: This object is returned when an error occurs in the Maps API
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: Error code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human readable description of the error.
+    description: The error message.
     types:
     - uid: string
   - name: target
     isReadyOnly: true
-    description: If available, the component generating the error.
+    description: The error target.
     types:
     - uid: string
   - name: details
     isReadyOnly: true
-    description: If available, a list of additional details about the error.
+    description: The error details.
     types:
-    - uid: Details
+    - uid: ErrorDetail
       isArray: true
-- name: Details
-  description: If available, a list of additional details about the error.
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
   kind: object
   properties:
-  - name: code
+  - name: type
     isReadyOnly: true
-    description: Error code.
+    description: The additional info type.
     types:
     - uid: string
-  - name: message
+  - name: info
     isReadyOnly: true
-    description: If available, a human readable description of the error.
+    description: The additional info.
     types:
-    - uid: string
-  - name: target
-    isReadyOnly: true
-    description: If available, the component generating the error.
-    types:
-    - uid: string
+    - uid: object
 examples:
 - name: ListKeys
   request:
-    uri: POST https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount/listKeys?api-version=2018-05-01
+    uri: POST https://management.azure.com/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount/listKeys?api-version=2020-02-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
         "id": "/subscriptions/21a9967a-e8a9-4656-a70b-96ff1c4d05a0/resourceGroups/myResourceGroup/providers/Microsoft.Maps/accounts/myMapsAccount",
-        "primaryKey": "ZiBllKWCwXXLTO13S2TaoHoK8kPFYaoyYlAcnCcE4PQ",
-        "secondaryKey": "cJHpmUGNaGGO8H59p6NKGhfff9VjD278-2bi5wo0_mU"
+        "primaryKey": "<primaryKey>",
+        "secondaryKey": "<secondaryKey>"
       }
-  - statusCode: "404"
 security:
 - name: azure_auth
   type: oauth2
