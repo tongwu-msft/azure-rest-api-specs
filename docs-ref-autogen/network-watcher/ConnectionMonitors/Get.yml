@@ -3,14 +3,14 @@ uid: management.azure.com.network-watcher.connectionmonitors.get
 name: Get
 service: Network Watcher
 groupName: Connection Monitors
-apiVersion: 2020-06-01
+apiVersion: 2020-07-01
 summary: Gets a connection monitor by name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}?api-version=2020-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}?api-version=2020-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -578,7 +578,7 @@ definitions:
 examples:
 - name: Get connection monitor
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1?api-version=2020-06-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1?api-version=2020-07-01
   responses:
   - statusCode: "200"
     body: >-
@@ -588,20 +588,42 @@ examples:
         "etag": "W/\"00000000-0000-0000-0000-000000000000\"",
         "properties": {
           "provisioningState": "Succeeded",
-          "source": {
-            "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1",
-            "port": 0
-          },
-          "destination": {
-            "address": "bing.com",
-            "port": 80
-          },
-          "monitoringIntervalInSeconds": 60,
-          "autoStart": true,
-          "startTime": "2018-01-08T03:42:33.3387305Z",
-          "monitoringStatus": "Running"
+          "endpoints": [
+            {
+              "name": "source",
+              "resourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/ct1"
+            },
+            {
+              "name": "destination",
+              "address": "bing.com"
+            }
+          ],
+          "testConfigurations": [
+            {
+              "name": "tcp",
+              "testFrequencySec": 60,
+              "protocol": "Tcp",
+              "tcpConfiguration": {
+                "port": 80
+              }
+            }
+          ],
+          "testGroups": [
+            {
+              "name": "tg",
+              "testConfigurations": [
+                "tcp"
+              ],
+              "sources": [
+                "source"
+              ],
+              "destinations": [
+                "destination"
+              ]
+            }
+          ]
         },
-        "location": "centraluseuap",
+        "location": "eastus",
         "type": "Microsoft.Network/networkWatchers/connectionMonitors"
       }
 security:

@@ -3,14 +3,14 @@ uid: management.azure.com.resources.policysetdefinitions.getbuiltin
 name: Get Built In
 service: Resource Management
 groupName: Policy Set Definitions
-apiVersion: 2019-09-01
+apiVersion: 2020-09-01
 summary: "Retrieves a built in policy set definition.  \nThis operation retrieves the built-in policy set definition with the given name."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}?api-version=2019-09-01
+- content: GET https://management.azure.com/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}?api-version=2020-09-01
 uriParameters:
 - name: policySetDefinitionName
   in: path
@@ -32,7 +32,7 @@ responses:
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
-  - uid: CloudError
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: PolicySetDefinition
@@ -88,14 +88,14 @@ definitions:
     types:
     - uid: PolicyDefinitionGroup
       isArray: true
-- name: CloudError
-  description: An error response from a policy operation.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: "Error Response  \nCommon error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.)"
+    description: The error object.
     types:
-    - uid: ErrorResponse
+    - uid: ErrorDetail
 - name: policyType
   description: The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static.
   kind: enum
@@ -182,8 +182,8 @@ definitions:
     description: A resource ID of a resource that contains additional metadata about the group.
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error Response
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
@@ -205,7 +205,7 @@ definitions:
     isReadyOnly: true
     description: The error details.
     types:
-    - uid: ErrorResponse
+    - uid: ErrorDetail
       isArray: true
   - name: additionalInfo
     isReadyOnly: true
@@ -250,6 +250,14 @@ definitions:
     description: The description of the parameter.
     types:
     - uid: string
+  - name: strongType
+    description: Used when assigning the policy definition through the portal. Provides a context aware list of values for the user to choose from.
+    types:
+    - uid: string
+  - name: assignPermissions
+    description: Set to true to have Azure portal create role assignments on the resource ID or resource scope value of this parameter during policy assignment. This property is useful in case you wish to assign permissions outside the assignment scope.
+    types:
+    - uid: boolean
 - name: ParameterValuesValue
   description: The value of a parameter.
   kind: object
@@ -275,7 +283,7 @@ definitions:
 examples:
 - name: Retrieve a built-in policy set definition
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Authorization/policySetDefinitions/1f3afdf9-d0c9-4c3d-847f-89da613e70a8?api-version=2019-09-01
+    uri: GET https://management.azure.com/providers/Microsoft.Authorization/policySetDefinitions/1f3afdf9-d0c9-4c3d-847f-89da613e70a8?api-version=2020-09-01
   responses:
   - statusCode: "200"
     body: >-

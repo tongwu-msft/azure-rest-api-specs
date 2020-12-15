@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.firewallpolicyrulecollectiongroups.list
 name: List
 service: Virtual Networks
 groupName: Firewall Policy Rule Collection Groups
-apiVersion: 2020-06-01
+apiVersion: 2020-07-01
 summary: Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups?api-version=2020-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups?api-version=2020-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -253,6 +253,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: targetUrls
+    description: List of Urls for this rule condition.
+    types:
+    - uid: string
+      isArray: true
   - name: fqdnTags
     description: List of FQDN Tags for this rule.
     types:
@@ -260,6 +265,15 @@ definitions:
       isArray: true
   - name: sourceIpGroups
     description: List of source IpGroups for this rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: terminateTLS
+    description: Terminate TLS connections for this rule.
+    types:
+    - uid: boolean
+  - name: webCategories
+    description: List of destination azure web categories.
     types:
     - uid: string
       isArray: true
@@ -313,6 +327,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: translatedFqdn
+    description: The translated FQDN for this NAT rule.
+    types:
+    - uid: string
   - name: name
     description: Name of the rule.
     types:
@@ -413,7 +431,7 @@ definitions:
 examples:
 - name: List all FirewallPolicyRuleCollectionGroups for a given FirewallPolicy
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups?api-version=2020-06-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups?api-version=2020-07-01
   responses:
   - statusCode: "200"
     body: >-
@@ -461,7 +479,7 @@ examples:
       }
 - name: List all FirewallPolicyRuleCollectionGroups with IpGroups for a given FirewallPolicy
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups?api-version=2020-06-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups?api-version=2020-07-01
   responses:
   - statusCode: "200"
     body: >-
@@ -498,6 +516,55 @@ examples:
                       ],
                       "destinationPorts": [
                         "*"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+- name: List all FirewallPolicyRuleCollectionGroup With Web Categories
+  request:
+    uri: GET https://management.azure.com/subscriptions/e747cc13-97d4-4a79-b463-42d7f4e558f2/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups?api-version=2020-07-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "ruleCollectionGroup1",
+            "id": "/subscriptions/e747cc13-97d4-4a79-b463-42d7f4e558f2/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups/ruleCollectionGroup1",
+            "etag": "W/\"72090554-7e3b-43f2-80ad-99a9020dcb11\"",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "priority": 110,
+              "ruleCollections": [
+                {
+                  "name": "Example-Filter-Rule-Collection",
+                  "ruleCollectionType": "FirewallPolicyFilterRuleCollection",
+                  "priority": 120,
+                  "action": {
+                    "type": "Deny"
+                  },
+                  "rules": [
+                    {
+                      "ruleType": "ApplicationRule",
+                      "name": "rule1",
+                      "description": "Deny inbound rule",
+                      "protocols": [
+                        {
+                          "protocolType": "Https",
+                          "port": 443
+                        }
+                      ],
+                      "sourceAddresses": [
+                        "216.58.216.164",
+                        "10.0.0.0/24"
+                      ],
+                      "webCategories": [
+                        "Hacking"
                       ]
                     }
                   ]

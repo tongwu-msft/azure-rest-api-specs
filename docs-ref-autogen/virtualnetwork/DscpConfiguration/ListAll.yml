@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.dscpconfiguration.listall
 name: List All
 service: Virtual Networks
 groupName: Dscp Configuration
-apiVersion: 2020-06-01
+apiVersion: 2020-07-01
 summary: Gets all dscp configurations in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/dscpConfigurations?api-version=2020-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/dscpConfigurations?api-version=2020-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -222,6 +222,10 @@ definitions:
   description: A network interface in a resource group.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the network interface.
+    types:
+    - uid: ExtendedLocation
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
@@ -337,6 +341,18 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: ExtendedLocation
+  description: ExtendedLocation complex type.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: SubResource
   description: Reference to another subresource.
   kind: object
@@ -618,6 +634,13 @@ definitions:
   - name: internalDomainNameSuffix
     isReadyOnly: true
     description: Even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix.
+    types:
+    - uid: string
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
     types:
     - uid: string
 - name: SecurityRule
@@ -1180,6 +1203,10 @@ definitions:
   description: Public IP address resource.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the public ip address.
+    types:
+    - uid: ExtendedLocation
   - name: sku
     description: The public IP address SKU.
     types:
@@ -1846,6 +1873,10 @@ definitions:
     description: Reference to IP address defined in network interfaces.
     types:
     - uid: SubResource
+  - name: properties.loadBalancerFrontendIPConfiguration
+    description: Reference to the frontend ip address configuration defined in regional loadbalancer.
+    types:
+    - uid: SubResource
 - name: TransportProtocol
   description: The transport protocol for the endpoint.
   kind: enum
@@ -1867,6 +1898,10 @@ definitions:
     description: Name of a public IP address SKU.
     types:
     - uid: PublicIPAddressSkuName
+  - name: tier
+    description: Tier of a public IP address SKU.
+    types:
+    - uid: PublicIPAddressSkuTier
 - name: PublicIPAddressDnsSettings
   description: Contains FQDN of the DNS record associated with the public IP address.
   kind: object
@@ -2021,6 +2056,16 @@ definitions:
   - name: Standard
     types:
     - uid: string
+- name: PublicIPAddressSkuTier
+  description: Tier of a public IP address SKU.
+  kind: enum
+  properties:
+  - name: Regional
+    types:
+    - uid: string
+  - name: Global
+    types:
+    - uid: string
 - name: DdosSettingsProtectionCoverage
   description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
   kind: enum
@@ -2053,7 +2098,7 @@ definitions:
 examples:
 - name: List all network interfaces
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/dscpConfigurations?api-version=2020-06-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/dscpConfigurations?api-version=2020-07-01
   responses:
   - statusCode: "200"
     body: >-

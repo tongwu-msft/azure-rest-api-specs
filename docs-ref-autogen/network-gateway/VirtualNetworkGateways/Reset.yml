@@ -3,15 +3,15 @@ uid: management.azure.com.network-gateway.virtualnetworkgateways.reset
 name: Reset
 service: Network Gateway
 groupName: Virtual Network Gateways
-apiVersion: 2020-06-01
+apiVersion: 2020-07-01
 summary: Resets the primary of the virtual network gateway in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/reset?api-version=2020-06-01
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/reset?gatewayVip={gatewayVip}&api-version=2020-06-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/reset?api-version=2020-07-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/reset?gatewayVip={gatewayVip}&api-version=2020-07-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -133,6 +133,14 @@ definitions:
     description: The IP address allocated by the gateway to which dns requests can be sent.
     types:
     - uid: string
+  - name: properties.virtualNetworkExtendedLocationResourceId
+    description: MAS FIJI customer vnet resource id. VirtualNetworkGateway of type local gateway is associated with the customer vnet.
+    types:
+    - uid: string
+  - name: properties.extendedLocation
+    description: The extended location of type local virtual network gateway.
+    types:
+    - uid: ExtendedLocation
   - name: id
     description: Resource ID.
     types:
@@ -214,6 +222,9 @@ definitions:
     types:
     - uid: string
   - name: ExpressRoute
+    types:
+    - uid: string
+  - name: LocalGateway
     types:
     - uid: string
 - name: VpnType
@@ -363,6 +374,18 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: ExtendedLocation
+  description: ExtendedLocation complex type.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -633,6 +656,13 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 - name: IpsecEncryption
   description: The IPSec encryption algorithm (IKE phase 1).
   kind: enum
@@ -795,7 +825,7 @@ definitions:
 examples:
 - name: ResetVirtualNetworkGateway
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/reset?api-version=2020-06-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/reset?api-version=2020-07-01
   responses:
   - statusCode: "202"
   - statusCode: "200"

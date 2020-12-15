@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.publicipprefixes.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Public IP Prefixes
-apiVersion: 2020-06-01
+apiVersion: 2020-07-01
 summary: Creates or updates a static or dynamic public IP prefix.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}?api-version=2020-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}?api-version=2020-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,6 +52,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: extendedLocation
+    in: body
+    description: The extended location of the public ip address.
+    types:
+    - uid: ExtendedLocation
   - name: sku
     in: body
     description: The public IP prefix SKU.
@@ -105,6 +110,18 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
+- name: ExtendedLocation
+  description: ExtendedLocation complex type.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: PublicIPPrefixSku
   description: SKU of a public IP prefix.
   kind: object
@@ -113,6 +130,10 @@ definitions:
     description: Name of a public IP prefix SKU.
     types:
     - uid: PublicIPPrefixSkuName
+  - name: tier
+    description: Tier of a public IP prefix SKU.
+    types:
+    - uid: PublicIPPrefixSkuTier
 - name: IpTag
   description: Contains the IpTag associated with the object.
   kind: object
@@ -145,6 +166,10 @@ definitions:
   description: Public IP prefix resource.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the public ip address.
+    types:
+    - uid: ExtendedLocation
   - name: sku
     description: The public IP prefix SKU.
     types:
@@ -236,11 +261,28 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 - name: PublicIPPrefixSkuName
   description: Name of a public IP prefix SKU.
   kind: enum
   properties:
   - name: Standard
+    types:
+    - uid: string
+- name: PublicIPPrefixSkuTier
+  description: Tier of a public IP prefix SKU.
+  kind: enum
+  properties:
+  - name: Regional
+    types:
+    - uid: string
+  - name: Global
     types:
     - uid: string
 - name: IPVersion
@@ -293,7 +335,7 @@ definitions:
 examples:
 - name: Create public IP prefix defaults
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix?api-version=2020-07-01
     body: >-
       {
         "location": "westus",
@@ -347,7 +389,7 @@ examples:
       }
 - name: Create public IP prefix allocation method
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPPrefixes/test-ipprefix?api-version=2020-07-01
     body: >-
       {
         "location": "westus",
@@ -356,7 +398,8 @@ examples:
           "prefixLength": 30
         },
         "sku": {
-          "name": "Standard"
+          "name": "Standard",
+          "tier": "Regional"
         }
       }
   responses:
@@ -379,7 +422,8 @@ examples:
           "ipTags": []
         },
         "sku": {
-          "name": "Standard"
+          "name": "Standard",
+          "tier": "Regional"
         },
         "type": "Microsoft.Network/publicIPPrefixes"
       }
@@ -402,7 +446,8 @@ examples:
           "ipTags": []
         },
         "sku": {
-          "name": "Standard"
+          "name": "Standard",
+          "tier": "Regional"
         },
         "type": "Microsoft.Network/publicIPPrefixes"
       }

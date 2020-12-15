@@ -3,14 +3,14 @@ uid: management.azure.com.resources.policyassignments.create
 name: Create
 service: Resource Management
 groupName: Policy Assignments
-apiVersion: 2019-09-01
+apiVersion: 2020-09-01
 summary: "Creates or updates a policy assignment.  \n This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}?api-version=2019-09-01
+- content: PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}?api-version=2020-09-01
 uriParameters:
 - name: scope
   in: path
@@ -39,15 +39,10 @@ responses:
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
-  - uid: CloudError
+  - uid: ErrorResponse
 requestBody:
 - name: default
   parameters:
-  - name: sku
-    in: body
-    description: The policy sku. This property is optional, obsolete, and will be ignored.
-    types:
-    - uid: PolicySku
   - name: location
     in: body
     description: The location of the policy assignment. Only required when utilizing managed identity.
@@ -66,11 +61,6 @@ requestBody:
   - name: properties.policyDefinitionId
     in: body
     description: The ID of the policy definition or policy set definition being assigned.
-    types:
-    - uid: string
-  - name: properties.scope
-    in: body
-    description: The scope for the policy assignment.
     types:
     - uid: string
   - name: properties.notScopes
@@ -103,20 +93,14 @@ requestBody:
     description: The policy assignment enforcement mode. Possible values are Default and DoNotEnforce.
     types:
     - uid: enforcementMode
+  - name: properties.nonComplianceMessages
+    in: body
+    description: The messages that describe why a resource is non-compliant with the policy.
+    types:
+    - uid: NonComplianceMessage
+      isArray: true
 requestHeader: []
 definitions:
-- name: PolicySku
-  description: The policy sku. This property is optional, obsolete, and will be ignored.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the policy sku. Possible values are A0 and A1.
-    types:
-    - uid: string
-  - name: tier
-    description: The policy sku tier. Possible values are Free and Standard.
-    types:
-    - uid: string
 - name: Identity
   description: Identity for the resource.
   kind: object
@@ -143,6 +127,18 @@ definitions:
     description: The value of the parameter.
     types:
     - uid: object
+- name: NonComplianceMessage
+  description: A message that describes why a resource is non-compliant with the policy. This is shown in 'deny' error messages and on resource's non-compliant compliance results.
+  kind: object
+  properties:
+  - name: message
+    description: A message that describes why a resource is non-compliant with the policy. This is shown in 'deny' error messages and on resource's non-compliant compliance results.
+    types:
+    - uid: string
+  - name: policyDefinitionReferenceId
+    description: The policy definition reference ID within a policy set definition the message is intended for. This is only applicable if the policy assignment assigns a policy set definition. If this is not provided the message applies to all policies assigned by this policy assignment.
+    types:
+    - uid: string
 - name: PolicyAssignment
   description: The policy assignment.
   kind: object
@@ -162,10 +158,6 @@ definitions:
     description: The name of the policy assignment.
     types:
     - uid: string
-  - name: sku
-    description: The policy sku. This property is optional, obsolete, and will be ignored.
-    types:
-    - uid: PolicySku
   - name: location
     description: The location of the policy assignment. Only required when utilizing managed identity.
     types:
@@ -183,6 +175,7 @@ definitions:
     types:
     - uid: string
   - name: properties.scope
+    isReadyOnly: true
     description: The scope for the policy assignment.
     types:
     - uid: string
@@ -211,14 +204,19 @@ definitions:
     description: The policy assignment enforcement mode. Possible values are Default and DoNotEnforce.
     types:
     - uid: enforcementMode
-- name: CloudError
-  description: An error response from a policy operation.
+  - name: properties.nonComplianceMessages
+    description: The messages that describe why a resource is non-compliant with the policy.
+    types:
+    - uid: NonComplianceMessage
+      isArray: true
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: "Error Response  \nCommon error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.)"
+    description: The error object.
     types:
-    - uid: ErrorResponse
+    - uid: ErrorDetail
 - name: ResourceIdentityType
   description: The identity type. This is the only required field when adding a system assigned identity to a resource.
   kind: enum
@@ -243,8 +241,8 @@ definitions:
     description: The policy effect is not enforced during resource creation or update.
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error Response
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
@@ -266,7 +264,7 @@ definitions:
     isReadyOnly: true
     description: The error details.
     types:
-    - uid: ErrorResponse
+    - uid: ErrorDetail
       isArray: true
   - name: additionalInfo
     isReadyOnly: true
@@ -291,7 +289,7 @@ definitions:
 examples:
 - name: Create or update a policy assignment
   request:
-    uri: PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2019-09-01
+    uri: PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2020-09-01
     body: >-
       {
         "properties": {
@@ -308,7 +306,12 @@ examples:
             "suffix": {
               "value": "-LC"
             }
-          }
+          },
+          "nonComplianceMessages": [
+            {
+              "message": "Resource names must start with 'DeptA' and end with '-LC'."
+            }
+          ]
         }
       }
   responses:
@@ -332,15 +335,74 @@ examples:
             }
           },
           "enforcementMode": "Default",
-          "scope": "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2"
+          "scope": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+          "nonComplianceMessages": [
+            {
+              "message": "Resource names must start with 'DeptA' and end with '-LC'."
+            }
+          ]
         },
         "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming",
         "type": "Microsoft.Authorization/policyAssignments",
         "name": "EnforceNaming"
       }
+- name: Create or update a policy assignment with multiple non-compliance messages
+  request:
+    uri: PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/securityInitAssignment?api-version=2020-09-01
+    body: >-
+      {
+        "properties": {
+          "displayName": "Enforce security policies",
+          "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policySetDefinitions/securityInitiative",
+          "nonComplianceMessages": [
+            {
+              "message": "Resources must comply with all internal security policies. See <internal site URL> for more info."
+            },
+            {
+              "message": "Resource names must start with 'DeptA' and end with '-LC'.",
+              "policyDefinitionReferenceId": "10420126870854049575"
+            },
+            {
+              "message": "Storage accounts must have firewall rules configured.",
+              "policyDefinitionReferenceId": "8572513655450389710"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "displayName": "Enforce security policies",
+          "metadata": {
+            "assignedBy": "User 1"
+          },
+          "policyDefinitionId": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policySetDefinitions/securityInitiative",
+          "notScopes": [],
+          "enforcementMode": "Default",
+          "scope": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2",
+          "nonComplianceMessages": [
+            {
+              "message": "Resources must comply with all internal security policies. See <internal site URL> for more info."
+            },
+            {
+              "message": "Resource names must start with 'DeptA' and end with '-LC'.",
+              "policyDefinitionReferenceId": "10420126870854049575"
+            },
+            {
+              "message": "Storage accounts must have firewall rules configured.",
+              "policyDefinitionReferenceId": "8572513655450389710"
+            }
+          ]
+        },
+        "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/securityInitAssignment",
+        "type": "Microsoft.Authorization/policyAssignments",
+        "name": "securityInitAssignment"
+      }
 - name: Create or update a policy assignment with a managed identity
   request:
-    uri: PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2019-09-01
+    uri: PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2020-09-01
     body: >-
       {
         "location": "eastus",
@@ -386,7 +448,7 @@ examples:
             }
           },
           "enforcementMode": "Default",
-          "scope": "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2"
+          "scope": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2"
         },
         "identity": {
           "type": "SystemAssigned",
@@ -400,7 +462,7 @@ examples:
       }
 - name: Create or update a policy assignment without enforcing policy effect during resource creation or update.
   request:
-    uri: PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2019-09-01
+    uri: PUT https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming?api-version=2020-09-01
     body: >-
       {
         "properties": {
@@ -442,7 +504,7 @@ examples:
             }
           },
           "enforcementMode": "DoNotEnforce",
-          "scope": "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2"
+          "scope": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2"
         },
         "id": "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyAssignments/EnforceNaming",
         "type": "Microsoft.Authorization/policyAssignments",
