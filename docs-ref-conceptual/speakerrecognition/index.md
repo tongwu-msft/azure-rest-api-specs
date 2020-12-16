@@ -3,10 +3,9 @@ title: Speaker Recognition APIs
 description: Introduction for Speaker Recognition APIs
 author: kiliu
 ms.author: kiliu
-ms.manager: 
 ms.date: 05/28/2020
 ms.topic: reference
-ms.service: cognitiveservices
+ms.service: cognitive-services
 ms.devlang: rest-api
 ---
 
