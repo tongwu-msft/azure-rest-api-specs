@@ -11,7 +11,7 @@ ms.devlang: rest-api
 ---
 # Common Error Codes
 
-When making requests against Azure Communication Services' REST API, you may come across error codes, which signal that an error has occurred. To help you with troubleshooting, a list of common error codes is provided below for various scenarios. For additional information on troubleshooting these error codes, see our [TroubleShooting Guide](https://docs.microsoft.com/azure/communication-services/concepts/troubleshooting-info).
+When making requests against Azure Communication Services' REST API, you may come across error codes, which signal that an error has occurred. To help you with troubleshooting, a list of common error codes is provided below for various scenarios. For more information on troubleshooting these error codes, see our [TroubleShooting Guide](https://docs.microsoft.com/azure/communication-services/concepts/troubleshooting-info).
 
 ## HTTP Status Codes
 
@@ -20,10 +20,10 @@ When making HTTP Requests, you will receive standard [HTTP Status Codes](https:/
 | HTTP status code          | Description                                                                                                                                                                                                                 |
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 400 Bad Request           | The request received could not be understood by the service. Double check the documentation and ensure you're sending everything required and in the correct format.                                                        |
-| 401 Unauthorized          | The request could not be authenticated. This could mean that the authentication being used is invalid, expired, or not suitable for this request. Check our [Authentication Guide](authentication.md) for more information. |
+| 401 Unauthorized          | The request could not be authenticated. This error could mean that the authentication being used is invalid, expired, or not suitable for this request. Check our [Authentication Guide](authentication.md) for more information. |
 | 403 Forbidden             | The request was authorized, but has insufficient permissions to carry out this operation. Double check our [Authentication Guide](authentication.md) for more information.                                                  |
 | 404 Not Found             | The resource or endpoint you're trying to access does not exist. Double check our documentation to ensure the resource/address you're trying to reach is correct.                                                           |
-| 422 Un-processable Entity | The body of the request could not be validated. Is it valid JSON?                                                                                                                                                           |
+| 422 Unprocessable Entity | The body of the request could not be validated. Is it valid JSON?                                                                                                                                                           |
 | 429 Too Many Requests     | The number of requests exceeded some limits places on this operation. Try again later.                                                                                                                                      |
 | 500 Internal Server Error | An internal error occurred.                                                                                                                                                                                                 |
 
