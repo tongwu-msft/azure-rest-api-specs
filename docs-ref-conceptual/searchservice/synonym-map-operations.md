@@ -1,7 +1,7 @@
 ---
 title: Synonym Map Operations (Azure Cognitive Search REST API)
 description: "Synonym maps contain custom rules to expand or rewrite a search query in Azure Cognitive Search."
-ms.date: 06/30/2020
+ms.date: 12/18/2020
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -19,11 +19,16 @@ ms.manager: nitinme
 
   Setting up synonyms in your search application is a two-step process:
 
-  1.	Add a synonym map to your search service. You can use the search service REST API to create and manage **synonym maps**. See the section below titled "Operations on synonym maps" for the supported operations and [Create Synonym Map](create-synonym-map.md) for the request body.
+  1. Add a synonym map to your search service. You can use the search service REST API to create and manage **synonym maps**. See the section below titled "Operations on synonym maps" for the supported operations and [Create Synonym Map](create-synonym-map.md) for the request body.
 
-  2.	Configure a searchable field to use the synonym map in the index definition. A new field property **synonymMaps** specifies a synonym map to use for the field.
+ 1.	Configure a searchable field to use the synonym map in the index definition. A new field property **synonymMaps** specifies a synonym map to use for the field.
 
-  For example, the index definition below configures the 'name' field to use the synonym map 'mysynonymmap'.
+1. Query as usual using terms or phrases (enclosed in quotation marks). Two-part terms, such as "hot tub", must be expressed as a phrase, otherwise each term is evaluated independently. 
+
+## Example
+
+The index definition below configures the 'name' field to use the synonym map 'mysynonymmap'.
+
   ```http 
 	POST https://[service name].search.windows.net/indexes?api-version=2020-06-30
 	api-key: [admin key]
@@ -51,7 +56,8 @@ ms.manager: nitinme
 
   You can update the **synonymMaps** properties of existing fields at any time.
 
-## Operations on synonym maps  
+## Operations on synonym maps
+
  The REST API for **synonym maps** includes the operations shown in the following table.  
 
  [Create Synonym Map](create-synonym-map.md)  
