@@ -13,7 +13,7 @@ ms.manager: nitinme
 ---
 # Create Synonym Map (Azure Cognitive Search REST API)
 
-In Azure Cognitive Search, a synonym map contains a list of rules for expanding or rewriting a search query to equivalent terms. For hands-on experience, see this [.NET code sample](https://github.com/Azure-Samples/search-dotnet-getting-started/tree/master/DotNetHowToSynonyms) or this [tutorial](https://docs.microsoft.com/azure/search/search-synonyms-tutorial-sdk) to learn more about synonyms.
+In Azure Cognitive Search, a synonym map contains a list of rules for expanding or rewriting a search query to equivalent terms. 
 
 You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
 
@@ -90,7 +90,7 @@ The following JSON is a high-level representation of the main parts of the defin
      USA, United States, United States of America
      ```
   
-     The rule expands the search to all equivalent terms or phrases. For example, a search document that contains `USA` will match on queries that contain the terms or phrases `USA`, `"United States"`, or `"United States of America"`.
+     The rule expands the search to all equivalent terms or phrases. For example, a search document that contains `USA` will match on queries that contain the term `USA` or the phrases `"United States"`, or `"United States of America"`.
 
   1. Explicit mapping is denoted by an arrow "=>". When specified, a term sequence of a search query that matches the left-hand side of "=>" will be replaced with the alternatives on the right-hand side.
   
@@ -99,12 +99,6 @@ The following JSON is a high-level representation of the main parts of the defin
      ```
 
      Given the rule, the search queries `U.S.` or `"United States"` will all be rewritten to `USA`. Explicit mapping only applies in the direction specified and does not rewrite the query `USA` to `"United States"` in this case.
-
-     If phrase queries are counter-intuitive to your users, you could break up the phrase into individual terms:
-
-     ```json
-     USA, U.S.A., U.S., United, States, America => USA
-     ```
 
 ###  <a name="bkmk_encryption"> Encryption Key  </a>
 
@@ -126,6 +120,7 @@ While synonym maps are encrypted by default using [service-managed keys](https:/
 > Encryption with customer-managed keys is not available for free services. For billable services, it is only available for search services created on or after 2019-01-01.
 
 ## Response
+
  For a successful request: 201 Created.  
 
  ## <a name="example-request"> Examples  </a>
@@ -141,7 +136,8 @@ While synonym maps are encrypted by default using [service-managed keys](https:/
 
 ## See also  
 
-+ [Azure Cognitive Search REST APIs](index.md)   
-+ [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
-+ [Synonym map operations &#40;Azure Cognitive Search REST API&#41;](synonym-map-operations.md)   
-+ [Naming rules &#40;Azure Cognitive Search&#41;](naming-rules.md)   
++ [C# code sample](https://github.com/Azure-Samples/search-dotnet-getting-started/tree/master/DotNetHowToSynonyms)
+
++ [Synonym C# tutorial](https://docs.microsoft.com/azure/search/search-synonyms-tutorial-sdk) to learn more about synonyms.
+
++ [Synonyms in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-synonyms)
