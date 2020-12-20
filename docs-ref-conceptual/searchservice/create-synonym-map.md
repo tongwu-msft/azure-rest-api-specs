@@ -1,7 +1,7 @@
 ---
 title: "Create Synonym Map (Azure Cognitive Search REST API)"
 description: "A synonym map to expand or rewrite a search query can be created using REST API in Azure Cognitive Search."
-ms.date: 06/30/2020
+ms.date: 12/18/2020
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -13,11 +13,11 @@ ms.manager: nitinme
 ---
 # Create Synonym Map (Azure Cognitive Search REST API)
 
-In Azure Cognitive Search, a synonym map contains a list of rules for expanding or rewriting a search query to equivalent terms. For hands-on experience, see this [.NET code sample](https://github.com/Azure-Samples/search-dotnet-getting-started/tree/master/DotNetHowToSynonyms) or this [tutorial](https://docs.microsoft.com/azure/search/search-synonyms-tutorial-sdk) to learn more about synonyms.
+In Azure Cognitive Search, a synonym map contains a list of rules for expanding or rewriting a search query to equivalent terms. 
 
 You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
 
-```http    
+```http
 POST https://[service name].search.windows.net/synonymmaps?api-version=[api-version]      
   Content-Type: application/json  
   api-key: [admin key]  
@@ -25,7 +25,7 @@ POST https://[service name].search.windows.net/synonymmaps?api-version=[api-vers
 
 Alternatively, you can use PUT and specify the synonym map name on the URI. 
 
-```http    
+```http
 PUT https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-version=[api-version]  
   Content-Type: application/json  
   api-key: [admin key]  
@@ -34,7 +34,7 @@ PUT https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-
  HTTPS is required for all service requests. If the synonym map doesn't exist, it is created. If it already exists, it is updated to the new definition.
 
  > [!NOTE]  
->  The maximum number of synonym maps that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).  
+> The maximum number of synonym maps that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).  
 
 ## URI Parameters
 
@@ -44,7 +44,8 @@ PUT https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-
 | synonym map name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
 | api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
-## Request Headers 
+## Request Headers
+
  The following table describes the required and optional request headers.  
 
 |Fields              |Description      |  
@@ -52,9 +53,10 @@ PUT https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
-You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).
 
 ## Request Body
+
  The body of the request contains a synonym map definition, which includes the format of the synonym map and the list of rules in the specified format.
 
 The following JSON is a high-level representation of the main parts of the definition.
@@ -78,7 +80,6 @@ The following JSON is a high-level representation of the main parts of the defin
 |synonyms|Required. Synonym rules separated by the new line ('\n') character.|
 |encryptionKey|Optional. |
 
-
 ### Apache Solr synonym format
 
   The Apache Solr format supports equivalent and explicit synonym mappings.
@@ -89,15 +90,15 @@ The following JSON is a high-level representation of the main parts of the defin
      USA, United States, United States of America
      ```
   
-     The rule expands the search to all equivalent terms. For example, the search query "USA" will be expanded to "USA" OR "United States" OR "United States of America".
+     The rule expands the search to all equivalent terms or phrases. For example, a search document that contains `USA` will match on queries that contain the term `USA` or the phrases `"United States"`, or `"United States of America"`.
 
-  2. Explicit mapping is denoted by an arrow "=>". When specified, a term sequence of a search query that matches the left-hand side of "=>" will be replaced with the alternatives on the right-hand side.
+  1. Explicit mapping is denoted by an arrow "=>". When specified, a term sequence of a search query that matches the left-hand side of "=>" will be replaced with the alternatives on the right-hand side.
   
      ```json
-     Washington, Wash., WA => WA
+     USA, U.S.A., U.S., United States, United States of America => USA
      ```
 
-     Given the rule, the search queries "Washington", "Wash." or "WA" will all be rewritten to "WA". Explicit mapping only applies in the direction specified and does not rewrite the query "WA" to "Washington" in this case.
+     Given the rule, the search queries `U.S.` or `"United States"` will all be rewritten to `USA`. Explicit mapping only applies in the direction specified and does not rewrite the query `USA` to `"United States"` in this case.
 
 ###  <a name="bkmk_encryption"> Encryption Key  </a>
 
@@ -118,7 +119,8 @@ While synonym maps are encrypted by default using [service-managed keys](https:/
 > [!NOTE]
 > Encryption with customer-managed keys is not available for free services. For billable services, it is only available for search services created on or after 2019-01-01.
 
-## Response  
+## Response
+
  For a successful request: 201 Created.  
 
  ## <a name="example-request"> Examples  </a>
@@ -134,7 +136,8 @@ While synonym maps are encrypted by default using [service-managed keys](https:/
 
 ## See also  
 
-+ [Azure Cognitive Search REST APIs](index.md)   
-+ [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
-+ [Synonym map operations &#40;Azure Cognitive Search REST API&#41;](synonym-map-operations.md)   
-+ [Naming rules &#40;Azure Cognitive Search&#41;](naming-rules.md)   
++ [C# code sample](https://github.com/Azure-Samples/search-dotnet-getting-started/tree/master/DotNetHowToSynonyms)
+
++ [Synonym C# tutorial](https://docs.microsoft.com/azure/search/search-synonyms-tutorial-sdk) to learn more about synonyms.
+
++ [Synonyms in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-synonyms)
