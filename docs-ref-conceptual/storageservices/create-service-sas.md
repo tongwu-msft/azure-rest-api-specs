@@ -3,7 +3,7 @@ title: Create a service SAS - Azure Storage
 description: A service shared access signature (SAS) delegates access to a resource in the Blob, Queue, Table, or File service.
 author: tamram
 
-ms.date: 11/23/2020
+ms.date: 12/22/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -418,7 +418,11 @@ When constructing the string to be signed, keep in mind the following:
   
     For example, examples of valid permissions settings for a container include `rw`, `rd`, `rl`, `wd`, `wl`, and `rl`. Examples of invalid settings include `wr`, `dr`, `lr`, and `dw`. Specifying a permission designation more than once is not permitted.  
   
-- The `canonicalizedResource` portion of the string is a canonical path to the signed resource. It must include the service name (blob, table, queue or file) for version 2015-02-21 or later, the storage account name, and the resource name, and must be URL-decoded. Names of blobs must include the blob’s container. Table names must be lower-case. The following examples show how to construct the `canonicalizedResource` portion of the string, depending on the type of resource.  
+- The `canonicalizedResource` portion of the string is a canonical path to the signed resource. It must include the service name (blob, table, queue or file) for version 2015-02-21 or later, the storage account name, and the resource name, and must be URL-decoded. Names of blobs must include the blob’s container. Table names must be lower-case.
+
+The canonicalized resource string for a container, queue, table, or file share must omit the trailing slash ('/') for a SAS that provides access to that object.
+
+The following examples show how to construct the `canonicalizedResource` portion of the string, depending on the type of resource.  
   
      **Containers**  
   

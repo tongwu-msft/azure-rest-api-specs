@@ -3,7 +3,7 @@ title: Create a user delegation SAS - Azure Storage
 description: A SAS token for access to a container, directory, or blob may be secured by using either Azure AD credentials or an account key. A SAS secured with Azure AD credentials is called a user delegation SAS, because the token used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice. 
 author: tamram
 
-ms.date: 12/08/2020
+ms.date: 12/22/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -336,7 +336,11 @@ StringToSign = signedPermissions + "\n" +
 
 #### Canonicalized resource
 
-The `canonicalizedresouce` portion of the string is a canonical path to the signed resource. It must include the Blob service endpoint and the resource name, and must be URL-decoded. A blob path must include its container. A directory path must include the number of subdirectories corresponding to the `sdd` parameter. The following examples show how to construct the `canonicalizedResource` portion of the string, depending on the type of resource.  
+The `canonicalizedresouce` portion of the string is a canonical path to the signed resource. It must include the Blob service endpoint and the resource name, and must be URL-decoded. A blob path must include its container. A directory path must include the number of subdirectories corresponding to the `sdd` parameter. 
+
+The canonicalized resource string for a container must omit the trailing slash ('/') for a SAS that provides access to that container.
+
+The following examples show how to construct the `canonicalizedResource` portion of the string, depending on the type of resource.  
   
 ##### Container example (Azure Blob storage)
   
