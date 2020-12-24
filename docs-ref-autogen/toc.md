@@ -10268,7 +10268,6 @@
 ### [Delete](securitycenter/SecurityContacts/Delete.yml)
 ### [Get](securitycenter/SecurityContacts/Get.yml)
 ### [List](securitycenter/SecurityContacts/List.yml)
-### [Update](securitycenter/SecurityContacts/Update.yml)
 ## Settings
 ### [Overview](securitycenter/Settings.yml)
 ### [Get](securitycenter/Settings/Get.yml)
@@ -10414,13 +10413,6 @@
 ##### [List](servicebus/preview/Namespaces/List.yml)
 ##### [List By Resource Group](servicebus/preview/Namespaces/ListByResourceGroup.yml)
 ##### [Update](servicebus/preview/Namespaces/Update.yml)
-#### Network Rule Sets
-##### [Overview](servicebus/preview/Network%20Rule%20Sets.yml)
-##### [Create Or Update Network Rule Set](servicebus/preview/Network%20Rule%20Sets/CreateOrUpdateNetworkRuleSet.yml)
-##### [Get Network Rule Set](servicebus/preview/Network%20Rule%20Sets/GetNetworkRuleSet.yml)
-#### Operations
-##### [Overview](servicebus/preview/Operations.yml)
-##### [List](servicebus/preview/Operations/List.yml)
 #### Private Endpoint Connections
 ##### [Overview](servicebus/preview/PrivateEndpointConnections.yml)
 ##### [Create Or Update](servicebus/preview/PrivateEndpointConnections/CreateOrUpdate.yml)
@@ -15245,6 +15237,9 @@
 ### Subscription Factory
 #### [Overview](subscription/2018-03-01-preview/SubscriptionFactory.yml)
 #### [Create Subscription In Enrollment Account](subscription/2018-03-01-preview/SubscriptionFactory/CreateSubscriptionInEnrollmentAccount.yml)
+### Subscription Operation
+#### [Overview](subscription/2018-03-01-preview/SubscriptionOperation.yml)
+#### [Get](subscription/2018-03-01-preview/SubscriptionOperation/Get.yml)
 ### Subscription Operations
 #### [Overview](subscription/2018-03-01-preview/SubscriptionOperations.yml)
 #### [List](subscription/2018-03-01-preview/SubscriptionOperations/List.yml)
