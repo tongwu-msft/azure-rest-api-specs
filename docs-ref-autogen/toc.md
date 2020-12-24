@@ -10414,13 +10414,6 @@
 ##### [List](servicebus/preview/Namespaces/List.yml)
 ##### [List By Resource Group](servicebus/preview/Namespaces/ListByResourceGroup.yml)
 ##### [Update](servicebus/preview/Namespaces/Update.yml)
-#### Network Rule Sets
-##### [Overview](servicebus/preview/Network%20Rule%20Sets.yml)
-##### [Create Or Update Network Rule Set](servicebus/preview/Network%20Rule%20Sets/CreateOrUpdateNetworkRuleSet.yml)
-##### [Get Network Rule Set](servicebus/preview/Network%20Rule%20Sets/GetNetworkRuleSet.yml)
-#### Operations
-##### [Overview](servicebus/preview/Operations.yml)
-##### [List](servicebus/preview/Operations/List.yml)
 #### Private Endpoint Connections
 ##### [Overview](servicebus/preview/PrivateEndpointConnections.yml)
 ##### [Create Or Update](servicebus/preview/PrivateEndpointConnections/CreateOrUpdate.yml)
@@ -15245,6 +15238,9 @@
 ### Subscription Factory
 #### [Overview](subscription/2018-03-01-preview/SubscriptionFactory.yml)
 #### [Create Subscription In Enrollment Account](subscription/2018-03-01-preview/SubscriptionFactory/CreateSubscriptionInEnrollmentAccount.yml)
+### Subscription Operation
+#### [Overview](subscription/2018-03-01-preview/SubscriptionOperation.yml)
+#### [Get](subscription/2018-03-01-preview/SubscriptionOperation/Get.yml)
 ### Subscription Operations
 #### [Overview](subscription/2018-03-01-preview/SubscriptionOperations.yml)
 #### [List](subscription/2018-03-01-preview/SubscriptionOperations/List.yml)
@@ -15359,6 +15355,12 @@
 ### [Get](synapse/IpFirewallRules/Get.yml)
 ### [List By Workspace](synapse/IpFirewallRules/ListByWorkspace.yml)
 ### [Replace All](synapse/IpFirewallRules/ReplaceAll.yml)
+## Keys
+### [Overview](synapse/Keys.yml)
+### [Create Or Update](synapse/Keys/CreateOrUpdate.yml)
+### [Delete](synapse/Keys/Delete.yml)
+### [Get](synapse/Keys/Get.yml)
+### [List By Workspace](synapse/Keys/ListByWorkspace.yml)
 ## Operations
 ### [Overview](synapse/Operations.yml)
 ### [Check Name Availability](synapse/Operations/CheckNameAvailability.yml)
@@ -15367,6 +15369,31 @@
 ### [Get Azure Async Header Result](synapse/Operations%20(Preview)/GetAzureAsyncHeaderResult.yml)
 ### [Get Location Header Result](synapse/Operations%20(Preview)/GetLocationHeaderResult.yml)
 ### [List](synapse/Operations%20(Preview)/List.yml)
+## Private Endpoint Connections
+### [Overview](synapse/PrivateEndpointConnections.yml)
+### [Create](synapse/PrivateEndpointConnections/Create.yml)
+### [Delete](synapse/PrivateEndpointConnections/Delete.yml)
+### [Get](synapse/PrivateEndpointConnections/Get.yml)
+### [List](synapse/PrivateEndpointConnections/List.yml)
+## Private Endpoint Connections Private Link Hub
+### [Overview](synapse/PrivateEndpointConnectionsPrivateLinkHub.yml)
+### [List](synapse/PrivateEndpointConnectionsPrivateLinkHub/List.yml)
+## Private Link Hubs
+### [Overview](synapse/PrivateLinkHubs.yml)
+### [Create Or Update](synapse/PrivateLinkHubs/CreateOrUpdate.yml)
+### [Delete](synapse/PrivateLinkHubs/Delete.yml)
+### [Get](synapse/PrivateLinkHubs/Get.yml)
+### [List](synapse/PrivateLinkHubs/List.yml)
+### [List By Resource Group](synapse/PrivateLinkHubs/ListByResourceGroup.yml)
+### [Update](synapse/PrivateLinkHubs/Update.yml)
+## Private Link Resources
+### [Overview](synapse/PrivateLinkResources.yml)
+### [Get](synapse/PrivateLinkResources/Get.yml)
+### [List](synapse/PrivateLinkResources/List.yml)
+## Restorable Dropped Sql Pools
+### [Overview](synapse/RestorableDroppedSqlPools.yml)
+### [Get](synapse/RestorableDroppedSqlPools/Get.yml)
+### [List By Workspace](synapse/RestorableDroppedSqlPools/ListByWorkspace.yml)
 ## Sql Pool Blob Auditing Policies
 ### [Overview](synapse/SqlPoolBlobAuditingPolicies.yml)
 ### [Create Or Update](synapse/SqlPoolBlobAuditingPolicies/CreateOrUpdate.yml)
@@ -15476,6 +15503,58 @@
 ### [Pause](synapse/SqlPools/Pause.yml)
 ### [Resume](synapse/SqlPools/Resume.yml)
 ### [Update](synapse/SqlPools/Update.yml)
+## Workspace Aad Admins
+### [Overview](synapse/WorkspaceAadAdmins.yml)
+### [Create Or Update](synapse/WorkspaceAadAdmins/CreateOrUpdate.yml)
+### [Delete](synapse/WorkspaceAadAdmins/Delete.yml)
+### [Get](synapse/WorkspaceAadAdmins/Get.yml)
+## Workspace Managed Identity Sql Control Settings
+### [Overview](synapse/WorkspaceManagedIdentitySqlControlSettings.yml)
+### [Create Or Update](synapse/WorkspaceManagedIdentitySqlControlSettings/CreateOrUpdate.yml)
+### [Get](synapse/WorkspaceManagedIdentitySqlControlSettings/Get.yml)
+## Workspace Managed Sql Server Blob Auditing Policies
+### [Overview](synapse/WorkspaceManagedSqlServerBlobAuditingPolicies.yml)
+### [Create Or Update](synapse/WorkspaceManagedSqlServerBlobAuditingPolicies/CreateOrUpdate.yml)
+### [Get](synapse/WorkspaceManagedSqlServerBlobAuditingPolicies/Get.yml)
+### [List By Workspace](synapse/WorkspaceManagedSqlServerBlobAuditingPolicies/ListByWorkspace.yml)
+## Workspace Managed Sql Server Extended Blob Auditing Policies
+### [Overview](synapse/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies.yml)
+### [Create Or Update](synapse/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies/CreateOrUpdate.yml)
+### [Get](synapse/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies/Get.yml)
+### [List By Workspace](synapse/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies/ListByWorkspace.yml)
+## Workspace Managed Sql Server Recoverable Sqlpools
+### [Overview](synapse/WorkspaceManagedSqlServerRecoverableSqlpools.yml)
+### [List](synapse/WorkspaceManagedSqlServerRecoverableSqlpools/List.yml)
+## Workspace Managed Sql Server Security Alert Policy
+### [Overview](synapse/WorkspaceManagedSqlServerSecurityAlertPolicy.yml)
+### [Create Or Update](synapse/WorkspaceManagedSqlServerSecurityAlertPolicy/CreateOrUpdate.yml)
+### [Get](synapse/WorkspaceManagedSqlServerSecurityAlertPolicy/Get.yml)
+### [List](synapse/WorkspaceManagedSqlServerSecurityAlertPolicy/List.yml)
+## Workspace Managed Sql Server Usages
+### [Overview](synapse/WorkspaceManagedSqlServerUsages.yml)
+### [List](synapse/WorkspaceManagedSqlServerUsages/List.yml)
+## Workspace Managed Sql Server Vulnerability Assessments
+### [Overview](synapse/WorkspaceManagedSqlServerVulnerabilityAssessments.yml)
+### [Create Or Update](synapse/WorkspaceManagedSqlServerVulnerabilityAssessments/CreateOrUpdate.yml)
+### [Delete](synapse/WorkspaceManagedSqlServerVulnerabilityAssessments/Delete.yml)
+### [Get](synapse/WorkspaceManagedSqlServerVulnerabilityAssessments/Get.yml)
+### [List](synapse/WorkspaceManagedSqlServerVulnerabilityAssessments/List.yml)
+## Workspace Sql Aad Admins
+### [Overview](synapse/WorkspaceSqlAadAdmins.yml)
+### [Create Or Update](synapse/WorkspaceSqlAadAdmins/CreateOrUpdate.yml)
+### [Delete](synapse/WorkspaceSqlAadAdmins/Delete.yml)
+### [Get](synapse/WorkspaceSqlAadAdmins/Get.yml)
+## WorkspaceManagedSqlServerRecoverableSqlPools(Server)
+### [Overview](synapse/WorkspaceManagedSqlServerRecoverableSqlPools(Server).yml)
+### [Get](synapse/WorkspaceManagedSqlServerRecoverableSqlPools(Server)/Get.yml)
+## Workspaces
+### [Overview](synapse/Workspaces.yml)
+### [Create Or Update](synapse/Workspaces/CreateOrUpdate.yml)
+### [Delete](synapse/Workspaces/Delete.yml)
+### [Get](synapse/Workspaces/Get.yml)
+### [List](synapse/Workspaces/List.yml)
+### [List By Resource Group](synapse/Workspaces/ListByResourceGroup.yml)
+### [Update](synapse/Workspaces/Update.yml)
 ## Data-plane
 ### Big Data Pools
 #### [Overview](synapse/data-plane/BigDataPools.yml)
@@ -15619,6 +15698,12 @@
 #### [Cancel Trigger Instance](synapse/data-plane/TriggerRun/CancelTriggerInstance.yml)
 #### [Query Trigger Runs By Workspace](synapse/data-plane/TriggerRun/QueryTriggerRunsByWorkspace.yml)
 #### [Rerun Trigger Instance](synapse/data-plane/TriggerRun/RerunTriggerInstance.yml)
+### Workspace
+#### [Overview](synapse/data-plane/Workspace.yml)
+#### [Get](synapse/data-plane/Workspace/Get.yml)
+### Workspace Git Repo Management
+#### [Overview](synapse/data-plane/WorkspaceGitRepoManagement.yml)
+#### [get Git Hub Access Token](synapse/data-plane/WorkspaceGitRepoManagement/getGitHubAccessToken.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
 ## Data Access (Gen2)
