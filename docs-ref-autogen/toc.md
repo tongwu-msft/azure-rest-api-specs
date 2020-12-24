@@ -15512,41 +15512,11 @@
 ### [Overview](synapse/WorkspaceManagedIdentitySqlControlSettings.yml)
 ### [Create Or Update](synapse/WorkspaceManagedIdentitySqlControlSettings/CreateOrUpdate.yml)
 ### [Get](synapse/WorkspaceManagedIdentitySqlControlSettings/Get.yml)
-## Workspace Managed Sql Server Blob Auditing Policies
-### [Overview](synapse/WorkspaceManagedSqlServerBlobAuditingPolicies.yml)
-### [Create Or Update](synapse/WorkspaceManagedSqlServerBlobAuditingPolicies/CreateOrUpdate.yml)
-### [Get](synapse/WorkspaceManagedSqlServerBlobAuditingPolicies/Get.yml)
-### [List By Workspace](synapse/WorkspaceManagedSqlServerBlobAuditingPolicies/ListByWorkspace.yml)
-## Workspace Managed Sql Server Extended Blob Auditing Policies
-### [Overview](synapse/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies.yml)
-### [Create Or Update](synapse/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies/CreateOrUpdate.yml)
-### [Get](synapse/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies/Get.yml)
-### [List By Workspace](synapse/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies/ListByWorkspace.yml)
-## Workspace Managed Sql Server Recoverable Sqlpools
-### [Overview](synapse/WorkspaceManagedSqlServerRecoverableSqlpools.yml)
-### [List](synapse/WorkspaceManagedSqlServerRecoverableSqlpools/List.yml)
-## Workspace Managed Sql Server Security Alert Policy
-### [Overview](synapse/WorkspaceManagedSqlServerSecurityAlertPolicy.yml)
-### [Create Or Update](synapse/WorkspaceManagedSqlServerSecurityAlertPolicy/CreateOrUpdate.yml)
-### [Get](synapse/WorkspaceManagedSqlServerSecurityAlertPolicy/Get.yml)
-### [List](synapse/WorkspaceManagedSqlServerSecurityAlertPolicy/List.yml)
-## Workspace Managed Sql Server Usages
-### [Overview](synapse/WorkspaceManagedSqlServerUsages.yml)
-### [List](synapse/WorkspaceManagedSqlServerUsages/List.yml)
-## Workspace Managed Sql Server Vulnerability Assessments
-### [Overview](synapse/WorkspaceManagedSqlServerVulnerabilityAssessments.yml)
-### [Create Or Update](synapse/WorkspaceManagedSqlServerVulnerabilityAssessments/CreateOrUpdate.yml)
-### [Delete](synapse/WorkspaceManagedSqlServerVulnerabilityAssessments/Delete.yml)
-### [Get](synapse/WorkspaceManagedSqlServerVulnerabilityAssessments/Get.yml)
-### [List](synapse/WorkspaceManagedSqlServerVulnerabilityAssessments/List.yml)
 ## Workspace Sql Aad Admins
 ### [Overview](synapse/WorkspaceSqlAadAdmins.yml)
 ### [Create Or Update](synapse/WorkspaceSqlAadAdmins/CreateOrUpdate.yml)
 ### [Delete](synapse/WorkspaceSqlAadAdmins/Delete.yml)
 ### [Get](synapse/WorkspaceSqlAadAdmins/Get.yml)
-## WorkspaceManagedSqlServerRecoverableSqlPools(Server)
-### [Overview](synapse/WorkspaceManagedSqlServerRecoverableSqlPools(Server).yml)
-### [Get](synapse/WorkspaceManagedSqlServerRecoverableSqlPools(Server)/Get.yml)
 ## Workspaces
 ### [Overview](synapse/Workspaces.yml)
 ### [Create Or Update](synapse/Workspaces/CreateOrUpdate.yml)
@@ -15704,6 +15674,37 @@
 ### Workspace Git Repo Management
 #### [Overview](synapse/data-plane/WorkspaceGitRepoManagement.yml)
 #### [get Git Hub Access Token](synapse/data-plane/WorkspaceGitRepoManagement/getGitHubAccessToken.yml)
+## Sql Server
+### Workspace Managed Sql Server Blob Auditing Policies
+#### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerBlobAuditingPolicies.yml)
+#### [Create Or Update](synapse/sqlserver/WorkspaceManagedSqlServerBlobAuditingPolicies/CreateOrUpdate.yml)
+#### [Get](synapse/sqlserver/WorkspaceManagedSqlServerBlobAuditingPolicies/Get.yml)
+#### [List By Workspace](synapse/sqlserver/WorkspaceManagedSqlServerBlobAuditingPolicies/ListByWorkspace.yml)
+### Workspace Managed Sql Server Extended Blob Auditing Policies
+#### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies.yml)
+#### [Create Or Update](synapse/sqlserver/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies/CreateOrUpdate.yml)
+#### [Get](synapse/sqlserver/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies/Get.yml)
+#### [List By Workspace](synapse/sqlserver/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies/ListByWorkspace.yml)
+### Workspace Managed Sql Server Recoverable Sqlpools
+#### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlpools.yml)
+#### [List](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlpools/List.yml)
+### Workspace Managed Sql Server Security Alert Policy
+#### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerSecurityAlertPolicy.yml)
+#### [Create Or Update](synapse/sqlserver/WorkspaceManagedSqlServerSecurityAlertPolicy/CreateOrUpdate.yml)
+#### [Get](synapse/sqlserver/WorkspaceManagedSqlServerSecurityAlertPolicy/Get.yml)
+#### [List](synapse/sqlserver/WorkspaceManagedSqlServerSecurityAlertPolicy/List.yml)
+### Workspace Managed Sql Server Usages
+#### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerUsages.yml)
+#### [List](synapse/sqlserver/WorkspaceManagedSqlServerUsages/List.yml)
+### Workspace Managed Sql Server Vulnerability Assessments
+#### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerVulnerabilityAssessments.yml)
+#### [Create Or Update](synapse/sqlserver/WorkspaceManagedSqlServerVulnerabilityAssessments/CreateOrUpdate.yml)
+#### [Delete](synapse/sqlserver/WorkspaceManagedSqlServerVulnerabilityAssessments/Delete.yml)
+#### [Get](synapse/sqlserver/WorkspaceManagedSqlServerVulnerabilityAssessments/Get.yml)
+#### [List](synapse/sqlserver/WorkspaceManagedSqlServerVulnerabilityAssessments/List.yml)
+### WorkspaceManagedSqlServerRecoverableSqlPools 2
+#### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlPools%202.yml)
+#### [Get](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlPools%202/Get.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
 ## Data Access (Gen2)

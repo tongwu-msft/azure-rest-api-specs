@@ -1,15 +1,15 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.synapse.workspacemanagedsqlserverblobauditingpolicies.listbyworkspace
+uid: management.azure.com.synapse.sqlserver.workspacemanagedsqlserverextendedblobauditingpolicies.listbyworkspace
 name: List By Workspace
 service: Synapse
-groupName: Workspace Managed Sql Server Blob Auditing Policies
+groupName: Workspace Managed Sql Server Extended Blob Auditing Policies
 apiVersion: 2019-06-01-preview
-summary: "List workspace server's blob auditing policies.  \nList workspace managed sql server's blob auditing policies."
+summary: "List server's extended blob auditing policies.  \nList workspace managed sql server's extended blob auditing policies."
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/auditingSettings?api-version=2019-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/extendedAuditingSettings?api-version=2019-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,41 +38,44 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Successfully retrieved auditing settings.
+  description: Successfully retrieved extended auditing settings.
   types:
-  - uid: ServerBlobAuditingPolicyListResult
+  - uid: ExtendedServerBlobAuditingPolicyListResult
 - name: Other Status Codes
   description: >-
     *** Error Responses: ***
 
-     * 404 SubscriptionDoesNotHaveServer - The requested server was not found.
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
 
      * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
 
-     * 409 UnsupportedWorkspaceType - Unsupported operation for the workspace type.
-
+     * 409 UnsupportedWorkspaceType - Unsupported operation for the workspace type.n
      * 500 InternalServerError - Something went wrong.
 requestHeader: []
 definitions:
-- name: ServerBlobAuditingPolicyListResult
-  description: A list of server auditing settings.
+- name: ExtendedServerBlobAuditingPolicyListResult
+  description: A list of server extended auditing settings.
   kind: object
   properties:
   - name: value
     isReadyOnly: true
     description: Array of results.
     types:
-    - uid: ServerBlobAuditingPolicy
+    - uid: ExtendedServerBlobAuditingPolicy
       isArray: true
   - name: nextLink
     isReadyOnly: true
     description: Link to retrieve next page of results.
     types:
     - uid: string
-- name: ServerBlobAuditingPolicy
-  description: A server blob auditing policy.
+- name: ExtendedServerBlobAuditingPolicy
+  description: An extended server blob auditing policy.
   kind: object
   properties:
+  - name: properties.predicateExpression
+    description: Specifies condition of where clause when creating an audit.
+    types:
+    - uid: string
   - name: properties.state
     description: Specifies the state of the policy. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required.
     types:
@@ -240,18 +243,18 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get blob auditing policy of workspace manged sql Server
+- name: Get workspace managed sql server's extended blob auditing settings
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/wsg-7398/providers/Microsoft.Synapse/workspaces/testWorkspace/auditingSettings?api-version=2019-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/wsg-7398/providers/Microsoft.Synapse/workspaces/testWorkspace/extendedAuditingSettings?api-version=2019-06-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/wsg-7398/providers/Microsoft.Synapse/workspaces/testWorkspace/auditingSettings/default",
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/wsg-7398/providers/Microsoft.Synapse/workspaces/testWorkspace/extendedAuditingSettings/default",
             "name": "default",
-            "type": "Microsoft.Synapse/workspaces/auditingSettings",
+            "type": "Microsoft.Synapse/workspaces/extendedAuditingSettings",
             "properties": {
               "state": "Disabled",
               "storageEndpoint": "",
@@ -259,6 +262,7 @@ examples:
               "auditActionsAndGroups": [],
               "storageAccountSubscriptionId": "00000000-0000-0000-0000-000000000000",
               "isStorageSecondaryKeyInUse": false,
+              "predicateExpression": "object_name = 'SensitiveData'",
               "isAzureMonitorTargetEnabled": false
             }
           }
