@@ -7866,6 +7866,43 @@
 ### [Overview](maintenance/Updates.yml)
 ### [List](maintenance/Updates/List.yml)
 ### [List Parent](maintenance/Updates/ListParent.yml)
+# Managed Applications
+## [Overview](../docs-ref-conceptual/managedapplications/index.md)
+## Application Definitions
+### [Overview](managedapplications/ApplicationDefinitions.yml)
+### [Create Or Update](managedapplications/ApplicationDefinitions/CreateOrUpdate.yml)
+### [Create Or Update By Id](managedapplications/ApplicationDefinitions/CreateOrUpdateById.yml)
+### [Delete](managedapplications/ApplicationDefinitions/Delete.yml)
+### [Delete By Id](managedapplications/ApplicationDefinitions/DeleteById.yml)
+### [Get](managedapplications/ApplicationDefinitions/Get.yml)
+### [Get By Id](managedapplications/ApplicationDefinitions/GetById.yml)
+### [List By Resource Group](managedapplications/ApplicationDefinitions/ListByResourceGroup.yml)
+## Applications
+### [Overview](managedapplications/Applications.yml)
+### [Create Or Update](managedapplications/Applications/CreateOrUpdate.yml)
+### [Create Or Update By Id](managedapplications/Applications/CreateOrUpdateById.yml)
+### [Delete](managedapplications/Applications/Delete.yml)
+### [Delete By Id](managedapplications/Applications/DeleteById.yml)
+### [Get](managedapplications/Applications/Get.yml)
+### [Get By Id](managedapplications/Applications/GetById.yml)
+### [List By Resource Group](managedapplications/Applications/ListByResourceGroup.yml)
+### [List By Subscription](managedapplications/Applications/ListBySubscription.yml)
+### [Refresh Permissions](managedapplications/Applications/RefreshPermissions.yml)
+### [Update](managedapplications/Applications/Update.yml)
+### [Update By Id](managedapplications/Applications/UpdateById.yml)
+## Jit Requests
+### [Overview](managedapplications/JitRequests.yml)
+### [Get](managedapplications/JitRequests/Get.yml)
+### [Update](managedapplications/JitRequests/Update.yml)
+## Jit Requests2
+### [Overview](managedapplications/Jit%20Requests2.yml)
+### [Create Or Update](managedapplications/Jit%20Requests2/CreateOrUpdate.yml)
+### [Delete](managedapplications/Jit%20Requests2/Delete.yml)
+### [List By Resource Group](managedapplications/Jit%20Requests2/ListByResourceGroup.yml)
+### [List By Subscription](managedapplications/Jit%20Requests2/ListBySubscription.yml)
+## List Operations
+### [Overview](managedapplications/ListOperations.yml)
+### [List Operations](managedapplications/ListOperations/ListOperations.yml)
 # Managed Identity
 ## [Overview](../docs-ref-conceptual/managedidentity/index.md)
 ## Operations
@@ -10414,13 +10451,6 @@
 ##### [List](servicebus/preview/Namespaces/List.yml)
 ##### [List By Resource Group](servicebus/preview/Namespaces/ListByResourceGroup.yml)
 ##### [Update](servicebus/preview/Namespaces/Update.yml)
-#### Network Rule Sets
-##### [Overview](servicebus/preview/Network%20Rule%20Sets.yml)
-##### [Create Or Update Network Rule Set](servicebus/preview/Network%20Rule%20Sets/CreateOrUpdateNetworkRuleSet.yml)
-##### [Get Network Rule Set](servicebus/preview/Network%20Rule%20Sets/GetNetworkRuleSet.yml)
-#### Operations
-##### [Overview](servicebus/preview/Operations.yml)
-##### [List](servicebus/preview/Operations/List.yml)
 #### Private Endpoint Connections
 ##### [Overview](servicebus/preview/PrivateEndpointConnections.yml)
 ##### [Create Or Update](servicebus/preview/PrivateEndpointConnections/CreateOrUpdate.yml)
@@ -15245,6 +15275,9 @@
 ### Subscription Factory
 #### [Overview](subscription/2018-03-01-preview/SubscriptionFactory.yml)
 #### [Create Subscription In Enrollment Account](subscription/2018-03-01-preview/SubscriptionFactory/CreateSubscriptionInEnrollmentAccount.yml)
+### Subscription Operation
+#### [Overview](subscription/2018-03-01-preview/SubscriptionOperation.yml)
+#### [Get](subscription/2018-03-01-preview/SubscriptionOperation/Get.yml)
 ### Subscription Operations
 #### [Overview](subscription/2018-03-01-preview/SubscriptionOperations.yml)
 #### [List](subscription/2018-03-01-preview/SubscriptionOperations/List.yml)
