@@ -11,16 +11,16 @@ ms.date: 12/29/2020
 
 # Throttling
 
-IoT Central throttles API requests on a per application basis. This means that once the throttling limit has been exceeded for an application, subsequent API requests will not succeed and responses will contain the 429 response code. Throttling is in place to help the performance of the application so that it is accessible to end-users and programmatic clients.  
+IoT Central throttles API requests on a per application basis. This means that once the throttling limit has been reached for an application, subsequent API requests will not succeed, and responses will contain the 429 response code. Throttling is in place to help the performance of the application so that it is accessible to end-users and programmatic clients.  
 
-The IoT Central API uses rate-limit throttling, which means it allows a certain number of requests for an application in defined timespan before throttling.
+The IoT Central API uses rate-limit throttling, which means it allows a specific number of requests for an application in defined timespan before throttling.
 
-For every API operation, these are the limits:
+For every API operation, here are the limits:
 
 - **Throttling limit**: 10 requests per second per application
 - **Throttled response**: 429 Too Many Requests
 
-When your client receives a 429 response code, it should try to back off and send fewer requests concurrently. You should also try to identify other clients who may be making API requests at the same time which may contribute to the throttling limit.
+When your client receives a 429 response code, it should try to back off and send fewer requests concurrently. Try to identify any other clients who may be making API requests at the same time, as these requests may contribute to the throttling limit.
 
 ## Next steps
 
