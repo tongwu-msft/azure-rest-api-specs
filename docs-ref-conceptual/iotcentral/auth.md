@@ -9,9 +9,9 @@ ms.author: viviali
 ms.date: 12/29/2020
 ---
 
-# Authentication
+# Authentication and authorization
 
-Every REST API call that's made against an IoT Central application must include an Authorization header. The Authorization header must contain either an **API token** or an **AAD bearer token**. These tokens are used by IoT Central to determine if the caller has access to the application and what they have permissions to do within the application.
+Every REST API call that's made against an IoT Central application must include an Authorization header. The Authorization header must contain either an **API token** or an **AAD bearer token**. These tokens are used by IoT Central to determine who the caller is, and what they have access to within the application.
 
 ## API token
 API tokens are meant for service to service communication, without a signed-in user context. You can create an API token in your application, and assign it a role to grant access to resources within your application. 
@@ -19,8 +19,9 @@ API tokens are meant for service to service communication, without a signed-in u
 To create and use an API token:
 1. Open your IoT Central application in the browser.
 2. Go to *Administration/API tokens*
-3. Click *Generate token*. You'll be prompted to give it a name and choose a role. Generate the token and copy the value. The value is a secret and will only be shown once.
-4. When constructing an API request, add a header that looks like this:
+3. Click *Generate token*. You'll be prompted to give it a name and choose a role. The role determines what a client using this token is authorized to do in this application.
+4. Generate the token and copy the value. The value is a secret and will only be shown once.
+5. When constructing an API request, add a header that looks like this:
     |Header name| Header value|
     |--|---|
     |Authorization|\<API token value\>|

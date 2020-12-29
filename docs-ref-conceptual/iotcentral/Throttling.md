@@ -1,6 +1,6 @@
 ---
-title: Azure IoT Central REST API 
-description: The Azure IoT Central REST API allows you to develop client and web applications that use REST calls to work with IoT Central. The API surface lets you manage IoT Central applications programmatically. 
+title: Azure IoT Central REST API throttling
+description: Learn about throttling limits in the IoT Central REST API. 
 services: iot-central
 ms.service: iot-central
 ms.topic: reference
