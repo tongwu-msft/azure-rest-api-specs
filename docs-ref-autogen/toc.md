@@ -15391,6 +15391,12 @@
 ### [Get](synapse/IpFirewallRules/Get.yml)
 ### [List By Workspace](synapse/IpFirewallRules/ListByWorkspace.yml)
 ### [Replace All](synapse/IpFirewallRules/ReplaceAll.yml)
+## Keys
+### [Overview](synapse/Keys.yml)
+### [Create Or Update](synapse/Keys/CreateOrUpdate.yml)
+### [Delete](synapse/Keys/Delete.yml)
+### [Get](synapse/Keys/Get.yml)
+### [List By Workspace](synapse/Keys/ListByWorkspace.yml)
 ## Operations
 ### [Overview](synapse/Operations.yml)
 ### [Check Name Availability](synapse/Operations/CheckNameAvailability.yml)
@@ -15399,6 +15405,31 @@
 ### [Get Azure Async Header Result](synapse/Operations%20(Preview)/GetAzureAsyncHeaderResult.yml)
 ### [Get Location Header Result](synapse/Operations%20(Preview)/GetLocationHeaderResult.yml)
 ### [List](synapse/Operations%20(Preview)/List.yml)
+## Private Endpoint Connections
+### [Overview](synapse/PrivateEndpointConnections.yml)
+### [Create](synapse/PrivateEndpointConnections/Create.yml)
+### [Delete](synapse/PrivateEndpointConnections/Delete.yml)
+### [Get](synapse/PrivateEndpointConnections/Get.yml)
+### [List](synapse/PrivateEndpointConnections/List.yml)
+## Private Endpoint Connections Private Link Hub
+### [Overview](synapse/PrivateEndpointConnectionsPrivateLinkHub.yml)
+### [List](synapse/PrivateEndpointConnectionsPrivateLinkHub/List.yml)
+## Private Link Hubs
+### [Overview](synapse/PrivateLinkHubs.yml)
+### [Create Or Update](synapse/PrivateLinkHubs/CreateOrUpdate.yml)
+### [Delete](synapse/PrivateLinkHubs/Delete.yml)
+### [Get](synapse/PrivateLinkHubs/Get.yml)
+### [List](synapse/PrivateLinkHubs/List.yml)
+### [List By Resource Group](synapse/PrivateLinkHubs/ListByResourceGroup.yml)
+### [Update](synapse/PrivateLinkHubs/Update.yml)
+## Private Link Resources
+### [Overview](synapse/PrivateLinkResources.yml)
+### [Get](synapse/PrivateLinkResources/Get.yml)
+### [List](synapse/PrivateLinkResources/List.yml)
+## Restorable Dropped Sql Pools
+### [Overview](synapse/RestorableDroppedSqlPools.yml)
+### [Get](synapse/RestorableDroppedSqlPools/Get.yml)
+### [List By Workspace](synapse/RestorableDroppedSqlPools/ListByWorkspace.yml)
 ## Sql Pool Blob Auditing Policies
 ### [Overview](synapse/SqlPoolBlobAuditingPolicies.yml)
 ### [Create Or Update](synapse/SqlPoolBlobAuditingPolicies/CreateOrUpdate.yml)
@@ -15508,6 +15539,28 @@
 ### [Pause](synapse/SqlPools/Pause.yml)
 ### [Resume](synapse/SqlPools/Resume.yml)
 ### [Update](synapse/SqlPools/Update.yml)
+## Workspace Aad Admins
+### [Overview](synapse/WorkspaceAadAdmins.yml)
+### [Create Or Update](synapse/WorkspaceAadAdmins/CreateOrUpdate.yml)
+### [Delete](synapse/WorkspaceAadAdmins/Delete.yml)
+### [Get](synapse/WorkspaceAadAdmins/Get.yml)
+## Workspace Managed Identity Sql Control Settings
+### [Overview](synapse/WorkspaceManagedIdentitySqlControlSettings.yml)
+### [Create Or Update](synapse/WorkspaceManagedIdentitySqlControlSettings/CreateOrUpdate.yml)
+### [Get](synapse/WorkspaceManagedIdentitySqlControlSettings/Get.yml)
+## Workspace Sql Aad Admins
+### [Overview](synapse/WorkspaceSqlAadAdmins.yml)
+### [Create Or Update](synapse/WorkspaceSqlAadAdmins/CreateOrUpdate.yml)
+### [Delete](synapse/WorkspaceSqlAadAdmins/Delete.yml)
+### [Get](synapse/WorkspaceSqlAadAdmins/Get.yml)
+## Workspaces
+### [Overview](synapse/Workspaces.yml)
+### [Create Or Update](synapse/Workspaces/CreateOrUpdate.yml)
+### [Delete](synapse/Workspaces/Delete.yml)
+### [Get](synapse/Workspaces/Get.yml)
+### [List](synapse/Workspaces/List.yml)
+### [List By Resource Group](synapse/Workspaces/ListByResourceGroup.yml)
+### [Update](synapse/Workspaces/Update.yml)
 ## Data-plane
 ### Big Data Pools
 #### [Overview](synapse/data-plane/BigDataPools.yml)
@@ -15651,6 +15704,43 @@
 #### [Cancel Trigger Instance](synapse/data-plane/TriggerRun/CancelTriggerInstance.yml)
 #### [Query Trigger Runs By Workspace](synapse/data-plane/TriggerRun/QueryTriggerRunsByWorkspace.yml)
 #### [Rerun Trigger Instance](synapse/data-plane/TriggerRun/RerunTriggerInstance.yml)
+### Workspace
+#### [Overview](synapse/data-plane/Workspace.yml)
+#### [Get](synapse/data-plane/Workspace/Get.yml)
+### Workspace Git Repo Management
+#### [Overview](synapse/data-plane/WorkspaceGitRepoManagement.yml)
+#### [get Git Hub Access Token](synapse/data-plane/WorkspaceGitRepoManagement/getGitHubAccessToken.yml)
+## Sql Server
+### Workspace Managed Sql Server Blob Auditing Policies
+#### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerBlobAuditingPolicies.yml)
+#### [Create Or Update](synapse/sqlserver/WorkspaceManagedSqlServerBlobAuditingPolicies/CreateOrUpdate.yml)
+#### [Get](synapse/sqlserver/WorkspaceManagedSqlServerBlobAuditingPolicies/Get.yml)
+#### [List By Workspace](synapse/sqlserver/WorkspaceManagedSqlServerBlobAuditingPolicies/ListByWorkspace.yml)
+### Workspace Managed Sql Server Extended Blob Auditing Policies
+#### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies.yml)
+#### [Create Or Update](synapse/sqlserver/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies/CreateOrUpdate.yml)
+#### [Get](synapse/sqlserver/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies/Get.yml)
+#### [List By Workspace](synapse/sqlserver/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies/ListByWorkspace.yml)
+### Workspace Managed Sql Server Recoverable Sqlpools
+#### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlpools.yml)
+#### [List](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlpools/List.yml)
+### Workspace Managed Sql Server Security Alert Policy
+#### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerSecurityAlertPolicy.yml)
+#### [Create Or Update](synapse/sqlserver/WorkspaceManagedSqlServerSecurityAlertPolicy/CreateOrUpdate.yml)
+#### [Get](synapse/sqlserver/WorkspaceManagedSqlServerSecurityAlertPolicy/Get.yml)
+#### [List](synapse/sqlserver/WorkspaceManagedSqlServerSecurityAlertPolicy/List.yml)
+### Workspace Managed Sql Server Usages
+#### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerUsages.yml)
+#### [List](synapse/sqlserver/WorkspaceManagedSqlServerUsages/List.yml)
+### Workspace Managed Sql Server Vulnerability Assessments
+#### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerVulnerabilityAssessments.yml)
+#### [Create Or Update](synapse/sqlserver/WorkspaceManagedSqlServerVulnerabilityAssessments/CreateOrUpdate.yml)
+#### [Delete](synapse/sqlserver/WorkspaceManagedSqlServerVulnerabilityAssessments/Delete.yml)
+#### [Get](synapse/sqlserver/WorkspaceManagedSqlServerVulnerabilityAssessments/Get.yml)
+#### [List](synapse/sqlserver/WorkspaceManagedSqlServerVulnerabilityAssessments/List.yml)
+### WorkspaceManagedSqlServerRecoverableSqlPools 2
+#### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlPools%202.yml)
+#### [Get](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlPools%202/Get.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
 ## Data Access (Gen2)
