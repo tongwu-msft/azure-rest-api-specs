@@ -10305,7 +10305,6 @@
 ### [Delete](securitycenter/SecurityContacts/Delete.yml)
 ### [Get](securitycenter/SecurityContacts/Get.yml)
 ### [List](securitycenter/SecurityContacts/List.yml)
-### [Update](securitycenter/SecurityContacts/Update.yml)
 ## Settings
 ### [Overview](securitycenter/Settings.yml)
 ### [Get](securitycenter/Settings/Get.yml)
