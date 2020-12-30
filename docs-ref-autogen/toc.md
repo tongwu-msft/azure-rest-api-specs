@@ -968,16 +968,16 @@
 ##### [List By Tags](apimanagement/2020-06-01-preview/TagProduct/ListByTags.yml)
 #### Tenant Access
 ##### [Overview](apimanagement/2020-06-01-preview/TenantAccess.yml)
+##### [Create](apimanagement/2020-06-01-preview/TenantAccess/Create.yml)
 ##### [Get](apimanagement/2020-06-01-preview/TenantAccess/Get.yml)
 ##### [Get Entity Tag](apimanagement/2020-06-01-preview/TenantAccess/GetEntityTag.yml)
+##### [List By Service](apimanagement/2020-06-01-preview/TenantAccess/ListByService.yml)
 ##### [List Secrets](apimanagement/2020-06-01-preview/TenantAccess/ListSecrets.yml)
 ##### [Regenerate Primary Key](apimanagement/2020-06-01-preview/TenantAccess/RegeneratePrimaryKey.yml)
 ##### [Regenerate Secondary Key](apimanagement/2020-06-01-preview/TenantAccess/RegenerateSecondaryKey.yml)
 ##### [Update](apimanagement/2020-06-01-preview/TenantAccess/Update.yml)
 #### Tenant Access Git
 ##### [Overview](apimanagement/2020-06-01-preview/TenantAccessGit.yml)
-##### [Get](apimanagement/2020-06-01-preview/TenantAccessGit/Get.yml)
-##### [List Secrets](apimanagement/2020-06-01-preview/TenantAccessGit/ListSecrets.yml)
 ##### [Regenerate Primary Key](apimanagement/2020-06-01-preview/TenantAccessGit/RegeneratePrimaryKey.yml)
 ##### [Regenerate Secondary Key](apimanagement/2020-06-01-preview/TenantAccessGit/RegenerateSecondaryKey.yml)
 #### Tenant Configuration
