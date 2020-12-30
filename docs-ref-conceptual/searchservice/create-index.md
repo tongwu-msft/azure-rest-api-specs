@@ -13,7 +13,7 @@ ms.manager: nitinme
 ---
 # Create Index (Azure Cognitive Search REST API)
 
-An [index](https://docs.microsoft.com/azure/search/search-what-is-an-index) is the primary means of organizing and searching documents in Azure Cognitive Search, similar to how a table organizes records in a database. Each index has a collection of documents that all conform to the index schema (field names, data types, and attributes), but indexes also specify additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.  
+An [index](https://docs.microsoft.com/azure/search/search-what-is-an-index) is the primary means of organizing and searching documents in Azure Cognitive Search, similar to how a table organizes records in a database. Each index has a collection of documents that all conform to the index schema (field names, data types, and attributes), but indexes also specify additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.
 
 You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
 
@@ -79,6 +79,7 @@ The following JSON is a high-level representation of the main parts of the defin
       "analyzer": "name_of_analyzer_for_search_and_indexing", (only if 'searchAnalyzer' and 'indexAnalyzer' are not set)
       "searchAnalyzer": "name_of_search_analyzer", (only if 'indexAnalyzer' is set and 'analyzer' is not set)
       "indexAnalyzer": "name_of_indexing_analyzer", (only if 'searchAnalyzer' is set and 'analyzer' is not set)
+      "normalizer": "name_of_normalizer", (optional, only Edm.String and Collection(Edm.String) fields can have normalizer set.)
       "synonymMaps": [ "name_of_synonym_map" ] (optional, only one synonym map per field is currently supported),
       "fields" : [ ... ] (optional, a list of sub-fields if this is a field of type Edm.ComplexType or Collection(Edm.ComplexType). Must be null or empty for simple fields.)
     }
@@ -86,6 +87,7 @@ The following JSON is a high-level representation of the main parts of the defin
   "suggesters": (optional) [ ... ],  
   "scoringProfiles": (optional) [ ... ],  
   "analyzers":(optional) [ ... ],
+  "normalizers":(optional) [ ... ],
   "charFilters":(optional) [ ... ],
   "tokenizers":(optional) [ ... ],
   "tokenFilters":(optional) [ ... ],
@@ -105,7 +107,9 @@ The following JSON is a high-level representation of the main parts of the defin
 | [similarity](#bkmk_similarity) | For services created before July 15, 2020, set this property to use the BM25 ranking algorithm. |
 | [suggesters](#bkmk_suggester) | Used for autocompleted queries or suggested search results. |
 | [scoringProfiles](#bkmk_scoringprof)| Used for custom search score ranking. See [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles).  
-| analyzers, charFilters, tokenizers, tokenFilters| Use to define how your documents/queries are broken into indexable/searchable tokens. For more information, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers) and [Add language analyzers to string fields](https://docs.microsoft.com/azure/search/index-add-language-analyzers).  
+| analyzers| Used to define how your documents/queries are broken into indexable/searchable tokens. For more information, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers) and [Add language analyzers to string fields](https://docs.microsoft.com/azure/search/index-add-language-analyzers).
+| normalizers| Used to define how your documents/queries are normalized for filtering, sorting and faceting. For more information, see [Add normalizers to a search index](https://docs.microsoft.com/azure/search/add-normalizers-to-search-index).
+| tokenizers, charFilters, tokenFilters| Analysis components used to define analyzers and normalizers. See [Add custom analyzers to a search index](https://docs.microsoft.com/azure/search/index-add-custom-analyzers).
 | defaultScoringProfile | Name of a custom scoring profile that overwrites the default scoring behaviors. |
 | [corsOptions](#bkmk_cors) | Used to allow cross-origin queries against your index.  |
 | [encryptionKey](#bkmk_encryption) | Used to encrypt index data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).|
@@ -127,6 +131,7 @@ The following attributes can be set on a field when creating an index.
 |**analyzer**|Sets the lexical analyzer for both indexing and query operations. The default is `standard.lucene`. For the allowed set of values, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers). This attribute can be used only with **searchable** fields, and it can't be set together with either **searchAnalyzer** or **indexAnalyzer**. Once the analyzer is chosen, it cannot be changed for the field. Must be `null` for [complex fields](https://docs.microsoft.com/azure/search/search-howto-complex-data-types). |  
 |**searchAnalyzer**|Set this property in conjunction with **indexAnalyzer** to specify different lexical analyzers for indexing and queries. If you use this property, set **analyzer** to `null` and make sure **indexAnalyzer** is set to an allowed value. For the allowed set of values, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers). This attribute can be used only with **searchable** fields. The search analyzer can be updated on an existing field since it is only used at query-time. Must be `null` for [complex fields](https://docs.microsoft.com/azure/search/search-howto-complex-data-types).|
 |**indexAnalyzer**|Set this property in conjunction with **searchAnalyzer** to specify different lexical analyzers for indexing and queries.  If you use this property, set **analyzer** to `null` and make sure **searchAnalyzer** is set to an allowed value. For the allowed set of values, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers). This attribute can be used only with **searchable** fields. Once the index analyzer is chosen, it cannot be changed for the field. Must be `null` for [complex fields](https://docs.microsoft.com/azure/search/search-howto-complex-data-types).|
+|**normalizer**|Sets the normalizer for filtering, sorting, and faceting operations. The default is `null`, which results in an exact match on the text without any normalization. For the allowed set of values, see [Add normalizers to a search index](https://docs.microsoft.com/azure/search/add-normalizers-to-search-index). This attribute can be used only with `Edm.String` and `Collection(Edm.String)` fields that have atleast one of **filterable**, **sortable**, or **facetable** set to true. A normalizer can only be set on the field when added to the index and cannot be changed later. Must be `null` for [complex fields](https://docs.microsoft.com/azure/search/search-howto-complex-data-types). |
 |**synonymMaps**|A list of the names of synonym maps to associate with this field. This attribute can be used only with **searchable** fields. Currently only one synonym map per field is supported. Assigning a synonym map to a field ensures that query terms targeting that field are expanded at query-time using the rules in the synonym map. This attribute can be changed on existing fields. Must be `null` or an empty collection for complex fields.|
 |**fields**|A list of sub-fields if this is a field of type `Edm.ComplexType` or `Collection(Edm.ComplexType)`. Must be `null` or empty for simple fields. See [How to model complex data types in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-howto-complex-data-types) for more information on how and when to use sub-fields.|
 
@@ -274,14 +279,14 @@ The following example is a JSON representation of a request payload that provide
     { "name": "Description", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "en.microsoft" },
     { "name": "Description_fr", "type": "Edm.String", "searchable": true, "filterable": false, "sortable": false, "facetable": false, "analyzer": "fr.microsoft" },
     { "name": "Category", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
-    { "name": "Tags", "type": "Collection(Edm.String)", "searchable": true, "filterable": true, "sortable": false, "facetable": true, "analyzer": "tagsAnalyzer" },
+    { "name": "Tags", "type": "Collection(Edm.String)", "searchable": true, "filterable": true, "sortable": false, "facetable": true, "analyzer": "tagsAnalyzer", "normalizer": "tagsNormalizer" },
     { "name": "ParkingIncluded", "type": "Edm.Boolean", "filterable": true, "sortable": true, "facetable": true },
     { "name": "LastRenovationDate", "type": "Edm.DateTimeOffset", "filterable": true, "sortable": true, "facetable": true },
     { "name": "Rating", "type": "Edm.Double", "filterable": true, "sortable": true, "facetable": true },
     { "name": "Address", "type": "Edm.ComplexType", 
       "fields": [
           { "name": "StreetAddress", "type": "Edm.String", "filterable": false, "sortable": false, "facetable": false, "searchable": true },
-          { "name": "City", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
+          { "name": "City", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true, "normalizer": "lowercase" },
           { "name": "StateProvince", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
           { "name": "PostalCode", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true },
           { "name": "Country", "type": "Edm.String", "searchable": true, "filterable": true, "sortable": true, "facetable": true }
@@ -297,7 +302,7 @@ The following example is a JSON representation of a request payload that provide
           { "name": "BedOptions", "type": "Edm.String", "searchable": true },
           { "name": "SleepsCount", "type": "Edm.Int32", "filterable": true, "facetable": true },
           { "name": "SmokingAllowed", "type": "Edm.Boolean", "filterable": true, "facetable": true },
-          { "name": "Tags", "type": "Collection(Edm.String)", "searchable": true, "filterable": true, "facetable": true, "analyzer": "tagsAnalyzer" }
+          { "name": "Tags", "type": "Collection(Edm.String)", "searchable": true, "filterable": true, "facetable": true, "analyzer": "tagsAnalyzer", "normalizer": "tagsNormalizer" }
         ]
     }
   ],
@@ -310,6 +315,13 @@ The following example is a JSON representation of a request payload that provide
       "name": "tagsAnalyzer",
       "charFilters": [ "html_strip" ],
       "tokenizer": "standard_v2"
+    }
+  ],
+  "normalizers": [
+    {
+      "@odata.type": "#Microsoft.Azure.Search.CustomNormalizer",
+      "name": "tagsNormalizer",
+      "tokenFilters": [ "asciifolding", "lowercase" ]
     }
   ]
 }  
