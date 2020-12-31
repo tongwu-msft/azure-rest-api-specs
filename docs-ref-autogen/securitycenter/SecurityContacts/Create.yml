@@ -3,14 +3,14 @@ uid: management.azure.com.securitycenter.securitycontacts.create
 name: Create
 service: Security Center
 groupName: Security Contacts
-apiVersion: 2017-08-01-preview
-summary: Security contact configurations for the subscription
+apiVersion: 2020-01-01-preview
+summary: Create security contact configurations for the subscription
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}?api-version=2017-08-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}?api-version=2020-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -32,7 +32,7 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
+- name: 201 Created
   description: OK
   types:
   - uid: SecurityContact
@@ -40,54 +40,28 @@ responses:
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
-requestBody:
-- name: default
-  parameters:
-  - name: properties.email
-    in: body
-    isRequired: true
-    description: The email of this security contact
-    types:
-    - uid: string
-  - name: properties.phone
-    in: body
-    description: The phone number of this security contact
-    types:
-    - uid: string
-  - name: properties.alertNotifications
-    in: body
-    isRequired: true
-    description: Whether to send security alerts notifications to the security contact
-    types:
-    - uid: alertNotifications
-  - name: properties.alertsToAdmins
-    in: body
-    isRequired: true
-    description: Whether to send security alerts notifications to subscription admins
-    types:
-    - uid: alertsToAdmins
 requestHeader: []
 definitions:
 - name: SecurityContact
-  description: Contact details for security issues
+  description: Contact details and configurations for notifications coming from Azure Security Center.
   kind: object
   properties:
-  - name: properties.email
-    description: The email of this security contact
+  - name: properties.emails
+    description: List of email addresses which will get notifications from Azure Security Center by the configurations defined in this security contact.
     types:
     - uid: string
   - name: properties.phone
-    description: The phone number of this security contact
+    description: The security contact's phone number
     types:
     - uid: string
   - name: properties.alertNotifications
-    description: Whether to send security alerts notifications to the security contact
+    description: Defines whether to send email notifications about new security alerts
     types:
-    - uid: alertNotifications
-  - name: properties.alertsToAdmins
-    description: Whether to send security alerts notifications to subscription admins
+    - uid: AlertNotifications
+  - name: properties.notificationsByRole
+    description: Defines whether to send email notifications from Azure Security Center to persons with specific RBAC roles on the subscription.
     types:
-    - uid: alertsToAdmins
+    - uid: NotificationsByRole
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -117,8 +91,33 @@ definitions:
     description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
-- name: alertNotifications
-  description: Whether to send security alerts notifications to the security contact
+- name: AlertNotifications
+  description: Defines whether to send email notifications about new security alerts
+  kind: object
+  properties:
+  - name: state
+    description: Defines if email notifications will be sent about new security alerts
+    types:
+    - uid: state
+  - name: minimalSeverity
+    description: Defines the minimal alert severity which will be sent as email notifications
+    types:
+    - uid: minimalSeverity
+- name: NotificationsByRole
+  description: Defines whether to send email notifications from Azure Security Center to persons with specific RBAC roles on the subscription.
+  kind: object
+  properties:
+  - name: state
+    description: Defines whether to send email notifications from Azure Security Center to persons with specific RBAC roles on the subscription.
+    types:
+    - uid: state
+  - name: roles
+    description: 'Defines which RBAC roles will get email notifications from Azure Security Center. List of allowed RBAC roles: '
+    types:
+    - uid: string
+      isArray: true
+- name: state
+  description: Defines if email notifications will be sent about new security alerts
   kind: enum
   properties:
   - name: On
@@ -129,73 +128,46 @@ definitions:
     description: Don't get notifications on new alerts
     types:
     - uid: string
-- name: alertsToAdmins
-  description: Whether to send security alerts notifications to subscription admins
+- name: minimalSeverity
+  description: Defines the minimal alert severity which will be sent as email notifications
   kind: enum
   properties:
-  - name: On
-    description: Send notification on new alerts to the subscription's admins
+  - name: High
+    description: Get notifications on new alerts with High severity
     types:
     - uid: string
-  - name: Off
-    description: Don't send notification on new alerts to the subscription's admins
+  - name: Medium
+    description: Get notifications on new alerts with medium or high severity
+    types:
+    - uid: string
+  - name: Low
+    description: Don't get notifications on new alerts with low, medium or high severity
     types:
     - uid: string
 examples:
-- name: Create security contact data minimal
+- name: Create security contact data
   request:
-    uri: PUT https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/securityContacts/default2?api-version=2017-08-01-preview
-    body: >-
-      {
-        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/securityContacts/default2",
-        "name": "default2",
-        "type": "Microsoft.Security/securityContacts",
-        "properties": {
-          "email": "chen@contoso.com",
-          "alertNotifications": "On",
-          "alertsToAdmins": "On"
-        }
-      }
+    uri: PUT https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/securityContacts/default?api-version=2020-01-01-preview
   responses:
-  - statusCode: "200"
+  - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/securityContacts/default2",
-        "name": "default2",
-        "type": "Microsoft.Security/securityContacts",
+        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/securityContacts/default",
+        "name": "default",
+        "type": "Microsoft.Security/securityContact",
         "properties": {
-          "email": "chen@contoso.com",
-          "alertNotifications": "On",
-          "alertsToAdmins": "On"
-        }
-      }
-- name: Create security contact data full
-  request:
-    uri: PUT https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/securityContacts/default1?api-version=2017-08-01-preview
-    body: >-
-      {
-        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/securityContacts/default1",
-        "name": "default1",
-        "type": "Microsoft.Security/securityContacts",
-        "properties": {
-          "email": "john@contoso.com",
+          "notificationsByRole": {
+            "state": "On",
+            "roles": [
+              "Owner"
+            ]
+          },
+          "emails": "john@microsoft.com;jane@microsoft.com",
           "phone": "(214)275-4038",
-          "alertNotifications": "On",
-          "alertsToAdmins": "On"
-        }
-      }
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/securityContacts/default1",
-        "name": "default1",
-        "type": "Microsoft.Security/securityContacts",
-        "properties": {
-          "email": "john@contoso.com",
-          "phone": "(214)275-4038",
-          "alertNotifications": "On",
-          "alertsToAdmins": "On"
+          "alertNotifications": {
+            "state": "On",
+            "minimalSeverity": "Low"
+          }
         }
       }
 security:
