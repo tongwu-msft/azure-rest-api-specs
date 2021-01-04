@@ -15,7 +15,7 @@ IoT Central throttles API requests on a per application basis. This means that o
 
 The IoT Central API uses rate-limit throttling, which means it allows a specific number of requests for an application in defined timespan before throttling.
 
-For every API operation, here are the limits:
+## Throttling limits
 
 - **Throttling limit**: 10 requests per second per application
 - **Throttled response**: 429 Too Many Requests
