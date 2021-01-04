@@ -7,7 +7,7 @@ ms.date: 01/04/2021
 ms.topic: reference
 ms.service: cost-management-billing
 ms.devlang: rest-api
-service_description: Provides operations to programmatically view and manage your billing details.
+description: Provides operations to programmatically view and manage your billing details.
 ---
 
 # Azure Billing REST API
