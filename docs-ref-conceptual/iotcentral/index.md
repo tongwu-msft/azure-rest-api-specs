@@ -40,5 +40,7 @@ The IoT Central REST API provides operations for working with the following reso
 
 ## Next steps
 
-Learn more about this service:
+Learn how to authenticate to use the API
+* [Authentication and authorization](authentication.md)
+Learn more about IoT Central
 * [Azure IoT Central Documentation](https://docs.microsoft.com/azure/iot-central)
