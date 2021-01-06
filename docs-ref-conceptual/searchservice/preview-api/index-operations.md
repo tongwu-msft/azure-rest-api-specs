@@ -1,7 +1,7 @@
 ---
-title: Index operations using Azure Cognitive Search REST APIs
+title: Index operations using Azure Cognitive Search REST APIs (api-version=2020-06-30-Preview)
 description: Learn which REST APIs are used to create, delete, and update Azure Cognitive Search index definitions.
-ms.date: 06/30/2020
+ms.date: 01/06/2020
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -11,7 +11,7 @@ author: HeidiSteen
 ms.author: heidist
 ms.manager: nitinme
 ---
-# Index operations (Azure Cognitive Search REST API)
+# Index operations (Preview REST API)
 
 You can create and manage indexes in Azure Cognitive Search service via simple HTTP requests (POST, GET, PUT, DELETE) against a given index resource. To create an index, you first POST a JSON document that describes the index schema. The schema defines the fields of the index, their data types, and how they can be used (for example, in full-text searches, filters, sorting, or faceting). It also defines scoring profiles, suggesters, analyzers, normalizers, and other attributes to configure the behavior of the index.
 

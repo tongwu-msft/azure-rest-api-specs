@@ -1,7 +1,7 @@
 ---
-title: Update Index (Azure Cognitive Search REST API)
+title: Update Index (api-version=2020-06-30-Preview)
 description: "Update an existing index definition in a search service."
-ms.date: 06/30/2020
+ms.date: 01/06/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -11,7 +11,7 @@ author: "Brjohnstmsft"
 ms.author: "brjohnst"
 ms.manager: nitinme
 ---
-# Update Index (Azure Cognitive Search REST API)
+# Update Index (Preview REST API)
 
 Modifying an existing Azure Cognitive Search index typically requires an [index drop and rebuild](https://docs.microsoft.com/azure/search/search-howto-reindex), with the exception of the following schema changes:
 
@@ -46,7 +46,7 @@ Once an analyzer, a normalizer, a tokenizer, a token filter, or a char filter is
 This operation takes your index offline for at least a few seconds, causing your indexing and query requests to fail. Performance and write availability of the index can be impaired for several minutes after the index is updated, or longer for  indexes.
 
 > [!NOTE]
-> Pre-defined normalizers like `standard` and `lowercase` can be referenced directly in the `normalizer` field attribute for **new indexes created after the release of normalizers capability**. Existing indexes will need to specify `allowIndexDowntime` once when attempting to add a new field with a pre-defined normalizer. This allows the required modifications to be made to the index settings. All  subsequent updates don't require the flag and will succeed without any downtime. For more information about pre-defined normalizers, see [Add normalizers to a search index](https://docs.microsoft.com/azure/search/add-normalizers-to-search-index).
+> Predefined normalizers like `standard` and `lowercase` can be referenced directly in the `normalizer` field attribute for **new indexes created after February 15, 2021** in a create or update index request that uses `api-version=2020-06-30-Preview`. If the index already exists, specify `allowIndexDowntime` on the request that adds a predefined normalizer so that index settings can be modified. All subsequent updates don't require the flag and will succeed without any downtime. For more information about predefined normalizers, see [Add normalizers to a search index](https://docs.microsoft.com/azure/search/add-normalizers-to-search-index).
 >
 
  ## URI Parameters
