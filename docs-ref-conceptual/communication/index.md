@@ -22,10 +22,15 @@ You can perform various actions against several key areas of communication servi
 
 | Resource Groups                                                                       | Description                                                                                            |
 | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| [Chat](xref:communication.chat)                                                       | Create, manage, and participate in Chat Threads within Communication Services.                         |
 | [Communication Service](xref:management.azure.com.communication.communicationservice) | Create, update, or delete a Communication Services instance, Link a Notification Hub, regenerate keys. |
 | [Communication Identity](xref:communication.communicationidentity)                    | Create, manage, and issue tokens for Communication Services Identities.                                |
 | [Sms](xref:communication.sms)                                                         | Send SMS messages.                                                                                     |
+
+### Chat
+
+| Chat Area                                                                                    | Description |
+| -------------------------------------------------------------------------------------------- | ----------- |
+| [Add Chat Thread Members](xref:communication.chat.addchatthreadmembers.addchatthreadmembers) | Adds thread members to a thread. If members already exist, no change occurs. |
 
 ## Additional Material
 
