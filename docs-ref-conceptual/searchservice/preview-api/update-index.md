@@ -31,7 +31,7 @@ PUT https://[search service name].search.windows.net/indexes/[index name]?api-ve
   api-key: [admin key]  
 ```  
 
-> [!Note]  
+> [!NOTE]
 >  Field attributes that can be changed without the need to re-create the index include: `retrievable`, `searchAnalyzer`, `synonymMaps`.
 >  
 
@@ -39,15 +39,19 @@ Although existing fields cannot be deleted and most attributes cannot be changed
 
 When a new field is added, all existing documents in the index automatically have a null value for that field. No additional storage space is consumed until one of two things occur: a value is provided for the new field ([using merge](addupdate-or-delete-documents.md)), or new documents are added.
 
-Once an analyzer, a tokenizer, a token filter or a char filter is defined, it cannot be modified. New ones can be added to an existing index only if the `allowIndexDowntime` flag is set to true in the index update request:
+Once an analyzer, a normalizer, a tokenizer, a token filter, or a char filter is defined, it cannot be modified. New ones can be added to an existing index only if the `allowIndexDowntime` flag is set to true in the index update request:
 
 `PUT https://[search service name].search.windows.net/indexes/[index name]?api-version=[api-version]&allowIndexDowntime=true`
 
 This operation takes your index offline for at least a few seconds, causing your indexing and query requests to fail. Performance and write availability of the index can be impaired for several minutes after the index is updated, or longer for  indexes.
 
+> [!NOTE]
+> Pre-defined normalizers like `standard` and `lowercase` can be referenced directly in the `normalizer` field attribute for **new indexes created after the release of normalizers capability**. Existing indexes will need to specify `allowIndexDowntime` once when attempting to add a new field with a pre-defined normalizer. This allows the required modifications to be made to the index settings. All  subsequent updates don't require the flag and will succeed without any downtime. For more information about pre-defined normalizers, see [Add normalizers to a search index](https://docs.microsoft.com/azure/search/add-normalizers-to-search-index).
+>
+
  ## URI Parameters
 
-| Parameter	  | Description  | 
+| Parameter      | Description  |
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required. The request URI specifies the name of the index to update.   |
