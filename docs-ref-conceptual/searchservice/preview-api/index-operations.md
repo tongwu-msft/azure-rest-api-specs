@@ -1,6 +1,6 @@
 ---
 title: Index operations using Azure Cognitive Search REST APIs (api-version=2020-06-30-Preview)
-description: Learn which REST APIs are used to create, delete, and update Azure Cognitive Search index definitions.
+description: Learn which REST APIs are used to create, delete, and update Azure Cognitive Search index definitions (api-version=2020-06-30-Preview).
 ms.date: 01/06/2020
 
 ms.service: cognitive-search
@@ -91,4 +91,4 @@ Language-specific fields are also illustrated in this index. Description fields 
 ## See also  
 
 + [Azure Cognitive Search REST APIs](index.md)
-+ [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)
++ [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet&preserve-view=true)
