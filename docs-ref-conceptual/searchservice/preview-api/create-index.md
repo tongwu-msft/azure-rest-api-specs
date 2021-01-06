@@ -13,6 +13,11 @@ ms.manager: nitinme
 ---
 # Create Index (Preview REST API)
 
+**API Version: 2020-06-30-Preview**
+
+> [!Important]
+> This preview adds support for the [normalizers](https://docs.microsoft.com/azure/search/add-normalizers-to-search-index) that can be used to produce case-insensitive sorting and filtering output.
+
 An [index](https://docs.microsoft.com/azure/search/search-what-is-an-index) is the primary means of organizing and searching documents in Azure Cognitive Search, similar to how a table organizes records in a database. Each index has a collection of documents that all conform to the index schema (field names, data types, and attributes), but indexes also specify additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.
 
 You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.

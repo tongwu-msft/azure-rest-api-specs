@@ -13,6 +13,11 @@ ms.manager: nitinme
 ---
 # Index operations (Preview REST API)
 
+**API Version: 2020-06-30-Preview**
+
+> [!Important]
+> This preview adds support for the [normalizers](https://docs.microsoft.com/azure/search/add-normalizers-to-search-index) that can be used to produce case-insensitive sorting and filtering output.
+
 You can create and manage indexes in Azure Cognitive Search service via simple HTTP requests (POST, GET, PUT, DELETE) against a given index resource. To create an index, you first POST a JSON document that describes the index schema. The schema defines the fields of the index, their data types, and how they can be used (for example, in full-text searches, filters, sorting, or faceting). It also defines scoring profiles, suggesters, analyzers, normalizers, and other attributes to configure the behavior of the index.
 
 The following example illustrates an index schema that includes fields, a suggester, a custom analyzer, a language analyzer, a pre-defined normalizer, and a custom normalizer. Fields, suggesters, custom analyzers, custom normalizers, and scoring profiles (not shown) are sections in the index. Language analyzers and pre-defined normalizers are defined natively and can be referenced on the field definition directly.

@@ -13,6 +13,11 @@ ms.manager: nitinme
 ---
 # Update Index (Preview REST API)
 
+**API Version: 2020-06-30-Preview**
+
+> [!Important]
+> This preview adds support for the [normalizers](https://docs.microsoft.com/azure/search/add-normalizers-to-search-index) that can be used to produce case-insensitive sorting and filtering output.
+
 Modifying an existing Azure Cognitive Search index typically requires an [index drop and rebuild](https://docs.microsoft.com/azure/search/search-howto-reindex), with the exception of the following schema changes:
 
 +  Add new fields
