@@ -1,5 +1,6 @@
 ---
 title: Azure Resource Manager REST API | Microsoft Docs
+description: Operation groups for Azure Resource Manager REST API
 ms.service: azure-resource-manager
 ms.date: 01/07/2021
 author: tfitzmac
