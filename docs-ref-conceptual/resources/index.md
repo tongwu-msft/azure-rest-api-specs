@@ -1,7 +1,8 @@
 ---
 title: Azure Resource Manager REST API | Microsoft Docs
+description: Operation groups for Azure Resource Manager REST API
 ms.service: azure-resource-manager
-ms.date: 05/20/2019
+ms.date: 01/07/2021
 author: tfitzmac
 ms.author: tomfitz
 service_description: Azure Resource Manager
@@ -15,8 +16,6 @@ Azure Resource Manager enables you to deploy and manage the infrastructure for y
 
 | Operation group                                 | Description |
 |-------------------------------------------------|-------------|
-| [Application Definitions](xref:management.azure.com.resources.applicationdefinitions) | Provides operations for working with Managed Application definitions. |
-| [Applications](xref:management.azure.com.resources.applications) | Provides operations to create and update Managed Applications. |
 | [Deployment Operations](xref:management.azure.com.resources.deploymentoperations) | Provides operations to get details about the operations that happen during a deployment. |
 | [Deployments](xref:management.azure.com.resources.deployments)                    | Provides operations to work with deployments, including deploying a template, exporting a template, and getting information about a deployment. |
 | [Features](xref:management.azure.com.resources.features)                          | Provides operations for users to access preview features from resource providers. |
