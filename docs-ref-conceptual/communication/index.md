@@ -17,7 +17,6 @@ The Azure Communication Services REST API provides programmatic access to resour
 
 ## Communication Services Resource Groups
 
-TODO: Chat has no Overview page, due to its multi-folder listings, how can we make it have one?
 You can perform various actions against several key areas of communication services:
 
 | Resource Groups                                                                       | Description                                                                                            |
@@ -49,9 +48,9 @@ Chat currently doesn't have a contents page available, so its operations are lis
 | [Update Chat Message](xref:communication.chat.updatechatmessage.updatechatmessage)                 | Updates a message.                                                           |
 | [Update Chat Thread](xref:communication.chat.updatechatthread.updatechatthread)                    | Updates a thread's properties.                                               |
 
-## Additional Material
+## Extra Material
 
-In addition to the reference material above, we have some additional available information:
+In addition to the reference material above, we have some more material below. These pages may help you utilize Azure Communication Services' REST API more easily.
 
 - [Authentication](authentication.md) - Learn about how to authenticate your REST Requests with our Services.
 - [Common Headers](headers.md) - Learn about standard headers you might see in your responses from Communication Services.
