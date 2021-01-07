@@ -20,7 +20,8 @@ The `Get File Properties` operation returns all user-defined metadata, standard 
 |------------|-----------------|------------------|  
 |`HEAD`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`|HTTP/1.1|  
 |`HEAD`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sharesnapshot=<DateTime>`|HTTP/1.1|  
- Replace the path components shown in the request URI with your own, as follows:  
+
+Replace the path components shown in the request URI with your own, as follows:  
   
 |Path Component|Description|  
 |--------------------|-----------------|  
@@ -48,6 +49,7 @@ The `Get File Properties` operation returns all user-defined metadata, standard 
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-lease-id:<ID>`|Optional. Version 2019-02-02 and newer. If the header is specified, the operation will be performed only if the file's lease is currently active and the lease ID specified in the request matches the that of the file. Otherwise, the operation fails with status code 412 (Precondition Failed).|
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
   
 ### Request Body  
  None.  
@@ -96,6 +98,7 @@ The `Get File Properties` operation returns all user-defined metadata, standard 
 |`x-ms-lease-duration:infinite`|Version 2019-02-02 and newer. When a file is leased, specifies that the lease is of infinite duration. |
 |`x-ms-lease-state:<available;leased;broken>`|Version 2019-02-02 and newer. When a file is leased, specifies the lease state of the file. |
 |`x-ms-lease-status:<locked;unlocked>`|Version 2019-02-02 and newer. When a file is leased, specifies the lease status of the file. |
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
 
 ### Response Body  
  None.  

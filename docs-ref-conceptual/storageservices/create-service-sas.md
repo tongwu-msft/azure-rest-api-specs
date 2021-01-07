@@ -3,7 +3,7 @@ title: Create a service SAS - Azure Storage
 description: A service shared access signature (SAS) delegates access to a resource in the Blob, Queue, Table, or File service.
 author: tamram
 
-ms.date: 11/23/2020
+ms.date: 12/22/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -151,8 +151,9 @@ The following table shows the permissions supported for each resource type.
 | Add | a | Container<br />Directory<br />Blob | All | Add a block to an append blob. |
 | Create | c | Container<br />Directory<br />Blob | All | Write a new blob, snapshot a blob, or copy a blob to a new blob. |
 | Write | w | Container<br />Directory<br />Blob | All | Create or write content, properties, metadata, or block list. Snapshot or lease the blob. Resize the blob (page blob only). Use the blob as the destination of a copy operation. |
-| Delete | d | Blob | All | Delete the blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the Lease Blob operation. |
-| Delete version | x | Blob | Version 2019-12-12 or later | Delete a blob version. |
+| Delete | d | Container<br />Directory<br />Blob | All | Delete a blob. For version 2017-07-29 and later, the Delete permission also allows breaking a lease on a blob. For more information, see the [Lease Blob](Lease-Blob.md) operation. |
+| Delete version | x | Container<br />Blob | Version 2019-12-12 or later | Delete a blob version. |
+| Permanent delete | y | Blob | Version 2020-02-10 or later | Permanently delete a blob snapshot or version.|
 | List | l | Container<br />Directory | All | List blobs non-recursively. |
 | Tags | t | Blob | Version 2019-12-12 or later | Read or write the tags on a blob. |
 | Move (preview) | m | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. This operation can optionally be restricted to the owner of the child blob, directory, or parent directory if the `saoid` parameter is included on the SAS token and the sticky bit is set on the parent directory. |
@@ -417,7 +418,11 @@ When constructing the string to be signed, keep in mind the following:
   
     For example, examples of valid permissions settings for a container include `rw`, `rd`, `rl`, `wd`, `wl`, and `rl`. Examples of invalid settings include `wr`, `dr`, `lr`, and `dw`. Specifying a permission designation more than once is not permitted.  
   
-- The `canonicalizedResource` portion of the string is a canonical path to the signed resource. It must include the service name (blob, table, queue or file) for version 2015-02-21 or later, the storage account name, and the resource name, and must be URL-decoded. Names of blobs must include the blob’s container. Table names must be lower-case. The following examples show how to construct the `canonicalizedResource` portion of the string, depending on the type of resource.  
+- The `canonicalizedResource` portion of the string is a canonical path to the signed resource. It must include the service name (blob, table, queue or file) for version 2015-02-21 or later, the storage account name, and the resource name, and must be URL-decoded. Names of blobs must include the blob’s container. Table names must be lower-case.
+
+The canonicalized resource string for a container, queue, table, or file share must omit the trailing slash ('/') for a SAS that provides access to that object.
+
+The following examples show how to construct the `canonicalizedResource` portion of the string, depending on the type of resource.  
   
      **Containers**  
   

@@ -1,21 +1,17 @@
 ---
-title: Azure REST API Reference | Microsoft Docs
-description: Azure REST API Reference
-keywords: Azure REST, Azure REST API Reference
+title: Azure REST API reference documentation
+description: Reference documentation for Azure REST APIs including their supported operations, request URI parameters and request bodies, responses, and object definitions.
 author: bryanla
-manager: douge
 ms.author: bryanla
-ms.date: 04/07/2020
+ms.date: 12/07/2020
 ms.topic: reference
 ms.prod: azure
-ms.technology: azure
 ms.devlang: rest-api
-ms.assetid: D35E3780-B2BC-4450-8EF6-2710A11F99A7
 ---
 
-# Azure REST API Reference
+# Azure REST API reference
 
-Welcome to the Azure REST API Reference.
+Welcome to the Azure REST API reference documentation.
 
 Representational State Transfer (REST) APIs are service endpoints that support sets of HTTP operations (methods), which provide create, retrieve, update, or delete access to the service's resources. This article walks you through:
 
@@ -24,14 +20,10 @@ Representational State Transfer (REST) APIs are service endpoints that support s
 * How to register your client application with Azure Active Directory (Azure AD) to secure your REST requests.
 * Overviews of creating and sending a REST request, and handling the response.
 
-> [!NOTE]
-> Most Azure service REST APIs have client libraries that provide a native interface for using Azure services.
+> [!TIP]
+> Most Azure service REST APIs have client libraries that provide a native interface for using Azure services:
 >
-> [.NET][SDK-NET]
-> [Java][SDK-JAVA]
-> [Node.js][SDK-NODE]
-> [Python][SDK-PYTHON]
-> [Azure CLI 2.0 SDK][SDK-CLI]
+> [.NET][SDK-NET] | [Java][SDK-JAVA] | [Node.js][SDK-NODE] | [Python][SDK-PYTHON]
 
 ## How to call Azure REST APIs with Postman
 
@@ -39,11 +31,11 @@ The following video will show you how to quickly authenticate with the Azure RES
 
 > [!VIDEO https://www.youtube.com/embed/fh37VQ3_exk]
 
-You can read the full walk through on Jon Gallant's blog here: [Azure REST APIs with Postman in 2 Minutes](https://aka.ms/azurerest2minsblog)
+You can read the full walk-through on Jon Gallant's blog here: [Azure REST APIs with Postman in 2 Minutes](https://aka.ms/azurerest2minsblog)
 
-## How to call Azure REST APIs with cUrl
+## How to call Azure REST APIs with curl
 
-The process is very similar to the one used for Postman, with the exception that it shows how you can call Azure REST API using [cUrl](https://curl.haxx.se/) which is more suitable to be embedded in scripts and used in a DevOps process.
+The process described in the following blog entry is similar to the one used for Postman, but shows how to call an Azure REST API using [curl](https://curl.se/).You might consider using curl in unattended scripts, for example in DevOps automation scenarios.
 
 [Calling Azure REST API via curl](https://aka.ms/azurerestcurl)
 
@@ -80,32 +72,38 @@ If you are using a REST API that does not use integrated Azure AD authentication
 
 Your [client application][AAD-Glossary-Client-Application] must make its identity configuration known to Azure AD before run-time by registering it in an [Azure AD tenant][AAD-Glossary-Tenant]. Before you register your client with Azure AD, consider the following prerequisites:
 
-* If you do not have an Azure AD tenant yet, see [How to get an Azure Active Directory tenant][AAD-Howto-Tenant].
+* If you do not have an Azure AD tenant yet, see [Set up an Azure Active Directory tenant][AAD-Howto-Tenant].
 
 * In accordance with the OAuth2 Authorization Framework, Azure AD supports two types of clients. Understanding each helps you decide which is most appropriate for your scenario:
-    * [web/confidential][AAD-Glossary-Web-Client] clients run on a web server and can access resources under their own identity (for example, a service or daemon), or obtain delegated authorization to access resources under the identity of a signed-in user (for example, a web app). Only a web client can securely maintain and present its own credentials during Azure AD authentication to acquire an access token.
-    * [native/public][AAD-Glossary-Native-Client] clients are installed and run on a device. They can access resources only under delegated authorization, using the identity of the signed-in user to acquire an access token on behalf of the user.
+  * [web/confidential][AAD-Glossary-Web-Client] clients run on a web server and can access resources under their own identity (for example, a service or daemon), or obtain delegated authorization to access resources under the identity of a signed-in user (for example, a web app). Only a web client can securely maintain and present its own credentials during Azure AD authentication to acquire an access token.
+  * [native/public][AAD-Glossary-Native-Client] clients are installed and run on a device. They can access resources only under delegated authorization, using the identity of the signed-in user to acquire an access token on behalf of the user.
 
 * The registration process creates two related objects in the Azure AD tenant where the application is registered: an application object and a service principal object. For more background on these components and how they are used at run-time, see [Application and service principal objects in Azure Active Directory][AAD-Apps-And-Sps].
 
 You are now ready to register your client application with Azure AD.
 
 ### Client registration
+
 To register a client that accesses an Azure Resource Manager REST API, see [Use portal to create Active Directory application and service principal that can access resources][ARM-Create-Sp-Portal]. The article (also available in PowerShell and CLI versions for automating registration) shows you how to:
 
 * Register the client application with Azure AD.
 * Set [permission requests][AAD-Glossary-Permissions] to allow the client to access the Azure Resource Manager API.
 * Configure Azure Resource Manager Role-Based Access Control (RBAC) settings for authorizing the client.
 
-If your client accesses an API other than an Azure Resource Manager API, refer to [Integrating applications with Azure Active Directory][AAD-Integrating-Apps]. The article shows you how to:
+If your client accesses an API other than an Azure Resource Manager API, refer to:
 
-* Register the client application with Azure AD, in the "Adding an application" section.
-* Create a secret key (if you are registering a web client), in the "Updating an application" section.
-* Add permission requests as required by the API, in the "Updating an application" section.
+* [Register an application with the Microsoft identity platform][AAD-Integrating-Apps]
+  * Register the client application with Azure AD, in the "Register an application" section.
+  * Create a secret key (if you are registering a web client), in the "Add credentials" section.
+* [Configure an application to expose a web API](/azure/active-directory/develop/quickstart-configure-app-expose-web-apis)
+  * Add permissions to your web API, exposing them as scopes
+* [Configure a client application to access a web API](/azure/active-directory/develop/quickstart-configure-app-access-web-apis)
+  * Add permission requests as required by the scopes defined for the API, in the "Add permissions to access your web API" section.
 
-Now that you've completed registration of your client application, you can move to your client code, where you create the REST request and handle the response.
+Now that you've completed registration of your client application, move on to your client code where you create the REST request and handle the response.
 
 ## Create the request
+
 This section covers the first three of the five components that we discussed earlier. You first need to acquire the access token from Azure AD, which you use to assemble your request message header.
 
 ### Acquire an access token
@@ -130,11 +128,11 @@ This grant is used by both web and native clients, requiring credentials from a 
     * `resource`: A URL-encoded identifier URI that's specified by the REST API you are calling. Web/REST APIs (also known as resource applications) can expose one or more application ID URIs in their configuration. For example:
 
         * Azure Resource Manager provider (and classic deployment model) APIs use `https://management.core.windows.net/`.
-        * For any other resources, see the API documentation or the resource application's configuration in the Azure portal. For more information, see the [`identifierUris` property][AAD-Graph-Application] of the Azure AD application object.
+        * For any other resources, see the API documentation or the resource application's configuration in the Azure portal. For more information, see the `identifierUris` property of the Microsoft Graph API [application][AAD-Graph-Application] object.
 
     The request to the `/authorize` endpoint first triggers a sign-in prompt to authenticate the user. The response you get back is delivered as a redirect (302) to the URI that you specified in `redirect_uri`. The response header message contains a `location` field, containing the redirect URI followed by a `code` query parameter. The `code` parameter contains the authorization code that you need for step 2.
 
-2. Next, your client needs to redeem the authorization code for an access token. For details on the format of the HTTPS POST request to the `/token` endpoint and request/response examples, see [Use the authorization code to request an access token][AAD-Oauth-Code-Token]. Because this is a POST request, you package your application-specific parameters in the request body. In addition to some of the previously mentioned parameters (along with other new ones), you will pass:
+2. Next, your client needs to redeem the authorization code for an access token. For details on the format of the HTTPS POST request to the `/token` endpoint and request/response examples, see [Request an access token][AAD-Oauth-Code-Token]. Because this is a POST request, you package your application-specific parameters in the request body. In addition to some of the previously mentioned parameters (along with other new ones), you will pass:
 
     * `code`: This query parameter contains the authorization code that you obtained in step 1.
 
@@ -144,17 +142,20 @@ This grant is used by both web and native clients, requiring credentials from a 
 
 This grant is used only by web clients, allowing the application to access resources directly (no user delegation) using the client's credentials, which are provided at registration time. The grant is typically used by non-interactive clients (no UI) that run as a service or daemon. It requires only the `/token` endpoint to acquire an access token.
 
-The client/resource interactions for this grant are similar to step 2 of the authorization code grant. For details on the format of the HTTPS POST request to the `/token` endpoint and request/response examples, see the "Request an Access Token" section in [Service to service calls using client credentials][AAD-Oauth-Client-Creds].
+The client/resource interactions for this grant are similar to step 2 of the authorization code grant. For details on the format of the HTTPS POST request to the `/token` endpoint and request/response examples, see the "Get a token" section in [Microsoft identity platform and the OAuth 2.0 client credentials flow][AAD-Oauth-Client-Creds].
 
 ### Assemble the request message
+
 Most programming languages or frameworks and scripting environments make it easy to assemble and send the request message. They typically provide a web/HTTP class or API that abstracts the creation or formatting of the request, making it easier to write the client code (the HttpWebRequest class in the .NET Framework, for example). For brevity, and because most of the task is handled for you, this section covers only the important elements of the request.
 
 #### Request URI
+
 Because sensitive information is being transmitted and received, all REST requests require the HTTPS protocol for the URI scheme, giving the request and response a secure channel. The information (that is, the Azure AD authorization code, access/bearer token, and sensitive request/response data) is encrypted by a lower transport layer, ensuring the privacy of the messages.
 
 The remainder of your service's request URI (the host, resource path, and any required query-string parameters) are determined by its related REST API specification. For example, Azure Resource Manager provider APIs use `https://management.azure.com/`, and Azure classic deployment model uses `https://management.core.windows.net/`. Both require an `api-version` query-string parameter.
 
 #### Request header
+
 The request URI is bundled in the request message header, along with any additional fields required by your service's REST API specification and the [HTTP specification](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html). Your request might require the following common header fields:
 
 * `Authorization`: Contains the OAuth2 bearer token to secure the request, as acquired earlier from Azure AD.
@@ -162,6 +163,7 @@ The request URI is bundled in the request message header, along with any additio
 * `Host`: The domain name or IP address of the server where the REST service endpoint is hosted.
 
 #### Request body
+
 As mentioned earlier, the request message body is optional, depending on the specific operation you're requesting and its parameter requirements. If it's required, the API specification for the service you are requesting also specifies the encoding and format.
 
 The request body is separated from the header by an empty line, formatted in accordance with the `Content-Type` header field. An example of an "application/json" formatted body would appear as follows:
@@ -173,11 +175,12 @@ The request body is separated from the header by an empty line, formatted in acc
 ```
 
 ## Send the request
+
 Now that you have the service's request URI and have created the related request message header and body, you are ready to send the request to the REST service endpoint.
 
 For example, you might send an HTTPS GET request method for an Azure Resource Manager provider by using request header fields that are similar to the following (note that the request body is empty):
 
-```
+```http
 GET /subscriptions?api-version=2014-04-01-preview HTTP/1.1
 Authorization: Bearer <bearer-token>
 Host: management.azure.com
@@ -187,7 +190,7 @@ Host: management.azure.com
 
 And you might send an HTTPS PUT request method for an Azure Resource Manager provider, by using request header *and* body fields similar to the following example:
 
-```
+```http
 PUT /subscriptions/.../resourcegroups/ExampleResourceGroup?api-version=2016-02-01  HTTP/1.1
 Authorization: Bearer <bearer-token>
 Content-Length: 29
@@ -214,6 +217,7 @@ Content-Type: application/json;
 ```
 
 And you should receive a response body that contains a list of Azure subscriptions and their individual properties encoded in JSON format, similar to:
+
 ```json
 {
     "value":[
@@ -241,6 +245,7 @@ Content-Type: application/json;
 ```
 
 And you should receive a response body that confirms the content of your newly added resource group encoded in JSON format, similar to:
+
 ```json
 {
     "id":"/subscriptions/.../resourceGroups/ExampleResourceGroup",
@@ -290,31 +295,32 @@ The Azure REST APIs are designed for resiliency and continuous availability. Con
 
 ## Related content
 
-That's it. After you register your Azure AD application and have a modular technique for acquiring an access token and handling HTTP requests, it's fairly easy to replicate your code to take advantage of new REST APIs. For more information about application registration and the Azure AD programming model, see the [Azure AD developers guide][AAD-Dev-Guide].
+That's it. After you register your Azure AD application and have a modular technique for acquiring an access token and handling HTTP requests, it's fairly easy to replicate your code to take advantage of new REST APIs. For more information about application registration and the Azure AD programming model, see the [Microsoft identity platform][AAD-Dev-Guide] documentation.
 
 For information about testing HTTP requests/responses, see:
+
 * [Fiddler](http://www.telerik.com/fiddler). Fiddler is a free web debugging proxy that can intercept your REST requests, making it easy to diagnose the HTTP request/ response messages.
 * [JWT.ms](https://jwt.ms/), which make it quick and easy to dump the claims in your bearer token so you can validate their contents.
 
 <!--Reference style links: DOCS -->
 
-[AAD-Apps-And-Sps]: /azure/active-directory/active-directory-application-objects
+[AAD-Apps-And-Sps]: /azure/active-directory/develop/app-objects-and-service-principals
 [AAD-Auth-Libraries]: /azure/active-directory/develop/msal-overview
-[AAD-Dev-Guide]: /azure/active-directory/active-directory-developers-guide
-[AAD-Glossary-Access-Token]: /azure/active-directory/active-directory-dev-glossary#access-token
-[AAD-Glossary-Authorization-Grant]: /azure/active-directory/active-directory-dev-glossary#authorization-grant
-[AAD-Glossary-Claim]: /azure/active-directory/active-directory-dev-glossary#claim
-[AAD-Glossary-Client-Application]: /azure/active-directory/active-directory-dev-glossary#client-application
-[AAD-Glossary-Permissions]: /azure/active-directory/active-directory-dev-glossary#permissions
-[AAD-Glossary-Tenant]: /azure/active-directory/active-directory-dev-glossary#tenant
-[AAD-Glossary-Native-Client]: /azure/active-directory/active-directory-dev-glossary#native-client
-[AAD-Glossary-Web-Client]: /azure/active-directory/active-directory-dev-glossary#web-client
-[AAD-Graph-Application]: https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity
-[AAD-Howto-Tenant]: /azure/active-directory/active-directory-howto-tenant
-[AAD-Integrating-Apps]: /azure/active-directory/active-directory-integrating-applications
-[AAD-OAuth-Client-Creds]: /azure/active-directory/active-directory-protocols-oauth-service-to-service#request-an-access-token
-[AAD-Oauth-Code-Authz]: /azure/active-directory/active-directory-protocols-oauth-code#request-an-authorization-code
-[AAD-Oauth-Code-Token]: /azure/active-directory/active-directory-protocols-oauth-code#use-the-authorization-code-to-request-an-access-token
+[AAD-Dev-Guide]: /azure/active-directory/develop/
+[AAD-Glossary-Access-Token]: /azure/active-directory/develop/developer-glossary#access-token
+[AAD-Glossary-Authorization-Grant]: /azure/active-directory/develop/developer-glossary#authorization
+[AAD-Glossary-Claim]: /azure/active-directory/develop/developer-glossary#claim
+[AAD-Glossary-Client-Application]: /azure/active-directory/develop/developer-glossary#client-application
+[AAD-Glossary-Permissions]: /azure/active-directory/develop/developer-glossary#permissions
+[AAD-Glossary-Tenant]: /azure/active-directory/develop/developer-glossary#tenant
+[AAD-Glossary-Native-Client]: /azure/active-directory/develop/developer-glossary#native-client
+[AAD-Glossary-Web-Client]: /azure/active-directory/develop/developer-glossary#web-client
+[AAD-Graph-Application]: /graph/api/resources/application
+[AAD-Howto-Tenant]: /azure/active-directory/develop/quickstart-create-new-tenant
+[AAD-Integrating-Apps]: /azure/active-directory/develop/quickstart-register-app
+[AAD-OAuth-Client-Creds]: /azure/active-directory/develop/v2-oauth2-client-creds-grant-flow#get-a-token
+[AAD-Oauth-Code-Authz]: /azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code
+[AAD-Oauth-Code-Token]: /azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-access-token
 [ARM-Create-Sp-Portal]: /azure/active-directory/develop/quickstart-register-app
 [ARM-Provider-Summary]: /azure/azure-resource-manager/resource-manager-supported-services
 [ARM-Async-Ops]: /azure/azure-resource-manager/resource-manager-async-operations

@@ -21,10 +21,9 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group. The name is case insensitive.
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
   types:
   - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: managedInstanceName
   in: path
   isRequired: true
@@ -40,7 +39,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for this operation.
+  description: The API version to use for the request.
   types:
   - uid: string
 responses:
@@ -54,17 +53,21 @@ responses:
 
      * 400 InvalidDatabaseCompleteRestoreRequestLastBackupName - The last backup name is invalid
 
+     * 400 InvalidIdentifier - The identifier contains NULL or an invalid unicode character.
+
+     * 400 SourceDatabaseNotFound - The source database does not exist.
+
      * 400 TokenTooLong - The provided token is too long.
 
      * 400 UnsupportedServiceName - The specified name is an invalid name because it contains one or more unsupported unicode characters.
 
-     * 400 SourceDatabaseNotFound - The source database does not exist.
+     * 400 AutoCompleteMissingLastBackupName - Auto complete restore request must have lastBackupName parameter provided.
 
-     * 400 InvalidIdentifier - The identifier contains NULL or an invalid unicode character.
+     * 400 MissingThumbprint - Can not find server certificate.
 
-     * 400 ManagedInstanceStorageLimitHit - The managed instance has reached its storage limit.
+     * 400 BlobStorageServerFailure - Blob storage server failure has occurred.
 
-     * 400 BackupSetNotFound - "No backups were found to restore the database. Please contact support to restore the database.
+     * 400 BackupSetNotFound - No backups were found to restore the database. Please contact support to restore the database.
 
      * 400 FullBackupNotFound - Full backup can not be found.
 
@@ -88,6 +91,8 @@ responses:
 
      * 400 RequiredBackupIsNotLastRestored - Migration cannot be completed because provided backup file name is not the name of the last backup file that is restored.
 
+     * 400 ManagedInstanceStorageLimitHit - The managed instance has reached its storage limit.
+
      * 400 IncompatiblePhysicalLayoutTooFewDataFiles - Database backup contains incompatible physical layout. No data files are found in the backup.
 
      * 400 IncompatiblePhysicalLayoutNonOnlineDataFilesExist - Database backup contains incompatible physical layout. Non-online data files exist.
@@ -107,8 +112,6 @@ responses:
      * 400 IncompatiblePhysicalLayoutTooManyXTPFiles - Database backup contains incompatible physical layout. Multiple files found in the filegroup that contains MEMORY_OPTIMIZED_DATA.
 
      * 400 BlobStorageFailure - Blob storage failure has occurred.
-
-     * 400 MissingThumbprint - Can not find server certificate.
 
      * 404 ResourceDoesNotExist - Resource with the name '{0}' does not exist. To continue, specify a valid resource name.
 
@@ -145,13 +148,5 @@ examples:
   responses:
   - statusCode: "200"
   - statusCode: "202"
-security:
-- name: azure_auth
-  type: oauth2
-  description: Azure Active Directory OAuth2 Flow
-  flow: implicit
-  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
-  scopes:
-  - name: user_impersonation
-    description: impersonate your user account
+security: []
 errorCodes: []

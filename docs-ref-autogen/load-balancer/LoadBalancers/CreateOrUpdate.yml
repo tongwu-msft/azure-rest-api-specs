@@ -3,14 +3,14 @@ uid: management.azure.com.load-balancer.loadbalancers.createorupdate
 name: Create Or Update
 service: Load balancer
 groupName: Load Balancers
-apiVersion: 2020-05-01
+apiVersion: 2020-07-01
 summary: Creates or updates a load balancer.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2020-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2020-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,6 +52,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: extendedLocation
+    in: body
+    description: The extended location of the load balancer.
+    types:
+    - uid: ExtendedLocation
   - name: sku
     in: body
     description: The load balancer SKU.
@@ -120,6 +125,18 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
+- name: ExtendedLocation
+  description: ExtendedLocation complex type.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: LoadBalancerSku
   description: SKU of a load balancer.
   kind: object
@@ -128,6 +145,10 @@ definitions:
     description: Name of a load balancer SKU.
     types:
     - uid: LoadBalancerSkuName
+  - name: tier
+    description: Tier of a load balancer SKU.
+    types:
+    - uid: LoadBalancerSkuTier
 - name: FrontendIPConfiguration
   description: Frontend IP address of the load balancer.
   kind: object
@@ -562,6 +583,10 @@ definitions:
   description: LoadBalancer resource.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the load balancer.
+    types:
+    - uid: ExtendedLocation
   - name: sku
     description: The load balancer SKU.
     types:
@@ -650,6 +675,13 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 - name: LoadBalancerSkuName
   description: Name of a load balancer SKU.
   kind: enum
@@ -658,6 +690,16 @@ definitions:
     types:
     - uid: string
   - name: Standard
+    types:
+    - uid: string
+- name: LoadBalancerSkuTier
+  description: Tier of a load balancer SKU.
+  kind: enum
+  properties:
+  - name: Regional
+    types:
+    - uid: string
+  - name: Global
     types:
     - uid: string
 - name: SubResource
@@ -798,6 +840,10 @@ definitions:
   description: Public IP address resource.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the public ip address.
+    types:
+    - uid: ExtendedLocation
   - name: sku
     description: The public IP address SKU.
     types:
@@ -921,6 +967,10 @@ definitions:
   - name: properties.networkInterfaceIPConfiguration
     isReadyOnly: true
     description: Reference to IP address defined in network interfaces.
+    types:
+    - uid: SubResource
+  - name: properties.loadBalancerFrontendIPConfiguration
+    description: Reference to the frontend ip address configuration defined in regional loadbalancer.
     types:
     - uid: SubResource
 - name: NetworkInterfaceIPConfiguration
@@ -1529,6 +1579,10 @@ definitions:
     description: Name of a public IP address SKU.
     types:
     - uid: PublicIPAddressSkuName
+  - name: tier
+    description: Tier of a public IP address SKU.
+    types:
+    - uid: PublicIPAddressSkuTier
 - name: PublicIPAddressDnsSettings
   description: Contains FQDN of the DNS record associated with the public IP address.
   kind: object
@@ -1831,6 +1885,10 @@ definitions:
   description: A network interface in a resource group.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the network interface.
+    types:
+    - uid: ExtendedLocation
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
@@ -1889,6 +1947,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.dscpConfiguration
+    isReadyOnly: true
+    description: A reference to the dscp configuration to which the network interface is linked.
+    types:
+    - uid: SubResource
   - name: properties.resourceGuid
     isReadyOnly: true
     description: The resource GUID property of the network interface resource.
@@ -2130,6 +2193,16 @@ definitions:
   - name: Standard
     types:
     - uid: string
+- name: PublicIPAddressSkuTier
+  description: Tier of a public IP address SKU.
+  kind: enum
+  properties:
+  - name: Regional
+    types:
+    - uid: string
+  - name: Global
+    types:
+    - uid: string
 - name: DdosSettingsProtectionCoverage
   description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
   kind: enum
@@ -2355,7 +2428,7 @@ definitions:
 examples:
 - name: Create load balancer
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2020-07-01
     body: >-
       {
         "location": "eastus",
@@ -2689,7 +2762,7 @@ examples:
       }
 - name: Create load balancer with Standard SKU
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2020-07-01
     body: >-
       {
         "location": "eastus",
@@ -3021,9 +3094,318 @@ examples:
           "inboundNatPools": []
         }
       }
+- name: Create load balancer with Global Tier and one regional load balancer in its backend pool
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2020-07-01
+    body: >-
+      {
+        "location": "eastus",
+        "sku": {
+          "name": "Standard",
+          "tier": "Global"
+        },
+        "properties": {
+          "frontendIPConfigurations": [
+            {
+              "name": "fe-lb",
+              "properties": {
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
+                }
+              }
+            }
+          ],
+          "backendAddressPools": [
+            {
+              "name": "be-lb",
+              "properties": {
+                "loadBalancerBackendAddresses": [
+                  {
+                    "name": "regional-lb1-address",
+                    "properties": {
+                      "loadBalancerFrontendIPConfiguration": {
+                        "id": "/subscriptions/subid/resourceGroups/regional-lb-rg1/providers/Microsoft.Network/loadBalancers/regional-lb/frontendIPConfigurations/fe-rlb"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "name": "rulelb",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 80,
+                "backendPort": 80,
+                "enableFloatingIP": false,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "loadDistribution": "Default",
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "probe": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                }
+              }
+            }
+          ],
+          "probes": [
+            {
+              "name": "probe-lb",
+              "properties": {
+                "protocol": "Http",
+                "port": 80,
+                "requestPath": "healthcheck.aspx",
+                "intervalInSeconds": 15,
+                "numberOfProbes": 2
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "lb",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb",
+        "type": "Microsoft.Network/loadBalancers",
+        "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+        "location": "eastus",
+        "sku": {
+          "name": "Standard",
+          "tier": "Global"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-00000000",
+          "frontendIPConfigurations": [
+            {
+              "name": "fe-lb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              "type": "Microsoft.Network/loadBalancers/frontendIPConfigurations",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateIPAddress": "10.0.1.4",
+                "privateIPAllocationMethod": "Dynamic",
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
+                },
+                "loadBalancingRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                  }
+                ],
+                "inboundNatRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/in-nat-rule"
+                  }
+                ]
+              }
+            }
+          ],
+          "backendAddressPools": [
+            {
+              "name": "be-lb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              "type": "Microsoft.Network/loadBalancers/backendAddressPools",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "loadBalancerBackendAddresses": [
+                  {
+                    "name": "regional-lb1-address",
+                    "properties": {
+                      "loadBalancerFrontendIPConfiguration": {
+                        "id": "/subscriptions/subid/resourceGroups/regional-lb-rg1/providers/Microsoft.Network/loadBalancers/regional-lb/frontendIPConfigurations/fe-rlb"
+                      }
+                    }
+                  }
+                ],
+                "loadBalancingRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                  }
+                ]
+              }
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "name": "rulelb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb",
+              "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 80,
+                "backendPort": 80,
+                "enableFloatingIP": false,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "loadDistribution": "Default",
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "probe": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                },
+                "disableOutboundSnat": false
+              }
+            }
+          ],
+          "probes": [
+            {
+              "name": "probe-lb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              "type": "Microsoft.Network/loadBalancers/probes",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "Http",
+                "port": 80,
+                "requestPath": "healthcheck.aspx",
+                "intervalInSeconds": 15,
+                "numberOfProbes": 2,
+                "loadBalancingRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "lb",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb",
+        "type": "Microsoft.Network/loadBalancers",
+        "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+        "location": "eastus",
+        "sku": {
+          "name": "Standard",
+          "tier": "Global"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "resourceGuid": "00000000-0000-0000-0000-00000000",
+          "frontendIPConfigurations": [
+            {
+              "name": "fe-lb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              "type": "Microsoft.Network/loadBalancers/frontendIPConfigurations",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateIPAddress": "10.0.1.4",
+                "privateIPAllocationMethod": "Dynamic",
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
+                },
+                "loadBalancingRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                  }
+                ],
+                "inboundNatRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatRules/in-nat-rule"
+                  }
+                ]
+              }
+            }
+          ],
+          "backendAddressPools": [
+            {
+              "name": "be-lb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              "type": "Microsoft.Network/loadBalancers/backendAddressPools",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "loadBalancerBackendAddresses": [
+                  {
+                    "name": "regional-lb1-address",
+                    "properties": {
+                      "loadBalancerFrontendIPConfiguration": {
+                        "id": "/subscriptions/subid/resourceGroups/regional-lb-rg1/providers/Microsoft.Network/loadBalancers/regional-lb/frontendIPConfigurations/fe-rlb"
+                      }
+                    }
+                  }
+                ],
+                "loadBalancingRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                  }
+                ]
+              }
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "name": "rulelb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb",
+              "type": "Microsoft.Network/loadBalancers/loadBalancingRules",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 80,
+                "backendPort": 80,
+                "enableFloatingIP": false,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "loadDistribution": "Default",
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "probe": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                },
+                "disableOutboundSnat": false
+              }
+            }
+          ],
+          "probes": [
+            {
+              "name": "probe-lb",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              "type": "Microsoft.Network/loadBalancers/probes",
+              "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "protocol": "Http",
+                "port": 80,
+                "requestPath": "healthcheck.aspx",
+                "intervalInSeconds": 15,
+                "numberOfProbes": 2,
+                "loadBalancingRules": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/loadBalancingRules/rulelb"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
 - name: Create load balancer with Frontend IP in Zone 1
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2020-07-01
     body: >-
       {
         "location": "eastus",
@@ -3366,7 +3748,7 @@ examples:
       }
 - name: Create load balancer with inbound nat pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2020-07-01
     body: >-
       {
         "location": "eastus",
@@ -3541,7 +3923,7 @@ examples:
       }
 - name: Create load balancer with outbound rules
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2020-07-01
     body: >-
       {
         "location": "eastus",

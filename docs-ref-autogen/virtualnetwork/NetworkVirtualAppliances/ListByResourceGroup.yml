@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.networkvirtualappliances.listbyresource
 name: List By Resource Group
 service: Virtual Networks
 groupName: Network Virtual Appliances
-apiVersion: 2020-05-01
+apiVersion: 2020-07-01
 summary: Lists all Network Virtual Appliances in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances?api-version=2020-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances?api-version=2020-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -79,6 +79,11 @@ definitions:
     description: Network Virtual Appliance SKU.
     types:
     - uid: VirtualApplianceSkuProperties
+  - name: properties.addressPrefix
+    isReadyOnly: true
+    description: Address Prefix.
+    types:
+    - uid: string
   - name: properties.bootStrapConfigurationBlobs
     description: BootStrapConfigurationBlobs storage URLs.
     types:
@@ -110,6 +115,12 @@ definitions:
   - name: properties.virtualApplianceSites
     isReadyOnly: true
     description: List of references to VirtualApplianceSite.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.inboundSecurityRules
+    isReadyOnly: true
+    description: List of references to InboundSecurityRules.
     types:
     - uid: SubResource
       isArray: true
@@ -273,7 +284,7 @@ definitions:
 examples:
 - name: List all Network Virtual Appliance for a given resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkVirtualAppliances?api-version=2020-05-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkVirtualAppliances?api-version=2020-07-01
   responses:
   - statusCode: "200"
     body: >-
@@ -300,12 +311,18 @@ examples:
                 "bundledScaleUnit": "1",
                 "marketPlaceVersion": "12.1"
               },
+              "addressPrefix": "192.168.1.0/16",
               "virtualHub": {
                 "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1"
               },
               "virtualApplianceSites": [
                 {
                   "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networtkVirtualAppliances/nva/virtualApplianceSites/site1"
+                }
+              ],
+              "inboundSecurityRules": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkVirtualAppliances/nva/InboundSecurityRules/rule1"
                 }
               ],
               "provisioningState": "Succeeded",

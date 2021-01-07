@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.publicipprefixes.listall
 name: List All
 service: Virtual Networks
 groupName: Public IP Prefixes
-apiVersion: 2020-05-01
+apiVersion: 2020-07-01
 summary: Gets all the public IP prefixes in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPPrefixes?api-version=2020-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/publicIPPrefixes?api-version=2020-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -60,6 +60,10 @@ definitions:
   description: Public IP prefix resource.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the public ip address.
+    types:
+    - uid: ExtendedLocation
   - name: sku
     description: The public IP prefix SKU.
     types:
@@ -101,6 +105,10 @@ definitions:
   - name: properties.loadBalancerFrontendIpConfiguration
     isReadyOnly: true
     description: The reference to load balancer frontend IP configuration associated with the public IP prefix.
+    types:
+    - uid: SubResource
+  - name: properties.customIPPrefix
+    description: The customIpPrefix that this prefix is associated with.
     types:
     - uid: SubResource
   - name: properties.resourceGuid
@@ -160,6 +168,18 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: ExtendedLocation
+  description: ExtendedLocation complex type.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: PublicIPPrefixSku
   description: SKU of a public IP prefix.
   kind: object
@@ -168,6 +188,10 @@ definitions:
     description: Name of a public IP prefix SKU.
     types:
     - uid: PublicIPPrefixSkuName
+  - name: tier
+    description: Tier of a public IP prefix SKU.
+    types:
+    - uid: PublicIPPrefixSkuTier
 - name: IPVersion
   description: IP address version.
   kind: enum
@@ -222,6 +246,13 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 - name: PublicIPPrefixSkuName
   description: Name of a public IP prefix SKU.
   kind: enum
@@ -229,10 +260,20 @@ definitions:
   - name: Standard
     types:
     - uid: string
+- name: PublicIPPrefixSkuTier
+  description: Tier of a public IP prefix SKU.
+  kind: enum
+  properties:
+  - name: Regional
+    types:
+    - uid: string
+  - name: Global
+    types:
+    - uid: string
 examples:
 - name: List all public IP prefixes
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/publicIPPrefixes?api-version=2020-05-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/publicIPPrefixes?api-version=2020-07-01
   responses:
   - statusCode: "200"
     body: >-

@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.p2svpngateways.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: P2s Vpn Gateways
-apiVersion: 2020-05-01
+apiVersion: 2020-07-01
 summary: Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}?api-version=2020-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}?api-version=2020-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -79,6 +79,11 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: properties.isRoutingPreferenceInternet
+    in: body
+    description: Enable Routing Preference property for the Public IP Interface of the P2SVpnGateway.
+    types:
+    - uid: boolean
   - name: id
     in: body
     description: Resource ID.
@@ -129,6 +134,10 @@ definitions:
     description: The Routing Configuration indicating the associated and propagated route tables on this connection.
     types:
     - uid: RoutingConfiguration
+  - name: properties.enableInternetSecurity
+    description: Flag indicating whether the enable internet security flag is turned on for the P2S Connections or not.
+    types:
+    - uid: boolean
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the P2SConnectionConfiguration resource.
@@ -202,6 +211,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.isRoutingPreferenceInternet
+    description: Enable Routing Preference property for the Public IP Interface of the P2SVpnGateway.
+    types:
+    - uid: boolean
   - name: id
     description: Resource ID.
     types:
@@ -341,7 +354,7 @@ definitions:
 examples:
 - name: P2SVpnGatewayPut
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2svpnGateways/p2sVpnGateway1?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2svpnGateways/p2sVpnGateway1?api-version=2020-07-01
     body: >-
       {
         "location": "West US",
@@ -397,7 +410,8 @@ examples:
           "customDnsServers": [
             "1.1.1.1",
             "2.2.2.2"
-          ]
+          ],
+          "isRoutingPreferenceInternet": false
         }
       }
   responses:
@@ -453,7 +467,8 @@ examples:
                   "vnetRoutes": {
                     "staticRoutes": []
                   }
-                }
+                },
+                "enableInternetSecurity": false
               }
             }
           ],
@@ -467,7 +482,8 @@ examples:
             "allocatedIpAddresses": [],
             "totalIngressBytesTransferred": 0,
             "totalEgressBytesTransferred": 0
-          }
+          },
+          "isRoutingPreferenceInternet": false
         }
       }
   - statusCode: "201"
@@ -522,7 +538,8 @@ examples:
                   "vnetRoutes": {
                     "staticRoutes": []
                   }
-                }
+                },
+                "enableInternetSecurity": false
               }
             }
           ],
@@ -536,7 +553,8 @@ examples:
             "allocatedIpAddresses": [],
             "totalIngressBytesTransferred": 0,
             "totalEgressBytesTransferred": 0
-          }
+          },
+          "isRoutingPreferenceInternet": false
         }
       }
 security:

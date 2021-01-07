@@ -41,6 +41,8 @@ responses:
 
      * 400 SubscriptionNotFound - The requested subscription was not found.
 
+     * 400 MiGeoRestoreWithWrongBackupStorageRedundancy - Geo-Restore is not allowed for managed instances with LRS/ZRS backup storage redundancy.
+
      * 400 ProvisioningDisabled - Displays error message from resources operation authorizer as is, without changes
 
      * 400 ManagementServiceFeatureDisabled - User attempted to use a feature which is disabled.
@@ -211,6 +213,12 @@ definitions:
     description: Specifies maintenance configuration id to apply to this managed instance.
     types:
     - uid: string
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: List of private endpoint connections on a managed instance.
+    types:
+    - uid: ManagedInstancePecProperty
+      isArray: true
   - name: properties.minimalTlsVersion
     description: "Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'"
     types:
@@ -219,6 +227,10 @@ definitions:
     description: The storage account type used to store backups for this instance. The options are LRS (LocallyRedundantStorage), ZRS (ZoneRedundantStorage) and GRS (GeoRedundantStorage)
     types:
     - uid: StorageAccountType
+  - name: properties.zoneRedundant
+    description: Whether or not the multi-az is enabled.
+    types:
+    - uid: boolean
   - name: location
     description: Resource location.
     types:
@@ -330,6 +342,20 @@ definitions:
   - name: Default
     types:
     - uid: string
+- name: ManagedInstancePecProperty
+  description: A private endpoint connection under a managed instance
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: properties
+    isReadyOnly: true
+    description: Private endpoint connection properties
+    types:
+    - uid: ManagedInstancePrivateEndpointConnectionProperties
 - name: StorageAccountType
   description: The storage account type used to store backups for this instance. The options are LRS (LocallyRedundantStorage), ZRS (ZoneRedundantStorage) and GRS (GeoRedundantStorage)
   kind: enum
@@ -347,7 +373,53 @@ definitions:
   description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
   kind: enum
   properties:
+  - name: None
+    types:
+    - uid: string
   - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+- name: ManagedInstancePrivateEndpointConnectionProperties
+  description: Properties of a private endpoint connection.
+  kind: object
+  properties:
+  - name: privateEndpoint
+    description: Private endpoint which the connection belongs to.
+    types:
+    - uid: ManagedInstancePrivateEndpointProperty
+  - name: privateLinkServiceConnectionState
+    description: Connection State of the Private Endpoint Connection.
+    types:
+    - uid: ManagedInstancePrivateLinkServiceConnectionStateProperty
+  - name: provisioningState
+    isReadyOnly: true
+    description: State of the Private Endpoint Connection.
+    types:
+    - uid: string
+- name: ManagedInstancePrivateEndpointProperty
+  kind: object
+  properties:
+  - name: id
+    description: Resource id of the private endpoint.
+    types:
+    - uid: string
+- name: ManagedInstancePrivateLinkServiceConnectionStateProperty
+  kind: object
+  properties:
+  - name: status
+    description: The private link service connection status.
+    types:
+    - uid: string
+  - name: description
+    description: The private link service connection description.
+    types:
+    - uid: string
+  - name: actionsRequired
+    isReadyOnly: true
+    description: The private link service connection description.
     types:
     - uid: string
 examples:
@@ -375,7 +447,6 @@ examples:
               "administratorLogin": "dummylogin",
               "subnetId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
               "state": "Ready",
-              "provisioningState": "Succeeded",
               "vCores": 8,
               "storageSizeInGB": 1024,
               "licenseType": "LicenseIncluded",
@@ -383,7 +454,7 @@ examples:
               "publicDataEndpointEnabled": false,
               "proxyOverride": "Default",
               "dnsZone": "1b4e2caff2530",
-              "maintenanceConfigurationId": "/subscriptions/ab0e51c0-83c0-4380-8ae9-025516df392f/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_WestEurope_MI_Mon_Fri_10PM_6AM",
+              "maintenanceConfigurationId": "/subscriptions/ab0e51c0-83c0-4380-8ae9-025516df392f/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_WestEurope_MI_1",
               "storageAccountType": "GRS"
             }
           },
@@ -403,7 +474,6 @@ examples:
               "administratorLogin": "dummylogin",
               "subnetId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/subnet2",
               "state": "Ready",
-              "provisioningState": "Succeeded",
               "vCores": 16,
               "storageSizeInGB": 1024,
               "licenseType": "Full",
@@ -411,7 +481,7 @@ examples:
               "publicDataEndpointEnabled": false,
               "proxyOverride": "Default",
               "dnsZone": "2c3d1bdae3412",
-              "maintenanceConfigurationId": "/subscriptions/ab0e51c0-83c0-4380-8ae9-025516df392f/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_WestEurope_MI_Mon_Fri_10PM_6AM",
+              "maintenanceConfigurationId": "/subscriptions/ab0e51c0-83c0-4380-8ae9-025516df392f/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_WestEurope_MI_1",
               "storageAccountType": "GRS"
             }
           }

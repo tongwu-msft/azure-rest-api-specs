@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgatewayconnections.creat
 name: Create Or Update
 service: Network Gateway
 groupName: Virtual Network Gateway Connections
-apiVersion: 2020-05-01
+apiVersion: 2020-07-01
 summary: Creates or updates a virtual network gateway connection in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2020-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2020-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -94,6 +94,11 @@ requestBody:
     description: The dead peer detection timeout of this connection in seconds.
     types:
     - uid: integer
+  - name: properties.connectionMode
+    in: body
+    description: The connection mode for this connection.
+    types:
+    - uid: VirtualNetworkGatewayConnectionMode
   - name: properties.sharedKey
     in: body
     description: The IPSec shared key.
@@ -234,6 +239,14 @@ definitions:
     description: The IP address allocated by the gateway to which dns requests can be sent.
     types:
     - uid: string
+  - name: properties.virtualNetworkExtendedLocationResourceId
+    description: MAS FIJI customer vnet resource id. VirtualNetworkGateway of type local gateway is associated with the customer vnet.
+    types:
+    - uid: string
+  - name: properties.extendedLocation
+    description: The extended location of type local virtual network gateway.
+    types:
+    - uid: ExtendedLocation
   - name: id
     description: Resource ID.
     types:
@@ -449,6 +462,10 @@ definitions:
     description: The dead peer detection timeout of this connection in seconds.
     types:
     - uid: integer
+  - name: properties.connectionMode
+    description: The connection mode for this connection.
+    types:
+    - uid: VirtualNetworkGatewayConnectionMode
   - name: properties.sharedKey
     description: The IPSec shared key.
     types:
@@ -597,6 +614,9 @@ definitions:
   - name: ExpressRoute
     types:
     - uid: string
+  - name: LocalGateway
+    types:
+    - uid: string
 - name: VpnType
   description: The type of this virtual network gateway.
   kind: enum
@@ -736,6 +756,18 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: ExtendedLocation
+  description: ExtendedLocation complex type.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: VirtualNetworkGatewayConnectionStatus
   description: Virtual Network Gateway connection status.
   kind: enum
@@ -935,6 +967,19 @@ definitions:
     types:
     - uid: string
   - name: IKEv1
+    types:
+    - uid: string
+- name: VirtualNetworkGatewayConnectionMode
+  description: Gateway connection type.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: ResponderOnly
+    types:
+    - uid: string
+  - name: InitiatorOnly
     types:
     - uid: string
 - name: CloudErrorBody
@@ -1171,10 +1216,17 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 examples:
 - name: CreateVirtualNetworkGatewayConnection_S2S
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/connS2S?api-version=2020-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/connS2S?api-version=2020-07-01
     body: >-
       {
         "properties": {
@@ -1234,7 +1286,8 @@ examples:
           "enableBgp": false,
           "usePolicyBasedTrafficSelectors": false,
           "ipsecPolicies": [],
-          "trafficSelectorPolicies": []
+          "trafficSelectorPolicies": [],
+          "connectionMode": "Default"
         },
         "location": "centralus"
       }
@@ -1268,7 +1321,8 @@ examples:
           "usePolicyBasedTrafficSelectors": false,
           "ipsecPolicies": [],
           "ingressBytesTransferred": 0,
-          "egressBytesTransferred": 0
+          "egressBytesTransferred": 0,
+          "connectionMode": "Default"
         }
       }
   - statusCode: "200"
@@ -1300,7 +1354,8 @@ examples:
           "usePolicyBasedTrafficSelectors": false,
           "ipsecPolicies": [],
           "ingressBytesTransferred": 0,
-          "egressBytesTransferred": 0
+          "egressBytesTransferred": 0,
+          "connectionMode": "Default"
         }
       }
 security:

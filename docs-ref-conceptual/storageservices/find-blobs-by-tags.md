@@ -64,8 +64,7 @@ The `Find Blobs by Tags` operation finds all blobs in the storage account whose 
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
-  
- The format of the response body is as follows:  
+ In version 2020-04-20 and newer, the blob's matching tags are encapsulated within a Tags element. The format of the response body is as follows:  
   
 ```  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -75,7 +74,18 @@ The `Find Blobs by Tags` operation finds all blobs in the storage account whose 
     <Blob>  
       <Name>blob-name</Name>  
       <ContainerName>container-name</ContainerName>  
-      <TagValue>matching-tag-value</TagValue>  
+      <Tags>
+        <TagSet>
+          <Tag>
+            <Key>matching-tag-name1</Key>
+            <Value>matching-tag-value1</Value>
+          </Tag>
+          <Tag>
+            <Key>matching-tag-name2</Key>
+            <Value>matching-tag-value2</Value>
+          </Tag>
+        </TagSet>
+      </Tags> 
     </Blob>  
   </Blobs>  
   <NextMarker />  

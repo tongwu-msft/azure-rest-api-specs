@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgatewayconnections.list
 name: List
 service: Network Gateway
 groupName: Virtual Network Gateway Connections
-apiVersion: 2020-05-01
+apiVersion: 2020-07-01
 summary: The List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections?api-version=2020-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections?api-version=2020-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -104,6 +104,10 @@ definitions:
     description: The dead peer detection timeout of this connection in seconds.
     types:
     - uid: integer
+  - name: properties.connectionMode
+    description: The connection mode for this connection.
+    types:
+    - uid: VirtualNetworkGatewayConnectionMode
   - name: properties.sharedKey
     description: The IPSec shared key.
     types:
@@ -293,6 +297,14 @@ definitions:
     description: The IP address allocated by the gateway to which dns requests can be sent.
     types:
     - uid: string
+  - name: properties.virtualNetworkExtendedLocationResourceId
+    description: MAS FIJI customer vnet resource id. VirtualNetworkGateway of type local gateway is associated with the customer vnet.
+    types:
+    - uid: string
+  - name: properties.extendedLocation
+    description: The extended location of type local virtual network gateway.
+    types:
+    - uid: ExtendedLocation
   - name: id
     description: Resource ID.
     types:
@@ -404,6 +416,19 @@ definitions:
     types:
     - uid: string
   - name: IKEv1
+    types:
+    - uid: string
+- name: VirtualNetworkGatewayConnectionMode
+  description: Gateway connection type.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: ResponderOnly
+    types:
+    - uid: string
+  - name: InitiatorOnly
     types:
     - uid: string
 - name: VirtualNetworkGatewayConnectionStatus
@@ -574,6 +599,9 @@ definitions:
   - name: ExpressRoute
     types:
     - uid: string
+  - name: LocalGateway
+    types:
+    - uid: string
 - name: VpnType
   description: The type of this virtual network gateway.
   kind: enum
@@ -697,6 +725,18 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: ExtendedLocation
+  description: ExtendedLocation complex type.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: IpsecEncryption
   description: The IPSec encryption algorithm (IKE phase 1).
   kind: enum
@@ -1069,10 +1109,17 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 examples:
 - name: ListVirtualNetworkGatewayConnectionsinResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections?api-version=2020-05-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections?api-version=2020-07-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1105,7 +1152,8 @@ examples:
               "ipsecPolicies": [],
               "trafficSelectorPolicies": [],
               "ingressBytesTransferred": 0,
-              "egressBytesTransferred": 0
+              "egressBytesTransferred": 0,
+              "connectionMode": "Default"
             }
           },
           {
@@ -1135,7 +1183,8 @@ examples:
               "ipsecPolicies": [],
               "trafficSelectorPolicies": [],
               "ingressBytesTransferred": 0,
-              "egressBytesTransferred": 0
+              "egressBytesTransferred": 0,
+              "connectionMode": "Default"
             }
           }
         ]

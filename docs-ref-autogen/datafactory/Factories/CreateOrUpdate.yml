@@ -71,6 +71,11 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: GlobalParameterSpecification
+  - name: properties.encryption
+    in: body
+    description: Properties to enable Customer Managed Key for the factory.
+    types:
+    - uid: EncryptionConfiguration
   - name: properties.publicNetworkAccess
     in: body
     description: Whether or not public network access is allowed for the data factory.
@@ -102,7 +107,7 @@ definitions:
   kind: object
   properties:
   - name: type
-    description: The identity type. Currently the only supported type is 'SystemAssigned'.
+    description: The identity type.
     types:
     - uid: FactoryIdentityType
   - name: principalId
@@ -115,6 +120,14 @@ definitions:
     description: The client tenant id of the identity.
     types:
     - uid: string
+  - name: userAssignedIdentities
+    description: List of user assigned identities for the factory.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentitySpecification
 - name: GlobalParameterSpecification
   description: Definition of a single parameter for an entity.
   kind: object
@@ -127,6 +140,26 @@ definitions:
     description: Value of parameter.
     types:
     - uid: object
+- name: EncryptionConfiguration
+  description: Definition of CMK for the factory.
+  kind: object
+  properties:
+  - name: keyName
+    description: The name of the key in Azure Key Vault to use as Customer Managed Key.
+    types:
+    - uid: string
+  - name: vaultBaseUrl
+    description: The url of the Azure Key Vault used for CMK.
+    types:
+    - uid: string
+  - name: keyVersion
+    description: The version of the key used for CMK. If not provided, latest version will be used.
+    types:
+    - uid: string
+  - name: identity
+    description: User assigned identity to use to authenticate to customer's key vault. If not provided Managed Service Identity will be used.
+    types:
+    - uid: CMKIdentityDefinition
 - name: Factory
   description: Factory resource type.
   kind: object
@@ -164,6 +197,10 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: GlobalParameterSpecification
+  - name: properties.encryption
+    description: Properties to enable Customer Managed Key for the factory.
+    types:
+    - uid: EncryptionConfiguration
   - name: properties.publicNetworkAccess
     description: Whether or not public network access is allowed for the data factory.
     types:
@@ -222,12 +259,16 @@ definitions:
     - uid: CloudError
       isArray: true
 - name: FactoryIdentityType
-  description: The identity type. Currently the only supported type is 'SystemAssigned'.
+  description: The identity type.
   kind: enum
   properties:
   - name: SystemAssigned
     types:
     - uid: string
+- name: UserAssignedIdentitySpecification
+  description: Definition of a single user assigned identity for a factory.
+  kind: object
+  properties: []
 - name: FactoryVSTSConfiguration
   description: Factory's VSTS repo information.
   kind: object
@@ -318,6 +359,14 @@ definitions:
     types:
     - uid: string
   - name: Array
+    types:
+    - uid: string
+- name: CMKIdentityDefinition
+  description: Managed Identity used for CMK.
+  kind: object
+  properties:
+  - name: userAssignedIdentity
+    description: The resource id of the user assigned identity to authenticate to customer's key vault.
     types:
     - uid: string
 - name: PublicNetworkAccess

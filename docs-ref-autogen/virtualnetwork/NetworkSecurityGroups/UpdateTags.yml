@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.networksecuritygroups.updatetags
 name: Update Tags
 service: Virtual Networks
 groupName: Network Security Groups
-apiVersion: 2020-05-01
+apiVersion: 2020-07-01
 summary: Updates a network security group tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}?api-version=2020-05-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}?api-version=2020-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -245,6 +245,10 @@ definitions:
   description: A network interface in a resource group.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the network interface.
+    types:
+    - uid: ExtendedLocation
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
@@ -303,6 +307,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.dscpConfiguration
+    isReadyOnly: true
+    description: A reference to the dscp configuration to which the network interface is linked.
+    types:
+    - uid: SubResource
   - name: properties.resourceGuid
     isReadyOnly: true
     description: The resource GUID property of the network interface resource.
@@ -638,6 +647,18 @@ definitions:
   - name: Outbound
     types:
     - uid: string
+- name: ExtendedLocation
+  description: ExtendedLocation complex type.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: SubResource
   description: Reference to another subresource.
   kind: object
@@ -1189,6 +1210,13 @@ definitions:
     description: Parameters that define the configuration of traffic analytics.
     types:
     - uid: TrafficAnalyticsConfigurationProperties
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 - name: PrivateLinkServiceConnection
   description: PrivateLinkServiceConnection resource.
   kind: object
@@ -1486,6 +1514,10 @@ definitions:
   description: Public IP address resource.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the public ip address.
+    types:
+    - uid: ExtendedLocation
   - name: sku
     description: The public IP address SKU.
     types:
@@ -1823,6 +1855,10 @@ definitions:
     description: Reference to IP address defined in network interfaces.
     types:
     - uid: SubResource
+  - name: properties.loadBalancerFrontendIPConfiguration
+    description: Reference to the frontend ip address configuration defined in regional loadbalancer.
+    types:
+    - uid: SubResource
 - name: TransportProtocol
   description: The transport protocol for the endpoint.
   kind: enum
@@ -1844,6 +1880,10 @@ definitions:
     description: Name of a public IP address SKU.
     types:
     - uid: PublicIPAddressSkuName
+  - name: tier
+    description: Tier of a public IP address SKU.
+    types:
+    - uid: PublicIPAddressSkuTier
 - name: PublicIPAddressDnsSettings
   description: Contains FQDN of the DNS record associated with the public IP address.
   kind: object
@@ -1917,6 +1957,16 @@ definitions:
   - name: Standard
     types:
     - uid: string
+- name: PublicIPAddressSkuTier
+  description: Tier of a public IP address SKU.
+  kind: enum
+  properties:
+  - name: Regional
+    types:
+    - uid: string
+  - name: Global
+    types:
+    - uid: string
 - name: DdosSettingsProtectionCoverage
   description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
   kind: enum
@@ -1930,7 +1980,7 @@ definitions:
 examples:
 - name: Update network security group tags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg?api-version=2020-05-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/testnsg?api-version=2020-07-01
     body: >-
       {
         "tags": {

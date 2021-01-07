@@ -21,10 +21,9 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group. The name is case insensitive.
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
   types:
   - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: managedInstanceName
   in: path
   isRequired: true
@@ -40,7 +39,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for this operation.
+  description: The API version to use for the request.
   types:
   - uid: string
 responses:
@@ -52,45 +51,45 @@ responses:
   description: >-
     *** Error Responses: ***
 
-     * 400 InvalidServerName - Invalid server name specified.
-
-     * 400 TokenTooLong - The provided token is too long.
-
-     * 400 ManagedInstanceUpdateSloInProgress - "The operation could not be completed because a service tier change is in progress for managed instance '{0}.' Please wait for the operation in progress to complete and try again."
-
-     * 400 DatabaseNumberLimitReached - Maximum number of databases for SQL Database Managed Instance reached.
-
-     * 400 CurrentDatabaseSizeExceedsMaxSize - User attempted to reduce the max size for a database to a size smaller than the current usage.
-
-     * 400 InvalidCollation - Collation is not recognized by the server.
-
-     * 400 SourceDatabaseNotFound - The source database does not exist.
-
      * 400 PitrPointInTimeInvalid - The point in time {0} is not valid. Valid point in time range from {1} days early to now and not before source server creation time.
-
-     * 400 PasswordNotComplex - The provided password is not complex enough.
-
-     * 400 ManagedDatabaseNameInUse - Database '{0}' already exists. Choose a different database name.
 
      * 400 CannotUseTrailingWhitespacesInDatabaseName - The database name validation failed.
 
+     * 400 InvalidBackupRetentionPeriod - The retention days of {0} is not a valid configuration. Valid backup retention in days must be between {1} and {2}
+
+     * 400 ManagedDatabaseNameInUse - Database '{0}' already exists. Choose a different database name.
+
      * 400 NoMoreSpaceInManagedInstance - The managed instance has reached its storage limit. The storage usage for the managed instance cannot exceed (%d) MBs.
 
-     * 400 InvalidBackupRetentionPeriod - The retention days of {0} is not a valid configuration. Valid backup retention in days must be between {1} and {2}
+     * 400 ManagedInstanceUpdateSloInProgress - "The operation could not be completed because a service tier change is in progress for managed instance '{0}.' Please wait for the operation in progress to complete and try again."
+
+     * 400 SourceDatabaseNotFound - The source database does not exist.
 
      * 400 RegionDoesNotSupportVersion - A user attempted to create a server of a specified version in a location where that server version isn't supported.
 
-     * 400 SourceServerNotFound - The server part of a source database id provided in a CreateDatabaseAsCopy API call doesn't map to an existing server.
-
-     * 400 ServerNotFound - The requested server was not found.
-
-     * 400 UnsupportedServiceName - The specified name is an invalid name because it contains one or more unsupported unicode characters.
+     * 400 PasswordNotComplex - The provided password is not complex enough.
 
      * 400 CannotUseReservedDatabaseName - Cannot use reserved database name in this operation.
 
      * 400 SubscriptionNotFound - The requested subscription was not found.
 
+     * 400 InvalidServerName - Invalid server name specified.
+
+     * 400 SourceServerNotFound - The server part of a source database id provided in a CreateDatabaseAsCopy API call doesn't map to an existing server.
+
+     * 400 TokenTooLong - The provided token is too long.
+
+     * 400 CurrentDatabaseSizeExceedsMaxSize - User attempted to reduce the max size for a database to a size smaller than the current usage.
+
+     * 400 InvalidCollation - Collation is not recognized by the server.
+
+     * 400 ServerNotFound - The requested server was not found.
+
+     * 400 UnsupportedServiceName - The specified name is an invalid name because it contains one or more unsupported unicode characters.
+
      * 400 CurrentDatabaseLogSizeExceedsMaxSize - User attempted to change the database to a sku with lower max log size than the current usage.
+
+     * 400 DatabaseNumberLimitReached - Maximum number of databases for SQL Database Managed Instance reached.
 
      * 400 InvalidDatabaseCreateOrUpdateRequest - The request body for the create or update database operation is invalid.
 
@@ -122,11 +121,75 @@ responses:
 
      * 400 InvalidLongTermRetentionManagedInstanceBackupId - Invalid long term retention backup identifier for Managed Instances.
 
-     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+     * 400 MiGeoRestoreWithWrongBackupStorageRedundancy - Geo-Restore is not allowed for managed instances with LRS/ZRS backup storage redundancy.
+
+     * 400 ProvisioningDisabled - Displays error message from resources operation authorizer as is, without changes
+
+     * 400 ManagementServiceFeatureDisabled - User attempted to use a feature which is disabled.
+
+     * 400 AutoCompleteMissingLastBackupName - Auto complete restore request must have lastBackupName parameter provided.
+
+     * 400 MissingThumbprint - Can not find server certificate.
+
+     * 400 BlobStorageServerFailure - Blob storage server failure has occurred.
+
+     * 400 BackupSetNotFound - No backups were found to restore the database. Please contact support to restore the database.
+
+     * 400 FullBackupNotFound - Full backup can not be found.
+
+     * 400 RestoreFromStripedBackupsNotEnabled - Restoring from striped backups is not supported.
+
+     * 400 BrokenRestorePlanNoFullBackup - The restore plan is broken because there is no full backup.
+
+     * 400 BrokenRestorePlanWrongLogBackupLSN - The restore plan is broken because firstLsn of current log backup is not <= lastLsn of next log backup.
+
+     * 400 BrokenRestorePlanWrongDiffBackupLSN - The restore plan is broken because firstLsn of diff backup is not >= firstLsn of full backup.
+
+     * 400 BrokenRestorePlanGapInLogBackups - The restore plan is broken because firstLsn of current log backup is not equal to lastLsn of prev log backup.
+
+     * 400 XtpInitializedDuringRestore - Memory-optimized filegroup must be empty in order to be restored on General Purpose tier of SQL Database Managed Instance.
+
+     * 400 FullBackupMissingChecksum - Provided full backup is missing checksum.
+
+     * 400 FullBackupDamaged - Provided full backup is damaged.
+
+     * 400 PartiallyContainedDatabaseUnsupported - "Backup for a partially contained database is not supported."
+
+     * 400 RequiredBackupIsNotLastRestored - Migration cannot be completed because provided backup file name is not the name of the last backup file that is restored.
+
+     * 400 ManagedInstanceStorageLimitHit - The managed instance has reached its storage limit.
+
+     * 400 IncompatiblePhysicalLayoutTooFewDataFiles - Database backup contains incompatible physical layout. No data files are found in the backup.
+
+     * 400 IncompatiblePhysicalLayoutNonOnlineDataFilesExist - Database backup contains incompatible physical layout. Non-online data files exist.
+
+     * 400 IncompatiblePhysicalLayoutWrongNumberOfLogFiles - Database backup contains incompatible physical layout. Multiple log files are not supported.
+
+     * 400 IncompatiblePhysicalLayoutNonOnlineLogFilesExist - Database backup contains incompatible physical layout. Non-online log files exist.
+
+     * 400 IncompatiblePhysicalLayoutTooManyNonDataLogFiles - Database backup contains incompatible physical layout. Too many non-data/log files.
+
+     * 400 ExternalBackupAlreadySignaledToComplete - The restore request has already been signaled to complete.
+
+     * 400 ExternalBackupRestoreHasNotBeenStarted - The restore request can only be completed once the restore has started.
+
+     * 400 ExternalBackupUpgradeInProgress - The restore request cannot be completed, since upgrade is in progress.
+
+     * 400 IncompatiblePhysicalLayoutTooManyXTPFiles - Database backup contains incompatible physical layout. Multiple files found in the filegroup that contains MEMORY_OPTIMIZED_DATA.
+
+     * 400 BlobStorageFailure - Blob storage failure has occurred.
 
      * 404 SubscriptionDoesNotHaveServer - The requested server was not found
 
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
      * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 CannotFindServerCertificateWithThumbprint - Cannot find server certificate with thumbprint '{0}'. Please use PowerShell Cmdlet 'Add-AzureRmSqlManagedInstanceTransparentDataEncryptionCertificate' to create the certificate.
+
+     * 404 CannotFindObject - Cannot find the object because it does not exist or you do not have permissions
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
 
      * 404 ServerNotInSubscription - Specified server does not exist on the specified subscription.
 
@@ -134,31 +197,41 @@ responses:
 
      * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
 
-     * 404 CannotFindServerCertificateWithThumbprint - Cannot find server certificate with thumbprint '{0}'. Please use PowerShell Cmdlet 'Add-AzureRmSqlManagedInstanceTransparentDataEncryptionCertificate' to create the certificate.
-
-     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
-
-     * 404 CannotFindObject - Cannot find the object because it does not exist or you do not have permissions
-
      * 409 RemoteDatabaseExists - The destination database name already exists on the destination server.
+
+     * 409 ConflictingDatabaseOperation - There is already some operation on the database and the current operation should wait till it is done.
 
      * 409 SubscriptionDisabled - Subscription is disabled.
 
      * 409 ManagementServiceDatabaseBusy - Database '{0}' is busy with another operation. Please try your operation later.
 
-     * 409 ConflictingDatabaseOperation - There is already some operation on the database and the current operation should wait till it is done.
-
      * 409 ConflictingSystemOperationInProgress - A system maintenance operation is in progress on the database and further operations need to wait until it is completed.
+
+     * 409 ConflictingManagedInstanceOperation - An operation is currently in progress for the managed instance.
+
+     * 409 MiDropFailedOnAuthLocks - User tried to drop last Managed Instance in subnet that has Lock applied on resource(s).
+
+     * 409 MiCreateFailedNonDelegatedSubnet - User tried to deploy Managed Instance or Managed Instance pool in subnet that is not delegated to Microsoft.Sql/managedInstances.
 
      * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
 
      * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
 
+     * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 429 ConflictingSubscriptionOperation - An operation is currently in progress for the subscription.
+
      * 500 ActivateOrDeactivateWorkflowThrottling - Activation or deactivation workflow failed because there are too many concurrent workflows
+
+     * 503 DatabaseUnavailable - The operation failed because the database is unavailable.
 
      * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
 
-     * 503 DatabaseUnavailable - The operation failed because the database is unavailable.
+     * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 504 RequestTimeout - Service request exceeded the allowed timeout.
 
      * 504 RequestTimeout - Service request exceeded the allowed timeout.
 - name: 202 Accepted
@@ -537,6 +610,51 @@ examples:
         "type": "Microsoft.Sql/managedInstances/databases"
       }
   - statusCode: "202"
+- name: Creates a new managed database from restoring a geo-replicated backup
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/server1/databases/testdb_recovered?api-version=2020-02-02-preview
+    body: >-
+      {
+        "location": "southeastasia",
+        "properties": {
+          "createMode": "Recovery",
+          "recoverableDatabaseId": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/Default-SQL-WestEurope/providers/Microsoft.Sql/managedInstances/testsvr/recoverableDatabases/testdb"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "location": "southeastasia",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/server1/recoverableDatabases/testdb_recovered",
+        "name": "testdb_recovered",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "status": "Online",
+          "creationDate": "2018-11-07T04:41:33.937Z"
+        },
+        "type": "Microsoft.Sql/managedInstances/databases"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "tags": {
+          "tagKey1": "TagValue1"
+        },
+        "location": "southeastasia",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/testsvr/recoverableDatabases/testdb_recovered",
+        "name": "testdb_recovered",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "status": "Online",
+          "creationDate": "2018-11-07T04:41:33.937Z"
+        },
+        "type": "Microsoft.Sql/managedInstances/databases"
+      }
+  - statusCode: "202"
 - name: Creates a new managed database by restoring from an external backup
   request:
     uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/managedDatabase?api-version=2020-02-02-preview
@@ -584,51 +702,6 @@ examples:
           "status": "Online",
           "creationDate": "2017-06-07T04:41:33.937Z",
           "defaultSecondaryLocation": "North Europe"
-        },
-        "type": "Microsoft.Sql/managedInstances/databases"
-      }
-  - statusCode: "202"
-- name: Creates a new managed database from restoring a geo-replicated backup
-  request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/server1/databases/testdb_recovered?api-version=2020-02-02-preview
-    body: >-
-      {
-        "location": "southeastasia",
-        "properties": {
-          "createMode": "Recovery",
-          "recoverableDatabaseId": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/Default-SQL-WestEurope/providers/Microsoft.Sql/managedInstances/testsvr/recoverableDatabases/testdb"
-        }
-      }
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "tags": {
-          "tagKey1": "TagValue1"
-        },
-        "location": "southeastasia",
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/server1/recoverableDatabases/testdb_recovered",
-        "name": "testdb_recovered",
-        "properties": {
-          "collation": "SQL_Latin1_General_CP1_CI_AS",
-          "status": "Online",
-          "creationDate": "2018-11-07T04:41:33.937Z"
-        },
-        "type": "Microsoft.Sql/managedInstances/databases"
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "tags": {
-          "tagKey1": "TagValue1"
-        },
-        "location": "southeastasia",
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/testsvr/recoverableDatabases/testdb_recovered",
-        "name": "testdb_recovered",
-        "properties": {
-          "collation": "SQL_Latin1_General_CP1_CI_AS",
-          "status": "Online",
-          "creationDate": "2018-11-07T04:41:33.937Z"
         },
         "type": "Microsoft.Sql/managedInstances/databases"
       }
@@ -682,13 +755,5 @@ examples:
         "type": "Microsoft.Sql/managedInstances/databases"
       }
   - statusCode: "202"
-security:
-- name: azure_auth
-  type: oauth2
-  description: Azure Active Directory OAuth2 Flow
-  flow: implicit
-  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
-  scopes:
-  - name: user_impersonation
-    description: impersonate your user account
+security: []
 errorCodes: []
