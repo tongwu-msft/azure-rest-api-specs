@@ -6870,6 +6870,8 @@
 ### [Wipe MAM User Device](intune/WipeMAMUserDevice/WipeMAMUserDevice.yml)
 # IoT Central
 ## [Overview](../docs-ref-conceptual/iotcentral/index.md)
+## [Authentication](../docs-ref-conceptual/iotcentral/authentication.md)
+## [Throttling](../docs-ref-conceptual/iotcentral/throttling.md)
 ## [Common error codes](../docs-ref-conceptual/iotcentral/common-error-codes.md)
 ## Reference
 ### Api Tokens
