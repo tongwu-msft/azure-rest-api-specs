@@ -1,15 +1,16 @@
 ---
-title: Event Grid REST API | Microsoft Docs
+title: Azure Event Grid REST API | Microsoft Docs
+description: This article lists REST operation groups for Azure Event Grid. 
 author: spelluru
 ms.author: spelluru
-ms.date: 05/22/2020
+ms.date: 01/08/2021
 ms.topic: reference
-ms.service: Azure
+ms.service: event-grid
 ms.devlang: rest-api
 service_description: Build applications with event-based architecture
 ---
 
-# Event Grid REST API
+# Azure Event Grid REST API
 
 Azure Event Grid enables you to easily build applications with event-based architectures. You can publish topics to Event Grid, and subscribe to topics through Event Grid. When subscribing, you provide an endpoint to respond to the event. 
 
