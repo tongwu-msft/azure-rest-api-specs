@@ -6870,6 +6870,8 @@
 ### [Wipe MAM User Device](intune/WipeMAMUserDevice/WipeMAMUserDevice.yml)
 # IoT Central
 ## [Overview](../docs-ref-conceptual/iotcentral/index.md)
+## [Authentication](../docs-ref-conceptual/iotcentral/authentication.md)
+## [Throttling](../docs-ref-conceptual/iotcentral/throttling.md)
 ## [Common error codes](../docs-ref-conceptual/iotcentral/common-error-codes.md)
 ## Reference
 ### Api Tokens
@@ -9669,27 +9671,6 @@
 ### [List](resourcehealth/Operations/List.yml)
 # Resource Management
 ## [Overview](../docs-ref-conceptual/resources/index.md)
-## Application Definitions
-### [Overview](resources/ApplicationDefinitions.yml)
-### [Create Or Update](resources/ApplicationDefinitions/CreateOrUpdate.yml)
-### [Create Or Update By Id](resources/ApplicationDefinitions/CreateOrUpdateById.yml)
-### [Delete](resources/ApplicationDefinitions/Delete.yml)
-### [Delete By Id](resources/ApplicationDefinitions/DeleteById.yml)
-### [Get](resources/ApplicationDefinitions/Get.yml)
-### [Get By Id](resources/ApplicationDefinitions/GetById.yml)
-### [List By Resource Group](resources/ApplicationDefinitions/ListByResourceGroup.yml)
-## Applications
-### [Overview](resources/Applications.yml)
-### [Create Or Update](resources/Applications/CreateOrUpdate.yml)
-### [Create Or Update By Id](resources/Applications/CreateOrUpdateById.yml)
-### [Delete](resources/Applications/Delete.yml)
-### [Delete By Id](resources/Applications/DeleteById.yml)
-### [Get](resources/Applications/Get.yml)
-### [Get By Id](resources/Applications/GetById.yml)
-### [List By Resource Group](resources/Applications/ListByResourceGroup.yml)
-### [List By Subscription](resources/Applications/ListBySubscription.yml)
-### [Update](resources/Applications/Update.yml)
-### [Update By Id](resources/Applications/UpdateById.yml)
 ## Authorization Operations
 ### [Overview](resources/AuthorizationOperations.yml)
 ### [List](resources/AuthorizationOperations/List.yml)
@@ -9775,9 +9756,6 @@
 ## List Operations
 ### [Overview](resources/ListOperations.yml)
 ### [List Operations](resources/ListOperations/ListOperations.yml)
-## List Operations (managed applications)
-### [Overview](resources/List%20Operations%20(managed%20applications).yml)
-### [List Operations](resources/List%20Operations%20(managed%20applications)/ListOperations.yml)
 ## Management Group Subscriptions
 ### [Overview](resources/ManagementGroupSubscriptions.yml)
 ### [Create](resources/ManagementGroupSubscriptions/Create.yml)
