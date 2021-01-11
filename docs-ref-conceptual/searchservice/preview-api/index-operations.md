@@ -84,11 +84,11 @@ Language-specific fields are also illustrated in this index. Description fields 
 }  
 ```  
 
- After the index is created, you'll upload documents that populate the index. See [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](addupdate-or-delete-documents.md) for this next step.  
+ After the index is created, you'll upload documents that populate the index. See [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](../addupdate-or-delete-documents.md) for this next step.
 
  For a code sample that shows how to create and build an index using the REST API, see [Get Started with Azure Cognitive Search using REST](https://github.com/Azure-Samples/search-rest-api-getting-started).  
 
 ## See also  
 
-+ [Azure Cognitive Search REST APIs](index.md)
++ [Azure Cognitive Search REST APIs](../index.md)
 + [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet&preserve-view=true)
