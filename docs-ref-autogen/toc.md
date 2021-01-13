@@ -8158,6 +8158,7 @@
 ### [Overview](MariaDB/ServerSecurityAlertPolicies.yml)
 ### [Create Or Update](MariaDB/ServerSecurityAlertPolicies/CreateOrUpdate.yml)
 ### [Get](MariaDB/ServerSecurityAlertPolicies/Get.yml)
+### [List By Server](MariaDB/ServerSecurityAlertPolicies/ListByServer.yml)
 ## Servers
 ### [Overview](MariaDB/Servers.yml)
 ### [Create](MariaDB/Servers/Create.yml)
