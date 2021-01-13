@@ -9608,10 +9608,6 @@
 ## [Automated Quota Increase (Preview)](../docs-ref-conceptual/reserved-vm-instances/aqm.md)
 ## [Quota API (Preview)](../docs-ref-conceptual/reserved-vm-instances/quotaapi.md)
 ## Reference
-### Auto Quota Increase
-#### [Overview](reserved-vm-instances/AutoQuotaIncrease.yml)
-#### [Create](reserved-vm-instances/AutoQuotaIncrease/Create.yml)
-#### [Get Properties](reserved-vm-instances/AutoQuotaIncrease/GetProperties.yml)
 ### Get Applied Reservation List
 #### [Overview](reserved-vm-instances/GetAppliedReservationList.yml)
 #### [Get Applied Reservation List](reserved-vm-instances/GetAppliedReservationList/GetAppliedReservationList.yml)
