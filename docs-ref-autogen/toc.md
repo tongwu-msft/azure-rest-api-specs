@@ -9612,8 +9612,7 @@
 ### [Regenerate Keys](relay/WCFRelays/RegenerateKeys.yml)
 # Reserved VM Instances
 ## [Overview](../docs-ref-conceptual/reserved-vm-instances/index.md)
-## [Automated Quota Increase (Preview)](../docs-ref-conceptual/reserved-vm-instances/aqm.md)
-## [Quota API (Preview)](../docs-ref-conceptual/reserved-vm-instances/quotaapi.md)
+## [Quota API](../docs-ref-conceptual/reserved-vm-instances/quotaapi.md)
 ## Reference
 ### Auto Quota Increase
 #### [Overview](reserved-vm-instances/AutoQuotaIncrease.yml)
