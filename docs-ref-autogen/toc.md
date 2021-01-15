@@ -3529,58 +3529,6 @@
 ### Images
 #### [Overview](cognitiveservices/bingvisualsearch/Images.yml)
 #### [Visual Search](cognitiveservices/bingvisualsearch/Images/VisualSearch.yml)
-## Computer Vision
-### Analyze Image
-#### [Overview](cognitiveservices/computervision/AnalyzeImage.yml)
-#### [Analyze Image](cognitiveservices/computervision/AnalyzeImage/AnalyzeImage.yml)
-### Analyze Image By Domain
-#### [Overview](cognitiveservices/computervision/AnalyzeImageByDomain.yml)
-#### [Analyze Image By Domain](cognitiveservices/computervision/AnalyzeImageByDomain/AnalyzeImageByDomain.yml)
-### Analyze Image By Domain In Stream
-#### [Overview](cognitiveservices/computervision/AnalyzeImageByDomainInStream.yml)
-#### [Analyze Image By Domain In Stream](cognitiveservices/computervision/AnalyzeImageByDomainInStream/AnalyzeImageByDomainInStream.yml)
-### Analyze Image In Stream
-#### [Overview](cognitiveservices/computervision/AnalyzeImageInStream.yml)
-#### [Analyze Image In Stream](cognitiveservices/computervision/AnalyzeImageInStream/AnalyzeImageInStream.yml)
-### Describe Image
-#### [Overview](cognitiveservices/computervision/DescribeImage.yml)
-#### [Describe Image](cognitiveservices/computervision/DescribeImage/DescribeImage.yml)
-### Describe Image In Stream
-#### [Overview](cognitiveservices/computervision/DescribeImageInStream.yml)
-#### [Describe Image In Stream](cognitiveservices/computervision/DescribeImageInStream/DescribeImageInStream.yml)
-### Detect Objects
-#### [Overview](cognitiveservices/computervision/DetectObjects.yml)
-#### [Detect Objects](cognitiveservices/computervision/DetectObjects/DetectObjects.yml)
-### Detect Objects In Stream
-#### [Overview](cognitiveservices/computervision/DetectObjectsInStream.yml)
-#### [Detect Objects In Stream](cognitiveservices/computervision/DetectObjectsInStream/DetectObjectsInStream.yml)
-### Generate Thumbnail
-#### [Overview](cognitiveservices/computervision/GenerateThumbnail.yml)
-#### [Generate Thumbnail](cognitiveservices/computervision/GenerateThumbnail/GenerateThumbnail.yml)
-### Generate Thumbnail In Stream
-#### [Overview](cognitiveservices/computervision/GenerateThumbnailInStream.yml)
-#### [Generate Thumbnail In Stream](cognitiveservices/computervision/GenerateThumbnailInStream/GenerateThumbnailInStream.yml)
-### Get Area Of Interest
-#### [Overview](cognitiveservices/computervision/GetAreaOfInterest.yml)
-#### [Get Area Of Interest](cognitiveservices/computervision/GetAreaOfInterest/GetAreaOfInterest.yml)
-### Get Area Of Interest In Stream
-#### [Overview](cognitiveservices/computervision/GetAreaOfInterestInStream.yml)
-#### [Get Area Of Interest In Stream](cognitiveservices/computervision/GetAreaOfInterestInStream/GetAreaOfInterestInStream.yml)
-### List Models
-#### [Overview](cognitiveservices/computervision/ListModels.yml)
-#### [List Models](cognitiveservices/computervision/ListModels/ListModels.yml)
-### Recognize Printed Text
-#### [Overview](cognitiveservices/computervision/RecognizePrintedText.yml)
-#### [Recognize Printed Text](cognitiveservices/computervision/RecognizePrintedText/RecognizePrintedText.yml)
-### Recognize Printed Text In Stream
-#### [Overview](cognitiveservices/computervision/RecognizePrintedTextInStream.yml)
-#### [Recognize Printed Text In Stream](cognitiveservices/computervision/RecognizePrintedTextInStream/RecognizePrintedTextInStream.yml)
-### Tag Image
-#### [Overview](cognitiveservices/computervision/TagImage.yml)
-#### [Tag Image](cognitiveservices/computervision/TagImage/TagImage.yml)
-### Tag Image In Stream
-#### [Overview](cognitiveservices/computervision/TagImageInStream.yml)
-#### [Tag Image In Stream](cognitiveservices/computervision/TagImageInStream/TagImageInStream.yml)
 ## Content Moderator
 ### Image Moderation
 #### [Overview](cognitiveservices/contentmoderator/ImageModeration.yml)
@@ -4226,6 +4174,79 @@
 ## Bing Web Search API
 ### [Bing Web Search API v7](../docs-ref-conceptual/cognitiveservices-bingsearch/bing-web-api-v7-reference.md)
 ### [Bing Web Search API v5](../docs-ref-conceptual/cognitiveservices-bingsearch/bing-web-api-v5-reference.md)
+# Cognitive Services - Computer Vision
+## [Overview](../docs-ref-conceptual/computer-vision/index.md)
+## 3.1
+### Analyze Image
+#### [Overview](computervision/3.1/AnalyzeImage.yml)
+#### [Analyze Image](computervision/3.1/AnalyzeImage/AnalyzeImage.yml)
+### Analyze Image By Domain
+#### [Overview](computervision/3.1/AnalyzeImageByDomain.yml)
+#### [Analyze Image By Domain](computervision/3.1/AnalyzeImageByDomain/AnalyzeImageByDomain.yml)
+### Analyze Image By Domain In Stream
+#### [Overview](computervision/3.1/AnalyzeImageByDomainInStream.yml)
+#### [Analyze Image By Domain In Stream](computervision/3.1/AnalyzeImageByDomainInStream/AnalyzeImageByDomainInStream.yml)
+### Analyze Image In Stream
+#### [Overview](computervision/3.1/AnalyzeImageInStream.yml)
+#### [Analyze Image In Stream](computervision/3.1/AnalyzeImageInStream/AnalyzeImageInStream.yml)
+### Describe Image
+#### [Overview](computervision/3.1/DescribeImage.yml)
+#### [Describe Image](computervision/3.1/DescribeImage/DescribeImage.yml)
+### Describe Image In Stream
+#### [Overview](computervision/3.1/DescribeImageInStream.yml)
+#### [Describe Image In Stream](computervision/3.1/DescribeImageInStream/DescribeImageInStream.yml)
+### Detect Objects
+#### [Overview](computervision/3.1/DetectObjects.yml)
+#### [Detect Objects](computervision/3.1/DetectObjects/DetectObjects.yml)
+### Detect Objects In Stream
+#### [Overview](computervision/3.1/DetectObjectsInStream.yml)
+#### [Detect Objects In Stream](computervision/3.1/DetectObjectsInStream/DetectObjectsInStream.yml)
+### Generate Thumbnail
+#### [Overview](computervision/3.1/GenerateThumbnail.yml)
+#### [Generate Thumbnail](computervision/3.1/GenerateThumbnail/GenerateThumbnail.yml)
+### Generate Thumbnail In Stream
+#### [Overview](computervision/3.1/GenerateThumbnailInStream.yml)
+#### [Generate Thumbnail In Stream](computervision/3.1/GenerateThumbnailInStream/GenerateThumbnailInStream.yml)
+### Get Area Of Interest
+#### [Overview](computervision/3.1/GetAreaOfInterest.yml)
+#### [Get Area Of Interest](computervision/3.1/GetAreaOfInterest/GetAreaOfInterest.yml)
+### Get Area Of Interest In Stream
+#### [Overview](computervision/3.1/GetAreaOfInterestInStream.yml)
+#### [Get Area Of Interest In Stream](computervision/3.1/GetAreaOfInterestInStream/GetAreaOfInterestInStream.yml)
+### Get Read Result
+#### [Overview](computervision/3.1/GetReadResult.yml)
+#### [Get Read Result](computervision/3.1/GetReadResult/GetReadResult.yml)
+### List Models
+#### [Overview](computervision/3.1/ListModels.yml)
+#### [List Models](computervision/3.1/ListModels/ListModels.yml)
+### Read
+#### [Overview](computervision/3.1/Read.yml)
+#### [Read](computervision/3.1/Read/Read.yml)
+### Read In Stream
+#### [Overview](computervision/3.1/ReadInStream.yml)
+#### [Read In Stream](computervision/3.1/ReadInStream/ReadInStream.yml)
+### Recognize Printed Text
+#### [Overview](computervision/3.1/RecognizePrintedText.yml)
+#### [Recognize Printed Text](computervision/3.1/RecognizePrintedText/RecognizePrintedText.yml)
+### Recognize Printed Text In Stream
+#### [Overview](computervision/3.1/RecognizePrintedTextInStream.yml)
+#### [Recognize Printed Text In Stream](computervision/3.1/RecognizePrintedTextInStream/RecognizePrintedTextInStream.yml)
+### Tag Image
+#### [Overview](computervision/3.1/TagImage.yml)
+#### [Tag Image](computervision/3.1/TagImage/TagImage.yml)
+### Tag Image In Stream
+#### [Overview](computervision/3.1/TagImageInStream.yml)
+#### [Tag Image In Stream](computervision/3.1/TagImageInStream/TagImageInStream.yml)
+## 3.2 Preview 2
+### Get Read Result
+#### [Overview](computervision/3.2preview2/GetReadResult.yml)
+#### [Get Read Result](computervision/3.2preview2/GetReadResult/GetReadResult.yml)
+### Read
+#### [Overview](computervision/3.2preview2/Read.yml)
+#### [Read](computervision/3.2preview2/Read/Read.yml)
+### Read In Stream
+#### [Overview](computervision/3.2preview2/ReadInStream.yml)
+#### [Read In Stream](computervision/3.2preview2/ReadInStream/ReadInStream.yml)
 # Communication
 ## [Overview](../docs-ref-conceptual/communication/index.md)
 ## [Authentication](../docs-ref-conceptual/communication/authentication.md)
