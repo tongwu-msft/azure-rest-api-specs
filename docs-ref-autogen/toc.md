@@ -15320,6 +15320,7 @@
 ## Data Masking Rules
 ### [Overview](synapse/DataMaskingRules.yml)
 ### [Create Or Update](synapse/DataMaskingRules/CreateOrUpdate.yml)
+### [Get](synapse/DataMaskingRules/Get.yml)
 ### [List By Sql Pool](synapse/DataMaskingRules/ListBySqlPool.yml)
 ## Extended Sql Pool Blob Auditing Policies
 ### [Overview](synapse/ExtendedSqlPoolBlobAuditingPolicies.yml)
@@ -15396,6 +15397,10 @@
 ## Private Endpoint Connections Private Link Hub
 ### [Overview](synapse/PrivateEndpointConnectionsPrivateLinkHub.yml)
 ### [List](synapse/PrivateEndpointConnectionsPrivateLinkHub/List.yml)
+## Private Link Hub Private Link Resources
+### [Overview](synapse/PrivateLinkHubPrivateLinkResources.yml)
+### [Get](synapse/PrivateLinkHubPrivateLinkResources/Get.yml)
+### [List](synapse/PrivateLinkHubPrivateLinkResources/List.yml)
 ## Private Link Hubs
 ### [Overview](synapse/PrivateLinkHubs.yml)
 ### [Create Or Update](synapse/PrivateLinkHubs/CreateOrUpdate.yml)
@@ -15428,8 +15433,16 @@
 ### [Get](synapse/SqlPoolDataWarehouseUserActivities/Get.yml)
 ## Sql Pool Geo Backup Policies
 ### [Overview](synapse/SqlPoolGeoBackupPolicies.yml)
+### [Create Or Update](synapse/SqlPoolGeoBackupPolicies/CreateOrUpdate.yml)
 ### [Get](synapse/SqlPoolGeoBackupPolicies/Get.yml)
 ### [List](synapse/SqlPoolGeoBackupPolicies/List.yml)
+## Sql Pool Maintenance Window Options
+### [Overview](synapse/SqlPoolMaintenanceWindowOptions.yml)
+### [Get](synapse/SqlPoolMaintenanceWindowOptions/Get.yml)
+## Sql Pool Maintenance Windows
+### [Overview](synapse/SqlPoolMaintenanceWindows.yml)
+### [Create Or Update](synapse/SqlPoolMaintenanceWindows/CreateOrUpdate.yml)
+### [Get](synapse/SqlPoolMaintenanceWindows/Get.yml)
 ## Sql Pool Metadata Sync Configs
 ### [Overview](synapse/SqlPoolMetadataSyncConfigs.yml)
 ### [Create](synapse/SqlPoolMetadataSyncConfigs/Create.yml)
@@ -15440,6 +15453,9 @@
 ## Sql Pool Operations
 ### [Overview](synapse/SqlPoolOperations.yml)
 ### [List](synapse/SqlPoolOperations/List.yml)
+## Sql Pool Recommended Sensitivity Labels
+### [Overview](synapse/SqlPoolRecommendedSensitivityLabels.yml)
+### [Update](synapse/SqlPoolRecommendedSensitivityLabels/Update.yml)
 ## Sql Pool Replication Links
 ### [Overview](synapse/SqlPoolReplicationLinks.yml)
 ### [Get By Name](synapse/SqlPoolReplicationLinks/GetByName.yml)
@@ -15468,6 +15484,7 @@
 ### [Get](synapse/SqlPoolSensitivityLabels/Get.yml)
 ### [List Current](synapse/SqlPoolSensitivityLabels/ListCurrent.yml)
 ### [List Recommended](synapse/SqlPoolSensitivityLabels/ListRecommended.yml)
+### [Update](synapse/SqlPoolSensitivityLabels/Update.yml)
 ## Sql Pool Table Columns
 ### [Overview](synapse/SqlPoolTableColumns.yml)
 ### [List By Table Name](synapse/SqlPoolTableColumns/ListByTableName.yml)

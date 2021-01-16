@@ -1,15 +1,15 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.synapse.datamaskingpolicies.get
+uid: management.azure.com.synapse.sqlpoolmaintenancewindows.get
 name: Get
 service: Synapse
-groupName: Data Masking Policies
+groupName: Sql Pool Maintenance Windows
 apiVersion: 2019-06-01-preview
-summary: Gets a Sql pool data masking policy.
+summary: Get a SQL pool's Maintenance Windows.
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataMaskingPolicies/Default?api-version=2019-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/maintenancewindows/current?api-version=2019-06-01-preview&maintenanceWindowName={maintenanceWindowName}
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,72 +36,38 @@ uriParameters:
   description: SQL pool name
   types:
   - uid: string
-- name: dataMaskingPolicyName
-  in: path
-  isRequired: true
-  description: The name of the data masking policy for which the masking rule applies.
-  types:
-  - uid: DataMaskingPolicyName
 - name: api-version
   in: query
   isRequired: true
   description: The API version to use for this operation.
   types:
   - uid: string
+- name: maintenanceWindowName
+  in: query
+  isRequired: true
+  description: Maintenance window name.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: DataMaskingPolicy
+  - uid: MaintenanceWindows
 - name: Other Status Codes
-  description: Error response describing why the operation failed.
+  description: ''
   types:
   - uid: ErrorContract
 requestHeader: []
 definitions:
-- name: DataMaskingPolicyName
-  description: The name of the data masking policy for which the masking rule applies.
-  kind: enum
-  properties:
-  - name: Default
-    types:
-    - uid: string
-- name: DataMaskingPolicy
+- name: MaintenanceWindows
+  description: Maintenance windows.
   kind: object
   properties:
-  - name: location
-    isReadyOnly: true
-    description: The location of the data masking policy.
+  - name: properties.timeRanges
+    description: Maintenance window time range.
     types:
-    - uid: string
-  - name: kind
-    isReadyOnly: true
-    description: The kind of data masking policy. Metadata, used for Azure portal.
-    types:
-    - uid: string
-  - name: managedBy
-    isReadyOnly: true
-    description: Fully qualified resource ID of the sql pool
-    types:
-    - uid: string
-  - name: properties.dataMaskingState
-    description: The state of the data masking policy.
-    types:
-    - uid: DataMaskingState
-  - name: properties.exemptPrincipals
-    description: The list of the exempt principals. Specifies the semicolon-separated list of database users for which the data masking policy does not apply. The specified users receive data results without masking for all of the database queries.
-    types:
-    - uid: string
-  - name: properties.applicationPrincipals
-    isReadyOnly: true
-    description: The list of the application principals. This is a legacy parameter and is no longer used.
-    types:
-    - uid: string
-  - name: properties.maskingLevel
-    isReadyOnly: true
-    description: The masking level. This is a legacy parameter and is no longer used.
-    types:
-    - uid: string
+    - uid: MaintenanceWindowTimeRange
+      isArray: true
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -125,14 +91,20 @@ definitions:
     description: "Error Response  \nThe error details."
     types:
     - uid: ErrorResponse
-- name: DataMaskingState
-  description: The state of the data masking policy.
-  kind: enum
+- name: MaintenanceWindowTimeRange
+  description: Maintenance window time range.
+  kind: object
   properties:
-  - name: Disabled
+  - name: dayOfWeek
+    description: Day of maintenance window.
+    types:
+    - uid: DayOfWeek
+  - name: startTime
+    description: Start time minutes offset from 12am.
     types:
     - uid: string
-  - name: Enabled
+  - name: duration
+    description: Duration of maintenance window in minutes.
     types:
     - uid: string
 - name: ErrorResponse
@@ -166,6 +138,31 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: DayOfWeek
+  description: Day of maintenance window.
+  kind: enum
+  properties:
+  - name: Sunday
+    types:
+    - uid: string
+  - name: Monday
+    types:
+    - uid: string
+  - name: Tuesday
+    types:
+    - uid: string
+  - name: Wednesday
+    types:
+    - uid: string
+  - name: Thursday
+    types:
+    - uid: string
+  - name: Friday
+    types:
+    - uid: string
+  - name: Saturday
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -200,25 +197,25 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get data masking policy
+- name: Gets maintenance window settings for a selected SQL Analytics pool.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Synapse/workspaces/sqlcrudtest-2080/sqlPools/sqlcrudtest-331/dataMaskingPolicies/Default?api-version=2019-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/samplerg/providers/Microsoft.Synapse/workspaces/testworkspace/sqlPools/testsp/maintenancewindows/current?api-version=2019-06-01-preview&maintenanceWindowName=current
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Synapse/workspaces/sqlcrudtest-2080/sqlPools/sqlcrudtest-331/dataMaskingPolicies/Default",
-        "name": "Default",
-        "type": "Microsoft.Synapse/workspaces/sqlPools/dataMaskingPolicies",
-        "location": "Central US",
-        "kind": null,
         "properties": {
-          "dataMaskingState": "Enabled",
-          "applicationPrincipals": "",
-          "exemptPrincipals": "",
-          "maskingLevel": ""
+          "timeRanges": [
+            {
+              "dayOfWeek": "Saturday",
+              "startTime": "00:00:00",
+              "duration": "PT60M"
+            }
+          ]
         },
-        "managedBy": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Synapse/workspaces/sqlcrudtest-2080/sqlPools/sqlcrudtest-331"
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/samplerg/providers/Microsoft.Synapse/workspaces/testworkspace/sqlPools/testsp/maintenancewindows/current",
+        "name": "current",
+        "type": "Microsoft.Synapse/workspaces/sqlPools/maintenancewindows"
       }
 security: []
 errorCodes: []

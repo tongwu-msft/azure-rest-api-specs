@@ -1,15 +1,15 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.synapse.datamaskingpolicies.get
-name: Get
+uid: management.azure.com.synapse.sqlpoolgeobackuppolicies.createorupdate
+name: Create Or Update
 service: Synapse
-groupName: Data Masking Policies
+groupName: Sql Pool Geo Backup Policies
 apiVersion: 2019-06-01-preview
-summary: Gets a Sql pool data masking policy.
+summary: Updates a SQL Pool geo backup policy.
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/dataMaskingPolicies/Default?api-version=2019-06-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/geoBackupPolicies/Default?api-version=2019-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,12 +36,12 @@ uriParameters:
   description: SQL pool name
   types:
   - uid: string
-- name: dataMaskingPolicyName
+- name: geoBackupPolicyName
   in: path
   isRequired: true
-  description: The name of the data masking policy for which the masking rule applies.
+  description: The name of the geo backup policy.
   types:
-  - uid: DataMaskingPolicyName
+  - uid: GeoBackupPolicyName
 - name: api-version
   in: query
   isRequired: true
@@ -49,57 +49,57 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 201 Created
+  description: Created
+  types:
+  - uid: GeoBackupPolicy
 - name: 200 OK
   description: OK
   types:
-  - uid: DataMaskingPolicy
+  - uid: GeoBackupPolicy
 - name: Other Status Codes
-  description: Error response describing why the operation failed.
+  description: ''
   types:
   - uid: ErrorContract
+requestBody:
+- name: default
+  parameters:
+  - name: properties.state
+    in: body
+    isRequired: true
+    description: The state of the geo backup policy.
+    types:
+    - uid: GeoBackupPolicyState
 requestHeader: []
 definitions:
-- name: DataMaskingPolicyName
-  description: The name of the data masking policy for which the masking rule applies.
+- name: GeoBackupPolicyName
+  description: The name of the geo backup policy.
   kind: enum
   properties:
   - name: Default
     types:
     - uid: string
-- name: DataMaskingPolicy
+- name: GeoBackupPolicy
+  description: A database geo backup policy.
   kind: object
   properties:
-  - name: location
-    isReadyOnly: true
-    description: The location of the data masking policy.
-    types:
-    - uid: string
   - name: kind
     isReadyOnly: true
-    description: The kind of data masking policy. Metadata, used for Azure portal.
+    description: Kind of geo backup policy.  This is metadata used for the Azure portal experience.
     types:
     - uid: string
-  - name: managedBy
+  - name: location
     isReadyOnly: true
-    description: Fully qualified resource ID of the sql pool
+    description: Backup policy location.
     types:
     - uid: string
-  - name: properties.dataMaskingState
-    description: The state of the data masking policy.
+  - name: properties.state
+    description: The state of the geo backup policy.
     types:
-    - uid: DataMaskingState
-  - name: properties.exemptPrincipals
-    description: The list of the exempt principals. Specifies the semicolon-separated list of database users for which the data masking policy does not apply. The specified users receive data results without masking for all of the database queries.
-    types:
-    - uid: string
-  - name: properties.applicationPrincipals
+    - uid: GeoBackupPolicyState
+  - name: properties.storageType
     isReadyOnly: true
-    description: The list of the application principals. This is a legacy parameter and is no longer used.
-    types:
-    - uid: string
-  - name: properties.maskingLevel
-    isReadyOnly: true
-    description: The masking level. This is a legacy parameter and is no longer used.
+    description: The storage type of the geo backup policy.
     types:
     - uid: string
   - name: id
@@ -125,8 +125,8 @@ definitions:
     description: "Error Response  \nThe error details."
     types:
     - uid: ErrorResponse
-- name: DataMaskingState
-  description: The state of the data masking policy.
+- name: GeoBackupPolicyState
+  description: The state of the geo backup policy.
   kind: enum
   properties:
   - name: Disabled
@@ -200,25 +200,41 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get data masking policy
+- name: Create geo backup policy
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Synapse/workspaces/sqlcrudtest-2080/sqlPools/sqlcrudtest-331/dataMaskingPolicies/Default?api-version=2019-06-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Synapse/workspaces/testws/sqlPools/testdw/geoBackupPolicies/Default?api-version=2019-06-01-preview
+    body: >-
+      {
+        "properties": {
+          "state": "Enabled"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Synapse/workspaces/sqlcrudtest-2080/sqlPools/sqlcrudtest-331/dataMaskingPolicies/Default",
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Synapse/workspaces/testws/databases/testdw/geoBackupPolicies/Default",
         "name": "Default",
-        "type": "Microsoft.Synapse/workspaces/sqlPools/dataMaskingPolicies",
-        "location": "Central US",
+        "type": "Microsoft.Synapse/workspaces/sqlpools/geoBackupPolicies",
+        "location": null,
         "kind": null,
         "properties": {
-          "dataMaskingState": "Enabled",
-          "applicationPrincipals": "",
-          "exemptPrincipals": "",
-          "maskingLevel": ""
-        },
-        "managedBy": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Synapse/workspaces/sqlcrudtest-2080/sqlPools/sqlcrudtest-331"
+          "state": "Enabled",
+          "storageType": null
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Synapse/workspaces/testws/databases/testdw/geoBackupPolicies/Default",
+        "name": "Default",
+        "type": "Microsoft.Synapse/workspaces/sqlpools/geoBackupPolicies",
+        "location": null,
+        "kind": null,
+        "properties": {
+          "state": "Enabled",
+          "storageType": null
+        }
       }
 security: []
 errorCodes: []
