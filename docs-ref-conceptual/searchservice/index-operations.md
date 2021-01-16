@@ -17,6 +17,8 @@ You can create and manage indexes in Azure Cognitive Search service via simple H
 
 An index also defines other constructs, such as scoring profiles for relevance tuning, suggesters, and custom analyzers.
 
+## Example
+
 The following example illustrates an index schema that includes fields, a suggester, a custom analyzer, and a language analyzer. Fields, suggesters, custom analyzers, and scoring profiles (not shown) are sections in the index. A language analyzer is predefined and referenced on the field definition.
 
 Within the fields collection, one field must service as the search document identifier. This field is attributed with `"key": true` (see the `HotelId` in the example below).
@@ -73,6 +75,18 @@ Within the fields collection, one field must service as the search document iden
 ```  
 
  After the index is created, you'll upload documents that populate the index. See [Add, Update, or Delete Documents](addupdate-or-delete-documents.md) for this next step.  
+
+## Operations on indexes
+
+An admin API key is required for all search index operations, including GET.
+
++ [Create Index](create-index.md)
++ [Update Index](update-index.md)
++ [List Indexes](list-indexes.md)
++ [Delete Index](delete-index.md)
++ [Get Index](get-index.md)
++ [Get Index Statistics](get-index-statistics.md)
++ [Analyze Text](test-analyzer.md)
 
 ## See also  
 

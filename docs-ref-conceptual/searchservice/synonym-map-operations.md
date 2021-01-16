@@ -59,7 +59,7 @@ An admin API key is required for all synonym map operations.
 + [Delete Synonym Map](delete-synonym-map.md)  
 
 ## See also  
- [Get started with Azure Cognitive Search REST APIs](https://docs.microsoft.com/azure/search/search-get-started-rest)
- [Synonyms in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-synonyms)
- [Synonyms C# example](https://docs.microsoft.com/azure/search/search-synonyms-tutorial-sdk)
- [Create and manage API keys](https://docs.microsoft.com/azure/search/search-security-api-keys) 
+ [Get started with Azure Cognitive Search REST APIs](https://docs.microsoft.com/azure/search/search-get-started-rest)   
+ [Synonyms in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-synonyms)   
+ [Synonyms C# example](https://docs.microsoft.com/azure/search/search-synonyms-tutorial-sdk)   
+ [Create and manage API keys](https://docs.microsoft.com/azure/search/search-security-api-keys)    
