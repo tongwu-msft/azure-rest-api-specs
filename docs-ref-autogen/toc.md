@@ -707,6 +707,7 @@
 ##### [Get](apimanagement/2020-06-01-preview/Certificate/Get.yml)
 ##### [Get Entity Tag](apimanagement/2020-06-01-preview/Certificate/GetEntityTag.yml)
 ##### [List By Service](apimanagement/2020-06-01-preview/Certificate/ListByService.yml)
+##### [Refresh Secret](apimanagement/2020-06-01-preview/Certificate/RefreshSecret.yml)
 #### Content Item
 ##### [Overview](apimanagement/2020-06-01-preview/ContentItem.yml)
 ##### [Create Or Update](apimanagement/2020-06-01-preview/ContentItem/CreateOrUpdate.yml)
@@ -815,6 +816,7 @@
 ##### [Get Entity Tag](apimanagement/2020-06-01-preview/NamedValue/GetEntityTag.yml)
 ##### [List By Service](apimanagement/2020-06-01-preview/NamedValue/ListByService.yml)
 ##### [List Value](apimanagement/2020-06-01-preview/NamedValue/ListValue.yml)
+##### [Refresh Secret](apimanagement/2020-06-01-preview/NamedValue/RefreshSecret.yml)
 ##### [Update](apimanagement/2020-06-01-preview/NamedValue/Update.yml)
 #### Network Status
 ##### [Overview](apimanagement/2020-06-01-preview/NetworkStatus.yml)
