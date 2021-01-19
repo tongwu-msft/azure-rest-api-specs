@@ -707,6 +707,7 @@
 ##### [Get](apimanagement/2020-06-01-preview/Certificate/Get.yml)
 ##### [Get Entity Tag](apimanagement/2020-06-01-preview/Certificate/GetEntityTag.yml)
 ##### [List By Service](apimanagement/2020-06-01-preview/Certificate/ListByService.yml)
+##### [Refresh Secret](apimanagement/2020-06-01-preview/Certificate/RefreshSecret.yml)
 #### Content Item
 ##### [Overview](apimanagement/2020-06-01-preview/ContentItem.yml)
 ##### [Create Or Update](apimanagement/2020-06-01-preview/ContentItem/CreateOrUpdate.yml)
@@ -815,6 +816,7 @@
 ##### [Get Entity Tag](apimanagement/2020-06-01-preview/NamedValue/GetEntityTag.yml)
 ##### [List By Service](apimanagement/2020-06-01-preview/NamedValue/ListByService.yml)
 ##### [List Value](apimanagement/2020-06-01-preview/NamedValue/ListValue.yml)
+##### [Refresh Secret](apimanagement/2020-06-01-preview/NamedValue/RefreshSecret.yml)
 ##### [Update](apimanagement/2020-06-01-preview/NamedValue/Update.yml)
 #### Network Status
 ##### [Overview](apimanagement/2020-06-01-preview/NetworkStatus.yml)
@@ -4349,6 +4351,40 @@
 #### [List Available Sizes](compute/AvailabilitySets/ListAvailableSizes.yml)
 #### [List By Subscription](compute/AvailabilitySets/ListBySubscription.yml)
 #### [Update](compute/AvailabilitySets/Update.yml)
+### Cloud Service Role Instances
+#### [Overview](compute/CloudServiceRoleInstances.yml)
+#### [Delete](compute/CloudServiceRoleInstances/Delete.yml)
+#### [Get](compute/CloudServiceRoleInstances/Get.yml)
+#### [Get Instance View](compute/CloudServiceRoleInstances/GetInstanceView.yml)
+#### [Get Remote Desktop File](compute/CloudServiceRoleInstances/GetRemoteDesktopFile.yml)
+#### [List](compute/CloudServiceRoleInstances/List.yml)
+#### [Rebuild](compute/CloudServiceRoleInstances/Rebuild.yml)
+#### [Reimage](compute/CloudServiceRoleInstances/Reimage.yml)
+#### [Restart](compute/CloudServiceRoleInstances/Restart.yml)
+### Cloud Service Roles
+#### [Overview](compute/CloudServiceRoles.yml)
+#### [Get](compute/CloudServiceRoles/Get.yml)
+#### [List](compute/CloudServiceRoles/List.yml)
+### Cloud Services
+#### [Overview](compute/CloudServices.yml)
+#### [Create Or Update](compute/CloudServices/CreateOrUpdate.yml)
+#### [Delete](compute/CloudServices/Delete.yml)
+#### [Delete Instances](compute/CloudServices/DeleteInstances.yml)
+#### [Get](compute/CloudServices/Get.yml)
+#### [Get Instance View](compute/CloudServices/GetInstanceView.yml)
+#### [List](compute/CloudServices/List.yml)
+#### [List All](compute/CloudServices/ListAll.yml)
+#### [Power Off](compute/CloudServices/PowerOff.yml)
+#### [Rebuild](compute/CloudServices/Rebuild.yml)
+#### [Reimage](compute/CloudServices/Reimage.yml)
+#### [Restart](compute/CloudServices/Restart.yml)
+#### [Start](compute/CloudServices/Start.yml)
+#### [Update](compute/CloudServices/Update.yml)
+### Cloud Services Update Domain
+#### [Overview](compute/CloudServicesUpdateDomain.yml)
+#### [Get Update Domain](compute/CloudServicesUpdateDomain/GetUpdateDomain.yml)
+#### [List Update Domains](compute/CloudServicesUpdateDomain/ListUpdateDomains.yml)
+#### [Walk Update Domain](compute/CloudServicesUpdateDomain/WalkUpdateDomain.yml)
 ### Dedicated Host Groups
 #### [Overview](compute/DedicatedHostGroups.yml)
 #### [Create Or Update](compute/DedicatedHostGroups/CreateOrUpdate.yml)
@@ -9612,13 +9648,8 @@
 ### [Regenerate Keys](relay/WCFRelays/RegenerateKeys.yml)
 # Reserved VM Instances
 ## [Overview](../docs-ref-conceptual/reserved-vm-instances/index.md)
-## [Automated Quota Increase (Preview)](../docs-ref-conceptual/reserved-vm-instances/aqm.md)
-## [Quota API (Preview)](../docs-ref-conceptual/reserved-vm-instances/quotaapi.md)
+## [Quota API](../docs-ref-conceptual/reserved-vm-instances/quotaapi.md)
 ## Reference
-### Auto Quota Increase
-#### [Overview](reserved-vm-instances/AutoQuotaIncrease.yml)
-#### [Create](reserved-vm-instances/AutoQuotaIncrease/Create.yml)
-#### [Get Properties](reserved-vm-instances/AutoQuotaIncrease/GetProperties.yml)
 ### Get Applied Reservation List
 #### [Overview](reserved-vm-instances/GetAppliedReservationList.yml)
 #### [Get Applied Reservation List](reserved-vm-instances/GetAppliedReservationList/GetAppliedReservationList.yml)
@@ -15321,6 +15352,7 @@
 ## Data Masking Rules
 ### [Overview](synapse/DataMaskingRules.yml)
 ### [Create Or Update](synapse/DataMaskingRules/CreateOrUpdate.yml)
+### [Get](synapse/DataMaskingRules/Get.yml)
 ### [List By Sql Pool](synapse/DataMaskingRules/ListBySqlPool.yml)
 ## Extended Sql Pool Blob Auditing Policies
 ### [Overview](synapse/ExtendedSqlPoolBlobAuditingPolicies.yml)
@@ -15397,6 +15429,10 @@
 ## Private Endpoint Connections Private Link Hub
 ### [Overview](synapse/PrivateEndpointConnectionsPrivateLinkHub.yml)
 ### [List](synapse/PrivateEndpointConnectionsPrivateLinkHub/List.yml)
+## Private Link Hub Private Link Resources
+### [Overview](synapse/PrivateLinkHubPrivateLinkResources.yml)
+### [Get](synapse/PrivateLinkHubPrivateLinkResources/Get.yml)
+### [List](synapse/PrivateLinkHubPrivateLinkResources/List.yml)
 ## Private Link Hubs
 ### [Overview](synapse/PrivateLinkHubs.yml)
 ### [Create Or Update](synapse/PrivateLinkHubs/CreateOrUpdate.yml)
@@ -15429,8 +15465,16 @@
 ### [Get](synapse/SqlPoolDataWarehouseUserActivities/Get.yml)
 ## Sql Pool Geo Backup Policies
 ### [Overview](synapse/SqlPoolGeoBackupPolicies.yml)
+### [Create Or Update](synapse/SqlPoolGeoBackupPolicies/CreateOrUpdate.yml)
 ### [Get](synapse/SqlPoolGeoBackupPolicies/Get.yml)
 ### [List](synapse/SqlPoolGeoBackupPolicies/List.yml)
+## Sql Pool Maintenance Window Options
+### [Overview](synapse/SqlPoolMaintenanceWindowOptions.yml)
+### [Get](synapse/SqlPoolMaintenanceWindowOptions/Get.yml)
+## Sql Pool Maintenance Windows
+### [Overview](synapse/SqlPoolMaintenanceWindows.yml)
+### [Create Or Update](synapse/SqlPoolMaintenanceWindows/CreateOrUpdate.yml)
+### [Get](synapse/SqlPoolMaintenanceWindows/Get.yml)
 ## Sql Pool Metadata Sync Configs
 ### [Overview](synapse/SqlPoolMetadataSyncConfigs.yml)
 ### [Create](synapse/SqlPoolMetadataSyncConfigs/Create.yml)
@@ -15441,6 +15485,9 @@
 ## Sql Pool Operations
 ### [Overview](synapse/SqlPoolOperations.yml)
 ### [List](synapse/SqlPoolOperations/List.yml)
+## Sql Pool Recommended Sensitivity Labels
+### [Overview](synapse/SqlPoolRecommendedSensitivityLabels.yml)
+### [Update](synapse/SqlPoolRecommendedSensitivityLabels/Update.yml)
 ## Sql Pool Replication Links
 ### [Overview](synapse/SqlPoolReplicationLinks.yml)
 ### [Get By Name](synapse/SqlPoolReplicationLinks/GetByName.yml)
@@ -15469,6 +15516,7 @@
 ### [Get](synapse/SqlPoolSensitivityLabels/Get.yml)
 ### [List Current](synapse/SqlPoolSensitivityLabels/ListCurrent.yml)
 ### [List Recommended](synapse/SqlPoolSensitivityLabels/ListRecommended.yml)
+### [Update](synapse/SqlPoolSensitivityLabels/Update.yml)
 ## Sql Pool Table Columns
 ### [Overview](synapse/SqlPoolTableColumns.yml)
 ### [List By Table Name](synapse/SqlPoolTableColumns/ListByTableName.yml)
