@@ -10354,6 +10354,9 @@
 ## [Overview](../docs-ref-conceptual/securityinsights/index.md)
 ## Actions
 ### [Overview](securityinsights/Actions.yml)
+### [Create Or Update](securityinsights/Actions/CreateOrUpdate.yml)
+### [Delete](securityinsights/Actions/Delete.yml)
+### [Get](securityinsights/Actions/Get.yml)
 ### [List By Alert Rule](securityinsights/Actions/ListByAlertRule.yml)
 ## Alert Rule Templates
 ### [Overview](securityinsights/AlertRuleTemplates.yml)
@@ -10362,11 +10365,8 @@
 ## Alert Rules
 ### [Overview](securityinsights/AlertRules.yml)
 ### [Create Or Update](securityinsights/AlertRules/CreateOrUpdate.yml)
-### [Create Or Update Action](securityinsights/AlertRules/CreateOrUpdateAction.yml)
 ### [Delete](securityinsights/AlertRules/Delete.yml)
-### [Delete Action](securityinsights/AlertRules/DeleteAction.yml)
 ### [Get](securityinsights/AlertRules/Get.yml)
-### [Get Action](securityinsights/AlertRules/GetAction.yml)
 ### [List](securityinsights/AlertRules/List.yml)
 ## Bookmarks
 ### [Overview](securityinsights/Bookmarks.yml)
