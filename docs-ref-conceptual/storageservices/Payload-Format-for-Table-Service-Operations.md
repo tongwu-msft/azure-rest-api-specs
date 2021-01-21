@@ -121,7 +121,7 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
 }  
 ```  
   
- Since `PartitionKey` and `RowKey` are system properties, meaning that all table rows must define these properties, their type annotation does not appear in the entity. These properties are predefined as type `Edm.String`. However, the other properties arecustom properties and therefore contain type information corresponding to one of the supported primitive types in the table above.  
+ Since `PartitionKey` and `RowKey` are system properties, meaning that all table rows must define these properties, their type annotation does not appear in the entity. These properties are predefined as type `Edm.String`. However, the other properties are custom properties and therefore contain type information corresponding to one of the supported primitive types in the table above.  
   
 ### Examples:  
  The following sample OData entry demonstrates the JSON format sent as a request to insert an entity into Azure Table storage (see [Insert Entity](Insert-Entity.md) for details on the insert operation):  
