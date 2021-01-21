@@ -65,9 +65,8 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
   
  The information included in each level is summarized in the following table:  
   
-|||||  
-|-|-|-|-|  
 |`Annotations`|`odata=fullmetadata`|`odata=minimalmetadata`|`odata=nometadata`|  
+|-|-|-|-|  
 |`odata.metadata`|Yes|Yes|No|  
 |`odata.id`|Yes|No|No|  
 |`odata.editlink`|Yes|No|No|  
@@ -85,9 +84,8 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
   
 -   The type of the property cannot be determined through the type detection heuristics summarized in the table below.  
   
-||||  
-|-|-|-|  
 |Edm type|odata.type annotation required|JSON Type|  
+|-|-|-|  
 |`Edm.Binary`|Yes|String|  
 |`Edm.Boolean`|No|Literals|  
 |`Edm.DateTime`|Yes|String|  
