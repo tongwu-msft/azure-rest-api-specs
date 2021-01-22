@@ -51,7 +51,7 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
   
 -   `odata.metadata`: The metadata URL for a collection, entity, primitive value, or service document.  
   
--   `odata.id`: The entity id which is generally the URL to the resource.  
+-   `odata.id`: The entity ID, which is generally the URL to the resource.  
   
 -   `odata.editlink`: The link used to edit/update the entry, if the entity is updatable and the odata.id does not represent a URL that can be used to edit the entity.  
   
