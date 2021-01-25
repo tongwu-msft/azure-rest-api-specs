@@ -2353,12 +2353,6 @@
 ### Operations
 #### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/Operations.yml)
 #### [List](azureresourcegraph/resourcegraph(2020-04-01-preview)/Operations/List.yml)
-### Resource Change Details
-#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChangeDetails.yml)
-#### [Resource Change Details](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChangeDetails/ResourceChangeDetails.yml)
-### Resource Changes
-#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChanges.yml)
-#### [Resource Changes](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChanges/ResourceChanges.yml)
 ### Resources
 #### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/Resources.yml)
 #### [Resources](azureresourcegraph/resourcegraph(2020-04-01-preview)/Resources/Resources.yml)
