@@ -98,9 +98,9 @@ Use the following tables to troubleshoot errors you might encounter while using 
 For more information about using the Quota REST API in one of the language-specific Microsoft Azure SDKs, see the following:
 
 * Microsoft Azure SDK for .NET: [NuGet package](https://www.nuget.org/packages/Microsoft.Azure.Management.Reservations/1.14.0-preview)
-* Microsoft Azure SDK for Python: [Py package](https://pypi.org/project/azure-mgmt-reservations/0.8.0/)
+* Microsoft Azure SDK for Python: [Py package](https://pypi.org/project/azure-mgmt-reservations/0.9.0/)
 * Microsoft Azure SDK for JavaScript (NodeJS & Browser): [js package](https://www.npmjs.com/package/@azure/arm-reservations/v/5.1.0)
-* Microsoft Azure SDK for Go: [Go package](https://sdkautomation.blob.core.windows.net/sdkautomation-pipeline/Azure/azure-rest-api-specs/9724/azure-sdk-for-go/Azure/azure-sdk-for-go/preview/reservations/mgmt/2019-07-19-preview/preview.reservations.mgmt.2019-07-19-preview.zip)
+* Microsoft Azure SDK for Go: [Go package](https://github.com/Azure/azure-sdk-for-go/releases/tag/v50.2.0)
 
 ## Using Azure portal and Support API to manage quotas
 
