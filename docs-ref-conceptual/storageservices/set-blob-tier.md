@@ -56,7 +56,7 @@ A successful operation returns status code 200 (OK) if the new tier takes effect
 For premium account page blob operation returns status code 200 (OK).
 For block blobs, below table describes the http status codes returned based on current tier and requested tier of the blob:
 
-||Set to `Hot`|Set to `Cool`|Set to `Archive`|
+|Set to `Hot`|Set to `Cool`|Set to `Archive`|
 |----------------|----------------------|------------------|------------------|  
 |Blob in `Hot` Tier|200|200|200|
 |Blob in `Cool` Tier|200|200|200|

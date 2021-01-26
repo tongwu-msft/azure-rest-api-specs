@@ -1,6 +1,6 @@
 ---
 title: Azure Files concepts (REST API) - Azure Storage
-description: The Delete Container operation marks the specified container for deletion. The container and any blobs contained within it are later deleted during garbage collection. 
+description: This topic outlines concepts about the Azure Files REST API. 
 author: pemari-msft
 
 ms.date: 09/23/2019
@@ -11,7 +11,7 @@ ms.author: pemari
 
 # Azure Files concepts
 
-This topic contains concepts about the Azure Files REST API.  
+This topic outlines concepts about the Azure Files REST API.  
   
 ## In this section
   

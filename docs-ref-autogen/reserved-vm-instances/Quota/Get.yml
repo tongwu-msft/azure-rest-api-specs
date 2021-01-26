@@ -3,25 +3,25 @@ uid: management.azure.com.reserved-vm-instances.quota.get
 name: Get
 service: Reserved VM Instances
 groupName: Quota
-apiVersion: 2019-07-19-preview
-summary: Gets the current service limits (quotas) and usage of a resource. The response from Get API can be leveraged to submit quota update requests.
+apiVersion: 2020-10-25
+summary: Get the current quota (service limit) and usage of a resource. You can use the response from the GET operation to submit quota update request.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimits/{resourceName}?api-version=2019-07-19-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimits/{resourceName}?api-version=2020-10-25
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Azure subscription id.
+  description: Azure subscription ID.
   types:
   - uid: string
 - name: providerId
   in: path
   isRequired: true
-  description: Azure resource provider id.
+  description: Azure resource provider ID.
   types:
   - uid: string
 - name: location
@@ -47,17 +47,17 @@ responses:
   headers:
   - name: ETag
     value: string
-  description: OK. Quota information will be returned as response with pagination.
+  description: OK. Returns the paginated quota information.
   types:
   - uid: CurrentQuotaLimitBase
 - name: Other Status Codes
-  description: Error response describing why the operation failed.
+  description: Error description in the response.
   types:
   - uid: ExceptionResponse
 requestHeader: []
 definitions:
 - name: CurrentQuotaLimitBase
-  description: Quota limits.
+  description: Quota properties.
   kind: object
   properties:
   - name: properties
@@ -65,11 +65,11 @@ definitions:
     types:
     - uid: QuotaProperties
 - name: ExceptionResponse
-  description: The api error.
+  description: The API error.
   kind: object
   properties:
   - name: error
-    description: The api error details.
+    description: The API error details.
     types:
     - uid: ServiceError
 - name: QuotaProperties
@@ -77,37 +77,37 @@ definitions:
   kind: object
   properties:
   - name: limit
-    description: The quota limit.
+    description: Quota properties.
     types:
     - uid: integer
   - name: currentValue
     isReadyOnly: true
-    description: The current resource usages information.
+    description: Current usage value for the resource.
     types:
     - uid: integer
   - name: unit
-    description: " The units of the limit, such as - Count, Bytes, etc. Use the unit field provided in the Get quota response."
+    description: " The limit units, such as **count** and **bytes**. Use the unit field provided in the response of the GET quota operation."
     types:
     - uid: string
   - name: name
-    description: Name of the resource provide by the resource Provider. Please use this name property for quotaRequests.
+    description: Name of the resource provide by the resource provider. Use this property for quotaRequests resource operations.
     types:
     - uid: ResourceName
   - name: resourceType
-    description: The Resource Type Name.
+    description: The name of the resource type.
     types:
     - uid: ResourceType
   - name: quotaPeriod
     isReadyOnly: true
-    description: The quota period over which the usage values are summarized, such as - P1D (Per one day), PT1M (Per one minute), PT1S (Per one second). This parameter is optional because, for some resources like compute, the period doesn’t matter.
+    description: The time period over which the quota usage values are summarized. For example, P1D (per one day), PT1M (per one minute), and PT1S (per one second). This parameter is optional because, for some resources such as compute, the time period is irrelevant.
     types:
     - uid: string
   - name: properties
-    description: Additional properties for the specific resource provider.
+    description: Additional properties for the specified resource provider.
     types:
     - uid: object
 - name: ServiceError
-  description: The api error details.
+  description: The API error details.
   kind: object
   properties:
   - name: code
@@ -115,7 +115,7 @@ definitions:
     types:
     - uid: string
   - name: message
-    description: The error message.
+    description: The error message text.
     types:
     - uid: string
   - name: details
@@ -125,7 +125,7 @@ definitions:
     - uid: ServiceErrorDetail
       isArray: true
 - name: ResourceName
-  description: Name of the resource provide by the resource Provider. Please use this name property for quotaRequests.
+  description: Resource name provided by the resource provider. Use this property for quotaRequest parameter.
   kind: object
   properties:
   - name: value
@@ -134,11 +134,11 @@ definitions:
     - uid: string
   - name: localizedValue
     isReadyOnly: true
-    description: Resource display name.
+    description: Resource display localized name.
     types:
     - uid: string
 - name: ResourceType
-  description: The Resource Type Name.
+  description: The name of the resource type.
   kind: enum
   properties:
   - name: standard
@@ -173,7 +173,7 @@ definitions:
 examples:
 - name: Quotas_Request_ForCompute
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimits/standardNDSFamily?api-version=2019-07-19-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimits/standardNDSFamily?api-version=2020-10-25
   responses:
   - statusCode: "200"
     body: >-

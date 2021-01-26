@@ -4,7 +4,7 @@ description: The Copy Blob From URL operation copies a blob to a destination wit
 author: pemari-msft
 
 ms.date: 07/06/2020
-ms.author: pemari-msft
+ms.author: pemari
 ms.service: storage
 ms.topic: reference
 ---

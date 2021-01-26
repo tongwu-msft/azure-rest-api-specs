@@ -707,6 +707,7 @@
 ##### [Get](apimanagement/2020-06-01-preview/Certificate/Get.yml)
 ##### [Get Entity Tag](apimanagement/2020-06-01-preview/Certificate/GetEntityTag.yml)
 ##### [List By Service](apimanagement/2020-06-01-preview/Certificate/ListByService.yml)
+##### [Refresh Secret](apimanagement/2020-06-01-preview/Certificate/RefreshSecret.yml)
 #### Content Item
 ##### [Overview](apimanagement/2020-06-01-preview/ContentItem.yml)
 ##### [Create Or Update](apimanagement/2020-06-01-preview/ContentItem/CreateOrUpdate.yml)
@@ -815,6 +816,7 @@
 ##### [Get Entity Tag](apimanagement/2020-06-01-preview/NamedValue/GetEntityTag.yml)
 ##### [List By Service](apimanagement/2020-06-01-preview/NamedValue/ListByService.yml)
 ##### [List Value](apimanagement/2020-06-01-preview/NamedValue/ListValue.yml)
+##### [Refresh Secret](apimanagement/2020-06-01-preview/NamedValue/RefreshSecret.yml)
 ##### [Update](apimanagement/2020-06-01-preview/NamedValue/Update.yml)
 #### Network Status
 ##### [Overview](apimanagement/2020-06-01-preview/NetworkStatus.yml)
@@ -2351,12 +2353,6 @@
 ### Operations
 #### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/Operations.yml)
 #### [List](azureresourcegraph/resourcegraph(2020-04-01-preview)/Operations/List.yml)
-### Resource Change Details
-#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChangeDetails.yml)
-#### [Resource Change Details](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChangeDetails/ResourceChangeDetails.yml)
-### Resource Changes
-#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChanges.yml)
-#### [Resource Changes](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChanges/ResourceChanges.yml)
 ### Resources
 #### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/Resources.yml)
 #### [Resources](azureresourcegraph/resourcegraph(2020-04-01-preview)/Resources/Resources.yml)
@@ -4228,82 +4224,86 @@
 ### [Bing Web Search API v5](../docs-ref-conceptual/cognitiveservices-bingsearch/bing-web-api-v5-reference.md)
 # Communication
 ## [Overview](../docs-ref-conceptual/communication/index.md)
-## Communication Identity
-### [Overview](communication/CommunicationIdentity.yml)
-### [Create](communication/CommunicationIdentity/Create.yml)
-### [Delete](communication/CommunicationIdentity/Delete.yml)
-### [Issue Token](communication/CommunicationIdentity/IssueToken.yml)
-### [Update](communication/CommunicationIdentity/Update.yml)
-## Communication Service
-### [Overview](communication/CommunicationService.yml)
-### [Check Name Availability](communication/CommunicationService/CheckNameAvailability.yml)
-### [Create Or Update](communication/CommunicationService/CreateOrUpdate.yml)
-### [Delete](communication/CommunicationService/Delete.yml)
-### [Get](communication/CommunicationService/Get.yml)
-### [Link Notification Hub](communication/CommunicationService/LinkNotificationHub.yml)
-### [List By Resource Group](communication/CommunicationService/ListByResourceGroup.yml)
-### [List By Subscription](communication/CommunicationService/ListBySubscription.yml)
-### [List Keys](communication/CommunicationService/ListKeys.yml)
-### [Regenerate Key](communication/CommunicationService/RegenerateKey.yml)
-### [Update](communication/CommunicationService/Update.yml)
-## Operation Statuses
-### [Overview](communication/OperationStatuses.yml)
-### [Get](communication/OperationStatuses/Get.yml)
-## Operations
-### [Overview](communication/Operations.yml)
-### [List](communication/Operations/List.yml)
-## Sms
-### [Overview](communication/Sms.yml)
-### [Send](communication/Sms/Send.yml)
-## Chat
-### Add Chat Thread Members
-#### [Overview](communication/chat/AddChatThreadMembers.yml)
-#### [Add Chat Thread Members](communication/chat/AddChatThreadMembers/AddChatThreadMembers.yml)
-### Create Chat Thread
-#### [Overview](communication/chat/CreateChatThread.yml)
-#### [Create Chat Thread](communication/chat/CreateChatThread/CreateChatThread.yml)
-### Delete Chat Message
-#### [Overview](communication/chat/DeleteChatMessage.yml)
-#### [Delete Chat Message](communication/chat/DeleteChatMessage/DeleteChatMessage.yml)
-### Delete Chat Thread
-#### [Overview](communication/chat/DeleteChatThread.yml)
-#### [Delete Chat Thread](communication/chat/DeleteChatThread/DeleteChatThread.yml)
-### Get Chat Message
-#### [Overview](communication/chat/GetChatMessage.yml)
-#### [Get Chat Message](communication/chat/GetChatMessage/GetChatMessage.yml)
-### Get Chat Thread
-#### [Overview](communication/chat/GetChatThread.yml)
-#### [Get Chat Thread](communication/chat/GetChatThread/GetChatThread.yml)
-### List Chat Messages
-#### [Overview](communication/chat/ListChatMessages.yml)
-#### [List Chat Messages](communication/chat/ListChatMessages/ListChatMessages.yml)
-### List Chat Read Receipts
-#### [Overview](communication/chat/ListChatReadReceipts.yml)
-#### [List Chat Read Receipts](communication/chat/ListChatReadReceipts/ListChatReadReceipts.yml)
-### List Chat Thread Members
-#### [Overview](communication/chat/ListChatThreadMembers.yml)
-#### [List Chat Thread Members](communication/chat/ListChatThreadMembers/ListChatThreadMembers.yml)
-### List Chat Threads
-#### [Overview](communication/chat/ListChatThreads.yml)
-#### [List Chat Threads](communication/chat/ListChatThreads/ListChatThreads.yml)
-### Remove Chat Thread Member
-#### [Overview](communication/chat/RemoveChatThreadMember.yml)
-#### [Remove Chat Thread Member](communication/chat/RemoveChatThreadMember/RemoveChatThreadMember.yml)
-### Send Chat Message
-#### [Overview](communication/chat/SendChatMessage.yml)
-#### [Send Chat Message](communication/chat/SendChatMessage/SendChatMessage.yml)
-### Send Chat Read Receipt
-#### [Overview](communication/chat/SendChatReadReceipt.yml)
-#### [Send Chat Read Receipt](communication/chat/SendChatReadReceipt/SendChatReadReceipt.yml)
-### Send Typing Notification
-#### [Overview](communication/chat/SendTypingNotification.yml)
-#### [Send Typing Notification](communication/chat/SendTypingNotification/SendTypingNotification.yml)
-### Update Chat Message
-#### [Overview](communication/chat/UpdateChatMessage.yml)
-#### [Update Chat Message](communication/chat/UpdateChatMessage/UpdateChatMessage.yml)
-### Update Chat Thread
-#### [Overview](communication/chat/UpdateChatThread.yml)
-#### [Update Chat Thread](communication/chat/UpdateChatThread/UpdateChatThread.yml)
+## [Authentication](../docs-ref-conceptual/communication/authentication.md)
+## [Common Headers](../docs-ref-conceptual/communication/headers.md)
+## [Error Codes](../docs-ref-conceptual/communication/errorcodes.md)
+## Reference
+### Communication Identity
+#### [Overview](communication/CommunicationIdentity.yml)
+#### [Create](communication/CommunicationIdentity/Create.yml)
+#### [Delete](communication/CommunicationIdentity/Delete.yml)
+#### [Issue Token](communication/CommunicationIdentity/IssueToken.yml)
+#### [Update](communication/CommunicationIdentity/Update.yml)
+### Communication Service
+#### [Overview](communication/CommunicationService.yml)
+#### [Check Name Availability](communication/CommunicationService/CheckNameAvailability.yml)
+#### [Create Or Update](communication/CommunicationService/CreateOrUpdate.yml)
+#### [Delete](communication/CommunicationService/Delete.yml)
+#### [Get](communication/CommunicationService/Get.yml)
+#### [Link Notification Hub](communication/CommunicationService/LinkNotificationHub.yml)
+#### [List By Resource Group](communication/CommunicationService/ListByResourceGroup.yml)
+#### [List By Subscription](communication/CommunicationService/ListBySubscription.yml)
+#### [List Keys](communication/CommunicationService/ListKeys.yml)
+#### [Regenerate Key](communication/CommunicationService/RegenerateKey.yml)
+#### [Update](communication/CommunicationService/Update.yml)
+### Operation Statuses
+#### [Overview](communication/OperationStatuses.yml)
+#### [Get](communication/OperationStatuses/Get.yml)
+### Operations
+#### [Overview](communication/Operations.yml)
+#### [List](communication/Operations/List.yml)
+### Sms
+#### [Overview](communication/Sms.yml)
+#### [Send](communication/Sms/Send.yml)
+### Chat
+#### Add Chat Thread Members
+##### [Overview](communication/chat/AddChatThreadMembers.yml)
+##### [Add Chat Thread Members](communication/chat/AddChatThreadMembers/AddChatThreadMembers.yml)
+#### Create Chat Thread
+##### [Overview](communication/chat/CreateChatThread.yml)
+##### [Create Chat Thread](communication/chat/CreateChatThread/CreateChatThread.yml)
+#### Delete Chat Message
+##### [Overview](communication/chat/DeleteChatMessage.yml)
+##### [Delete Chat Message](communication/chat/DeleteChatMessage/DeleteChatMessage.yml)
+#### Delete Chat Thread
+##### [Overview](communication/chat/DeleteChatThread.yml)
+##### [Delete Chat Thread](communication/chat/DeleteChatThread/DeleteChatThread.yml)
+#### Get Chat Message
+##### [Overview](communication/chat/GetChatMessage.yml)
+##### [Get Chat Message](communication/chat/GetChatMessage/GetChatMessage.yml)
+#### Get Chat Thread
+##### [Overview](communication/chat/GetChatThread.yml)
+##### [Get Chat Thread](communication/chat/GetChatThread/GetChatThread.yml)
+#### List Chat Messages
+##### [Overview](communication/chat/ListChatMessages.yml)
+##### [List Chat Messages](communication/chat/ListChatMessages/ListChatMessages.yml)
+#### List Chat Read Receipts
+##### [Overview](communication/chat/ListChatReadReceipts.yml)
+##### [List Chat Read Receipts](communication/chat/ListChatReadReceipts/ListChatReadReceipts.yml)
+#### List Chat Thread Members
+##### [Overview](communication/chat/ListChatThreadMembers.yml)
+##### [List Chat Thread Members](communication/chat/ListChatThreadMembers/ListChatThreadMembers.yml)
+#### List Chat Threads
+##### [Overview](communication/chat/ListChatThreads.yml)
+##### [List Chat Threads](communication/chat/ListChatThreads/ListChatThreads.yml)
+#### Remove Chat Thread Member
+##### [Overview](communication/chat/RemoveChatThreadMember.yml)
+##### [Remove Chat Thread Member](communication/chat/RemoveChatThreadMember/RemoveChatThreadMember.yml)
+#### Send Chat Message
+##### [Overview](communication/chat/SendChatMessage.yml)
+##### [Send Chat Message](communication/chat/SendChatMessage/SendChatMessage.yml)
+#### Send Chat Read Receipt
+##### [Overview](communication/chat/SendChatReadReceipt.yml)
+##### [Send Chat Read Receipt](communication/chat/SendChatReadReceipt/SendChatReadReceipt.yml)
+#### Send Typing Notification
+##### [Overview](communication/chat/SendTypingNotification.yml)
+##### [Send Typing Notification](communication/chat/SendTypingNotification/SendTypingNotification.yml)
+#### Update Chat Message
+##### [Overview](communication/chat/UpdateChatMessage.yml)
+##### [Update Chat Message](communication/chat/UpdateChatMessage/UpdateChatMessage.yml)
+#### Update Chat Thread
+##### [Overview](communication/chat/UpdateChatThread.yml)
+##### [Update Chat Thread](communication/chat/UpdateChatThread/UpdateChatThread.yml)
 # Compute
 ## [Overview](../docs-ref-conceptual/compute/index.md)
 ## Cloud Services (classic)
@@ -4345,6 +4345,40 @@
 #### [List Available Sizes](compute/AvailabilitySets/ListAvailableSizes.yml)
 #### [List By Subscription](compute/AvailabilitySets/ListBySubscription.yml)
 #### [Update](compute/AvailabilitySets/Update.yml)
+### Cloud Service Role Instances
+#### [Overview](compute/CloudServiceRoleInstances.yml)
+#### [Delete](compute/CloudServiceRoleInstances/Delete.yml)
+#### [Get](compute/CloudServiceRoleInstances/Get.yml)
+#### [Get Instance View](compute/CloudServiceRoleInstances/GetInstanceView.yml)
+#### [Get Remote Desktop File](compute/CloudServiceRoleInstances/GetRemoteDesktopFile.yml)
+#### [List](compute/CloudServiceRoleInstances/List.yml)
+#### [Rebuild](compute/CloudServiceRoleInstances/Rebuild.yml)
+#### [Reimage](compute/CloudServiceRoleInstances/Reimage.yml)
+#### [Restart](compute/CloudServiceRoleInstances/Restart.yml)
+### Cloud Service Roles
+#### [Overview](compute/CloudServiceRoles.yml)
+#### [Get](compute/CloudServiceRoles/Get.yml)
+#### [List](compute/CloudServiceRoles/List.yml)
+### Cloud Services
+#### [Overview](compute/CloudServices.yml)
+#### [Create Or Update](compute/CloudServices/CreateOrUpdate.yml)
+#### [Delete](compute/CloudServices/Delete.yml)
+#### [Delete Instances](compute/CloudServices/DeleteInstances.yml)
+#### [Get](compute/CloudServices/Get.yml)
+#### [Get Instance View](compute/CloudServices/GetInstanceView.yml)
+#### [List](compute/CloudServices/List.yml)
+#### [List All](compute/CloudServices/ListAll.yml)
+#### [Power Off](compute/CloudServices/PowerOff.yml)
+#### [Rebuild](compute/CloudServices/Rebuild.yml)
+#### [Reimage](compute/CloudServices/Reimage.yml)
+#### [Restart](compute/CloudServices/Restart.yml)
+#### [Start](compute/CloudServices/Start.yml)
+#### [Update](compute/CloudServices/Update.yml)
+### Cloud Services Update Domain
+#### [Overview](compute/CloudServicesUpdateDomain.yml)
+#### [Get Update Domain](compute/CloudServicesUpdateDomain/GetUpdateDomain.yml)
+#### [List Update Domains](compute/CloudServicesUpdateDomain/ListUpdateDomains.yml)
+#### [Walk Update Domain](compute/CloudServicesUpdateDomain/WalkUpdateDomain.yml)
 ### Dedicated Host Groups
 #### [Overview](compute/DedicatedHostGroups.yml)
 #### [Create Or Update](compute/DedicatedHostGroups/CreateOrUpdate.yml)
@@ -6870,6 +6904,8 @@
 ### [Wipe MAM User Device](intune/WipeMAMUserDevice/WipeMAMUserDevice.yml)
 # IoT Central
 ## [Overview](../docs-ref-conceptual/iotcentral/index.md)
+## [Authentication](../docs-ref-conceptual/iotcentral/authentication.md)
+## [Throttling](../docs-ref-conceptual/iotcentral/throttling.md)
 ## [Common error codes](../docs-ref-conceptual/iotcentral/common-error-codes.md)
 ## Reference
 ### Api Tokens
@@ -8158,6 +8194,7 @@
 ### [Overview](MariaDB/ServerSecurityAlertPolicies.yml)
 ### [Create Or Update](MariaDB/ServerSecurityAlertPolicies/CreateOrUpdate.yml)
 ### [Get](MariaDB/ServerSecurityAlertPolicies/Get.yml)
+### [List By Server](MariaDB/ServerSecurityAlertPolicies/ListByServer.yml)
 ## Servers
 ### [Overview](MariaDB/Servers.yml)
 ### [Create](MariaDB/Servers/Create.yml)
@@ -9605,13 +9642,8 @@
 ### [Regenerate Keys](relay/WCFRelays/RegenerateKeys.yml)
 # Reserved VM Instances
 ## [Overview](../docs-ref-conceptual/reserved-vm-instances/index.md)
-## [Automated Quota Increase (Preview)](../docs-ref-conceptual/reserved-vm-instances/aqm.md)
-## [Quota API (Preview)](../docs-ref-conceptual/reserved-vm-instances/quotaapi.md)
+## [Quota API](../docs-ref-conceptual/reserved-vm-instances/quotaapi.md)
 ## Reference
-### Auto Quota Increase
-#### [Overview](reserved-vm-instances/AutoQuotaIncrease.yml)
-#### [Create](reserved-vm-instances/AutoQuotaIncrease/Create.yml)
-#### [Get Properties](reserved-vm-instances/AutoQuotaIncrease/GetProperties.yml)
 ### Get Applied Reservation List
 #### [Overview](reserved-vm-instances/GetAppliedReservationList.yml)
 #### [Get Applied Reservation List](reserved-vm-instances/GetAppliedReservationList/GetAppliedReservationList.yml)
@@ -9669,27 +9701,6 @@
 ### [List](resourcehealth/Operations/List.yml)
 # Resource Management
 ## [Overview](../docs-ref-conceptual/resources/index.md)
-## Application Definitions
-### [Overview](resources/ApplicationDefinitions.yml)
-### [Create Or Update](resources/ApplicationDefinitions/CreateOrUpdate.yml)
-### [Create Or Update By Id](resources/ApplicationDefinitions/CreateOrUpdateById.yml)
-### [Delete](resources/ApplicationDefinitions/Delete.yml)
-### [Delete By Id](resources/ApplicationDefinitions/DeleteById.yml)
-### [Get](resources/ApplicationDefinitions/Get.yml)
-### [Get By Id](resources/ApplicationDefinitions/GetById.yml)
-### [List By Resource Group](resources/ApplicationDefinitions/ListByResourceGroup.yml)
-## Applications
-### [Overview](resources/Applications.yml)
-### [Create Or Update](resources/Applications/CreateOrUpdate.yml)
-### [Create Or Update By Id](resources/Applications/CreateOrUpdateById.yml)
-### [Delete](resources/Applications/Delete.yml)
-### [Delete By Id](resources/Applications/DeleteById.yml)
-### [Get](resources/Applications/Get.yml)
-### [Get By Id](resources/Applications/GetById.yml)
-### [List By Resource Group](resources/Applications/ListByResourceGroup.yml)
-### [List By Subscription](resources/Applications/ListBySubscription.yml)
-### [Update](resources/Applications/Update.yml)
-### [Update By Id](resources/Applications/UpdateById.yml)
 ## Authorization Operations
 ### [Overview](resources/AuthorizationOperations.yml)
 ### [List](resources/AuthorizationOperations/List.yml)
@@ -9775,9 +9786,6 @@
 ## List Operations
 ### [Overview](resources/ListOperations.yml)
 ### [List Operations](resources/ListOperations/ListOperations.yml)
-## List Operations (managed applications)
-### [Overview](resources/List%20Operations%20(managed%20applications).yml)
-### [List Operations](resources/List%20Operations%20(managed%20applications)/ListOperations.yml)
 ## Management Group Subscriptions
 ### [Overview](resources/ManagementGroupSubscriptions.yml)
 ### [Create](resources/ManagementGroupSubscriptions/Create.yml)
@@ -10340,6 +10348,9 @@
 ## [Overview](../docs-ref-conceptual/securityinsights/index.md)
 ## Actions
 ### [Overview](securityinsights/Actions.yml)
+### [Create Or Update](securityinsights/Actions/CreateOrUpdate.yml)
+### [Delete](securityinsights/Actions/Delete.yml)
+### [Get](securityinsights/Actions/Get.yml)
 ### [List By Alert Rule](securityinsights/Actions/ListByAlertRule.yml)
 ## Alert Rule Templates
 ### [Overview](securityinsights/AlertRuleTemplates.yml)
@@ -10348,11 +10359,8 @@
 ## Alert Rules
 ### [Overview](securityinsights/AlertRules.yml)
 ### [Create Or Update](securityinsights/AlertRules/CreateOrUpdate.yml)
-### [Create Or Update Action](securityinsights/AlertRules/CreateOrUpdateAction.yml)
 ### [Delete](securityinsights/AlertRules/Delete.yml)
-### [Delete Action](securityinsights/AlertRules/DeleteAction.yml)
 ### [Get](securityinsights/AlertRules/Get.yml)
-### [Get Action](securityinsights/AlertRules/GetAction.yml)
 ### [List](securityinsights/AlertRules/List.yml)
 ## Bookmarks
 ### [Overview](securityinsights/Bookmarks.yml)
@@ -15294,6 +15302,21 @@
 #### [Cancel](subscription/2019-03-01-preview/Subscriptions/Cancel.yml)
 #### [Enable](subscription/2019-03-01-preview/Subscriptions/Enable.yml)
 #### [Rename](subscription/2019-03-01-preview/Subscriptions/Rename.yml)
+## 2020-09-01
+### Alias
+#### [Overview](subscription/2020-09-01/Alias.yml)
+#### [Create](subscription/2020-09-01/Alias/Create.yml)
+#### [Delete](subscription/2020-09-01/Alias/Delete.yml)
+#### [Get](subscription/2020-09-01/Alias/Get.yml)
+#### [List](subscription/2020-09-01/Alias/List.yml)
+### Operations
+#### [Overview](subscription/2020-09-01/Operations.yml)
+#### [List](subscription/2020-09-01/Operations/List.yml)
+### Subscription
+#### [Overview](subscription/2020-09-01/Subscription.yml)
+#### [Cancel](subscription/2020-09-01/Subscription/Cancel.yml)
+#### [Enable](subscription/2020-09-01/Subscription/Enable.yml)
+#### [Rename](subscription/2020-09-01/Subscription/Rename.yml)
 # Support
 ## [Overview](../docs-ref-conceptual/support/index.md)
 ## [Increase Quota limits via Support API](../docs-ref-conceptual/support/quota-payload.md)
@@ -15338,6 +15361,7 @@
 ## Data Masking Rules
 ### [Overview](synapse/DataMaskingRules.yml)
 ### [Create Or Update](synapse/DataMaskingRules/CreateOrUpdate.yml)
+### [Get](synapse/DataMaskingRules/Get.yml)
 ### [List By Sql Pool](synapse/DataMaskingRules/ListBySqlPool.yml)
 ## Extended Sql Pool Blob Auditing Policies
 ### [Overview](synapse/ExtendedSqlPoolBlobAuditingPolicies.yml)
@@ -15414,6 +15438,10 @@
 ## Private Endpoint Connections Private Link Hub
 ### [Overview](synapse/PrivateEndpointConnectionsPrivateLinkHub.yml)
 ### [List](synapse/PrivateEndpointConnectionsPrivateLinkHub/List.yml)
+## Private Link Hub Private Link Resources
+### [Overview](synapse/PrivateLinkHubPrivateLinkResources.yml)
+### [Get](synapse/PrivateLinkHubPrivateLinkResources/Get.yml)
+### [List](synapse/PrivateLinkHubPrivateLinkResources/List.yml)
 ## Private Link Hubs
 ### [Overview](synapse/PrivateLinkHubs.yml)
 ### [Create Or Update](synapse/PrivateLinkHubs/CreateOrUpdate.yml)
@@ -15446,8 +15474,16 @@
 ### [Get](synapse/SqlPoolDataWarehouseUserActivities/Get.yml)
 ## Sql Pool Geo Backup Policies
 ### [Overview](synapse/SqlPoolGeoBackupPolicies.yml)
+### [Create Or Update](synapse/SqlPoolGeoBackupPolicies/CreateOrUpdate.yml)
 ### [Get](synapse/SqlPoolGeoBackupPolicies/Get.yml)
 ### [List](synapse/SqlPoolGeoBackupPolicies/List.yml)
+## Sql Pool Maintenance Window Options
+### [Overview](synapse/SqlPoolMaintenanceWindowOptions.yml)
+### [Get](synapse/SqlPoolMaintenanceWindowOptions/Get.yml)
+## Sql Pool Maintenance Windows
+### [Overview](synapse/SqlPoolMaintenanceWindows.yml)
+### [Create Or Update](synapse/SqlPoolMaintenanceWindows/CreateOrUpdate.yml)
+### [Get](synapse/SqlPoolMaintenanceWindows/Get.yml)
 ## Sql Pool Metadata Sync Configs
 ### [Overview](synapse/SqlPoolMetadataSyncConfigs.yml)
 ### [Create](synapse/SqlPoolMetadataSyncConfigs/Create.yml)
@@ -15458,6 +15494,9 @@
 ## Sql Pool Operations
 ### [Overview](synapse/SqlPoolOperations.yml)
 ### [List](synapse/SqlPoolOperations/List.yml)
+## Sql Pool Recommended Sensitivity Labels
+### [Overview](synapse/SqlPoolRecommendedSensitivityLabels.yml)
+### [Update](synapse/SqlPoolRecommendedSensitivityLabels/Update.yml)
 ## Sql Pool Replication Links
 ### [Overview](synapse/SqlPoolReplicationLinks.yml)
 ### [Get By Name](synapse/SqlPoolReplicationLinks/GetByName.yml)
@@ -15486,6 +15525,7 @@
 ### [Get](synapse/SqlPoolSensitivityLabels/Get.yml)
 ### [List Current](synapse/SqlPoolSensitivityLabels/ListCurrent.yml)
 ### [List Recommended](synapse/SqlPoolSensitivityLabels/ListRecommended.yml)
+### [Update](synapse/SqlPoolSensitivityLabels/Update.yml)
 ## Sql Pool Table Columns
 ### [Overview](synapse/SqlPoolTableColumns.yml)
 ### [List By Table Name](synapse/SqlPoolTableColumns/ListByTableName.yml)

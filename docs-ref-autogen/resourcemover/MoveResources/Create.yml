@@ -99,6 +99,8 @@ definitions:
     - uid: SqlDatabaseResourceSettings
     - uid: ResourceGroupResourceSettings
     - uid: PublicIPAddressResourceSettings
+    - uid: KeyVaultResourceSettings
+    - uid: DiskEncryptionSetResourceSettings
     typesTitle: ResourceSettings
   - name: sourceResourceSettings
     isReadyOnly: true
@@ -115,6 +117,8 @@ definitions:
     - uid: SqlDatabaseResourceSettings
     - uid: ResourceGroupResourceSettings
     - uid: PublicIPAddressResourceSettings
+    - uid: KeyVaultResourceSettings
+    - uid: DiskEncryptionSetResourceSettings
     typesTitle: ResourceSettings
   - name: moveStatus
     isReadyOnly: true
@@ -206,11 +210,6 @@ definitions:
     description: An error response from the azure resource mover service.
     types:
     - uid: MoveResourceError
-  - name: targetId
-    isReadyOnly: true
-    description: Gets the Target ARM Id of the resource.
-    types:
-    - uid: string
 - name: MoveResourceDependency
   description: Defines the dependency of the move resource.
   kind: object
@@ -512,7 +511,7 @@ definitions:
     description: Gets or sets the domain name label.
     types:
     - uid: string
-  - name: fQDN
+  - name: fqdn
     description: Gets or sets the fully qualified domain name.
     types:
     - uid: string
@@ -532,6 +531,32 @@ definitions:
     description: The resource type. For example, the value can be Microsoft.Compute/virtualMachines.
     types:
     - uid: Microsoft.Network/publicIPAddresses
+    typesTitle: string
+  - name: targetResourceName
+    description: Gets or sets the target Resource name.
+    types:
+    - uid: string
+- name: KeyVaultResourceSettings
+  description: Defines the key vault resource settings.
+  kind: object
+  properties:
+  - name: resourceType
+    description: The resource type. For example, the value can be Microsoft.Compute/virtualMachines.
+    types:
+    - uid: Microsoft.KeyVault/vaults
+    typesTitle: string
+  - name: targetResourceName
+    description: Gets or sets the target Resource name.
+    types:
+    - uid: string
+- name: DiskEncryptionSetResourceSettings
+  description: Defines the disk encryption set resource settings.
+  kind: object
+  properties:
+  - name: resourceType
+    description: The resource type. For example, the value can be Microsoft.Compute/virtualMachines.
+    types:
+    - uid: Microsoft.Compute/diskEncryptionSets
     typesTitle: string
   - name: targetResourceName
     description: Gets or sets the target Resource name.
@@ -578,6 +603,12 @@ definitions:
     types:
     - uid: string
   - name: Committed
+    types:
+    - uid: string
+  - name: DeleteSourcePending
+    types:
+    - uid: string
+  - name: ResourceMoveCompleted
     types:
     - uid: string
 - name: JobStatus
@@ -694,6 +725,10 @@ definitions:
     description: Gets or sets address prefix for the subnet.
     types:
     - uid: string
+  - name: networkSecurityGroup
+    description: Defines reference to NSG.
+    types:
+    - uid: NsgReference
 - name: NicIpConfigurationResourceSettings
   description: Defines NIC IP configuration properties.
   kind: object
@@ -723,6 +758,15 @@ definitions:
     types:
     - uid: LoadBalancerBackendAddressPoolReference
       isArray: true
+  - name: loadBalancerNatRules
+    description: Gets or sets the references of the load balancer NAT rules.
+    types:
+    - uid: LoadBalancerNatRuleReference
+      isArray: true
+  - name: publicIp
+    description: Defines reference to a public IP.
+    types:
+    - uid: PublicIpReference
 - name: NsgSecurityRule
   description: Security Rule data model for Network Security Groups.
   kind: object
@@ -846,6 +890,14 @@ definitions:
   - name: InitialSync
     types:
     - uid: string
+- name: NsgReference
+  description: Defines reference to NSG.
+  kind: object
+  properties:
+  - name: sourceArmResourceId
+    description: Gets the ARM resource ID of the tracked resource being referenced.
+    types:
+    - uid: string
 - name: SubnetReference
   description: Defines reference to subnet.
   kind: object
@@ -866,6 +918,26 @@ definitions:
     description: Gets the name of the proxy resource on the target side.
     types:
     - uid: string
+  - name: sourceArmResourceId
+    description: Gets the ARM resource ID of the tracked resource being referenced.
+    types:
+    - uid: string
+- name: LoadBalancerNatRuleReference
+  description: Defines reference to load balancer NAT rules.
+  kind: object
+  properties:
+  - name: name
+    description: Gets the name of the proxy resource on the target side.
+    types:
+    - uid: string
+  - name: sourceArmResourceId
+    description: Gets the ARM resource ID of the tracked resource being referenced.
+    types:
+    - uid: string
+- name: PublicIpReference
+  description: Defines reference to a public IP.
+  kind: object
+  properties:
   - name: sourceArmResourceId
     description: Gets the ARM resource ID of the tracked resource being referenced.
     types:
