@@ -4,7 +4,7 @@ description: The Abort Copy Blob operation aborts a pending Copy Blob operation,
 author: pemari-msft
 
 ms.date: 09/09/2019
-ms.author: pemari-msft
+ms.author: pemari
 ms.service: storage
 ms.topic: reference
 ---

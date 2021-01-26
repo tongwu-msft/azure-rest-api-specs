@@ -15,13 +15,13 @@ Every request made against a secured resource in the Blob, File, Queue, or Table
 
 The following table describes the options that Azure Storage offers for authorizing access to resources:
 
-|  |Shared Key (storage account key)  |Shared access signature (SAS)  |Azure Active Directory (Azure AD)  |Active Directory (preview) |Anonymous public read access  |
-|---------|---------|---------|---------|---------|---------|
-|Azure Blobs     |[Supported](authorize-with-shared-key.md)         |[Supported](/azure/storage/common/storage-sas-overview/)         |[Supported](/azure/storage/common/storage-auth-aad/)         |Not supported|[Supported](/azure/storage/blobs/storage-manage-access-to-resources/)         |
-|Azure Files (SMB)     |[Supported](authorize-with-shared-key.md)         |Not supported         |[Supported, only with Azure AD Domain Services](/azure/storage/files/storage-files-active-directory-overview/)         |[Supported, credentials must be synced to Azure AD](/azure/storage/files/storage-files-active-directory-overview/)|Not supported         |
-|Azure Files (REST)     |[Supported](authorize-with-shared-key.md)         |[Supported](/azure/storage/common/storage-sas-overview/)         |Not supported         |Not supported |Not supported         |
-|Azure Queues     |[Supported](authorize-with-shared-key.md)         |[Supported](/azure/storage/common/storage-sas-overview/)         |[Supported](/azure/storage/common/storage-auth-aad/)         |Not Supported | Not supported         |
-|Azure Tables     |[Supported](authorize-with-shared-key.md)         |[Supported](/azure/storage/common/storage-sas-overview/)         |Not supported         |Not supported| Not supported         |
+| Shared Key (storage account key) | Shared access signature (SAS) | Azure Active Directory (Azure AD) | Active Directory (preview) | Anonymous public read access |
+|--|--|--|--|--|--|
+| Azure Blobs | [Supported](authorize-with-shared-key.md) | [Supported](/azure/storage/common/storage-sas-overview/) | [Supported](/azure/storage/common/storage-auth-aad/) | Not supported | [Supported](/azure/storage/blobs/storage-manage-access-to-resources/) |
+| Azure Files (SMB) | [Supported](authorize-with-shared-key.md) | Not supported | [Supported, only with Azure AD Domain Services](/azure/storage/files/storage-files-active-directory-overview/) | [Supported, credentials must be synced to Azure AD](/azure/storage/files/storage-files-active-directory-overview/) | Not supported |
+| Azure Files (REST) | [Supported](authorize-with-shared-key.md) | [Supported](/azure/storage/common/storage-sas-overview/) | Not supported | Not supported | Not supported |
+| Azure Queues | [Supported](authorize-with-shared-key.md) | [Supported](/azure/storage/common/storage-sas-overview/) | [Supported](/azure/storage/common/storage-auth-aad/) | Not Supported | Not supported |
+| Azure Tables | [Supported](authorize-with-shared-key.md) | [Supported](/azure/storage/common/storage-sas-overview/) | Not supported | Not supported | Not supported |
 
 Each authorization option is briefly described below:
 
