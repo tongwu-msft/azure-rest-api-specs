@@ -1,7 +1,7 @@
 ---
 title: Reset Documents (api-version=2020-06-30-Preview)
 description: Re-ingest a subset of documents from a data source with customer-provided document keys.
-ms.date: 11/10/2020
+ms.date: 02/02/2020
 
 ms.service: cognitive-search
 ms.topic: language-reference
