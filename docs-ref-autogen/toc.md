@@ -10001,6 +10001,7 @@
 ### [Initiate Move](resourcemover/MoveCollections/InitiateMove.yml)
 ### [List Move Collections By Resource Group](resourcemover/MoveCollections/ListMoveCollectionsByResourceGroup.yml)
 ### [List Move Collections By Subscription](resourcemover/MoveCollections/ListMoveCollectionsBySubscription.yml)
+### [List Required For](resourcemover/MoveCollections/ListRequiredFor.yml)
 ### [Prepare](resourcemover/MoveCollections/Prepare.yml)
 ### [Resolve Dependencies](resourcemover/MoveCollections/ResolveDependencies.yml)
 ### [Update](resourcemover/MoveCollections/Update.yml)
