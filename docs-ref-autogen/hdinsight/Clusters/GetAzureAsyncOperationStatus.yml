@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.hdinsight.extensions.getmonitoringstatus
-name: Get Monitoring Status
+uid: management.azure.com.hdinsight.clusters.getazureasyncoperationstatus
+name: Get Azure Async Operation Status
 service: HDInsight
-groupName: Extensions
+groupName: Clusters
 apiVersion: 2018-06-01-preview
-summary: Gets the status of Operations Management Suite (OMS) on the HDInsight cluster.
+summary: The the async operation status.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/clustermonitoring?api-version=2018-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/azureasyncoperations/{operationId}?api-version=2018-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,6 +30,12 @@ uriParameters:
   description: The name of the cluster.
   types:
   - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  description: The long running operation id.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -42,9 +48,9 @@ responses:
   types:
   - uid: ErrorResponse
 - name: 200 OK
-  description: OK. The request has succeeded.
+  description: OK response definition.
   types:
-  - uid: ClusterMonitoringResponse
+  - uid: AsyncOperationResult
 requestHeader: []
 definitions:
 - name: ErrorResponse
@@ -59,28 +65,52 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-- name: ClusterMonitoringResponse
-  description: The cluster monitoring status response.
+- name: AsyncOperationResult
+  description: The azure async operation response.
   kind: object
   properties:
-  - name: clusterMonitoringEnabled
-    description: The status of the monitor on the HDInsight cluster.
+  - name: status
+    description: The async operation state.
     types:
-    - uid: boolean
-  - name: workspaceId
-    description: The workspace ID of the monitor on the HDInsight cluster.
+    - uid: AsyncOperationState
+  - name: error
+    description: The operation error information.
+    types:
+    - uid: Errors
+- name: AsyncOperationState
+  description: The async operation state.
+  kind: enum
+  properties:
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: Errors
+  description: The error message associated with the cluster creation.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
     types:
     - uid: string
 examples:
-- name: Enable cluster monitoring
+- name: Get Async Operation Status of Creating Cluster
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1/extensions/clustermonitoring?api-version=2018-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1/azureasyncoperations/CF938302-6B4D-44A0-A6D2-C0D67E847AEC?api-version=2018-06-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "clusterMonitoringEnabled": true,
-        "workspaceId": "id"
+        "status": "InProgress"
       }
 security:
 - name: azure_auth

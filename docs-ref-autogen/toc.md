@@ -6712,6 +6712,7 @@
 #### [Create](hdinsight/Clusters/Create.yml)
 #### [Delete](hdinsight/Clusters/Delete.yml)
 #### [Get](hdinsight/Clusters/Get.yml)
+#### [Get Azure Async Operation Status](hdinsight/Clusters/GetAzureAsyncOperationStatus.yml)
 #### [Get Gateway Settings](hdinsight/Clusters/GetGatewaySettings.yml)
 #### [List](hdinsight/Clusters/List.yml)
 #### [List By Resource Group](hdinsight/Clusters/ListByResourceGroup.yml)
@@ -6735,6 +6736,7 @@
 #### [Get Monitoring Status](hdinsight/Extensions/GetMonitoringStatus.yml)
 ### Locations
 #### [Overview](hdinsight/Locations.yml)
+#### [Get Azure Async Operation Status](hdinsight/Locations/GetAzureAsyncOperationStatus.yml)
 #### [Get Capabilities](hdinsight/Locations/GetCapabilities.yml)
 #### [List Billing Specs](hdinsight/Locations/ListBillingSpecs.yml)
 #### [List Usages](hdinsight/Locations/ListUsages.yml)
