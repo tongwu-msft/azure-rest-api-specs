@@ -14653,6 +14653,12 @@
 #### [Lock Immutability Policy](storagerp/BlobContainers/LockImmutabilityPolicy.yml)
 #### [Set Legal Hold](storagerp/BlobContainers/SetLegalHold.yml)
 #### [Update](storagerp/BlobContainers/Update.yml)
+### Blob Inventory Policies
+#### [Overview](storagerp/BlobInventoryPolicies.yml)
+#### [Create Or Update](storagerp/BlobInventoryPolicies/CreateOrUpdate.yml)
+#### [Delete](storagerp/BlobInventoryPolicies/Delete.yml)
+#### [Get](storagerp/BlobInventoryPolicies/Get.yml)
+#### [List](storagerp/BlobInventoryPolicies/List.yml)
 ### Blob Services
 #### [Overview](storagerp/BlobServices.yml)
 #### [Get Service Properties](storagerp/BlobServices/GetServiceProperties.yml)
