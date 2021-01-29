@@ -99,12 +99,12 @@ For more information about using the Quota REST API in one of the language-speci
 
 * Microsoft Azure SDK for .NET: [NuGet package](https://www.nuget.org/packages/Microsoft.Azure.Management.Reservations/1.14.0-preview)
 * Microsoft Azure SDK for Python: [Py package](https://pypi.org/project/azure-mgmt-reservations/0.9.0/)
-* Microsoft Azure SDK for JavaScript (NodeJS & Browser): [js package](https://www.npmjs.com/package/@azure/arm-reservations/v/5.1.0)
+* Microsoft Azure SDK for JavaScript (NodeJS & Browser): [js package](https://www.npmjs.com/package/@azure/arm-reservations/v/6.0.0)
 * Microsoft Azure SDK for Go: [Go package](https://github.com/Azure/azure-sdk-for-go/releases/tag/v50.2.0)
 
 ## Using Azure portal and Support API to manage quotas
 
-Azure enables you to create and manage support requests, also known as support tickets. Follow the guidance on the [How to create a support ticket via Azure portal](https://docs.microsoft.com/azure/azure-portal/supportability/how-to-create-azure-support-request) article to create and manage requests in the [Azure portal](https://portal.azure.com/) or programmatically using the [Azure support ticket REST API](https://docs.microsoft.com/en-us/rest/api/support).
+Azure enables you to create and manage support requests, also known as support tickets. Follow the guidance on the [How to create a support ticket via Azure portal](https://docs.microsoft.com/azure/azure-portal/supportability/how-to-create-azure-support-request) article to create and manage requests in the [Azure portal](https://portal.azure.com/) or programmatically using the [Azure support ticket REST API](https://docs.microsoft.com/rest/api/support).
 
 
 
