@@ -1,535 +1,4 @@
 # [Getting Started with REST](../index.md)
-#  Cognitive Services - Custom Vision
-## [Overview](../docs-ref-conceptual/custom-vision/index.md)
-## Prediction
-### Classify Image
-#### [Overview](customvision/prediction/ClassifyImage.yml)
-#### [Classify Image](customvision/prediction/ClassifyImage/ClassifyImage.yml)
-### Classify Image Url
-#### [Overview](customvision/prediction/ClassifyImageUrl.yml)
-#### [Classify Image Url](customvision/prediction/ClassifyImageUrl/ClassifyImageUrl.yml)
-### Classify Image Url With No Store
-#### [Overview](customvision/prediction/ClassifyImageUrlWithNoStore.yml)
-#### [Classify Image Url With No Store](customvision/prediction/ClassifyImageUrlWithNoStore/ClassifyImageUrlWithNoStore.yml)
-### Classify Image With No Store
-#### [Overview](customvision/prediction/ClassifyImageWithNoStore.yml)
-#### [Classify Image With No Store](customvision/prediction/ClassifyImageWithNoStore/ClassifyImageWithNoStore.yml)
-### Detect Image
-#### [Overview](customvision/prediction/DetectImage.yml)
-#### [Detect Image](customvision/prediction/DetectImage/DetectImage.yml)
-### Detect Image Url
-#### [Overview](customvision/prediction/DetectImageUrl.yml)
-#### [Detect Image Url](customvision/prediction/DetectImageUrl/DetectImageUrl.yml)
-### Detect Image Url With No Store
-#### [Overview](customvision/prediction/DetectImageUrlWithNoStore.yml)
-#### [Detect Image Url With No Store](customvision/prediction/DetectImageUrlWithNoStore/DetectImageUrlWithNoStore.yml)
-### Detect Image With No Store
-#### [Overview](customvision/prediction/DetectImageWithNoStore.yml)
-#### [Detect Image With No Store](customvision/prediction/DetectImageWithNoStore/DetectImageWithNoStore.yml)
-## Training 3.3
-### Create Image Regions
-#### [Overview](customvision/training3.3/CreateImageRegions.yml)
-#### [Create Image Regions](customvision/training3.3/CreateImageRegions/CreateImageRegions.yml)
-### Create Image Tags
-#### [Overview](customvision/training3.3/CreateImageTags.yml)
-#### [Create Image Tags](customvision/training3.3/CreateImageTags/CreateImageTags.yml)
-### Create Images From Data
-#### [Overview](customvision/training3.3/CreateImagesFromData.yml)
-#### [Create Images From Data](customvision/training3.3/CreateImagesFromData/CreateImagesFromData.yml)
-### Create Images From Files
-#### [Overview](customvision/training3.3/CreateImagesFromFiles.yml)
-#### [Create Images From Files](customvision/training3.3/CreateImagesFromFiles/CreateImagesFromFiles.yml)
-### Create Images From Predictions
-#### [Overview](customvision/training3.3/CreateImagesFromPredictions.yml)
-#### [Create Images From Predictions](customvision/training3.3/CreateImagesFromPredictions/CreateImagesFromPredictions.yml)
-### Create Images From Urls
-#### [Overview](customvision/training3.3/CreateImagesFromUrls.yml)
-#### [Create Images From Urls](customvision/training3.3/CreateImagesFromUrls/CreateImagesFromUrls.yml)
-### Create Project
-#### [Overview](customvision/training3.3/CreateProject.yml)
-#### [Create Project](customvision/training3.3/CreateProject/CreateProject.yml)
-### Create Tag
-#### [Overview](customvision/training3.3/CreateTag.yml)
-#### [Create Tag](customvision/training3.3/CreateTag/CreateTag.yml)
-### Delete Image Regions
-#### [Overview](customvision/training3.3/DeleteImageRegions.yml)
-#### [Delete Image Regions](customvision/training3.3/DeleteImageRegions/DeleteImageRegions.yml)
-### Delete Image Tags
-#### [Overview](customvision/training3.3/DeleteImageTags.yml)
-#### [Delete Image Tags](customvision/training3.3/DeleteImageTags/DeleteImageTags.yml)
-### Delete Images
-#### [Overview](customvision/training3.3/DeleteImages.yml)
-#### [Delete Images](customvision/training3.3/DeleteImages/DeleteImages.yml)
-### Delete Iteration
-#### [Overview](customvision/training3.3/DeleteIteration.yml)
-#### [Delete Iteration](customvision/training3.3/DeleteIteration/DeleteIteration.yml)
-### Delete Prediction
-#### [Overview](customvision/training3.3/DeletePrediction.yml)
-#### [Delete Prediction](customvision/training3.3/DeletePrediction/DeletePrediction.yml)
-### Delete Project
-#### [Overview](customvision/training3.3/DeleteProject.yml)
-#### [Delete Project](customvision/training3.3/DeleteProject/DeleteProject.yml)
-### Delete Tag
-#### [Overview](customvision/training3.3/DeleteTag.yml)
-#### [Delete Tag](customvision/training3.3/DeleteTag/DeleteTag.yml)
-### Export Iteration
-#### [Overview](customvision/training3.3/ExportIteration.yml)
-#### [Export Iteration](customvision/training3.3/ExportIteration/ExportIteration.yml)
-### Export Project
-#### [Overview](customvision/training3.3/ExportProject.yml)
-#### [Export Project](customvision/training3.3/ExportProject/ExportProject.yml)
-### Get Artifact
-#### [Overview](customvision/training3.3/GetArtifact.yml)
-#### [Get Artifact](customvision/training3.3/GetArtifact/GetArtifact.yml)
-### Get Domain
-#### [Overview](customvision/training3.3/GetDomain.yml)
-#### [Get Domain](customvision/training3.3/GetDomain/GetDomain.yml)
-### Get Domains
-#### [Overview](customvision/training3.3/GetDomains.yml)
-#### [Get Domains](customvision/training3.3/GetDomains/GetDomains.yml)
-### Get Exports
-#### [Overview](customvision/training3.3/GetExports.yml)
-#### [Get Exports](customvision/training3.3/GetExports/GetExports.yml)
-### Get Image Count
-#### [Overview](customvision/training3.3/GetImageCount.yml)
-#### [Get Image Count](customvision/training3.3/GetImageCount/GetImageCount.yml)
-### Get Image Performance Count
-#### [Overview](customvision/training3.3/GetImagePerformanceCount.yml)
-#### [Get Image Performance Count](customvision/training3.3/GetImagePerformanceCount/GetImagePerformanceCount.yml)
-### Get Image Performances
-#### [Overview](customvision/training3.3/GetImagePerformances.yml)
-#### [Get Image Performances](customvision/training3.3/GetImagePerformances/GetImagePerformances.yml)
-### Get Image Region Proposals
-#### [Overview](customvision/training3.3/GetImageRegionProposals.yml)
-#### [Get Image Region Proposals](customvision/training3.3/GetImageRegionProposals/GetImageRegionProposals.yml)
-### Get Images
-#### [Overview](customvision/training3.3/GetImages.yml)
-#### [Get Images](customvision/training3.3/GetImages/GetImages.yml)
-### Get Images By Ids
-#### [Overview](customvision/training3.3/GetImagesByIds.yml)
-#### [Get Images By Ids](customvision/training3.3/GetImagesByIds/GetImagesByIds.yml)
-### Get Iteration
-#### [Overview](customvision/training3.3/GetIteration.yml)
-#### [Get Iteration](customvision/training3.3/GetIteration/GetIteration.yml)
-### Get Iteration Performance
-#### [Overview](customvision/training3.3/GetIterationPerformance.yml)
-#### [Get Iteration Performance](customvision/training3.3/GetIterationPerformance/GetIterationPerformance.yml)
-### Get Iterations
-#### [Overview](customvision/training3.3/GetIterations.yml)
-#### [Get Iterations](customvision/training3.3/GetIterations/GetIterations.yml)
-### Get Project
-#### [Overview](customvision/training3.3/GetProject.yml)
-#### [Get Project](customvision/training3.3/GetProject/GetProject.yml)
-### Get Projects
-#### [Overview](customvision/training3.3/GetProjects.yml)
-#### [Get Projects](customvision/training3.3/GetProjects/GetProjects.yml)
-### Get Tag
-#### [Overview](customvision/training3.3/GetTag.yml)
-#### [Get Tag](customvision/training3.3/GetTag/GetTag.yml)
-### Get Tagged Image Count
-#### [Overview](customvision/training3.3/GetTaggedImageCount.yml)
-#### [Get Tagged Image Count](customvision/training3.3/GetTaggedImageCount/GetTaggedImageCount.yml)
-### Get Tagged Images
-#### [Overview](customvision/training3.3/GetTaggedImages.yml)
-#### [Get Tagged Images](customvision/training3.3/GetTaggedImages/GetTaggedImages.yml)
-### Get Tags
-#### [Overview](customvision/training3.3/GetTags.yml)
-#### [Get Tags](customvision/training3.3/GetTags/GetTags.yml)
-### Get Untagged Image Count
-#### [Overview](customvision/training3.3/GetUntaggedImageCount.yml)
-#### [Get Untagged Image Count](customvision/training3.3/GetUntaggedImageCount/GetUntaggedImageCount.yml)
-### Get Untagged Images
-#### [Overview](customvision/training3.3/GetUntaggedImages.yml)
-#### [Get Untagged Images](customvision/training3.3/GetUntaggedImages/GetUntaggedImages.yml)
-### Import Project
-#### [Overview](customvision/training3.3/ImportProject.yml)
-#### [Import Project](customvision/training3.3/ImportProject/ImportProject.yml)
-### Publish Iteration
-#### [Overview](customvision/training3.3/PublishIteration.yml)
-#### [Publish Iteration](customvision/training3.3/PublishIteration/PublishIteration.yml)
-### Query Predictions
-#### [Overview](customvision/training3.3/QueryPredictions.yml)
-#### [Query Predictions](customvision/training3.3/QueryPredictions/QueryPredictions.yml)
-### Query Suggested Image Count
-#### [Overview](customvision/training3.3/QuerySuggestedImageCount.yml)
-#### [Query Suggested Image Count](customvision/training3.3/QuerySuggestedImageCount/QuerySuggestedImageCount.yml)
-### Query Suggested Images
-#### [Overview](customvision/training3.3/QuerySuggestedImages.yml)
-#### [Query Suggested Images](customvision/training3.3/QuerySuggestedImages/QuerySuggestedImages.yml)
-### Quick Test Image
-#### [Overview](customvision/training3.3/QuickTestImage.yml)
-#### [Quick Test Image](customvision/training3.3/QuickTestImage/QuickTestImage.yml)
-### Quick Test Image Url
-#### [Overview](customvision/training3.3/QuickTestImageUrl.yml)
-#### [Quick Test Image Url](customvision/training3.3/QuickTestImageUrl/QuickTestImageUrl.yml)
-### Suggest Tags And Regions
-#### [Overview](customvision/training3.3/SuggestTagsAndRegions.yml)
-#### [Suggest Tags And Regions](customvision/training3.3/SuggestTagsAndRegions/SuggestTagsAndRegions.yml)
-### Train Project
-#### [Overview](customvision/training3.3/TrainProject.yml)
-#### [Train Project](customvision/training3.3/TrainProject/TrainProject.yml)
-### Unpublish Iteration
-#### [Overview](customvision/training3.3/UnpublishIteration.yml)
-#### [Unpublish Iteration](customvision/training3.3/UnpublishIteration/UnpublishIteration.yml)
-### Update Image Metadata
-#### [Overview](customvision/training3.3/UpdateImageMetadata.yml)
-#### [Update Image Metadata](customvision/training3.3/UpdateImageMetadata/UpdateImageMetadata.yml)
-### Update Iteration
-#### [Overview](customvision/training3.3/UpdateIteration.yml)
-#### [Update Iteration](customvision/training3.3/UpdateIteration/UpdateIteration.yml)
-### Update Project
-#### [Overview](customvision/training3.3/UpdateProject.yml)
-#### [Update Project](customvision/training3.3/UpdateProject/UpdateProject.yml)
-### Update Tag
-#### [Overview](customvision/training3.3/UpdateTag.yml)
-#### [Update Tag](customvision/training3.3/UpdateTag/UpdateTag.yml)
-## Training 3.4 Preview
-### Create Image Regions
-#### [Overview](customvision/training3.4preview/CreateImageRegions.yml)
-#### [Create Image Regions](customvision/training3.4preview/CreateImageRegions/CreateImageRegions.yml)
-### Create Image Tags
-#### [Overview](customvision/training3.4preview/CreateImageTags.yml)
-#### [Create Image Tags](customvision/training3.4preview/CreateImageTags/CreateImageTags.yml)
-### Create Images From Data
-#### [Overview](customvision/training3.4preview/CreateImagesFromData.yml)
-#### [Create Images From Data](customvision/training3.4preview/CreateImagesFromData/CreateImagesFromData.yml)
-### Create Images From Files
-#### [Overview](customvision/training3.4preview/CreateImagesFromFiles.yml)
-#### [Create Images From Files](customvision/training3.4preview/CreateImagesFromFiles/CreateImagesFromFiles.yml)
-### Create Images From Predictions
-#### [Overview](customvision/training3.4preview/CreateImagesFromPredictions.yml)
-#### [Create Images From Predictions](customvision/training3.4preview/CreateImagesFromPredictions/CreateImagesFromPredictions.yml)
-### Create Images From Urls
-#### [Overview](customvision/training3.4preview/CreateImagesFromUrls.yml)
-#### [Create Images From Urls](customvision/training3.4preview/CreateImagesFromUrls/CreateImagesFromUrls.yml)
-### Create Project
-#### [Overview](customvision/training3.4preview/CreateProject.yml)
-#### [Create Project](customvision/training3.4preview/CreateProject/CreateProject.yml)
-### Create Tag
-#### [Overview](customvision/training3.4preview/CreateTag.yml)
-#### [Create Tag](customvision/training3.4preview/CreateTag/CreateTag.yml)
-### Delete Image Regions
-#### [Overview](customvision/training3.4preview/DeleteImageRegions.yml)
-#### [Delete Image Regions](customvision/training3.4preview/DeleteImageRegions/DeleteImageRegions.yml)
-### Delete Image Tags
-#### [Overview](customvision/training3.4preview/DeleteImageTags.yml)
-#### [Delete Image Tags](customvision/training3.4preview/DeleteImageTags/DeleteImageTags.yml)
-### Delete Images
-#### [Overview](customvision/training3.4preview/DeleteImages.yml)
-#### [Delete Images](customvision/training3.4preview/DeleteImages/DeleteImages.yml)
-### Delete Iteration
-#### [Overview](customvision/training3.4preview/DeleteIteration.yml)
-#### [Delete Iteration](customvision/training3.4preview/DeleteIteration/DeleteIteration.yml)
-### Delete Prediction
-#### [Overview](customvision/training3.4preview/DeletePrediction.yml)
-#### [Delete Prediction](customvision/training3.4preview/DeletePrediction/DeletePrediction.yml)
-### Delete Project
-#### [Overview](customvision/training3.4preview/DeleteProject.yml)
-#### [Delete Project](customvision/training3.4preview/DeleteProject/DeleteProject.yml)
-### Delete Tag
-#### [Overview](customvision/training3.4preview/DeleteTag.yml)
-#### [Delete Tag](customvision/training3.4preview/DeleteTag/DeleteTag.yml)
-### Export Iteration
-#### [Overview](customvision/training3.4preview/ExportIteration.yml)
-#### [Export Iteration](customvision/training3.4preview/ExportIteration/ExportIteration.yml)
-### Export Project
-#### [Overview](customvision/training3.4preview/ExportProject.yml)
-#### [Export Project](customvision/training3.4preview/ExportProject/ExportProject.yml)
-### Get Artifact
-#### [Overview](customvision/training3.4preview/GetArtifact.yml)
-#### [Get Artifact](customvision/training3.4preview/GetArtifact/GetArtifact.yml)
-### Get Domain
-#### [Overview](customvision/training3.4preview/GetDomain.yml)
-#### [Get Domain](customvision/training3.4preview/GetDomain/GetDomain.yml)
-### Get Domains
-#### [Overview](customvision/training3.4preview/GetDomains.yml)
-#### [Get Domains](customvision/training3.4preview/GetDomains/GetDomains.yml)
-### Get Exports
-#### [Overview](customvision/training3.4preview/GetExports.yml)
-#### [Get Exports](customvision/training3.4preview/GetExports/GetExports.yml)
-### Get Image Count
-#### [Overview](customvision/training3.4preview/GetImageCount.yml)
-#### [Get Image Count](customvision/training3.4preview/GetImageCount/GetImageCount.yml)
-### Get Image Performance Count
-#### [Overview](customvision/training3.4preview/GetImagePerformanceCount.yml)
-#### [Get Image Performance Count](customvision/training3.4preview/GetImagePerformanceCount/GetImagePerformanceCount.yml)
-### Get Image Performances
-#### [Overview](customvision/training3.4preview/GetImagePerformances.yml)
-#### [Get Image Performances](customvision/training3.4preview/GetImagePerformances/GetImagePerformances.yml)
-### Get Image Region Proposals
-#### [Overview](customvision/training3.4preview/GetImageRegionProposals.yml)
-#### [Get Image Region Proposals](customvision/training3.4preview/GetImageRegionProposals/GetImageRegionProposals.yml)
-### Get Images
-#### [Overview](customvision/training3.4preview/GetImages.yml)
-#### [Get Images](customvision/training3.4preview/GetImages/GetImages.yml)
-### Get Images By Ids
-#### [Overview](customvision/training3.4preview/GetImagesByIds.yml)
-#### [Get Images By Ids](customvision/training3.4preview/GetImagesByIds/GetImagesByIds.yml)
-### Get Iteration
-#### [Overview](customvision/training3.4preview/GetIteration.yml)
-#### [Get Iteration](customvision/training3.4preview/GetIteration/GetIteration.yml)
-### Get Iteration Performance
-#### [Overview](customvision/training3.4preview/GetIterationPerformance.yml)
-#### [Get Iteration Performance](customvision/training3.4preview/GetIterationPerformance/GetIterationPerformance.yml)
-### Get Iterations
-#### [Overview](customvision/training3.4preview/GetIterations.yml)
-#### [Get Iterations](customvision/training3.4preview/GetIterations/GetIterations.yml)
-### Get Project
-#### [Overview](customvision/training3.4preview/GetProject.yml)
-#### [Get Project](customvision/training3.4preview/GetProject/GetProject.yml)
-### Get Projects
-#### [Overview](customvision/training3.4preview/GetProjects.yml)
-#### [Get Projects](customvision/training3.4preview/GetProjects/GetProjects.yml)
-### Get Tag
-#### [Overview](customvision/training3.4preview/GetTag.yml)
-#### [Get Tag](customvision/training3.4preview/GetTag/GetTag.yml)
-### Get Tagged Image Count
-#### [Overview](customvision/training3.4preview/GetTaggedImageCount.yml)
-#### [Get Tagged Image Count](customvision/training3.4preview/GetTaggedImageCount/GetTaggedImageCount.yml)
-### Get Tagged Images
-#### [Overview](customvision/training3.4preview/GetTaggedImages.yml)
-#### [Get Tagged Images](customvision/training3.4preview/GetTaggedImages/GetTaggedImages.yml)
-### Get Tags
-#### [Overview](customvision/training3.4preview/GetTags.yml)
-#### [Get Tags](customvision/training3.4preview/GetTags/GetTags.yml)
-### Get Untagged Image Count
-#### [Overview](customvision/training3.4preview/GetUntaggedImageCount.yml)
-#### [Get Untagged Image Count](customvision/training3.4preview/GetUntaggedImageCount/GetUntaggedImageCount.yml)
-### Get Untagged Images
-#### [Overview](customvision/training3.4preview/GetUntaggedImages.yml)
-#### [Get Untagged Images](customvision/training3.4preview/GetUntaggedImages/GetUntaggedImages.yml)
-### Import Project
-#### [Overview](customvision/training3.4preview/ImportProject.yml)
-#### [Import Project](customvision/training3.4preview/ImportProject/ImportProject.yml)
-### Publish Iteration
-#### [Overview](customvision/training3.4preview/PublishIteration.yml)
-#### [Publish Iteration](customvision/training3.4preview/PublishIteration/PublishIteration.yml)
-### Query Predictions
-#### [Overview](customvision/training3.4preview/QueryPredictions.yml)
-#### [Query Predictions](customvision/training3.4preview/QueryPredictions/QueryPredictions.yml)
-### Query Suggested Image Count
-#### [Overview](customvision/training3.4preview/QuerySuggestedImageCount.yml)
-#### [Query Suggested Image Count](customvision/training3.4preview/QuerySuggestedImageCount/QuerySuggestedImageCount.yml)
-### Query Suggested Images
-#### [Overview](customvision/training3.4preview/QuerySuggestedImages.yml)
-#### [Query Suggested Images](customvision/training3.4preview/QuerySuggestedImages/QuerySuggestedImages.yml)
-### Quick Test Image
-#### [Overview](customvision/training3.4preview/QuickTestImage.yml)
-#### [Quick Test Image](customvision/training3.4preview/QuickTestImage/QuickTestImage.yml)
-### Quick Test Image Url
-#### [Overview](customvision/training3.4preview/QuickTestImageUrl.yml)
-#### [Quick Test Image Url](customvision/training3.4preview/QuickTestImageUrl/QuickTestImageUrl.yml)
-### Suggest Tags And Regions
-#### [Overview](customvision/training3.4preview/SuggestTagsAndRegions.yml)
-#### [Suggest Tags And Regions](customvision/training3.4preview/SuggestTagsAndRegions/SuggestTagsAndRegions.yml)
-### Train Project
-#### [Overview](customvision/training3.4preview/TrainProject.yml)
-#### [Train Project](customvision/training3.4preview/TrainProject/TrainProject.yml)
-### Unpublish Iteration
-#### [Overview](customvision/training3.4preview/UnpublishIteration.yml)
-#### [Unpublish Iteration](customvision/training3.4preview/UnpublishIteration/UnpublishIteration.yml)
-### Update Image Metadata
-#### [Overview](customvision/training3.4preview/UpdateImageMetadata.yml)
-#### [Update Image Metadata](customvision/training3.4preview/UpdateImageMetadata/UpdateImageMetadata.yml)
-### Update Iteration
-#### [Overview](customvision/training3.4preview/UpdateIteration.yml)
-#### [Update Iteration](customvision/training3.4preview/UpdateIteration/UpdateIteration.yml)
-### Update Project
-#### [Overview](customvision/training3.4preview/UpdateProject.yml)
-#### [Update Project](customvision/training3.4preview/UpdateProject/UpdateProject.yml)
-### Update Tag
-#### [Overview](customvision/training3.4preview/UpdateTag.yml)
-#### [Update Tag](customvision/training3.4preview/UpdateTag/UpdateTag.yml)
-#  Cognitive Services - Face
-## [Overview](../docs-ref-conceptual/face/index.md)
-## Face
-### [Overview](faceapi/Face.yml)
-### [Detect With Stream](faceapi/Face/DetectWithStream.yml)
-### [Detect With Url](faceapi/Face/DetectWithUrl.yml)
-### [Find Similar](faceapi/Face/FindSimilar.yml)
-### [Group](faceapi/Face/Group.yml)
-### [Identify](faceapi/Face/Identify.yml)
-### [Verify Face To Face](faceapi/Face/VerifyFaceToFace.yml)
-### [Verify Face To Person](faceapi/Face/VerifyFaceToPerson.yml)
-## Face List
-### [Overview](faceapi/FaceList.yml)
-### [Add Face From Stream](faceapi/FaceList/AddFaceFromStream.yml)
-### [Add Face From Url](faceapi/FaceList/AddFaceFromUrl.yml)
-### [Create](faceapi/FaceList/Create.yml)
-### [Delete](faceapi/FaceList/Delete.yml)
-### [Delete Face](faceapi/FaceList/DeleteFace.yml)
-### [Get](faceapi/FaceList/Get.yml)
-### [List](faceapi/FaceList/List.yml)
-### [Update](faceapi/FaceList/Update.yml)
-## Large Face List
-### [Overview](faceapi/LargeFaceList.yml)
-### [Add Face From Stream](faceapi/LargeFaceList/AddFaceFromStream.yml)
-### [Add Face From Url](faceapi/LargeFaceList/AddFaceFromUrl.yml)
-### [Create](faceapi/LargeFaceList/Create.yml)
-### [Delete](faceapi/LargeFaceList/Delete.yml)
-### [Delete Face](faceapi/LargeFaceList/DeleteFace.yml)
-### [Get](faceapi/LargeFaceList/Get.yml)
-### [Get Face](faceapi/LargeFaceList/GetFace.yml)
-### [Get Training Status](faceapi/LargeFaceList/GetTrainingStatus.yml)
-### [List](faceapi/LargeFaceList/List.yml)
-### [List Faces](faceapi/LargeFaceList/ListFaces.yml)
-### [Train](faceapi/LargeFaceList/Train.yml)
-### [Update](faceapi/LargeFaceList/Update.yml)
-### [Update Face](faceapi/LargeFaceList/UpdateFace.yml)
-## Large Person Group
-### [Overview](faceapi/LargePersonGroup.yml)
-### [Create](faceapi/LargePersonGroup/Create.yml)
-### [Delete](faceapi/LargePersonGroup/Delete.yml)
-### [Get](faceapi/LargePersonGroup/Get.yml)
-### [Get Training Status](faceapi/LargePersonGroup/GetTrainingStatus.yml)
-### [List](faceapi/LargePersonGroup/List.yml)
-### [Train](faceapi/LargePersonGroup/Train.yml)
-### [Update](faceapi/LargePersonGroup/Update.yml)
-## Large Person Group Person
-### [Overview](faceapi/LargePersonGroupPerson.yml)
-### [Add Face From Stream](faceapi/LargePersonGroupPerson/AddFaceFromStream.yml)
-### [Add Face From Url](faceapi/LargePersonGroupPerson/AddFaceFromUrl.yml)
-### [Create](faceapi/LargePersonGroupPerson/Create.yml)
-### [Delete](faceapi/LargePersonGroupPerson/Delete.yml)
-### [Delete Face](faceapi/LargePersonGroupPerson/DeleteFace.yml)
-### [Get](faceapi/LargePersonGroupPerson/Get.yml)
-### [Get Face](faceapi/LargePersonGroupPerson/GetFace.yml)
-### [List](faceapi/LargePersonGroupPerson/List.yml)
-### [Update](faceapi/LargePersonGroupPerson/Update.yml)
-### [Update Face](faceapi/LargePersonGroupPerson/UpdateFace.yml)
-## Person Group
-### [Overview](faceapi/PersonGroup.yml)
-### [Create](faceapi/PersonGroup/Create.yml)
-### [Delete](faceapi/PersonGroup/Delete.yml)
-### [Get](faceapi/PersonGroup/Get.yml)
-### [Get Training Status](faceapi/PersonGroup/GetTrainingStatus.yml)
-### [List](faceapi/PersonGroup/List.yml)
-### [Train](faceapi/PersonGroup/Train.yml)
-### [Update](faceapi/PersonGroup/Update.yml)
-## Person Group Person
-### [Overview](faceapi/PersonGroupPerson.yml)
-### [Add Face From Stream](faceapi/PersonGroupPerson/AddFaceFromStream.yml)
-### [Add Face From Url](faceapi/PersonGroupPerson/AddFaceFromUrl.yml)
-### [Create](faceapi/PersonGroupPerson/Create.yml)
-### [Delete](faceapi/PersonGroupPerson/Delete.yml)
-### [Delete Face](faceapi/PersonGroupPerson/DeleteFace.yml)
-### [Get](faceapi/PersonGroupPerson/Get.yml)
-### [Get Face](faceapi/PersonGroupPerson/GetFace.yml)
-### [List](faceapi/PersonGroupPerson/List.yml)
-### [Update](faceapi/PersonGroupPerson/Update.yml)
-### [Update Face](faceapi/PersonGroupPerson/UpdateFace.yml)
-## Snapshot
-### [Overview](faceapi/Snapshot.yml)
-### [Apply](faceapi/Snapshot/Apply.yml)
-### [Delete](faceapi/Snapshot/Delete.yml)
-### [Get](faceapi/Snapshot/Get.yml)
-### [Get Operation Status](faceapi/Snapshot/GetOperationStatus.yml)
-### [List](faceapi/Snapshot/List.yml)
-### [Take](faceapi/Snapshot/Take.yml)
-### [Update](faceapi/Snapshot/Update.yml)
-#  Cognitive Services - Form Recognizer
-## [Overview](../docs-ref-conceptual/formrecognizer/index.md)
-## 2.0
-### Analyze Layout Async
-#### [Overview](formrecognizer/2.0/AnalyzeLayoutAsync.yml)
-#### [Analyze Layout Async](formrecognizer/2.0/AnalyzeLayoutAsync/AnalyzeLayoutAsync.yml)
-### Analyze Receipt Async
-#### [Overview](formrecognizer/2.0/AnalyzeReceiptAsync.yml)
-#### [Analyze Receipt Async](formrecognizer/2.0/AnalyzeReceiptAsync/AnalyzeReceiptAsync.yml)
-### Analyze With Custom Model
-#### [Overview](formrecognizer/2.0/AnalyzeWithCustomModel.yml)
-#### [Analyze With Custom Model](formrecognizer/2.0/AnalyzeWithCustomModel/AnalyzeWithCustomModel.yml)
-### Copy Custom Model
-#### [Overview](formrecognizer/2.0/CopyCustomModel.yml)
-#### [Copy Custom Model](formrecognizer/2.0/CopyCustomModel/CopyCustomModel.yml)
-### Delete Custom Model
-#### [Overview](formrecognizer/2.0/DeleteCustomModel.yml)
-#### [Delete Custom Model](formrecognizer/2.0/DeleteCustomModel/DeleteCustomModel.yml)
-### Generate Model Copy Authorization
-#### [Overview](formrecognizer/2.0/GenerateModelCopyAuthorization.yml)
-#### [Generate Model Copy Authorization](formrecognizer/2.0/GenerateModelCopyAuthorization/GenerateModelCopyAuthorization.yml)
-### Get Analyze Form Result
-#### [Overview](formrecognizer/2.0/GetAnalyzeFormResult.yml)
-#### [Get Analyze Form Result](formrecognizer/2.0/GetAnalyzeFormResult/GetAnalyzeFormResult.yml)
-### Get Analyze Layout Result
-#### [Overview](formrecognizer/2.0/GetAnalyzeLayoutResult.yml)
-#### [Get Analyze Layout Result](formrecognizer/2.0/GetAnalyzeLayoutResult/GetAnalyzeLayoutResult.yml)
-### Get Analyze Receipt Result
-#### [Overview](formrecognizer/2.0/GetAnalyzeReceiptResult.yml)
-#### [Get Analyze Receipt Result](formrecognizer/2.0/GetAnalyzeReceiptResult/GetAnalyzeReceiptResult.yml)
-### Get Custom Model
-#### [Overview](formrecognizer/2.0/GetCustomModel.yml)
-#### [Get Custom Model](formrecognizer/2.0/GetCustomModel/GetCustomModel.yml)
-### Get Custom Model Copy Result
-#### [Overview](formrecognizer/2.0/GetCustomModelCopyResult.yml)
-#### [Get Custom Model Copy Result](formrecognizer/2.0/GetCustomModelCopyResult/GetCustomModelCopyResult.yml)
-### Get Custom Models
-#### [Overview](formrecognizer/2.0/GetCustomModels.yml)
-#### [Get Custom Models](formrecognizer/2.0/GetCustomModels/GetCustomModels.yml)
-### List Custom Models
-#### [Overview](formrecognizer/2.0/ListCustomModels.yml)
-#### [List Custom Models](formrecognizer/2.0/ListCustomModels/ListCustomModels.yml)
-### Train Custom Model Async
-#### [Overview](formrecognizer/2.0/TrainCustomModelAsync.yml)
-#### [Train Custom Model Async](formrecognizer/2.0/TrainCustomModelAsync/TrainCustomModelAsync.yml)
-## 2.1 Preview 2
-### Analyze Business Card Async
-#### [Overview](formrecognizer/2.1preview2/AnalyzeBusinessCardAsync.yml)
-#### [Analyze Business Card Async](formrecognizer/2.1preview2/AnalyzeBusinessCardAsync/AnalyzeBusinessCardAsync.yml)
-### Analyze Invoice Async
-#### [Overview](formrecognizer/2.1preview2/AnalyzeInvoiceAsync.yml)
-#### [Analyze Invoice Async](formrecognizer/2.1preview2/AnalyzeInvoiceAsync/AnalyzeInvoiceAsync.yml)
-### Analyze Layout Async
-#### [Overview](formrecognizer/2.1preview2/AnalyzeLayoutAsync.yml)
-#### [Analyze Layout Async](formrecognizer/2.1preview2/AnalyzeLayoutAsync/AnalyzeLayoutAsync.yml)
-### Analyze Receipt Async
-#### [Overview](formrecognizer/2.1preview2/AnalyzeReceiptAsync.yml)
-#### [Analyze Receipt Async](formrecognizer/2.1preview2/AnalyzeReceiptAsync/AnalyzeReceiptAsync.yml)
-### Analyze With Custom Model
-#### [Overview](formrecognizer/2.1preview2/AnalyzeWithCustomModel.yml)
-#### [Analyze With Custom Model](formrecognizer/2.1preview2/AnalyzeWithCustomModel/AnalyzeWithCustomModel.yml)
-### Compose Custom Models Async
-#### [Overview](formrecognizer/2.1preview2/ComposeCustomModelsAsync.yml)
-#### [Compose Custom Models Async](formrecognizer/2.1preview2/ComposeCustomModelsAsync/ComposeCustomModelsAsync.yml)
-### Copy Custom Model
-#### [Overview](formrecognizer/2.1preview2/CopyCustomModel.yml)
-#### [Copy Custom Model](formrecognizer/2.1preview2/CopyCustomModel/CopyCustomModel.yml)
-### Delete Custom Model
-#### [Overview](formrecognizer/2.1preview2/DeleteCustomModel.yml)
-#### [Delete Custom Model](formrecognizer/2.1preview2/DeleteCustomModel/DeleteCustomModel.yml)
-### Generate Model Copy Authorization
-#### [Overview](formrecognizer/2.1preview2/GenerateModelCopyAuthorization.yml)
-#### [Generate Model Copy Authorization](formrecognizer/2.1preview2/GenerateModelCopyAuthorization/GenerateModelCopyAuthorization.yml)
-### Get Analyze Business Card Result
-#### [Overview](formrecognizer/2.1preview2/GetAnalyzeBusinessCardResult.yml)
-#### [Get Analyze Business Card Result](formrecognizer/2.1preview2/GetAnalyzeBusinessCardResult/GetAnalyzeBusinessCardResult.yml)
-### Get Analyze Form Result
-#### [Overview](formrecognizer/2.1preview2/GetAnalyzeFormResult.yml)
-#### [Get Analyze Form Result](formrecognizer/2.1preview2/GetAnalyzeFormResult/GetAnalyzeFormResult.yml)
-### Get Analyze Invoice Result
-#### [Overview](formrecognizer/2.1preview2/GetAnalyzeInvoiceResult.yml)
-#### [Get Analyze Invoice Result](formrecognizer/2.1preview2/GetAnalyzeInvoiceResult/GetAnalyzeInvoiceResult.yml)
-### Get Analyze Layout Result
-#### [Overview](formrecognizer/2.1preview2/GetAnalyzeLayoutResult.yml)
-#### [Get Analyze Layout Result](formrecognizer/2.1preview2/GetAnalyzeLayoutResult/GetAnalyzeLayoutResult.yml)
-### Get Analyze Receipt Result
-#### [Overview](formrecognizer/2.1preview2/GetAnalyzeReceiptResult.yml)
-#### [Get Analyze Receipt Result](formrecognizer/2.1preview2/GetAnalyzeReceiptResult/GetAnalyzeReceiptResult.yml)
-### Get Custom Model
-#### [Overview](formrecognizer/2.1preview2/GetCustomModel.yml)
-#### [Get Custom Model](formrecognizer/2.1preview2/GetCustomModel/GetCustomModel.yml)
-### Get Custom Model Copy Result
-#### [Overview](formrecognizer/2.1preview2/GetCustomModelCopyResult.yml)
-#### [Get Custom Model Copy Result](formrecognizer/2.1preview2/GetCustomModelCopyResult/GetCustomModelCopyResult.yml)
-### Get Custom Models
-#### [Overview](formrecognizer/2.1preview2/GetCustomModels.yml)
-#### [Get Custom Models](formrecognizer/2.1preview2/GetCustomModels/GetCustomModels.yml)
-### List Custom Models
-#### [Overview](formrecognizer/2.1preview2/ListCustomModels.yml)
-#### [List Custom Models](formrecognizer/2.1preview2/ListCustomModels/ListCustomModels.yml)
-### Train Custom Model Async
-#### [Overview](formrecognizer/2.1preview2/TrainCustomModelAsync.yml)
-#### [Train Custom Model Async](formrecognizer/2.1preview2/TrainCustomModelAsync/TrainCustomModelAsync.yml)
 # Advisor
 ## [Overview](../docs-ref-conceptual/advisor/index.md)
 ## Configurations
@@ -1238,6 +707,7 @@
 ##### [Get](apimanagement/2020-06-01-preview/Certificate/Get.yml)
 ##### [Get Entity Tag](apimanagement/2020-06-01-preview/Certificate/GetEntityTag.yml)
 ##### [List By Service](apimanagement/2020-06-01-preview/Certificate/ListByService.yml)
+##### [Refresh Secret](apimanagement/2020-06-01-preview/Certificate/RefreshSecret.yml)
 #### Content Item
 ##### [Overview](apimanagement/2020-06-01-preview/ContentItem.yml)
 ##### [Create Or Update](apimanagement/2020-06-01-preview/ContentItem/CreateOrUpdate.yml)
@@ -1346,6 +816,7 @@
 ##### [Get Entity Tag](apimanagement/2020-06-01-preview/NamedValue/GetEntityTag.yml)
 ##### [List By Service](apimanagement/2020-06-01-preview/NamedValue/ListByService.yml)
 ##### [List Value](apimanagement/2020-06-01-preview/NamedValue/ListValue.yml)
+##### [Refresh Secret](apimanagement/2020-06-01-preview/NamedValue/RefreshSecret.yml)
 ##### [Update](apimanagement/2020-06-01-preview/NamedValue/Update.yml)
 #### Network Status
 ##### [Overview](apimanagement/2020-06-01-preview/NetworkStatus.yml)
@@ -4518,6 +3989,537 @@
 ### Read In Stream
 #### [Overview](computervision/3.2preview2/ReadInStream.yml)
 #### [Read In Stream](computervision/3.2preview2/ReadInStream/ReadInStream.yml)
+# Cognitive Services - Custom Vision
+## [Overview](../docs-ref-conceptual/custom-vision/index.md)
+## Prediction
+### Classify Image
+#### [Overview](customvision/prediction/ClassifyImage.yml)
+#### [Classify Image](customvision/prediction/ClassifyImage/ClassifyImage.yml)
+### Classify Image Url
+#### [Overview](customvision/prediction/ClassifyImageUrl.yml)
+#### [Classify Image Url](customvision/prediction/ClassifyImageUrl/ClassifyImageUrl.yml)
+### Classify Image Url With No Store
+#### [Overview](customvision/prediction/ClassifyImageUrlWithNoStore.yml)
+#### [Classify Image Url With No Store](customvision/prediction/ClassifyImageUrlWithNoStore/ClassifyImageUrlWithNoStore.yml)
+### Classify Image With No Store
+#### [Overview](customvision/prediction/ClassifyImageWithNoStore.yml)
+#### [Classify Image With No Store](customvision/prediction/ClassifyImageWithNoStore/ClassifyImageWithNoStore.yml)
+### Detect Image
+#### [Overview](customvision/prediction/DetectImage.yml)
+#### [Detect Image](customvision/prediction/DetectImage/DetectImage.yml)
+### Detect Image Url
+#### [Overview](customvision/prediction/DetectImageUrl.yml)
+#### [Detect Image Url](customvision/prediction/DetectImageUrl/DetectImageUrl.yml)
+### Detect Image Url With No Store
+#### [Overview](customvision/prediction/DetectImageUrlWithNoStore.yml)
+#### [Detect Image Url With No Store](customvision/prediction/DetectImageUrlWithNoStore/DetectImageUrlWithNoStore.yml)
+### Detect Image With No Store
+#### [Overview](customvision/prediction/DetectImageWithNoStore.yml)
+#### [Detect Image With No Store](customvision/prediction/DetectImageWithNoStore/DetectImageWithNoStore.yml)
+## Training 3.3
+### Create Image Regions
+#### [Overview](customvision/training3.3/CreateImageRegions.yml)
+#### [Create Image Regions](customvision/training3.3/CreateImageRegions/CreateImageRegions.yml)
+### Create Image Tags
+#### [Overview](customvision/training3.3/CreateImageTags.yml)
+#### [Create Image Tags](customvision/training3.3/CreateImageTags/CreateImageTags.yml)
+### Create Images From Data
+#### [Overview](customvision/training3.3/CreateImagesFromData.yml)
+#### [Create Images From Data](customvision/training3.3/CreateImagesFromData/CreateImagesFromData.yml)
+### Create Images From Files
+#### [Overview](customvision/training3.3/CreateImagesFromFiles.yml)
+#### [Create Images From Files](customvision/training3.3/CreateImagesFromFiles/CreateImagesFromFiles.yml)
+### Create Images From Predictions
+#### [Overview](customvision/training3.3/CreateImagesFromPredictions.yml)
+#### [Create Images From Predictions](customvision/training3.3/CreateImagesFromPredictions/CreateImagesFromPredictions.yml)
+### Create Images From Urls
+#### [Overview](customvision/training3.3/CreateImagesFromUrls.yml)
+#### [Create Images From Urls](customvision/training3.3/CreateImagesFromUrls/CreateImagesFromUrls.yml)
+### Create Project
+#### [Overview](customvision/training3.3/CreateProject.yml)
+#### [Create Project](customvision/training3.3/CreateProject/CreateProject.yml)
+### Create Tag
+#### [Overview](customvision/training3.3/CreateTag.yml)
+#### [Create Tag](customvision/training3.3/CreateTag/CreateTag.yml)
+### Delete Image Regions
+#### [Overview](customvision/training3.3/DeleteImageRegions.yml)
+#### [Delete Image Regions](customvision/training3.3/DeleteImageRegions/DeleteImageRegions.yml)
+### Delete Image Tags
+#### [Overview](customvision/training3.3/DeleteImageTags.yml)
+#### [Delete Image Tags](customvision/training3.3/DeleteImageTags/DeleteImageTags.yml)
+### Delete Images
+#### [Overview](customvision/training3.3/DeleteImages.yml)
+#### [Delete Images](customvision/training3.3/DeleteImages/DeleteImages.yml)
+### Delete Iteration
+#### [Overview](customvision/training3.3/DeleteIteration.yml)
+#### [Delete Iteration](customvision/training3.3/DeleteIteration/DeleteIteration.yml)
+### Delete Prediction
+#### [Overview](customvision/training3.3/DeletePrediction.yml)
+#### [Delete Prediction](customvision/training3.3/DeletePrediction/DeletePrediction.yml)
+### Delete Project
+#### [Overview](customvision/training3.3/DeleteProject.yml)
+#### [Delete Project](customvision/training3.3/DeleteProject/DeleteProject.yml)
+### Delete Tag
+#### [Overview](customvision/training3.3/DeleteTag.yml)
+#### [Delete Tag](customvision/training3.3/DeleteTag/DeleteTag.yml)
+### Export Iteration
+#### [Overview](customvision/training3.3/ExportIteration.yml)
+#### [Export Iteration](customvision/training3.3/ExportIteration/ExportIteration.yml)
+### Export Project
+#### [Overview](customvision/training3.3/ExportProject.yml)
+#### [Export Project](customvision/training3.3/ExportProject/ExportProject.yml)
+### Get Artifact
+#### [Overview](customvision/training3.3/GetArtifact.yml)
+#### [Get Artifact](customvision/training3.3/GetArtifact/GetArtifact.yml)
+### Get Domain
+#### [Overview](customvision/training3.3/GetDomain.yml)
+#### [Get Domain](customvision/training3.3/GetDomain/GetDomain.yml)
+### Get Domains
+#### [Overview](customvision/training3.3/GetDomains.yml)
+#### [Get Domains](customvision/training3.3/GetDomains/GetDomains.yml)
+### Get Exports
+#### [Overview](customvision/training3.3/GetExports.yml)
+#### [Get Exports](customvision/training3.3/GetExports/GetExports.yml)
+### Get Image Count
+#### [Overview](customvision/training3.3/GetImageCount.yml)
+#### [Get Image Count](customvision/training3.3/GetImageCount/GetImageCount.yml)
+### Get Image Performance Count
+#### [Overview](customvision/training3.3/GetImagePerformanceCount.yml)
+#### [Get Image Performance Count](customvision/training3.3/GetImagePerformanceCount/GetImagePerformanceCount.yml)
+### Get Image Performances
+#### [Overview](customvision/training3.3/GetImagePerformances.yml)
+#### [Get Image Performances](customvision/training3.3/GetImagePerformances/GetImagePerformances.yml)
+### Get Image Region Proposals
+#### [Overview](customvision/training3.3/GetImageRegionProposals.yml)
+#### [Get Image Region Proposals](customvision/training3.3/GetImageRegionProposals/GetImageRegionProposals.yml)
+### Get Images
+#### [Overview](customvision/training3.3/GetImages.yml)
+#### [Get Images](customvision/training3.3/GetImages/GetImages.yml)
+### Get Images By Ids
+#### [Overview](customvision/training3.3/GetImagesByIds.yml)
+#### [Get Images By Ids](customvision/training3.3/GetImagesByIds/GetImagesByIds.yml)
+### Get Iteration
+#### [Overview](customvision/training3.3/GetIteration.yml)
+#### [Get Iteration](customvision/training3.3/GetIteration/GetIteration.yml)
+### Get Iteration Performance
+#### [Overview](customvision/training3.3/GetIterationPerformance.yml)
+#### [Get Iteration Performance](customvision/training3.3/GetIterationPerformance/GetIterationPerformance.yml)
+### Get Iterations
+#### [Overview](customvision/training3.3/GetIterations.yml)
+#### [Get Iterations](customvision/training3.3/GetIterations/GetIterations.yml)
+### Get Project
+#### [Overview](customvision/training3.3/GetProject.yml)
+#### [Get Project](customvision/training3.3/GetProject/GetProject.yml)
+### Get Projects
+#### [Overview](customvision/training3.3/GetProjects.yml)
+#### [Get Projects](customvision/training3.3/GetProjects/GetProjects.yml)
+### Get Tag
+#### [Overview](customvision/training3.3/GetTag.yml)
+#### [Get Tag](customvision/training3.3/GetTag/GetTag.yml)
+### Get Tagged Image Count
+#### [Overview](customvision/training3.3/GetTaggedImageCount.yml)
+#### [Get Tagged Image Count](customvision/training3.3/GetTaggedImageCount/GetTaggedImageCount.yml)
+### Get Tagged Images
+#### [Overview](customvision/training3.3/GetTaggedImages.yml)
+#### [Get Tagged Images](customvision/training3.3/GetTaggedImages/GetTaggedImages.yml)
+### Get Tags
+#### [Overview](customvision/training3.3/GetTags.yml)
+#### [Get Tags](customvision/training3.3/GetTags/GetTags.yml)
+### Get Untagged Image Count
+#### [Overview](customvision/training3.3/GetUntaggedImageCount.yml)
+#### [Get Untagged Image Count](customvision/training3.3/GetUntaggedImageCount/GetUntaggedImageCount.yml)
+### Get Untagged Images
+#### [Overview](customvision/training3.3/GetUntaggedImages.yml)
+#### [Get Untagged Images](customvision/training3.3/GetUntaggedImages/GetUntaggedImages.yml)
+### Import Project
+#### [Overview](customvision/training3.3/ImportProject.yml)
+#### [Import Project](customvision/training3.3/ImportProject/ImportProject.yml)
+### Publish Iteration
+#### [Overview](customvision/training3.3/PublishIteration.yml)
+#### [Publish Iteration](customvision/training3.3/PublishIteration/PublishIteration.yml)
+### Query Predictions
+#### [Overview](customvision/training3.3/QueryPredictions.yml)
+#### [Query Predictions](customvision/training3.3/QueryPredictions/QueryPredictions.yml)
+### Query Suggested Image Count
+#### [Overview](customvision/training3.3/QuerySuggestedImageCount.yml)
+#### [Query Suggested Image Count](customvision/training3.3/QuerySuggestedImageCount/QuerySuggestedImageCount.yml)
+### Query Suggested Images
+#### [Overview](customvision/training3.3/QuerySuggestedImages.yml)
+#### [Query Suggested Images](customvision/training3.3/QuerySuggestedImages/QuerySuggestedImages.yml)
+### Quick Test Image
+#### [Overview](customvision/training3.3/QuickTestImage.yml)
+#### [Quick Test Image](customvision/training3.3/QuickTestImage/QuickTestImage.yml)
+### Quick Test Image Url
+#### [Overview](customvision/training3.3/QuickTestImageUrl.yml)
+#### [Quick Test Image Url](customvision/training3.3/QuickTestImageUrl/QuickTestImageUrl.yml)
+### Suggest Tags And Regions
+#### [Overview](customvision/training3.3/SuggestTagsAndRegions.yml)
+#### [Suggest Tags And Regions](customvision/training3.3/SuggestTagsAndRegions/SuggestTagsAndRegions.yml)
+### Train Project
+#### [Overview](customvision/training3.3/TrainProject.yml)
+#### [Train Project](customvision/training3.3/TrainProject/TrainProject.yml)
+### Unpublish Iteration
+#### [Overview](customvision/training3.3/UnpublishIteration.yml)
+#### [Unpublish Iteration](customvision/training3.3/UnpublishIteration/UnpublishIteration.yml)
+### Update Image Metadata
+#### [Overview](customvision/training3.3/UpdateImageMetadata.yml)
+#### [Update Image Metadata](customvision/training3.3/UpdateImageMetadata/UpdateImageMetadata.yml)
+### Update Iteration
+#### [Overview](customvision/training3.3/UpdateIteration.yml)
+#### [Update Iteration](customvision/training3.3/UpdateIteration/UpdateIteration.yml)
+### Update Project
+#### [Overview](customvision/training3.3/UpdateProject.yml)
+#### [Update Project](customvision/training3.3/UpdateProject/UpdateProject.yml)
+### Update Tag
+#### [Overview](customvision/training3.3/UpdateTag.yml)
+#### [Update Tag](customvision/training3.3/UpdateTag/UpdateTag.yml)
+## Training 3.4 Preview
+### Create Image Regions
+#### [Overview](customvision/training3.4preview/CreateImageRegions.yml)
+#### [Create Image Regions](customvision/training3.4preview/CreateImageRegions/CreateImageRegions.yml)
+### Create Image Tags
+#### [Overview](customvision/training3.4preview/CreateImageTags.yml)
+#### [Create Image Tags](customvision/training3.4preview/CreateImageTags/CreateImageTags.yml)
+### Create Images From Data
+#### [Overview](customvision/training3.4preview/CreateImagesFromData.yml)
+#### [Create Images From Data](customvision/training3.4preview/CreateImagesFromData/CreateImagesFromData.yml)
+### Create Images From Files
+#### [Overview](customvision/training3.4preview/CreateImagesFromFiles.yml)
+#### [Create Images From Files](customvision/training3.4preview/CreateImagesFromFiles/CreateImagesFromFiles.yml)
+### Create Images From Predictions
+#### [Overview](customvision/training3.4preview/CreateImagesFromPredictions.yml)
+#### [Create Images From Predictions](customvision/training3.4preview/CreateImagesFromPredictions/CreateImagesFromPredictions.yml)
+### Create Images From Urls
+#### [Overview](customvision/training3.4preview/CreateImagesFromUrls.yml)
+#### [Create Images From Urls](customvision/training3.4preview/CreateImagesFromUrls/CreateImagesFromUrls.yml)
+### Create Project
+#### [Overview](customvision/training3.4preview/CreateProject.yml)
+#### [Create Project](customvision/training3.4preview/CreateProject/CreateProject.yml)
+### Create Tag
+#### [Overview](customvision/training3.4preview/CreateTag.yml)
+#### [Create Tag](customvision/training3.4preview/CreateTag/CreateTag.yml)
+### Delete Image Regions
+#### [Overview](customvision/training3.4preview/DeleteImageRegions.yml)
+#### [Delete Image Regions](customvision/training3.4preview/DeleteImageRegions/DeleteImageRegions.yml)
+### Delete Image Tags
+#### [Overview](customvision/training3.4preview/DeleteImageTags.yml)
+#### [Delete Image Tags](customvision/training3.4preview/DeleteImageTags/DeleteImageTags.yml)
+### Delete Images
+#### [Overview](customvision/training3.4preview/DeleteImages.yml)
+#### [Delete Images](customvision/training3.4preview/DeleteImages/DeleteImages.yml)
+### Delete Iteration
+#### [Overview](customvision/training3.4preview/DeleteIteration.yml)
+#### [Delete Iteration](customvision/training3.4preview/DeleteIteration/DeleteIteration.yml)
+### Delete Prediction
+#### [Overview](customvision/training3.4preview/DeletePrediction.yml)
+#### [Delete Prediction](customvision/training3.4preview/DeletePrediction/DeletePrediction.yml)
+### Delete Project
+#### [Overview](customvision/training3.4preview/DeleteProject.yml)
+#### [Delete Project](customvision/training3.4preview/DeleteProject/DeleteProject.yml)
+### Delete Tag
+#### [Overview](customvision/training3.4preview/DeleteTag.yml)
+#### [Delete Tag](customvision/training3.4preview/DeleteTag/DeleteTag.yml)
+### Export Iteration
+#### [Overview](customvision/training3.4preview/ExportIteration.yml)
+#### [Export Iteration](customvision/training3.4preview/ExportIteration/ExportIteration.yml)
+### Export Project
+#### [Overview](customvision/training3.4preview/ExportProject.yml)
+#### [Export Project](customvision/training3.4preview/ExportProject/ExportProject.yml)
+### Get Artifact
+#### [Overview](customvision/training3.4preview/GetArtifact.yml)
+#### [Get Artifact](customvision/training3.4preview/GetArtifact/GetArtifact.yml)
+### Get Domain
+#### [Overview](customvision/training3.4preview/GetDomain.yml)
+#### [Get Domain](customvision/training3.4preview/GetDomain/GetDomain.yml)
+### Get Domains
+#### [Overview](customvision/training3.4preview/GetDomains.yml)
+#### [Get Domains](customvision/training3.4preview/GetDomains/GetDomains.yml)
+### Get Exports
+#### [Overview](customvision/training3.4preview/GetExports.yml)
+#### [Get Exports](customvision/training3.4preview/GetExports/GetExports.yml)
+### Get Image Count
+#### [Overview](customvision/training3.4preview/GetImageCount.yml)
+#### [Get Image Count](customvision/training3.4preview/GetImageCount/GetImageCount.yml)
+### Get Image Performance Count
+#### [Overview](customvision/training3.4preview/GetImagePerformanceCount.yml)
+#### [Get Image Performance Count](customvision/training3.4preview/GetImagePerformanceCount/GetImagePerformanceCount.yml)
+### Get Image Performances
+#### [Overview](customvision/training3.4preview/GetImagePerformances.yml)
+#### [Get Image Performances](customvision/training3.4preview/GetImagePerformances/GetImagePerformances.yml)
+### Get Image Region Proposals
+#### [Overview](customvision/training3.4preview/GetImageRegionProposals.yml)
+#### [Get Image Region Proposals](customvision/training3.4preview/GetImageRegionProposals/GetImageRegionProposals.yml)
+### Get Images
+#### [Overview](customvision/training3.4preview/GetImages.yml)
+#### [Get Images](customvision/training3.4preview/GetImages/GetImages.yml)
+### Get Images By Ids
+#### [Overview](customvision/training3.4preview/GetImagesByIds.yml)
+#### [Get Images By Ids](customvision/training3.4preview/GetImagesByIds/GetImagesByIds.yml)
+### Get Iteration
+#### [Overview](customvision/training3.4preview/GetIteration.yml)
+#### [Get Iteration](customvision/training3.4preview/GetIteration/GetIteration.yml)
+### Get Iteration Performance
+#### [Overview](customvision/training3.4preview/GetIterationPerformance.yml)
+#### [Get Iteration Performance](customvision/training3.4preview/GetIterationPerformance/GetIterationPerformance.yml)
+### Get Iterations
+#### [Overview](customvision/training3.4preview/GetIterations.yml)
+#### [Get Iterations](customvision/training3.4preview/GetIterations/GetIterations.yml)
+### Get Project
+#### [Overview](customvision/training3.4preview/GetProject.yml)
+#### [Get Project](customvision/training3.4preview/GetProject/GetProject.yml)
+### Get Projects
+#### [Overview](customvision/training3.4preview/GetProjects.yml)
+#### [Get Projects](customvision/training3.4preview/GetProjects/GetProjects.yml)
+### Get Tag
+#### [Overview](customvision/training3.4preview/GetTag.yml)
+#### [Get Tag](customvision/training3.4preview/GetTag/GetTag.yml)
+### Get Tagged Image Count
+#### [Overview](customvision/training3.4preview/GetTaggedImageCount.yml)
+#### [Get Tagged Image Count](customvision/training3.4preview/GetTaggedImageCount/GetTaggedImageCount.yml)
+### Get Tagged Images
+#### [Overview](customvision/training3.4preview/GetTaggedImages.yml)
+#### [Get Tagged Images](customvision/training3.4preview/GetTaggedImages/GetTaggedImages.yml)
+### Get Tags
+#### [Overview](customvision/training3.4preview/GetTags.yml)
+#### [Get Tags](customvision/training3.4preview/GetTags/GetTags.yml)
+### Get Untagged Image Count
+#### [Overview](customvision/training3.4preview/GetUntaggedImageCount.yml)
+#### [Get Untagged Image Count](customvision/training3.4preview/GetUntaggedImageCount/GetUntaggedImageCount.yml)
+### Get Untagged Images
+#### [Overview](customvision/training3.4preview/GetUntaggedImages.yml)
+#### [Get Untagged Images](customvision/training3.4preview/GetUntaggedImages/GetUntaggedImages.yml)
+### Import Project
+#### [Overview](customvision/training3.4preview/ImportProject.yml)
+#### [Import Project](customvision/training3.4preview/ImportProject/ImportProject.yml)
+### Publish Iteration
+#### [Overview](customvision/training3.4preview/PublishIteration.yml)
+#### [Publish Iteration](customvision/training3.4preview/PublishIteration/PublishIteration.yml)
+### Query Predictions
+#### [Overview](customvision/training3.4preview/QueryPredictions.yml)
+#### [Query Predictions](customvision/training3.4preview/QueryPredictions/QueryPredictions.yml)
+### Query Suggested Image Count
+#### [Overview](customvision/training3.4preview/QuerySuggestedImageCount.yml)
+#### [Query Suggested Image Count](customvision/training3.4preview/QuerySuggestedImageCount/QuerySuggestedImageCount.yml)
+### Query Suggested Images
+#### [Overview](customvision/training3.4preview/QuerySuggestedImages.yml)
+#### [Query Suggested Images](customvision/training3.4preview/QuerySuggestedImages/QuerySuggestedImages.yml)
+### Quick Test Image
+#### [Overview](customvision/training3.4preview/QuickTestImage.yml)
+#### [Quick Test Image](customvision/training3.4preview/QuickTestImage/QuickTestImage.yml)
+### Quick Test Image Url
+#### [Overview](customvision/training3.4preview/QuickTestImageUrl.yml)
+#### [Quick Test Image Url](customvision/training3.4preview/QuickTestImageUrl/QuickTestImageUrl.yml)
+### Suggest Tags And Regions
+#### [Overview](customvision/training3.4preview/SuggestTagsAndRegions.yml)
+#### [Suggest Tags And Regions](customvision/training3.4preview/SuggestTagsAndRegions/SuggestTagsAndRegions.yml)
+### Train Project
+#### [Overview](customvision/training3.4preview/TrainProject.yml)
+#### [Train Project](customvision/training3.4preview/TrainProject/TrainProject.yml)
+### Unpublish Iteration
+#### [Overview](customvision/training3.4preview/UnpublishIteration.yml)
+#### [Unpublish Iteration](customvision/training3.4preview/UnpublishIteration/UnpublishIteration.yml)
+### Update Image Metadata
+#### [Overview](customvision/training3.4preview/UpdateImageMetadata.yml)
+#### [Update Image Metadata](customvision/training3.4preview/UpdateImageMetadata/UpdateImageMetadata.yml)
+### Update Iteration
+#### [Overview](customvision/training3.4preview/UpdateIteration.yml)
+#### [Update Iteration](customvision/training3.4preview/UpdateIteration/UpdateIteration.yml)
+### Update Project
+#### [Overview](customvision/training3.4preview/UpdateProject.yml)
+#### [Update Project](customvision/training3.4preview/UpdateProject/UpdateProject.yml)
+### Update Tag
+#### [Overview](customvision/training3.4preview/UpdateTag.yml)
+#### [Update Tag](customvision/training3.4preview/UpdateTag/UpdateTag.yml)
+# Cognitive Services - Face
+## [Overview](../docs-ref-conceptual/face/index.md)
+## Face
+### [Overview](faceapi/Face.yml)
+### [Detect With Stream](faceapi/Face/DetectWithStream.yml)
+### [Detect With Url](faceapi/Face/DetectWithUrl.yml)
+### [Find Similar](faceapi/Face/FindSimilar.yml)
+### [Group](faceapi/Face/Group.yml)
+### [Identify](faceapi/Face/Identify.yml)
+### [Verify Face To Face](faceapi/Face/VerifyFaceToFace.yml)
+### [Verify Face To Person](faceapi/Face/VerifyFaceToPerson.yml)
+## Face List
+### [Overview](faceapi/FaceList.yml)
+### [Add Face From Stream](faceapi/FaceList/AddFaceFromStream.yml)
+### [Add Face From Url](faceapi/FaceList/AddFaceFromUrl.yml)
+### [Create](faceapi/FaceList/Create.yml)
+### [Delete](faceapi/FaceList/Delete.yml)
+### [Delete Face](faceapi/FaceList/DeleteFace.yml)
+### [Get](faceapi/FaceList/Get.yml)
+### [List](faceapi/FaceList/List.yml)
+### [Update](faceapi/FaceList/Update.yml)
+## Large Face List
+### [Overview](faceapi/LargeFaceList.yml)
+### [Add Face From Stream](faceapi/LargeFaceList/AddFaceFromStream.yml)
+### [Add Face From Url](faceapi/LargeFaceList/AddFaceFromUrl.yml)
+### [Create](faceapi/LargeFaceList/Create.yml)
+### [Delete](faceapi/LargeFaceList/Delete.yml)
+### [Delete Face](faceapi/LargeFaceList/DeleteFace.yml)
+### [Get](faceapi/LargeFaceList/Get.yml)
+### [Get Face](faceapi/LargeFaceList/GetFace.yml)
+### [Get Training Status](faceapi/LargeFaceList/GetTrainingStatus.yml)
+### [List](faceapi/LargeFaceList/List.yml)
+### [List Faces](faceapi/LargeFaceList/ListFaces.yml)
+### [Train](faceapi/LargeFaceList/Train.yml)
+### [Update](faceapi/LargeFaceList/Update.yml)
+### [Update Face](faceapi/LargeFaceList/UpdateFace.yml)
+## Large Person Group
+### [Overview](faceapi/LargePersonGroup.yml)
+### [Create](faceapi/LargePersonGroup/Create.yml)
+### [Delete](faceapi/LargePersonGroup/Delete.yml)
+### [Get](faceapi/LargePersonGroup/Get.yml)
+### [Get Training Status](faceapi/LargePersonGroup/GetTrainingStatus.yml)
+### [List](faceapi/LargePersonGroup/List.yml)
+### [Train](faceapi/LargePersonGroup/Train.yml)
+### [Update](faceapi/LargePersonGroup/Update.yml)
+## Large Person Group Person
+### [Overview](faceapi/LargePersonGroupPerson.yml)
+### [Add Face From Stream](faceapi/LargePersonGroupPerson/AddFaceFromStream.yml)
+### [Add Face From Url](faceapi/LargePersonGroupPerson/AddFaceFromUrl.yml)
+### [Create](faceapi/LargePersonGroupPerson/Create.yml)
+### [Delete](faceapi/LargePersonGroupPerson/Delete.yml)
+### [Delete Face](faceapi/LargePersonGroupPerson/DeleteFace.yml)
+### [Get](faceapi/LargePersonGroupPerson/Get.yml)
+### [Get Face](faceapi/LargePersonGroupPerson/GetFace.yml)
+### [List](faceapi/LargePersonGroupPerson/List.yml)
+### [Update](faceapi/LargePersonGroupPerson/Update.yml)
+### [Update Face](faceapi/LargePersonGroupPerson/UpdateFace.yml)
+## Person Group
+### [Overview](faceapi/PersonGroup.yml)
+### [Create](faceapi/PersonGroup/Create.yml)
+### [Delete](faceapi/PersonGroup/Delete.yml)
+### [Get](faceapi/PersonGroup/Get.yml)
+### [Get Training Status](faceapi/PersonGroup/GetTrainingStatus.yml)
+### [List](faceapi/PersonGroup/List.yml)
+### [Train](faceapi/PersonGroup/Train.yml)
+### [Update](faceapi/PersonGroup/Update.yml)
+## Person Group Person
+### [Overview](faceapi/PersonGroupPerson.yml)
+### [Add Face From Stream](faceapi/PersonGroupPerson/AddFaceFromStream.yml)
+### [Add Face From Url](faceapi/PersonGroupPerson/AddFaceFromUrl.yml)
+### [Create](faceapi/PersonGroupPerson/Create.yml)
+### [Delete](faceapi/PersonGroupPerson/Delete.yml)
+### [Delete Face](faceapi/PersonGroupPerson/DeleteFace.yml)
+### [Get](faceapi/PersonGroupPerson/Get.yml)
+### [Get Face](faceapi/PersonGroupPerson/GetFace.yml)
+### [List](faceapi/PersonGroupPerson/List.yml)
+### [Update](faceapi/PersonGroupPerson/Update.yml)
+### [Update Face](faceapi/PersonGroupPerson/UpdateFace.yml)
+## Snapshot
+### [Overview](faceapi/Snapshot.yml)
+### [Apply](faceapi/Snapshot/Apply.yml)
+### [Delete](faceapi/Snapshot/Delete.yml)
+### [Get](faceapi/Snapshot/Get.yml)
+### [Get Operation Status](faceapi/Snapshot/GetOperationStatus.yml)
+### [List](faceapi/Snapshot/List.yml)
+### [Take](faceapi/Snapshot/Take.yml)
+### [Update](faceapi/Snapshot/Update.yml)
+# Cognitive Services - Form Recognizer
+## [Overview](../docs-ref-conceptual/formrecognizer/index.md)
+## 2.0
+### Analyze Layout Async
+#### [Overview](formrecognizer/2.0/AnalyzeLayoutAsync.yml)
+#### [Analyze Layout Async](formrecognizer/2.0/AnalyzeLayoutAsync/AnalyzeLayoutAsync.yml)
+### Analyze Receipt Async
+#### [Overview](formrecognizer/2.0/AnalyzeReceiptAsync.yml)
+#### [Analyze Receipt Async](formrecognizer/2.0/AnalyzeReceiptAsync/AnalyzeReceiptAsync.yml)
+### Analyze With Custom Model
+#### [Overview](formrecognizer/2.0/AnalyzeWithCustomModel.yml)
+#### [Analyze With Custom Model](formrecognizer/2.0/AnalyzeWithCustomModel/AnalyzeWithCustomModel.yml)
+### Copy Custom Model
+#### [Overview](formrecognizer/2.0/CopyCustomModel.yml)
+#### [Copy Custom Model](formrecognizer/2.0/CopyCustomModel/CopyCustomModel.yml)
+### Delete Custom Model
+#### [Overview](formrecognizer/2.0/DeleteCustomModel.yml)
+#### [Delete Custom Model](formrecognizer/2.0/DeleteCustomModel/DeleteCustomModel.yml)
+### Generate Model Copy Authorization
+#### [Overview](formrecognizer/2.0/GenerateModelCopyAuthorization.yml)
+#### [Generate Model Copy Authorization](formrecognizer/2.0/GenerateModelCopyAuthorization/GenerateModelCopyAuthorization.yml)
+### Get Analyze Form Result
+#### [Overview](formrecognizer/2.0/GetAnalyzeFormResult.yml)
+#### [Get Analyze Form Result](formrecognizer/2.0/GetAnalyzeFormResult/GetAnalyzeFormResult.yml)
+### Get Analyze Layout Result
+#### [Overview](formrecognizer/2.0/GetAnalyzeLayoutResult.yml)
+#### [Get Analyze Layout Result](formrecognizer/2.0/GetAnalyzeLayoutResult/GetAnalyzeLayoutResult.yml)
+### Get Analyze Receipt Result
+#### [Overview](formrecognizer/2.0/GetAnalyzeReceiptResult.yml)
+#### [Get Analyze Receipt Result](formrecognizer/2.0/GetAnalyzeReceiptResult/GetAnalyzeReceiptResult.yml)
+### Get Custom Model
+#### [Overview](formrecognizer/2.0/GetCustomModel.yml)
+#### [Get Custom Model](formrecognizer/2.0/GetCustomModel/GetCustomModel.yml)
+### Get Custom Model Copy Result
+#### [Overview](formrecognizer/2.0/GetCustomModelCopyResult.yml)
+#### [Get Custom Model Copy Result](formrecognizer/2.0/GetCustomModelCopyResult/GetCustomModelCopyResult.yml)
+### Get Custom Models
+#### [Overview](formrecognizer/2.0/GetCustomModels.yml)
+#### [Get Custom Models](formrecognizer/2.0/GetCustomModels/GetCustomModels.yml)
+### List Custom Models
+#### [Overview](formrecognizer/2.0/ListCustomModels.yml)
+#### [List Custom Models](formrecognizer/2.0/ListCustomModels/ListCustomModels.yml)
+### Train Custom Model Async
+#### [Overview](formrecognizer/2.0/TrainCustomModelAsync.yml)
+#### [Train Custom Model Async](formrecognizer/2.0/TrainCustomModelAsync/TrainCustomModelAsync.yml)
+## 2.1 Preview 2
+### Analyze Business Card Async
+#### [Overview](formrecognizer/2.1preview2/AnalyzeBusinessCardAsync.yml)
+#### [Analyze Business Card Async](formrecognizer/2.1preview2/AnalyzeBusinessCardAsync/AnalyzeBusinessCardAsync.yml)
+### Analyze Invoice Async
+#### [Overview](formrecognizer/2.1preview2/AnalyzeInvoiceAsync.yml)
+#### [Analyze Invoice Async](formrecognizer/2.1preview2/AnalyzeInvoiceAsync/AnalyzeInvoiceAsync.yml)
+### Analyze Layout Async
+#### [Overview](formrecognizer/2.1preview2/AnalyzeLayoutAsync.yml)
+#### [Analyze Layout Async](formrecognizer/2.1preview2/AnalyzeLayoutAsync/AnalyzeLayoutAsync.yml)
+### Analyze Receipt Async
+#### [Overview](formrecognizer/2.1preview2/AnalyzeReceiptAsync.yml)
+#### [Analyze Receipt Async](formrecognizer/2.1preview2/AnalyzeReceiptAsync/AnalyzeReceiptAsync.yml)
+### Analyze With Custom Model
+#### [Overview](formrecognizer/2.1preview2/AnalyzeWithCustomModel.yml)
+#### [Analyze With Custom Model](formrecognizer/2.1preview2/AnalyzeWithCustomModel/AnalyzeWithCustomModel.yml)
+### Compose Custom Models Async
+#### [Overview](formrecognizer/2.1preview2/ComposeCustomModelsAsync.yml)
+#### [Compose Custom Models Async](formrecognizer/2.1preview2/ComposeCustomModelsAsync/ComposeCustomModelsAsync.yml)
+### Copy Custom Model
+#### [Overview](formrecognizer/2.1preview2/CopyCustomModel.yml)
+#### [Copy Custom Model](formrecognizer/2.1preview2/CopyCustomModel/CopyCustomModel.yml)
+### Delete Custom Model
+#### [Overview](formrecognizer/2.1preview2/DeleteCustomModel.yml)
+#### [Delete Custom Model](formrecognizer/2.1preview2/DeleteCustomModel/DeleteCustomModel.yml)
+### Generate Model Copy Authorization
+#### [Overview](formrecognizer/2.1preview2/GenerateModelCopyAuthorization.yml)
+#### [Generate Model Copy Authorization](formrecognizer/2.1preview2/GenerateModelCopyAuthorization/GenerateModelCopyAuthorization.yml)
+### Get Analyze Business Card Result
+#### [Overview](formrecognizer/2.1preview2/GetAnalyzeBusinessCardResult.yml)
+#### [Get Analyze Business Card Result](formrecognizer/2.1preview2/GetAnalyzeBusinessCardResult/GetAnalyzeBusinessCardResult.yml)
+### Get Analyze Form Result
+#### [Overview](formrecognizer/2.1preview2/GetAnalyzeFormResult.yml)
+#### [Get Analyze Form Result](formrecognizer/2.1preview2/GetAnalyzeFormResult/GetAnalyzeFormResult.yml)
+### Get Analyze Invoice Result
+#### [Overview](formrecognizer/2.1preview2/GetAnalyzeInvoiceResult.yml)
+#### [Get Analyze Invoice Result](formrecognizer/2.1preview2/GetAnalyzeInvoiceResult/GetAnalyzeInvoiceResult.yml)
+### Get Analyze Layout Result
+#### [Overview](formrecognizer/2.1preview2/GetAnalyzeLayoutResult.yml)
+#### [Get Analyze Layout Result](formrecognizer/2.1preview2/GetAnalyzeLayoutResult/GetAnalyzeLayoutResult.yml)
+### Get Analyze Receipt Result
+#### [Overview](formrecognizer/2.1preview2/GetAnalyzeReceiptResult.yml)
+#### [Get Analyze Receipt Result](formrecognizer/2.1preview2/GetAnalyzeReceiptResult/GetAnalyzeReceiptResult.yml)
+### Get Custom Model
+#### [Overview](formrecognizer/2.1preview2/GetCustomModel.yml)
+#### [Get Custom Model](formrecognizer/2.1preview2/GetCustomModel/GetCustomModel.yml)
+### Get Custom Model Copy Result
+#### [Overview](formrecognizer/2.1preview2/GetCustomModelCopyResult.yml)
+#### [Get Custom Model Copy Result](formrecognizer/2.1preview2/GetCustomModelCopyResult/GetCustomModelCopyResult.yml)
+### Get Custom Models
+#### [Overview](formrecognizer/2.1preview2/GetCustomModels.yml)
+#### [Get Custom Models](formrecognizer/2.1preview2/GetCustomModels/GetCustomModels.yml)
+### List Custom Models
+#### [Overview](formrecognizer/2.1preview2/ListCustomModels.yml)
+#### [List Custom Models](formrecognizer/2.1preview2/ListCustomModels/ListCustomModels.yml)
+### Train Custom Model Async
+#### [Overview](formrecognizer/2.1preview2/TrainCustomModelAsync.yml)
+#### [Train Custom Model Async](formrecognizer/2.1preview2/TrainCustomModelAsync/TrainCustomModelAsync.yml)
 # Communication
 ## [Overview](../docs-ref-conceptual/communication/index.md)
 ## [Authentication](../docs-ref-conceptual/communication/authentication.md)
@@ -15612,6 +15614,7 @@
 ## Data Masking Rules
 ### [Overview](synapse/DataMaskingRules.yml)
 ### [Create Or Update](synapse/DataMaskingRules/CreateOrUpdate.yml)
+### [Get](synapse/DataMaskingRules/Get.yml)
 ### [List By Sql Pool](synapse/DataMaskingRules/ListBySqlPool.yml)
 ## Extended Sql Pool Blob Auditing Policies
 ### [Overview](synapse/ExtendedSqlPoolBlobAuditingPolicies.yml)
@@ -15688,6 +15691,10 @@
 ## Private Endpoint Connections Private Link Hub
 ### [Overview](synapse/PrivateEndpointConnectionsPrivateLinkHub.yml)
 ### [List](synapse/PrivateEndpointConnectionsPrivateLinkHub/List.yml)
+## Private Link Hub Private Link Resources
+### [Overview](synapse/PrivateLinkHubPrivateLinkResources.yml)
+### [Get](synapse/PrivateLinkHubPrivateLinkResources/Get.yml)
+### [List](synapse/PrivateLinkHubPrivateLinkResources/List.yml)
 ## Private Link Hubs
 ### [Overview](synapse/PrivateLinkHubs.yml)
 ### [Create Or Update](synapse/PrivateLinkHubs/CreateOrUpdate.yml)
@@ -15720,8 +15727,16 @@
 ### [Get](synapse/SqlPoolDataWarehouseUserActivities/Get.yml)
 ## Sql Pool Geo Backup Policies
 ### [Overview](synapse/SqlPoolGeoBackupPolicies.yml)
+### [Create Or Update](synapse/SqlPoolGeoBackupPolicies/CreateOrUpdate.yml)
 ### [Get](synapse/SqlPoolGeoBackupPolicies/Get.yml)
 ### [List](synapse/SqlPoolGeoBackupPolicies/List.yml)
+## Sql Pool Maintenance Window Options
+### [Overview](synapse/SqlPoolMaintenanceWindowOptions.yml)
+### [Get](synapse/SqlPoolMaintenanceWindowOptions/Get.yml)
+## Sql Pool Maintenance Windows
+### [Overview](synapse/SqlPoolMaintenanceWindows.yml)
+### [Create Or Update](synapse/SqlPoolMaintenanceWindows/CreateOrUpdate.yml)
+### [Get](synapse/SqlPoolMaintenanceWindows/Get.yml)
 ## Sql Pool Metadata Sync Configs
 ### [Overview](synapse/SqlPoolMetadataSyncConfigs.yml)
 ### [Create](synapse/SqlPoolMetadataSyncConfigs/Create.yml)
@@ -15732,6 +15747,9 @@
 ## Sql Pool Operations
 ### [Overview](synapse/SqlPoolOperations.yml)
 ### [List](synapse/SqlPoolOperations/List.yml)
+## Sql Pool Recommended Sensitivity Labels
+### [Overview](synapse/SqlPoolRecommendedSensitivityLabels.yml)
+### [Update](synapse/SqlPoolRecommendedSensitivityLabels/Update.yml)
 ## Sql Pool Replication Links
 ### [Overview](synapse/SqlPoolReplicationLinks.yml)
 ### [Get By Name](synapse/SqlPoolReplicationLinks/GetByName.yml)
@@ -15760,6 +15778,7 @@
 ### [Get](synapse/SqlPoolSensitivityLabels/Get.yml)
 ### [List Current](synapse/SqlPoolSensitivityLabels/ListCurrent.yml)
 ### [List Recommended](synapse/SqlPoolSensitivityLabels/ListRecommended.yml)
+### [Update](synapse/SqlPoolSensitivityLabels/Update.yml)
 ## Sql Pool Table Columns
 ### [Overview](synapse/SqlPoolTableColumns.yml)
 ### [List By Table Name](synapse/SqlPoolTableColumns/ListByTableName.yml)
