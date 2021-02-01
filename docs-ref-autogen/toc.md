@@ -2353,12 +2353,6 @@
 ### Operations
 #### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/Operations.yml)
 #### [List](azureresourcegraph/resourcegraph(2020-04-01-preview)/Operations/List.yml)
-### Resource Change Details
-#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChangeDetails.yml)
-#### [Resource Change Details](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChangeDetails/ResourceChangeDetails.yml)
-### Resource Changes
-#### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChanges.yml)
-#### [Resource Changes](azureresourcegraph/resourcegraph(2020-04-01-preview)/ResourceChanges/ResourceChanges.yml)
 ### Resources
 #### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/Resources.yml)
 #### [Resources](azureresourcegraph/resourcegraph(2020-04-01-preview)/Resources/Resources.yml)
@@ -6976,6 +6970,7 @@
 #### [Create](hdinsight/Clusters/Create.yml)
 #### [Delete](hdinsight/Clusters/Delete.yml)
 #### [Get](hdinsight/Clusters/Get.yml)
+#### [Get Azure Async Operation Status](hdinsight/Clusters/GetAzureAsyncOperationStatus.yml)
 #### [Get Gateway Settings](hdinsight/Clusters/GetGatewaySettings.yml)
 #### [List](hdinsight/Clusters/List.yml)
 #### [List By Resource Group](hdinsight/Clusters/ListByResourceGroup.yml)
@@ -6999,6 +6994,7 @@
 #### [Get Monitoring Status](hdinsight/Extensions/GetMonitoringStatus.yml)
 ### Locations
 #### [Overview](hdinsight/Locations.yml)
+#### [Get Azure Async Operation Status](hdinsight/Locations/GetAzureAsyncOperationStatus.yml)
 #### [Get Capabilities](hdinsight/Locations/GetCapabilities.yml)
 #### [List Billing Specs](hdinsight/Locations/ListBillingSpecs.yml)
 #### [List Usages](hdinsight/Locations/ListUsages.yml)
@@ -7174,33 +7170,36 @@
 ## Reference
 ### Api Tokens
 #### [Overview](iotcentral/ApiTokens.yml)
+#### [Create](iotcentral/ApiTokens/Create.yml)
 #### [Get](iotcentral/ApiTokens/Get.yml)
 #### [List](iotcentral/ApiTokens/List.yml)
 #### [Remove](iotcentral/ApiTokens/Remove.yml)
-#### [Set](iotcentral/ApiTokens/Set.yml)
 ### Applications
 #### [Overview](iotcentral/Applications.yml)
 #### [Get](iotcentral/Applications/Get.yml)
 #### [List](iotcentral/Applications/List.yml)
 ### Continuous Data Exports
 #### [Overview](iotcentral/ContinuousDataExports.yml)
+#### [Create](iotcentral/ContinuousDataExports/Create.yml)
 #### [Get](iotcentral/ContinuousDataExports/Get.yml)
 #### [List](iotcentral/ContinuousDataExports/List.yml)
 #### [Remove](iotcentral/ContinuousDataExports/Remove.yml)
-#### [Set](iotcentral/ContinuousDataExports/Set.yml)
+#### [Update](iotcentral/ContinuousDataExports/Update.yml)
 ### Device Groups
 #### [Overview](iotcentral/DeviceGroups.yml)
 #### [List](iotcentral/DeviceGroups/List.yml)
 ### Device Templates
 #### [Overview](iotcentral/DeviceTemplates.yml)
+#### [Create](iotcentral/DeviceTemplates/Create.yml)
 #### [Get](iotcentral/DeviceTemplates/Get.yml)
 #### [Get Merged](iotcentral/DeviceTemplates/GetMerged.yml)
 #### [List](iotcentral/DeviceTemplates/List.yml)
 #### [List Devices](iotcentral/DeviceTemplates/ListDevices.yml)
 #### [Remove](iotcentral/DeviceTemplates/Remove.yml)
-#### [Set](iotcentral/DeviceTemplates/Set.yml)
 ### Devices
 #### [Overview](iotcentral/Devices.yml)
+#### [Create](iotcentral/Devices/Create.yml)
+#### [Create Attestation](iotcentral/Devices/CreateAttestation.yml)
 #### [Execute Command](iotcentral/Devices/ExecuteCommand.yml)
 #### [Execute Component Command](iotcentral/Devices/ExecuteComponentCommand.yml)
 #### [Execute Module Command](iotcentral/Devices/ExecuteModuleCommand.yml)
@@ -7227,8 +7226,12 @@
 #### [List Modules](iotcentral/Devices/ListModules.yml)
 #### [Remove](iotcentral/Devices/Remove.yml)
 #### [Remove Attestation](iotcentral/Devices/RemoveAttestation.yml)
-#### [Set](iotcentral/Devices/Set.yml)
-#### [Set Attestation](iotcentral/Devices/SetAttestation.yml)
+#### [Set Cloud Properties](iotcentral/Devices/SetCloudProperties.yml)
+#### [Set Component Properties](iotcentral/Devices/SetComponentProperties.yml)
+#### [Set Module Component Properties](iotcentral/Devices/SetModuleComponentProperties.yml)
+#### [Set Module Properties](iotcentral/Devices/SetModuleProperties.yml)
+#### [Set Properties](iotcentral/Devices/SetProperties.yml)
+#### [Update](iotcentral/Devices/Update.yml)
 #### [Update Cloud Properties](iotcentral/Devices/UpdateCloudProperties.yml)
 #### [Update Component Properties](iotcentral/Devices/UpdateComponentProperties.yml)
 #### [Update Module Component Properties](iotcentral/Devices/UpdateModuleComponentProperties.yml)
@@ -7236,12 +7239,12 @@
 #### [Update Properties](iotcentral/Devices/UpdateProperties.yml)
 ### Jobs
 #### [Overview](iotcentral/Jobs.yml)
+#### [Create](iotcentral/Jobs/Create.yml)
 #### [Get](iotcentral/Jobs/Get.yml)
 #### [Get Devices](iotcentral/Jobs/GetDevices.yml)
 #### [List](iotcentral/Jobs/List.yml)
 #### [Rerun](iotcentral/Jobs/Rerun.yml)
 #### [Resume](iotcentral/Jobs/Resume.yml)
-#### [Set](iotcentral/Jobs/Set.yml)
 #### [Stop](iotcentral/Jobs/Stop.yml)
 ### Roles
 #### [Overview](iotcentral/Roles.yml)
@@ -7249,10 +7252,11 @@
 #### [List](iotcentral/Roles/List.yml)
 ### Users
 #### [Overview](iotcentral/Users.yml)
+#### [Create](iotcentral/Users/Create.yml)
 #### [Get](iotcentral/Users/Get.yml)
 #### [List](iotcentral/Users/List.yml)
 #### [Remove](iotcentral/Users/Remove.yml)
-#### [Set](iotcentral/Users/Set.yml)
+#### [Update](iotcentral/Users/Update.yml)
 # IoT Hub
 ## [Overview](../docs-ref-conceptual/iothub/index.md)
 ## [Common error codes](../docs-ref-conceptual/iothub/common-error-codes.md)
@@ -10243,6 +10247,7 @@
 ### [Initiate Move](resourcemover/MoveCollections/InitiateMove.yml)
 ### [List Move Collections By Resource Group](resourcemover/MoveCollections/ListMoveCollectionsByResourceGroup.yml)
 ### [List Move Collections By Subscription](resourcemover/MoveCollections/ListMoveCollectionsBySubscription.yml)
+### [List Required For](resourcemover/MoveCollections/ListRequiredFor.yml)
 ### [Prepare](resourcemover/MoveCollections/Prepare.yml)
 ### [Resolve Dependencies](resourcemover/MoveCollections/ResolveDependencies.yml)
 ### [Update](resourcemover/MoveCollections/Update.yml)
@@ -10616,6 +10621,9 @@
 ## [Overview](../docs-ref-conceptual/securityinsights/index.md)
 ## Actions
 ### [Overview](securityinsights/Actions.yml)
+### [Create Or Update](securityinsights/Actions/CreateOrUpdate.yml)
+### [Delete](securityinsights/Actions/Delete.yml)
+### [Get](securityinsights/Actions/Get.yml)
 ### [List By Alert Rule](securityinsights/Actions/ListByAlertRule.yml)
 ## Alert Rule Templates
 ### [Overview](securityinsights/AlertRuleTemplates.yml)
@@ -10624,11 +10632,8 @@
 ## Alert Rules
 ### [Overview](securityinsights/AlertRules.yml)
 ### [Create Or Update](securityinsights/AlertRules/CreateOrUpdate.yml)
-### [Create Or Update Action](securityinsights/AlertRules/CreateOrUpdateAction.yml)
 ### [Delete](securityinsights/AlertRules/Delete.yml)
-### [Delete Action](securityinsights/AlertRules/DeleteAction.yml)
 ### [Get](securityinsights/AlertRules/Get.yml)
-### [Get Action](securityinsights/AlertRules/GetAction.yml)
 ### [List](securityinsights/AlertRules/List.yml)
 ## Bookmarks
 ### [Overview](securityinsights/Bookmarks.yml)
@@ -14892,6 +14897,12 @@
 #### [Lock Immutability Policy](storagerp/BlobContainers/LockImmutabilityPolicy.yml)
 #### [Set Legal Hold](storagerp/BlobContainers/SetLegalHold.yml)
 #### [Update](storagerp/BlobContainers/Update.yml)
+### Blob Inventory Policies
+#### [Overview](storagerp/BlobInventoryPolicies.yml)
+#### [Create Or Update](storagerp/BlobInventoryPolicies/CreateOrUpdate.yml)
+#### [Delete](storagerp/BlobInventoryPolicies/Delete.yml)
+#### [Get](storagerp/BlobInventoryPolicies/Get.yml)
+#### [List](storagerp/BlobInventoryPolicies/List.yml)
 ### Blob Services
 #### [Overview](storagerp/BlobServices.yml)
 #### [Get Service Properties](storagerp/BlobServices/GetServiceProperties.yml)

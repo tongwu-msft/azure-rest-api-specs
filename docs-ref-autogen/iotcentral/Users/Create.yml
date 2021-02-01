@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: apps.azureiotcentral.com.api.preview.iotcentral.apitokens.set
-name: Set
+uid: apps.azureiotcentral.com.api.preview.iotcentral.users.create
+name: Create
 service: IoT Central
-groupName: Api Tokens
+groupName: Users
 apiVersion: preview
-summary: Create a new API token in the application to use in the IoT Central public API. The token value will be returned in the response, and won't be returned again in subsequent requests.
+summary: Create or update a user in the application
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://{subdomain}.{centralDnsSuffixInPath}/api/preview/apiTokens/{token_id}
+- content: PUT https://{subdomain}.{centralDnsSuffixInPath}/api/preview/users/{user_id}
 uriParameters:
 - name: subdomain
   in: path
@@ -25,17 +25,17 @@ uriParameters:
   description: The DNS suffix used as the base for all Azure IoT Central service requests.
   types:
   - uid: string
-- name: token_id
+- name: user_id
   in: path
   isRequired: true
-  description: Unique ID for the API token.
+  description: Unique ID of the user.
   types:
   - uid: string
 responses:
 - name: 200 OK
   description: Success
   types:
-  - uid: ApiToken
+  - uid: User
 requestBody:
 - name: default
   parameters:
@@ -46,9 +46,10 @@ requestBody:
     types:
     - uid: Roles
       isArray: true
-  - name: expiry
+  - name: type
     in: body
-    description: String-formatted date representing the time when the token expires.
+    isRequired: true
+    description: Type of the user.
     types:
     - uid: string
 requestHeader: []
@@ -61,7 +62,7 @@ definitions:
     description: ID that specifies the role assignment for this role.
     types:
     - uid: string
-- name: ApiToken
+- name: User
   kind: object
   properties:
   - name: roles
@@ -71,27 +72,25 @@ definitions:
       isArray: true
   - name: id
     isReadyOnly: true
-    description: Unique ID of the API token.
+    description: Unique ID of the user.
     types:
     - uid: string
-  - name: token
-    isReadyOnly: true
-    description: Value of the API token.
-    types:
-    - uid: string
-  - name: expiry
-    description: String-formatted date representing the time when the token expires.
+  - name: type
+    description: Type of the user.
     types:
     - uid: string
 examples:
-- name: Create API token
+- name: Add or update a service principal user
   request:
-    uri: PUT https://appsubdomain.azureiotcentral.com/api/preview/apiTokens/testtoken
+    uri: PUT https://appsubdomain.azureiotcentral.com/api/preview/users/123
     body: >-
       {
+        "type": "ServicePrincipalUser",
+        "tenantId": "<tenant Id>",
+        "objectId": "<object Id>",
         "roles": [
           {
-            "role": "ca310b8d-2f4a-44e0-a36e-957c202cd8d4"
+            "role": "<role Id>"
           }
         ]
       }
@@ -99,14 +98,40 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "testtoken",
+        "id": "123",
+        "type": "ServicePrincipalUser",
+        "tenantId": "<tenant Id>",
+        "objectId": "<object Id>",
         "roles": [
           {
-            "role": "ca310b8d-2f4a-44e0-a36e-957c202cd8d4"
+            "role": "<role Id>"
+          }
+        ]
+      }
+- name: Add or update an email user
+  request:
+    uri: PUT https://appsubdomain.azureiotcentral.com/api/preview/users/123
+    body: >-
+      {
+        "type": "EmailUser",
+        "roles": [
+          {
+            "role": "<role Id>"
           }
         ],
-        "expiry": "2020-10-18T18:30:40.227Z",
-        "token": "SharedAccessSignature sr=..."
+        "email": "bob@contoso.com"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "type": "EmailUser",
+        "roles": [
+          {
+            "role": "<role Id>"
+          }
+        ],
+        "email": "bob@contoso.com"
       }
 security: []
 errorCodes: []
