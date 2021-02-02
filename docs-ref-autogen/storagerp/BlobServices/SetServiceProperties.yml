@@ -91,6 +91,11 @@ requestBody:
     description: The blob service properties for container soft delete.
     types:
     - uid: DeleteRetentionPolicy
+  - name: properties.lastAccessTimeTrackingPolicy
+    in: body
+    description: The blob service property to configure last access time based tracking policy.
+    types:
+    - uid: LastAccessTimeTrackingPolicy
 requestHeader: []
 definitions:
 - name: Sku
@@ -135,6 +140,10 @@ definitions:
     description: Indicates whether change feed event logging is enabled for the Blob service.
     types:
     - uid: boolean
+  - name: retentionInDays
+    description: Indicates the duration of changeFeed retention in days. Minimum value is 1 day and maximum value is 146000 days (400 years). A null value indicates an infinite retention of the change feed.
+    types:
+    - uid: integer
 - name: RestorePolicyProperties
   description: The blob service properties for blob restore policy
   kind: object
@@ -157,6 +166,27 @@ definitions:
     description: Returns the minimum date and time that the restore can be started.
     types:
     - uid: string
+- name: LastAccessTimeTrackingPolicy
+  description: The blob service properties for Last access time based tracking policy.
+  kind: object
+  properties:
+  - name: enable
+    description: When set to true last access time based tracking is enabled.
+    types:
+    - uid: boolean
+  - name: name
+    description: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
+    types:
+    - uid: name
+  - name: trackingGranularityInDays
+    description: The field specifies blob object tracking granularity in days, typically how often the blob object should be tracked.This field is currently read only with value as 1
+    types:
+    - uid: integer
+  - name: blobType
+    description: An array of predefined supported blob types. Only blockBlob is the supported value. This field is currently read only
+    types:
+    - uid: string
+      isArray: true
 - name: BlobServiceProperties
   description: The properties of a storage account’s Blob service.
   kind: object
@@ -198,6 +228,10 @@ definitions:
     description: The blob service properties for container soft delete.
     types:
     - uid: DeleteRetentionPolicy
+  - name: properties.lastAccessTimeTrackingPolicy
+    description: The blob service property to configure last access time based tracking policy.
+    types:
+    - uid: LastAccessTimeTrackingPolicy
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -279,6 +313,13 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: name
+  description: Name of the policy. The valid value is AccessTimeTracking. This field is currently read only
+  kind: enum
+  properties:
+  - name: AccessTimeTracking
+    types:
+    - uid: string
 examples:
 - name: PutBlobServices
   request:
@@ -354,7 +395,8 @@ examples:
           },
           "isVersioningEnabled": true,
           "changeFeed": {
-            "enabled": true
+            "enabled": true,
+            "retentionInDays": 7
           }
         }
       }
@@ -434,12 +476,47 @@ examples:
           },
           "isVersioningEnabled": true,
           "changeFeed": {
-            "enabled": true
+            "enabled": true,
+            "retentionInDays": 7
           }
         },
         "sku": {
           "name": "Standard_GRS",
           "tier": "Standard"
+        }
+      }
+- name: BlobServicesPutLastAccessTimeBasedTracking
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res4410/providers/Microsoft.Storage/storageAccounts/sto8607/blobServices/default?api-version=2019-06-01
+    body: >-
+      {
+        "properties": {
+          "lastAccessTimeTrackingPolicy": {
+            "enable": true,
+            "name": "AccessTimeTracking",
+            "trackingGranularityInDays": 1,
+            "blobType": [
+              "blockBlob"
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res4410/providers/Microsoft.Storage/storageAccounts/sto8607/blobServices/default",
+        "name": "default",
+        "type": "Microsoft.Storage/storageAccounts/blobServices",
+        "properties": {
+          "lastAccessTimeTrackingPolicy": {
+            "enable": true,
+            "name": "AccessTimeTracking",
+            "trackingGranularityInDays": 1,
+            "blobType": [
+              "blockBlob"
+            ]
+          }
         }
       }
 security:

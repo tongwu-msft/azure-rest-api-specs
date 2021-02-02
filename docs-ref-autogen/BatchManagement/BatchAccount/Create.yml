@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.batchaccount.create
 name: Create
 service: Batch Management
 groupName: Batch Account
-apiVersion: 2020-09-01
+apiVersion: 2021-01-01
 summary: Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with this API and should instead be updated with the Update Batch Account API.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}?api-version=2020-09-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}?api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -121,6 +121,10 @@ definitions:
     description: The type of identity used for the Batch account.
     types:
     - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
 - name: AutoStorageBaseProperties
   description: The properties related to the auto-storage account.
   kind: object
@@ -209,7 +213,7 @@ definitions:
     - uid: integer
   - name: properties.lowPriorityCoreQuota
     isReadyOnly: true
-    description: "The low-priority core quota for the Batch account.  \nFor accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned."
+    description: "The low priority core quota for the Batch account.  \nFor accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned."
     types:
     - uid: integer
   - name: properties.dedicatedCoreQuotaPerVMFamily
@@ -220,7 +224,7 @@ definitions:
       isArray: true
   - name: properties.dedicatedCoreQuotaPerVMFamilyEnforced
     isReadyOnly: true
-    description: "A value indicating whether the core quota for the Batch Account is enforced per Virtual Machine family or not.  \nBatch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply."
+    description: "A value indicating whether core quotas per Virtual Machine family are enforced for this account  \nBatch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply."
     types:
     - uid: boolean
   - name: properties.poolQuota
@@ -318,10 +322,22 @@ definitions:
     description: Batch account has a system assigned identity with it.
     types:
     - uid: string
+  - name: UserAssigned
+    description: Batch account has user assigned identities with it.
+    types:
+    - uid: string
   - name: None
     description: Batch account has no identity associated with it. Setting `None` in update account will remove existing identities.
     types:
     - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: KeySource
   description: Type of the key source.
   kind: enum
@@ -548,7 +564,7 @@ definitions:
 examples:
 - name: BatchAccountCreate_Default
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2020-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2021-01-01
     body: >-
       {
         "location": "japaneast",
@@ -587,7 +603,7 @@ examples:
       }
 - name: BatchAccountCreate_BYOS
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2020-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2021-01-01
     body: >-
       {
         "location": "japaneast",
@@ -635,7 +651,7 @@ examples:
       }
 - name: PrivateBatchAccountCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2020-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2021-01-01
     body: >-
       {
         "location": "japaneast",
@@ -683,7 +699,7 @@ examples:
       }
 - name: BatchAccountCreate_SystemAssignedIdentity
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2020-09-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2021-01-01
     body: >-
       {
         "location": "japaneast",
@@ -721,6 +737,57 @@ examples:
           "principalId": "1a2e532b-9900-414c-8600-cfc6126628d7",
           "tenantId": "f686d426-8d16-42db-81b7-ab578e110ccd",
           "type": "SystemAssigned"
+        },
+        "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
+        "type": "Microsoft.Batch/batchAccounts"
+      }
+- name: BatchAccountCreate_UserAssignedIdentity
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct?api-version=2021-01-01
+    body: >-
+      {
+        "location": "japaneast",
+        "properties": {
+          "autoStorage": {
+            "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage"
+          }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {}
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "sampleacct",
+        "location": "japaneast",
+        "properties": {
+          "accountEndpoint": "sampleacct.japaneast.batch.azure.com",
+          "provisioningState": "Succeeded",
+          "poolAllocationMode": "BatchService",
+          "dedicatedCoreQuota": 20,
+          "lowPriorityCoreQuota": 20,
+          "poolQuota": 20,
+          "activeJobAndJobScheduleQuota": 20,
+          "autoStorage": {
+            "storageAccountId": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Storage/storageAccounts/samplestorage",
+            "lastKeySync": "2016-03-10T23:48:38.9878479Z"
+          },
+          "publicNetworkAccess": "Enabled"
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {
+              "principalId": "principalId1",
+              "clientId": "clientId1"
+            }
+          }
         },
         "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct",
         "type": "Microsoft.Batch/batchAccounts"
