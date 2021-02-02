@@ -1,6 +1,6 @@
 ---
 title: Listing Blob storage resources - Azure Storage
-description: The Delete Container operation marks the specified container for deletion. The container and any blobs contained within it are later deleted during garbage collection. 
+description: The Blob service API includes operations for listing the containers within an account (the List Containers operation) and the blobs within a container (the List Blobs operation). 
 author: pemari-msft
 
 ms.date: 09/23/2019

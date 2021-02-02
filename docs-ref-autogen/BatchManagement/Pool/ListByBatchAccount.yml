@@ -3,15 +3,15 @@ uid: management.azure.com.batchmanagement.pool.listbybatchaccount
 name: List By Batch Account
 service: Batch Management
 groupName: Pool
-apiVersion: 2020-09-01
+apiVersion: 2021-01-01
 summary: Lists all of the pools in the specified account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools?api-version=2020-09-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools?maxresults={maxresults}&$select={$select}&$filter={$filter}&api-version=2020-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools?api-version=2021-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools?maxresults={maxresults}&$select={$select}&$filter={$filter}&api-version=2021-01-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -104,6 +104,10 @@ definitions:
   description: Contains information about a pool.
   kind: object
   properties:
+  - name: identity
+    description: "The type of identity used for the Batch Pool.  \nThe type of identity used for the Batch Pool."
+    types:
+    - uid: BatchPoolIdentity
   - name: properties.displayName
     description: "The display name for the pool.  \nThe display name need not be unique and can contain any Unicode characters up to a maximum length of 1024."
     types:
@@ -261,6 +265,18 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: BatchPoolIdentity
+  description: The identity of the Batch pool, if configured. If the pool identity is updated during update an existing pool, only the new vms which are created after the pool shrinks to 0 will have the updated identities
+  kind: object
+  properties:
+  - name: type
+    description: The type of identity used for the Batch Pool.
+    types:
+    - uid: PoolIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with the Batch pool. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
 - name: PoolProvisioningState
   description: The current state of the pool.
   kind: enum
@@ -477,7 +493,7 @@ definitions:
     types:
     - uid: integer
   - name: targetLowPriorityNodes
-    description: The desired number of low-priority compute nodes in the pool.
+    description: The desired number of low priority compute nodes in the pool.
     types:
     - uid: integer
   - name: resizeTimeout
@@ -517,6 +533,26 @@ definitions:
     description: "The Azure File Share to mount on each node.  \nThis property is mutually exclusive with all other properties."
     types:
     - uid: AzureFileShareConfiguration
+- name: PoolIdentityType
+  description: The type of identity used for the Batch Pool.
+  kind: enum
+  properties:
+  - name: UserAssigned
+    description: Batch pool has user assigned identities with it.
+    types:
+    - uid: string
+  - name: None
+    description: Batch pool has no identity associated with it. Setting `None` in update pool will remove existing identities.
+    types:
+    - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: CloudServiceConfiguration
   description: The configuration for nodes in a pool based on the Azure Cloud Services platform.
   kind: object
@@ -562,6 +598,15 @@ definitions:
     description: "The disk encryption configuration for the pool.  \nIf specified, encryption is performed on each node in the pool during node provisioning."
     types:
     - uid: DiskEncryptionConfiguration
+  - name: nodePlacementConfiguration
+    description: "The node placement configuration for the pool.  \nThis configuration will specify rules on how nodes in the pool will be physically allocated."
+    types:
+    - uid: NodePlacementConfiguration
+  - name: extensions
+    description: "The virtual machine extension for the pool.  \nIf specified, the extensions mentioned in this configuration will be installed on each node."
+    types:
+    - uid: VMExtension
+      isArray: true
 - name: FixedScaleSettings
   description: Fixed scale settings for the pool.
   kind: object
@@ -575,7 +620,7 @@ definitions:
     types:
     - uid: integer
   - name: targetLowPriorityNodes
-    description: "The desired number of low-priority compute nodes in the pool.  \nAt least one of targetDedicatedNodes, targetLowPriorityNodes must be set."
+    description: "The desired number of low priority compute nodes in the pool.  \nAt least one of targetDedicatedNodes, targetLowPriorityNodes must be set."
     types:
     - uid: integer
   - name: nodeDeallocationOption
@@ -973,6 +1018,51 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: NodePlacementConfiguration
+  description: Node placement configuration for batch pools.
+  kind: object
+  properties:
+  - name: policy
+    description: "Node placement Policy type on Batch Pools.  \nAllocation policy used by Batch Service to provision the nodes. If not specified, Batch will use the regional policy."
+    types:
+    - uid: NodePlacementPolicyType
+- name: VMExtension
+  description: The configuration for virtual machine extensions.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the virtual machine extension.
+    types:
+    - uid: string
+  - name: publisher
+    description: The name of the extension handler publisher.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extensions.
+    types:
+    - uid: string
+  - name: typeHandlerVersion
+    description: The version of script handler.
+    types:
+    - uid: string
+  - name: autoUpgradeMinorVersion
+    description: Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.
+    types:
+    - uid: boolean
+  - name: settings
+    description: JSON formatted public settings for the extension.
+    types:
+    - uid: object
+  - name: protectedSettings
+    description: 'The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. '
+    types:
+    - uid: object
+  - name: provisionAfterExtensions
+    description: "The collection of extension names.  \nCollection of extension names after which this extension needs to be provisioned."
+    types:
+    - uid: string
+      isArray: true
 - name: InboundNatPool
   description: A inbound NAT pool that can be used to address specific ports on compute nodes in a Batch pool externally.
   kind: object
@@ -1106,6 +1196,18 @@ definitions:
     description: A Docker compatible container technology will be used to launch the containers.
     types:
     - uid: string
+- name: NodePlacementPolicyType
+  description: The placement policy for allocating nodes in the pool.
+  kind: enum
+  properties:
+  - name: Regional
+    description: All nodes in the pool will be allocated in the same region.
+    types:
+    - uid: string
+  - name: Zonal
+    description: Nodes in the pool will be spread across different zones with best effort balancing.
+    types:
+    - uid: string
 - name: InboundEndpointProtocol
   description: The protocol of the endpoint.
   kind: enum
@@ -1166,7 +1268,7 @@ definitions:
 examples:
 - name: ListPool
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools?api-version=2020-09-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools?api-version=2021-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -1320,7 +1422,7 @@ examples:
       }
 - name: ListPoolWithFilter
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools?$select=properties/allocationState,properties/provisioningStateTransitionTime,properties/currentDedicatedNodes,properties/currentLowPriorityNodes&$filter=startswith(name, 'po') or (properties/allocationState eq 'Steady' and properties/provisioningStateTransitionTime lt datetime'2017-02-02')&api-version=2020-09-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools?$select=properties/allocationState,properties/provisioningStateTransitionTime,properties/currentDedicatedNodes,properties/currentLowPriorityNodes&$filter=startswith(name, 'po') or (properties/allocationState eq 'Steady' and properties/provisioningStateTransitionTime lt datetime'2017-02-02')&api-version=2021-01-01
   responses:
   - statusCode: "200"
     body: >-
