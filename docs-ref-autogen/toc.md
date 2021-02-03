@@ -3415,6 +3415,43 @@
 ### [List](blueprints/PublishedBlueprints/List.yml)
 # CDN
 ## [Overview](../docs-ref-conceptual/cdn/index.md)
+## AFD Custom Domains
+### [Overview](cdn/AFDCustomDomains.yml)
+### [Create](cdn/AFDCustomDomains/Create.yml)
+### [Delete](cdn/AFDCustomDomains/Delete.yml)
+### [Get](cdn/AFDCustomDomains/Get.yml)
+### [List By Profile](cdn/AFDCustomDomains/ListByProfile.yml)
+### [Refresh Validation Token](cdn/AFDCustomDomains/RefreshValidationToken.yml)
+### [Update](cdn/AFDCustomDomains/Update.yml)
+## AFD Endpoints
+### [Overview](cdn/AFDEndpoints.yml)
+### [Create](cdn/AFDEndpoints/Create.yml)
+### [Delete](cdn/AFDEndpoints/Delete.yml)
+### [Get](cdn/AFDEndpoints/Get.yml)
+### [List By Profile](cdn/AFDEndpoints/ListByProfile.yml)
+### [List Resource Usage](cdn/AFDEndpoints/ListResourceUsage.yml)
+### [Purge Content](cdn/AFDEndpoints/PurgeContent.yml)
+### [Update](cdn/AFDEndpoints/Update.yml)
+### [Validate Custom Domain](cdn/AFDEndpoints/ValidateCustomDomain.yml)
+## AFD Origin Groups
+### [Overview](cdn/AFDOriginGroups.yml)
+### [Create](cdn/AFDOriginGroups/Create.yml)
+### [Delete](cdn/AFDOriginGroups/Delete.yml)
+### [Get](cdn/AFDOriginGroups/Get.yml)
+### [List By Profile](cdn/AFDOriginGroups/ListByProfile.yml)
+### [List Resource Usage](cdn/AFDOriginGroups/ListResourceUsage.yml)
+### [Update](cdn/AFDOriginGroups/Update.yml)
+## AFD Origins
+### [Overview](cdn/AFDOrigins.yml)
+### [Create](cdn/AFDOrigins/Create.yml)
+### [Delete](cdn/AFDOrigins/Delete.yml)
+### [Get](cdn/AFDOrigins/Get.yml)
+### [List By Origin Group](cdn/AFDOrigins/ListByOriginGroup.yml)
+### [Update](cdn/AFDOrigins/Update.yml)
+## AFD Profiles
+### [Overview](cdn/AFDProfiles.yml)
+### [Check Host Name Availability](cdn/AFDProfiles/CheckHostNameAvailability.yml)
+### [List Resource Usage](cdn/AFDProfiles/ListResourceUsage.yml)
 ## Check Name Availability
 ### [Overview](cdn/CheckNameAvailability.yml)
 ### [Check Name Availability](cdn/CheckNameAvailability/CheckNameAvailability.yml)
@@ -3445,6 +3482,14 @@
 ### [Stop](cdn/Endpoints/Stop.yml)
 ### [Update](cdn/Endpoints/Update.yml)
 ### [Validate Custom Domain](cdn/Endpoints/ValidateCustomDomain.yml)
+## Log Analytics
+### [Overview](cdn/LogAnalytics.yml)
+### [Get Log Analytics Locations](cdn/LogAnalytics/GetLogAnalyticsLocations.yml)
+### [Get Log Analytics Metrics](cdn/LogAnalytics/GetLogAnalyticsMetrics.yml)
+### [Get Log Analytics Rankings](cdn/LogAnalytics/GetLogAnalyticsRankings.yml)
+### [Get Log Analytics Resources](cdn/LogAnalytics/GetLogAnalyticsResources.yml)
+### [Get Waf Log Analytics Metrics](cdn/LogAnalytics/GetWafLogAnalyticsMetrics.yml)
+### [Get Waf Log Analytics Rankings](cdn/LogAnalytics/GetWafLogAnalyticsRankings.yml)
 ## Operations
 ### [Overview](cdn/Operations.yml)
 ### [List](cdn/Operations/List.yml)
@@ -3476,6 +3521,44 @@
 ## Resource Usage
 ### [Overview](cdn/ResourceUsage.yml)
 ### [List](cdn/ResourceUsage/List.yml)
+## Routes
+### [Overview](cdn/Routes.yml)
+### [Create](cdn/Routes/Create.yml)
+### [Delete](cdn/Routes/Delete.yml)
+### [Get](cdn/Routes/Get.yml)
+### [List By Endpoint](cdn/Routes/ListByEndpoint.yml)
+### [Update](cdn/Routes/Update.yml)
+## Rule Sets
+### [Overview](cdn/RuleSets.yml)
+### [Create](cdn/RuleSets/Create.yml)
+### [Delete](cdn/RuleSets/Delete.yml)
+### [Get](cdn/RuleSets/Get.yml)
+### [List By Profile](cdn/RuleSets/ListByProfile.yml)
+### [List Resource Usage](cdn/RuleSets/ListResourceUsage.yml)
+## Rules
+### [Overview](cdn/Rules.yml)
+### [Create](cdn/Rules/Create.yml)
+### [Delete](cdn/Rules/Delete.yml)
+### [Get](cdn/Rules/Get.yml)
+### [List By Rule Set](cdn/Rules/ListByRuleSet.yml)
+### [Update](cdn/Rules/Update.yml)
+## Secrets
+### [Overview](cdn/Secrets.yml)
+### [Create](cdn/Secrets/Create.yml)
+### [Delete](cdn/Secrets/Delete.yml)
+### [Get](cdn/Secrets/Get.yml)
+### [List By Profile](cdn/Secrets/ListByProfile.yml)
+### [Update](cdn/Secrets/Update.yml)
+## Security Policies
+### [Overview](cdn/SecurityPolicies.yml)
+### [Create](cdn/SecurityPolicies/Create.yml)
+### [Delete](cdn/SecurityPolicies/Delete.yml)
+### [Get](cdn/SecurityPolicies/Get.yml)
+### [List By Profile](cdn/SecurityPolicies/ListByProfile.yml)
+### [Patch](cdn/SecurityPolicies/Patch.yml)
+## Validate
+### [Overview](cdn/Validate.yml)
+### [Secret](cdn/Validate/Secret.yml)
 ## Validate Probe
 ### [Overview](cdn/ValidateProbe.yml)
 ### [Validate Probe](cdn/ValidateProbe/ValidateProbe.yml)
