@@ -861,6 +861,9 @@
 #### Policy Description
 ##### [Overview](apimanagement/2020-06-01-preview/PolicyDescription.yml)
 ##### [List By Service](apimanagement/2020-06-01-preview/PolicyDescription/ListByService.yml)
+#### Portal Settings
+##### [Overview](apimanagement/2020-06-01-preview/PortalSettings.yml)
+##### [List By Service](apimanagement/2020-06-01-preview/PortalSettings/ListByService.yml)
 #### Product
 ##### [Overview](apimanagement/2020-06-01-preview/Product.yml)
 ##### [Create Or Update](apimanagement/2020-06-01-preview/Product/CreateOrUpdate.yml)
@@ -1009,6 +1012,7 @@
 ##### [List](apimanagement/2020-06-01-preview/UserIdentities/List.yml)
 #### User Subscription
 ##### [Overview](apimanagement/2020-06-01-preview/UserSubscription.yml)
+##### [Get](apimanagement/2020-06-01-preview/UserSubscription/Get.yml)
 ##### [List](apimanagement/2020-06-01-preview/UserSubscription/List.yml)
 # App Configuration
 ## [Overview](../docs-ref-conceptual/appconfiguration/index.md)
