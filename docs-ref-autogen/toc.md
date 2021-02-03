@@ -5908,9 +5908,28 @@
 ### [List](desktopvirtualization/HostPools/List.yml)
 ### [List By Resource Group](desktopvirtualization/HostPools/ListByResourceGroup.yml)
 ### [Update](desktopvirtualization/HostPools/Update.yml)
+## MSIX Packages
+### [Overview](desktopvirtualization/MSIXPackages.yml)
+### [Create Or Update](desktopvirtualization/MSIXPackages/CreateOrUpdate.yml)
+### [Delete](desktopvirtualization/MSIXPackages/Delete.yml)
+### [Get](desktopvirtualization/MSIXPackages/Get.yml)
+### [List](desktopvirtualization/MSIXPackages/List.yml)
+### [Update](desktopvirtualization/MSIXPackages/Update.yml)
+## Msix Images
+### [Overview](desktopvirtualization/MsixImages.yml)
+### [Expand](desktopvirtualization/MsixImages/Expand.yml)
 ## Operations
 ### [Overview](desktopvirtualization/Operations.yml)
 ### [List](desktopvirtualization/Operations/List.yml)
+## Scaling Plans
+### [Overview](desktopvirtualization/ScalingPlans.yml)
+### [Create](desktopvirtualization/ScalingPlans/Create.yml)
+### [Delete](desktopvirtualization/ScalingPlans/Delete.yml)
+### [Get](desktopvirtualization/ScalingPlans/Get.yml)
+### [List By Host Pool](desktopvirtualization/ScalingPlans/ListByHostPool.yml)
+### [List By Resource Group](desktopvirtualization/ScalingPlans/ListByResourceGroup.yml)
+### [List By Subscription](desktopvirtualization/ScalingPlans/ListBySubscription.yml)
+### [Update](desktopvirtualization/ScalingPlans/Update.yml)
 ## Session Hosts
 ### [Overview](desktopvirtualization/SessionHosts.yml)
 ### [Delete](desktopvirtualization/SessionHosts/Delete.yml)
@@ -7056,38 +7075,6 @@
 ### Resource Provider Common
 #### [Overview](iothub/ResourceProviderCommon.yml)
 #### [Get Subscription Quota](iothub/ResourceProviderCommon/GetSubscriptionQuota.yml)
-### Digital Twin Model Repository Service
-#### Are Valid Models
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/AreValidModels.yml)
-##### [Are Valid Models](iothub/digitaltwinmodelrepositoryservice/AreValidModels/AreValidModels.yml)
-#### Create Or Update Async
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateAsync.yml)
-##### [Create Or Update Async](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateAsync/CreateOrUpdateAsync.yml)
-#### Get Model Async
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/GetModelAsync.yml)
-##### [Get Model Async](iothub/digitaltwinmodelrepositoryservice/GetModelAsync/GetModelAsync.yml)
-#### Search Models Async
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModelsAsync.yml)
-##### [Search Models Async](iothub/digitaltwinmodelrepositoryservice/SearchModelsAsync/SearchModelsAsync.yml)
-### Digital Twin Model Repository Service Control Plane
-#### Assign Roles
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles.yml)
-##### [Assign Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles/AssignRoles.yml)
-#### Create Tenant
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant.yml)
-##### [Create Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant/CreateTenant.yml)
-#### Get Subjects For Resources
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources.yml)
-##### [Get Subjects For Resources](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources/GetSubjectsForResources.yml)
-#### Get Subjects For Resources By Type
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType.yml)
-##### [Get Subjects For Resources By Type](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType/GetSubjectsForResourcesByType.yml)
-#### Get Tenant
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant.yml)
-##### [Get Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant/GetTenant.yml)
-#### Remove Roles
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles.yml)
-##### [Remove Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles/RemoveRoles.yml)
 ### Service
 #### Bulk Registry
 ##### [Overview](iothub/service/BulkRegistry.yml)

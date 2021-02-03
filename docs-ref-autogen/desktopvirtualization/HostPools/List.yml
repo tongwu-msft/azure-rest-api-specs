@@ -3,14 +3,14 @@ uid: management.azure.com.desktopvirtualization.hostpools.list
 name: List
 service: Desktop Virtualization
 groupName: Host Pools
-apiVersion: 2019-12-10-preview
+apiVersion: 2021-01-14-preview
 summary: List hostPools in subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/hostPools?api-version=2019-12-10-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/hostPools?api-version=2021-01-14-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -50,17 +50,12 @@ definitions:
     types:
     - uid: string
 - name: CloudError
-  description: Error response of an operation failure
   kind: object
   properties:
-  - name: code
-    description: Error code
+  - name: error
+    description: ''
     types:
-    - uid: string
-  - name: message
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
+    - uid: CloudErrorProperties
 - name: HostPool
   description: Represents a HostPool definition.
   kind: object
@@ -119,10 +114,30 @@ definitions:
     description: Path to keyvault containing ssoContext secret.
     types:
     - uid: string
+  - name: properties.ssoadfsAuthority
+    description: URL to customer ADFS server for signing WVD SSO certificates.
+    types:
+    - uid: string
+  - name: properties.ssoClientId
+    description: ClientId for the registered Relying Party used to issue WVD SSO certificates.
+    types:
+    - uid: string
+  - name: properties.ssoClientSecretKeyVaultPath
+    description: Path to Azure KeyVault storing the secret used for communication to ADFS.
+    types:
+    - uid: string
+  - name: properties.ssoSecretType
+    description: The type of single sign on Secret Type.
+    types:
+    - uid: SSOSecretType
   - name: properties.preferredAppGroupType
     description: The type of preferred application group type, default to Desktop Application Group
     types:
     - uid: PreferredAppGroupType
+  - name: properties.startVMOnConnect
+    description: The flag to turn on/off StartVMOnConnect feature.
+    types:
+    - uid: boolean
   - name: tags
     description: Resource tags.
     types:
@@ -148,6 +163,17 @@ definitions:
   - name: type
     isReadyOnly: true
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: CloudErrorProperties
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
     types:
     - uid: string
 - name: HostPoolType
@@ -199,6 +225,22 @@ definitions:
     description: The type of resetting the token.
     types:
     - uid: RegistrationTokenOperation
+- name: SSOSecretType
+  description: The type of single sign on Secret Type.
+  kind: enum
+  properties:
+  - name: SharedKey
+    types:
+    - uid: string
+  - name: Certificate
+    types:
+    - uid: string
+  - name: SharedKeyInKeyVault
+    types:
+    - uid: string
+  - name: CertificateInKeyVault
+    types:
+    - uid: string
 - name: PreferredAppGroupType
   description: The type of preferred application group type, default to Desktop Application Group
   kind: enum
@@ -228,7 +270,7 @@ definitions:
 examples:
 - name: HostPool_List
   request:
-    uri: GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/providers/Microsoft.DesktopVirtualization/hostPools?api-version=2019-12-10-preview
+    uri: GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/providers/Microsoft.DesktopVirtualization/hostPools?api-version=2021-01-14-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -236,8 +278,8 @@ examples:
         "value": [
           {
             "name": "hostPool1",
-            "id": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourcegroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostpools/hostPool1",
-            "type": "/Microsoft.DesktopVirtualization/hostpools",
+            "id": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1",
+            "type": "/Microsoft.DesktopVirtualization/hostPools",
             "location": "centralus",
             "tags": {
               "key1": "value1",
@@ -259,14 +301,19 @@ examples:
                 "registrationTokenOperation": "Update"
               },
               "vmTemplate": "{json:json}",
-              "ssoContext": null,
-              "preferredAppGroupType": "Desktop"
+              "ssoContext": "KeyVaultPath",
+              "ssoadfsAuthority": "https://adfs",
+              "ssoClientId": "client",
+              "ssoClientSecretKeyVaultPath": "https://keyvault/secret",
+              "ssoSecretType": "SharedKey",
+              "preferredAppGroupType": "Desktop",
+              "startVMOnConnect": false
             }
           },
           {
             "name": "hostPool2",
-            "id": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourcegroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostpools/hostPool2",
-            "type": "/Microsoft.DesktopVirtualization/hostpools",
+            "id": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool2",
+            "type": "/Microsoft.DesktopVirtualization/hostPools",
             "location": "centralus",
             "tags": {
               "key1": "value1",
@@ -288,8 +335,13 @@ examples:
                 "registrationTokenOperation": "Update"
               },
               "vmTemplate": "{json:json}",
-              "ssoContext": null,
-              "preferredAppGroupType": "Desktop"
+              "ssoContext": "KeyVaultPath",
+              "ssoadfsAuthority": "https://adfs",
+              "ssoClientId": "client",
+              "ssoClientSecretKeyVaultPath": "https://keyvault/secret",
+              "ssoSecretType": "SharedKey",
+              "preferredAppGroupType": "Desktop",
+              "startVMOnConnect": false
             }
           }
         ]

@@ -3,14 +3,14 @@ uid: management.azure.com.desktopvirtualization.applications.get
 name: Get
 service: Desktop Virtualization
 groupName: Applications
-apiVersion: 2019-12-10-preview
+apiVersion: 2021-01-14-preview
 summary: Get an application.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications/{applicationName}?api-version=2019-12-10-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications/{applicationName}?api-version=2021-01-14-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -70,6 +70,18 @@ definitions:
     description: Specifies a path for the executable file for the application.
     types:
     - uid: string
+  - name: properties.msixPackageFamilyName
+    description: Specifies the package family name for MSIX applications
+    types:
+    - uid: string
+  - name: properties.msixPackageApplicationId
+    description: Specifies the package application Id for MSIX applications
+    types:
+    - uid: string
+  - name: properties.applicationType
+    description: Resource Type of Application.
+    types:
+    - uid: RemoteApplicationType
   - name: properties.commandLineSetting
     description: Specifies whether this published application can be launched with command line arguments provided by the client, command line arguments specified at publish time, or no command line arguments at all.
     types:
@@ -116,15 +128,20 @@ definitions:
     types:
     - uid: string
 - name: CloudError
-  description: Error response of an operation failure
   kind: object
   properties:
-  - name: code
-    description: Error code
+  - name: error
+    description: ''
+    types:
+    - uid: CloudErrorProperties
+- name: RemoteApplicationType
+  description: Resource Type of Application.
+  kind: enum
+  properties:
+  - name: InBuilt
     types:
     - uid: string
-  - name: message
-    description: Error message indicating why the operation failed.
+  - name: MsixApplication
     types:
     - uid: string
 - name: CommandLineSetting
@@ -140,10 +157,21 @@ definitions:
   - name: Require
     types:
     - uid: string
+- name: CloudErrorProperties
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
 examples:
 - name: Application_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/applicationGroups/applicationGroup1/applications/application1?api-version=2019-12-10-preview
+    uri: GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/applicationGroups/applicationGroup1/applications/application1?api-version=2021-01-14-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -161,7 +189,10 @@ examples:
           "iconPath": "icon",
           "iconIndex": 1,
           "iconHash": "bEQ1n2HysrGxCDvgt4bfOtkET8ydzh5SXGM0KGTBPVc",
-          "iconContent": "AAABAAgAAAAAAAEAIAA7MwAAhgAAAEBAAAABACAAKEIAAMEzAAAwMAAAAQAgAKglAADpdQAAKCgAAAEA..."
+          "iconContent": "AAABAAgAAAAAAAEAIAA7MwAAhgAAAEBAAAABACAAKEIAAMEzAAAwMAAAAQAgAKglAADpdQAAKCgAAAEA...",
+          "applicationType": "InBuilt",
+          "msixPackageFamilyName": null,
+          "msixPackageApplicationId": null
         }
       }
 security: []
