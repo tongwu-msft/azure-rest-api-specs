@@ -5020,15 +5020,6 @@
 ##### [Migrate Mongo DB Database To Manual Throughput](cosmos-db-resource-provider/2020-04-01/MongoDBResources/MigrateMongoDBDatabaseToManualThroughput.yml)
 ##### [Update Mongo DB Collection Throughput](cosmos-db-resource-provider/2020-04-01/MongoDBResources/UpdateMongoDBCollectionThroughput.yml)
 ##### [Update Mongo DB Database Throughput](cosmos-db-resource-provider/2020-04-01/MongoDBResources/UpdateMongoDBDatabaseThroughput.yml)
-#### Notebook Workspaces
-##### [Overview](cosmos-db-resource-provider/2020-04-01/NotebookWorkspaces.yml)
-##### [Create Or Update](cosmos-db-resource-provider/2020-04-01/NotebookWorkspaces/CreateOrUpdate.yml)
-##### [Delete](cosmos-db-resource-provider/2020-04-01/NotebookWorkspaces/Delete.yml)
-##### [Get](cosmos-db-resource-provider/2020-04-01/NotebookWorkspaces/Get.yml)
-##### [List By Database Account](cosmos-db-resource-provider/2020-04-01/NotebookWorkspaces/ListByDatabaseAccount.yml)
-##### [List Connection Info](cosmos-db-resource-provider/2020-04-01/NotebookWorkspaces/ListConnectionInfo.yml)
-##### [Regenerate Auth Token](cosmos-db-resource-provider/2020-04-01/NotebookWorkspaces/RegenerateAuthToken.yml)
-##### [Start](cosmos-db-resource-provider/2020-04-01/NotebookWorkspaces/Start.yml)
 #### Operations
 ##### [Overview](cosmos-db-resource-provider/2020-04-01/Operations.yml)
 ##### [List](cosmos-db-resource-provider/2020-04-01/Operations/List.yml)
@@ -5087,6 +5078,16 @@
 ##### [Migrate Table To Autoscale](cosmos-db-resource-provider/2020-04-01/TableResources/MigrateTableToAutoscale.yml)
 ##### [Migrate Table To Manual Throughput](cosmos-db-resource-provider/2020-04-01/TableResources/MigrateTableToManualThroughput.yml)
 ##### [Update Table Throughput](cosmos-db-resource-provider/2020-04-01/TableResources/UpdateTableThroughput.yml)
+### 2020-06-01
+#### Notebook Workspaces
+##### [Overview](cosmos-db-resource-provider/2020-06-01/NotebookWorkspaces.yml)
+##### [Create Or Update](cosmos-db-resource-provider/2020-06-01/NotebookWorkspaces/CreateOrUpdate.yml)
+##### [Delete](cosmos-db-resource-provider/2020-06-01/NotebookWorkspaces/Delete.yml)
+##### [Get](cosmos-db-resource-provider/2020-06-01/NotebookWorkspaces/Get.yml)
+##### [List By Database Account](cosmos-db-resource-provider/2020-06-01/NotebookWorkspaces/ListByDatabaseAccount.yml)
+##### [List Connection Info](cosmos-db-resource-provider/2020-06-01/NotebookWorkspaces/ListConnectionInfo.yml)
+##### [Regenerate Auth Token](cosmos-db-resource-provider/2020-06-01/NotebookWorkspaces/RegenerateAuthToken.yml)
+##### [Start](cosmos-db-resource-provider/2020-06-01/NotebookWorkspaces/Start.yml)
 ### 2020-06-01-preview
 #### Cassandra Resources
 ##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/CassandraResources.yml)
@@ -5196,6 +5197,24 @@
 ##### [Get By Location](cosmos-db-resource-provider/2020-06-01-preview/RestorableDatabaseAccounts/GetByLocation.yml)
 ##### [List](cosmos-db-resource-provider/2020-06-01-preview/RestorableDatabaseAccounts/List.yml)
 ##### [List By Location](cosmos-db-resource-provider/2020-06-01-preview/RestorableDatabaseAccounts/ListByLocation.yml)
+#### Restorable Mongodb Collections
+##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/RestorableMongodbCollections.yml)
+##### [List](cosmos-db-resource-provider/2020-06-01-preview/RestorableMongodbCollections/List.yml)
+#### Restorable Mongodb Databases
+##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/RestorableMongodbDatabases.yml)
+##### [List](cosmos-db-resource-provider/2020-06-01-preview/RestorableMongodbDatabases/List.yml)
+#### Restorable Mongodb Resources
+##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/RestorableMongodbResources.yml)
+##### [List](cosmos-db-resource-provider/2020-06-01-preview/RestorableMongodbResources/List.yml)
+#### Restorable Sql Containers
+##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/RestorableSqlContainers.yml)
+##### [List](cosmos-db-resource-provider/2020-06-01-preview/RestorableSqlContainers/List.yml)
+#### Restorable Sql Databases
+##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/RestorableSqlDatabases.yml)
+##### [List](cosmos-db-resource-provider/2020-06-01-preview/RestorableSqlDatabases/List.yml)
+#### Restorable Sql Resources
+##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/RestorableSqlResources.yml)
+##### [List](cosmos-db-resource-provider/2020-06-01-preview/RestorableSqlResources/List.yml)
 #### Sql Resources
 ##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/SqlResources.yml)
 ##### [Create Update Sql Container](cosmos-db-resource-provider/2020-06-01-preview/SqlResources/CreateUpdateSqlContainer.yml)
@@ -5222,6 +5241,16 @@
 ##### [List Sql User Defined Functions](cosmos-db-resource-provider/2020-06-01-preview/SqlResources/ListSqlUserDefinedFunctions.yml)
 ##### [Update Sql Container Throughput](cosmos-db-resource-provider/2020-06-01-preview/SqlResources/UpdateSqlContainerThroughput.yml)
 ##### [Update Sql Database Throughput](cosmos-db-resource-provider/2020-06-01-preview/SqlResources/UpdateSqlDatabaseThroughput.yml)
+#### SqlResources2
+##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2.yml)
+##### [Create Update Sql Role Assignment](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2/CreateUpdateSqlRoleAssignment.yml)
+##### [Create Update Sql Role Definition](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2/CreateUpdateSqlRoleDefinition.yml)
+##### [Delete Sql Role Assignment](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2/DeleteSqlRoleAssignment.yml)
+##### [Delete Sql Role Definition](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2/DeleteSqlRoleDefinition.yml)
+##### [Get Sql Role Assignment](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2/GetSqlRoleAssignment.yml)
+##### [Get Sql Role Definition](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2/GetSqlRoleDefinition.yml)
+##### [List Sql Role Assignments](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2/ListSqlRoleAssignments.yml)
+##### [List Sql Role Definitions](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2/ListSqlRoleDefinitions.yml)
 #### Table Resources
 ##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/TableResources.yml)
 ##### [Create Update Table](cosmos-db-resource-provider/2020-06-01-preview/TableResources/CreateUpdateTable.yml)
@@ -7056,38 +7085,6 @@
 ### Resource Provider Common
 #### [Overview](iothub/ResourceProviderCommon.yml)
 #### [Get Subscription Quota](iothub/ResourceProviderCommon/GetSubscriptionQuota.yml)
-### Digital Twin Model Repository Service
-#### Are Valid Models
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/AreValidModels.yml)
-##### [Are Valid Models](iothub/digitaltwinmodelrepositoryservice/AreValidModels/AreValidModels.yml)
-#### Create Or Update Async
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateAsync.yml)
-##### [Create Or Update Async](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateAsync/CreateOrUpdateAsync.yml)
-#### Get Model Async
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/GetModelAsync.yml)
-##### [Get Model Async](iothub/digitaltwinmodelrepositoryservice/GetModelAsync/GetModelAsync.yml)
-#### Search Models Async
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModelsAsync.yml)
-##### [Search Models Async](iothub/digitaltwinmodelrepositoryservice/SearchModelsAsync/SearchModelsAsync.yml)
-### Digital Twin Model Repository Service Control Plane
-#### Assign Roles
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles.yml)
-##### [Assign Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles/AssignRoles.yml)
-#### Create Tenant
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant.yml)
-##### [Create Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant/CreateTenant.yml)
-#### Get Subjects For Resources
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources.yml)
-##### [Get Subjects For Resources](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources/GetSubjectsForResources.yml)
-#### Get Subjects For Resources By Type
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType.yml)
-##### [Get Subjects For Resources By Type](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType/GetSubjectsForResourcesByType.yml)
-#### Get Tenant
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant.yml)
-##### [Get Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant/GetTenant.yml)
-#### Remove Roles
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles.yml)
-##### [Remove Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles/RemoveRoles.yml)
 ### Service
 #### Bulk Registry
 ##### [Overview](iothub/service/BulkRegistry.yml)
