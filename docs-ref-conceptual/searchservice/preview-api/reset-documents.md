@@ -15,7 +15,10 @@ ms.manager: jennmar
 
 **API Version: 2020-06-30-Preview**
 
-The Reset Documents API allows you to selectively reprocess documents from your data source. The API accepts the index document keys as input and prioritizes the processing of those documents from the data source. If you have a indexer cache configured, reset documents are not read from the cache and all skills configured will be re-run. Note that the index document key may be different from your data source document identifier.
+The Reset Documents API allows you to selectively reprocess documents from your data source. The API accepts document keys as input, and prioritizes the processing of those documents ahead of other documents from the same data source. This API works for all indexers (with or without a skillset). If the call succeeds, customers will always get a 204 NoContent response.
+* For indexers with a skillset and incremental enrichment enabled, Reset Documents will clear the cache and re-run the full skillset.
+* For indexers without a skillset, Reset Documents will simply read the source document from the data source and update/insert the contents into the index.
+* For indexers with field mappings, Reset Documents will use the field mappings to relate a document key to a mapped field in the data source.
 
 This API works for all indexers (with or without a skillset). If the call succeeds, customers will always get a 204 NoContent response. If the indexer doesn’t have a skillset, it will simply read the document from the data source and update/insert the document into the index.
 
