@@ -18,7 +18,7 @@ The `Blob Batch` operation allows multiple API calls to be embedded into a singl
   
 |Method|Request URI|HTTP Version|
 |------------|-----------------|------------------|
-|`POST`|`https://myaccount.blob.core.windows.net/?comp=batch`|HTTP/1.1| 
+|`POST`|`https://myaccount.blob.core.windows.net/?comp=batch`<br /><br /> `https://myaccount.blob.core.windows.net/containername?restype=container&comp=batch`|HTTP/1.1| 
   
 ### URI parameters
 
@@ -27,6 +27,7 @@ The following additional parameters may be specified on the request URI.
 |Parameter|Description|
 |-------------|-----------|
 |`timeout`|Optional. The timeout parameter is expressed in seconds with a maximum value of 120 seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|
+|`restype`|Optional, version 2020-04-08 and newer. The restype parameter only supports value `container`. when this is provided the URI should have the containername and all subrequests should operate within the same container.|
 
 ### Request Headers
 The following table describes required and optional request headers.
@@ -47,7 +48,7 @@ The request body for a blob batch contains a list of all subrequests. The format
 * The subrequest URL should only have the path of the URL (i.e without the host).
 * Each batch request supports a maximum of 256 subrequests.
 * All subrequests must be of the same request type.
-* Each subrequest will be authorized and authorized separately with the provided information in the subrequest.
+* Each subrequest will be authorized separately with the provided information in the subrequest.
 * Each line in the request body should end with \r\n characters.
 
 ### Sample Request
@@ -152,7 +153,7 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 The response for this operation includes the headers below. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).
 
 ## Authorization
-The Batch request will be authorized like any other REST request. The top-level batch request can only be called by the account owner. Each subrequest will be authorized and authorized separately. The subrequests will support all authorization and authorization mechanisms that an individual request would.
+The Batch request will be authorized like any other REST request. The top-level batch request can only be called by the account owner when restype=container is not used. When restype=container is provided, the top-level batch will support all container auth mechanisms. Each subrequest will be authorized and authorized separately. The subrequests will support all authorization mechanisms that an individual request would.
 
 ## Billing
 The batch REST request will be counted as one transaction and each individual subrequest will also be counted as one transaction.
@@ -167,7 +168,12 @@ One of the main benefits of using a batch request is the reduction in the number
   * Each subrequest must be for a resource within the same storage account. A single batch request does not support executing requests from different storage accounts.
   * A nested request body is not supported.
   * If the server fails to parse the request body, the result is a failure of the entire batch and no request will be executed.
-  * Note that [Account SAS](create-account-sas.md) is the only SAS type supported by Blob Batch.
+  * Note that [Account SAS](create-account-sas.md) is the only SAS type supported by Blob Batch when batch is not using restype=container.
+
+**Scope all subrequests to specific container**
+Starting with REST version 2020-04-08, batch API supports subrequests to be scoped to a specified container. When the URL contains container name and restype=container, then each sub-request should be for the same container. If any of the subrequest container name does not match the one provided in URL then the request will fail with http statuscode 400 BadRequest. 
+
+All authentication mechanisms we support for the container will work for the container scope batch. Each sub-request will have its own auth header like any batch request and will be authenticated and authorized before the sub-request is executed. 
 
 ## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
