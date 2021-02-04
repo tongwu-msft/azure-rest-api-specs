@@ -1,12 +1,12 @@
 ---
 title: Versioning for the Azure Storage services
 description: The Azure Storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.
-author: pemari
+author: seanmcc-msft
 
-ms.date: 11/03/2020
+ms.date: 02/04/2021
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: seanmcc
 ---
 
 # Versioning for the Azure Storage services
@@ -15,14 +15,11 @@ The Microsoft Azure storage services support multiple versions. To make a reques
   
  The current version of the Azure storage services is 2020-04-08, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
 
-## Version 2020-04-08
+## Version 2020-06-12
   
-The 2020-04-08 service version includes the following features:
+The 2020-06-12 service version includes the following features:
 
-- The ability to permanently delete a soft-deleted blob version or snapshot.  For more information, see [Delete Blob](Delete-Blob.md).
-- [Get Blob Tags](get-blob-tags.md) and [Set Blob Tags](set-blob-tags.md) now support the `x-ms-lease-id` header.
-- A new API [Put Blob from URL](put-blob-from-url.md) allows a block blob to be created from an existing blob.
-- The ability to specify protocol and squash root when creating a File Share.  Squash root can also be set with [Set Share Properties](Set-Share-Properties.md).
+- The ability to scope blob batch subrequests to a specific container, and authorize blob batch requests with container SAS.  For more information, see [Blob Batch](blob-batch.md).
 
 ## Specifying service versions in requests  
 
