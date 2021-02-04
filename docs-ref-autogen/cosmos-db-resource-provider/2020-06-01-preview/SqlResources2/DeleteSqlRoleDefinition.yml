@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.cosmos-db-resource-provider.2020-04-01.notebookworkspaces.start
-name: Start
+uid: management.azure.com.cosmos-db-resource-provider.2020-06-01-preview.sqlresources2.deletesqlroledefinition
+name: Delete Sql Role Definition
 service: Cosmos DB Resource Provider
-groupName: Notebook Workspaces
-apiVersion: 2020-04-01
-summary: Starts the notebook workspace
+groupName: SqlResources2
+apiVersion: 2020-06-01-preview
+summary: Deletes an existing Azure Cosmos DB SQL Role Definition.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/default/start?api-version=2020-04-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}?api-version=2020-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -32,12 +32,12 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-z0-9]+(-[a-z0-9]+)*
-- name: notebookWorkspaceName
+- name: roleDefinitionId
   in: path
   isRequired: true
-  description: The name of the notebook workspace resource.
+  description: The GUID for the Role Definition.
   types:
-  - uid: NotebookWorkspaceName
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -46,22 +46,25 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
+  description: The Role Definition delete operation was completed successfully.
 - name: 202 Accepted
-  description: Accepted. The start operation will complete asynchronously.
+  description: The Role Definition delete request was accepted and will complete asynchronously.
+- name: 204 No Content
+  description: The requested Role Definition does not exist.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
-  - uid: ErrorResponse
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
-- name: NotebookWorkspaceName
-  description: The name of the notebook workspace resource.
-  kind: enum
+- name: DefaultErrorResponse
+  description: An error response from the service.
+  kind: object
   properties:
-  - name: default
+  - name: error
+    description: Error Response.
     types:
-    - uid: string
+    - uid: ErrorResponse
 - name: ErrorResponse
   description: Error Response.
   kind: object
@@ -75,12 +78,13 @@ definitions:
     types:
     - uid: string
 examples:
-- name: CosmosDBNotebookWorkspaceStart
+- name: CosmosDBSqlRoleDefinitionDelete
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/notebookWorkspaces/default/start?api-version=2020-04-01
+    uri: DELETE https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/sqlRoleDefinitions/myRoleDefinitionId?api-version=2020-06-01-preview
   responses:
   - statusCode: "200"
   - statusCode: "202"
+  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2
