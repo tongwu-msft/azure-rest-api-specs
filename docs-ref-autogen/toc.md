@@ -2038,6 +2038,157 @@
 ## Signing Certificates
 ### [Overview](attestation/SigningCertificates.yml)
 ### [Get](attestation/SigningCertificates/Get.yml)
+# Azure Front Door Standard/Premium (Preview) and CDN
+## [Overview](../docs-ref-conceptual/cdn/index.md)
+## Azure Front Door Standard/Premium (Preview)
+### AFD Custom Domains
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/AFDCustomDomains.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/AFDCustomDomains/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/AFDCustomDomains/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/AFDCustomDomains/Get.yml)
+#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/AFDCustomDomains/ListByProfile.yml)
+#### [Refresh Validation Token](cdn/azurefrontdoorstandard/premium(preview)/AFDCustomDomains/RefreshValidationToken.yml)
+#### [Update](cdn/azurefrontdoorstandard/premium(preview)/AFDCustomDomains/Update.yml)
+### AFD Endpoints
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints/Get.yml)
+#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints/ListByProfile.yml)
+#### [List Resource Usage](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints/ListResourceUsage.yml)
+#### [Purge Content](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints/PurgeContent.yml)
+#### [Update](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints/Update.yml)
+#### [Validate Custom Domain](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints/ValidateCustomDomain.yml)
+### AFD Origin Groups
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/AFDOriginGroups.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/AFDOriginGroups/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/AFDOriginGroups/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/AFDOriginGroups/Get.yml)
+#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/AFDOriginGroups/ListByProfile.yml)
+#### [List Resource Usage](cdn/azurefrontdoorstandard/premium(preview)/AFDOriginGroups/ListResourceUsage.yml)
+#### [Update](cdn/azurefrontdoorstandard/premium(preview)/AFDOriginGroups/Update.yml)
+### AFD Origins
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/AFDOrigins.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/AFDOrigins/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/AFDOrigins/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/AFDOrigins/Get.yml)
+#### [List By Origin Group](cdn/azurefrontdoorstandard/premium(preview)/AFDOrigins/ListByOriginGroup.yml)
+#### [Update](cdn/azurefrontdoorstandard/premium(preview)/AFDOrigins/Update.yml)
+### AFD Profiles
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/AFDProfiles.yml)
+#### [Check Host Name Availability](cdn/azurefrontdoorstandard/premium(preview)/AFDProfiles/CheckHostNameAvailability.yml)
+#### [List Resource Usage](cdn/azurefrontdoorstandard/premium(preview)/AFDProfiles/ListResourceUsage.yml)
+### Log Analytics
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/LogAnalytics.yml)
+#### [Get Log Analytics Locations](cdn/azurefrontdoorstandard/premium(preview)/LogAnalytics/GetLogAnalyticsLocations.yml)
+#### [Get Log Analytics Metrics](cdn/azurefrontdoorstandard/premium(preview)/LogAnalytics/GetLogAnalyticsMetrics.yml)
+#### [Get Log Analytics Rankings](cdn/azurefrontdoorstandard/premium(preview)/LogAnalytics/GetLogAnalyticsRankings.yml)
+#### [Get Log Analytics Resources](cdn/azurefrontdoorstandard/premium(preview)/LogAnalytics/GetLogAnalyticsResources.yml)
+#### [Get Waf Log Analytics Metrics](cdn/azurefrontdoorstandard/premium(preview)/LogAnalytics/GetWafLogAnalyticsMetrics.yml)
+#### [Get Waf Log Analytics Rankings](cdn/azurefrontdoorstandard/premium(preview)/LogAnalytics/GetWafLogAnalyticsRankings.yml)
+### Routes
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/Routes.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/Routes/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/Routes/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/Routes/Get.yml)
+#### [List By Endpoint](cdn/azurefrontdoorstandard/premium(preview)/Routes/ListByEndpoint.yml)
+#### [Update](cdn/azurefrontdoorstandard/premium(preview)/Routes/Update.yml)
+### Rule Sets
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/RuleSets.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/RuleSets/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/RuleSets/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/RuleSets/Get.yml)
+#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/RuleSets/ListByProfile.yml)
+#### [List Resource Usage](cdn/azurefrontdoorstandard/premium(preview)/RuleSets/ListResourceUsage.yml)
+### Rules
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/Rules.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/Rules/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/Rules/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/Rules/Get.yml)
+#### [List By Rule Set](cdn/azurefrontdoorstandard/premium(preview)/Rules/ListByRuleSet.yml)
+#### [Update](cdn/azurefrontdoorstandard/premium(preview)/Rules/Update.yml)
+### Secrets
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/Secrets.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/Secrets/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/Secrets/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/Secrets/Get.yml)
+#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/Secrets/ListByProfile.yml)
+#### [Update](cdn/azurefrontdoorstandard/premium(preview)/Secrets/Update.yml)
+### Security Policies
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/SecurityPolicies.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/SecurityPolicies/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/SecurityPolicies/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/SecurityPolicies/Get.yml)
+#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/SecurityPolicies/ListByProfile.yml)
+#### [Patch](cdn/azurefrontdoorstandard/premium(preview)/SecurityPolicies/Patch.yml)
+### Validate
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/Validate.yml)
+#### [Secret](cdn/azurefrontdoorstandard/premium(preview)/Validate/Secret.yml)
+## CDN
+### Check Name Availability
+#### [Overview](cdn/cdn/CheckNameAvailability.yml)
+#### [Check Name Availability](cdn/cdn/CheckNameAvailability/CheckNameAvailability.yml)
+### Check Name Availability With Subscription
+#### [Overview](cdn/cdn/CheckNameAvailabilityWithSubscription.yml)
+#### [Check Name Availability With Subscription](cdn/cdn/CheckNameAvailabilityWithSubscription/CheckNameAvailabilityWithSubscription.yml)
+### Custom Domains
+#### [Overview](cdn/cdn/CustomDomains.yml)
+#### [Create](cdn/cdn/CustomDomains/Create.yml)
+#### [Delete](cdn/cdn/CustomDomains/Delete.yml)
+#### [Disable Custom Https](cdn/cdn/CustomDomains/DisableCustomHttps.yml)
+#### [Enable Custom Https](cdn/cdn/CustomDomains/EnableCustomHttps.yml)
+#### [Get](cdn/cdn/CustomDomains/Get.yml)
+#### [List By Endpoint](cdn/cdn/CustomDomains/ListByEndpoint.yml)
+### Edge Nodes
+#### [Overview](cdn/cdn/EdgeNodes.yml)
+#### [List](cdn/cdn/EdgeNodes/List.yml)
+### Endpoints
+#### [Overview](cdn/cdn/Endpoints.yml)
+#### [Create](cdn/cdn/Endpoints/Create.yml)
+#### [Delete](cdn/cdn/Endpoints/Delete.yml)
+#### [Get](cdn/cdn/Endpoints/Get.yml)
+#### [List By Profile](cdn/cdn/Endpoints/ListByProfile.yml)
+#### [List Resource Usage](cdn/cdn/Endpoints/ListResourceUsage.yml)
+#### [Load Content](cdn/cdn/Endpoints/LoadContent.yml)
+#### [Purge Content](cdn/cdn/Endpoints/PurgeContent.yml)
+#### [Start](cdn/cdn/Endpoints/Start.yml)
+#### [Stop](cdn/cdn/Endpoints/Stop.yml)
+#### [Update](cdn/cdn/Endpoints/Update.yml)
+#### [Validate Custom Domain](cdn/cdn/Endpoints/ValidateCustomDomain.yml)
+### Operations
+#### [Overview](cdn/cdn/Operations.yml)
+#### [List](cdn/cdn/Operations/List.yml)
+### Origin Groups
+#### [Overview](cdn/cdn/OriginGroups.yml)
+#### [Create](cdn/cdn/OriginGroups/Create.yml)
+#### [Delete](cdn/cdn/OriginGroups/Delete.yml)
+#### [Get](cdn/cdn/OriginGroups/Get.yml)
+#### [List By Endpoint](cdn/cdn/OriginGroups/ListByEndpoint.yml)
+#### [Update](cdn/cdn/OriginGroups/Update.yml)
+### Origins
+#### [Overview](cdn/cdn/Origins.yml)
+#### [Create](cdn/cdn/Origins/Create.yml)
+#### [Delete](cdn/cdn/Origins/Delete.yml)
+#### [Get](cdn/cdn/Origins/Get.yml)
+#### [List By Endpoint](cdn/cdn/Origins/ListByEndpoint.yml)
+#### [Update](cdn/cdn/Origins/Update.yml)
+### Profiles
+#### [Overview](cdn/cdn/Profiles.yml)
+#### [Create](cdn/cdn/Profiles/Create.yml)
+#### [Delete](cdn/cdn/Profiles/Delete.yml)
+#### [Generate Sso Uri](cdn/cdn/Profiles/GenerateSsoUri.yml)
+#### [Get](cdn/cdn/Profiles/Get.yml)
+#### [List](cdn/cdn/Profiles/List.yml)
+#### [List By Resource Group](cdn/cdn/Profiles/ListByResourceGroup.yml)
+#### [List Resource Usage](cdn/cdn/Profiles/ListResourceUsage.yml)
+#### [List Supported Optimization Types](cdn/cdn/Profiles/ListSupportedOptimizationTypes.yml)
+#### [Update](cdn/cdn/Profiles/Update.yml)
+### Resource Usage
+#### [Overview](cdn/cdn/ResourceUsage.yml)
+#### [List](cdn/cdn/ResourceUsage/List.yml)
+### Validate Probe
+#### [Overview](cdn/cdn/ValidateProbe.yml)
+#### [Validate Probe](cdn/cdn/ValidateProbe/ValidateProbe.yml)
 # Azure Kusto
 ## [Overview](../docs-ref-conceptual/azurerekusto/index.md)
 ## Attached Database Configurations
@@ -3413,155 +3564,6 @@
 ### [Delete](blueprints/PublishedBlueprints/Delete.yml)
 ### [Get](blueprints/PublishedBlueprints/Get.yml)
 ### [List](blueprints/PublishedBlueprints/List.yml)
-# CDN
-## [Overview](../docs-ref-conceptual/cdn/index.md)
-## AFD Custom Domains
-### [Overview](cdn/AFDCustomDomains.yml)
-### [Create](cdn/AFDCustomDomains/Create.yml)
-### [Delete](cdn/AFDCustomDomains/Delete.yml)
-### [Get](cdn/AFDCustomDomains/Get.yml)
-### [List By Profile](cdn/AFDCustomDomains/ListByProfile.yml)
-### [Refresh Validation Token](cdn/AFDCustomDomains/RefreshValidationToken.yml)
-### [Update](cdn/AFDCustomDomains/Update.yml)
-## AFD Endpoints
-### [Overview](cdn/AFDEndpoints.yml)
-### [Create](cdn/AFDEndpoints/Create.yml)
-### [Delete](cdn/AFDEndpoints/Delete.yml)
-### [Get](cdn/AFDEndpoints/Get.yml)
-### [List By Profile](cdn/AFDEndpoints/ListByProfile.yml)
-### [List Resource Usage](cdn/AFDEndpoints/ListResourceUsage.yml)
-### [Purge Content](cdn/AFDEndpoints/PurgeContent.yml)
-### [Update](cdn/AFDEndpoints/Update.yml)
-### [Validate Custom Domain](cdn/AFDEndpoints/ValidateCustomDomain.yml)
-## AFD Origin Groups
-### [Overview](cdn/AFDOriginGroups.yml)
-### [Create](cdn/AFDOriginGroups/Create.yml)
-### [Delete](cdn/AFDOriginGroups/Delete.yml)
-### [Get](cdn/AFDOriginGroups/Get.yml)
-### [List By Profile](cdn/AFDOriginGroups/ListByProfile.yml)
-### [List Resource Usage](cdn/AFDOriginGroups/ListResourceUsage.yml)
-### [Update](cdn/AFDOriginGroups/Update.yml)
-## AFD Origins
-### [Overview](cdn/AFDOrigins.yml)
-### [Create](cdn/AFDOrigins/Create.yml)
-### [Delete](cdn/AFDOrigins/Delete.yml)
-### [Get](cdn/AFDOrigins/Get.yml)
-### [List By Origin Group](cdn/AFDOrigins/ListByOriginGroup.yml)
-### [Update](cdn/AFDOrigins/Update.yml)
-## AFD Profiles
-### [Overview](cdn/AFDProfiles.yml)
-### [Check Host Name Availability](cdn/AFDProfiles/CheckHostNameAvailability.yml)
-### [List Resource Usage](cdn/AFDProfiles/ListResourceUsage.yml)
-## Check Name Availability
-### [Overview](cdn/CheckNameAvailability.yml)
-### [Check Name Availability](cdn/CheckNameAvailability/CheckNameAvailability.yml)
-## Check Name Availability With Subscription
-### [Overview](cdn/CheckNameAvailabilityWithSubscription.yml)
-### [Check Name Availability With Subscription](cdn/CheckNameAvailabilityWithSubscription/CheckNameAvailabilityWithSubscription.yml)
-## Custom Domains
-### [Overview](cdn/CustomDomains.yml)
-### [Create](cdn/CustomDomains/Create.yml)
-### [Delete](cdn/CustomDomains/Delete.yml)
-### [Disable Custom Https](cdn/CustomDomains/DisableCustomHttps.yml)
-### [Enable Custom Https](cdn/CustomDomains/EnableCustomHttps.yml)
-### [Get](cdn/CustomDomains/Get.yml)
-### [List By Endpoint](cdn/CustomDomains/ListByEndpoint.yml)
-## Edge Nodes
-### [Overview](cdn/EdgeNodes.yml)
-### [List](cdn/EdgeNodes/List.yml)
-## Endpoints
-### [Overview](cdn/Endpoints.yml)
-### [Create](cdn/Endpoints/Create.yml)
-### [Delete](cdn/Endpoints/Delete.yml)
-### [Get](cdn/Endpoints/Get.yml)
-### [List By Profile](cdn/Endpoints/ListByProfile.yml)
-### [List Resource Usage](cdn/Endpoints/ListResourceUsage.yml)
-### [Load Content](cdn/Endpoints/LoadContent.yml)
-### [Purge Content](cdn/Endpoints/PurgeContent.yml)
-### [Start](cdn/Endpoints/Start.yml)
-### [Stop](cdn/Endpoints/Stop.yml)
-### [Update](cdn/Endpoints/Update.yml)
-### [Validate Custom Domain](cdn/Endpoints/ValidateCustomDomain.yml)
-## Log Analytics
-### [Overview](cdn/LogAnalytics.yml)
-### [Get Log Analytics Locations](cdn/LogAnalytics/GetLogAnalyticsLocations.yml)
-### [Get Log Analytics Metrics](cdn/LogAnalytics/GetLogAnalyticsMetrics.yml)
-### [Get Log Analytics Rankings](cdn/LogAnalytics/GetLogAnalyticsRankings.yml)
-### [Get Log Analytics Resources](cdn/LogAnalytics/GetLogAnalyticsResources.yml)
-### [Get Waf Log Analytics Metrics](cdn/LogAnalytics/GetWafLogAnalyticsMetrics.yml)
-### [Get Waf Log Analytics Rankings](cdn/LogAnalytics/GetWafLogAnalyticsRankings.yml)
-## Operations
-### [Overview](cdn/Operations.yml)
-### [List](cdn/Operations/List.yml)
-## Origin Groups
-### [Overview](cdn/OriginGroups.yml)
-### [Create](cdn/OriginGroups/Create.yml)
-### [Delete](cdn/OriginGroups/Delete.yml)
-### [Get](cdn/OriginGroups/Get.yml)
-### [List By Endpoint](cdn/OriginGroups/ListByEndpoint.yml)
-### [Update](cdn/OriginGroups/Update.yml)
-## Origins
-### [Overview](cdn/Origins.yml)
-### [Create](cdn/Origins/Create.yml)
-### [Delete](cdn/Origins/Delete.yml)
-### [Get](cdn/Origins/Get.yml)
-### [List By Endpoint](cdn/Origins/ListByEndpoint.yml)
-### [Update](cdn/Origins/Update.yml)
-## Profiles
-### [Overview](cdn/Profiles.yml)
-### [Create](cdn/Profiles/Create.yml)
-### [Delete](cdn/Profiles/Delete.yml)
-### [Generate Sso Uri](cdn/Profiles/GenerateSsoUri.yml)
-### [Get](cdn/Profiles/Get.yml)
-### [List](cdn/Profiles/List.yml)
-### [List By Resource Group](cdn/Profiles/ListByResourceGroup.yml)
-### [List Resource Usage](cdn/Profiles/ListResourceUsage.yml)
-### [List Supported Optimization Types](cdn/Profiles/ListSupportedOptimizationTypes.yml)
-### [Update](cdn/Profiles/Update.yml)
-## Resource Usage
-### [Overview](cdn/ResourceUsage.yml)
-### [List](cdn/ResourceUsage/List.yml)
-## Routes
-### [Overview](cdn/Routes.yml)
-### [Create](cdn/Routes/Create.yml)
-### [Delete](cdn/Routes/Delete.yml)
-### [Get](cdn/Routes/Get.yml)
-### [List By Endpoint](cdn/Routes/ListByEndpoint.yml)
-### [Update](cdn/Routes/Update.yml)
-## Rule Sets
-### [Overview](cdn/RuleSets.yml)
-### [Create](cdn/RuleSets/Create.yml)
-### [Delete](cdn/RuleSets/Delete.yml)
-### [Get](cdn/RuleSets/Get.yml)
-### [List By Profile](cdn/RuleSets/ListByProfile.yml)
-### [List Resource Usage](cdn/RuleSets/ListResourceUsage.yml)
-## Rules
-### [Overview](cdn/Rules.yml)
-### [Create](cdn/Rules/Create.yml)
-### [Delete](cdn/Rules/Delete.yml)
-### [Get](cdn/Rules/Get.yml)
-### [List By Rule Set](cdn/Rules/ListByRuleSet.yml)
-### [Update](cdn/Rules/Update.yml)
-## Secrets
-### [Overview](cdn/Secrets.yml)
-### [Create](cdn/Secrets/Create.yml)
-### [Delete](cdn/Secrets/Delete.yml)
-### [Get](cdn/Secrets/Get.yml)
-### [List By Profile](cdn/Secrets/ListByProfile.yml)
-### [Update](cdn/Secrets/Update.yml)
-## Security Policies
-### [Overview](cdn/SecurityPolicies.yml)
-### [Create](cdn/SecurityPolicies/Create.yml)
-### [Delete](cdn/SecurityPolicies/Delete.yml)
-### [Get](cdn/SecurityPolicies/Get.yml)
-### [List By Profile](cdn/SecurityPolicies/ListByProfile.yml)
-### [Patch](cdn/SecurityPolicies/Patch.yml)
-## Validate
-### [Overview](cdn/Validate.yml)
-### [Secret](cdn/Validate/Secret.yml)
-## Validate Probe
-### [Overview](cdn/ValidateProbe.yml)
-### [Validate Probe](cdn/ValidateProbe/ValidateProbe.yml)
 # Cognitive Services
 ## [Overview](../docs-ref-conceptual/cognitiveservices/index.md)
 ## Account Management
@@ -7139,38 +7141,6 @@
 ### Resource Provider Common
 #### [Overview](iothub/ResourceProviderCommon.yml)
 #### [Get Subscription Quota](iothub/ResourceProviderCommon/GetSubscriptionQuota.yml)
-### Digital Twin Model Repository Service
-#### Are Valid Models
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/AreValidModels.yml)
-##### [Are Valid Models](iothub/digitaltwinmodelrepositoryservice/AreValidModels/AreValidModels.yml)
-#### Create Or Update Async
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateAsync.yml)
-##### [Create Or Update Async](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateAsync/CreateOrUpdateAsync.yml)
-#### Get Model Async
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/GetModelAsync.yml)
-##### [Get Model Async](iothub/digitaltwinmodelrepositoryservice/GetModelAsync/GetModelAsync.yml)
-#### Search Models Async
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModelsAsync.yml)
-##### [Search Models Async](iothub/digitaltwinmodelrepositoryservice/SearchModelsAsync/SearchModelsAsync.yml)
-### Digital Twin Model Repository Service Control Plane
-#### Assign Roles
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles.yml)
-##### [Assign Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles/AssignRoles.yml)
-#### Create Tenant
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant.yml)
-##### [Create Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant/CreateTenant.yml)
-#### Get Subjects For Resources
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources.yml)
-##### [Get Subjects For Resources](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources/GetSubjectsForResources.yml)
-#### Get Subjects For Resources By Type
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType.yml)
-##### [Get Subjects For Resources By Type](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType/GetSubjectsForResourcesByType.yml)
-#### Get Tenant
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant.yml)
-##### [Get Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant/GetTenant.yml)
-#### Remove Roles
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles.yml)
-##### [Remove Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles/RemoveRoles.yml)
 ### Service
 #### Bulk Registry
 ##### [Overview](iothub/service/BulkRegistry.yml)
