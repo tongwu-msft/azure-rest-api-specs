@@ -2015,6 +2015,21 @@
 ### [List Admin Credentials](avs/PrivateClouds/ListAdminCredentials.yml)
 ### [List In Subscription](avs/PrivateClouds/ListInSubscription.yml)
 ### [Update](avs/PrivateClouds/Update.yml)
+# Azure AD B2C
+## [Overview](../docs-ref-conceptual/activedirectory/index.md)
+## B2C Tenants
+### [Overview](activedirectory/B2CTenants.yml)
+### [Check Name Availability](activedirectory/B2CTenants/CheckNameAvailability.yml)
+### [Create](activedirectory/B2CTenants/Create.yml)
+### [Delete](activedirectory/B2CTenants/Delete.yml)
+### [Get](activedirectory/B2CTenants/Get.yml)
+### [List By Resource Group](activedirectory/B2CTenants/ListByResourceGroup.yml)
+### [List By Subscription](activedirectory/B2CTenants/ListBySubscription.yml)
+### [Update](activedirectory/B2CTenants/Update.yml)
+## Operations
+### [Overview](activedirectory/Operations.yml)
+### [Get Async Status](activedirectory/Operations/GetAsyncStatus.yml)
+### [List](activedirectory/Operations/List.yml)
 # Azure Attestation
 ## [Overview](../docs-ref-conceptual/attestation/index.md)
 ## Attestation
