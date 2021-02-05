@@ -15156,6 +15156,7 @@
 ## Caches
 ### [Overview](storagecache/Caches.yml)
 ### [Create Or Update](storagecache/Caches/CreateOrUpdate.yml)
+### [Debug Info](storagecache/Caches/DebugInfo.yml)
 ### [Delete](storagecache/Caches/Delete.yml)
 ### [Flush](storagecache/Caches/Flush.yml)
 ### [Get](storagecache/Caches/Get.yml)
