@@ -16,7 +16,7 @@ ms.manager: nitinme
 **API Version: 2020-06-30-Preview**
 
 > [!Important]
-> This preview adds a [featuresMode](#featuresmode) query parameter that can report on per-field term frequency, per-field similarity score, and per-field number of unique matches.
+> This preview API adds a [featuresMode](#featuresmode) query parameter that can report on per-field term frequency, per-field similarity score, and per-field number of unique matches.
 
 Queries in Azure Cognitive Search are implemented using the .NET library or REST API. This article is about using the REST API. For an overview of query construction and methodologies see [Queries in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-query-overview). To learn about query engine and processing, see [How full text search works in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-lucene-query-architecture).
 
