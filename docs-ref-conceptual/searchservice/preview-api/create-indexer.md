@@ -1,6 +1,6 @@
 ---
 title: Create Indexer (api-version=2020-06-30-Preview)
-description: Indexers are resources that automate many aspects of data ingestion into an Azure Cognitive Search indexes. You must use a supported Azure data source to use this API.
+description: Preview version of the Create Indexer REST API for Cognitive Search.
 ms.date: 06/30/2020
 
 ms.service: cognitive-search

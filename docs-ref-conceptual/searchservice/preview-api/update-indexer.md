@@ -1,6 +1,6 @@
 ---
 title: Update Indexer (api-version=2020-06-30-Preview)
-description: Modify an Azure Cognitive Search indexer used for crawling external data sources for searchable content.
+description: Preview version of the Update Indexer REST API for Cognitive Search.
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
@@ -54,8 +54,9 @@ You can get the `api-key` from your service dashboard in the Azure portal. For m
 ## Response  
  For a successful request: 201 Created if a new indexer was created, and 204 No Content if an existing indexer was updated.  
 
-## See also  
- [Azure Cognitive Search REST APIs](../index.md)   
- [HTTP status codes &#40;Azure Cognitive Search&#41;](../http-status-codes.md)   
- [Indexer operations &#40;Azure Cognitive Search REST API&#41;](../indexer-operations.md)   
- [Naming rules &#40;Azure Cognitive Search&#41;](../naming-rules.md)  
+## See also
+  
++ [Azure Cognitive Search REST APIs](../index.md)   
++ [HTTP status codes &#40;Azure Cognitive Search&#41;](../http-status-codes.md)   
++ [Indexer operations &#40;Azure Cognitive Search REST API&#41;](../indexer-operations.md)   
++ [Naming rules &#40;Azure Cognitive Search&#41;](../naming-rules.md)  

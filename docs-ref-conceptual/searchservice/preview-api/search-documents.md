@@ -1,6 +1,6 @@
 ---
 title: Search Documents (api-version=2020-06-30-Preview)
-description: Query an Azure Cognitive Search index and return search results.
+description: Preview version of the Search Documents REST API for Cognitive Search.
 ms.date: 12/08/2020
 
 ms.service: cognitive-search
@@ -65,7 +65,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/search?
 
 URL encoding is only recommended on the above query parameters. If you inadvertently URL-encode the entire query string (everything after the `?`), requests will break.  
 
-Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Search Documents** using POST, or when using the [Azure Cognitive Search .NET client library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet), which handles URL encoding for you.  
+Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Search Documents** using POST, or when using the [Azure Cognitive Search .NET client library](https://docs.microsoft.com/dotnet/api/overview/azure/search), which handles URL encoding for you.  
 
 <a name="query-parameters"></a> 
 
@@ -245,64 +245,66 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 
 Status Code: 200 OK is returned for a successful response.
 
-    {
-      "@odata.count": # (if $count=true was provided in the query),
-      "@search.coverage": # (if minimumCoverage was provided in the query),
-      "@search.facets": { (if faceting was specified in the query)
-        "facet_field": [
-          {
-            "value": facet_entry_value (for non-range facets),
-            "from": facet_entry_value (for range facets),
-            "to": facet_entry_value (for range facets),
-            "count": number_of_documents
-          }
-        ],
-        ...
-      },
-      "@search.nextPageParameters": { (request body to fetch the next page of results if not all results could be returned in this response and Search was called with POST)
-        "count": ... (value from request body if present),
-        "facets": ... (value from request body if present),
-        "featuresMode" : ... (value from request body if present),
-        "filter": ... (value from request body if present),
-        "highlight": ... (value from request body if present),
-        "highlightPreTag": ... (value from request body if present),
-        "highlightPostTag": ... (value from request body if present),
-        "minimumCoverage": ... (value from request body if present),
-        "orderby": ... (value from request body if present),
-        "scoringParameters": ... (value from request body if present),
-        "scoringProfile": ... (value from request body if present),
-        "scoringStatistics": ... (value from request body if present),
-        "search": ... (value from request body if present),
-        "searchFields": ... (value from request body if present),
-        "searchMode": ... (value from request body if present),
-        "select": ... (value from request body if present),
-        "sessionId" : ... (value from request body if present),
-        "skip": ... (page size plus value from request body if present),
-        "top": ... (value from request body if present minus page size),
-      },
-      "value": [
+```json
+  {
+    "@odata.count": # (if $count=true was provided in the query),
+    "@search.coverage": # (if minimumCoverage was provided in the query),
+    "@search.facets": { (if faceting was specified in the query)
+      "facet_field": [
         {
-          "@search.score": document_score (if a text query was provided),
-          "@search.highlights": {
-            field_name: [ subset of text, ... ],
-            ...
-          },
-          "@search.features": {
-            "field_name": {
-              "uniqueTokenMatches": feature_score,
-              "similarityScore": feature_score,
-              "termFrequency": feature_score,
-            },
-            ...
-          },
-          key_field_name: document_key,
-          field_name: field_value (retrievable fields or specified projection),
+          "value": facet_entry_value (for non-range facets),
+          "from": facet_entry_value (for range facets),
+          "to": facet_entry_value (for range facets),
+          "count": number_of_documents
+        }
+      ],
+      ...
+    },
+    "@search.nextPageParameters": { (request body to fetch the next page of results if not all results could be returned in this response and Search was called with POST)
+      "count": ... (value from request body if present),
+      "facets": ... (value from request body if present),
+      "featuresMode" : ... (value from request body if present),
+      "filter": ... (value from request body if present),
+      "highlight": ... (value from request body if present),
+      "highlightPreTag": ... (value from request body if present),
+      "highlightPostTag": ... (value from request body if present),
+      "minimumCoverage": ... (value from request body if present),
+      "orderby": ... (value from request body if present),
+      "scoringParameters": ... (value from request body if present),
+      "scoringProfile": ... (value from request body if present),
+      "scoringStatistics": ... (value from request body if present),
+      "search": ... (value from request body if present),
+      "searchFields": ... (value from request body if present),
+      "searchMode": ... (value from request body if present),
+      "select": ... (value from request body if present),
+      "sessionId" : ... (value from request body if present),
+      "skip": ... (page size plus value from request body if present),
+      "top": ... (value from request body if present minus page size),
+    },
+    "value": [
+      {
+        "@search.score": document_score (if a text query was provided),
+        "@search.highlights": {
+          field_name: [ subset of text, ... ],
           ...
         },
+        "@search.features": {
+          "field_name": {
+            "uniqueTokenMatches": feature_score,
+            "similarityScore": feature_score,
+            "termFrequency": feature_score,
+          },
+          ...
+        },
+        key_field_name: document_key,
+        field_name: field_value (retrievable fields or specified projection),
         ...
-      ],
-      "@odata.nextLink": (URL to fetch the next page of results if not all results could be returned in this response; Applies to both GET and POST)
-    }
+      },
+      ...
+    ],
+    "@odata.nextLink": (URL to fetch the next page of results if not all results could be returned in this response; Applies to both GET and POST)
+  }
+```
 
 ##  <a name="bkmk_examples"></a> Examples  
  You can find additional examples in  [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax).  
@@ -574,10 +576,10 @@ Status Code: 200 OK is returned for a successful response.
             }
           . . .
 
+## See also
 
-## See also  
- [Azure Cognitive Search REST APIs](https://docs.microsoft.com/rest/api/searchservice)   
- [HTTP status codes &#40;Azure Cognitive Search&#41;](https://docs.microsoft.com/rest/api/searchservice/http-status-codes)   
- [OData Expression Syntax for Azure vSearch](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
- [Simple query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-simple-syntax)    
- [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  
++ [Azure Cognitive Search REST APIs](https://docs.microsoft.com/rest/api/searchservice)   
++ [HTTP status codes &#40;Azure Cognitive Search&#41;](https://docs.microsoft.com/rest/api/searchservice/http-status-codes)   
++ [OData Expression Syntax for Azure vSearch](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
++ [Simple query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-simple-syntax)    
++ [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search)  

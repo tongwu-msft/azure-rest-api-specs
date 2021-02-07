@@ -1,6 +1,6 @@
 ---
 title: Reset Skills (Azure Cognitive Search REST API)
-description: Selectively execute specific skills when you need partial reprocessing of a skillset.
+description: Preview API used to slectively execute specific skills when you need partial reprocessing of a skillset.
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
