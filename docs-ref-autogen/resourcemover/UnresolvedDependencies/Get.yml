@@ -9,6 +9,8 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/unresolvedDependencies?api-version=2019-10-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/unresolvedDependencies?dependencyLevel={dependencyLevel}&$orderby={$orderby}&api-version=2019-10-01-preview&$filter={$filter}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -28,10 +30,25 @@ uriParameters:
   description: The Move Collection Name.
   types:
   - uid: string
+- name: dependencyLevel
+  in: query
+  description: Defines the dependency level.
+  types:
+  - uid: DependencyLevel
+- name: $orderby
+  in: query
+  description: OData order by query option. For example, you can use $orderby=Count desc.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
   description: Client Api Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation. For example, $apply=filter(count eq 2).
   types:
   - uid: string
 responses:
@@ -45,6 +62,16 @@ responses:
   - uid: CloudError
 requestHeader: []
 definitions:
+- name: DependencyLevel
+  description: Defines the dependency level.
+  kind: enum
+  properties:
+  - name: Direct
+    types:
+    - uid: string
+  - name: Descendant
+    types:
+    - uid: string
 - name: UnresolvedDependencyCollection
   description: Unresolved dependency collection.
   kind: object
@@ -58,6 +85,16 @@ definitions:
     description: Gets or sets the value of  next link.
     types:
     - uid: string
+  - name: summaryCollection
+    isReadyOnly: true
+    description: Gets or sets the list of summary items and the field on which summary is done.
+    types:
+    - uid: SummaryCollection
+  - name: totalCount
+    isReadyOnly: true
+    description: Gets the total count.
+    types:
+    - uid: integer
 - name: CloudError
   description: An error response from the service.
   kind: object
@@ -78,6 +115,19 @@ definitions:
     description: Gets or sets the arm id of the dependency.
     types:
     - uid: string
+- name: SummaryCollection
+  description: Summary Collection.
+  kind: object
+  properties:
+  - name: fieldName
+    description: Gets or sets the field name on which summary is done.
+    types:
+    - uid: string
+  - name: summary
+    description: Gets or sets the list of summary items.
+    types:
+    - uid: Summary
+      isArray: true
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -99,6 +149,18 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: Summary
+  description: Summary item.
+  kind: object
+  properties:
+  - name: count
+    description: Gets the count.
+    types:
+    - uid: integer
+  - name: item
+    description: Gets the item.
+    types:
+    - uid: string
 examples:
 - name: UnresolvedDependencies_Get
   request:

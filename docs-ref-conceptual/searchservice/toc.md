@@ -11,6 +11,7 @@
 ## Indexers
 ### [Create Indexer](preview-api/create-indexer.md)
 ### [Update Indexer](preview-api/update-indexer.md)
+### [Reset Documents](preview-api/reset-documents.md)
 ## Skillsets
 ### [Create Skillset](create-skillset.md)
 ### [Reset Skills](preview-api/reset-skills.md)

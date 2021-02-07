@@ -1,6 +1,6 @@
 ---
 title: "ServicePlacementPolicyDescription"
-ms.date: "10/21/2020"
+ms.date: "01/28/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -40,6 +40,7 @@ The following table lists the value of the `Kind` property and corresponding der
 | --- | --- | 
 | InvalidDomain | [ServicePlacementInvalidDomainPolicyDescription](sfclient-model-serviceplacementinvaliddomainpolicydescription.md) |
 | NonPartiallyPlaceService | [ServicePlacementNonPartiallyPlaceServicePolicyDescription](sfclient-model-serviceplacementnonpartiallyplaceservicepolicydescription.md) |
+| AllowMultipleStatelessInstancesOnNode | [ServicePlacementAllowMultipleStatelessInstancesOnNodePolicyDescription](sfclient-model-serviceplacementallowmultiplestatelessinstancesonnodepolicydescription.md) |
 | PreferPrimaryDomain | [ServicePlacementPreferPrimaryDomainPolicyDescription](sfclient-model-serviceplacementpreferprimarydomainpolicydescription.md) |
 | RequireDomain | [ServicePlacementRequiredDomainPolicyDescription](sfclient-model-serviceplacementrequireddomainpolicydescription.md) |
 | RequireDomainDistribution | [ServicePlacementRequireDomainDistributionPolicyDescription](sfclient-model-serviceplacementrequiredomaindistributionpolicydescription.md) |

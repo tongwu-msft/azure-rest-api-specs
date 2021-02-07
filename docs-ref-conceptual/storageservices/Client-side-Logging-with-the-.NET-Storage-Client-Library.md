@@ -61,9 +61,8 @@ This example configures the client library to write log messages to the physical
 
 Additionally, you can set **autoflush** to true in order to write the log entries to the file immediately instead of buffering them. This setting could be useful in a dev/test environment with low volumes of trace messages, but in a production environment you might want to set **autoflush** to false. You use the configuration settings to enable client tracing (and to specify the level, such as **Verbose**, for all messages) for all storage operations in the client.  
   
-||||  
-|-|-|-|  
 |Id|Log Level|Events|  
+|-|-|-|  
 |0|Off|Nothing is logged.|  
 |1|Error|If an exception can't be handled internally and is thrown to the user, it's logged as an error.|  
 |2|Warning|If an exception is caught and handled internally, it's logged as a warning. Primary use case for this log level is the retry scenario, where an exception is not thrown back to the user to retry. This behavior can also happen in operations such as CreateIfNotExists, where the 404 error is handled silently.|  
