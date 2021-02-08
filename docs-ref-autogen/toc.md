@@ -766,6 +766,13 @@
 ##### [Delete](apimanagement/2020-06-01-preview/GatewayApi/Delete.yml)
 ##### [Get Entity Tag](apimanagement/2020-06-01-preview/GatewayApi/GetEntityTag.yml)
 ##### [List By Service](apimanagement/2020-06-01-preview/GatewayApi/ListByService.yml)
+#### Gateway Certificate Authority
+##### [Overview](apimanagement/2020-06-01-preview/GatewayCertificateAuthority.yml)
+##### [Create Or Update](apimanagement/2020-06-01-preview/GatewayCertificateAuthority/CreateOrUpdate.yml)
+##### [Delete](apimanagement/2020-06-01-preview/GatewayCertificateAuthority/Delete.yml)
+##### [Get](apimanagement/2020-06-01-preview/GatewayCertificateAuthority/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-06-01-preview/GatewayCertificateAuthority/GetEntityTag.yml)
+##### [List By Service](apimanagement/2020-06-01-preview/GatewayCertificateAuthority/ListByService.yml)
 #### Gateway Hostname Configuration
 ##### [Overview](apimanagement/2020-06-01-preview/GatewayHostnameConfiguration.yml)
 ##### [Create Or Update](apimanagement/2020-06-01-preview/GatewayHostnameConfiguration/CreateOrUpdate.yml)
