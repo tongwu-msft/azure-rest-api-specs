@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.apimanagement.2020-06-01-preview.apiversionset.get
+uid: management.azure.com.apimanagement.2020-06-01-preview.gatewaycertificateauthority.get
 name: Get
 service: API Management
-groupName: Api Version Set
+groupName: Gateway Certificate Authority
 apiVersion: 2020-06-01-preview
-summary: Gets the details of the Api Version Set specified by its identifier.
+summary: Get assigned Gateway Certificate Authority details.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apiVersionSets/{versionSetId}?api-version=2020-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/certificateAuthorities/{certificateId}?api-version=2020-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,10 +31,16 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
-- name: versionSetId
+- name: gatewayId
   in: path
   isRequired: true
-  description: Api Version Set identifier. Must be unique in the current API Management service instance.
+  description: Gateway entity identifier. Must be unique in the current API Management service instance. Must not have value 'managed'
+  types:
+  - uid: string
+- name: certificateId
+  in: path
+  isRequired: true
+  description: Identifier of the certificate entity. Must be unique in the current API Management service instance.
   types:
   - uid: string
   pattern: ^[^*#&+:<>?]+$
@@ -49,27 +55,23 @@ responses:
   headers:
   - name: ETag
     value: string
-  description: Gets the specified Api Version Set entity.
+  description: The response body contains the specified Gateway Certificate Authority entity.
   types:
-  - uid: ApiVersionSetContract
+  - uid: GatewayCertificateAuthorityContract
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: ApiVersionSetContract
-  description: Api Version Set Contract details.
+- name: GatewayCertificateAuthorityContract
+  description: Gateway certificate authority details.
   kind: object
   properties:
-  - name: properties.displayName
-    description: Name of API Version Set
+  - name: properties.isTrusted
+    description: Determines whether certificate authority is trusted.
     types:
-    - uid: string
-  - name: properties.versioningScheme
-    description: An value that determines where the API Version identifier will be located in a HTTP request.
-    types:
-    - uid: versioningScheme
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -83,18 +85,6 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Resource type for API Management resource.
-    types:
-    - uid: string
-  - name: properties.description
-    description: Description of API Version Set.
-    types:
-    - uid: string
-  - name: properties.versionQueryName
-    description: Name of query parameter that indicates the API Version if versioningScheme is set to `query`.
-    types:
-    - uid: string
-  - name: properties.versionHeaderName
-    description: Name of HTTP header parameter that indicates the API Version if versioningScheme is set to `header`.
     types:
     - uid: string
 - name: ErrorResponse
@@ -114,22 +104,6 @@ definitions:
     types:
     - uid: ErrorFieldContract
       isArray: true
-- name: versioningScheme
-  description: An value that determines where the API Version identifier will be located in a HTTP request.
-  kind: enum
-  properties:
-  - name: Segment
-    description: The API Version is passed in a path segment.
-    types:
-    - uid: string
-  - name: Query
-    description: The API Version is passed in a query parameter.
-    types:
-    - uid: string
-  - name: Header
-    description: The API Version is passed in a HTTP header.
-    types:
-    - uid: string
 - name: ErrorFieldContract
   description: Error Field contract.
   kind: object
@@ -147,20 +121,18 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ApiManagementGetApiVersionSet
+- name: ApiManagementGetGatewayCertificateAuthority
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apiVersionSets/vs1?api-version=2020-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/gateways/gw1/certificateAuthorities/cert1?api-version=2020-06-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apiVersionSets/vs1",
-        "type": "Microsoft.ApiManagement/service/api-version-sets",
-        "name": "vs1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/gateways/gw1/certificateAuthorities/cert1",
+        "type": "Microsoft.ApiManagement/service/gateways/certificateAuthorities",
+        "name": "cert1",
         "properties": {
-          "displayName": "Version Set 1",
-          "versioningScheme": "Segment",
-          "description": "Version configuration"
+          "isTrusted": true
         }
       }
 security:
