@@ -1,6 +1,6 @@
 ---
 title: Create Indexer (api-version=2020-06-30-Preview)
-description: Indexers are resources that automate many aspects of data ingestion into an Azure Cognitive Search indexes. You must use a supported Azure data source to use this API.
+description: Preview version of the Create Indexer REST API for Cognitive Search.
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
@@ -16,7 +16,7 @@ ms.manager: nitinme
 **API Version: 2020-06-30-Preview**
 
 > [!Important]
-> This preview adds a [cache property](#cache) used during [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it.
+> This preview API adds a [cache property](#cache) used during [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it.
 
 An [indexer](https://docs.microsoft.com/azure/search/search-indexer-overview) automates indexing from supported Azure data sources such as Azure Storage, Azure SQL Database, and Azure Cosmos DB to name a few. Indexers use a predefined *data source* and *index* to establish an indexing pipeline that extracts and serializes source data, passing it to a search service for data ingestion. For AI enrichment of image and unstructured text, indexers can also accept a *skillset* that defines AI processing. 
 
