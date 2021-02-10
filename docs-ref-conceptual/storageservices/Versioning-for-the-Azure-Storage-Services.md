@@ -75,7 +75,7 @@ x-ms-version: 2017-07-29
   
  `https://myaccount.blob.core.windows.net/mycontainer?restype=container&comp=list&sv=2015-04-05&si=readpolicy&sig=a39 %2BYozJhGp6miujGymjRpN8tsrQfLo9Z3i8IRyIpnQ%3d`  
   
- In this case, the service uthenticates and authorizes the request using version 2015-04-05 and also executes the operation using version 2015-04-05.  
+ In this case, the service authenticates and authorizes the request using version 2015-04-05 and also executes the operation using version 2015-04-05.  
   
 #### Example 2  
   
