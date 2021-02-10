@@ -14312,11 +14312,6 @@
 #### [Resume](sql/Databases/Resume.yml)
 #### [Update](sql/Databases/Update.yml)
 #### [Upgrade Data Warehouse](sql/Databases/UpgradeDataWarehouse.yml)
-### Databases - Import Export
-#### [Overview](sql/Databases%20-%20Import%20Export.yml)
-#### [Create Import Operation](sql/Databases%20-%20Import%20Export/CreateImportOperation.yml)
-#### [Export](sql/Databases%20-%20Import%20Export/Export.yml)
-#### [Import](sql/Databases%20-%20Import%20Export/Import.yml)
 ### Elastic Pool Activities
 #### [Overview](sql/ElasticPoolActivities.yml)
 #### [List By Elastic Pool](sql/ElasticPoolActivities/ListByElasticPool.yml)
@@ -14335,9 +14330,6 @@
 #### [Get](sql/ElasticPools/Get.yml)
 #### [List By Server](sql/ElasticPools/ListByServer.yml)
 #### [Update](sql/ElasticPools/Update.yml)
-### ElasticPools(Failover)
-#### [Overview](sql/ElasticPools(Failover).yml)
-#### [Failover](sql/ElasticPools(Failover)/Failover.yml)
 ### Encryption Protectors
 #### [Overview](sql/EncryptionProtectors.yml)
 #### [Create Or Update](sql/EncryptionProtectors/CreateOrUpdate.yml)
