@@ -3,14 +3,14 @@ uid: management.azure.com.sql.databases.listbyserver
 name: List By Server
 service: SQL Database
 groupName: Databases
-apiVersion: 2019-06-01-preview
+apiVersion: 2020-08-01-preview
 summary: Gets a list of databases.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases?api-version=2019-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases?api-version=2020-08-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -235,10 +235,14 @@ definitions:
     description: The state of read-only routing. If enabled, connections that have application intent set to readonly in their connection string may be routed to a readonly secondary replica in the same region.
     types:
     - uid: DatabaseReadScale
-  - name: properties.readReplicaCount
-    description: The number of readonly secondary replicas associated with the database.
+  - name: properties.highAvailabilityReplicaCount
+    description: The number of secondary replicas associated with the database that are used to provide high availability.
     types:
     - uid: integer
+  - name: properties.secondaryType
+    description: The secondary type of the database if it is a secondary.  Valid values are Geo and Named.
+    types:
+    - uid: SecondaryType
   - name: properties.currentSku
     isReadyOnly: true
     description: The name and tier of the SKU.
@@ -264,6 +268,10 @@ definitions:
   - name: properties.resumedDate
     isReadyOnly: true
     description: The date when database was resumed by user action or database login (ISO8601 format). Null if the database is paused.
+    types:
+    - uid: string
+  - name: properties.maintenanceConfigurationId
+    description: Maintenance configuration id assigned to the database. This configuration defines the period when the maintenance updates will occur.
     types:
     - uid: string
   - name: location
@@ -494,6 +502,16 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: SecondaryType
+  description: The secondary type of the database if it is a secondary.  Valid values are Geo and Named.
+  kind: enum
+  properties:
+  - name: Geo
+    types:
+    - uid: string
+  - name: Named
+    types:
+    - uid: string
 - name: StorageAccountType
   description: The storage account type used to store backups for this database.
   kind: enum
@@ -510,7 +528,7 @@ definitions:
 examples:
 - name: Gets a list of databases.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases?api-version=2019-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases?api-version=2020-08-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -530,12 +548,20 @@ examples:
               "databaseId": "6c764297-577b-470f-9af4-96d3d41e2ba3",
               "creationDate": "2017-06-07T04:41:33.937Z",
               "currentServiceObjectiveName": "BC_Gen4_2",
+              "requestedServiceObjectiveName": "BC_Gen4_2",
               "defaultSecondaryLocation": "North Europe",
               "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
               "licenseType": "LicenseIncluded",
               "maxLogSizeBytes": 104857600,
+              "storageAccountType": "GRS",
+              "zoneRedundant": false,
               "readScale": "Enabled",
-              "readReplicaCount": 1
+              "earliestRestoreDate": "2017-06-07T04:51:33.937Z",
+              "currentSku": {
+                "name": "BC_Gen4",
+                "tier": "BusinessCritical",
+                "capacity": 2
+              }
             },
             "location": "southeastasia",
             "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb",
@@ -545,7 +571,8 @@ examples:
           {
             "sku": {
               "name": "System0",
-              "tier": "System"
+              "tier": "System",
+              "capacity": 0
             },
             "kind": "v12.0,system",
             "properties": {
@@ -555,8 +582,17 @@ examples:
               "databaseId": "e6be351f-2cc9-4604-9e52-b0b28b2710b0",
               "creationDate": "2017-06-07T04:23:42.537Z",
               "currentServiceObjectiveName": "System0",
+              "requestedServiceObjectiveName": "System0",
               "defaultSecondaryLocation": "North Europe",
-              "catalogCollation": "SQL_Latin1_General_CP1_CI_AS"
+              "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+              "storageAccountType": "GRS",
+              "zoneRedundant": false,
+              "readScale": "Disabled",
+              "currentSku": {
+                "name": "System0",
+                "tier": "System",
+                "capacity": 0
+              }
             },
             "location": "southeastasia",
             "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/master",

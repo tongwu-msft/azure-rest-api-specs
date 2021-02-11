@@ -3,14 +3,14 @@ uid: management.azure.com.storagecache.storagetargets.createorupdate
 name: Create Or Update
 service: Storagecache
 groupName: Storage Targets
-apiVersion: 2020-03-01
+apiVersion: 2020-10-01
 summary: Create or update a Storage Target. This operation is allowed at any time, but if the Cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the Cache is healthy again.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}?api-version=2020-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}?api-version=2020-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,14 +27,14 @@ uriParameters:
 - name: cacheName
   in: path
   isRequired: true
-  description: Name of Cache. Length of name must be not greater than 80 and chars must be in list of [-0-9a-zA-Z_] char class.
+  description: Name of Cache. Length of name must not be greater than 80 and chars must be from the [-0-9a-zA-Z_] char class.
   types:
   - uid: string
   pattern: ^[-0-9a-zA-Z_]{1,80}$
 - name: storageTargetName
   in: path
   isRequired: true
-  description: Name of the Storage Target. Length of name must be not greater than 80 and chars must be in list of [-0-9a-zA-Z_] char class.
+  description: Name of the Storage Target. Length of name must not be greater than 80 and chars must be from the [-0-9a-zA-Z_] char class.
   types:
   - uid: string
   pattern: ^[-0-9a-zA-Z_]{1,80}$
@@ -50,13 +50,11 @@ responses:
   types:
   - uid: StorageTarget
 - name: 201 Created
-  description: Storage Target creation or update has been initiated. Poll the new Storage Target's provisioningState property to monitor creation progress.
+  description: Storage Target creation or update has been initiated. Poll the Storage Target's provisioningState property to monitor creation/update progress.
   types:
   - uid: StorageTarget
 - name: 202 Accepted
-  description: Storage Target creation or update has been initiated. Poll the new Storage Target's provisioningState property to monitor creation progress.
-  types:
-  - uid: StorageTarget
+  description: Storage Target creation or update has been initiated. Poll the Storage Target's provisioningState property to monitor creation/update progress.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -114,8 +112,12 @@ definitions:
     description: NFS export where targetPath exists.
     types:
     - uid: string
+  - name: nfsAccessPolicy
+    description: Name of the access policy applied to this junction.
+    types:
+    - uid: string
 - name: Nfs3Target
-  description: Properties pertained to Nfs3Target
+  description: Properties pertaining to the Nfs3Target
   kind: object
   properties:
   - name: target
@@ -123,11 +125,11 @@ definitions:
     types:
     - uid: string
   - name: usageModel
-    description: Identifies the primary usage model to be used for this Storage Target. Get choices from .../usageModels
+    description: Identifies the usage model to be used for this Storage Target. Get choices from .../usageModels
     types:
     - uid: string
 - name: ClfsTarget
-  description: Properties pertained to ClfsTarget
+  description: Properties pertaining to the ClfsTarget
   kind: object
   properties:
   - name: target
@@ -135,7 +137,7 @@ definitions:
     types:
     - uid: string
 - name: UnknownTarget
-  description: Properties pertained to UnknownTarget
+  description: Properties pertaining to the UnknownTarget
   kind: object
   properties:
   - name: unknownMap
@@ -171,7 +173,7 @@ definitions:
     types:
     - uid: createdByType
   - name: lastModifiedAt
-    description: The type of identity that last modified the resource.
+    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: StorageTarget
@@ -298,7 +300,7 @@ definitions:
 examples:
 - name: StorageTargets_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2020-03-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2020-10-01
     body: >-
       {
         "properties": {
@@ -306,12 +308,14 @@ examples:
             {
               "namespacePath": "/path/on/cache",
               "targetPath": "/path/on/exp1",
-              "nfsExport": "exp1"
+              "nfsExport": "exp1",
+              "nfsAccessPolicy": "default"
             },
             {
               "namespacePath": "/path2/on/cache",
               "targetPath": "/path2/on/exp2",
-              "nfsExport": "exp2"
+              "nfsExport": "exp2",
+              "nfsAccessPolicy": "rootSquash"
             }
           ],
           "targetType": "nfs3",
@@ -341,12 +345,14 @@ examples:
             {
               "namespacePath": "/path/on/cache",
               "targetPath": "/path/on/exp1",
-              "nfsExport": "exp1"
+              "nfsExport": "exp1",
+              "nfsAccessPolicy": "default"
             },
             {
               "namespacePath": "/path2/on/cache",
               "targetPath": "/path2/on/exp2",
-              "nfsExport": "exp2"
+              "nfsExport": "exp2",
+              "nfsAccessPolicy": "rootSquash"
             }
           ],
           "targetType": "nfs3",
@@ -375,12 +381,14 @@ examples:
             {
               "namespacePath": "/path/on/cache",
               "targetPath": "/path/on/exp1",
-              "nfsExport": "exp1"
+              "nfsExport": "exp1",
+              "nfsAccessPolicy": "default"
             },
             {
               "namespacePath": "/path2/on/cache",
               "targetPath": "/path2/on/exp2",
-              "nfsExport": "exp2"
+              "nfsExport": "exp2",
+              "nfsAccessPolicy": "rootSquash"
             }
           ],
           "targetType": "nfs3",
@@ -391,6 +399,21 @@ examples:
         }
       }
   - statusCode: "202"
+- name: StorageTargets_CreateOrUpdate_NoJunctions
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2020-10-01
+    body: >-
+      {
+        "properties": {
+          "targetType": "nfs3",
+          "nfs3": {
+            "target": "10.0.44.44",
+            "usageModel": "READ_HEAVY_INFREQ"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
     body: >-
       {
         "name": "st1",
@@ -405,18 +428,6 @@ examples:
           "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
         },
         "properties": {
-          "junctions": [
-            {
-              "namespacePath": "/path/on/cache",
-              "targetPath": "/path/on/exp1",
-              "nfsExport": "exp1"
-            },
-            {
-              "namespacePath": "/path2/on/cache",
-              "targetPath": "/path2/on/exp2",
-              "nfsExport": "exp2"
-            }
-          ],
           "targetType": "nfs3",
           "nfs3": {
             "target": "10.0.44.44",
@@ -424,6 +435,29 @@ examples:
           }
         }
       }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "st1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storagetargets/st1",
+        "type": "Microsoft.StorageCache/Cache/StorageTarget",
+        "systemData": {
+          "createdBy": "user1",
+          "createdByType": "User",
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedBy": "user2",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
+        },
+        "properties": {
+          "targetType": "nfs3",
+          "nfs3": {
+            "target": "10.0.44.44",
+            "usageModel": "READ_HEAVY_INFREQ"
+          }
+        }
+      }
+  - statusCode: "202"
 security:
 - name: azure_auth
   type: oauth2
