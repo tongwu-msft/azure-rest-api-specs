@@ -9809,12 +9809,12 @@
 #### [List Keys](redis/redisenterprisecache/Databases/ListKeys.yml)
 #### [Regenerate Key](redis/redisenterprisecache/Databases/RegenerateKey.yml)
 #### [Update](redis/redisenterprisecache/Databases/Update.yml)
-### Get
-#### [Overview](redis/redisenterprisecache/Get.yml)
-#### [Operation Status](redis/redisenterprisecache/Get/OperationStatus.yml)
 ### Operations
 #### [Overview](redis/redisenterprisecache/Operations.yml)
 #### [List](redis/redisenterprisecache/Operations/List.yml)
+### Operations Status
+#### [Overview](redis/redisenterprisecache/OperationsStatus.yml)
+#### [Get](redis/redisenterprisecache/OperationsStatus/Get.yml)
 ### Private Endpoint Connections
 #### [Overview](redis/redisenterprisecache/PrivateEndpointConnections.yml)
 #### [Delete](redis/redisenterprisecache/PrivateEndpointConnections/Delete.yml)
@@ -9823,7 +9823,7 @@
 #### [Put](redis/redisenterprisecache/PrivateEndpointConnections/Put.yml)
 ### Private Link Resources
 #### [Overview](redis/redisenterprisecache/PrivateLinkResources.yml)
-#### [List By Redis Enterprise Cache](redis/redisenterprisecache/PrivateLinkResources/ListByRedisEnterpriseCache.yml)
+#### [List By Cluster](redis/redisenterprisecache/PrivateLinkResources/ListByCluster.yml)
 ### Redis Enterprise
 #### [Overview](redis/redisenterprisecache/RedisEnterprise.yml)
 #### [Create](redis/redisenterprisecache/RedisEnterprise/Create.yml)
