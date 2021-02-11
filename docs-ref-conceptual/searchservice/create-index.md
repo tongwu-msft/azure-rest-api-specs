@@ -109,7 +109,7 @@ The following JSON is a high-level representation of the main parts of the defin
 | defaultScoringProfile | Name of a custom scoring profile that overwrites the default scoring behaviors. |
 | corsOptions| (optional) Used to allow cross-origin queries against your index.  The `corsOptions` section includes: </br></br>`allowedOrigins` (Required) A comma-delimited list of origins that will be granted access to your index, where each origin is typically of the form protocol://\<fully-qualified-domain-name>:\<port> (although the \<port> is often omitted).  This means that any JavaScript code served from those origins will be allowed to query your index (assuming it provides the correct `api-key`). If you want to allow access to all origins, specify `*` as a single item in the `allowedOrigins` array. This is not recommended for production, but might be useful for development or debugging.
 </br></br>`maxAgeInSeconds` (Optional) Browsers use this value to determine the duration (in seconds) to cache CORS preflight responses. This must be a non-negative integer. The larger this value is, the better performance will be, but the longer it will take for CORS policy changes to take effect. If it is not set, a default duration of 5 minutes will be used.| 
-|encryptionKey| (Optional) Used to encrypt a synonym map, with your own keys, managed in your Azure Key Vault. Available for billable search services created on or after 2019-01-01. </br></br> An `encryptionKey` section contains a user-defined `keyVaultKeyName` (required), a system-generated `keyVaultKeyVersion` (required), and a `keyVaultUri` providing the key (required, also referred to as DNS name). An example URI might be https://my-keyvault-name.vault.azure.net". </br></br>Optionally, you can specify `accessCredentials` if you are not using a managed system identity. Properties of `accessCredentials` include `applicationId` (Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault), and `applicationSecret` (authentication key of the specified Azure AD application). An example in the next section illustrates the syntax. |
+|encryptionKey| (Optional) Used to encrypt a synonym map, with your own keys, managed in your Azure Key Vault. Available for billable search services created on or after 2019-01-01. </br></br> An `encryptionKey` section contains a user-defined `keyVaultKeyName` (required), a system-generated `keyVaultKeyVersion` (required), and a `keyVaultUri` providing the key (required, also referred to as DNS name). An example URI might be "https://my-keyvault-name.vault.azure.net". </br></br>Optionally, you can specify `accessCredentials` if you are not using a managed system identity. Properties of `accessCredentials` include `applicationId` (Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault), and `applicationSecret` (authentication key of the specified Azure AD application). An example in the next section illustrates the syntax. |
 
 ###  <a name="bkmk_indexAttrib"> Field definitions </a>
 
@@ -430,11 +430,11 @@ A scoring profile is a section of the schema that defines custom scoring behavio
 
 ## See also
 
- + [HTTP status codes](http-status-codes.md)
- + [Add scoring profiles to a search index](https://docs.microsoft.com/azure/search/index-add-scoring-profiles)
- + [Search Documents API](search-documents.md)
- + [Supported data types](supported-data-types.md)
- + [Lexical analyzers](https://docs.microsoft.com/azure/search/search-analyzers)
- + [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)   
- + [Azure Cognitive Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)   
- + [Create an Azure Cognitive Search index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/)  
++ [HTTP status codes](http-status-codes.md)
++ [Add scoring profiles to a search index](https://docs.microsoft.com/azure/search/index-add-scoring-profiles)
++ [Search Documents API](search-documents.md)
++ [Supported data types](supported-data-types.md)
++ [Lexical analyzers](https://docs.microsoft.com/azure/search/search-analyzers)
++ [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)   
++ [Azure Cognitive Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search)   
++ [Create an Azure Cognitive Search index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/)  
