@@ -3,14 +3,16 @@ uid: management.azure.com.compute.virtualmachinescalesetvms.delete
 name: Delete
 service: Compute
 groupName: Virtual Machine Scale Set VMs
-apiVersion: 2020-06-01
+apiVersion: 2020-12-01
 summary: Deletes a virtual machine from a VM scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}?api-version=2020-06-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}?api-version=2020-12-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}?forceDeletion={forceDeletion}&api-version=2020-12-01
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,6 +38,11 @@ uriParameters:
   description: The instance ID of the virtual machine.
   types:
   - uid: string
+- name: forceDeletion
+  in: query
+  description: Optional parameter to force delete a virtual machine from a VM scale set. (Feature in Preview)
+  types:
+  - uid: boolean
 - name: api-version
   in: query
   isRequired: true
@@ -51,7 +58,14 @@ responses:
   description: No Content
 requestHeader: []
 definitions: []
-examples: []
+examples:
+- name: Force Delete a virtual machine from a VM scale set.
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myvmScaleSet/virtualmachines/0?forceDeletion=true&api-version=2020-12-01
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2

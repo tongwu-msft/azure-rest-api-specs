@@ -3,14 +3,14 @@ uid: management.azure.com.compute.images.update
 name: Update
 service: Compute
 groupName: Images
-apiVersion: 2020-06-01
+apiVersion: 2020-12-01
 summary: Update an image.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}?api-version=2020-06-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}?api-version=2020-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -102,6 +102,10 @@ definitions:
   description: The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the Image.
+    types:
+    - uid: ExtendedLocation
   - name: properties.sourceVirtualMachine
     description: The source virtual machine from which Image is created.
     types:
@@ -251,6 +255,18 @@ definitions:
     description: Specifies the customer managed disk encryption set resource id for the managed image disk.
     types:
     - uid: DiskEncryptionSetParameters
+- name: ExtendedLocation
+  description: The complex type of the extended location.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: HyperVGenerationTypes
   description: Specifies the HyperVGeneration Type
   kind: enum
@@ -320,10 +336,17 @@ definitions:
     description: Resource Id
     types:
     - uid: string
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 examples:
 - name: Updates tags of an Image.
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage?api-version=2020-06-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage?api-version=2020-12-01
     body: >-
       {
         "properties": {
