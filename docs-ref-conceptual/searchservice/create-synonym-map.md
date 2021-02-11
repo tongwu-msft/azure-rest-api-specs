@@ -80,26 +80,6 @@ The following JSON is a high-level representation of the main parts of the defin
 |synonyms|Required. Synonym rules separated by the new line ('\n') character.|
 |encryptionKey| Optional. Used to encrypt a synonym map, with your own keys, managed in your Azure Key Vault. Available for billable search services created on or after 2019-01-01. </br></br> An `encryptionKey` section contains a user-defined `keyVaultKeyName` (required), a system-generated `keyVaultKeyVersion` (required), and a `keyVaultUri` providing the key (required, also referred to as DNS name). An example URI might be "https://my-keyvault-name.vault.azure.net". </br></br>Optionally, you can specify `accessCredentials` if you are not using a managed system identity. Properties of `accessCredentials` include `applicationId` (Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault), and `applicationSecret` (authentication key of the specified Azure AD application). An example in the next section illustrates the syntax. |
 
-<!-- ### Apache Solr synonym format
-
-The Apache Solr format supports equivalent and explicit synonym mappings.
-
-  1. An equivalent mapping rule lists equivalent terms or phrases separated with commas.
-
-     ```json
-     USA, United States, United States of America
-     ```
-  
-     The rule expands the search to all equivalent terms or phrases. For example, a search document that contains `USA` will match on queries that contain the term `USA` or the phrases `"United States"`, or `"United States of America"`.
-
-  1. Explicit mapping is denoted by an arrow "=>". When specified, a term sequence of a search query that matches the left-hand side of "=>" will be replaced with the alternatives on the right-hand side.
-  
-     ```json
-     USA, U.S.A., U.S., United States, United States of America => USA
-     ```
-
-     Given the rule, the search queries `U.S.` or `"United States"` will all be rewritten to `USA`. Explicit mapping only applies in the direction specified and does not rewrite the query `USA` to `"United States"` in this case. -->
-
 ## Response
 
 For a successful request: 201 Created.  

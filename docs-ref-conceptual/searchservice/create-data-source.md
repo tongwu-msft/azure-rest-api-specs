@@ -88,65 +88,6 @@ The following JSON is a high-level representation of the main parts of the defin
 |encryptionKey| Optional. Used to encrypt the data source at rest with your own keys, managed in your Azure Key Vault. Available for billable search services created on or after 2019-01-01. </br></br> An `encryptionKey` section contains a user-defined `keyVaultKeyName` (required), a system-generated `keyVaultKeyVersion` (required), and a `keyVaultUri` providing the key (required, also referred to as DNS name). An example URI might be "https://my-keyvault-name.vault.azure.net". </br></br>Optionally, you can specify `accessCredentials` if you are not using a managed system identity. Properties of `accessCredentials` include `applicationId` (Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault), and `applicationSecret` (authentication key of the specified Azure AD application). An example in the next section illustrates the syntax. |
 |disabled| Optional. Boolean value indicating whether the indexer is disabled. False by default. |  
 
-<!-- 
-### Data Change Detection Policies  
- The purpose of a data change detection policy is to efficiently identify changed data items. Supported policies vary based on the data source type. Sections below describe each policy  
-
-> [!NOTE]  
->  You can switch data detection policies after the indexer is already created, using [Reset Indexer &#40;Azure Cognitive Search REST API&#41;](reset-indexer.md).  
-
- **High Watermark Change Detection Policy**  
-
- Use this policy when your data source contains a column or property that meets the following criteria:  
-
--   All inserts specify a value for the column.  
-
--   All updates to an item also change the value of the column.  
-
--   The value of this column increases with each change.  
-
--   Queries that use a filter clause similar to the following `WHERE [High Water Mark Column] > [Current High Water Mark Value]` can be executed efficiently.  
-
- For example, when using Azure SQL data sources, an indexed `rowversion` column is the ideal candidate for use with the high water mark policy.  
-
- This policy can be specified as follows:  
-
-```json 
-{   
-    "@odata.type" : "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy",  
-    "highWaterMarkColumnName" : "[a row version or last_updated column name]"   
-}  
-
-```  
-When using Azure Cosmos DB data sources, you must use the `_ts` property provided by Azure Cosmos DB.
-
-When using Azure Blob data sources, Azure Cognitive Search automatically uses a high watermark change detection policy based on a blob's last-modified timestamp; you don't need to specify such a policy yourself.   --> 
-<!-- 
- **SQL Integrated Change Detection Policy**  
-
- If your SQL Server relational database supports [change tracking](https://docs.microsoft.com/sql/relational-databases/track-changes/about-change-tracking-sql-server), we recommend using SQL Integrated Change Tracking Policy. This policy enables the most efficient change tracking, and allows Azure Cognitive Search to identify deleted rows without you having to have an explicit "soft delete" column in your schema.   -->
-
- <!-- Integrated change tracking is supported starting with the following SQL Server database versions:  
-
--   SQL Server 2008 R2, if you're using SQL Server on Azure VMs.  
-
--   Azure SQL Database V12, if you're using Azure SQL Database.  
-
- When using SQL Integrated Change Tracking policy, do not specify a separate data deletion detection policy - this policy has built-in support for identifying deleted rows.  
-
- This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](https://docs.microsoft.com/sql/relational-databases/track-changes/enable-and-disable-change-tracking-sql-server) for instructions.   -->
-<!-- 
- When structuring the **Create Data Source** request, SQL integrated change tracking policy can be specified as follows:  
-
-```json  
-{   
-    "@odata.type" : "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy"   
-}  
-```   -->
-<!-- 
-> [!NOTE]  
-> When using [TRUNCATE TABLE](https://docs.microsoft.com/sql/t-sql/statements/truncate-table-transact-sql) to remove a large number of rows from a SQL table, the change tracking state needs to be reset via an [indexer reset](reset-indexer.md) to pick up row deletions. -->
-
 ## Response
 
  For a successful request: 201 Created.  
