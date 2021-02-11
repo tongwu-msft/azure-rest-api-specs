@@ -119,7 +119,7 @@ To set the logging version, call the appropriate operation for the service:
 
 ## Log entry format 2.0 
 
-Storage Analytics log format version 2.0 adds fields to support logging information about requests authorized with an OAuth 2.0 token provided by Azure Active Directory(Azure AD). Authentication and authorization with Azure AD for the Blob and Queue services is currently in preview. For more information, see [Authenticate with Azure Active Directory (Preview)](Authenticate-with-Azure-Active-Directory.md).
+Storage Analytics log format version 2.0 adds fields to support logging information about requests authorized with an OAuth 2.0 token provided by Azure Active Directory(Azure AD). Authentication and authorization with Azure AD for the Blob and Queue services is currently in preview. For more information, see [Authenticate with Azure Active Directory](Authenticate-with-Azure-Active-Directory.md).
 
  Each version 2.0 log entry adheres to the following format:  
 

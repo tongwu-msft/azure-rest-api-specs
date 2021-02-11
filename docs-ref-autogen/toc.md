@@ -766,6 +766,13 @@
 ##### [Delete](apimanagement/2020-06-01-preview/GatewayApi/Delete.yml)
 ##### [Get Entity Tag](apimanagement/2020-06-01-preview/GatewayApi/GetEntityTag.yml)
 ##### [List By Service](apimanagement/2020-06-01-preview/GatewayApi/ListByService.yml)
+#### Gateway Certificate Authority
+##### [Overview](apimanagement/2020-06-01-preview/GatewayCertificateAuthority.yml)
+##### [Create Or Update](apimanagement/2020-06-01-preview/GatewayCertificateAuthority/CreateOrUpdate.yml)
+##### [Delete](apimanagement/2020-06-01-preview/GatewayCertificateAuthority/Delete.yml)
+##### [Get](apimanagement/2020-06-01-preview/GatewayCertificateAuthority/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-06-01-preview/GatewayCertificateAuthority/GetEntityTag.yml)
+##### [List By Service](apimanagement/2020-06-01-preview/GatewayCertificateAuthority/ListByService.yml)
 #### Gateway Hostname Configuration
 ##### [Overview](apimanagement/2020-06-01-preview/GatewayHostnameConfiguration.yml)
 ##### [Create Or Update](apimanagement/2020-06-01-preview/GatewayHostnameConfiguration/CreateOrUpdate.yml)
@@ -861,6 +868,9 @@
 #### Policy Description
 ##### [Overview](apimanagement/2020-06-01-preview/PolicyDescription.yml)
 ##### [List By Service](apimanagement/2020-06-01-preview/PolicyDescription/ListByService.yml)
+#### Portal Settings
+##### [Overview](apimanagement/2020-06-01-preview/PortalSettings.yml)
+##### [List By Service](apimanagement/2020-06-01-preview/PortalSettings/ListByService.yml)
 #### Product
 ##### [Overview](apimanagement/2020-06-01-preview/Product.yml)
 ##### [Create Or Update](apimanagement/2020-06-01-preview/Product/CreateOrUpdate.yml)
@@ -1009,6 +1019,7 @@
 ##### [List](apimanagement/2020-06-01-preview/UserIdentities/List.yml)
 #### User Subscription
 ##### [Overview](apimanagement/2020-06-01-preview/UserSubscription.yml)
+##### [Get](apimanagement/2020-06-01-preview/UserSubscription/Get.yml)
 ##### [List](apimanagement/2020-06-01-preview/UserSubscription/List.yml)
 # App Configuration
 ## [Overview](../docs-ref-conceptual/appconfiguration/index.md)
@@ -2011,6 +2022,21 @@
 ### [List Admin Credentials](avs/PrivateClouds/ListAdminCredentials.yml)
 ### [List In Subscription](avs/PrivateClouds/ListInSubscription.yml)
 ### [Update](avs/PrivateClouds/Update.yml)
+# Azure AD B2C
+## [Overview](../docs-ref-conceptual/activedirectory/index.md)
+## B2C Tenants
+### [Overview](activedirectory/B2CTenants.yml)
+### [Check Name Availability](activedirectory/B2CTenants/CheckNameAvailability.yml)
+### [Create](activedirectory/B2CTenants/Create.yml)
+### [Delete](activedirectory/B2CTenants/Delete.yml)
+### [Get](activedirectory/B2CTenants/Get.yml)
+### [List By Resource Group](activedirectory/B2CTenants/ListByResourceGroup.yml)
+### [List By Subscription](activedirectory/B2CTenants/ListBySubscription.yml)
+### [Update](activedirectory/B2CTenants/Update.yml)
+## Operations
+### [Overview](activedirectory/Operations.yml)
+### [Get Async Status](activedirectory/Operations/GetAsyncStatus.yml)
+### [List](activedirectory/Operations/List.yml)
 # Azure Attestation
 ## [Overview](../docs-ref-conceptual/attestation/index.md)
 ## Attestation
@@ -2034,6 +2060,157 @@
 ## Signing Certificates
 ### [Overview](attestation/SigningCertificates.yml)
 ### [Get](attestation/SigningCertificates/Get.yml)
+# Azure Front Door Standard/Premium (Preview) and CDN
+## [Overview](../docs-ref-conceptual/cdn/index.md)
+## Azure Front Door Standard/Premium (Preview)
+### AFD Custom Domains
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/AFDCustomDomains.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/AFDCustomDomains/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/AFDCustomDomains/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/AFDCustomDomains/Get.yml)
+#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/AFDCustomDomains/ListByProfile.yml)
+#### [Refresh Validation Token](cdn/azurefrontdoorstandard/premium(preview)/AFDCustomDomains/RefreshValidationToken.yml)
+#### [Update](cdn/azurefrontdoorstandard/premium(preview)/AFDCustomDomains/Update.yml)
+### AFD Endpoints
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints/Get.yml)
+#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints/ListByProfile.yml)
+#### [List Resource Usage](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints/ListResourceUsage.yml)
+#### [Purge Content](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints/PurgeContent.yml)
+#### [Update](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints/Update.yml)
+#### [Validate Custom Domain](cdn/azurefrontdoorstandard/premium(preview)/AFDEndpoints/ValidateCustomDomain.yml)
+### AFD Origin Groups
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/AFDOriginGroups.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/AFDOriginGroups/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/AFDOriginGroups/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/AFDOriginGroups/Get.yml)
+#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/AFDOriginGroups/ListByProfile.yml)
+#### [List Resource Usage](cdn/azurefrontdoorstandard/premium(preview)/AFDOriginGroups/ListResourceUsage.yml)
+#### [Update](cdn/azurefrontdoorstandard/premium(preview)/AFDOriginGroups/Update.yml)
+### AFD Origins
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/AFDOrigins.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/AFDOrigins/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/AFDOrigins/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/AFDOrigins/Get.yml)
+#### [List By Origin Group](cdn/azurefrontdoorstandard/premium(preview)/AFDOrigins/ListByOriginGroup.yml)
+#### [Update](cdn/azurefrontdoorstandard/premium(preview)/AFDOrigins/Update.yml)
+### AFD Profiles
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/AFDProfiles.yml)
+#### [Check Host Name Availability](cdn/azurefrontdoorstandard/premium(preview)/AFDProfiles/CheckHostNameAvailability.yml)
+#### [List Resource Usage](cdn/azurefrontdoorstandard/premium(preview)/AFDProfiles/ListResourceUsage.yml)
+### Log Analytics
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/LogAnalytics.yml)
+#### [Get Log Analytics Locations](cdn/azurefrontdoorstandard/premium(preview)/LogAnalytics/GetLogAnalyticsLocations.yml)
+#### [Get Log Analytics Metrics](cdn/azurefrontdoorstandard/premium(preview)/LogAnalytics/GetLogAnalyticsMetrics.yml)
+#### [Get Log Analytics Rankings](cdn/azurefrontdoorstandard/premium(preview)/LogAnalytics/GetLogAnalyticsRankings.yml)
+#### [Get Log Analytics Resources](cdn/azurefrontdoorstandard/premium(preview)/LogAnalytics/GetLogAnalyticsResources.yml)
+#### [Get Waf Log Analytics Metrics](cdn/azurefrontdoorstandard/premium(preview)/LogAnalytics/GetWafLogAnalyticsMetrics.yml)
+#### [Get Waf Log Analytics Rankings](cdn/azurefrontdoorstandard/premium(preview)/LogAnalytics/GetWafLogAnalyticsRankings.yml)
+### Routes
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/Routes.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/Routes/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/Routes/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/Routes/Get.yml)
+#### [List By Endpoint](cdn/azurefrontdoorstandard/premium(preview)/Routes/ListByEndpoint.yml)
+#### [Update](cdn/azurefrontdoorstandard/premium(preview)/Routes/Update.yml)
+### Rule Sets
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/RuleSets.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/RuleSets/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/RuleSets/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/RuleSets/Get.yml)
+#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/RuleSets/ListByProfile.yml)
+#### [List Resource Usage](cdn/azurefrontdoorstandard/premium(preview)/RuleSets/ListResourceUsage.yml)
+### Rules
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/Rules.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/Rules/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/Rules/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/Rules/Get.yml)
+#### [List By Rule Set](cdn/azurefrontdoorstandard/premium(preview)/Rules/ListByRuleSet.yml)
+#### [Update](cdn/azurefrontdoorstandard/premium(preview)/Rules/Update.yml)
+### Secrets
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/Secrets.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/Secrets/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/Secrets/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/Secrets/Get.yml)
+#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/Secrets/ListByProfile.yml)
+#### [Update](cdn/azurefrontdoorstandard/premium(preview)/Secrets/Update.yml)
+### Security Policies
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/SecurityPolicies.yml)
+#### [Create](cdn/azurefrontdoorstandard/premium(preview)/SecurityPolicies/Create.yml)
+#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/SecurityPolicies/Delete.yml)
+#### [Get](cdn/azurefrontdoorstandard/premium(preview)/SecurityPolicies/Get.yml)
+#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/SecurityPolicies/ListByProfile.yml)
+#### [Patch](cdn/azurefrontdoorstandard/premium(preview)/SecurityPolicies/Patch.yml)
+### Validate
+#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/Validate.yml)
+#### [Secret](cdn/azurefrontdoorstandard/premium(preview)/Validate/Secret.yml)
+## CDN
+### Check Name Availability
+#### [Overview](cdn/cdn/CheckNameAvailability.yml)
+#### [Check Name Availability](cdn/cdn/CheckNameAvailability/CheckNameAvailability.yml)
+### Check Name Availability With Subscription
+#### [Overview](cdn/cdn/CheckNameAvailabilityWithSubscription.yml)
+#### [Check Name Availability With Subscription](cdn/cdn/CheckNameAvailabilityWithSubscription/CheckNameAvailabilityWithSubscription.yml)
+### Custom Domains
+#### [Overview](cdn/cdn/CustomDomains.yml)
+#### [Create](cdn/cdn/CustomDomains/Create.yml)
+#### [Delete](cdn/cdn/CustomDomains/Delete.yml)
+#### [Disable Custom Https](cdn/cdn/CustomDomains/DisableCustomHttps.yml)
+#### [Enable Custom Https](cdn/cdn/CustomDomains/EnableCustomHttps.yml)
+#### [Get](cdn/cdn/CustomDomains/Get.yml)
+#### [List By Endpoint](cdn/cdn/CustomDomains/ListByEndpoint.yml)
+### Edge Nodes
+#### [Overview](cdn/cdn/EdgeNodes.yml)
+#### [List](cdn/cdn/EdgeNodes/List.yml)
+### Endpoints
+#### [Overview](cdn/cdn/Endpoints.yml)
+#### [Create](cdn/cdn/Endpoints/Create.yml)
+#### [Delete](cdn/cdn/Endpoints/Delete.yml)
+#### [Get](cdn/cdn/Endpoints/Get.yml)
+#### [List By Profile](cdn/cdn/Endpoints/ListByProfile.yml)
+#### [List Resource Usage](cdn/cdn/Endpoints/ListResourceUsage.yml)
+#### [Load Content](cdn/cdn/Endpoints/LoadContent.yml)
+#### [Purge Content](cdn/cdn/Endpoints/PurgeContent.yml)
+#### [Start](cdn/cdn/Endpoints/Start.yml)
+#### [Stop](cdn/cdn/Endpoints/Stop.yml)
+#### [Update](cdn/cdn/Endpoints/Update.yml)
+#### [Validate Custom Domain](cdn/cdn/Endpoints/ValidateCustomDomain.yml)
+### Operations
+#### [Overview](cdn/cdn/Operations.yml)
+#### [List](cdn/cdn/Operations/List.yml)
+### Origin Groups
+#### [Overview](cdn/cdn/OriginGroups.yml)
+#### [Create](cdn/cdn/OriginGroups/Create.yml)
+#### [Delete](cdn/cdn/OriginGroups/Delete.yml)
+#### [Get](cdn/cdn/OriginGroups/Get.yml)
+#### [List By Endpoint](cdn/cdn/OriginGroups/ListByEndpoint.yml)
+#### [Update](cdn/cdn/OriginGroups/Update.yml)
+### Origins
+#### [Overview](cdn/cdn/Origins.yml)
+#### [Create](cdn/cdn/Origins/Create.yml)
+#### [Delete](cdn/cdn/Origins/Delete.yml)
+#### [Get](cdn/cdn/Origins/Get.yml)
+#### [List By Endpoint](cdn/cdn/Origins/ListByEndpoint.yml)
+#### [Update](cdn/cdn/Origins/Update.yml)
+### Profiles
+#### [Overview](cdn/cdn/Profiles.yml)
+#### [Create](cdn/cdn/Profiles/Create.yml)
+#### [Delete](cdn/cdn/Profiles/Delete.yml)
+#### [Generate Sso Uri](cdn/cdn/Profiles/GenerateSsoUri.yml)
+#### [Get](cdn/cdn/Profiles/Get.yml)
+#### [List](cdn/cdn/Profiles/List.yml)
+#### [List By Resource Group](cdn/cdn/Profiles/ListByResourceGroup.yml)
+#### [List Resource Usage](cdn/cdn/Profiles/ListResourceUsage.yml)
+#### [List Supported Optimization Types](cdn/cdn/Profiles/ListSupportedOptimizationTypes.yml)
+#### [Update](cdn/cdn/Profiles/Update.yml)
+### Resource Usage
+#### [Overview](cdn/cdn/ResourceUsage.yml)
+#### [List](cdn/cdn/ResourceUsage/List.yml)
+### Validate Probe
+#### [Overview](cdn/cdn/ValidateProbe.yml)
+#### [Validate Probe](cdn/cdn/ValidateProbe/ValidateProbe.yml)
 # Azure Kusto
 ## [Overview](../docs-ref-conceptual/azurerekusto/index.md)
 ## Attached Database Configurations
@@ -3409,72 +3586,6 @@
 ### [Delete](blueprints/PublishedBlueprints/Delete.yml)
 ### [Get](blueprints/PublishedBlueprints/Get.yml)
 ### [List](blueprints/PublishedBlueprints/List.yml)
-# CDN
-## [Overview](../docs-ref-conceptual/cdn/index.md)
-## Check Name Availability
-### [Overview](cdn/CheckNameAvailability.yml)
-### [Check Name Availability](cdn/CheckNameAvailability/CheckNameAvailability.yml)
-## Check Name Availability With Subscription
-### [Overview](cdn/CheckNameAvailabilityWithSubscription.yml)
-### [Check Name Availability With Subscription](cdn/CheckNameAvailabilityWithSubscription/CheckNameAvailabilityWithSubscription.yml)
-## Custom Domains
-### [Overview](cdn/CustomDomains.yml)
-### [Create](cdn/CustomDomains/Create.yml)
-### [Delete](cdn/CustomDomains/Delete.yml)
-### [Disable Custom Https](cdn/CustomDomains/DisableCustomHttps.yml)
-### [Enable Custom Https](cdn/CustomDomains/EnableCustomHttps.yml)
-### [Get](cdn/CustomDomains/Get.yml)
-### [List By Endpoint](cdn/CustomDomains/ListByEndpoint.yml)
-## Edge Nodes
-### [Overview](cdn/EdgeNodes.yml)
-### [List](cdn/EdgeNodes/List.yml)
-## Endpoints
-### [Overview](cdn/Endpoints.yml)
-### [Create](cdn/Endpoints/Create.yml)
-### [Delete](cdn/Endpoints/Delete.yml)
-### [Get](cdn/Endpoints/Get.yml)
-### [List By Profile](cdn/Endpoints/ListByProfile.yml)
-### [List Resource Usage](cdn/Endpoints/ListResourceUsage.yml)
-### [Load Content](cdn/Endpoints/LoadContent.yml)
-### [Purge Content](cdn/Endpoints/PurgeContent.yml)
-### [Start](cdn/Endpoints/Start.yml)
-### [Stop](cdn/Endpoints/Stop.yml)
-### [Update](cdn/Endpoints/Update.yml)
-### [Validate Custom Domain](cdn/Endpoints/ValidateCustomDomain.yml)
-## Operations
-### [Overview](cdn/Operations.yml)
-### [List](cdn/Operations/List.yml)
-## Origin Groups
-### [Overview](cdn/OriginGroups.yml)
-### [Create](cdn/OriginGroups/Create.yml)
-### [Delete](cdn/OriginGroups/Delete.yml)
-### [Get](cdn/OriginGroups/Get.yml)
-### [List By Endpoint](cdn/OriginGroups/ListByEndpoint.yml)
-### [Update](cdn/OriginGroups/Update.yml)
-## Origins
-### [Overview](cdn/Origins.yml)
-### [Create](cdn/Origins/Create.yml)
-### [Delete](cdn/Origins/Delete.yml)
-### [Get](cdn/Origins/Get.yml)
-### [List By Endpoint](cdn/Origins/ListByEndpoint.yml)
-### [Update](cdn/Origins/Update.yml)
-## Profiles
-### [Overview](cdn/Profiles.yml)
-### [Create](cdn/Profiles/Create.yml)
-### [Delete](cdn/Profiles/Delete.yml)
-### [Generate Sso Uri](cdn/Profiles/GenerateSsoUri.yml)
-### [Get](cdn/Profiles/Get.yml)
-### [List](cdn/Profiles/List.yml)
-### [List By Resource Group](cdn/Profiles/ListByResourceGroup.yml)
-### [List Resource Usage](cdn/Profiles/ListResourceUsage.yml)
-### [List Supported Optimization Types](cdn/Profiles/ListSupportedOptimizationTypes.yml)
-### [Update](cdn/Profiles/Update.yml)
-## Resource Usage
-### [Overview](cdn/ResourceUsage.yml)
-### [List](cdn/ResourceUsage/List.yml)
-## Validate Probe
-### [Overview](cdn/ValidateProbe.yml)
-### [Validate Probe](cdn/ValidateProbe/ValidateProbe.yml)
 # Cognitive Services
 ## [Overview](../docs-ref-conceptual/cognitiveservices/index.md)
 ## Account Management
@@ -4817,6 +4928,13 @@
 #### [List Offers](compute/VirtualMachineImages/ListOffers.yml)
 #### [List Publishers](compute/VirtualMachineImages/ListPublishers.yml)
 #### [List Skus](compute/VirtualMachineImages/ListSkus.yml)
+### Virtual Machine Images Edge Zone
+#### [Overview](compute/VirtualMachineImagesEdgeZone.yml)
+#### [Get](compute/VirtualMachineImagesEdgeZone/Get.yml)
+#### [List](compute/VirtualMachineImagesEdgeZone/List.yml)
+#### [List Offers](compute/VirtualMachineImagesEdgeZone/ListOffers.yml)
+#### [List Publishers](compute/VirtualMachineImagesEdgeZone/ListPublishers.yml)
+#### [List Skus](compute/VirtualMachineImagesEdgeZone/ListSkus.yml)
 ### Virtual Machine Run Commands
 #### [Overview](compute/VirtualMachineRunCommands.yml)
 #### [Create Or Update](compute/VirtualMachineRunCommands/CreateOrUpdate.yml)
@@ -4883,6 +5001,7 @@
 #### [Get OS Upgrade History](compute/VirtualMachineScaleSets/GetOSUpgradeHistory.yml)
 #### [List](compute/VirtualMachineScaleSets/List.yml)
 #### [List All](compute/VirtualMachineScaleSets/ListAll.yml)
+#### [List By Location](compute/VirtualMachineScaleSets/ListByLocation.yml)
 #### [List Skus](compute/VirtualMachineScaleSets/ListSkus.yml)
 #### [Perform Maintenance](compute/VirtualMachineScaleSets/PerformMaintenance.yml)
 #### [Power Off](compute/VirtualMachineScaleSets/PowerOff.yml)
@@ -4910,6 +5029,7 @@
 #### [Delete](compute/VirtualMachines/Delete.yml)
 #### [Generalize](compute/VirtualMachines/Generalize.yml)
 #### [Get](compute/VirtualMachines/Get.yml)
+#### [Install Patches](compute/VirtualMachines/InstallPatches.yml)
 #### [Instance View](compute/VirtualMachines/InstanceView.yml)
 #### [List](compute/VirtualMachines/List.yml)
 #### [List All](compute/VirtualMachines/ListAll.yml)
@@ -5308,15 +5428,6 @@
 ##### [Migrate Mongo DB Database To Manual Throughput](cosmos-db-resource-provider/2020-04-01/MongoDBResources/MigrateMongoDBDatabaseToManualThroughput.yml)
 ##### [Update Mongo DB Collection Throughput](cosmos-db-resource-provider/2020-04-01/MongoDBResources/UpdateMongoDBCollectionThroughput.yml)
 ##### [Update Mongo DB Database Throughput](cosmos-db-resource-provider/2020-04-01/MongoDBResources/UpdateMongoDBDatabaseThroughput.yml)
-#### Notebook Workspaces
-##### [Overview](cosmos-db-resource-provider/2020-04-01/NotebookWorkspaces.yml)
-##### [Create Or Update](cosmos-db-resource-provider/2020-04-01/NotebookWorkspaces/CreateOrUpdate.yml)
-##### [Delete](cosmos-db-resource-provider/2020-04-01/NotebookWorkspaces/Delete.yml)
-##### [Get](cosmos-db-resource-provider/2020-04-01/NotebookWorkspaces/Get.yml)
-##### [List By Database Account](cosmos-db-resource-provider/2020-04-01/NotebookWorkspaces/ListByDatabaseAccount.yml)
-##### [List Connection Info](cosmos-db-resource-provider/2020-04-01/NotebookWorkspaces/ListConnectionInfo.yml)
-##### [Regenerate Auth Token](cosmos-db-resource-provider/2020-04-01/NotebookWorkspaces/RegenerateAuthToken.yml)
-##### [Start](cosmos-db-resource-provider/2020-04-01/NotebookWorkspaces/Start.yml)
 #### Operations
 ##### [Overview](cosmos-db-resource-provider/2020-04-01/Operations.yml)
 ##### [List](cosmos-db-resource-provider/2020-04-01/Operations/List.yml)
@@ -5375,6 +5486,16 @@
 ##### [Migrate Table To Autoscale](cosmos-db-resource-provider/2020-04-01/TableResources/MigrateTableToAutoscale.yml)
 ##### [Migrate Table To Manual Throughput](cosmos-db-resource-provider/2020-04-01/TableResources/MigrateTableToManualThroughput.yml)
 ##### [Update Table Throughput](cosmos-db-resource-provider/2020-04-01/TableResources/UpdateTableThroughput.yml)
+### 2020-06-01
+#### Notebook Workspaces
+##### [Overview](cosmos-db-resource-provider/2020-06-01/NotebookWorkspaces.yml)
+##### [Create Or Update](cosmos-db-resource-provider/2020-06-01/NotebookWorkspaces/CreateOrUpdate.yml)
+##### [Delete](cosmos-db-resource-provider/2020-06-01/NotebookWorkspaces/Delete.yml)
+##### [Get](cosmos-db-resource-provider/2020-06-01/NotebookWorkspaces/Get.yml)
+##### [List By Database Account](cosmos-db-resource-provider/2020-06-01/NotebookWorkspaces/ListByDatabaseAccount.yml)
+##### [List Connection Info](cosmos-db-resource-provider/2020-06-01/NotebookWorkspaces/ListConnectionInfo.yml)
+##### [Regenerate Auth Token](cosmos-db-resource-provider/2020-06-01/NotebookWorkspaces/RegenerateAuthToken.yml)
+##### [Start](cosmos-db-resource-provider/2020-06-01/NotebookWorkspaces/Start.yml)
 ### 2020-06-01-preview
 #### Cassandra Resources
 ##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/CassandraResources.yml)
@@ -5484,6 +5605,24 @@
 ##### [Get By Location](cosmos-db-resource-provider/2020-06-01-preview/RestorableDatabaseAccounts/GetByLocation.yml)
 ##### [List](cosmos-db-resource-provider/2020-06-01-preview/RestorableDatabaseAccounts/List.yml)
 ##### [List By Location](cosmos-db-resource-provider/2020-06-01-preview/RestorableDatabaseAccounts/ListByLocation.yml)
+#### Restorable Mongodb Collections
+##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/RestorableMongodbCollections.yml)
+##### [List](cosmos-db-resource-provider/2020-06-01-preview/RestorableMongodbCollections/List.yml)
+#### Restorable Mongodb Databases
+##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/RestorableMongodbDatabases.yml)
+##### [List](cosmos-db-resource-provider/2020-06-01-preview/RestorableMongodbDatabases/List.yml)
+#### Restorable Mongodb Resources
+##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/RestorableMongodbResources.yml)
+##### [List](cosmos-db-resource-provider/2020-06-01-preview/RestorableMongodbResources/List.yml)
+#### Restorable Sql Containers
+##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/RestorableSqlContainers.yml)
+##### [List](cosmos-db-resource-provider/2020-06-01-preview/RestorableSqlContainers/List.yml)
+#### Restorable Sql Databases
+##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/RestorableSqlDatabases.yml)
+##### [List](cosmos-db-resource-provider/2020-06-01-preview/RestorableSqlDatabases/List.yml)
+#### Restorable Sql Resources
+##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/RestorableSqlResources.yml)
+##### [List](cosmos-db-resource-provider/2020-06-01-preview/RestorableSqlResources/List.yml)
 #### Sql Resources
 ##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/SqlResources.yml)
 ##### [Create Update Sql Container](cosmos-db-resource-provider/2020-06-01-preview/SqlResources/CreateUpdateSqlContainer.yml)
@@ -5510,6 +5649,16 @@
 ##### [List Sql User Defined Functions](cosmos-db-resource-provider/2020-06-01-preview/SqlResources/ListSqlUserDefinedFunctions.yml)
 ##### [Update Sql Container Throughput](cosmos-db-resource-provider/2020-06-01-preview/SqlResources/UpdateSqlContainerThroughput.yml)
 ##### [Update Sql Database Throughput](cosmos-db-resource-provider/2020-06-01-preview/SqlResources/UpdateSqlDatabaseThroughput.yml)
+#### SqlResources2
+##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2.yml)
+##### [Create Update Sql Role Assignment](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2/CreateUpdateSqlRoleAssignment.yml)
+##### [Create Update Sql Role Definition](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2/CreateUpdateSqlRoleDefinition.yml)
+##### [Delete Sql Role Assignment](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2/DeleteSqlRoleAssignment.yml)
+##### [Delete Sql Role Definition](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2/DeleteSqlRoleDefinition.yml)
+##### [Get Sql Role Assignment](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2/GetSqlRoleAssignment.yml)
+##### [Get Sql Role Definition](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2/GetSqlRoleDefinition.yml)
+##### [List Sql Role Assignments](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2/ListSqlRoleAssignments.yml)
+##### [List Sql Role Definitions](cosmos-db-resource-provider/2020-06-01-preview/SqlResources2/ListSqlRoleDefinitions.yml)
 #### Table Resources
 ##### [Overview](cosmos-db-resource-provider/2020-06-01-preview/TableResources.yml)
 ##### [Create Update Table](cosmos-db-resource-provider/2020-06-01-preview/TableResources/CreateUpdateTable.yml)
@@ -7344,38 +7493,6 @@
 ### Resource Provider Common
 #### [Overview](iothub/ResourceProviderCommon.yml)
 #### [Get Subscription Quota](iothub/ResourceProviderCommon/GetSubscriptionQuota.yml)
-### Digital Twin Model Repository Service
-#### Are Valid Models
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/AreValidModels.yml)
-##### [Are Valid Models](iothub/digitaltwinmodelrepositoryservice/AreValidModels/AreValidModels.yml)
-#### Create Or Update Async
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateAsync.yml)
-##### [Create Or Update Async](iothub/digitaltwinmodelrepositoryservice/CreateOrUpdateAsync/CreateOrUpdateAsync.yml)
-#### Get Model Async
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/GetModelAsync.yml)
-##### [Get Model Async](iothub/digitaltwinmodelrepositoryservice/GetModelAsync/GetModelAsync.yml)
-#### Search Models Async
-##### [Overview](iothub/digitaltwinmodelrepositoryservice/SearchModelsAsync.yml)
-##### [Search Models Async](iothub/digitaltwinmodelrepositoryservice/SearchModelsAsync/SearchModelsAsync.yml)
-### Digital Twin Model Repository Service Control Plane
-#### Assign Roles
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles.yml)
-##### [Assign Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/AssignRoles/AssignRoles.yml)
-#### Create Tenant
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant.yml)
-##### [Create Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/CreateTenant/CreateTenant.yml)
-#### Get Subjects For Resources
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources.yml)
-##### [Get Subjects For Resources](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResources/GetSubjectsForResources.yml)
-#### Get Subjects For Resources By Type
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType.yml)
-##### [Get Subjects For Resources By Type](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetSubjectsForResourcesByType/GetSubjectsForResourcesByType.yml)
-#### Get Tenant
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant.yml)
-##### [Get Tenant](iothub/digitaltwinmodelrepositoryservicecontrolplane/GetTenant/GetTenant.yml)
-#### Remove Roles
-##### [Overview](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles.yml)
-##### [Remove Roles](iothub/digitaltwinmodelrepositoryservicecontrolplane/RemoveRoles/RemoveRoles.yml)
 ### Service
 #### Bulk Registry
 ##### [Overview](iothub/service/BulkRegistry.yml)
@@ -9901,12 +10018,12 @@
 #### [List Keys](redis/redisenterprisecache/Databases/ListKeys.yml)
 #### [Regenerate Key](redis/redisenterprisecache/Databases/RegenerateKey.yml)
 #### [Update](redis/redisenterprisecache/Databases/Update.yml)
-### Get
-#### [Overview](redis/redisenterprisecache/Get.yml)
-#### [Operation Status](redis/redisenterprisecache/Get/OperationStatus.yml)
 ### Operations
 #### [Overview](redis/redisenterprisecache/Operations.yml)
 #### [List](redis/redisenterprisecache/Operations/List.yml)
+### Operations Status
+#### [Overview](redis/redisenterprisecache/OperationsStatus.yml)
+#### [Get](redis/redisenterprisecache/OperationsStatus/Get.yml)
 ### Private Endpoint Connections
 #### [Overview](redis/redisenterprisecache/PrivateEndpointConnections.yml)
 #### [Delete](redis/redisenterprisecache/PrivateEndpointConnections/Delete.yml)
@@ -9915,7 +10032,7 @@
 #### [Put](redis/redisenterprisecache/PrivateEndpointConnections/Put.yml)
 ### Private Link Resources
 #### [Overview](redis/redisenterprisecache/PrivateLinkResources.yml)
-#### [List By Redis Enterprise Cache](redis/redisenterprisecache/PrivateLinkResources/ListByRedisEnterpriseCache.yml)
+#### [List By Cluster](redis/redisenterprisecache/PrivateLinkResources/ListByCluster.yml)
 ### Redis Enterprise
 #### [Overview](redis/redisenterprisecache/RedisEnterprise.yml)
 #### [Create](redis/redisenterprisecache/RedisEnterprise/Create.yml)
@@ -10398,6 +10515,7 @@
 ### Indexers
 #### [Create Indexer](../docs-ref-conceptual/searchservice/preview-api/create-indexer.md)
 #### [Update Indexer](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
+#### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
 ### Skillsets
 #### [Create Skillset](../docs-ref-conceptual/searchservice/create-skillset.md)
 #### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
@@ -14482,8 +14600,11 @@
 #### [Overview](sql/Databases.yml)
 #### [Create Or Update](sql/Databases/CreateOrUpdate.yml)
 #### [Delete](sql/Databases/Delete.yml)
+#### [Export](sql/Databases/Export.yml)
 #### [Failover](sql/Databases/Failover.yml)
 #### [Get](sql/Databases/Get.yml)
+#### [Import](sql/Databases/Import.yml)
+#### [Import Database](sql/Databases/ImportDatabase.yml)
 #### [List By Elastic Pool](sql/Databases/ListByElasticPool.yml)
 #### [List By Server](sql/Databases/ListByServer.yml)
 #### [List Inaccessible By Server](sql/Databases/ListInaccessibleByServer.yml)
@@ -14492,11 +14613,6 @@
 #### [Resume](sql/Databases/Resume.yml)
 #### [Update](sql/Databases/Update.yml)
 #### [Upgrade Data Warehouse](sql/Databases/UpgradeDataWarehouse.yml)
-### Databases - Import Export
-#### [Overview](sql/Databases%20-%20Import%20Export.yml)
-#### [Create Import Operation](sql/Databases%20-%20Import%20Export/CreateImportOperation.yml)
-#### [Export](sql/Databases%20-%20Import%20Export/Export.yml)
-#### [Import](sql/Databases%20-%20Import%20Export/Import.yml)
 ### Elastic Pool Activities
 #### [Overview](sql/ElasticPoolActivities.yml)
 #### [List By Elastic Pool](sql/ElasticPoolActivities/ListByElasticPool.yml)
@@ -14511,12 +14627,10 @@
 #### [Overview](sql/ElasticPools.yml)
 #### [Create Or Update](sql/ElasticPools/CreateOrUpdate.yml)
 #### [Delete](sql/ElasticPools/Delete.yml)
+#### [Failover](sql/ElasticPools/Failover.yml)
 #### [Get](sql/ElasticPools/Get.yml)
 #### [List By Server](sql/ElasticPools/ListByServer.yml)
 #### [Update](sql/ElasticPools/Update.yml)
-### ElasticPools(Failover)
-#### [Overview](sql/ElasticPools(Failover).yml)
-#### [Failover](sql/ElasticPools(Failover)/Failover.yml)
 ### Encryption Protectors
 #### [Overview](sql/EncryptionProtectors.yml)
 #### [Create Or Update](sql/EncryptionProtectors/CreateOrUpdate.yml)
@@ -15346,6 +15460,7 @@
 ## Caches
 ### [Overview](storagecache/Caches.yml)
 ### [Create Or Update](storagecache/Caches/CreateOrUpdate.yml)
+### [Debug Info](storagecache/Caches/DebugInfo.yml)
 ### [Delete](storagecache/Caches/Delete.yml)
 ### [Flush](storagecache/Caches/Flush.yml)
 ### [Get](storagecache/Caches/Get.yml)

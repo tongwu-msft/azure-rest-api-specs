@@ -3,14 +3,14 @@ uid: management.azure.com.sql.elasticpools.update
 name: Update
 service: SQL Database
 groupName: Elastic Pools
-apiVersion: 2017-10-01-preview
+apiVersion: 2020-08-01-preview
 summary: Updates an elastic pool.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}?api-version=2017-10-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/elasticPools/{elasticPoolName}?api-version=2020-08-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -51,21 +51,13 @@ responses:
   description: >-
     *** Error Responses: ***
 
-     * 400 ElasticPoolStorageBelowLimitMB - Attempting to set the elastic pool storage limit below the supported limit.
+     * 400 ElasticPoolOverStorageUsage - Attempting to write data to a database when the storage limit of the elastic pool has been reached.
 
-     * 400 ProvisioningDisabled - Displays error message from resources operation authorizer as is, without changes
+     * 400 InvalidSku - The user specified an invalid sku.
 
-     * 400 ElasticPoolStorageNotAllowedMB - Attempting to set the elastic pool storage limit in mb which doesn't match the allowed values.
+     * 400 InvalidTierSkuCombination - The specified tier does not support the specified sku.
 
-     * 400 ElasticPoolStorageAboveLimitMB - Attempting to set the elastic pool storage limit below the supported limit.
-
-     * 400 ElasticPoolUpdateHkNotAllowed - The elastic pool cannot lower its service tier from Premium to Standard or Basic since one or more of its databases use memory-optimized objects.
-
-     * 400 ElasticPoolOverFileSpace - Insufficient file space in the elastic pool.
-
-     * 400 InvalidTier - The user specified an invalid tier.
-
-     * 400 ServerQuotaExceeded - Server cannot be added to a subscription because it will exceed quota.
+     * 400 ServerQuotaExceeded - The server reached its limit for allowed Database Throughput Unit.
 
      * 400 ElasticPoolAlreadyExists - The server already contains an elastic pool with the specified name.
 
@@ -74,6 +66,8 @@ responses:
      * 400 ElasticPoolDtuBelowLimit - The requested DTU value is too low for the requested elastic pool service tier.
 
      * 400 ElasticPoolDtuAboveLimit - The requested DTU value is too high for the requested elastic pool service tier.
+
+     * 400 InvalidMaxSize - Invalid max size.
 
      * 400 ElasticPoolDbDtuMaxBelowLimit - The requested per database DTU max is too low for the requested elastic pool service tier.
 
@@ -85,9 +79,11 @@ responses:
 
      * 400 InvalidInputValueForDatabaseDtuMin - Attempting to set the DTU min per database for the Resource Pool which doesn't match the allowed values.
 
-     * 400 ElasticPoolStorageAboveLimitGB - Attempting to set the elastic pool storage limit below the supported limit.
+     * 400 ElasticPoolInconsistentDtuGuaranteeSettings - Attempting to provide DTU min for databases in the elastic pool that exceeds requested DTUs of the elastic pool.
 
-     * 400 ElasticPoolOverStorageUsage - Attempting to write data to a database when the storage limit of the elastic pool has been reached.
+     * 400 ElasticPoolDtuUnsupported - User tried to create or update an elastic pool with a DTU capacity that is not supported.
+
+     * 400 ElasticPoolStorageAboveLimitGB - Attempting to set the elastic pool storage limit below the supported limit.
 
      * 400 ElasticPoolsNotEnabled - Elastic pools have not been enabled in this region.
 
@@ -99,13 +95,55 @@ responses:
 
      * 400 ElasticPoolDatabaseLimit - The elastic pool has reached its limit for number of databases.
 
-     * 400 ElasticPoolStorageDecreasePrecondition - There was an attempt to decrease the storage limit of the elastic pool below its storage usage.
+     * 400 ElasticPoolDecreaseStorageLimitBelowUsage - Attempting to decrease the storage limit of the elastic pool below its storage usage.
 
      * 400 ElasticPoolBusy - A management operation was attempted on an elastic pool which is busy.
 
      * 400 InvalidInputValueDatabaseDtuMinLargerThanMax - Attempting to set the DTU min per database higher than the DTU max per database.
 
+     * 400 ElasticPoolInconsistentVcoreGuaranteeSettings - The number of databases and VCore min per database cannot exceed requested VCores of the elastic pool.
+
+     * 400 ElasticPoolStorageBelowLimitMB - Attempting to set the elastic pool storage limit below the supported limit.
+
+     * 400 ElasticPoolStorageNotAllowedMB - Attempting to set the elastic pool storage limit in mb which doesn't match the allowed values.
+
+     * 400 ElasticPoolCapacityStorageNotAllowedMB - Attempting to set the elastic pool storage limit in mb which doesn't match the allowed values.
+
+     * 400 ElasticPoolStorageAboveLimitMB - Attempting to set the elastic pool storage limit below the supported limit.
+
+     * 400 RegionDoesNotSupportVersion - A user attempted to create a server of a specified version in a location where that server version isn't supported.
+
+     * 400 InvalidTier - The user specified an invalid tier.
+
+     * 400 ElasticPoolUpdateHkNotAllowed - The elastic pool cannot lower its service tier from Premium to Standard or Basic since one or more of its databases use memory-optimized objects.
+
+     * 400 RegionDoesNotAllowProvisioning - The selected location is not accepting new Windows Azure SQL Database servers. This may change at a later time.
+
+     * 400 ElasticPoolOverFileSpace - Insufficient file space in the elastic pool.
+
+     * 400 ElasticPoolDbDtuMinBelowLimit - The requested per database DTU min is too low for the requested elastic pool service tier.
+
+     * 400 ElasticPoolDbVcoreMaxBelowLimit - The requested per database VCore max is too low for the requested elastic pool service tier.
+
+     * 400 ElasticPoolDbVcoreMaxAboveLimit - The requested per database VCore max is too high for the requested elastic pool service tier.
+
+     * 400 InvalidInputValueForDatabaseVcoreMax - Attempting to set the VCore max per database for the Resource Pool which doesn't match the allowed values.
+
+     * 400 ElasticPoolDbVcoreMinBelowLimit - The requested per database VCore min is too low for the requested elastic pool service tier.
+
+     * 400 InvalidInputValueForDatabaseVcoreMin - Attempting to set the VCore min per database for the Resource Pool which doesn't match the allowed values.
+
+     * 400 InvalidInputValueDatabaseVcoreMinLargerThanMax - Attempting to set the VCore min per database higher than the VCore max per database.
+
+     * 400 InvalidLicenseType - User tried to create or update a database or elastic pool with unsupported license type.
+
+     * 400 ProvisioningDisabled - Displays error message from resources operation authorizer as is, without changes
+
+     * 400 InvalidPublicMaintenanceConfiguration - User tried to specify public maintenance configuration which cannot be converted to internal id (malformed or wrong region).
+
      * 400 InvalidResourceRequestBody - The resource or resource properties in the request body is empty or invalid.
+
+     * 400 InvalidResourceId - Invalid resource identifier.
 
      * 400 InvalidSkuName - Invalid SKU name.
 
@@ -115,21 +153,15 @@ responses:
 
      * 400 MismatchedSkuNameAndFamily - Mismatch between SKU name and family.
 
-     * 400 ElasticPoolStorageBelowLimitMB - Attempting to set the elastic pool storage limit below the supported limit.
+     * 400 MismatchingSubscriptionWithUrl - The provided subscription did not match the subscription in the Url.
 
-     * 400 ProvisioningDisabled - Displays error message from resources operation authorizer as is, without changes
+     * 400 ElasticPoolOverStorageUsage - Attempting to write data to a database when the storage limit of the elastic pool has been reached.
 
-     * 400 ElasticPoolStorageNotAllowedMB - Attempting to set the elastic pool storage limit in mb which doesn't match the allowed values.
+     * 400 InvalidSku - The user specified an invalid sku.
 
-     * 400 ElasticPoolStorageAboveLimitMB - Attempting to set the elastic pool storage limit below the supported limit.
+     * 400 InvalidTierSkuCombination - The specified tier does not support the specified sku.
 
-     * 400 ElasticPoolUpdateHkNotAllowed - The elastic pool cannot lower its service tier from Premium to Standard or Basic since one or more of its databases use memory-optimized objects.
-
-     * 400 ElasticPoolOverFileSpace - Insufficient file space in the elastic pool.
-
-     * 400 InvalidTier - The user specified an invalid tier.
-
-     * 400 ServerQuotaExceeded - Server cannot be added to a subscription because it will exceed quota.
+     * 400 ServerQuotaExceeded - The server reached its limit for allowed Database Throughput Unit.
 
      * 400 ElasticPoolAlreadyExists - The server already contains an elastic pool with the specified name.
 
@@ -138,6 +170,8 @@ responses:
      * 400 ElasticPoolDtuBelowLimit - The requested DTU value is too low for the requested elastic pool service tier.
 
      * 400 ElasticPoolDtuAboveLimit - The requested DTU value is too high for the requested elastic pool service tier.
+
+     * 400 InvalidMaxSize - Invalid max size.
 
      * 400 ElasticPoolDbDtuMaxBelowLimit - The requested per database DTU max is too low for the requested elastic pool service tier.
 
@@ -149,9 +183,11 @@ responses:
 
      * 400 InvalidInputValueForDatabaseDtuMin - Attempting to set the DTU min per database for the Resource Pool which doesn't match the allowed values.
 
-     * 400 ElasticPoolStorageAboveLimitGB - Attempting to set the elastic pool storage limit below the supported limit.
+     * 400 ElasticPoolInconsistentDtuGuaranteeSettings - Attempting to provide DTU min for databases in the elastic pool that exceeds requested DTUs of the elastic pool.
 
-     * 400 ElasticPoolOverStorageUsage - Attempting to write data to a database when the storage limit of the elastic pool has been reached.
+     * 400 ElasticPoolDtuUnsupported - User tried to create or update an elastic pool with a DTU capacity that is not supported.
+
+     * 400 ElasticPoolStorageAboveLimitGB - Attempting to set the elastic pool storage limit below the supported limit.
 
      * 400 ElasticPoolsNotEnabled - Elastic pools have not been enabled in this region.
 
@@ -163,13 +199,55 @@ responses:
 
      * 400 ElasticPoolDatabaseLimit - The elastic pool has reached its limit for number of databases.
 
-     * 400 ElasticPoolStorageDecreasePrecondition - There was an attempt to decrease the storage limit of the elastic pool below its storage usage.
+     * 400 ElasticPoolDecreaseStorageLimitBelowUsage - Attempting to decrease the storage limit of the elastic pool below its storage usage.
 
      * 400 ElasticPoolBusy - A management operation was attempted on an elastic pool which is busy.
 
      * 400 InvalidInputValueDatabaseDtuMinLargerThanMax - Attempting to set the DTU min per database higher than the DTU max per database.
 
+     * 400 ElasticPoolInconsistentVcoreGuaranteeSettings - The number of databases and VCore min per database cannot exceed requested VCores of the elastic pool.
+
+     * 400 ElasticPoolStorageBelowLimitMB - Attempting to set the elastic pool storage limit below the supported limit.
+
+     * 400 ElasticPoolStorageNotAllowedMB - Attempting to set the elastic pool storage limit in mb which doesn't match the allowed values.
+
+     * 400 ElasticPoolCapacityStorageNotAllowedMB - Attempting to set the elastic pool storage limit in mb which doesn't match the allowed values.
+
+     * 400 ElasticPoolStorageAboveLimitMB - Attempting to set the elastic pool storage limit below the supported limit.
+
+     * 400 RegionDoesNotSupportVersion - A user attempted to create a server of a specified version in a location where that server version isn't supported.
+
+     * 400 InvalidTier - The user specified an invalid tier.
+
+     * 400 ElasticPoolUpdateHkNotAllowed - The elastic pool cannot lower its service tier from Premium to Standard or Basic since one or more of its databases use memory-optimized objects.
+
+     * 400 RegionDoesNotAllowProvisioning - The selected location is not accepting new Windows Azure SQL Database servers. This may change at a later time.
+
+     * 400 ElasticPoolOverFileSpace - Insufficient file space in the elastic pool.
+
+     * 400 ElasticPoolDbDtuMinBelowLimit - The requested per database DTU min is too low for the requested elastic pool service tier.
+
+     * 400 ElasticPoolDbVcoreMaxBelowLimit - The requested per database VCore max is too low for the requested elastic pool service tier.
+
+     * 400 ElasticPoolDbVcoreMaxAboveLimit - The requested per database VCore max is too high for the requested elastic pool service tier.
+
+     * 400 InvalidInputValueForDatabaseVcoreMax - Attempting to set the VCore max per database for the Resource Pool which doesn't match the allowed values.
+
+     * 400 ElasticPoolDbVcoreMinBelowLimit - The requested per database VCore min is too low for the requested elastic pool service tier.
+
+     * 400 InvalidInputValueForDatabaseVcoreMin - Attempting to set the VCore min per database for the Resource Pool which doesn't match the allowed values.
+
+     * 400 InvalidInputValueDatabaseVcoreMinLargerThanMax - Attempting to set the VCore min per database higher than the VCore max per database.
+
+     * 400 InvalidLicenseType - User tried to create or update a database or elastic pool with unsupported license type.
+
+     * 400 ProvisioningDisabled - Displays error message from resources operation authorizer as is, without changes
+
+     * 400 InvalidPublicMaintenanceConfiguration - User tried to specify public maintenance configuration which cannot be converted to internal id (malformed or wrong region).
+
      * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
 
      * 404 ElasticPoolNotFound - The specified elastic pool does not exist for the specified server.
 
@@ -183,11 +261,15 @@ responses:
 
      * 409 ServerDisabled - Server is disabled.
 
+     * 409 ElasticPoolUpdateLinksNotInCatchup - Cannot update elastic pool while one of its databases is performing a copy or geo-replication failover operation.
+
      * 409 OperationCancelled - The operation has been cancelled by user.
 
      * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.
 
      * 409 ServerDisabled - Server is disabled.
+
+     * 409 ElasticPoolUpdateLinksNotInCatchup - Cannot update elastic pool while one of its databases is performing a copy or geo-replication failover operation.
 
      * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation.
 
@@ -233,6 +315,11 @@ requestBody:
     description: The license type to apply for this elastic pool.
     types:
     - uid: ElasticPoolLicenseType
+  - name: properties.maintenanceConfigurationId
+    in: body
+    description: Maintenance configuration id assigned to the elastic pool. This configuration defines the period when the maintenance updates will will occur.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: Sku
@@ -321,6 +408,10 @@ definitions:
     description: The license type to apply for this elastic pool.
     types:
     - uid: ElasticPoolLicenseType
+  - name: properties.maintenanceConfigurationId
+    description: Maintenance configuration id assigned to the elastic pool. This configuration defines the period when the maintenance updates will will occur.
+    types:
+    - uid: string
   - name: location
     description: Resource location.
     types:
@@ -380,6 +471,10 @@ definitions:
     description: The license type to apply for this elastic pool.
     types:
     - uid: ElasticPoolLicenseType
+  - name: properties.maintenanceConfigurationId
+    description: Maintenance configuration id assigned to the elastic pool. This configuration defines the period when the maintenance updates will will occur.
+    types:
+    - uid: string
 - name: ElasticPoolState
   description: The state of the elastic pool.
   kind: enum
@@ -404,13 +499,42 @@ definitions:
     types:
     - uid: string
 examples:
+- name: Update an elastic pool with minimum parameters
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102?api-version=2020-08-01-preview
+    body: '{}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102",
+        "name": "sqlcrudtest-8102",
+        "type": "Microsoft.Sql/servers/elasticPools",
+        "location": "Japan East",
+        "kind": null,
+        "sku": {
+          "name": "BasicPool",
+          "tier": "Basic",
+          "capacity": 50
+        },
+        "properties": {
+          "creationDate": "2017-02-10T01:25:25.033Z",
+          "state": "Ready",
+          "maxSizeBytes": 5242880000,
+          "perDatabaseSettings": {
+            "minCapacity": 0,
+            "maxCapacity": 5
+          }
+        }
+      }
+  - statusCode: "202"
 - name: Update an elastic pool with all parameter
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102?api-version=2017-10-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102?api-version=2020-08-01-preview
     body: >-
       {
         "sku": {
-          "name": "BC_Gen4_2",
+          "name": "BC_Gen4",
           "tier": "BusinessCritical",
           "capacity": 2
         },
@@ -433,7 +557,7 @@ examples:
         "location": "Japan East",
         "kind": null,
         "sku": {
-          "name": "BC_Gen4_2",
+          "name": "BC_Gen4",
           "tier": "BusinessCritical",
           "capacity": 2
         },
@@ -450,10 +574,50 @@ examples:
         }
       }
   - statusCode: "202"
-- name: Update an elastic pool with minimum parameters
+- name: Assigns maintenance configuration to an elastic pool.
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102?api-version=2017-10-01-preview
-    body: '{}'
+    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102?api-version=2020-08-01-preview
+    body: >-
+      {
+        "properties": {
+          "maintenanceConfigurationId": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_JapanEast_1"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102",
+        "name": "sqlcrudtest-8102",
+        "type": "Microsoft.Sql/servers/elasticPools",
+        "location": "Japan East",
+        "kind": null,
+        "sku": {
+          "name": "BasicPool",
+          "tier": "Basic",
+          "capacity": 50
+        },
+        "properties": {
+          "creationDate": "2017-02-10T01:25:25.033Z",
+          "state": "Ready",
+          "maxSizeBytes": 5242880000,
+          "perDatabaseSettings": {
+            "minCapacity": 0,
+            "maxCapacity": 5
+          },
+          "maintenanceConfigurationId": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_JapanEast_1"
+        }
+      }
+  - statusCode: "202"
+- name: Resets maintenance configuration of an elastic pool to default.
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-2369/providers/Microsoft.Sql/servers/sqlcrudtest-8069/elasticPools/sqlcrudtest-8102?api-version=2020-08-01-preview
+    body: >-
+      {
+        "properties": {
+          "maintenanceConfigurationId": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
