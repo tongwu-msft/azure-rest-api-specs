@@ -1,28 +1,26 @@
 ### YamlMime:RESTOperation
-uid: mixedreality.updatesession.updatesession
-name: Update Session
+uid: mixedreality.remoterendering.getsession
+name: Get Session
 service: Mixed Reality
-groupName: Update Session
+groupName: Remote Rendering
 apiVersion: 2021-01-01-preview
-summary: Updates a particular rendering session
-consumes:
-- application/json
+summary: Gets the properties of a particular rendering session.
 produces:
 - application/json
 paths:
-- content: PATCH {endpoint}/accounts/{account_id}/sessions/{session_id}?api-version=2021-01-01-preview
+- content: GET {endpoint}/accounts/{account_id}/sessions/{session_id}?api-version=2021-01-01-preview
 uriParameters:
 - name: endpoint
   in: path
   isRequired: true
   skipUrlEncoding: true
-  description: The endpoint to use e.g. https://remoterendering.eastus.mixedreality.azure.com a list can be found at https://docs.microsoft.com/en-us/azure/remote-rendering/reference/regions
+  description: The endpoint to use e.g. https://remoterendering.eastus.mixedreality.azure.com. A list can be found at https://docs.microsoft.com/azure/remote-rendering/reference/regions.
   types:
   - uid: string
 - name: account_id
   in: path
   isRequired: true
-  description: the Azure Remote Rendering account id
+  description: The Azure Remote Rendering account ID.
   types:
   - uid: string
   format: uuid
@@ -40,7 +38,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
+  description: OK.
   types:
   - uid: session_properties
 - name: 401 Unauthorized
@@ -49,59 +47,45 @@ responses:
     value: string
   - name: WWW-Authenticate
     value: string
-  description: Unauthorized
+  description: Unauthorized. Missing or invalid authorization.
 - name: 403 Forbidden
   headers:
   - name: MS-CV
     value: string
-  description: Forbidden
+  description: Forbidden. Authorization insufficient for given resource.
 - name: 404 Not Found
   headers:
   - name: MS-CV
     value: string
-  description: The specified resource was not found.
+  description: Not found. No session with the provided session ID exists.
 - name: Other Status Codes
   headers:
   - name: MS-CV
     value: string
   - name: Retry-After
     value: integer
-  description: In case the rate limit has been exceeded.
-- name: Other Status Codes
-  headers:
-  - name: MS-CV
-    value: string
-  description: Unprocessable Entity. The maxLeaseTimeMinutes value was invalid. It has to be bigger than the current value of maxLeaseTimeMinutes.
-  types:
-  - uid: error_response
+  description: Too Many Requests. The rate limit has been exceeded. Retry the request after the duration given in the Retry-After header.
 - name: 500 Internal Server Error
   headers:
   - name: MS-CV
     value: string
-  description: InternalError
+  description: Internal Error. Server has encountered an internal error. Retrying the request may produce successful results.
   types:
   - uid: error_response
-requestBody:
-- name: default
-  parameters:
-  - name: maxLeaseTimeMinutes
-    in: body
-    isRequired: true
-    description: Update to the time the session will run after it reached the 'Ready' state.  It has to be bigger than the current value of maxLeaseTimeMinutes.
-    types:
-    - uid: integer
 requestHeader:
 - name: Authorization
   in: header
   isRequired: true
+  description: A bearer token returned by the Mixed Reality Secure Token Service. See https://docs.microsoft.com/azure/remote-rendering/how-tos/tokens for details.
   types:
   - uid: string
 definitions:
 - name: session_properties
+  description: The properties of a rendering session.
   kind: object
   properties:
   - name: id
-    description: The id of the session supplied when the sessions was created.
+    description: The ID of the session supplied when the session was created.
     types:
     - uid: string
   - name: arrInspectorPort
@@ -111,12 +95,12 @@ definitions:
     - uid: integer
   - name: handshakePort
     isReadyOnly: true
-    description: The TCP port used for the handshake.
+    description: The TCP port used for the handshake when establishing a connection.
     types:
     - uid: integer
   - name: elapsedTimeMinutes
     isReadyOnly: true
-    description: Amount of time in minutes the session is or has been in Ready state. Time is rounded down to a full minute.
+    description: Amount of time in minutes the session is or was in the 'Ready' state. Time is rounded down to a full minute.
     types:
     - uid: integer
   - name: hostname
@@ -130,16 +114,16 @@ definitions:
     types:
     - uid: integer
   - name: size
-    description: Size of the server used for the rendering session. Remote Rendering with Standard size server has a maximum scene size of 20 million polygons. Remote Rendering with Premium size does not enforce a hard maximum, but performance may be degraded if your content exceeds the rendering capabilities of the service.
+    description: The size of the server used for the rendering session. The size impacts the number of polygons the server can render. Refer to https://docs.microsoft.com/azure/remote-rendering/reference/vm-sizes for details.
     types:
-    - uid: SessionSize
+    - uid: session_size
   - name: status
-    description: The status of the rendering session. Once the status reached the 'Ready' state it can be connected to. The terminal state is 'Stopped'.
+    description: The status of the rendering session. Terminal states are 'Error', 'Expired', and 'Stopped'.
     types:
-    - uid: SessionStatus
+    - uid: session_status
   - name: teraflops
     isReadyOnly: true
-    description: The computational power of the rendering session GPU measured in Teraflops.
+    description: The computational power of the rendering session GPU measured in teraflops.
     types:
     - uid: number
   - name: error
@@ -153,57 +137,59 @@ definitions:
     types:
     - uid: string
 - name: error_response
+  description: The error response containing details of why the request failed.
   kind: object
   properties:
   - name: error
     description: The error object containing details of why the request failed.
     types:
     - uid: error
-- name: update_session_settings
-  kind: object
-  properties:
-  - name: maxLeaseTimeMinutes
-    description: Update to the time the session will run after it reached the 'Ready' state.  It has to be bigger than the current value of maxLeaseTimeMinutes.
-    types:
-    - uid: integer
-- name: SessionSize
-  description: Size of the server used for the rendering session. Remote Rendering with Standard size server has a maximum scene size of 20 million polygons. Remote Rendering with Premium size does not enforce a hard maximum, but performance may be degraded if your content exceeds the rendering capabilities of the service.
+- name: session_size
+  description: The size of the server used for the rendering session. The size impacts the number of polygons the server can render. Refer to https://docs.microsoft.com/azure/remote-rendering/reference/vm-sizes for details.
   kind: enum
   properties:
   - name: Standard
+    description: Standard rendering session size.
     types:
     - uid: string
   - name: Premium
+    description: Premium rendering session size.
     types:
     - uid: string
-- name: SessionStatus
-  description: The status of the rendering session. Once the status reached the 'Ready' state it can be connected to. The terminal state is 'Stopped'.
+- name: session_status
+  description: The status of the rendering session. Terminal states are 'Error', 'Expired', and 'Stopped'.
   kind: enum
   properties:
   - name: Error
+    description: The rendering session has encountered an error, and is unusable. This is a terminal state.
     types:
     - uid: string
   - name: Expired
+    description: The rendering session enters the 'Expired' state when it has been in the 'Ready' state longer than its lease time. This is a terminal state.
     types:
     - uid: string
   - name: Starting
+    description: The rendering session is starting, but not accepting incoming connections yet.
     types:
     - uid: string
   - name: Ready
+    description: The rendering session is ready for incoming connections.
     types:
     - uid: string
   - name: Stopped
+    description: The rendering session has been stopped with the 'Stop Session' operation. This is a terminal state.
     types:
     - uid: string
 - name: error
+  description: The error object containing details of why the request failed.
   kind: object
   properties:
   - name: code
-    description: Error code
+    description: Error code.
     types:
     - uid: string
   - name: message
-    description: A human-readable representation of the error
+    description: A human-readable representation of the error.
     types:
     - uid: string
   - name: details
@@ -223,13 +209,9 @@ definitions:
     types:
     - uid: error
 examples:
-- name: Update a session
+- name: Get a previously created session by ID
   request:
-    uri: PATCH https://remoterendering.eastus.mixedreality.azure.com/accounts/30ea64bd-100f-4bf0-adc9-29fa45d4880c/sessions/contoso-session-c2b8ac1d-9494-4852-a59c-8c28813adc28?api-version=2021-01-01-preview
-    body: >-
-      {
-        "maxLeaseTimeMinutes": 72
-      }
+    uri: GET https://remoterendering.eastus.mixedreality.azure.com/accounts/30ea64bd-100f-4bf0-adc9-29fa45d4880c/sessions/contoso-session-c2b8ac1d-9494-4852-a59c-8c28813adc28?api-version=2021-01-01-preview
   responses:
   - statusCode: "200"
     headers:
@@ -243,7 +225,7 @@ examples:
         "handshakePort": 50051,
         "elapsedTimeMinutes": 10,
         "hostname": "d4cefb7b-10b9-4631-934d-67445ffa9126.remoterenderingvm.westus2.mixedreality.azure.com",
-        "maxLeaseTimeMinutes": 72,
+        "maxLeaseTimeMinutes": 60,
         "size": "Standard",
         "status": "Ready",
         "error": null,
@@ -263,17 +245,6 @@ examples:
     headers:
     - name: MS-CV
       value: dKEFmka2kkSlDmp/af+sOw
-  - statusCode: "422"
-    headers:
-    - name: MS-CV
-      value: dKEFmka2kkSlDmp/af+sOw
-    body: >-
-      {
-        "error": {
-          "code": "UnprocessableEntity",
-          "message": "The request was malformed."
-        }
-      }
   - statusCode: "429"
     headers:
     - name: Retry-After
@@ -294,5 +265,6 @@ examples:
 security:
 - name: Authorization
   type: apiKey
+  description: A bearer token returned by the Mixed Reality Secure Token Service. See https://docs.microsoft.com/azure/remote-rendering/how-tos/tokens for details.
   in: header
 errorCodes: []

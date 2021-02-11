@@ -8596,30 +8596,16 @@
 #### [Update](media/Transforms/Update.yml)
 # Mixed Reality
 ## [Overview](../docs-ref-conceptual/mixedreality/index.md)
-## Create Conversion
-### [Overview](mixedreality/CreateConversion.yml)
-### [Create Conversion](mixedreality/CreateConversion/CreateConversion.yml)
-## Create Session
-### [Overview](mixedreality/CreateSession.yml)
-### [Create Session](mixedreality/CreateSession/CreateSession.yml)
-## Get Conversion
-### [Overview](mixedreality/GetConversion.yml)
-### [Get Conversion](mixedreality/GetConversion/GetConversion.yml)
-## Get Session
-### [Overview](mixedreality/GetSession.yml)
-### [Get Session](mixedreality/GetSession/GetSession.yml)
-## List Conversions
-### [Overview](mixedreality/ListConversions.yml)
-### [List Conversions](mixedreality/ListConversions/ListConversions.yml)
-## List Sessions
-### [Overview](mixedreality/ListSessions.yml)
-### [List Sessions](mixedreality/ListSessions/ListSessions.yml)
-## Stop Session
-### [Overview](mixedreality/StopSession.yml)
-### [Stop Session](mixedreality/StopSession/StopSession.yml)
-## Update Session
-### [Overview](mixedreality/UpdateSession.yml)
-### [Update Session](mixedreality/UpdateSession/UpdateSession.yml)
+## Remote Rendering
+### [Overview](mixedreality/RemoteRendering.yml)
+### [Create Conversion](mixedreality/RemoteRendering/CreateConversion.yml)
+### [Create Session](mixedreality/RemoteRendering/CreateSession.yml)
+### [Get Conversion](mixedreality/RemoteRendering/GetConversion.yml)
+### [Get Session](mixedreality/RemoteRendering/GetSession.yml)
+### [List Conversions](mixedreality/RemoteRendering/ListConversions.yml)
+### [List Sessions](mixedreality/RemoteRendering/ListSessions.yml)
+### [Stop Session](mixedreality/RemoteRendering/StopSession.yml)
+### [Update Session](mixedreality/RemoteRendering/UpdateSession.yml)
 ## 2020-04-06 preview
 ### Check Name Availability Local
 #### [Overview](mixedreality/2020-04-06preview/CheckNameAvailabilityLocal.yml)

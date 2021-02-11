@@ -1,10 +1,10 @@
 ### YamlMime:RESTOperation
-uid: mixedreality.stopsession.stopsession
+uid: mixedreality.remoterendering.stopsession
 name: Stop Session
 service: Mixed Reality
-groupName: Stop Session
+groupName: Remote Rendering
 apiVersion: 2021-01-01-preview
-summary: Stops a particular rendering session
+summary: Stops a particular rendering session.
 produces:
 - application/json
 paths:
@@ -14,13 +14,13 @@ uriParameters:
   in: path
   isRequired: true
   skipUrlEncoding: true
-  description: The endpoint to use e.g. https://remoterendering.eastus.mixedreality.azure.com a list can be found at https://docs.microsoft.com/en-us/azure/remote-rendering/reference/regions
+  description: The endpoint to use e.g. https://remoterendering.eastus.mixedreality.azure.com. A list can be found at https://docs.microsoft.com/azure/remote-rendering/reference/regions.
   types:
   - uid: string
 - name: account_id
   in: path
   isRequired: true
-  description: the Azure Remote Rendering account id
+  description: The Azure Remote Rendering account ID.
   types:
   - uid: string
   format: uuid
@@ -41,46 +41,48 @@ responses:
   headers:
   - name: MS-CV
     value: string
-  description: NoContent - stop request was successful. The rendering session is stopped.
+  description: NoContent. Stop request was successful. The rendering session is stopped.
 - name: 401 Unauthorized
   headers:
   - name: MS-CV
     value: string
   - name: WWW-Authenticate
     value: string
-  description: Unauthorized
+  description: Unauthorized. Missing or invalid authorization.
 - name: 403 Forbidden
   headers:
   - name: MS-CV
     value: string
-  description: Forbidden
+  description: Forbidden. Authorization insufficient for given resource.
 - name: 404 Not Found
   headers:
   - name: MS-CV
     value: string
-  description: The specified resource was not found.
+  description: Not found. No session with the provided session ID exists.
 - name: Other Status Codes
   headers:
   - name: MS-CV
     value: string
   - name: Retry-After
     value: integer
-  description: In case the rate limit has been exceeded.
+  description: Too Many Requests. The rate limit has been exceeded. Retry the request after the duration given in the Retry-After header.
 - name: 500 Internal Server Error
   headers:
   - name: MS-CV
     value: string
-  description: InternalError
+  description: Internal Error. Server has encountered an internal error. Retrying the request may produce successful results.
   types:
   - uid: error_response
 requestHeader:
 - name: Authorization
   in: header
   isRequired: true
+  description: A bearer token returned by the Mixed Reality Secure Token Service. See https://docs.microsoft.com/azure/remote-rendering/how-tos/tokens for details.
   types:
   - uid: string
 definitions:
 - name: error_response
+  description: The error response containing details of why the request failed.
   kind: object
   properties:
   - name: error
@@ -88,14 +90,15 @@ definitions:
     types:
     - uid: error
 - name: error
+  description: The error object containing details of why the request failed.
   kind: object
   properties:
   - name: code
-    description: Error code
+    description: Error code.
     types:
     - uid: string
   - name: message
-    description: A human-readable representation of the error
+    description: A human-readable representation of the error.
     types:
     - uid: string
   - name: details
@@ -157,5 +160,6 @@ examples:
 security:
 - name: Authorization
   type: apiKey
+  description: A bearer token returned by the Mixed Reality Secure Token Service. See https://docs.microsoft.com/azure/remote-rendering/how-tos/tokens for details.
   in: header
 errorCodes: []
