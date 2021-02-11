@@ -1,7 +1,7 @@
 ---
 title: "Create Index (Azure Cognitive Search REST API)"
 description: Define an index schema for fields and other constructs in an Azure Cognitive Search index.
-ms.date: 06/30/2020
+ms.date: 02/11/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -102,13 +102,14 @@ The following JSON is a high-level representation of the main parts of the defin
 |name|Required. The name of the index. An index name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
 |description|An optional description.|  
 |[fields](#bkmk_indexAttrib)| A collection of fields hat will be fed into this index, including name, data type, and attributes that define allowable actions on that field. Data types conform to the Entity Data Model (EDM). For more information, see [Supported data types](supported-data-types.md). There must be one field in the collection that is specified as the **key** field. It has to be a string field. This field represents the unique identifier, sometimes called the document ID, for each document stored with the index.  |
-| [similarity](#bkmk_similarity) | For services created before July 15, 2020, set this property to use the BM25 ranking algorithm. |
-| [suggesters](#bkmk_suggester) | Used for autocompleted queries or suggested search results. |
-| [scoringProfiles](#bkmk_scoringprof)| Used for custom search score ranking. See [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles).  
+| similarity  | For services created before July 15, 2020, set this property to use the BM25 ranking algorithm. Valid values include `"#Microsoft.Azure.Search.ClassicSimilarity"` or `"#Microsoft.Azure.Search.BM25Similarity"`. API versions that support this property include 2020-06-30 and 2019-05-06-Preview. For more information, see [Ranking algorithms in Azure Cognitive Search](https://docs.microsoft.com/azure/search/index-ranking-similarity).|
+| suggesters| (Optional) Used for autocompleted queries or suggested search results, one per index. It is a data structure that stores prefixes for matching on partial queries like autocomplete and suggestions. Consists of a `name` and suggester-aware fields that provide content for autocompleted queries and suggested results. `searchMode` is required, and always set to `analyzingInfixMatching`. It specifies that matching will occur on any term in the query string. |
+| scoringProfiles | Used for custom search score ranking. Set `defaultScoringProfile` to use a custom profile as the default, invoked whenever a custom profile is not specified on the query string. For more information about elements, see [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) and the example in the next section. |
 | analyzers, charFilters, tokenizers, tokenFilters| Use to define how your documents/queries are broken into indexable/searchable tokens. For more information, see [Analyzers for text processing](https://docs.microsoft.com/azure/search/search-analyzers) and [Add language analyzers to string fields](https://docs.microsoft.com/azure/search/index-add-language-analyzers).  
 | defaultScoringProfile | Name of a custom scoring profile that overwrites the default scoring behaviors. |
-| [corsOptions](#bkmk_cors) | Used to allow cross-origin queries against your index.  |
-| [encryptionKey](#bkmk_encryption) | Used to encrypt index data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).|
+| corsOptions| (optional) Used to allow cross-origin queries against your index.  The `corsOptions` section includes: </br></br>`allowedOrigins` (Required) A comma-delimited list of origins that will be granted access to your index, where each origin is typically of the form protocol://\<fully-qualified-domain-name>:\<port> (although the \<port> is often omitted).  This means that any JavaScript code served from those origins will be allowed to query your index (assuming it provides the correct `api-key`). If you want to allow access to all origins, specify `*` as a single item in the `allowedOrigins` array. This is not recommended for production, but might be useful for development or debugging.
+</br></br>`maxAgeInSeconds` (Optional) Browsers use this value to determine the duration (in seconds) to cache CORS preflight responses. This must be a non-negative integer. The larger this value is, the better performance will be, but the longer it will take for CORS policy changes to take effect. If it is not set, a default duration of 5 minutes will be used.| 
+|encryptionKey| (Optional) Used to encrypt a synonym map, with your own keys, managed in your Azure Key Vault. Available for billable search services created on or after 2019-01-01. </br></br> An `encryptionKey` section contains a user-defined `keyVaultKeyName` (required), a system-generated `keyVaultKeyVersion` (required), and a `keyVaultUri` providing the key (required, also referred to as DNS name). An example URI might be https://my-keyvault-name.vault.azure.net". </br></br>Optionally, you can specify `accessCredentials` if you are not using a managed system identity. Properties of `accessCredentials` include `applicationId` (Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault), and `applicationSecret` (authentication key of the specified Azure AD application). An example in the next section illustrates the syntax. |
 
 ###  <a name="bkmk_indexAttrib"> Field definitions </a>
 
@@ -144,7 +145,7 @@ The following attributes can be set on a field when creating an index.
 > - Maximum number of complex collections per index
 > - Maximum number of elements across all complex collections per document
 
-###  <a name="bkmk_similarity"> Similarity </a>
+<!-- ###  <a name="bkmk_similarity"> Similarity </a>
 
 This property sets the ranking algorithm used to create a relevance score in search results of a full text search query. In services created *after* July 15, 2020, this property is ignored because the similarity algorithm is always BM25. For existing services created *before* July 15, 2020, you can opt in to BM25 by setting this construct as follows:
 
@@ -154,9 +155,9 @@ This property sets the ranking algorithm used to create a relevance score in sea
   }
  ```
 
-Valid values include `"#Microsoft.Azure.Search.ClassicSimilarity"` or `"#Microsoft.Azure.Search.BM25Similarity"`. API versions that support this property include 2020-06-30 and 2019-05-06-Preview. For more information, see [Ranking algorithms in Azure Cognitive Search](https://docs.microsoft.com/azure/search/index-ranking-similarity).
+Valid values include `"#Microsoft.Azure.Search.ClassicSimilarity"` or `"#Microsoft.Azure.Search.BM25Similarity"`. API versions that support this property include 2020-06-30 and 2019-05-06-Preview. For more information, see [Ranking algorithms in Azure Cognitive Search](https://docs.microsoft.com/azure/search/index-ranking-similarity). -->
 
-###  <a name="bkmk_suggester"> Suggesters </a> 
+<!-- ###  <a name="bkmk_suggester"> Suggesters </a> 
 
 A **suggester** is a data structure that stores prefixes for matching on partial queries like autocomplete and suggestions.  There is one suggester per index. Its definition consists of a name, search mode, and suggester-aware fields that provide content for autocompleted queries and suggested results. The **searchMode** parameter is required and is always set to `analyzingInfixMatching`. It specifies that matching will occur on any term in the query string.
  
@@ -170,9 +171,9 @@ A **suggester** is a data structure that stores prefixes for matching on partial
   ]
  ```
 
- A **suggester** is referenced by name on query requests that include either the [Suggestions API](suggestions.md) or [Autocomplete API](autocomplete.md), depending on whether you want to return a match or the remainder of a query term. For more information about creating and using a suggester, see [Create a suggester](https://docs.microsoft.com/azure/search/index-add-suggesters).  
+ A **suggester** is referenced by name on query requests that include either the [Suggestions API](suggestions.md) or [Autocomplete API](autocomplete.md), depending on whether you want to return a match or the remainder of a query term. For more information about creating and using a suggester, see [Create a suggester](https://docs.microsoft.com/azure/search/index-add-suggesters).   -->
 
-###  <a name="bkmk_scoringprof">Scoring Profiles  </a>
+<!-- ###  <a name="bkmk_scoringprof">Scoring Profiles  </a>
 
  A scoring profile is a section of the schema that defines custom scoring behaviors that let you influence which documents appear higher in the search results. Scoring profiles are made up of field weights and functions. To use them, you specify a profile by name on the query string.  
 
@@ -217,9 +218,9 @@ A **suggester** is a data structure that stores prefixes for matching on partial
 
 A default scoring profile operates behind the scenes to compute a search score for every item in a result set. You can use the internal, unnamed scoring profile. Alternatively, set **defaultScoringProfile** to use a custom profile as the default, invoked whenever a custom profile is not specified on the query string.  
 
- See [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) for details.  
+ See [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) for details.   -->
 
-###  <a name="bkmk_cors"> CORS Options  </a>
+<!-- ###  <a name="bkmk_cors"> CORS Options  </a>
 
  Client-side JavaScript cannot call any APIs by default since the browser will prevent all cross-origin requests. To allow cross-origin queries to your index, enable CORS (Cross-Origin Resource Sharing) by setting the **corsOptions** attribute. For security reasons, only query APIs support CORS. 
  
@@ -228,16 +229,16 @@ A default scoring profile operates behind the scenes to compute a search score f
     "allowedOrigins": ["*"] | ["origin_1", "origin_2", ...],  
     "maxAgeInSeconds": (optional) max_age_in_seconds (non-negative integer)  
   }
-  ```
-
+  ``` -->
+<!-- 
  The following options can be set for CORS:  
 
 |Property | Description|  
 |---------------|-----------------| 
 |allowedOrigins | Required. This is  a list of origins that will be granted access to your index. This means that any JavaScript code served from those origins will be allowed to query your index (assuming it provides the correct `api-key`). Each origin is typically of the form protocol://\<fully-qualified-domain-name>:\<port> although the \<port> is often omitted. See [Cross-origin resource sharing (Wikipedia)](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) for more details.<br /><br /> If you want to allow access to all origins, include \* as a single item in the **allowedOrigins** array. This is not recommended practice for production search services**. However, it may be useful for development or debugging purposes.|  
-|maxAgeInSeconds | Optional. Browsers use this value to determine the duration (in seconds) to cache CORS preflight responses. This must be a non-negative integer. The larger this value is, the better performance will be, but the longer it will take for CORS policy changes to take effect. If it is not set, a default duration of 5 minutes will be used.|  
+|maxAgeInSeconds | Optional. Browsers use this value to determine the duration (in seconds) to cache CORS preflight responses. This must be a non-negative integer. The larger this value is, the better performance will be, but the longer it will take for CORS policy changes to take effect. If it is not set, a default duration of 5 minutes will be used.|   -->
 
-###  <a name="bkmk_encryption"> Encryption Key  </a>
+<!-- ###  <a name="bkmk_encryption"> Encryption Key  </a>
 
 While indexes are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), you can also encrypt them with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys). 
 
@@ -254,6 +255,7 @@ While indexes are encrypted by default using [service-managed keys](https://docs
 
 > [!NOTE]
 > Encryption with customer-managed keys is not available for free services. For billable services, it is only available for search services created on or after 2019-01-01.
+ -->
 
 ## Response
 
@@ -261,9 +263,9 @@ While indexes are encrypted by default using [service-managed keys](https://docs
 
  By default, the response body will contain the JSON for the index definition that was created. However, if the Prefer request header is set to return=minimal, the response body will be empty, and the success status code will be "204 No Content" instead of "201 Created". This is true regardless of whether PUT or POST is used to create the index.
 
-## <a name="CreateUpdateIndexExample"> Examples </a>
+## Examples
 
-The following example is a JSON representation of a request payload that provides an index schema.
+**Example: An index schema**
 
 ```json
 {
@@ -313,7 +315,118 @@ The following example is a JSON representation of a request payload that provide
     }
   ]
 }  
-```  
+```
+
+**Example: Suggesters**
+ 
+ ```json
+  "suggesters": [  
+    {  
+      "name": "name of suggester",  
+      "searchMode": "analyzingInfixMatching",  
+      "sourceFields": ["field1", "field2", ...]  
+    }  
+  ]
+ ```
+
+ A **suggester** is referenced by name on query requests that include either the [Suggestions API](suggestions.md) or [Autocomplete API](autocomplete.md), depending on whether you want to return a match or the remainder of a query term. For more information about creating and using a suggester, see [Create a suggester](https://docs.microsoft.com/azure/search/index-add-suggesters).  
+
+**Example: Similarity for search relevance**
+
+This property sets the ranking algorithm used to create a relevance score in search results of a full text search query. In services created *after* July 15, 2020, this property is ignored because the similarity algorithm is always BM25. For existing services created *before* July 15, 2020, you can opt in to BM25 by setting this construct as follows:
+
+ ```json
+  "similarity": {
+      "@odata.type": "#Microsoft.Azure.Search.BM25Similarity"
+  }
+ ```
+
+**Example: CORS Options**
+
+ Client-side JavaScript cannot call any APIs by default since the browser will prevent all cross-origin requests. To allow cross-origin queries to your index, enable CORS ([Cross-origin resource sharing (Wikipedia)](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)) by setting the `corsOptions` attribute. For security reasons, only query APIs support CORS.
+
+ ```json
+{
+    "name": "hotels",  
+    "fields": [ omitted for brevity],
+    "suggesters": [ omitted for brevity  ],
+    "analyzers": [ omitted for brevity ],
+    "corsOptions": (optional) {  
+        "allowedOrigins": ["*"] | ["https://docs.microsoft.com:80", "https://azure.microsoft.com:80", ...],  
+        "maxAgeInSeconds": (optional) max_age_in_seconds (non-negative integer)  
+      }
+}
+```
+
+**Example: Encryption keys**
+
+Encryption keys are customer-managed keys used for additional encryption. For more information, see [Encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
+
+```json
+{
+    "name": "hotels",  
+    "fields": [ omitted for brevity],
+    "suggesters": [ omitted for brevity  ],
+    "analyzers": [ omitted for brevity ],
+    "encryptionKey": (optional) { 
+      "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
+      "keyVaultKeyVersion": "Version of the Azure Key Vault key",
+      "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net",
+      "accessCredentials": (optional, only if not using managed system identity) {
+        "applicationId": "AAD Application ID that was granted access permissions to your specified Azure Key Vault",
+        "applicationSecret": "Authentication key of the specified AAD application)"}
+      }
+} 
+```
+
+**Example: Scoring Profiles**
+
+A scoring profile is a section of the schema that defines custom scoring behaviors that let you influence which documents appear higher in the search results. Scoring profiles are made up of field weights and functions. To use them, you specify a profile by name on the query string. For more information, see [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) for details.   
+
+ ```json
+{
+    "name": "hotels",  
+    "fields": [ omitted for brevity],
+    "suggesters": [ omitted for brevity  ],
+    "analyzers": [ omitted for brevity ],
+    "scoringProfiles": [  
+    {  
+      "name": "name of scoring profile",  
+      "text": (optional, only applies to searchable fields) {  
+        "weights": {  
+          "searchable_field_name": relative_weight_value (positive #'s),  
+          ...  
+        }  
+      },  
+      "functions": (optional) [  
+        {  
+          "type": "magnitude | freshness | distance | tag",  
+          "boost": # (positive number used as multiplier for raw score != 1),  
+          "fieldName": "...",  
+          "interpolation": "constant | linear (default) | quadratic | logarithmic",  
+          "magnitude": {  
+            "boostingRangeStart": #,  
+            "boostingRangeEnd": #,  
+            "constantBoostBeyondRange": true | false (default)  
+          },  
+          "freshness": {  
+            "boostingDuration": "..." (value representing timespan leading to now over which boosting occurs)  
+          },  
+          "distance": {  
+            "referencePointParameter": "...", (parameter to be passed in queries to use as reference location)  
+            "boostingDistance": # (the distance in kilometers from the reference location where the boosting range ends)  
+          },  
+          "tag": {  
+            "tagsParameter": "..." (parameter to be passed in queries to specify a list of tags to compare against target fields)  
+          }  
+        }  
+      ],  
+      "functionAggregation": (optional, applies only when functions are specified)   
+        "sum (default) | average | minimum | maximum | firstMatching"  
+        }  
+  ]
+}
+```
 
 ## See also
 
