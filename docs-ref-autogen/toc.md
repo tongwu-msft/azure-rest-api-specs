@@ -4523,6 +4523,108 @@
 ### [Take](faceapi/Snapshot/Take.yml)
 ### [Update](faceapi/Snapshot/Update.yml)
 # Cognitive Services - Form Recognizer
+## 2.0
+### Analyze Layout Async
+#### [Overview](cognitiveservices-formrecognizer/2.0/AnalyzeLayoutAsync.yml)
+#### [Analyze Layout Async](cognitiveservices-formrecognizer/2.0/AnalyzeLayoutAsync/AnalyzeLayoutAsync.yml)
+### Analyze Receipt Async
+#### [Overview](cognitiveservices-formrecognizer/2.0/AnalyzeReceiptAsync.yml)
+#### [Analyze Receipt Async](cognitiveservices-formrecognizer/2.0/AnalyzeReceiptAsync/AnalyzeReceiptAsync.yml)
+### Analyze With Custom Model
+#### [Overview](cognitiveservices-formrecognizer/2.0/AnalyzeWithCustomModel.yml)
+#### [Analyze With Custom Model](cognitiveservices-formrecognizer/2.0/AnalyzeWithCustomModel/AnalyzeWithCustomModel.yml)
+### Copy Custom Model
+#### [Overview](cognitiveservices-formrecognizer/2.0/CopyCustomModel.yml)
+#### [Copy Custom Model](cognitiveservices-formrecognizer/2.0/CopyCustomModel/CopyCustomModel.yml)
+### Delete Custom Model
+#### [Overview](cognitiveservices-formrecognizer/2.0/DeleteCustomModel.yml)
+#### [Delete Custom Model](cognitiveservices-formrecognizer/2.0/DeleteCustomModel/DeleteCustomModel.yml)
+### Generate Model Copy Authorization
+#### [Overview](cognitiveservices-formrecognizer/2.0/GenerateModelCopyAuthorization.yml)
+#### [Generate Model Copy Authorization](cognitiveservices-formrecognizer/2.0/GenerateModelCopyAuthorization/GenerateModelCopyAuthorization.yml)
+### Get Analyze Form Result
+#### [Overview](cognitiveservices-formrecognizer/2.0/GetAnalyzeFormResult.yml)
+#### [Get Analyze Form Result](cognitiveservices-formrecognizer/2.0/GetAnalyzeFormResult/GetAnalyzeFormResult.yml)
+### Get Analyze Layout Result
+#### [Overview](cognitiveservices-formrecognizer/2.0/GetAnalyzeLayoutResult.yml)
+#### [Get Analyze Layout Result](cognitiveservices-formrecognizer/2.0/GetAnalyzeLayoutResult/GetAnalyzeLayoutResult.yml)
+### Get Analyze Receipt Result
+#### [Overview](cognitiveservices-formrecognizer/2.0/GetAnalyzeReceiptResult.yml)
+#### [Get Analyze Receipt Result](cognitiveservices-formrecognizer/2.0/GetAnalyzeReceiptResult/GetAnalyzeReceiptResult.yml)
+### Get Custom Model
+#### [Overview](cognitiveservices-formrecognizer/2.0/GetCustomModel.yml)
+#### [Get Custom Model](cognitiveservices-formrecognizer/2.0/GetCustomModel/GetCustomModel.yml)
+### Get Custom Model Copy Result
+#### [Overview](cognitiveservices-formrecognizer/2.0/GetCustomModelCopyResult.yml)
+#### [Get Custom Model Copy Result](cognitiveservices-formrecognizer/2.0/GetCustomModelCopyResult/GetCustomModelCopyResult.yml)
+### Get Custom Models
+#### [Overview](cognitiveservices-formrecognizer/2.0/GetCustomModels.yml)
+#### [Get Custom Models](cognitiveservices-formrecognizer/2.0/GetCustomModels/GetCustomModels.yml)
+### List Custom Models
+#### [Overview](cognitiveservices-formrecognizer/2.0/ListCustomModels.yml)
+#### [List Custom Models](cognitiveservices-formrecognizer/2.0/ListCustomModels/ListCustomModels.yml)
+### Train Custom Model Async
+#### [Overview](cognitiveservices-formrecognizer/2.0/TrainCustomModelAsync.yml)
+#### [Train Custom Model Async](cognitiveservices-formrecognizer/2.0/TrainCustomModelAsync/TrainCustomModelAsync.yml)
+## 2.1 Preview 2
+### Analyze Business Card Async
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/AnalyzeBusinessCardAsync.yml)
+#### [Analyze Business Card Async](cognitiveservices-formrecognizer/2.1preview2/AnalyzeBusinessCardAsync/AnalyzeBusinessCardAsync.yml)
+### Analyze Invoice Async
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/AnalyzeInvoiceAsync.yml)
+#### [Analyze Invoice Async](cognitiveservices-formrecognizer/2.1preview2/AnalyzeInvoiceAsync/AnalyzeInvoiceAsync.yml)
+### Analyze Layout Async
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/AnalyzeLayoutAsync.yml)
+#### [Analyze Layout Async](cognitiveservices-formrecognizer/2.1preview2/AnalyzeLayoutAsync/AnalyzeLayoutAsync.yml)
+### Analyze Receipt Async
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/AnalyzeReceiptAsync.yml)
+#### [Analyze Receipt Async](cognitiveservices-formrecognizer/2.1preview2/AnalyzeReceiptAsync/AnalyzeReceiptAsync.yml)
+### Analyze With Custom Model
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/AnalyzeWithCustomModel.yml)
+#### [Analyze With Custom Model](cognitiveservices-formrecognizer/2.1preview2/AnalyzeWithCustomModel/AnalyzeWithCustomModel.yml)
+### Compose Custom Models Async
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/ComposeCustomModelsAsync.yml)
+#### [Compose Custom Models Async](cognitiveservices-formrecognizer/2.1preview2/ComposeCustomModelsAsync/ComposeCustomModelsAsync.yml)
+### Copy Custom Model
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/CopyCustomModel.yml)
+#### [Copy Custom Model](cognitiveservices-formrecognizer/2.1preview2/CopyCustomModel/CopyCustomModel.yml)
+### Delete Custom Model
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/DeleteCustomModel.yml)
+#### [Delete Custom Model](cognitiveservices-formrecognizer/2.1preview2/DeleteCustomModel/DeleteCustomModel.yml)
+### Generate Model Copy Authorization
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/GenerateModelCopyAuthorization.yml)
+#### [Generate Model Copy Authorization](cognitiveservices-formrecognizer/2.1preview2/GenerateModelCopyAuthorization/GenerateModelCopyAuthorization.yml)
+### Get Analyze Business Card Result
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/GetAnalyzeBusinessCardResult.yml)
+#### [Get Analyze Business Card Result](cognitiveservices-formrecognizer/2.1preview2/GetAnalyzeBusinessCardResult/GetAnalyzeBusinessCardResult.yml)
+### Get Analyze Form Result
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/GetAnalyzeFormResult.yml)
+#### [Get Analyze Form Result](cognitiveservices-formrecognizer/2.1preview2/GetAnalyzeFormResult/GetAnalyzeFormResult.yml)
+### Get Analyze Invoice Result
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/GetAnalyzeInvoiceResult.yml)
+#### [Get Analyze Invoice Result](cognitiveservices-formrecognizer/2.1preview2/GetAnalyzeInvoiceResult/GetAnalyzeInvoiceResult.yml)
+### Get Analyze Layout Result
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/GetAnalyzeLayoutResult.yml)
+#### [Get Analyze Layout Result](cognitiveservices-formrecognizer/2.1preview2/GetAnalyzeLayoutResult/GetAnalyzeLayoutResult.yml)
+### Get Analyze Receipt Result
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/GetAnalyzeReceiptResult.yml)
+#### [Get Analyze Receipt Result](cognitiveservices-formrecognizer/2.1preview2/GetAnalyzeReceiptResult/GetAnalyzeReceiptResult.yml)
+### Get Custom Model
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/GetCustomModel.yml)
+#### [Get Custom Model](cognitiveservices-formrecognizer/2.1preview2/GetCustomModel/GetCustomModel.yml)
+### Get Custom Model Copy Result
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/GetCustomModelCopyResult.yml)
+#### [Get Custom Model Copy Result](cognitiveservices-formrecognizer/2.1preview2/GetCustomModelCopyResult/GetCustomModelCopyResult.yml)
+### Get Custom Models
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/GetCustomModels.yml)
+#### [Get Custom Models](cognitiveservices-formrecognizer/2.1preview2/GetCustomModels/GetCustomModels.yml)
+### List Custom Models
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/ListCustomModels.yml)
+#### [List Custom Models](cognitiveservices-formrecognizer/2.1preview2/ListCustomModels/ListCustomModels.yml)
+### Train Custom Model Async
+#### [Overview](cognitiveservices-formrecognizer/2.1preview2/TrainCustomModelAsync.yml)
+#### [Train Custom Model Async](cognitiveservices-formrecognizer/2.1preview2/TrainCustomModelAsync/TrainCustomModelAsync.yml)
+# Cognitive Services - Form Recognizer
 ## [Overview](../docs-ref-conceptual/formrecognizer/index.md)
 ## 2.0
 ### Analyze Layout Async
