@@ -4,8 +4,7 @@ title: Azure Key Vault REST API reference
 ms.service: key-vault
 author: msmbaldwin
 ms.author: mbaldwin
-ms.manager: mbaldwin
-ms.date: 05/03/2018
+ms.date: 02/12/2021
 ---
 
 # Azure Key Vault REST API reference
@@ -140,4 +139,4 @@ Use Key Vault to safeguard and manage cryptographic keys and secrets used by clo
 - See the following topics for additional Key Vault concepts and details
    - [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md)
    - [Key Vault Developer's Guide](/azure/key-vault/key-vault-developers-guide)
-   - [Key Vault versions](key-vault-versions.md)
+   - [Key Vault versions](/azure/key-vault/general/versions)
