@@ -10474,7 +10474,7 @@
 ## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
 ## Reference (Preview)
 ### [Overview](../docs-ref-conceptual/searchmanagement/index-preview.md)
-## Reference
+## Reference (Stable)
 ### Admin Keys
 #### [Overview](searchmanagement/AdminKeys.yml)
 #### [Get](searchmanagement/AdminKeys/Get.yml)
@@ -10525,8 +10525,8 @@
 #### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)
 ### Indexers
 #### [Create Indexer](../docs-ref-conceptual/searchservice/preview-api/create-indexer.md)
-#### [Update Indexer](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
-#### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
+#### [Reset Indexer](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
+#### [Update Documents](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
 ### Skillsets
 #### [Create Skillset](../docs-ref-conceptual/searchservice/create-skillset.md)
 #### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
@@ -10534,21 +10534,21 @@
 ## Reference (Stable)
 ### Indexes
 #### [Overview](../docs-ref-conceptual/searchservice/index-operations.md)
-#### [Create Index](../docs-ref-conceptual/searchservice/create-index.md)
-#### [Update Index](../docs-ref-conceptual/searchservice/update-index.md)
-#### [List Indexes](../docs-ref-conceptual/searchservice/list-indexes.md)
-#### [Get Index](../docs-ref-conceptual/searchservice/get-index.md)
-#### [Delete Index](../docs-ref-conceptual/searchservice/delete-index.md)
-#### [Get Index Statistics](../docs-ref-conceptual/searchservice/get-index-statistics.md)
 #### [Analyze Text](../docs-ref-conceptual/searchservice/test-analyzer.md)
+#### [Create Index](../docs-ref-conceptual/searchservice/create-index.md)
+#### [Delete Index](../docs-ref-conceptual/searchservice/delete-index.md)
+#### [Get Index](../docs-ref-conceptual/searchservice/get-index.md)
+#### [Get Index Statistics](../docs-ref-conceptual/searchservice/get-index-statistics.md)
+#### [List Indexes](../docs-ref-conceptual/searchservice/list-indexes.md)
+#### [Update Index](../docs-ref-conceptual/searchservice/update-index.md)
 ### Documents
 #### [Overview](../docs-ref-conceptual/searchservice/document-operations.md)
 #### [Add, Update or Delete Documents](../docs-ref-conceptual/searchservice/addupdate-or-delete-documents.md)
+#### [Autocomplete](../docs-ref-conceptual/searchservice/autocomplete.md)
+#### [Count Documents](../docs-ref-conceptual/searchservice/count-documents.md)
+#### [Lookup Document](../docs-ref-conceptual/searchservice/lookup-document.md)
 #### [Search Documents](../docs-ref-conceptual/searchservice/search-documents.md)
 #### [Suggestions](../docs-ref-conceptual/searchservice/suggestions.md)
-#### [Autocomplete](../docs-ref-conceptual/searchservice/autocomplete.md)
-#### [Lookup Document](../docs-ref-conceptual/searchservice/lookup-document.md)
-#### [Count Documents](../docs-ref-conceptual/searchservice/count-documents.md)
 ### Indexers
 #### [Overview](../docs-ref-conceptual/searchservice/indexer-operations.md)
 #### [Create Data Source](../docs-ref-conceptual/searchservice/create-data-source.md)
@@ -10578,10 +10578,10 @@
 ### Synonyms
 #### [Overview](../docs-ref-conceptual/searchservice/synonym-map-operations.md)
 #### [Create Synonym Map](../docs-ref-conceptual/searchservice/create-synonym-map.md)
-#### [Update Synonym Map](../docs-ref-conceptual/searchservice/update-synonym-map.md)
-#### [List Synonym Maps](../docs-ref-conceptual/searchservice/list-synonym-maps.md)
-#### [Get Synonym Map](../docs-ref-conceptual/searchservice/get-synonym-map.md)
 #### [Delete Synonym Map](../docs-ref-conceptual/searchservice/delete-synonym-map.md)
+#### [Get Synonym Map](../docs-ref-conceptual/searchservice/get-synonym-map.md)
+#### [List Synonym Maps](../docs-ref-conceptual/searchservice/list-synonym-maps.md)
+#### [Update Synonym Map](../docs-ref-conceptual/searchservice/update-synonym-map.md)
 # Security Center
 ## [Overview](../docs-ref-conceptual/securitycenter/index.md)
 ## Adaptive Application Controls
