@@ -26,8 +26,6 @@ PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-versi
 
 ## URI Parameters
 
-## URI Parameters
-
 | Parameter	  | Description  | 
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |

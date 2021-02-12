@@ -10254,7 +10254,7 @@
 ## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
 ## Reference (Preview)
 ### [Overview](../docs-ref-conceptual/searchmanagement/index-preview.md)
-## Reference
+## Reference (Stable)
 ### Admin Keys
 #### [Overview](searchmanagement/AdminKeys.yml)
 #### [Get](searchmanagement/AdminKeys/Get.yml)
