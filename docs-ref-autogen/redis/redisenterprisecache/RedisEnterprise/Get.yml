@@ -3,27 +3,28 @@ uid: management.azure.com.redis.redisenterprisecache.redisenterprise.get
 name: Get
 service: Redis Cache
 groupName: Redis Enterprise
-apiVersion: 2020-10-01-preview
+apiVersion: 2021-03-01
 summary: Gets information about a RedisEnterprise cluster
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}?api-version=2020-10-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
+  pattern: ^[-\w\._\(\)]+$
 - name: clusterName
   in: path
   isRequired: true
@@ -33,7 +34,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -56,14 +57,14 @@ definitions:
     types:
     - uid: Sku
   - name: zones
-    description: The zones where this cluster will be deployed.
+    description: The Availability Zones where this cluster will be deployed.
     types:
     - uid: string
       isArray: true
   - name: properties.minimumTlsVersion
     description: The minimum TLS version for the cluster to support, e.g. '1.2'
     types:
-    - uid: string
+    - uid: TlsVersion
   - name: properties.hostName
     isReadyOnly: true
     description: DNS name of the cluster endpoint
@@ -137,6 +138,19 @@ definitions:
     description: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...) for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
     types:
     - uid: integer
+- name: TlsVersion
+  description: The minimum TLS version for the cluster to support, e.g. '1.2'
+  kind: enum
+  properties:
+  - name: "1.0"
+    types:
+    - uid: string
+  - name: "1.1"
+    types:
+    - uid: string
+  - name: "1.2"
+    types:
+    - uid: string
 - name: ProvisioningState
   description: Current provisioning status
   kind: enum
@@ -358,7 +372,7 @@ definitions:
 examples:
 - name: RedisEnterpriseGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1?api-version=2020-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1?api-version=2021-03-01
   responses:
   - statusCode: "200"
     body: >-

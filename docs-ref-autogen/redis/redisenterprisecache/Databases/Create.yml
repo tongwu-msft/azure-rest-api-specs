@@ -3,27 +3,28 @@ uid: management.azure.com.redis.redisenterprisecache.databases.create
 name: Create
 service: Redis Cache
 groupName: Databases
-apiVersion: 2020-10-01-preview
+apiVersion: 2021-03-01
 summary: Creates a database
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}?api-version=2020-10-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redisEnterprise/{clusterName}/databases/{databaseName}?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
+  pattern: ^[-\w\._\(\)]+$
 - name: clusterName
   in: path
   isRequired: true
@@ -39,7 +40,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -78,6 +79,11 @@ requestBody:
     description: Redis eviction policy - default is VolatileLRU
     types:
     - uid: EvictionPolicy
+  - name: properties.persistence
+    in: body
+    description: "Persistence settings  \nPersistence settings"
+    types:
+    - uid: Persistence
   - name: properties.modules
     in: body
     description: Optional set of redis modules to enable in this database - modules can only be added at creation time.
@@ -86,6 +92,26 @@ requestBody:
       isArray: true
 requestHeader: []
 definitions:
+- name: Persistence
+  description: Persistence settings
+  kind: object
+  properties:
+  - name: aofEnabled
+    description: Sets whether AOF is enabled.
+    types:
+    - uid: boolean
+  - name: rdbEnabled
+    description: Sets whether RDB is enabled.
+    types:
+    - uid: boolean
+  - name: aofFrequency
+    description: Sets the frequency at which data is written to disk.
+    types:
+    - uid: AofFrequency
+  - name: rdbFrequency
+    description: Sets the frequency at which a snapshot of the database is created.
+    types:
+    - uid: RdbFrequency
 - name: Module
   description: Module settings
   kind: object
@@ -133,6 +159,10 @@ definitions:
     description: Redis eviction policy - default is VolatileLRU
     types:
     - uid: EvictionPolicy
+  - name: properties.persistence
+    description: "Persistence settings  \nPersistence settings"
+    types:
+    - uid: Persistence
   - name: properties.modules
     description: Optional set of redis modules to enable in this database - modules can only be added at creation time.
     types:
@@ -161,6 +191,29 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: AofFrequency
+  description: Sets the frequency at which data is written to disk.
+  kind: enum
+  properties:
+  - name: 1s
+    types:
+    - uid: string
+  - name: always
+    types:
+    - uid: string
+- name: RdbFrequency
+  description: Sets the frequency at which a snapshot of the database is created.
+  kind: enum
+  properties:
+  - name: 1h
+    types:
+    - uid: string
+  - name: 6h
+    types:
+    - uid: string
+  - name: 12h
+    types:
+    - uid: string
 - name: Protocol
   description: Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted.
   kind: enum
@@ -319,13 +372,17 @@ definitions:
 examples:
 - name: RedisEnterpriseDatabasesCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default?api-version=2020-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redisEnterprise/cache1/databases/default?api-version=2021-03-01
     body: >-
       {
         "properties": {
           "clientProtocol": "Encrypted",
           "clusteringPolicy": "EnterpriseCluster",
           "evictionPolicy": "AllKeysLRU",
+          "persistence": {
+            "aofEnabled": true,
+            "aofFrequency": "1s"
+          },
           "port": 10000,
           "modules": [
             {
@@ -355,6 +412,10 @@ examples:
           "clientProtocol": "Encrypted",
           "clusteringPolicy": "EnterpriseCluster",
           "evictionPolicy": "AllKeysLRU",
+          "persistence": {
+            "aofEnabled": true,
+            "aofFrequency": "1s"
+          },
           "port": 10000,
           "modules": [
             {
@@ -384,9 +445,13 @@ examples:
         "properties": {
           "provisioningState": "Creating",
           "resourceState": "Creating",
-          "clientProtocol": "Plaintext",
+          "clientProtocol": "Encrypted",
           "clusteringPolicy": "EnterpriseCluster",
           "evictionPolicy": "AllKeysLRU",
+          "persistence": {
+            "aofEnabled": true,
+            "aofFrequency": "1s"
+          },
           "port": 10000,
           "modules": [
             {
