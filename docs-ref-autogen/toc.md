@@ -10474,7 +10474,7 @@
 ## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
 ## Reference (Preview)
 ### [Overview](../docs-ref-conceptual/searchmanagement/index-preview.md)
-## Reference (Stable)
+## Reference
 ### Admin Keys
 #### [Overview](searchmanagement/AdminKeys.yml)
 #### [Get](searchmanagement/AdminKeys/Get.yml)
@@ -10525,8 +10525,8 @@
 #### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)
 ### Indexers
 #### [Create Indexer](../docs-ref-conceptual/searchservice/preview-api/create-indexer.md)
-#### [Reset Indexer](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
-#### [Update Documents](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
+#### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
+#### [Update Indexer](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
 ### Skillsets
 #### [Create Skillset](../docs-ref-conceptual/searchservice/create-skillset.md)
 #### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
