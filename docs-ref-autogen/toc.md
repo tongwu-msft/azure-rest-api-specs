@@ -8596,16 +8596,6 @@
 #### [Update](media/Transforms/Update.yml)
 # Mixed Reality
 ## [Overview](../docs-ref-conceptual/mixedreality/index.md)
-## Remote Rendering
-### [Overview](mixedreality/RemoteRendering.yml)
-### [Create Conversion](mixedreality/RemoteRendering/CreateConversion.yml)
-### [Create Session](mixedreality/RemoteRendering/CreateSession.yml)
-### [Get Conversion](mixedreality/RemoteRendering/GetConversion.yml)
-### [Get Session](mixedreality/RemoteRendering/GetSession.yml)
-### [List Conversions](mixedreality/RemoteRendering/ListConversions.yml)
-### [List Sessions](mixedreality/RemoteRendering/ListSessions.yml)
-### [Stop Session](mixedreality/RemoteRendering/StopSession.yml)
-### [Update Session](mixedreality/RemoteRendering/UpdateSession.yml)
 ## 2020-04-06 preview
 ### Check Name Availability Local
 #### [Overview](mixedreality/2020-04-06preview/CheckNameAvailabilityLocal.yml)
@@ -8640,6 +8630,17 @@
 #### [List Keys](mixedreality/2020-05-01/SpatialAnchorsAccounts/ListKeys.yml)
 #### [Regenerate Keys](mixedreality/2020-05-01/SpatialAnchorsAccounts/RegenerateKeys.yml)
 #### [Update](mixedreality/2020-05-01/SpatialAnchorsAccounts/Update.yml)
+## 2021-01-01 preview
+### Remote Rendering
+#### [Overview](mixedreality/2021-01-01preview/RemoteRendering.yml)
+#### [Create Conversion](mixedreality/2021-01-01preview/RemoteRendering/CreateConversion.yml)
+#### [Create Session](mixedreality/2021-01-01preview/RemoteRendering/CreateSession.yml)
+#### [Get Conversion](mixedreality/2021-01-01preview/RemoteRendering/GetConversion.yml)
+#### [Get Session](mixedreality/2021-01-01preview/RemoteRendering/GetSession.yml)
+#### [List Conversions](mixedreality/2021-01-01preview/RemoteRendering/ListConversions.yml)
+#### [List Sessions](mixedreality/2021-01-01preview/RemoteRendering/ListSessions.yml)
+#### [Stop Session](mixedreality/2021-01-01preview/RemoteRendering/StopSession.yml)
+#### [Update Session](mixedreality/2021-01-01preview/RemoteRendering/UpdateSession.yml)
 # ML Studio (classic)
 ## [Overview](../docs-ref-conceptual/machineLearning/index.md)
 ## Commitment Associations

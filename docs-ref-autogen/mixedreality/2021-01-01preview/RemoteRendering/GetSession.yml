@@ -1,14 +1,14 @@
 ### YamlMime:RESTOperation
-uid: mixedreality.remoterendering.listsessions
-name: List Sessions
+uid: mixedreality.2021-01-01preview.remoterendering.getsession
+name: Get Session
 service: Mixed Reality
 groupName: Remote Rendering
 apiVersion: 2021-01-01-preview
-summary: Gets a list of all rendering sessions.
+summary: Gets the properties of a particular rendering session.
 produces:
 - application/json
 paths:
-- content: GET {endpoint}/accounts/{account_id}/sessions?api-version=2021-01-01-preview
+- content: GET {endpoint}/accounts/{account_id}/sessions/{session_id}?api-version=2021-01-01-preview
 uriParameters:
 - name: endpoint
   in: path
@@ -24,6 +24,12 @@ uriParameters:
   types:
   - uid: string
   format: uuid
+- name: session_id
+  in: path
+  isRequired: true
+  description: An ID uniquely identifying the rendering session for the given account. The ID is case sensitive, can contain any combination of alphanumeric characters including hyphens and underscores, and cannot contain more than 256 characters.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -32,9 +38,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK. Returns the list of sessions which are in a 'Starting' or 'Ready' state.
+  description: OK.
   types:
-  - uid: sessions_list
+  - uid: session_properties
 - name: 401 Unauthorized
   headers:
   - name: MS-CV
@@ -47,6 +53,11 @@ responses:
   - name: MS-CV
     value: string
   description: Forbidden. Authorization insufficient for given resource.
+- name: 404 Not Found
+  headers:
+  - name: MS-CV
+    value: string
+  description: Not found. No session with the provided session ID exists.
 - name: Other Status Codes
   headers:
   - name: MS-CV
@@ -69,28 +80,6 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: sessions_list
-  description: The result of a list sessions request.
-  kind: object
-  properties:
-  - name: sessions
-    description: The list of rendering sessions. Does not include sessions in 'Stopped' state.
-    types:
-    - uid: session_properties
-      isArray: true
-  - name: '@nextLink'
-    isReadyOnly: true
-    description: If more rendering sessions are available this field will contain a URL where the next batch of sessions can be requested. This URL will need the same authentication as all calls to the Azure Remote Rendering API.
-    types:
-    - uid: string
-- name: error_response
-  description: The error response containing details of why the request failed.
-  kind: object
-  properties:
-  - name: error
-    description: The error object containing details of why the request failed.
-    types:
-    - uid: error
 - name: session_properties
   description: The properties of a rendering session.
   kind: object
@@ -147,32 +136,12 @@ definitions:
     description: The time when the rendering session was created. Date and time in ISO 8601 format.
     types:
     - uid: string
-- name: error
-  description: The error object containing details of why the request failed.
+- name: error_response
+  description: The error response containing details of why the request failed.
   kind: object
   properties:
-  - name: code
-    description: Error code.
-    types:
-    - uid: string
-  - name: message
-    description: A human-readable representation of the error.
-    types:
-    - uid: string
-  - name: details
-    isReadyOnly: true
-    description: An array of details about specific errors that led to this reported error.
-    types:
-    - uid: error
-      isArray: true
-  - name: target
-    isReadyOnly: true
-    description: The target of the particular error (e.g., the name of the property in error).
-    types:
-    - uid: string
-  - name: innerError
-    isReadyOnly: true
-    description: An object containing more specific information than the current object about the error.
+  - name: error
+    description: The error object containing details of why the request failed.
     types:
     - uid: error
 - name: session_size
@@ -211,10 +180,38 @@ definitions:
     description: The rendering session has been stopped with the 'Stop Session' operation. This is a terminal state.
     types:
     - uid: string
+- name: error
+  description: The error object containing details of why the request failed.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: error
+      isArray: true
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error (e.g., the name of the property in error).
+    types:
+    - uid: string
+  - name: innerError
+    isReadyOnly: true
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: error
 examples:
-- name: List sessions
+- name: Get a previously created session by ID
   request:
-    uri: GET https://remoterendering.eastus.mixedreality.azure.com/accounts/30ea64bd-100f-4bf0-adc9-29fa45d4880c/sessions?api-version=2021-01-01-preview
+    uri: GET https://remoterendering.eastus.mixedreality.azure.com/accounts/30ea64bd-100f-4bf0-adc9-29fa45d4880c/sessions/contoso-session-c2b8ac1d-9494-4852-a59c-8c28813adc28?api-version=2021-01-01-preview
   responses:
   - statusCode: "200"
     headers:
@@ -222,34 +219,17 @@ examples:
       value: dKEFmka2kkSlDmp/af+sOw
     body: >-
       {
-        "sessions": [
-          {
-            "id": "contoso-session-c2b8ac1d-9494-4852-a59c-8c28813adc28",
-            "creationTime": "2020-11-11T11:11:11.111Z",
-            "arrInspectorPort": 50052,
-            "handshakePort": 50051,
-            "elapsedTimeMinutes": 59,
-            "hostname": "d4cefb7b-10b9-4631-934d-67445ffa9126.remoterenderingvm.westus2.mixedreality.azure.com",
-            "maxLeaseTimeMinutes": 60,
-            "size": "Standard",
-            "status": "Stopped",
-            "error": null,
-            "teraflops": 10.6
-          },
-          {
-            "id": "contoso-session-03c200ce-faf8-4238-8db9-872ac9dd501d",
-            "creationTime": "2021-01-01T11:11:11.111Z",
-            "arrInspectorPort": 50053,
-            "handshakePort": 50052,
-            "elapsedTimeMinutes": 12,
-            "hostname": "615854b8-1748-4f2e-9522-bf8523d7299c.remoterenderingvm.westus2.mixedreality.azure.com",
-            "maxLeaseTimeMinutes": 72,
-            "size": "Standard",
-            "status": "Ready",
-            "error": null,
-            "teraflops": 10.6
-          }
-        ]
+        "id": "contoso-session-c2b8ac1d-9494-4852-a59c-8c28813adc28",
+        "creationTime": "2020-11-11T11:11:11.111Z",
+        "arrInspectorPort": 50052,
+        "handshakePort": 50051,
+        "elapsedTimeMinutes": 10,
+        "hostname": "d4cefb7b-10b9-4631-934d-67445ffa9126.remoterenderingvm.westus2.mixedreality.azure.com",
+        "maxLeaseTimeMinutes": 60,
+        "size": "Standard",
+        "status": "Ready",
+        "error": null,
+        "teraflops": 10.6
       }
   - statusCode: "401"
     headers:
@@ -258,6 +238,10 @@ examples:
     - name: MS-CV
       value: dKEFmka2kkSlDmp/af+sOw
   - statusCode: "403"
+    headers:
+    - name: MS-CV
+      value: dKEFmka2kkSlDmp/af+sOw
+  - statusCode: "404"
     headers:
     - name: MS-CV
       value: dKEFmka2kkSlDmp/af+sOw
