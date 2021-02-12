@@ -3699,10 +3699,6 @@
 #### [Overview](cognitiveservices/contentmoderator/TextModeration.yml)
 #### [Detect Language](cognitiveservices/contentmoderator/TextModeration/DetectLanguage.yml)
 #### [Screen Text](cognitiveservices/contentmoderator/TextModeration/ScreenText.yml)
-## Ink Recognizer
-### Ink Recognizer
-#### [Overview](cognitiveservices/inkrecognizer/InkRecognizer.yml)
-#### [Recognize](cognitiveservices/inkrecognizer/InkRecognizer/Recognize.yml)
 ## Luis-Programmatic
 ### Apps
 #### [Overview](cognitiveservices/luis-programmatic/Apps.yml)
