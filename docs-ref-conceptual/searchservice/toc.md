@@ -13,9 +13,7 @@
 ### [Reset Documents](preview-api/reset-documents.md)
 ### [Update Indexer](preview-api/update-indexer.md)
 ## Skillsets
-### [Create Skillset](create-skillset.md)
 ### [Reset Skills](preview-api/reset-skills.md)
-### [Update Skillset](update-skillset.md)
 # Reference (Stable)
 ## [Indexes](index-operations.md)
 ### [Analyze Text](test-analyzer.md)
