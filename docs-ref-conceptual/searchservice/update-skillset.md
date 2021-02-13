@@ -1,22 +1,23 @@
 ---
 title: Update Skillset (Azure Cognitive Search REST API)
 description: Modify an existing skillset. A skillset is a collection of cognitive skills that comprise an enrichment pipeline in Azure Cognitive Search indexing.
-ms.date: 06/30/2020
 
-ms.service: cognitive-search
-ms.topic: language-reference
-ms.devlang: rest-api
-
+ms.manager: nitinme
 author: luiscabrer
 ms.author: luisca
-ms.manager: nitinme
+
+ms.service: cognitive-search
+ms.devlang: rest-api
+ms.workload: search
+ms.topic: "language-reference"
+ms.date: 01/30/2020
 ---
 # Update Skillset (Azure Cognitive Search REST API)
 
-You can update an existing [skillset](create-skillset.md) and [knowledge store](create-skillset.md#kstore) using an HTTP PUT, specifying the name of the skillset to update on the request URI.
+You can update an existing [skillset](create-skillset.md) using an HTTP PUT, specifying the name of the skillset to update on the request URI.
 
 ```http  
-PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=[api-version]
+PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=2019-05-06
   Content-Type: application/json
   api-key: [admin key]
 ``` 
@@ -26,14 +27,11 @@ PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-versi
 
 ## URI Parameters
 
-## URI Parameters
-
 | Parameter	  | Description  | 
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | skillset name  | Required. The request URI specifies the name of the skillset to update. |
-| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
-| disableCacheReprocessingChangeDetection | Optional. Used for incremental enrichment (`false` by default). Set to `true` to prevent updates to existing documents based on the current action. For more information, see [cache management](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual#cache-management).|
+| api-version | Required. The current version is `api-version=2019-05-06`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ## Request Headers 
  The following table describes the required and optional request headers.  
@@ -61,7 +59,7 @@ When updating an existing skillset, the entire definition is replaced with the c
  The following example updates a skillset used for enriching a collection of financial documents.
 
 ```http
-PUT https://[servicename].search.windows.net/skillsets/financedocenricher?api-version=2020-06-30
+PUT https://[servicename].search.windows.net/skillsets/financedocenricher?api-version=2019-05-06
 api-key: [admin key]
 Content-Type: application/json
 ```
