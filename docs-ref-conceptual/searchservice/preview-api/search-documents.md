@@ -1,7 +1,7 @@
 ---
 title: Search Documents (api-version=2020-06-30-Preview)
 description: Preview version of the Search Documents REST API for Cognitive Search.
-ms.date: 02/13/20201
+ms.date: 02/13/2021
 ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
