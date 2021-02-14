@@ -15,7 +15,7 @@ ms.manager: nitinme
 
 A query request targets the documents collection of a single index on a search service. It includes parameters that define the match criteria, and parameters that shape the response.
 
-You can use GET or POST. Parameters are specified on the query string in the case of GET requests, and in the request body in the case of POST requests.
+You can use GET or POST. [Query parameters](#query-parameters) are specified on the query string in the case of GET requests, and in the request body in the case of POST requests.
 
 ```http
 GET https://[service name].search.windows.net/indexes/[index name]/docs?[query parameters] 
@@ -31,10 +31,10 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/search?
 
 **When to use POST instead of GET**  
 
- When you use HTTP GET, the length of the request URL cannot exceed 8 KB. This is often enough for most applications. However, some applications produce very large queries or OData filter expressions. For these applications, using HTTP POST is a better choice because it allows larger filters and queries. With POST, the number of terms or clauses in a query is the limiting factor, not the size of the raw query since the request size limit for POST is approximately 16 MB.  
+ When using GET, the length of the request URL cannot exceed 8 KB. This is often long enough for most applications. However, some applications produce very large queries or OData filter expressions. For these applications, POST is a better choice because you can specify larger filters and queries in the request body. With POST, the number of terms or clauses in a query is the limiting factor, not the size of the raw query since the request size limit for POST is approximately 16 MB.  
 
 > [!NOTE]  
->  Even though the POST request size limit is very large, search queries and filter expressions cannot be arbitrarily complex. See [Lucene query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-lucene-syntax) and [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for more information about search query and filter complexity limitations.  
+> Even though the POST request size limit is very large, search queries and filter expressions cannot be arbitrarily complex. See [Lucene query syntax](https://docs.microsoft.com/azure/search/query-lucene-syntax) and [OData expression syntax](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for more information about search query and filter complexity limitations.  
 
 ## URI Parameters
 
@@ -56,7 +56,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/search?
 
 URL encoding is only recommended on the above query parameters. If you inadvertently URL-encode the entire query string (everything after the `?`), requests will break.  
 
-Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when using POST, or when using the [Azure Cognitive Search .NET client library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet), which handles URL encoding for you.  
+Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when using POST, or when using the [Azure Cognitive Search .NET client library](https://docs.microsoft.com/dotnet/api/overview/azure/search), which handles URL encoding for you.  
 
 ## Query Parameters
 
@@ -83,7 +83,7 @@ A query accepts several parameters on the URL when called via GET, and as JSON p
 | `scoringStatistics` | Optional. Valid values are `local` or `global`. Defaults to `local`. A value that specifies whether to calculate scoring statistics, such as document frequency, globally (across all shards) for more consistent scoring, or locally (on the current shard) for lower latency. See [Scoring Statistics in Azure Cognitive Search](https://docs.microsoft.com/azure/search/index-similarity-and-scoring#scoring-statistics). Scoring statistics will always be calculated locally for terms that use [fuzzy search ('~')](https://docs.microsoft.com/azure/search/search-query-fuzzy#how-to-use-fuzzy-search). |
 | `sessionId=[string]` | Optional. Using sessionId help improve relevance score consistency for search services with multiple replicas. In multi-replica configurations, there can be slight differences between relevance scores of individual documents for the same query. When a session ID is provided, the service will make best-effort to route a given request to the same replica for that session. Be wary that reusing the same session ID values repeatedly can interfere with load balancing of the requests across replicas and adversely affect the performance of the search service. The value used as sessionId cannot start with a '_' character. If a service doesn't have any replicas, this parameter has no effect on performance or score consistency. |
 | `minimumCoverage` | Optional. Valid values are a number between 0 and 100 indicating the percentage of the index that must be covered by a search query in order for the query to be reported as a success. Defaults to `100`. By default, the entire index must be available or the Search operation will return HTTP status code 503. If you set `minimumCoverage` and Search succeeds, it will return HTTP 200 and include a `@search.coverage` value in the response indicating the percentage of the index that was included in the query. </br></br>Setting this parameter to a value lower than 100 can be useful for ensuring search availability even for services with only one replica. However, not all matching documents are guaranteed to be present in the search results. If search recall is more important to your application than availability, then it's best to leave `minimumCoverage` at its default value of 100. |
-| `api-version=[string]` Required. The `api-version` parameter is required. See [API versioning in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions. For this operation, the `api-version` is specified as a query parameter in the URL regardless of whether you call **Search Documents** with GET or POST.  |
+| `api-version=[string]` | Required. The `api-version` parameter is required. See [API versioning in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions. For this operation, the `api-version` is specified as a query parameter in the URL regardless of whether you call **Search Documents** with GET or POST.  |
 
 ## Request Headers
 

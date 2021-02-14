@@ -21,8 +21,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/index?a
   api-key: [admin key]  
 ```  
 
-> [!NOTE]  
-> For supported Azure data sources, [indexers](https://docs.microsoft.com/azure/search/search-indexer-overview) offer a simpler way to add and update documents. For more information, see [Indexer operations](indexer-operations.md).  
+For supported Azure data sources, [indexers](https://docs.microsoft.com/azure/search/search-indexer-overview) offer a simpler alternative for adding and updating documents. For more information, see [Indexer operations](indexer-operations.md).  
 
 ## URI Parameters
 
