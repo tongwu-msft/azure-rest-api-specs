@@ -608,6 +608,9 @@
 #### Api Management Service Skus
 ##### [Overview](apimanagement/2020-06-01-preview/ApiManagementServiceSkus.yml)
 ##### [List Available Service Skus](apimanagement/2020-06-01-preview/ApiManagementServiceSkus/ListAvailableServiceSkus.yml)
+#### Api Management Skus
+##### [Overview](apimanagement/2020-06-01-preview/ApiManagementSkus.yml)
+##### [List](apimanagement/2020-06-01-preview/ApiManagementSkus/List.yml)
 #### Api Operation
 ##### [Overview](apimanagement/2020-06-01-preview/ApiOperation.yml)
 ##### [Create Or Update](apimanagement/2020-06-01-preview/ApiOperation/CreateOrUpdate.yml)
@@ -868,6 +871,13 @@
 #### Policy Description
 ##### [Overview](apimanagement/2020-06-01-preview/PolicyDescription.yml)
 ##### [List By Service](apimanagement/2020-06-01-preview/PolicyDescription/ListByService.yml)
+#### Portal Revision
+##### [Overview](apimanagement/2020-06-01-preview/PortalRevision.yml)
+##### [Create Or Update](apimanagement/2020-06-01-preview/PortalRevision/CreateOrUpdate.yml)
+##### [Get](apimanagement/2020-06-01-preview/PortalRevision/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-06-01-preview/PortalRevision/GetEntityTag.yml)
+##### [List By Service](apimanagement/2020-06-01-preview/PortalRevision/ListByService.yml)
+##### [Update](apimanagement/2020-06-01-preview/PortalRevision/Update.yml)
 #### Portal Settings
 ##### [Overview](apimanagement/2020-06-01-preview/PortalSettings.yml)
 ##### [List By Service](apimanagement/2020-06-01-preview/PortalSettings/ListByService.yml)
