@@ -608,6 +608,9 @@
 #### Api Management Service Skus
 ##### [Overview](apimanagement/2020-06-01-preview/ApiManagementServiceSkus.yml)
 ##### [List Available Service Skus](apimanagement/2020-06-01-preview/ApiManagementServiceSkus/ListAvailableServiceSkus.yml)
+#### Api Management Skus
+##### [Overview](apimanagement/2020-06-01-preview/ApiManagementSkus.yml)
+##### [List](apimanagement/2020-06-01-preview/ApiManagementSkus/List.yml)
 #### Api Operation
 ##### [Overview](apimanagement/2020-06-01-preview/ApiOperation.yml)
 ##### [Create Or Update](apimanagement/2020-06-01-preview/ApiOperation/CreateOrUpdate.yml)
@@ -868,6 +871,13 @@
 #### Policy Description
 ##### [Overview](apimanagement/2020-06-01-preview/PolicyDescription.yml)
 ##### [List By Service](apimanagement/2020-06-01-preview/PolicyDescription/ListByService.yml)
+#### Portal Revision
+##### [Overview](apimanagement/2020-06-01-preview/PortalRevision.yml)
+##### [Create Or Update](apimanagement/2020-06-01-preview/PortalRevision/CreateOrUpdate.yml)
+##### [Get](apimanagement/2020-06-01-preview/PortalRevision/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-06-01-preview/PortalRevision/GetEntityTag.yml)
+##### [List By Service](apimanagement/2020-06-01-preview/PortalRevision/ListByService.yml)
+##### [Update](apimanagement/2020-06-01-preview/PortalRevision/Update.yml)
 #### Portal Settings
 ##### [Overview](apimanagement/2020-06-01-preview/PortalSettings.yml)
 ##### [List By Service](apimanagement/2020-06-01-preview/PortalSettings/ListByService.yml)
@@ -3699,10 +3709,6 @@
 #### [Overview](cognitiveservices/contentmoderator/TextModeration.yml)
 #### [Detect Language](cognitiveservices/contentmoderator/TextModeration/DetectLanguage.yml)
 #### [Screen Text](cognitiveservices/contentmoderator/TextModeration/ScreenText.yml)
-## Ink Recognizer
-### Ink Recognizer
-#### [Overview](cognitiveservices/inkrecognizer/InkRecognizer.yml)
-#### [Recognize](cognitiveservices/inkrecognizer/InkRecognizer/Recognize.yml)
 ## Luis-Programmatic
 ### Apps
 #### [Overview](cognitiveservices/luis-programmatic/Apps.yml)
@@ -3981,6 +3987,18 @@
 ### Sentiment
 #### [Overview](cognitiveservices/textanalytics/Sentiment.yml)
 #### [Sentiment](cognitiveservices/textanalytics/Sentiment/Sentiment.yml)
+## Translator
+### Translation
+#### [Overview](cognitiveservices/translator/Translation.yml)
+#### [Cancel Operation](cognitiveservices/translator/Translation/CancelOperation.yml)
+#### [Get Document Formats](cognitiveservices/translator/Translation/GetDocumentFormats.yml)
+#### [Get Document Status](cognitiveservices/translator/Translation/GetDocumentStatus.yml)
+#### [Get Document Storage Source](cognitiveservices/translator/Translation/GetDocumentStorageSource.yml)
+#### [Get Glossary Formats](cognitiveservices/translator/Translation/GetGlossaryFormats.yml)
+#### [Get Operation Documents Status](cognitiveservices/translator/Translation/GetOperationDocumentsStatus.yml)
+#### [Get Operation Status](cognitiveservices/translator/Translation/GetOperationStatus.yml)
+#### [Get Operations](cognitiveservices/translator/Translation/GetOperations.yml)
+#### [Submit Batch Request](cognitiveservices/translator/Translation/SubmitBatchRequest.yml)
 ## Translator Text
 ### Translator
 #### [Overview](cognitiveservices/translatortext/Translator.yml)
@@ -10525,30 +10543,28 @@
 #### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)
 ### Indexers
 #### [Create Indexer](../docs-ref-conceptual/searchservice/preview-api/create-indexer.md)
-#### [Update Indexer](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
 #### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
+#### [Update Indexer](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
 ### Skillsets
-#### [Create Skillset](../docs-ref-conceptual/searchservice/create-skillset.md)
 #### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
-#### [Update Skillset](../docs-ref-conceptual/searchservice/update-skillset.md)
 ## Reference (Stable)
 ### Indexes
 #### [Overview](../docs-ref-conceptual/searchservice/index-operations.md)
-#### [Create Index](../docs-ref-conceptual/searchservice/create-index.md)
-#### [Update Index](../docs-ref-conceptual/searchservice/update-index.md)
-#### [List Indexes](../docs-ref-conceptual/searchservice/list-indexes.md)
-#### [Get Index](../docs-ref-conceptual/searchservice/get-index.md)
-#### [Delete Index](../docs-ref-conceptual/searchservice/delete-index.md)
-#### [Get Index Statistics](../docs-ref-conceptual/searchservice/get-index-statistics.md)
 #### [Analyze Text](../docs-ref-conceptual/searchservice/test-analyzer.md)
+#### [Create Index](../docs-ref-conceptual/searchservice/create-index.md)
+#### [Delete Index](../docs-ref-conceptual/searchservice/delete-index.md)
+#### [Get Index](../docs-ref-conceptual/searchservice/get-index.md)
+#### [Get Index Statistics](../docs-ref-conceptual/searchservice/get-index-statistics.md)
+#### [List Indexes](../docs-ref-conceptual/searchservice/list-indexes.md)
+#### [Update Index](../docs-ref-conceptual/searchservice/update-index.md)
 ### Documents
 #### [Overview](../docs-ref-conceptual/searchservice/document-operations.md)
 #### [Add, Update or Delete Documents](../docs-ref-conceptual/searchservice/addupdate-or-delete-documents.md)
+#### [Autocomplete](../docs-ref-conceptual/searchservice/autocomplete.md)
+#### [Count Documents](../docs-ref-conceptual/searchservice/count-documents.md)
+#### [Lookup Document](../docs-ref-conceptual/searchservice/lookup-document.md)
 #### [Search Documents](../docs-ref-conceptual/searchservice/search-documents.md)
 #### [Suggestions](../docs-ref-conceptual/searchservice/suggestions.md)
-#### [Autocomplete](../docs-ref-conceptual/searchservice/autocomplete.md)
-#### [Lookup Document](../docs-ref-conceptual/searchservice/lookup-document.md)
-#### [Count Documents](../docs-ref-conceptual/searchservice/count-documents.md)
 ### Indexers
 #### [Overview](../docs-ref-conceptual/searchservice/indexer-operations.md)
 #### [Create Data Source](../docs-ref-conceptual/searchservice/create-data-source.md)
@@ -10578,10 +10594,10 @@
 ### Synonyms
 #### [Overview](../docs-ref-conceptual/searchservice/synonym-map-operations.md)
 #### [Create Synonym Map](../docs-ref-conceptual/searchservice/create-synonym-map.md)
-#### [Update Synonym Map](../docs-ref-conceptual/searchservice/update-synonym-map.md)
-#### [List Synonym Maps](../docs-ref-conceptual/searchservice/list-synonym-maps.md)
-#### [Get Synonym Map](../docs-ref-conceptual/searchservice/get-synonym-map.md)
 #### [Delete Synonym Map](../docs-ref-conceptual/searchservice/delete-synonym-map.md)
+#### [Get Synonym Map](../docs-ref-conceptual/searchservice/get-synonym-map.md)
+#### [List Synonym Maps](../docs-ref-conceptual/searchservice/list-synonym-maps.md)
+#### [Update Synonym Map](../docs-ref-conceptual/searchservice/update-synonym-map.md)
 # Security Center
 ## [Overview](../docs-ref-conceptual/securitycenter/index.md)
 ## Adaptive Application Controls

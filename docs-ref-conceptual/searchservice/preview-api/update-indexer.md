@@ -16,7 +16,7 @@ ms.manager: nitinme
 **API Version: 2020-06-30-Preview**
 
 > [!Important]
-> This preview API adds support for the [cache property](create-indexer.md#cache) used for [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual). If you are developing an indexer that has caching enabled, use the preview API to update the definition
+> This preview API adds support for the [cache property in Create Indexer](create-indexer.md) used for [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual). If you are developing an indexer that has caching enabled, use the preview API to update the definition
 
 You can update an existing indexer definition using an HTTP PUT request. Specify the name of the indexer to update on the request URI:  
 
