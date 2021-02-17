@@ -3987,6 +3987,18 @@
 ### Sentiment
 #### [Overview](cognitiveservices/textanalytics/Sentiment.yml)
 #### [Sentiment](cognitiveservices/textanalytics/Sentiment/Sentiment.yml)
+## Translator
+### Translation
+#### [Overview](cognitiveservices/translator/Translation.yml)
+#### [Cancel Operation](cognitiveservices/translator/Translation/CancelOperation.yml)
+#### [Get Document Formats](cognitiveservices/translator/Translation/GetDocumentFormats.yml)
+#### [Get Document Status](cognitiveservices/translator/Translation/GetDocumentStatus.yml)
+#### [Get Document Storage Source](cognitiveservices/translator/Translation/GetDocumentStorageSource.yml)
+#### [Get Glossary Formats](cognitiveservices/translator/Translation/GetGlossaryFormats.yml)
+#### [Get Operation Documents Status](cognitiveservices/translator/Translation/GetOperationDocumentsStatus.yml)
+#### [Get Operation Status](cognitiveservices/translator/Translation/GetOperationStatus.yml)
+#### [Get Operations](cognitiveservices/translator/Translation/GetOperations.yml)
+#### [Submit Batch Request](cognitiveservices/translator/Translation/SubmitBatchRequest.yml)
 ## Translator Text
 ### Translator
 #### [Overview](cognitiveservices/translatortext/Translator.yml)
