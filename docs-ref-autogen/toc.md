@@ -10538,15 +10538,15 @@
 ## [HTTP request and response headers](../docs-ref-conceptual/searchservice/common-http-request-and-response-headers-used-in-azure-search.md)
 ## [OData support](../docs-ref-conceptual/searchservice/support-for-odata.md)
 ## Reference (Preview)
-### [Introduction](index-preview.md)
+### [Introduction](../docs-ref-conceptual/searchservice/index-preview.md)
 ### Documents
-#### [Reset Documents](preview-api/reset-documents.md)
-#### [Search Documents](preview-api/search-documents.md)
+#### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
+#### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)
 ### Indexers
-#### [Create Indexer](preview-api/create-indexer.md)
-#### [Update Indexer](preview-api/update-indexer.md)
+#### [Create Indexer](../docs-ref-conceptual/searchservice/preview-api/create-indexer.md)
+#### [Update Indexer](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
 ### Skillsets
-#### [Reset Skills](preview-api/reset-skills.md)
+#### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
 ## Reference (Stable)
 ### Indexes
 #### [Overview](../docs-ref-conceptual/searchservice/index-operations.md)
