@@ -70,9 +70,7 @@ The following table describes the required and optional request headers.
 |Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to "application/json"|  
-|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service URL. Query requests against the `docs` collection can specify either an admin-key or query-key as the api-key. The query-key is used for query-only operations.|  
-
-You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).
+|api-key|Required. A unique, system-generated string that authenticates the request to your search service. Query requests against the documents  collection can specify either an admin-key or query-key as the api-key. The query-key is used for read-only operations against the documents collection. You can get keys from the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).|  
 
 ## Request Body
 
@@ -104,11 +102,11 @@ For POST:
    }  
 ```  
 
- **Continuation of Partial Search Responses**
+**Continuation of Partial Search Responses**
 
- Sometimes Azure Cognitive Search can't return all the requested results in a single Search response. This can happen for different reasons, such as when the query requests too many documents by not specifying $top or specifying a value for $top that is too large. In such cases, Azure Cognitive Search will include the @odata.nextLink annotation in the response body, and also @search.nextPageParameters if it was a POST request. You can use the values of these annotations to formulate another Search request to get the next part of the search response. This is called a *continuation* of the original Search request, and the annotations are generally called *continuation tokens*. See the example in Response below for details on the syntax of these annotations and where they appear in the response body.  
+Sometimes Azure Cognitive Search can't return all the requested results in a single Search response. This can happen for different reasons, such as when the query requests too many documents by not specifying $top or specifying a value for $top that is too large. In such cases, Azure Cognitive Search will include the @odata.nextLink annotation in the response body, and also @search.nextPageParameters if it was a POST request. You can use the values of these annotations to formulate another Search request to get the next part of the search response. This is called a *continuation* of the original Search request, and the annotations are generally called *continuation tokens*. See the example in Response below for details on the syntax of these annotations and where they appear in the response body.  
 
- The reasons why Azure Cognitive Search might return continuation tokens are implementation-specific and subject to change. Robust clients should always be ready to handle cases where fewer documents than expected are returned and a continuation token is included to continue retrieving documents. Also note that you must use the same HTTP method as the original request in order to continue. For example, if you sent a GET request, any continuation requests you send must also use GET (and likewise for POST).
+The reasons why Azure Cognitive Search might return continuation tokens are implementation-specific and subject to change. Robust clients should always be ready to handle cases where fewer documents than expected are returned and a continuation token is included to continue retrieving documents. Also note that you must use the same HTTP method as the original request in order to continue. For example, if you sent a GET request, any continuation requests you send must also use GET (and likewise for POST).
 
 > [!NOTE]
 > The purpose of @odata.nextLink and @search.nextPageParameters is to protect the service from queries that request too many results, not to provide a general mechanism for paging. If you want to page through results, use $top and $skip together. For example, if you want pages of size 10, your first request should have $top=10 and $skip=0, the second request should have $top=1` and $skip=10, the third request should have $top=10 and $skip=20, and so on.
