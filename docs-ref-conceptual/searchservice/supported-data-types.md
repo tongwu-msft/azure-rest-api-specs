@@ -59,10 +59,10 @@ To learn more about geospatial search in Azure, see this video: [Azure Cognitive
 
 ## See also  
 
-+ [Azure Cognitive Search REST APIs](index.md)   
-+ [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
-+ [Support for OData &#40;Azure Cognitive Search&#41;](support-for-odata.md)   
-+ [Create Index &#40;Azure Cognitive Search REST API&#41;](create-index.md)   
-+ [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](addupdate-or-delete-documents.md)   
-+ [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md)   
-+ [Azure Cognitive Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  
++ [Azure Cognitive Search REST APIs](index.md)
++ [HTTP status codes](http-status-codes.md)
++ [Support for OData](support-for-odata.md)
++ [Create Index](create-index.md)
++ [Add, Update or Delete Document](addupdate-or-delete-documents.md)
++ [Indexer operations](indexer-operations.md)
++ [Azure Cognitive Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search)  
