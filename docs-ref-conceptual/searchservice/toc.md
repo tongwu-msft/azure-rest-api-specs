@@ -7,10 +7,10 @@
 # Reference (Preview)
 ## [Introduction](index-preview.md)
 ## Documents
+### [Reset Documents](preview-api/reset-documents.md)
 ### [Search Documents](preview-api/search-documents.md)
 ## Indexers
 ### [Create Indexer](preview-api/create-indexer.md)
-### [Reset Documents](preview-api/reset-documents.md)
 ### [Update Indexer](preview-api/update-indexer.md)
 ## Skillsets
 ### [Reset Skills](preview-api/reset-skills.md)
