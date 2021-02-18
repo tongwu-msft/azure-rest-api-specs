@@ -15282,6 +15282,7 @@
 #### [Set Container ACL](../docs-ref-conceptual/storageservices/set-container-acl.md)
 #### [Delete Container](../docs-ref-conceptual/storageservices/delete-container.md)
 #### [Lease Container](../docs-ref-conceptual/storageservices/lease-container.md)
+#### [Restore Container](../docs-ref-conceptual/storageservices/restore-container.md)
 #### [List Blobs](../docs-ref-conceptual/storageservices/list-blobs.md)
 ### Operations on Blobs
 #### [Overview](../docs-ref-conceptual/storageservices/operations-on-blobs.md)
