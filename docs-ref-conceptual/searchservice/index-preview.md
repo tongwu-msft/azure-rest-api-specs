@@ -20,7 +20,7 @@ ms.manager: nitinme
 
 This preview version of the search service REST API includes functionality for semantic search, relevance scoring, and cached AI enrichments.
 
-| API | Feature and description |
+| API | Preview feature in this API |
 |-----|-------------------------|
 | [Create Indexer](preview-api/create-indexer.md) | Configure caching of enriched content at each stage for potential reuse if you change parts of a skillset.  |
 | [Reset Documents](preview-api/reset-documents.md) | Rebuild specific documents by overwriting its content. If the document contains enriched content, the skillset is invoked for that document. If enrichment caching is enabled, the cached content for that document is also refreshed. |
