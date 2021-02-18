@@ -10540,10 +10540,10 @@
 ## Reference (Preview)
 ### [Introduction](../docs-ref-conceptual/searchservice/index-preview.md)
 ### Documents
+#### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
 #### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)
 ### Indexers
 #### [Create Indexer](../docs-ref-conceptual/searchservice/preview-api/create-indexer.md)
-#### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
 #### [Update Indexer](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
 ### Skillsets
 #### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
