@@ -43,7 +43,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/search?
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | [index name]/docs  | Required. The request URI specifies the documents collection of a named index. |
 | query parameters| Query parameters are specified on the query string for GET requests and in the request body for POST requests. For GET, a multi-part construction that includes a fully specified search or filter expression (optional). |
-| [api-version] | Set to `api-version=2020-06-30-Preview` (required). For **Search Documents**, the api-version is always specified as a URI parameter.|
+| api-version | Required. The current version is `api-version=2020-06-30`. For a list of all supported versions, see [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions).|
 
 ### URL-encoding recommendations
 
@@ -66,7 +66,7 @@ The following table describes the required and optional request headers.
 |Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to "application/json"|  
-|api-key|Required. A unique, system-generated string that authenticates the request to your search service. Query requests against the documents  collection can specify either an admin-key or query-key as the api-key. The query-key is used for read-only operations against the documents collection. You can get keys from the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).|  
+|api-key|Required. A unique, system-generated string that authenticates the request to your search service. Query requests against the documents collection can specify either an admin-key or query-key as the API key. The query-key is used for read-only operations against the documents collection. You can get keys from the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).|  
 
 ## Request Body
 
@@ -208,11 +208,11 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
 1. Search the Index sorted descending by date:  
 
     ```http 
-    GET /indexes/hotels/docs?search=*&$orderby=LastRenovationDate desc&api-version=2020-06-30-Preview 
+    GET /indexes/hotels/docs?search=*&$orderby=LastRenovationDate desc&api-version=2020-06-30
     ```  
 
     ```http  
-    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview 
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "*",  
           "orderby": "LastRenovationDate desc"
@@ -222,11 +222,11 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
 1. In a faceted search, search the index and retrieve facets for categories, ratings, tags, as well as items with baseRate in specific ranges.
 
     ```http  
-    GET /indexes/hotels/docs?search=*&facet=Category&facet=Rating&facet=Tags&facet=Rooms/BaseRate,values:80|150|220&api-version=2020-06-30-Preview  
+    GET /indexes/hotels/docs?search=*&facet=Category&facet=Rating&facet=Tags&facet=Rooms/BaseRate,values:80|150|220&api-version=2020-06-30
     ```  
 
     ```http
-    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "test",  
           "facets": [ "Category", "Rating", "Tags", "Rooms/BaseRate,values:80|150|220" ]  
@@ -238,11 +238,11 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
 1. Using a filter, narrow down the previous faceted query result after the user clicks on Rating 3 and category "Motel".  
 
     ```http  
-    GET /indexes/hotels/docs?search=*&facet=tags&facet=Rooms/BaseRate,values:80|150|220&$filter=Rating eq 3 and Category eq 'Motel'&api-version=2020-06-30-Preview  
+    GET /indexes/hotels/docs?search=*&facet=tags&facet=Rooms/BaseRate,values:80|150|220&$filter=Rating eq 3 and Category eq 'Motel'&api-version=2020-06-30
     ```  
 
     ```http 
-    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview 
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "test",  
           "facets": [ "tags", "Rooms/BaseRate,values:80|150|220" ],  
@@ -253,11 +253,11 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
 1. In a faceted search, set an upper limit on unique terms returned in a query. The default is 10, but you can increase or decrease this value using the count parameter on the facet attribute. This example returns facets for city, limited to 5.  
 
     ```http 
-    GET /indexes/hotels/docs?search=*&facet=Address/City,count:5&api-version=2020-06-30-Preview  
+    GET /indexes/hotels/docs?search=*&facet=Address/City,count:5&api-version=2020-06-30
     ```  
 
     ```http  
-    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview 
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "test",  
           "facets": [ "Address/City,count:5" ]  
@@ -267,11 +267,11 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
 1. Search the Index within specific fields (for example, a language field):  
 
     ```http 
-    GET /indexes/hotels/docs?search=hôtel&searchFields=Description_fr&api-version=2020-06-30-Preview  
+    GET /indexes/hotels/docs?search=hôtel&searchFields=Description_fr&api-version=2020-06-30
     ```  
 
     ```http 
-    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview 
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "hôtel",  
           "searchFields": "Description_fr"
@@ -281,11 +281,11 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
 1. Search the Index across multiple fields. For example, you can store and query searchable fields in multiple languages, all within the same index. If English and French descriptions co-exist in the same document, you can return any or all in the query results:  
 
     ```http 
-    GET /indexes/hotels/docs?search=hotel&searchFields=Description,Description_fr&api-version=2020-06-30-Preview
+    GET /indexes/hotels/docs?search=hotel&searchFields=Description,Description_fr&api-version=2020-06-30
     ```  
 
     ```http 
-    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "hotel",  
           "searchFields": "Description, Description_fr"
@@ -297,11 +297,11 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
 1. Paging - Get the first page of items (page size is 10):  
 
     ```http
-    GET /indexes/hotels/docs?search=*&$skip=0&$top=10&api-version=2020-06-30-Preview 
+    GET /indexes/hotels/docs?search=*&$skip=0&$top=10&api-version=2020-06-30
     ```  
 
     ```http 
-    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "*",  
           "skip": 0,  
@@ -312,11 +312,11 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
 1. Paging - Get the second page of items (page size is 10):  
 
     ```http  
-    GET /indexes/hotels/docs?search=*&$skip=10&$top=10&api-version=2020-06-30-Preview 
+    GET /indexes/hotels/docs?search=*&$skip=10&$top=10&api-version=2020-06-30
     ```  
 
     ```http 
-    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "*",  
           "skip": 10,  
@@ -327,11 +327,11 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
 1. Retrieve a specific set of fields:  
 
     ```http 
-    GET /indexes/hotels/docs?search=*&$select=HotelName,Description&api-version=2020-06-30-Preview  
+    GET /indexes/hotels/docs?search=*&$select=HotelName,Description&api-version=2020-06-30
     ```  
 
     ```http  
-    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview  
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "*",  
           "select": "HotelName, Description"
@@ -341,11 +341,11 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
 1. Retrieve documents matching a specific filter expression:  
 
     ```http 
-    GET /indexes/hotels/docs?$filter=(Rooms/BaseRate ge 60 and Rooms/BaseRate lt 300) or HotelName eq 'Fancy Stay'&api-version=2020-06-30-Preview  
+    GET /indexes/hotels/docs?$filter=(Rooms/BaseRate ge 60 and Rooms/BaseRate lt 300) or HotelName eq 'Fancy Stay'&api-version=2020-06-30
     ```  
 
     ```http  
-    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview  
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "filter": "(Rooms/BaseRate ge 60 and Rooms/BaseRate lt 300) or HotelName eq 'Fancy Stay'"  
         }  
@@ -354,11 +354,11 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
 1. Search the index and return fragments with hit highlights:  
 
     ```http 
-    GET /indexes/hotels/docs?search=something&highlight=Description&api-version=2020-06-30-Preview
+    GET /indexes/hotels/docs?search=something&highlight=Description&api-version=2020-06-30
     ```  
 
     ```http  
-    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview 
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "something",  
           "highlight": "Description"  
@@ -368,11 +368,11 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
 1. Search the index and return documents sorted from closer to farther away from a reference location:  
 
     ```http 
-    GET /indexes/hotels/docs?search=something&$orderby=geo.distance(Location, geography'POINT(-122.12315 47.88121)')&api-version=2020-06-30-Preview 
+    GET /indexes/hotels/docs?search=something&$orderby=geo.distance(Location, geography'POINT(-122.12315 47.88121)')&api-version=2020-06-30
     ```  
 
     ```http 
-    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "something",  
           "orderby": "geo.distance(Location, geography'POINT(-122.12315 47.88121)')"
@@ -382,11 +382,11 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
 1. Search the index assuming there's a scoring profile called "geo" with two distance scoring functions, one defining a parameter called "currentLocation" and one defining a parameter called "lastLocation":  
 
     ```http  
-    GET /indexes/hotels/docs?search=something&scoringProfile=geo&scoringParameter=currentLocation--122.123,44.77233&scoringParameter=lastLocation--121.499,44.2113&api-version=2020-06-30-Preview 
+    GET /indexes/hotels/docs?search=something&scoringProfile=geo&scoringParameter=currentLocation--122.123,44.77233&scoringParameter=lastLocation--121.499,44.2113&api-version=2020-06-30
     ```  
 
     ```http 
-    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "something",  
           "scoringProfile": "geo",  
@@ -397,11 +397,11 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
 1. Find documents in the index using simple query syntax. This query returns hotels where searchable fields contain the terms "comfort" and "location" but not "motel":  
 
     ```http  
-    Get /indexes/hotels/docs?search=comfort +location –motel&searchMode=all&api-version=22020-06-30-Preview
+    Get /indexes/hotels/docs?search=comfort +location –motel&searchMode=all&api-version=22020-06-30
     ```  
 
     ```http 
-    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "comfort +location -motel",  
           "searchMode": "all"  
@@ -414,11 +414,11 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
 1. Find documents in the index using Lucene query syntax (see [Lucene query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-lucene-syntax)). This query returns hotels where the category field contains the term "budget" and all searchable fields containing the phrase "recently renovated". Documents containing the phrase "recently renovated" are ranked higher as a result of the term boost value (3)  
 
     ```http
-    GET /indexes/hotels/docs?search=Category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2020-06-30-Preview&querytype=full` 
+    GET /indexes/hotels/docs?search=Category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2020-06-30&querytype=full` 
     ``` 
 
     ```http  
-    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
          "search": "Category:budget AND \"recently renovated\"^3",  
           "queryType": "full",  
@@ -429,11 +429,11 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
 1. Find documents in the index while favoring consistent scoring over lower latency. This query will calculate document frequencies across the whole index, and will do a best effort to target the same replica for all queries within the same "session", which will help generating stable and reproducible ranking. 
 
     ```http 
-    GET /indexes/hotels/docs?search=hotel&sessionId=mySessionId&scoringStatistics=global&api-version=2020-06-30-Preview
+    GET /indexes/hotels/docs?search=hotel&sessionId=mySessionId&scoringStatistics=global&api-version=2020-06-30
     ```  
 
     ```http  
-    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview
+    POST /indexes/hotels/docs/search?api-version=2020-06-30
         {  
           "search": "hotel",  
           "sessionId": "mySessionId",
