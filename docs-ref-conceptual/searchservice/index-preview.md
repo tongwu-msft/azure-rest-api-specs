@@ -23,8 +23,9 @@ This preview version of the search service REST API includes functionality for s
 | API | Feature and description |
 |-----|-------------------------|
 | [Create Indexer](preview-api/create-indexer.md) | Configure caching of enriched content at each stage for potential reuse if you change parts of a skillset.  |
-| [Update Indexer](preview-api/update-indexer.md) | Updates an existing indexer to use cached enrichments. |
+| [Reset Documents](preview-api/reset-documents.md) | Rebuild specific documents by overwriting its content. If the document contains enriched content, the skillset is invoked for that document. If enrichment caching is enabled, the cached content for that document is also refreshed. |
 | [Reset Skills](preview-api/reset-skills.md) | Rebuild all or part of the cache by specifying which skills are changed. |
-| [Search Document](preview-api/search-documents.md) | Includes preview query parameters that impact query term inputs and search rank: </br></br>**`featureModes`** returns additional information about a search score that can be consumed in custom ranking models. </br></br>**`speller`** adds spelling correction to simple, full, and semantic queries. </br></br>**`queryType=semantic`** brings deep learning to search results evaluation, promoting semantically relevant results to the top. This query type also adds **`captions`** and **`answers`** to the response. |
+| [Search Document](preview-api/search-documents.md) | Includes preview query parameters that impact query term inputs and search rank: </br></br>**featureModes** returns additional information about a search score that can be consumed in custom ranking models. </br></br>**speller** adds spelling correction to simple, full, and semantic queries. </br></br>**queryType=semantic** brings deep learning to search results evaluation, promoting semantically relevant results to the top. This query type also adds **captions** and **answers** to the response. |
+| [Update Indexer](preview-api/update-indexer.md) | Updates an existing indexer to use cached enrichments. |
 
 Preview feature availability can vary by tier and region. For more information, see the [Preview features list](https://docs.microsoft.com/azure/search/search-api-preview).
