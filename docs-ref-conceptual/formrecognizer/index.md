@@ -19,7 +19,7 @@ This article demonstrates how to call a REST API endpoint for Form Recognizer se
 
 1. Start by creating an Azure Cognitive Services resource, and within that specifically a Form Recognizer resource. For instructions, see [Create a Cognitive Services resource using the portal](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account).
 1. From the Azure Portal, copy the key and endpoint required to make the call. For instructions, see [Get the keys for your resource](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account#get-the-keys-for-your-resource).
-1. From the left navigation on this article, select the operation that you want to perform (e.g., **Analyze Receipt Async**). On the right pane, select **Try It**.
+1. From the left navigation on this article, expand the node for the version of the API you want to work on, and then select the operation that you want to perform (e.g., **Analyze Receipt Async**). On the right pane, select **Try It**.
 1. In the **REST API Try It** pane, perform the following steps:
 
     1. In the **Endpoint** text box, enter the resource endpoint that you copied from the Azure portal.
