@@ -3988,17 +3988,17 @@
 #### [Overview](cognitiveservices/textanalytics/Sentiment.yml)
 #### [Sentiment](cognitiveservices/textanalytics/Sentiment/Sentiment.yml)
 ## Translator
-### Translation
-#### [Overview](cognitiveservices/translator/Translation.yml)
-#### [Cancel Operation](cognitiveservices/translator/Translation/CancelOperation.yml)
-#### [Get Document Formats](cognitiveservices/translator/Translation/GetDocumentFormats.yml)
-#### [Get Document Status](cognitiveservices/translator/Translation/GetDocumentStatus.yml)
-#### [Get Document Storage Source](cognitiveservices/translator/Translation/GetDocumentStorageSource.yml)
-#### [Get Glossary Formats](cognitiveservices/translator/Translation/GetGlossaryFormats.yml)
-#### [Get Operation Documents Status](cognitiveservices/translator/Translation/GetOperationDocumentsStatus.yml)
-#### [Get Operation Status](cognitiveservices/translator/Translation/GetOperationStatus.yml)
-#### [Get Operations](cognitiveservices/translator/Translation/GetOperations.yml)
-#### [Submit Batch Request](cognitiveservices/translator/Translation/SubmitBatchRequest.yml)
+### Document Translation
+#### [Overview](cognitiveservices/translator/DocumentTranslation.yml)
+#### [Cancel Operation](cognitiveservices/translator/DocumentTranslation/CancelOperation.yml)
+#### [Get Document Formats](cognitiveservices/translator/DocumentTranslation/GetDocumentFormats.yml)
+#### [Get Document Status](cognitiveservices/translator/DocumentTranslation/GetDocumentStatus.yml)
+#### [Get Document Storage Source](cognitiveservices/translator/DocumentTranslation/GetDocumentStorageSource.yml)
+#### [Get Glossary Formats](cognitiveservices/translator/DocumentTranslation/GetGlossaryFormats.yml)
+#### [Get Operation Documents Status](cognitiveservices/translator/DocumentTranslation/GetOperationDocumentsStatus.yml)
+#### [Get Operation Status](cognitiveservices/translator/DocumentTranslation/GetOperationStatus.yml)
+#### [Get Operations](cognitiveservices/translator/DocumentTranslation/GetOperations.yml)
+#### [Submit Batch Request](cognitiveservices/translator/DocumentTranslation/SubmitBatchRequest.yml)
 ## Translator Text
 ### Translator
 #### [Overview](cognitiveservices/translatortext/Translator.yml)
@@ -14896,6 +14896,11 @@
 #### [Delete](sql/ServerAzureADAdministrators/Delete.yml)
 #### [Get](sql/ServerAzureADAdministrators/Get.yml)
 #### [List By Server](sql/ServerAzureADAdministrators/ListByServer.yml)
+### Server Dev Ops Audit Settings
+#### [Overview](sql/ServerDevOpsAuditSettings.yml)
+#### [Create Or Update](sql/ServerDevOpsAuditSettings/CreateOrUpdate.yml)
+#### [Get](sql/ServerDevOpsAuditSettings/Get.yml)
+#### [List By Server](sql/ServerDevOpsAuditSettings/ListByServer.yml)
 ### Server Dns Aliases
 #### [Overview](sql/ServerDnsAliases.yml)
 #### [Acquire](sql/ServerDnsAliases/Acquire.yml)
