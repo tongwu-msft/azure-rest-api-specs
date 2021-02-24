@@ -15,9 +15,10 @@ When making REST Calls, several steps are required to authenticate properly. Our
 
 ## Types of Authentication
 
-Azure Communication Services has two types of Authentication, they're used for slightly different purposes:
+Azure Communication Services has three types of Authentication, they're used for slightly different purposes:
 
-- **Access Key authentication** for SMS and Administration operations. Access Key authentication is suitable for applications running in a trusted service environment.
+- **Access Key authentication** for SMS and phone number management operations. Access Key authentication is suitable for applications running in a trusted service environment.
+- **Azure Managed Identity authentication** Similar to Access Key Authentication, this is suitable for SMS and phone number management operations in a trusted service environment.
 - **User Access Token authentication** for Chat and Calling. User access tokens let your client applications authenticate directly against Azure Communication Services. These tokens are generated on a server-side token provisioning service that you create. They're then provided to client devices that use the token to initialize the Chat and Calling client libraries.
 
 ## Access Key Authentication
@@ -35,7 +36,7 @@ Before getting started, ensure you have:
 
 Once you have these items, you can continue with signing your request.
 
-## Signing an HTTP Request
+### Signing an HTTP Request
 
 1. Specify the Coordinated Universal Time (UTC) timestamp for the request in either the `x-ms-date` header, or in the standard HTTP `Date` header. The service validates this timestamp to guard against certain security attacks, including replay attacks.
 2. Hash the HTTP request body using the SHA256 algorithm then pass it, with the request, via the `x-ms-content-sha256` header.
@@ -62,6 +63,28 @@ Once you have these items, you can continue with signing your request.
     Where `<hmac-sha256-signature>` is the HMAC computed in the previous step.
 
 With all of the other details known and the headers set you can now specify the `Authorization` header its format is as follows: `Authorization: "HMAC-SHA256 SignedHeaders=date;host;x-ms-content-sha256&Signature=<hmac-sha256-signature>"`
+
+## Azure Managed Identity Authentication
+
+Azure Managed Identity can be used when requests aren't made by your end-user application. Run these requests within trusted service environment.
+
+Before getting started, ensure you have:
+
+- Your Azure Managed Identity
+- The URL Path and HTTP Verb that you're calling
+
+For how to create Azure Managed Identity, see - [Use managed identities in Communication Services](https://docs.microsoft.com/azure/communication-services/quickstarts/managed-identity).
+
+Once you have Azure Managed Identity created, you can use one of its secrets for authentication to access Communication Services for creating user, issuing user access token, or manage phone numbers.
+
+### Using managed identity credential in a request
+
+Once you have id and a secret of a managed identity, you can use them in your requests to Azure Communication Services' REST API by supplying them in the 'Authorization' header.
+
+    ```pseudocode
+    authorizationHeaderValue = convertToBase64String(<managed identity Id> + ":" + <secret of the managed identity id>)
+    Authorization="BASIC <authorizationHeaderValue>"
+    ```
 
 ## User Access Token Authentication
 
