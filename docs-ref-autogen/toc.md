@@ -3988,17 +3988,17 @@
 #### [Overview](cognitiveservices/textanalytics/Sentiment.yml)
 #### [Sentiment](cognitiveservices/textanalytics/Sentiment/Sentiment.yml)
 ## Translator
-### Translation
-#### [Overview](cognitiveservices/translator/Translation.yml)
-#### [Cancel Operation](cognitiveservices/translator/Translation/CancelOperation.yml)
-#### [Get Document Formats](cognitiveservices/translator/Translation/GetDocumentFormats.yml)
-#### [Get Document Status](cognitiveservices/translator/Translation/GetDocumentStatus.yml)
-#### [Get Document Storage Source](cognitiveservices/translator/Translation/GetDocumentStorageSource.yml)
-#### [Get Glossary Formats](cognitiveservices/translator/Translation/GetGlossaryFormats.yml)
-#### [Get Operation Documents Status](cognitiveservices/translator/Translation/GetOperationDocumentsStatus.yml)
-#### [Get Operation Status](cognitiveservices/translator/Translation/GetOperationStatus.yml)
-#### [Get Operations](cognitiveservices/translator/Translation/GetOperations.yml)
-#### [Submit Batch Request](cognitiveservices/translator/Translation/SubmitBatchRequest.yml)
+### Document Translation
+#### [Overview](cognitiveservices/translator/DocumentTranslation.yml)
+#### [Cancel Operation](cognitiveservices/translator/DocumentTranslation/CancelOperation.yml)
+#### [Get Document Formats](cognitiveservices/translator/DocumentTranslation/GetDocumentFormats.yml)
+#### [Get Document Status](cognitiveservices/translator/DocumentTranslation/GetDocumentStatus.yml)
+#### [Get Document Storage Source](cognitiveservices/translator/DocumentTranslation/GetDocumentStorageSource.yml)
+#### [Get Glossary Formats](cognitiveservices/translator/DocumentTranslation/GetGlossaryFormats.yml)
+#### [Get Operation Documents Status](cognitiveservices/translator/DocumentTranslation/GetOperationDocumentsStatus.yml)
+#### [Get Operation Status](cognitiveservices/translator/DocumentTranslation/GetOperationStatus.yml)
+#### [Get Operations](cognitiveservices/translator/DocumentTranslation/GetOperations.yml)
+#### [Submit Batch Request](cognitiveservices/translator/DocumentTranslation/SubmitBatchRequest.yml)
 ## Translator Text
 ### Translator
 #### [Overview](cognitiveservices/translatortext/Translator.yml)
@@ -10540,10 +10540,10 @@
 ## Reference (Preview)
 ### [Introduction](../docs-ref-conceptual/searchservice/index-preview.md)
 ### Documents
+#### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
 #### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)
 ### Indexers
 #### [Create Indexer](../docs-ref-conceptual/searchservice/preview-api/create-indexer.md)
-#### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
 #### [Update Indexer](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
 ### Skillsets
 #### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
@@ -15201,6 +15201,7 @@
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
 ### Previous Azure Storage services versions
 #### [Overview](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
+#### [Version 2020-04-08](../docs-ref-conceptual/storageservices/version-2020-04-08.md)
 #### [Version 2020-02-10](../docs-ref-conceptual/storageservices/version-2020-02-10.md)
 #### [Version 2019-12-12](../docs-ref-conceptual/storageservices/version-2019-12-12.md)
 #### [Version 2019-07-07](../docs-ref-conceptual/storageservices/version-2019-07-07.md)
@@ -15282,6 +15283,7 @@
 #### [Set Container ACL](../docs-ref-conceptual/storageservices/set-container-acl.md)
 #### [Delete Container](../docs-ref-conceptual/storageservices/delete-container.md)
 #### [Lease Container](../docs-ref-conceptual/storageservices/lease-container.md)
+#### [Restore Container](../docs-ref-conceptual/storageservices/restore-container.md)
 #### [List Blobs](../docs-ref-conceptual/storageservices/list-blobs.md)
 ### Operations on Blobs
 #### [Overview](../docs-ref-conceptual/storageservices/operations-on-blobs.md)
