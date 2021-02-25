@@ -66,7 +66,7 @@ With all of the other details known and the headers set you can now specify the 
 
 ## Azure Managed Identity Authentication
 
-Azure Managed Identity can be used when requests aren't made by your end-user application. Run these requests within trusted service environment.
+Azure Managed Identity can be used when requests aren't made by your end-user application. Run these requests within a trusted service environment.
 
 Before getting started, ensure you have:
 
@@ -75,14 +75,14 @@ Before getting started, ensure you have:
 
 For how to create Azure Managed Identity, see - [Create an Azure Active Directory managed identity application from the Azure CLI](https://docs.microsoft.com/azure/communication-services/quickstarts/managed-identity-from-cli.md).
 
-Once you have Azure Managed Identity created, you can use one of its secrets for authentication to access Communication Services for creating user, issuing user access token, or manage phone numbers.
+Once you have Azure Managed Identity created, you can use one of its secrets for authentication to access Communication Services for creating users, issuing user access tokens, or sending SMS messages.
 
 ### Using managed identity credential in a request
 
-Once you have id and a secret of a managed identity, you can use them in your requests to Azure Communication Services' REST API by supplying them in the 'Authorization' header.
+Once you have the id and a secret of a managed identity, you can use them in your requests to Azure Communication Services' REST API by supplying them in the 'Authorization' header.
 
     ```pseudocode
-    authorizationHeaderValue = convertToBase64String(<managed identity Id> + ":" + <secret of the managed identity id>)
+    authorizationHeaderValue = convertToBase64String(<managed identity Id> + ":" + <secret of the managed identity>)
     Authorization="BASIC <authorizationHeaderValue>"
     ```
 
