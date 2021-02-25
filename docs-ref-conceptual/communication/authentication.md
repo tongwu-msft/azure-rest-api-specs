@@ -17,8 +17,8 @@ When making REST Calls, several steps are required to authenticate properly. Our
 
 Azure Communication Services has three types of Authentication, they're used for slightly different purposes:
 
-- **Access Key authentication** for SMS and phone number management operations. Access Key authentication is suitable for applications running in a trusted service environment.
-- **Azure Managed Identity authentication** Similar to Access Key Authentication, this is suitable for SMS and phone number management operations in a trusted service environment.
+- **Access Key authentication** for SMS, Identity, and access token operations. Access Key authentication is suitable for applications running in a trusted service environment.
+- **Azure Managed Identity authentication** Similar to Access Key Authentication, this is suitable for SMS, Identity, and access token operations in a trusted service environment.
 - **User Access Token authentication** for Chat and Calling. User access tokens let your client applications authenticate directly against Azure Communication Services. These tokens are generated on a server-side token provisioning service that you create. They're then provided to client devices that use the token to initialize the Chat and Calling client libraries.
 
 ## Access Key Authentication
@@ -73,7 +73,7 @@ Before getting started, ensure you have:
 - Your Azure Managed Identity
 - The URL Path and HTTP Verb that you're calling
 
-For how to create Azure Managed Identity, see - [Use managed identities in Communication Services](https://docs.microsoft.com/azure/communication-services/quickstarts/managed-identity).
+For how to create Azure Managed Identity, see - [Create an Azure Active Directory managed identity application from the Azure CLI](https://docs.microsoft.com/azure/communication-services/quickstarts/managed-identity-from-cli.md).
 
 Once you have Azure Managed Identity created, you can use one of its secrets for authentication to access Communication Services for creating user, issuing user access token, or manage phone numbers.
 
@@ -102,5 +102,6 @@ Once you have a suitable User Access Token, you can include it in your requests 
 
 For additional information on Azure Communication Services authentication, you can also review:
 
+- [Sign an HTTP request](https://docs.microsoft.com/azure/communication-services/tutorials/hmac-header-tutorial)
 - [Conceptual Authentication documentation](https://docs.microsoft.com/azure/communication-services/concepts/authentication) - Provides information on how to use our SDKs to authenticate against our REST APIs
 - [Building a User Access Token Service](https://docs.microsoft.com/azure/communication-services/tutorials/trusted-service-tutorial) - An Azure Communication Services tutorial, which shows you how to create a trusted authentication service to generate User Access Tokens with Azure Functions.
