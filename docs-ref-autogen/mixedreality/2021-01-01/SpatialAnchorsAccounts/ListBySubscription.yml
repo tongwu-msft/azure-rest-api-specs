@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.mixedreality.2020-05-01.spatialanchorsaccounts.update
-name: Update
+uid: management.azure.com.mixedreality.2021-01-01.spatialanchorsaccounts.listbysubscription
+name: List By Subscription
 service: Mixed Reality
 groupName: Spatial Anchors Accounts
-apiVersion: 2020-05-01
-summary: Updating a Spatial Anchors Account
+apiVersion: 2021-01-01
+summary: List Spatial Anchors Accounts by Subscription
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}?api-version=2020-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.MixedReality/spatialAnchorsAccounts?api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -18,20 +18,6 @@ uriParameters:
   description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
   types:
   - uid: string
-- name: resourceGroupName
-  in: path
-  isRequired: true
-  description: Name of an Azure resource group.
-  types:
-  - uid: string
-  pattern: ^[-\w\._\(\)]+$
-- name: accountName
-  in: path
-  isRequired: true
-  description: Name of an Mixed Reality Account.
-  types:
-  - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: api-version
   in: query
   isRequired: true
@@ -42,41 +28,74 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: SpatialAnchorsAccount
+  - uid: SpatialAnchorsAccountPage
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
-requestBody:
-- name: default
-  parameters:
+requestHeader: []
+definitions:
+- name: SpatialAnchorsAccountPage
+  description: Result of the request to get resource collection. It contains a list of resources and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of resources supported by the Resource Provider.
+    types:
+    - uid: SpatialAnchorsAccount
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of resource list results if there are any.
+    types:
+    - uid: string
+- name: CloudError
+  description: An Error response.
+  kind: object
+  properties:
+  - name: error
+    description: An Error response.
+    types:
+    - uid: CloudErrorBody
+- name: SpatialAnchorsAccount
+  description: SpatialAnchorsAccount Response.
+  kind: object
+  properties:
   - name: identity
-    in: body
     description: The identity associated with this account
     types:
     - uid: Identity
   - name: plan
-    in: body
     description: The plan associated with this account
     types:
     - uid: Identity
   - name: sku
-    in: body
     description: The sku associated with this account
     types:
     - uid: Sku
   - name: kind
-    in: body
     description: The kind of account, if supported
     types:
     - uid: Sku
+  - name: systemData
+    isReadyOnly: true
+    description: System metadata for this account
+    types:
+    - uid: systemData
   - name: properties.storageAccountName
-    in: body
     description: The name of the storage account associated with this accountId
     types:
     - uid: string
+  - name: properties.accountId
+    isReadyOnly: true
+    description: unique id of certain account.
+    types:
+    - uid: string
+  - name: properties.accountDomain
+    isReadyOnly: true
+    description: Correspond domain name of certain Spatial Anchors Account
+    types:
+    - uid: string
   - name: tags
-    in: body
     description: Resource tags.
     types:
     - uid: object
@@ -85,13 +104,45 @@ requestBody:
       - uid: string
       - uid: string
   - name: location
-    in: body
-    isRequired: true
     description: The geo-location where the resource lives
     types:
     - uid: string
-requestHeader: []
-definitions:
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from Azure.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for displaying in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: Identity
   description: Identity for the resource.
   kind: object
@@ -162,80 +213,6 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: SpatialAnchorsAccount
-  description: SpatialAnchorsAccount Response.
-  kind: object
-  properties:
-  - name: identity
-    description: The identity associated with this account
-    types:
-    - uid: Identity
-  - name: plan
-    description: The plan associated with this account
-    types:
-    - uid: Identity
-  - name: sku
-    description: The sku associated with this account
-    types:
-    - uid: Sku
-  - name: kind
-    description: The kind of account, if supported
-    types:
-    - uid: Sku
-  - name: systemData
-    isReadyOnly: true
-    description: System metadata for this account
-    types:
-    - uid: systemData
-  - name: properties.storageAccountName
-    description: The name of the storage account associated with this accountId
-    types:
-    - uid: string
-  - name: properties.accountId
-    isReadyOnly: true
-    description: unique id of certain account.
-    types:
-    - uid: string
-  - name: properties.accountDomain
-    isReadyOnly: true
-    description: Correspond domain name of certain Spatial Anchors Account
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: location
-    description: The geo-location where the resource lives
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the resource
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-    types:
-    - uid: string
-- name: CloudError
-  description: An Error response.
-  kind: object
-  properties:
-  - name: error
-    description: An error response from Azure.
-    types:
-    - uid: CloudErrorBody
 - name: ResourceIdentityType
   description: The identity type.
   kind: enum
@@ -275,55 +252,39 @@ definitions:
   - name: Key
     types:
     - uid: string
-- name: CloudErrorBody
-  description: An error response from Azure.
-  kind: object
-  properties:
-  - name: code
-    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-    types:
-    - uid: string
-  - name: message
-    description: A message describing the error, intended to be suitable for displaying in a user interface.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error. For example, the name of the property in error.
-    types:
-    - uid: string
-  - name: details
-    description: A list of additional details about the error.
-    types:
-    - uid: CloudErrorBody
-      isArray: true
 examples:
-- name: Update spatial anchors account
+- name: List spatial anchors accounts by subscription
   request:
-    uri: PATCH https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/MyResourceGroup/providers/Microsoft.MixedReality/spatialAnchorsAccounts/MyAccount?api-version=2020-05-01
-    body: >-
-      {
-        "location": "eastus2euap",
-        "tags": {
-          "heroine": "juliet",
-          "hero": "romeo"
-        }
-      }
+    uri: GET https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.MixedReality/spatialAnchorsAccounts?api-version=2021-01-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "properties": {
-          "accountId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-          "accountDomain": "mixedreality.azure.com"
-        },
-        "tags": {
-          "heroine": "juliet",
-          "hero": "romeo"
-        },
-        "location": "eastus2euap",
-        "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/MyResourceGroup/providers/Microsoft.MixedReality/spatialAnchorsAccounts/MyAccount",
-        "name": "MyAccount",
-        "type": "Microsoft.MixedReality/spatialAnchorsAccounts"
+        "value": [
+          {
+            "properties": {
+              "accountId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+              "accountDomain": "mixedreality.azure.com"
+            },
+            "tags": {},
+            "location": "eastus2euap",
+            "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/MyResourceGroup/providers/Microsoft.MixedReality/spatialAnchorsAccounts/alpha",
+            "name": "alpha",
+            "type": "Microsoft.MixedReality/spatialAnchorsAccounts"
+          },
+          {
+            "properties": {
+              "accountId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+              "accountDomain": "mixedreality.azure.com"
+            },
+            "tags": {},
+            "location": "eastus2euap",
+            "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/MyResourceGroup/providers/Microsoft.MixedReality/spatialAnchorsAccounts/omega",
+            "name": "omega",
+            "type": "Microsoft.MixedReality/spatialAnchorsAccounts"
+          }
+        ],
+        "nextLink": "https://aka.ms/&^FDKKAR"
       }
 security:
 - name: azure_auth

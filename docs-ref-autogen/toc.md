@@ -8840,23 +8840,33 @@
 #### [List Keys](mixedreality/2020-04-06preview/RemoteRenderingAccounts/ListKeys.yml)
 #### [Regenerate Keys](mixedreality/2020-04-06preview/RemoteRenderingAccounts/RegenerateKeys.yml)
 #### [Update](mixedreality/2020-04-06preview/RemoteRenderingAccounts/Update.yml)
-## 2020-05-01
+## 2021-01-01
 ### Check Name Availability Local
-#### [Overview](mixedreality/2020-05-01/CheckNameAvailabilityLocal.yml)
-#### [Check Name Availability Local](mixedreality/2020-05-01/CheckNameAvailabilityLocal/CheckNameAvailabilityLocal.yml)
+#### [Overview](mixedreality/2021-01-01/CheckNameAvailabilityLocal.yml)
+#### [Check Name Availability Local](mixedreality/2021-01-01/CheckNameAvailabilityLocal/CheckNameAvailabilityLocal.yml)
 ### Operations
-#### [Overview](mixedreality/2020-05-01/Operations.yml)
-#### [List](mixedreality/2020-05-01/Operations/List.yml)
+#### [Overview](mixedreality/2021-01-01/Operations.yml)
+#### [List](mixedreality/2021-01-01/Operations/List.yml)
+### Remote Rendering Accounts
+#### [Overview](mixedreality/2021-01-01/RemoteRenderingAccounts.yml)
+#### [Create](mixedreality/2021-01-01/RemoteRenderingAccounts/Create.yml)
+#### [Delete](mixedreality/2021-01-01/RemoteRenderingAccounts/Delete.yml)
+#### [Get](mixedreality/2021-01-01/RemoteRenderingAccounts/Get.yml)
+#### [List By Resource Group](mixedreality/2021-01-01/RemoteRenderingAccounts/ListByResourceGroup.yml)
+#### [List By Subscription](mixedreality/2021-01-01/RemoteRenderingAccounts/ListBySubscription.yml)
+#### [List Keys](mixedreality/2021-01-01/RemoteRenderingAccounts/ListKeys.yml)
+#### [Regenerate Keys](mixedreality/2021-01-01/RemoteRenderingAccounts/RegenerateKeys.yml)
+#### [Update](mixedreality/2021-01-01/RemoteRenderingAccounts/Update.yml)
 ### Spatial Anchors Accounts
-#### [Overview](mixedreality/2020-05-01/SpatialAnchorsAccounts.yml)
-#### [Create](mixedreality/2020-05-01/SpatialAnchorsAccounts/Create.yml)
-#### [Delete](mixedreality/2020-05-01/SpatialAnchorsAccounts/Delete.yml)
-#### [Get](mixedreality/2020-05-01/SpatialAnchorsAccounts/Get.yml)
-#### [List By Resource Group](mixedreality/2020-05-01/SpatialAnchorsAccounts/ListByResourceGroup.yml)
-#### [List By Subscription](mixedreality/2020-05-01/SpatialAnchorsAccounts/ListBySubscription.yml)
-#### [List Keys](mixedreality/2020-05-01/SpatialAnchorsAccounts/ListKeys.yml)
-#### [Regenerate Keys](mixedreality/2020-05-01/SpatialAnchorsAccounts/RegenerateKeys.yml)
-#### [Update](mixedreality/2020-05-01/SpatialAnchorsAccounts/Update.yml)
+#### [Overview](mixedreality/2021-01-01/SpatialAnchorsAccounts.yml)
+#### [Create](mixedreality/2021-01-01/SpatialAnchorsAccounts/Create.yml)
+#### [Delete](mixedreality/2021-01-01/SpatialAnchorsAccounts/Delete.yml)
+#### [Get](mixedreality/2021-01-01/SpatialAnchorsAccounts/Get.yml)
+#### [List By Resource Group](mixedreality/2021-01-01/SpatialAnchorsAccounts/ListByResourceGroup.yml)
+#### [List By Subscription](mixedreality/2021-01-01/SpatialAnchorsAccounts/ListBySubscription.yml)
+#### [List Keys](mixedreality/2021-01-01/SpatialAnchorsAccounts/ListKeys.yml)
+#### [Regenerate Keys](mixedreality/2021-01-01/SpatialAnchorsAccounts/RegenerateKeys.yml)
+#### [Update](mixedreality/2021-01-01/SpatialAnchorsAccounts/Update.yml)
 ## 2021-01-01 preview
 ### Remote Rendering
 #### [Overview](mixedreality/2021-01-01preview/RemoteRendering.yml)
