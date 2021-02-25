@@ -89,6 +89,11 @@ requestBody:
     description: The customIpPrefix that this prefix is associated with.
     types:
     - uid: SubResource
+  - name: properties.natGateway
+    in: body
+    description: NatGateway of Public IP Prefix.
+    types:
+    - uid: NatGateway
   - name: id
     in: body
     description: Resource ID.
@@ -162,6 +167,80 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: NatGateway
+  description: Nat Gateway resource.
+  kind: object
+  properties:
+  - name: sku
+    description: The nat gateway SKU.
+    types:
+    - uid: NatGatewaySku
+  - name: zones
+    description: A list of availability zones denoting the zone in which Nat Gateway should be deployed.
+    types:
+    - uid: string
+      isArray: true
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.idleTimeoutInMinutes
+    description: The idle timeout of the nat gateway.
+    types:
+    - uid: integer
+  - name: properties.publicIpAddresses
+    description: An array of public ip addresses associated with the nat gateway resource.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.publicIpPrefixes
+    description: An array of public ip prefixes associated with the nat gateway resource.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.subnets
+    isReadyOnly: true
+    description: An array of references to the subnets using this nat gateway resource.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resource GUID property of the NAT gateway resource.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the NAT gateway resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: PublicIPPrefix
   description: Public IP prefix resource.
   kind: object
@@ -227,6 +306,10 @@ definitions:
     description: The provisioning state of the public IP prefix resource.
     types:
     - uid: ProvisioningState
+  - name: properties.natGateway
+    description: NatGateway of Public IP Prefix.
+    types:
+    - uid: NatGateway
   - name: id
     description: Resource ID.
     types:
@@ -285,16 +368,14 @@ definitions:
   - name: Global
     types:
     - uid: string
-- name: IPVersion
-  description: IP address version.
-  kind: enum
+- name: NatGatewaySku
+  description: SKU of nat gateway.
+  kind: object
   properties:
-  - name: IPv4
+  - name: name
+    description: Name of Nat Gateway SKU.
     types:
-    - uid: string
-  - name: IPv6
-    types:
-    - uid: string
+    - uid: NatGatewaySkuName
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -309,6 +390,16 @@ definitions:
     types:
     - uid: string
   - name: Failed
+    types:
+    - uid: string
+- name: IPVersion
+  description: IP address version.
+  kind: enum
+  properties:
+  - name: IPv4
+    types:
+    - uid: string
+  - name: IPv6
     types:
     - uid: string
 - name: CloudErrorBody
@@ -332,6 +423,13 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: NatGatewaySkuName
+  description: Name of Nat Gateway SKU.
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
 examples:
 - name: Create public IP prefix defaults
   request:
