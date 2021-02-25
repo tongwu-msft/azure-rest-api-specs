@@ -1,0 +1,734 @@
+### YamlMime:RESTOperation
+uid: southcentralus.api.cognitive.microsoft.com.customvision.v3.3.training.customvision.training3.3.querysuggestedimages.querysuggestedimages
+name: Query Suggested Images
+service: Cognitive Services - Custom Vision
+groupName: Query Suggested Images
+apiVersion: "3.3"
+summary: "Get untagged images whose suggested tags match given tags. Returns empty array if no images are found.  \nThis API will fetch untagged images filtered by suggested tags Ids. It returns an empty array if no images are found."
+consumes:
+- application/json
+- application/xml
+- text/xml
+- application/x-www-form-urlencoded
+produces:
+- application/json
+- application/xml
+- text/xml
+paths:
+- content: POST {Endpoint}/customvision/v3.3/training/projects/{projectId}/images/suggested?iterationId={iterationId}
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Supported Cognitive Services endpoints.
+  types:
+  - uid: string
+- name: projectId
+  in: path
+  isRequired: true
+  description: The project id.
+  types:
+  - uid: string
+  format: uuid
+- name: iterationId
+  in: query
+  isRequired: true
+  description: IterationId to use for the suggested tags and regions.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: SuggestedTagAndRegionQuery
+- name: Other Status Codes
+  description: Error response
+  types:
+  - uid: CustomVisionError
+requestBody:
+- name: default
+  parameters:
+  - name: tagIds
+    in: body
+    description: Existing TagIds in project to filter suggested tags on.
+    types:
+    - uid: string
+      isArray: true
+  - name: threshold
+    in: body
+    description: Confidence threshold to filter suggested tags on.
+    types:
+    - uid: number
+  - name: session
+    in: body
+    description: SessionId for database query. Initially set to null but later used to paginate.
+    types:
+    - uid: string
+  - name: continuation
+    in: body
+    description: Continuation Id for database pagination. Initially null but later used to paginate.
+    types:
+    - uid: string
+  - name: maxCount
+    in: body
+    description: Maximum number of results you want to be returned in the response.
+    types:
+    - uid: integer
+  - name: sortBy
+    in: body
+    description: OrderBy. Ordering mechanism for your results.
+    types:
+    - uid: SortBy
+requestHeader:
+- name: Training-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: SuggestedTagAndRegionQuery
+  description: The array of result images and token containing session and continuation Ids for the next query.
+  kind: object
+  properties:
+  - name: token
+    description: Contains properties we need to fetch suggested tags for.
+    types:
+    - uid: SuggestedTagAndRegionQueryToken
+  - name: results
+    isReadyOnly: true
+    description: Result of a suggested tags and regions request of the untagged image.
+    types:
+    - uid: StoredSuggestedTagAndRegion
+      isArray: true
+- name: CustomVisionError
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: CustomVisionErrorCodes
+  - name: message
+    description: A message explaining the error reported by the service.
+    types:
+    - uid: string
+- name: SuggestedTagAndRegionQueryToken
+  description: >-
+    Contains properties we need to fetch suggested tags for. For the first call, Session and continuation set to null.
+
+    Then on subsequent calls, uses the session/continuation from the previous SuggestedTagAndRegionQuery result to fetch additional results.
+  kind: object
+  properties:
+  - name: tagIds
+    description: Existing TagIds in project to filter suggested tags on.
+    types:
+    - uid: string
+      isArray: true
+  - name: threshold
+    description: Confidence threshold to filter suggested tags on.
+    types:
+    - uid: number
+  - name: session
+    description: SessionId for database query. Initially set to null but later used to paginate.
+    types:
+    - uid: string
+  - name: continuation
+    description: Continuation Id for database pagination. Initially null but later used to paginate.
+    types:
+    - uid: string
+  - name: maxCount
+    description: Maximum number of results you want to be returned in the response.
+    types:
+    - uid: integer
+  - name: sortBy
+    description: OrderBy. Ordering mechanism for your results.
+    types:
+    - uid: SortBy
+- name: StoredSuggestedTagAndRegion
+  description: Result of a suggested tags and regions request of the untagged image.
+  kind: object
+  properties:
+  - name: width
+    isReadyOnly: true
+    description: Width of the resized image.
+    types:
+    - uid: integer
+  - name: height
+    isReadyOnly: true
+    description: Height of the resized image.
+    types:
+    - uid: integer
+  - name: resizedImageUri
+    isReadyOnly: true
+    description: The URI to the (resized) prediction image. If VNET feature is enabled this will be a relative path to be used with GetArtifact, otherwise this will be an absolute URI to the resource.
+    types:
+    - uid: string
+  - name: thumbnailUri
+    isReadyOnly: true
+    description: The URI to the thumbnail of the original prediction image. If VNET feature is enabled this will be a relative path to be used with GetArtifact, otherwise this will be an absolute URI to the resource.
+    types:
+    - uid: string
+  - name: originalImageUri
+    isReadyOnly: true
+    description: The URI to the original prediction image. If VNET feature is enabled this will be a relative path to be used with GetArtifact, otherwise this will be an absolute URI to the resource.
+    types:
+    - uid: string
+  - name: domain
+    isReadyOnly: true
+    description: Domain used for the prediction.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Prediction Id.
+    types:
+    - uid: string
+  - name: project
+    isReadyOnly: true
+    description: Project Id.
+    types:
+    - uid: string
+  - name: iteration
+    isReadyOnly: true
+    description: Iteration Id.
+    types:
+    - uid: string
+  - name: created
+    isReadyOnly: true
+    description: Date this prediction was created.
+    types:
+    - uid: string
+  - name: predictions
+    isReadyOnly: true
+    description: List of predictions.
+    types:
+    - uid: Prediction
+      isArray: true
+  - name: predictionUncertainty
+    isReadyOnly: true
+    description: Uncertainty (entropy) of suggested tags or regions per image.
+    types:
+    - uid: number
+- name: CustomVisionErrorCodes
+  description: The error code.
+  kind: enum
+  properties:
+  - name: NoError
+    types:
+    - uid: string
+  - name: BadRequest
+    types:
+    - uid: string
+  - name: BadRequestExceededBatchSize
+    types:
+    - uid: string
+  - name: BadRequestNotSupported
+    types:
+    - uid: string
+  - name: BadRequestInvalidIds
+    types:
+    - uid: string
+  - name: BadRequestProjectName
+    types:
+    - uid: string
+  - name: BadRequestProjectNameNotUnique
+    types:
+    - uid: string
+  - name: BadRequestProjectDescription
+    types:
+    - uid: string
+  - name: BadRequestProjectUnknownDomain
+    types:
+    - uid: string
+  - name: BadRequestProjectUnknownClassification
+    types:
+    - uid: string
+  - name: BadRequestProjectUnsupportedDomainTypeChange
+    types:
+    - uid: string
+  - name: BadRequestProjectUnsupportedExportPlatform
+    types:
+    - uid: string
+  - name: BadRequestProjectImagePreprocessingSettings
+    types:
+    - uid: string
+  - name: BadRequestProjectDuplicated
+    types:
+    - uid: string
+  - name: BadRequestIterationName
+    types:
+    - uid: string
+  - name: BadRequestIterationNameNotUnique
+    types:
+    - uid: string
+  - name: BadRequestIterationDescription
+    types:
+    - uid: string
+  - name: BadRequestIterationIsNotTrained
+    types:
+    - uid: string
+  - name: BadRequestIterationValidationFailed
+    types:
+    - uid: string
+  - name: BadRequestWorkspaceCannotBeModified
+    types:
+    - uid: string
+  - name: BadRequestWorkspaceNotDeletable
+    types:
+    - uid: string
+  - name: BadRequestTagName
+    types:
+    - uid: string
+  - name: BadRequestTagNameNotUnique
+    types:
+    - uid: string
+  - name: BadRequestTagDescription
+    types:
+    - uid: string
+  - name: BadRequestTagType
+    types:
+    - uid: string
+  - name: BadRequestMultipleNegativeTag
+    types:
+    - uid: string
+  - name: BadRequestMultipleGeneralProductTag
+    types:
+    - uid: string
+  - name: BadRequestImageTags
+    types:
+    - uid: string
+  - name: BadRequestImageRegions
+    types:
+    - uid: string
+  - name: BadRequestNegativeAndRegularTagOnSameImage
+    types:
+    - uid: string
+  - name: BadRequestUnsupportedDomain
+    types:
+    - uid: string
+  - name: BadRequestRequiredParamIsNull
+    types:
+    - uid: string
+  - name: BadRequestIterationIsPublished
+    types:
+    - uid: string
+  - name: BadRequestInvalidPublishName
+    types:
+    - uid: string
+  - name: BadRequestInvalidPublishTarget
+    types:
+    - uid: string
+  - name: BadRequestUnpublishFailed
+    types:
+    - uid: string
+  - name: BadRequestIterationNotPublished
+    types:
+    - uid: string
+  - name: BadRequestSubscriptionApi
+    types:
+    - uid: string
+  - name: BadRequestExceedProjectLimit
+    types:
+    - uid: string
+  - name: BadRequestExceedIterationPerProjectLimit
+    types:
+    - uid: string
+  - name: BadRequestExceedTagPerProjectLimit
+    types:
+    - uid: string
+  - name: BadRequestExceedTagPerImageLimit
+    types:
+    - uid: string
+  - name: BadRequestExceededQuota
+    types:
+    - uid: string
+  - name: BadRequestCannotMigrateProjectWithName
+    types:
+    - uid: string
+  - name: BadRequestNotLimitedTrial
+    types:
+    - uid: string
+  - name: BadRequestImageBatch
+    types:
+    - uid: string
+  - name: BadRequestImageStream
+    types:
+    - uid: string
+  - name: BadRequestImageUrl
+    types:
+    - uid: string
+  - name: BadRequestImageFormat
+    types:
+    - uid: string
+  - name: BadRequestImageSizeBytes
+    types:
+    - uid: string
+  - name: BadRequestImageDimensions
+    types:
+    - uid: string
+  - name: BadRequestImageExceededCount
+    types:
+    - uid: string
+  - name: BadRequestTrainingNotNeeded
+    types:
+    - uid: string
+  - name: BadRequestTrainingNotNeededButTrainingPipelineUpdated
+    types:
+    - uid: string
+  - name: BadRequestTrainingValidationFailed
+    types:
+    - uid: string
+  - name: BadRequestClassificationTrainingValidationFailed
+    types:
+    - uid: string
+  - name: BadRequestMultiClassClassificationTrainingValidationFailed
+    types:
+    - uid: string
+  - name: BadRequestMultiLabelClassificationTrainingValidationFailed
+    types:
+    - uid: string
+  - name: BadRequestDetectionTrainingValidationFailed
+    types:
+    - uid: string
+  - name: BadRequestTrainingAlreadyInProgress
+    types:
+    - uid: string
+  - name: BadRequestDetectionTrainingNotAllowNegativeTag
+    types:
+    - uid: string
+  - name: BadRequestInvalidEmailAddress
+    types:
+    - uid: string
+  - name: BadRequestDomainNotSupportedForAdvancedTraining
+    types:
+    - uid: string
+  - name: BadRequestExportPlatformNotSupportedForAdvancedTraining
+    types:
+    - uid: string
+  - name: BadRequestReservedBudgetInHoursNotEnoughForAdvancedTraining
+    types:
+    - uid: string
+  - name: BadRequestExportValidationFailed
+    types:
+    - uid: string
+  - name: BadRequestExportAlreadyInProgress
+    types:
+    - uid: string
+  - name: BadRequestPredictionIdsMissing
+    types:
+    - uid: string
+  - name: BadRequestPredictionIdsExceededCount
+    types:
+    - uid: string
+  - name: BadRequestPredictionTagsExceededCount
+    types:
+    - uid: string
+  - name: BadRequestPredictionResultsExceededCount
+    types:
+    - uid: string
+  - name: BadRequestPredictionInvalidApplicationName
+    types:
+    - uid: string
+  - name: BadRequestPredictionInvalidQueryParameters
+    types:
+    - uid: string
+  - name: BadRequestInvalidImportToken
+    types:
+    - uid: string
+  - name: BadRequestExportWhileTraining
+    types:
+    - uid: string
+  - name: BadRequestImageMetadataKey
+    types:
+    - uid: string
+  - name: BadRequestImageMetadataValue
+    types:
+    - uid: string
+  - name: BadRequestOperationNotSupported
+    types:
+    - uid: string
+  - name: BadRequestInvalidArtifactUri
+    types:
+    - uid: string
+  - name: BadRequestCustomerManagedKeyRevoked
+    types:
+    - uid: string
+  - name: BadRequestInvalid
+    types:
+    - uid: string
+  - name: UnsupportedMediaType
+    types:
+    - uid: string
+  - name: Forbidden
+    types:
+    - uid: string
+  - name: ForbiddenUser
+    types:
+    - uid: string
+  - name: ForbiddenUserResource
+    types:
+    - uid: string
+  - name: ForbiddenUserSignupDisabled
+    types:
+    - uid: string
+  - name: ForbiddenUserSignupAllowanceExceeded
+    types:
+    - uid: string
+  - name: ForbiddenUserDoesNotExist
+    types:
+    - uid: string
+  - name: ForbiddenUserDisabled
+    types:
+    - uid: string
+  - name: ForbiddenUserInsufficientCapability
+    types:
+    - uid: string
+  - name: ForbiddenDRModeEnabled
+    types:
+    - uid: string
+  - name: ForbiddenInvalid
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+  - name: NotFoundProject
+    types:
+    - uid: string
+  - name: NotFoundProjectDefaultIteration
+    types:
+    - uid: string
+  - name: NotFoundIteration
+    types:
+    - uid: string
+  - name: NotFoundIterationPerformance
+    types:
+    - uid: string
+  - name: NotFoundTag
+    types:
+    - uid: string
+  - name: NotFoundImage
+    types:
+    - uid: string
+  - name: NotFoundDomain
+    types:
+    - uid: string
+  - name: NotFoundApimSubscription
+    types:
+    - uid: string
+  - name: NotFoundInvalid
+    types:
+    - uid: string
+  - name: Conflict
+    types:
+    - uid: string
+  - name: ConflictInvalid
+    types:
+    - uid: string
+  - name: ErrorUnknown
+    types:
+    - uid: string
+  - name: ErrorIterationCopyFailed
+    types:
+    - uid: string
+  - name: ErrorPreparePerformanceMigrationFailed
+    types:
+    - uid: string
+  - name: ErrorProjectInvalidWorkspace
+    types:
+    - uid: string
+  - name: ErrorProjectInvalidPipelineConfiguration
+    types:
+    - uid: string
+  - name: ErrorProjectInvalidDomain
+    types:
+    - uid: string
+  - name: ErrorProjectTrainingRequestFailed
+    types:
+    - uid: string
+  - name: ErrorProjectImportRequestFailed
+    types:
+    - uid: string
+  - name: ErrorProjectExportRequestFailed
+    types:
+    - uid: string
+  - name: ErrorFeaturizationServiceUnavailable
+    types:
+    - uid: string
+  - name: ErrorFeaturizationQueueTimeout
+    types:
+    - uid: string
+  - name: ErrorFeaturizationInvalidFeaturizer
+    types:
+    - uid: string
+  - name: ErrorFeaturizationAugmentationUnavailable
+    types:
+    - uid: string
+  - name: ErrorFeaturizationUnrecognizedJob
+    types:
+    - uid: string
+  - name: ErrorFeaturizationAugmentationError
+    types:
+    - uid: string
+  - name: ErrorExporterInvalidPlatform
+    types:
+    - uid: string
+  - name: ErrorExporterInvalidFeaturizer
+    types:
+    - uid: string
+  - name: ErrorExporterInvalidClassifier
+    types:
+    - uid: string
+  - name: ErrorPredictionServiceUnavailable
+    types:
+    - uid: string
+  - name: ErrorPredictionModelNotFound
+    types:
+    - uid: string
+  - name: ErrorPredictionModelNotCached
+    types:
+    - uid: string
+  - name: ErrorPrediction
+    types:
+    - uid: string
+  - name: ErrorPredictionStorage
+    types:
+    - uid: string
+  - name: ErrorRegionProposal
+    types:
+    - uid: string
+  - name: ErrorUnknownBaseModel
+    types:
+    - uid: string
+  - name: ErrorInvalid
+    types:
+    - uid: string
+- name: SortBy
+  description: OrderBy. Ordering mechanism for your results.
+  kind: enum
+  properties:
+  - name: UncertaintyAscending
+    types:
+    - uid: string
+  - name: UncertaintyDescending
+    types:
+    - uid: string
+- name: Prediction
+  description: Prediction result.
+  kind: object
+  properties:
+  - name: probability
+    isReadyOnly: true
+    description: Probability of the tag.
+    types:
+    - uid: number
+  - name: tagId
+    isReadyOnly: true
+    description: Id of the predicted tag.
+    types:
+    - uid: string
+  - name: tagName
+    isReadyOnly: true
+    description: Name of the predicted tag.
+    types:
+    - uid: string
+  - name: boundingBox
+    isReadyOnly: true
+    description: Bounding box of the prediction.
+    types:
+    - uid: BoundingBox
+  - name: tagType
+    isReadyOnly: true
+    description: Type of the predicted tag.
+    types:
+    - uid: TagType
+- name: BoundingBox
+  description: Bounding box that defines a region of an image.
+  kind: object
+  properties:
+  - name: left
+    description: Coordinate of the left boundary.
+    types:
+    - uid: number
+  - name: top
+    description: Coordinate of the top boundary.
+    types:
+    - uid: number
+  - name: width
+    description: Width.
+    types:
+    - uid: number
+  - name: height
+    description: Height.
+    types:
+    - uid: number
+- name: TagType
+  description: Type of the predicted tag.
+  kind: enum
+  properties:
+  - name: Regular
+    types:
+    - uid: string
+  - name: Negative
+    types:
+    - uid: string
+  - name: GeneralProduct
+    types:
+    - uid: string
+examples:
+- name: Successful QuerySuggestedImages request
+  request:
+    uri: POST https://westus.api.cognitive.microsoft.com/customvision/v3.3/training/projects/bc3f7dad-5544-468c-8573-3ef04d55463e/images/suggested?iterationId=b7b9d99c-a2c6-4658-9900-a98d2ff5bc66
+    body: >-
+      {
+        "tagIds": [
+          "b5f7e6a2-a481-49a6-afec-a7cef1af3544"
+        ]
+      }
+    headers:
+    - name: Training-Key
+      value: '{API Key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "results": [
+          {
+            "id": "dfd2d346-3ed5-4e1e-857d-af4e32cec042",
+            "project": "8988643a-ae70-447d-9a22-15c4255e5ecb",
+            "iteration": "b7b9d99c-a2c6-4658-9900-a98d2ff5bc66",
+            "created": "2018-01-31T20:18:26Z",
+            "predictions": [
+              {
+                "tagId": "b5f7e6a2-a481-49a6-afec-a7cef1af3544",
+                "tagName": "Tag 1",
+                "probability": 1
+              },
+              {
+                "tagId": "45619cda-d1c9-4bc8-a3e1-87c5d81adbc3",
+                "tagName": "Tag 2",
+                "probability": 3.60627153E-12
+              }
+            ],
+            "originalImageUri": "<image uri>",
+            "thumbnailUri": "<thumbnail uri>",
+            "resizedImageUri": "<resized image uri>",
+            "domain": "b30a91ae-e3c1-4f73-a81e-c270bff27c39"
+          }
+        ],
+        "token": {
+          "session": "1:286613",
+          "continuation": "",
+          "maxCount": 0,
+          "sortBy": "Newest",
+          "tagIds": [
+            "b5f7e6a2-a481-49a6-afec-a7cef1af3544"
+          ]
+        }
+      }
+security:
+- name: Training-Key
+  type: apiKey
+  in: header
+errorCodes: []

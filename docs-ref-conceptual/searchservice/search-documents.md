@@ -31,10 +31,10 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/search?
 
 **When to use POST instead of GET**  
 
- When you use HTTP GET to call the **Search Documents** API, you need to be aware that the length of the request URL cannot exceed 8 KB. This is usually enough for most applications. However, some applications produce very large queries or OData filter expressions. For these applications, using HTTP POST is a better choice because it allows larger filters and queries than GET. With POST, the number of terms or clauses in a query is the limiting factor, not the size of the raw query since the request size limit for POST is approximately 16 MB.  
+ When using GET, the length of the request URL cannot exceed 8 KB. This is often long enough for most applications. However, some applications produce very large queries or OData filter expressions. For these applications, POST is a better choice because you can specify larger filters and queries in the request body. With POST, the number of terms or clauses in a query is the limiting factor, not the size of the raw query since the request size limit for POST is approximately 16 MB.  
 
 > [!NOTE]  
-> Even though the POST request size limit is very large, search queries and filter expressions cannot be arbitrarily complex. See [Lucene query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-lucene-syntax) and [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for more information about search query and filter complexity limitations.  
+> Even though the POST request size limit is very large, search queries and filter expressions cannot be arbitrarily complex. See [Lucene query syntax](https://docs.microsoft.com/azure/search/query-lucene-syntax) and [OData expression syntax](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for more information about search query and filter complexity limitations.  
 
 ## URI Parameters
 
@@ -412,7 +412,7 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
     > [!TIP]  
     >  The use of `searchMode=all` overrides the default of `searchMode=any`, ensuring that `-motel` means "AND NOT" instead of "OR NOT". Without `searchMode=all`, you get "OR NOT" which expands rather than restricts search results, and this can be counter-intuitive to some users.  
 
-1. Find documents in the index using Lucene query syntax (see [Lucene query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-lucene-syntax)). This query returns hotels where the category field contains the term "budget" and all searchable fields containing the phrase "recently renovated". Documents containing the phrase "recently renovated" are ranked higher as a result of the term boost value (3)  
+1. Find documents in the index using [Lucene query syntax](https://docs.microsoft.com/azure/search/query-lucene-syntax)). This query returns hotels where the category field contains the term "budget" and all searchable fields containing the phrase "recently renovated". Documents containing the phrase "recently renovated" are ranked higher as a result of the term boost value (3)  
 
     ```http
     GET /indexes/hotels/docs?search=Category:budget AND \"recently renovated\"^3&searchMode=all&api-version=2020-06-30&querytype=full` 
