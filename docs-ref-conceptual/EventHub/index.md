@@ -9,7 +9,7 @@ ms.manager: femila
 
 # Azure Event Hubs REST API
 
-Azure Event Hubs is a highly scalable data ingress service that ingests millions of events per second so that you can process and analyze the massive amounts of data produced by your connected devices and applications. Once data is collected into an event bub, it can be transformed and stored using any real-time analytics provider or batching/storage adapters.
+Azure Event Hubs is a highly scalable data ingress service that ingests millions of events per second so that you can process and analyze the massive amounts of data produced by your connected devices and applications. Once data is collected into an event hub, it can be transformed and stored using any real-time analytics provider or batching/storage adapters.
 
 The REST APIs fall into the following categories:
 
@@ -21,7 +21,7 @@ The REST APIs fall into the following categories:
 The Event Hubs REST API provides operations for working with the following resources.
 
 ### Azure Resource Manager
-[Resource manager APIs](/azure/templates/microsoft.eventhub/namespaces/eventhubs/consumergroups) are management APIs that perform operations on Event Hubs entities, such as namespaces, event hubs, and consumer groups. They are useful in scenarios that enable global authentication, rather than at the namespace or entity level.
+[Resource Manager APIs](/azure/templates/microsoft.eventhub/namespaces/eventhubs/consumergroups) are management APIs that perform operations on Event Hubs entities, such as namespaces, event hubs, and consumer groups. They are useful in scenarios that enable global authentication, rather than at the namespace or entity level.
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
