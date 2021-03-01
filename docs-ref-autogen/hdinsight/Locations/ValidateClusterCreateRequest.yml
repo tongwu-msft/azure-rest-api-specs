@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.hdinsight.clusters.listbyresourcegroup
-name: List By Resource Group
+uid: management.azure.com.hdinsight.locations.validateclustercreaterequest
+name: Validate Cluster Create Request
 service: HDInsight
-groupName: Clusters
+groupName: Locations
 apiVersion: 2018-06-01-preview
-summary: Lists the HDInsight clusters in a resource group.
+summary: Validate the cluster create request spec is valid or not.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters?api-version=2018-06-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.HDInsight/locations/{location}/validateCreateRequest?api-version=2018-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -18,10 +18,10 @@ uriParameters:
   description: The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
   types:
   - uid: string
-- name: resourceGroupName
+- name: location
   in: path
   isRequired: true
-  description: The name of the resource group.
+  description: The Azure location (region) for which to make the request.
   types:
   - uid: string
 - name: api-version
@@ -38,88 +38,62 @@ responses:
 - name: 200 OK
   description: OK response definition.
   types:
-  - uid: ClusterListResult
-requestHeader: []
-definitions:
-- name: ErrorResponse
-  description: Describes the format of Error response.
-  kind: object
-  properties:
-  - name: code
-    description: Error code
+  - uid: ClusterCreateValidationResult
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    description: The cluster name.
     types:
     - uid: string
-  - name: message
-    description: Error message indicating why the operation failed.
+  - name: type
+    in: body
+    description: The resource type.
     types:
     - uid: string
-- name: ClusterListResult
-  description: The List Cluster operation response.
-  kind: object
-  properties:
-  - name: value
-    description: The list of Clusters.
-    types:
-    - uid: Cluster
-      isArray: true
-  - name: nextLink
-    isReadyOnly: true
-    description: The link (url) to the next page of results.
+  - name: tenantId
+    in: body
+    description: The tenant id.
     types:
     - uid: string
-- name: Cluster
-  description: The HDInsight cluster.
-  kind: object
-  properties:
-  - name: etag
-    description: The ETag for the resource
+  - name: fetchAaddsResource
+    in: body
+    description: This indicates whether fetch Aadds resource or not.
     types:
-    - uid: string
-  - name: properties
-    description: The properties of the cluster.
-    types:
-    - uid: ClusterGetProperties
-  - name: identity
-    description: The identity of the cluster, if configured.
-    types:
-    - uid: ClusterIdentity
+    - uid: boolean
   - name: location
-    description: The Azure Region where the resource lives
+    in: body
+    description: The location of the cluster.
     types:
     - uid: string
   - name: tags
-    description: Resource tags.
+    in: body
+    description: The resource tags.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Fully qualified resource Id for the resource.
+  - name: properties
+    in: body
+    description: The cluster create parameters.
     types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the resource
+    - uid: ClusterCreateProperties
+  - name: identity
+    in: body
+    description: The identity of the cluster, if configured.
     types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The type of the resource.
-    types:
-    - uid: string
-- name: ClusterGetProperties
-  description: The properties of cluster.
+    - uid: ClusterIdentity
+requestHeader: []
+definitions:
+- name: ClusterCreateProperties
+  description: The cluster create parameters.
   kind: object
   properties:
   - name: clusterVersion
     description: The version of the cluster.
-    types:
-    - uid: string
-  - name: clusterHdpVersion
-    description: The hdp version of the cluster.
     types:
     - uid: string
   - name: osType
@@ -130,10 +104,6 @@ definitions:
     description: The cluster tier.
     types:
     - uid: Tier
-  - name: clusterId
-    description: The cluster id.
-    types:
-    - uid: string
   - name: clusterDefinition
     description: The cluster definition.
     types:
@@ -150,32 +120,10 @@ definitions:
     description: The compute profile.
     types:
     - uid: ComputeProfile
-  - name: provisioningState
-    description: The provisioning state, which only appears in the response.
+  - name: storageProfile
+    description: The storage profile.
     types:
-    - uid: HDInsightClusterProvisioningState
-  - name: createdDate
-    description: The date on which the cluster was created.
-    types:
-    - uid: string
-  - name: clusterState
-    description: The state of the cluster.
-    types:
-    - uid: string
-  - name: quotaInfo
-    description: The quota information.
-    types:
-    - uid: QuotaInfo
-  - name: errors
-    description: The list of errors.
-    types:
-    - uid: Errors
-      isArray: true
-  - name: connectivityEndpoints
-    description: The list of connectivity endpoints.
-    types:
-    - uid: ConnectivityEndpoint
-      isArray: true
+    - uid: StorageProfile
   - name: diskEncryptionProperties
     description: The disk encryption properties.
     types:
@@ -184,18 +132,10 @@ definitions:
     description: The encryption-in-transit properties.
     types:
     - uid: EncryptionInTransitProperties
-  - name: storageProfile
-    description: The storage profile.
-    types:
-    - uid: StorageProfile
   - name: minSupportedTlsVersion
     description: The minimal supported tls version.
     types:
     - uid: string
-  - name: excludedServicesConfig
-    description: The excluded services config.
-    types:
-    - uid: ExcludedServicesConfig
   - name: networkProperties
     description: The network properties.
     types:
@@ -226,6 +166,81 @@ definitions:
     description: "The list of user identities associated with the cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
     types:
     - uid: UserAssignedIdentities
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ClusterCreateValidationResult
+  description: The response of cluster create request validation.
+  kind: object
+  properties:
+  - name: validationErrors
+    description: The validation errors.
+    types:
+    - uid: ValidationErrorInfo
+      isArray: true
+  - name: validationWarnings
+    description: The validation warnings.
+    types:
+    - uid: ValidationErrorInfo
+      isArray: true
+  - name: estimatedCreationDuration
+    description: The estimated creation duration.
+    types:
+    - uid: string
+  - name: aaddsResourcesDetails
+    description: The Azure active directory domain service resource details.
+    types:
+    - uid: AaddsResourceDetails
+      isArray: true
+- name: ClusterCreateRequestValidationParameters
+  description: The cluster create request specification.
+  kind: object
+  properties:
+  - name: name
+    description: The cluster name.
+    types:
+    - uid: string
+  - name: type
+    description: The resource type.
+    types:
+    - uid: string
+  - name: tenantId
+    description: The tenant id.
+    types:
+    - uid: string
+  - name: fetchAaddsResource
+    description: This indicates whether fetch Aadds resource or not.
+    types:
+    - uid: boolean
+  - name: location
+    description: The location of the cluster.
+    types:
+    - uid: string
+  - name: tags
+    description: The resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties
+    description: The cluster create parameters.
+    types:
+    - uid: ClusterCreateProperties
+  - name: identity
+    description: The identity of the cluster, if configured.
+    types:
+    - uid: ClusterIdentity
 - name: OSType
   description: The type of operating system.
   kind: enum
@@ -237,7 +252,7 @@ definitions:
     types:
     - uid: string
 - name: Tier
-  description: The cluster tier.
+  description: The managed disk billing tier, Standard or Premium.
   kind: enum
   properties:
   - name: Standard
@@ -337,69 +352,15 @@ definitions:
     types:
     - uid: Role
       isArray: true
-- name: HDInsightClusterProvisioningState
-  description: The provisioning state, which only appears in the response.
-  kind: enum
-  properties:
-  - name: InProgress
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Canceled
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-- name: QuotaInfo
-  description: The quota properties for the cluster.
+- name: StorageProfile
+  description: The storage profile.
   kind: object
   properties:
-  - name: coresUsed
-    description: The cores used by the cluster.
+  - name: storageaccounts
+    description: The list of storage accounts in the cluster.
     types:
-    - uid: integer
-- name: Errors
-  description: The error message associated with the cluster creation.
-  kind: object
-  properties:
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-- name: ConnectivityEndpoint
-  description: The connectivity properties
-  kind: object
-  properties:
-  - name: name
-    description: The name of the endpoint.
-    types:
-    - uid: string
-  - name: protocol
-    description: The protocol of the endpoint.
-    types:
-    - uid: string
-  - name: location
-    description: The location of the endpoint.
-    types:
-    - uid: string
-  - name: port
-    description: The port to connect to.
-    types:
-    - uid: integer
-  - name: privateIPAddress
-    description: The private ip address of the endpoint.
-    types:
-    - uid: string
+    - uid: StorageAccount
+      isArray: true
 - name: DiskEncryptionProperties
   description: The disk encryption properties
   kind: object
@@ -436,27 +397,6 @@ definitions:
     description: Indicates whether or not inter cluster node communication is encrypted in transit.
     types:
     - uid: boolean
-- name: StorageProfile
-  description: The storage profile.
-  kind: object
-  properties:
-  - name: storageaccounts
-    description: The list of storage accounts in the cluster.
-    types:
-    - uid: StorageAccount
-      isArray: true
-- name: ExcludedServicesConfig
-  description: The configuration that services will be excluded when creating cluster.
-  kind: object
-  properties:
-  - name: excludedServicesConfigId
-    description: The config id of excluded services.
-    types:
-    - uid: string
-  - name: excludedServicesList
-    description: The list of excluded services.
-    types:
-    - uid: string
 - name: NetworkProperties
   description: The network properties.
   kind: object
@@ -505,6 +445,59 @@ definitions:
     description: ''
     types:
     - uid: ''
+- name: ValidationErrorInfo
+  description: The validation error information.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: errorResource
+    description: The error resource.
+    types:
+    - uid: string
+  - name: messageArguments
+    description: The message arguments
+    types:
+    - uid: string
+      isArray: true
+- name: AaddsResourceDetails
+  description: The Azure active directory domain service resource details.
+  kind: object
+  properties:
+  - name: domainName
+    description: The Azure active directory domain service name.
+    types:
+    - uid: string
+  - name: initialSyncComplete
+    description: This indicates whether initial sync complete or not.
+    types:
+    - uid: boolean
+  - name: ldapsEnabled
+    description: This indicates whether enable ldaps or not.
+    types:
+    - uid: boolean
+  - name: ldapsPublicCertificateInBase64
+    description: The base 64 format string of public ldap certificate.
+    types:
+    - uid: string
+  - name: resourceId
+    description: The resource id of azure active directory domain service.
+    types:
+    - uid: string
+  - name: subnetId
+    description: The subnet resource id.
+    types:
+    - uid: string
+  - name: tenantId
+    description: The tenant id of azure active directory domain service .
+    types:
+    - uid: string
 - name: ClientGroupInfo
   description: The information of AAD security group.
   kind: object
@@ -574,19 +567,6 @@ definitions:
     description: Indicates whether encrypt the data disks.
     types:
     - uid: boolean
-- name: JsonWebKeyEncryptionAlgorithm
-  description: Algorithm identifier for encryption, default RSA-OAEP.
-  kind: enum
-  properties:
-  - name: RSA-OAEP
-    types:
-    - uid: string
-  - name: RSA-OAEP-256
-    types:
-    - uid: string
-  - name: RSA1_5
-    types:
-    - uid: string
 - name: StorageAccount
   description: The storage Account.
   kind: object
@@ -625,6 +605,19 @@ definitions:
     - uid: string
   - name: fileshare
     description: The file share name.
+    types:
+    - uid: string
+- name: JsonWebKeyEncryptionAlgorithm
+  description: Algorithm identifier for encryption, default RSA-OAEP.
+  kind: enum
+  properties:
+  - name: RSA-OAEP
+    types:
+    - uid: string
+  - name: RSA-OAEP-256
+    types:
+    - uid: string
+  - name: RSA1_5
     types:
     - uid: string
 - name: ResourceProviderConnection
@@ -809,173 +802,111 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get All Hadoop on Linux clusters in a resource group
+- name: Get the subscription usages for specific location
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters?api-version=2018-06-01-preview
+    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.HDInsight/locations/southcentralus/validateCreateRequest?api-version=2018-06-01-preview
+    body: >-
+      {
+        "name": "testclustername",
+        "type": "Microsoft.HDInsight/clusters",
+        "location": "southcentralus",
+        "tags": {},
+        "properties": {
+          "clusterVersion": "4.0",
+          "osType": "Linux",
+          "tier": "Standard",
+          "clusterDefinition": {
+            "kind": "spark",
+            "componentVersion": {
+              "Spark": "2.4"
+            },
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": true,
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "storagename.blob.core.windows.net",
+                "isDefault": true,
+                "container": "contianername",
+                "key": "*******",
+                "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/storagename"
+              }
+            ]
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "autoscale": null,
+                "name": "headnode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "Standard_E8_V3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "********"
+                  }
+                },
+                "virtualNetworkProfile": null,
+                "scriptActions": [],
+                "dataDisksGroups": null
+              },
+              {
+                "autoscale": null,
+                "name": "workernode",
+                "targetInstanceCount": 4,
+                "hardwareProfile": {
+                  "vmSize": "Standard_E8_V3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "********"
+                  }
+                },
+                "virtualNetworkProfile": null,
+                "scriptActions": [],
+                "dataDisksGroups": null
+              },
+              {
+                "autoscale": null,
+                "name": "zookeepernode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "Standard_D13_V2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                },
+                "virtualNetworkProfile": null,
+                "scriptActions": [],
+                "dataDisksGroups": null
+              }
+            ]
+          },
+          "minSupportedTlsVersion": "1.2"
+        },
+        "fetchAaddsResource": false,
+        "tenantId": "00000000-0000-0000-0000-000000000000"
+      }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1",
-            "name": "cluster1",
-            "type": "Microsoft.HDInsight/clusters",
-            "location": "West US",
-            "etag": "f0212a39-b827-45e0-9ffa-4f5232e58851",
-            "tags": {
-              "key1": "val1"
-            },
-            "properties": {
-              "clusterVersion": "3.5.1000.0",
-              "osType": "Linux",
-              "clusterDefinition": {
-                "blueprint": "https://blueprints.azurehdinsight.net/hadoop-3.5.1000.0.9243893.json",
-                "kind": "hadoop"
-              },
-              "computeProfile": {
-                "roles": [
-                  {
-                    "name": "headnode",
-                    "targetInstanceCount": 2,
-                    "hardwareProfile": {
-                      "vmSize": "Standard_D3_V2"
-                    },
-                    "osProfile": {
-                      "linuxOperatingSystemProfile": {
-                        "username": "pulkitssh"
-                      }
-                    }
-                  },
-                  {
-                    "name": "workernode",
-                    "targetInstanceCount": 4,
-                    "hardwareProfile": {
-                      "vmSize": "Standard_D3_V2"
-                    },
-                    "osProfile": {
-                      "linuxOperatingSystemProfile": {
-                        "username": "pulkitssh"
-                      }
-                    }
-                  },
-                  {
-                    "name": "zookeepernode",
-                    "targetInstanceCount": 3,
-                    "hardwareProfile": {
-                      "vmSize": "Medium"
-                    },
-                    "osProfile": {
-                      "linuxOperatingSystemProfile": {
-                        "username": "pulkitssh"
-                      }
-                    }
-                  }
-                ]
-              },
-              "provisioningState": "Succeeded",
-              "clusterState": "Running",
-              "createdDate": "2017-01-11T18:58:26.187",
-              "quotaInfo": {
-                "coresUsed": 24
-              },
-              "connectivityEndpoints": [
-                {
-                  "name": "SSH",
-                  "protocol": "TCP",
-                  "location": "cluster1-ssh.azurehdinsight.net",
-                  "port": 22
-                },
-                {
-                  "name": "HTTPS",
-                  "protocol": "TCP",
-                  "location": "cluster1.azurehdinsight.net",
-                  "port": 443
-                }
-              ],
-              "tier": "Standard"
-            }
-          },
-          {
-            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster2",
-            "name": "cluster2",
-            "type": "Microsoft.HDInsight/clusters",
-            "location": "West US",
-            "etag": "f0212a39-b827-45e0-9ffa-4f5232e58851",
-            "tags": {
-              "key1": "val1"
-            },
-            "properties": {
-              "clusterVersion": "3.5.1000.0",
-              "osType": "Linux",
-              "clusterDefinition": {
-                "blueprint": "https://blueprints.azurehdinsight.net/hadoop-3.5.1000.0.9243893.json",
-                "kind": "hadoop"
-              },
-              "computeProfile": {
-                "roles": [
-                  {
-                    "name": "headnode",
-                    "targetInstanceCount": 2,
-                    "hardwareProfile": {
-                      "vmSize": "Standard_D3_V2"
-                    },
-                    "osProfile": {
-                      "linuxOperatingSystemProfile": {
-                        "username": "pulkitssh"
-                      }
-                    }
-                  },
-                  {
-                    "name": "workernode",
-                    "targetInstanceCount": 4,
-                    "hardwareProfile": {
-                      "vmSize": "Standard_D3_V2"
-                    },
-                    "osProfile": {
-                      "linuxOperatingSystemProfile": {
-                        "username": "pulkitssh"
-                      }
-                    }
-                  },
-                  {
-                    "name": "zookeepernode",
-                    "targetInstanceCount": 3,
-                    "hardwareProfile": {
-                      "vmSize": "Medium"
-                    },
-                    "osProfile": {
-                      "linuxOperatingSystemProfile": {
-                        "username": "pulkitssh"
-                      }
-                    }
-                  }
-                ]
-              },
-              "provisioningState": "Succeeded",
-              "clusterState": "Running",
-              "createdDate": "2017-01-11T18:58:26.187",
-              "quotaInfo": {
-                "coresUsed": 24
-              },
-              "connectivityEndpoints": [
-                {
-                  "name": "SSH",
-                  "protocol": "TCP",
-                  "location": "cluster2-ssh.azurehdinsight.net",
-                  "port": 22
-                },
-                {
-                  "name": "HTTPS",
-                  "protocol": "TCP",
-                  "location": "cluster2.azurehdinsight.net",
-                  "port": 443
-                }
-              ],
-              "tier": "Standard"
-            }
-          }
-        ]
+        "validationErrors": [],
+        "estimatedCreationDuration": "00:20:00"
       }
 security:
 - name: azure_auth

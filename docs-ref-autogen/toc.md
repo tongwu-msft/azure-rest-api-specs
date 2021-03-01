@@ -7165,6 +7165,7 @@
 #### [Create](hdinsight/Applications/Create.yml)
 #### [Delete](hdinsight/Applications/Delete.yml)
 #### [Get](hdinsight/Applications/Get.yml)
+#### [Get Azure Async Operation Status](hdinsight/Applications/GetAzureAsyncOperationStatus.yml)
 #### [List By Cluster](hdinsight/Applications/ListByCluster.yml)
 ### Clusters
 #### [Overview](hdinsight/Clusters.yml)
@@ -7180,6 +7181,7 @@
 #### [Update](hdinsight/Clusters/Update.yml)
 #### [Update Auto Scale Configuration](hdinsight/Clusters/UpdateAutoScaleConfiguration.yml)
 #### [Update Gateway Settings](hdinsight/Clusters/UpdateGatewaySettings.yml)
+#### [Update Identity Certificate](hdinsight/Clusters/UpdateIdentityCertificate.yml)
 ### Configurations
 #### [Overview](hdinsight/Configurations.yml)
 #### [Get](hdinsight/Configurations/Get.yml)
@@ -7192,18 +7194,22 @@
 #### [Disable Monitoring](hdinsight/Extensions/DisableMonitoring.yml)
 #### [Enable Monitoring](hdinsight/Extensions/EnableMonitoring.yml)
 #### [Get](hdinsight/Extensions/Get.yml)
+#### [Get Azure Async Operation Status](hdinsight/Extensions/GetAzureAsyncOperationStatus.yml)
 #### [Get Monitoring Status](hdinsight/Extensions/GetMonitoringStatus.yml)
 ### Locations
 #### [Overview](hdinsight/Locations.yml)
+#### [Check Name Availability](hdinsight/Locations/CheckNameAvailability.yml)
 #### [Get Azure Async Operation Status](hdinsight/Locations/GetAzureAsyncOperationStatus.yml)
 #### [Get Capabilities](hdinsight/Locations/GetCapabilities.yml)
 #### [List Billing Specs](hdinsight/Locations/ListBillingSpecs.yml)
 #### [List Usages](hdinsight/Locations/ListUsages.yml)
+#### [Validate Cluster Create Request](hdinsight/Locations/ValidateClusterCreateRequest.yml)
 ### Operations
 #### [Overview](hdinsight/Operations.yml)
 #### [List](hdinsight/Operations/List.yml)
 ### Virtual Machines
 #### [Overview](hdinsight/VirtualMachines.yml)
+#### [Get Async Operation Status](hdinsight/VirtualMachines/GetAsyncOperationStatus.yml)
 #### [List Hosts](hdinsight/VirtualMachines/ListHosts.yml)
 #### [Restart Hosts](hdinsight/VirtualMachines/RestartHosts.yml)
 ### Script Actions
@@ -7213,6 +7219,7 @@
 #### Script Actions
 ##### [Overview](hdinsight/scriptactions/ScriptActions.yml)
 ##### [Delete](hdinsight/scriptactions/ScriptActions/Delete.yml)
+##### [Get Execution Async Operation Status](hdinsight/scriptactions/ScriptActions/GetExecutionAsyncOperationStatus.yml)
 ##### [Get Execution Detail](hdinsight/scriptactions/ScriptActions/GetExecutionDetail.yml)
 ##### [List By Cluster](hdinsight/scriptactions/ScriptActions/ListByCluster.yml)
 #### Script Execution History
