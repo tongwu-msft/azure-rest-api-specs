@@ -14903,7 +14903,7 @@
 #### [Delete](sql/ServerAzureADAdministrators/Delete.yml)
 #### [Get](sql/ServerAzureADAdministrators/Get.yml)
 #### [List By Server](sql/ServerAzureADAdministrators/ListByServer.yml)
-### Server Dev Ops Audit Settings
+### Server DevOps Audit Settings
 #### [Overview](sql/ServerDevOpsAuditSettings.yml)
 #### [Create Or Update](sql/ServerDevOpsAuditSettings/CreateOrUpdate.yml)
 #### [Get](sql/ServerDevOpsAuditSettings/Get.yml)
