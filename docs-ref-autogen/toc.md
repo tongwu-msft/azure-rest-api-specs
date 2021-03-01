@@ -10454,34 +10454,63 @@
 ### [Overview](resources/checkResourceName.yml)
 ### [check Resource Name](resources/checkResourceName/checkResourceName.yml)
 # Resource Mover
-## [Overview](../docs-ref-conceptual/regionmove/index.md)
-## Move Collections
-### [Overview](resourcemover/MoveCollections.yml)
-### [Bulk Remove](resourcemover/MoveCollections/BulkRemove.yml)
-### [Commit](resourcemover/MoveCollections/Commit.yml)
-### [Create](resourcemover/MoveCollections/Create.yml)
-### [Delete](resourcemover/MoveCollections/Delete.yml)
-### [Discard](resourcemover/MoveCollections/Discard.yml)
-### [Get](resourcemover/MoveCollections/Get.yml)
-### [Initiate Move](resourcemover/MoveCollections/InitiateMove.yml)
-### [List Move Collections By Resource Group](resourcemover/MoveCollections/ListMoveCollectionsByResourceGroup.yml)
-### [List Move Collections By Subscription](resourcemover/MoveCollections/ListMoveCollectionsBySubscription.yml)
-### [List Required For](resourcemover/MoveCollections/ListRequiredFor.yml)
-### [Prepare](resourcemover/MoveCollections/Prepare.yml)
-### [Resolve Dependencies](resourcemover/MoveCollections/ResolveDependencies.yml)
-### [Update](resourcemover/MoveCollections/Update.yml)
-## Move Resources
-### [Overview](resourcemover/MoveResources.yml)
-### [Create](resourcemover/MoveResources/Create.yml)
-### [Delete](resourcemover/MoveResources/Delete.yml)
-### [Get](resourcemover/MoveResources/Get.yml)
-### [List](resourcemover/MoveResources/List.yml)
-## Operations Discovery
-### [Overview](resourcemover/OperationsDiscovery.yml)
-### [Get](resourcemover/OperationsDiscovery/Get.yml)
-## Unresolved Dependencies
-### [Overview](resourcemover/UnresolvedDependencies.yml)
-### [Get](resourcemover/UnresolvedDependencies/Get.yml)
+## [Overview](../docs-ref-conceptual/resourcemover/index.md)
+## Preview
+### Move Collections
+#### [Overview](resourcemover/preview/MoveCollections.yml)
+#### [Bulk Remove](resourcemover/preview/MoveCollections/BulkRemove.yml)
+#### [Commit](resourcemover/preview/MoveCollections/Commit.yml)
+#### [Create](resourcemover/preview/MoveCollections/Create.yml)
+#### [Delete](resourcemover/preview/MoveCollections/Delete.yml)
+#### [Discard](resourcemover/preview/MoveCollections/Discard.yml)
+#### [Get](resourcemover/preview/MoveCollections/Get.yml)
+#### [Initiate Move](resourcemover/preview/MoveCollections/InitiateMove.yml)
+#### [List Move Collections By Resource Group](resourcemover/preview/MoveCollections/ListMoveCollectionsByResourceGroup.yml)
+#### [List Move Collections By Subscription](resourcemover/preview/MoveCollections/ListMoveCollectionsBySubscription.yml)
+#### [List Required For](resourcemover/preview/MoveCollections/ListRequiredFor.yml)
+#### [Prepare](resourcemover/preview/MoveCollections/Prepare.yml)
+#### [Resolve Dependencies](resourcemover/preview/MoveCollections/ResolveDependencies.yml)
+#### [Update](resourcemover/preview/MoveCollections/Update.yml)
+### Move Resources
+#### [Overview](resourcemover/preview/MoveResources.yml)
+#### [Create](resourcemover/preview/MoveResources/Create.yml)
+#### [Delete](resourcemover/preview/MoveResources/Delete.yml)
+#### [Get](resourcemover/preview/MoveResources/Get.yml)
+#### [List](resourcemover/preview/MoveResources/List.yml)
+### Operations Discovery
+#### [Overview](resourcemover/preview/OperationsDiscovery.yml)
+#### [Get](resourcemover/preview/OperationsDiscovery/Get.yml)
+### Unresolved Dependencies
+#### [Overview](resourcemover/preview/UnresolvedDependencies.yml)
+#### [Get](resourcemover/preview/UnresolvedDependencies/Get.yml)
+## Stable
+### Move Collections
+#### [Overview](resourcemover/stable/MoveCollections.yml)
+#### [Bulk Remove](resourcemover/stable/MoveCollections/BulkRemove.yml)
+#### [Commit](resourcemover/stable/MoveCollections/Commit.yml)
+#### [Create](resourcemover/stable/MoveCollections/Create.yml)
+#### [Delete](resourcemover/stable/MoveCollections/Delete.yml)
+#### [Discard](resourcemover/stable/MoveCollections/Discard.yml)
+#### [Get](resourcemover/stable/MoveCollections/Get.yml)
+#### [Initiate Move](resourcemover/stable/MoveCollections/InitiateMove.yml)
+#### [List Move Collections By Resource Group](resourcemover/stable/MoveCollections/ListMoveCollectionsByResourceGroup.yml)
+#### [List Move Collections By Subscription](resourcemover/stable/MoveCollections/ListMoveCollectionsBySubscription.yml)
+#### [List Required For](resourcemover/stable/MoveCollections/ListRequiredFor.yml)
+#### [Prepare](resourcemover/stable/MoveCollections/Prepare.yml)
+#### [Resolve Dependencies](resourcemover/stable/MoveCollections/ResolveDependencies.yml)
+#### [Update](resourcemover/stable/MoveCollections/Update.yml)
+### Move Resources
+#### [Overview](resourcemover/stable/MoveResources.yml)
+#### [Create](resourcemover/stable/MoveResources/Create.yml)
+#### [Delete](resourcemover/stable/MoveResources/Delete.yml)
+#### [Get](resourcemover/stable/MoveResources/Get.yml)
+#### [List](resourcemover/stable/MoveResources/List.yml)
+### Operations Discovery
+#### [Overview](resourcemover/stable/OperationsDiscovery.yml)
+#### [Get](resourcemover/stable/OperationsDiscovery/Get.yml)
+### Unresolved Dependencies
+#### [Overview](resourcemover/stable/UnresolvedDependencies.yml)
+#### [Get](resourcemover/stable/UnresolvedDependencies/Get.yml)
 # Scheduler
 ## [Overview](../docs-ref-conceptual/scheduler/index.md)
 ## Job Collections
