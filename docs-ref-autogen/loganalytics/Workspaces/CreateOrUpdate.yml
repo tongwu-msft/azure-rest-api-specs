@@ -49,6 +49,10 @@ responses:
   - uid: Workspace
 - name: 202 Accepted
   description: Accepted
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -69,7 +73,7 @@ requestBody:
     - uid: WorkspaceSku
   - name: properties.retentionInDays
     in: body
-    description: The workspace data retention in days, between 30 and 730.
+    description: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details.
     types:
     - uid: integer
   - name: properties.workspaceCapping
@@ -87,6 +91,11 @@ requestBody:
     description: The network access type for accessing Log Analytics query.
     types:
     - uid: PublicNetworkAccessType
+  - name: properties.forceCmkForQuery
+    in: body
+    description: Indicates whether customer managed storage is mandatory for query management.
+    types:
+    - uid: boolean
   - name: tags
     in: body
     description: Resource tags.
@@ -178,13 +187,23 @@ definitions:
     types:
     - uid: WorkspaceSku
   - name: properties.retentionInDays
-    description: The workspace data retention in days, between 30 and 730.
+    description: The workspace data retention in days. Allowed values are per pricing plan. See pricing tiers documentation for details.
     types:
     - uid: integer
   - name: properties.workspaceCapping
     description: The daily volume cap for ingestion.
     types:
     - uid: WorkspaceCapping
+  - name: properties.createdDate
+    isReadyOnly: true
+    description: Workspace creation date.
+    types:
+    - uid: string
+  - name: properties.modifiedDate
+    isReadyOnly: true
+    description: Workspace modification date.
+    types:
+    - uid: string
   - name: properties.publicNetworkAccessForIngestion
     description: The network access type for accessing Log Analytics ingestion.
     types:
@@ -193,6 +212,10 @@ definitions:
     description: The network access type for accessing Log Analytics query.
     types:
     - uid: PublicNetworkAccessType
+  - name: properties.forceCmkForQuery
+    description: Indicates whether customer managed storage is mandatory for query management.
+    types:
+    - uid: boolean
   - name: properties.privateLinkScopedResources
     isReadyOnly: true
     description: List of linked private link scope resources.
@@ -226,6 +249,14 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
 - name: WorkspaceSkuNameEnum
   description: The name of the SKU.
   kind: enum
@@ -249,6 +280,9 @@ definitions:
     types:
     - uid: string
   - name: CapacityReservation
+    types:
+    - uid: string
+  - name: LACluster
     types:
     - uid: string
 - name: DataIngestionStatus
@@ -316,6 +350,51 @@ definitions:
     description: Disables public connectivity to Log Analytics through public DNS.
     types:
     - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: WorkspacesCreate
   request:
