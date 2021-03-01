@@ -1,14 +1,16 @@
 ### YamlMime:RESTOperation
-uid: cognitiveservices.translator.translation.canceloperation
-name: Cancel Operation
+uid: cognitiveservices.translator.documenttranslation.getoperationdocumentsstatus
+name: Get Operation Documents Status
 service: Cognitive Services
-groupName: Translation
+groupName: Document Translation
 apiVersion: v1.0-preview.1
-summary: "Cancel a currently processing or queued operation  \nCancel a currently processing or queued operation.\nCancel a currently processing or queued operation.\nAn operation will not be cancelled if it is already completed or failed or cancelling. A bad request will be returned.\nAll documents that have completed translation will not be cancelled and will be charged.\nAll pending documents will be cancelled if possible."
+summary: "Returns the status for all documents in a batch document translation request  \nReturns the status for all documents in a batch document translation request.\n            \nThe documents included in the response are sorted by document Id in descending order. If the number of documents in the response exceeds our paging limit, server-side paging is used.\nPaginated responses indicate a partial result and include a continuation token in the response. The absence of a continuation token means that no additional pages are available.\n            \n$top and $skip query parameters can be used to specify a number of results to return and an offset for the collection.\nThe server honors the values specified by the client. However, clients must be prepared to handle responses that contain a different page size or contain a continuation token.\n            \nWhen both $top and $skip are included, the server should first apply $skip and then $top on the collection.\nNote: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.\nThis reduces the risk of the client making assumptions about the data returned."
 produces:
 - application/json
 paths:
-- content: DELETE {endpoint}/translator/text/batch/v1.0-preview.1/batches/{id}
+- content: GET {endpoint}/translator/text/batch/v1.0-preview.1/batches/{id}/documents
+- content: GET {endpoint}/translator/text/batch/v1.0-preview.1/batches/{id}/documents?$top={$top}&$skip={$skip}
+  isOptional: true
 uriParameters:
 - name: endpoint
   in: path
@@ -20,15 +22,42 @@ uriParameters:
 - name: id
   in: path
   isRequired: true
-  description: Format - uuid.  The operation-id
+  description: Format - uuid.  The operation id
   types:
   - uid: string
   format: uuid
+- name: $top
+  in: query
+  description: >-
+    Take the $top entries in the collection
+
+    When both $top and $skip are supplied, $skip is applied first
+  types:
+  - uid: integer
+  format: int32
+- name: $skip
+  in: query
+  description: >-
+    Skip the $skip entries in the collection
+
+    When both $top and $skip are supplied, $skip is applied first
+  types:
+  - uid: integer
+  format: int32
 responses:
 - name: 200 OK
-  description: Cancel request has been submitted
+  headers:
+  - name: Retry-After
+    value: integer
+  - name: ETag
+    value: string
+  description: Successful request and returns the status of the documents
   types:
-  - uid: BatchStatusDetail
+  - uid: DocumentStatusResponse
+- name: 400 Bad Request
+  description: Invalid request.  Check input parameters
+  types:
+  - uid: ErrorResponseV2
 - name: 401 Unauthorized
   description: Unauthorized.  Please check your credentials
   types:
@@ -57,12 +86,37 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: BatchStatusDetail
-  description: Job status response
+- name: DocumentStatusResponse
+  description: Document Status Response
   kind: object
   properties:
-  - name: id
-    description: Id of the operation.
+  - name: value
+    description: The detail status of individual documents
+    types:
+    - uid: DocumentStatusDetail
+      isArray: true
+  - name: '@nextLink'
+    description: Url for the next page.  Null if no more pages available
+    types:
+    - uid: string
+- name: ErrorResponseV2
+  description: >-
+    Contains unified error information used for HTTP responses across any Cognitive Service. Instances
+
+    can be created either through Microsoft.CloudAI.Containers.HttpStatusExceptionV2 or by returning it directly from
+
+    a controller.
+  kind: object
+  properties:
+  - name: error
+    description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
+    types:
+    - uid: ErrorV2
+- name: DocumentStatusDetail
+  kind: object
+  properties:
+  - name: path
+    description: Location of the document or folder
     types:
     - uid: string
   - name: createdDateTimeUtc
@@ -77,23 +131,50 @@ definitions:
     description: List of possible statuses for job or document
     types:
     - uid: Status
-  - name: summary
-    description: ''
+  - name: to
+    description: To language
     types:
-    - uid: StatusSummary
-- name: ErrorResponseV2
-  description: >-
-    Contains unified error information used for HTTP responses across any Cognitive Service. Instances
-
-    can be created either through Microsoft.CloudAI.Containers.HttpStatusExceptionV2 or by returning it directly from
-
-    a controller.
-  kind: object
-  properties:
+    - uid: string
   - name: error
     description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
     types:
     - uid: ErrorV2
+  - name: progress
+    description: Progress of the translation if available
+    types:
+    - uid: number
+  - name: id
+    description: Document Id
+    types:
+    - uid: string
+  - name: characterCharged
+    description: Character charged by the API
+    types:
+    - uid: integer
+- name: ErrorV2
+  description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
+  kind: object
+  properties:
+  - name: code
+    description: Enums containing high level error codes.
+    types:
+    - uid: ErrorCodeV2
+  - name: message
+    description: Gets high level error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: "Gets the source of the error. \nFor example it would be \"documents\" or \"document id\" in case of invalid document."
+    types:
+    - uid: string
+  - name: innerError
+    description: >-
+      New Inner Error format which conforms to Cognitive Services API Guidelines which is available at https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow.
+
+      This contains required properties ErrorCode, message and optional properties target, details(key value pair), inner error(this can be nested).
+    types:
+    - uid: InnerErrorV2
 - name: Status
   description: List of possible statuses for job or document
   kind: enum
@@ -116,58 +197,9 @@ definitions:
   - name: Cancelling
     types:
     - uid: string
-- name: StatusSummary
-  kind: object
-  properties:
-  - name: total
-    description: Total count
-    types:
-    - uid: integer
-  - name: failed
-    description: Failed count
-    types:
-    - uid: integer
-  - name: success
-    description: Number of Success
-    types:
-    - uid: integer
-  - name: inProgress
-    description: Number of in progress
-    types:
-    - uid: integer
-  - name: notYetStarted
-    description: Count of not yet started
-    types:
-    - uid: integer
-  - name: cancelled
-    description: Number of cancelled
-    types:
-    - uid: integer
-- name: ErrorV2
-  description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
-  kind: object
-  properties:
-  - name: code
-    description: Enums containing high level error codes.
-    types:
-    - uid: ErrorCodeV2
-  - name: message
-    isReadyOnly: true
-    description: Gets high level error message.
+  - name: ValidationFailed
     types:
     - uid: string
-  - name: target
-    isReadyOnly: true
-    description: "Gets the source of the error. \nFor example it would be \"documents\" or \"document id\" in case of invalid document."
-    types:
-    - uid: string
-  - name: innerError
-    description: >-
-      New Inner Error format which conforms to Cognitive Services API Guidelines which is available at https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow.
-
-      This contains required properties ErrorCode, message and optional properties target, details(key value pair), inner error(this can be nested).
-    types:
-    - uid: InnerErrorV2
 - name: ErrorCodeV2
   description: Enums containing high level error codes.
   kind: enum
@@ -201,17 +233,10 @@ definitions:
   kind: object
   properties:
   - name: code
-    isReadyOnly: true
-    description: Gets detailed error code.
-    types:
-    - uid: integer
-  - name: error
-    isReadyOnly: true
-    description: Gets detailed error string.
+    description: Gets code error string.
     types:
     - uid: string
   - name: message
-    isReadyOnly: true
     description: Gets high level error message.
     types:
     - uid: string
@@ -228,9 +253,9 @@ definitions:
     types:
     - uid: InnerErrorV2
 examples:
-- name: Cancel a batch operation example
+- name: Get Documents Status for the operation batch id
   request:
-    uri: DELETE {endpoint}/translator/text/batch/v1.0-preview.1/batches/727BF148-F327-47A0-9481-ABAE6362F11E
+    uri: GET {endpoint}/translator/text/batch/v1.0-preview.1/batches/727BF148-F327-47A0-9481-ABAE6362F11E/documents?$top=5&$skip=10
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'
@@ -241,10 +266,9 @@ examples:
         "error": {
           "code": "Unauthorized",
           "message": "User is not authorized",
-          "target": "Operation",
+          "target": "Document",
           "innerError": {
-            "code": 401000,
-            "error": "Unauthorized",
+            "code": "Unauthorized",
             "message": "Operation is not authorized"
           }
         }
@@ -255,10 +279,9 @@ examples:
         "error": {
           "code": "RequestRateTooHigh",
           "message": "User's request rate is too high",
-          "target": "Operation",
+          "target": "Document",
           "innerError": {
-            "code": 429000,
-            "error": "RateTooHigh",
+            "code": "RateTooHigh",
             "message": "Request rate is too high"
           }
         }
@@ -269,10 +292,9 @@ examples:
         "error": {
           "code": "InternalServerError",
           "message": "Internal Server Error",
-          "target": "Operation",
+          "target": "Document",
           "innerError": {
-            "code": 500000,
-            "error": "Internal Server Error",
+            "code": "InternalServerError",
             "message": "Unexpected internal server error has occurred"
           }
         }
@@ -283,10 +305,9 @@ examples:
         "error": {
           "code": "ServiceUnavailable",
           "message": "Service is temporary unavailable",
-          "target": "Operation",
+          "target": "Document",
           "innerError": {
-            "code": 503000,
-            "error": "ServiceTemporaryUnavailable",
+            "code": "ServiceTemporaryUnavailable",
             "message": "Service is currently unavailable.  Please try again later"
           }
         }
@@ -297,28 +318,46 @@ examples:
         "error": {
           "code": "ResourceNotFound",
           "message": "id not found",
-          "target": "Operation",
+          "target": "Document",
           "innerError": {
-            "code": 404000,
-            "error": "ResourceNotFound",
+            "code": "ResourceNotFound",
             "message": "Resource requested is not found"
           }
         }
       }
   - statusCode: "200"
+    headers:
+    - name: retry-after
+      value: "30"
+    - name: ETag
+      value: 686897696a7c876b7e
     body: >-
       {
-        "id": "727bf148-f327-47a0-9481-abae6362f11e",
-        "createdDateTimeUtc": "2020-03-26T00:00:00Z",
-        "lastActionDateTimeUtc": "2020-03-26T01:00:00Z",
-        "status": "Succeeded",
-        "summary": {
-          "total": 10,
-          "failed": 1,
-          "success": 9,
-          "inProgress": 0,
-          "notYetStarted": 0,
-          "cancelled": 0
+        "value": [
+          {
+            "path": "https://myblob.blob.core.windows.net/destinationContainer/fr/mydoc.txt",
+            "createdDateTimeUtc": "2020-03-26T00:00:00Z",
+            "lastActionDateTimeUtc": "2020-03-26T01:00:00Z",
+            "status": "Running",
+            "to": "fr",
+            "progress": 0.1,
+            "id": "273622bd-835c-4946-9798-fd8f19f6bbf2",
+            "characterCharged": 0
+          }
+        ],
+        "@nextLink": "https://westus.cognitiveservices.azure.com/translator/text/batch/v1.0.preview.1/operation/0FA2822F-4C2A-4317-9C20-658C801E0E55/documents?$top=5&$skip=15"
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "InvalidRequest",
+          "message": "Some argument is incorrect",
+          "target": "Document",
+          "innerError": {
+            "code": "SASTokenInvalid",
+            "message": "SAS token for storage is invalid"
+          }
         }
       }
 security:
