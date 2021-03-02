@@ -29,7 +29,7 @@ For supported Azure data sources, [indexers](https://docs.microsoft.com/azure/se
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required on the URI, specifying which index to post documents. You can only post documents to one index at a time.  |
-| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current version is `api-version=2020-06-30`. For a list of all supported versions, see [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions).|
 
 ## Request Headers
 
@@ -38,13 +38,11 @@ The following table describes the required and optional request headers.
 |Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to `application/json`|  
-|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Import requests must include an api-key field set to your admin key (as opposed to a query key).|  
-
-You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).
+|api-key|Required. A unique, system-generated string that authenticates the request to your search service. Uploading documents requires an admin API key. You can get keys from the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).| 
 
 ## Request Body
 
-The body of the request contains one or more documents to be indexed. Documents are identified by a unique key. Each document is associated with an action: `upload`, `merge`, `mergeOrUpload`, or `delete`. Upload requests must include the document data as a set of key/value pairs.  
+The body of the request contains one or more documents to be indexed. Documents are identified by a unique key. Each document is associated with an action: "upload", "delete", "merge", or "mergeOrUpload". Upload requests must include the document data as a set of key/value pairs.  
 
 ```json
 {  
@@ -62,15 +60,15 @@ The body of the request contains one or more documents to be indexed. Documents 
 
 | Property | Description |
 |----------|-------------|
-| `@search.action` | Required. Valid values are `upload`, `delete`, `merge`, or `mergeOrUpload`. Defaults to `upload`. You can combine actions, one per document, in the same batch. </br></br>`upload`: An upload action is similar to an "upsert" where the document will be inserted if it is new and updated/replaced if it exists. All fields are replaced in the update case.  </br></br>`delete`: Delete removes the specified document from the index. Any field you specify in a delete operation, other than the key field,  will be ignored. If you want to remove an individual field from a document, use `merge` instead and set the field explicitly to `null`. </br></br>`mergeOrUpload`: This action behaves like `merge` if a document with the given key already exists in the index. If the document does not exist, it behaves like `upload` with a new document. </br></br>`merge`: Merge updates an existing document with the specified fields. If the document doesn't exist, the merge will fail. Any field you specify in a merge will replace the existing field in the document. This also applies to collections of primitive and complex types. </br></br>In primitive collections, if the document contains a field "Tags" of type `Collection(Edm.String)` with value `["budget"]`, and you execute a `merge` with value `["economy", "pool"]` for "Tags", the final value of the "Tags" field will be `["economy", "pool"]`. It will not be `["budget", "economy", "pool"]`. </br></br>In complex collections, if the document contains a complex collection field named "Rooms" with value `[{ "Type": "Budget Room", "BaseRate": 75.0 }]`, and you execute a `merge` with value `[{ "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }]`, the final value of the "Rooms" field will be `[{ "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }]`. It will not be either of the following, for example:</br>`[{ "Type": "Budget Room", "BaseRate": 75.0 }, { "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }]` (append elements)</br>`[{ "Type": "Standard Room", "BaseRate": 75.0 }, { "Type": "Budget Room", "BaseRate": 60.5 }]` (merge elements in order, then append any extras) |
-| key_field_name | Required. A field definition in the index that serves as the document key and contains only unique values. Document keys can only contain letters, numbers, dashes ("-"), underscores ("_"), and equal signs ("="). For more information, see [Naming rules](naming-rules.md).  |
+| @search.action | Required. Valid values are "upload", "delete", "merge", or "mergeOrUpload". Defaults to "upload". You can combine actions, one per document, in the same batch. </br></br>"upload": An upload action is similar to an 'upsert' where the document will be inserted if it is new and updated/replaced if it exists. All fields are replaced in the update case.  </br></br>"delete": Delete removes the specified document from the index. Any field you specify in a delete operation, other than the key field,  will be ignored. If you want to remove an individual field from a document, use `merge` instead and set the field explicitly to `null`. </br></br>"mergeOrUpload": This action behaves like merge if a document with the given key already exists in the index. If the document does not exist, it behaves like upload with a new document. </br></br>"merge": Merge updates an existing document with the specified fields. If the document doesn't exist, the merge will fail. Any field you specify in a merge will replace the existing field in the document. This also applies to collections of primitive and complex types. </br></br>In primitive collections, if the document contains a Tags field of type Collection(Edm.String) with a value of ["budget"], and you execute a merge with a value of ["economy", "pool"] for Tag, the final value of the Tags field will be ["economy", "pool"]. It will not be ["budget", "economy", "pool"]. </br></br>In complex collections, if the document contains a complex collection field named Rooms with a value of [{ "Type": "Budget Room", "BaseRate": 75.0 }], and you execute a merge with a value of [{ "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }], the final value of the Rooms field will be [{ "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }]. It will not be either of the following:</br>[{ "Type": "Budget Room", "BaseRate": 75.0 }, { "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }] (append elements)</br>[{ "Type": "Standard Room", "BaseRate": 75.0 }, { "Type": "Budget Room", "BaseRate": 60.5 }] (merge elements in order, then append any extras) |
+| key_field_name | Required. A field definition in the index that serves as the document key and contains only unique values. Document keys can only contain letters, numbers, dashes (`"-"`), underscores (`"_"`), and equal signs (`"="`). For more information, see [Naming rules](naming-rules.md).  |
 | field_name | Required. Name-value pairs, where the name of the field corresponds to a field name in the index definition. The value is user-defined but must be valid for the field type. |
 
 ## Response
 
 Status code: 200 is returned for a successful response, meaning that all items have been stored durably and will start to be indexed. Indexing runs in the background and makes new documents available (that is, queryable and searchable) a few seconds after the indexing operation completed. The specific delay depends on the load on the service.
 
-Successful indexing is indicated by the `status` property being set to true for all items, as well as the `statusCode` property being set to either 201 (for newly uploaded documents) or 200 (for merged or deleted documents):
+Successful indexing is indicated by the status property being set to true for all items, as well as the statusCode property being set to either 201 (for newly uploaded documents) or 200 (for merged or deleted documents):
 
 ```json
 {
@@ -97,7 +95,7 @@ Successful indexing is indicated by the `status` property being set to true for 
 }  
 ```
 
-Status code: 207 is returned when at least one item was not successfully indexed. Items that have not been indexed have the `status` field set to false. The `errorMessage` and `statusCode` properties will indicate the reason for the indexing error:
+Status code: 207 is returned when at least one item was not successfully indexed. Items that have not been indexed have the status field set to false. The errorMessage and statusCode properties will indicate the reason for the indexing error:
 
 ```json
 {
@@ -245,7 +243,7 @@ Status code: 429 indicates that you have exceeded your quota on the number of do
 ```  
 
 > [!NOTE]
-> When you upload `DateTimeOffset` values with time zone information to your index, Azure Cognitive Search normalizes these values to UTC. For example, `2019-01-13T14:03:00-08:00` will be stored as `2019-01-13T22:03:00Z`. If you need to store time zone information, you will need to add an extra column to your index.
+> When you upload `DateTimeOffset` values with time zone information to your index, Azure Cognitive Search normalizes these values to UTC. For example, 2019-01-13T14:03:00-08:00 will be stored as 2019-01-13T22:03:00Z. If you need to store time zone information, you will need to add an extra column to your index.
 
 ## See also
 
