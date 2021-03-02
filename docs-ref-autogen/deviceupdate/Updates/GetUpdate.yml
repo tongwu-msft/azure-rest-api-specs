@@ -1,0 +1,168 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.updates.getupdate
+name: Get Update
+service: Device Update
+groupName: Updates
+apiVersion: 2020-09-01
+summary: Get a specific update version.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{accountEndpoint}/deviceupdate/{instanceId}/v2/updates/providers/{provider}/names/{name}/versions/{version}
+uriParameters:
+- name: accountEndpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account endpoint.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account instance identifier.
+  types:
+  - uid: string
+- name: provider
+  in: path
+  isRequired: true
+  description: Update provider.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: Update name.
+  types:
+  - uid: string
+- name: version
+  in: path
+  isRequired: true
+  description: Update version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The requested update version.
+  types:
+  - uid: Update
+- name: Other Status Codes
+  description: Not modified.
+- name: 404 Not Found
+  description: Not found.
+- name: Other Status Codes
+  description: Too many requests; there is a rate limit on how many operations can be executed within a time period.
+requestHeader:
+- name: If-None-Match
+  in: header
+  description: Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value.
+  types:
+  - uid: string
+definitions:
+- name: Update
+  description: Update metadata.
+  kind: object
+  properties:
+  - name: updateId
+    description: Update identity.
+    types:
+    - uid: UpdateId
+  - name: updateType
+    description: Update type.
+    types:
+    - uid: string
+  - name: installedCriteria
+    description: String interpreted by Device Update client to determine if the update is installed on the device.
+    types:
+    - uid: string
+  - name: compatibility
+    description: List of update compatibility information.
+    types:
+    - uid: Compatibility
+      isArray: true
+  - name: manifestVersion
+    description: Schema version of manifest used to import the update.
+    types:
+    - uid: string
+  - name: importedDateTime
+    description: Date and time in UTC when the update was imported.
+    types:
+    - uid: string
+  - name: createdDateTime
+    description: Date and time in UTC when the update was created.
+    types:
+    - uid: string
+  - name: etag
+    description: Update ETag.
+    types:
+    - uid: string
+- name: UpdateId
+  description: Update identifier.
+  kind: object
+  properties:
+  - name: provider
+    description: Update provider.
+    types:
+    - uid: string
+  - name: name
+    description: Update name.
+    types:
+    - uid: string
+  - name: version
+    description: Update version.
+    types:
+    - uid: string
+- name: Compatibility
+  description: Update compatibility information.
+  kind: object
+  properties:
+  - name: deviceManufacturer
+    description: The manufacturer of device the update is compatible with.
+    types:
+    - uid: string
+  - name: deviceModel
+    description: The model of device the update is compatible with.
+    types:
+    - uid: string
+examples:
+- name: Updates_GetUpdate
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceupdate/blue/v2/updates/providers/microsoft/names/adu/versions/1.0.0.0
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "updateId": {
+          "provider": "microsoft",
+          "name": "adu",
+          "version": "1.0.0.0"
+        },
+        "updateType": "image",
+        "installedCriteria": "SwVer=5",
+        "compatibility": [
+          {
+            "deviceManufacturer": "Microsoft",
+            "deviceModel": "Toaster"
+          }
+        ],
+        "manifestVersion": "0.1",
+        "importedDateTime": "2020-04-22T21:01:43.8408797+00:00",
+        "createdDateTime": "2019-09-12T00:00:00.0000000+00:00",
+        "etag": "\"3fed3378-0c67-47d2-b796-296962c66cbb\""
+      }
+  - statusCode: "304"
+  - statusCode: "404"
+  - statusCode: "429"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

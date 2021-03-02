@@ -1,0 +1,141 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.deployments.getdeploymentdevices
+name: Get Deployment Devices
+service: Device Update
+groupName: Deployments
+apiVersion: 2020-09-01
+summary: Gets a list of devices in a deployment along with their state. Useful for getting a list of failed devices.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{accountEndpoint}/deviceupdate/{instanceId}/v2/management/deployments/{deploymentId}/devicestates
+- content: GET https://{accountEndpoint}/deviceupdate/{instanceId}/v2/management/deployments/{deploymentId}/devicestates?$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: accountEndpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account endpoint.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account instance identifier.
+  types:
+  - uid: string
+- name: deploymentId
+  in: path
+  isRequired: true
+  description: Deployment identifier.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: Restricts the set of deployment device states returned. You can filter on deviceId and/or deviceState.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The devices in the deployment along with their states.
+  types:
+  - uid: PageableListOfDeploymentDeviceStates
+- name: 404 Not Found
+  description: Not found.
+requestHeader: []
+definitions:
+- name: PageableListOfDeploymentDeviceStates
+  description: The list of deployment device states.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of pageable items.
+    types:
+    - uid: DeploymentDeviceState
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of items.
+    types:
+    - uid: string
+- name: DeploymentDeviceState
+  description: Deployment device status.
+  kind: object
+  properties:
+  - name: deviceId
+    description: Device identity.
+    types:
+    - uid: string
+  - name: retryCount
+    description: The number of times this deployment has been retried on this device.
+    types:
+    - uid: integer
+  - name: movedOnToNewDeployment
+    description: Boolean flag indicating whether this device is in a newer deployment and can no longer retry this deployment.
+    types:
+    - uid: boolean
+  - name: deviceState
+    description: Deployment device state.
+    types:
+    - uid: DeviceDeploymentState
+- name: DeviceDeploymentState
+  description: Deployment state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    description: Deployment has completed with success.
+    types:
+    - uid: string
+  - name: InProgress
+    description: Deployment is in progress.
+    types:
+    - uid: string
+  - name: Failed
+    description: Deployment has completed with failure.
+    types:
+    - uid: string
+  - name: Canceled
+    description: Deployment was canceled.
+    types:
+    - uid: string
+  - name: Incompatible
+    description: Deployment is not compatible with the device.
+    types:
+    - uid: string
+examples:
+- name: Deployments_GetDeploymentDevices
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceupdate/blue/v2/management/deployments/deploymentId/devicestates
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "deviceId": "deviceId1",
+            "retryCount": 1,
+            "movedOnToNewDeployment": false,
+            "deviceState": "Succeeded"
+          },
+          {
+            "deviceId": "deviceId2",
+            "retryCount": 1,
+            "movedOnToNewDeployment": false,
+            "deviceState": "Succeeded"
+          }
+        ]
+      }
+  - statusCode: "404"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
