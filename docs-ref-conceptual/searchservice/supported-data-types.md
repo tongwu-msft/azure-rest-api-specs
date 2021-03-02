@@ -16,13 +16,13 @@ ms.manager: nitinme
 In Azure Cognitive Search, document fields and values in expressions (for example, in filters) are typed according to the Entity Data Model, or EDM (see [Entity Data Model](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model) for details).
 
 > [!NOTE]  
->  If you're using indexers to pull data into Azure Cognitive Search, indexers have different data type mappings for JSON and SQL Server data sources. For more information, see [Data type map for indexers in Azure Cognitive Search](data-type-map-for-indexers-in-azure-search.md).  
+> If you're using indexers to pull data into Azure Cognitive Search, indexers have different data type mappings for JSON and SQL Server data sources. For more information, see [Data type map for indexers in Azure Cognitive Search](data-type-map-for-indexers-in-azure-search.md).  
 
 ## EDM data types used in Azure Cognitive Search indexes and documents  
 
 Specifying EDM data types is necessary when defining fields in an index. You can find examples of JSON representation for fields of various types in [Create Index examples](create-index.md). For an example of JSON documents contained typed content in data upload scenarios, see [Add, Update or Delete Documents examples](addupdate-or-delete-documents.md).
 
-|||  
+|Data type| Description|  
 |-|-|  
 |Edm.String|Text data.|  
 |Edm.Boolean|Contains true/false values.|  
@@ -42,11 +42,12 @@ Specifying EDM data types is necessary when defining fields in an index. You can
 |Collection(Edm.ComplexType)|A list of objects of type `Edm.ComplexType`. There is a limit on the maximum number of elements across all collections of type `Edm.ComplexType` in a document. See [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for details.|
 
 > [!NOTE]  
->  All of the above types are nullable, except for collections of primitive and complex types, for example, `Collection(Edm.String)`. Nullable fields can be explicitly set to null. They are automatically set to null when omitted from a document that is uploaded to an Azure Cognitive Search index. Collection fields are automatically set to empty ('[]' in JSON) when they are omitted from a document. Also, it is not possible to store a null value in a collection field.
+> All of the above types are nullable, except for collections of primitive and complex types, for example, `Collection(Edm.String)`. Nullable fields can be explicitly set to null. They are automatically set to null when omitted from a document that is uploaded to an Azure Cognitive Search index. Collection fields are automatically set to empty ('[]' in JSON) when they are omitted from a document. Also, it is not possible to store a null value in a collection field.
 
 > Unlike complex collections, there is no upper limit specifically on the number of items in a collection of primitive types, but the 16 MB upper limit on payload size applies to all parts of documents, including collections.
 
 <a name="Anchor_1"></a>
+
 ## Other EDM structures used in Azure Cognitive Search  
 
  **Edm.GeographyPolygon** is a polygon representing a geographic region on the globe. While this type cannot be used in document fields, it can be used as an argument to the `geo.intersects` function. The literal form for URLs in OData is based on the [WKT (Well-known text) and OGC's simple feature access standards](https://www.opengeospatial.org/standards/sfa). A polygon literal is constructed as geography'POLYGON((lon lat, lon lat, ...))'.
@@ -54,14 +55,14 @@ Specifying EDM data types is necessary when defining fields in an index. You can
 To learn more about geospatial search in Azure, see this video: [Azure Cognitive Search and Geospatial Data](https://azure.microsoft.com/documentation/videos/azure-search-and-geospatial-data/)
 
 > [!IMPORTANT]  
->  Points in a polygon *must* be in counterclockwise order. Points in a polygon are interpreted in counterclockwise order, relative to the inside of the polygon. For example, a 4-point closed polygon around London would be -0.3°W 51.6°N [top left] , -0.3°W 51.4°N [bottom left], 0.1°E 51.4°N [bottom right], 0.1°E 51.6°N [top right], -0.3°W 51.6°N [starting point].
+> Points in a polygon *must* be in counterclockwise order. Points in a polygon are interpreted in counterclockwise order, relative to the inside of the polygon. For example, a 4-point closed polygon around London would be -0.3°W 51.6°N [top left] , -0.3°W 51.4°N [bottom left], 0.1°E 51.4°N [bottom right], 0.1°E 51.6°N [top right], -0.3°W 51.6°N [starting point].
 
 ## See also  
 
-+ [Azure Cognitive Search REST APIs](index.md)   
-+ [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
-+ [Support for OData &#40;Azure Cognitive Search&#41;](support-for-odata.md)   
-+ [Create Index &#40;Azure Cognitive Search REST API&#41;](create-index.md)   
-+ [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](addupdate-or-delete-documents.md)   
-+ [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md)   
-+ [Azure Cognitive Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  
++ [Azure Cognitive Search REST APIs](index.md)
++ [HTTP status codes](http-status-codes.md)
++ [Support for OData](support-for-odata.md)
++ [Create Index](create-index.md)
++ [Add, Update or Delete Document](addupdate-or-delete-documents.md)
++ [Indexer operations](indexer-operations.md)
++ [Azure Cognitive Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search)  
