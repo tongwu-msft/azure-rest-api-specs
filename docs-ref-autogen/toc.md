@@ -5730,6 +5730,12 @@
 #### [Overview](cost-management/Query.yml)
 #### [Usage](cost-management/Query/Usage.yml)
 #### [Usage By External Cloud Provider Type](cost-management/Query/UsageByExternalCloudProviderType.yml)
+### Settings
+#### [Overview](cost-management/Settings.yml)
+#### [Create Or Update](cost-management/Settings/CreateOrUpdate.yml)
+#### [Delete](cost-management/Settings/Delete.yml)
+#### [Get](cost-management/Settings/Get.yml)
+#### [List](cost-management/Settings/List.yml)
 ### Views
 #### [Overview](cost-management/Views.yml)
 #### [Create Or Update](cost-management/Views/CreateOrUpdate.yml)

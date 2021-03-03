@@ -1,47 +1,47 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.consumption.operations.list
+uid: management.azure.com.cost-management.settings.list
 name: List
-service: Consumption
-groupName: Operations
-apiVersion: 2019-10-01
-summary: Lists all of the available consumption REST API operations.
+service: Cost Management
+groupName: Settings
+apiVersion: 2019-11-01
+summary: Lists all of the settings that have been customized.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Consumption/operations?api-version=2019-10-01
+- content: GET https://management.azure.com/providers/Microsoft.CostManagement/settings?api-version=2019-11-01
 uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. The current version is 2019-10-01.
+  description: Version of the API to be used with the client request. The current version is 2019-11-01.
   types:
   - uid: string
 responses:
 - name: 200 OK
   description: OK. The request has succeeded.
   types:
-  - uid: OperationListResult
+  - uid: SettingsListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: OperationListResult
-  description: Result of listing consumption operations. It contains a list of operations and a URL link to get the next set of results.
+- name: SettingsListResult
+  description: Result of listing settings. It contains a list of available settings.
   kind: object
   properties:
   - name: value
     isReadyOnly: true
-    description: List of consumption operations supported by the Microsoft.Consumption resource provider.
+    description: The list of settings.
     types:
-    - uid: Operation
+    - uid: Setting
       isArray: true
   - name: nextLink
     isReadyOnly: true
-    description: URL to get the next set of operation list results if there are any.
+    description: The link (url) to the next page of results.
     types:
     - uid: string
 - name: ErrorResponse
@@ -52,24 +52,34 @@ definitions:
     description: The details of the error.
     types:
     - uid: ErrorDetails
-- name: Operation
-  description: A Consumption REST API operation.
+- name: Setting
+  description: State of Setting
   kind: object
   properties:
+  - name: properties.scope
+    description: For the myscope setting, sets the default scope the current user will see when they sign into Azure Cost Management in the Azure portal.
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
-    description: Operation Id.
+    description: Resource Id
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: 'Operation name: {provider}/{resource}/{operation}.'
+    description: Resource name
     types:
     - uid: string
-  - name: display
-    description: The object that represents the operation.
+  - name: kind
+    isReadyOnly: true
+    description: Resource kind
     types:
-    - uid: Display
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
 - name: ErrorDetails
   description: The details of the error.
   kind: object
@@ -84,31 +94,26 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-- name: Display
-  description: The object that represents the operation.
-  kind: object
-  properties:
-  - name: provider
-    isReadyOnly: true
-    description: 'Service provider: Microsoft.Consumption.'
-    types:
-    - uid: string
-  - name: resource
-    isReadyOnly: true
-    description: 'Resource on which the operation is performed: UsageDetail, etc.'
-    types:
-    - uid: string
-  - name: operation
-    isReadyOnly: true
-    description: 'Operation type: Read, write, delete, etc.'
-    types:
-    - uid: string
-  - name: description
-    isReadyOnly: true
-    description: Description of the operation.
-    types:
-    - uid: string
-examples: []
+examples:
+- name: SettingList
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.CostManagement/settings?api-version=2019-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.CostManagement/settings/myscope",
+            "name": "myscope",
+            "kind": "user",
+            "type": "Microsoft.CostManagement/settings",
+            "properties": {
+              "scope": "/subscriptions/00000000-0000-0000-0000-000000000000"
+            }
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2
