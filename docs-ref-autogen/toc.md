@@ -4653,8 +4653,8 @@
 #### [Overview](communication/CommunicationIdentity.yml)
 #### [Create](communication/CommunicationIdentity/Create.yml)
 #### [Delete](communication/CommunicationIdentity/Delete.yml)
-#### [Issue Token](communication/CommunicationIdentity/IssueToken.yml)
-#### [Update](communication/CommunicationIdentity/Update.yml)
+#### [Issue Access Token](communication/CommunicationIdentity/IssueAccessToken.yml)
+#### [Revoke Access Tokens](communication/CommunicationIdentity/RevokeAccessTokens.yml)
 ### Communication Service
 #### [Overview](communication/CommunicationService.yml)
 #### [Check Name Availability](communication/CommunicationService/CheckNameAvailability.yml)
@@ -4673,58 +4673,51 @@
 ### Operations
 #### [Overview](communication/Operations.yml)
 #### [List](communication/Operations/List.yml)
+### Phone Number Administration
+#### [Overview](communication/PhoneNumberAdministration.yml)
+#### [Cancel Search](communication/PhoneNumberAdministration/CancelSearch.yml)
+#### [Configure Number](communication/PhoneNumberAdministration/ConfigureNumber.yml)
+#### [Create Search](communication/PhoneNumberAdministration/CreateSearch.yml)
+#### [Get All Area Codes](communication/PhoneNumberAdministration/GetAllAreaCodes.yml)
+#### [Get All Phone Numbers](communication/PhoneNumberAdministration/GetAllPhoneNumbers.yml)
+#### [Get All Releases](communication/PhoneNumberAdministration/GetAllReleases.yml)
+#### [Get All Searches](communication/PhoneNumberAdministration/GetAllSearches.yml)
+#### [Get All Supported Countries](communication/PhoneNumberAdministration/GetAllSupportedCountries.yml)
+#### [Get Capabilities Update](communication/PhoneNumberAdministration/GetCapabilitiesUpdate.yml)
+#### [Get Number Configuration](communication/PhoneNumberAdministration/GetNumberConfiguration.yml)
+#### [Get Phone Plan Groups](communication/PhoneNumberAdministration/GetPhonePlanGroups.yml)
+#### [Get Phone Plan Location Options](communication/PhoneNumberAdministration/GetPhonePlanLocationOptions.yml)
+#### [Get Phone Plans](communication/PhoneNumberAdministration/GetPhonePlans.yml)
+#### [Get Release By Id](communication/PhoneNumberAdministration/GetReleaseById.yml)
+#### [Get Search By Id](communication/PhoneNumberAdministration/GetSearchById.yml)
+#### [Purchase Search](communication/PhoneNumberAdministration/PurchaseSearch.yml)
+#### [Release Phone Numbers](communication/PhoneNumberAdministration/ReleasePhoneNumbers.yml)
+#### [Unconfigure Number](communication/PhoneNumberAdministration/UnconfigureNumber.yml)
+#### [Update Capabilities](communication/PhoneNumberAdministration/UpdateCapabilities.yml)
 ### Sms
 #### [Overview](communication/Sms.yml)
 #### [Send](communication/Sms/Send.yml)
 ### Chat
-#### Add Chat Thread Members
-##### [Overview](communication/chat/AddChatThreadMembers.yml)
-##### [Add Chat Thread Members](communication/chat/AddChatThreadMembers/AddChatThreadMembers.yml)
-#### Create Chat Thread
-##### [Overview](communication/chat/CreateChatThread.yml)
-##### [Create Chat Thread](communication/chat/CreateChatThread/CreateChatThread.yml)
-#### Delete Chat Message
-##### [Overview](communication/chat/DeleteChatMessage.yml)
-##### [Delete Chat Message](communication/chat/DeleteChatMessage/DeleteChatMessage.yml)
-#### Delete Chat Thread
-##### [Overview](communication/chat/DeleteChatThread.yml)
-##### [Delete Chat Thread](communication/chat/DeleteChatThread/DeleteChatThread.yml)
-#### Get Chat Message
-##### [Overview](communication/chat/GetChatMessage.yml)
-##### [Get Chat Message](communication/chat/GetChatMessage/GetChatMessage.yml)
-#### Get Chat Thread
-##### [Overview](communication/chat/GetChatThread.yml)
-##### [Get Chat Thread](communication/chat/GetChatThread/GetChatThread.yml)
-#### List Chat Messages
-##### [Overview](communication/chat/ListChatMessages.yml)
-##### [List Chat Messages](communication/chat/ListChatMessages/ListChatMessages.yml)
-#### List Chat Read Receipts
-##### [Overview](communication/chat/ListChatReadReceipts.yml)
-##### [List Chat Read Receipts](communication/chat/ListChatReadReceipts/ListChatReadReceipts.yml)
-#### List Chat Thread Members
-##### [Overview](communication/chat/ListChatThreadMembers.yml)
-##### [List Chat Thread Members](communication/chat/ListChatThreadMembers/ListChatThreadMembers.yml)
-#### List Chat Threads
-##### [Overview](communication/chat/ListChatThreads.yml)
-##### [List Chat Threads](communication/chat/ListChatThreads/ListChatThreads.yml)
-#### Remove Chat Thread Member
-##### [Overview](communication/chat/RemoveChatThreadMember.yml)
-##### [Remove Chat Thread Member](communication/chat/RemoveChatThreadMember/RemoveChatThreadMember.yml)
-#### Send Chat Message
-##### [Overview](communication/chat/SendChatMessage.yml)
-##### [Send Chat Message](communication/chat/SendChatMessage/SendChatMessage.yml)
-#### Send Chat Read Receipt
-##### [Overview](communication/chat/SendChatReadReceipt.yml)
-##### [Send Chat Read Receipt](communication/chat/SendChatReadReceipt/SendChatReadReceipt.yml)
-#### Send Typing Notification
-##### [Overview](communication/chat/SendTypingNotification.yml)
-##### [Send Typing Notification](communication/chat/SendTypingNotification/SendTypingNotification.yml)
-#### Update Chat Message
-##### [Overview](communication/chat/UpdateChatMessage.yml)
-##### [Update Chat Message](communication/chat/UpdateChatMessage/UpdateChatMessage.yml)
-#### Update Chat Thread
-##### [Overview](communication/chat/UpdateChatThread.yml)
-##### [Update Chat Thread](communication/chat/UpdateChatThread/UpdateChatThread.yml)
+#### Chat
+##### [Overview](communication/chat/Chat.yml)
+##### [Create Chat Thread](communication/chat/Chat/CreateChatThread.yml)
+##### [Delete Chat Thread](communication/chat/Chat/DeleteChatThread.yml)
+##### [Get Chat Thread](communication/chat/Chat/GetChatThread.yml)
+##### [List Chat Threads](communication/chat/Chat/ListChatThreads.yml)
+#### Chat Thread
+##### [Overview](communication/chat/ChatThread.yml)
+##### [Add Chat Participants](communication/chat/ChatThread/AddChatParticipants.yml)
+##### [Delete Chat Message](communication/chat/ChatThread/DeleteChatMessage.yml)
+##### [Get Chat Message](communication/chat/ChatThread/GetChatMessage.yml)
+##### [List Chat Messages](communication/chat/ChatThread/ListChatMessages.yml)
+##### [List Chat Participants](communication/chat/ChatThread/ListChatParticipants.yml)
+##### [List Chat Read Receipts](communication/chat/ChatThread/ListChatReadReceipts.yml)
+##### [Remove Chat Participant](communication/chat/ChatThread/RemoveChatParticipant.yml)
+##### [Send Chat Message](communication/chat/ChatThread/SendChatMessage.yml)
+##### [Send Chat Read Receipt](communication/chat/ChatThread/SendChatReadReceipt.yml)
+##### [Send Typing Notification](communication/chat/ChatThread/SendTypingNotification.yml)
+##### [Update Chat Message](communication/chat/ChatThread/UpdateChatMessage.yml)
+##### [Update Chat Thread](communication/chat/ChatThread/UpdateChatThread.yml)
 # Compute
 ## [Overview](../docs-ref-conceptual/compute/index.md)
 ## Cloud Services (classic)

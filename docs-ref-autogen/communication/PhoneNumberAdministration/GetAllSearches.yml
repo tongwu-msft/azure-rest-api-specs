@@ -1,0 +1,137 @@
+### YamlMime:RESTOperation
+uid: communication.phonenumberadministration.getallsearches
+name: Get All Searches
+service: Communication
+groupName: Phone Number Administration
+apiVersion: 2020-07-20-preview1
+summary: Gets a list of all searches
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/administration/phonenumbers/searches?api-version=2020-07-20-preview1
+- content: GET {endpoint}/administration/phonenumbers/searches?skip={skip}&take={take}&api-version=2020-07-20-preview1
+  isOptional: true
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The endpoint of the Azure Communication resource.
+  types:
+  - uid: string
+- name: skip
+  in: query
+  description: An optional parameter for how many entries to skip, for pagination purposes.
+  types:
+  - uid: integer
+  format: int32
+- name: take
+  in: query
+  description: An optional parameter for how many entries to return, for pagination purposes.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: PhoneNumberEntities
+- name: Other Status Codes
+  description: Failure
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PhoneNumberEntities
+  description: Represents a list of searches or releases, as part of the response when fetching all searches or releases.
+  kind: object
+  properties:
+  - name: entities
+    description: The underlying list of entities.
+    types:
+    - uid: PhoneNumberEntity
+      isArray: true
+  - name: nextLink
+    description: Represents the URL link to the next page
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Represents a service error response.
+  kind: object
+  properties:
+  - name: error
+    description: Represents a service error response body.
+    types:
+    - uid: ErrorBody
+- name: PhoneNumberEntity
+  description: Represents a phone number entity, as part of the response when calling get all searches or releases.
+  kind: object
+  properties:
+  - name: id
+    description: The id of the entity. It is the search id of a search. It is the release id of a release.
+    types:
+    - uid: string
+  - name: createdAt
+    description: Date and time the entity is created.
+    types:
+    - uid: string
+  - name: displayName
+    description: Name of the entity.
+    types:
+    - uid: string
+  - name: quantity
+    description: Quantity of requested phone numbers in the entity.
+    types:
+    - uid: integer
+  - name: quantityObtained
+    description: Quantity of acquired phone numbers in the entity.
+    types:
+    - uid: integer
+  - name: status
+    description: Status of the entity.
+    types:
+    - uid: string
+  - name: focDate
+    description: The Firm Order Confirmation date of the phone number entity.
+    types:
+    - uid: string
+- name: ErrorBody
+  description: Represents a service error response body.
+  kind: object
+  properties:
+  - name: code
+    description: The error code in the error response.
+    types:
+    - uid: string
+  - name: message
+    description: The error message in the error response.
+    types:
+    - uid: string
+examples:
+- name: Get all searches
+  request:
+    uri: GET https://resourcename.communications.azure.net//administration/phonenumbers/searches?api-version=2020-07-20-preview1
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "entities": [
+          {
+            "id": "0cc077cd-333a-39fd-90f7-560b1e06c63e",
+            "displayName": "Numbers for Vancouver Office",
+            "createdAt": "2020-06-18T17:11:52.5005818+00:00",
+            "quantity": 1,
+            "quantityObtained": 1,
+            "status": "completed",
+            "focDate": "2020-06-18T17:11:52.5005818+00:00"
+          }
+        ]
+      }
+security: []
+errorCodes: []
