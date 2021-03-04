@@ -81,10 +81,10 @@ Once you have Azure Managed Identity created, you can use one of its secrets for
 
 ### Using managed identity credential in a request
 
-Once you have the id and a secret of a managed identity, you can use them in your requests to Azure Communication Services' REST API by supplying them in the 'Authorization' header.
+After you have the ID and a secret of a managed identity, you can use them in your requests to Azure Communication Services' REST API by supplying them in the 'Authorization' header.
 
 ```pseudocode
-authorizationHeaderValue = convertToBase64String(<managed identity Id> + ":" + <secret of the managed identity>)
+authorizationHeaderValue = convertToBase64String(<managed identity ID> + ":" + <secret of the managed identity>)
 Authorization="BASIC <authorizationHeaderValue>"
 ```
 
