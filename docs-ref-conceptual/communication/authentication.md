@@ -39,26 +39,28 @@ Once you have these items, you can continue with signing your request.
 ### Signing an HTTP Request
 
 1. Specify the Coordinated Universal Time (UTC) timestamp for the request in either the `x-ms-date` header, or in the standard HTTP `Date` header. The service validates this timestamp to guard against certain security attacks, including replay attacks.
-2. Hash the HTTP request body using the SHA256 algorithm then pass it, with the request, via the `x-ms-content-sha256` header.
-3. Construct the string to be signed by concatenating the HTTP Verb (for example, `GET` or `PUT`), HTTP request path, and values of the `Date`, `Host` and, `x-ms-content-sha256` HTTP headers in the following format:
 
-    ```pseudocode
-    VERB + "\n"
-    URLPathAndQuery + "\n"
-    DateHeaderValue + ";" + HostHeaderValue + ";" + ContentHashHeaderValue
-    ```
+1. Hash the HTTP request body using the SHA256 algorithm then pass it, with the request, via the `x-ms-content-sha256` header.
 
-4. Generate an HMAC-256 signature of the UTF-8 encoded string that you created in the previous step. Next, encode your results as Base64. You also need to Base64-decode your access key. Use the following format (shown as pseudo code):
+1. Construct the string to be signed by concatenating the HTTP Verb (for example, `GET` or `PUT`), HTTP request path, and values of the `Date`, `Host` and, `x-ms-content-sha256` HTTP headers in the following format:
 
-    ```pseudocode
-    Signature=Base64(HMAC-SHA256(UTF8(StringToSign), Base64.decode(<your_access_key>)))
-    ```
+   ```pseudocode
+   VERB + "\n"
+   URLPathAndQuery + "\n"
+   DateHeaderValue + ";" + HostHeaderValue + ";" + ContentHashHeaderValue
+   ```
 
-5. Specify the Authorization header as follows:
+1. Generate an HMAC-256 signature of the UTF-8 encoded string that you created in the previous step. Next, encode your results as Base64. You also need to Base64-decode your access key. Use the following format (shown as pseudo code):
 
-    ```pseudocode
-    Authorization="HMAC-SHA256 SignedHeaders=date;host;x-ms-content-sha256&Signature=<hmac-sha256-signature>"  
-    ```
+   ```pseudocode
+   Signature=Base64(HMAC-SHA256(UTF8(StringToSign), Base64.decode(<your_access_key>)))
+   ```
+
+1. Specify the Authorization header as follows:
+
+   ```pseudocode
+   Authorization="HMAC-SHA256 SignedHeaders=date;host;x-ms-content-sha256&Signature=<hmac-sha256-signature>"  
+   ```
 
     Where `<hmac-sha256-signature>` is the HMAC computed in the previous step.
 
@@ -81,10 +83,10 @@ Once you have Azure Managed Identity created, you can use one of its secrets for
 
 Once you have the id and a secret of a managed identity, you can use them in your requests to Azure Communication Services' REST API by supplying them in the 'Authorization' header.
 
-    ```pseudocode
-    authorizationHeaderValue = convertToBase64String(<managed identity Id> + ":" + <secret of the managed identity>)
-    Authorization="BASIC <authorizationHeaderValue>"
-    ```
+```pseudocode
+authorizationHeaderValue = convertToBase64String(<managed identity Id> + ":" + <secret of the managed identity>)
+Authorization="BASIC <authorizationHeaderValue>"
+```
 
 ## User Access Token Authentication
 
