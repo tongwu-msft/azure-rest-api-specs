@@ -15270,6 +15270,10 @@
 #### [Get Service Properties](storagerp/BlobServices/GetServiceProperties.yml)
 #### [List](storagerp/BlobServices/List.yml)
 #### [Set Service Properties](storagerp/BlobServices/SetServiceProperties.yml)
+### Deleted Accounts
+#### [Overview](storagerp/DeletedAccounts.yml)
+#### [Get](storagerp/DeletedAccounts/Get.yml)
+#### [List](storagerp/DeletedAccounts/List.yml)
 ### Encryption Scopes
 #### [Overview](storagerp/EncryptionScopes.yml)
 #### [Get](storagerp/EncryptionScopes/Get.yml)
