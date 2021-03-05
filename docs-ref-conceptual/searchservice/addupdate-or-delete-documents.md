@@ -1,7 +1,7 @@
 ---
 title: "Add, Update or Delete Documents (Azure Cognitive Search REST API)"
 description: Refresh content of an index by replacing, removing, or creating new documents.
-ms.date: 02/13/2021
+ms.date: 03/05/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -42,7 +42,7 @@ The following table describes the required and optional request headers.
 
 ## Request Body
 
-The body of the request contains one or more documents to be indexed. Documents are identified by a unique key. Each document is associated with an action: "upload", "delete", "merge", or "mergeOrUpload". Upload requests must include the document data as a set of key/value pairs.  
+The body of the request contains one or more documents to be indexed. Documents are identified by a unique case-sensitive key. Each document is associated with an action: "upload", "delete", "merge", or "mergeOrUpload". Upload requests must include the document data as a set of key/value pairs.  
 
 ```json
 {  
@@ -61,7 +61,7 @@ The body of the request contains one or more documents to be indexed. Documents 
 | Property | Description |
 |----------|-------------|
 | @search.action | Required. Valid values are "upload", "delete", "merge", or "mergeOrUpload". Defaults to "upload". You can combine actions, one per document, in the same batch. </br></br>"upload": An upload action is similar to an 'upsert' where the document will be inserted if it is new and updated/replaced if it exists. All fields are replaced in the update case.  </br></br>"delete": Delete removes the specified document from the index. Any field you specify in a delete operation, other than the key field,  will be ignored. If you want to remove an individual field from a document, use `merge` instead and set the field explicitly to `null`. </br></br>"mergeOrUpload": This action behaves like merge if a document with the given key already exists in the index. If the document does not exist, it behaves like upload with a new document. </br></br>"merge": Merge updates an existing document with the specified fields. If the document doesn't exist, the merge will fail. Any field you specify in a merge will replace the existing field in the document. This also applies to collections of primitive and complex types. </br></br>In primitive collections, if the document contains a Tags field of type Collection(Edm.String) with a value of ["budget"], and you execute a merge with a value of ["economy", "pool"] for Tag, the final value of the Tags field will be ["economy", "pool"]. It will not be ["budget", "economy", "pool"]. </br></br>In complex collections, if the document contains a complex collection field named Rooms with a value of [{ "Type": "Budget Room", "BaseRate": 75.0 }], and you execute a merge with a value of [{ "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }], the final value of the Rooms field will be [{ "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }]. It will not be either of the following:</br>[{ "Type": "Budget Room", "BaseRate": 75.0 }, { "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }] (append elements)</br>[{ "Type": "Standard Room", "BaseRate": 75.0 }, { "Type": "Budget Room", "BaseRate": 60.5 }] (merge elements in order, then append any extras) |
-| key_field_name | Required. A field definition in the index that serves as the document key and contains only unique values. Document keys can only contain letters, numbers, dashes (`"-"`), underscores (`"_"`), and equal signs (`"="`). For more information, see [Naming rules](naming-rules.md).  |
+| key_field_name | Required. A field definition in the index that serves as the document key and contains only unique values. Document keys can only contain letters, numbers, dashes (`"-"`), underscores (`"_"`), and equal signs (`"="`) and are case-sensitive. For more information, see [Naming rules](naming-rules.md).  |
 | field_name | Required. Name-value pairs, where the name of the field corresponds to a field name in the index definition. The value is user-defined but must be valid for the field type. |
 
 ## Response
