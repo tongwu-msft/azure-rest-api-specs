@@ -1,22 +1,28 @@
 ### YamlMime:RESTOperation
-uid: communication.communicationidentity.create
-name: Create
+uid: communication.communicationidentity.issueaccesstoken
+name: Issue Access Token
 service: Communication
 groupName: Communication Identity
 apiVersion: 2021-03-07
-summary: Create a new identity.
+summary: Issue a new token for an identity.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {endpoint}/identities?api-version=2021-03-07
+- content: POST {endpoint}/identities/{id}/:issueAccessToken?api-version=2021-03-07
 uriParameters:
 - name: endpoint
   in: path
   isRequired: true
   skipUrlEncoding: true
   description: The communication resource, for example https://my-resource.communication.azure.com
+  types:
+  - uid: string
+- name: id
+  in: path
+  isRequired: true
+  description: Identifier of the identity to issue token for.
   types:
   - uid: string
 - name: api-version
@@ -30,16 +36,17 @@ responses:
   description: Error
   types:
   - uid: CommunicationErrorResponse
-- name: 201 Created
-  description: Created - Returns the created identity.
+- name: 200 OK
+  description: Success
   types:
-  - uid: CommunicationIdentityAccessTokenResult
+  - uid: CommunicationIdentityAccessToken
 requestBody:
 - name: default
   parameters:
-  - name: createTokenWithScopes
+  - name: scopes
     in: body
-    description: Also create access token for the created identity.
+    isRequired: true
+    description: List of scopes attached to the token.
     types:
     - uid: string
       isArray: true
@@ -53,23 +60,23 @@ definitions:
     description: The Communication Services error.
     types:
     - uid: CommunicationError
-- name: CommunicationIdentityAccessTokenResult
-  description: A communication identity with access token.
+- name: CommunicationIdentityAccessToken
+  description: An access token.
   kind: object
   properties:
-  - name: identity
-    description: A communication identity.
+  - name: token
+    description: The access token issued for the identity.
     types:
-    - uid: CommunicationIdentity
-  - name: accessToken
-    description: An access token.
+    - uid: string
+  - name: expiresOn
+    description: The expiry time of the token.
     types:
-    - uid: CommunicationIdentityAccessToken
-- name: CommunicationIdentityCreateRequest
+    - uid: string
+- name: CommunicationIdentityAccessTokenRequest
   kind: object
   properties:
-  - name: createTokenWithScopes
-    description: Also create access token for the created identity.
+  - name: scopes
+    description: List of scopes attached to the token.
     types:
     - uid: string
       isArray: true
@@ -101,47 +108,22 @@ definitions:
     description: The inner error if any.
     types:
     - uid: CommunicationError
-- name: CommunicationIdentity
-  description: A communication identity.
-  kind: object
-  properties:
-  - name: id
-    description: Identifier of the identity.
-    types:
-    - uid: string
-- name: CommunicationIdentityAccessToken
-  description: An access token.
-  kind: object
-  properties:
-  - name: token
-    description: The access token issued for the identity.
-    types:
-    - uid: string
-  - name: expiresOn
-    description: The expiry time of the token.
-    types:
-    - uid: string
 examples:
-- name: Create an Identity
+- name: Issue an access token
   request:
-    uri: POST https://my-resource.communication.azure.com/identities?api-version=2021-03-07
+    uri: POST https://my-resource.communication.azure.com/identities/8:acs:2dee53b4-368b-45b4-ab52-8493fb117652_00000005-14a2-493b-8a72-5a3a0d000081/:issueAccessToken?api-version=2021-03-07
     body: >-
       {
-        "createTokenWithScopes": [
+        "scopes": [
           "chat"
         ]
       }
   responses:
-  - statusCode: "201"
+  - statusCode: "200"
     body: >-
       {
-        "identity": {
-          "id": "8:acs:2dee53b4-368b-45b4-ab52-8493fb117652_00000005-14a2-493b-8a72-5a3a0d000081"
-        },
-        "accessToken": {
-          "token": "token",
-          "expiresOn": "2020-09-10T21:39:39.3244584+00:00"
-        }
+        "token": "token",
+        "expiresOn": "2020-09-10T21:39:39.3244584+00:00"
       }
 security: []
 errorCodes: []

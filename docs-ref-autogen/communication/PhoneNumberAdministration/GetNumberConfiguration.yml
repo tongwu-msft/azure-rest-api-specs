@@ -1,0 +1,114 @@
+### YamlMime:RESTOperation
+uid: communication.phonenumberadministration.getnumberconfiguration
+name: Get Number Configuration
+service: Communication
+groupName: Phone Number Administration
+apiVersion: 2020-07-20-preview1
+summary: Endpoint for getting number configurations
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/administration/phonenumbers/numberconfiguration?api-version=2020-07-20-preview1
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The endpoint of the Azure Communication resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: NumberConfigurationResponse
+- name: Other Status Codes
+  description: Failure
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: phoneNumber
+    in: body
+    isRequired: true
+    description: The phone number in the E.164 format
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: NumberConfigurationResponse
+  description: Definition for number configuration
+  kind: object
+  properties:
+  - name: pstnConfiguration
+    description: Definition for pstn number configuration
+    types:
+    - uid: PstnConfiguration
+- name: ErrorResponse
+  description: Represents a service error response.
+  kind: object
+  properties:
+  - name: error
+    description: Represents a service error response body.
+    types:
+    - uid: ErrorBody
+- name: NumberConfigurationPhoneNumber
+  description: The phone number wrapper representing a number configuration request
+  kind: object
+  properties:
+  - name: phoneNumber
+    description: The phone number in the E.164 format
+    types:
+    - uid: string
+- name: PstnConfiguration
+  description: Definition for pstn number configuration
+  kind: object
+  properties:
+  - name: callbackUrl
+    description: The webhook URL on the phone number configuration.
+    types:
+    - uid: string
+  - name: applicationId
+    description: The application id of the application to which to configure
+    types:
+    - uid: string
+- name: ErrorBody
+  description: Represents a service error response body.
+  kind: object
+  properties:
+  - name: code
+    description: The error code in the error response.
+    types:
+    - uid: string
+  - name: message
+    description: The error message in the error response.
+    types:
+    - uid: string
+examples:
+- name: Get number configuration for phone number
+  request:
+    uri: POST https://resourcename.communications.azure.net//administration/phonenumbers/numberconfiguration?api-version=2020-07-20-preview1
+    body: >-
+      {
+        "phoneNumber": "+11234567890"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "pstnConfiguration": {
+          "callbackUrl": "www.callback.com",
+          "applicationId": "abc123"
+        }
+      }
+security: []
+errorCodes: []
