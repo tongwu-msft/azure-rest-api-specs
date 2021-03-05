@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 10/01/2020
+ms.date: 03/05/2021
 ---
 
 # Azure Time Series Insights Gen1 data access
