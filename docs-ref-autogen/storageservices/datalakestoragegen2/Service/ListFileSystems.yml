@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: storageservices.datalakestoragegen2.filesystem.getproperties
-name: Get Properties
+uid: storageservices.datalakestoragegen2.service.listfilesystems
+name: List File Systems
 service: Storage Services
-groupName: File System
+groupName: Service
 apiVersion: 2020-06-12
-summary: "Get FileSystem Properties.  \nAll system and user-defined filesystem properties are specified in the response headers."
+summary: "List FileSystems  \nList filesystems and their properties in given account."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: HEAD {url}/{filesystem}?resource=filesystem
-- content: HEAD {url}/{filesystem}?resource=filesystem&timeout={timeout}
+- content: GET {url}/?resource=account
+- content: GET {url}/?resource=account&prefix={prefix}&continuation={continuation}&maxResults={maxResults}&timeout={timeout}
   isOptional: true
 uriParameters:
 - name: url
@@ -24,9 +24,25 @@ uriParameters:
 - name: resource
   in: query
   isRequired: true
-  description: The value must be "filesystem" for all filesystem operations.
+  description: The value must be "account" for all account operations.
   types:
-  - uid: FileSystemResourceType
+  - uid: AccountResourceType
+- name: prefix
+  in: query
+  description: Filters results to filesystems within the specified prefix.
+  types:
+  - uid: string
+- name: continuation
+  in: query
+  description: Optional.  When deleting a directory, the number of paths that are deleted with each invocation is limited.  If the number of paths to be deleted exceeds this limit, a continuation token is returned in this response header.  When a continuation token is returned in the response, it must be specified in a subsequent invocation of the delete operation to continue deleting the directory.
+  types:
+  - uid: string
+- name: maxResults
+  in: query
+  description: An optional value that specifies the maximum number of items to return. If omitted or greater than 5,000, the response will include up to 5,000 items.
+  types:
+  - uid: integer
+  format: int32
 - name: timeout
   in: query
   description: The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a>
@@ -37,19 +53,17 @@ responses:
   headers:
   - name: Date
     value: string
-  - name: ETag
-    value: string
-  - name: Last-Modified
-    value: string
   - name: x-ms-request-id
     value: string
   - name: x-ms-version
     value: string
-  - name: x-ms-properties
+  - name: x-ms-continuation
     value: string
-  - name: x-ms-namespace-enabled
+  - name: Content-Type
     value: string
-  description: Ok
+  description: OK
+  types:
+  - uid: FileSystemList
 - name: Other Status Codes
   headers:
   - name: x-ms-error-code
@@ -70,13 +84,21 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: FileSystemResourceType
-  description: The value must be "filesystem" for all filesystem operations.
+- name: AccountResourceType
+  description: The value must be "account" for all account operations.
   kind: enum
   properties:
-  - name: filesystem
+  - name: account
     types:
     - uid: string
+- name: FileSystemList
+  kind: object
+  properties:
+  - name: filesystems
+    description: ''
+    types:
+    - uid: FileSystem
+      isArray: true
 - name: StorageError
   kind: object
   properties:
@@ -84,6 +106,21 @@ definitions:
     description: The service error response object.
     types:
     - uid: Error
+- name: FileSystem
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: lastModified
+    description: ''
+    types:
+    - uid: string
+  - name: eTag
+    description: ''
+    types:
+    - uid: string
 - name: Error
   description: The service error response object.
   kind: object
