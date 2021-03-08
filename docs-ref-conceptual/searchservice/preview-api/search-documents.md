@@ -1,7 +1,7 @@
 ---
 title: Search Documents (api-version=2020-06-30-Preview)
 description: Preview version of the Search Documents REST API for Cognitive Search.
-ms.date: 03/02/2021
+ms.date: 03/09/2021
 ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
@@ -26,6 +26,8 @@ GET https://[service name].search.windows.net/indexes/[index name]/docs?[query p
   Content-Type: application/json   
   api-key: [admin or query key]  
 ```  
+
+If you are using POST, add the "search" action as a URI parameter.
 
 ```http
 POST https://[service name].search.windows.net/indexes/[index name]/docs/search?api-version=[api-version]  
@@ -123,10 +125,10 @@ A query accepts several parameters on the URL when called via GET, and as JSON p
 
 | Name      | Type | Description |
 |-----------|------|-------------|
-| answers (preview) | string | Optional. Valid values are "none" and "extractive". Defaults to "none". This parameter is only valid if the query type is "semantic". When set to "extractive", the query formulates and returns 3 answers from the top 50 search results, if the query was formulated in natural language (*"how do I..."*, *"what is a..."*). |
+| answers (preview) | string | Optional. Valid values are "none" and "extractive". Defaults to "none". This parameter is only valid if the query type is "semantic". When set to "extractive", the query formulates and returns answers from key passages in the highest semantically ranked documents. The default is one answer, but you can specify up to five by adding a count. For example, "answers": "extractive\|count-3" returns three answers. For an answer to be returned, there must be sufficient information in the searchFields to formulate one. In addition, the query itself must look like a question. A keyword search won't return an answer. |
 | api-version | string | Required. Version of the REST API used for the request. For a list of supported versions, see [API versioning](https://docs.microsoft.com/azure/search/search-api-versions). For this operation, the api-version is specified as a URI parameter regardless of whether you call **Search Documents** with GET or POST.  |
 | $count | boolean | Optional. Valid values are "true" or "false". Defaults to "false". When called via POST, this parameter is named count instead of $count. Specifies whether to fetch the total count of results. This is the count of all documents that match the search and $filter parameters, ignoring $top and $skip. Setting this value to "true" may degrade performance. The count returned is an approximation. If you’d like to get only the count without any documents, you can use $top=0. |
-| facet | string | Optional. A field to facet by. The string may contain parameters to customize the faceting, expressed as comma-separated name:value pairs. When called via POST, this parameter is named facets instead of facet. </br></br>Valid are "count", "sort", "values", "interval", and "timeoffset". </br></br>"count" is the maximum number of facet terms; default is 10. There is no upper limit on the number of terms, but higher values will degrade performance, especially if the faceted field contains a large number of unique terms. For example, "facet=category,count:5" gets the top five categories in facet results. If the count parameter is less than the number of unique terms, the results may not be accurate. This is due to the way faceting queries are distributed across shards. Increasing count generally increases the accuracy of term counts, but at a performance cost. </br></br>"sort" can be set to "count", "-count", "value", "-value". Use count to sort descending by count. Use -count to sort ascending by count. Use value to sort ascending by value. Use -value to sort descending by value (for example, "facet=category,count:3,sort:count" gets the top three categories in facet results in descending order by the number of documents with each city name). If the top three categories are Budget, Motel, and Luxury, and Budget has 5 hits, Motel has 6, and Luxury has 4, then the buckets will be in the order Motel, Budget, Luxury. For -value, "facet=rating,sort:-value" produces buckets for all possible ratings, in descending order by value (for example, if the ratings are from 1 to 5, the buckets will be ordered 5, 4, 3, 2, 1, irrespective of how many documents match each rating). </br></br>"values" can set to pipe-delimited numeric or Edm.DateTimeOffset values specifying a dynamic set of facet entry values (for example, "facet=baseRate,values:10 \| 20" produces three buckets: one for base rate 0 up to but not including 10, one for 10 up to but not including 20, and one for 20 and higher). A string "facet=lastRenovationDate,values:2010-02-01T00:00:00Z" produces two buckets: one for hotels renovated before February 2010, and one for hotels renovated February 1, 2010 or later. </br></br>"interval" is an integer interval greater than 0 for numbers, or minute, hour, day, week, month, quarter, year for date time values. For example, "facet=baseRate,interval:100" produces buckets based on base rate ranges of size 100. If base rates are all between $60 and $600, there will be buckets for 0-100, 100-200, 200-300, 300-400, 400-500, and 500-600. The string "facet=lastRenovationDate,interval:year" produces one bucket for each year when hotels were renovated. </br></br>"timeoffset" can be set to ([+-]hh:mm, [+-]hhmm, or [+-]hh). If used, the timeoffset parameter must be combined with the interval option, and only when applied to a field of type Edm.DateTimeOffset. The value specifies the UTC time offset to account for in setting time boundaries. For example: "facet=lastRenovationDate,interval:day,timeoffset:-01:00" uses the day boundary that starts at 01:00:00 UTC (midnight in the target time zone). </br></br>count and sort can be combined in the same facet specification, but they cannot be combined with interval or values, and interval and values cannot be combined together. </br></br>Interval facets on date time are computed based on the UTC time if timeoffset is not specified. For example: for "facet=lastRenovationDate,interval:day", the day boundary starts at 00:00:00 UTC. |
+| facet | string | Optional. A field to facet by. The string may contain parameters to customize the faceting, expressed as comma-separated name:value pairs. When called via POST, this parameter is named facets instead of facet. </br></br>Valid are "count", "sort", "values", "interval", and "timeoffset". </br></br>"count" is the maximum number of facet terms; default is 10. There is no upper limit on the number of terms, but higher values will degrade performance, especially if the faceted field contains a large number of unique terms. For example, "facet=category,count:5" gets the top five categories in facet results. If the count parameter is less than the number of unique terms, the results may not be accurate. This is due to the way faceting queries are distributed across shards. Increasing count generally increases the accuracy of term counts, but at a performance cost. </br></br>"sort" can be set to "count", "-count", "value", "-value". Use count to sort descending by count. Use -count to sort ascending by count. Use value to sort ascending by value. Use -value to sort descending by value (for example, "facet=category,count:3,sort:count" gets the top three categories in facet results in descending order by the number of documents with each city name). If the top three categories are Budget, Motel, and Luxury, and Budget has 5 hits, Motel has 6, and Luxury has 4, then the buckets will be in the order Motel, Budget, Luxury. For -value, "facet=rating,sort:-value" produces buckets for all possible ratings, in descending order by value (for example, if the ratings are from 1 to 5, the buckets will be ordered 5, 4, 3, 2, 1, irrespective of how many documents match each rating). </br></br>"values" can set to pipe-delimited numeric or Edm.DateTimeOffset values specifying a dynamic set of facet entry values (for example, "facet=baseRate,values:10 \| 20" produces three buckets: one for base rate 0 up to but not including 10, one for 10 up to but not including 20, and one for 20 and higher). A string "facet=lastRenovationDate,values:2010-02-01T00:00:00Z" produces two buckets: one for hotels renovated before February 2010, and one for hotels renovated February 1, 2010 or later. </br></br>"interval" is an integer interval greater than 0 for numbers, or minute, hour, day, week, month, quarter, year for date time values. For example, "facet=baseRate,interval:100" produces buckets based on base rate ranges of size 100. If base rates are all between $60 and $600, there will be buckets for 0-100, 100-200, 200-300, 300-400, 400-500, and 500-600. The string "facet=lastRenovationDate,interval:year" produces one bucket for each year when hotels were renovated. </br></br>"timeoffset" can be set to ([+-]hh:mm, [+-]hhmm, or [+-]hh). If used, the timeoffset parameter must be combined with the interval option, and only when applied to a field of type Edm.DateTimeOffset. The value specifies the UTC time offset to account for in setting time boundaries. For example: "facet=lastRenovationDate,interval:day,timeoffset:-01:00" uses the day boundary that starts at 01:00:00 UTC (midnight in the target time zone). </br></br>count and sort can be combined in the same facet specification, but they cannot be combined with interval or values, and interval and values cannot be combined together. </br></br>Interval facets on date time are computed based on the UTC time if time offset is not specified. For example: for "facet=lastRenovationDate,interval:day", the day boundary starts at 00:00:00 UTC. |
 | featuresMode (preview) | boolean | Optional. Valid values are "enabled" and "disabled". Default is "disabled". A value that specifies whether the results should include *query result features*, used to compute the relevance score of a document in relation to the query, such as per field similarity. Use "enabled" to expose additional query result features: per field similarity score, per field term frequency, and per field number of unique tokens matched. For more information, see [Similarity and scoring](https://docs.microsoft.com/azure/search/index-similarity-and-scoring). |
 | $filter | string | Optional. A structured search expression in standard OData syntax. Only filterable fields can be used in a filter. When calling via POST, this parameter is named filter instead of $filter. See [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for details on the subset of the OData expression grammar that Azure Cognitive Search supports. |
 | highlight | string | Optional. A set of comma-separated field names used for hit highlights. Only searchable fields can be used for hit highlighting. By default, Azure Cognitive Search returns up to 5 highlights per field. The limit is configurable per field by appending "-<max # of highlights>" following the field name. For example, "highlight=title-3,description-10" returns up to 3 highlighted hits from the title field and up to 10 hits from the description field. The maximum number of highlights must be an integer between 1 and 1000 inclusive. |
@@ -150,7 +152,49 @@ A query accepts several parameters on the URL when called via GET, and as JSON p
 
 ## Response  
 
-Status Code: 200 OK is returned for a successful response.
+Status Code: 200 OK is returned for a successful response. There are two sample responses in this article, one each for featuresMode and semantic search.
+
+The first example shows the full response for the topmost result for the semantic query "how do clouds form". 
+
++ "@search.answers" appears when you specify the answers parameter, and when the query and underlying searchFields are conducive to producing an answer. The @search.answers array that has a key, text, and highlights. The score is an indicator of the strength of the answer.
+
++ "value" is the body of the response. The @search.rerankerScore is assigned by the semantic ranking algorithm and is used to rank results (@search.score is from the BM25 similarity algorithm, used when scoring the initial results). Captions include plain text and highlighted versions. This example was created using OCR and entity recognition skills. Fields for the extracted and merged content are included in the response.
+
+```json
+{
+    "@search.answers": [
+        {
+            "key": "aHR0cHM6Ly9oZWlkaXN0YmxvYnN0b3JhZ2UuYmxvYi5jb3JlLndpbmRvd3MubmV0L25hc2EtZWJvb2stMS01MC9wYWdlLTQ1LnBkZg2",
+            "text": "Sunlight heats the land all day, warming that moist air and causing it to rise high into the   atmosphere until it cools and condenses into water droplets. Clouds generally form where air is ascending (over land in this case),   but not where it is descending (over the river).",
+            "highlights": "Sunlight heats the land all day, warming that moist air and causing it to rise high into the   atmosphere until it cools and condenses into water droplets. Clouds generally form<em> where air is ascending</em> (over land in this case),   but not where it is<em> descending</em> (over the river).",
+            "score": 0.94639826
+        }
+    ],
+    "value": [
+        {
+            "@search.score": 0.5479723,
+            "@search.rerankerScore": 1.0321671911515296,
+            "@search.captions": [
+                {
+                    "text": "Like all clouds, it forms when the air reaches its dew point—the temperature at    which an air mass is cool enough for its water vapor to condense into liquid droplets. This false-color image shows valley fog, which is common in the Pacific Northwest of North America.",
+                    "highlights": "Like all<em> clouds</em>, it<em> forms</em> when the air reaches its dew point—the temperature at    which an air mass is cool enough for its water vapor to condense into liquid droplets. This false-color image shows valley<em> fog</em>, which is common in the Pacific Northwest of North America."
+                }
+            ],
+            "content": "\nA\nT\n\nM\nO\n\nS\nP\n\nH\nE\n\nR\nE\n\nE\nA\n\nR\nT\n\nH\n\n34\n\nValley Fog\nCanada\n\nFog is essentially a cloud lying on the ground. Like all clouds, it forms when the air reaches its dew point—the temperature at  \n\nwhich an air mass is cool enough for its water vapor to condense into liquid droplets.\n\nThis false-color image shows valley fog, which is common in the Pacific Northwest of North America. On clear winter nights, the \n\nground and overlying air cool off rapidly, especially at high elevations. Cold air is denser than warm air, and it sinks down into the \n\nvalleys. The moist air in the valleys gets chilled to its dew point, and fog forms. If undisturbed by winds, such fog may persist for \n\ndays. The Terra satellite captured this image of foggy valleys northeast of Vancouver in February 2010.\n\n\n",
+            "metadata_storage_path": "aHR0cHM6Ly9oZWlkaXN0YmxvYnN0b3JhZ2UuYmxvYi5jb3JlLndpbmRvd3MubmV0L25hc2EtZWJvb2stMS01MC9wYWdlLTQxLnBkZg2",
+            "people": [],
+            "locations": [
+                "Pacific Northwest",
+                "North America",
+                "Vancouver"
+            ],
+            "merged_content": "\nA\nT\n\nM\nO\n\nS\nP\n\nH\nE\n\nR\nE\n\nE\nA\n\nR\nT\n\nH\n\n34\n\nValley Fog\nCanada\n\nFog is essentially a cloud lying on the ground. Like all clouds, it forms when the air reaches its dew point—the temperature at  \n\nwhich an air mass is cool enough for its water vapor to condense into liquid droplets.\n\nThis false-color image shows valley fog, which is common in the Pacific Northwest of North America. On clear winter nights, the \n\nground and overlying air cool off rapidly, especially at high elevations. Cold air is denser than warm air, and it sinks down into the \n\nvalleys. The moist air in the valleys gets chilled to its dew point, and fog forms. If undisturbed by winds, such fog may persist for \n\ndays. The Terra satellite captured this image of foggy valleys northeast of Vancouver in February 2010.\n\n\n",
+            "text": [],
+            "layoutText": []
+        }
+```
+
+This example shows "@search.features" output from a query that includes featuresMode.
 
 ```json
   {
@@ -217,7 +261,20 @@ Status Code: 200 OK is returned for a successful response.
 
 ## Examples
 
-You can find additional examples in [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax).  
+You can find additional examples in [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax).
+
+1. Invoke the semantic ranking model with answers, captions, and highlighted content. The response for this query can be found in the previous section.
+
+    ```http  
+    POST /indexes/hotels/docs/search?api-version=2020-06-30-Preview 
+    {
+      "search": "how do clouds form",
+      "queryType": "semantic",
+      "queryLanguage": "en-us",
+      "answers": "extractive",
+      "count": "true"
+    }
+    ```
 
 1. Search the Index sorted descending by date:  
 
