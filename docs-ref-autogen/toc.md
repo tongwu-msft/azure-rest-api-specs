@@ -15677,6 +15677,7 @@
 ### [Overview](storagecache/StorageTargets.yml)
 ### [Create Or Update](storagecache/StorageTargets/CreateOrUpdate.yml)
 ### [Delete](storagecache/StorageTargets/Delete.yml)
+### [Dns Refresh](storagecache/StorageTargets/DnsRefresh.yml)
 ### [Get](storagecache/StorageTargets/Get.yml)
 ### [List By Cache](storagecache/StorageTargets/ListByCache.yml)
 ## Usage Models
