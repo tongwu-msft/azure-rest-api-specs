@@ -37,6 +37,7 @@ The following table lists the supported REST API versions by the Azure Mixed Rea
 |-------------|---------------------|-----------------------|
 |2019-02-28-preview|Public Preview of Spatial Anchors||
 |2021-01-01-preview|Public Preview of Remote Rendering||
+|2021-01-01|General Availability of Remote Rendering||
 
 ## Azure Mixed Reality Resources
 The following articles describe the supported REST APIs for each resource type.
