@@ -8916,6 +8916,16 @@
 ### Operations
 #### [Overview](mixedreality/2021-01-01/Operations.yml)
 #### [List](mixedreality/2021-01-01/Operations/List.yml)
+### Remote Rendering
+#### [Overview](mixedreality/2021-01-01/RemoteRendering.yml)
+#### [Create Conversion](mixedreality/2021-01-01/RemoteRendering/CreateConversion.yml)
+#### [Create Session](mixedreality/2021-01-01/RemoteRendering/CreateSession.yml)
+#### [Get Conversion](mixedreality/2021-01-01/RemoteRendering/GetConversion.yml)
+#### [Get Session](mixedreality/2021-01-01/RemoteRendering/GetSession.yml)
+#### [List Conversions](mixedreality/2021-01-01/RemoteRendering/ListConversions.yml)
+#### [List Sessions](mixedreality/2021-01-01/RemoteRendering/ListSessions.yml)
+#### [Stop Session](mixedreality/2021-01-01/RemoteRendering/StopSession.yml)
+#### [Update Session](mixedreality/2021-01-01/RemoteRendering/UpdateSession.yml)
 ### Remote Rendering Accounts
 #### [Overview](mixedreality/2021-01-01/RemoteRenderingAccounts.yml)
 #### [Create](mixedreality/2021-01-01/RemoteRenderingAccounts/Create.yml)
