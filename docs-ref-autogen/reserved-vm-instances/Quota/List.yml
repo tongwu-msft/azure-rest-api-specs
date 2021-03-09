@@ -3,25 +3,25 @@ uid: management.azure.com.reserved-vm-instances.quota.list
 name: List
 service: Reserved VM Instances
 groupName: Quota
-apiVersion: 2019-07-19-preview
-summary: Get a list of current service limits (quota) and usages of all the resources. The response from List API can be leveraged to submit quota update requests.
+apiVersion: 2020-10-25
+summary: Gets a list of current quotas (service limits) and usage for all resources. The response from the list quota operation can be leveraged to request quota updates.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimits?api-version=2019-07-19-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimits?api-version=2020-10-25
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Azure subscription id.
+  description: Azure subscription ID.
   types:
   - uid: string
 - name: providerId
   in: path
   isRequired: true
-  description: Azure resource provider id.
+  description: Azure resource provider ID.
   types:
   - uid: string
 - name: location
@@ -41,11 +41,11 @@ responses:
   headers:
   - name: ETag
     value: string
-  description: OK. Quota information will be returned as response with pagination.
+  description: OK. Returns the paginated quota information.
   types:
   - uid: QuotaLimits
 - name: Other Status Codes
-  description: Error response describing why the operation failed.
+  description: Error description in the response.
   types:
   - uid: ExceptionResponse
 requestHeader: []
@@ -55,24 +55,24 @@ definitions:
   kind: object
   properties:
   - name: value
-    description: List of Quota limits.
+    description: List of quotas (service limits).
     types:
     - uid: CurrentQuotaLimitBase
       isArray: true
   - name: nextLink
-    description: The uri to fetch the next page of quota limits. When there are no more pages, this is null.
+    description: The URI for fetching the next page of quotas (service limits). When no more pages exist, the value is null.
     types:
     - uid: string
 - name: ExceptionResponse
-  description: The api error.
+  description: The API error.
   kind: object
   properties:
   - name: error
-    description: The api error details.
+    description: The API error details.
     types:
     - uid: ServiceError
 - name: CurrentQuotaLimitBase
-  description: Quota limits.
+  description: Quota properties.
   kind: object
   properties:
   - name: properties
@@ -80,7 +80,7 @@ definitions:
     types:
     - uid: QuotaProperties
 - name: ServiceError
-  description: The api error details.
+  description: The API error details.
   kind: object
   properties:
   - name: code
@@ -88,7 +88,7 @@ definitions:
     types:
     - uid: string
   - name: message
-    description: The error message.
+    description: The error message text.
     types:
     - uid: string
   - name: details
@@ -102,33 +102,33 @@ definitions:
   kind: object
   properties:
   - name: limit
-    description: The quota limit.
+    description: Quota properties.
     types:
     - uid: integer
   - name: currentValue
     isReadyOnly: true
-    description: The current resource usages information.
+    description: Current usage value for the resource.
     types:
     - uid: integer
   - name: unit
-    description: " The units of the limit, such as - Count, Bytes, etc. Use the unit field provided in the Get quota response."
+    description: " The limit units, such as **count** and **bytes**. Use the unit field provided in the response of the GET quota operation."
     types:
     - uid: string
   - name: name
-    description: Name of the resource provide by the resource Provider. Please use this name property for quotaRequests.
+    description: Name of the resource provide by the resource provider. Use this property for quotaRequests resource operations.
     types:
     - uid: ResourceName
   - name: resourceType
-    description: The Resource Type Name.
+    description: The name of the resource type.
     types:
     - uid: ResourceType
   - name: quotaPeriod
     isReadyOnly: true
-    description: The quota period over which the usage values are summarized, such as - P1D (Per one day), PT1M (Per one minute), PT1S (Per one second). This parameter is optional because, for some resources like compute, the period doesn’t matter.
+    description: The time period over which the quota usage values are summarized. For example, P1D (per one day), PT1M (per one minute), and PT1S (per one second). This parameter is optional because, for some resources such as compute, the time period is irrelevant.
     types:
     - uid: string
   - name: properties
-    description: Additional properties for the specific resource provider.
+    description: Additional properties for the specified resource provider.
     types:
     - uid: object
 - name: ServiceErrorDetail
@@ -146,7 +146,7 @@ definitions:
     types:
     - uid: string
 - name: ResourceName
-  description: Name of the resource provide by the resource Provider. Please use this name property for quotaRequests.
+  description: Resource name provided by the resource provider. Use this property for quotaRequest parameter.
   kind: object
   properties:
   - name: value
@@ -155,11 +155,11 @@ definitions:
     - uid: string
   - name: localizedValue
     isReadyOnly: true
-    description: Resource display name.
+    description: Resource display localized name.
     types:
     - uid: string
 - name: ResourceType
-  description: The Resource Type Name.
+  description: The name of the resource type.
   kind: enum
   properties:
   - name: standard
@@ -180,7 +180,7 @@ definitions:
 examples:
 - name: Quotas_listUsagesForCompute
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimits?api-version=2019-07-19-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimits?api-version=2020-10-25
   responses:
   - statusCode: "200"
     body: >-
@@ -312,7 +312,7 @@ examples:
       }
 - name: Quotas_listUsagesMachineLearningServices
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.MachineLearningServices/locations/eastus/serviceLimits?api-version=2019-07-19-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.MachineLearningServices/locations/eastus/serviceLimits?api-version=2020-10-25
   responses:
   - statusCode: "200"
     body: >-
@@ -338,49 +338,6 @@ examples:
                 "localizedValue": "Total Regional Low-priority vCPUs"
               },
               "resourceType": "lowPriority"
-            }
-          }
-        ]
-      }
-- name: Quotas_listUsagesForMsSql
-  request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.Sql/locations/westus/serviceLimits?api-version=2019-07-19-preview
-  responses:
-  - statusCode: "200"
-    body: >-
-      {
-        "value": [
-          {
-            "properties": {
-              "currentValue": 1,
-              "limit": 20,
-              "name": {
-                "localizedValue": "Regional Server Quota for West US",
-                "value": "ServerQuota"
-              },
-              "unit": "Count"
-            }
-          },
-          {
-            "properties": {
-              "currentValue": 0,
-              "limit": 1,
-              "name": {
-                "localizedValue": "Free Database Count per Subscription for West US",
-                "value": "SubscriptionFreeDatabaseCount"
-              },
-              "unit": "Count"
-            }
-          },
-          {
-            "properties": {
-              "currentValue": 365,
-              "limit": 365,
-              "name": {
-                "localizedValue": "Free to Basic Database Upgrade count-down in West US",
-                "value": "SubscriptionFreeDatabaseDaysLeft"
-              },
-              "unit": "Count"
             }
           }
         ]

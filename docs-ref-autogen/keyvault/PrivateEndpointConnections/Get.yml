@@ -46,6 +46,8 @@ responses:
   description: Private endpoint connection successfully returned.
   types:
   - uid: PrivateEndpointConnection
+- name: 204 No Content
+  description: The private endpoint connection does not exist.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -56,6 +58,10 @@ definitions:
   description: Private endpoint connection resource.
   kind: object
   properties:
+  - name: etag
+    description: Modified whenever there is a change in the state of private endpoint connection.
+    types:
+    - uid: string
   - name: properties.privateEndpoint
     description: Properties of the private endpoint object.
     types:
@@ -127,7 +133,7 @@ definitions:
     description: The reason for approval or rejection.
     types:
     - uid: string
-  - name: actionRequired
+  - name: actionsRequired
     description: A message indicating if changes on the service provider require any updates on the consumer.
     types:
     - uid: string
@@ -192,6 +198,7 @@ examples:
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault/privateEndpointConnections/sample-pec",
         "name": "sample-pec",
         "type": "Microsoft.KeyVault/vaults/privateEndpointConnections",
+        "etag": "",
         "properties": {
           "provisioningState": "Succeeded",
           "privateEndpoint": {
@@ -200,8 +207,17 @@ examples:
           "privateLinkServiceConnectionState": {
             "status": "Approved",
             "description": "This was automatically approved by user1234@contoso.com",
-            "actionRequired": "None"
+            "actionsRequired": "None"
           }
+        }
+      }
+  - statusCode: "204"
+  - statusCode: default
+    body: >-
+      {
+        "error": {
+          "code": "",
+          "message": ""
         }
       }
 security: []

@@ -41,8 +41,40 @@ responses:
   description: The vault is purged.
 - name: 202 Accepted
   description: Vault is being purged.
+- name: 400 Bad Request
+  description: Bad request.
+  types:
+  - uid: CloudError
+- name: 404 Not Found
+  description: The specified resource does not exist.
+  types:
+  - uid: CloudError
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
-definitions: []
+definitions:
+- name: CloudError
+  description: An error response from Key Vault resource provider
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Key Vault resource provider
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: An error response from Key Vault resource provider
+  kind: object
+  properties:
+  - name: code
+    description: Error code. This is a mnemonic that can be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: User friendly error message. The message is typically localized and may vary with service version.
+    types:
+    - uid: string
 examples:
 - name: Purge a deleted vault
   request:
@@ -50,5 +82,29 @@ examples:
   responses:
   - statusCode: "200"
   - statusCode: "202"
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "",
+          "message": ""
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "",
+          "message": ""
+        }
+      }
+  - statusCode: default
+    body: >-
+      {
+        "error": {
+          "code": "",
+          "message": ""
+        }
+      }
 security: []
 errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.storagecache.caches.get
 name: Get
 service: Storagecache
 groupName: Caches
-apiVersion: 2020-03-01
+apiVersion: 2020-10-01
 summary: Returns a Cache.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}?api-version=2020-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}?api-version=2020-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: cacheName
   in: path
   isRequired: true
-  description: Name of Cache. Length of name must be not greater than 80 and chars must be in list of [-0-9a-zA-Z_] char class.
+  description: Name of Cache. Length of name must not be greater than 80 and chars must be from the [-0-9a-zA-Z_] char class.
   types:
   - uid: string
   pattern: ^[-0-9a-zA-Z_]{1,80}$
@@ -127,6 +127,10 @@ definitions:
     description: Specifies security settings of the cache.
     types:
     - uid: CacheSecuritySettings
+  - name: properties.directoryServicesSettings
+    description: Specifies Directory Services settings of the cache.
+    types:
+    - uid: CacheDirectorySettings
 - name: CloudError
   description: An error response.
   kind: object
@@ -178,7 +182,7 @@ definitions:
     types:
     - uid: createdByType
   - name: lastModifiedAt
-    description: The type of identity that last modified the resource.
+    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: Sku
@@ -278,10 +282,23 @@ definitions:
   description: Cache security settings.
   kind: object
   properties:
-  - name: rootSquash
-    description: root squash of cache property.
+  - name: accessPolicies
+    description: NFS access policies defined for this cache.
     types:
-    - uid: boolean
+    - uid: NfsAccessPolicy
+      isArray: true
+- name: CacheDirectorySettings
+  description: Cache Directory Services settings.
+  kind: object
+  properties:
+  - name: activeDirectory
+    description: Specifies settings for joining the HPC Cache to an Active Directory domain.
+    types:
+    - uid: CacheActiveDirectorySettings
+  - name: usernameDownload
+    description: Specifies settings for Extended Groups. Extended Groups allows users to be members of more than 16 groups.
+    types:
+    - uid: CacheUsernameDownloadSettings
 - name: CloudErrorBody
   description: An error response.
   kind: object
@@ -382,6 +399,105 @@ definitions:
     description: Describes a resource Id to source Key Vault.
     types:
     - uid: SourceVault
+- name: NfsAccessPolicy
+  description: A set of rules describing access policies applied to NFSv3 clients of the cache.
+  kind: object
+  properties:
+  - name: name
+    description: Name identifying this policy. Access Policy names are not case sensitive.
+    types:
+    - uid: string
+  - name: accessRules
+    description: The set of rules describing client accesses allowed under this policy.
+    types:
+    - uid: NfsAccessRule
+      isArray: true
+- name: CacheActiveDirectorySettings
+  description: Active Directory settings used to join a cache to a domain.
+  kind: object
+  properties:
+  - name: primaryDnsIpAddress
+    description: Primary DNS IP address used to resolve the Active Directory domain controller's fully qualified domain name.
+    types:
+    - uid: string
+  - name: secondaryDnsIpAddress
+    description: Secondary DNS IP address used to resolve the Active Directory domain controller's fully qualified domain name.
+    types:
+    - uid: string
+  - name: domainName
+    description: The fully qualified domain name of the Active Directory domain controller.
+    types:
+    - uid: string
+  - name: domainNetBiosName
+    description: The Active Directory domain's NetBIOS name.
+    types:
+    - uid: string
+  - name: cacheNetBiosName
+    description: The NetBIOS name to assign to the HPC Cache when it joins the Active Directory domain as a server. Length must 1-15 characters from the class [-0-9a-zA-Z].
+    types:
+    - uid: string
+  - name: domainJoined
+    isReadyOnly: true
+    description: True if the HPC Cache is joined to the Active Directory domain.
+    types:
+    - uid: DomainJoinedType
+  - name: credentials
+    description: Active Directory admin credentials used to join the HPC Cache to a domain.
+    types:
+    - uid: Credentials
+- name: CacheUsernameDownloadSettings
+  description: Settings for Extended Groups username and group download.
+  kind: object
+  properties:
+  - name: extendedGroups
+    description: Whether or not Extended Groups is enabled.
+    types:
+    - uid: boolean
+  - name: usernameSource
+    description: This setting determines how the cache gets username and group names for clients.
+    types:
+    - uid: UsernameSource
+  - name: groupFileURI
+    description: The URI of the file containing group information (in /etc/group file format). This field must be populated when 'usernameSource' is set to 'File'.
+    types:
+    - uid: string
+  - name: userFileURI
+    description: The URI of the file containing user information (in /etc/passwd file format). This field must be populated when 'usernameSource' is set to 'File'.
+    types:
+    - uid: string
+  - name: ldapServer
+    description: The fully qualified domain name or IP address of the LDAP server to use.
+    types:
+    - uid: string
+  - name: ldapBaseDN
+    description: The base distinguished name for the LDAP domain.
+    types:
+    - uid: string
+  - name: encryptLdapConnection
+    description: Whether or not the LDAP connection should be encrypted.
+    types:
+    - uid: boolean
+  - name: requireValidCertificate
+    description: Determines if the certificates must be validated by a certificate authority. When true, caCertificateURI must be provided.
+    types:
+    - uid: boolean
+  - name: autoDownloadCertificate
+    description: Determines if the certificate should be automatically downloaded. This applies to 'caCertificateURI' only if 'requireValidCertificate' is true.
+    types:
+    - uid: boolean
+  - name: caCertificateURI
+    description: The URI of the CA certificate to validate the LDAP secure connection. This field must be populated when 'requireValidCertificate' is set to true.
+    types:
+    - uid: string
+  - name: usernameDownloaded
+    isReadyOnly: true
+    description: Indicates whether or not the HPC Cache has performed the username download successfully.
+    types:
+    - uid: UsernameDownloadedType
+  - name: credentials
+    description: When present, these are the credentials for the secure LDAP connection.
+    types:
+    - uid: Credentials
 - name: SourceVault
   description: Describes a resource Id to source Key Vault.
   kind: object
@@ -390,10 +506,126 @@ definitions:
     description: Resource Id.
     types:
     - uid: string
+- name: NfsAccessRule
+  description: Rule to place restrictions on portions of the cache namespace being presented to clients.
+  kind: object
+  properties:
+  - name: scope
+    description: Scope for this rule. The scope and filter determine which clients match the rule.
+    types:
+    - uid: NfsAccessRuleScope
+  - name: filter
+    description: Filter applied to the scope for this rule. The filter's format depends on its scope. 'default' scope matches all clients and has no filter value. 'network' scope takes a filter in CIDR format (for example, 10.99.1.0/24). 'host' takes an IP address or fully qualified domain name as filter. If a client does not match any filter rule and there is no default rule, access is denied.
+    types:
+    - uid: string
+  - name: access
+    description: Access allowed by this rule.
+    types:
+    - uid: NfsAccessRuleAccess
+  - name: suid
+    description: Allow SUID semantics.
+    types:
+    - uid: boolean
+  - name: submountAccess
+    description: For the default policy, allow access to subdirectories under the root export. If this is set to no, clients can only mount the path '/'. If set to yes, clients can mount a deeper path, like '/a/b'.
+    types:
+    - uid: boolean
+  - name: rootSquash
+    description: Map root accesses to anonymousUID and anonymousGID.
+    types:
+    - uid: boolean
+  - name: anonymousUID
+    description: UID value that replaces 0 when rootSquash is true.
+    types:
+    - uid: string
+  - name: anonymousGID
+    description: GID value that replaces 0 when rootSquash is true.
+    types:
+    - uid: string
+- name: DomainJoinedType
+  description: True if the HPC Cache is joined to the Active Directory domain.
+  kind: enum
+  properties:
+  - name: Yes
+    types:
+    - uid: string
+  - name: No
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+- name: Credentials
+  description: Active Directory admin credentials used to join the HPC Cache to a domain.
+  kind: object
+  properties:
+  - name: username
+    description: Username of the Active Directory domain administrator. This value is stored encrypted and not returned on response.
+    types:
+    - uid: string
+  - name: password
+    description: Plain text password of the Active Directory domain administrator. This value is stored encrypted and not returned on response.
+    types:
+    - uid: string
+- name: UsernameSource
+  description: This setting determines how the cache gets username and group names for clients.
+  kind: enum
+  properties:
+  - name: AD
+    types:
+    - uid: string
+  - name: LDAP
+    types:
+    - uid: string
+  - name: File
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: UsernameDownloadedType
+  description: Indicates whether or not the HPC Cache has performed the username download successfully.
+  kind: enum
+  properties:
+  - name: Yes
+    types:
+    - uid: string
+  - name: No
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+- name: NfsAccessRuleScope
+  description: Scope for this rule. The scope and filter determine which clients match the rule.
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
+  - name: network
+    types:
+    - uid: string
+  - name: host
+    types:
+    - uid: string
+- name: NfsAccessRuleAccess
+  description: Access allowed by this rule.
+  kind: enum
+  properties:
+  - name: no
+    types:
+    - uid: string
+  - name: ro
+    types:
+    - uid: string
+  - name: rw
+    types:
+    - uid: string
 examples:
 - name: Caches_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2020-03-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2020-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -405,6 +637,14 @@ examples:
         "location": "westus",
         "name": "sc1",
         "type": "Microsoft.StorageCache/Cache",
+        "systemData": {
+          "createdBy": "user1",
+          "createdByType": "User",
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedBy": "user2",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
+        },
         "properties": {
           "cacheSizeGB": 3072,
           "health": {
@@ -426,6 +666,53 @@ examples:
           },
           "networkSettings": {
             "mtu": 1500
+          },
+          "securitySettings": {
+            "accessPolicies": [
+              {
+                "name": "default",
+                "accessRules": [
+                  {
+                    "scope": "default",
+                    "access": "rw",
+                    "suid": false,
+                    "submountAccess": true,
+                    "rootSquash": false
+                  }
+                ]
+              }
+            ]
+          },
+          "encryptionSettings": {
+            "keyEncryptionKey": {
+              "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
+              "sourceVault": {
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.KeyVault/vaults/keyvault-cmk"
+              }
+            }
+          },
+          "directoryServicesSettings": {
+            "activeDirectory": {
+              "primaryDnsIpAddress": "192.0.2.10",
+              "secondaryDnsIpAddress": "192.0.2.11",
+              "domainName": "contosoAd.contoso.local",
+              "domainNetBiosName": "contosoAd",
+              "cacheNetBiosName": "contosoSmb",
+              "domainJoined": "Yes"
+            },
+            "usernameDownload": {
+              "extendedGroups": true,
+              "usernameSource": "LDAP",
+              "groupFileURI": "",
+              "userFileURI": "",
+              "ldapServer": "192.0.2.12",
+              "ldapBaseDN": "dc=contosoad,dc=contoso,dc=local",
+              "encryptLdapConnection": false,
+              "requireValidCertificate": false,
+              "autoDownloadCertificate": false,
+              "caCertificateURI": "",
+              "usernameDownloaded": "Yes"
+            }
           }
         },
         "sku": {

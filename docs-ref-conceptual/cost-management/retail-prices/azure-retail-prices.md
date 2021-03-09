@@ -4,7 +4,7 @@ description: Provides operations to programmatically get Azure service retail pr
 author: bandersmsft
 ms.author: banders
 ms.reviewer: mumami
-ms.date: 11/17/2020
+ms.date: 02/10/2021
 ms.topic: reference
 ms.service: cost-management-billing
 ms.subservice: cost-management
@@ -110,7 +110,7 @@ Here's all the property details that are a part of the API response.
 
 | Field | Example Values | Definition |
 | --- | --- | --- |
-| currencyCode | USD | The currency in which rates are defined. Currently, the only currency returned is USD. |
+| currencyCode | USD | The currency in which rates are defined and returns prices in USD. |
 | tierMinimumUnits | 0 | Minimum units of consumption to avail the price |
 | reservationTerm | 1 year | Reservation term – 1 year or 3 years |
 | retailPrice | 0.176346 | Prices without discount |
@@ -151,14 +151,6 @@ Filters are supported for the following fields:
 - armSkuName
  
 You append the filters to the API endpoint, as shown in the API sample calls.
-
-## Unsupported functions
-
-The Retail Prices API doesn't support the following functionalities:
-
-- The API doesn't support other currencies.
-- Azure Marketplace products aren't included in the response.
-- Part numbers aren't included in the response.
 
 ## Next steps
 

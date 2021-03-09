@@ -15,7 +15,7 @@ uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The Azure subscription Id.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
@@ -27,7 +27,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -92,11 +92,11 @@ definitions:
     types:
     - uid: string
   - name: properties.targetResourceType
-    description: the resource type of the target resource(s) on which the alert is created/updated. Mandatory for MultipleResourceMultipleMetricCriteria.
+    description: the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.
     types:
     - uid: string
   - name: properties.targetResourceRegion
-    description: the region of the target resource(s) on which the alert is created/updated. Mandatory for MultipleResourceMultipleMetricCriteria.
+    description: the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.
     types:
     - uid: string
   - name: properties.criteria
@@ -120,6 +120,11 @@ definitions:
     description: Last time the rule was updated in ISO8601 format.
     types:
     - uid: string
+  - name: properties.isMigrated
+    isReadyOnly: true
+    description: the value indicating whether this alert rule is migrated.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Azure resource Id
@@ -156,7 +161,7 @@ definitions:
     types:
     - uid: string
   - name: webHookProperties
-    description: The properties of a webhook object.
+    description: This field allows specifying custom properties, which would be appended to the alert payload sent as input to the webhook.
     types:
     - uid: object
       isDictionary: true
@@ -247,7 +252,7 @@ definitions:
   - name: timeAggregation
     description: the criteria time aggregation types.
     types:
-    - uid: AggregationType
+    - uid: AggregationTypeEnum
   - name: dimensions
     description: List of dimension conditions.
     types:
@@ -279,7 +284,7 @@ definitions:
   - name: LessThanOrEqual
     types:
     - uid: string
-- name: AggregationType
+- name: AggregationTypeEnum
   description: the criteria time aggregation types.
   kind: enum
   properties:
@@ -355,7 +360,7 @@ definitions:
   - name: timeAggregation
     description: the criteria time aggregation types.
     types:
-    - uid: AggregationType
+    - uid: AggregationTypeEnum
   - name: dimensions
     description: List of dimension conditions.
     types:
@@ -444,7 +449,7 @@ examples:
               },
               "actions": [
                 {
-                  "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+                  "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
                   "webHookProperties": {
                     "key11": "value11",
                     "key12": "value12"
@@ -485,7 +490,7 @@ examples:
               },
               "actions": [
                 {
-                  "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+                  "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
                   "webHookProperties": {
                     "key11": "value11",
                     "key12": "value12"

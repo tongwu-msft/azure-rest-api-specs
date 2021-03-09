@@ -41,6 +41,10 @@ responses:
   description: Retrieved information about the deleted vault.
   types:
   - uid: DeletedVault
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: DeletedVault
@@ -66,6 +70,14 @@ definitions:
     description: Properties of the vault
     types:
     - uid: DeletedVaultProperties
+- name: CloudError
+  description: An error response from Key Vault resource provider
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Key Vault resource provider
+    types:
+    - uid: CloudErrorBody
 - name: DeletedVaultProperties
   description: Properties of the deleted vault.
   kind: object
@@ -99,6 +111,23 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: purgeProtectionEnabled
+    isReadyOnly: true
+    description: Purge protection status of the original vault.
+    types:
+    - uid: boolean
+- name: CloudErrorBody
+  description: An error response from Key Vault resource provider
+  kind: object
+  properties:
+  - name: code
+    description: Error code. This is a mnemonic that can be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: User friendly error message. The message is typically localized and may vary with service version.
+    types:
+    - uid: string
 examples:
 - name: Retrieve a deleted vault
   request:
@@ -115,7 +144,16 @@ examples:
           "location": "westus",
           "tags": {},
           "deletionDate": "2017-01-01T00:00:59Z",
-          "scheduledPurgeDate": "2017-04-01T00:00:59Z"
+          "scheduledPurgeDate": "2017-04-01T00:00:59Z",
+          "purgeProtectionEnabled": true
+        }
+      }
+  - statusCode: default
+    body: >-
+      {
+        "error": {
+          "code": "",
+          "message": ""
         }
       }
 security: []

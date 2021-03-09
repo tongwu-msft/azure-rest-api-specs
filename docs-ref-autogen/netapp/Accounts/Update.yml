@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.accounts.update
 name: Update
 service: Azure NetApp Files
 groupName: Accounts
-apiVersion: 2020-08-01
+apiVersion: 2020-11-01
 summary: "Update a NetApp account  \nPatch the specified NetApp account"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}?api-version=2020-08-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}?api-version=2020-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,14 +42,14 @@ responses:
   description: OK - account updated
   types:
   - uid: netAppAccount
-- name: 201 Created
-  description: OK - account created
+- name: 202 Accepted
+  description: Accepted
   types:
   - uid: netAppAccount
-- name: 202 Accepted
-  description: Accepted -- Create, update or delete request accepted; operation will complete asynchronously
 - name: Other Status Codes
   description: Error response describing why the operation failed.
+  types:
+  - uid: cloudError
 requestBody:
 - name: default
   parameters:
@@ -73,6 +73,11 @@ requestBody:
     types:
     - uid: activeDirectory
       isArray: true
+  - name: properties.encryption
+    in: body
+    description: Encryption settings
+    types:
+    - uid: accountEncryption
 requestHeader: []
 definitions:
 - name: activeDirectory
@@ -146,6 +151,23 @@ definitions:
     description: Specifies whether or not the LDAP traffic needs to be signed.
     types:
     - uid: boolean
+  - name: securityOperators
+    description: Domain Users in the Active directory to be given SeSecurityPrivilege privilege (Needed for SMB Continuously available shares for SQL). A list of unique usernames without domain specifier
+    types:
+    - uid: string
+      isArray: true
+  - name: ldapOverTLS
+    description: Specifies whether or not the LDAP traffic needs to be secured via TLS.
+    types:
+    - uid: boolean
+- name: accountEncryption
+  description: Encryption settings
+  kind: object
+  properties:
+  - name: keySource
+    description: "Encryption Key Source. Possible values are: 'Microsoft.NetApp'."
+    types:
+    - uid: keySource
 - name: netAppAccount
   description: NetApp account resource
   kind: object
@@ -177,6 +199,11 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: The system meta data relating to this resource.
+    types:
+    - uid: systemData
   - name: properties.provisioningState
     isReadyOnly: true
     description: Azure lifecycle management
@@ -187,6 +214,18 @@ definitions:
     types:
     - uid: activeDirectory
       isArray: true
+  - name: properties.encryption
+    description: Encryption settings
+    types:
+    - uid: accountEncryption
+- name: cloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: cloudErrorBody
 - name: netAppAccountPatch
   description: NetApp account patch resource
   kind: object
@@ -228,6 +267,10 @@ definitions:
     types:
     - uid: activeDirectory
       isArray: true
+  - name: properties.encryption
+    description: Encryption settings
+    types:
+    - uid: accountEncryption
 - name: ActiveDirectoryStatus
   description: Status of the Active Directory
   kind: enum
@@ -252,11 +295,80 @@ definitions:
     description: Error with the Active Directory
     types:
     - uid: string
+- name: keySource
+  description: "Encryption Key Source. Possible values are: 'Microsoft.NetApp'."
+  kind: enum
+  properties:
+  - name: Microsoft.NetApp
+    description: The service manages the keys.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: cloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: Accounts_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1?api-version=2020-08-01
-    body: '{}'
+    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1?api-version=2020-11-01
+    body: >-
+      {
+        "tags": {
+          "Tag1": "Value1"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
@@ -269,18 +381,23 @@ examples:
           "provisioningState": "Succeeded"
         }
       }
-  - statusCode: "201"
+  - statusCode: "202"
     body: >-
       {
         "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1",
         "name": "account1",
         "type": "Microsoft.NetApp/netAppAccounts",
         "location": "eastus",
+        "tags": {
+          "Tag1": "Value1"
+        },
         "properties": {
-          "provisioningState": "Succeeded"
+          "provisioningState": "Patching",
+          "encryption": {
+            "keySource": "Microsoft.NetApp"
+          }
         }
       }
-  - statusCode: "202"
 security:
 - name: azure_auth
   type: oauth2

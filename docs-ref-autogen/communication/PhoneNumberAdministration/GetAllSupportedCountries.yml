@@ -1,0 +1,125 @@
+### YamlMime:RESTOperation
+uid: communication.phonenumberadministration.getallsupportedcountries
+name: Get All Supported Countries
+service: Communication
+groupName: Phone Number Administration
+apiVersion: 2020-07-20-preview1
+summary: Gets a list of supported countries
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/administration/phonenumbers/countries?api-version=2020-07-20-preview1
+- content: GET {endpoint}/administration/phonenumbers/countries?locale={locale}&skip={skip}&take={take}&api-version=2020-07-20-preview1
+  isOptional: true
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The endpoint of the Azure Communication resource.
+  types:
+  - uid: string
+- name: locale
+  in: query
+  description: A language-locale pairing which will be used to localize the names of countries
+  types:
+  - uid: string
+- name: skip
+  in: query
+  description: An optional parameter for how many entries to skip, for pagination purposes.
+  types:
+  - uid: integer
+  format: int32
+- name: take
+  in: query
+  description: An optional parameter for how many entries to return, for pagination purposes.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: PhoneNumberCountries
+- name: Other Status Codes
+  description: Failure
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PhoneNumberCountries
+  description: Represents a wrapper around a list of countries.
+  kind: object
+  properties:
+  - name: countries
+    description: Represents the underlying list of countries.
+    types:
+    - uid: PhoneNumberCountry
+      isArray: true
+  - name: nextLink
+    description: Represents the URL link to the next page
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Represents a service error response.
+  kind: object
+  properties:
+  - name: error
+    description: Represents a service error response body.
+    types:
+    - uid: ErrorBody
+- name: PhoneNumberCountry
+  description: Represents a country.
+  kind: object
+  properties:
+  - name: localizedName
+    description: Represents the name of the country.
+    types:
+    - uid: string
+  - name: countryCode
+    description: Represents the abbreviated name of the country.
+    types:
+    - uid: string
+- name: ErrorBody
+  description: Represents a service error response body.
+  kind: object
+  properties:
+  - name: code
+    description: The error code in the error response.
+    types:
+    - uid: string
+  - name: message
+    description: The error message in the error response.
+    types:
+    - uid: string
+examples:
+- name: Get countries
+  request:
+    uri: GET https://resourcename.communications.azure.net//administration/phonenumbers/countries?locale=en-us&api-version=2020-07-20-preview1
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "countries": [
+          {
+            "localizedName": "Australia",
+            "countryCode": "AU"
+          },
+          {
+            "localizedName": "Japan",
+            "countryCode": "JP"
+          },
+          {
+            "localizedName": "United States",
+            "countryCode": "US"
+          }
+        ]
+      }
+security: []
+errorCodes: []

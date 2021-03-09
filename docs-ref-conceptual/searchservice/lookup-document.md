@@ -1,7 +1,7 @@
 ---
 title: "Lookup Document (Azure Cognitive Search REST API)"
 description: Return a specific document by ID from an Azure Cognitive Search index.
-ms.date: 06/30/2020
+ms.date: 03/05/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -32,7 +32,7 @@ GET /indexes/[index name]/docs('[key]')?[query parameters]
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required. The request URI specifies the name of the index to query. Query parameters are specified on the query string for GET requests and in the request body for POST requests.   |
-| key | Required. An `Edm.String` value that uniquely identifies each document in the index. The key is sometimes referred to as a document ID. |
+| key | Required. An `Edm.String` value that uniquely identifies each document in the index. The key is sometimes referred to as a document ID. The value of the key is case-sensitive. For example, a document with key "abc" is distinct from a document with key "ABC". |
 | query parameters| A multi-part construction that includes a `$select` (optional) and `api-version=2020-06-30` (required). For this operation, the api-version is specified as a query parameter. <br/>`$select=[string]` is a list of comma-separated fields to retrieve. Only fields marked as retrievable can be included in this clause. If unspecified or set to `*`, all fields marked as retrievable in the schema are included in the projection.|
 
  ## Request Headers 

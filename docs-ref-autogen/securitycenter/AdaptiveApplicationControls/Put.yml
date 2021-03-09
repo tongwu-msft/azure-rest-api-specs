@@ -3,14 +3,14 @@ uid: management.azure.com.securitycenter.adaptiveapplicationcontrols.put
 name: Put
 service: Security Center
 groupName: Adaptive Application Controls
-apiVersion: 2015-06-01-preview
-summary: Update an application control VM/server group
+apiVersion: 2020-01-01
+summary: Update an application control machine group
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}?api-version=2015-06-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/applicationWhitelistings/{groupName}?api-version=2020-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -28,7 +28,7 @@ uriParameters:
 - name: groupName
   in: path
   isRequired: true
-  description: Name of an application control VM/server group
+  description: Name of an application control machine group
   types:
   - uid: string
 - name: api-version
@@ -41,7 +41,7 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: AppWhitelistingGroup
+  - uid: AdaptiveApplicationControlGroup
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -49,23 +49,23 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: enforcementMode
+  - name: properties.enforcementMode
     in: body
-    description: The enforcement mode of the group. Can also be defined per collection type by using ProtectionMode
+    description: The application control policy enforcement/protection mode of the machine group
     types:
     - uid: EnforcementMode
-  - name: protectionMode
+  - name: properties.protectionMode
     in: body
-    description: The protection mode of the group per collection type. Can also be defined for all collection types by using EnforcementMode
+    description: The protection mode of the collection/file types. Exe/Msi/Script are used for Windows, Executable is used for Linux.
     types:
     - uid: ProtectionMode
-  - name: vmRecommendations
+  - name: properties.vmRecommendations
     in: body
-    description: Represents a machine that is part of a VM/server group
+    description: Represents a machine that is part of a machine group
     types:
     - uid: VmRecommendation
       isArray: true
-  - name: pathRecommendations
+  - name: properties.pathRecommendations
     in: body
     description: Represents a path that is recommended to be allowed and its properties
     types:
@@ -78,39 +78,51 @@ definitions:
   kind: object
   properties:
   - name: exe
-    description: The application control policy enforcement/protection mode of the VM/server group
+    description: The application control policy enforcement/protection mode of the machine group
     types:
     - uid: EnforcementMode
   - name: msi
-    description: The application control policy enforcement/protection mode of the VM/server group
+    description: The application control policy enforcement/protection mode of the machine group
     types:
     - uid: EnforcementMode
   - name: script
-    description: The application control policy enforcement/protection mode of the VM/server group
+    description: The application control policy enforcement/protection mode of the machine group
     types:
     - uid: EnforcementMode
   - name: executable
-    description: The application control policy enforcement/protection mode of the VM/server group
+    description: The application control policy enforcement/protection mode of the machine group
     types:
     - uid: EnforcementMode
+- name: AdaptiveApplicationControlIssueSummary
+  description: Represents a summary of the alerts of the machine group
+  kind: object
+  properties:
+  - name: issue
+    description: An alert that machines within a group can have
+    types:
+    - uid: AdaptiveApplicationControlIssue
+  - name: numberOfVms
+    description: The number of machines in the group that have this alert
+    types:
+    - uid: number
 - name: VmRecommendation
-  description: Represents a machine that is part of a VM/server group
+  description: Represents a machine that is part of a machine group
   kind: object
   properties:
   - name: configurationStatus
-    description: The configuration status of the VM/server group or machine or rule on the machine
+    description: The configuration status of the machines group or machine or rule
     types:
     - uid: ConfigurationStatus
   - name: recommendationAction
-    description: The recommendation action of the VM/server or rule
+    description: The recommendation action of the machine or rule
     types:
     - uid: RecommendationAction
   - name: resourceId
-    description: The full azure resource id of the machine
+    description: The full resource id of the machine
     types:
     - uid: string
   - name: enforcementSupport
-    description: The VM/server supportability of Enforce feature
+    description: The machine supportability of Enforce feature
     types:
     - uid: EnforcementSupport
 - name: PathRecommendation
@@ -118,11 +130,11 @@ definitions:
   kind: object
   properties:
   - name: path
-    description: The full path to whitelist
+    description: The full path of the file, or an identifier of the application
     types:
     - uid: string
   - name: action
-    description: The recommendation action of the VM/server or rule
+    description: The recommendation action of the machine or rule
     types:
     - uid: RecommendationAction
   - name: type
@@ -134,7 +146,7 @@ definitions:
     types:
     - uid: PublisherInfo
   - name: common
-    description: Whether the path is commonly run on the machine
+    description: Whether the application is commonly run on the machine
     types:
     - uid: boolean
   - name: userSids
@@ -152,14 +164,14 @@ definitions:
     types:
     - uid: FileType
   - name: configurationStatus
-    description: The configuration status of the VM/server group or machine or rule on the machine
+    description: The configuration status of the machines group or machine or rule
     types:
     - uid: ConfigurationStatus
-- name: AppWhitelistingGroup
+- name: AdaptiveApplicationControlGroup
   kind: object
   properties:
   - name: properties.enforcementMode
-    description: The application control policy enforcement/protection mode of the VM/server group
+    description: The application control policy enforcement/protection mode of the machine group
     types:
     - uid: EnforcementMode
   - name: properties.protectionMode
@@ -167,24 +179,28 @@ definitions:
     types:
     - uid: ProtectionMode
   - name: properties.configurationStatus
-    description: The configuration status of the VM/server group or machine or rule on the machine
+    isReadyOnly: true
+    description: The configuration status of the machines group or machine or rule
     types:
     - uid: ConfigurationStatus
   - name: properties.recommendationStatus
-    description: The recommendation status of the VM/server group or VM/server
+    isReadyOnly: true
+    description: The initial recommendation status of the machine group or machine
     types:
     - uid: RecommendationStatus
   - name: properties.issues
-    description: Represents a summary of the alerts of the VM/server group
+    isReadyOnly: true
+    description: Represents a summary of the alerts of the machine group
     types:
-    - uid: AppWhitelistingIssueSummary
+    - uid: AdaptiveApplicationControlIssueSummary
       isArray: true
   - name: properties.sourceSystem
-    description: The source type of the VM/server group
+    isReadyOnly: true
+    description: The source type of the machine group
     types:
     - uid: SourceSystem
   - name: properties.vmRecommendations
-    description: Represents a machine that is part of a VM/server group
+    description: Represents a machine that is part of a machine group
     types:
     - uid: VmRecommendation
       isArray: true
@@ -214,43 +230,38 @@ definitions:
     types:
     - uid: string
 - name: CloudError
-  description: Error response structure.
+  description: Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
   kind: object
   properties:
   - name: error.code
     isReadyOnly: true
-    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    description: The error code.
     types:
     - uid: string
   - name: error.message
     isReadyOnly: true
-    description: A message describing the error, intended to be suitable for display in a user interface.
+    description: The error message.
     types:
     - uid: string
-- name: AppWhitelistingPutGroupData
-  description: The altered data of the recommended VM/server group policy
-  kind: object
-  properties:
-  - name: enforcementMode
-    description: The enforcement mode of the group. Can also be defined per collection type by using ProtectionMode
+  - name: error.target
+    isReadyOnly: true
+    description: The error target.
     types:
-    - uid: EnforcementMode
-  - name: protectionMode
-    description: The protection mode of the group per collection type. Can also be defined for all collection types by using EnforcementMode
+    - uid: string
+  - name: error.details
+    isReadyOnly: true
+    description: The error details.
     types:
-    - uid: ProtectionMode
-  - name: vmRecommendations
-    description: Represents a machine that is part of a VM/server group
-    types:
-    - uid: VmRecommendation
+    - uid: CloudErrorBody
       isArray: true
-  - name: pathRecommendations
-    description: Represents a path that is recommended to be allowed and its properties
+  - name: error.additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
     types:
-    - uid: PathRecommendation
+    - uid: ErrorAdditionalInfo
       isArray: true
 - name: EnforcementMode
-  description: The application control policy enforcement/protection mode of the VM/server group
+  description: The application control policy enforcement/protection mode of the machine group
   kind: enum
   properties:
   - name: Audit
@@ -262,8 +273,30 @@ definitions:
   - name: None
     types:
     - uid: string
+- name: AdaptiveApplicationControlIssue
+  description: An alert that machines within a group can have
+  kind: enum
+  properties:
+  - name: ViolationsAudited
+    types:
+    - uid: string
+  - name: ViolationsBlocked
+    types:
+    - uid: string
+  - name: MsiAndScriptViolationsAudited
+    types:
+    - uid: string
+  - name: MsiAndScriptViolationsBlocked
+    types:
+    - uid: string
+  - name: ExecutableViolationsAudited
+    types:
+    - uid: string
+  - name: RulesViolatedManually
+    types:
+    - uid: string
 - name: ConfigurationStatus
-  description: The configuration status of the VM/server group or machine or rule on the machine
+  description: The configuration status of the machines group or machine or rule
   kind: enum
   properties:
   - name: Configured
@@ -282,7 +315,7 @@ definitions:
     types:
     - uid: string
 - name: RecommendationAction
-  description: The recommendation action of the VM/server or rule
+  description: The recommendation action of the machine or rule
   kind: enum
   properties:
   - name: Recommended
@@ -295,7 +328,7 @@ definitions:
     types:
     - uid: string
 - name: EnforcementSupport
-  description: The VM/server supportability of Enforce feature
+  description: The machine supportability of Enforce feature
   kind: enum
   properties:
   - name: Supported
@@ -358,7 +391,7 @@ definitions:
     types:
     - uid: string
   - name: recommendationAction
-    description: The recommendation action of the VM/server or rule
+    description: The recommendation action of the machine or rule
     types:
     - uid: RecommendationAction
 - name: FileType
@@ -384,7 +417,7 @@ definitions:
     types:
     - uid: string
 - name: RecommendationStatus
-  description: The recommendation status of the VM/server group or VM/server
+  description: The initial recommendation status of the machine group or machine
   kind: enum
   properties:
   - name: Recommended
@@ -399,20 +432,8 @@ definitions:
   - name: NoStatus
     types:
     - uid: string
-- name: AppWhitelistingIssueSummary
-  description: Represents a summary of the alerts of the VM/server group
-  kind: object
-  properties:
-  - name: issue
-    description: An alert that VMs/servers within a group can have
-    types:
-    - uid: AppWhitelistingIssue
-  - name: numberOfVms
-    description: The number of machines in the VM/server group that have this alert
-    types:
-    - uid: number
 - name: SourceSystem
-  description: The source type of the VM/server group
+  description: The source type of the machine group
   kind: enum
   properties:
   - name: Azure_AppLocker
@@ -430,37 +451,57 @@ definitions:
   - name: None
     types:
     - uid: string
-- name: AppWhitelistingIssue
-  description: An alert that VMs/servers within a group can have
-  kind: enum
+- name: CloudErrorBody
+  description: The error detail.
+  kind: object
   properties:
-  - name: ViolationsAudited
+  - name: code
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
-  - name: ViolationsBlocked
+  - name: message
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
-  - name: MsiAndScriptViolationsAudited
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
-  - name: MsiAndScriptViolationsBlocked
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
-  - name: ExecutableViolationsAudited
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
     types:
-    - uid: string
-  - name: RulesViolatedManually
-    types:
-    - uid: string
+    - uid: object
 examples:
-- name: Update an application control VM/server group by adding a new file
+- name: Update an application control machine group by adding a new application
   request:
-    uri: PUT https://management.azure.com/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/providers/Microsoft.Security/locations/centralus/applicationWhitelistings/ERELGROUP1?api-version=2015-06-01-preview
+    uri: PUT https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/locations/centralus/applicationWhitelistings/ERELGROUP1?api-version=2020-01-01
     body: >-
       {
-        "id": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/providers/Microsoft.Security/locations/centralus/applicationWhitelistings/ERELGROUP1",
-        "type": "Microsoft.Security/applicationWhitelistings",
-        "name": "ERELGROUP1",
         "properties": {
           "enforcementMode": "Audit",
           "protectionMode": {
@@ -471,13 +512,13 @@ examples:
           "vmRecommendations": [
             {
               "configurationStatus": "Configured",
-              "resourceId": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/resourcegroups/erelh-stable/providers/microsoft.compute/virtualmachines/erelh-16090",
+              "resourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/erelh-stable/providers/microsoft.compute/virtualmachines/erelh-16090",
               "recommendationAction": "Recommended",
               "enforcementSupport": "Supported"
             },
             {
               "configurationStatus": "Configured",
-              "resourceId": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/resourcegroups/matanvs/providers/microsoft.compute/virtualmachines/matanvs19",
+              "resourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/matanvs/providers/microsoft.compute/virtualmachines/matanvs19",
               "recommendationAction": "Recommended",
               "enforcementSupport": "Supported"
             }
@@ -565,7 +606,7 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/providers/Microsoft.Security/locations/centralus/applicationWhitelistings/ERELGROUP1",
+        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/locations/centralus/applicationWhitelistings/ERELGROUP1",
         "name": "ERELGROUP1",
         "type": "Microsoft.Security/applicationWhitelistings",
         "location": "centralus",
@@ -579,11 +620,11 @@ examples:
           },
           "vmRecommendations": [
             {
-              "resourceId": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/resourcegroups/erelh-stable/providers/microsoft.compute/virtualmachines/erelh-16090",
+              "resourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/erelh-stable/providers/microsoft.compute/virtualmachines/erelh-16090",
               "recommendationAction": "Recommended"
             },
             {
-              "resourceId": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/resourcegroups/matanvs/providers/microsoft.compute/virtualmachines/matanvs19",
+              "resourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/matanvs/providers/microsoft.compute/virtualmachines/matanvs19",
               "recommendationAction": "Recommended"
             }
           ],

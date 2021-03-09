@@ -15,7 +15,7 @@ uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The Azure subscription Id.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
@@ -33,7 +33,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -50,7 +50,6 @@ requestBody:
   parameters:
   - name: properties.description
     in: body
-    isRequired: true
     description: the description of the metric alert that will be included in the alert email.
     types:
     - uid: string
@@ -68,6 +67,7 @@ requestBody:
     - uid: boolean
   - name: properties.scopes
     in: body
+    isRequired: true
     description: the list of resource id's that this metric alert is scoped to.
     types:
     - uid: string
@@ -86,12 +86,12 @@ requestBody:
     - uid: string
   - name: properties.targetResourceType
     in: body
-    description: the resource type of the target resource(s) on which the alert is created/updated. Mandatory for MultipleResourceMultipleMetricCriteria.
+    description: the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.
     types:
     - uid: string
   - name: properties.targetResourceRegion
     in: body
-    description: the region of the target resource(s) on which the alert is created/updated. Mandatory for MultipleResourceMultipleMetricCriteria.
+    description: the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.
     types:
     - uid: string
   - name: properties.criteria
@@ -140,7 +140,7 @@ definitions:
     types:
     - uid: string
   - name: webHookProperties
-    description: The properties of a webhook object.
+    description: This field allows specifying custom properties, which would be appended to the alert payload sent as input to the webhook.
     types:
     - uid: object
       isDictionary: true
@@ -177,11 +177,11 @@ definitions:
     types:
     - uid: string
   - name: properties.targetResourceType
-    description: the resource type of the target resource(s) on which the alert is created/updated. Mandatory for MultipleResourceMultipleMetricCriteria.
+    description: the resource type of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.
     types:
     - uid: string
   - name: properties.targetResourceRegion
-    description: the region of the target resource(s) on which the alert is created/updated. Mandatory for MultipleResourceMultipleMetricCriteria.
+    description: the region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource.
     types:
     - uid: string
   - name: properties.criteria
@@ -205,6 +205,11 @@ definitions:
     description: Last time the rule was updated in ISO8601 format.
     types:
     - uid: string
+  - name: properties.isMigrated
+    isReadyOnly: true
+    description: the value indicating whether this alert rule is migrated.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Azure resource Id
@@ -328,7 +333,7 @@ definitions:
   - name: timeAggregation
     description: the criteria time aggregation types.
     types:
-    - uid: AggregationType
+    - uid: AggregationTypeEnum
   - name: dimensions
     description: List of dimension conditions.
     types:
@@ -360,7 +365,7 @@ definitions:
   - name: LessThanOrEqual
     types:
     - uid: string
-- name: AggregationType
+- name: AggregationTypeEnum
   description: the criteria time aggregation types.
   kind: enum
   properties:
@@ -436,7 +441,7 @@ definitions:
   - name: timeAggregation
     description: the criteria time aggregation types.
     types:
-    - uid: AggregationType
+    - uid: AggregationTypeEnum
   - name: dimensions
     description: List of dimension conditions.
     types:
@@ -518,7 +523,7 @@ examples:
           "autoMitigate": false,
           "actions": [
             {
-              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
               "webHookProperties": {
                 "key11": "value11",
                 "key12": "value12"
@@ -563,7 +568,7 @@ examples:
           "autoMitigate": false,
           "actions": [
             {
-              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
               "webHookProperties": {
                 "key11": "value11",
                 "key12": "value12"
@@ -609,7 +614,7 @@ examples:
           "autoMitigate": false,
           "actions": [
             {
-              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
               "webHookProperties": {
                 "key11": "value11",
                 "key12": "value12"
@@ -658,7 +663,7 @@ examples:
           "autoMitigate": false,
           "actions": [
             {
-              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
               "webHookProperties": {
                 "key11": "value11",
                 "key12": "value12"
@@ -704,7 +709,7 @@ examples:
           "autoMitigate": false,
           "actions": [
             {
-              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
               "webHookProperties": {
                 "key11": "value11",
                 "key12": "value12"
@@ -753,7 +758,7 @@ examples:
           "autoMitigate": false,
           "actions": [
             {
-              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
               "webHookProperties": {
                 "key11": "value11",
                 "key12": "value12"
@@ -798,7 +803,7 @@ examples:
           "autoMitigate": false,
           "actions": [
             {
-              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
               "webHookProperties": {
                 "key11": "value11",
                 "key12": "value12"
@@ -846,7 +851,7 @@ examples:
           "autoMitigate": false,
           "actions": [
             {
-              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
               "webHookProperties": {
                 "key11": "value11",
                 "key12": "value12"
@@ -871,8 +876,6 @@ examples:
           ],
           "evaluationFrequency": "PT1M",
           "windowSize": "PT15M",
-          "targetResourceType": "Microsoft.Compute/virtualMachines",
-          "targetResourceRegion": "southcentralus",
           "criteria": {
             "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
             "allOf": [
@@ -896,7 +899,7 @@ examples:
           "autoMitigate": false,
           "actions": [
             {
-              "actionGroupId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "actionGroupId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
               "webHookProperties": {
                 "key11": "value11",
                 "key12": "value12"
@@ -949,7 +952,7 @@ examples:
           "autoMitigate": false,
           "actions": [
             {
-              "actionGroupId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "actionGroupId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
               "webHookProperties": {
                 "key11": "value11",
                 "key12": "value12"
@@ -999,7 +1002,7 @@ examples:
           "autoMitigate": false,
           "actions": [
             {
-              "actionGroupId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "actionGroupId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
               "webHookProperties": {
                 "key11": "value11",
                 "key12": "value12"
@@ -1052,7 +1055,7 @@ examples:
           "autoMitigate": false,
           "actions": [
             {
-              "actionGroupId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/gigtest/providers/microsoft.insights/notificationgroups/group2",
+              "actionGroupId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
               "webHookProperties": {
                 "key11": "value11",
                 "key12": "value12"
@@ -1119,6 +1122,127 @@ examples:
             "odata.type": "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria"
           },
           "actions": []
+        }
+      }
+- name: Create or update an alert rules with dimensions
+  request:
+    uri: PUT https://management.azure.com/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Insights/metricAlerts/MetricAlertOnMultipleDimensions?api-version=2018-03-01
+    body: >-
+      {
+        "location": "global",
+        "tags": {},
+        "properties": {
+          "description": "This is the description of the rule1",
+          "enabled": true,
+          "severity": 3,
+          "windowSize": "P1D",
+          "evaluationFrequency": "PT1H",
+          "scopes": [
+            "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.KeyVault/vaults/keyVaultResource"
+          ],
+          "criteria": {
+            "allOf": [
+              {
+                "metricName": "Availability",
+                "metricNamespace": "Microsoft.KeyVault/vaults",
+                "operator": "GreaterThan",
+                "timeAggregation": "Average",
+                "name": "Metric1",
+                "dimensions": [
+                  {
+                    "name": "ActivityName",
+                    "operator": "Include",
+                    "values": [
+                      "*"
+                    ]
+                  },
+                  {
+                    "name": "StatusCode",
+                    "operator": "Include",
+                    "values": [
+                      "200"
+                    ]
+                  }
+                ],
+                "criterionType": "StaticThresholdCriterion",
+                "threshold": 55
+              }
+            ],
+            "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria"
+          },
+          "actions": [
+            {
+              "actionGroupId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
+              "webHookProperties": {
+                "key11": "value11",
+                "key12": "value12"
+              }
+            }
+          ],
+          "autoMitigate": true
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/providers/microsoft.insights/metricalerts/MetricAlertWithDimensions",
+        "type": "Microsoft.Insights/metricAlerts",
+        "location": "global",
+        "tags": {
+          "hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/leoalerttest": "Resource"
+        },
+        "properties": {
+          "description": "This is the description of the rule1",
+          "severity": 3,
+          "enabled": true,
+          "scopes": [
+            "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.KeyVault/vaults/keyVaultResource"
+          ],
+          "evaluationFrequency": "PT1H",
+          "windowSize": "P1D",
+          "targetResourceType": "Microsoft.KeyVault/vaults",
+          "targetResourceRegion": "southcentralus",
+          "criteria": {
+            "odata.type": "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+            "allOf": [
+              {
+                "metricName": "Availability",
+                "metricNamespace": "Microsoft.KeyVault/vaults",
+                "operator": "GreaterThan",
+                "timeAggregation": "Average",
+                "name": "Metric1",
+                "dimensions": [
+                  {
+                    "name": "ActivityName",
+                    "operator": "Include",
+                    "values": [
+                      "*"
+                    ]
+                  },
+                  {
+                    "name": "StatusCode",
+                    "operator": "Include",
+                    "values": [
+                      "200"
+                    ]
+                  }
+                ],
+                "criterionType": "StaticThresholdCriterion",
+                "threshold": 55
+              }
+            ]
+          },
+          "autoMitigate": false,
+          "actions": [
+            {
+              "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2",
+              "webHookProperties": {
+                "key11": "value11",
+                "key12": "value12"
+              }
+            }
+          ]
         }
       }
 security:

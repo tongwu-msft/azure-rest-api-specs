@@ -1,7 +1,7 @@
 ---
 title: Indexer operations using Azure Cognitive Search REST APIs
 description: Learn REST API calls used to create, delete, or update an Azure Cognitive Search indexer used for crawling external data sources for searchable content.
-ms.date: 06/30/2020
+ms.date: 01/18/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -13,169 +13,58 @@ ms.manager: nitinme
 ---
 # Indexer operations (Azure Cognitive Search REST API)
 
- An **indexer** is a resource that crawls a data source and loads documents into a target search index. Key scenarios for indexers can be described as follows:  
+ An **indexer** is a resource that crawls an Azure data source and loads search documents into a target search index. Indexers read from an external source using connection information you provide in a **data source**, and serialize the incoming data into JSON search documents. In addition to a **data source**, an indexer also requires an index. The index specifies the fields and attributes of the search documents.
 
--   Perform a one-time copy of the data to populate an index.  
+Indexers can run on demand or on a schedule, and depending on the data source, can honor the native change detection functionality of the underlying data source so that data refresh picks up just the changed data. 
 
--   Sync an index with incremental changes from the data source on a recurring schedule. The schedule is part of the indexer definition.  
-
--   Invoke an indexer on-demand to update an index as needed.  
-
- All of the above scenarios are achieved through the [Run Indexer &#40;Azure Cognitive Search REST API&#41;](run-indexer.md), which you can run as a standalone operation or scheduled using the built-in scheduler, to load data from supported data sources.  
-
-## Supportability
-
- A **data source** specifies what data needs to be indexed, credentials to access the data, and policies to enable Azure Cognitive Search to efficiently identify changes in the data (such as modified or deleted rows in a database table). It's defined as an independent resource so that it can be used by multiple indexers.  
-
- The following data sources are currently supported:  
-
- - **Azure SQL Database** and **SQL Server on Azure VMs**. For a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers/).
- - **Azure Cosmos DB SQL API**. For a targeted walk-through, see [this article](https://docs.microsoft.com/azure/search/search-howto-index-documentdb).
- - **Azure Blob Storage**, including the following document formats: PDF, Microsoft Office (DOCX/DOC, XSLX/XLS, PPTX/PPT, MSG), HTML, XML, ZIP, and plain text files (including JSON). For  a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-blob-storage).
- - **Azure Table Storage**. For a targeted walk-through, see [this article](https://azure.microsoft.com/documentation/articles/search-howto-indexing-azure-tables).
-
- We're considering adding support for additional data sources in the future. To help us prioritize these decisions, please provide your feedback on the [Azure Cognitive Search feedback forum](https://feedback.azure.com/forums/263029-azure-search).  
-
- See [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for maximum limits related to **indexer** and **data source** resources.  
+Depending on the service tier, a search service has a maximum limit on the number of indexers and data sources that you can create. For more information, see [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).  
 
 ## Typical workflow  
 
-Using an indexer is efficient, [removing the need to write code to index your data](https://azure.microsoft.com/blog/load-data-into-azure-search-with-zero-code-required/). To set up this up, you can call the search service REST API to create and manage **indexers** and **data sources**. You can create and manage **indexers** and **data sources** via simple HTTP requests (POST, GET, PUT, DELETE) against a given data source or indexer resource.  
+Using an indexer is efficient, [removing the need to write code to index your data](https://azure.microsoft.com/blog/load-data-into-azure-search-with-zero-code-required/). You can create and manage indexers and data sources via simple HTTP requests (POST, GET, PUT, DELETE) against a given data source or indexer resource.  
 
  Setting up automatic indexing is typically a four step process:  
 
-1.  Identify the data source that contains the data that needs to be indexed. Keep in mind that Azure Cognitive Search may not support all of the data types present in your data source. See [Supported data types &#40;Azure Cognitive Search&#41;](supported-data-types.md) for the list.  
+1. Identify the data source that contains the data that needs to be indexed. Indexers only work with certain Azure data platforms. For more information, see [Supported data source](https://docs.microsoft.com/azure/search/search-indexer-overview#supported-data-sources).  
 
-2.  Create an Azure Cognitive Search index whose schema is compatible with your data source.  
+1. Create search index whose schema is compatible with your data source.  
 
-3.  Create an Azure Cognitive Search **data source** as described in [Create Data Source &#40;Azure Cognitive Search REST API&#41;](create-data-source.md).  
+1. Create a data source to provide connection information.  
 
-4.  Create an Azure Cognitive Search **indexer** as described in [Create Indexer &#40;Azure Cognitive Search REST API&#41;](create-indexer.md).  
+1. Create an indexer to specify the data source, index, and other properties and parameters used during indexing.  
 
  You should plan on creating one indexer for every target index and data source combination. You can have multiple indexers writing into the same index, and you can reuse the same data source for multiple indexers. However, an indexer can only consume one data source at a time, and can only write to a single index. As the following graphic illustrates, one data source provides input to one indexer, which then populates a single index:  
 
  ![Data Source, Indexer, Index chain in Azure Cognitive Search](media/azsrch-ds-indxr-index.png "Azsrch-ds-indxr-index")  
 
- Although you can only use one at a time, resources can be used in different combinations. The main takeaway of the next illustration is to notice is that a data source can be paired with more than one indexer, and multiple indexers can write to same index.  
+ Although you can only use one indexer at a time, resources can be used in different combinations. The main takeaway of the next illustration is to notice is that a data source can be paired with more than one indexer, and multiple indexers can write to same index.  
 
  ![Resource combinations used in indexers](media/azsrch-ds2-indexer3-index2.png "AzSrch-DS2-Indexer3-Index2")  
 
- After creating an indexer, you can retrieve its execution status using the [Get Indexer Status &#40;Azure Cognitive Search REST API&#41;](get-indexer-status.md) operation. You can also run an indexer at any time (instead of or in addition to running it periodically on a schedule) using the [Run Indexer &#40;Azure Cognitive Search REST API&#41;](run-indexer.md) operation.  
+ After creating an indexer, you can retrieve its execution status using the [Get Indexer Status](get-indexer-status.md) operation.  
 
 ## Operations on indexers  
- The REST API for **indexers** and **data sources** includes the operations shown in the following table.  
 
- [Create Data Source](create-data-source.md)  
+An admin API key is required for viewing system information. Indexers require an index and a data source. Because data sources are used solely by indexers, data source and indexer operations are listed together.
 
-```http   
-POST https://[service name].search.windows.net/datasources?api-version=[api-version]  
-    Content-Type: application/json  
-    api-key: [admin key]  
-```  
++ [Create Data Source](create-data-source.md)  
++ [Update Data Source](update-data-source.md)  
++ [List Data Sources](list-data-sources.md)  
++ [Get Data Source](get-data-source.md)  
++ [Delete Data Source](delete-data-source.md)  
++ [Create Indexer](create-indexer.md)  
++ [Update Indexer](update-indexer.md)  
++ [List Indexers](list-indexers.md)  
++ [Get Indexer](get-indexer.md)  
++ [Delete Indexer](delete-indexer.md)  
++ [Run Indexer](run-indexer.md)  
++ [Get Indexer Status](get-indexer-status.md)  
++ [Reset Indexer](reset-indexer.md)  
 
-```http   
-PUT https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
-```  
-
- [Update Data Source](update-data-source.md)  
-
-```http   
-PUT https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
-    Content-Type: application/json  
-    api-key: [admin key]  
-```  
-
- [List Data Sources](list-data-sources.md)  
-
-```http   
-GET https://[service name].search.windows.net/datasources?api-version=[api-version]  
-    api-key: [admin key]  
-```  
-
- [Get Data Source](get-data-source.md)  
-
-```http   
-GET https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
-    api-key: [admin key]  
-```  
-
- [Delete Data Source](delete-data-source.md)  
-
-```http   
-DELETE https://[service name].search.windows.net/datasources/[datasource name]?api-version=[api-version]  
-    api-key: [admin key]  
-```  
-
- [Create Indexer](create-indexer.md)  
-
-```http   
-POST https://[service name].search.windows.net/indexers?api-version=[api-version]  
-    Content-Type: application/json  
-    api-key: [admin key]  
-```  
-
-```http   
-PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
-```  
-
- [Update Indexer](update-indexer.md)  
-
-```http   
-PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
-    Content-Type: application/json  
-    api-key: [admin key]  
-```  
-
- [List Indexers](list-indexers.md)  
-
-```http   
-GET https://[service name].search.windows.net/indexers?api-version=[api-version]  
-    api-key: [admin key  
-```  
-
- [Get Indexer](get-indexer.md)  
-
-```http   
-GET https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
-    api-key: [admin key]  
-```  
-
- [Delete Indexer](delete-indexer.md)  
-
-```http   
-DELETE https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
-    api-key: [admin key]  
-```  
-
- [Run Indexer](run-indexer.md)  
-
-```http   
-POST https://[service name].search.windows.net/indexers/[indexer name]/run?api-version=[api-version]  
-    api-key: [admin key]  
-```  
-
- [Get Indexer Status](get-indexer-status.md)  
-
-```http   
-GET https://[service name].search.windows.net/indexers/[indexer name]/status?api-version=[api-version]  
-    api-key: [admin key]  
-```  
-
- [Reset Indexer](reset-indexer.md)  
-
-```http   
-POST https://[service name].search.windows.net/indexers/[indexer name]/reset?api-version=[api-version]  
-    api-key: [admin key]  
-```  
-
- [Create Skillset](create-skillset.md)  
-
-```http  
-PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=[api-version]  
-api-key: [admin key]
-Content-Type: application/json
-```  
-
-## See also  
- [Azure Cognitive Search REST APIs](index.md)   
- [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)  
+## See also
+ 
++ [Get started with Azure Cognitive Search REST APIs](https://docs.microsoft.com/azure/search/search-get-started-rest)
++ [Create and manage API keys](https://docs.microsoft.com/azure/search/search-security-api-keys)
++ [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity)  
++ [Indexers in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-indexer-overview)
++ [Tutorial: Index Azure JSON blobs](https://docs.microsoft.com/azure/search/search-semi-structured-data)

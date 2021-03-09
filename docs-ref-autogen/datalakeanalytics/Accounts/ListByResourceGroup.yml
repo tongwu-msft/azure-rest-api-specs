@@ -69,6 +69,10 @@ responses:
   description: Successfully retrieved the list of accounts in the specified resource group.
   types:
   - uid: DataLakeAnalyticsAccountListResult
+- name: Other Status Codes
+  description: ''
+  types:
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: DataLakeAnalyticsAccountListResult
@@ -86,6 +90,14 @@ definitions:
     description: The link (url) to the next page of results.
     types:
     - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
 - name: DataLakeAnalyticsAccountBasic
   description: A Data Lake Analytics account object, containing all information associated with the named Data Lake Analytics account.
   kind: object
@@ -122,7 +134,7 @@ definitions:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: The resource identifer.
+    description: The resource identifier.
     types:
     - uid: string
   - name: name
@@ -149,6 +161,37 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: DataLakeAnalyticsAccountStatus
   description: The provisioning status of the Data Lake Analytics account.
   kind: enum
@@ -196,6 +239,20 @@ definitions:
   - name: Suspended
     types:
     - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: Gets the first page of Data Lake Analytics accounts, if any, within a specific resource group. This includes a link to the next page, if any.
   request:
@@ -209,10 +266,6 @@ examples:
             "id": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
             "name": "test_account",
             "type": "test_type",
-            "location": "eastus2",
-            "tags": {
-              "test_key": "test_value"
-            },
             "properties": {
               "provisioningState": "Succeeded",
               "state": "Active",

@@ -22,12 +22,12 @@ Azure Spring Cloud REST API provides operations for working with the following r
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Create Or Update](xref:management.azure.com.azurespringclould.apps.createorupdate) | Create a new App or update an existing App |
-| [Delete](xref:management.azure.com.azurespringclould.apps.delete) | Operation to delete an App. |
-| [Get](xref:management.azure.com.azurespringclould.apps.get) | Get an App and its properties. |
-| [Get Resource Upload Url](xref:management.azure.com.azurespringclould.apps.getresourceuploadurl)  | Get an resource upload URL for an App, which may be artifacts or source archive. |
-| [List](xref:management.azure.com.azurespringclould.apps.list) | Handles requests to list all resources in a Service |
-| [Update](xref:management.azure.com.azurespringclould.apps.update)| Operation to update an exiting App. |
+| [Create Or Update](../../docs-ref-autogen/azurespringcloud/Apps/CreateOrUpdate.yml) | Create a new App or update an existing App |
+| [Delete](../../docs-ref-autogen/azurespringcloud/Apps/Delete.yml) | Operation to delete an App. |
+| [Get](../../docs-ref-autogen/azurespringcloud/Apps/Get.yml) | Get an App and its properties. |
+| [Get Resource Upload Url](../../docs-ref-autogen/azurespringcloud/Apps/GetResourceUploadUrl.yml)  | Get an resource upload URL for an App, which may be artifacts or source archive. |
+| [List](../../docs-ref-autogen/azurespringcloud/Apps/List.yml) | Handles requests to list all resources in a Service |
+| [Update](../../docs-ref-autogen/azurespringcloud/Apps/Update.yml)| Operation to update an exiting App. |
 
 
 ## Next steps

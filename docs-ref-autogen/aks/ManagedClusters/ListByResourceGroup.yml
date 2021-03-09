@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.listbyresourcegroup
 name: List By Resource Group
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2020-09-01
+apiVersion: 2020-11-01
 summary: "Lists managed clusters in the specified subscription and resource group.  \nLists managed clusters in the specified subscription and resource group. The operation returns properties of each managed cluster."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters?api-version=2020-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters?api-version=2020-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -160,6 +160,10 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: ManagedClusterAddonProfile
+  - name: properties.podIdentityProfile
+    description: Profile of managed cluster pod identity.
+    types:
+    - uid: ManagedClusterPodIdentityProfile
   - name: properties.nodeResourceGroup
     description: Name of the resource group containing agent pool nodes.
     types:
@@ -180,6 +184,10 @@ definitions:
     description: Profile of Azure Active Directory configuration.
     types:
     - uid: ManagedClusterAADProfile
+  - name: properties.autoUpgradeProfile
+    description: Profile of auto upgrade configuration.
+    types:
+    - uid: ManagedClusterAutoUpgradeProfile
   - name: properties.autoScalerProfile
     description: Parameters to be applied to the cluster-autoscaler when enabled
     types:
@@ -279,7 +287,11 @@ definitions:
     types:
     - uid: OSDiskType
   - name: vnetSubnetID
-    description: VNet SubnetID specifies the VNet's subnet identifier.
+    description: VNet SubnetID specifies the VNet's subnet identifier for nodes and maybe pods
+    types:
+    - uid: string
+  - name: podSubnetID
+    description: Pod SubnetID specifies the VNet's subnet identifier for pods.
     types:
     - uid: string
   - name: maxPods
@@ -379,6 +391,14 @@ definitions:
     description: The ID for Proximity Placement Group.
     types:
     - uid: string
+  - name: kubeletConfig
+    description: KubeletConfig specifies the configuration of kubelet on agent nodes.
+    types:
+    - uid: KubeletConfig
+  - name: linuxOSConfig
+    description: LinuxOSConfig specifies the OS configuration of linux agent nodes.
+    types:
+    - uid: LinuxOSConfig
   - name: name
     description: Unique name of the agent pool profile in the context of the subscription and resource group.
     types:
@@ -444,6 +464,23 @@ definitions:
     description: Information of user assigned identity used by this add-on.
     types:
     - uid: Identity
+- name: ManagedClusterPodIdentityProfile
+  kind: object
+  properties:
+  - name: enabled
+    description: Whether the pod identity addon is enabled.
+    types:
+    - uid: boolean
+  - name: userAssignedIdentities
+    description: User assigned pod identity settings.
+    types:
+    - uid: ManagedClusterPodIdentity
+      isArray: true
+  - name: userAssignedIdentityExceptions
+    description: User assigned pod identity exception settings.
+    types:
+    - uid: ManagedClusterPodIdentityException
+      isArray: true
 - name: ContainerServiceNetworkProfile
   description: Profile of network configuration.
   kind: object
@@ -521,6 +558,14 @@ definitions:
     description: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment subscription.
     types:
     - uid: string
+- name: ManagedClusterAutoUpgradeProfile
+  description: Auto upgrade profile for a managed cluster.
+  kind: object
+  properties:
+  - name: upgradeChannel
+    description: upgrade channel for auto upgrade.
+    types:
+    - uid: upgradeChannel
 - name: AutoScalerProfile
   description: Parameters to be applied to the cluster-autoscaler when enabled
   kind: object
@@ -602,6 +647,10 @@ definitions:
     description: Whether to create the cluster as a private cluster or not.
     types:
     - uid: boolean
+  - name: privateDNSZone
+    description: 'Private dns zone mode for private cluster. '
+    types:
+    - uid: string
 - name: ManagedClusterSKUName
   description: Name of a managed cluster SKU.
   kind: enum
@@ -1244,6 +1293,63 @@ definitions:
   - name: Deallocate
     types:
     - uid: string
+- name: KubeletConfig
+  description: Kubelet configurations of agent nodes.
+  kind: object
+  properties:
+  - name: cpuManagerPolicy
+    description: CPU Manager policy to use.
+    types:
+    - uid: string
+  - name: cpuCfsQuota
+    description: Enable CPU CFS quota enforcement for containers that specify CPU limits.
+    types:
+    - uid: boolean
+  - name: cpuCfsQuotaPeriod
+    description: Sets CPU CFS quota period value.
+    types:
+    - uid: string
+  - name: imageGcHighThreshold
+    description: The percent of disk usage after which image garbage collection is always run.
+    types:
+    - uid: integer
+  - name: imageGcLowThreshold
+    description: The percent of disk usage before which image garbage collection is never run.
+    types:
+    - uid: integer
+  - name: topologyManagerPolicy
+    description: Topology Manager policy to use.
+    types:
+    - uid: string
+  - name: allowedUnsafeSysctls
+    description: Allowlist of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
+    types:
+    - uid: string
+      isArray: true
+  - name: failSwapOn
+    description: If set to true it will make the Kubelet fail to start if swap is enabled on the node.
+    types:
+    - uid: boolean
+- name: LinuxOSConfig
+  description: OS configurations of Linux agent nodes.
+  kind: object
+  properties:
+  - name: sysctls
+    description: Sysctl settings for Linux agent nodes.
+    types:
+    - uid: SysctlConfig
+  - name: transparentHugePageEnabled
+    description: Transparent Huge Page enabled configuration.
+    types:
+    - uid: string
+  - name: transparentHugePageDefrag
+    description: Transparent Huge Page defrag configuration.
+    types:
+    - uid: string
+  - name: swapFileSizeMB
+    description: SwapFileSizeMB specifies size in MB of a swap file will be created on each node.
+    types:
+    - uid: integer
 - name: ContainerServiceSshConfiguration
   description: SSH configuration for Linux-based VMs running on Azure.
   kind: object
@@ -1279,6 +1385,50 @@ definitions:
     description: The object id of the user assigned identity.
     types:
     - uid: string
+- name: ManagedClusterPodIdentity
+  kind: object
+  properties:
+  - name: name
+    description: Name of the pod identity.
+    types:
+    - uid: string
+  - name: namespace
+    description: Namespace of the pod identity.
+    types:
+    - uid: string
+  - name: identity
+    description: Information of the user assigned identity.
+    types:
+    - uid: UserAssignedIdentity
+  - name: provisioningState
+    isReadyOnly: true
+    description: The current provisioning state of the pod identity.
+    types:
+    - uid: ManagedClusterPodIdentityProvisioningState
+  - name: provisioningInfo
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: ProvisioningInfo
+- name: ManagedClusterPodIdentityException
+  kind: object
+  properties:
+  - name: name
+    description: Name of the pod identity exception.
+    types:
+    - uid: string
+  - name: namespace
+    description: Namespace of the pod identity exception.
+    types:
+    - uid: string
+  - name: podLabels
+    description: Pod labels to match.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: NetworkPlugin
   description: Network plugin used for building Kubernetes network.
   kind: enum
@@ -1358,6 +1508,22 @@ definitions:
     description: Desired outbound flow idle timeout in minutes. Allowed values must be in the range of 4 to 120 (inclusive). The default value is 30 minutes.
     types:
     - uid: integer
+- name: upgradeChannel
+  description: upgrade channel for auto upgrade.
+  kind: enum
+  properties:
+  - name: rapid
+    types:
+    - uid: string
+  - name: stable
+    types:
+    - uid: string
+  - name: patch
+    types:
+    - uid: string
+  - name: none
+    types:
+    - uid: string
 - name: expander
   kind: enum
   properties:
@@ -1370,6 +1536,122 @@ definitions:
   - name: random
     types:
     - uid: string
+- name: SysctlConfig
+  description: Sysctl settings for Linux agent nodes.
+  kind: object
+  properties:
+  - name: netCoreSomaxconn
+    description: Sysctl setting net.core.somaxconn.
+    types:
+    - uid: integer
+  - name: netCoreNetdevMaxBacklog
+    description: Sysctl setting net.core.netdev_max_backlog.
+    types:
+    - uid: integer
+  - name: netCoreRmemMax
+    description: Sysctl setting net.core.rmem_max.
+    types:
+    - uid: integer
+  - name: netCoreWmemMax
+    description: Sysctl setting net.core.wmem_max.
+    types:
+    - uid: integer
+  - name: netCoreOptmemMax
+    description: Sysctl setting net.core.optmem_max.
+    types:
+    - uid: integer
+  - name: netIpv4TcpMaxSynBacklog
+    description: Sysctl setting net.ipv4.tcp_max_syn_backlog.
+    types:
+    - uid: integer
+  - name: netIpv4TcpMaxTwBuckets
+    description: Sysctl setting net.ipv4.tcp_max_tw_buckets.
+    types:
+    - uid: integer
+  - name: netIpv4TcpFinTimeout
+    description: Sysctl setting net.ipv4.tcp_fin_timeout.
+    types:
+    - uid: integer
+  - name: netIpv4TcpKeepaliveTime
+    description: Sysctl setting net.ipv4.tcp_keepalive_time.
+    types:
+    - uid: integer
+  - name: netIpv4TcpKeepaliveProbes
+    description: Sysctl setting net.ipv4.tcp_keepalive_probes.
+    types:
+    - uid: integer
+  - name: netIpv4TcpkeepaliveIntvl
+    description: Sysctl setting net.ipv4.tcp_keepalive_intvl.
+    types:
+    - uid: integer
+  - name: netIpv4TcpRmem
+    description: Sysctl setting net.ipv4.tcp_rmem.
+    types:
+    - uid: integer
+  - name: netIpv4TcpWmem
+    description: Sysctl setting net.ipv4.tcp_wmem.
+    types:
+    - uid: integer
+  - name: netIpv4TcpTwReuse
+    description: Sysctl setting net.ipv4.tcp_tw_reuse.
+    types:
+    - uid: boolean
+  - name: netIpv4IpLocalPortRange
+    description: Sysctl setting net.ipv4.ip_local_port_range.
+    types:
+    - uid: string
+  - name: netIpv4NeighDefaultGcThresh1
+    description: Sysctl setting net.ipv4.neigh.default.gc_thresh1.
+    types:
+    - uid: integer
+  - name: netIpv4NeighDefaultGcThresh2
+    description: Sysctl setting net.ipv4.neigh.default.gc_thresh2.
+    types:
+    - uid: integer
+  - name: netIpv4NeighDefaultGcThresh3
+    description: Sysctl setting net.ipv4.neigh.default.gc_thresh3.
+    types:
+    - uid: integer
+  - name: netNetfilterNfConntrackMax
+    description: Sysctl setting net.netfilter.nf_conntrack_max.
+    types:
+    - uid: integer
+  - name: netNetfilterNfConntrackBuckets
+    description: Sysctl setting net.netfilter.nf_conntrack_buckets.
+    types:
+    - uid: integer
+  - name: fsInotifyMaxUserWatches
+    description: Sysctl setting fs.inotify.max_user_watches.
+    types:
+    - uid: integer
+  - name: fsFileMax
+    description: Sysctl setting fs.file-max.
+    types:
+    - uid: integer
+  - name: fsAioMaxNr
+    description: Sysctl setting fs.aio-max-nr.
+    types:
+    - uid: integer
+  - name: fsNrOpen
+    description: Sysctl setting fs.nr_open.
+    types:
+    - uid: integer
+  - name: kernelThreadsMax
+    description: Sysctl setting kernel.threads-max.
+    types:
+    - uid: integer
+  - name: vmMaxMapCount
+    description: Sysctl setting vm.max_map_count.
+    types:
+    - uid: integer
+  - name: vmSwappiness
+    description: Sysctl setting vm.swappiness.
+    types:
+    - uid: integer
+  - name: vmVfsCachePressure
+    description: Sysctl setting vm.vfs_cache_pressure.
+    types:
+    - uid: integer
 - name: ContainerServiceSshPublicKey
   description: Contains information about SSH certificate public key data.
   kind: object
@@ -1378,6 +1660,44 @@ definitions:
     description: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or without headers.
     types:
     - uid: string
+- name: UserAssignedIdentity
+  kind: object
+  properties:
+  - name: resourceId
+    description: The resource id of the user assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    description: The client id of the user assigned identity.
+    types:
+    - uid: string
+  - name: objectId
+    description: The object id of the user assigned identity.
+    types:
+    - uid: string
+- name: ManagedClusterPodIdentityProvisioningState
+  description: The current provisioning state of the pod identity.
+  kind: enum
+  properties:
+  - name: Assigned
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: ProvisioningInfo
+  kind: object
+  properties:
+  - name: error
+    description: Pod identity assignment error (if any).
+    types:
+    - uid: CloudError
 - name: ManagedOutboundIPs
   description: Desired managed outbound IPs for the cluster load balancer.
   kind: object
@@ -1415,7 +1735,7 @@ definitions:
 examples:
 - name: Get Managed Clusters by Resource Group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters?api-version=2020-09-01
+    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters?api-version=2020-11-01
   responses:
   - statusCode: "200"
     body: >-

@@ -1,6 +1,6 @@
 ---
-title: Operations on append blobs (REST API) - Azure Storage
-description: Operations on append blobs.
+title: Operations on block blobs (REST API) - Azure Storage
+description: Operations on block blobs.
 author: pemari-msft
 
 ms.date: 09/30/2019

@@ -10,12 +10,12 @@ consumes:
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/microsoft.insights/alertrules/{ruleName}?api-version=2016-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/alertrules/{ruleName}?api-version=2016-03-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The Azure subscription Id.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
@@ -33,7 +33,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -63,6 +63,11 @@ requestBody:
     description: the description of the alert rule that will be included in the alert email.
     types:
     - uid: string
+  - name: properties.provisioningState
+    in: body
+    description: the provisioning state.
+    types:
+    - uid: string
   - name: properties.isEnabled
     in: body
     isRequired: true
@@ -78,6 +83,13 @@ requestBody:
     - uid: LocationThresholdRuleCondition
     - uid: ManagementEventRuleCondition
     typesTitle: RuleCondition
+  - name: properties.action
+    in: body
+    description: action that is performed when the alert rule becomes active, and when an alert condition is resolved.
+    types:
+    - uid: RuleEmailAction
+    - uid: RuleWebhookAction
+    typesTitle: RuleAction
   - name: properties.actions
     in: body
     description: the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.
@@ -128,6 +140,10 @@ definitions:
     description: the description of the alert rule that will be included in the alert email.
     types:
     - uid: string
+  - name: properties.provisioningState
+    description: the provisioning state.
+    types:
+    - uid: string
   - name: properties.isEnabled
     description: the flag that indicates whether the alert rule is enabled.
     types:
@@ -139,6 +155,12 @@ definitions:
     - uid: LocationThresholdRuleCondition
     - uid: ManagementEventRuleCondition
     typesTitle: RuleCondition
+  - name: properties.action
+    description: action that is performed when the alert rule becomes active, and when an alert condition is resolved.
+    types:
+    - uid: RuleEmailAction
+    - uid: RuleWebhookAction
+    typesTitle: RuleAction
   - name: properties.actions
     description: the array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved.
     types:
@@ -359,6 +381,18 @@ definitions:
     description: 'the resource identifier of the resource the rule monitors. **NOTE**: this property cannot be updated for an existing rule.'
     types:
     - uid: string
+  - name: legacyResourceId
+    description: 'the legacy resource identifier of the resource the rule monitors. **NOTE**: this property cannot be updated for an existing rule.'
+    types:
+    - uid: string
+  - name: resourceLocation
+    description: the location of the resource.
+    types:
+    - uid: string
+  - name: metricNamespace
+    description: the namespace of the metric.
+    types:
+    - uid: string
 - name: RuleManagementEventDataSource
   description: A rule management event data source. The discriminator fields is always RuleManagementEventDataSource in this case.
   kind: object
@@ -408,6 +442,18 @@ definitions:
     description: 'the resource identifier of the resource the rule monitors. **NOTE**: this property cannot be updated for an existing rule.'
     types:
     - uid: string
+  - name: legacyResourceId
+    description: 'the legacy resource identifier of the resource the rule monitors. **NOTE**: this property cannot be updated for an existing rule.'
+    types:
+    - uid: string
+  - name: resourceLocation
+    description: the location of the resource.
+    types:
+    - uid: string
+  - name: metricNamespace
+    description: the namespace of the metric.
+    types:
+    - uid: string
 - name: RuleManagementEventClaimsDataSource
   description: The claims for a rule management event data source.
   kind: object
@@ -419,7 +465,7 @@ definitions:
 examples:
 - name: Create or update an alert rule
   request:
-    uri: PUT https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/Rac46PostSwapRG/providers/microsoft.insights/alertrules/chiricutin?api-version=2016-03-01
+    uri: PUT https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/Rac46PostSwapRG/providers/Microsoft.Insights/alertrules/chiricutin?api-version=2016-03-01
     body: >-
       {
         "location": "West US",

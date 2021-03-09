@@ -1,6 +1,6 @@
 ---
 title: "ApplicationInfo"
-ms.date: "10/21/2020"
+ms.date: "01/28/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -41,6 +41,7 @@ Information about a Service Fabric application.
 | [`Parameters`](#parameters) | array of [ApplicationParameter](sfclient-model-applicationparameter.md) | No |
 | [`HealthState`](#healthstate) | string (enum) | No |
 | [`ApplicationDefinitionKind`](#applicationdefinitionkind) | string (enum) | No |
+| [`ManagedApplicationIdentity`](#managedapplicationidentity) | [ManagedApplicationIdentityDescription](sfclient-model-managedapplicationidentitydescription.md) | No |
 
 ____
 ### `Id`
@@ -137,3 +138,10 @@ Possible values are:
   - `Compose` - Indicates the application is defined by compose file(s). The value is 1.
 
 
+
+____
+### `ManagedApplicationIdentity`
+__Type__: [ManagedApplicationIdentityDescription](sfclient-model-managedapplicationidentitydescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Managed application identity description.

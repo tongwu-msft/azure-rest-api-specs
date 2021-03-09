@@ -3,25 +3,25 @@ uid: management.azure.com.reserved-vm-instances.quotarequeststatus.get
 name: Get
 service: Reserved VM Instances
 groupName: Quota Request Status
-apiVersion: 2019-07-19-preview
-summary: Gets the QuotaRequest details and status by the quota request Id for the resources for the resource provider at a specific location. The requestId is returned as response to the Put requests for serviceLimits.
+apiVersion: 2020-10-25
+summary: For the specified Azure region (location), get the details and status of the quota request by the quota request ID for the resources of the resource provider. The PUT request for the quota (service limit) returns a response with the requestId parameter.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimitsRequests/{id}?api-version=2019-07-19-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimitsRequests/{id}?api-version=2020-10-25
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Azure subscription id.
+  description: Azure subscription ID.
   types:
   - uid: string
 - name: providerId
   in: path
   isRequired: true
-  description: Azure resource provider id.
+  description: Azure resource provider ID.
   types:
   - uid: string
 - name: location
@@ -33,7 +33,7 @@ uriParameters:
 - name: id
   in: path
   isRequired: true
-  description: Quota Request id.
+  description: Quota Request ID.
   types:
   - uid: string
 - name: api-version
@@ -44,32 +44,32 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Ok. Returning the status for the quota request .
+  description: Ok. Returns the status of the quota request.
   types:
   - uid: QuotaRequestDetails
 - name: Other Status Codes
-  description: Error response describing why the operation failed.
+  description: Error description in the response.
   types:
   - uid: ExceptionResponse
 requestHeader: []
 definitions:
 - name: QuotaRequestDetails
-  description: The details of the quota Request.
+  description: Quota request details.
   kind: object
   properties:
   - name: id
     isReadyOnly: true
-    description: The quota request Id.
+    description: Quota request ID.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: The name of the quota request.
+    description: Quota request name.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Type of resource. "Microsoft.Capacity/ServiceLimits"
+    description: Resource type
     types:
     - uid: string
   - name: properties.provisioningState
@@ -83,7 +83,7 @@ definitions:
     - uid: string
   - name: properties.requestSubmitTime
     isReadyOnly: true
-    description: 'The quota request submit time. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.'
+    description: 'The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.'
     types:
     - uid: string
   - name: properties.value
@@ -92,11 +92,11 @@ definitions:
     - uid: SubRequest
       isArray: true
 - name: ExceptionResponse
-  description: The api error.
+  description: The API error.
   kind: object
   properties:
   - name: error
-    description: The api error details.
+    description: The API error details.
     types:
     - uid: ServiceError
 - name: QuotaRequestState
@@ -124,11 +124,11 @@ definitions:
   properties:
   - name: limit
     isReadyOnly: true
-    description: The Resource limit.
+    description: Quota (resource limit).
     types:
     - uid: integer
   - name: name
-    description: The Resource name.
+    description: The resource name.
     types:
     - uid: ResourceName
   - name: resourceType
@@ -137,7 +137,7 @@ definitions:
     types:
     - uid: string
   - name: unit
-    description: " The units of the limit, such as - Count, Bytes, etc. Use the unit field provided in the Get quota response."
+    description: " The limit units, such as **count** and **bytes**. Use the unit field provided in the response of the GET quota operation."
     types:
     - uid: string
   - name: provisioningState
@@ -146,16 +146,16 @@ definitions:
     - uid: QuotaRequestState
   - name: message
     isReadyOnly: true
-    description: User friendly status message.
+    description: User-friendly status message.
     types:
     - uid: string
   - name: subRequestId
     isReadyOnly: true
-    description: Sub request id for individual request.
+    description: Sub request ID for individual request.
     types:
     - uid: string
 - name: ServiceError
-  description: The api error details.
+  description: The API error details.
   kind: object
   properties:
   - name: code
@@ -163,7 +163,7 @@ definitions:
     types:
     - uid: string
   - name: message
-    description: The error message.
+    description: The error message text.
     types:
     - uid: string
   - name: details
@@ -173,7 +173,7 @@ definitions:
     - uid: ServiceErrorDetail
       isArray: true
 - name: ResourceName
-  description: Name of the resource provide by the resource Provider. Please use this name property for quotaRequests.
+  description: Resource name provided by the resource provider. Use this property for quotaRequest parameter.
   kind: object
   properties:
   - name: value
@@ -182,7 +182,7 @@ definitions:
     - uid: string
   - name: localizedValue
     isReadyOnly: true
-    description: Resource display name.
+    description: Resource display localized name.
     types:
     - uid: string
 - name: ServiceErrorDetail
@@ -202,7 +202,7 @@ definitions:
 examples:
 - name: QuotaRequestStatus
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimitsRequests/2B5C8515-37D8-4B6A-879B-CD641A2CF605?api-version=2019-07-19-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimitsRequests/2B5C8515-37D8-4B6A-879B-CD641A2CF605?api-version=2020-10-25
   responses:
   - statusCode: "200"
     body: >-
@@ -239,7 +239,7 @@ examples:
       }
 - name: QuotaRequestInProgress
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimitsRequests/2B5C8515-37D8-4B6A-879B-CD641A2CF605?api-version=2019-07-19-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimitsRequests/2B5C8515-37D8-4B6A-879B-CD641A2CF605?api-version=2020-10-25
   responses:
   - statusCode: "200"
     body: >-
@@ -252,16 +252,6 @@ examples:
           "message": "Request processing",
           "provisioningState": "InProgress",
           "value": [
-            {
-              "limit": 200,
-              "subRequestId": "AD07450A-DE86-4FD3-859B-107BEF218C4C",
-              "name": {
-                "value": "standardHCSFamily",
-                "localizedValue": "Standard HCS Family vCPUs"
-              },
-              "message": "Request completed",
-              "provisioningState": "Succeeded"
-            },
             {
               "limit": 50,
               "subRequestId": "AD07450A-DE86-4FD3-859B-107BEF218C4C",
@@ -277,7 +267,7 @@ examples:
       }
 - name: QuotaRequestFailed
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimitsRequests/2B5C8515-37D8-4B6A-879B-CD641A2CF605?api-version=2019-07-19-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimitsRequests/2B5C8515-37D8-4B6A-879B-CD641A2CF605?api-version=2020-10-25
   responses:
   - statusCode: "200"
     body: >-

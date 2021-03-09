@@ -15,7 +15,7 @@ uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The Azure subscription Id.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
@@ -33,7 +33,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -55,6 +55,11 @@ requestBody:
   - name: properties.description
     in: body
     description: The description of the scheduled query rule.
+    types:
+    - uid: string
+  - name: properties.displayName
+    in: body
+    description: The display name of the alert rule
     types:
     - uid: string
   - name: properties.severity
@@ -86,6 +91,11 @@ requestBody:
     in: body
     isRequired: true
     description: The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size).
+    types:
+    - uid: string
+  - name: properties.overrideQueryTimeRange
+    in: body
+    description: If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods)
     types:
     - uid: string
   - name: properties.targetResourceTypes
@@ -157,8 +167,32 @@ definitions:
   description: The scheduled query rule resource.
   kind: object
   properties:
+  - name: kind
+    isReadyOnly: true
+    description: Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource provider must validate and persist this value.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: 'The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. '
+    types:
+    - uid: string
+  - name: properties.createdWithApiVersion
+    isReadyOnly: true
+    description: The api-version used when creating this alert rule
+    types:
+    - uid: string
+  - name: properties.isLegacyLogAnalyticsRule
+    isReadyOnly: true
+    description: True if alert rule is legacy Log Analytic rule
+    types:
+    - uid: boolean
   - name: properties.description
     description: The description of the scheduled query rule.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: The display name of the alert rule
     types:
     - uid: string
   - name: properties.severity
@@ -180,6 +214,10 @@ definitions:
     - uid: string
   - name: properties.windowSize
     description: The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size).
+    types:
+    - uid: string
+  - name: properties.overrideQueryTimeRange
+    description: If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods)
     types:
     - uid: string
   - name: properties.targetResourceTypes

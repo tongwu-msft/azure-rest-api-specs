@@ -229,6 +229,11 @@ definitions:
   description: Contains the job information.
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: SystemData of ImportExport Jobs.
+    types:
+    - uid: systemData
   - name: id
     isReadyOnly: true
     description: Specifies the resource identifier of the job.
@@ -351,6 +356,34 @@ definitions:
   - name: ShippedBack
     types:
     - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: JobDetails
   description: Specifies the job properties
   kind: object
@@ -435,10 +468,7 @@ definitions:
   - name: type
     description: The type of identity
     types:
-    - uid: None
-    - uid: SystemAssigned
-    - uid: UserAssigned
-    typesTitle: enum
+    - uid: IdentityType
   - name: principalId
     isReadyOnly: true
     description: 'Specifies the principal id for the identity for the job. '
@@ -463,6 +493,22 @@ definitions:
     - uid: string
   - name: message
     description: Provides information about the error message.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
     types:
     - uid: string
 - name: ShippingInformation
@@ -551,15 +597,36 @@ definitions:
   - name: kekType
     description: The type of kek encryption key
     types:
-    - uid: MicrosoftManaged
-    - uid: CustomerManaged
-    typesTitle: enum
+    - uid: EncryptionKekType
   - name: kekUrl
     description: 'Specifies the url for kek encryption key. '
     types:
     - uid: string
   - name: kekVaultResourceID
     description: 'Specifies the keyvault resource id for kek encryption key. '
+    types:
+    - uid: string
+- name: IdentityType
+  description: The type of identity
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+- name: EncryptionKekType
+  description: The type of kek encryption key
+  kind: enum
+  properties:
+  - name: MicrosoftManaged
+    types:
+    - uid: string
+  - name: CustomerManaged
     types:
     - uid: string
 examples:
@@ -578,6 +645,14 @@ examples:
   - statusCode: "200"
     body: >-
       {
+        "systemData": {
+          "createdBy": "string",
+          "createdByType": "User",
+          "createdAt": "2020-02-03T01:01:01.1075056Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-02-04T02:03:01.1974346Z"
+        },
         "properties": {
           "storageAccountId": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ClassicStorage/storageAccounts/test",
           "jobType": "Import",
@@ -649,6 +724,14 @@ examples:
   - statusCode: "200"
     body: >-
       {
+        "systemData": {
+          "createdBy": "string",
+          "createdByType": "User",
+          "createdAt": "2020-02-03T01:01:01.1075056Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-02-04T02:03:01.1974346Z"
+        },
         "properties": {
           "storageAccountId": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.ClassicStorage/storageAccounts/test",
           "jobType": "Export",

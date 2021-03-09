@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.backups.update
 name: Update
 service: Azure NetApp Files
 groupName: Backups
-apiVersion: 2020-08-01
+apiVersion: 2020-11-01
 summary: "Patch a backup  \nPatch a backup for the volume"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/backups/{backupName}?api-version=2020-08-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/backups/{backupName}?api-version=2020-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -60,6 +60,10 @@ uriParameters:
 responses:
 - name: 200 OK
   description: OK
+  types:
+  - uid: backup
+- name: 202 Accepted
+  description: Accepted -- Create or update request accepted; operation will complete asynchronously
   types:
   - uid: backup
 - name: Other Status Codes
@@ -135,6 +139,11 @@ definitions:
     description: Type of backup adhoc or scheduled
     types:
     - uid: string
+  - name: properties.failureReason
+    isReadyOnly: true
+    description: Failure reason
+    types:
+    - uid: string
 - name: backupPatch
   description: Backup patch
   kind: object
@@ -176,13 +185,33 @@ definitions:
     description: Type of backup adhoc or scheduled
     types:
     - uid: string
+  - name: properties.failureReason
+    isReadyOnly: true
+    description: Failure reason
+    types:
+    - uid: string
 examples:
 - name: Backups_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/backups/backup1?api-version=2020-08-01
+    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/backups/backup1?api-version=2020-11-01
     body: '{}'
   responses:
   - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/backups/backup1",
+        "name": "account1/pool1/volume1/backup1",
+        "type": "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/backups",
+        "location": "eastus",
+        "properties": {
+          "creationDate": "2017-08-15T13:23:33Z",
+          "provisioningState": "Succeeded",
+          "size": 10011,
+          "label": "myLabel",
+          "backupType": "adhoc"
+        }
+      }
+  - statusCode: "202"
     body: >-
       {
         "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/backups/backup1",

@@ -3,7 +3,7 @@ title: Create a service SAS - Azure Storage
 description: A service shared access signature (SAS) delegates access to a resource in the Blob, Queue, Table, or File service.
 author: tamram
 
-ms.date: 11/23/2020
+ms.date: 12/22/2020
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -417,97 +417,101 @@ When constructing the string to be signed, keep in mind the following:
     |Table|raud|  
   
     For example, examples of valid permissions settings for a container include `rw`, `rd`, `rl`, `wd`, `wl`, and `rl`. Examples of invalid settings include `wr`, `dr`, `lr`, and `dw`. Specifying a permission designation more than once is not permitted.  
-  
-- The `canonicalizedResource` portion of the string is a canonical path to the signed resource. It must include the service name (blob, table, queue or file) for version 2015-02-21 or later, the storage account name, and the resource name, and must be URL-decoded. Names of blobs must include the blob’s container. Table names must be lower-case. The following examples show how to construct the `canonicalizedResource` portion of the string, depending on the type of resource.  
-  
-     **Containers**  
-  
-     For version 2015-02-21 and later:  
-  
-    ```  
-    URL = https://myaccount.blob.core.windows.net/music  
-    canonicalizedResource = "/blob/myaccount/music"  
-    ```  
-  
-     For versions prior to 2015-02-21:  
-  
-    ```  
-    URL = https://myaccount.blob.core.windows.net/music
-    canonicalizedResource = "/myaccount/music"  
-    ```  
-  
-     **Blobs**  
-  
-     For version 2015-02-21 and later:  
-  
-    ```  
-    URL = https://myaccount.blob.core.windows.net/music/intro.mp3  
-    canonicalizedResource = "/blob/myaccount/music/intro.mp3"  
-  
-    ```  
-  
-     For versions prior to 2015-02-21:  
-  
-    ```  
-    URL = https://myaccount.blob.core.windows.net/music/intro.mp3
-    canonicalizedResource = "/myaccount/music/intro.mp3"  
-    ```  
-  
-     **File Shares**  
-  
-    ```  
-    URL = https://myaccount.file.core.windows.net/music
-    canonicalizedResource = "/file/myaccount/music"  
-    ```  
-  
-     **Files**  
-  
-    ```  
-    URL = https://myaccount.file.core.windows.net/music/intro.mp3
-    canonicalizedResource = "/file/myaccount/music/intro.mp3"  
-    ```  
-  
-     **Queues**  
-  
-     For version 2015-02-21 and later:  
-  
-    ```  
-    URL = https://myaccount.queue.core.windows.net/thumbnails  
-    canonicalizedResource = "/queue/myaccount/thumbnails"  
-  
-    ```  
-  
-     For versions prior to 2015-02-21:  
-  
-    ```  
-    URL = https://myaccount.queue.core.windows.net/thumbnails  
-    canonicalizedResource = "/myaccount/thumbnails"  
-  
-    ```  
-  
-     **Tables**  
-  
-     If the signed resource is a table, assure the table name is lower-case in the canonicalized format.  
-  
-     For version 2015-02-21 and later:  
-  
-    ```  
-    URL = https://myaccount.table.core.windows.net/Employees(PartitionKey='Jeff',RowKey='Price')  
-    canonicalizedResource = "/table/myaccount/employees"  
-  
-    ```  
-  
-     For versions prior to 2015-02-21:  
-  
-    ```  
-    URL = https://myaccount.table.core.windows.net/Employees(PartitionKey='Jeff',RowKey='Price')  
-    canonicalizedResource = "/myaccount/employees"  
-  
-    ```  
-  
+
 - Provide a value for the `signedIdentifier` portion of the string if you are associating the request with a stored access policy.  
   
 - A shared access signature that specifies a storage service version before 2012-02-12 can only share a blob or container, and must omit `signedVersion` and the newline before it.  
+  
+- The `canonicalizedResource` portion of the string is a canonical path to the signed resource. It must include the service name (blob, table, queue or file) for version 2015-02-21 or later, the storage account name, and the resource name, and must be URL-decoded. Names of blobs must include the blob’s container. Table names must be lower-case.
+
+The canonicalized resource string for a container, queue, table, or file share must omit the trailing slash ('/') for a SAS that provides access to that object.
+
+The following examples show how to construct the `canonicalizedResource` portion of the string, depending on the type of resource.  
+  
+**Containers**  
+
+For version 2015-02-21 and later:  
+
+```
+URL = https://myaccount.blob.core.windows.net/music  
+canonicalizedResource = "/blob/myaccount/music"  
+```  
+
+For versions prior to 2015-02-21:  
+
+```  
+URL = https://myaccount.blob.core.windows.net/music
+canonicalizedResource = "/myaccount/music"  
+```  
+
+**Blobs**  
+
+For version 2015-02-21 and later:  
+
+```  
+URL = https://myaccount.blob.core.windows.net/music/intro.mp3  
+canonicalizedResource = "/blob/myaccount/music/intro.mp3"  
+
+```  
+
+For versions prior to 2015-02-21:  
+
+```  
+URL = https://myaccount.blob.core.windows.net/music/intro.mp3
+canonicalizedResource = "/myaccount/music/intro.mp3"  
+```  
+
+**File Shares**  
+
+```  
+URL = https://myaccount.file.core.windows.net/music
+canonicalizedResource = "/file/myaccount/music"  
+```  
+
+**Files**  
+
+```  
+URL = https://myaccount.file.core.windows.net/music/intro.mp3
+canonicalizedResource = "/file/myaccount/music/intro.mp3"  
+```  
+
+**Queues**  
+
+For version 2015-02-21 and later:  
+
+```  
+URL = https://myaccount.queue.core.windows.net/thumbnails  
+canonicalizedResource = "/queue/myaccount/thumbnails"  
+
+```  
+
+For versions prior to 2015-02-21:  
+
+```  
+URL = https://myaccount.queue.core.windows.net/thumbnails  
+canonicalizedResource = "/myaccount/thumbnails"  
+
+```  
+
+**Tables**  
+
+If the signed resource is a table, assure the table name is lower-case in the canonicalized format.  
+
+For version 2015-02-21 and later:  
+
+```  
+URL = https://myaccount.table.core.windows.net/Employees(PartitionKey='Jeff',RowKey='Price')  
+canonicalizedResource = "/table/myaccount/employees"  
+
+```  
+
+For versions prior to 2015-02-21:  
+
+```  
+URL = https://myaccount.table.core.windows.net/Employees(PartitionKey='Jeff',RowKey='Price')  
+canonicalizedResource = "/myaccount/employees"  
+
+```  
 
 ## Lifetime and revocation of a shared access signature  
 

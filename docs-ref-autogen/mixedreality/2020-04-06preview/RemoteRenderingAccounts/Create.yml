@@ -56,9 +56,29 @@ requestBody:
   parameters:
   - name: identity
     in: body
-    description: ''
+    description: The identity associated with this account
     types:
     - uid: Identity
+  - name: plan
+    in: body
+    description: The plan associated with this account
+    types:
+    - uid: Identity
+  - name: sku
+    in: body
+    description: The sku associated with this account
+    types:
+    - uid: Sku
+  - name: kind
+    in: body
+    description: The kind of account, if supported
+    types:
+    - uid: Sku
+  - name: properties.storageAccountName
+    in: body
+    description: The name of the storage account associated with this accountId
+    types:
+    - uid: string
   - name: tags
     in: body
     description: Resource tags.
@@ -94,14 +114,87 @@ definitions:
     description: The identity type.
     types:
     - uid: ResourceIdentityType
+- name: Sku
+  description: The resource model definition representing SKU
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU. Ex - P3. It is typically a letter+number code
+    types:
+    - uid: string
+  - name: tier
+    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+    types:
+    - uid: SkuTier
+  - name: size
+    description: 'The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. '
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    types:
+    - uid: integer
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: RemoteRenderingAccount
   description: RemoteRenderingAccount Response.
   kind: object
   properties:
   - name: identity
-    description: ''
+    description: The identity associated with this account
     types:
     - uid: Identity
+  - name: plan
+    description: The plan associated with this account
+    types:
+    - uid: Identity
+  - name: sku
+    description: The sku associated with this account
+    types:
+    - uid: Sku
+  - name: kind
+    description: The kind of account, if supported
+    types:
+    - uid: Sku
+  - name: systemData
+    isReadyOnly: true
+    description: System metadata for this account
+    types:
+    - uid: systemData
+  - name: properties.storageAccountName
+    description: The name of the storage account associated with this accountId
+    types:
+    - uid: string
   - name: properties.accountId
     isReadyOnly: true
     description: unique id of certain account.
@@ -152,6 +245,38 @@ definitions:
   kind: enum
   properties:
   - name: SystemAssigned
+    types:
+    - uid: string
+- name: SkuTier
+  description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+  kind: enum
+  properties:
+  - name: Free
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
     types:
     - uid: string
 - name: CloudErrorBody

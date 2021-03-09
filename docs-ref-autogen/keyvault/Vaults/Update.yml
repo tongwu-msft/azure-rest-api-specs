@@ -46,6 +46,18 @@ responses:
   description: Patched vault
   types:
   - uid: Vault
+- name: 400 Bad Request
+  description: Bad request.
+  types:
+  - uid: CloudError
+- name: Other Status Codes
+  description: A conflict occurred to prevent the operation from completing.
+  types:
+  - uid: CloudError
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -153,6 +165,14 @@ definitions:
     description: Properties of the vault
     types:
     - uid: VaultProperties
+- name: CloudError
+  description: An error response from Key Vault resource provider
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Key Vault resource provider
+    types:
+    - uid: CloudErrorBody
 - name: VaultPatchParameters
   description: Parameters for creating or updating a vault
   kind: object
@@ -290,12 +310,28 @@ definitions:
     description: Rules governing the accessibility of the key vault from specific network locations.
     types:
     - uid: NetworkRuleSet
+  - name: provisioningState
+    description: Provisioning state of the vault.
+    types:
+    - uid: VaultProvisioningState
   - name: privateEndpointConnections
     isReadyOnly: true
     description: List of private endpoint connections associated with the key vault.
     types:
     - uid: PrivateEndpointConnectionItem
       isArray: true
+- name: CloudErrorBody
+  description: An error response from Key Vault resource provider
+  kind: object
+  properties:
+  - name: code
+    description: Error code. This is a mnemonic that can be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: User friendly error message. The message is typically localized and may vary with service version.
+    types:
+    - uid: string
 - name: SkuFamily
   description: SKU family name
   kind: enum
@@ -373,10 +409,32 @@ definitions:
     description: Full resource id of a vnet subnet, such as '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
     types:
     - uid: string
+  - name: ignoreMissingVnetServiceEndpoint
+    description: Property to specify whether NRP will ignore the check if parent subnet has serviceEndpoints configured.
+    types:
+    - uid: boolean
+- name: VaultProvisioningState
+  description: Provisioning state of the vault.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: RegisteringDns
+    types:
+    - uid: string
 - name: PrivateEndpointConnectionItem
   description: Private endpoint connection item.
   kind: object
   properties:
+  - name: id
+    description: Id of private endpoint connection.
+    types:
+    - uid: string
+  - name: etag
+    description: Modified whenever there is a change in the state of private endpoint connection.
+    types:
+    - uid: string
   - name: properties.privateEndpoint
     description: Properties of the private endpoint object.
     types:
@@ -411,7 +469,7 @@ definitions:
     description: The reason for approval or rejection.
     types:
     - uid: string
-  - name: actionRequired
+  - name: actionsRequired
     description: A message indicating if changes on the service provider require any updates on the consumer.
     types:
     - uid: string
@@ -537,6 +595,21 @@ examples:
             "name": "standard"
           },
           "tenantId": "00000000-0000-0000-0000-000000000000",
+          "networkAcls": {
+            "bypass": "AzureServices",
+            "defaultAction": "Deny",
+            "ipRules": [
+              {
+                "value": ""
+              }
+            ],
+            "virtualNetworkRules": [
+              {
+                "id": "",
+                "ignoreMissingVnetServiceEndpoint": false
+              }
+            ]
+          },
           "accessPolicies": [
             {
               "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -589,10 +662,27 @@ examples:
               }
             }
           ],
+          "privateEndpointConnections": [
+            {
+              "id": "",
+              "etag": "",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateEndpoint": {
+                  "id": ""
+                },
+                "privateLinkServiceConnectionState": {
+                  "status": "Approved",
+                  "actionsRequired": "None"
+                }
+              }
+            }
+          ],
           "enabledForDeployment": true,
           "enabledForDiskEncryption": true,
           "enabledForTemplateDeployment": true,
-          "vaultUri": "https://sample-vault.vault.azure.net"
+          "vaultUri": "https://sample-vault.vault.azure.net",
+          "provisioningState": "Succeeded"
         }
       }
   - statusCode: "201"
@@ -664,7 +754,32 @@ examples:
           "enabledForDeployment": true,
           "enabledForDiskEncryption": true,
           "enabledForTemplateDeployment": true,
-          "vaultUri": "https://sample-vault.vault.azure.net"
+          "vaultUri": "https://sample-vault.vault.azure.net",
+          "provisioningState": "Succeeded"
+        }
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "",
+          "message": ""
+        }
+      }
+  - statusCode: "409"
+    body: >-
+      {
+        "error": {
+          "code": "",
+          "message": ""
+        }
+      }
+  - statusCode: default
+    body: >-
+      {
+        "error": {
+          "code": "",
+          "message": ""
         }
       }
 security: []

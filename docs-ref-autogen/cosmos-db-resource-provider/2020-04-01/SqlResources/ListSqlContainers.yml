@@ -101,22 +101,49 @@ definitions:
       - uid: string
       - uid: string
 - name: Resource
-  description: Resource
   kind: object
   properties:
   - name: id
-    isReadyOnly: true
-    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    description: Name of the Cosmos DB SQL container
     types:
     - uid: string
-  - name: name
+  - name: indexingPolicy
+    description: The configuration of the indexing policy. By default, the indexing is automatic for all document paths within the container
+    types:
+    - uid: IndexingPolicy
+  - name: partitionKey
+    description: The configuration of the partition key to be used for partitioning data into multiple partitions
+    types:
+    - uid: ContainerPartitionKey
+  - name: defaultTtl
+    description: Default time to live
+    types:
+    - uid: integer
+  - name: uniqueKeyPolicy
+    description: The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure Cosmos DB service.
+    types:
+    - uid: UniqueKeyPolicy
+  - name: conflictResolutionPolicy
+    description: The conflict resolution policy for the container.
+    types:
+    - uid: ConflictResolutionPolicy
+  - name: analyticalStorageTtl
+    description: Analytical TTL.
+    types:
+    - uid: integer
+  - name: _rid
     isReadyOnly: true
-    description: The name of the resource
+    description: A system generated property. A unique identifier.
     types:
     - uid: string
-  - name: type
+  - name: _ts
     isReadyOnly: true
-    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    description: A system generated property that denotes the last updated timestamp of the resource.
+    types:
+    - {}
+  - name: _etag
+    isReadyOnly: true
+    description: A system generated property representing the resource etag required for optimistic concurrency control.
     types:
     - uid: string
 - name: Options
@@ -130,6 +157,80 @@ definitions:
     description: Specifies the Autoscale settings.
     types:
     - uid: AutoscaleSettings
+- name: IndexingPolicy
+  description: Cosmos DB indexing policy
+  kind: object
+  properties:
+  - name: automatic
+    description: Indicates if the indexing policy is automatic
+    types:
+    - uid: boolean
+  - name: indexingMode
+    description: Indicates the indexing mode.
+    types:
+    - uid: IndexingMode
+  - name: includedPaths
+    description: List of paths to include in the indexing
+    types:
+    - uid: IncludedPath
+      isArray: true
+  - name: excludedPaths
+    description: List of paths to exclude from indexing
+    types:
+    - uid: ExcludedPath
+      isArray: true
+  - name: compositeIndexes
+    description: List of composite path list
+    types:
+    - uid: array
+      isArray: true
+  - name: spatialIndexes
+    description: List of spatial specifics
+    types:
+    - uid: SpatialSpec
+      isArray: true
+- name: ContainerPartitionKey
+  description: The configuration of the partition key to be used for partitioning data into multiple partitions
+  kind: object
+  properties:
+  - name: paths
+    description: List of paths using which data within the container can be partitioned
+    types:
+    - uid: string
+      isArray: true
+  - name: kind
+    description: Indicates the kind of algorithm used for partitioning
+    types:
+    - uid: PartitionKind
+  - name: version
+    description: Indicates the version of the partition key definition
+    types:
+    - uid: integer
+- name: UniqueKeyPolicy
+  description: The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure Cosmos DB service.
+  kind: object
+  properties:
+  - name: uniqueKeys
+    description: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service.
+    types:
+    - uid: UniqueKey
+      isArray: true
+- name: ConflictResolutionPolicy
+  description: The conflict resolution policy for the container.
+  kind: object
+  properties:
+  - name: mode
+    description: Indicates the conflict resolution mode.
+    types:
+    - uid: ConflictResolutionMode
+  - name: conflictResolutionPath
+    description: The conflict resolution path in the case of LastWriterWins mode.
+    types:
+    - uid: string
+  - name: conflictResolutionProcedure
+    description: The procedure to resolve conflicts in the case of custom mode.
+    types:
+    - uid: string
 - name: AutoscaleSettings
   kind: object
   properties:
@@ -137,6 +238,131 @@ definitions:
     description: Represents maximum throughput, the resource can scale up to.
     types:
     - uid: integer
+- name: IndexingMode
+  description: Indicates the indexing mode.
+  kind: enum
+  properties:
+  - name: Consistent
+    types:
+    - uid: string
+  - name: Lazy
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: IncludedPath
+  description: The paths that are included in indexing
+  kind: object
+  properties:
+  - name: path
+    description: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard (/path/*)
+    types:
+    - uid: string
+  - name: indexes
+    description: List of indexes for this path
+    types:
+    - uid: Indexes
+      isArray: true
+- name: ExcludedPath
+  kind: object
+  properties:
+  - name: path
+    description: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard (/path/*)
+    types:
+    - uid: string
+- name: SpatialSpec
+  kind: object
+  properties:
+  - name: path
+    description: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard (/path/*)
+    types:
+    - uid: string
+  - name: types
+    description: List of path's spatial type
+    types:
+    - uid: string
+      isArray: true
+- name: PartitionKind
+  description: Indicates the kind of algorithm used for partitioning
+  kind: enum
+  properties:
+  - name: Hash
+    types:
+    - uid: string
+  - name: Range
+    types:
+    - uid: string
+- name: UniqueKey
+  description: The unique key on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service.
+  kind: object
+  properties:
+  - name: paths
+    description: List of paths must be unique for each document in the Azure Cosmos DB service
+    types:
+    - uid: string
+      isArray: true
+- name: ConflictResolutionMode
+  description: Indicates the conflict resolution mode.
+  kind: enum
+  properties:
+  - name: LastWriterWins
+    types:
+    - uid: string
+  - name: Custom
+    types:
+    - uid: string
+- name: Indexes
+  description: The indexes for the path.
+  kind: object
+  properties:
+  - name: dataType
+    description: The datatype for which the indexing behavior is applied to.
+    types:
+    - uid: DataType
+  - name: precision
+    description: The precision of the index. -1 is maximum precision.
+    types:
+    - uid: integer
+  - name: kind
+    description: Indicates the type of index.
+    types:
+    - uid: IndexKind
+- name: DataType
+  description: The datatype for which the indexing behavior is applied to.
+  kind: enum
+  properties:
+  - name: String
+    types:
+    - uid: string
+  - name: Number
+    types:
+    - uid: string
+  - name: Point
+    types:
+    - uid: string
+  - name: Polygon
+    types:
+    - uid: string
+  - name: LineString
+    types:
+    - uid: string
+  - name: MultiPolygon
+    types:
+    - uid: string
+- name: IndexKind
+  description: Indicates the type of index.
+  kind: enum
+  properties:
+  - name: Hash
+    types:
+    - uid: string
+  - name: Range
+    types:
+    - uid: string
+  - name: Spatial
+    types:
+    - uid: string
 examples:
 - name: CosmosDBSqlContainerList
   request:

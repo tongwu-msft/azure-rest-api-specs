@@ -57,6 +57,11 @@ definitions:
     description: The resource location.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
   - name: properties.workspace
     description: Workspace resource ID
     types:
@@ -103,6 +108,11 @@ definitions:
     description: Unmasked IP address logging status
     types:
     - uid: UnmaskedIpLoggingStatus
+  - name: properties.additionalWorkspaces
+    description: List of additional workspaces
+    types:
+    - uid: AdditionalWorkspacesProperties
+      isArray: true
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -127,17 +137,62 @@ definitions:
       - uid: string
       - uid: string
 - name: CloudError
-  description: Error response structure.
+  description: Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
   kind: object
   properties:
   - name: error.code
     isReadyOnly: true
-    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    description: The error code.
     types:
     - uid: string
   - name: error.message
     isReadyOnly: true
-    description: A message describing the error, intended to be suitable for display in a user interface.
+    description: The error message.
+    types:
+    - uid: string
+  - name: error.target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: error.details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: error.additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: SecuritySolutionStatus
@@ -190,6 +245,84 @@ definitions:
     - uid: string
   - name: Enabled
     description: Unmasked IP logging is enabled
+    types:
+    - uid: string
+- name: AdditionalWorkspacesProperties
+  description: Properties of the additional workspaces.
+  kind: object
+  properties:
+  - name: workspace
+    description: Workspace resource id
+    types:
+    - uid: string
+  - name: type
+    description: Workspace type.
+    types:
+    - uid: AdditionalWorkspaceType
+  - name: dataTypes
+    description: List of data types sent to workspace
+    types:
+    - uid: string
+      isArray: true
+- name: CloudErrorBody
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
     types:
     - uid: string
 - name: RecommendationType
@@ -268,6 +401,13 @@ definitions:
     types:
     - uid: string
   - name: Enabled
+    types:
+    - uid: string
+- name: AdditionalWorkspaceType
+  description: Workspace type.
+  kind: enum
+  properties:
+  - name: Sentinel
     types:
     - uid: string
 examples:
@@ -385,6 +525,14 @@ examples:
             }
           ],
           "unmaskedIpLoggingStatus": "Enabled"
+        },
+        "systemData": {
+          "createdBy": "string",
+          "createdByType": "User",
+          "createdAt": "2020-04-27T21:53:29.0928001Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-04-27T21:53:29.0928001Z"
         }
       }
 security:

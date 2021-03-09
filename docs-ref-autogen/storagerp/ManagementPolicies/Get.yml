@@ -145,6 +145,10 @@ definitions:
     description: The management policy action for snapshot
     types:
     - uid: ManagementPolicySnapShot
+  - name: version
+    description: The management policy action for version
+    types:
+    - uid: ManagementPolicyVersion
 - name: ManagementPolicyFilter
   description: 'Filters limit rule actions to a subset of blobs within the storage account. If multiple filters are defined, a logical AND is performed on all filters. '
   kind: object
@@ -155,7 +159,7 @@ definitions:
     - uid: string
       isArray: true
   - name: blobTypes
-    description: An array of predefined enum values. Only blockBlob is supported.
+    description: An array of predefined enum values. Currently blockBlob supports all tiering and delete actions. Only delete actions are supported for appendBlob.
     types:
     - uid: string
       isArray: true
@@ -180,12 +184,40 @@ definitions:
     description: The function to delete the blob
     types:
     - uid: DateAfterModification
+  - name: enableAutoTierToHotFromCool
+    description: This property enables auto tiering of a blob from cool to hot on a blob access. This property requires tierToCool.daysAfterLastAccessTimeGreaterThan.
+    types:
+    - uid: boolean
 - name: ManagementPolicySnapShot
   description: Management policy action for snapshot.
   kind: object
   properties:
+  - name: tierToCool
+    description: The function to tier blob snapshot to cool storage. Support blob snapshot currently at Hot tier
+    types:
+    - uid: DateAfterCreation
+  - name: tierToArchive
+    description: The function to tier blob snapshot to archive storage. Support blob snapshot currently at Hot or Cool tier
+    types:
+    - uid: DateAfterCreation
   - name: delete
     description: The function to delete the blob snapshot
+    types:
+    - uid: DateAfterCreation
+- name: ManagementPolicyVersion
+  description: Management policy action for blob version.
+  kind: object
+  properties:
+  - name: tierToCool
+    description: The function to tier blob version to cool storage. Support blob version currently at Hot tier
+    types:
+    - uid: DateAfterCreation
+  - name: tierToArchive
+    description: The function to tier blob version to archive storage. Support blob version currently at Hot or Cool tier
+    types:
+    - uid: DateAfterCreation
+  - name: delete
+    description: The function to delete the blob version
     types:
     - uid: DateAfterCreation
 - name: TagFilter
@@ -205,11 +237,15 @@ definitions:
     types:
     - uid: string
 - name: DateAfterModification
-  description: Object to define the number of days after last modification.
+  description: Object to define the number of days after object last modification Or last access. Properties daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
   kind: object
   properties:
   - name: daysAfterModificationGreaterThan
     description: Value indicating the age in days after last modification
+    types:
+    - uid: number
+  - name: daysAfterLastAccessTimeGreaterThan
+    description: Value indicating the age in days after last blob access. This property can only be used in conjunction with last access time tracking policy
     types:
     - uid: number
 - name: DateAfterCreation

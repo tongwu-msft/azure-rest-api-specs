@@ -15,7 +15,7 @@ uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The Azure subscription Id.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
@@ -33,38 +33,48 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
-  - uid: ErrorResponse
+  - uid: ErrorContract
 - name: 200 OK
   description: Successful request to get a Log Search rule
   types:
   - uid: LogSearchRuleResource
 requestHeader: []
 definitions:
-- name: ErrorResponse
+- name: ErrorContract
   description: Describes the format of Error response.
   kind: object
   properties:
-  - name: code
-    description: Error code
+  - name: error
+    description: The error details.
     types:
-    - uid: string
-  - name: message
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
+    - uid: ErrorResponse
 - name: LogSearchRuleResource
   description: The Log Search Rule resource.
   kind: object
   properties:
+  - name: properties.createdWithApiVersion
+    isReadyOnly: true
+    description: The api-version used when creating this alert rule
+    types:
+    - uid: string
+  - name: properties.isLegacyLogAnalyticsRule
+    isReadyOnly: true
+    description: True if alert rule is legacy Log Analytic rule
+    types:
+    - uid: boolean
   - name: properties.description
     description: The description of the Log Search rule.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: The display name of the alert rule
     types:
     - uid: string
   - name: properties.enabled
@@ -122,6 +132,28 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: kind
+    isReadyOnly: true
+    description: Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource provider must validate and persist this value.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: 'The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. '
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
 - name: enabled
   description: The flag which indicates whether the Log Search rule is enabled. Value should be true or false
   kind: enum
@@ -296,6 +328,12 @@ definitions:
   description: Result Condition Evaluation criteria. Supported Values - 'GreaterThan' or 'LessThan' or 'Equal'.
   kind: enum
   properties:
+  - name: GreaterThanOrEqual
+    types:
+    - uid: string
+  - name: LessThanOrEqual
+    types:
+    - uid: string
   - name: GreaterThan
     types:
     - uid: string

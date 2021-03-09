@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.accounts.createorupdate
 name: Create Or Update
 service: Azure NetApp Files
 groupName: Accounts
-apiVersion: 2020-08-01
+apiVersion: 2020-11-01
 summary: "Create or update a NetApp account  \nCreate or update the specified NetApp account within the resource group"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}?api-version=2020-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}?api-version=2020-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,8 +46,6 @@ responses:
   description: Account created
   types:
   - uid: netAppAccount
-- name: 202 Accepted
-  description: Accepted -- Create, update or delete request accepted; operation will complete asynchronously
 - name: Other Status Codes
   description: Error response describing why the operation failed.
 requestBody:
@@ -74,8 +72,41 @@ requestBody:
     types:
     - uid: activeDirectory
       isArray: true
+  - name: properties.encryption
+    in: body
+    description: Encryption settings
+    types:
+    - uid: accountEncryption
 requestHeader: []
 definitions:
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: activeDirectory
   description: Active Directory
   kind: object
@@ -147,6 +178,23 @@ definitions:
     description: Specifies whether or not the LDAP traffic needs to be signed.
     types:
     - uid: boolean
+  - name: securityOperators
+    description: Domain Users in the Active directory to be given SeSecurityPrivilege privilege (Needed for SMB Continuously available shares for SQL). A list of unique usernames without domain specifier
+    types:
+    - uid: string
+      isArray: true
+  - name: ldapOverTLS
+    description: Specifies whether or not the LDAP traffic needs to be secured via TLS.
+    types:
+    - uid: boolean
+- name: accountEncryption
+  description: Encryption settings
+  kind: object
+  properties:
+  - name: keySource
+    description: "Encryption Key Source. Possible values are: 'Microsoft.NetApp'."
+    types:
+    - uid: keySource
 - name: netAppAccount
   description: NetApp account resource
   kind: object
@@ -178,6 +226,11 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: The system meta data relating to this resource.
+    types:
+    - uid: systemData
   - name: properties.provisioningState
     isReadyOnly: true
     description: Azure lifecycle management
@@ -188,6 +241,26 @@ definitions:
     types:
     - uid: activeDirectory
       isArray: true
+  - name: properties.encryption
+    description: Encryption settings
+    types:
+    - uid: accountEncryption
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: ActiveDirectoryStatus
   description: Status of the Active Directory
   kind: enum
@@ -212,10 +285,18 @@ definitions:
     description: Error with the Active Directory
     types:
     - uid: string
+- name: keySource
+  description: "Encryption Key Source. Possible values are: 'Microsoft.NetApp'."
+  kind: enum
+  properties:
+  - name: Microsoft.NetApp
+    description: The service manages the keys.
+    types:
+    - uid: string
 examples:
 - name: Accounts_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1?api-version=2020-08-01
+    uri: PUT https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1?api-version=2020-11-01
     body: >-
       {
         "location": "eastus",
@@ -258,7 +339,6 @@ examples:
           "provisioningState": "Succeeded"
         }
       }
-  - statusCode: "202"
 security:
 - name: azure_auth
   type: oauth2

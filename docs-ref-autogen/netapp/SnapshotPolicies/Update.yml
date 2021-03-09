@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.snapshotpolicies.update
 name: Update
 service: Azure NetApp Files
 groupName: Snapshot Policies
-apiVersion: 2020-08-01
+apiVersion: 2020-11-01
 summary: Patch a snapshot policy
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}?api-version=2020-08-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}?api-version=2020-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,6 +46,10 @@ uriParameters:
 responses:
 - name: 200 OK
   description: OK
+  types:
+  - uid: snapshotPolicy
+- name: 202 Accepted
+  description: Accepted -- Create or update request accepted; operation will complete asynchronously
   types:
   - uid: snapshotPolicy
 - name: Other Status Codes
@@ -303,7 +307,7 @@ definitions:
 examples:
 - name: SnapshotPolicies_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/snapshotPolicies/snapshotPolicyName?api-version=2020-08-01
+    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/snapshotPolicies/snapshotPolicyName?api-version=2020-11-01
     body: >-
       {
         "location": "eastus",
@@ -334,6 +338,40 @@ examples:
       }
   responses:
   - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/snapshotPolicies/snapshotPolicy1",
+        "name": "account1/snapshotPolicy1",
+        "type": "Microsoft.NetApp/netAppAccounts/snapshotPolicies",
+        "location": "eastus",
+        "properties": {
+          "name": "sdk-net-tests-snapshotPolicy-1",
+          "enabled": true,
+          "hourlySchedule": {
+            "snapshotsToKeep": 2,
+            "minute": 50
+          },
+          "dailySchedule": {
+            "snapshotsToKeep": 4,
+            "hour": 14,
+            "minute": 30
+          },
+          "weeklySchedule": {
+            "snapshotsToKeep": 3,
+            "day": "Wednesday",
+            "hour": 14,
+            "minute": 45
+          },
+          "monthlySchedule": {
+            "snapshotsToKeep": 5,
+            "daysOfMonth": "10,11,12",
+            "hour": 14,
+            "minute": 15
+          },
+          "provisioningState": "Succeeded"
+        }
+      }
+  - statusCode: "202"
     body: >-
       {
         "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/snapshotPolicies/snapshotPolicy1",

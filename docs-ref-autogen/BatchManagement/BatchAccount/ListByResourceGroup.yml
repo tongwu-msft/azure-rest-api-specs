@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.batchaccount.listbyresourcegroup
 name: List By Resource Group
 service: Batch Management
 groupName: Batch Account
-apiVersion: 2020-09-01
+apiVersion: 2021-01-01
 summary: Gets information about the Batch accounts associated with the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts?api-version=2020-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts?api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -118,7 +118,7 @@ definitions:
     - uid: integer
   - name: properties.lowPriorityCoreQuota
     isReadyOnly: true
-    description: "The low-priority core quota for the Batch account.  \nFor accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned."
+    description: "The low priority core quota for the Batch account.  \nFor accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned."
     types:
     - uid: integer
   - name: properties.dedicatedCoreQuotaPerVMFamily
@@ -129,7 +129,7 @@ definitions:
       isArray: true
   - name: properties.dedicatedCoreQuotaPerVMFamilyEnforced
     isReadyOnly: true
-    description: "A value indicating whether the core quota for the Batch Account is enforced per Virtual Machine family or not.  \nBatch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply."
+    description: "A value indicating whether core quotas per Virtual Machine family are enforced for this account  \nBatch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply."
     types:
     - uid: boolean
   - name: properties.poolQuota
@@ -210,6 +210,10 @@ definitions:
     description: The type of identity used for the Batch account.
     types:
     - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
 - name: ProvisioningState
   description: The provisioned state of the resource
   kind: enum
@@ -357,10 +361,22 @@ definitions:
     description: Batch account has a system assigned identity with it.
     types:
     - uid: string
+  - name: UserAssigned
+    description: Batch account has user assigned identities with it.
+    types:
+    - uid: string
   - name: None
     description: Batch account has no identity associated with it. Setting `None` in update account will remove existing identities.
     types:
     - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: PrivateEndpointConnectionProvisioningState
   description: The provisioning state of the private endpoint connection.
   kind: enum
@@ -451,7 +467,7 @@ definitions:
 examples:
 - name: BatchAccountListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts?api-version=2020-09-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts?api-version=2021-01-01
   responses:
   - statusCode: "200"
     body: >-

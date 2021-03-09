@@ -1,11 +1,11 @@
 ---
 title: Azure Data Lake Storage Gen2 REST API reference - Azure Storage
 description: Use the Azure Data Lake Storage Gen2 REST APIs to interact with Azure Blob storage through a file system interface. This interface allows you to create and manage file systems, as well as to create and manage directories and files.
-author: seguler
+author: pemari-msft
 
 ms.date: 09/20/2019
 ms.service: storage
-ms.author: seguler
+ms.author: pemari
 ms.topic: reference
 service_description: Azure Data Lake Storage Gen2 is a set of capabilities dedicated to big data analytics, built on top of Azure Blob storage.
 ---

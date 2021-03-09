@@ -167,7 +167,68 @@ definitions:
   - name: None
     types:
     - uid: string
-examples: []
+examples:
+- name: Artifacts_GenerateArmTemplate
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{artifactSourceName}/artifacts/{artifactName}/generateArmTemplate?api-version=2018-09-15
+    body: >-
+      {
+        "fileUploadOptions": "None",
+        "location": "{location}",
+        "virtualMachineName": "{vmName}"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "template": {
+          "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+          "contentVersion": "1.0.0.0",
+          "parameters": {
+            "location": {
+              "type": "string"
+            },
+            "extensionName": {
+              "type": "string"
+            }
+          },
+          "variables": {
+            "_commandToExecute": "{commandToExecute}."
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Compute/virtualMachines/extensions",
+              "name": "[parameters('extensionName')]",
+              "apiVersion": "2015-06-15",
+              "location": "[parameters('location')]",
+              "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.9",
+                "autoUpgradeMinorVersion": "true",
+                "forceUpdateTag": "15/10/2018 00:00:00 +00:00",
+                "settings": {
+                  "fileUris": [
+                    "{MsDtlArtifactFileUris}"
+                  ],
+                  "commandToExecute": ""
+                },
+                "protectedSettings": {
+                  "commandToExecute": "[concat('cd {MsDtlScriptFolder}/scripts && ', variables('_commandToExecute'))]"
+                }
+              }
+            }
+          ]
+        },
+        "parameters": {
+          "extensionName": {
+            "value": "{vmName}/CustomScriptExtension"
+          },
+          "location": {
+            "value": "{location}"
+          }
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2

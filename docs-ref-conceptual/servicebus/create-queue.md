@@ -58,7 +58,7 @@ Creates a new queue. Once created, the queue resource manifest is immutable. Thi
 |**RequiresDuplicateDetection**|Boolean|Optional|Settable only at queue creation time.<br /><br /> -   Default for durable queue: **false**.|  
 |**EnableDeadLetteringOnMessageExpiration**|Boolean|Optional|Settable only at queue creation time.<br /><br /> -   Default: **false**.<br /><br /> This field determines how Service Bus handles a message with an expired TTL. If **true** and a message expires, Service Bus moves the message from the queue into the queue’s dead-letter subqueue. If it is **false**, the message is permanently deleted from the queue.|  
 |**DuplicateDetectionHistoryTimeWindow**|Time Span|Optional.|A property that specifies the time span during which Service Bus detects message duplication.<br /><br /> -   Range: 1 second–7 days.<br /><br /> -   Default: 10 minutes.|  
-|**Status**|String|Read-only. Not required at creation.|Can be one of the following values:<br /><br /> -   **Creating**: when still in creation phase.<br />-   **Active**: by default after creation, or when user activates it after last time suspended.<br />-   **Suspended**: when user updates the entity to be suspended.|  
+|**Status**|String|Read-only. Not required at creation.|Can be one of the following values:<br /><br /> <ul><li>Active</li><li>Creating</li><li>Deleting</li><li>ReceiveDisabled</li><li>SendDisabled</li><li>Disabled</li><li>Renaming</li><li>Restoring</li><li>Unknown</li></ul>|  
   
 ## Response  
  The response includes an HTTP status code and a set of response headers.  

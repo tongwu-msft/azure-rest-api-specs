@@ -3,15 +3,15 @@ uid: management.azure.com.securitycenter.adaptiveapplicationcontrols.list
 name: List
 service: Security Center
 groupName: Adaptive Application Controls
-apiVersion: 2015-06-01-preview
-summary: Gets a list of application control VM/server groups for the subscription.
+apiVersion: 2020-01-01
+summary: Gets a list of application control machine groups for the subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/applicationWhitelistings?api-version=2015-06-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/applicationWhitelistings?api-version=2015-06-01-preview&includePathRecommendations={includePathRecommendations}&summary={summary}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/applicationWhitelistings?api-version=2020-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/applicationWhitelistings?api-version=2020-01-01&includePathRecommendations={includePathRecommendations}&summary={summary}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -41,41 +41,58 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: AppWhitelistingGroups
+  - uid: AdaptiveApplicationControlGroups
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: AppWhitelistingGroups
-  description: Represents a list of VM/server groups and set of rules that are Recommended by Azure Security Center to be allowed
+- name: AdaptiveApplicationControlGroups
+  description: Represents a list of machine groups and set of rules that are recommended by Azure Security Center to be allowed
   kind: object
   properties:
   - name: value
     description: ''
     types:
-    - uid: AppWhitelistingGroup
+    - uid: AdaptiveApplicationControlGroup
       isArray: true
 - name: CloudError
-  description: Error response structure.
+  description: Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
   kind: object
   properties:
   - name: error.code
     isReadyOnly: true
-    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    description: The error code.
     types:
     - uid: string
   - name: error.message
     isReadyOnly: true
-    description: A message describing the error, intended to be suitable for display in a user interface.
+    description: The error message.
     types:
     - uid: string
-- name: AppWhitelistingGroup
+  - name: error.target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: error.details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: error.additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: AdaptiveApplicationControlGroup
   kind: object
   properties:
   - name: properties.enforcementMode
-    description: The application control policy enforcement/protection mode of the VM/server group
+    description: The application control policy enforcement/protection mode of the machine group
     types:
     - uid: EnforcementMode
   - name: properties.protectionMode
@@ -83,24 +100,28 @@ definitions:
     types:
     - uid: ProtectionMode
   - name: properties.configurationStatus
-    description: The configuration status of the VM/server group or machine or rule on the machine
+    isReadyOnly: true
+    description: The configuration status of the machines group or machine or rule
     types:
     - uid: ConfigurationStatus
   - name: properties.recommendationStatus
-    description: The recommendation status of the VM/server group or VM/server
+    isReadyOnly: true
+    description: The initial recommendation status of the machine group or machine
     types:
     - uid: RecommendationStatus
   - name: properties.issues
-    description: Represents a summary of the alerts of the VM/server group
+    isReadyOnly: true
+    description: Represents a summary of the alerts of the machine group
     types:
-    - uid: AppWhitelistingIssueSummary
+    - uid: AdaptiveApplicationControlIssueSummary
       isArray: true
   - name: properties.sourceSystem
-    description: The source type of the VM/server group
+    isReadyOnly: true
+    description: The source type of the machine group
     types:
     - uid: SourceSystem
   - name: properties.vmRecommendations
-    description: Represents a machine that is part of a VM/server group
+    description: Represents a machine that is part of a machine group
     types:
     - uid: VmRecommendation
       isArray: true
@@ -129,8 +150,53 @@ definitions:
     description: Location where the resource is stored
     types:
     - uid: string
+- name: CloudErrorBody
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 - name: EnforcementMode
-  description: The application control policy enforcement/protection mode of the VM/server group
+  description: The application control policy enforcement/protection mode of the machine group
   kind: enum
   properties:
   - name: Audit
@@ -147,23 +213,23 @@ definitions:
   kind: object
   properties:
   - name: exe
-    description: The application control policy enforcement/protection mode of the VM/server group
+    description: The application control policy enforcement/protection mode of the machine group
     types:
     - uid: EnforcementMode
   - name: msi
-    description: The application control policy enforcement/protection mode of the VM/server group
+    description: The application control policy enforcement/protection mode of the machine group
     types:
     - uid: EnforcementMode
   - name: script
-    description: The application control policy enforcement/protection mode of the VM/server group
+    description: The application control policy enforcement/protection mode of the machine group
     types:
     - uid: EnforcementMode
   - name: executable
-    description: The application control policy enforcement/protection mode of the VM/server group
+    description: The application control policy enforcement/protection mode of the machine group
     types:
     - uid: EnforcementMode
 - name: ConfigurationStatus
-  description: The configuration status of the VM/server group or machine or rule on the machine
+  description: The configuration status of the machines group or machine or rule
   kind: enum
   properties:
   - name: Configured
@@ -182,7 +248,7 @@ definitions:
     types:
     - uid: string
 - name: RecommendationStatus
-  description: The recommendation status of the VM/server group or VM/server
+  description: The initial recommendation status of the machine group or machine
   kind: enum
   properties:
   - name: Recommended
@@ -197,20 +263,20 @@ definitions:
   - name: NoStatus
     types:
     - uid: string
-- name: AppWhitelistingIssueSummary
-  description: Represents a summary of the alerts of the VM/server group
+- name: AdaptiveApplicationControlIssueSummary
+  description: Represents a summary of the alerts of the machine group
   kind: object
   properties:
   - name: issue
-    description: An alert that VMs/servers within a group can have
+    description: An alert that machines within a group can have
     types:
-    - uid: AppWhitelistingIssue
+    - uid: AdaptiveApplicationControlIssue
   - name: numberOfVms
-    description: The number of machines in the VM/server group that have this alert
+    description: The number of machines in the group that have this alert
     types:
     - uid: number
 - name: SourceSystem
-  description: The source type of the VM/server group
+  description: The source type of the machine group
   kind: enum
   properties:
   - name: Azure_AppLocker
@@ -229,23 +295,23 @@ definitions:
     types:
     - uid: string
 - name: VmRecommendation
-  description: Represents a machine that is part of a VM/server group
+  description: Represents a machine that is part of a machine group
   kind: object
   properties:
   - name: configurationStatus
-    description: The configuration status of the VM/server group or machine or rule on the machine
+    description: The configuration status of the machines group or machine or rule
     types:
     - uid: ConfigurationStatus
   - name: recommendationAction
-    description: The recommendation action of the VM/server or rule
+    description: The recommendation action of the machine or rule
     types:
     - uid: RecommendationAction
   - name: resourceId
-    description: The full azure resource id of the machine
+    description: The full resource id of the machine
     types:
     - uid: string
   - name: enforcementSupport
-    description: The VM/server supportability of Enforce feature
+    description: The machine supportability of Enforce feature
     types:
     - uid: EnforcementSupport
 - name: PathRecommendation
@@ -253,11 +319,11 @@ definitions:
   kind: object
   properties:
   - name: path
-    description: The full path to whitelist
+    description: The full path of the file, or an identifier of the application
     types:
     - uid: string
   - name: action
-    description: The recommendation action of the VM/server or rule
+    description: The recommendation action of the machine or rule
     types:
     - uid: RecommendationAction
   - name: type
@@ -269,7 +335,7 @@ definitions:
     types:
     - uid: PublisherInfo
   - name: common
-    description: Whether the path is commonly run on the machine
+    description: Whether the application is commonly run on the machine
     types:
     - uid: boolean
   - name: userSids
@@ -287,11 +353,11 @@ definitions:
     types:
     - uid: FileType
   - name: configurationStatus
-    description: The configuration status of the VM/server group or machine or rule on the machine
+    description: The configuration status of the machines group or machine or rule
     types:
     - uid: ConfigurationStatus
-- name: AppWhitelistingIssue
-  description: An alert that VMs/servers within a group can have
+- name: AdaptiveApplicationControlIssue
+  description: An alert that machines within a group can have
   kind: enum
   properties:
   - name: ViolationsAudited
@@ -313,7 +379,7 @@ definitions:
     types:
     - uid: string
 - name: RecommendationAction
-  description: The recommendation action of the VM/server or rule
+  description: The recommendation action of the machine or rule
   kind: enum
   properties:
   - name: Recommended
@@ -326,7 +392,7 @@ definitions:
     types:
     - uid: string
 - name: EnforcementSupport
-  description: The VM/server supportability of Enforce feature
+  description: The machine supportability of Enforce feature
   kind: enum
   properties:
   - name: Supported
@@ -389,7 +455,7 @@ definitions:
     types:
     - uid: string
   - name: recommendationAction
-    description: The recommendation action of the VM/server or rule
+    description: The recommendation action of the machine or rule
     types:
     - uid: RecommendationAction
 - name: FileType
@@ -415,16 +481,16 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Gets a list of application control VM/server groups for the subscription
+- name: Gets a list of application control groups of machines for the subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/providers/Microsoft.Security/applicationWhitelistings?api-version=2015-06-01-preview&includePathRecommendations=True&summary=False
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/applicationWhitelistings?api-version=2020-01-01&includePathRecommendations=True&summary=False
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/providers/Microsoft.Security/locations/centralus/applicationWhitelistings/AMIT-VA",
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/locations/centralus/applicationWhitelistings/AMIT-VA",
             "name": "AMIT-VA",
             "type": "Microsoft.Security/applicationWhitelistings",
             "location": "centralus",
@@ -439,19 +505,19 @@ examples:
               "vmRecommendations": [
                 {
                   "configurationStatus": "Configured",
-                  "resourceId": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/resourcegroups/erelh-dsc/providers/microsoft.compute/virtualmachines/erelh-14011",
+                  "resourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/erelh-dsc/providers/microsoft.compute/virtualmachines/erelh-14011",
                   "recommendationAction": "Recommended",
                   "enforcementSupport": "Supported"
                 },
                 {
                   "configurationStatus": "Configured",
-                  "resourceId": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/resourcegroups/amit-va/providers/microsoft.compute/virtualmachines/ream-test",
+                  "resourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/amit-va/providers/microsoft.compute/virtualmachines/ream-test",
                   "recommendationAction": "Recommended",
                   "enforcementSupport": "Supported"
                 },
                 {
                   "configurationStatus": "Configured",
-                  "resourceId": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/resourcegroups/v-arrikl-scheduledapps/providers/microsoft.compute/virtualmachines/v-arrikl-14060",
+                  "resourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/v-arrikl-scheduledapps/providers/microsoft.compute/virtualmachines/v-arrikl-14060",
                   "recommendationAction": "Recommended",
                   "enforcementSupport": "Supported"
                 }
@@ -539,7 +605,7 @@ examples:
             }
           },
           {
-            "id": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/providers/Microsoft.Security/locations/centralus/applicationWhitelistings/ERELGROUP1",
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/locations/centralus/applicationWhitelistings/ERELGROUP1",
             "name": "ERELGROUP1",
             "type": "Microsoft.Security/applicationWhitelistings",
             "location": "centralus",
@@ -554,7 +620,7 @@ examples:
               "vmRecommendations": [
                 {
                   "configurationStatus": "Configured",
-                  "resourceId": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/resourcegroups/erelh-stable/providers/microsoft.compute/virtualmachines/erelh-16090",
+                  "resourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/erelh-stable/providers/microsoft.compute/virtualmachines/erelh-16090",
                   "recommendationAction": "Recommended",
                   "enforcementSupport": "NotSupported"
                 }
@@ -590,7 +656,7 @@ examples:
             }
           },
           {
-            "id": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/providers/Microsoft.Security/locations/centralus/applicationWhitelistings/GROUP1",
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/locations/centralus/applicationWhitelistings/GROUP1",
             "name": "GROUP1",
             "type": "Microsoft.Security/applicationWhitelistings",
             "location": "centralus",
@@ -605,25 +671,25 @@ examples:
               "vmRecommendations": [
                 {
                   "configurationStatus": "Configured",
-                  "resourceId": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/resourcegroups/talk-va/providers/microsoft.compute/virtualmachines/tal-win-vm",
+                  "resourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/talk-va/providers/microsoft.compute/virtualmachines/tal-win-vm",
                   "recommendationAction": "Recommended",
                   "enforcementSupport": "Supported"
                 },
                 {
                   "configurationStatus": "Configured",
-                  "resourceId": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/resourcegroups/talk-va/providers/microsoft.compute/virtualmachines/tal-win-vm-jit",
+                  "resourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/talk-va/providers/microsoft.compute/virtualmachines/tal-win-vm-jit",
                   "recommendationAction": "Recommended",
                   "enforcementSupport": "Supported"
                 },
                 {
                   "configurationStatus": "Configured",
-                  "resourceId": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/resourcegroups/myresourcegroup/providers/microsoft.compute/virtualmachines/myvmweb",
+                  "resourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/myresourcegroup/providers/microsoft.compute/virtualmachines/myvmweb",
                   "recommendationAction": "Recommended",
                   "enforcementSupport": "Supported"
                 },
                 {
                   "configurationStatus": "Configured",
-                  "resourceId": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/resourcegroups/v-arrikl-scheduledapps/providers/microsoft.compute/virtualmachines/v-arrikl-14061",
+                  "resourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/v-arrikl-scheduledapps/providers/microsoft.compute/virtualmachines/v-arrikl-14061",
                   "recommendationAction": "Recommended",
                   "enforcementSupport": "Supported"
                 }
@@ -751,7 +817,7 @@ examples:
             }
           },
           {
-            "id": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/providers/Microsoft.Security/locations/westeurope/applicationWhitelistings/GROUP1",
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/locations/westeurope/applicationWhitelistings/GROUP1",
             "name": "GROUP1",
             "type": "Microsoft.Security/applicationWhitelistings",
             "location": "westeurope",
@@ -764,7 +830,7 @@ examples:
               "vmRecommendations": [
                 {
                   "configurationStatus": "Configured",
-                  "resourceId": "/subscriptions/3eeab341-f466-499c-a8be-85427e154baf/resourcegroups/nic-no-pip/providers/microsoft.compute/virtualmachines/nic-no-pip-vm",
+                  "resourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/nic-no-pip/providers/microsoft.compute/virtualmachines/nic-no-pip-vm",
                   "recommendationAction": "Recommended",
                   "enforcementSupport": "Unknown"
                 }
