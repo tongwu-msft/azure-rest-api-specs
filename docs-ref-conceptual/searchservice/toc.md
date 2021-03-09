@@ -6,6 +6,9 @@
 # [OData support](support-for-odata.md)
 # Reference (Preview)
 ## [Introduction](index-preview.md)
+## Indexes
+### [Create Index](preview-api/create-index.md)
+### [Update Index](preview-api/update-index.md)
 ## Documents
 ### [Reset Documents](preview-api/reset-documents.md)
 ### [Search Documents](preview-api/search-documents.md)
