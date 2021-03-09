@@ -10702,6 +10702,9 @@
 ## [OData support](../docs-ref-conceptual/searchservice/support-for-odata.md)
 ## Reference (Preview)
 ### [Introduction](../docs-ref-conceptual/searchservice/index-preview.md)
+### Indexes
+#### [Create Index](../docs-ref-conceptual/searchservice/preview-api/create-index.md)
+#### [Update Index](../docs-ref-conceptual/searchservice/preview-api/update-index.md)
 ### Documents
 #### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
 #### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)
