@@ -3,14 +3,14 @@ uid: management.azure.com.frontdoorservice.webapplicationfirewall.policies.list
 name: List
 service: Front Door Service
 groupName: Policies
-apiVersion: 2019-10-01
+apiVersion: 2020-11-01
 summary: Lists all of the protection policies within a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies?api-version=2019-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoorWebApplicationFirewallPolicies?api-version=2020-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -78,6 +78,10 @@ definitions:
     description: Gets a unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: sku
+    description: The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified.
+    types:
+    - uid: Sku
   - name: properties.policySettings
     description: Describes settings for the policy.
     types:
@@ -95,6 +99,18 @@ definitions:
     description: Describes Frontend Endpoints associated with this Web Application Firewall policy.
     types:
     - uid: FrontendEndpointLink
+      isArray: true
+  - name: properties.routingRuleLinks
+    isReadyOnly: true
+    description: Describes Routing Rules associated with this Web Application Firewall policy.
+    types:
+    - uid: RoutingRuleLink
+      isArray: true
+  - name: properties.securityPolicyLinks
+    isReadyOnly: true
+    description: Describes Security Policy associated with this Web Application Firewall policy.
+    types:
+    - uid: SecurityPolicyLink
       isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
@@ -133,6 +149,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: Sku
+  description: The pricing tier of the web application firewall policy.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the pricing tier.
+    types:
+    - uid: SkuName
 - name: PolicySettings
   description: Defines top-level WebApplicationFirewallPolicy configuration settings.
   kind: object
@@ -157,6 +181,10 @@ definitions:
     description: If the action type is block, customer can override the response body. The body must be specified in base64 encoding.
     types:
     - uid: string
+  - name: requestBodyCheck
+    description: Describes if policy managed rules will inspect the request body content.
+    types:
+    - uid: PolicyRequestBodyCheck
 - name: CustomRuleList
   description: Defines contents of custom rules
   kind: object
@@ -177,6 +205,22 @@ definitions:
       isArray: true
 - name: FrontendEndpointLink
   description: Defines the Resource ID for a Frontend Endpoint.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: RoutingRuleLink
+  description: Defines the Resource ID for a Routing Rule.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: SecurityPolicyLink
+  description: Defines the Resource ID for a Security Policy.
   kind: object
   properties:
   - name: id
@@ -205,6 +249,19 @@ definitions:
   - name: Deleting
     types:
     - uid: string
+- name: SkuName
+  description: Name of the pricing tier.
+  kind: enum
+  properties:
+  - name: Classic_AzureFrontDoor
+    types:
+    - uid: string
+  - name: Standard_AzureFrontDoor
+    types:
+    - uid: string
+  - name: Premium_AzureFrontDoor
+    types:
+    - uid: string
 - name: PolicyEnabledState
   description: Describes if the policy is in enabled or disabled state. Defaults to Enabled if not specified.
   kind: enum
@@ -223,6 +280,16 @@ definitions:
     types:
     - uid: string
   - name: Detection
+    types:
+    - uid: string
+- name: PolicyRequestBodyCheck
+  description: Describes if policy managed rules will inspect the request body content.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
     types:
     - uid: string
 - name: CustomRule
@@ -274,6 +341,10 @@ definitions:
     description: Defines the version of the rule set to use.
     types:
     - uid: string
+  - name: ruleSetAction
+    description: Defines the action to take when a managed rule set score threshold is met.
+    types:
+    - uid: ManagedRuleSetActionType
   - name: exclusions
     description: Describes the exclusions that are applied to all rules in the set.
     types:
@@ -341,6 +412,19 @@ definitions:
   - name: Allow
     types:
     - uid: string
+  - name: Block
+    types:
+    - uid: string
+  - name: Log
+    types:
+    - uid: string
+  - name: Redirect
+    types:
+    - uid: string
+- name: ManagedRuleSetActionType
+  description: Defines the action to take when a managed rule set score threshold is met.
+  kind: enum
+  properties:
   - name: Block
     types:
     - uid: string
@@ -471,6 +555,9 @@ definitions:
   - name: RequestBodyPostArgNames
     types:
     - uid: string
+  - name: RequestBodyJsonArgNames
+    types:
+    - uid: string
 - name: ManagedRuleExclusionSelectorMatchOperator
   description: Comparison operator to apply to the selector when specifying which elements in the collection this exclusion applies to.
   kind: enum
@@ -524,7 +611,7 @@ definitions:
 examples:
 - name: List Policies in a Resource Group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies?api-version=2019-10-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoorWebApplicationFirewallPolicies?api-version=2020-11-01
   responses:
   - statusCode: "200"
     body: >-
@@ -539,6 +626,9 @@ examples:
               "key2": "value2"
             },
             "location": "WestUs",
+            "sku": {
+              "name": "Classic_AzureFrontDoor"
+            },
             "properties": {
               "resourceState": "Enabled",
               "provisioningState": "Succeeded",
@@ -642,7 +732,8 @@ examples:
                 {
                   "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontdoors/fd1/frontendendpoints/fd1-azurefd-net"
                 }
-              ]
+              ],
+              "securityPolicyLinks": []
             }
           }
         ]

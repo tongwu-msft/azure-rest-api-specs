@@ -1,0 +1,167 @@
+### YamlMime:RESTOperation
+uid: communication.phonenumberadministration.getphoneplans
+name: Get Phone Plans
+service: Communication
+groupName: Phone Number Administration
+apiVersion: 2020-07-20-preview1
+summary: Gets a list of phone plans for a phone plan group
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/administration/phonenumbers/countries/{countryCode}/phoneplangroups/{phonePlanGroupId}/phoneplans?api-version=2020-07-20-preview1
+- content: GET {endpoint}/administration/phonenumbers/countries/{countryCode}/phoneplangroups/{phonePlanGroupId}/phoneplans?locale={locale}&skip={skip}&take={take}&api-version=2020-07-20-preview1
+  isOptional: true
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The endpoint of the Azure Communication resource.
+  types:
+  - uid: string
+- name: countryCode
+  in: path
+  isRequired: true
+  description: The ISO 3166-2 country code.
+  types:
+  - uid: string
+- name: phonePlanGroupId
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: locale
+  in: query
+  description: A language-locale pairing which will be used to localize the names of countries
+  types:
+  - uid: string
+- name: skip
+  in: query
+  description: An optional parameter for how many entries to skip, for pagination purposes.
+  types:
+  - uid: integer
+  format: int32
+- name: take
+  in: query
+  description: An optional parameter for how many entries to return, for pagination purposes.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: PhonePlansResponse
+- name: Other Status Codes
+  description: Failure
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PhonePlansResponse
+  description: Represents a wrapper around a list of countries.
+  kind: object
+  properties:
+  - name: phonePlans
+    description: Represents the underlying list of phone plans.
+    types:
+    - uid: PhonePlan
+      isArray: true
+  - name: nextLink
+    description: Represents the URL link to the next page
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Represents a service error response.
+  kind: object
+  properties:
+  - name: error
+    description: Represents a service error response body.
+    types:
+    - uid: ErrorBody
+- name: PhonePlan
+  description: Represents a phone plan.
+  kind: object
+  properties:
+  - name: phonePlanId
+    description: The phone plan id
+    types:
+    - uid: string
+  - name: localizedName
+    description: The name of the phone plan
+    types:
+    - uid: string
+  - name: locationType
+    description: The location type of the phone plan.
+    types:
+    - uid: LocationType
+  - name: areaCodes
+    description: The list of available area codes in the phone plan.
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Capabilities of the phone plan.
+    types:
+    - uid: string
+      isArray: true
+  - name: maximumSearchSize
+    description: The maximum number of phone numbers one can acquire in a search in this phone plan.
+    types:
+    - uid: integer
+- name: ErrorBody
+  description: Represents a service error response body.
+  kind: object
+  properties:
+  - name: code
+    description: The error code in the error response.
+    types:
+    - uid: string
+  - name: message
+    description: The error message in the error response.
+    types:
+    - uid: string
+- name: LocationType
+  description: The location type of the phone plan.
+  kind: enum
+  properties:
+  - name: CivicAddress
+    types:
+    - uid: string
+  - name: NotRequired
+    types:
+    - uid: string
+  - name: Selection
+    types:
+    - uid: string
+examples:
+- name: Get plans
+  request:
+    uri: GET https://resourcename.communications.azure.net//administration/phonenumbers/countries/US/phoneplangroups/671ee064-662f-4c3b-82a9-af2ab200dd5c/phoneplans?api-version=2020-07-20-preview1
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "phonePlans": [
+          {
+            "phonePlanId": "27b53eec-8ff4-4070-8900-fbeaabfd158a",
+            "localizedName": "Outbound Only PSTN - Geographic",
+            "locationType": "Selection",
+            "capabilities": [
+              "Azure",
+              "OutboundCalling",
+              "ThirdPartyAppAssignment",
+              "Geographic"
+            ],
+            "maximumSearchSize": 100
+          }
+        ]
+      }
+security: []
+errorCodes: []

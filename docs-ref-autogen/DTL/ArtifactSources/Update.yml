@@ -54,46 +54,6 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.displayName
-    in: body
-    description: The artifact source's display name.
-    types:
-    - uid: string
-  - name: properties.uri
-    in: body
-    description: The artifact source's URI.
-    types:
-    - uid: string
-  - name: properties.sourceType
-    in: body
-    description: The artifact source's type.
-    types:
-    - uid: SourceControlType
-  - name: properties.folderPath
-    in: body
-    description: The folder containing artifacts.
-    types:
-    - uid: string
-  - name: properties.armTemplateFolderPath
-    in: body
-    description: The folder containing Azure Resource Manager templates.
-    types:
-    - uid: string
-  - name: properties.branchRef
-    in: body
-    description: The artifact source's branch reference.
-    types:
-    - uid: string
-  - name: properties.securityToken
-    in: body
-    description: The security token to authenticate to the artifact source.
-    types:
-    - uid: string
-  - name: properties.status
-    in: body
-    description: 'Indicates if the artifact source is enabled (values: Enabled, Disabled).'
-    types:
-    - uid: EnableStatus
   - name: tags
     in: body
     description: The tags of the resource.
@@ -195,38 +155,6 @@ definitions:
   description: Properties of an artifact source.
   kind: object
   properties:
-  - name: properties.displayName
-    description: The artifact source's display name.
-    types:
-    - uid: string
-  - name: properties.uri
-    description: The artifact source's URI.
-    types:
-    - uid: string
-  - name: properties.sourceType
-    description: The artifact source's type.
-    types:
-    - uid: SourceControlType
-  - name: properties.folderPath
-    description: The folder containing artifacts.
-    types:
-    - uid: string
-  - name: properties.armTemplateFolderPath
-    description: The folder containing Azure Resource Manager templates.
-    types:
-    - uid: string
-  - name: properties.branchRef
-    description: The artifact source's branch reference.
-    types:
-    - uid: string
-  - name: properties.securityToken
-    description: The security token to authenticate to the artifact source.
-    types:
-    - uid: string
-  - name: properties.status
-    description: 'Indicates if the artifact source is enabled (values: Enabled, Disabled).'
-    types:
-    - uid: EnableStatus
   - name: tags
     description: The tags of the resource.
     types:
@@ -243,6 +171,9 @@ definitions:
     types:
     - uid: string
   - name: GitHub
+    types:
+    - uid: string
+  - name: StorageAccount
     types:
     - uid: string
 - name: EnableStatus
@@ -276,7 +207,41 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-examples: []
+examples:
+- name: ArtifactSources_Update
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{artifactSourceName}?api-version=2018-09-15
+    body: >-
+      {
+        "tags": {
+          "tagName1": "tagValue1"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "displayName": "{displayName}",
+          "uri": "{artifactSourceUri}",
+          "sourceType": "{VsoGit|GitHub|StorageAccount}",
+          "folderPath": "{folderPath}",
+          "armTemplateFolderPath": "{armTemplateFolderPath}",
+          "branchRef": "{branchRef}",
+          "securityToken": "{securityToken}",
+          "status": "{Enabled|Disabled}",
+          "createdDate": "2020-12-16T16:53:02.4830866-07:00",
+          "provisioningState": "Succeeded",
+          "uniqueIdentifier": "{uniqueIdentifier}"
+        },
+        "id": "/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{artifactSourceName}",
+        "name": "{artifactSourceName}",
+        "type": "Microsoft.DevTestLab/labs/artifactsources",
+        "location": "{location}",
+        "tags": {
+          "tagName1": "tagValue1"
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2

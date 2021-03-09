@@ -29,6 +29,7 @@ Azure Security Center provides unified security management and advanced threat p
 | [Auto Provisioning Settings](../../docs-ref-autogen/securitycenter/AutoProvisioningSettings.yml) |Auto provisioning settings of the subscriptions.|
 | [Automations](../../docs-ref-autogen/securitycenter/Automations.yml) |Manage security automations.|
 | [Compliances](../../docs-ref-autogen/securitycenter/Compliances.yml) |Details of specific Compliances.|
+| [Connectors](../../docs-ref-autogen/securitycenter/Connectors.yml) |Manage cloud connectors for multicloud scenarios.|
 | [Device Security Groups](../../docs-ref-autogen/securitycenter/DeviceSecurityGroups.yml) |Manage the device security group for a specified IoT Hub resource.|
 | [Discovered Security Solutions](../../docs-ref-autogen/securitycenter/DiscoveredSecuritySolutions.yml) | Details of specific discovered Security Solution. |
 | [External Security Solutions](../../docs-ref-autogen/securitycenter/ExternalSecuritySolutions.yml) | External Security Solutions for the subscription and location. |

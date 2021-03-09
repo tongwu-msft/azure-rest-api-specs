@@ -9,7 +9,7 @@ summary: >-
 
   * No image will be stored. Only the extracted face feature will be stored on server. The faceId is an identifier of the face feature and will be used in [Face - Identify](../face/identify), [Face - Verify](../face/verifyfacetoface), and [Face - Find Similar](../face/findsimilar). The stored face feature(s) will expire and be deleted at the time specified by faceIdTimeToLive after the original detection call.
 
-  * Optional parameters include faceId, landmarks, and attributes. Attributes include age, gender, headPose, smile, facialHair, glasses, emotion, hair, makeup, occlusion, accessories, blur, exposure and noise. Some of the results returned for specific attributes may not be highly accurate.
+  * Optional parameters include faceId, landmarks, and attributes. Attributes include age, gender, headPose, smile, facialHair, glasses, emotion, hair, makeup, occlusion, accessories, blur, exposure, noise, and mask. Some of the results returned for specific attributes may not be highly accurate.
 
   * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is from 1KB to 6MB.
 
@@ -50,7 +50,7 @@ uriParameters:
   - uid: boolean
 - name: returnFaceAttributes
   in: query
-  description: Analyze and return the one or more specified face attributes in the comma-separated string like "returnFaceAttributes=age,gender". Supported face attributes include age, gender, headPose, smile, facialHair, glasses and emotion. Note that each face attribute analysis has additional computational and time cost.
+  description: Analyze and return the one or more specified face attributes in the comma-separated string like "returnFaceAttributes=age,gender". The available attributes depends on the 'detectionModel' specified. 'detection_01' supports age, gender, headPose, smile, facialHair, glasses, emotion, hair, makeup, occlusion, accessories, blur, exposure, and noise. While 'detection_02' does not support any attributes and 'detection_03' only supports mask. Note that each face attribute analysis has additional computational and time cost.
   types:
   - uid: array
 - name: recognitionModel
@@ -109,6 +109,9 @@ definitions:
     types:
     - uid: string
   - name: recognition_03
+    types:
+    - uid: string
+  - name: recognition_04
     types:
     - uid: string
 - name: DetectionModel
@@ -325,7 +328,7 @@ definitions:
     types:
     - uid: Hair
   - name: makeup
-    description: Properties describing present makeups on a given face.
+    description: Properties describing the presence of makeup on a given face.
     types:
     - uid: Makeup
   - name: occlusion
@@ -349,6 +352,10 @@ definitions:
     description: Properties describing noise level of the image.
     types:
     - uid: Noise
+  - name: mask
+    description: Properties describing the presence of a mask on a given face.
+    types:
+    - uid: Mask
 - name: Error
   description: Error body.
   kind: object
@@ -485,7 +492,7 @@ definitions:
     - uid: HairColor
       isArray: true
 - name: Makeup
-  description: Properties describing present makeups on a given face.
+  description: Properties describing the presence of makeup on a given face.
   kind: object
   properties:
   - name: eyeMakeup
@@ -560,6 +567,18 @@ definitions:
     description: A number indicating level of noise level ranging from 0 to 1. [0, 0.25) is under exposure. [0.25, 0.75) is good exposure. [0.75, 1] is over exposure. [0, 0.3) is low noise level. [0.3, 0.7) is medium noise level. [0.7, 1] is high noise level.
     types:
     - uid: number
+- name: Mask
+  description: Properties describing the presence of a mask on a given face.
+  kind: object
+  properties:
+  - name: type
+    description: Mask type if any of the face
+    types:
+    - uid: MaskType
+  - name: noseAndMouthCovered
+    description: A boolean value indicating whether nose and mouth are covered.
+    types:
+    - uid: boolean
 - name: HairColor
   description: Hair color and associated confidence
   kind: object
@@ -622,6 +641,22 @@ definitions:
     types:
     - uid: string
   - name: High
+    types:
+    - uid: string
+- name: MaskType
+  description: Mask type if any of the face
+  kind: enum
+  properties:
+  - name: noMask
+    types:
+    - uid: string
+  - name: faceMask
+    types:
+    - uid: string
+  - name: otherMaskOrOcclusion
+    types:
+    - uid: string
+  - name: uncertain
     types:
     - uid: string
 - name: HairColorType

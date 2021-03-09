@@ -1,0 +1,365 @@
+### YamlMime:RESTOperation
+uid: communication.chat.chat.createchatthread
+name: Create Chat Thread
+service: Communication
+groupName: Chat
+apiVersion: 2020-11-01-preview3
+summary: Creates a chat thread.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/chat/threads?api-version=2020-11-01-preview3
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The endpoint of the Azure Communication resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Thread created, the `Location` header would contain the URL for the newly created thread.
+  types:
+  - uid: CreateChatThreadResult
+- name: 401 Unauthorized
+  description: Unauthorized.
+  types:
+  - uid: CommunicationErrorResponse
+- name: 403 Forbidden
+  description: Forbidden.
+  types:
+  - uid: CommunicationErrorResponse
+- name: Other Status Codes
+  description: Too many requests.
+  types:
+  - uid: CommunicationErrorResponse
+- name: Other Status Codes
+  description: Service unavailable.
+  types:
+  - uid: CommunicationErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: topic
+    in: body
+    isRequired: true
+    description: The chat thread topic.
+    types:
+    - uid: string
+  - name: participants
+    in: body
+    isRequired: true
+    description: Participants to be added to the chat thread.
+    types:
+    - uid: ChatParticipant
+      isArray: true
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: An ACS (Azure Communication Services) user access token.
+  types:
+  - uid: string
+- name: repeatability-Request-ID
+  in: header
+  description: If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-ID and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-ID is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs.
+  types:
+  - uid: string
+definitions:
+- name: ChatParticipant
+  description: A participant of the chat thread.
+  kind: object
+  properties:
+  - name: id
+    description: The id of the chat participant.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name for the chat participant.
+    types:
+    - uid: string
+  - name: shareHistoryTime
+    description: 'Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.'
+    types:
+    - uid: string
+- name: CreateChatThreadResult
+  description: Result of the create chat thread operation.
+  kind: object
+  properties:
+  - name: chatThread
+    description: Chat thread.
+    types:
+    - uid: ChatThread
+  - name: errors
+    description: Errors encountered during the creation of the chat thread.
+    types:
+    - uid: CreateChatThreadErrors
+- name: CommunicationErrorResponse
+  description: The Communication Services error.
+  kind: object
+  properties:
+  - name: error
+    description: The Communication Services error.
+    types:
+    - uid: CommunicationError
+- name: CreateChatThreadRequest
+  description: Request payload for creating a chat thread.
+  kind: object
+  properties:
+  - name: topic
+    description: The chat thread topic.
+    types:
+    - uid: string
+  - name: participants
+    description: Participants to be added to the chat thread.
+    types:
+    - uid: ChatParticipant
+      isArray: true
+- name: ChatThread
+  description: Chat thread.
+  kind: object
+  properties:
+  - name: id
+    description: Chat thread id.
+    types:
+    - uid: string
+  - name: topic
+    description: Chat thread topic.
+    types:
+    - uid: string
+  - name: createdOn
+    description: 'The timestamp when the chat thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.'
+    types:
+    - uid: string
+  - name: createdBy
+    description: Id of the chat thread owner.
+    types:
+    - uid: string
+  - name: deletedOn
+    description: 'The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.'
+    types:
+    - uid: string
+- name: CreateChatThreadErrors
+  description: Errors encountered during the creation of the chat thread.
+  kind: object
+  properties:
+  - name: invalidParticipants
+    isReadyOnly: true
+    description: The participants that failed to be added to the chat thread.
+    types:
+    - uid: CommunicationError
+      isArray: true
+- name: CommunicationError
+  description: The Communication Services error.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Further details about specific errors that led to this error.
+    types:
+    - uid: CommunicationError
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: The inner error if any.
+    types:
+    - uid: CommunicationError
+examples:
+- name: Create chat thread
+  request:
+    uri: POST https://contoso.westus.communications.azure.com/chat/threads?api-version=2020-11-01-preview3
+    body: >-
+      {
+        "topic": "Lunch",
+        "participants": [
+          {
+            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
+            "displayName": "Jane"
+          },
+          {
+            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+            "displayName": "Alex"
+          },
+          {
+            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
+            "displayName": "Bob"
+          },
+          {
+            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d",
+            "displayName": "Peter"
+          }
+        ]
+      }
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: Location
+      value: https://contoso.westus.communications.azure.com/chat/threads/19%3Auni01_zbnh3nt2dfuffezc3sox7dog7wfhk6y5qe2rwlnfhlhdzirihdpq@thread.v2
+    body: >-
+      {
+        "chatThread": {
+          "id": "19:uni01_zbnh3nt2dfuffezc3sox7dog7wfhk6y5qe2rwlnfhlhdzirihdpq@thread.v2",
+          "topic": "Lunch",
+          "createdOn": "2020-06-06T05:55:41.6460000Z",
+          "createdBy": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+        },
+        "errors": {
+          "invalidParticipants": [
+            {
+              "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
+              "code": "403",
+              "message": "Permissions check failed"
+            },
+            {
+              "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d",
+              "code": "404",
+              "message": "Not found"
+            }
+          ]
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "Unauthorized",
+          "message": "Request is not authorized."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "Forbidden",
+          "message": "User is not allowed to perform specified action."
+        }
+      }
+  - statusCode: "429"
+    body: >-
+      {
+        "error": {
+          "code": "TooManyRequests",
+          "message": "Rate limit exceeded."
+        }
+      }
+  - statusCode: "503"
+    body: >-
+      {
+        "error": {
+          "code": "ServiceUnavailable",
+          "message": "The server is currently unable to handle the request."
+        }
+      }
+- name: Create chat thread with repeatability request id header
+  request:
+    uri: POST https://contoso.westus.communications.azure.com/chat/threads?api-version=2020-11-01-preview3
+    body: >-
+      {
+        "topic": "Lunch",
+        "participants": [
+          {
+            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
+            "displayName": "Jane"
+          },
+          {
+            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+            "displayName": "Alex"
+          },
+          {
+            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
+            "displayName": "Bob"
+          },
+          {
+            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d",
+            "displayName": "Peter"
+          }
+        ]
+      }
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: Location
+      value: https://contoso.westus.communications.azure.com/chat/threads/19%3Auni01_zbnh3nt2dfuffezc3sox7dog7wfhk6y5qe2rwlnfhlhdzirihdpq@thread.v2
+    body: >-
+      {
+        "chatThread": {
+          "id": "19:uni01_zbnh3nt2dfuffezc3sox7dog7wfhk6y5qe2rwlnfhlhdzirihdpq@thread.v2",
+          "topic": "Lunch",
+          "createdOn": "2020-06-06T05:55:41.6460000Z",
+          "createdBy": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+        },
+        "errors": {
+          "invalidParticipants": [
+            {
+              "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
+              "code": "403",
+              "message": "Permissions check failed"
+            },
+            {
+              "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d",
+              "code": "404",
+              "message": "Not found"
+            }
+          ]
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "Unauthorized",
+          "message": "Request is not authorized."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "Forbidden",
+          "message": "User is not allowed to perform specified action."
+        }
+      }
+  - statusCode: "429"
+    body: >-
+      {
+        "error": {
+          "code": "TooManyRequests",
+          "message": "Rate limit exceeded."
+        }
+      }
+  - statusCode: "503"
+    body: >-
+      {
+        "error": {
+          "code": "ServiceUnavailable",
+          "message": "The server is currently unable to handle the request."
+        }
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: An ACS (Azure Communication Services) user access token.
+  in: header
+errorCodes: []
