@@ -24,9 +24,9 @@ Modifying an existing Azure Cognitive Search index typically requires an [index 
 +  [Add or change scoring profiles](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) 
 +  Change CORS options
 +  Change existing fields with any of the following three modifications: 
-  1. Show or hide fields (`retrievable`: true | false)
-  2. Change the analyzer used at query time (`searchAnalyzer`)
-  3. Add or edit the synonymMap used at query time (`synonymMaps`) 
+    +  Show or hide fields (`retrievable`: true | false)
+    +  Change the analyzer used at query time (`searchAnalyzer`)
+    +  Add or edit the synonymMap used at query time (`synonymMaps`)
 
 To make any of these schema changes to an existing index, specify the name of the index on the request URI, and then include a fully-specified index definition with the new or changed elements.
 
