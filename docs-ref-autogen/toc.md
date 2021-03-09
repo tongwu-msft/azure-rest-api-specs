@@ -10955,6 +10955,21 @@
 ### [Get](securitycenter/Settings/Get.yml)
 ### [List](securitycenter/Settings/List.yml)
 ### [Update](securitycenter/Settings/Update.yml)
+## Sql Vulnerability Assessment Baseline Rules
+### [Overview](securitycenter/SqlVulnerabilityAssessmentBaselineRules.yml)
+### [Add](securitycenter/SqlVulnerabilityAssessmentBaselineRules/Add.yml)
+### [Create Or Update](securitycenter/SqlVulnerabilityAssessmentBaselineRules/CreateOrUpdate.yml)
+### [Delete](securitycenter/SqlVulnerabilityAssessmentBaselineRules/Delete.yml)
+### [Get](securitycenter/SqlVulnerabilityAssessmentBaselineRules/Get.yml)
+### [List](securitycenter/SqlVulnerabilityAssessmentBaselineRules/List.yml)
+## Sql Vulnerability Assessment Scan Results
+### [Overview](securitycenter/SqlVulnerabilityAssessmentScanResults.yml)
+### [Get](securitycenter/SqlVulnerabilityAssessmentScanResults/Get.yml)
+### [List](securitycenter/SqlVulnerabilityAssessmentScanResults/List.yml)
+## Sql Vulnerability Assessment Scans
+### [Overview](securitycenter/SqlVulnerabilityAssessmentScans.yml)
+### [Get](securitycenter/SqlVulnerabilityAssessmentScans/Get.yml)
+### [List](securitycenter/SqlVulnerabilityAssessmentScans/List.yml)
 ## Sub Assessments
 ### [Overview](securitycenter/SubAssessments.yml)
 ### [Get](securitycenter/SubAssessments/Get.yml)
