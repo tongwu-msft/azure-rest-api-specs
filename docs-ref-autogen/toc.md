@@ -15633,22 +15633,29 @@
 ### [Client-side Logging with the Microsoft Azure Storage SDK for Java](../docs-ref-conceptual/storageservices/client-side-logging-with-the-microsoft-azure-storage-sdk-for-java.md)
 ## Reference
 ### Data Lake Storage Gen2
-#### Filesystem
-##### [Overview](storageservices/datalakestoragegen2/Filesystem.yml)
-##### [Create](storageservices/datalakestoragegen2/Filesystem/Create.yml)
-##### [Delete](storageservices/datalakestoragegen2/Filesystem/Delete.yml)
-##### [Get Properties](storageservices/datalakestoragegen2/Filesystem/GetProperties.yml)
-##### [List](storageservices/datalakestoragegen2/Filesystem/List.yml)
-##### [Set Properties](storageservices/datalakestoragegen2/Filesystem/SetProperties.yml)
+#### File System
+##### [Overview](storageservices/datalakestoragegen2/FileSystem.yml)
+##### [Create](storageservices/datalakestoragegen2/FileSystem/Create.yml)
+##### [Delete](storageservices/datalakestoragegen2/FileSystem/Delete.yml)
+##### [Get Properties](storageservices/datalakestoragegen2/FileSystem/GetProperties.yml)
+##### [List Paths](storageservices/datalakestoragegen2/FileSystem/ListPaths.yml)
+##### [Set Properties](storageservices/datalakestoragegen2/FileSystem/SetProperties.yml)
 #### Path
 ##### [Overview](storageservices/datalakestoragegen2/Path.yml)
+##### [Append Data](storageservices/datalakestoragegen2/Path/AppendData.yml)
 ##### [Create](storageservices/datalakestoragegen2/Path/Create.yml)
 ##### [Delete](storageservices/datalakestoragegen2/Path/Delete.yml)
+##### [Flush Data](storageservices/datalakestoragegen2/Path/FlushData.yml)
 ##### [Get Properties](storageservices/datalakestoragegen2/Path/GetProperties.yml)
 ##### [Lease](storageservices/datalakestoragegen2/Path/Lease.yml)
-##### [List](storageservices/datalakestoragegen2/Path/List.yml)
 ##### [Read](storageservices/datalakestoragegen2/Path/Read.yml)
+##### [Set Access Control](storageservices/datalakestoragegen2/Path/SetAccessControl.yml)
+##### [Set Access Control Recursive](storageservices/datalakestoragegen2/Path/SetAccessControlRecursive.yml)
+##### [Set Expiry](storageservices/datalakestoragegen2/Path/SetExpiry.yml)
 ##### [Update](storageservices/datalakestoragegen2/Path/Update.yml)
+#### Service
+##### [Overview](storageservices/datalakestoragegen2/Service.yml)
+##### [List File Systems](storageservices/datalakestoragegen2/Service/ListFileSystems.yml)
 # Storagecache
 ## [Overview](../docs-ref-conceptual/storagecache/index.md)
 ## Asc Operations
