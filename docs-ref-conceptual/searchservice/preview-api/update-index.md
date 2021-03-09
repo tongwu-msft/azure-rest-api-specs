@@ -20,13 +20,14 @@ ms.manager: nitinme
 
 Modifying an existing Azure Cognitive Search index typically requires an [index drop and rebuild](https://docs.microsoft.com/azure/search/search-howto-reindex), with the exception of the following schema changes:
 
-+  Add new fields
-+  [Add or change scoring profiles](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) 
-+  Change CORS options
-+  Change existing fields with any of the following three modifications: 
-    +  Show or hide fields (`retrievable`: true | false)
-    +  Change the analyzer used at query time (`searchAnalyzer`)
-    +  Add or edit the synonymMap used at query time (`synonymMaps`)
++ Add new fields
++ [Add or change scoring profiles](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) 
++ Change CORS options
++ Change existing fields with any of the following three modifications:
+
+  + Show or hide fields (`retrievable`: true | false)
+  + Change the analyzer used at query time (`searchAnalyzer`)
+  + Add or edit the synonymMap used at query time (`synonymMaps`)
 
 To make any of these schema changes to an existing index, specify the name of the index on the request URI, and then include a fully-specified index definition with the new or changed elements.
 
@@ -37,7 +38,7 @@ PUT https://[search service name].search.windows.net/indexes/[index name]?api-ve
 ```  
 
 > [!NOTE]
->  Field attributes that can be changed without the need to re-create the index include: `retrievable`, `searchAnalyzer`, `synonymMaps`.
+> Field attributes that can be changed without the need to re-create the index include: `retrievable`, `searchAnalyzer`, `synonymMaps`.
 >  
 
 Although existing fields cannot be deleted and most attributes cannot be changed, new fields can be added to an existing index at any time. The same applies to a [`suggester`](https://docs.microsoft.com/azure/search/index-add-suggesters). New fields may be added to a `suggester` at the same time fields are added, but existing fields cannot be removed from nor added to `suggesters` without an index rebuild.
@@ -54,7 +55,7 @@ This operation takes your index offline for at least a few seconds, causing your
 > Predefined normalizers like `standard` and `lowercase` can be referenced directly in the `normalizer` field attribute for **new indexes created after February 15, 2021** in a create or update index request that uses `api-version=2020-06-30-Preview`. If the index already exists, specify `allowIndexDowntime` on the request that adds a predefined normalizer so that index settings can be modified. All subsequent updates don't require the flag and will succeed without any downtime. For more information about predefined normalizers, see [Add normalizers to a search index](https://docs.microsoft.com/azure/search/add-normalizers-to-search-index).
 >
 
- ## URI Parameters
+## URI Parameters
 
 | Parameter      | Description  |
 |-------------|--------------|
@@ -83,11 +84,12 @@ When updating an existing index, the body must include the original schema defin
 
  By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the index definition that was updated. In this case, the success status code will be "200 OK.  
 
-## See also  
- [Azure Cognitive Search REST APIs](../index.md)
- [HTTP status codes &#40;Azure Cognitive Search&#41;](../http-status-codes.md)
- [Create Index &#40;Azure Cognitive Search REST API&#41;](create-index.md)
- [Index operations &#40;Azure Cognitive Search REST API&#41;](../index-operations.md)
- [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)  
- [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet&preserve-view=true)
- [Create an index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/)  
+## See also
+
++ [Azure Cognitive Search REST APIs](../index.md)
++ [HTTP status codes &#40;Azure Cognitive Search&#41;](../http-status-codes.md)
++ [Create Index &#40;Azure Cognitive Search REST API&#41;](create-index.md)
++ [Index operations &#40;Azure Cognitive Search REST API&#41;](../index-operations.md)
++ [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)  
++ [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet&preserve-view=true)
++ [Create an index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/)  
