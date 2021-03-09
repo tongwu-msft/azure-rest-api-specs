@@ -87,7 +87,7 @@ When updating an existing index, the body must include the original schema defin
  [Azure Cognitive Search REST APIs](../index.md)
  [HTTP status codes &#40;Azure Cognitive Search&#41;](../http-status-codes.md)
  [Create Index &#40;Azure Cognitive Search REST API&#41;](create-index.md)
- [Index operations &#40;Azure Cognitive Search REST API&#41;](index-operations.md)   
+ [Index operations &#40;Azure Cognitive Search REST API&#41;](../index-operations.md)
  [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)  
  [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet&preserve-view=true)
  [Create an index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/)  
