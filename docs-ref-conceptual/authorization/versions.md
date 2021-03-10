@@ -1,6 +1,6 @@
 ---
 title: Authorization REST API versions | Microsoft Docs
-description: Learn about authorization REST API version history for Azure role-based access control (Azure RBAC)
+description: Learn about the authorization REST API versions for Azure role-based access control (Azure RBAC).
 author: rolyon
 ms.author: rolyon
 ms.manager: mtillman

@@ -1,11 +1,11 @@
 ---
 ms.assetid: 6153caf6-e970-4921-a55d-874784bc5e78
 title: Authorization REST API | Microsoft Docs
+description: "Authorization REST APIs for Azure role-based access control (Azure RBAC)."
 ms.service: azure-resource-manager
-author: tfitzmac
-ms.author: tomfitz
-ms.manager: timlt
-service_description: To be added
+author: rolyon
+ms.author: rolyon
+ms.manager: mtillman
 ---
 
 # Authorization
