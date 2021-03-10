@@ -12,3 +12,14 @@ ms.assetid: 81771ddf-44d0-42d2-b96d-5dd961a03fd2
 ---
 
 # Authorization REST API versions
+
+## 2015-07-01
+
+Last stable
+ 
+## 2017-10-01-preview
+
+Support delegation
+
+- Role assignments
+    - canDelegate parameter added to role assignment properties (create and retrieve)
