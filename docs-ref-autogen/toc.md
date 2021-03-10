@@ -1735,6 +1735,7 @@
 #### [Update Tags](application-insights/WebTests/UpdateTags.yml)
 # Authorization
 ## [Overview](../docs-ref-conceptual/authorization/index.md)
+## [Versions](../docs-ref-conceptual/authorization/versions.md)
 ## Samples
 ### [Manage roles](../docs-ref-conceptual/authorization/role-assignment-rest-sample.md)
 ## Reference
