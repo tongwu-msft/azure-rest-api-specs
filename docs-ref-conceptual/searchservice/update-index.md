@@ -33,7 +33,7 @@ PUT https://[search service name].search.windows.net/indexes/[index name]?api-ve
 ```  
 
 > [!Note]  
->  Field attributes that can be changed without the need to re-create the index include: `retrievable`, `searchAnalyzer`, `synonymMaps`.
+> Field attributes that can be changed without the need to re-create the index include: `retrievable`, `searchAnalyzer`, `synonymMaps`.
 >  
 
 Although existing fields cannot be deleted and most attributes cannot be changed, new fields can be added to an existing index at any time. The same applies to a [`suggester`](https://docs.microsoft.com/azure/search/index-add-suggesters). New fields may be added to a `suggester` at the same time fields are added, but existing fields cannot be removed from nor added to `suggesters` without an index rebuild.
@@ -75,7 +75,7 @@ When updating an existing index, the body must include the original schema defin
   
 For a successful request, you should see "204 No Content".  
 
- By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the index definition that was updated. In this case, the success status code will be "200 OK.  
+By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the index definition that was updated. In this case, the success status code will be "200 OK.  
 
 ## See also
 
