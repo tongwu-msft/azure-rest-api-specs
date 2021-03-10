@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.encryptionscopes.list
 name: List
 service: Storage Resource Provider
 groupName: Encryption Scopes
-apiVersion: 2019-06-01
+apiVersion: 2021-01-01
 summary: Lists all the encryption scopes available under the specified storage account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes?api-version=2019-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes?api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -85,6 +85,10 @@ definitions:
     description: The key vault properties for the encryption scope. This is a required field if encryption scope 'source' attribute is set to 'Microsoft.KeyVault'.
     types:
     - uid: EncryptionScopeKeyVaultProperties
+  - name: properties.requireInfrastructureEncryption
+    description: A boolean indicating whether or not the service applies a secondary layer of encryption with platform managed keys for data at rest.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -128,10 +132,20 @@ definitions:
     description: The object identifier for a key vault key object. When applied, the encryption scope will use the key referenced by the identifier to enable customer-managed key support on this encryption scope.
     types:
     - uid: string
+  - name: currentVersionedKeyIdentifier
+    isReadyOnly: true
+    description: The object identifier of the current versioned Key Vault Key in use.
+    types:
+    - uid: string
+  - name: lastKeyRotationTimestamp
+    isReadyOnly: true
+    description: Timestamp of last rotation of the Key Vault Key.
+    types:
+    - uid: string
 examples:
 - name: StorageAccountEncryptionScopeList
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/resource-group-name/providers/Microsoft.Storage/storageAccounts/{storage-account-name}/encryptionScopes?api-version=2019-06-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/resource-group-name/providers/Microsoft.Storage/storageAccounts/{storage-account-name}/encryptionScopes?api-version=2021-01-01
   responses:
   - statusCode: "200"
     body: >-
