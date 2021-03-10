@@ -238,7 +238,7 @@ The following example is a JSON representation of a request payload that provide
   ]
  ```
 
- A **suggester** is referenced by name on query requests that include either the [Suggestions API](suggestions.md) or [Autocomplete API](autocomplete.md), depending on whether you want to return a match or the remainder of a query term. For more information about creating and using a suggester, see [Create a suggester](https://docs.microsoft.com/azure/search/index-add-suggesters).  
+ A **suggester** is referenced by name on query requests that include either the [Suggestions API](../suggestions.md) or [Autocomplete API](../autocomplete.md), depending on whether you want to return a match or the remainder of a query term. For more information about creating and using a suggester, see [Create a suggester](https://docs.microsoft.com/azure/search/index-add-suggesters).  
 
 **Example: Similarity for search relevance**
 
