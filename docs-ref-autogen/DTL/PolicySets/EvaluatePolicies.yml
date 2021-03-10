@@ -154,7 +154,35 @@ definitions:
     description: The message of the policy violation.
     types:
     - uid: string
-examples: []
+examples:
+- name: PolicySets_EvaluatePolicies
+  request:
+    uri: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{policySetName}/evaluatePolicies?api-version=2018-09-15
+    body: >-
+      {
+        "policies": [
+          {
+            "factName": "LabVmCount",
+            "valueOffset": "1"
+          }
+        ]
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "results": [
+          {
+            "hasError": true,
+            "policyViolations": [
+              {
+                "code": "MaxValuePolicy",
+                "message": "You cannot exceed the limit (1) of virtual machines that can be created in this lab."
+              }
+            ]
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2
