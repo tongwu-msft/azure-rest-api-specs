@@ -15,7 +15,7 @@ ms.assetid: 81771ddf-44d0-42d2-b96d-5dd961a03fd2
 
 ## Latest stable version: 2015-07-01
 
-Last stable version
+Latest stable version
 
 
 ## Versions
@@ -143,3 +143,8 @@ Support data actions
 Support delegation
 - Role assignments
     - canDelegate parameter added to role assignment properties (create and retrieve)
+
+## See also
+
+- [Assign Azure roles using the REST API](https://docs.microsoft.com/azure/role-based-access-control/role-assignments-rest)
+- [List Azure role assignments using the REST API](https://docs.microsoft.com/azure/role-based-access-control/role-assignments-list-rest)

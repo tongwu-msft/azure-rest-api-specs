@@ -24,7 +24,7 @@ For api-version, use 2015-07-01.
 | [Role Assignments](xref:management.azure.com.authorization.roleassignments)             | Provides operations for working with role assignments, such as assigning a role to a user or group. |
 | [Role Definitions](xref:management.azure.com.authorization.roledefinitions)             | Provides operations for defining roles, such as what actions are permitted. |
 
-## See Also
+## See also
 
-- [Add new users to Azure Active Directory](https://docs.microsoft.com/azure/active-directory/active-directory-users-create-azure-portal)
-- [Use role assignments to manage access to your Azure subscription resources](https://docs.microsoft.com/azure/active-directory/role-based-access-control-configure)
+- [Assign Azure roles using the REST API](https://docs.microsoft.com/azure/role-based-access-control/role-assignments-rest)
+- [List Azure role assignments using the REST API](https://docs.microsoft.com/azure/role-based-access-control/role-assignments-list-rest)
