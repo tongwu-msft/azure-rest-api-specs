@@ -9344,8 +9344,10 @@
 ### [Create Or Update](network-gateway/VirtualNetworkGatewayConnections/CreateOrUpdate.yml)
 ### [Delete](network-gateway/VirtualNetworkGatewayConnections/Delete.yml)
 ### [Get](network-gateway/VirtualNetworkGatewayConnections/Get.yml)
+### [Get Ike Sas](network-gateway/VirtualNetworkGatewayConnections/GetIkeSas.yml)
 ### [Get Shared Key](network-gateway/VirtualNetworkGatewayConnections/GetSharedKey.yml)
 ### [List](network-gateway/VirtualNetworkGatewayConnections/List.yml)
+### [Reset Connection](network-gateway/VirtualNetworkGatewayConnections/ResetConnection.yml)
 ### [Reset Shared Key](network-gateway/VirtualNetworkGatewayConnections/ResetSharedKey.yml)
 ### [Set Shared Key](network-gateway/VirtualNetworkGatewayConnections/SetSharedKey.yml)
 ### [Start Packet Capture](network-gateway/VirtualNetworkGatewayConnections/StartPacketCapture.yml)
@@ -17009,6 +17011,7 @@
 ### [Get](virtualwan/ExpressRouteGateways/Get.yml)
 ### [List By Resource Group](virtualwan/ExpressRouteGateways/ListByResourceGroup.yml)
 ### [List By Subscription](virtualwan/ExpressRouteGateways/ListBySubscription.yml)
+### [Update Tags](virtualwan/ExpressRouteGateways/UpdateTags.yml)
 ## Hub Route Tables
 ### [Overview](virtualwan/HubRouteTables.yml)
 ### [Create Or Update](virtualwan/HubRouteTables/CreateOrUpdate.yml)
@@ -17021,6 +17024,12 @@
 ### [Delete](virtualwan/HubVirtualNetworkConnections/Delete.yml)
 ### [Get](virtualwan/HubVirtualNetworkConnections/Get.yml)
 ### [List](virtualwan/HubVirtualNetworkConnections/List.yml)
+## Nat Rules
+### [Overview](virtualwan/NatRules.yml)
+### [Create Or Update](virtualwan/NatRules/CreateOrUpdate.yml)
+### [Delete](virtualwan/NatRules/Delete.yml)
+### [Get](virtualwan/NatRules/Get.yml)
+### [List By Vpn Gateway](virtualwan/NatRules/ListByVpnGateway.yml)
 ## P2SVpnGateways 2
 ### [Overview](virtualwan/P2SVpnGateways%202.yml)
 ### [Reset](virtualwan/P2SVpnGateways%202/Reset.yml)
@@ -17099,7 +17108,9 @@
 ### [Update Tags](virtualwan/VpnGateways/UpdateTags.yml)
 ## Vpn Link Connections
 ### [Overview](virtualwan/VpnLinkConnections.yml)
+### [Get Ike Sas](virtualwan/VpnLinkConnections/GetIkeSas.yml)
 ### [List By Vpn Connection](virtualwan/VpnLinkConnections/ListByVpnConnection.yml)
+### [Reset Connection](virtualwan/VpnLinkConnections/ResetConnection.yml)
 ## Vpn Server Configurations
 ### [Overview](virtualwan/VpnServerConfigurations.yml)
 ### [Create Or Update](virtualwan/VpnServerConfigurations/CreateOrUpdate.yml)

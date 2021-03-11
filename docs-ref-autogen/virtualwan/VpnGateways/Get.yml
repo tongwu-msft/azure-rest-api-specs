@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.vpngateways.get
 name: Get
 service: Virtual WAN
 groupName: Vpn Gateways
-apiVersion: 2020-07-01
+apiVersion: 2020-11-01
 summary: Retrieves the details of a virtual wan vpn gateway.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}?api-version=2020-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}?api-version=2020-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -88,6 +88,11 @@ definitions:
     description: Enable Routing Preference property for the Public IP Interface of the VpnGateway.
     types:
     - uid: boolean
+  - name: properties.natRules
+    description: List of all the nat Rules associated with the gateway.
+    types:
+    - uid: VpnGatewayNatRule
+      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -195,6 +200,11 @@ definitions:
     types:
     - uid: IpsecPolicy
       isArray: true
+  - name: properties.trafficSelectorPolicies
+    description: The Traffic Selector Policies to be considered by this connection.
+    types:
+    - uid: TrafficSelectorPolicy
+      isArray: true
   - name: properties.enableRateLimiting
     description: EnableBgp flag.
     types:
@@ -276,6 +286,67 @@ definitions:
     - uid: string
   - name: privateIpAddress
     description: The private IP address of this IP configuration.
+    types:
+    - uid: string
+- name: VpnGatewayNatRule
+  description: VpnGatewayNatRule Resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the NAT Rule resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.type
+    description: The type of NAT rule for VPN NAT.
+    types:
+    - uid: VpnNatRuleType
+  - name: properties.mode
+    description: The Source NAT direction of a VPN NAT.
+    types:
+    - uid: VpnNatRuleMode
+  - name: properties.internalMappings
+    description: The private IP address internal mapping for NAT.
+    types:
+    - uid: VpnNatRuleMapping
+      isArray: true
+  - name: properties.externalMappings
+    description: The private IP address external mapping for NAT.
+    types:
+    - uid: VpnNatRuleMapping
+      isArray: true
+  - name: properties.ipConfigurationId
+    description: The IP Configuration ID this NAT rule applies to.
+    types:
+    - uid: string
+  - name: properties.egressVpnSiteLinkConnections
+    isReadyOnly: true
+    description: List of egress VpnSiteLinkConnections.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.ingressVpnSiteLinkConnections
+    isReadyOnly: true
+    description: List of ingress VpnSiteLinkConnections.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: id
+    description: Resource ID.
     types:
     - uid: string
 - name: CloudErrorBody
@@ -361,6 +432,20 @@ definitions:
     description: The Pfs Group used in IKE Phase 2 for new child SA.
     types:
     - uid: PfsGroup
+- name: TrafficSelectorPolicy
+  description: An traffic selector policy for a virtual network gateway connection.
+  kind: object
+  properties:
+  - name: localAddressRanges
+    description: A collection of local address spaces in CIDR format.
+    types:
+    - uid: string
+      isArray: true
+  - name: remoteAddressRanges
+    description: A collection of remote address spaces in CIDR format.
+    types:
+    - uid: string
+      isArray: true
 - name: VpnSiteLinkConnection
   description: VpnSiteLinkConnection Resource.
   kind: object
@@ -387,6 +472,10 @@ definitions:
     description: Routing weight for vpn connection.
     types:
     - uid: integer
+  - name: properties.vpnLinkConnectionMode
+    description: Vpn link connection mode.
+    types:
+    - uid: VpnLinkConnectionMode
   - name: properties.connectionStatus
     isReadyOnly: true
     description: The connection status.
@@ -440,6 +529,16 @@ definitions:
     description: The provisioning state of the VPN site link connection resource.
     types:
     - uid: ProvisioningState
+  - name: properties.ingressNatRules
+    description: List of ingress NatRules.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.egressNatRules
+    description: List of egress NatRules.
+    types:
+    - uid: SubResource
+      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -485,6 +584,34 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: VpnNatRuleType
+  description: The type of NAT rule for VPN NAT.
+  kind: enum
+  properties:
+  - name: Static
+    types:
+    - uid: string
+  - name: Dynamic
+    types:
+    - uid: string
+- name: VpnNatRuleMode
+  description: The Source NAT direction of a VPN NAT.
+  kind: enum
+  properties:
+  - name: EgressSnat
+    types:
+    - uid: string
+  - name: IngressSnat
+    types:
+    - uid: string
+- name: VpnNatRuleMapping
+  description: Vpn NatRule mapping.
+  kind: object
+  properties:
+  - name: addressSpace
+    description: Address space for Vpn NatRule mapping.
+    types:
+    - uid: string
 - name: IpsecEncryption
   description: The IPSec encryption algorithm (IKE phase 1).
   kind: enum
@@ -644,6 +771,19 @@ definitions:
   - name: PFSMM
     types:
     - uid: string
+- name: VpnLinkConnectionMode
+  description: Vpn link connection mode.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: ResponderOnly
+    types:
+    - uid: string
+  - name: InitiatorOnly
+    types:
+    - uid: string
 - name: PropagatedRouteTable
   description: The list of RouteTables to advertise the routes to.
   kind: object
@@ -687,7 +827,7 @@ definitions:
 examples:
 - name: VpnGatewayGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1?api-version=2020-07-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1?api-version=2020-11-01
   responses:
   - statusCode: "200"
     body: >-
@@ -736,7 +876,12 @@ examples:
                       "enableRateLimiting": false,
                       "useLocalAzureIpAddress": false,
                       "usePolicyBasedTrafficSelectors": false,
-                      "routingWeight": 0
+                      "routingWeight": 0,
+                      "ingressNatRules": [
+                        {
+                          "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/nat03"
+                        }
+                      ]
                     }
                   },
                   {
@@ -759,7 +904,12 @@ examples:
                       "enableRateLimiting": false,
                       "useLocalAzureIpAddress": false,
                       "usePolicyBasedTrafficSelectors": false,
-                      "routingWeight": 0
+                      "routingWeight": 0,
+                      "egressNatRules": [
+                        {
+                          "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/nat04"
+                        }
+                      ]
                     }
                   }
                 ],
@@ -822,6 +972,56 @@ examples:
               }
             ]
           },
+          "natRules": [
+            {
+              "name": "nat03",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/nat03",
+              "properties": {
+                "type": "Dynamic",
+                "mode": "IgressSnat",
+                "internalMappings": [
+                  {
+                    "addressSpace": "0.0.0.0/26"
+                  }
+                ],
+                "externalMappings": [
+                  {
+                    "addressSpace": "192.168.0.0/26"
+                  }
+                ],
+                "ingressVpnSiteLinkConnections": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/vpnConnections/vpnConnection1/vpnLinkConnections/Connection-Link1"
+                  }
+                ]
+              },
+              "type": "Microsoft.Network/vpnGateways/natRules"
+            },
+            {
+              "name": "nat04",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/nat04",
+              "properties": {
+                "type": "Static",
+                "mode": "EgressSnat",
+                "internalMappings": [
+                  {
+                    "addressSpace": "0.0.0.0/26"
+                  }
+                ],
+                "externalMappings": [
+                  {
+                    "addressSpace": "192.168.0.0/26"
+                  }
+                ],
+                "egressVpnSiteLinkConnections": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/vpnConnections/vpnConnection1/vpnLinkConnections/Connection-Link2"
+                  }
+                ]
+              },
+              "type": "Microsoft.Network/vpnGateways/natRules"
+            }
+          ],
           "isRoutingPreferenceInternet": false
         }
       }
