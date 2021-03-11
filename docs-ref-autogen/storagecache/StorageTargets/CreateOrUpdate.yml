@@ -3,14 +3,14 @@ uid: management.azure.com.storagecache.storagetargets.createorupdate
 name: Create Or Update
 service: Storagecache
 groupName: Storage Targets
-apiVersion: 2020-10-01
+apiVersion: 2021-03-01
 summary: Create or update a Storage Target. This operation is allowed at any time, but if the Cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the Cache is healthy again.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}?api-version=2020-10-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,7 +34,7 @@ uriParameters:
 - name: storageTargetName
   in: path
   isRequired: true
-  description: Name of the Storage Target. Length of name must not be greater than 80 and chars must be from the [-0-9a-zA-Z_] char class.
+  description: Name of Storage Target.
   types:
   - uid: string
   pattern: ^[-0-9a-zA-Z_]{1,80}$
@@ -94,6 +94,11 @@ requestBody:
     description: Properties when targetType is unknown.
     types:
     - uid: UnknownTarget
+  - name: properties.blobNfs
+    in: body
+    description: Properties when targetType is blobNfs.
+    types:
+    - uid: BlobNfsTarget
 requestHeader: []
 definitions:
 - name: NamespaceJunction
@@ -125,7 +130,7 @@ definitions:
     types:
     - uid: string
   - name: usageModel
-    description: Identifies the usage model to be used for this Storage Target. Get choices from .../usageModels
+    description: Identifies the StorageCache usage model to be used for this storage target.
     types:
     - uid: string
 - name: ClfsTarget
@@ -140,7 +145,7 @@ definitions:
   description: Properties pertaining to the UnknownTarget
   kind: object
   properties:
-  - name: unknownMap
+  - name: attributes
     description: Dictionary of string->string pairs containing information about the Storage Target.
     types:
     - uid: object
@@ -148,6 +153,18 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: BlobNfsTarget
+  description: Properties pertaining to the BlobNfsTarget.
+  kind: object
+  properties:
+  - name: target
+    description: Resource ID of the storage container.
+    types:
+    - uid: string
+  - name: usageModel
+    description: Identifies the StorageCache usage model to be used for this storage target.
+    types:
+    - uid: string
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -205,6 +222,10 @@ definitions:
     description: Properties when targetType is unknown.
     types:
     - uid: UnknownTarget
+  - name: properties.blobNfs
+    description: Properties when targetType is blobNfs.
+    types:
+    - uid: BlobNfsTarget
   - name: name
     isReadyOnly: true
     description: Name of the Storage Target.
@@ -254,6 +275,22 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: StorageTargetType
+  description: Type of the Storage Target.
+  kind: enum
+  properties:
+  - name: nfs3
+    types:
+    - uid: string
+  - name: clfs
+    types:
+    - uid: string
+  - name: unknown
+    types:
+    - uid: string
+  - name: blobNfs
+    types:
+    - uid: string
 - name: ProvisioningStateType
   description: ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
   kind: enum
@@ -300,7 +337,7 @@ definitions:
 examples:
 - name: StorageTargets_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2020-10-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2021-03-01
     body: >-
       {
         "properties": {
@@ -401,7 +438,7 @@ examples:
   - statusCode: "202"
 - name: StorageTargets_CreateOrUpdate_NoJunctions
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2020-10-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2021-03-01
     body: >-
       {
         "properties": {
@@ -454,6 +491,80 @@ examples:
           "nfs3": {
             "target": "10.0.44.44",
             "usageModel": "READ_HEAVY_INFREQ"
+          }
+        }
+      }
+  - statusCode: "202"
+- name: StorageTargets_CreateOrUpdate_BlobNfs
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2021-03-01
+    body: >-
+      {
+        "properties": {
+          "targetType": "blobNfs",
+          "junctions": [
+            {
+              "namespacePath": "/blobnfs"
+            }
+          ],
+          "blobNfs": {
+            "target": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Storage/storageAccounts/blofnfs/blobServices/default/containers/blobnfs",
+            "usageModel": "WRITE_WORKLOAD_15"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "st1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storagetargets/st1",
+        "type": "Microsoft.StorageCache/Cache/StorageTarget",
+        "systemData": {
+          "createdBy": "user1",
+          "createdByType": "User",
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedBy": "user2",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
+        },
+        "properties": {
+          "targetType": "blobNfs",
+          "junctions": [
+            {
+              "namespacePath": "/blobnfs"
+            }
+          ],
+          "blobNfs": {
+            "target": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Storage/storageAccounts/blofnfs/blobServices/default/containers/blobnfs",
+            "usageModel": "WRITE_WORKLOAD_15"
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "st1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storagetargets/st1",
+        "type": "Microsoft.StorageCache/Cache/StorageTarget",
+        "systemData": {
+          "createdBy": "user1",
+          "createdByType": "User",
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedBy": "user2",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
+        },
+        "properties": {
+          "targetType": "blobNfs",
+          "junctions": [
+            {
+              "namespacePath": "/blobnfs"
+            }
+          ],
+          "blobNfs": {
+            "target": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Storage/storageAccounts/blofnfs/blobServices/default/containers/blobnfs",
+            "usageModel": "WRITE_WORKLOAD_15"
           }
         }
       }

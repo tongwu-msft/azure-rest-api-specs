@@ -3,15 +3,15 @@ uid: management.azure.com.storagerp.fileshares.list
 name: List
 service: Storage Resource Provider
 groupName: File Shares
-apiVersion: 2019-06-01
+apiVersion: 2021-01-01
 summary: Lists all shares.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares?api-version=2019-06-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares?api-version=2019-06-01&$maxpagesize={$maxpagesize}&$filter={$filter}&$expand=deleted
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares?api-version=2021-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares?api-version=2021-01-01&$maxpagesize={$maxpagesize}&$filter={$filter}&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -70,6 +70,9 @@ definitions:
   kind: enum
   properties:
   - name: deleted
+    types:
+    - uid: string
+  - name: snapshots
     types:
     - uid: string
 - name: FileShareItems
@@ -163,6 +166,11 @@ definitions:
     description: The approximate size of the data stored on the share. Note that this value may not include all recently created or recently resized files.
     types:
     - uid: integer
+  - name: properties.snapshotTime
+    isReadyOnly: true
+    description: Creation time of share snapshot returned in the response of list shares with expand param "snapshots".
+    types:
+    - uid: string
   - name: etag
     isReadyOnly: true
     description: Resource Etag.
@@ -246,7 +254,7 @@ definitions:
 examples:
 - name: ListShares
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2019-06-01&$expand=deleted
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2021-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -273,11 +281,11 @@ examples:
             }
           }
         ],
-        "nextLink": "https://sto1590endpoint/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2019-06-01&$maxpagesize=2&$skipToken=/sto1590/share5103"
+        "nextLink": "https://sto1590endpoint/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2020-08-01-preview&$maxpagesize=2&$skipToken=/sto1590/share5103"
       }
 - name: ListDeletedShares
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2019-06-01&$expand=deleted
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2021-01-01&$expand=deleted
   responses:
   - statusCode: "200"
     body: >-
@@ -305,6 +313,37 @@ examples:
             "properties": {
               "lastModifiedTime": "2019-05-14T08:20:47Z",
               "shareQuota": 1024
+            }
+          }
+        ]
+      }
+- name: ListShareSnapshots
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2021-01-01&$expand=snapshots
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares/share4052",
+            "name": "share4052",
+            "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+            "etag": "\"0x8D589847DAB5AF9\"",
+            "properties": {
+              "lastModifiedTime": "2020-10-26T05:47:05.0000000Z",
+              "shareQuota": 1024
+            }
+          },
+          {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares/share4052",
+            "name": "share4052",
+            "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+            "etag": "\"0x8D589847DAB5AF9\"",
+            "properties": {
+              "lastModifiedTime": "2020-10-26T05:47:05.0000000Z",
+              "shareQuota": 1024,
+              "snapshotTime": "2020-10-26T05:48:07.0000000Z"
             }
           }
         ]

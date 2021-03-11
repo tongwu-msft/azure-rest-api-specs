@@ -11004,6 +11004,21 @@
 ### [Get](securitycenter/Settings/Get.yml)
 ### [List](securitycenter/Settings/List.yml)
 ### [Update](securitycenter/Settings/Update.yml)
+## Sql Vulnerability Assessment Baseline Rules
+### [Overview](securitycenter/SqlVulnerabilityAssessmentBaselineRules.yml)
+### [Add](securitycenter/SqlVulnerabilityAssessmentBaselineRules/Add.yml)
+### [Create Or Update](securitycenter/SqlVulnerabilityAssessmentBaselineRules/CreateOrUpdate.yml)
+### [Delete](securitycenter/SqlVulnerabilityAssessmentBaselineRules/Delete.yml)
+### [Get](securitycenter/SqlVulnerabilityAssessmentBaselineRules/Get.yml)
+### [List](securitycenter/SqlVulnerabilityAssessmentBaselineRules/List.yml)
+## Sql Vulnerability Assessment Scan Results
+### [Overview](securitycenter/SqlVulnerabilityAssessmentScanResults.yml)
+### [Get](securitycenter/SqlVulnerabilityAssessmentScanResults/Get.yml)
+### [List](securitycenter/SqlVulnerabilityAssessmentScanResults/List.yml)
+## Sql Vulnerability Assessment Scans
+### [Overview](securitycenter/SqlVulnerabilityAssessmentScans.yml)
+### [Get](securitycenter/SqlVulnerabilityAssessmentScans/Get.yml)
+### [List](securitycenter/SqlVulnerabilityAssessmentScans/List.yml)
 ## Sub Assessments
 ### [Overview](securitycenter/SubAssessments.yml)
 ### [Get](securitycenter/SubAssessments/Get.yml)
@@ -15322,6 +15337,10 @@
 #### [Get Service Properties](storagerp/BlobServices/GetServiceProperties.yml)
 #### [List](storagerp/BlobServices/List.yml)
 #### [Set Service Properties](storagerp/BlobServices/SetServiceProperties.yml)
+### Deleted Accounts
+#### [Overview](storagerp/DeletedAccounts.yml)
+#### [Get](storagerp/DeletedAccounts/Get.yml)
+#### [List](storagerp/DeletedAccounts/List.yml)
 ### Encryption Scopes
 #### [Overview](storagerp/EncryptionScopes.yml)
 #### [Get](storagerp/EncryptionScopes/Get.yml)
@@ -15733,6 +15752,7 @@
 ### [Overview](storagecache/StorageTargets.yml)
 ### [Create Or Update](storagecache/StorageTargets/CreateOrUpdate.yml)
 ### [Delete](storagecache/StorageTargets/Delete.yml)
+### [Dns Refresh](storagecache/StorageTargets/DnsRefresh.yml)
 ### [Get](storagecache/StorageTargets/Get.yml)
 ### [List By Cache](storagecache/StorageTargets/ListByCache.yml)
 ## Usage Models
