@@ -1,0 +1,509 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices-textanalytics.3.0.sentiment.sentiment
+name: Sentiment
+service: Cognitive Services - Text Analytics
+groupName: Sentiment
+apiVersion: v3.0
+summary: "Sentiment  \nThe API returns a sentiment prediction, as well as sentiment scores for each sentiment class (Positive, Negative, and Neutral) for the document and each sentence within it. See the <a href=\"https://aka.ms/talangs\">Supported languages in Text Analytics API</a> for the list of enabled languages."
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST {Endpoint}/text/analytics/v3.0/sentiment
+- content: POST {Endpoint}/text/analytics/v3.0/sentiment?model-version={model-version}&showStats={showStats}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: model-version
+  in: query
+  description: '(Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. '
+  types:
+  - uid: string
+- name: showStats
+  in: query
+  description: (Optional) if set to true, response will contain input and document level statistics.
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: A successful call results in a document sentiment prediction, as well as sentiment scores for each sentiment class (Positive, Negative, and Neutral)
+  types:
+  - uid: SentimentResponse
+- name: Other Status Codes
+  description: Error Response
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: documents
+    in: body
+    isRequired: true
+    description: The set of documents to process as part of this batch.
+    types:
+    - uid: MultiLanguageInput
+      isArray: true
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: MultiLanguageInput
+  description: Contains an input document to be analyzed by the service.
+  kind: object
+  properties:
+  - name: id
+    description: A unique, non-empty document identifier.
+    types:
+    - uid: string
+  - name: text
+    description: The input text to process.
+    types:
+    - uid: string
+  - name: language
+    description: (Optional) This is the 2 letter ISO 639-1 representation of a language. For example, use "en" for English; "es" for Spanish etc. If not set, use "en" for English as default.
+    types:
+    - uid: string
+- name: SentimentResponse
+  kind: object
+  properties:
+  - name: documents
+    description: Sentiment analysis per document.
+    types:
+    - uid: DocumentSentiment
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: DocumentError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: Document Error.
+    types:
+    - uid: TextAnalyticsError
+- name: MultiLanguageBatchInput
+  description: Contains a set of input documents to be analyzed by the service.
+  kind: object
+  properties:
+  - name: documents
+    description: The set of documents to process as part of this batch.
+    types:
+    - uid: MultiLanguageInput
+      isArray: true
+- name: DocumentSentiment
+  kind: object
+  properties:
+  - name: id
+    description: Unique, non-empty document identifier.
+    types:
+    - uid: string
+  - name: sentiment
+    description: Predicted sentiment for document (Negative, Neutral, Positive, or Mixed).
+    types:
+    - uid: DocumentSentimentValue
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the document payload.
+    types:
+    - uid: DocumentStatistics
+  - name: confidenceScores
+    description: Document level sentiment confidence scores between 0 and 1 for each sentiment class.
+    types:
+    - uid: SentimentConfidenceScorePerLabel
+  - name: sentences
+    description: Sentence level sentiment analysis.
+    types:
+    - uid: SentenceSentiment
+      isArray: true
+  - name: warnings
+    description: Warnings encountered while processing document.
+    types:
+    - uid: TextAnalyticsWarning
+      isArray: true
+- name: DocumentError
+  kind: object
+  properties:
+  - name: id
+    description: Document Id.
+    types:
+    - uid: string
+  - name: error
+    description: Document Error.
+    types:
+    - uid: TextAnalyticsError
+- name: RequestStatistics
+  description: if showStats=true was specified in the request this field will contain information about the request payload.
+  kind: object
+  properties:
+  - name: documentsCount
+    description: Number of documents submitted in the request.
+    types:
+    - uid: integer
+  - name: validDocumentsCount
+    description: Number of valid documents. This excludes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: erroneousDocumentsCount
+    description: Number of invalid documents. This includes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: transactionsCount
+    description: Number of transactions for the request.
+    types:
+    - uid: integer
+- name: TextAnalyticsError
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: ErrorCodeValue
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: Inner error contains more specific information.
+    types:
+    - uid: InnerError
+  - name: details
+    description: Details about specific errors that led to this reported error.
+    types:
+    - uid: TextAnalyticsError
+      isArray: true
+- name: DocumentSentimentValue
+  description: Predicted sentiment for document (Negative, Neutral, Positive, or Mixed).
+  kind: enum
+  properties:
+  - name: positive
+    types:
+    - uid: string
+  - name: neutral
+    types:
+    - uid: string
+  - name: negative
+    types:
+    - uid: string
+  - name: mixed
+    types:
+    - uid: string
+- name: DocumentStatistics
+  description: if showStats=true was specified in the request this field will contain information about the document payload.
+  kind: object
+  properties:
+  - name: charactersCount
+    description: Number of text elements recognized in the document.
+    types:
+    - uid: integer
+  - name: transactionsCount
+    description: Number of transactions for the document.
+    types:
+    - uid: integer
+- name: SentimentConfidenceScorePerLabel
+  description: 'Represents the confidence scores between 0 and 1 across all sentiment classes: positive, neutral, negative.'
+  kind: object
+  properties:
+  - name: positive
+    description: ''
+    types:
+    - uid: number
+  - name: neutral
+    description: ''
+    types:
+    - uid: number
+  - name: negative
+    description: ''
+    types:
+    - uid: number
+- name: SentenceSentiment
+  kind: object
+  properties:
+  - name: text
+    description: The sentence text.
+    types:
+    - uid: string
+  - name: sentiment
+    description: The predicted Sentiment for the sentence.
+    types:
+    - uid: SentenceSentimentValue
+  - name: confidenceScores
+    description: The sentiment confidence score between 0 and 1 for the sentence for all classes.
+    types:
+    - uid: SentimentConfidenceScorePerLabel
+  - name: offset
+    description: The sentence offset from the start of the document.
+    types:
+    - uid: integer
+  - name: length
+    description: The length of the sentence by Unicode standard.
+    types:
+    - uid: integer
+- name: TextAnalyticsWarning
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: WarningCodeValue
+  - name: message
+    description: Warning message.
+    types:
+    - uid: string
+  - name: targetRef
+    description: A JSON pointer reference indicating the target object.
+    types:
+    - uid: string
+- name: ErrorCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: invalidRequest
+    types:
+    - uid: string
+  - name: invalidArgument
+    types:
+    - uid: string
+  - name: internalServerError
+    types:
+    - uid: string
+  - name: serviceUnavailable
+    types:
+    - uid: string
+- name: InnerError
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: InnerErrorCodeValue
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: Inner error contains more specific information.
+    types:
+    - uid: InnerError
+- name: SentenceSentimentValue
+  description: The predicted Sentiment for the sentence.
+  kind: enum
+  properties:
+  - name: positive
+    types:
+    - uid: string
+  - name: neutral
+    types:
+    - uid: string
+  - name: negative
+    types:
+    - uid: string
+- name: WarningCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: LongWordsInDocument
+    types:
+    - uid: string
+  - name: DocumentTruncated
+    types:
+    - uid: string
+- name: InnerErrorCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: invalidParameterValue
+    types:
+    - uid: string
+  - name: invalidRequestBodyFormat
+    types:
+    - uid: string
+  - name: emptyRequest
+    types:
+    - uid: string
+  - name: missingInputRecords
+    types:
+    - uid: string
+  - name: invalidDocument
+    types:
+    - uid: string
+  - name: modelVersionIncorrect
+    types:
+    - uid: string
+  - name: invalidDocumentBatch
+    types:
+    - uid: string
+  - name: unsupportedLanguageCode
+    types:
+    - uid: string
+  - name: invalidCountryHint
+    types:
+    - uid: string
+examples:
+- name: Successful Sentiment request
+  request:
+    uri: POST {Endpoint}/text/analytics/v3.0/sentiment
+    body: >-
+      {
+        "documents": [
+          {
+            "language": "en",
+            "id": "1",
+            "text": "Hello world. This is some input text that I love."
+          },
+          {
+            "language": "en",
+            "id": "2",
+            "text": "It's incredibly sunny outside! I'm so happy."
+          },
+          {
+            "language": "en",
+            "id": "3",
+            "text": "Pike place market is my favorite Seattle attraction."
+          }
+        ]
+      }
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "documents": [
+          {
+            "id": "1",
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.98,
+              "neutral": 0.01,
+              "negative": 0.01
+            },
+            "sentences": [
+              {
+                "text": "Hello world.",
+                "sentiment": "neutral",
+                "confidenceScores": {
+                  "positive": 0.07,
+                  "neutral": 0.91,
+                  "negative": 0.02
+                },
+                "offset": 0,
+                "length": 12
+              },
+              {
+                "text": "This is some input text that I love.",
+                "sentiment": "positive",
+                "confidenceScores": {
+                  "positive": 0.98,
+                  "neutral": 0.01,
+                  "negative": 0.01
+                },
+                "offset": 13,
+                "length": 36
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "2",
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.98,
+              "neutral": 0.01,
+              "negative": 0.01
+            },
+            "sentences": [
+              {
+                "text": "It's incredibly sunny outside!",
+                "sentiment": "neutral",
+                "confidenceScores": {
+                  "positive": 0.04,
+                  "neutral": 0.93,
+                  "negative": 0.03
+                },
+                "offset": 0,
+                "length": 30
+              },
+              {
+                "text": "I'm so happy.",
+                "sentiment": "positive",
+                "confidenceScores": {
+                  "positive": 0.98,
+                  "neutral": 0.01,
+                  "negative": 0.01
+                },
+                "offset": 31,
+                "length": 13
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "3",
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.98,
+              "neutral": 0.01,
+              "negative": 0.01
+            },
+            "sentences": [
+              {
+                "text": "Pike place market is my favorite Seattle attraction.",
+                "sentiment": "positive",
+                "confidenceScores": {
+                  "positive": 0.98,
+                  "neutral": 0.01,
+                  "negative": 0.01
+                },
+                "offset": 0,
+                "length": 52
+              }
+            ],
+            "warnings": []
+          }
+        ],
+        "errors": [],
+        "modelVersion": "2020-04-01"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+errorCodes: []
