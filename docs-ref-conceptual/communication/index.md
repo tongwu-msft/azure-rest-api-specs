@@ -21,32 +21,12 @@ You can perform various actions against several key areas of communication servi
 
 | Resource Groups                                                                       | Description                                                                                            |
 | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| [Chat](xref:communication.chat.chat)                                                  | Create and delete chat threads.                                                                        |
+| [ChatThread](xref:communication.chat.chatthread)                                      | Send messages, add participants and manage chat threads.                                               |
 | [Communication Service](xref:management.azure.com.communication.communicationservice) | Create, update, or delete a Communication Services instance, Link a Notification Hub, regenerate keys. |
 | [Communication Identity](xref:communication.communicationidentity)                    | Create, manage, and issue tokens for Communication Services Identities.                                |
+| [Phone Number Administration](xref:communication.phonenumberadministration)           | Search, obtain, and manage Communication Services telephone numbers.                                   |
 | [Sms](xref:communication.sms)                                                         | Send SMS messages.                                                                                     |
-
-### Chat
-
-Chat currently doesn't have a contents page available, so its operations are listed here.
-
-| Chat Area                                                                                          | Description                                                                  |
-| -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| [Add Chat Thread Members](xref:communication.chat.addchatthreadmembers.addchatthreadmembers)       | Adds thread members to a thread. If members already exist, no change occurs. |
-| [Create Chat Thread](xref:communication.chat.createchatthread.createchatthread)                    | Creates a chat thread.                                                       |
-| [Delete Chat Message](xref:communication.chat.deletechatmessage.deletechatmessage)                 | Deletes a message.                                                           |
-| [Delete Chat Thread](xref:communication.chat.deletechatthread.deletechatthread)                    | Deletes a thread.                                                            |
-| [Get Chat Message](xref:communication.chat.getchatmessage.getchatmessage)                          | Gets a message by id.                                                        |
-| [Get Chat Thread](xref:communication.chat.getchatthread.getchatthread)                             | Gets a chat thread.                                                          |
-| [List Chat Messages](xref:communication.chat.listchatmessages.listchatmessages)                    | Gets a list of messages from a thread.                                       |
-| [List Chat Read Receipts](xref:communication.chat.listchatreadreceipts.listchatreadreceipts)       | Gets read receipts for a thread.                                             |
-| [List Chat Thread Members](xref:communication.chat.listchatthreadmembers.listchatthreadmembers)    | Gets the members of a thread.                                                |
-| [List Chat Threads](xref:communication.chat.listchatthreads.listchatthreads)                       | Gets the list of chat threads of a user.                                     |
-| [Remove Chat Thread Member](xref:communication.chat.removechatthreadmember.removechatthreadmember) | Remove a member from a thread.                                               |
-| [Send Chat Message](xref:communication.chat.sendchatmessage.sendchatmessage)                       | Sends a message to a thread.                                                 |
-| [Send Chat Read Receipt](xref:communication.chat.sendchatreadreceipt.sendchatreadreceipt)          | Sends a read receipt event to a thread, on behalf of a user.                 |
-| [Send Typing Notification](xref:communication.chat.sendtypingnotification.sendtypingnotification)  | Posts a typing event to a thread, on behalf of a user.                       |
-| [Update Chat Message](xref:communication.chat.updatechatmessage.updatechatmessage)                 | Updates a message.                                                           |
-| [Update Chat Thread](xref:communication.chat.updatechatthread.updatechatthread)                    | Updates a thread's properties.                                               |
 
 ## Extra Material
 
