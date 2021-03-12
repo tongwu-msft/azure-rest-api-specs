@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.deviceupdate.accounts.update
-name: Update
+uid: management.azure.com.deviceupdate.resourcemanager.instances.create
+name: Create
 service: Device Update
-groupName: Accounts
+groupName: Instances
 apiVersion: 2020-03-01-preview
-summary: Updates account's patchable properties
+summary: Creates or updates instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}?api-version=2020-03-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}/instances/{instanceName}?api-version=2020-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,6 +31,13 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[A-Za-z][A-Za-z0-9]+$
+- name: instanceName
+  in: path
+  isRequired: true
+  description: Instance name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z][A-Za-z0-9]+$
 - name: api-version
   in: query
   isRequired: true
@@ -38,10 +45,10 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: Account updated successfully.
+- name: 201 Created
+  description: Async operation to create or update Instance was created.
   types:
-  - uid: Account
+  - uid: Instance
 - name: Other Status Codes
   description: Error response describing the reason for operation failure.
   types:
@@ -49,24 +56,47 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: location
+  - name: properties.iotHubs
     in: body
-    description: The geo-location where the resource lives
+    description: List of IoT Hubs associated with the account.
     types:
-    - uid: string
+    - uid: IotHubSettings
+      isArray: true
   - name: tags
     in: body
-    description: List of key value pairs that describe the resource. This will overwrite the existing tags.
+    description: Resource tags.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
 requestHeader: []
 definitions:
-- name: Account
-  description: Device Update account details.
+- name: IotHubSettings
+  description: Device Update account integration with IoT Hub settings.
+  kind: object
+  properties:
+  - name: resourceId
+    description: IoTHub resource ID
+    types:
+    - uid: string
+  - name: ioTHubConnectionString
+    description: IoTHub connection string.
+    types:
+    - uid: string
+  - name: eventHubConnectionString
+    description: EventHub connection string.
+    types:
+    - uid: string
+- name: Instance
+  description: Device Update instance details.
   kind: object
   properties:
   - name: properties.provisioningState
@@ -74,11 +104,16 @@ definitions:
     description: Provisioning state.
     types:
     - uid: ProvisioningState
-  - name: properties.hostName
+  - name: properties.accountName
     isReadyOnly: true
-    description: API host name.
+    description: Parent Device Update Account name which Instance belongs to.
     types:
     - uid: string
+  - name: properties.iotHubs
+    description: List of IoT Hubs associated with the account.
+    types:
+    - uid: IotHubSettings
+      isArray: true
   - name: tags
     description: Resource tags.
     types:
@@ -120,22 +155,6 @@ definitions:
     description: Error details.
     types:
     - uid: ErrorDefinition
-- name: AccountUpdate
-  description: Request payload used to update and existing Accounts.
-  kind: object
-  properties:
-  - name: location
-    description: The geo-location where the resource lives
-    types:
-    - uid: string
-  - name: tags
-    description: List of key value pairs that describe the resource. This will overwrite the existing tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: ProvisioningState
   description: Provisioning state.
   kind: enum
@@ -178,29 +197,38 @@ definitions:
     - uid: ErrorDefinition
       isArray: true
 examples:
-- name: Updates Account
+- name: Creates or updates Instance
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso?api-version=2020-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue?api-version=2020-03-01-preview
     body: >-
       {
-        "tags": {
-          "tagKey": "tagValue"
+        "location": "West US 2",
+        "properties": {
+          "iotHubs": [
+            {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/blue-contoso-hub",
+              "ioTHubConnectionString": "string",
+              "eventHubConnectionString": "string"
+            }
+          ]
         }
       }
   responses:
-  - statusCode: "200"
+  - statusCode: "201"
     body: >-
       {
-        "name": "contoso",
-        "location": "westus2",
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso",
-        "type": "Microsoft.DeviceUpdate/accounts",
+        "name": "blue",
+        "location": "West US 2",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue",
+        "type": "Microsoft.DeviceUpdate/accounts/instances",
         "properties": {
-          "provisioningState": "Succeeded",
-          "hostName": "contoso.api.adu.microsoft.com"
-        },
-        "tags": {
-          "tagKey": "tagValue"
+          "provisioningState": "Accepted",
+          "accountName": "contoso",
+          "iotHubs": [
+            {
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/blue-contoso-hub"
+            }
+          ]
         }
       }
 security:

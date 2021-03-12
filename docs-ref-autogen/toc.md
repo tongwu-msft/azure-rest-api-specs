@@ -6851,14 +6851,6 @@
 ### [Update](DTL/VirtualNetworks/Update.yml)
 # Device Update
 ## [Overview](../docs-ref-conceptual/deviceupdate/index.md)
-## Accounts
-### [Overview](deviceupdate/Accounts.yml)
-### [Create](deviceupdate/Accounts/Create.yml)
-### [Delete](deviceupdate/Accounts/Delete.yml)
-### [Get](deviceupdate/Accounts/Get.yml)
-### [List By Resource Group](deviceupdate/Accounts/ListByResourceGroup.yml)
-### [List By Subscription](deviceupdate/Accounts/ListBySubscription.yml)
-### [Update](deviceupdate/Accounts/Update.yml)
 ## Deployments
 ### [Overview](deviceupdate/Deployments.yml)
 ### [Cancel Deployment](deviceupdate/Deployments/CancelDeployment.yml)
@@ -6886,17 +6878,6 @@
 ### [Get Group Best Updates](deviceupdate/Devices/GetGroupBestUpdates.yml)
 ### [Get Group Update Compliance](deviceupdate/Devices/GetGroupUpdateCompliance.yml)
 ### [Get Update Compliance](deviceupdate/Devices/GetUpdateCompliance.yml)
-## Instances
-### [Overview](deviceupdate/Instances.yml)
-### [Create](deviceupdate/Instances/Create.yml)
-### [Delete](deviceupdate/Instances/Delete.yml)
-### [Get](deviceupdate/Instances/Get.yml)
-### [List By Account](deviceupdate/Instances/ListByAccount.yml)
-### [List By Subscription](deviceupdate/Instances/ListBySubscription.yml)
-### [Update](deviceupdate/Instances/Update.yml)
-## Operations
-### [Overview](deviceupdate/Operations.yml)
-### [List](deviceupdate/Operations/List.yml)
 ## Updates
 ### [Overview](deviceupdate/Updates.yml)
 ### [Delete Update](deviceupdate/Updates/DeleteUpdate.yml)
@@ -6909,6 +6890,26 @@
 ### [Get Update](deviceupdate/Updates/GetUpdate.yml)
 ### [Get Versions](deviceupdate/Updates/GetVersions.yml)
 ### [Import Update](deviceupdate/Updates/ImportUpdate.yml)
+## Resource Manager
+### Accounts
+#### [Overview](deviceupdate/resourcemanager/Accounts.yml)
+#### [Create](deviceupdate/resourcemanager/Accounts/Create.yml)
+#### [Delete](deviceupdate/resourcemanager/Accounts/Delete.yml)
+#### [Get](deviceupdate/resourcemanager/Accounts/Get.yml)
+#### [List By Resource Group](deviceupdate/resourcemanager/Accounts/ListByResourceGroup.yml)
+#### [List By Subscription](deviceupdate/resourcemanager/Accounts/ListBySubscription.yml)
+#### [Update](deviceupdate/resourcemanager/Accounts/Update.yml)
+### Instances
+#### [Overview](deviceupdate/resourcemanager/Instances.yml)
+#### [Create](deviceupdate/resourcemanager/Instances/Create.yml)
+#### [Delete](deviceupdate/resourcemanager/Instances/Delete.yml)
+#### [Get](deviceupdate/resourcemanager/Instances/Get.yml)
+#### [List By Account](deviceupdate/resourcemanager/Instances/ListByAccount.yml)
+#### [List By Subscription](deviceupdate/resourcemanager/Instances/ListBySubscription.yml)
+#### [Update](deviceupdate/resourcemanager/Instances/Update.yml)
+### Operations
+#### [Overview](deviceupdate/resourcemanager/Operations.yml)
+#### [List](deviceupdate/resourcemanager/Operations/List.yml)
 # DNS
 ## [Overview](../docs-ref-conceptual/dns/index.md)
 ## Dns Resource Reference
