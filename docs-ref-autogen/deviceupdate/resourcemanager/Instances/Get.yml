@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.deviceupdate.instances.update
-name: Update
+uid: management.azure.com.deviceupdate.resourcemanager.instances.get
+name: Get
 service: Device Update
 groupName: Instances
 apiVersion: 2020-03-01-preview
-summary: Updates instance's tags.
+summary: Returns instances for the given account and instance name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}/instances/{instanceName}?api-version=2020-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}/instances/{instanceName}?api-version=2020-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,25 +46,13 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Instance updated successfully.
+  description: Instance details.
   types:
   - uid: Instance
 - name: Other Status Codes
   description: Error response describing the reason for operation failure.
   types:
   - uid: ErrorResponse
-requestBody:
-- name: default
-  parameters:
-  - name: tags
-    in: body
-    description: List of key value pairs that describe the resource. This will overwrite the existing tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 requestHeader: []
 definitions:
 - name: Instance
@@ -127,18 +115,6 @@ definitions:
     description: Error details.
     types:
     - uid: ErrorDefinition
-- name: TagUpdate
-  description: Request payload used to update an existing resource's tags.
-  kind: object
-  properties:
-  - name: tags
-    description: List of key value pairs that describe the resource. This will overwrite the existing tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: ProvisioningState
   description: Provisioning state.
   kind: enum
@@ -197,15 +173,9 @@ definitions:
     - uid: ErrorDefinition
       isArray: true
 examples:
-- name: Updates Instance
+- name: Gets list of Accounts
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue?api-version=2020-03-01-preview
-    body: >-
-      {
-        "tags": {
-          "tagKey": "tagValue"
-        }
-      }
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue?api-version=2020-03-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -215,15 +185,13 @@ examples:
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue",
         "type": "Microsoft.DeviceUpdate/accounts/instances",
         "properties": {
+          "provisioningState": "Succeeded",
           "accountName": "contoso",
           "iotHubs": [
             {
               "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/blue-contoso-hub"
             }
           ]
-        },
-        "tags": {
-          "tagKey": "tagValue"
         }
       }
 security:

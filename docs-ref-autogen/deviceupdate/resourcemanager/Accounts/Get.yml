@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.deviceupdate.instances.get
+uid: management.azure.com.deviceupdate.resourcemanager.accounts.get
 name: Get
 service: Device Update
-groupName: Instances
+groupName: Accounts
 apiVersion: 2020-03-01-preview
-summary: Returns instances for the given account and instance name.
+summary: Returns account details for the given account name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}/instances/{instanceName}?api-version=2020-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}?api-version=2020-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -31,13 +31,6 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[A-Za-z][A-Za-z0-9]+$
-- name: instanceName
-  in: path
-  isRequired: true
-  description: Instance name.
-  types:
-  - uid: string
-  pattern: ^[A-Za-z][A-Za-z0-9]+$
 - name: api-version
   in: query
   isRequired: true
@@ -46,17 +39,17 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Instance details.
+  description: Account details.
   types:
-  - uid: Instance
+  - uid: Account
 - name: Other Status Codes
   description: Error response describing the reason for operation failure.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: Instance
-  description: Device Update instance details.
+- name: Account
+  description: Device Update account details.
   kind: object
   properties:
   - name: properties.provisioningState
@@ -64,16 +57,11 @@ definitions:
     description: Provisioning state.
     types:
     - uid: ProvisioningState
-  - name: properties.accountName
+  - name: properties.hostName
     isReadyOnly: true
-    description: Parent Device Update Account name which Instance belongs to.
+    description: API host name.
     types:
     - uid: string
-  - name: properties.iotHubs
-    description: List of IoT Hubs associated with the account.
-    types:
-    - uid: IotHubSettings
-      isArray: true
   - name: tags
     description: Resource tags.
     types:
@@ -137,22 +125,6 @@ definitions:
   - name: Creating
     types:
     - uid: string
-- name: IotHubSettings
-  description: Device Update account integration with IoT Hub settings.
-  kind: object
-  properties:
-  - name: resourceId
-    description: IoTHub resource ID
-    types:
-    - uid: string
-  - name: ioTHubConnectionString
-    description: IoTHub connection string.
-    types:
-    - uid: string
-  - name: eventHubConnectionString
-    description: EventHub connection string.
-    types:
-    - uid: string
 - name: ErrorDefinition
   description: Error definition.
   kind: object
@@ -173,25 +145,20 @@ definitions:
     - uid: ErrorDefinition
       isArray: true
 examples:
-- name: Gets list of Accounts
+- name: Gets Account details
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue?api-version=2020-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso?api-version=2020-03-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "name": "blue",
+        "name": "contoso",
         "location": "westus2",
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue",
-        "type": "Microsoft.DeviceUpdate/accounts/instances",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso",
+        "type": "Microsoft.DeviceUpdate/accounts",
         "properties": {
           "provisioningState": "Succeeded",
-          "accountName": "contoso",
-          "iotHubs": [
-            {
-              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/blue-contoso-hub"
-            }
-          ]
+          "hostName": "contoso.api.adu.microsoft.com"
         }
       }
 security:

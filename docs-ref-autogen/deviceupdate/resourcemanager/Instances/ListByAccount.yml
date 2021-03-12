@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.deviceupdate.accounts.listbyresourcegroup
-name: List By Resource Group
+uid: management.azure.com.deviceupdate.resourcemanager.instances.listbyaccount
+name: List By Account
 service: Device Update
-groupName: Accounts
+groupName: Instances
 apiVersion: 2020-03-01-preview
-summary: Returns list of Accounts.
+summary: Returns instances for the given account name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts?api-version=2020-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}/instances?api-version=2020-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,6 +24,13 @@ uriParameters:
   description: The resource group name.
   types:
   - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: Account name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z][A-Za-z0-9]+$
 - name: api-version
   in: query
   isRequired: true
@@ -32,27 +39,27 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: List of Accounts.
+  description: List of Instances.
   types:
-  - uid: AccountList
+  - uid: InstanceList
 - name: Other Status Codes
   description: Error response describing the reason for operation failure.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: AccountList
-  description: List of Accounts.
+- name: InstanceList
+  description: List of Instances.
   kind: object
   properties:
   - name: nextLink
-    description: The link used to get the next page of Accounts list.
+    description: The link used to get the next page of Instances list.
     types:
     - uid: string
   - name: value
-    description: List of Accounts.
+    description: List of Instances.
     types:
-    - uid: Account
+    - uid: Instance
       isArray: true
 - name: ErrorResponse
   description: Error response indicates that the service is not able to process the incoming request.
@@ -68,8 +75,8 @@ definitions:
     description: Error details.
     types:
     - uid: ErrorDefinition
-- name: Account
-  description: Device Update account details.
+- name: Instance
+  description: Device Update instance details.
   kind: object
   properties:
   - name: properties.provisioningState
@@ -77,11 +84,16 @@ definitions:
     description: Provisioning state.
     types:
     - uid: ProvisioningState
-  - name: properties.hostName
+  - name: properties.accountName
     isReadyOnly: true
-    description: API host name.
+    description: Parent Device Update Account name which Instance belongs to.
     types:
     - uid: string
+  - name: properties.iotHubs
+    description: List of IoT Hubs associated with the account.
+    types:
+    - uid: IotHubSettings
+      isArray: true
   - name: tags
     description: Resource tags.
     types:
@@ -150,10 +162,26 @@ definitions:
   - name: Creating
     types:
     - uid: string
+- name: IotHubSettings
+  description: Device Update account integration with IoT Hub settings.
+  kind: object
+  properties:
+  - name: resourceId
+    description: IoTHub resource ID
+    types:
+    - uid: string
+  - name: ioTHubConnectionString
+    description: IoTHub connection string.
+    types:
+    - uid: string
+  - name: eventHubConnectionString
+    description: EventHub connection string.
+    types:
+    - uid: string
 examples:
-- name: Gets list of Accounts
+- name: Gets list of Instances by Account
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts?api-version=2020-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances?api-version=2020-03-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -161,13 +189,33 @@ examples:
         "nextLink": "string",
         "value": [
           {
-            "name": "contoso",
+            "name": "blue",
             "location": "westus2",
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso",
-            "type": "Microsoft.DeviceUpdate/accounts",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue",
+            "type": "Microsoft.DeviceUpdate/accounts/instances",
             "properties": {
               "provisioningState": "Succeeded",
-              "hostName": "contoso.api.adu.microsoft.com"
+              "accountName": "contoso",
+              "iotHubs": [
+                {
+                  "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/blue-contoso-hub"
+                }
+              ]
+            }
+          },
+          {
+            "name": "red",
+            "location": "westus2",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/red",
+            "type": "Microsoft.DeviceUpdate/accounts/instances",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "accountName": "contoso",
+              "iotHubs": [
+                {
+                  "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/red-contoso-hub"
+                }
+              ]
             }
           }
         ]
