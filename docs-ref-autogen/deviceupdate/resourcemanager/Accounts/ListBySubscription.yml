@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.deviceupdate.accounts.get
-name: Get
+uid: management.azure.com.deviceupdate.resourcemanager.accounts.listbysubscription
+name: List By Subscription
 service: Device Update
 groupName: Accounts
 apiVersion: 2020-03-01-preview
-summary: Returns account details for the given account name.
+summary: Returns list of Accounts.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}?api-version=2020-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DeviceUpdate/accounts?api-version=2020-03-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -18,19 +18,6 @@ uriParameters:
   description: The Azure subscription ID.
   types:
   - uid: string
-- name: resourceGroupName
-  in: path
-  isRequired: true
-  description: The resource group name.
-  types:
-  - uid: string
-- name: accountName
-  in: path
-  isRequired: true
-  description: Account name.
-  types:
-  - uid: string
-  pattern: ^[A-Za-z][A-Za-z0-9]+$
 - name: api-version
   in: query
   isRequired: true
@@ -39,15 +26,42 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Account details.
+  description: List of Accounts.
   types:
-  - uid: Account
+  - uid: AccountList
 - name: Other Status Codes
   description: Error response describing the reason for operation failure.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: AccountList
+  description: List of Accounts.
+  kind: object
+  properties:
+  - name: nextLink
+    description: The link used to get the next page of Accounts list.
+    types:
+    - uid: string
+  - name: value
+    description: List of Accounts.
+    types:
+    - uid: Account
+      isArray: true
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error status code.
+    types:
+    - uid: string
+  - name: error
+    isReadyOnly: true
+    description: Error details.
+    types:
+    - uid: ErrorDefinition
 - name: Account
   description: Device Update account details.
   kind: object
@@ -89,8 +103,8 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error response indicates that the service is not able to process the incoming request.
+- name: ErrorDefinition
+  description: Error definition.
   kind: object
   properties:
   - name: code
@@ -98,11 +112,16 @@ definitions:
     description: Error status code.
     types:
     - uid: string
-  - name: error
+  - name: message
     isReadyOnly: true
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
     description: Error details.
     types:
     - uid: ErrorDefinition
+      isArray: true
 - name: ProvisioningState
   description: Provisioning state.
   kind: enum
@@ -125,41 +144,27 @@ definitions:
   - name: Creating
     types:
     - uid: string
-- name: ErrorDefinition
-  description: Error definition.
-  kind: object
-  properties:
-  - name: code
-    isReadyOnly: true
-    description: Error status code.
-    types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: Error message.
-    types:
-    - uid: string
-  - name: details
-    description: Error details.
-    types:
-    - uid: ErrorDefinition
-      isArray: true
 examples:
-- name: Gets Account details
+- name: Get list of Accounts
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso?api-version=2020-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DeviceUpdate/accounts?api-version=2020-03-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "name": "contoso",
-        "location": "westus2",
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso",
-        "type": "Microsoft.DeviceUpdate/accounts",
-        "properties": {
-          "provisioningState": "Succeeded",
-          "hostName": "contoso.api.adu.microsoft.com"
-        }
+        "nextLink": "string",
+        "value": [
+          {
+            "name": "contoso",
+            "location": "westus2",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso",
+            "type": "Microsoft.DeviceUpdate/accounts",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "hostName": "contoso.api.adu.microsoft.com"
+            }
+          }
+        ]
       }
 security:
 - name: azure_auth
