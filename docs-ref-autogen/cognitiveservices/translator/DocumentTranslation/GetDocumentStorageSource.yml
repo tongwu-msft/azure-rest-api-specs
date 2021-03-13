@@ -1,14 +1,14 @@
 ### YamlMime:RESTOperation
-uid: cognitiveservices.translatortext.documenttranslation.canceloperation
-name: Cancel Operation
+uid: cognitiveservices.translator.documenttranslation.getdocumentstoragesource
+name: Get Document Storage Source
 service: Cognitive Services
 groupName: Document Translation
 apiVersion: v1.0-preview.1
-summary: "Cancel a currently processing or queued operation  \nCancel a currently processing or queued operation.\nCancel a currently processing or queued operation.\nAn operation will not be cancelled if it is already completed or failed or cancelling. A bad request will be returned.\nAll documents that have completed translation will not be cancelled and will be charged.\nAll pending documents will be cancelled if possible."
+summary: "Returns a list of supported storage sources  \nReturns a list of storage sources/options supported by the Document Translation service."
 produces:
 - application/json
 paths:
-- content: DELETE {endpoint}/translator/text/batch/v1.0-preview.1/batches/{id}
+- content: GET {endpoint}/translator/text/batch/v1.0-preview.1/storagesources
 uriParameters:
 - name: endpoint
   in: path
@@ -17,26 +17,11 @@ uriParameters:
   description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
-- name: id
-  in: path
-  isRequired: true
-  description: Format - uuid.  The operation-id
-  types:
-  - uid: string
-  format: uuid
 responses:
 - name: 200 OK
-  description: Cancel request has been submitted
+  description: Successful request and returns the list of storage sources
   types:
-  - uid: BatchStatusDetail
-- name: 401 Unauthorized
-  description: Unauthorized.  Please check your credentials
-  types:
-  - uid: ErrorResponseV2
-- name: 404 Not Found
-  description: Resource is not found
-  types:
-  - uid: ErrorResponseV2
+  - uid: StorageSourceListResult
 - name: Other Status Codes
   description: Too many requests
   types:
@@ -57,34 +42,15 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: BatchStatusDetail
-  description: Job status response
+- name: StorageSourceListResult
+  description: Base type for List return in our api
   kind: object
   properties:
-  - name: id
-    description: Id of the operation.
+  - name: value
+    description: list of objects
     types:
     - uid: string
-  - name: createdDateTimeUtc
-    description: Operation created date time
-    types:
-    - uid: string
-  - name: lastActionDateTimeUtc
-    description: Date time in which the operation's status has been updated
-    types:
-    - uid: string
-  - name: status
-    description: List of possible statuses for job or document
-    types:
-    - uid: Status
-  - name: error
-    description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
-    types:
-    - uid: ErrorV2
-  - name: summary
-    description: ''
-    types:
-    - uid: StatusSummary
+      isArray: true
 - name: ErrorResponseV2
   description: >-
     Contains unified error information used for HTTP responses across any Cognitive Service. Instances
@@ -98,31 +64,6 @@ definitions:
     description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
     types:
     - uid: ErrorV2
-- name: Status
-  description: List of possible statuses for job or document
-  kind: enum
-  properties:
-  - name: NotStarted
-    types:
-    - uid: string
-  - name: Running
-    types:
-    - uid: string
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Cancelled
-    types:
-    - uid: string
-  - name: Cancelling
-    types:
-    - uid: string
-  - name: ValidationFailed
-    types:
-    - uid: string
 - name: ErrorV2
   description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
   kind: object
@@ -147,37 +88,6 @@ definitions:
       This contains required properties ErrorCode, message and optional properties target, details(key value pair), inner error(this can be nested).
     types:
     - uid: InnerErrorV2
-- name: StatusSummary
-  kind: object
-  properties:
-  - name: total
-    description: Total count
-    types:
-    - uid: integer
-  - name: failed
-    description: Failed count
-    types:
-    - uid: integer
-  - name: success
-    description: Number of Success
-    types:
-    - uid: integer
-  - name: inProgress
-    description: Number of in progress
-    types:
-    - uid: integer
-  - name: notYetStarted
-    description: Count of not yet started
-    types:
-    - uid: integer
-  - name: cancelled
-    description: Number of cancelled
-    types:
-    - uid: integer
-  - name: totalCharacterCharged
-    description: Total characters charged by the API
-    types:
-    - uid: integer
 - name: ErrorCodeV2
   description: Enums containing high level error codes.
   kind: enum
@@ -231,33 +141,19 @@ definitions:
     types:
     - uid: InnerErrorV2
 examples:
-- name: Cancel a batch operation example
+- name: Get Document Storage Sources
   request:
-    uri: DELETE {endpoint}/translator/text/batch/v1.0-preview.1/batches/727BF148-F327-47A0-9481-ABAE6362F11E
+    uri: GET {endpoint}/translator/text/batch/v1.0-preview.1/storagesources
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'
   responses:
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "Unauthorized",
-          "message": "User is not authorized",
-          "target": "Operation",
-          "innerError": {
-            "code": "Unauthorized",
-            "message": "Operation is not authorized"
-          }
-        }
-      }
   - statusCode: "429"
     body: >-
       {
         "error": {
           "code": "RequestRateTooHigh",
           "message": "User's request rate is too high",
-          "target": "Operation",
           "innerError": {
             "code": "RateTooHigh",
             "message": "Request rate is too high"
@@ -270,7 +166,6 @@ examples:
         "error": {
           "code": "InternalServerError",
           "message": "Internal Server Error",
-          "target": "Operation",
           "innerError": {
             "code": "InternalServerError",
             "message": "Unexpected internal server error has occurred"
@@ -283,42 +178,21 @@ examples:
         "error": {
           "code": "ServiceUnavailable",
           "message": "Service is temporary unavailable",
-          "target": "Operation",
           "innerError": {
             "code": "ServiceTemporaryUnavailable",
             "message": "Service is currently unavailable.  Please try again later"
           }
         }
       }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "ResourceNotFound",
-          "message": "id not found",
-          "target": "Operation",
-          "innerError": {
-            "code": "ResourceNotFound",
-            "message": "Resource requested is not found"
-          }
-        }
-      }
   - statusCode: "200"
+    headers:
+    - name: ETag
+      value: 686897696a7c876b7e
     body: >-
       {
-        "id": "727bf148-f327-47a0-9481-abae6362f11e",
-        "createdDateTimeUtc": "2020-03-26T00:00:00Z",
-        "lastActionDateTimeUtc": "2020-03-26T01:00:00Z",
-        "status": "Succeeded",
-        "summary": {
-          "total": 10,
-          "failed": 1,
-          "success": 9,
-          "inProgress": 0,
-          "notYetStarted": 0,
-          "cancelled": 0,
-          "totalCharacterCharged": 0
-        }
+        "value": [
+          "AzureBlob"
+        ]
       }
 security:
 - name: Ocp-Apim-Subscription-Key

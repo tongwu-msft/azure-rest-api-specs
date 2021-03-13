@@ -1,14 +1,18 @@
 ### YamlMime:RESTOperation
-uid: cognitiveservices.translatortext.documenttranslation.getoperationstatus
-name: Get Operation Status
+uid: cognitiveservices.translator.documenttranslation.submitbatchrequest
+name: Submit Batch Request
 service: Cognitive Services
 groupName: Document Translation
 apiVersion: v1.0-preview.1
-summary: "Returns the status for a document translation request  \nReturns the status for a document translation request.\nThe status includes the overall request status, as well as the status for documents that are being translated as part of that request."
+summary: "Submit a document translation request to the Document Translation service  \nUse this API to submit a bulk (batch) translation request to the Document Translation service.\nEach request can contain multiple documents and must contain a source and destination container for each document.\n            \nThe prefix and suffix filter (if supplied) are used to filter folders. The prefix is applied to the subpath after the container name.\n            \nGlossaries / Translation memory can be included in the request and are applied by the service when the document is translated.\n            \nIf the glossary is invalid or unreachable during translation, an error is indicated in the document status.\nIf a file with the same name already exists at the destination, it will be overwritten. The targetUrl for each target language must be unique."
+consumes:
+- application/json
+- text/json
+- application/*+json
 produces:
 - application/json
 paths:
-- content: GET {endpoint}/translator/text/batch/v1.0-preview.1/batches/{id}
+- content: POST {endpoint}/translator/text/batch/v1.0-preview.1/batches
 uriParameters:
 - name: endpoint
   in: path
@@ -17,29 +21,18 @@ uriParameters:
   description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
-- name: id
-  in: path
-  isRequired: true
-  description: Format - uuid.  The operation id
-  types:
-  - uid: string
-  format: uuid
 responses:
-- name: 200 OK
+- name: 202 Accepted
   headers:
-  - name: Retry-After
-    value: integer
-  - name: ETag
+  - name: Operation-Location
     value: string
-  description: Successful request and returns the status of the batch translation operation
-  types:
-  - uid: BatchStatusDetail
-- name: 401 Unauthorized
-  description: Unauthorized.  Please check your credentials
+  description: Successful request and the batch request is created by the service.  The header Operation-Location will indicate a status url with the operation id.
+- name: 400 Bad Request
+  description: Invalid request.  Check input parameters
   types:
   - uid: ErrorResponseV2
-- name: 404 Not Found
-  description: Resource is not found
+- name: 401 Unauthorized
+  description: Unauthorized.  Please check your credentials
   types:
   - uid: ErrorResponseV2
 - name: Other Status Codes
@@ -54,6 +47,16 @@ responses:
   description: Server temporary unavailable
   types:
   - uid: ErrorResponseV2
+requestBody:
+- name: default
+  parameters:
+  - name: inputs
+    in: body
+    isRequired: true
+    description: The input list of documents or folders containing documents
+    types:
+    - uid: BatchRequest
+      isArray: true
 requestHeader:
 - name: Ocp-Apim-Subscription-Key
   in: header
@@ -62,34 +65,23 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: BatchStatusDetail
-  description: Job status response
+- name: BatchRequest
+  description: Definition for the input batch translation request
   kind: object
   properties:
-  - name: id
-    description: Id of the operation.
+  - name: source
+    description: Source of the input documents
     types:
-    - uid: string
-  - name: createdDateTimeUtc
-    description: Operation created date time
+    - uid: SourceInput
+  - name: targets
+    description: Location of the destination for the output
     types:
-    - uid: string
-  - name: lastActionDateTimeUtc
-    description: Date time in which the operation's status has been updated
+    - uid: TargetInput
+      isArray: true
+  - name: storageType
+    description: Storage type of the input documents source string
     types:
-    - uid: string
-  - name: status
-    description: List of possible statuses for job or document
-    types:
-    - uid: Status
-  - name: error
-    description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
-    types:
-    - uid: ErrorV2
-  - name: summary
-    description: ''
-    types:
-    - uid: StatusSummary
+    - uid: StorageInputType
 - name: ErrorResponseV2
   description: >-
     Contains unified error information used for HTTP responses across any Cognitive Service. Instances
@@ -103,29 +95,71 @@ definitions:
     description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
     types:
     - uid: ErrorV2
-- name: Status
-  description: List of possible statuses for job or document
+- name: BatchSubmissionRequest
+  description: Job submission batch request
+  kind: object
+  properties:
+  - name: inputs
+    description: The input list of documents or folders containing documents
+    types:
+    - uid: BatchRequest
+      isArray: true
+- name: SourceInput
+  description: Source of the input documents
+  kind: object
+  properties:
+  - name: sourceUrl
+    description: Location of the folder / container or single file with your documents
+    types:
+    - uid: string
+  - name: filter
+    description: ''
+    types:
+    - uid: DocumentFilter
+  - name: language
+    description: >-
+      Language code
+
+      If none is specified, we will perform auto detect on the document
+    types:
+    - uid: string
+  - name: storageSource
+    description: Storage Source
+    types:
+    - uid: StorageSource
+- name: TargetInput
+  description: Destination for the finished translated documents
+  kind: object
+  properties:
+  - name: targetUrl
+    description: Location of the folder / container with your documents
+    types:
+    - uid: string
+  - name: category
+    description: Category / custom system for translation request
+    types:
+    - uid: string
+  - name: language
+    description: Target Language
+    types:
+    - uid: string
+  - name: glossaries
+    description: List of Glossary
+    types:
+    - uid: Glossary
+      isArray: true
+  - name: storageSource
+    description: Storage Source
+    types:
+    - uid: StorageSource
+- name: StorageInputType
+  description: Storage type of the input documents source string
   kind: enum
   properties:
-  - name: NotStarted
+  - name: Folder
     types:
     - uid: string
-  - name: Running
-    types:
-    - uid: string
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Cancelled
-    types:
-    - uid: string
-  - name: Cancelling
-    types:
-    - uid: string
-  - name: ValidationFailed
+  - name: File
     types:
     - uid: string
 - name: ErrorV2
@@ -152,37 +186,44 @@ definitions:
       This contains required properties ErrorCode, message and optional properties target, details(key value pair), inner error(this can be nested).
     types:
     - uid: InnerErrorV2
-- name: StatusSummary
+- name: DocumentFilter
   kind: object
   properties:
-  - name: total
-    description: Total count
+  - name: prefix
+    description: "A case-sensitive prefix string to filter documents in the source path for translation. \nFor example, when using a Azure storage blob Uri, use the prefix to restrict sub folders for translation."
     types:
-    - uid: integer
-  - name: failed
-    description: Failed count
+    - uid: string
+  - name: suffix
+    description: "A case-sensitive suffix string to filter documents in the source path for translation. \nThis is most often use for file extensions"
     types:
-    - uid: integer
-  - name: success
-    description: Number of Success
+    - uid: string
+- name: StorageSource
+  description: Storage Source
+  kind: enum
+  properties:
+  - name: AzureBlob
     types:
-    - uid: integer
-  - name: inProgress
-    description: Number of in progress
+    - uid: string
+- name: Glossary
+  description: Glossary / translation memory for the request
+  kind: object
+  properties:
+  - name: glossaryUrl
+    description: "Location of the glossary. \nWe will use the file extension to extract the formatting if the format parameter is not supplied.\n\nIf the translation language pair is not present in the glossary, it will not be applied"
     types:
-    - uid: integer
-  - name: notYetStarted
-    description: Count of not yet started
+    - uid: string
+  - name: format
+    description: Format
     types:
-    - uid: integer
-  - name: cancelled
-    description: Number of cancelled
+    - uid: string
+  - name: version
+    description: Version
     types:
-    - uid: integer
-  - name: totalCharacterCharged
-    description: Total characters charged by the API
+    - uid: string
+  - name: storageSource
+    description: Storage Source
     types:
-    - uid: integer
+    - uid: StorageSource
 - name: ErrorCodeV2
   description: Enums containing high level error codes.
   kind: enum
@@ -236,9 +277,9 @@ definitions:
     types:
     - uid: InnerErrorV2
 examples:
-- name: Get Batch Operation Status
+- name: Batch Submit
   request:
-    uri: GET {endpoint}/translator/text/batch/v1.0-preview.1/batches/727BF148-F327-47A0-9481-ABAE6362F11E
+    uri: POST {endpoint}/translator/text/batch/v1.0-preview.1/batches
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'
@@ -249,7 +290,6 @@ examples:
         "error": {
           "code": "Unauthorized",
           "message": "User is not authorized",
-          "target": "Operation",
           "innerError": {
             "code": "Unauthorized",
             "message": "Operation is not authorized"
@@ -262,7 +302,6 @@ examples:
         "error": {
           "code": "RequestRateTooHigh",
           "message": "User's request rate is too high",
-          "target": "Operation",
           "innerError": {
             "code": "RateTooHigh",
             "message": "Request rate is too high"
@@ -275,7 +314,6 @@ examples:
         "error": {
           "code": "InternalServerError",
           "message": "Internal Server Error",
-          "target": "Operation",
           "innerError": {
             "code": "InternalServerError",
             "message": "Unexpected internal server error has occurred"
@@ -288,46 +326,26 @@ examples:
         "error": {
           "code": "ServiceUnavailable",
           "message": "Service is temporary unavailable",
-          "target": "Operation",
           "innerError": {
             "code": "ServiceTemporaryUnavailable",
             "message": "Service is currently unavailable.  Please try again later"
           }
         }
       }
-  - statusCode: "404"
+  - statusCode: "202"
+    headers:
+    - name: Operation-Location
+      value: https://westus.cognitiveservices.azure.com/translator/text/batch/v1.0.preview.1/operation/0FA2822F-4C2A-4317-9C20-658C801E0E55
+  - statusCode: "400"
     body: >-
       {
         "error": {
-          "code": "ResourceNotFound",
-          "message": "id not found",
-          "target": "Operation",
+          "code": "InvalidRequest",
+          "message": "Some argument is incorrect",
           "innerError": {
-            "code": "ResourceNotFound",
-            "message": "Resource requested is not found"
+            "code": "SASTokenInvalid",
+            "message": "SAS token for storage is invalid"
           }
-        }
-      }
-  - statusCode: "200"
-    headers:
-    - name: retry-after
-      value: "30"
-    - name: ETag
-      value: 686897696a7c876b7e
-    body: >-
-      {
-        "id": "727bf148-f327-47a0-9481-abae6362f11e",
-        "createdDateTimeUtc": "2020-03-26T00:00:00Z",
-        "lastActionDateTimeUtc": "2020-03-26T01:00:00Z",
-        "status": "Succeeded",
-        "summary": {
-          "total": 10,
-          "failed": 1,
-          "success": 9,
-          "inProgress": 0,
-          "notYetStarted": 0,
-          "cancelled": 0,
-          "totalCharacterCharged": 0
         }
       }
 security:

@@ -1,16 +1,14 @@
 ### YamlMime:RESTOperation
-uid: cognitiveservices.translatortext.documenttranslation.getoperationdocumentsstatus
-name: Get Operation Documents Status
+uid: cognitiveservices.translator.documenttranslation.getdocumentstatus
+name: Get Document Status
 service: Cognitive Services
 groupName: Document Translation
 apiVersion: v1.0-preview.1
-summary: "Returns the status for all documents in a batch document translation request  \nReturns the status for all documents in a batch document translation request.\n            \nThe documents included in the response are sorted by document Id in descending order. If the number of documents in the response exceeds our paging limit, server-side paging is used.\nPaginated responses indicate a partial result and include a continuation token in the response. The absence of a continuation token means that no additional pages are available.\n            \n$top and $skip query parameters can be used to specify a number of results to return and an offset for the collection.\nThe server honors the values specified by the client. However, clients must be prepared to handle responses that contain a different page size or contain a continuation token.\n            \nWhen both $top and $skip are included, the server should first apply $skip and then $top on the collection.\nNote: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.\nThis reduces the risk of the client making assumptions about the data returned."
+summary: "Returns the status for a specific document  \nReturns the translation status for a specific document based on the request Id and document Id."
 produces:
 - application/json
 paths:
-- content: GET {endpoint}/translator/text/batch/v1.0-preview.1/batches/{id}/documents
-- content: GET {endpoint}/translator/text/batch/v1.0-preview.1/batches/{id}/documents?$top={$top}&$skip={$skip}
-  isOptional: true
+- content: GET {endpoint}/translator/text/batch/v1.0-preview.1/batches/{id}/documents/{documentId}
 uriParameters:
 - name: endpoint
   in: path
@@ -22,28 +20,17 @@ uriParameters:
 - name: id
   in: path
   isRequired: true
-  description: Format - uuid.  The operation id
+  description: Format - uuid.  The batch id
   types:
   - uid: string
   format: uuid
-- name: $top
-  in: query
-  description: >-
-    Take the $top entries in the collection
-
-    When both $top and $skip are supplied, $skip is applied first
+- name: documentId
+  in: path
+  isRequired: true
+  description: Format - uuid.  The document id
   types:
-  - uid: integer
-  format: int32
-- name: $skip
-  in: query
-  description: >-
-    Skip the $skip entries in the collection
-
-    When both $top and $skip are supplied, $skip is applied first
-  types:
-  - uid: integer
-  format: int32
+  - uid: string
+  format: uuid
 responses:
 - name: 200 OK
   headers:
@@ -51,13 +38,9 @@ responses:
     value: integer
   - name: ETag
     value: string
-  description: Successful request and returns the status of the documents
+  description: Successful request and it is accepted by the service.  The operation details are returned
   types:
-  - uid: DocumentStatusResponse
-- name: 400 Bad Request
-  description: Invalid request.  Check input parameters
-  types:
-  - uid: ErrorResponseV2
+  - uid: DocumentStatusDetail
 - name: 401 Unauthorized
   description: Unauthorized.  Please check your credentials
   types:
@@ -86,32 +69,6 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: DocumentStatusResponse
-  description: Document Status Response
-  kind: object
-  properties:
-  - name: value
-    description: The detail status of individual documents
-    types:
-    - uid: DocumentStatusDetail
-      isArray: true
-  - name: '@nextLink'
-    description: Url for the next page.  Null if no more pages available
-    types:
-    - uid: string
-- name: ErrorResponseV2
-  description: >-
-    Contains unified error information used for HTTP responses across any Cognitive Service. Instances
-
-    can be created either through Microsoft.CloudAI.Containers.HttpStatusExceptionV2 or by returning it directly from
-
-    a controller.
-  kind: object
-  properties:
-  - name: error
-    description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
-    types:
-    - uid: ErrorV2
 - name: DocumentStatusDetail
   kind: object
   properties:
@@ -151,30 +108,19 @@ definitions:
     description: Character charged by the API
     types:
     - uid: integer
-- name: ErrorV2
-  description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
+- name: ErrorResponseV2
+  description: >-
+    Contains unified error information used for HTTP responses across any Cognitive Service. Instances
+
+    can be created either through Microsoft.CloudAI.Containers.HttpStatusExceptionV2 or by returning it directly from
+
+    a controller.
   kind: object
   properties:
-  - name: code
-    description: Enums containing high level error codes.
+  - name: error
+    description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
     types:
-    - uid: ErrorCodeV2
-  - name: message
-    description: Gets high level error message.
-    types:
-    - uid: string
-  - name: target
-    isReadyOnly: true
-    description: "Gets the source of the error. \nFor example it would be \"documents\" or \"document id\" in case of invalid document."
-    types:
-    - uid: string
-  - name: innerError
-    description: >-
-      New Inner Error format which conforms to Cognitive Services API Guidelines which is available at https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow.
-
-      This contains required properties ErrorCode, message and optional properties target, details(key value pair), inner error(this can be nested).
-    types:
-    - uid: InnerErrorV2
+    - uid: ErrorV2
 - name: Status
   description: List of possible statuses for job or document
   kind: enum
@@ -200,6 +146,30 @@ definitions:
   - name: ValidationFailed
     types:
     - uid: string
+- name: ErrorV2
+  description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
+  kind: object
+  properties:
+  - name: code
+    description: Enums containing high level error codes.
+    types:
+    - uid: ErrorCodeV2
+  - name: message
+    description: Gets high level error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: "Gets the source of the error. \nFor example it would be \"documents\" or \"document id\" in case of invalid document."
+    types:
+    - uid: string
+  - name: innerError
+    description: >-
+      New Inner Error format which conforms to Cognitive Services API Guidelines which is available at https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow.
+
+      This contains required properties ErrorCode, message and optional properties target, details(key value pair), inner error(this can be nested).
+    types:
+    - uid: InnerErrorV2
 - name: ErrorCodeV2
   description: Enums containing high level error codes.
   kind: enum
@@ -253,9 +223,9 @@ definitions:
     types:
     - uid: InnerErrorV2
 examples:
-- name: Get Documents Status for the operation batch id
+- name: Get Document Status
   request:
-    uri: GET {endpoint}/translator/text/batch/v1.0-preview.1/batches/727BF148-F327-47A0-9481-ABAE6362F11E/documents?$top=5&$skip=10
+    uri: GET {endpoint}/translator/text/batch/v1.0-preview.1/batches/727BF148-F327-47A0-9481-ABAE6362F11E/documents/199800
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'
@@ -333,32 +303,14 @@ examples:
       value: 686897696a7c876b7e
     body: >-
       {
-        "value": [
-          {
-            "path": "https://myblob.blob.core.windows.net/destinationContainer/fr/mydoc.txt",
-            "createdDateTimeUtc": "2020-03-26T00:00:00Z",
-            "lastActionDateTimeUtc": "2020-03-26T01:00:00Z",
-            "status": "Running",
-            "to": "fr",
-            "progress": 0.1,
-            "id": "273622bd-835c-4946-9798-fd8f19f6bbf2",
-            "characterCharged": 0
-          }
-        ],
-        "@nextLink": "https://westus.cognitiveservices.azure.com/translator/text/batch/v1.0.preview.1/operation/0FA2822F-4C2A-4317-9C20-658C801E0E55/documents?$top=5&$skip=15"
-      }
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "InvalidRequest",
-          "message": "Some argument is incorrect",
-          "target": "Document",
-          "innerError": {
-            "code": "SASTokenInvalid",
-            "message": "SAS token for storage is invalid"
-          }
-        }
+        "path": "https://myblob.blob.core.windows.net/destinationContainer/fr/mydoc.txt",
+        "createdDateTimeUtc": "2020-03-26T00:00:00Z",
+        "lastActionDateTimeUtc": "2020-03-26T01:00:00Z",
+        "status": "Running",
+        "to": "fr",
+        "progress": 0.1,
+        "id": "273622bd-835c-4946-9798-fd8f19f6bbf2",
+        "characterCharged": 0
       }
 security:
 - name: Ocp-Apim-Subscription-Key

@@ -1,14 +1,14 @@
 ### YamlMime:RESTOperation
-uid: cognitiveservices.translatortext.documenttranslation.getdocumentstoragesource
-name: Get Document Storage Source
+uid: cognitiveservices.translator.documenttranslation.getdocumentformats
+name: Get Document Formats
 service: Cognitive Services
 groupName: Document Translation
 apiVersion: v1.0-preview.1
-summary: "Returns a list of supported storage sources  \nReturns a list of storage sources/options supported by the Document Translation service."
+summary: "Returns a list of supported document formats  \nThe list of supported document formats supported by the Document Translation service.\nThe list includes the common file extension, as well as the content-type if using the upload API."
 produces:
 - application/json
 paths:
-- content: GET {endpoint}/translator/text/batch/v1.0-preview.1/storagesources
+- content: GET {endpoint}/translator/text/batch/v1.0-preview.1/documents/formats
 uriParameters:
 - name: endpoint
   in: path
@@ -19,9 +19,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Successful request and returns the list of storage sources
+  description: Returns the list of supported document file formats
   types:
-  - uid: StorageSourceListResult
+  - uid: FileFormatListResult
 - name: Other Status Codes
   description: Too many requests
   types:
@@ -42,14 +42,14 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: StorageSourceListResult
+- name: FileFormatListResult
   description: Base type for List return in our api
   kind: object
   properties:
   - name: value
     description: list of objects
     types:
-    - uid: string
+    - uid: FileFormat
       isArray: true
 - name: ErrorResponseV2
   description: >-
@@ -64,6 +64,28 @@ definitions:
     description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
     types:
     - uid: ErrorV2
+- name: FileFormat
+  kind: object
+  properties:
+  - name: format
+    description: Name of the format
+    types:
+    - uid: string
+  - name: fileExtensions
+    description: Supported file extension for this format
+    types:
+    - uid: string
+      isArray: true
+  - name: contentTypes
+    description: Supported Content-Types for this format
+    types:
+    - uid: string
+      isArray: true
+  - name: versions
+    description: Supported Version
+    types:
+    - uid: string
+      isArray: true
 - name: ErrorV2
   description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
   kind: object
@@ -141,9 +163,9 @@ definitions:
     types:
     - uid: InnerErrorV2
 examples:
-- name: Get Document Storage Sources
+- name: Get Document Formats
   request:
-    uri: GET {endpoint}/translator/text/batch/v1.0-preview.1/storagesources
+    uri: GET {endpoint}/translator/text/batch/v1.0-preview.1/documents/formats
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'
@@ -191,7 +213,76 @@ examples:
     body: >-
       {
         "value": [
-          "AzureBlob"
+          {
+            "format": "PlainText",
+            "fileExtensions": [
+              ".txt"
+            ],
+            "contentTypes": [
+              "text/plain"
+            ],
+            "versions": []
+          },
+          {
+            "format": "PortableDocumentFormat",
+            "fileExtensions": [
+              ".pdf"
+            ],
+            "contentTypes": [
+              "application/pdf"
+            ],
+            "versions": []
+          },
+          {
+            "format": "OpenXmlPresentation",
+            "fileExtensions": [
+              ".pptx"
+            ],
+            "contentTypes": [
+              "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+            ],
+            "versions": []
+          },
+          {
+            "format": "OpenXmlSpreadsheet",
+            "fileExtensions": [
+              ".xlsx"
+            ],
+            "contentTypes": [
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            ],
+            "versions": []
+          },
+          {
+            "format": "OutlookMailMessage",
+            "fileExtensions": [
+              ".msg"
+            ],
+            "contentTypes": [
+              "application/vnd.ms-outlook"
+            ],
+            "versions": []
+          },
+          {
+            "format": "HtmlFile",
+            "fileExtensions": [
+              ".html"
+            ],
+            "contentTypes": [
+              "text/html"
+            ],
+            "versions": []
+          },
+          {
+            "format": "OpenXmlWord",
+            "fileExtensions": [
+              ".docx"
+            ],
+            "contentTypes": [
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            ],
+            "versions": []
+          }
         ]
       }
 security:
