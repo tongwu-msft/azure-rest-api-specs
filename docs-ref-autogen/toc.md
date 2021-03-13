@@ -3729,6 +3729,15 @@
 #### [Get Operation Status](cognitiveservices/translatortext/DocumentTranslation/GetOperationStatus.yml)
 #### [Get Operations](cognitiveservices/translatortext/DocumentTranslation/GetOperations.yml)
 #### [Submit Batch Request](cognitiveservices/translatortext/DocumentTranslation/SubmitBatchRequest.yml)
+### Translator
+#### [Overview](cognitiveservices/translatortext/Translator.yml)
+#### [Break Sentence](cognitiveservices/translatortext/Translator/BreakSentence.yml)
+#### [Detect](cognitiveservices/translatortext/Translator/Detect.yml)
+#### [Dictionary Examples](cognitiveservices/translatortext/Translator/DictionaryExamples.yml)
+#### [Dictionary Lookup](cognitiveservices/translatortext/Translator/DictionaryLookup.yml)
+#### [Languages](cognitiveservices/translatortext/Translator/Languages.yml)
+#### [Translate](cognitiveservices/translatortext/Translator/Translate.yml)
+#### [Transliterate](cognitiveservices/translatortext/Translator/Transliterate.yml)
 # Cognitive Services - Bing Search
 ## [Overview](../docs-ref-conceptual/cognitiveservices-bingsearch/index.md)
 ## Bing Autosuggest API
