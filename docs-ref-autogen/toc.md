@@ -3709,10 +3709,6 @@
 #### [Overview](cognitiveservices/contentmoderator/TextModeration.yml)
 #### [Detect Language](cognitiveservices/contentmoderator/TextModeration/DetectLanguage.yml)
 #### [Screen Text](cognitiveservices/contentmoderator/TextModeration/ScreenText.yml)
-## Ink Recognizer
-### Ink Recognizer
-#### [Overview](cognitiveservices/inkrecognizer/InkRecognizer.yml)
-#### [Recognize](cognitiveservices/inkrecognizer/InkRecognizer/Recognize.yml)
 ## Personalizer
 ### Events
 #### [Overview](cognitiveservices/personalizer/Events.yml)
@@ -3722,15 +3718,17 @@
 #### [Overview](cognitiveservices/personalizer/Rank.yml)
 #### [Rank](cognitiveservices/personalizer/Rank/Rank.yml)
 ## Translator Text
-### Translator
-#### [Overview](cognitiveservices/translatortext/Translator.yml)
-#### [Break Sentence](cognitiveservices/translatortext/Translator/BreakSentence.yml)
-#### [Detect](cognitiveservices/translatortext/Translator/Detect.yml)
-#### [Dictionary Examples](cognitiveservices/translatortext/Translator/DictionaryExamples.yml)
-#### [Dictionary Lookup](cognitiveservices/translatortext/Translator/DictionaryLookup.yml)
-#### [Languages](cognitiveservices/translatortext/Translator/Languages.yml)
-#### [Translate](cognitiveservices/translatortext/Translator/Translate.yml)
-#### [Transliterate](cognitiveservices/translatortext/Translator/Transliterate.yml)
+### Document Translation
+#### [Overview](cognitiveservices/translatortext/DocumentTranslation.yml)
+#### [Cancel Operation](cognitiveservices/translatortext/DocumentTranslation/CancelOperation.yml)
+#### [Get Document Formats](cognitiveservices/translatortext/DocumentTranslation/GetDocumentFormats.yml)
+#### [Get Document Status](cognitiveservices/translatortext/DocumentTranslation/GetDocumentStatus.yml)
+#### [Get Document Storage Source](cognitiveservices/translatortext/DocumentTranslation/GetDocumentStorageSource.yml)
+#### [Get Glossary Formats](cognitiveservices/translatortext/DocumentTranslation/GetGlossaryFormats.yml)
+#### [Get Operation Documents Status](cognitiveservices/translatortext/DocumentTranslation/GetOperationDocumentsStatus.yml)
+#### [Get Operation Status](cognitiveservices/translatortext/DocumentTranslation/GetOperationStatus.yml)
+#### [Get Operations](cognitiveservices/translatortext/DocumentTranslation/GetOperations.yml)
+#### [Submit Batch Request](cognitiveservices/translatortext/DocumentTranslation/SubmitBatchRequest.yml)
 # Cognitive Services - Bing Search
 ## [Overview](../docs-ref-conceptual/cognitiveservices-bingsearch/index.md)
 ## Bing Autosuggest API
