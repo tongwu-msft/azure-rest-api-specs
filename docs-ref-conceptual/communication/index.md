@@ -19,14 +19,14 @@ The Azure Communication Services REST API provides programmatic access to resour
 
 You can perform various actions against several key areas of communication services:
 
-| Resource Groups                                                                       | Description                                                                                            |
-| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| [Chat](xref:communication.chat.chat)                                                  | Create and delete chat threads.                                                                        |
-| [ChatThread](xref:communication.chat.chatthread)                                      | Send messages, add participants and manage chat threads.                                               |
-| [Communication Service](xref:management.azure.com.communication.communicationservice) | Create, update, or delete a Communication Services instance, Link a Notification Hub, regenerate keys. |
-| [Communication Identity](xref:communication.communicationidentity)                    | Create, manage, and issue tokens for Communication Services Identities.                                |
-| [Phone Number Administration](xref:communication.phonenumberadministration)           | Search, obtain, and manage Communication Services telephone numbers.                                   |
-| [Sms](xref:communication.sms)                                                         | Send SMS messages.                                                                                     |
+| Resource Groups                                                                       | Current API Version | Description                                                                                            |
+| ------------------------------------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------ |
+| [Chat](xref:communication.chat.chat)                                                  | 2020-11-01-preview3 | Create and delete chat threads.                                                                        |
+| [ChatThread](xref:communication.chat.chatthread)                                      | 2020-11-01-preview3 | Send messages, add participants and manage chat threads.                                               |
+| [Communication Service](xref:management.azure.com.communication.communicationservice) | 2020-08-20-preview  | Create, update, or delete a Communication Services instance, Link a Notification Hub, regenerate keys. |
+| [Communication Identity](xref:communication.communicationidentity)                    | 2021-03-07          | Create, manage, and issue tokens for Communication Services Identities.                                |
+| [Phone Number Administration](xref:communication.phonenumberadministration)           | 2020-07-20-preview1 | Search, obtain, and manage Communication Services telephone numbers.                                   |
+| [Sms](xref:communication.sms)                                                         | 2021-03-07          | Send SMS messages.                                                                                     |
 
 ## Extra Material
 
