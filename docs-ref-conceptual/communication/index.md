@@ -17,7 +17,7 @@ The Azure Communication Services REST API provides programmatic access to resour
 
 ## Communication Services Resource Groups
 
-You can perform various actions against several key areas of communication services:
+You can perform various actions against several key areas of communication services. Each area is listed below and has its current API Version listed.
 
 | Resource Groups                                                                       | Current API Version | Description                                                                                            |
 | ------------------------------------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------ |
