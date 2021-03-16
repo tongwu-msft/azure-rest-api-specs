@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.privatelinkservices.list
 name: List
 service: Virtual Networks
 groupName: Private Link Services
-apiVersion: 2020-07-01
+apiVersion: 2020-11-01
 summary: Gets all private link services in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices?api-version=2020-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices?api-version=2020-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -84,6 +84,10 @@ definitions:
   description: Private link service resource.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the load balancer.
+    types:
+    - uid: ExtendedLocation
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
@@ -180,6 +184,18 @@ definitions:
     description: Error message.
     types:
     - uid: string
+- name: ExtendedLocation
+  description: ExtendedLocation complex type.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: FrontendIPConfiguration
   description: Frontend IP address of the load balancer.
   kind: object
@@ -388,14 +404,6 @@ definitions:
     description: The provisioning state of the network interface resource.
     types:
     - uid: ProvisioningState
-  - name: properties.nicType
-    description: Type of Network Interface resource.
-    types:
-    - uid: NetworkInterfaceNicType
-  - name: properties.privateLinkService
-    description: Privatelinkservice of the network interface resource.
-    types:
-    - uid: PrivateLinkService
   - name: id
     description: Resource ID.
     types:
@@ -497,6 +505,13 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 - name: SubResource
   description: Reference to another subresource.
   kind: object
@@ -536,10 +551,6 @@ definitions:
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: type
-    description: Resource type.
     types:
     - uid: string
   - name: properties.addressPrefix
@@ -626,11 +637,11 @@ definitions:
   - name: properties.privateEndpointNetworkPolicies
     description: Enable or Disable apply network policies on private end point in the subnet.
     types:
-    - uid: VirtualNetworkPrivateEndpointNetworkPolicies
+    - uid: string
   - name: properties.privateLinkServiceNetworkPolicies
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
-    - uid: VirtualNetworkPrivateLinkServiceNetworkPolicies
+    - uid: string
   - name: id
     description: Resource ID.
     types:
@@ -705,18 +716,6 @@ definitions:
     description: The provisioning state of the public IP address resource.
     types:
     - uid: ProvisioningState
-  - name: properties.natGateway
-    description: The NatGateway for the Public IP address.
-    types:
-    - uid: NatGateway
-  - name: properties.migrationPhase
-    description: Migration phase of Public IP Address.
-    types:
-    - uid: PublicIPAddressMigrationPhase
-  - name: properties.linkedPublicIPAddress
-    description: The linked public IP address of the public IP address resource.
-    types:
-    - uid: PublicIPAddress
   - name: id
     description: Resource ID.
     types:
@@ -743,18 +742,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: ExtendedLocation
-  description: ExtendedLocation complex type.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the extended location.
-    types:
-    - uid: string
-  - name: type
-    description: The type of the extended location.
-    types:
-    - uid: ExtendedLocationTypes
 - name: NetworkSecurityGroup
   description: NetworkSecurityGroup resource.
   kind: object
@@ -833,6 +820,10 @@ definitions:
   description: Private endpoint resource.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the load balancer.
+    types:
+    - uid: ExtendedLocation
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
@@ -905,10 +896,6 @@ definitions:
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: type
-    description: Resource type.
     types:
     - uid: string
   - name: properties.virtualNetworkTaps
@@ -1034,16 +1021,6 @@ definitions:
     description: Even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix.
     types:
     - uid: string
-- name: NetworkInterfaceNicType
-  description: Type of Network Interface resource.
-  kind: enum
-  properties:
-  - name: Standard
-    types:
-    - uid: string
-  - name: Elastic
-    types:
-    - uid: string
 - name: PrivateLinkServiceConnectionState
   description: A collection of information about the state of the connection between service consumer and provider.
   kind: object
@@ -1089,6 +1066,11 @@ definitions:
     description: The provisioning state of the route table resource.
     types:
     - uid: ProvisioningState
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resource GUID property of the route table.
+    types:
+    - uid: string
   - name: id
     description: Resource ID.
     types:
@@ -1140,6 +1122,11 @@ definitions:
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: kind
+    isReadyOnly: true
+    description: Kind of service endpoint policy. This is metadata used for the Azure portal experience.
     types:
     - uid: string
   - name: properties.serviceEndpointPolicyDefinitions
@@ -1370,26 +1357,6 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
-- name: VirtualNetworkPrivateEndpointNetworkPolicies
-  description: Enable or Disable apply network policies on private end point in the subnet.
-  kind: enum
-  properties:
-  - name: Enabled
-    types:
-    - uid: string
-  - name: Disabled
-    types:
-    - uid: string
-- name: VirtualNetworkPrivateLinkServiceNetworkPolicies
-  description: Enable or Disable apply network policies on private link service in the subnet.
-  kind: enum
-  properties:
-  - name: Enabled
-    types:
-    - uid: string
-  - name: Disabled
-    types:
-    - uid: string
 - name: PublicIPAddressSku
   description: SKU of a public IP address.
   kind: object
@@ -1446,106 +1413,6 @@ definitions:
     description: 'The value of the IP tag associated with the public IP. Example: SQL.'
     types:
     - uid: string
-- name: NatGateway
-  description: Nat Gateway resource.
-  kind: object
-  properties:
-  - name: sku
-    description: The nat gateway SKU.
-    types:
-    - uid: NatGatewaySku
-  - name: zones
-    description: A list of availability zones denoting the zone in which Nat Gateway should be deployed.
-    types:
-    - uid: string
-      isArray: true
-  - name: etag
-    isReadyOnly: true
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: properties.idleTimeoutInMinutes
-    description: The idle timeout of the nat gateway.
-    types:
-    - uid: integer
-  - name: properties.publicIpAddresses
-    description: An array of public ip addresses associated with the nat gateway resource.
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.publicIpPrefixes
-    description: An array of public ip prefixes associated with the nat gateway resource.
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.subnets
-    isReadyOnly: true
-    description: An array of references to the subnets using this nat gateway resource.
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.resourceGuid
-    isReadyOnly: true
-    description: The resource GUID property of the NAT gateway resource.
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the NAT gateway resource.
-    types:
-    - uid: ProvisioningState
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-- name: PublicIPAddressMigrationPhase
-  description: Migration phase of Public IP Address.
-  kind: enum
-  properties:
-  - name: None
-    types:
-    - uid: string
-  - name: Prepare
-    types:
-    - uid: string
-  - name: Commit
-    types:
-    - uid: string
-  - name: Abort
-    types:
-    - uid: string
-  - name: Committed
-    types:
-    - uid: string
-- name: ExtendedLocationTypes
-  description: The type of the extended location.
-  kind: enum
-  properties:
-  - name: EdgeZone
-    types:
-    - uid: string
 - name: SecurityRule
   description: Network security rule.
   kind: object
@@ -1557,6 +1424,10 @@ definitions:
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the resource.
     types:
     - uid: string
   - name: properties.description
@@ -1879,6 +1750,10 @@ definitions:
     description: Type of the resource.
     types:
     - uid: string
+  - name: properties.location
+    description: The location of the backend address pool.
+    types:
+    - uid: string
   - name: properties.loadBalancerBackendAddresses
     description: An array of backend addresses.
     types:
@@ -2054,6 +1929,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: type
+    description: The type of the resource.
+    types:
+    - uid: string
   - name: properties.addressPrefix
     description: The destination CIDR to which the route applies.
     types:
@@ -2071,6 +1950,10 @@ definitions:
     description: The provisioning state of the route resource.
     types:
     - uid: ProvisioningState
+  - name: properties.hasBgpOverride
+    description: A value indicating whether this route overrides overlapping BGP routes regardless of LPM.
+    types:
+    - uid: boolean
   - name: id
     description: Resource ID.
     types:
@@ -2140,14 +2023,6 @@ definitions:
   - name: Standard
     types:
     - uid: string
-- name: NatGatewaySku
-  description: SKU of nat gateway.
-  kind: object
-  properties:
-  - name: name
-    description: Name of Nat Gateway SKU.
-    types:
-    - uid: NatGatewaySkuName
 - name: SecurityRuleProtocol
   description: Network protocol this rule applies to.
   kind: enum
@@ -2246,6 +2121,10 @@ definitions:
     description: Reference to an existing virtual network.
     types:
     - uid: SubResource
+  - name: properties.subnet
+    description: Reference to an existing subnet.
+    types:
+    - uid: SubResource
   - name: properties.ipAddress
     description: IP Address belonging to the referenced virtual network.
     types:
@@ -2291,13 +2170,6 @@ definitions:
   - name: None
     types:
     - uid: string
-- name: NatGatewaySkuName
-  description: Name of Nat Gateway SKU.
-  kind: enum
-  properties:
-  - name: Standard
-    types:
-    - uid: string
 - name: FlowLogFormatType
   description: The file type of flow log.
   kind: enum
@@ -2332,7 +2204,7 @@ definitions:
 examples:
 - name: List private link service in resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices?api-version=2020-07-01
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices?api-version=2020-11-01
   responses:
   - statusCode: "200"
     body: >-

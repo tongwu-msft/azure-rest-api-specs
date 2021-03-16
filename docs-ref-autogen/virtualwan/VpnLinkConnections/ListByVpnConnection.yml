@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.vpnlinkconnections.listbyvpnconnection
 name: List By Vpn Connection
 service: Virtual WAN
 groupName: Vpn Link Connections
-apiVersion: 2020-07-01
+apiVersion: 2020-11-01
 summary: Retrieves all vpn site link connections for a particular virtual wan vpn gateway vpn connection.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections?api-version=2020-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections/{connectionName}/vpnLinkConnections?api-version=2020-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -100,6 +100,10 @@ definitions:
     description: Routing weight for vpn connection.
     types:
     - uid: integer
+  - name: properties.vpnLinkConnectionMode
+    description: Vpn link connection mode.
+    types:
+    - uid: VpnLinkConnectionMode
   - name: properties.connectionStatus
     isReadyOnly: true
     description: The connection status.
@@ -153,6 +157,16 @@ definitions:
     description: The provisioning state of the VPN site link connection resource.
     types:
     - uid: ProvisioningState
+  - name: properties.ingressNatRules
+    description: List of ingress NatRules.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.egressNatRules
+    description: List of egress NatRules.
+    types:
+    - uid: SubResource
+      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -184,6 +198,19 @@ definitions:
   properties:
   - name: id
     description: Resource ID.
+    types:
+    - uid: string
+- name: VpnLinkConnectionMode
+  description: Vpn link connection mode.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: ResponderOnly
+    types:
+    - uid: string
+  - name: InitiatorOnly
     types:
     - uid: string
 - name: VpnConnectionStatus
@@ -426,7 +453,7 @@ definitions:
 examples:
 - name: VpnSiteLinkConnectionList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/vpnConnections/vpnConnection1/vpnLinkConnections?api-version=2020-07-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/vpnConnections/vpnConnection1/vpnLinkConnections?api-version=2020-11-01
   responses:
   - statusCode: "200"
     body: >-
