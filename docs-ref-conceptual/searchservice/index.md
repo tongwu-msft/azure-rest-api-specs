@@ -15,27 +15,29 @@ ms.manager: nitinme
 
 Azure Cognitive Search is a fully managed cloud search service that provides a rich search experience to custom applications. One way to add search capability is through the REST APIs, with operations that create and manage indexes, load data, implement search features, execute queries, and handle results.
 
-Service management operations have a separate REST API, including support for altering capacity. For more information, see [Azure Cognitive Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md).  
-
-To create the service, see [Create a search service in Azure portal](https://docs.microsoft.com/azure/search/search-create-service-portal).  
+A separate REST API is used to provision and alter a search service configuration. Alternatively, you can use the portal. For more information, see [Create a search service in Azure portal](https://docs.microsoft.com/azure/search/search-create-service-portal) or [Azure Cognitive Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md).  
 
 ## Key concepts
 
-Azure Cognitive Search has the concepts of *search services* and *indexes* and *documents*, where a search service contains one or more indexes. An index provides persistent storage of searchable data, and data is loaded in the form of JSON documents. Data can be pushed to an index from an external data source, but if you use an *indexer*, it's possible to crawl a data source to extract and load data into an index.  
+Cognitive Search has the concepts of *search services* and *indexes* and *documents*:
 
-[AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) in Cognitive Search has the concept of *skillsets*. A skillset is attached to an indexer and it defines a sequence of steps that detect, structure, or transform content.
+- A search service contains one or more indexes.
+- An index provides persistent storage of search documents.
+- Search documents are loaded from external sources in the form of JSON documents and pushed to an index to make it searchable.
 
-In all, there are five types of operations that can be executed against the service:  
+If you use an *indexer* to load an index, you can automate data upload operations. An indexer can crawl a data source and serialize the content as JSON, in route to a destination index.
 
-- [Index management operations](index-operations.md). Create, delete, update, or configure a search index.  
+[AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) in Cognitive Search has the concept of *skillsets*. A skillset is attached to an indexer. During data ingestion, it defines a sequence of steps that detect, structure, or transform content that is otherwise unsearchable.
 
-- [Document operations](document-operations.md). Add, update, or delete documents in the index, query the index, or look up specific documents by ID.  
+All together, there are five types of operations that can be executed against the service:  
 
-- [Indexer operations](indexer-operations.md). Automate aspects of an indexing operation by configuring a **data source** and an **indexer** that you can schedule or run on demand. This feature is supported for a limited number of data source types on Azure. 
-
-- [Skillset operations](skillset-operations.md). Part of an [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) workload, a skillset defines a series of enrichment processing. A skillset is consumed by an indexer. 
-
-- [Synonym map operations](synonym-map-operations.md). A synonym map is service-level resource that contains user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field).  
+| Operation | Description |
+|-----------|-------------|
+| [Index](index-operations.md) | Create, delete, update, or configure a search index. |
+| [Document](document-operations.md) | Add, update, or delete documents in the index, query the index, or look up specific documents by ID. |
+| [Indexer](indexer-operations.md) | Automate aspects of an indexing operation by configuring a **data source** and an **indexer** that you can schedule or run on demand. This feature is supported for a limited number of data source types on Azure. |
+| [Skillset](skillset-operations.md) | Part of an [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) workload, a skillset defines a series of enrichment processing. A skillset is consumed by an indexer. |
+| [Synonym map](synonym-map-operations.md) | A synonym map is service-level resource that contains user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field). |
 
 ## Calling the APIs
 
