@@ -39,19 +39,17 @@ In all, there are five types of operations that can be executed against the serv
 
 ## Calling the APIs
 
- The APIs documented in this section provide access to operations on search data, such as index creation and population, document upload, and queries. You can optionally set the Accept HTTP header. If the header is not set, the default is assumed to be `application/json`.  
+ The APIs documented in this section provide access to operations on search data, such as index creation and population, document upload, and queries. When calling APIs, keep the following points in mind:  
 
-When calling APIs, keep the following points in mind:  
+- Requests must be issued over HTTPS (on the default port 443).  
 
-- All APIs must be issued over HTTPS (on the default port 443).  
+- Requests must include the **api-version** in the URI. The value must be set to a supported version, formatted as shown in this example: `GET https://[search service name].search.windows.net/indexes?api-version=2020-06-30`  
 
-- All API requests must include the **api-version** in the URI. The value must be set to a supported version, formatted as shown in the following example:  
+- Request headers must include an **api-key** that was generated for the search service you provisioned. Having a valid key establishes trust, on a per request basis, between the application sending the request and the service that handles it.
 
-     `GET https://[search service name].search.windows.net/indexes?api-version=2020-06-30`  
+  Optionally, you can set the Accept HTTP header. If the header is not set, the default is assumed to be `application/json`.
 
-- All API requests must include an **api-key** that was generated for the search service you provisioned. Having a valid key establishes trust, on a per request basis, between the application sending the request and the service that handles it.
-
-## Authentication and Authorization
+## Key authentication
 
 Every HTTP request to your search service is authenticated based on two pieces of information: a search service URL and an **api-key** that provides proof the request is from a trusted entity. There are  two types of **api-keys** for different levels of operation.  
 
@@ -65,7 +63,7 @@ Every HTTP request to your search service is authenticated based on two pieces o
 > [!NOTE]  
 > It is considered a poor security practice to pass sensitive data such as an `api-key` in the request URI. For this reason, Azure Cognitive Search will only accept a query key as an `api-key` in the query string, and you should avoid doing so unless the contents of your index should be publicly available. As a general rule, we recommend passing your `api-key` as a request header.  
 
- **Authorization in Azure Cognitive Search**  
+## Authorization
 
  Authorization is available for administrative operations via the role-based access controls (RBAC) provided in the Azure portal. RBAC roles are used to set levels of access for service administration in a way that is consistent across all services. For example, viewing sensitive data, such as the admin key, is restricted to the Owner and Contributor roles, whereas viewing service status is available to members of any role.  
 
@@ -79,4 +77,4 @@ Every HTTP request to your search service is authenticated based on two pieces o
 - [Naming rules](naming-rules.md)
 - [Common HTTP request and response headers](common-http-request-and-response-headers-used-in-azure-search.md)
 - [Azure Cognitive Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md)
-- [Azure Cognitive Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  
+- [Azure Cognitive Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search)  
