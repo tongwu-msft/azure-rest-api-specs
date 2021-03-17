@@ -11463,7 +11463,6 @@
 #### [List By Service](searchmanagement/SharedPrivateLinkResources/ListByService.yml)
 # Search Service
 ## [Overview](../docs-ref-conceptual/searchservice/index.md)
-## [API versions](../docs-ref-conceptual/searchservice/search-service-api-versions.md)
 ## [Data types](../docs-ref-conceptual/searchservice/supported-data-types.md)
 ## [Naming rules](../docs-ref-conceptual/searchservice/naming-rules.md)
 ## [HTTP status codes](../docs-ref-conceptual/searchservice/http-status-codes.md)

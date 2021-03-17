@@ -61,7 +61,7 @@ This operation takes your index offline for at least a few seconds, causing your
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required. The request URI specifies the name of the index to update.   |
-| api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview` (case-sensitive). See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ## Request Headers
 

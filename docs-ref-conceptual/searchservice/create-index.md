@@ -33,7 +33,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 HTTPS is required for all service requests. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition.
 
-Creating an index establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](addupdate-or-delete-documents.md). The inverted index is generated when the documents are posted.  
+Creating an index establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](addupdate-or-delete-documents.md). The inverted indexes are generated when the documents are posted.  
 
 > [!NOTE]  
 > The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).  

@@ -1,4 +1,3 @@
-# [API versions](search-service-api-versions.md)
 # [Data types](supported-data-types.md)
 # [Naming rules](naming-rules.md)
 # [HTTP status codes](http-status-codes.md)

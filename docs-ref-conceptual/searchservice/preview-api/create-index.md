@@ -38,7 +38,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 HTTPS is required for all service requests. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition.
 
-Creating an index establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations &#40;Azure Cognitive Search REST API&#41;](../indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](../addupdate-or-delete-documents.md). The inverted index is generated when the documents are posted.
+Creating an index establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations &#40;Azure Cognitive Search REST API&#41;](../indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](../addupdate-or-delete-documents.md). The inverted indexes are generated when the documents are posted.
 
 > [!NOTE]  
 > The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).  
@@ -49,7 +49,7 @@ Creating an index establishes the schema and metadata. Populating the index is a
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  |
-| api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview` (case-sensitive). See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ## Request Headers
 

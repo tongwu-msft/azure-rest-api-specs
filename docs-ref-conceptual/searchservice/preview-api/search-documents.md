@@ -49,7 +49,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/search?
 | [service name] | Required. Set this to the unique, user-defined name of your search service. |
 | [index name]/docs  | Required. Specifies the documents collection of a named index. |
 | [query parameters] | Query parameters are specified on the URI for GET requests and in the request body for POST requests. |
-| api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview` (case-sensitive) For **Search Documents**, the api-version is always specified as a URI parameter for both GET and POST. |
+| api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview`. For **Search Documents**, the api-version is always specified as a URI parameter for both GET and POST. |
 
 ### URL-encoding recommendations
 
