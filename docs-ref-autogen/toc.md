@@ -17430,12 +17430,6 @@
 ### [List](virtualnetwork/CustomIPPrefixes/List.yml)
 ### [List All](virtualnetwork/CustomIPPrefixes/ListAll.yml)
 ### [Update Tags](virtualnetwork/CustomIPPrefixes/UpdateTags.yml)
-## Ddos Custom Policies
-### [Overview](virtualnetwork/DdosCustomPolicies.yml)
-### [Create Or Update](virtualnetwork/DdosCustomPolicies/CreateOrUpdate.yml)
-### [Delete](virtualnetwork/DdosCustomPolicies/Delete.yml)
-### [Get](virtualnetwork/DdosCustomPolicies/Get.yml)
-### [Update Tags](virtualnetwork/DdosCustomPolicies/UpdateTags.yml)
 ## Ddos Protection Plans
 ### [Overview](virtualnetwork/DdosProtectionPlans.yml)
 ### [Create Or Update](virtualnetwork/DdosProtectionPlans/CreateOrUpdate.yml)
