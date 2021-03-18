@@ -600,6 +600,7 @@
 ##### [Create Or Update](apimanagement/2020-06-01-preview/ApiManagementService/CreateOrUpdate.yml)
 ##### [Delete](apimanagement/2020-06-01-preview/ApiManagementService/Delete.yml)
 ##### [Get](apimanagement/2020-06-01-preview/ApiManagementService/Get.yml)
+##### [Get Domain Ownership Identifier](apimanagement/2020-06-01-preview/ApiManagementService/GetDomainOwnershipIdentifier.yml)
 ##### [Get Sso Token](apimanagement/2020-06-01-preview/ApiManagementService/GetSsoToken.yml)
 ##### [List](apimanagement/2020-06-01-preview/ApiManagementService/List.yml)
 ##### [List By Resource Group](apimanagement/2020-06-01-preview/ApiManagementService/ListByResourceGroup.yml)
@@ -6962,80 +6963,157 @@
 ### [List](datamigration/Usages/List.yml)
 # Data Share
 ## [Overview](../docs-ref-conceptual/datashare/index.md)
-## Accounts
-### [Overview](datashare/Accounts.yml)
-### [Create](datashare/Accounts/Create.yml)
-### [Delete](datashare/Accounts/Delete.yml)
-### [Get](datashare/Accounts/Get.yml)
-### [List By Resource Group](datashare/Accounts/ListByResourceGroup.yml)
-### [List By Subscription](datashare/Accounts/ListBySubscription.yml)
-### [Update](datashare/Accounts/Update.yml)
-## Consumer Invitations
-### [Overview](datashare/ConsumerInvitations.yml)
-### [Get](datashare/ConsumerInvitations/Get.yml)
-### [List Invitations](datashare/ConsumerInvitations/ListInvitations.yml)
-### [Reject Invitation](datashare/ConsumerInvitations/RejectInvitation.yml)
-## Consumer Source Data Sets
-### [Overview](datashare/ConsumerSourceDataSets.yml)
-### [List By Share Subscription](datashare/ConsumerSourceDataSets/ListByShareSubscription.yml)
-## Data Set Mappings
-### [Overview](datashare/DataSetMappings.yml)
-### [Create](datashare/DataSetMappings/Create.yml)
-### [Delete](datashare/DataSetMappings/Delete.yml)
-### [Get](datashare/DataSetMappings/Get.yml)
-### [List By Share Subscription](datashare/DataSetMappings/ListByShareSubscription.yml)
-## Data Sets
-### [Overview](datashare/DataSets.yml)
-### [Create](datashare/DataSets/Create.yml)
-### [Delete](datashare/DataSets/Delete.yml)
-### [Get](datashare/DataSets/Get.yml)
-### [List By Share](datashare/DataSets/ListByShare.yml)
-## Invitations
-### [Overview](datashare/Invitations.yml)
-### [Create](datashare/Invitations/Create.yml)
-### [Delete](datashare/Invitations/Delete.yml)
-### [Get](datashare/Invitations/Get.yml)
-### [List By Share](datashare/Invitations/ListByShare.yml)
-## Operations
-### [Overview](datashare/Operations.yml)
-### [List](datashare/Operations/List.yml)
-## Provider Share Subscriptions
-### [Overview](datashare/ProviderShareSubscriptions.yml)
-### [Get By Share](datashare/ProviderShareSubscriptions/GetByShare.yml)
-### [List By Share](datashare/ProviderShareSubscriptions/ListByShare.yml)
-### [Reinstate](datashare/ProviderShareSubscriptions/Reinstate.yml)
-### [Revoke](datashare/ProviderShareSubscriptions/Revoke.yml)
-## Share Subscriptions
-### [Overview](datashare/ShareSubscriptions.yml)
-### [Cancel Synchronization](datashare/ShareSubscriptions/CancelSynchronization.yml)
-### [Create](datashare/ShareSubscriptions/Create.yml)
-### [Delete](datashare/ShareSubscriptions/Delete.yml)
-### [Get](datashare/ShareSubscriptions/Get.yml)
-### [List By Account](datashare/ShareSubscriptions/ListByAccount.yml)
-### [List Source Share Synchronization Settings](datashare/ShareSubscriptions/ListSourceShareSynchronizationSettings.yml)
-### [List Synchronization Details](datashare/ShareSubscriptions/ListSynchronizationDetails.yml)
-### [List Synchronizations](datashare/ShareSubscriptions/ListSynchronizations.yml)
-### [Synchronize](datashare/ShareSubscriptions/Synchronize.yml)
-## Shares
-### [Overview](datashare/Shares.yml)
-### [Create](datashare/Shares/Create.yml)
-### [Delete](datashare/Shares/Delete.yml)
-### [Get](datashare/Shares/Get.yml)
-### [List By Account](datashare/Shares/ListByAccount.yml)
-### [List Synchronization Details](datashare/Shares/ListSynchronizationDetails.yml)
-### [List Synchronizations](datashare/Shares/ListSynchronizations.yml)
-## Synchronization Settings
-### [Overview](datashare/SynchronizationSettings.yml)
-### [Create](datashare/SynchronizationSettings/Create.yml)
-### [Delete](datashare/SynchronizationSettings/Delete.yml)
-### [Get](datashare/SynchronizationSettings/Get.yml)
-### [List By Share](datashare/SynchronizationSettings/ListByShare.yml)
-## Triggers
-### [Overview](datashare/Triggers.yml)
-### [Create](datashare/Triggers/Create.yml)
-### [Delete](datashare/Triggers/Delete.yml)
-### [Get](datashare/Triggers/Get.yml)
-### [List By Share Subscription](datashare/Triggers/ListByShareSubscription.yml)
+## 2019-11-01
+### Accounts
+#### [Overview](datashare/2019-11-01/Accounts.yml)
+#### [Create](datashare/2019-11-01/Accounts/Create.yml)
+#### [Delete](datashare/2019-11-01/Accounts/Delete.yml)
+#### [Get](datashare/2019-11-01/Accounts/Get.yml)
+#### [List By Resource Group](datashare/2019-11-01/Accounts/ListByResourceGroup.yml)
+#### [List By Subscription](datashare/2019-11-01/Accounts/ListBySubscription.yml)
+#### [Update](datashare/2019-11-01/Accounts/Update.yml)
+### Consumer Invitations
+#### [Overview](datashare/2019-11-01/ConsumerInvitations.yml)
+#### [Get](datashare/2019-11-01/ConsumerInvitations/Get.yml)
+#### [List Invitations](datashare/2019-11-01/ConsumerInvitations/ListInvitations.yml)
+#### [Reject Invitation](datashare/2019-11-01/ConsumerInvitations/RejectInvitation.yml)
+### Consumer Source Data Sets
+#### [Overview](datashare/2019-11-01/ConsumerSourceDataSets.yml)
+#### [List By Share Subscription](datashare/2019-11-01/ConsumerSourceDataSets/ListByShareSubscription.yml)
+### Data Set Mappings
+#### [Overview](datashare/2019-11-01/DataSetMappings.yml)
+#### [Create](datashare/2019-11-01/DataSetMappings/Create.yml)
+#### [Delete](datashare/2019-11-01/DataSetMappings/Delete.yml)
+#### [Get](datashare/2019-11-01/DataSetMappings/Get.yml)
+#### [List By Share Subscription](datashare/2019-11-01/DataSetMappings/ListByShareSubscription.yml)
+### Data Sets
+#### [Overview](datashare/2019-11-01/DataSets.yml)
+#### [Create](datashare/2019-11-01/DataSets/Create.yml)
+#### [Delete](datashare/2019-11-01/DataSets/Delete.yml)
+#### [Get](datashare/2019-11-01/DataSets/Get.yml)
+#### [List By Share](datashare/2019-11-01/DataSets/ListByShare.yml)
+### Invitations
+#### [Overview](datashare/2019-11-01/Invitations.yml)
+#### [Create](datashare/2019-11-01/Invitations/Create.yml)
+#### [Delete](datashare/2019-11-01/Invitations/Delete.yml)
+#### [Get](datashare/2019-11-01/Invitations/Get.yml)
+#### [List By Share](datashare/2019-11-01/Invitations/ListByShare.yml)
+### Operations
+#### [Overview](datashare/2019-11-01/Operations.yml)
+#### [List](datashare/2019-11-01/Operations/List.yml)
+### Provider Share Subscriptions
+#### [Overview](datashare/2019-11-01/ProviderShareSubscriptions.yml)
+#### [Get By Share](datashare/2019-11-01/ProviderShareSubscriptions/GetByShare.yml)
+#### [List By Share](datashare/2019-11-01/ProviderShareSubscriptions/ListByShare.yml)
+#### [Reinstate](datashare/2019-11-01/ProviderShareSubscriptions/Reinstate.yml)
+#### [Revoke](datashare/2019-11-01/ProviderShareSubscriptions/Revoke.yml)
+### Share Subscriptions
+#### [Overview](datashare/2019-11-01/ShareSubscriptions.yml)
+#### [Cancel Synchronization](datashare/2019-11-01/ShareSubscriptions/CancelSynchronization.yml)
+#### [Create](datashare/2019-11-01/ShareSubscriptions/Create.yml)
+#### [Delete](datashare/2019-11-01/ShareSubscriptions/Delete.yml)
+#### [Get](datashare/2019-11-01/ShareSubscriptions/Get.yml)
+#### [List By Account](datashare/2019-11-01/ShareSubscriptions/ListByAccount.yml)
+#### [List Source Share Synchronization Settings](datashare/2019-11-01/ShareSubscriptions/ListSourceShareSynchronizationSettings.yml)
+#### [List Synchronization Details](datashare/2019-11-01/ShareSubscriptions/ListSynchronizationDetails.yml)
+#### [List Synchronizations](datashare/2019-11-01/ShareSubscriptions/ListSynchronizations.yml)
+#### [Synchronize](datashare/2019-11-01/ShareSubscriptions/Synchronize.yml)
+### Shares
+#### [Overview](datashare/2019-11-01/Shares.yml)
+#### [Create](datashare/2019-11-01/Shares/Create.yml)
+#### [Delete](datashare/2019-11-01/Shares/Delete.yml)
+#### [Get](datashare/2019-11-01/Shares/Get.yml)
+#### [List By Account](datashare/2019-11-01/Shares/ListByAccount.yml)
+#### [List Synchronization Details](datashare/2019-11-01/Shares/ListSynchronizationDetails.yml)
+#### [List Synchronizations](datashare/2019-11-01/Shares/ListSynchronizations.yml)
+### Synchronization Settings
+#### [Overview](datashare/2019-11-01/SynchronizationSettings.yml)
+#### [Create](datashare/2019-11-01/SynchronizationSettings/Create.yml)
+#### [Delete](datashare/2019-11-01/SynchronizationSettings/Delete.yml)
+#### [Get](datashare/2019-11-01/SynchronizationSettings/Get.yml)
+#### [List By Share](datashare/2019-11-01/SynchronizationSettings/ListByShare.yml)
+### Triggers
+#### [Overview](datashare/2019-11-01/Triggers.yml)
+#### [Create](datashare/2019-11-01/Triggers/Create.yml)
+#### [Delete](datashare/2019-11-01/Triggers/Delete.yml)
+#### [Get](datashare/2019-11-01/Triggers/Get.yml)
+#### [List By Share Subscription](datashare/2019-11-01/Triggers/ListByShareSubscription.yml)
+## 2020-09-01
+### Accounts
+#### [Overview](datashare/2020-09-01/Accounts.yml)
+#### [Create](datashare/2020-09-01/Accounts/Create.yml)
+#### [Delete](datashare/2020-09-01/Accounts/Delete.yml)
+#### [Get](datashare/2020-09-01/Accounts/Get.yml)
+#### [List By Resource Group](datashare/2020-09-01/Accounts/ListByResourceGroup.yml)
+#### [List By Subscription](datashare/2020-09-01/Accounts/ListBySubscription.yml)
+#### [Update](datashare/2020-09-01/Accounts/Update.yml)
+### Consumer Invitations
+#### [Overview](datashare/2020-09-01/ConsumerInvitations.yml)
+#### [Get](datashare/2020-09-01/ConsumerInvitations/Get.yml)
+#### [List Invitations](datashare/2020-09-01/ConsumerInvitations/ListInvitations.yml)
+#### [Reject Invitation](datashare/2020-09-01/ConsumerInvitations/RejectInvitation.yml)
+### Consumer Source Data Sets
+#### [Overview](datashare/2020-09-01/ConsumerSourceDataSets.yml)
+#### [List By Share Subscription](datashare/2020-09-01/ConsumerSourceDataSets/ListByShareSubscription.yml)
+### Data Set Mappings
+#### [Overview](datashare/2020-09-01/DataSetMappings.yml)
+#### [Create](datashare/2020-09-01/DataSetMappings/Create.yml)
+#### [Delete](datashare/2020-09-01/DataSetMappings/Delete.yml)
+#### [Get](datashare/2020-09-01/DataSetMappings/Get.yml)
+#### [List By Share Subscription](datashare/2020-09-01/DataSetMappings/ListByShareSubscription.yml)
+### Data Sets
+#### [Overview](datashare/2020-09-01/DataSets.yml)
+#### [Create](datashare/2020-09-01/DataSets/Create.yml)
+#### [Delete](datashare/2020-09-01/DataSets/Delete.yml)
+#### [Get](datashare/2020-09-01/DataSets/Get.yml)
+#### [List By Share](datashare/2020-09-01/DataSets/ListByShare.yml)
+### Invitations
+#### [Overview](datashare/2020-09-01/Invitations.yml)
+#### [Create](datashare/2020-09-01/Invitations/Create.yml)
+#### [Delete](datashare/2020-09-01/Invitations/Delete.yml)
+#### [Get](datashare/2020-09-01/Invitations/Get.yml)
+#### [List By Share](datashare/2020-09-01/Invitations/ListByShare.yml)
+### Operations
+#### [Overview](datashare/2020-09-01/Operations.yml)
+#### [List](datashare/2020-09-01/Operations/List.yml)
+### Provider Share Subscriptions
+#### [Overview](datashare/2020-09-01/ProviderShareSubscriptions.yml)
+#### [Adjust](datashare/2020-09-01/ProviderShareSubscriptions/Adjust.yml)
+#### [Get By Share](datashare/2020-09-01/ProviderShareSubscriptions/GetByShare.yml)
+#### [List By Share](datashare/2020-09-01/ProviderShareSubscriptions/ListByShare.yml)
+#### [Reinstate](datashare/2020-09-01/ProviderShareSubscriptions/Reinstate.yml)
+#### [Revoke](datashare/2020-09-01/ProviderShareSubscriptions/Revoke.yml)
+### Share Subscriptions
+#### [Overview](datashare/2020-09-01/ShareSubscriptions.yml)
+#### [Cancel Synchronization](datashare/2020-09-01/ShareSubscriptions/CancelSynchronization.yml)
+#### [Create](datashare/2020-09-01/ShareSubscriptions/Create.yml)
+#### [Delete](datashare/2020-09-01/ShareSubscriptions/Delete.yml)
+#### [Get](datashare/2020-09-01/ShareSubscriptions/Get.yml)
+#### [List By Account](datashare/2020-09-01/ShareSubscriptions/ListByAccount.yml)
+#### [List Source Share Synchronization Settings](datashare/2020-09-01/ShareSubscriptions/ListSourceShareSynchronizationSettings.yml)
+#### [List Synchronization Details](datashare/2020-09-01/ShareSubscriptions/ListSynchronizationDetails.yml)
+#### [List Synchronizations](datashare/2020-09-01/ShareSubscriptions/ListSynchronizations.yml)
+#### [Synchronize](datashare/2020-09-01/ShareSubscriptions/Synchronize.yml)
+### Shares
+#### [Overview](datashare/2020-09-01/Shares.yml)
+#### [Create](datashare/2020-09-01/Shares/Create.yml)
+#### [Delete](datashare/2020-09-01/Shares/Delete.yml)
+#### [Get](datashare/2020-09-01/Shares/Get.yml)
+#### [List By Account](datashare/2020-09-01/Shares/ListByAccount.yml)
+#### [List Synchronization Details](datashare/2020-09-01/Shares/ListSynchronizationDetails.yml)
+#### [List Synchronizations](datashare/2020-09-01/Shares/ListSynchronizations.yml)
+### Synchronization Settings
+#### [Overview](datashare/2020-09-01/SynchronizationSettings.yml)
+#### [Create](datashare/2020-09-01/SynchronizationSettings/Create.yml)
+#### [Delete](datashare/2020-09-01/SynchronizationSettings/Delete.yml)
+#### [Get](datashare/2020-09-01/SynchronizationSettings/Get.yml)
+#### [List By Share](datashare/2020-09-01/SynchronizationSettings/ListByShare.yml)
+### Triggers
+#### [Overview](datashare/2020-09-01/Triggers.yml)
+#### [Create](datashare/2020-09-01/Triggers/Create.yml)
+#### [Delete](datashare/2020-09-01/Triggers/Delete.yml)
+#### [Get](datashare/2020-09-01/Triggers/Get.yml)
+#### [List By Share Subscription](datashare/2020-09-01/Triggers/ListByShareSubscription.yml)
 # Databricks
 ## [Overview](../docs-ref-conceptual/databricks/index.md)
 ## Operations
@@ -9250,6 +9328,44 @@
 ### [Delete](managedservices/RegistrationDefinitions/Delete.yml)
 ### [Get](managedservices/RegistrationDefinitions/Get.yml)
 ### [List](managedservices/RegistrationDefinitions/List.yml)
+# Management Groups
+## [Overview](../docs-ref-conceptual/managementgroups/index.md)
+## Check Name Availability
+### [Overview](managementgroups/CheckNameAvailability.yml)
+### [Check Name Availability](managementgroups/CheckNameAvailability/CheckNameAvailability.yml)
+## Entities
+### [Overview](managementgroups/Entities.yml)
+### [List](managementgroups/Entities/List.yml)
+## Hierarchy Settings
+### [Overview](managementgroups/HierarchySettings.yml)
+### [Create Or Update](managementgroups/HierarchySettings/CreateOrUpdate.yml)
+### [Delete](managementgroups/HierarchySettings/Delete.yml)
+### [Get](managementgroups/HierarchySettings/Get.yml)
+### [List](managementgroups/HierarchySettings/List.yml)
+### [Update](managementgroups/HierarchySettings/Update.yml)
+## Management Group Subscriptions
+### [Overview](managementgroups/ManagementGroupSubscriptions.yml)
+### [Create](managementgroups/ManagementGroupSubscriptions/Create.yml)
+### [Delete](managementgroups/ManagementGroupSubscriptions/Delete.yml)
+### [Get Subscription](managementgroups/ManagementGroupSubscriptions/GetSubscription.yml)
+### [Get Subscriptions Under Management Group](managementgroups/ManagementGroupSubscriptions/GetSubscriptionsUnderManagementGroup.yml)
+## Management Groups
+### [Overview](managementgroups/ManagementGroups.yml)
+### [Create Or Update](managementgroups/ManagementGroups/CreateOrUpdate.yml)
+### [Delete](managementgroups/ManagementGroups/Delete.yml)
+### [Get](managementgroups/ManagementGroups/Get.yml)
+### [Get Descendants](managementgroups/ManagementGroups/GetDescendants.yml)
+### [List](managementgroups/ManagementGroups/List.yml)
+### [Update](managementgroups/ManagementGroups/Update.yml)
+## Operations
+### [Overview](managementgroups/Operations.yml)
+### [List](managementgroups/Operations/List.yml)
+## Start Tenant Backfill
+### [Overview](managementgroups/StartTenantBackfill.yml)
+### [Start Tenant Backfill](managementgroups/StartTenantBackfill/StartTenantBackfill.yml)
+## Tenant Backfill Status
+### [Overview](managementgroups/TenantBackfillStatus.yml)
+### [Tenant Backfill Status](managementgroups/TenantBackfillStatus/TenantBackfillStatus.yml)
 # Maps
 ## [Overview](../docs-ref-conceptual/maps/index.md)
 ## Data
@@ -11081,9 +11197,6 @@
 ## Authorization Operations
 ### [Overview](resources/AuthorizationOperations.yml)
 ### [List](resources/AuthorizationOperations/List.yml)
-## Check Name Availability
-### [Overview](resources/CheckNameAvailability.yml)
-### [Check Name Availability](resources/CheckNameAvailability/CheckNameAvailability.yml)
 ## Deployment Operations
 ### [Overview](resources/DeploymentOperations.yml)
 ### [Get](resources/DeploymentOperations/Get.yml)
@@ -11143,9 +11256,6 @@
 ### [What If At Management Group Scope](resources/Deployments/WhatIfAtManagementGroupScope.yml)
 ### [What If At Subscription Scope](resources/Deployments/WhatIfAtSubscriptionScope.yml)
 ### [What If At Tenant Scope](resources/Deployments/WhatIfAtTenantScope.yml)
-## Entities
-### [Overview](resources/Entities.yml)
-### [List](resources/Entities/List.yml)
 ## Features
 ### [Overview](resources/Features.yml)
 ### [Get](resources/Features/Get.yml)
@@ -11153,28 +11263,9 @@
 ### [List All](resources/Features/ListAll.yml)
 ### [Register](resources/Features/Register.yml)
 ### [Unregister](resources/Features/Unregister.yml)
-## Hierarchy Settings
-### [Overview](resources/HierarchySettings.yml)
-### [Create Or Update](resources/HierarchySettings/CreateOrUpdate.yml)
-### [Delete](resources/HierarchySettings/Delete.yml)
-### [Get](resources/HierarchySettings/Get.yml)
-### [List](resources/HierarchySettings/List.yml)
-### [Update](resources/HierarchySettings/Update.yml)
 ## List Operations
 ### [Overview](resources/ListOperations.yml)
 ### [List Operations](resources/ListOperations/ListOperations.yml)
-## Management Group Subscriptions
-### [Overview](resources/ManagementGroupSubscriptions.yml)
-### [Create](resources/ManagementGroupSubscriptions/Create.yml)
-### [Delete](resources/ManagementGroupSubscriptions/Delete.yml)
-## Management Groups
-### [Overview](resources/ManagementGroups.yml)
-### [Create Or Update](resources/ManagementGroups/CreateOrUpdate.yml)
-### [Delete](resources/ManagementGroups/Delete.yml)
-### [Get](resources/ManagementGroups/Get.yml)
-### [Get Descendants](resources/ManagementGroups/GetDescendants.yml)
-### [List](resources/ManagementGroups/List.yml)
-### [Update](resources/ManagementGroups/Update.yml)
 ## Management Locks
 ### [Overview](resources/ManagementLocks.yml)
 ### [Create Or Update At Resource Group Level](resources/ManagementLocks/CreateOrUpdateAtResourceGroupLevel.yml)
@@ -11193,9 +11284,6 @@
 ### [List At Resource Level](resources/ManagementLocks/ListAtResourceLevel.yml)
 ### [List At Subscription Level](resources/ManagementLocks/ListAtSubscriptionLevel.yml)
 ### [List By Scope](resources/ManagementLocks/ListByScope.yml)
-## Operation (2020-02-01)
-### [Overview](resources/Operation%20(2020-02-01).yml)
-### [List](resources/Operation%20(2020-02-01)/List.yml)
 ## Operations
 ### [Overview](resources/Operations.yml)
 ### [List](resources/Operations/List.yml)
@@ -11291,9 +11379,6 @@
 ## Resources (Preview)
 ### [Overview](resources/Resources%20(Preview).yml)
 ### [List](resources/Resources%20(Preview)/List.yml)
-## Start Tenant Backfill
-### [Overview](resources/StartTenantBackfill.yml)
-### [Start Tenant Backfill](resources/StartTenantBackfill/StartTenantBackfill.yml)
 ## Subscriptions
 ### [Overview](resources/Subscriptions.yml)
 ### [Get](resources/Subscriptions/Get.yml)
@@ -11330,9 +11415,6 @@
 ### [List By Resource Group](resources/TemplateSpecs/ListByResourceGroup.yml)
 ### [List By Subscription](resources/TemplateSpecs/ListBySubscription.yml)
 ### [Update](resources/TemplateSpecs/Update.yml)
-## Tenant Backfill Status
-### [Overview](resources/TenantBackfillStatus.yml)
-### [Tenant Backfill Status](resources/TenantBackfillStatus/TenantBackfillStatus.yml)
 ## Tenants
 ### [Overview](resources/Tenants.yml)
 ### [List](resources/Tenants/List.yml)
@@ -11463,7 +11545,6 @@
 #### [List By Service](searchmanagement/SharedPrivateLinkResources/ListByService.yml)
 # Search Service
 ## [Overview](../docs-ref-conceptual/searchservice/index.md)
-## [API versions](../docs-ref-conceptual/searchservice/search-service-api-versions.md)
 ## [Data types](../docs-ref-conceptual/searchservice/supported-data-types.md)
 ## [Naming rules](../docs-ref-conceptual/searchservice/naming-rules.md)
 ## [HTTP status codes](../docs-ref-conceptual/searchservice/http-status-codes.md)
@@ -17430,12 +17511,6 @@
 ### [List](virtualnetwork/CustomIPPrefixes/List.yml)
 ### [List All](virtualnetwork/CustomIPPrefixes/ListAll.yml)
 ### [Update Tags](virtualnetwork/CustomIPPrefixes/UpdateTags.yml)
-## Ddos Custom Policies
-### [Overview](virtualnetwork/DdosCustomPolicies.yml)
-### [Create Or Update](virtualnetwork/DdosCustomPolicies/CreateOrUpdate.yml)
-### [Delete](virtualnetwork/DdosCustomPolicies/Delete.yml)
-### [Get](virtualnetwork/DdosCustomPolicies/Get.yml)
-### [Update Tags](virtualnetwork/DdosCustomPolicies/UpdateTags.yml)
 ## Ddos Protection Plans
 ### [Overview](virtualnetwork/DdosProtectionPlans.yml)
 ### [Create Or Update](virtualnetwork/DdosProtectionPlans/CreateOrUpdate.yml)
