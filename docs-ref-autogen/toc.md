@@ -600,6 +600,7 @@
 ##### [Create Or Update](apimanagement/2020-06-01-preview/ApiManagementService/CreateOrUpdate.yml)
 ##### [Delete](apimanagement/2020-06-01-preview/ApiManagementService/Delete.yml)
 ##### [Get](apimanagement/2020-06-01-preview/ApiManagementService/Get.yml)
+##### [Get Domain Ownership Identifier](apimanagement/2020-06-01-preview/ApiManagementService/GetDomainOwnershipIdentifier.yml)
 ##### [Get Sso Token](apimanagement/2020-06-01-preview/ApiManagementService/GetSsoToken.yml)
 ##### [List](apimanagement/2020-06-01-preview/ApiManagementService/List.yml)
 ##### [List By Resource Group](apimanagement/2020-06-01-preview/ApiManagementService/ListByResourceGroup.yml)
