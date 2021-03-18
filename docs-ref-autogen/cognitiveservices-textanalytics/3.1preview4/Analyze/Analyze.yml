@@ -1,0 +1,327 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices-textanalytics.3.1preview4.analyze.analyze
+name: Analyze
+service: Cognitive Services - Text Analytics
+groupName: Analyze
+apiVersion: v3.1-preview.4
+summary: "Submit analysis job  \nSubmit a collection of text documents for analysis. Specify one or more unique tasks to be executed."
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST {Endpoint}/text/analytics/v3.1-preview.4/analyze
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  headers:
+  - name: Operation-Location
+    value: string
+  description: A successful call results with an Operation-Location header used to check the status of the analysis job.
+- name: 400 Bad Request
+  description: Bad Request.
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: Internal error response
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: displayName
+    in: body
+    description: Optional display name for the analysis job.
+    types:
+    - uid: string
+  - name: analysisInput
+    in: body
+    isRequired: true
+    description: Contains a set of input documents to be analyzed by the service.
+    types:
+    - uid: MultiLanguageBatchInput
+  - name: tasks
+    in: body
+    isRequired: true
+    description: The set of tasks to execute on the input documents. Cannot specify the same task more than once.
+    types:
+    - uid: Tasks
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: MultiLanguageBatchInput
+  description: Contains a set of input documents to be analyzed by the service.
+  kind: object
+  properties:
+  - name: documents
+    description: The set of documents to process as part of this batch.
+    types:
+    - uid: MultiLanguageInput
+      isArray: true
+- name: Tasks
+  description: The set of tasks to execute on the input documents. Cannot specify the same task more than once.
+  kind: object
+  properties:
+  - name: entityRecognitionTasks
+    description: ''
+    types:
+    - uid: EntitiesTask
+      isArray: true
+  - name: entityRecognitionPiiTasks
+    description: ''
+    types:
+    - uid: PiiTask
+      isArray: true
+  - name: keyPhraseExtractionTasks
+    description: ''
+    types:
+    - uid: KeyPhrasesTask
+      isArray: true
+  - name: entityLinkingTasks
+    description: ''
+    types:
+    - uid: EntityLinkingTask
+      isArray: true
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: Document Error.
+    types:
+    - uid: TextAnalyticsError
+- name: AnalyzeBatchInput
+  kind: object
+  properties:
+  - name: displayName
+    description: Optional display name for the analysis job.
+    types:
+    - uid: string
+  - name: analysisInput
+    description: Contains a set of input documents to be analyzed by the service.
+    types:
+    - uid: MultiLanguageBatchInput
+  - name: tasks
+    description: The set of tasks to execute on the input documents. Cannot specify the same task more than once.
+    types:
+    - uid: Tasks
+- name: MultiLanguageInput
+  description: Contains an input document to be analyzed by the service.
+  kind: object
+  properties:
+  - name: id
+    description: A unique, non-empty document identifier.
+    types:
+    - uid: string
+  - name: text
+    description: The input text to process.
+    types:
+    - uid: string
+  - name: language
+    description: (Optional) This is the 2 letter ISO 639-1 representation of a language. For example, use "en" for English; "es" for Spanish etc. If not set, use "en" for English as default.
+    types:
+    - uid: string
+- name: EntitiesTask
+  kind: object
+  properties:
+  - name: parameters
+    description: ''
+    types:
+    - uid: Parameters
+- name: PiiTask
+  kind: object
+  properties:
+  - name: parameters
+    description: ''
+    types:
+    - uid: Parameters
+- name: KeyPhrasesTask
+  kind: object
+  properties:
+  - name: parameters
+    description: ''
+    types:
+    - uid: Parameters
+- name: EntityLinkingTask
+  kind: object
+  properties:
+  - name: parameters
+    description: ''
+    types:
+    - uid: Parameters
+- name: TextAnalyticsError
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: ErrorCodeValue
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: Inner error contains more specific information.
+    types:
+    - uid: InnerError
+  - name: details
+    description: Details about specific errors that led to this reported error.
+    types:
+    - uid: TextAnalyticsError
+      isArray: true
+- name: Parameters
+  kind: object
+  properties:
+  - name: model-version
+    description: ''
+    types:
+    - uid: string
+  - name: stringIndexType
+    description: ''
+    types:
+    - uid: StringIndexType
+- name: ErrorCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidArgument
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: ServiceUnavailable
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+- name: InnerError
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: InnerErrorCodeValue
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: Inner error contains more specific information.
+    types:
+    - uid: InnerError
+- name: StringIndexType
+  kind: enum
+  properties:
+  - name: TextElements_v8
+    description: Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo.
+    types:
+    - uid: string
+  - name: UnicodeCodePoint
+    description: Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python.
+    types:
+    - uid: string
+  - name: Utf16CodeUnit
+    description: Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript.
+    types:
+    - uid: string
+- name: InnerErrorCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: InvalidParameterValue
+    types:
+    - uid: string
+  - name: InvalidRequestBodyFormat
+    types:
+    - uid: string
+  - name: EmptyRequest
+    types:
+    - uid: string
+  - name: MissingInputRecords
+    types:
+    - uid: string
+  - name: InvalidDocument
+    types:
+    - uid: string
+  - name: ModelVersionIncorrect
+    types:
+    - uid: string
+  - name: InvalidDocumentBatch
+    types:
+    - uid: string
+  - name: UnsupportedLanguageCode
+    types:
+    - uid: string
+  - name: InvalidCountryHint
+    types:
+    - uid: string
+examples:
+- name: Successful Submit analysis job request
+  request:
+    uri: POST {Endpoint}/text/analytics/v3.1-preview.4/analyze
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Operation-Location
+      value: '{endpoint}/text/analytics/v3.1-preview.4/analyze/jobs/{jobId}'
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "InvalidRequest",
+          "message": "Invalid Request.",
+          "innererror": {
+            "code": "MissingInputRecords",
+            "message": "Missing input records."
+          }
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "InternalServerError",
+          "message": "Internal Server Error"
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+errorCodes: []

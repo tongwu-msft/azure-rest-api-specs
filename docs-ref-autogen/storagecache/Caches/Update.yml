@@ -3,14 +3,14 @@ uid: management.azure.com.storagecache.caches.update
 name: Update
 service: Storagecache
 groupName: Caches
-apiVersion: 2020-10-01
+apiVersion: 2021-03-01
 summary: Update a Cache instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}?api-version=2020-10-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -51,9 +51,13 @@ requestBody:
   parameters:
   - name: tags
     in: body
-    description: ARM tags as name/value pairs.
+    description: Resource tags.
     types:
     - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: location
     in: body
     description: Region name string.
@@ -177,6 +181,12 @@ definitions:
     description: Describes explanation of state.
     types:
     - uid: string
+  - name: conditions
+    isReadyOnly: true
+    description: Outstanding conditions that need to be investigated and resolved.
+    types:
+    - uid: Condition
+      isArray: true
 - name: CacheUpgradeStatus
   description: Properties describing the software upgrade state of the Cache.
   kind: object
@@ -220,6 +230,19 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: dnsServers
+    description: DNS servers for the cache to use.  It will be set from the network configuration if no value is provided.
+    types:
+    - uid: string
+      isArray: true
+  - name: dnsSearchDomain
+    description: DNS search domain
+    types:
+    - uid: string
+  - name: ntpServer
+    description: NTP server IP Address or FQDN for the cache to use. The default is time.windows.com.
+    types:
+    - uid: string
 - name: CacheEncryptionSettings
   description: Cache encryption settings.
   kind: object
@@ -254,9 +277,13 @@ definitions:
   kind: object
   properties:
   - name: tags
-    description: ARM tags as name/value pairs.
+    description: Resource tags.
     types:
     - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: id
     isReadyOnly: true
     description: Resource ID of the Cache.
@@ -395,6 +422,20 @@ definitions:
     types:
     - uid: string
   - name: Flushing
+    types:
+    - uid: string
+- name: Condition
+  description: Outstanding conditions that will need to be resolved.
+  kind: object
+  properties:
+  - name: timestamp
+    isReadyOnly: true
+    description: The time when the condition was raised.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The issue requiring attention.
     types:
     - uid: string
 - name: FirmwareStatusType
@@ -598,11 +639,11 @@ definitions:
     types:
     - uid: boolean
   - name: anonymousUID
-    description: UID value that replaces 0 when rootSquash is true.
+    description: UID value that replaces 0 when rootSquash is true. 65534 will be used if not provided.
     types:
     - uid: string
   - name: anonymousGID
-    description: GID value that replaces 0 when rootSquash is true.
+    description: GID value that replaces 0 when rootSquash is true. This will use the value of anonymousUID if not provided.
     types:
     - uid: string
 - name: DomainJoinedType
@@ -688,18 +729,24 @@ definitions:
 examples:
 - name: Caches_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2020-10-01
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2021-03-01
     body: >-
       {
         "tags": {
-          "Dept": "ContosoAds"
+          "Dept": "Contoso"
         },
         "location": "westus",
         "properties": {
           "cacheSizeGB": 3072,
           "subnet": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
           "networkSettings": {
-            "mtu": 1400
+            "mtu": 1500,
+            "dnsServers": [
+              "10.1.22.33",
+              "10.1.12.33"
+            ],
+            "dnsSearchDomain": "contoso.com",
+            "ntpServer": "time.contoso.com"
           },
           "securitySettings": {
             "accessPolicies": [
@@ -740,8 +787,8 @@ examples:
                     "suid": false,
                     "submountAccess": true,
                     "rootSquash": true,
-                    "anonymousUID": "-2",
-                    "anonymousGID": "-2"
+                    "anonymousUID": "65534",
+                    "anonymousGID": "65534"
                   }
                 ]
               }
@@ -770,7 +817,7 @@ examples:
     body: >-
       {
         "tags": {
-          "Dept": "ContosoAds"
+          "Dept": "Contoso"
         },
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.StorageCache/caches/sc1",
         "location": "westus",
@@ -788,7 +835,13 @@ examples:
           "cacheSizeGB": 3072,
           "health": {
             "state": "Transitioning",
-            "statusDescription": "Cache is being created."
+            "statusDescription": "Cache is being created.",
+            "conditions": [
+              {
+                "timestamp": "2021-04-21T18:25:43.511Z",
+                "message": "Cannot contact DNS server"
+              }
+            ]
           },
           "mountAddresses": [
             "192.168.1.1",
@@ -804,7 +857,13 @@ examples:
             "pendingFirmwareVersion": "V5.1.15"
           },
           "networkSettings": {
-            "mtu": 1400
+            "mtu": 1500,
+            "dnsServers": [
+              "10.1.22.33",
+              "10.1.12.33"
+            ],
+            "dnsSearchDomain": "contoso.com",
+            "ntpServer": "time.contoso.com"
           },
           "securitySettings": {
             "accessPolicies": [
@@ -845,8 +904,8 @@ examples:
                     "suid": false,
                     "submountAccess": true,
                     "rootSquash": true,
-                    "anonymousUID": "-2",
-                    "anonymousGID": "-2"
+                    "anonymousUID": "65534",
+                    "anonymousGID": "65534"
                   }
                 ]
               }
@@ -882,18 +941,24 @@ examples:
       }
 - name: Caches_Update_ldap_only
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2020-10-01
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2021-03-01
     body: >-
       {
         "tags": {
-          "Dept": "ContosoAds"
+          "Dept": "Contoso"
         },
         "location": "westus",
         "properties": {
           "cacheSizeGB": 3072,
           "subnet": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
           "networkSettings": {
-            "mtu": 1400
+            "mtu": 1500,
+            "dnsServers": [
+              "10.1.22.33",
+              "10.1.12.33"
+            ],
+            "dnsSearchDomain": "contoso.com",
+            "ntpServer": "time.contoso.com"
           },
           "securitySettings": {
             "accessPolicies": [
@@ -934,8 +999,8 @@ examples:
                     "suid": false,
                     "submountAccess": true,
                     "rootSquash": true,
-                    "anonymousUID": "-2",
-                    "anonymousGID": "-2"
+                    "anonymousUID": "65534",
+                    "anonymousGID": "65534"
                   }
                 ]
               }
@@ -963,7 +1028,7 @@ examples:
     body: >-
       {
         "tags": {
-          "Dept": "ContosoAds"
+          "Dept": "Contoso"
         },
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.StorageCache/caches/sc1",
         "location": "westus",
@@ -981,7 +1046,13 @@ examples:
           "cacheSizeGB": 3072,
           "health": {
             "state": "Transitioning",
-            "statusDescription": "Cache is being created."
+            "statusDescription": "Cache is being created.",
+            "conditions": [
+              {
+                "timestamp": "2021-04-21T18:25:43.511Z",
+                "message": "Cannot contact DNS server"
+              }
+            ]
           },
           "mountAddresses": [
             "192.168.1.1",
@@ -997,7 +1068,13 @@ examples:
             "pendingFirmwareVersion": "V5.1.15"
           },
           "networkSettings": {
-            "mtu": 1400
+            "mtu": 1500,
+            "dnsServers": [
+              "10.1.22.33",
+              "10.1.12.33"
+            ],
+            "dnsSearchDomain": "contoso.com",
+            "ntpServer": "time.contoso.com"
           },
           "securitySettings": {
             "accessPolicies": [
@@ -1038,8 +1115,8 @@ examples:
                     "suid": false,
                     "submountAccess": true,
                     "rootSquash": true,
-                    "anonymousUID": "-2",
-                    "anonymousGID": "-2"
+                    "anonymousUID": "65534",
+                    "anonymousGID": "65534"
                   }
                 ]
               }

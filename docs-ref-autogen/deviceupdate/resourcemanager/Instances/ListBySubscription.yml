@@ -1,0 +1,226 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.deviceupdate.resourcemanager.instances.listbysubscription
+name: List By Subscription
+service: Device Update
+groupName: Instances
+apiVersion: 2020-03-01-preview
+summary: Returns instances for the given account name.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DeviceUpdate/accounts/{accountName}/instances?api-version=2020-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: Account name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z][A-Za-z0-9]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: ADU schema API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: List of Instances.
+  types:
+  - uid: InstanceList
+- name: Other Status Codes
+  description: Error response describing the reason for operation failure.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: InstanceList
+  description: List of Instances.
+  kind: object
+  properties:
+  - name: nextLink
+    description: The link used to get the next page of Instances list.
+    types:
+    - uid: string
+  - name: value
+    description: List of Instances.
+    types:
+    - uid: Instance
+      isArray: true
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error status code.
+    types:
+    - uid: string
+  - name: error
+    isReadyOnly: true
+    description: Error details.
+    types:
+    - uid: ErrorDefinition
+- name: Instance
+  description: Device Update instance details.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state.
+    types:
+    - uid: ProvisioningState
+  - name: properties.accountName
+    isReadyOnly: true
+    description: Parent Device Update Account name which Instance belongs to.
+    types:
+    - uid: string
+  - name: properties.iotHubs
+    description: List of IoT Hubs associated with the account.
+    types:
+    - uid: IotHubSettings
+      isArray: true
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error status code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
+- name: ProvisioningState
+  description: Provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+- name: IotHubSettings
+  description: Device Update account integration with IoT Hub settings.
+  kind: object
+  properties:
+  - name: resourceId
+    description: IoTHub resource ID
+    types:
+    - uid: string
+  - name: ioTHubConnectionString
+    description: IoTHub connection string.
+    types:
+    - uid: string
+  - name: eventHubConnectionString
+    description: EventHub connection string.
+    types:
+    - uid: string
+examples:
+- name: Get list of Instances by Account
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DeviceUpdate/accounts/contoso/instances?api-version=2020-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nextLink": "string",
+        "value": [
+          {
+            "name": "blue",
+            "location": "westus2",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue",
+            "type": "Microsoft.DeviceUpdate/accounts/instances",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "accountName": "contoso",
+              "iotHubs": [
+                {
+                  "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/blue-contoso-hub"
+                }
+              ]
+            }
+          },
+          {
+            "name": "red",
+            "location": "westus2",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/red",
+            "type": "Microsoft.DeviceUpdate/accounts/instances",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "accountName": "contoso",
+              "iotHubs": [
+                {
+                  "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/red-contoso-hub"
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+errorCodes: []

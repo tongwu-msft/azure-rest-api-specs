@@ -24,8 +24,8 @@ You can reset an existing [skillset](https://docs.microsoft.com/rest/api/searchs
 
 ```http  
 POST https://[servicename].search.windows.net/skillsets/[skillset name]/resetskills?api-version=[api-version]
-	Content-Type: application/json
-	api-key: [admin key]
+    Content-Type: application/json
+    api-key: [admin key]
 ```  
 
 ## URI Parameters
@@ -34,7 +34,7 @@ POST https://[servicename].search.windows.net/skillsets/[skillset name]/resetski
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | skillset name  | Required. The request URI specifies the name of the skillset to reset. |
-| api-version | Required. The current version is `api-version=2020-06-30-Preview`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
 ## Request Headers
 
@@ -53,7 +53,7 @@ The body of the request is an array of skill names.
 
 ```json
 {   
-	"skillNames" : ["<SKILL-1>", "SKILL-n"]
+    "skillNames" : ["<SKILL-1>", "SKILL-n"]
 }  
 ```
 

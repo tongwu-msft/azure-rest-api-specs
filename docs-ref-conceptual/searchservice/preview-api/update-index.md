@@ -61,10 +61,11 @@ This operation takes your index offline for at least a few seconds, causing your
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required. The request URI specifies the name of the index to update.   |
-| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
-## Request Headers 
- The following table describes the required and optional request headers.  
+## Request Headers
+
+The following table describes the required and optional request headers.  
 
 |Fields              |Description      |  
 |--------------------|-----------------|  
@@ -79,17 +80,18 @@ The request body syntax is the same as for [Create Index](create-index.md).
 
 When updating an existing index, the body must include the original schema definition, plus the new fields you are adding, as well as the modified scoring profiles and CORS options, if any. If you are not modifying the scoring profiles and CORS options, you must include the original values from when the index was created. In general, the best pattern to use for updates is to retrieve the index definition with a GET, modify it, and then update it with PUT.  
 
-## Response  
- For a successful request, you should see "204 No Content".  
+## Response
 
- By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the index definition that was updated. In this case, the success status code will be "200 OK.  
+For a successful request, you should see "204 No Content".  
+
+By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the index definition that was updated. In this case, the success status code will be "200 OK.  
 
 ## See also
 
 + [Azure Cognitive Search REST APIs](../index.md)
-+ [HTTP status codes &#40;Azure Cognitive Search&#41;](../http-status-codes.md)
-+ [Create Index &#40;Azure Cognitive Search REST API&#41;](create-index.md)
-+ [Index operations &#40;Azure Cognitive Search REST API&#41;](../index-operations.md)
++ [HTTP status codes](../http-status-codes.md)
++ [Create Index (preview)](create-index.md)
++ [Index operations](../index-operations.md)
 + [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)  
-+ [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet&preserve-view=true)
++ [Azure Cognitive Search .NET library](https://docs.microsoft.com/dotnet/api/overview/azure/search)
 + [Create an index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/)  
