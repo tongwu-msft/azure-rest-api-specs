@@ -7680,14 +7680,6 @@
 ### [Send batch events](../docs-ref-conceptual/EventHub/send-batch-events.md)
 ## Reference
 ### preview
-#### Authorization Rules - Event Hubs
-##### [Overview](EventHub/preview/Authorization%20Rules%20-%20Event%20Hubs.yml)
-##### [Create Or Update Authorization Rule](EventHub/preview/Authorization%20Rules%20-%20Event%20Hubs/CreateOrUpdateAuthorizationRule.yml)
-##### [Delete Authorization Rule](EventHub/preview/Authorization%20Rules%20-%20Event%20Hubs/DeleteAuthorizationRule.yml)
-##### [Get Authorization Rule](EventHub/preview/Authorization%20Rules%20-%20Event%20Hubs/GetAuthorizationRule.yml)
-##### [List Authorization Rules](EventHub/preview/Authorization%20Rules%20-%20Event%20Hubs/ListAuthorizationRules.yml)
-##### [List Keys](EventHub/preview/Authorization%20Rules%20-%20Event%20Hubs/ListKeys.yml)
-##### [Regenerate Keys](EventHub/preview/Authorization%20Rules%20-%20Event%20Hubs/RegenerateKeys.yml)
 #### Consumer Groups
 ##### [Overview](EventHub/preview/ConsumerGroups.yml)
 ##### [Create Or Update](EventHub/preview/ConsumerGroups/CreateOrUpdate.yml)
@@ -7714,6 +7706,14 @@
 ##### [Delete](EventHub/preview/EventHubs/Delete.yml)
 ##### [Get](EventHub/preview/EventHubs/Get.yml)
 ##### [List By Namespace](EventHub/preview/EventHubs/ListByNamespace.yml)
+#### Event Hubs - Authorization Rules
+##### [Overview](EventHub/preview/Event%20Hubs%20-%20Authorization%20Rules.yml)
+##### [Create Or Update Authorization Rule](EventHub/preview/Event%20Hubs%20-%20Authorization%20Rules/CreateOrUpdateAuthorizationRule.yml)
+##### [Delete Authorization Rule](EventHub/preview/Event%20Hubs%20-%20Authorization%20Rules/DeleteAuthorizationRule.yml)
+##### [Get Authorization Rule](EventHub/preview/Event%20Hubs%20-%20Authorization%20Rules/GetAuthorizationRule.yml)
+##### [List Authorization Rules](EventHub/preview/Event%20Hubs%20-%20Authorization%20Rules/ListAuthorizationRules.yml)
+##### [List Keys](EventHub/preview/Event%20Hubs%20-%20Authorization%20Rules/ListKeys.yml)
+##### [Regenerate Keys](EventHub/preview/Event%20Hubs%20-%20Authorization%20Rules/RegenerateKeys.yml)
 #### Namespaces
 ##### [Overview](EventHub/preview/Namespaces.yml)
 ##### [Create Or Update](EventHub/preview/Namespaces/CreateOrUpdate.yml)

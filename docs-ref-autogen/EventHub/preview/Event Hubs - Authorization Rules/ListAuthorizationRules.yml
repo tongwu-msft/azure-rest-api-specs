@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.eventhub.preview.authorizationrules-eventhubs.getauthorizationrule
-name: Get Authorization Rule
+uid: management.azure.com.eventhub.preview.eventhubs-authorizationrules.listauthorizationrules
+name: List Authorization Rules
 service: Event Hubs
-groupName: Authorization Rules - Event Hubs
+groupName: Event Hubs - Authorization Rules
 apiVersion: 2021-01-01-preview
-summary: Gets an AuthorizationRule for an Event Hub by rule name.
+summary: Gets the authorization rules for an Event Hub.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules/{authorizationRuleName}?api-version=2021-01-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules?api-version=2021-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,12 +36,6 @@ uriParameters:
   description: The Event Hub name
   types:
   - uid: string
-- name: authorizationRuleName
-  in: path
-  isRequired: true
-  description: The authorization rule name.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -50,15 +44,40 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Event Hub AuthorizationRule successfully returned.
+  description: Event Hub AuthorizationRule returned successfully.
   types:
-  - uid: AuthorizationRule
+  - uid: AuthorizationRuleListResult
 - name: Other Status Codes
   description: Eventhub error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: AuthorizationRuleListResult
+  description: The response from the List namespace operation.
+  kind: object
+  properties:
+  - name: value
+    description: Result of the List Authorization Rules operation.
+    types:
+    - uid: AuthorizationRule
+      isArray: true
+  - name: nextLink
+    description: Link to the next set of results. Not empty if Value contains an incomplete list of Authorization Rules
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates Event Hub service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
 - name: AuthorizationRule
   description: Single item in a List or Get AuthorizationRule operation
   kind: object
@@ -86,18 +105,6 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Resource type.
-    types:
-    - uid: string
-- name: ErrorResponse
-  description: Error response indicates Event Hub service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - name: code
-    description: Error code.
-    types:
-    - uid: string
-  - name: message
-    description: Error message indicating why the operation failed.
     types:
     - uid: string
 - name: systemData
@@ -145,22 +152,26 @@ definitions:
     types:
     - uid: string
 examples:
-- name: EventHubAuthorizationRuleGet
+- name: EventHubAuthorizationRuleListAll
   request:
-    uri: GET https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-960/eventhubs/sdk-EventHub-532/authorizationRules/sdk-Authrules-2513?api-version=2021-01-01-preview
+    uri: GET https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-960/eventhubs/sdk-EventHub-532/authorizationRules?api-version=2021-01-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-960/eventhubs/sdk-EventHub-532/authorizationRules/sdk-Authrules-2513",
-        "name": "sdk-Authrules-2513",
-        "type": "Microsoft.EventHub/Namespaces/EventHubs/AuthorizationRules",
-        "properties": {
-          "rights": [
-            "Listen",
-            "Send"
-          ]
-        }
+        "value": [
+          {
+            "id": "/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.EventHub/namespaces/sdk-Namespace-960/eventhubs/sdk-EventHub-532/authorizationRules/sdk-Authrules-2513",
+            "name": "sdk-Authrules-2513",
+            "type": "Microsoft.EventHub/Namespaces/EventHubs/AuthorizationRules",
+            "properties": {
+              "rights": [
+                "Listen",
+                "Send"
+              ]
+            }
+          }
+        ]
       }
 security:
 - name: azure_auth
