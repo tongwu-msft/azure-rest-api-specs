@@ -1,0 +1,203 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.privateendpointconnections.listbyfactory
+name: List By Factory
+service: Data Factory
+groupName: private End Point Connections
+apiVersion: 2018-06-01
+summary: Lists Private endpoint connections
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/privateEndPointConnections?api-version=2018-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: factoryName
+  in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: PrivateEndpointConnectionListResponse
+- name: Other Status Codes
+  description: An error response received from the Azure Data Factory service.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: PrivateEndpointConnectionListResponse
+  description: A list of linked service resources.
+  kind: object
+  properties:
+  - name: value
+    description: List of Private Endpoint Connections.
+    types:
+    - uid: PrivateEndpointConnectionResource
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of results, if any remaining results exist.
+    types:
+    - uid: string
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+- name: PrivateEndpointConnectionResource
+  description: Private Endpoint Connection ARM resource.
+  kind: object
+  properties:
+  - name: properties
+    description: Core resource properties
+    types:
+    - uid: RemotePrivateEndpointConnection
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Etag identifies change in the resource.
+    types:
+    - uid: string
+- name: RemotePrivateEndpointConnection
+  description: A remote private endpoint connection
+  kind: object
+  properties:
+  - name: provisioningState
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: privateEndpoint
+    description: PrivateEndpoint of a remote private endpoint connection
+    types:
+    - uid: ArmIdWrapper
+  - name: privateLinkServiceConnectionState
+    description: The state of a private link connection
+    types:
+    - uid: PrivateLinkConnectionState
+- name: ArmIdWrapper
+  description: A wrapper for an ARM resource id
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: PrivateLinkConnectionState
+  description: The state of a private link connection
+  kind: object
+  properties:
+  - name: status
+    description: Status of a private link connection
+    types:
+    - uid: string
+  - name: description
+    description: Description of a private link connection
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: ActionsRequired for a private link connection
+    types:
+    - uid: string
+examples:
+- name: privateEndPointConnections_ListByFactory
+  request:
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/privateEndPointConnections?api-version=2018-06-01
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Wed, 13 Jun 2020 21:33:05 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-reads
+      value: "14908"
+    - name: x-ms-request-id
+      value: 9e6639e9-bece-4c0c-85de-4cadc30a73a6
+    - name: x-ms-correlation-request-id
+      value: 9e6639e9-bece-4c0c-85de-4cadc30a73a6
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/privateEndpoints/myPrivateEndpoint",
+            "name": "factories",
+            "type": "Microsoft.DataFactory/factories/privateEndpointConnections",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "privateEndpoint": {
+                "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/managedVirtualNetworks/myPrivateEndpoint"
+              },
+              "privateLinkServiceConnectionState": {
+                "status": "Approved",
+                "description": "Approved by admin.",
+                "actionsRequired": "exampleActionsRequired"
+              }
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
