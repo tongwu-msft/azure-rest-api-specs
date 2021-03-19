@@ -6745,6 +6745,11 @@
 #### [Delete](datafactory/Pipelines/Delete.yml)
 #### [Get](datafactory/Pipelines/Get.yml)
 #### [List By Factory](datafactory/Pipelines/ListByFactory.yml)
+### Private Endpoint Connection
+#### [Overview](datafactory/PrivateEndpointConnection.yml)
+#### [Create Or Update](datafactory/PrivateEndpointConnection/CreateOrUpdate.yml)
+#### [Delete](datafactory/PrivateEndpointConnection/Delete.yml)
+#### [Get](datafactory/PrivateEndpointConnection/Get.yml)
 ### Trigger Runs
 #### [Overview](datafactory/TriggerRuns.yml)
 #### [Cancel](datafactory/TriggerRuns/Cancel.yml)
@@ -6765,6 +6770,12 @@
 ### managed Private Endpoints
 #### [Overview](datafactory/managedPrivateEndpoints.yml)
 #### [Create Or Update](datafactory/managedPrivateEndpoints/CreateOrUpdate.yml)
+### private End Point Connections
+#### [Overview](datafactory/privateEndPointConnections.yml)
+#### [List By Factory](datafactory/privateEndPointConnections/ListByFactory.yml)
+### private Link Resources
+#### [Overview](datafactory/privateLinkResources.yml)
+#### [Get](datafactory/privateLinkResources/Get.yml)
 # Data Lake Analytics
 ## [Overview](../docs-ref-conceptual/datalakeanalytics/index.md)
 ## Accounts
@@ -7475,7 +7486,6 @@
 #### [Delete](deviceupdate/resourcemanager/Instances/Delete.yml)
 #### [Get](deviceupdate/resourcemanager/Instances/Get.yml)
 #### [List By Account](deviceupdate/resourcemanager/Instances/ListByAccount.yml)
-#### [List By Subscription](deviceupdate/resourcemanager/Instances/ListBySubscription.yml)
 #### [Update](deviceupdate/resourcemanager/Instances/Update.yml)
 ### Operations
 #### [Overview](deviceupdate/resourcemanager/Operations.yml)
@@ -9329,6 +9339,44 @@
 ### [Delete](managedservices/RegistrationDefinitions/Delete.yml)
 ### [Get](managedservices/RegistrationDefinitions/Get.yml)
 ### [List](managedservices/RegistrationDefinitions/List.yml)
+# Management Groups
+## [Overview](../docs-ref-conceptual/managementgroups/index.md)
+## Check Name Availability
+### [Overview](managementgroups/CheckNameAvailability.yml)
+### [Check Name Availability](managementgroups/CheckNameAvailability/CheckNameAvailability.yml)
+## Entities
+### [Overview](managementgroups/Entities.yml)
+### [List](managementgroups/Entities/List.yml)
+## Hierarchy Settings
+### [Overview](managementgroups/HierarchySettings.yml)
+### [Create Or Update](managementgroups/HierarchySettings/CreateOrUpdate.yml)
+### [Delete](managementgroups/HierarchySettings/Delete.yml)
+### [Get](managementgroups/HierarchySettings/Get.yml)
+### [List](managementgroups/HierarchySettings/List.yml)
+### [Update](managementgroups/HierarchySettings/Update.yml)
+## Management Group Subscriptions
+### [Overview](managementgroups/ManagementGroupSubscriptions.yml)
+### [Create](managementgroups/ManagementGroupSubscriptions/Create.yml)
+### [Delete](managementgroups/ManagementGroupSubscriptions/Delete.yml)
+### [Get Subscription](managementgroups/ManagementGroupSubscriptions/GetSubscription.yml)
+### [Get Subscriptions Under Management Group](managementgroups/ManagementGroupSubscriptions/GetSubscriptionsUnderManagementGroup.yml)
+## Management Groups
+### [Overview](managementgroups/ManagementGroups.yml)
+### [Create Or Update](managementgroups/ManagementGroups/CreateOrUpdate.yml)
+### [Delete](managementgroups/ManagementGroups/Delete.yml)
+### [Get](managementgroups/ManagementGroups/Get.yml)
+### [Get Descendants](managementgroups/ManagementGroups/GetDescendants.yml)
+### [List](managementgroups/ManagementGroups/List.yml)
+### [Update](managementgroups/ManagementGroups/Update.yml)
+## Operations
+### [Overview](managementgroups/Operations.yml)
+### [List](managementgroups/Operations/List.yml)
+## Start Tenant Backfill
+### [Overview](managementgroups/StartTenantBackfill.yml)
+### [Start Tenant Backfill](managementgroups/StartTenantBackfill/StartTenantBackfill.yml)
+## Tenant Backfill Status
+### [Overview](managementgroups/TenantBackfillStatus.yml)
+### [Tenant Backfill Status](managementgroups/TenantBackfillStatus/TenantBackfillStatus.yml)
 # Maps
 ## [Overview](../docs-ref-conceptual/maps/index.md)
 ## Data
@@ -11160,9 +11208,6 @@
 ## Authorization Operations
 ### [Overview](resources/AuthorizationOperations.yml)
 ### [List](resources/AuthorizationOperations/List.yml)
-## Check Name Availability
-### [Overview](resources/CheckNameAvailability.yml)
-### [Check Name Availability](resources/CheckNameAvailability/CheckNameAvailability.yml)
 ## Deployment Operations
 ### [Overview](resources/DeploymentOperations.yml)
 ### [Get](resources/DeploymentOperations/Get.yml)
@@ -11222,9 +11267,6 @@
 ### [What If At Management Group Scope](resources/Deployments/WhatIfAtManagementGroupScope.yml)
 ### [What If At Subscription Scope](resources/Deployments/WhatIfAtSubscriptionScope.yml)
 ### [What If At Tenant Scope](resources/Deployments/WhatIfAtTenantScope.yml)
-## Entities
-### [Overview](resources/Entities.yml)
-### [List](resources/Entities/List.yml)
 ## Features
 ### [Overview](resources/Features.yml)
 ### [Get](resources/Features/Get.yml)
@@ -11232,28 +11274,9 @@
 ### [List All](resources/Features/ListAll.yml)
 ### [Register](resources/Features/Register.yml)
 ### [Unregister](resources/Features/Unregister.yml)
-## Hierarchy Settings
-### [Overview](resources/HierarchySettings.yml)
-### [Create Or Update](resources/HierarchySettings/CreateOrUpdate.yml)
-### [Delete](resources/HierarchySettings/Delete.yml)
-### [Get](resources/HierarchySettings/Get.yml)
-### [List](resources/HierarchySettings/List.yml)
-### [Update](resources/HierarchySettings/Update.yml)
 ## List Operations
 ### [Overview](resources/ListOperations.yml)
 ### [List Operations](resources/ListOperations/ListOperations.yml)
-## Management Group Subscriptions
-### [Overview](resources/ManagementGroupSubscriptions.yml)
-### [Create](resources/ManagementGroupSubscriptions/Create.yml)
-### [Delete](resources/ManagementGroupSubscriptions/Delete.yml)
-## Management Groups
-### [Overview](resources/ManagementGroups.yml)
-### [Create Or Update](resources/ManagementGroups/CreateOrUpdate.yml)
-### [Delete](resources/ManagementGroups/Delete.yml)
-### [Get](resources/ManagementGroups/Get.yml)
-### [Get Descendants](resources/ManagementGroups/GetDescendants.yml)
-### [List](resources/ManagementGroups/List.yml)
-### [Update](resources/ManagementGroups/Update.yml)
 ## Management Locks
 ### [Overview](resources/ManagementLocks.yml)
 ### [Create Or Update At Resource Group Level](resources/ManagementLocks/CreateOrUpdateAtResourceGroupLevel.yml)
@@ -11272,9 +11295,6 @@
 ### [List At Resource Level](resources/ManagementLocks/ListAtResourceLevel.yml)
 ### [List At Subscription Level](resources/ManagementLocks/ListAtSubscriptionLevel.yml)
 ### [List By Scope](resources/ManagementLocks/ListByScope.yml)
-## Operation (2020-02-01)
-### [Overview](resources/Operation%20(2020-02-01).yml)
-### [List](resources/Operation%20(2020-02-01)/List.yml)
 ## Operations
 ### [Overview](resources/Operations.yml)
 ### [List](resources/Operations/List.yml)
@@ -11370,9 +11390,6 @@
 ## Resources (Preview)
 ### [Overview](resources/Resources%20(Preview).yml)
 ### [List](resources/Resources%20(Preview)/List.yml)
-## Start Tenant Backfill
-### [Overview](resources/StartTenantBackfill.yml)
-### [Start Tenant Backfill](resources/StartTenantBackfill/StartTenantBackfill.yml)
 ## Subscriptions
 ### [Overview](resources/Subscriptions.yml)
 ### [Get](resources/Subscriptions/Get.yml)
@@ -11409,9 +11426,6 @@
 ### [List By Resource Group](resources/TemplateSpecs/ListByResourceGroup.yml)
 ### [List By Subscription](resources/TemplateSpecs/ListBySubscription.yml)
 ### [Update](resources/TemplateSpecs/Update.yml)
-## Tenant Backfill Status
-### [Overview](resources/TenantBackfillStatus.yml)
-### [Tenant Backfill Status](resources/TenantBackfillStatus/TenantBackfillStatus.yml)
 ## Tenants
 ### [Overview](resources/Tenants.yml)
 ### [List](resources/Tenants/List.yml)
@@ -17508,12 +17522,6 @@
 ### [List](virtualnetwork/CustomIPPrefixes/List.yml)
 ### [List All](virtualnetwork/CustomIPPrefixes/ListAll.yml)
 ### [Update Tags](virtualnetwork/CustomIPPrefixes/UpdateTags.yml)
-## Ddos Custom Policies
-### [Overview](virtualnetwork/DdosCustomPolicies.yml)
-### [Create Or Update](virtualnetwork/DdosCustomPolicies/CreateOrUpdate.yml)
-### [Delete](virtualnetwork/DdosCustomPolicies/Delete.yml)
-### [Get](virtualnetwork/DdosCustomPolicies/Get.yml)
-### [Update Tags](virtualnetwork/DdosCustomPolicies/UpdateTags.yml)
 ## Ddos Protection Plans
 ### [Overview](virtualnetwork/DdosProtectionPlans.yml)
 ### [Create Or Update](virtualnetwork/DdosProtectionPlans/CreateOrUpdate.yml)
