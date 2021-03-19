@@ -21,7 +21,7 @@ Management groups enable you to manage access, policies, and compliance for your
 | [Hierarchy Settings](xref:management.azure.com.managementgroups.entities) | Provides operations for hierarchy settings defined at the management group level. |
 | [Management Group Subscriptions](xref:management.azure.com.managementgroups.managementgroupsubscriptions) | Provides operations to connect subscriptions with management groups. |
 | [Management Groups](xref:management.azure.com.managementgroups.managementgroups) | Provides operations for working with management groups. |
-| [Operations](xref:management.azure.com.managementgroups/operations) | Lists all of the available management group REST API operations. |
+| [Operations](xref:management.azure.com.managementgroups.operations) | Lists all of the available management group REST API operations. |
 | [Start Tenant Backfill](xref:management.azure.com.managementgroups.starttenantbackfill) | Starts backfilling subscriptions for the tenant. |
 | [Tenant Backfill Status](xref:management.azure.com.managementgroups.tenantbackfillstatus) | Gets tenant backfill status. |
 
