@@ -25,7 +25,7 @@ Azure Data Lake Storage Gen2 APIs support Azure Active Directory (Azure AD), Sha
   - [Delete](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem/delete)
   - [Get Properties](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem/getproperties)
   - [Set Properties](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem/setproperties)
-  - [List](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem/list)
+  - [List](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/filesystem/listpaths)
 - [Path](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path)
   - [Create](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/create)
   - [Delete](https://docs.microsoft.com/rest/api/storageservices/datalakestoragegen2/path/delete)
