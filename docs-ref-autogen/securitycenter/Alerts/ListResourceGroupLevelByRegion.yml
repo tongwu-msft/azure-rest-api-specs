@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.securitycenter.alerts.listsubscriptionlevelalertsbyregion
-name: List Subscription Level Alerts By Region
+uid: management.azure.com.securitycenter.alerts.listresourcegrouplevelbyregion
+name: List Resource Group Level By Region
 service: Security Center
 groupName: Alerts
-apiVersion: 2020-01-01
-summary: List all the alerts that are associated with the subscription that are stored in a specific location
+apiVersion: 2021-01-01
+summary: List all the alerts that are associated with the resource group that are stored in a specific location
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts?api-version=2020-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts?api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -19,6 +19,13 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
 - name: ascLocation
   in: path
   isRequired: true
@@ -433,9 +440,9 @@ definitions:
     - uid: LogAnalytics
     typesTitle: string
 examples:
-- name: Get security alerts on a subscription from a security data location
+- name: Get security alerts on a resource group from a security data location
   request:
-    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/locations/westeurope/alerts?api-version=2020-01-01
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Security/locations/westeurope/alerts?api-version=2021-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -505,112 +512,6 @@ examples:
                 "Property1": "Property1 information"
               },
               "compromisedEntity": "vm1"
-            }
-          },
-          {
-            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg2/providers/Microsoft.Security/locations/westeurope/alerts/2518765996949954086_2325cf9e-42a2-4f72-ae7f-9b863cba2d22",
-            "name": "2518765996949954086_2325cf9e-42a2-4f72-ae7f-9b863cba2d22",
-            "type": "Microsoft.Security/Locations/alerts",
-            "properties": {
-              "alertType": "VM_SuspiciousScreenSaver",
-              "systemAlertId": "2518298467986649999_4d25bfef-2d77-4a08-adc0-3e35715cc92a",
-              "productComponentName": "",
-              "alertDisplayName": "Suspicious Screensaver process executed",
-              "description": "The process ‘c:\\users\\contosoUser\\scrsave.scr’ was observed executing from an uncommon location. Files with the .scr extensions are screen saver files and are normally reside and execute from the Windows system directory.",
-              "severity": "Medium",
-              "intent": "Execution",
-              "startTimeUtc": "2019-05-07T13:51:45.0045913Z",
-              "endTimeUtc": "2019-05-07T13:51:45.0045913Z",
-              "resourceIdentifiers": [
-                {
-                  "azureResourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
-                  "type": "AzureResource"
-                },
-                {
-                  "workspaceId": "f419f624-acad-4d89-b86d-f62fa387f019",
-                  "workspaceSubscriptionId": "20ff7fc3-e762-44dd-bd96-b71116dcdc23",
-                  "workspaceResourceGroup": "myRg1",
-                  "agentId": "75724a01-f021-4aa8-9ec2-329792373e6e",
-                  "type": "LogAnalytics"
-                }
-              ],
-              "remediationSteps": [
-                "1. Run Process Explorer and try to identify unknown running processes (see https://technet.microsoft.com/en-us/sysinternals/bb896653.aspx)",
-                "2. Make sure the machine is completely updated and has an updated anti-malware application installed",
-                "3. Run a full anti-malware scan and verify that the threat was removed",
-                "4. Install and run Microsoft’s Malicious Software Removal Tool (see https://www.microsoft.com/en-us/download/malicious-software-removal-tool-details.aspx)",
-                "5. Run Microsoft’s Autoruns utility and try to identify unknown applications that are configured to run at login (see https://technet.microsoft.com/en-us/sysinternals/bb963902.aspx)",
-                "6. Escalate the alert to the information security team"
-              ],
-              "vendorName": "Microsoft",
-              "status": "New",
-              "extendedLinks": [
-                {
-                  "Category": "threat_reports",
-                  "Label": "Report: RDP Brute Forcing",
-                  "Href": "https://contoso.com/reports/DisplayReport",
-                  "Type": "webLink"
-                }
-              ],
-              "alertUri": "https://portal.azure.com/#blade/Microsoft_Azure_Security/AlertBlade/alertId/2518298467986649999_4d25bfef-2d77-4a08-adc0-3e35715cc92a/subscriptionId/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroup/myRg1/referencedFrom/alertDeepLink/location/westeurope",
-              "timeGeneratedUtc": "2019-05-07T13:51:48.3810457Z",
-              "productName": "Azure Security Center",
-              "processingEndTimeUtc": "2019-05-07T13:51:48.9810457Z",
-              "entities": [
-                {
-                  "dnsDomain": "",
-                  "ntDomain": "",
-                  "hostName": "vm2",
-                  "netBiosName": "vm2",
-                  "azureID": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/myRg2/providers/microsoft.compute/virtualmachines/vm2",
-                  "omsAgentID": "45b44640-3b94-4892-a28c-4a5cae27065a",
-                  "operatingSystem": "Unknown",
-                  "type": "host",
-                  "OsVersion": null
-                },
-                {
-                  "name": "contosoUser",
-                  "ntDomain": "vm2",
-                  "logonId": "0x61450d87",
-                  "sid": "S-1-5-21-2144575486-8928446540-5163864319-500",
-                  "type": "account"
-                },
-                {
-                  "directory": "c:\\windows\\system32",
-                  "name": "cmd.exe",
-                  "type": "file"
-                },
-                {
-                  "processId": "0x3c44",
-                  "type": "process"
-                },
-                {
-                  "directory": "c:\\users\\contosoUser",
-                  "name": "scrsave.scr",
-                  "type": "file"
-                },
-                {
-                  "processId": "0x4aec",
-                  "commandLine": "c:\\users\\contosoUser\\scrsave.scr",
-                  "creationTimeUtc": "2018-05-07T13:51:45.0045913Z",
-                  "type": "process"
-                }
-              ],
-              "isIncident": true,
-              "correlationKey": "4hno6LF0xzCl5tqrk4nrBW+MY1BX816W6q6+0srk4",
-              "compromisedEntity": "vm2",
-              "extendedProperties": {
-                "domainName": "vm2",
-                "userName": "vm2\\contosoUser",
-                "processName": "c:\\users\\contosoUser\\scrsave.scr",
-                "command line": "c:\\users\\contosoUser\\scrsave.scr",
-                "parent process": "cmd.exe",
-                "process id": "0x4aec",
-                "account logon id": "0x61450d87",
-                "user SID": "S-1-5-21-2144575486-8928446540-5163864319-500",
-                "parent process id": "0x3c44",
-                "resourceType": "Virtual Machine"
-              }
             }
           }
         ]

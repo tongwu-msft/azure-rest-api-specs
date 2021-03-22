@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.securitycenter.alerts.listresourcegrouplevelalertsbyregion
-name: List Resource Group Level Alerts By Region
+uid: management.azure.com.securitycenter.alerts.getsubscriptionlevel
+name: Get Subscription Level
 service: Security Center
 groupName: Alerts
-apiVersion: 2020-01-01
-summary: List all the alerts that are associated with the resource group that are stored in a specific location
+apiVersion: 2021-01-01
+summary: Get an alert that is associated with a subscription
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts?api-version=2020-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}?api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -19,17 +19,16 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
-- name: resourceGroupName
-  in: path
-  isRequired: true
-  description: The name of the resource group within the user's subscription. The name is case insensitive.
-  types:
-  - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: ascLocation
   in: path
   isRequired: true
   description: The location where ASC stores the data of the subscription. can be retrieved from Get locations
+  types:
+  - uid: string
+- name: alertName
+  in: path
+  isRequired: true
+  description: Name of the alert object
   types:
   - uid: string
 - name: api-version
@@ -42,58 +41,13 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: AlertList
+  - uid: Alert
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: AlertList
-  description: List of security alerts
-  kind: object
-  properties:
-  - name: value
-    description: describes security alert properties.
-    types:
-    - uid: Alert
-      isArray: true
-  - name: nextLink
-    isReadyOnly: true
-    description: The URI to fetch the next page.
-    types:
-    - uid: string
-- name: CloudError
-  description: Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
-  kind: object
-  properties:
-  - name: error.code
-    isReadyOnly: true
-    description: The error code.
-    types:
-    - uid: string
-  - name: error.message
-    isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-  - name: error.target
-    isReadyOnly: true
-    description: The error target.
-    types:
-    - uid: string
-  - name: error.details
-    isReadyOnly: true
-    description: The error details.
-    types:
-    - uid: CloudErrorBody
-      isArray: true
-  - name: error.additionalInfo
-    isReadyOnly: true
-    description: The error additional info.
-    types:
-    - uid: ErrorAdditionalInfo
-      isArray: true
 - name: Alert
   description: Security alert
   kind: object
@@ -238,51 +192,37 @@ definitions:
     description: Resource type
     types:
     - uid: string
-- name: CloudErrorBody
-  description: The error detail.
+- name: CloudError
+  description: Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
   kind: object
   properties:
-  - name: code
+  - name: error.code
     isReadyOnly: true
     description: The error code.
     types:
     - uid: string
-  - name: message
+  - name: error.message
     isReadyOnly: true
     description: The error message.
     types:
     - uid: string
-  - name: target
+  - name: error.target
     isReadyOnly: true
     description: The error target.
     types:
     - uid: string
-  - name: details
+  - name: error.details
     isReadyOnly: true
     description: The error details.
     types:
     - uid: CloudErrorBody
       isArray: true
-  - name: additionalInfo
+  - name: error.additionalInfo
     isReadyOnly: true
     description: The error additional info.
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: ErrorAdditionalInfo
-  description: The resource management error additional info.
-  kind: object
-  properties:
-  - name: type
-    isReadyOnly: true
-    description: The additional info type.
-    types:
-    - uid: string
-  - name: info
-    isReadyOnly: true
-    description: The additional info.
-    types:
-    - uid: object
 - name: alertSeverity
   description: 'The risk level of the threat that was detected. Learn more: https://docs.microsoft.com/en-us/azure/security-center/security-center-alerts-overview#how-are-alerts-classified.'
   kind: enum
@@ -396,6 +336,51 @@ definitions:
     description: Type of entity
     types:
     - uid: string
+- name: CloudErrorBody
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 - name: AzureResourceIdentifier
   description: Azure resource identifier.
   kind: object
@@ -440,81 +425,77 @@ definitions:
     - uid: LogAnalytics
     typesTitle: string
 examples:
-- name: Get security alerts on a resource group from a security data location
+- name: Get security alert on a subscription from a security data location
   request:
-    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Security/locations/westeurope/alerts?api-version=2020-01-01
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/locations/westeurope/alerts/2518770965529163669_F144EE95-A3E5-42DA-A279-967D115809AA?api-version=2021-01-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Security/locations/westeurope/alerts/2518770965529163669_F144EE95-A3E5-42DA-A279-967D115809AA",
-            "name": "2518298467986649999_4d25bfef-2d77-4a08-adc0-3e35715cc92a",
-            "type": "Microsoft.Security/Locations/alerts",
-            "properties": {
-              "alertType": "VM_EICAR",
-              "systemAlertId": "2518298467986649999_4d25bfef-2d77-4a08-adc0-3e35715cc92a",
-              "productComponentName": "",
-              "alertDisplayName": "Azure Security Center test alert (not a threat)",
-              "description": "This is a test alert generated by Azure Security Center. No further action is needed.",
-              "severity": "High",
-              "intent": "Execution",
-              "startTimeUtc": "2020-02-22T00:00:00.0000000Z",
-              "endTimeUtc": "2020-02-22T00:00:00.0000000Z",
-              "resourceIdentifiers": [
-                {
-                  "azureResourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
-                  "type": "AzureResource"
-                },
-                {
-                  "workspaceId": "f419f624-acad-4d89-b86d-f62fa387f019",
-                  "workspaceSubscriptionId": "20ff7fc3-e762-44dd-bd96-b71116dcdc23",
-                  "workspaceResourceGroup": "myRg1",
-                  "agentId": "75724a01-f021-4aa8-9ec2-329792373e6e",
-                  "type": "LogAnalytics"
-                }
-              ],
-              "remediationSteps": [
-                "No further action is needed."
-              ],
-              "vendorName": "Microsoft",
-              "status": "New",
-              "extendedLinks": [
-                {
-                  "Category": "threat_reports",
-                  "Label": "Report: RDP Brute Forcing",
-                  "Href": "https://contoso.com/reports/DisplayReport",
-                  "Type": "webLink"
-                }
-              ],
-              "alertUri": "https://portal.azure.com/#blade/Microsoft_Azure_Security/AlertBlade/alertId/2518298467986649999_4d25bfef-2d77-4a08-adc0-3e35715cc92a/subscriptionId/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroup/myRg1/referencedFrom/alertDeepLink/location/westeurope",
-              "timeGeneratedUtc": "2020-02-23T13:47:58.0000000Z",
-              "productName": "Azure Security Center",
-              "processingEndTimeUtc": "2020-02-23T13:47:58.9205584Z",
-              "entities": [
-                {
-                  "address": "192.0.2.1",
-                  "location": {
-                    "countryCode": "gb",
-                    "state": "wokingham",
-                    "city": "sonning",
-                    "longitude": -0.909,
-                    "latitude": 51.468,
-                    "asn": 6584
-                  },
-                  "type": "ip"
-                }
-              ],
-              "isIncident": true,
-              "correlationKey": "kso0LFWxzCll5tqrk5hmrBJ+MY1BX806W6q6+0s9Lk=",
-              "extendedProperties": {
-                "Property1": "Property1 information"
-              },
-              "compromisedEntity": "vm1"
+        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Security/locations/westeurope/alerts/2518770965529163669_F144EE95-A3E5-42DA-A279-967D115809AA",
+        "name": "2518298467986649999_4d25bfef-2d77-4a08-adc0-3e35715cc92a",
+        "type": "Microsoft.Security/Locations/alerts",
+        "properties": {
+          "alertType": "VM_EICAR",
+          "systemAlertId": "2518298467986649999_4d25bfef-2d77-4a08-adc0-3e35715cc92a",
+          "productComponentName": "",
+          "alertDisplayName": "Azure Security Center test alert (not a threat)",
+          "description": "This is a test alert generated by Azure Security Center. No further action is needed.",
+          "severity": "High",
+          "intent": "Execution",
+          "startTimeUtc": "2020-02-22T00:00:00.0000000Z",
+          "endTimeUtc": "2020-02-22T00:00:00.0000000Z",
+          "resourceIdentifiers": [
+            {
+              "azureResourceId": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
+              "type": "AzureResource"
+            },
+            {
+              "workspaceId": "f419f624-acad-4d89-b86d-f62fa387f019",
+              "workspaceSubscriptionId": "20ff7fc3-e762-44dd-bd96-b71116dcdc23",
+              "workspaceResourceGroup": "myRg1",
+              "agentId": "75724a01-f021-4aa8-9ec2-329792373e6e",
+              "type": "LogAnalytics"
             }
-          }
-        ]
+          ],
+          "remediationSteps": [
+            "No further action is needed."
+          ],
+          "vendorName": "Microsoft",
+          "status": "New",
+          "extendedLinks": [
+            {
+              "Category": "threat_reports",
+              "Label": "Report: RDP Brute Forcing",
+              "Href": "https://contoso.com/reports/DisplayReport",
+              "Type": "webLink"
+            }
+          ],
+          "alertUri": "https://portal.azure.com/#blade/Microsoft_Azure_Security/AlertBlade/alertId/2518298467986649999_4d25bfef-2d77-4a08-adc0-3e35715cc92a/subscriptionId/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroup/myRg1/referencedFrom/alertDeepLink/location/westeurope",
+          "timeGeneratedUtc": "2020-02-23T13:47:58.0000000Z",
+          "productName": "Azure Security Center",
+          "processingEndTimeUtc": "2020-02-23T13:47:58.9205584Z",
+          "entities": [
+            {
+              "address": "192.0.2.1",
+              "location": {
+                "countryCode": "gb",
+                "state": "wokingham",
+                "city": "sonning",
+                "longitude": -0.909,
+                "latitude": 51.468,
+                "asn": 6584
+              },
+              "type": "ip"
+            }
+          ],
+          "isIncident": true,
+          "correlationKey": "kso0LFWxzCll5tqrk5hmrBJ+MY1BX806W6q6+0s9Lk=",
+          "extendedProperties": {
+            "Property1": "Property1 information"
+          },
+          "compromisedEntity": "vm1"
+        }
       }
 security:
 - name: azure_auth
