@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.managedservices.registrationdefinitions.get
+uid: management.azure.com.managedservices.marketplaceregistrationdefinitions.get
 name: Get
 service: Managed Services
-groupName: Registration Definitions
+groupName: Marketplace Registration Definitions
 apiVersion: 2019-09-01
-summary: Gets the registration definition details.
+summary: Get the marketplace registration definition for the marketplace identifier.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions/{registrationDefinitionId}?api-version=2019-09-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions/{marketplaceIdentifier}?api-version=2019-09-01
 uriParameters:
 - name: scope
   in: path
@@ -19,10 +19,10 @@ uriParameters:
   description: Scope of the resource.
   types:
   - uid: string
-- name: registrationDefinitionId
+- name: marketplaceIdentifier
   in: path
   isRequired: true
-  description: Guid of the registration definition.
+  description: Market place identifier. Expected Formats - {publisher}.{product[-preview]}.{planName}.{version} or {publisher}.{product[-preview]}.{planName} or {publisher}.{product[-preview]} or {publisher}).
   types:
   - uid: string
 - name: api-version
@@ -33,30 +33,29 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns the complete registration definition with plan details.
+  description: OK - Returns the details of the marketplace registration definition.
   types:
-  - uid: RegistrationDefinition
+  - uid: MarketplaceRegistrationDefinition
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: RegistrationDefinition
-  description: Registration definition.
+- name: MarketplaceRegistrationDefinition
   kind: object
   properties:
   - name: properties
-    description: Properties of a registration definition.
+    description: Properties of a marketplace registration definition.
     types:
-    - uid: RegistrationDefinitionProperties
+    - uid: MarketplaceRegistrationDefinitionProperties
   - name: plan
     description: Plan details for the managed services.
     types:
     - uid: Plan
   - name: id
     isReadyOnly: true
-    description: Fully qualified path of the registration definition.
+    description: Fully qualified path of the marketplace registration definition.
     types:
     - uid: string
   - name: type
@@ -66,7 +65,7 @@ definitions:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Name of the registration definition.
+    description: Name of the marketplace registration definition.
     types:
     - uid: string
 - name: ErrorResponse
@@ -77,12 +76,12 @@ definitions:
     description: The error details.
     types:
     - uid: ErrorDefinition
-- name: RegistrationDefinitionProperties
-  description: Properties of a registration definition.
+- name: MarketplaceRegistrationDefinitionProperties
+  description: Properties of a marketplace registration definition.
   kind: object
   properties:
-  - name: description
-    description: Description of the registration definition.
+  - name: managedByTenantId
+    description: Id of the managedBy tenant.
     types:
     - uid: string
   - name: authorizations
@@ -90,22 +89,16 @@ definitions:
     types:
     - uid: Authorization
       isArray: true
-  - name: registrationDefinitionName
-    description: Name of the registration definition.
+  - name: offerDisplayName
+    description: The marketplace offer display name.
     types:
     - uid: string
-  - name: managedByTenantId
-    description: Id of the managedBy tenant.
+  - name: publisherDisplayName
+    description: The marketplace publisher display name.
     types:
     - uid: string
-  - name: provisioningState
-    isReadyOnly: true
-    description: Current state of the registration definition.
-    types:
-    - uid: ProvisioningState
-  - name: managedByTenantName
-    isReadyOnly: true
-    description: Name of the managedBy tenant.
+  - name: planDisplayName
+    description: The marketplace plan display name.
     types:
     - uid: string
 - name: Plan
@@ -166,57 +159,15 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: ProvisioningState
-  description: Current state of the registration definition.
-  kind: enum
-  properties:
-  - name: NotSpecified
-    types:
-    - uid: string
-  - name: Accepted
-    types:
-    - uid: string
-  - name: Running
-    types:
-    - uid: string
-  - name: Ready
-    types:
-    - uid: string
-  - name: Creating
-    types:
-    - uid: string
-  - name: Created
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-  - name: Deleted
-    types:
-    - uid: string
-  - name: Canceled
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Updating
-    types:
-    - uid: string
 examples:
-- name: Get Registration Definition
+- name: Get Registration Definitions
   request:
-    uri: GET https://management.azure.com/subscription/0afefe50-734e-4610-8a82-a144ahf49dea/providers/Microsoft.ManagedServices/registrationDefinitions/26c128c2-fefa-4340-9bb1-6e081c90ada2?api-version=2019-09-01
+    uri: GET https://management.azure.com/subscription/0afefe50-734e-4610-8a82-a144ahf49dea/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions/publisher.product.planName.version?api-version=2019-09-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "properties": {
-          "description": "Test",
-          "registrationDefinitionName": "DefinitionName",
           "managedByTenantId": "83ace5cd-bcc3-441a-hd86-e6a75360cecc",
           "authorizations": [
             {
@@ -233,18 +184,19 @@ examples:
               ]
             }
           ],
-          "provisioningState": "Succeeded",
-          "managedByTenantName": "Test Tenant"
+          "offerDisplayName": "Marketplace Test Offer",
+          "publisherDisplayName": "Marketplace Test Publisher",
+          "planDisplayName": "Test Plan"
         },
         "plan": {
-          "name": "addesai-plan",
+          "name": "test-plan",
           "product": "test",
           "publisher": "marketplace-test",
           "version": "1.0.0"
         },
-        "id": "/subscriptions/0afefe50-734e-4610-8a82-a144ahf49dea/providers/Microsoft.ManagedServices/registrationDefinitions/26c128c2-fefa-4340-9bb1-6e081c90ada2",
-        "type": "Microsoft.ManagedServices/registrationDefinitions",
-        "name": "26c128c2-fefa-4340-9bb1-6e081c90ada2"
+        "id": "/subscriptions/0afefe50-734e-4610-8a82-a144ahf49dea/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions/marketplace-test.test.test-plan.1.0.0",
+        "type": "Microsoft.ManagedServices/marketplaceRegistrationDefinitions",
+        "name": "marketplace-test.test.test-plan.1.0.0"
       }
 security:
 - name: azure_auth

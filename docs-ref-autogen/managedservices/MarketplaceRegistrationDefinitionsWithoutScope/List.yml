@@ -1,22 +1,22 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.managedservices.registrationdefinitions.list
+uid: management.azure.com.managedservices.marketplaceregistrationdefinitionswithoutscope.list
 name: List
 service: Managed Services
-groupName: Registration Definitions
+groupName: Marketplace Registration Definitions Without Scope
 apiVersion: 2019-09-01
-summary: Gets a list of the registration definitions.
+summary: Gets a list of the marketplace registration definitions for the marketplace identifier.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions?api-version=2019-09-01
+- content: GET https://management.azure.com/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions?api-version=2019-09-01
+- content: GET https://management.azure.com/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions?$filter={$filter}&api-version=2019-09-01
+  isOptional: true
 uriParameters:
-- name: scope
-  in: path
-  isRequired: true
-  skipUrlEncoding: true
-  description: Scope of the resource.
+- name: $filter
+  in: query
+  description: The filter query parameter. Might be used to filter marketplace registration definition by plan identifier, publisher, version etc.
   types:
   - uid: string
 - name: api-version
@@ -27,28 +27,28 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns a list of the registration definitions.
+  description: OK - Returns a list of the marketplace registration definitions.
   types:
-  - uid: RegistrationDefinitionList
+  - uid: MarketplaceRegistrationDefinitionList
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: RegistrationDefinitionList
-  description: List of registration definitions.
+- name: MarketplaceRegistrationDefinitionList
+  description: List of marketplace registration definitions.
   kind: object
   properties:
   - name: value
     isReadyOnly: true
-    description: List of registration definitions.
+    description: List of marketplace registration definitions.
     types:
-    - uid: RegistrationDefinition
+    - uid: MarketplaceRegistrationDefinition
       isArray: true
   - name: nextLink
     isReadyOnly: true
-    description: Link to next page of registration definitions.
+    description: Link to next page of marketplace registration definitions.
     types:
     - uid: string
 - name: ErrorResponse
@@ -59,21 +59,20 @@ definitions:
     description: The error details.
     types:
     - uid: ErrorDefinition
-- name: RegistrationDefinition
-  description: Registration definition.
+- name: MarketplaceRegistrationDefinition
   kind: object
   properties:
   - name: properties
-    description: Properties of a registration definition.
+    description: Properties of a marketplace registration definition.
     types:
-    - uid: RegistrationDefinitionProperties
+    - uid: MarketplaceRegistrationDefinitionProperties
   - name: plan
     description: Plan details for the managed services.
     types:
     - uid: Plan
   - name: id
     isReadyOnly: true
-    description: Fully qualified path of the registration definition.
+    description: Fully qualified path of the marketplace registration definition.
     types:
     - uid: string
   - name: type
@@ -83,7 +82,7 @@ definitions:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Name of the registration definition.
+    description: Name of the marketplace registration definition.
     types:
     - uid: string
 - name: ErrorDefinition
@@ -103,12 +102,12 @@ definitions:
     types:
     - uid: ErrorDefinition
       isArray: true
-- name: RegistrationDefinitionProperties
-  description: Properties of a registration definition.
+- name: MarketplaceRegistrationDefinitionProperties
+  description: Properties of a marketplace registration definition.
   kind: object
   properties:
-  - name: description
-    description: Description of the registration definition.
+  - name: managedByTenantId
+    description: Id of the managedBy tenant.
     types:
     - uid: string
   - name: authorizations
@@ -116,22 +115,16 @@ definitions:
     types:
     - uid: Authorization
       isArray: true
-  - name: registrationDefinitionName
-    description: Name of the registration definition.
+  - name: offerDisplayName
+    description: The marketplace offer display name.
     types:
     - uid: string
-  - name: managedByTenantId
-    description: Id of the managedBy tenant.
+  - name: publisherDisplayName
+    description: The marketplace publisher display name.
     types:
     - uid: string
-  - name: provisioningState
-    isReadyOnly: true
-    description: Current state of the registration definition.
-    types:
-    - uid: ProvisioningState
-  - name: managedByTenantName
-    isReadyOnly: true
-    description: Name of the managedBy tenant.
+  - name: planDisplayName
+    description: The marketplace plan display name.
     types:
     - uid: string
 - name: Plan
@@ -175,50 +168,10 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: ProvisioningState
-  description: Current state of the registration definition.
-  kind: enum
-  properties:
-  - name: NotSpecified
-    types:
-    - uid: string
-  - name: Accepted
-    types:
-    - uid: string
-  - name: Running
-    types:
-    - uid: string
-  - name: Ready
-    types:
-    - uid: string
-  - name: Creating
-    types:
-    - uid: string
-  - name: Created
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-  - name: Deleted
-    types:
-    - uid: string
-  - name: Canceled
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Updating
-    types:
-    - uid: string
 examples:
-- name: Get Registration Definitions
+- name: Get Marketplace Registration Definitions At Tenant Scope
   request:
-    uri: GET https://management.azure.com/subscription/0afefe50-734e-4610-8a82-a144ahf49dea/providers/Microsoft.ManagedServices/registrationDefinitions?api-version=2019-09-01
+    uri: GET https://management.azure.com/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions?$filter=planIdentifier eq 'publisher.offerIdentifier.planName.version'&api-version=2019-09-01
   responses:
   - statusCode: "200"
     body: >-
@@ -226,9 +179,7 @@ examples:
         "value": [
           {
             "properties": {
-              "description": "Test",
               "managedByTenantId": "83ace5cd-bcc3-441a-hd86-e6a75360cecc",
-              "registrationDefinitionName": "DefinitionName",
               "authorizations": [
                 {
                   "principalId": "f98g86a2-4cc4-4e6d-ad47-b3e80a1bcdfc",
@@ -244,18 +195,19 @@ examples:
                   ]
                 }
               ],
-              "provisioningState": "Succeeded",
-              "managedByTenantName": "Test Tenant"
+              "offerDisplayName": "Marketplace Test Offer",
+              "publisherDisplayName": "Marketplace Test Publisher",
+              "planDisplayName": "Test Plan"
             },
             "plan": {
-              "name": "addesai-plan",
+              "name": "test-plan",
               "product": "test",
               "publisher": "marketplace-test",
               "version": "1.0.0"
             },
-            "id": "/subscriptions/0afefe50-734e-4610-8a82-a144ahf49dea/providers/Microsoft.ManagedServices/registrationDefinitions/26c128c2-fefa-4340-9bb1-6e081c90ada2",
-            "type": "Microsoft.ManagedServices/registrationDefinitions",
-            "name": "26c128c2-fefa-4340-9bb1-6e081c90ada2"
+            "id": "/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions/marketplace-test.test.test-plan.1.0.0",
+            "type": "Microsoft.ManagedServices/marketplaceRegistrationDefinitions",
+            "name": "marketplace-test.test.test-plan.1.0.0"
           }
         ]
       }
