@@ -13,7 +13,7 @@ ms.manager: nitinme
 ---
 # Autocomplete (Azure Cognitive Search REST API)
 
-The **Autocomplete API** finishes a partially typed query input using existing terms in the search index. For example, if the query input is "medic", the Autocomplete API will return "medicare", "medicaid", "medicine" if those terms are in the index. Internally, the search engine looks for matching terms in fields that have a [**Suggester**](https://docs.microsoft.com/azure/search/index-add-suggesters) configured.
+The **Autocomplete API** finishes a partially typed query input using existing terms in the search index for use in a secondary query. For example, if the query input is "medic", the Autocomplete API will return "medicare", "medicaid", "medicine" if those terms are in the index. Internally, the search engine looks for matching terms in fields that have a [**Suggester**](https://docs.microsoft.com/azure/search/index-add-suggesters) configured.
 
 HTTPS is required for service requests. The **Autocomplete** request can be constructed using the GET or POST methods.
 
@@ -29,9 +29,9 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/autocom
   api-key: [admin or query key]  
 ```  
 
- **When to use POST instead of GET**  
+When called with GET, the length of the request URL cannot exceed 8 KB. This length is usually enough for most applications. However, some applications produce very large queries, specifically when OData filter expressions are used. For these applications, HTTP POST is a better choice because it allows larger filters than GET. 
 
-With HTTP GET, the API call is limited to request URLs of length 8 KB. Some applications can produce large queries. For these applications, HTTP POST is a better choice. The request size limit for POST is approximately 16 MB.
+With POST, the number of clauses in a filter is the limiting factor, not the size of the raw filter string since the request size limit for POST is approximately 16 MB. Even though the POST request size limit is very large, filter expressions cannot be arbitrarily complex. For more information about filter complexity limitations, see [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax). 
 
 ## URI Parameters
 
@@ -88,13 +88,13 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 
 ## Query Parameters
 
-A query accepts several parameters on the URL when called via GET, and as JSON properties in the request body when called via POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted as applicable below. 
+A query accepts several parameters on the URL when called with GET, and as JSON properties in the request body when called with POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted as applicable below. 
 
 | Name      | Type | Description |
 |-----------|------|-------------|
 | api-version | string | Required. Version of the REST API used for the request. For a list of supported versions, see [API versioning](https://docs.microsoft.com/azure/search/search-api-versions). For this operation, the api-version is specified as a URI parameter regardless of whether you call **Autocomplete** with GET or POST.  |  
 | autocompleteMode | string| Optional. Defaults to oneTerm. Valid values are oneTerm, twoTerm, oneTermWithContext. </br></br>"oneTerm" returns a single term. If the query has two terms, only the last term is completed. For example, given "washington medic", the response might be any one of these single terms: "medicaid", "medicare", "medicine". </br></br>"twoTerms" matches on two-term phrases in the index. For example, given "medic", the response might be "medicare coverage", or "medical assistant". </br></br>"oneTermWithContext " completes the last term in a query with two or more terms, where the last two terms are a phrase that exists in the index. For example, given "washington medic", the response might be "washington medicaid", "washington medical". |
-| $filter | string | Optional. A structured search expression in standard OData syntax that filters the documents considered for producing the completed term suggestions. Filter expressions "search.ismatch" and "search.ismatchscoring*" are not supported in the Autocomplete API. Only filterable fields can be used in a filter. When calling via POST, this parameter is named filter instead of $filter. See [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for details on the subset of the OData expression grammar that Azure Cognitive Search supports. |
+| $filter | string | Optional. A structured search expression in standard OData syntax that filters the documents considered for producing the completed term suggestions. Filter expressions "search.ismatch" and "search.ismatchscoring*" are not supported in the Autocomplete API. Only filterable fields can be used in a filter. When calling with POST, this parameter is named filter instead of $filter. See [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for details on the subset of the OData expression grammar that Azure Cognitive Search supports. |
 | fuzzy | boolean | Optional. Defaults to false. When set to true, this API finds suggestions even if there is a substituted or missing character in the search text <sup>(1)</sup>. This provides a better experience in some scenarios but it comes at a performance cost as fuzzy suggestion searches are slower and consume more resources.|
 | highlightPostTag | string | Optional. Defaults to an empty string. A string tag that appends to hit highlights. Must be set with highlightPreTag. Reserved characters in URL must be percent-encoded (for example, %23 instead of #). When called using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #). |
 | highlightPreTag | string | Optional. Defaults to an empty string. A string tag that prepends to the highlighted term. Must be set with highlightPostTag. When called using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|
@@ -102,7 +102,7 @@ A query accepts several parameters on the URL when called via GET, and as JSON p
 | search | string | Required. The text to search for. The search text to complete. Must be at least 1 character, and no more than 100 characters. It cannot contain operators, query syntax, or quoted phrases. |
 | searchFields | string | Optional. The list of comma-separated field names to search for the specified search text. Target fields must be listed in the [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters) definition in the index. |  
 | suggesterName | string | Required. The name of the suggester as specified in the [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters) collection that's part of the index definition. A suggester determines which fields are scanned for suggested query terms. | 
-| $top | integer | Optional. Defaults to 5). The number of autocompleted suggestions to retrieve. The value must be a number between 1 and 100. When calling with POST, this parameter is named top instead of $top.|
+| $top | integer | Optional. Defaults to 5. The number of autocompleted suggestions to retrieve. The value must be a number between 1 and 100. When calling with POST, this parameter is named top instead of $top.|
 
 (1) **Limitations of fuzzy in Autocomplete:**
 

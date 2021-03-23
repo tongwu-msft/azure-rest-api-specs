@@ -14,9 +14,9 @@ ms.manager: nitinme
 
 # Suggestions (Azure Cognitive Search REST API)
 
-A **Suggestions** request is a "search-as-you-type" query consisting of a partial string input (one character minimum), matched on text found in suggester-aware fields. Azure Cognitive Search looks for matching values in fields that are predefined in a [**Suggester**](https://docs.microsoft.com/azure/search/index-add-suggesters) definition. For example, if you enable suggestions on a *city* field, typing "sea" produces documents containing "Seattle", "Sea Tac", and "Seaside" (all actual city names) for that field.
+A **Suggestions** request is a search-as-you-type query that looks for matching values in suggester-aware fields and returns documents that contain a match. For example, if you enable suggestions on a *city* field, typing "sea" produces documents containing "Seattle", "Sea Tac", and "Seaside" (all actual city names) for that field.
 
-The response is a content from a matching document plus the document key. In contrast with Autocomplete, which returns text for a subsequent query, this request returns documents that match the query. If matching terms or phrases are identical across documents, the matching content is repeated. To improve the structure of results, consider using the `$select` filter to return additional fields that provide more differentiation and context.  
+The response is a content from a matching document plus the document key. In contrast with Autocomplete, which returns a completed term or phrase used in a secondary query, this request returns information that resolves to actual documents. If matching terms or phrases are identical across documents, the matching content is repeated. To improve the structure of results, consider using the `$select` filter to return additional fields that provide more differentiation and context.  
 
 HTTPS is required for service requests. The **Suggest** request can be constructed using the GET or POST methods.
 
@@ -34,14 +34,11 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/suggest
 
 In contrast with a [Search Documents](search-documents.md) request, you might bind a Suggestions call to keyboard input, whereas a Search call might be bound to a click event. 
 
- **When to use POST instead of GET**  
+When called with GET, the length of the request URL cannot exceed 8 KB. This length is usually enough for most applications. However, some applications produce very large queries, specifically when OData filter expressions are used. For these applications, HTTP POST is a better choice because it allows larger filters than GET. 
 
- When you use HTTP GET to call **Suggestions**, the length of the request URL cannot exceed 8 KB. This length is usually enough for most applications. However, some applications produce very large queries, specifically when OData filter expressions are used. For these applications, HTTP POST is a better choice because it allows larger filters than GET. With POST, the number of clauses in a filter is the limiting factor, not the size of the raw filter string since the request size limit for POST is approximately 16 MB.  
+With POST, the number of clauses in a filter is the limiting factor, not the size of the raw filter string since the request size limit for POST is approximately 16 MB. Even though the POST request size limit is very large, filter expressions cannot be arbitrarily complex. For more information about filter complexity limitations, see [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax).  
 
-> [!NOTE]  
-> Even though the POST request size limit is very large, filter expressions cannot be arbitrarily complex. For more information about filter complexity limitations, see [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax).  
-
- ## URI Parameters
+## URI Parameters
 
 | Parameter      | Description  | 
 |-------------|--------------|
@@ -97,16 +94,16 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 
 ## Query Parameters
 
-A query accepts several parameters on the URL when called via GET, and as JSON properties in the request body when called via POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted as applicable below. 
+A query accepts several parameters on the URL when called with GET, and as JSON properties in the request body when called with POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted as applicable below. 
 
 | Name      | Type | Description |
 |-----------|------|-------------|
 | api-version | string | Required. Version of the REST API used for the request. For a list of supported versions, see [API versioning](https://docs.microsoft.com/azure/search/search-api-versions). For this operation, the api-version is specified as a query parameter in the URL regardless of whether you call the API with GET or POST.|  
-| $filter | string | Optional. An expression that filters the documents considered for suggestions. Only filterable fields can be used in a filter. Filter expressions "search.ismatch" and "search.ismatchscoring*" are not supported in the Autocomplete API. When calling via POST, this parameter is named filter instead of $filter. See [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for details on the subset of the OData expression grammar that Azure Cognitive Search supports.|
+| $filter | string | Optional. An expression that filters the documents considered for suggestions. Only filterable fields can be used in a filter. Filter expressions "search.ismatch" and "search.ismatchscoring*" are not supported in the Autocomplete API. When called with POST, this parameter is named filter instead of $filter. See [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for details on the subset of the OData expression grammar that Azure Cognitive Search supports.|
 | fuzzy | boolean | Optional. Defaults to false. When set to true, this API finds suggestions even if there is a substituted or missing character in the search text. The edit distance is 1 per query string. If the query string is multiple terms, there can only be one missing, extra, substituted, or transposed character in the entire string. Enabling fuzzy match can be a better experience in some scenarios, it does come at a performance cost, as fuzzy suggestion searches are slower and consume more resources. |  
 | highlightPostTag | string | Optional. Defaults to an empty string. A string tag that appends to hit highlights. Must be set with highlightPreTag. Reserved characters in URL must be percent-encoded (for example, %23 instead of #). When called using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #). |
 | highlightPreTag | string | Optional. Defaults to an empty string. A string tag that prepends to the highlighted term. Must be set with highlightPostTag. When called using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|
-| $orderby | string | Optional. A list of comma-separated expressions to sort the results by. Each expression can be either a field name or a call to the `geo.distance()` function. Each expression can be followed by "asc" (ascending) or "desc" (descending). The default is ascending order. There is a limit of 32 clauses for $orderby. When calling via POST, this parameter is named order instead of $orderby.| 
+| $orderby | string | Optional. A list of comma-separated expressions to sort the results by. Each expression can be either a field name or a call to the `geo.distance()` function. Each expression can be followed by "asc" (ascending) or "desc" (descending). The default is ascending order. There is a limit of 32 clauses for $orderby. When called with POST, this parameter is named order instead of $orderby.| 
 | minimumCoverage | integer | Optional. Defaults to 80. A number between 0 and 100 indicating the percentage of the index that must be covered by a suggestions query in order for the query to be reported as a success. By default, at least 80% of the index must be available or the Suggest operation returns HTTP status code 503. If you set minimumCoverage and Suggest succeeds, it returns HTTP 200 and include a @search.coverage value in the response indicating the percentage of the index that was included in the query. Setting this parameter to a value lower than 100 can be useful for ensuring search availability even for services with only one replica. However, not all matching suggestions are guaranteed to be present in the search results. If search recall is more important to your application than availability, avoid setting minimumCoverage below its default value of 80.|  
 | search | string | Required. The search text to use to suggest queries. Must be at least 1 character, and no more than 100 characters. It cannot contain operators, query syntax, or quoted phrases. |  
 | searchFields | string | Optional. The list of comma-separated field names to search for the specified search text. Target fields must be listed in the [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters) definition in the index. |  
