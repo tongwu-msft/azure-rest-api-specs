@@ -92,7 +92,7 @@ You can get the api-key value from your service dashboard in the Azure portal. F
     }  
 ```  
 
-## Query Parameters
+## Query parameters
 
 A query accepts several parameters on the URL when called with GET, and as JSON properties in the request body when called with POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted as applicable below. 
 

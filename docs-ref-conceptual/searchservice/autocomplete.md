@@ -86,7 +86,7 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 }  
 ```  
 
-## Query Parameters
+## Query parameters
 
 A query accepts several parameters on the URL when called with GET, and as JSON properties in the request body when called with POST. The syntax for some parameters is slightly different between GET and POST. These differences are noted as applicable below. 
 
@@ -136,82 +136,82 @@ The response payload has two properties.
 
 ## Examples  
 
-1. Retrieve three autocomplete suggestions where the partial search input is 'washington medic' with default mode (oneTerm):  
+**Example 1:** Retrieve three autocomplete suggestions where the partial search input is 'washington medic' with default mode (oneTerm):  
 
-  ```http
-  GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&api-version=2020-06-30
-  ```  
+```http
+GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&api-version=2020-06-30
+```  
 
-  ```http
-  POST /indexes/insurance/docs/autocomplete?api-version=2020-06-30
-  {  
-    "search": "washington medic",
-    "filter": "search.in(roleId, 'admin,manager')",
-    "top": 3,
-    "suggesterName": "sg"  
-  }  
-  ```
+```http
+POST /indexes/insurance/docs/autocomplete?api-version=2020-06-30
+{  
+  "search": "washington medic",
+  "filter": "search.in(roleId, 'admin,manager')",
+  "top": 3,
+  "suggesterName": "sg"  
+}  
+```
 
-  Response:
+Response:
 
-  ```json  
-  {    
-    "value": [
-      {
-        "text": "medicaid",
-        "queryPlusText": "washington medicaid"
-      },
-      {
-        "text": "medicare",
-        "queryPlusText": "washington medicare"
-      },
-      {
-        "text": "medicine",
-        "queryPlusText": "washington medicine"
-      }
-    ]
-  }  
-  ```  
+```json  
+{    
+  "value": [
+    {
+      "text": "medicaid",
+      "queryPlusText": "washington medicaid"
+    },
+    {
+      "text": "medicare",
+      "queryPlusText": "washington medicare"
+    },
+    {
+      "text": "medicine",
+      "queryPlusText": "washington medicine"
+    }
+  ]
+}  
+```  
   
-1. Retrieve three autocomplete suggestions where the partial search input is 'washington medic' and `autocompleteMode=twoTerms`:  
+**Example 2**: Retrieve three autocomplete suggestions where the partial search input is 'washington medic' and `autocompleteMode=twoTerms`:  
 
-  ```http
-  GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&autocompleteMode=twoTerms&api-version=2020-06-30
-  ```  
+```http
+GET /indexes/insurance/docs/autocomplete?search=washington%20medic&$top=3&suggesterName=sg&autocompleteMode=twoTerms&api-version=2020-06-30
+```  
 
-  ```http
-  POST /indexes/insurance/docs/autocomplete?api-version=2020-06-30
-  {  
-    "search": "washington medic",  
-    "autocompleteMode": "twoTerms",
-    "filter": "planDuration ge 1",
-    "top": 3,  
-    "suggesterName": "sg"  
-  }  
-  ```
+```http
+POST /indexes/insurance/docs/autocomplete?api-version=2020-06-30
+{  
+  "search": "washington medic",  
+  "autocompleteMode": "twoTerms",
+  "filter": "planDuration ge 1",
+  "top": 3,  
+  "suggesterName": "sg"  
+}  
+```
 
-  Response:
+Response:
 
-  ```json
-  {    
-    "value": [
-      {
-        "text": "medicaid insurance",
-        "queryPlusText": "washington medicaid insurance"
-      },
-      {
-        "text": "medicare plan",
-        "queryPlusText": "washington medicare plan"
-      },
-      {
-        "text": "medicine book",
-        "queryPlusText": "washington medicine book"
-      }
-    ]
-  }  
-  ```
+```json
+{    
+  "value": [
+    {
+      "text": "medicaid insurance",
+      "queryPlusText": "washington medicaid insurance"
+    },
+    {
+      "text": "medicare plan",
+      "queryPlusText": "washington medicare plan"
+    },
+    {
+      "text": "medicine book",
+      "queryPlusText": "washington medicine book"
+    }
+  ]
+}  
+```
 
- Notice that **suggesterName** is required in an Autocomplete operation.  
+Notice that **suggesterName** is required in an Autocomplete operation.  
 
 ## See also
 
