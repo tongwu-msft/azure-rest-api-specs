@@ -9324,6 +9324,14 @@
 ### [Update](managedidentity/UserAssignedIdentities/Update.yml)
 # Managed Services
 ## [Overview](../docs-ref-conceptual/managedservices/index.md)
+## Marketplace Registration Definitions
+### [Overview](managedservices/MarketplaceRegistrationDefinitions.yml)
+### [Get](managedservices/MarketplaceRegistrationDefinitions/Get.yml)
+### [List](managedservices/MarketplaceRegistrationDefinitions/List.yml)
+## Marketplace Registration Definitions Without Scope
+### [Overview](managedservices/MarketplaceRegistrationDefinitionsWithoutScope.yml)
+### [Get](managedservices/MarketplaceRegistrationDefinitionsWithoutScope/Get.yml)
+### [List](managedservices/MarketplaceRegistrationDefinitionsWithoutScope/List.yml)
 ## Operations
 ### [Overview](managedservices/Operations.yml)
 ### [List](managedservices/Operations/List.yml)
