@@ -28,7 +28,7 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Database Automatic Tuning](xref:management.azure.com.sql.databaseautomatictuning)|Database Automatic Tuning REST API operations.|
 |[Database Extended Auditing Settings](xref:management.azure.com.sql.databaseextendedauditingsettings)|Database Extended Auditing Settings REST API operations.|
 |[Database Operations](xref:management.azure.com.sql.databaseoperations)|List all of the available SQL Database REST API operations.|
-|[Database Recommended Actions](xref:management.azure.com.sql.databasereccomendedactions)|Database Recommended Actions REST API operations.|
+|[Database Recommended Actions](xref:management.azure.com.sql.databaserecomendedactions)|Database Recommended Actions REST API operations.|
 |[Database Threat Detection Policies](xref:management.azure.com.sql.databasethreatdetectionpolicies)|Database Threat Detection Policies REST API operations.|
 |[Database Vulnerability Assessment Rule Baselines](xref:management.azure.com.sql.databasevulnerabilityassessmentrulebaselines)|Database Vulnerability Assessment Rule Baselines REST API operations.|
 |[Database Vulnerability Assessment Scans](xref:management.azure.com.sql.databasevulnerabilityassessmentscans)|Database Vulnerability Assessment Scans REST API operations.|
@@ -41,7 +41,7 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Encryption Protectors](xref:management.azure.com.sql.encryptionprotectors)|Encryption protector operations.|
 |[Failover Groups](xref:management.azure.com.sql.failovergroups)| Create, get, update, list, delete, and failover a failover group.|
 |[Firewall Rules](xref:management.azure.com.sql.firewallrules)|Create, get, update, delete, or list firewall rules.|
-|[Instance Failover Groups](xref:management.azure.com.sql.instancefailovergrups)|Instance Failover Groups operations.|
+|[Instance Failover Groups](xref:management.azure.com.sql.instancefailovergroups)|Instance Failover Groups operations.|
 |[Instance Pools](xref:management.azure.com.sql.instancepools)|Instance Pools operations.|
 |[Job Agents](xref:management.azure.com.sql.jobagents)|Job Agents REST API operations.|
 |[Job Credentials](xref:management.azure.com.sql.jobcredentials)|Job Credentials REST API operations.|
@@ -64,7 +64,7 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Managed Instance Operations](xref:management.azure.com.sql.managedinstanceoperations)|Managed Instance Operations REST API operations.|
 |[Managed Instance Vulnerability Assessments](xref:management.azure.com.sql.managedinstancevulnerabilityassessments)|Managed Instance Vulnerability Assessments REST API operations.|
 |[Managed Instances](xref:management.azure.com.sql.managedinstances)|Managed Instances REST API operations.|
-|[Managed Instances - Failover](xref:management.azure.com.sql.managed%20instances%20-%20failover)|Managed Instances - Failover REST API operations.|
+|[Managed Instances - Failover](https://docs.microsoft.com/rest/api/sql/managed%20instances%20-%20failover)|Managed Instances - Failover REST API operations.|
 |[Operations](xref:management.azure.com.sql.operations)|List all of the available SQL Database REST API operations.|
 |[Recoverable Databases](xref:management.azure.com.sql.recoverabledatabases)|Get a recoverable database, or list all recoverable databases for a server.|
 |[Recoverable Managed Databases](xref:management.azure.com.sql.operations)|Recoverable Managed Databases REST API operations.|
@@ -78,13 +78,13 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Server Azure AD Administrators](xref:management.azure.com.sql.serverazureadadministrators)|Server Azure AD Administrators REST API operations.|
 |[Server DevOps Audit Settings](xref:management.azure.com.sql.serverdevopsauditsettings)|Server DevOps Audit Settings REST API operations.|
 |[Server Dns Aliases](xref:management.azure.com.sql.serverdnsaliases)|Server Dns Aliases REST API operations.|
-|[Server Extended Auditing Settings](xref:management.azure.com.sql.server%20extended%20auditing%20settings)|Server Extended Auditing Settings REST API operations.|
+|[Server Extended Auditing Settings](https://docs.microsoft.com/rest/api/sql/server%20extended%20auditing%20settings)|Server Extended Auditing Settings REST API operations.|
 |[Server Keys](xref:management.azure.com.sql.serverkeys)|Server Keys REST API operations.|
 |[Server Security Alert Policies](xref:management.azure.com.sql.serversecurityalertpolicies)|Server Security Alert Policies REST API operations.|
 |[Server Trust Groups](xref:management.azure.com.sql.servertrustgroups)|Server Trust Groups REST API operations.|
 |[Server Vulnerability Assessments](xref:management.azure.com.sql.servervulnerabilityassessments)|Server Vulnerability Assessments REST API operations.|
 |[Servers](xref:management.azure.com.sql.servers)|Create, get, update, or list information about an Azure SQL server.|
-|[Servers - Name Availability](xref:management.azure.com.sql.servers%20-%20name%20availability)|Servers - Name Availability REST API operations.|
+|[Servers - Name Availability](https://docs.microsoft.com/rest/api/sql/servers%20-%20name%20availability)|Servers - Name Availability REST API operations.|
 |[Service Tier Advisors](xref:management.azure.com.sql.servicetieradvisors)|Service Tier Advisors REST API operations.|
 |[Subscription Usages](xref:management.azure.com.sql.subscriptionusages)|Subscription Usages REST API operations.|
 |[Sync Agents](xref:management.azure.com.sql.syncagents)|Sync Agents REST API operations.|
