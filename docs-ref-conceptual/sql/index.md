@@ -28,7 +28,7 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Database Automatic Tuning](xref:management.azure.com.sql.databaseautomatictuning)|Database Automatic Tuning REST API operations.|
 |[Database Extended Auditing Settings](xref:management.azure.com.sql.databaseextendedauditingsettings)|Database Extended Auditing Settings REST API operations.|
 |[Database Operations](xref:management.azure.com.sql.databaseoperations)|List all of the available SQL Database REST API operations.|
-|[Database Recommended Actions](xref:management.azure.com.sql.databaserecomendedactions)|Database Recommended Actions REST API operations.|
+|[Database Recommended Actions](xref:management.azure.com.sql.databaserecommendedactions)|Database Recommended Actions REST API operations.|
 |[Database Threat Detection Policies](xref:management.azure.com.sql.databasethreatdetectionpolicies)|Database Threat Detection Policies REST API operations.|
 |[Database Vulnerability Assessment Rule Baselines](xref:management.azure.com.sql.databasevulnerabilityassessmentrulebaselines)|Database Vulnerability Assessment Rule Baselines REST API operations.|
 |[Database Vulnerability Assessment Scans](xref:management.azure.com.sql.databasevulnerabilityassessmentscans)|Database Vulnerability Assessment Scans REST API operations.|
