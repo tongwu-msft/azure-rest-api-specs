@@ -2230,6 +2230,9 @@
 ### Global Administrator
 #### [Overview](authorization/GlobalAdministrator.yml)
 #### [Elevate Access](authorization/GlobalAdministrator/ElevateAccess.yml)
+### Operations
+#### [Overview](authorization/Operations.yml)
+#### [List](authorization/Operations/List.yml)
 ### Permissions
 #### [Overview](authorization/Permissions.yml)
 #### [List For Resource](authorization/Permissions/ListForResource.yml)
@@ -2238,6 +2241,18 @@
 #### [Overview](authorization/ProviderOperationsMetadata.yml)
 #### [Get](authorization/ProviderOperationsMetadata/Get.yml)
 #### [List](authorization/ProviderOperationsMetadata/List.yml)
+### Role Assignment Approval
+#### [Overview](authorization/RoleAssignmentApproval.yml)
+#### [Get By Id](authorization/RoleAssignmentApproval/GetById.yml)
+#### [List](authorization/RoleAssignmentApproval/List.yml)
+### Role Assignment Approval Step
+#### [Overview](authorization/RoleAssignmentApprovalStep.yml)
+#### [Get By Id](authorization/RoleAssignmentApprovalStep/GetById.yml)
+#### [Patch](authorization/RoleAssignmentApprovalStep/Patch.yml)
+#### [Put](authorization/RoleAssignmentApprovalStep/Put.yml)
+### Role Assignment Approval Steps
+#### [Overview](authorization/RoleAssignmentApprovalSteps.yml)
+#### [List](authorization/RoleAssignmentApprovalSteps/List.yml)
 ### Role Assignments
 #### [Overview](authorization/RoleAssignments.yml)
 #### [Create](authorization/RoleAssignments/Create.yml)
@@ -2257,6 +2272,18 @@
 #### [Get](authorization/RoleDefinitions/Get.yml)
 #### [Get By Id](authorization/RoleDefinitions/GetById.yml)
 #### [List](authorization/RoleDefinitions/List.yml)
+### Scope Role Assignment Approval
+#### [Overview](authorization/ScopeRoleAssignmentApproval.yml)
+#### [Get By Id](authorization/ScopeRoleAssignmentApproval/GetById.yml)
+#### [List](authorization/ScopeRoleAssignmentApproval/List.yml)
+### Scope Role Assignment Approval Step
+#### [Overview](authorization/ScopeRoleAssignmentApprovalStep.yml)
+#### [Get By Id](authorization/ScopeRoleAssignmentApprovalStep/GetById.yml)
+#### [Patch](authorization/ScopeRoleAssignmentApprovalStep/Patch.yml)
+#### [Put](authorization/ScopeRoleAssignmentApprovalStep/Put.yml)
+### Scope Role Assignment Approval Steps
+#### [Overview](authorization/ScopeRoleAssignmentApprovalSteps.yml)
+#### [List](authorization/ScopeRoleAssignmentApprovalSteps/List.yml)
 # Automation
 ## [Overview](../docs-ref-conceptual/automation/index.md)
 ## Activity
