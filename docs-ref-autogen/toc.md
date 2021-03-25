@@ -16497,6 +16497,7 @@
 ##### [Create](storageservices/datalakestoragegen2/FileSystem/Create.yml)
 ##### [Delete](storageservices/datalakestoragegen2/FileSystem/Delete.yml)
 ##### [Get Properties](storageservices/datalakestoragegen2/FileSystem/GetProperties.yml)
+##### [List Blob Hierarchy Segment](storageservices/datalakestoragegen2/FileSystem/ListBlobHierarchySegment.yml)
 ##### [List Paths](storageservices/datalakestoragegen2/FileSystem/ListPaths.yml)
 ##### [Set Properties](storageservices/datalakestoragegen2/FileSystem/SetProperties.yml)
 #### Path
@@ -16511,6 +16512,7 @@
 ##### [Set Access Control](storageservices/datalakestoragegen2/Path/SetAccessControl.yml)
 ##### [Set Access Control Recursive](storageservices/datalakestoragegen2/Path/SetAccessControlRecursive.yml)
 ##### [Set Expiry](storageservices/datalakestoragegen2/Path/SetExpiry.yml)
+##### [Undelete](storageservices/datalakestoragegen2/Path/Undelete.yml)
 ##### [Update](storageservices/datalakestoragegen2/Path/Update.yml)
 #### Service
 ##### [Overview](storageservices/datalakestoragegen2/Service.yml)
