@@ -6744,6 +6744,11 @@
 #### [Delete](datafactory/Pipelines/Delete.yml)
 #### [Get](datafactory/Pipelines/Get.yml)
 #### [List By Factory](datafactory/Pipelines/ListByFactory.yml)
+### Private Endpoint Connection
+#### [Overview](datafactory/PrivateEndpointConnection.yml)
+#### [Create Or Update](datafactory/PrivateEndpointConnection/CreateOrUpdate.yml)
+#### [Delete](datafactory/PrivateEndpointConnection/Delete.yml)
+#### [Get](datafactory/PrivateEndpointConnection/Get.yml)
 ### Trigger Runs
 #### [Overview](datafactory/TriggerRuns.yml)
 #### [Cancel](datafactory/TriggerRuns/Cancel.yml)
@@ -6764,6 +6769,12 @@
 ### managed Private Endpoints
 #### [Overview](datafactory/managedPrivateEndpoints.yml)
 #### [Create Or Update](datafactory/managedPrivateEndpoints/CreateOrUpdate.yml)
+### private End Point Connections
+#### [Overview](datafactory/privateEndPointConnections.yml)
+#### [List By Factory](datafactory/privateEndPointConnections/ListByFactory.yml)
+### private Link Resources
+#### [Overview](datafactory/privateLinkResources.yml)
+#### [Get](datafactory/privateLinkResources/Get.yml)
 # Data Lake Analytics
 ## [Overview](../docs-ref-conceptual/datalakeanalytics/index.md)
 ## Accounts
@@ -7397,7 +7408,6 @@
 #### [Delete](deviceupdate/resourcemanager/Instances/Delete.yml)
 #### [Get](deviceupdate/resourcemanager/Instances/Get.yml)
 #### [List By Account](deviceupdate/resourcemanager/Instances/ListByAccount.yml)
-#### [List By Subscription](deviceupdate/resourcemanager/Instances/ListBySubscription.yml)
 #### [Update](deviceupdate/resourcemanager/Instances/Update.yml)
 ### Operations
 #### [Overview](deviceupdate/resourcemanager/Operations.yml)

@@ -32,7 +32,7 @@ responses:
 - name: Other Status Codes
   description: Error response describing the reason for operation failure.
   types:
-  - uid: ErrorResponse
+  - uid: ErrorDefinition
 requestHeader: []
 definitions:
 - name: AccountList
@@ -48,20 +48,15 @@ definitions:
     types:
     - uid: Account
       isArray: true
-- name: ErrorResponse
+- name: ErrorDefinition
   description: Error response indicates that the service is not able to process the incoming request.
   kind: object
   properties:
-  - name: code
-    isReadyOnly: true
-    description: Error status code.
-    types:
-    - uid: string
   - name: error
     isReadyOnly: true
-    description: Error details.
+    description: "Error Response  \nError details."
     types:
-    - uid: ErrorDefinition
+    - uid: ErrorResponse
 - name: Account
   description: Device Update account details.
   kind: object
@@ -103,24 +98,36 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-- name: ErrorDefinition
-  description: Error definition.
+- name: ErrorResponse
+  description: Error Response
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: Error status code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: Error message.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: Error details.
+    isReadyOnly: true
+    description: The error details.
     types:
-    - uid: ErrorDefinition
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
       isArray: true
 - name: ProvisioningState
   description: Provisioning state.
@@ -144,6 +151,20 @@ definitions:
   - name: Creating
     types:
     - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: Get list of Accounts
   request:
