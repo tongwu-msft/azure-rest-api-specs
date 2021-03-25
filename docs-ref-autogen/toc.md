@@ -11949,12 +11949,26 @@
 ### [REST vs. .NET Client Support](../docs-ref-conceptual/servicebus/rest-dotnet-client-support.md)
 ## Reference
 ### Preview
-#### IP Filter Rules
-##### [Overview](servicebus/preview/IP%20Filter%20Rules.yml)
-##### [Create Or Update Ip Filter Rule](servicebus/preview/IP%20Filter%20Rules/CreateOrUpdateIpFilterRule.yml)
-##### [Delete Ip Filter Rule](servicebus/preview/IP%20Filter%20Rules/DeleteIpFilterRule.yml)
-##### [Get Ip Filter Rule](servicebus/preview/IP%20Filter%20Rules/GetIpFilterRule.yml)
-##### [List Ip Filter Rules](servicebus/preview/IP%20Filter%20Rules/ListIpFilterRules.yml)
+#### Disaster Recovery Configs
+##### [Overview](servicebus/preview/DisasterRecoveryConfigs.yml)
+##### [Break Pairing](servicebus/preview/DisasterRecoveryConfigs/BreakPairing.yml)
+##### [Check Name Availability](servicebus/preview/DisasterRecoveryConfigs/CheckNameAvailability.yml)
+##### [Create Or Update](servicebus/preview/DisasterRecoveryConfigs/CreateOrUpdate.yml)
+##### [Delete](servicebus/preview/DisasterRecoveryConfigs/Delete.yml)
+##### [Fail Over](servicebus/preview/DisasterRecoveryConfigs/FailOver.yml)
+##### [Get](servicebus/preview/DisasterRecoveryConfigs/Get.yml)
+##### [Get Authorization Rule](servicebus/preview/DisasterRecoveryConfigs/GetAuthorizationRule.yml)
+##### [List](servicebus/preview/DisasterRecoveryConfigs/List.yml)
+##### [List Authorization Rules](servicebus/preview/DisasterRecoveryConfigs/ListAuthorizationRules.yml)
+##### [List Keys](servicebus/preview/DisasterRecoveryConfigs/ListKeys.yml)
+#### Migration Configs
+##### [Overview](servicebus/preview/MigrationConfigs.yml)
+##### [Complete Migration](servicebus/preview/MigrationConfigs/CompleteMigration.yml)
+##### [Create And Start Migration](servicebus/preview/MigrationConfigs/CreateAndStartMigration.yml)
+##### [Delete](servicebus/preview/MigrationConfigs/Delete.yml)
+##### [Get](servicebus/preview/MigrationConfigs/Get.yml)
+##### [List](servicebus/preview/MigrationConfigs/List.yml)
+##### [Revert](servicebus/preview/MigrationConfigs/Revert.yml)
 #### Namespaces
 ##### [Overview](servicebus/preview/Namespaces.yml)
 ##### [Create Or Update](servicebus/preview/Namespaces/CreateOrUpdate.yml)
@@ -11963,6 +11977,25 @@
 ##### [List](servicebus/preview/Namespaces/List.yml)
 ##### [List By Resource Group](servicebus/preview/Namespaces/ListByResourceGroup.yml)
 ##### [Update](servicebus/preview/Namespaces/Update.yml)
+#### Namespaces - Authorization Rules
+##### [Overview](servicebus/preview/Namespaces%20-%20Authorization%20Rules.yml)
+##### [Create Or Update Authorization Rule](servicebus/preview/Namespaces%20-%20Authorization%20Rules/CreateOrUpdateAuthorizationRule.yml)
+##### [Delete Authorization Rule](servicebus/preview/Namespaces%20-%20Authorization%20Rules/DeleteAuthorizationRule.yml)
+##### [Get Authorization Rule](servicebus/preview/Namespaces%20-%20Authorization%20Rules/GetAuthorizationRule.yml)
+##### [List Authorization Rules](servicebus/preview/Namespaces%20-%20Authorization%20Rules/ListAuthorizationRules.yml)
+##### [List Keys](servicebus/preview/Namespaces%20-%20Authorization%20Rules/ListKeys.yml)
+##### [Regenerate Keys](servicebus/preview/Namespaces%20-%20Authorization%20Rules/RegenerateKeys.yml)
+#### Namespaces - CheckNameAvailability
+##### [Overview](servicebus/preview/Namespaces%20-%20CheckNameAvailability.yml)
+##### [Check Name Availability](servicebus/preview/Namespaces%20-%20CheckNameAvailability/CheckNameAvailability.yml)
+#### Namespaces - Network Rule Set
+##### [Overview](servicebus/preview/Namespaces%20-%20Network%20Rule%20Set.yml)
+##### [Create Or Update Network Rule Set](servicebus/preview/Namespaces%20-%20Network%20Rule%20Set/CreateOrUpdateNetworkRuleSet.yml)
+##### [Get Network Rule Set](servicebus/preview/Namespaces%20-%20Network%20Rule%20Set/GetNetworkRuleSet.yml)
+##### [List Network Rule Sets](servicebus/preview/Namespaces%20-%20Network%20Rule%20Set/ListNetworkRuleSets.yml)
+#### Operations
+##### [Overview](servicebus/preview/Operations.yml)
+##### [List](servicebus/preview/Operations/List.yml)
 #### Private Endpoint Connections
 ##### [Overview](servicebus/preview/PrivateEndpointConnections.yml)
 ##### [Create Or Update](servicebus/preview/PrivateEndpointConnections/CreateOrUpdate.yml)
@@ -11972,12 +12005,46 @@
 #### Private Link Resources
 ##### [Overview](servicebus/preview/PrivateLinkResources.yml)
 ##### [Get](servicebus/preview/PrivateLinkResources/Get.yml)
-#### Virtual Network Rules
-##### [Overview](servicebus/preview/Virtual%20Network%20Rules.yml)
-##### [Create Or Update Virtual Network Rule](servicebus/preview/Virtual%20Network%20Rules/CreateOrUpdateVirtualNetworkRule.yml)
-##### [Delete Virtual Network Rule](servicebus/preview/Virtual%20Network%20Rules/DeleteVirtualNetworkRule.yml)
-##### [Get Virtual Network Rule](servicebus/preview/Virtual%20Network%20Rules/GetVirtualNetworkRule.yml)
-##### [List Virtual Network Rules](servicebus/preview/Virtual%20Network%20Rules/ListVirtualNetworkRules.yml)
+#### Queues
+##### [Overview](servicebus/preview/Queues.yml)
+##### [Create Or Update](servicebus/preview/Queues/CreateOrUpdate.yml)
+##### [Delete](servicebus/preview/Queues/Delete.yml)
+##### [Get](servicebus/preview/Queues/Get.yml)
+##### [List By Namespace](servicebus/preview/Queues/ListByNamespace.yml)
+#### Queues - Authorization Rules
+##### [Overview](servicebus/preview/Queues%20-%20Authorization%20Rules.yml)
+##### [Create Or Update Authorization Rule](servicebus/preview/Queues%20-%20Authorization%20Rules/CreateOrUpdateAuthorizationRule.yml)
+##### [Delete Authorization Rule](servicebus/preview/Queues%20-%20Authorization%20Rules/DeleteAuthorizationRule.yml)
+##### [Get Authorization Rule](servicebus/preview/Queues%20-%20Authorization%20Rules/GetAuthorizationRule.yml)
+##### [List Authorization Rules](servicebus/preview/Queues%20-%20Authorization%20Rules/ListAuthorizationRules.yml)
+##### [List Keys](servicebus/preview/Queues%20-%20Authorization%20Rules/ListKeys.yml)
+##### [Regenerate Keys](servicebus/preview/Queues%20-%20Authorization%20Rules/RegenerateKeys.yml)
+#### Subscriptions
+##### [Overview](servicebus/preview/Subscriptions.yml)
+##### [Create Or Update](servicebus/preview/Subscriptions/CreateOrUpdate.yml)
+##### [Delete](servicebus/preview/Subscriptions/Delete.yml)
+##### [Get](servicebus/preview/Subscriptions/Get.yml)
+##### [List By Topic](servicebus/preview/Subscriptions/ListByTopic.yml)
+#### Subscriptions - Rules
+##### [Overview](servicebus/preview/Subscriptions%20-%20Rules.yml)
+##### [Create Or Update](servicebus/preview/Subscriptions%20-%20Rules/CreateOrUpdate.yml)
+##### [Delete](servicebus/preview/Subscriptions%20-%20Rules/Delete.yml)
+##### [Get](servicebus/preview/Subscriptions%20-%20Rules/Get.yml)
+##### [List By Subscriptions](servicebus/preview/Subscriptions%20-%20Rules/ListBySubscriptions.yml)
+#### Topics
+##### [Overview](servicebus/preview/Topics.yml)
+##### [Create Or Update](servicebus/preview/Topics/CreateOrUpdate.yml)
+##### [Delete](servicebus/preview/Topics/Delete.yml)
+##### [Get](servicebus/preview/Topics/Get.yml)
+##### [List By Namespace](servicebus/preview/Topics/ListByNamespace.yml)
+#### Topics - Authorization Rules
+##### [Overview](servicebus/preview/Topics%20-%20Authorization%20Rules.yml)
+##### [Create Or Update Authorization Rule](servicebus/preview/Topics%20-%20Authorization%20Rules/CreateOrUpdateAuthorizationRule.yml)
+##### [Delete Authorization Rule](servicebus/preview/Topics%20-%20Authorization%20Rules/DeleteAuthorizationRule.yml)
+##### [Get Authorization Rule](servicebus/preview/Topics%20-%20Authorization%20Rules/GetAuthorizationRule.yml)
+##### [List Authorization Rules](servicebus/preview/Topics%20-%20Authorization%20Rules/ListAuthorizationRules.yml)
+##### [List Keys](servicebus/preview/Topics%20-%20Authorization%20Rules/ListKeys.yml)
+##### [Regenerate Keys](servicebus/preview/Topics%20-%20Authorization%20Rules/RegenerateKeys.yml)
 ### Stable
 #### Disaster Recovery Configs
 ##### [Overview](servicebus/stable/DisasterRecoveryConfigs.yml)

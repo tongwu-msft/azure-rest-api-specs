@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.servicebus.preview.virtualnetworkrules.getvirtualnetworkrule
-name: Get Virtual Network Rule
+uid: management.azure.com.servicebus.preview.migrationconfigs.completemigration
+name: Complete Migration
 service: Service Bus
-groupName: Virtual Network Rules
-apiVersion: 2018-01-01-preview
-summary: Gets an VirtualNetworkRule for a Namespace by rule name.
+groupName: Migration Configs
+apiVersion: 2021-01-01-preview
+summary: This operation Completes Migration of entities by pointing the connection strings to Premium namespace and any entities created after the operation will be under Premium Namespace. CompleteMigration operation will fail when entity migration is in-progress.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/virtualnetworkrules/{virtualNetworkRuleName}?api-version=2018-01-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/migrationConfigurations/$default/upgrade?api-version=2021-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,12 +30,12 @@ uriParameters:
   description: The namespace name
   types:
   - uid: string
-- name: virtualNetworkRuleName
+- name: configName
   in: path
   isRequired: true
-  description: The Virtual Network Rule name.
+  description: The configuration name. Should always be "$default".
   types:
-  - uid: string
+  - uid: MigrationConfigurationName
 - name: api-version
   in: query
   isRequired: true
@@ -44,36 +44,18 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Namespace VirtualNetworkRule returned successfully.
-  types:
-  - uid: VirtualNetworkRule
+  description: upgrade operation of Migration Config is successful.
 - name: Other Status Codes
   description: ServiceBus error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: VirtualNetworkRule
-  description: Single item in a List or Get VirtualNetworkRules operation
-  kind: object
+- name: MigrationConfigurationName
+  description: The configuration name. Should always be "$default".
+  kind: enum
   properties:
-  - name: properties.virtualNetworkSubnetId
-    description: Resource ID of Virtual Network Subnet
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
+  - name: $default
     types:
     - uid: string
 - name: ErrorResponse
@@ -130,20 +112,11 @@ definitions:
     types:
     - uid: object
 examples:
-- name: NameSpaceVirtualNetworkRuleGet
+- name: MigrationConfigurationsCompleteMigration
   request:
-    uri: GET https://management.azure.com/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-6019/virtualnetworkrules/sdk-VirtualNetworkRules-9191?api-version=2018-01-01-preview
+    uri: POST https://management.azure.com/subscriptions/SubscriptionId/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-41/migrationConfigurations/$default/upgrade?api-version=2021-01-01-preview
   responses:
   - statusCode: "200"
-    body: >-
-      {
-        "id": "/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-6019/virtualnetworkrules/sdk-VirtualNetworkRules-9191",
-        "name": "sdk-VirtualNetworkRules-9191",
-        "type": "Microsoft.ServiceBus/Namespaces/VirtualNetworkRules",
-        "properties": {
-          "virtualNetworkSubnetId": "/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.Network/virtualNetworks/sbehvnettest/subnets/default"
-        }
-      }
 security:
 - name: azure_auth
   type: oauth2

@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.servicebus.preview.virtualnetworkrules.listvirtualnetworkrules
-name: List Virtual Network Rules
+uid: management.azure.com.servicebus.preview.topics.delete
+name: Delete
 service: Service Bus
-groupName: Virtual Network Rules
-apiVersion: 2018-01-01-preview
-summary: Gets a list of VirtualNetwork rules for a Namespace.
+groupName: Topics
+apiVersion: 2021-01-01-preview
+summary: Deletes a topic from the specified namespace and resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/virtualnetworkrules?api-version=2018-01-01-preview
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/topics/{topicName}?api-version=2021-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,6 +30,12 @@ uriParameters:
   description: The namespace name
   types:
   - uid: string
+- name: topicName
+  in: path
+  isRequired: true
+  description: The topic name.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -38,28 +44,15 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Namespace VirtualNetworkRule successfully returned.
-  types:
-  - uid: VirtualNetworkRuleListResult
+  description: Topic successfully deleted.
+- name: 204 No Content
+  description: No Content
 - name: Other Status Codes
   description: ServiceBus error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: VirtualNetworkRuleListResult
-  description: The response from the List namespace operation.
-  kind: object
-  properties:
-  - name: value
-    description: Result of the List VirtualNetwork Rules operation.
-    types:
-    - uid: VirtualNetworkRule
-      isArray: true
-  - name: nextLink
-    description: Link to the next set of results. Not empty if Value contains an incomplete list of VirtualNetwork Rules
-    types:
-    - uid: string
 - name: ErrorResponse
   description: The resource management error response.
   kind: object
@@ -68,29 +61,6 @@ definitions:
     description: The error object.
     types:
     - uid: Error
-- name: VirtualNetworkRule
-  description: Single item in a List or Get VirtualNetworkRules operation
-  kind: object
-  properties:
-  - name: properties.virtualNetworkSubnetId
-    description: Resource ID of Virtual Network Subnet
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
 - name: Error
   description: The error object.
   kind: object
@@ -137,24 +107,12 @@ definitions:
     types:
     - uid: object
 examples:
-- name: ListIpFilterRules
+- name: TopicDelete
   request:
-    uri: GET https://management.azure.com/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-6019/virtualnetworkrules?api-version=2018-01-01-preview
+    uri: DELETE https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-1617/topics/sdk-Topics-5488?api-version=2021-01-01-preview
   responses:
   - statusCode: "200"
-    body: >-
-      {
-        "value": [
-          {
-            "id": "/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-6019/virtualnetworkrules/sdk-VirtualNetworkRules-9191",
-            "name": "sdk-VirtualNetworkRules-9191",
-            "type": "Microsoft.ServiceBus/Namespaces/VirtualNetworkRules",
-            "properties": {
-              "virtualNetworkSubnetId": "/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.Network/virtualNetworks/sbehvnettest/subnets/default"
-            }
-          }
-        ]
-      }
+  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2

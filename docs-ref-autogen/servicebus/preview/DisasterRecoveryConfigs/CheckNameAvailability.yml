@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.servicebus.preview.ipfilterrules.createorupdateipfilterrule
-name: Create Or Update Ip Filter Rule
+uid: management.azure.com.servicebus.preview.disasterrecoveryconfigs.checknameavailability
+name: Check Name Availability
 service: Service Bus
-groupName: IP Filter Rules
-apiVersion: 2018-01-01-preview
-summary: Creates or updates an IpFilterRule for a Namespace.
+groupName: Disaster Recovery Configs
+apiVersion: 2021-01-01-preview
+summary: Check the give namespace name availability.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/ipfilterrules/{ipFilterRuleName}?api-version=2018-01-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/CheckNameAvailability?api-version=2021-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,12 +30,6 @@ uriParameters:
   description: The namespace name
   types:
   - uid: string
-- name: ipFilterRuleName
-  in: path
-  isRequired: true
-  description: The IP Filter Rule name.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -44,9 +38,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Namespace IpFilterRule created
+  description: check availability returned successfully.
   types:
-  - uid: IpFilterRule
+  - uid: CheckNameAvailabilityResult
 - name: Other Status Codes
   description: ServiceBus error response describing why the operation failed.
   types:
@@ -54,54 +48,31 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.ipMask
+  - name: name
     in: body
-    description: IP Mask
-    types:
-    - uid: string
-  - name: properties.action
-    in: body
-    description: The IP Filter Action
-    types:
-    - uid: IPAction
-  - name: properties.filterName
-    in: body
-    description: IP Filter name
+    isRequired: true
+    description: The Name to check the namespace name availability and The namespace name can contain only letters, numbers, and hyphens. The namespace must start with a letter, and it must end with a letter or number.
     types:
     - uid: string
 requestHeader: []
 definitions:
-- name: IpFilterRule
-  description: Single item in a List or Get IpFilterRules operation
+- name: CheckNameAvailabilityResult
+  description: Description of a Check Name availability request properties.
   kind: object
   properties:
-  - name: properties.ipMask
-    description: IP Mask
-    types:
-    - uid: string
-  - name: properties.action
-    description: The IP Filter Action
-    types:
-    - uid: IPAction
-  - name: properties.filterName
-    description: IP Filter name
-    types:
-    - uid: string
-  - name: id
+  - name: message
     isReadyOnly: true
-    description: Resource Id
+    description: The detailed info regarding the reason associated with the namespace.
     types:
     - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
+  - name: nameAvailable
+    description: Value indicating namespace is availability, true if the namespace is available; otherwise, false.
     types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
+    - uid: boolean
+  - name: reason
+    description: The reason for unavailability of a namespace.
     types:
-    - uid: string
+    - uid: UnavailableReason
 - name: ErrorResponse
   description: The resource management error response.
   kind: object
@@ -110,14 +81,34 @@ definitions:
     description: The error object.
     types:
     - uid: Error
-- name: IPAction
-  description: The IP Filter Action
-  kind: enum
+- name: CheckNameAvailability
+  description: Description of a Check Name availability request properties.
+  kind: object
   properties:
-  - name: Accept
+  - name: name
+    description: The Name to check the namespace name availability and The namespace name can contain only letters, numbers, and hyphens. The namespace must start with a letter, and it must end with a letter or number.
     types:
     - uid: string
-  - name: Reject
+- name: UnavailableReason
+  description: Specifies the reason for the unavailability of the service.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: InvalidName
+    types:
+    - uid: string
+  - name: SubscriptionIsDisabled
+    types:
+    - uid: string
+  - name: NameInUse
+    types:
+    - uid: string
+  - name: NameInLockdown
+    types:
+    - uid: string
+  - name: TooManyNamespaceInCurrentSubscription
     types:
     - uid: string
 - name: Error
@@ -166,29 +157,20 @@ definitions:
     types:
     - uid: object
 examples:
-- name: NameSpaceIpFilterRuleCreate
+- name: AliasNameAvailability
   request:
-    uri: PUT https://management.azure.com/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-5232/ipfilterrules/sdk-IPFilterRules-7337?api-version=2018-01-01-preview
+    uri: POST https://management.azure.com/subscriptions/exampleSubscriptionId/resourceGroups/exampleResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-9080/disasterRecoveryConfigs/CheckNameAvailability?api-version=2021-01-01-preview
     body: >-
       {
-        "properties": {
-          "ipMask": "13.78.143.246/32",
-          "action": "Accept",
-          "filterName": "sdk-IPFilterRules-7337"
-        }
+        "name": "sdk-DisasterRecovery-9474"
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-5232/ipfilterrules/sdk-IPFilterRules-7337",
-        "name": "sdk-IPFilterRules-7337",
-        "type": "Microsoft.ServiceBus/Namespaces/IpFilterRules",
-        "properties": {
-          "ipMask": "13.78.143.246/32",
-          "action": "Accept",
-          "filterName": "sdk-IPFilterRules-7337"
-        }
+        "nameAvailable": true,
+        "reason": "None",
+        "message": ""
       }
 security:
 - name: azure_auth
