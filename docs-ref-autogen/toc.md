@@ -11948,18 +11948,18 @@
 ##### [List Authorization Rules](servicebus/preview/Queues%20-%20Authorization%20Rules/ListAuthorizationRules.yml)
 ##### [List Keys](servicebus/preview/Queues%20-%20Authorization%20Rules/ListKeys.yml)
 ##### [Regenerate Keys](servicebus/preview/Queues%20-%20Authorization%20Rules/RegenerateKeys.yml)
-#### Rules
-##### [Overview](servicebus/preview/Rules.yml)
-##### [Create Or Update](servicebus/preview/Rules/CreateOrUpdate.yml)
-##### [Delete](servicebus/preview/Rules/Delete.yml)
-##### [Get](servicebus/preview/Rules/Get.yml)
-##### [List By Subscriptions](servicebus/preview/Rules/ListBySubscriptions.yml)
 #### Subscriptions
 ##### [Overview](servicebus/preview/Subscriptions.yml)
 ##### [Create Or Update](servicebus/preview/Subscriptions/CreateOrUpdate.yml)
 ##### [Delete](servicebus/preview/Subscriptions/Delete.yml)
 ##### [Get](servicebus/preview/Subscriptions/Get.yml)
 ##### [List By Topic](servicebus/preview/Subscriptions/ListByTopic.yml)
+#### Subscriptions - Rules
+##### [Overview](servicebus/preview/Subscriptions%20-%20Rules.yml)
+##### [Create Or Update](servicebus/preview/Subscriptions%20-%20Rules/CreateOrUpdate.yml)
+##### [Delete](servicebus/preview/Subscriptions%20-%20Rules/Delete.yml)
+##### [Get](servicebus/preview/Subscriptions%20-%20Rules/Get.yml)
+##### [List By Subscriptions](servicebus/preview/Subscriptions%20-%20Rules/ListBySubscriptions.yml)
 #### Topics
 ##### [Overview](servicebus/preview/Topics.yml)
 ##### [Create Or Update](servicebus/preview/Topics/CreateOrUpdate.yml)
@@ -16506,6 +16506,7 @@
 ##### [Create](storageservices/datalakestoragegen2/FileSystem/Create.yml)
 ##### [Delete](storageservices/datalakestoragegen2/FileSystem/Delete.yml)
 ##### [Get Properties](storageservices/datalakestoragegen2/FileSystem/GetProperties.yml)
+##### [List Blob Hierarchy Segment](storageservices/datalakestoragegen2/FileSystem/ListBlobHierarchySegment.yml)
 ##### [List Paths](storageservices/datalakestoragegen2/FileSystem/ListPaths.yml)
 ##### [Set Properties](storageservices/datalakestoragegen2/FileSystem/SetProperties.yml)
 #### Path
@@ -16520,6 +16521,7 @@
 ##### [Set Access Control](storageservices/datalakestoragegen2/Path/SetAccessControl.yml)
 ##### [Set Access Control Recursive](storageservices/datalakestoragegen2/Path/SetAccessControlRecursive.yml)
 ##### [Set Expiry](storageservices/datalakestoragegen2/Path/SetExpiry.yml)
+##### [Undelete](storageservices/datalakestoragegen2/Path/Undelete.yml)
 ##### [Update](storageservices/datalakestoragegen2/Path/Update.yml)
 #### Service
 ##### [Overview](storageservices/datalakestoragegen2/Service.yml)

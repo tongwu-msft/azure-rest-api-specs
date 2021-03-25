@@ -10,18 +10,13 @@ consumes:
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.Consumption/credits/balanceSummary?api-version=2019-10-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/credits/balanceSummary?api-version=2019-10-01
 uriParameters:
-- name: billingAccountId
+- name: scope
   in: path
   isRequired: true
-  description: BillingAccount ID
-  types:
-  - uid: string
-- name: billingProfileId
-  in: path
-  isRequired: true
-  description: Azure Billing Profile ID.
+  skipUrlEncoding: true
+  description: The scope associated with credits operations. This includes '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfile/{billingProfileId}' for Billing Profile scope, and 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for partners.
   types:
   - uid: string
 - name: api-version
@@ -45,6 +40,16 @@ definitions:
   description: A credit summary resource.
   kind: object
   properties:
+  - name: properties.creditCurrency
+    isReadyOnly: true
+    description: Credit Currency
+    types:
+    - uid: string
+  - name: properties.billingCurrency
+    isReadyOnly: true
+    description: Billing Currency.
+    types:
+    - uid: string
   - name: properties.balanceSummary
     isReadyOnly: true
     description: Summary of balances associated with this credit summary.
@@ -65,6 +70,11 @@ definitions:
     description: Pending eligible charges.
     types:
     - uid: amount
+  - name: properties.reseller
+    isReadyOnly: true
+    description: Reseller details.
+    types:
+    - uid: Reseller
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -116,6 +126,16 @@ definitions:
     description: Current balance.
     types:
     - uid: amount
+  - name: estimatedBalanceInBillingCurrency
+    isReadyOnly: true
+    description: Current balance.
+    types:
+    - uid: AmountWithExchangeRate
+  - name: currentBalanceInBillingCurrency
+    isReadyOnly: true
+    description: Current balance.
+    types:
+    - uid: AmountWithExchangeRate
 - name: amount
   description: The amount plus currency .
   kind: object
@@ -130,6 +150,20 @@ definitions:
     description: Amount.
     types:
     - uid: number
+- name: Reseller
+  description: Reseller details
+  kind: object
+  properties:
+  - name: resellerId
+    isReadyOnly: true
+    description: Reseller id.
+    types:
+    - uid: string
+  - name: resellerDescription
+    isReadyOnly: true
+    description: Reseller Description.
+    types:
+    - uid: string
 - name: ErrorDetails
   description: The details of the error.
   kind: object
@@ -144,8 +178,32 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
+- name: AmountWithExchangeRate
+  description: Reseller details
+  kind: object
+  properties:
+  - name: exchangeRate
+    isReadyOnly: true
+    description: Exchange Rate.
+    types:
+    - uid: number
+  - name: exchangeRateMonth
+    isReadyOnly: true
+    description: Exchange rate month.
+    types:
+    - uid: number
+  - name: currency
+    isReadyOnly: true
+    description: Amount currency.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: Amount.
+    types:
+    - uid: number
 examples:
-- name: CreditSummaryByBillingProfile
+- name: CreditsBalanceSummaryByBillingProfile
   request:
     uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:5678/billingProfiles/2468/providers/Microsoft.Consumption/credits/balanceSummary?api-version=2019-10-01
   responses:
@@ -177,6 +235,59 @@ examples:
           "pendingEligibleCharges": {
             "currency": "USD",
             "value": 0
+          }
+        }
+      }
+- name: CreditsBalanceSummary-Modern
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/1234:5678/customers/2468/providers/Microsoft.Consumption/credits/balanceSummary?api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/providers/Microsoft.Billing/billingAccounts/1234:5678/customers/2468/providers/Microsoft.Consumption/credits/balanceSummary1",
+        "name": "balanceSummary1",
+        "type": "Microsoft.Consumption/credits/balanceSummary",
+        "properties": {
+          "creditCurrency": "USD",
+          "billingCurrency": "USD",
+          "balanceSummary": {
+            "estimatedBalance": {
+              "currency": "USD",
+              "value": 600
+            },
+            "estimatedBalanceInBillingCurrency": {
+              "exchangeRate": 72.346250000000026,
+              "exchangeRateMonth": 202103,
+              "currency": "",
+              "value": 5486.7396000000026
+            },
+            "currentBalance": {
+              "currency": "USD",
+              "value": 100
+            },
+            "currentBalanceInBillingCurrency": {
+              "exchangeRate": 0,
+              "exchangeRateMonth": 202101,
+              "currency": "",
+              "value": 7342.2500000000264
+            }
+          },
+          "pendingCreditAdjustments": {
+            "currency": "USD",
+            "value": 500
+          },
+          "expiredCredit": {
+            "currency": "USD",
+            "value": 0
+          },
+          "pendingEligibleCharges": {
+            "currency": "USD",
+            "value": 0
+          },
+          "reseller": {
+            "resellerId": "55258",
+            "resellerDescription": "Reseller"
           }
         }
       }
