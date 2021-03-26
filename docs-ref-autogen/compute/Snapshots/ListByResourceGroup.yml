@@ -3,14 +3,14 @@ uid: management.azure.com.compute.snapshots.listbyresourcegroup
 name: List By Resource Group
 service: Compute
 groupName: Snapshots
-apiVersion: 2020-06-30
+apiVersion: 2020-12-01
 summary: Lists snapshots under a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots?api-version=2020-06-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots?api-version=2020-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -60,9 +60,13 @@ definitions:
     types:
     - uid: string
   - name: sku
-    description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS.
+    description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
     types:
     - uid: SnapshotSku
+  - name: extendedLocation
+    description: The extended location where the snapshot will be created. Extended location cannot be changed.
+    types:
+    - uid: ExtendedLocation
   - name: properties.timeCreated
     isReadyOnly: true
     description: The time when the snapshot was created.
@@ -76,6 +80,10 @@ definitions:
     description: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
     types:
     - uid: HyperVGeneration
+  - name: properties.purchasePlan
+    description: Purchase plan information for the image from which the source disk for the snapshot was originally created.
+    types:
+    - uid: PurchasePlan
   - name: properties.creationData
     description: Disk source information. CreationData information cannot be changed after the disk has been created.
     types:
@@ -124,6 +132,10 @@ definitions:
     description: ARM id of the DiskAccess resource for using private endpoints on disks.
     types:
     - uid: string
+  - name: properties.supportsHibernation
+    description: Indicates the OS on a snapshot supports hibernation.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -152,7 +164,7 @@ definitions:
       - uid: string
       - uid: string
 - name: SnapshotSku
-  description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS.
+  description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
   kind: object
   properties:
   - name: name
@@ -164,6 +176,18 @@ definitions:
     description: The sku tier.
     types:
     - uid: string
+- name: ExtendedLocation
+  description: The complex type of the extended location.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: OperatingSystemTypes
   description: The Operating System type.
   kind: enum
@@ -182,6 +206,26 @@ definitions:
     types:
     - uid: string
   - name: V2
+    types:
+    - uid: string
+- name: PurchasePlan
+  description: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+  kind: object
+  properties:
+  - name: name
+    description: The plan ID.
+    types:
+    - uid: string
+  - name: publisher
+    description: The publisher ID.
+    types:
+    - uid: string
+  - name: product
+    description: Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
+    types:
+    - uid: string
+  - name: promotionCode
+    description: The Offer Promotion Code.
     types:
     - uid: string
 - name: CreationData
@@ -314,6 +358,13 @@ definitions:
     description: Standard zone redundant storage
     types:
     - uid: string
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 - name: DiskCreateOption
   description: This enumerates the possible sources of a disk's creation.
   kind: enum
@@ -421,7 +472,7 @@ definitions:
 examples:
 - name: List all snapshots in a resource group.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots?api-version=2020-06-30
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots?api-version=2020-12-01
   responses:
   - statusCode: "200"
     body: >-

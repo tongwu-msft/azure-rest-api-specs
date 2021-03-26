@@ -5534,11 +5534,15 @@
 #### [Overview](compute/DiskAccesses.yml)
 #### [Create Or Update](compute/DiskAccesses/CreateOrUpdate.yml)
 #### [Delete](compute/DiskAccesses/Delete.yml)
+#### [Delete A Private Endpoint Connection](compute/DiskAccesses/DeleteAPrivateEndpointConnection.yml)
 #### [Get](compute/DiskAccesses/Get.yml)
+#### [Get A Private Endpoint Connection](compute/DiskAccesses/GetAPrivateEndpointConnection.yml)
 #### [Get Private Link Resources](compute/DiskAccesses/GetPrivateLinkResources.yml)
 #### [List](compute/DiskAccesses/List.yml)
 #### [List By Resource Group](compute/DiskAccesses/ListByResourceGroup.yml)
+#### [List Private Endpoint Connections](compute/DiskAccesses/ListPrivateEndpointConnections.yml)
 #### [Update](compute/DiskAccesses/Update.yml)
+#### [Update A Private Endpoint Connection](compute/DiskAccesses/UpdateAPrivateEndpointConnection.yml)
 ### Disk Encryption Sets
 #### [Overview](compute/DiskEncryptionSets.yml)
 #### [Create Or Update](compute/DiskEncryptionSets/CreateOrUpdate.yml)
@@ -5548,6 +5552,10 @@
 #### [List Associated Resources](compute/DiskEncryptionSets/ListAssociatedResources.yml)
 #### [List By Resource Group](compute/DiskEncryptionSets/ListByResourceGroup.yml)
 #### [Update](compute/DiskEncryptionSets/Update.yml)
+### Disk Restore Point
+#### [Overview](compute/DiskRestorePoint.yml)
+#### [Get](compute/DiskRestorePoint/Get.yml)
+#### [List By Restore Point](compute/DiskRestorePoint/ListByRestorePoint.yml)
 ### Disks
 #### [Overview](compute/Disks.yml)
 #### [Create Or Update](compute/Disks/CreateOrUpdate.yml)
