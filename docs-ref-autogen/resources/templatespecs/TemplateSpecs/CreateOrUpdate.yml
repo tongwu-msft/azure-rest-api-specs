@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resources.templatespecs.get
-name: Get
+uid: management.azure.com.resources.templatespecs.templatespecs.createorupdate
+name: Create Or Update
 service: Resource Management
 groupName: Template Specs
 apiVersion: 2019-06-01-preview
-summary: Gets a Template Spec with a given name.
+summary: Creates or updates a Template Spec.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/templateSpecs/{templateSpecName}?api-version=2019-06-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/templateSpecs/{templateSpecName}?$expand=versions&api-version=2019-06-01-preview
-  isOptional: true
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/templateSpecs/{templateSpecName}?api-version=2019-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,11 +32,6 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-\w\._\(\)]+$
-- name: $expand
-  in: query
-  description: Allows for expansion of additional Template Spec details in the response. Optional.
-  types:
-  - uid: TemplateSpecExpandKind
 - name: api-version
   in: query
   isRequired: true
@@ -47,21 +40,92 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns information about the Template Spec.
+  description: OK - The Template Spec update request has succeeded.
+  types:
+  - uid: TemplateSpec
+- name: 201 Created
+  description: Template Spec created.
   types:
   - uid: TemplateSpec
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: TemplateSpecsError
+requestBody:
+- name: default
+  parameters:
+  - name: location
+    in: body
+    isRequired: true
+    description: The location of the Template Spec. It cannot be changed after Template Spec creation. It must be one of the supported Azure locations.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.description
+    in: body
+    description: Template Spec description.
+    types:
+    - uid: string
+  - name: properties.displayName
+    in: body
+    description: Template Spec display name.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
-- name: TemplateSpecExpandKind
-  description: Allows for expansion of additional Template Spec details in the response. Optional.
-  kind: enum
+- name: TemplateSpecVersionInfo
+  description: High-level information about a Template Spec version.
+  kind: object
   properties:
-  - name: versions
-    description: Includes version information with the Template Spec.
+  - name: description
+    isReadyOnly: true
+    description: Template Spec version description.
+    types:
+    - uid: string
+  - name: timeCreated
+    isReadyOnly: true
+    description: The timestamp of when the version was created.
+    types:
+    - uid: string
+  - name: timeModified
+    isReadyOnly: true
+    description: The timestamp of when the version was last modified.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: TemplateSpec
@@ -125,51 +189,20 @@ definitions:
     description: "Error Response  \nCommon error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.)"
     types:
     - uid: ErrorResponse
-- name: TemplateSpecVersionInfo
-  description: High-level information about a Template Spec version.
-  kind: object
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
   properties:
-  - name: description
-    isReadyOnly: true
-    description: Template Spec version description.
+  - name: User
     types:
     - uid: string
-  - name: timeCreated
-    isReadyOnly: true
-    description: The timestamp of when the version was created.
+  - name: Application
     types:
     - uid: string
-  - name: timeModified
-    isReadyOnly: true
-    description: The timestamp of when the version was last modified.
+  - name: ManagedIdentity
     types:
     - uid: string
-- name: systemData
-  description: Metadata pertaining to creation and last modification of the resource.
-  kind: object
-  properties:
-  - name: createdBy
-    description: The identity that created the resource.
-    types:
-    - uid: string
-  - name: createdByType
-    description: The type of identity that created the resource.
-    types:
-    - uid: createdByType
-  - name: createdAt
-    description: The timestamp of resource creation (UTC).
-    types:
-    - uid: string
-  - name: lastModifiedBy
-    description: The identity that last modified the resource.
-    types:
-    - uid: string
-  - name: lastModifiedByType
-    description: The type of identity that last modified the resource.
-    types:
-    - uid: createdByType
-  - name: lastModifiedAt
-    description: The timestamp of resource last modification (UTC)
+  - name: Key
     types:
     - uid: string
 - name: ErrorResponse
@@ -203,22 +236,6 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: createdByType
-  description: The type of identity that created the resource.
-  kind: enum
-  properties:
-  - name: User
-    types:
-    - uid: string
-  - name: Application
-    types:
-    - uid: string
-  - name: ManagedIdentity
-    types:
-    - uid: string
-  - name: Key
-    types:
-    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -234,11 +251,37 @@ definitions:
     types:
     - uid: object
 examples:
-- name: TemplateSpecsGet
+- name: TemplateSpecsCreateUpdate
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/simpleTemplateSpec?$expand=versions&api-version=2019-06-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/simpleTemplateSpec?api-version=2019-06-01-preview
+    body: >-
+      {
+        "location": "eastus",
+        "properties": {
+          "description": "A very simple Template Spec"
+        }
+      }
   responses:
   - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/simpleTemplateSpec",
+        "type": "Microsoft.Resources/templateSpecs",
+        "name": "simpleTemplateSpec",
+        "location": "eastus",
+        "systemData": {
+          "createdBy": "string",
+          "createdByType": "Application",
+          "createdAt": "2020-02-01T01:01:01.1075056Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2020-02-01T01:01:01.1075056Z"
+        },
+        "properties": {
+          "description": "A very simple Template Spec"
+        }
+      }
+  - statusCode: "201"
     body: >-
       {
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/simpleTemplateSpec",

@@ -11236,21 +11236,6 @@
 ### [List By Resource Group](resources/DeploymentScripts/ListByResourceGroup.yml)
 ### [List By Subscription](resources/DeploymentScripts/ListBySubscription.yml)
 ### [Update](resources/DeploymentScripts/Update.yml)
-## Template Spec Versions
-### [Overview](resources/TemplateSpecVersions.yml)
-### [Create Or Update](resources/TemplateSpecVersions/CreateOrUpdate.yml)
-### [Delete](resources/TemplateSpecVersions/Delete.yml)
-### [Get](resources/TemplateSpecVersions/Get.yml)
-### [List](resources/TemplateSpecVersions/List.yml)
-### [Update](resources/TemplateSpecVersions/Update.yml)
-## Template Specs
-### [Overview](resources/TemplateSpecs.yml)
-### [Create Or Update](resources/TemplateSpecs/CreateOrUpdate.yml)
-### [Delete](resources/TemplateSpecs/Delete.yml)
-### [Get](resources/TemplateSpecs/Get.yml)
-### [List By Resource Group](resources/TemplateSpecs/ListByResourceGroup.yml)
-### [List By Subscription](resources/TemplateSpecs/ListBySubscription.yml)
-### [Update](resources/TemplateSpecs/Update.yml)
 ## Features
 ### Features
 #### [Overview](resources/features/Features.yml)
@@ -11421,6 +11406,22 @@
 ### check Resource Name
 #### [Overview](resources/subscriptions/checkResourceName.yml)
 #### [check Resource Name](resources/subscriptions/checkResourceName/checkResourceName.yml)
+## Template Specs
+### Template Spec Versions
+#### [Overview](resources/templatespecs/TemplateSpecVersions.yml)
+#### [Create Or Update](resources/templatespecs/TemplateSpecVersions/CreateOrUpdate.yml)
+#### [Delete](resources/templatespecs/TemplateSpecVersions/Delete.yml)
+#### [Get](resources/templatespecs/TemplateSpecVersions/Get.yml)
+#### [List](resources/templatespecs/TemplateSpecVersions/List.yml)
+#### [Update](resources/templatespecs/TemplateSpecVersions/Update.yml)
+### Template Specs
+#### [Overview](resources/templatespecs/TemplateSpecs.yml)
+#### [Create Or Update](resources/templatespecs/TemplateSpecs/CreateOrUpdate.yml)
+#### [Delete](resources/templatespecs/TemplateSpecs/Delete.yml)
+#### [Get](resources/templatespecs/TemplateSpecs/Get.yml)
+#### [List By Resource Group](resources/templatespecs/TemplateSpecs/ListByResourceGroup.yml)
+#### [List By Subscription](resources/templatespecs/TemplateSpecs/ListBySubscription.yml)
+#### [Update](resources/templatespecs/TemplateSpecs/Update.yml)
 # Resource Mover
 ## [Overview](../docs-ref-conceptual/resourcemover/index.md)
 ## Preview

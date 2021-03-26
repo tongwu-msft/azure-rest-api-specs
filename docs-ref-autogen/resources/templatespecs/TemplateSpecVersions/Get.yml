@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resources.templatespecversions.list
-name: List
+uid: management.azure.com.resources.templatespecs.templatespecversions.get
+name: Get
 service: Resource Management
 groupName: Template Spec Versions
 apiVersion: 2019-06-01-preview
-summary: Lists all the Template Spec versions in the specified Template Spec.
+summary: Gets a Template Spec version from a specific Template Spec.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/templateSpecs/{templateSpecName}/versions?api-version=2019-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/templateSpecs/{templateSpecName}/versions/{templateSpecVersion}?api-version=2019-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -32,6 +32,13 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-\w\._\(\)]+$
+- name: templateSpecVersion
+  in: path
+  isRequired: true
+  description: The version of the Template Spec.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
 - name: api-version
   in: query
   isRequired: true
@@ -40,37 +47,15 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns an array of Template Spec versions.
+  description: OK - Returns information about the Template Spec version.
   types:
-  - uid: TemplateSpecVersionsListResult
+  - uid: TemplateSpecVersion
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: TemplateSpecsError
 requestHeader: []
 definitions:
-- name: TemplateSpecVersionsListResult
-  description: List of Template Specs versions
-  kind: object
-  properties:
-  - name: value
-    description: An array of Template Spec versions.
-    types:
-    - uid: TemplateSpecVersion
-      isArray: true
-  - name: nextLink
-    isReadyOnly: true
-    description: The URL to use for getting the next set of results.
-    types:
-    - uid: string
-- name: TemplateSpecsError
-  description: Template Specs error response.
-  kind: object
-  properties:
-  - name: error
-    description: "Error Response  \nCommon error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.)"
-    types:
-    - uid: ErrorResponse
 - name: TemplateSpecVersion
   description: Template Spec Version object.
   kind: object
@@ -121,6 +106,42 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
+- name: TemplateSpecsError
+  description: Template Specs error response.
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nCommon error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.)"
+    types:
+    - uid: ErrorResponse
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -152,48 +173,6 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: systemData
-  description: Metadata pertaining to creation and last modification of the resource.
-  kind: object
-  properties:
-  - name: createdBy
-    description: The identity that created the resource.
-    types:
-    - uid: string
-  - name: createdByType
-    description: The type of identity that created the resource.
-    types:
-    - uid: createdByType
-  - name: createdAt
-    description: The timestamp of resource creation (UTC).
-    types:
-    - uid: string
-  - name: lastModifiedBy
-    description: The identity that last modified the resource.
-    types:
-    - uid: string
-  - name: lastModifiedByType
-    description: The type of identity that last modified the resource.
-    types:
-    - uid: createdByType
-  - name: lastModifiedAt
-    description: The timestamp of resource last modification (UTC)
-    types:
-    - uid: string
-- name: ErrorAdditionalInfo
-  description: The resource management error additional info.
-  kind: object
-  properties:
-  - name: type
-    isReadyOnly: true
-    description: The additional info type.
-    types:
-    - uid: string
-  - name: info
-    isReadyOnly: true
-    description: The additional info.
-    types:
-    - uid: object
 - name: TemplateSpecTemplateArtifact
   description: Represents a Template Spec artifact containing an embedded Azure Resource Manager template.
   kind: object
@@ -227,50 +206,49 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
-- name: TemplateSpecVersions_List
+- name: TemplateSpecVersionsGet
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/simpleTemplateSpec/versions?api-version=2019-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/simpleTemplateSpec/versions/v1.0?api-version=2019-06-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/simpleTemplateSpec/versions/v1.0",
-            "type": "Microsoft.Resources/templateSpecs/versions",
-            "name": "v1.0",
-            "location": "eastus",
-            "systemData": {
-              "createdBy": "string",
-              "createdByType": "Application",
-              "createdAt": "2020-02-01T01:01:01.1075056Z",
-              "lastModifiedBy": "string",
-              "lastModifiedByType": "Application",
-              "lastModifiedAt": "2020-02-02T02:03:01.1974346Z"
-            },
-            "properties": {
-              "description": "This is version v1.0"
-            }
-          },
-          {
-            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/simpleTemplateSpec/versions/v2.0",
-            "type": "Microsoft.Resources/templateSpecs/versions",
-            "name": "v2.0",
-            "location": "eastus",
-            "systemData": {
-              "createdBy": "string",
-              "createdByType": "Application",
-              "createdAt": "2020-02-03T01:01:01.1075056Z",
-              "lastModifiedBy": "string",
-              "lastModifiedByType": "Application",
-              "lastModifiedAt": "2020-02-04T02:03:01.1974346Z"
-            },
-            "properties": {
-              "description": "This is another version (v2.0)"
-            }
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/simpleTemplateSpec/versions/v1.0",
+        "type": "Microsoft.Resources/templateSpecs/versions",
+        "name": "v1.0",
+        "location": "eastus",
+        "systemData": {
+          "createdBy": "string",
+          "createdByType": "Application",
+          "createdAt": "2020-02-01T01:01:01.1075056Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2020-02-02T02:03:01.1974346Z"
+        },
+        "properties": {
+          "description": "This is version v1.0 of our template content",
+          "template": {
+            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {},
+            "resources": []
           }
-        ]
+        }
       }
 security:
 - name: azure_auth
