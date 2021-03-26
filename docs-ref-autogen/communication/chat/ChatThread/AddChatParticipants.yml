@@ -3,14 +3,14 @@ uid: communication.chat.chatthread.addchatparticipants
 name: Add Chat Participants
 service: Communication
 groupName: Chat Thread
-apiVersion: 2020-11-01-preview3
+apiVersion: 2021-03-07
 summary: Adds thread participants to a thread. If participants already exist, no change occurs.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {endpoint}/chat/threads/{chatThreadId}/participants/:add?api-version=2020-11-01-preview3
+- content: POST {endpoint}/chat/threads/{chatThreadId}/participants/:add?api-version=2021-03-07
 uriParameters:
 - name: endpoint
   in: path
@@ -74,10 +74,10 @@ definitions:
   description: A participant of the chat thread.
   kind: object
   properties:
-  - name: id
-    description: The id of the chat participant.
+  - name: communicationIdentifier
+    description: ''
     types:
-    - uid: string
+    - uid: CommunicationIdentifierModel
   - name: displayName
     description: Display name for the chat participant.
     types:
@@ -90,18 +90,12 @@ definitions:
   description: Result of the add chat participants operation.
   kind: object
   properties:
-  - name: errors
-    description: Errors encountered during the addition of the chat participant to the chat thread.
-    types:
-    - uid: AddChatParticipantsErrors
-- name: CommunicationErrorResponse
-  description: The Communication Services error.
-  kind: object
-  properties:
-  - name: error
-    description: The Communication Services error.
+  - name: invalidParticipants
+    isReadyOnly: true
+    description: The participants that failed to be added to the chat thread.
     types:
     - uid: CommunicationError
+      isArray: true
 - name: AddChatParticipantsRequest
   description: Participants to be added to the thread.
   kind: object
@@ -111,62 +105,40 @@ definitions:
     types:
     - uid: ChatParticipant
       isArray: true
-- name: AddChatParticipantsErrors
-  description: Errors encountered during the addition of the chat participant to the chat thread.
-  kind: object
-  properties:
-  - name: invalidParticipants
-    description: The participants that failed to be added to the chat thread.
-    types:
-    - uid: CommunicationError
-      isArray: true
-- name: CommunicationError
-  description: The Communication Services error.
-  kind: object
-  properties:
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-  - name: target
-    isReadyOnly: true
-    description: The error target.
-    types:
-    - uid: string
-  - name: details
-    isReadyOnly: true
-    description: Further details about specific errors that led to this error.
-    types:
-    - uid: CommunicationError
-      isArray: true
-  - name: innererror
-    isReadyOnly: true
-    description: The inner error if any.
-    types:
-    - uid: CommunicationError
 examples:
 - name: Add participants
   request:
-    uri: POST https://contoso.westus.communications.azure.com/chat/threads/19:f2167429acf6482880c6b7790a9086c1@thread.v2/participants/:add?api-version=2020-11-01-preview3
+    uri: POST https://contoso.westus.communications.azure.com/chat/threads/19:f2167429acf6482880c6b7790a9086c1@thread.v2/participants/:add?api-version=2021-03-07
     body: >-
       {
         "participants": [
           {
-            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+            "communicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a"
+              }
+            },
             "displayName": "Alex",
             "shareHistoryTime": "2020-06-06T05:55:41Z"
           },
           {
-            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
+            "communicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+              }
+            },
             "displayName": "Peter",
             "shareHistoryTime": "2020-06-06T05:55:41Z"
           },
           {
-            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
+            "communicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c"
+              }
+            },
             "displayName": "Rama",
             "shareHistoryTime": "2020-06-06T05:55:41Z"
           }
@@ -176,20 +148,18 @@ examples:
   - statusCode: "201"
     body: >-
       {
-        "errors": {
-          "invalidParticipants": [
-            {
-              "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
-              "code": "403",
-              "message": "Permissions check failed"
-            },
-            {
-              "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
-              "code": "404",
-              "message": "Not found"
-            }
-          ]
-        }
+        "invalidParticipants": [
+          {
+            "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
+            "code": "403",
+            "message": "Permissions check failed"
+          },
+          {
+            "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
+            "code": "404",
+            "message": "Not found"
+          }
+        ]
       }
   - statusCode: "401"
     body: >-

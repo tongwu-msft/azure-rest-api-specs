@@ -3,13 +3,13 @@ uid: communication.chat.chatthread.listchatmessages
 name: List Chat Messages
 service: Communication
 groupName: Chat Thread
-apiVersion: 2020-11-01-preview3
+apiVersion: 2021-03-07
 summary: Gets a list of messages from a thread.
 produces:
 - application/json
 paths:
-- content: GET {endpoint}/chat/threads/{chatThreadId}/messages?api-version=2020-11-01-preview3
-- content: GET {endpoint}/chat/threads/{chatThreadId}/messages?maxPageSize={maxPageSize}&startTime={startTime}&api-version=2020-11-01-preview3
+- content: GET {endpoint}/chat/threads/{chatThreadId}/messages?api-version=2021-03-07
+- content: GET {endpoint}/chat/threads/{chatThreadId}/messages?maxPageSize={maxPageSize}&startTime={startTime}&api-version=2021-03-07
   isOptional: true
 uriParameters:
 - name: endpoint
@@ -86,14 +86,6 @@ definitions:
     description: If there are more chat messages that can be retrieved, the next link will be populated.
     types:
     - uid: string
-- name: CommunicationErrorResponse
-  description: The Communication Services error.
-  kind: object
-  properties:
-  - name: error
-    description: The Communication Services error.
-    types:
-    - uid: CommunicationError
 - name: ChatMessage
   description: Chat message.
   kind: object
@@ -126,10 +118,10 @@ definitions:
     description: 'The timestamp when the chat message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.'
     types:
     - uid: string
-  - name: senderId
-    description: The id of the chat message sender.
+  - name: senderCommunicationIdentifier
+    description: ''
     types:
-    - uid: string
+    - uid: CommunicationIdentifierModel
   - name: deletedOn
     description: 'The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.'
     types:
@@ -138,34 +130,6 @@ definitions:
     description: 'The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.'
     types:
     - uid: string
-- name: CommunicationError
-  description: The Communication Services error.
-  kind: object
-  properties:
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-  - name: target
-    isReadyOnly: true
-    description: The error target.
-    types:
-    - uid: string
-  - name: details
-    isReadyOnly: true
-    description: Further details about specific errors that led to this error.
-    types:
-    - uid: CommunicationError
-      isArray: true
-  - name: innererror
-    isReadyOnly: true
-    description: The inner error if any.
-    types:
-    - uid: CommunicationError
 - name: ChatMessageType
   description: The chat message type.
   kind: enum
@@ -202,18 +166,18 @@ definitions:
     types:
     - uid: ChatParticipant
       isArray: true
-  - name: initiator
-    description: Chat message content for messages of types participantAdded or participantRemoved.
+  - name: initiatorCommunicationIdentifier
+    description: ''
     types:
-    - uid: string
+    - uid: CommunicationIdentifierModel
 - name: ChatParticipant
   description: A participant of the chat thread.
   kind: object
   properties:
-  - name: id
-    description: The id of the chat participant.
+  - name: communicationIdentifier
+    description: ''
     types:
-    - uid: string
+    - uid: CommunicationIdentifierModel
   - name: displayName
     description: Display name for the chat participant.
     types:
@@ -225,7 +189,7 @@ definitions:
 examples:
 - name: Get messages with pagination (max page size)
   request:
-    uri: GET https://contoso.westus.communications.azure.com/chat/threads/19:453dafb77b26481ea2e73bcada0324af@thread.v2/messages?maxPageSize=5&api-version=2020-11-01-preview3
+    uri: GET https://contoso.westus.communications.azure.com/chat/threads/19:453dafb77b26481ea2e73bcada0324af@thread.v2/messages?maxPageSize=5&api-version=2021-03-07
   responses:
   - statusCode: "200"
     body: >-
@@ -241,7 +205,12 @@ examples:
             },
             "senderDisplayName": "Jane",
             "createdOn": "2020-06-25T17:44:37.6830000Z",
-            "senderId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+            "senderCommunicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+              }
+            }
           },
           {
             "id": "1593107077683",
@@ -253,7 +222,12 @@ examples:
             },
             "senderDisplayName": "Jane",
             "createdOn": "2020-06-25T17:44:37.6830000Z",
-            "senderId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+            "senderCommunicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+              }
+            }
           },
           {
             "id": "1593107046498",
@@ -265,7 +239,12 @@ examples:
             },
             "senderDisplayName": "Jane",
             "createdOn": "2020-06-25T17:44:06.4980000Z",
-            "senderId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+            "senderCommunicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+              }
+            }
           },
           {
             "id": "1593106976785",
@@ -273,7 +252,12 @@ examples:
             "sequenceId": "2",
             "version": "1593106976785",
             "content": {
-              "initiator": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+              "initiatorCommunicationIdentifier": {
+                "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+                "communicationUser": {
+                  "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+                }
+              },
               "topic": "Lunch"
             },
             "createdOn": "2020-06-25T17:42:56.7850000Z"
@@ -284,23 +268,43 @@ examples:
             "version": "1593106976753",
             "sequenceId": "1",
             "content": {
-              "initiator": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
+              "initiatorCommunicationIdentifier": {
+                "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+                "communicationUser": {
+                  "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+                }
+              },
               "participants": [
                 {
-                  "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+                  "communicationIdentifier": {
+                    "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+                    "communicationUser": {
+                      "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+                    }
+                  }
                 },
                 {
-                  "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c"
+                  "communicationIdentifier": {
+                    "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
+                    "communicationUser": {
+                      "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c"
+                    }
+                  }
                 },
                 {
-                  "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d"
+                  "communicationIdentifier": {
+                    "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d",
+                    "communicationUser": {
+                      "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d"
+                    }
+                  }
                 }
               ]
             },
             "createdOn": "2020-06-25T17:42:56.7530000Z"
           }
         ],
-        "nextLink": "https://contoso.westus.communications.azure.com/chat/threads/19:453dafb77b26481ea2e73bcada0324af@thread.v2/messages?syncState=3e4700000031393a756e6930315f7a626e68336e74326466756666657a6333736f7837646f67377766686b36793571653272776c6e66686c68647a69726968647071407468726561642e763201451fe6e77201000004357fea72010000&startTime=0&maxPageSize=5&api-version=2020-11-01-preview3"
+        "nextLink": "https://contoso.westus.communications.azure.com/chat/threads/19:453dafb77b26481ea2e73bcada0324af@thread.v2/messages?syncState=3e4700000031393a756e6930315f7a626e68336e74326466756666657a6333736f7837646f67377766686b36793571653272776c6e66686c68647a69726968647071407468726561642e763201451fe6e77201000004357fea72010000&startTime=0&maxPageSize=5&api-version=2021-03-07"
       }
   - statusCode: "401"
     body: >-
