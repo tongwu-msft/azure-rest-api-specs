@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.compute.diskaccesses.createorupdate
-name: Create Or Update
+uid: management.azure.com.compute.diskaccesses.getaprivateendpointconnection
+name: Get A Private Endpoint Connection
 service: Compute
 groupName: Disk Accesses
 apiVersion: 2020-12-01
-summary: Creates or updates a disk access resource
+summary: Gets information about a private endpoint connection under a disk access resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}?api-version=2020-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2020-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,6 +30,12 @@ uriParameters:
   description: The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
   types:
   - uid: string
+- name: privateEndpointConnectionName
+  in: path
+  isRequired: true
+  description: The name of the private endpoint connection
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -40,33 +46,11 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: DiskAccess
-- name: 202 Accepted
-  description: Accepted
-  types:
-  - uid: DiskAccess
+  - uid: PrivateEndpointConnection
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
-requestBody:
-- name: default
-  parameters:
-  - name: location
-    in: body
-    isRequired: true
-    description: Resource location
-    types:
-    - uid: string
-  - name: tags
-    in: body
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 requestHeader: []
 definitions:
 - name: PrivateEndpointConnection
@@ -102,53 +86,6 @@ definitions:
     description: The provisioning state of the private endpoint connection resource.
     types:
     - uid: PrivateEndpointConnectionProvisioningState
-- name: DiskAccess
-  description: disk access resource.
-  kind: object
-  properties:
-  - name: properties.privateEndpointConnections
-    isReadyOnly: true
-    description: A readonly collection of private endpoint connections created on the disk. Currently only one endpoint connection is supported.
-    types:
-    - uid: PrivateEndpointConnection
-      isArray: true
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The disk access resource provisioning state.
-    types:
-    - uid: string
-  - name: properties.timeCreated
-    isReadyOnly: true
-    description: The time when the disk access was created.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: CloudError
   description: An error response from the Compute service.
   kind: object
@@ -265,31 +202,26 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Create a disk access resource.
+- name: Get information about a private endpoint connection under a disk access resource.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/myDiskAccess?api-version=2020-12-01
-    body: >-
-      {
-        "location": "West US"
-      }
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/myDiskAccess/privateEndpointConnections/myPrivateEndpointConnection?api-version=2020-12-01
   responses:
-  - statusCode: "202"
-    body: >-
-      {
-        "name": "myDiskAccess",
-        "location": "West US",
-        "type": "Microsoft.Compute/diskAccesses"
-      }
   - statusCode: "200"
     body: >-
       {
-        "name": "myDiskAccess",
-        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourcegroup/providers/Microsoft.Compute/diskAccesses/myDiskAccess",
-        "type": "Microsoft.Compute/diskAccesses",
-        "location": "West US",
+        "name": "myPrivateEndpointConnection",
+        "type": "Microsoft.Compute/diskAccesses/PrivateEndpointConnections",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/myDiskAccess/privateEndpoinConnections/myPrivateEndpointConnection",
         "properties": {
           "provisioningState": "Succeeded",
-          "timeCreated": "2020-05-01T04:41:35.079872+00:00"
+          "privateEndpoint": {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/privateEndpoints/myPrivateEndpoint"
+          },
+          "privateLinkServiceConnectionState": {
+            "actionsRequired": "None",
+            "description": "Auto-Approved",
+            "status": "Approved"
+          }
         }
       }
 security:

@@ -3,14 +3,14 @@ uid: management.azure.com.compute.snapshots.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Snapshots
-apiVersion: 2020-06-30
+apiVersion: 2020-12-01
 summary: Creates or updates a snapshot.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}?api-version=2020-06-30
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}?api-version=2020-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -50,9 +50,14 @@ requestBody:
   parameters:
   - name: sku
     in: body
-    description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS.
+    description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
     types:
     - uid: SnapshotSku
+  - name: extendedLocation
+    in: body
+    description: The extended location where the snapshot will be created. Extended location cannot be changed.
+    types:
+    - uid: ExtendedLocation
   - name: properties.osType
     in: body
     description: The Operating System type.
@@ -63,6 +68,11 @@ requestBody:
     description: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
     types:
     - uid: HyperVGeneration
+  - name: properties.purchasePlan
+    in: body
+    description: Purchase plan information for the image from which the source disk for the snapshot was originally created.
+    types:
+    - uid: PurchasePlan
   - name: properties.creationData
     in: body
     isRequired: true
@@ -99,6 +109,11 @@ requestBody:
     description: ARM id of the DiskAccess resource for using private endpoints on disks.
     types:
     - uid: string
+  - name: properties.supportsHibernation
+    in: body
+    description: Indicates the OS on a snapshot supports hibernation.
+    types:
+    - uid: boolean
   - name: location
     in: body
     isRequired: true
@@ -117,7 +132,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: SnapshotSku
-  description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS.
+  description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
   kind: object
   properties:
   - name: name
@@ -127,6 +142,38 @@ definitions:
   - name: tier
     isReadyOnly: true
     description: The sku tier.
+    types:
+    - uid: string
+- name: ExtendedLocation
+  description: The complex type of the extended location.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
+- name: PurchasePlan
+  description: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+  kind: object
+  properties:
+  - name: name
+    description: The plan ID.
+    types:
+    - uid: string
+  - name: publisher
+    description: The publisher ID.
+    types:
+    - uid: string
+  - name: product
+    description: Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
+    types:
+    - uid: string
+  - name: promotionCode
+    description: The Offer Promotion Code.
     types:
     - uid: string
 - name: CreationData
@@ -209,9 +256,13 @@ definitions:
     types:
     - uid: string
   - name: sku
-    description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS.
+    description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
     types:
     - uid: SnapshotSku
+  - name: extendedLocation
+    description: The extended location where the snapshot will be created. Extended location cannot be changed.
+    types:
+    - uid: ExtendedLocation
   - name: properties.timeCreated
     isReadyOnly: true
     description: The time when the snapshot was created.
@@ -225,6 +276,10 @@ definitions:
     description: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
     types:
     - uid: HyperVGeneration
+  - name: properties.purchasePlan
+    description: Purchase plan information for the image from which the source disk for the snapshot was originally created.
+    types:
+    - uid: PurchasePlan
   - name: properties.creationData
     description: Disk source information. CreationData information cannot be changed after the disk has been created.
     types:
@@ -273,6 +328,10 @@ definitions:
     description: ARM id of the DiskAccess resource for using private endpoints on disks.
     types:
     - uid: string
+  - name: properties.supportsHibernation
+    description: Indicates the OS on a snapshot supports hibernation.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -314,6 +373,13 @@ definitions:
     - uid: string
   - name: Standard_ZRS
     description: Standard zone redundant storage
+    types:
+    - uid: string
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
     types:
     - uid: string
 - name: DiskCreateOption
@@ -487,7 +553,7 @@ definitions:
 examples:
 - name: Create a snapshot from an existing snapshot in the same or a different subscription.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2?api-version=2020-06-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2?api-version=2020-12-01
     body: >-
       {
         "location": "West US",
@@ -527,7 +593,7 @@ examples:
       }
 - name: Create a snapshot by importing an unmanaged blob from the same subscription.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1?api-version=2020-06-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1?api-version=2020-12-01
     body: >-
       {
         "location": "West US",
@@ -567,7 +633,7 @@ examples:
       }
 - name: Create a snapshot by importing an unmanaged blob from a different subscription.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1?api-version=2020-06-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1?api-version=2020-12-01
     body: >-
       {
         "location": "West US",
