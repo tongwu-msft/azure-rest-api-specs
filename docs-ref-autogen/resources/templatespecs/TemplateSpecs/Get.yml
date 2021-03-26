@@ -1,16 +1,18 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.resources.templatespecversions.get
+uid: management.azure.com.resources.templatespecs.templatespecs.get
 name: Get
 service: Resource Management
-groupName: Template Spec Versions
+groupName: Template Specs
 apiVersion: 2019-06-01-preview
-summary: Gets a Template Spec version from a specific Template Spec.
+summary: Gets a Template Spec with a given name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/templateSpecs/{templateSpecName}/versions/{templateSpecVersion}?api-version=2019-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/templateSpecs/{templateSpecName}?api-version=2019-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/templateSpecs/{templateSpecName}?$expand=versions&api-version=2019-06-01-preview
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -32,13 +34,11 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[-\w\._\(\)]+$
-- name: templateSpecVersion
-  in: path
-  isRequired: true
-  description: The version of the Template Spec.
+- name: $expand
+  in: query
+  description: Allows for expansion of additional Template Spec details in the response. Optional.
   types:
-  - uid: string
-  pattern: ^[-\w\._\(\)]+$
+  - uid: TemplateSpecExpandKind
 - name: api-version
   in: query
   isRequired: true
@@ -47,21 +47,29 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK - Returns information about the Template Spec version.
+  description: OK - Returns information about the Template Spec.
   types:
-  - uid: TemplateSpecVersion
+  - uid: TemplateSpec
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: TemplateSpecsError
 requestHeader: []
 definitions:
-- name: TemplateSpecVersion
-  description: Template Spec Version object.
+- name: TemplateSpecExpandKind
+  description: Allows for expansion of additional Template Spec details in the response. Optional.
+  kind: enum
+  properties:
+  - name: versions
+    description: Includes version information with the Template Spec.
+    types:
+    - uid: string
+- name: TemplateSpec
+  description: Template Spec object.
   kind: object
   properties:
   - name: location
-    description: The location of the Template Spec Version. It must match the location of the parent Template Spec.
+    description: The location of the Template Spec. It cannot be changed after Template Spec creation. It must be one of the supported Azure locations.
     types:
     - uid: string
   - name: tags
@@ -72,20 +80,23 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: properties.artifacts
-    description: An array of Template Spec artifacts.
-    types:
-    - uid: TemplateSpecTemplateArtifact
-      isArray: true
-    typesTitle: TemplateSpecArtifact[]
   - name: properties.description
-    description: Template Spec version description.
+    description: Template Spec description.
     types:
     - uid: string
-  - name: properties.template
-    description: The Azure Resource Manager template content.
+  - name: properties.displayName
+    description: Template Spec display name.
+    types:
+    - uid: string
+  - name: properties.versions
+    isReadyOnly: true
+    description: High-level information about the versions within this Template Spec. The keys are the version names. Only populated if the $expand query parameter is set to 'versions'.
     types:
     - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: TemplateSpecVersionInfo
   - name: id
     isReadyOnly: true
     description: String Id used to locate any resource on Azure.
@@ -114,6 +125,25 @@ definitions:
     description: "Error Response  \nCommon error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.)"
     types:
     - uid: ErrorResponse
+- name: TemplateSpecVersionInfo
+  description: High-level information about a Template Spec version.
+  kind: object
+  properties:
+  - name: description
+    isReadyOnly: true
+    description: Template Spec version description.
+    types:
+    - uid: string
+  - name: timeCreated
+    isReadyOnly: true
+    description: The timestamp of when the version was created.
+    types:
+    - uid: string
+  - name: timeModified
+    isReadyOnly: true
+    description: The timestamp of when the version was last modified.
+    types:
+    - uid: string
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -173,23 +203,6 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: TemplateSpecTemplateArtifact
-  description: Represents a Template Spec artifact containing an embedded Azure Resource Manager template.
-  kind: object
-  properties:
-  - name: template
-    description: The Azure Resource Manager template.
-    types:
-    - uid: object
-  - name: path
-    description: A filesystem safe relative path of the artifact.
-    types:
-    - uid: string
-  - name: kind
-    description: The kind of artifact.
-    types:
-    - uid: template
-    typesTitle: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -221,16 +234,16 @@ definitions:
     types:
     - uid: object
 examples:
-- name: TemplateSpecVersionsGet
+- name: TemplateSpecsGet
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/simpleTemplateSpec/versions/v1.0?api-version=2019-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/simpleTemplateSpec?$expand=versions&api-version=2019-06-01-preview
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/simpleTemplateSpec/versions/v1.0",
-        "type": "Microsoft.Resources/templateSpecs/versions",
-        "name": "v1.0",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/simpleTemplateSpec",
+        "type": "Microsoft.Resources/templateSpecs",
+        "name": "simpleTemplateSpec",
         "location": "eastus",
         "systemData": {
           "createdBy": "string",
@@ -241,13 +254,7 @@ examples:
           "lastModifiedAt": "2020-02-02T02:03:01.1974346Z"
         },
         "properties": {
-          "description": "This is version v1.0 of our template content",
-          "template": {
-            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-            "contentVersion": "1.0.0.0",
-            "parameters": {},
-            "resources": []
-          }
+          "description": "A very simple Template Spec"
         }
       }
 security:
