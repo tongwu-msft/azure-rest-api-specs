@@ -4,7 +4,7 @@ titleSuffix: Azure Storage
 description: Overview of block blobs, append blobs, and page blobs.
 author: pemari-msft
 
-ms.date: 06/30/2020
+ms.date: 03/27/2021
 ms.service: storage
 ms.topic: reference
 ms.author: pemari

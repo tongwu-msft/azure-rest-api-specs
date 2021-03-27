@@ -3,7 +3,7 @@ title: Put Block (REST API) - Azure Storage
 description: The Put Block operation creates a new block to be committed as part of a blob. 
 author: pemari-msft
 
-ms.date: 07/06/2020
+ms.date: 03/27/2021
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
