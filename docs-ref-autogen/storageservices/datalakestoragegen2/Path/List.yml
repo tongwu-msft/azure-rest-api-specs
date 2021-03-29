@@ -1,15 +1,15 @@
 ### YamlMime:RESTOperation
-uid: storageservices.datalakestoragegen2.filesystem.getproperties
-name: Get Properties
+uid: storageservices.datalakestoragegen2.path.list
+name: List
 service: Storage Services
-groupName: Filesystem
+groupName: Path
 apiVersion: 2019-12-12
-summary: "Get Filesystem Properties.  \nAll system and user-defined filesystem properties are specified in the response headers."
+summary: "List Paths  \nList paths and their properties in given filesystem."
 produces:
 - application/json
 paths:
-- content: HEAD https://{accountName}.{dnsSuffix}/{filesystem}?resource=filesystem
-- content: HEAD https://{accountName}.{dnsSuffix}/{filesystem}?resource=filesystem&timeout={timeout}
+- content: GET https://{accountName}.{dnsSuffix}/{filesystem}?recursive={recursive}&resource=filesystem
+- content: GET https://{accountName}.{dnsSuffix}/{filesystem}?directory={directory}&recursive={recursive}&continuation={continuation}&maxResults={maxResults}&upn={upn}&resource=filesystem&timeout={timeout}
   isOptional: true
 uriParameters:
 - name: accountName
@@ -33,6 +33,33 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[$a-z0-9](?!.*--)[-a-z0-9]{1,61}[a-z0-9]$
+- name: directory
+  in: query
+  description: Filters results to paths within the specified directory. An error occurs if the directory does not exist.
+  types:
+  - uid: string
+- name: recursive
+  in: query
+  isRequired: true
+  description: If "true", all paths are listed; otherwise, only paths at the root of the filesystem are listed.  If "directory" is specified, the list will only include paths that share the same root.
+  types:
+  - uid: boolean
+- name: continuation
+  in: query
+  description: The number of paths returned with each invocation is limited. If the number of paths to be returned exceeds this limit, a continuation token is returned in the response header x-ms-continuation. When a continuation token is  returned in the response, it must be specified in a subsequent invocation of the list operation to continue listing the paths.
+  types:
+  - uid: string
+- name: maxResults
+  in: query
+  description: An optional value that specifies the maximum number of items to return. If omitted or greater than 5,000, the response will include up to 5,000 items.
+  types:
+  - uid: integer
+  format: int32
+- name: upn
+  in: query
+  description: Optional. Valid only when Hierarchical Namespace is enabled for the account. If "true", the user identity values returned in the owner and group fields of each list entry will be transformed from Azure Active Directory Object IDs to User Principal Names.  If "false", the values will be returned as Azure Active Directory Object IDs. The default value is false. Note that group and application Object IDs are not translated because they do not have unique friendly names.
+  types:
+  - uid: boolean
 - name: resource
   in: query
   isRequired: true
@@ -58,11 +85,11 @@ responses:
     value: string
   - name: x-ms-version
     value: string
-  - name: x-ms-properties
-    value: string
-  - name: x-ms-namespace-enabled
+  - name: x-ms-continuation
     value: string
   description: Ok
+  types:
+  - uid: PathList
 - name: Other Status Codes
   headers:
   - name: x-ms-request-id
@@ -222,6 +249,14 @@ definitions:
   - name: filesystem
     types:
     - uid: string
+- name: PathList
+  kind: object
+  properties:
+  - name: paths
+    description: ''
+    types:
+    - uid: Path
+      isArray: true
 - name: DataLakeStorageError
   kind: object
   properties:
@@ -229,6 +264,41 @@ definitions:
     description: The service error response object.
     types:
     - uid: Error
+- name: Path
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: isDirectory
+    description: ''
+    types:
+    - uid: boolean
+  - name: lastModified
+    description: ''
+    types:
+    - uid: string
+  - name: eTag
+    description: ''
+    types:
+    - uid: string
+  - name: contentLength
+    description: ''
+    types:
+    - uid: integer
+  - name: owner
+    description: ''
+    types:
+    - uid: string
+  - name: group
+    description: ''
+    types:
+    - uid: string
+  - name: permissions
+    description: ''
+    types:
+    - uid: string
 - name: Error
   description: The service error response object.
   kind: object
