@@ -3,12 +3,15 @@ uid: communication.chat.chatthread.removechatparticipant
 name: Remove Chat Participant
 service: Communication
 groupName: Chat Thread
-apiVersion: 2020-11-01-preview3
+apiVersion: 2021-03-07
 summary: Remove a participant from a thread.
+consumes:
+- application/json
+- application/merge-patch+json
 produces:
 - application/json
 paths:
-- content: DELETE {endpoint}/chat/threads/{chatThreadId}/participants/{chatParticipantId}?api-version=2020-11-01-preview3
+- content: POST {endpoint}/chat/threads/{chatThreadId}/participants/:remove?api-version=2021-03-07
 uriParameters:
 - name: endpoint
   in: path
@@ -21,12 +24,6 @@ uriParameters:
   in: path
   isRequired: true
   description: Thread id to remove the participant from.
-  types:
-  - uid: string
-- name: chatParticipantId
-  in: path
-  isRequired: true
-  description: Id of the thread participant to remove from the thread.
   types:
   - uid: string
 - name: api-version
@@ -54,6 +51,14 @@ responses:
   description: Service unavailable.
   types:
   - uid: CommunicationErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: participantCommunicationIdentifier
+    in: body
+    description: Id of the thread participant to remove from the thread.
+    types:
+    - uid: CommunicationIdentifierModel
 requestHeader:
 - name: Authorization
   in: header
@@ -61,47 +66,18 @@ requestHeader:
   description: An ACS (Azure Communication Services) user access token.
   types:
   - uid: string
-definitions:
-- name: CommunicationErrorResponse
-  description: The Communication Services error.
-  kind: object
-  properties:
-  - name: error
-    description: The Communication Services error.
-    types:
-    - uid: CommunicationError
-- name: CommunicationError
-  description: The Communication Services error.
-  kind: object
-  properties:
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-  - name: target
-    isReadyOnly: true
-    description: The error target.
-    types:
-    - uid: string
-  - name: details
-    isReadyOnly: true
-    description: Further details about specific errors that led to this error.
-    types:
-    - uid: CommunicationError
-      isArray: true
-  - name: innererror
-    isReadyOnly: true
-    description: The inner error if any.
-    types:
-    - uid: CommunicationError
+definitions: []
 examples:
 - name: Remove participant
   request:
-    uri: DELETE https://contoso.westus.communications.azure.com/chat/threads/19:f2167429acf6482880c6b7790a9086c1@thread.v2/participants/8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a?api-version=2020-11-01-preview3
+    uri: POST https://contoso.westus.communications.azure.com/chat/threads/19:f2167429acf6482880c6b7790a9086c1@thread.v2/participants/:remove?api-version=2021-03-07
+    body: >-
+      {
+        "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+        "communicationUser": {
+          "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+        }
+      }
   responses:
   - statusCode: "204"
   - statusCode: "401"

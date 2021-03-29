@@ -5451,13 +5451,13 @@
 ##### [Overview](communication/chat/Chat.yml)
 ##### [Create Chat Thread](communication/chat/Chat/CreateChatThread.yml)
 ##### [Delete Chat Thread](communication/chat/Chat/DeleteChatThread.yml)
-##### [Get Chat Thread](communication/chat/Chat/GetChatThread.yml)
 ##### [List Chat Threads](communication/chat/Chat/ListChatThreads.yml)
 #### Chat Thread
 ##### [Overview](communication/chat/ChatThread.yml)
 ##### [Add Chat Participants](communication/chat/ChatThread/AddChatParticipants.yml)
 ##### [Delete Chat Message](communication/chat/ChatThread/DeleteChatMessage.yml)
 ##### [Get Chat Message](communication/chat/ChatThread/GetChatMessage.yml)
+##### [Get Chat Thread Properties](communication/chat/ChatThread/GetChatThreadProperties.yml)
 ##### [List Chat Messages](communication/chat/ChatThread/ListChatMessages.yml)
 ##### [List Chat Participants](communication/chat/ChatThread/ListChatParticipants.yml)
 ##### [List Chat Read Receipts](communication/chat/ChatThread/ListChatReadReceipts.yml)
@@ -5466,7 +5466,7 @@
 ##### [Send Chat Read Receipt](communication/chat/ChatThread/SendChatReadReceipt.yml)
 ##### [Send Typing Notification](communication/chat/ChatThread/SendTypingNotification.yml)
 ##### [Update Chat Message](communication/chat/ChatThread/UpdateChatMessage.yml)
-##### [Update Chat Thread](communication/chat/ChatThread/UpdateChatThread.yml)
+##### [Update Chat Thread Properties](communication/chat/ChatThread/UpdateChatThreadProperties.yml)
 # Compute
 ## [Overview](../docs-ref-conceptual/compute/index.md)
 ## Cloud Services (classic)
