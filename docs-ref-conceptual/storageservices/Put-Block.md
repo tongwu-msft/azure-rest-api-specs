@@ -3,7 +3,7 @@ title: Put Block (REST API) - Azure Storage
 description: The Put Block operation creates a new block to be committed as part of a blob. 
 author: pemari-msft
 
-ms.date: 07/06/2020
+ms.date: 03/27/2021
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -43,7 +43,7 @@ The `Put Block` operation creates a new block to be committed as part of a blob.
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. See [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md) for more information.|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`Content-Length`|Required. The length of the block content in bytes. The block must be less than or equal to 4000 MiB in size for version 2019-12-12 and later (Preview). See the Remarks for limits in older versions.<br /><br />When the length is not provided, the operation will fail with the status code 411 (Length Required).|  
+|`Content-Length`|Required. The length of the block content in bytes. The block must be less than or equal to 4000 MiB in size for version 2019-12-12 and later. See the Remarks for limits in older versions.<br /><br />When the length is not provided, the operation will fail with the status code 411 (Length Required).|  
 |`Content-MD5`|Optional. An MD5 hash of the block content. This hash is used to verify the integrity of the block during transport. When this header is specified, the storage service compares the hash of the content that has arrived with this header value.<br /><br /> Note that this MD5 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).|  
 |`x-ms-content-crc64`|Optional. A CRC64 hash of the block content. This hash is used to verify the integrity of the block during transport. When this header is specified, the storage service compares the hash of the content that has arrived with this header value.<br /><br /> Note that this CRC64 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> If both Content-MD5 and x-ms-content-crc64 headers are present, the request will fail with a 400 (Bad Request).<br /><br />This header is supported in versions 2019-02-02 or later.|  
 |`x-ms-encryption-scope`|Optional. Indicates the encryption scope to use to encrypt the request contents. This header is supported in versions 2019-02-02 or later.|  
@@ -116,7 +116,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
  This operation can be called by the account owner and by anyone with a Shared Access Signature that has permission to write to this blob or its container.  
   
 ## Remarks  
- `Put Block` uploads a block for future inclusion in a block blob. A block blob can include a maximum of 50,000 blocks. Each block can be a different size, up to a maximum of 4000 MiB for version 2019-12-12 and later (Preview), 100 MiB for version 2016-05-31 and later, and 4 MiB for older versions. The maximum size of a block blob is therefore 190.7 TiB (4000 MiB X 50,000 blocks) for version 2019-12-12 and later (Preview), 4.75 TiB (100 MiB X 50,000 blocks) for version 2016-05-31 and later, and 195 GiB (4 MiB X 50,000 blocks) for all older versions. 
+ `Put Block` uploads a block for future inclusion in a block blob. A block blob can include a maximum of 50,000 blocks. Each block can be a different size, up to a maximum of 4000 MiB for version 2019-12-12 and later, 100 MiB for version 2016-05-31 and later, and 4 MiB for older versions. The maximum size of a block blob is therefore 190.7 TiB (4000 MiB X 50,000 blocks) for version 2019-12-12 and later, 4.75 TiB (100 MiB X 50,000 blocks) for version 2016-05-31 and later, and 195 GiB (4 MiB X 50,000 blocks) for all older versions. 
 
  A blob can have a maximum of 100,000 uncommitted blocks at any given time. If this maximum is exceeded, the service returns status code 409 (RequestEntityTooLargeBlockCountExceedsLimit).
   
@@ -134,7 +134,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
  For a given blob, all block IDs must be the same length. If a block is uploaded with a block ID of a different length than the block IDs for any existing uncommitted blocks, the service returns error response code 400 (Bad Request).  
   
- If you attempt to upload a block that is larger than 4000 MiB for version 2019-12-12 and later (Preview), larger than 100 MiB for version 2016-05-31 and later, and larger than 4 MiB for older versions, the service returns status code 413 (Request Entity Too Large). The service also returns additional information about the error in the response, including the maximum block size permitted in bytes.  
+ If you attempt to upload a block that is larger than 4000 MiB for version 2019-12-12 and later, larger than 100 MiB for version 2016-05-31 and later, and larger than 4 MiB for older versions, the service returns status code 413 (Request Entity Too Large). The service also returns additional information about the error in the response, including the maximum block size permitted in bytes.  
   
  Calling `Put Block` does not update the last modified time of an existing blob.  
   
