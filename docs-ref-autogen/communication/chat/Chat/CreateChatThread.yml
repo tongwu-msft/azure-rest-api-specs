@@ -3,14 +3,14 @@ uid: communication.chat.chat.createchatthread
 name: Create Chat Thread
 service: Communication
 groupName: Chat
-apiVersion: 2020-11-01-preview3
+apiVersion: 2021-03-07
 summary: Creates a chat thread.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {endpoint}/chat/threads?api-version=2020-11-01-preview3
+- content: POST {endpoint}/chat/threads?api-version=2021-03-07
 uriParameters:
 - name: endpoint
   in: path
@@ -57,7 +57,6 @@ requestBody:
     - uid: string
   - name: participants
     in: body
-    isRequired: true
     description: Participants to be added to the chat thread.
     types:
     - uid: ChatParticipant
@@ -69,9 +68,9 @@ requestHeader:
   description: An ACS (Azure Communication Services) user access token.
   types:
   - uid: string
-- name: repeatability-Request-ID
+- name: repeatability-request-id
   in: header
-  description: If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-ID and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-ID is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs.
+  description: If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs.
   types:
   - uid: string
 definitions:
@@ -79,10 +78,10 @@ definitions:
   description: A participant of the chat thread.
   kind: object
   properties:
-  - name: id
-    description: The id of the chat participant.
+  - name: communicationIdentifier
+    description: ''
     types:
-    - uid: string
+    - uid: CommunicationIdentifierModel
   - name: displayName
     description: Display name for the chat participant.
     types:
@@ -98,19 +97,13 @@ definitions:
   - name: chatThread
     description: Chat thread.
     types:
-    - uid: ChatThread
-  - name: errors
-    description: Errors encountered during the creation of the chat thread.
-    types:
-    - uid: CreateChatThreadErrors
-- name: CommunicationErrorResponse
-  description: The Communication Services error.
-  kind: object
-  properties:
-  - name: error
-    description: The Communication Services error.
+    - uid: ChatThreadProperties
+  - name: invalidParticipants
+    isReadyOnly: true
+    description: The participants that failed to be added to the chat thread.
     types:
     - uid: CommunicationError
+      isArray: true
 - name: CreateChatThreadRequest
   description: Request payload for creating a chat thread.
   kind: object
@@ -124,7 +117,7 @@ definitions:
     types:
     - uid: ChatParticipant
       isArray: true
-- name: ChatThread
+- name: ChatThreadProperties
   description: Chat thread.
   kind: object
   properties:
@@ -140,74 +133,56 @@ definitions:
     description: 'The timestamp when the chat thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.'
     types:
     - uid: string
-  - name: createdBy
-    description: Id of the chat thread owner.
+  - name: createdByCommunicationIdentifier
+    description: ''
     types:
-    - uid: string
+    - uid: CommunicationIdentifierModel
   - name: deletedOn
     description: 'The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.'
     types:
     - uid: string
-- name: CreateChatThreadErrors
-  description: Errors encountered during the creation of the chat thread.
-  kind: object
-  properties:
-  - name: invalidParticipants
-    isReadyOnly: true
-    description: The participants that failed to be added to the chat thread.
-    types:
-    - uid: CommunicationError
-      isArray: true
-- name: CommunicationError
-  description: The Communication Services error.
-  kind: object
-  properties:
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-  - name: target
-    isReadyOnly: true
-    description: The error target.
-    types:
-    - uid: string
-  - name: details
-    isReadyOnly: true
-    description: Further details about specific errors that led to this error.
-    types:
-    - uid: CommunicationError
-      isArray: true
-  - name: innererror
-    isReadyOnly: true
-    description: The inner error if any.
-    types:
-    - uid: CommunicationError
 examples:
 - name: Create chat thread
   request:
-    uri: POST https://contoso.westus.communications.azure.com/chat/threads?api-version=2020-11-01-preview3
+    uri: POST https://contoso.westus.communications.azure.com/chat/threads?api-version=2021-03-07
     body: >-
       {
         "topic": "Lunch",
         "participants": [
           {
-            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
+            "communicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a"
+              }
+            },
             "displayName": "Jane"
           },
           {
-            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+            "communicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+              }
+            },
             "displayName": "Alex"
           },
           {
-            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
+            "communicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c"
+              }
+            },
             "displayName": "Bob"
           },
           {
-            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d",
+            "communicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d"
+              }
+            },
             "displayName": "Peter"
           }
         ]
@@ -223,22 +198,25 @@ examples:
           "id": "19:uni01_zbnh3nt2dfuffezc3sox7dog7wfhk6y5qe2rwlnfhlhdzirihdpq@thread.v2",
           "topic": "Lunch",
           "createdOn": "2020-06-06T05:55:41.6460000Z",
-          "createdBy": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
-        },
-        "errors": {
-          "invalidParticipants": [
-            {
-              "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
-              "code": "403",
-              "message": "Permissions check failed"
-            },
-            {
-              "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d",
-              "code": "404",
-              "message": "Not found"
+          "createdByCommunicationIdentifier": {
+            "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
+            "communicationUser": {
+              "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a"
             }
-          ]
-        }
+          }
+        },
+        "invalidParticipants": [
+          {
+            "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
+            "code": "403",
+            "message": "Permissions check failed"
+          },
+          {
+            "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d",
+            "code": "404",
+            "message": "Not found"
+          }
+        ]
       }
   - statusCode: "401"
     body: >-
@@ -274,25 +252,45 @@ examples:
       }
 - name: Create chat thread with repeatability request id header
   request:
-    uri: POST https://contoso.westus.communications.azure.com/chat/threads?api-version=2020-11-01-preview3
+    uri: POST https://contoso.westus.communications.azure.com/chat/threads?api-version=2021-03-07
     body: >-
       {
         "topic": "Lunch",
         "participants": [
           {
-            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
+            "communicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a"
+              }
+            },
             "displayName": "Jane"
           },
           {
-            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+            "communicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+              }
+            },
             "displayName": "Alex"
           },
           {
-            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
+            "communicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c"
+              }
+            },
             "displayName": "Bob"
           },
           {
-            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d",
+            "communicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d"
+              }
+            },
             "displayName": "Peter"
           }
         ]
@@ -308,22 +306,25 @@ examples:
           "id": "19:uni01_zbnh3nt2dfuffezc3sox7dog7wfhk6y5qe2rwlnfhlhdzirihdpq@thread.v2",
           "topic": "Lunch",
           "createdOn": "2020-06-06T05:55:41.6460000Z",
-          "createdBy": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
-        },
-        "errors": {
-          "invalidParticipants": [
-            {
-              "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
-              "code": "403",
-              "message": "Permissions check failed"
-            },
-            {
-              "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d",
-              "code": "404",
-              "message": "Not found"
+          "createdByCommunicationIdentifier": {
+            "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
+            "communicationUser": {
+              "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a"
             }
-          ]
-        }
+          }
+        },
+        "invalidParticipants": [
+          {
+            "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
+            "code": "403",
+            "message": "Permissions check failed"
+          },
+          {
+            "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10d",
+            "code": "404",
+            "message": "Not found"
+          }
+        ]
       }
   - statusCode: "401"
     body: >-

@@ -3,7 +3,7 @@ title: Put Block List (REST API) - Azure Storage
 description: The Put Block List operation writes a blob by specifying the list of block IDs that make up the blob.
 author: pemari-msft
 
-ms.date: 07/06/2020
+ms.date: 03/27/2021
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -29,7 +29,7 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
 |----------------------------|------------------|  
 |`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=blocklist`|HTTP/1.1|  
   
- Note that the storage emulator only supports blob sizes up to 2 GiB.  
+ The storage emulator only supports blob sizes up to 2 GiB.  
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
@@ -48,16 +48,16 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`Content-Length`|Required. The length of the request content in bytes. Note that this header refers to the content length of the list of blocks, not of the blob itself.|  
-|`Content-MD5`|Optional. An MD5 hash of the request content. This hash is used to verify the integrity of the request content during transport. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> Note that this header is associated with the request content, and not with the content of the blob itself.|  
-|`x-ms-content-crc64`|Optional. An crc64 hash of the request content. This hash is used to verify the integrity of the request content during transport. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> Note that this header is associated with the request content, and not with the content of the blob itself.<br /><br /> If both Content-MD5 and x-ms-content-crc64 headers are present, the request will fail with a 400 (Bad Request).<br /><br />This header is supported in versions2019-02-02 or later.|  
+|`Content-Length`|Required. The length of the request content in bytes. This header refers to the content length of the list of blocks, not of the blob itself.|  
+|`Content-MD5`|Optional. An MD5 hash of the request content. This hash is used to verify the integrity of the request content during transport. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> This header is associated with the request content, and not with the content of the blob itself.|  
+|`x-ms-content-crc64`|Optional. An crc64 hash of the request content. This hash is used to verify the integrity of the request content during transport. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> This header is associated with the request content, and not with the content of the blob itself.<br /><br /> If both Content-MD5 and x-ms-content-crc64 headers are present, the request will fail with a 400 (Bad Request).<br /><br />This header is supported in versions2019-02-02 or later.|  
 |`x-ms-blob-cache-control`|Optional. Sets the blob’s cache control. If specified, this property is stored with the blob and returned with a read request.<br /><br /> If this property is not specified with the request, then it is cleared for the blob if the request is successful.|  
 |`x-ms-blob-content-type`|Optional. Sets the blob’s content type. If specified, this property is stored with the blob and returned with a read request.<br /><br /> If the content type is not specified, then it is set to the default type, which is `application/octet-stream`.|  
 |`x-ms-blob-content-encoding`|Optional.  Sets the blob’s content encoding. If specified, this property is stored with the blob and returned with a read request.<br /><br /> If this property is not specified with the request, then it is cleared for the blob if the request is successful.|  
 |`x-ms-blob-content-language`|Optional.  Set the blob’s content language. If specified, this property is stored with the blob and returned with a read request.<br /><br /> this property is not specified with the request, then it is cleared for the blob if the request is successful.|  
-|`x-ms-blob-content-md5`|Optional. An MD5 hash of the blob content. Note that this hash is not validated, as the hashes for the individual blocks were validated when each was uploaded.<br /><br /> The [Get Blob](Get-Blob.md) operation returns the value of this header in the Content-MD5 response header.<br /><br /> If this property is not specified with the request, then it is cleared for the blob if the request is successful.|  
-|`x-ms-meta-name:value`|Optional. User-defined name-value pairs associated with the blob.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
-|`x-ms-encryption-scope`|Optional. Indicates the encryption scope to use to encrypt the blob. This must match the encryption scope used to encrypt all the blocks that are being committed. This header is supported in versions 2019-02-02 or later.|  
+|`x-ms-blob-content-md5`|Optional. An MD5 hash of the blob content. This hash is not validated, as the hashes for the individual blocks were validated when each was uploaded.<br /><br /> The [Get Blob](Get-Blob.md) operation returns the value of this header in the Content-MD5 response header.<br /><br /> If this property is not specified with the request, then it is cleared for the blob if the request is successful.|  
+|`x-ms-meta-name:value`|Optional. User-defined name-value pairs associated with the blob.<br /><br /> Beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
+|`x-ms-encryption-scope`|Optional. Indicates the encryption scope to use to encrypt the blob. This value must match the encryption scope used to encrypt all the blocks that are being committed. This header is supported in versions 2019-02-02 or later.|  
 |`x-ms-tags`|Optional. Sets the given query-string encoded tags on the blob. See the Remarks for additional information. Supported in version 2019-12-12 and newer.|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
@@ -77,7 +77,7 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 |`x-ms-encryption-algorithm: AES256`|Required. Specifies the algorithm to use for encryption. The value of this header must be `AES256`.|  
   
 ### Request Body  
- In the request body, you can specify which block list the Blob service should check for the requested block. In this way you can update an existing blob by inserting, replacing, or deleting individual blocks, rather than re-uploading the entire blob. Once you've uploaded the block or blocks that have changed, you can commit a new version of the blob by committing the new blocks together with the existing blocks that you wish to keep.  
+ In the request body, you can specify which block list the Blob service should check for the requested block. In this way you can update an existing blob by inserting, replacing, or deleting individual blocks, rather than reuploading the entire blob. Once you've uploaded the block or blocks that have changed, you can commit a new version of the blob by committing the new blocks together with the existing blocks that you wish to keep.  
   
  To update a blob, you can specify that the service should look for a block ID in the committed block list, in the uncommitted block list, or in the uncommitted block list first and then in the committed block list. To indicate which approach to use, specify the block ID within the appropriate XML element within the request body, as follows:  
   
@@ -210,11 +210,11 @@ x-ms-version-id: <DateTime>
   
  The same block ID can be specified more than one time in the list of blocks. If a block ID is specified more than one time, it will represent the range of bytes in each of those locations in the block list for the final committed blob. If a block ID appears more than once in the list, both instances of the block ID must be specified within the same block list. In other words, both instances must be specified within the `Committed` element, the `Uncommitted` element, or the `Latest` element.  
   
- With `Put Block List`, you can modify an existing blob by inserting, updating, or deleting individual blocks, without uploading the whole blob again. You can specify block IDs from both the current committed block list and the uncommitted block list to create a new blob or update the content of an existing blob. In this way you can update a blob by specifying a few new blocks from the uncommitted block list, and the rest from the committed block list, which are already part of the existing blob.  
+ With `Put Block List`, you can modify an existing blob by inserting, updating, or deleting individual blocks, without uploading the whole blob again. You can specify block IDs from both the current committed block list and the uncommitted block list to create a new blob or update the content of an existing blob. In this way, you can update a blob by specifying a few new blocks from the uncommitted block list, and the rest from the committed block list, which are already part of the existing blob.  
   
  If a block ID is specified in the `Latest` element, and the same block ID exists in both the committed and uncommitted block lists, `Put Block List` commits the block from the uncommitted block list. If the block ID exists in the committed block list but not in the uncommitted block list, then `Put Block List` commits the block from the committed block list.  
   
- Each block can be a different size, up to a maximum of 4000 MiB for version 2019-12-12 and later (Preview), 100 MiB for version 2016-05-31 and later, and 4 MiB for older versions. The maximum size of a block blob is therefore 190.7 TiB (4000 MiB X 50,000 blocks) for version 2019-12-12 and later (Preview), 4.75 TiB (100 MiB X 50,000 blocks) for version 2016-05-31 and later, and 195 GiB (4 MiB X 50,000 blocks) for all older versions. If you attempt to commit more than 50,000 blocks, the service returns status code 400 (Block List Too Long). The service also returns additional information about the error in the response, including the maximum number of blocks permitted.  
+ Each block can be a different size, up to a maximum of 4000 MiB for version 2019-12-12 and later, 100 MiB for version 2016-05-31 and later, and 4 MiB for older versions. The maximum size of a block blob is therefore 190.7 TiB (4000 MiB X 50,000 blocks) for version 2019-12-12 and later, 4.75 TiB (100 MiB X 50,000 blocks) for version 2016-05-31 and later, and 195 GiB (4 MiB X 50,000 blocks) for all older versions. If you attempt to commit more than 50,000 blocks, the service returns status code 400 (Block List Too Long). The service also returns additional information about the error in the response, including the maximum number of blocks permitted.  
   
  The maximum number of uncommitted blocks that may be associated with a blob is 100,000.  
   
@@ -224,7 +224,7 @@ x-ms-version-id: <DateTime>
   
  Any uncommitted blocks will be garbage collected if there are no successful calls to `Put Block` or `Put Block List` on the blob within a week following the last successful `Put Block` operation. If [Put Blob](Put-Blob.md) is called on the blob, any uncommitted blocks will be garbage collected.  
   
- If tags are provided in the `x-ms-tags` header, they must be query-string encoded. Tag keys and values must conform to the naming and length requirements as specified in Set Blob Tags. Further, the `x-ms-tags` header may contain up to 2kb of tags. If more tags are required, use the [Set Blob Tags](Set-Blob-Tags.md) operation.  
+ If tags are provided in the `x-ms-tags` header, they must be query-string encoded. Tag keys and values must conform to the naming and length requirements as specified in Set Blob Tags. Further, the `x-ms-tags` header may contain up to 2 kb of tags. If more tags are required, use the [Set Blob Tags](Set-Blob-Tags.md) operation.  
   
  If the blob has an active lease, the client must specify a valid lease ID on the request in order to commit the block list. If the client does not specify a lease ID, or specifies an invalid lease ID, the Blob service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the blob does not have an active lease, the Blob service also returns status code 412 (Precondition Failed). If the client specifies a lease ID on a blob that does not yet exist, the Blob service will return status code 412 (Precondition Failed) for requests made against version 2013-08-15 and later; for prior versions the Blob service will return status code 201 (Created).  
   

@@ -3,14 +3,14 @@ uid: management.azure.com.compute.disks.get
 name: Get
 service: Compute
 groupName: Disks
-apiVersion: 2020-06-30
+apiVersion: 2020-12-01
 summary: Gets information about a disk.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}?api-version=2020-06-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}?api-version=2020-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -59,7 +59,7 @@ definitions:
     - uid: string
       isArray: true
   - name: sku
-    description: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
+    description: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, or StandardSSD_ZRS.
     types:
     - uid: DiskSku
   - name: zones
@@ -67,6 +67,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: extendedLocation
+    description: The extended location where the disk will be created. Extended location cannot be changed.
+    types:
+    - uid: ExtendedLocation
   - name: properties.timeCreated
     isReadyOnly: true
     description: The time when the disk was created.
@@ -80,6 +84,10 @@ definitions:
     description: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
     types:
     - uid: HyperVGeneration
+  - name: properties.purchasePlan
+    description: 'Purchase plan information for the the image from which the OS disk was created. E.g. - {name: 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}'
+    types:
+    - uid: PurchasePlan
   - name: properties.creationData
     description: Disk source information. CreationData information cannot be changed after the disk has been created.
     types:
@@ -154,6 +162,23 @@ definitions:
     description: 'Performance tier of the disk (e.g, P4, S10) as described here: https://azure.microsoft.com/en-us/pricing/details/managed-disks/. Does not apply to Ultra disks.'
     types:
     - uid: string
+  - name: properties.burstingEnabled
+    description: Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is disabled by default. Does not apply to Ultra disks.
+    types:
+    - uid: boolean
+  - name: properties.propertyUpdatesInProgress
+    isReadyOnly: true
+    description: Properties of the disk for which update is pending.
+    types:
+    - uid: PropertyUpdatesInProgress
+  - name: properties.supportsHibernation
+    description: Indicates the OS on a disk supports hibernation.
+    types:
+    - uid: boolean
+  - name: properties.securityProfile
+    description: Contains the security related information for the resource.
+    types:
+    - uid: DiskSecurityProfile
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -182,7 +207,7 @@ definitions:
       - uid: string
       - uid: string
 - name: DiskSku
-  description: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
+  description: The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, or StandardSSD_ZRS.
   kind: object
   properties:
   - name: name
@@ -194,6 +219,18 @@ definitions:
     description: The sku tier.
     types:
     - uid: string
+- name: ExtendedLocation
+  description: The complex type of the extended location.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: OperatingSystemTypes
   description: The Operating System type.
   kind: enum
@@ -212,6 +249,26 @@ definitions:
     types:
     - uid: string
   - name: V2
+    types:
+    - uid: string
+- name: PurchasePlan
+  description: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+  kind: object
+  properties:
+  - name: name
+    description: The plan ID.
+    types:
+    - uid: string
+  - name: publisher
+    description: The publisher ID.
+    types:
+    - uid: string
+  - name: product
+    description: Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
+    types:
+    - uid: string
+  - name: promotionCode
+    description: The Offer Promotion Code.
     types:
     - uid: string
 - name: CreationData
@@ -336,6 +393,22 @@ definitions:
     description: The disk cannot be exported.
     types:
     - uid: string
+- name: PropertyUpdatesInProgress
+  description: Properties of the disk for which update is pending.
+  kind: object
+  properties:
+  - name: targetTier
+    description: The target performance tier of the disk if a tier change operation is in progress.
+    types:
+    - uid: string
+- name: DiskSecurityProfile
+  description: Contains the security related information for the resource.
+  kind: object
+  properties:
+  - name: securityType
+    description: Specifies the SecurityType of the VM. Applicable for OS disks only.
+    types:
+    - uid: DiskSecurityTypes
 - name: DiskStorageAccountTypes
   description: The sku name.
   kind: enum
@@ -354,6 +427,21 @@ definitions:
     - uid: string
   - name: UltraSSD_LRS
     description: Ultra SSD locally redundant storage. Best for IO-intensive workloads such as SAP HANA, top tier databases (for example, SQL, Oracle), and other transaction-heavy workloads.
+    types:
+    - uid: string
+  - name: Premium_ZRS
+    description: Premium SSD zone redundant storage. Best for the production workloads that need storage resiliency against zone failures.
+    types:
+    - uid: string
+  - name: StandardSSD_ZRS
+    description: Standard SSD zone redundant storage. Best for web servers, lightly used enterprise applications and dev/test that need storage resiliency against zone failures.
+    types:
+    - uid: string
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
     types:
     - uid: string
 - name: DiskCreateOption
@@ -428,6 +516,14 @@ definitions:
     description: Disk is encrypted at rest with 2 layers of encryption. One of the keys is Customer managed and the other key is Platform managed.
     types:
     - uid: string
+- name: DiskSecurityTypes
+  description: Specifies the SecurityType of the VM. Applicable for OS disks only.
+  kind: enum
+  properties:
+  - name: TrustedLaunch
+    description: Trusted Launch provides security features such as secure boot and virtual Trusted Platform Module (vTPM)
+    types:
+    - uid: string
 - name: KeyVaultAndSecretReference
   description: 'Key Vault Secret Url and vault id of the encryption key '
   kind: object
@@ -463,7 +559,7 @@ definitions:
 examples:
 - name: Get information about a managed disk.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk?api-version=2020-06-30
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk?api-version=2020-12-01
   responses:
   - statusCode: "200"
     body: >-
@@ -474,8 +570,21 @@ examples:
         },
         "properties": {
           "osType": "Windows",
+          "hyperVGeneration": "V1",
+          "purchasePlan": {
+            "name": "test_sku",
+            "publisher": "test_test_pmc2pc1",
+            "product": "marketplace_vm_test"
+          },
+          "supportsHibernation": true,
+          "securityProfile": {
+            "securityType": "TrustedLaunch"
+          },
           "creationData": {
-            "createOption": "Empty"
+            "createOption": "FromImage",
+            "imageReference": {
+              "id": "/Subscriptions/{subscription-id}/Providers/Microsoft.Compute/Locations/westus/Publishers/test_test_pmc2pc1/ArtifactTypes/VMImage/Offers/marketplace_vm_test/Skus/test_sku/Versions/1.0.0"
+            }
           },
           "diskSizeGB": 10,
           "encryptionSettingsCollection": {

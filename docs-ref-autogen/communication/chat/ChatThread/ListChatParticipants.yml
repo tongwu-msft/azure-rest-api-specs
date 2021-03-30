@@ -3,13 +3,13 @@ uid: communication.chat.chatthread.listchatparticipants
 name: List Chat Participants
 service: Communication
 groupName: Chat Thread
-apiVersion: 2020-11-01-preview3
+apiVersion: 2021-03-07
 summary: Gets the participants of a thread.
 produces:
 - application/json
 paths:
-- content: GET {endpoint}/chat/threads/{chatThreadId}/participants?api-version=2020-11-01-preview3
-- content: GET {endpoint}/chat/threads/{chatThreadId}/participants?maxPageSize={maxPageSize}&skip={skip}&api-version=2020-11-01-preview3
+- content: GET {endpoint}/chat/threads/{chatThreadId}/participants?api-version=2021-03-07
+- content: GET {endpoint}/chat/threads/{chatThreadId}/participants?maxPageSize={maxPageSize}&skip={skip}&api-version=2021-03-07
   isOptional: true
 uriParameters:
 - name: endpoint
@@ -86,22 +86,14 @@ definitions:
     description: If there are more chat participants that can be retrieved, the next link will be populated.
     types:
     - uid: string
-- name: CommunicationErrorResponse
-  description: The Communication Services error.
-  kind: object
-  properties:
-  - name: error
-    description: The Communication Services error.
-    types:
-    - uid: CommunicationError
 - name: ChatParticipant
   description: A participant of the chat thread.
   kind: object
   properties:
-  - name: id
-    description: The id of the chat participant.
+  - name: communicationIdentifier
+    description: ''
     types:
-    - uid: string
+    - uid: CommunicationIdentifierModel
   - name: displayName
     description: Display name for the chat participant.
     types:
@@ -110,55 +102,37 @@ definitions:
     description: 'Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.'
     types:
     - uid: string
-- name: CommunicationError
-  description: The Communication Services error.
-  kind: object
-  properties:
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-  - name: target
-    isReadyOnly: true
-    description: The error target.
-    types:
-    - uid: string
-  - name: details
-    isReadyOnly: true
-    description: Further details about specific errors that led to this error.
-    types:
-    - uid: CommunicationError
-      isArray: true
-  - name: innererror
-    isReadyOnly: true
-    description: The inner error if any.
-    types:
-    - uid: CommunicationError
 examples:
 - name: Get participants with pagination (max page size)
   request:
-    uri: GET https://contoso.westus.communications.azure.com/chat/threads/19:f2167429acf6482880c6b7790a9086c1@thread.v2/participants?maxPageSize=2&api-version=2020-11-01-preview3
+    uri: GET https://contoso.westus.communications.azure.com/chat/threads/19:f2167429acf6482880c6b7790a9086c1@thread.v2/participants?maxPageSize=2&api-version=2021-03-07
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
+            "communicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a"
+              }
+            },
             "displayName": "Jane",
             "shareHistoryTime": "2020-06-06T05:55:41Z"
           },
           {
-            "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+            "communicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+              }
+            },
             "displayName": "Alex",
             "shareHistoryTime": "2020-06-06T05:55:41Z"
           }
         ],
-        "nextLink": "https://contoso.westus.communications.azure.com/chat/threads/19:453dafb77b26481ea2e73bcada0324af@thread.v2/participants?skip=2&maxPageSize=2&api-version=2020-11-01-preview3"
+        "nextLink": "https://contoso.westus.communications.azure.com/chat/threads/19:453dafb77b26481ea2e73bcada0324af@thread.v2/participants?skip=2&maxPageSize=2&api-version=2021-03-07"
       }
   - statusCode: "401"
     body: >-
