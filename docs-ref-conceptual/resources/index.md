@@ -27,7 +27,7 @@ Azure Resource Manager enables you to deploy and manage the infrastructure for y
 | [Resources](xref:management.azure.com.resources.resources)                        | Provides operations to work with deployed resources. |
 | [Subscriptions](xref:management.azure.com.resources.subscriptions)                | Provides operations to view the subscriptions for your Azure Active Directory tenant. |
 | [Tags](xref:management.azure.com.resources.tags)                                  | Provides operations to apply tag names and values to resources for organizing your resources. |
-| [Template Specs](xref:management.azure.com.resources.templatespecs) | Provides operations for working with templates that you can share in your organization. |
+| [Template Specs](xref:management.azure.com.resources.templatespecs.templatespecs) | Provides operations for working with templates that you can share in your organization. |
 | [Tenants](xref:management.azure.com.resources.tenants)                            | Provides operations to view the Azure Active Directory tenants for your account. |
 
 ## See also
