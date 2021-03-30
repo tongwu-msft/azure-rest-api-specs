@@ -11269,6 +11269,9 @@
 ### [List](resourcehealth/Operations/List.yml)
 # Resource Management
 ## [Overview](../docs-ref-conceptual/resources/index.md)
+## Authorization Operations
+### [Overview](resources/AuthorizationOperations.yml)
+### [List](resources/AuthorizationOperations/List.yml)
 ## Deployment Operations
 ### [Overview](resources/DeploymentOperations.yml)
 ### [Get](resources/DeploymentOperations/Get.yml)
@@ -11338,6 +11341,37 @@
 ### [What If At Management Group Scope](resources/Deployments/WhatIfAtManagementGroupScope.yml)
 ### [What If At Subscription Scope](resources/Deployments/WhatIfAtSubscriptionScope.yml)
 ### [What If At Tenant Scope](resources/Deployments/WhatIfAtTenantScope.yml)
+## Features
+### [Overview](resources/Features.yml)
+### [Get](resources/Features/Get.yml)
+### [List](resources/Features/List.yml)
+### [List All](resources/Features/ListAll.yml)
+### [Register](resources/Features/Register.yml)
+### [Unregister](resources/Features/Unregister.yml)
+## List Operations
+### [Overview](resources/ListOperations.yml)
+### [List Operations](resources/ListOperations/ListOperations.yml)
+## Management Locks
+### [Overview](resources/ManagementLocks.yml)
+### [Create Or Update At Resource Group Level](resources/ManagementLocks/CreateOrUpdateAtResourceGroupLevel.yml)
+### [Create Or Update At Resource Level](resources/ManagementLocks/CreateOrUpdateAtResourceLevel.yml)
+### [Create Or Update At Subscription Level](resources/ManagementLocks/CreateOrUpdateAtSubscriptionLevel.yml)
+### [Create Or Update By Scope](resources/ManagementLocks/CreateOrUpdateByScope.yml)
+### [Delete At Resource Group Level](resources/ManagementLocks/DeleteAtResourceGroupLevel.yml)
+### [Delete At Resource Level](resources/ManagementLocks/DeleteAtResourceLevel.yml)
+### [Delete At Subscription Level](resources/ManagementLocks/DeleteAtSubscriptionLevel.yml)
+### [Delete By Scope](resources/ManagementLocks/DeleteByScope.yml)
+### [Get At Resource Group Level](resources/ManagementLocks/GetAtResourceGroupLevel.yml)
+### [Get At Resource Level](resources/ManagementLocks/GetAtResourceLevel.yml)
+### [Get At Subscription Level](resources/ManagementLocks/GetAtSubscriptionLevel.yml)
+### [Get By Scope](resources/ManagementLocks/GetByScope.yml)
+### [List At Resource Group Level](resources/ManagementLocks/ListAtResourceGroupLevel.yml)
+### [List At Resource Level](resources/ManagementLocks/ListAtResourceLevel.yml)
+### [List At Subscription Level](resources/ManagementLocks/ListAtSubscriptionLevel.yml)
+### [List By Scope](resources/ManagementLocks/ListByScope.yml)
+## Operations (Links)
+### [Overview](resources/Operations%20(Links).yml)
+### [List](resources/Operations%20(Links)/List.yml)
 ## Operations (Resources)
 ### [Overview](resources/Operations%20(Resources).yml)
 ### [List](resources/Operations%20(Resources)/List.yml)
@@ -11365,6 +11399,13 @@
 ### [Get](resources/ResourceGroups/Get.yml)
 ### [List](resources/ResourceGroups/List.yml)
 ### [Update](resources/ResourceGroups/Update.yml)
+## Resource Links
+### [Overview](resources/ResourceLinks.yml)
+### [Create Or Update](resources/ResourceLinks/CreateOrUpdate.yml)
+### [Delete](resources/ResourceLinks/Delete.yml)
+### [Get](resources/ResourceLinks/Get.yml)
+### [List At Source Scope](resources/ResourceLinks/ListAtSourceScope.yml)
+### [List At Subscription](resources/ResourceLinks/ListAtSubscription.yml)
 ## Resources
 ### [Overview](resources/Resources.yml)
 ### [Check Existence](resources/Resources/CheckExistence.yml)
@@ -11397,72 +11438,27 @@
 ### [Get At Scope](resources/Tags/GetAtScope.yml)
 ### [List](resources/Tags/List.yml)
 ### [Update At Scope](resources/Tags/UpdateAtScope.yml)
+## Template Spec Versions
+### [Overview](resources/TemplateSpecVersions.yml)
+### [Create Or Update](resources/TemplateSpecVersions/CreateOrUpdate.yml)
+### [Delete](resources/TemplateSpecVersions/Delete.yml)
+### [Get](resources/TemplateSpecVersions/Get.yml)
+### [List](resources/TemplateSpecVersions/List.yml)
+### [Update](resources/TemplateSpecVersions/Update.yml)
+## Template Specs
+### [Overview](resources/TemplateSpecs.yml)
+### [Create Or Update](resources/TemplateSpecs/CreateOrUpdate.yml)
+### [Delete](resources/TemplateSpecs/Delete.yml)
+### [Get](resources/TemplateSpecs/Get.yml)
+### [List By Resource Group](resources/TemplateSpecs/ListByResourceGroup.yml)
+### [List By Subscription](resources/TemplateSpecs/ListBySubscription.yml)
+### [Update](resources/TemplateSpecs/Update.yml)
 ## Tenants
 ### [Overview](resources/Tenants.yml)
 ### [List](resources/Tenants/List.yml)
 ## check Resource Name
 ### [Overview](resources/checkResourceName.yml)
 ### [check Resource Name](resources/checkResourceName/checkResourceName.yml)
-## Features
-### Features
-#### [Overview](resources/features/Features.yml)
-#### [Get](resources/features/Features/Get.yml)
-#### [List](resources/features/Features/List.yml)
-#### [List All](resources/features/Features/ListAll.yml)
-#### [Register](resources/features/Features/Register.yml)
-#### [Unregister](resources/features/Features/Unregister.yml)
-### List Operations
-#### [Overview](resources/features/ListOperations.yml)
-#### [List Operations](resources/features/ListOperations/ListOperations.yml)
-## Management Locks
-### Authorization Operations
-#### [Overview](resources/managementlocks/AuthorizationOperations.yml)
-#### [List](resources/managementlocks/AuthorizationOperations/List.yml)
-### Management Locks
-#### [Overview](resources/managementlocks/ManagementLocks.yml)
-#### [Create Or Update At Resource Group Level](resources/managementlocks/ManagementLocks/CreateOrUpdateAtResourceGroupLevel.yml)
-#### [Create Or Update At Resource Level](resources/managementlocks/ManagementLocks/CreateOrUpdateAtResourceLevel.yml)
-#### [Create Or Update At Subscription Level](resources/managementlocks/ManagementLocks/CreateOrUpdateAtSubscriptionLevel.yml)
-#### [Create Or Update By Scope](resources/managementlocks/ManagementLocks/CreateOrUpdateByScope.yml)
-#### [Delete At Resource Group Level](resources/managementlocks/ManagementLocks/DeleteAtResourceGroupLevel.yml)
-#### [Delete At Resource Level](resources/managementlocks/ManagementLocks/DeleteAtResourceLevel.yml)
-#### [Delete At Subscription Level](resources/managementlocks/ManagementLocks/DeleteAtSubscriptionLevel.yml)
-#### [Delete By Scope](resources/managementlocks/ManagementLocks/DeleteByScope.yml)
-#### [Get At Resource Group Level](resources/managementlocks/ManagementLocks/GetAtResourceGroupLevel.yml)
-#### [Get At Resource Level](resources/managementlocks/ManagementLocks/GetAtResourceLevel.yml)
-#### [Get At Subscription Level](resources/managementlocks/ManagementLocks/GetAtSubscriptionLevel.yml)
-#### [Get By Scope](resources/managementlocks/ManagementLocks/GetByScope.yml)
-#### [List At Resource Group Level](resources/managementlocks/ManagementLocks/ListAtResourceGroupLevel.yml)
-#### [List At Resource Level](resources/managementlocks/ManagementLocks/ListAtResourceLevel.yml)
-#### [List At Subscription Level](resources/managementlocks/ManagementLocks/ListAtSubscriptionLevel.yml)
-#### [List By Scope](resources/managementlocks/ManagementLocks/ListByScope.yml)
-## Resource Links
-### Operations
-#### [Overview](resources/resourcelinks/Operations.yml)
-#### [List](resources/resourcelinks/Operations/List.yml)
-### Resource Links
-#### [Overview](resources/resourcelinks/ResourceLinks.yml)
-#### [Create Or Update](resources/resourcelinks/ResourceLinks/CreateOrUpdate.yml)
-#### [Delete](resources/resourcelinks/ResourceLinks/Delete.yml)
-#### [Get](resources/resourcelinks/ResourceLinks/Get.yml)
-#### [List At Source Scope](resources/resourcelinks/ResourceLinks/ListAtSourceScope.yml)
-#### [List At Subscription](resources/resourcelinks/ResourceLinks/ListAtSubscription.yml)
-## Template Specs
-### Template Spec Versions
-#### [Overview](resources/templatespecs/TemplateSpecVersions.yml)
-#### [Create Or Update](resources/templatespecs/TemplateSpecVersions/CreateOrUpdate.yml)
-#### [Delete](resources/templatespecs/TemplateSpecVersions/Delete.yml)
-#### [Get](resources/templatespecs/TemplateSpecVersions/Get.yml)
-#### [List](resources/templatespecs/TemplateSpecVersions/List.yml)
-#### [Update](resources/templatespecs/TemplateSpecVersions/Update.yml)
-### Template Specs
-#### [Overview](resources/templatespecs/TemplateSpecs.yml)
-#### [Create Or Update](resources/templatespecs/TemplateSpecs/CreateOrUpdate.yml)
-#### [Delete](resources/templatespecs/TemplateSpecs/Delete.yml)
-#### [Get](resources/templatespecs/TemplateSpecs/Get.yml)
-#### [List By Resource Group](resources/templatespecs/TemplateSpecs/ListByResourceGroup.yml)
-#### [List By Subscription](resources/templatespecs/TemplateSpecs/ListBySubscription.yml)
-#### [Update](resources/templatespecs/TemplateSpecs/Update.yml)
 # Resource Mover
 ## [Overview](../docs-ref-conceptual/resourcemover/index.md)
 ## Preview
