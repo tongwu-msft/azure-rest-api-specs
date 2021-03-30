@@ -19,15 +19,15 @@ Azure Resource Manager enables you to deploy and manage the infrastructure for y
 | [Deployment Operations](xref:management.azure.com.resources.deploymentoperations) | Provides operations to get details about the operations that happen during a deployment. |
 | [Deployment Scripts](xref:management.azure.com.resources.deploymentscripts) | Provides operations for working with scripts in a template. |
 | [Deployments](xref:management.azure.com.resources.deployments)                    | Provides operations to work with deployments, including deploying a template, exporting a template, and getting information about a deployment. |
-| [Features](xref:management.azure.com.resources.features.features)                          | Provides operations for users to access preview features from resource providers. |
-| [Management Locks](xref:management.azure.com.resources.managementlocks.managementlocks)           | Provides operations to prevent users in your organization from deleting or modifying certain resources. |
+| [Features](xref:management.azure.com.resources.features)                          | Provides operations for users to access preview features from resource providers. |
+| [Management Locks](xref:management.azure.com.resources.managementlocks)           | Provides operations to prevent users in your organization from deleting or modifying certain resources. |
 | [Providers](xref:management.azure.com.resources.providers)                        | Provides operations to work with resource providers that support resources. |
 | [Resource Groups](xref:management.azure.com.resources.resourcegroups)             | Provides operations to create, delete, and access resource groups. |
-| [Resource Links](xref:management.azure.com.resources.resourcelinks.resourcelinks)               | Provides operations to link resources that have logical relationships. |
+| [Resource Links](xref:management.azure.com.resources.resourcelinks)               | Provides operations to link resources that have logical relationships. |
 | [Resources](xref:management.azure.com.resources.resources)                        | Provides operations to work with deployed resources. |
 | [Subscriptions](xref:management.azure.com.resources.subscriptions)                | Provides operations to view the subscriptions for your Azure Active Directory tenant. |
 | [Tags](xref:management.azure.com.resources.tags)                                  | Provides operations to apply tag names and values to resources for organizing your resources. |
-| [Template Specs](xref:management.azure.com.resources.templatespecs.templatespecs) | Provides operations for working with templates that you can share in your organization. |
+| [Template Specs](xref:management.azure.com.resources.templatespecs) | Provides operations for working with templates that you can share in your organization. |
 | [Tenants](xref:management.azure.com.resources.tenants)                            | Provides operations to view the Azure Active Directory tenants for your account. |
 
 ## See also
