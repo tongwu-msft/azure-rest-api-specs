@@ -10180,68 +10180,129 @@
 ##### [List](monitor/vmhealth/Operations/List.yml)
 # MySQL
 ## [Overview](../docs-ref-conceptual/mysql/index.md)
-## Check Name Availability
-### [Overview](mysql/CheckNameAvailability.yml)
-### [Execute](mysql/CheckNameAvailability/Execute.yml)
-## Configurations
-### [Overview](mysql/Configurations.yml)
-### [Create Or Update](mysql/Configurations/CreateOrUpdate.yml)
-### [Get](mysql/Configurations/Get.yml)
-### [List By Server](mysql/Configurations/ListByServer.yml)
-## Databases
-### [Overview](mysql/Databases.yml)
-### [Create Or Update](mysql/Databases/CreateOrUpdate.yml)
-### [Delete](mysql/Databases/Delete.yml)
-### [Get](mysql/Databases/Get.yml)
-### [List By Server](mysql/Databases/ListByServer.yml)
-## Firewall Rules
-### [Overview](mysql/FirewallRules.yml)
-### [Create Or Update](mysql/FirewallRules/CreateOrUpdate.yml)
-### [Delete](mysql/FirewallRules/Delete.yml)
-### [Get](mysql/FirewallRules/Get.yml)
-### [List By Server](mysql/FirewallRules/ListByServer.yml)
-## Location Based Performance Tier
-### [Overview](mysql/LocationBasedPerformanceTier.yml)
-### [List](mysql/LocationBasedPerformanceTier/List.yml)
-## Log Files
-### [Overview](mysql/LogFiles.yml)
-### [List By Server](mysql/LogFiles/ListByServer.yml)
-## Operations
-### [Overview](mysql/Operations.yml)
-### [List](mysql/Operations/List.yml)
-## Recoverable Servers
-### [Overview](mysql/RecoverableServers.yml)
-### [Get](mysql/RecoverableServers/Get.yml)
-## Replicas
-### [Overview](mysql/Replicas.yml)
-### [List By Server](mysql/Replicas/ListByServer.yml)
-## Server Administrators
-### [Overview](mysql/ServerAdministrators.yml)
-### [Create Or Update](mysql/ServerAdministrators/CreateOrUpdate.yml)
-### [Delete](mysql/ServerAdministrators/Delete.yml)
-### [Get](mysql/ServerAdministrators/Get.yml)
-### [List](mysql/ServerAdministrators/List.yml)
-## Server Based Performance Tier
-### [Overview](mysql/ServerBasedPerformanceTier.yml)
-### [List](mysql/ServerBasedPerformanceTier/List.yml)
-## Server Parameters
-### [Overview](mysql/ServerParameters.yml)
-### [List Update Configurations](mysql/ServerParameters/ListUpdateConfigurations.yml)
-## Servers
-### [Overview](mysql/Servers.yml)
-### [Create](mysql/Servers/Create.yml)
-### [Delete](mysql/Servers/Delete.yml)
-### [Get](mysql/Servers/Get.yml)
-### [List](mysql/Servers/List.yml)
-### [List By Resource Group](mysql/Servers/ListByResourceGroup.yml)
-### [Restart](mysql/Servers/Restart.yml)
-### [Update](mysql/Servers/Update.yml)
-## Virtual Network Rules
-### [Overview](mysql/VirtualNetworkRules.yml)
-### [Create Or Update](mysql/VirtualNetworkRules/CreateOrUpdate.yml)
-### [Delete](mysql/VirtualNetworkRules/Delete.yml)
-### [Get](mysql/VirtualNetworkRules/Get.yml)
-### [List By Server](mysql/VirtualNetworkRules/ListByServer.yml)
+## Flexible Server (Preview)
+### Check Name Availability
+#### [Overview](mysql/flexibleserver(preview)/CheckNameAvailability.yml)
+#### [Execute](mysql/flexibleserver(preview)/CheckNameAvailability/Execute.yml)
+### Configurations
+#### [Overview](mysql/flexibleserver(preview)/Configurations.yml)
+#### [Create Or Update](mysql/flexibleserver(preview)/Configurations/CreateOrUpdate.yml)
+#### [Get](mysql/flexibleserver(preview)/Configurations/Get.yml)
+#### [List By Server](mysql/flexibleserver(preview)/Configurations/ListByServer.yml)
+### Databases
+#### [Overview](mysql/flexibleserver(preview)/Databases.yml)
+#### [Create Or Update](mysql/flexibleserver(preview)/Databases/CreateOrUpdate.yml)
+#### [Delete](mysql/flexibleserver(preview)/Databases/Delete.yml)
+#### [Get](mysql/flexibleserver(preview)/Databases/Get.yml)
+#### [List By Server](mysql/flexibleserver(preview)/Databases/ListByServer.yml)
+### Firewall Rules
+#### [Overview](mysql/flexibleserver(preview)/FirewallRules.yml)
+#### [Create Or Update](mysql/flexibleserver(preview)/FirewallRules/CreateOrUpdate.yml)
+#### [Delete](mysql/flexibleserver(preview)/FirewallRules/Delete.yml)
+#### [Get](mysql/flexibleserver(preview)/FirewallRules/Get.yml)
+#### [List By Server](mysql/flexibleserver(preview)/FirewallRules/ListByServer.yml)
+### Location Based Performance Tier
+#### [Overview](mysql/flexibleserver(preview)/LocationBasedPerformanceTier.yml)
+#### [List](mysql/flexibleserver(preview)/LocationBasedPerformanceTier/List.yml)
+### Log Files
+#### [Overview](mysql/flexibleserver(preview)/LogFiles.yml)
+#### [List By Server](mysql/flexibleserver(preview)/LogFiles/ListByServer.yml)
+### Operations
+#### [Overview](mysql/flexibleserver(preview)/Operations.yml)
+#### [List](mysql/flexibleserver(preview)/Operations/List.yml)
+### Recoverable Servers
+#### [Overview](mysql/flexibleserver(preview)/RecoverableServers.yml)
+#### [Get](mysql/flexibleserver(preview)/RecoverableServers/Get.yml)
+### Replicas
+#### [Overview](mysql/flexibleserver(preview)/Replicas.yml)
+#### [List By Server](mysql/flexibleserver(preview)/Replicas/ListByServer.yml)
+### Server Administrators
+#### [Overview](mysql/flexibleserver(preview)/ServerAdministrators.yml)
+#### [Create Or Update](mysql/flexibleserver(preview)/ServerAdministrators/CreateOrUpdate.yml)
+#### [Delete](mysql/flexibleserver(preview)/ServerAdministrators/Delete.yml)
+#### [Get](mysql/flexibleserver(preview)/ServerAdministrators/Get.yml)
+#### [List](mysql/flexibleserver(preview)/ServerAdministrators/List.yml)
+### Server Based Performance Tier
+#### [Overview](mysql/flexibleserver(preview)/ServerBasedPerformanceTier.yml)
+#### [List](mysql/flexibleserver(preview)/ServerBasedPerformanceTier/List.yml)
+### Server Parameters
+#### [Overview](mysql/flexibleserver(preview)/ServerParameters.yml)
+#### [List Update Configurations](mysql/flexibleserver(preview)/ServerParameters/ListUpdateConfigurations.yml)
+### Server Security Alert Policies
+#### [Overview](mysql/flexibleserver(preview)/ServerSecurityAlertPolicies.yml)
+#### [Create Or Update](mysql/flexibleserver(preview)/ServerSecurityAlertPolicies/CreateOrUpdate.yml)
+#### [Get](mysql/flexibleserver(preview)/ServerSecurityAlertPolicies/Get.yml)
+#### [List By Server](mysql/flexibleserver(preview)/ServerSecurityAlertPolicies/ListByServer.yml)
+### Servers
+#### [Overview](mysql/flexibleserver(preview)/Servers.yml)
+#### [Create](mysql/flexibleserver(preview)/Servers/Create.yml)
+#### [Delete](mysql/flexibleserver(preview)/Servers/Delete.yml)
+#### [Get](mysql/flexibleserver(preview)/Servers/Get.yml)
+#### [List](mysql/flexibleserver(preview)/Servers/List.yml)
+#### [List By Resource Group](mysql/flexibleserver(preview)/Servers/ListByResourceGroup.yml)
+#### [Restart](mysql/flexibleserver(preview)/Servers/Restart.yml)
+#### [Update](mysql/flexibleserver(preview)/Servers/Update.yml)
+### Virtual Network Rules
+#### [Overview](mysql/flexibleserver(preview)/VirtualNetworkRules.yml)
+#### [Create Or Update](mysql/flexibleserver(preview)/VirtualNetworkRules/CreateOrUpdate.yml)
+#### [Delete](mysql/flexibleserver(preview)/VirtualNetworkRules/Delete.yml)
+#### [Get](mysql/flexibleserver(preview)/VirtualNetworkRules/Get.yml)
+#### [List By Server](mysql/flexibleserver(preview)/VirtualNetworkRules/ListByServer.yml)
+## Single Server
+### Advisors
+#### [Overview](mysql/singleserver/Advisors.yml)
+#### [Get](mysql/singleserver/Advisors/Get.yml)
+#### [List By Server](mysql/singleserver/Advisors/ListByServer.yml)
+### Create Recommended Action Session
+#### [Overview](mysql/singleserver/CreateRecommendedActionSession.yml)
+#### [Create Recommended Action Session](mysql/singleserver/CreateRecommendedActionSession/CreateRecommendedActionSession.yml)
+### Location Based Recommended Action Sessions Operation Status
+#### [Overview](mysql/singleserver/LocationBasedRecommendedActionSessionsOperationStatus.yml)
+#### [Get](mysql/singleserver/LocationBasedRecommendedActionSessionsOperationStatus/Get.yml)
+### Location Based Recommended Action Sessions Result
+#### [Overview](mysql/singleserver/LocationBasedRecommendedActionSessionsResult.yml)
+#### [List](mysql/singleserver/LocationBasedRecommendedActionSessionsResult/List.yml)
+### Private Endpoint Connections
+#### [Overview](mysql/singleserver/PrivateEndpointConnections.yml)
+#### [Create Or Update](mysql/singleserver/PrivateEndpointConnections/CreateOrUpdate.yml)
+#### [Delete](mysql/singleserver/PrivateEndpointConnections/Delete.yml)
+#### [Get](mysql/singleserver/PrivateEndpointConnections/Get.yml)
+#### [List By Server](mysql/singleserver/PrivateEndpointConnections/ListByServer.yml)
+#### [Update Tags](mysql/singleserver/PrivateEndpointConnections/UpdateTags.yml)
+### Private Link Resources
+#### [Overview](mysql/singleserver/PrivateLinkResources.yml)
+#### [Get](mysql/singleserver/PrivateLinkResources/Get.yml)
+#### [List By Server](mysql/singleserver/PrivateLinkResources/ListByServer.yml)
+### Query Texts
+#### [Overview](mysql/singleserver/QueryTexts.yml)
+#### [Get](mysql/singleserver/QueryTexts/Get.yml)
+#### [List By Server](mysql/singleserver/QueryTexts/ListByServer.yml)
+### Recommended Actions
+#### [Overview](mysql/singleserver/RecommendedActions.yml)
+#### [Get](mysql/singleserver/RecommendedActions/Get.yml)
+#### [List By Server](mysql/singleserver/RecommendedActions/ListByServer.yml)
+### Reset Query Performance Insight Data
+#### [Overview](mysql/singleserver/ResetQueryPerformanceInsightData.yml)
+#### [Reset Query Performance Insight Data](mysql/singleserver/ResetQueryPerformanceInsightData/ResetQueryPerformanceInsightData.yml)
+### Server Keys
+#### [Overview](mysql/singleserver/ServerKeys.yml)
+#### [Create Or Update](mysql/singleserver/ServerKeys/CreateOrUpdate.yml)
+#### [Delete](mysql/singleserver/ServerKeys/Delete.yml)
+#### [Get](mysql/singleserver/ServerKeys/Get.yml)
+#### [List](mysql/singleserver/ServerKeys/List.yml)
+### Servers
+#### [Overview](mysql/singleserver/Servers.yml)
+#### [Start](mysql/singleserver/Servers/Start.yml)
+#### [Stop](mysql/singleserver/Servers/Stop.yml)
+#### [Upgrade](mysql/singleserver/Servers/Upgrade.yml)
+### Top Query Statistics
+#### [Overview](mysql/singleserver/TopQueryStatistics.yml)
+#### [Get](mysql/singleserver/TopQueryStatistics/Get.yml)
+#### [List By Server](mysql/singleserver/TopQueryStatistics/ListByServer.yml)
+### Wait Statistics
+#### [Overview](mysql/singleserver/WaitStatistics.yml)
+#### [Get](mysql/singleserver/WaitStatistics/Get.yml)
+#### [List By Server](mysql/singleserver/WaitStatistics/ListByServer.yml)
 # Network Gateway
 ## [Overview](../docs-ref-conceptual/network-gateway/index.md)
 ## Local Network Gateways
@@ -10606,68 +10667,74 @@
 ### [List For Subscription](policy/Remediations/ListForSubscription.yml)
 # PostgreSQL
 ## [Overview](../docs-ref-conceptual/postgresql/index.md)
-## Check Name Availability
-### [Overview](postgresql/CheckNameAvailability.yml)
-### [Execute](postgresql/CheckNameAvailability/Execute.yml)
-## Configurations
-### [Overview](postgresql/Configurations.yml)
-### [Create Or Update](postgresql/Configurations/CreateOrUpdate.yml)
-### [Get](postgresql/Configurations/Get.yml)
-### [List By Server](postgresql/Configurations/ListByServer.yml)
-## Databases
-### [Overview](postgresql/Databases.yml)
-### [Create Or Update](postgresql/Databases/CreateOrUpdate.yml)
-### [Delete](postgresql/Databases/Delete.yml)
-### [Get](postgresql/Databases/Get.yml)
-### [List By Server](postgresql/Databases/ListByServer.yml)
-## Firewall Rules
-### [Overview](postgresql/FirewallRules.yml)
-### [Create Or Update](postgresql/FirewallRules/CreateOrUpdate.yml)
-### [Delete](postgresql/FirewallRules/Delete.yml)
-### [Get](postgresql/FirewallRules/Get.yml)
-### [List By Server](postgresql/FirewallRules/ListByServer.yml)
-## Location Based Performance Tier
-### [Overview](postgresql/LocationBasedPerformanceTier.yml)
-### [List](postgresql/LocationBasedPerformanceTier/List.yml)
-## Log Files
-### [Overview](postgresql/LogFiles.yml)
-### [List By Server](postgresql/LogFiles/ListByServer.yml)
-## Operations
-### [Overview](postgresql/Operations.yml)
-### [List](postgresql/Operations/List.yml)
-## Recoverable Servers
-### [Overview](postgresql/RecoverableServers.yml)
-### [Get](postgresql/RecoverableServers/Get.yml)
-## Replicas
-### [Overview](postgresql/Replicas.yml)
-### [List By Server](postgresql/Replicas/ListByServer.yml)
-## Server Administrators
-### [Overview](postgresql/ServerAdministrators.yml)
-### [Create Or Update](postgresql/ServerAdministrators/CreateOrUpdate.yml)
-### [Delete](postgresql/ServerAdministrators/Delete.yml)
-### [Get](postgresql/ServerAdministrators/Get.yml)
-### [List](postgresql/ServerAdministrators/List.yml)
-## Server Based Performance Tier
-### [Overview](postgresql/ServerBasedPerformanceTier.yml)
-### [List](postgresql/ServerBasedPerformanceTier/List.yml)
-## Server Parameters
-### [Overview](postgresql/ServerParameters.yml)
-### [List Update Configurations](postgresql/ServerParameters/ListUpdateConfigurations.yml)
-## Servers
-### [Overview](postgresql/Servers.yml)
-### [Create](postgresql/Servers/Create.yml)
-### [Delete](postgresql/Servers/Delete.yml)
-### [Get](postgresql/Servers/Get.yml)
-### [List](postgresql/Servers/List.yml)
-### [List By Resource Group](postgresql/Servers/ListByResourceGroup.yml)
-### [Restart](postgresql/Servers/Restart.yml)
-### [Update](postgresql/Servers/Update.yml)
-## Virtual Network Rules
-### [Overview](postgresql/VirtualNetworkRules.yml)
-### [Create Or Update](postgresql/VirtualNetworkRules/CreateOrUpdate.yml)
-### [Delete](postgresql/VirtualNetworkRules/Delete.yml)
-### [Get](postgresql/VirtualNetworkRules/Get.yml)
-### [List By Server](postgresql/VirtualNetworkRules/ListByServer.yml)
+## Flexible Server (Preview)
+### Check Name Availability
+#### [Overview](postgresql/flexibleserver(preview)/CheckNameAvailability.yml)
+#### [Execute](postgresql/flexibleserver(preview)/CheckNameAvailability/Execute.yml)
+### Configurations
+#### [Overview](postgresql/flexibleserver(preview)/Configurations.yml)
+#### [Get](postgresql/flexibleserver(preview)/Configurations/Get.yml)
+#### [List By Server](postgresql/flexibleserver(preview)/Configurations/ListByServer.yml)
+#### [Update](postgresql/flexibleserver(preview)/Configurations/Update.yml)
+### Firewall Rules
+#### [Overview](postgresql/flexibleserver(preview)/FirewallRules.yml)
+#### [Create Or Update](postgresql/flexibleserver(preview)/FirewallRules/CreateOrUpdate.yml)
+#### [Delete](postgresql/flexibleserver(preview)/FirewallRules/Delete.yml)
+#### [Get](postgresql/flexibleserver(preview)/FirewallRules/Get.yml)
+#### [List By Server](postgresql/flexibleserver(preview)/FirewallRules/ListByServer.yml)
+### Location Based Capabilities
+#### [Overview](postgresql/flexibleserver(preview)/LocationBasedCapabilities.yml)
+#### [Execute](postgresql/flexibleserver(preview)/LocationBasedCapabilities/Execute.yml)
+### Operations
+#### [Overview](postgresql/flexibleserver(preview)/Operations.yml)
+#### [List](postgresql/flexibleserver(preview)/Operations/List.yml)
+### Servers
+#### [Overview](postgresql/flexibleserver(preview)/Servers.yml)
+#### [Create](postgresql/flexibleserver(preview)/Servers/Create.yml)
+#### [Delete](postgresql/flexibleserver(preview)/Servers/Delete.yml)
+#### [Get](postgresql/flexibleserver(preview)/Servers/Get.yml)
+#### [List](postgresql/flexibleserver(preview)/Servers/List.yml)
+#### [List By Resource Group](postgresql/flexibleserver(preview)/Servers/ListByResourceGroup.yml)
+#### [Restart](postgresql/flexibleserver(preview)/Servers/Restart.yml)
+#### [Start](postgresql/flexibleserver(preview)/Servers/Start.yml)
+#### [Stop](postgresql/flexibleserver(preview)/Servers/Stop.yml)
+#### [Update](postgresql/flexibleserver(preview)/Servers/Update.yml)
+### Virtual Network Subnet Usage
+#### [Overview](postgresql/flexibleserver(preview)/VirtualNetworkSubnetUsage.yml)
+#### [Execute](postgresql/flexibleserver(preview)/VirtualNetworkSubnetUsage/Execute.yml)
+## Single Server
+### Private Endpoint Connections
+#### [Overview](postgresql/singleserver/PrivateEndpointConnections.yml)
+#### [Create Or Update](postgresql/singleserver/PrivateEndpointConnections/CreateOrUpdate.yml)
+#### [Delete](postgresql/singleserver/PrivateEndpointConnections/Delete.yml)
+#### [Get](postgresql/singleserver/PrivateEndpointConnections/Get.yml)
+#### [List By Server](postgresql/singleserver/PrivateEndpointConnections/ListByServer.yml)
+#### [Update Tags](postgresql/singleserver/PrivateEndpointConnections/UpdateTags.yml)
+### Private Link Resources
+#### [Overview](postgresql/singleserver/PrivateLinkResources.yml)
+#### [Get](postgresql/singleserver/PrivateLinkResources/Get.yml)
+#### [List By Server](postgresql/singleserver/PrivateLinkResources/ListByServer.yml)
+### Query Texts
+#### [Overview](postgresql/singleserver/QueryTexts.yml)
+#### [Get](postgresql/singleserver/QueryTexts/Get.yml)
+#### [List By Server](postgresql/singleserver/QueryTexts/ListByServer.yml)
+### Reset Query Performance Insight Data
+#### [Overview](postgresql/singleserver/ResetQueryPerformanceInsightData.yml)
+#### [Reset Query Performance Insight Data](postgresql/singleserver/ResetQueryPerformanceInsightData/ResetQueryPerformanceInsightData.yml)
+### Server Keys
+#### [Overview](postgresql/singleserver/ServerKeys.yml)
+#### [Create Or Update](postgresql/singleserver/ServerKeys/CreateOrUpdate.yml)
+#### [Delete](postgresql/singleserver/ServerKeys/Delete.yml)
+#### [Get](postgresql/singleserver/ServerKeys/Get.yml)
+#### [List](postgresql/singleserver/ServerKeys/List.yml)
+### Top Query Statistics
+#### [Overview](postgresql/singleserver/TopQueryStatistics.yml)
+#### [Get](postgresql/singleserver/TopQueryStatistics/Get.yml)
+#### [List By Server](postgresql/singleserver/TopQueryStatistics/ListByServer.yml)
+### Wait Statistics
+#### [Overview](postgresql/singleserver/WaitStatistics.yml)
+#### [Get](postgresql/singleserver/WaitStatistics/Get.yml)
+#### [List By Server](postgresql/singleserver/WaitStatistics/ListByServer.yml)
 # Power BI Embedded
 ## [Overview](../docs-ref-conceptual/power-bi-embedded/index.md)
 ## Capacities
