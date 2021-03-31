@@ -24,7 +24,7 @@ Azure Database for PostgreSQL provides a managed database service for app develo
 -   Set the Content-Type header to **application/json**.  
 -   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx). 
 
-## REST operations
+## Single Server REST operations
 
 | Operation group | Description |
 |---|---|
@@ -34,6 +34,17 @@ Azure Database for PostgreSQL provides a managed database service for app develo
 | [Firewall Rules](xref:management.azure.com.postgresql.firewallrules) | Creates, Delete, Get, or List the firewall rules in a server. |
 | [Log Files](xref:management.azure.com.postgresql.logfiles) | Lists the log files in a given server. |
 | [Operations](xref:management.azure.com.postgresql.operations) | Lists the available REST API operations. |
+
+## Flexible Server REST operations
+
+| Operation group | Description |
+|---|---|
+| [Server](/rest/api/postgresql/flexibleserver(preview)/servers) | Create, Restore, Update, Delete, Get, or List servers. |
+| [Configurations](/rest/api/postgresql/flexibleserver(preview)/configurations) | Update, Get, and List the configuration of a server. | 
+| [Databases](xref:management.azure.com.postgresql.databases)  | Create, Delete, Get, or List databases in the server. | 
+| [Firewall Rules](/rest/api/postgresql/flexibleserver(preview)/firewallrules) | Creates, Delete, Get, or List the firewall rules in a server. |
+| [Log Files](xref:management.azure.com.postgresql.logfiles) | Lists the log files in a given server. |
+| [Operations](/rest/api/postgresql/flexibleserver(preview)/operations) | Lists the available REST API operations. |
 
 
 ## See also
