@@ -10706,6 +10706,36 @@
 ## get Available Operations
 ### [Overview](power-bi-workspace-collections/getAvailableOperations.yml)
 ### [get Available Operations](power-bi-workspace-collections/getAvailableOperations/getAvailableOperations.yml)
+# Purview
+## [Overview](../docs-ref-conceptual/purview/index.md)
+## Accounts
+### [Overview](purview/Accounts.yml)
+### [Check Name Availability](purview/Accounts/CheckNameAvailability.yml)
+### [Create Or Update](purview/Accounts/CreateOrUpdate.yml)
+### [Delete](purview/Accounts/Delete.yml)
+### [Get](purview/Accounts/Get.yml)
+### [List By Resource Group](purview/Accounts/ListByResourceGroup.yml)
+### [List By Subscription](purview/Accounts/ListBySubscription.yml)
+### [List Keys](purview/Accounts/ListKeys.yml)
+### [Update](purview/Accounts/Update.yml)
+## Default Accounts
+### [Overview](purview/DefaultAccounts.yml)
+### [Get](purview/DefaultAccounts/Get.yml)
+### [Remove](purview/DefaultAccounts/Remove.yml)
+### [Set](purview/DefaultAccounts/Set.yml)
+## Operations
+### [Overview](purview/Operations.yml)
+### [List](purview/Operations/List.yml)
+## Private Endpoint Connections
+### [Overview](purview/PrivateEndpointConnections.yml)
+### [Create Or Update](purview/PrivateEndpointConnections/CreateOrUpdate.yml)
+### [Delete](purview/PrivateEndpointConnections/Delete.yml)
+### [Get](purview/PrivateEndpointConnections/Get.yml)
+### [List By Account](purview/PrivateEndpointConnections/ListByAccount.yml)
+## Private Link Resources
+### [Overview](purview/PrivateLinkResources.yml)
+### [Get By Group Id](purview/PrivateLinkResources/GetByGroupId.yml)
+### [List By Account](purview/PrivateLinkResources/ListByAccount.yml)
 # Recovery Services
 ## [Overview](../docs-ref-conceptual/recoveryservices/index.md)
 ## Operations Vaults
