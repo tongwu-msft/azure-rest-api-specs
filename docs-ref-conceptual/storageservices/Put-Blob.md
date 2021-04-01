@@ -240,7 +240,7 @@ The following table describes the maximum block and blob sizes permitted by serv
 | Version 2016-05-31 through version 2019-07-07 | 100 MiB | Approximately 4.75 TiB (100 MiB X 50,000 blocks) | 256 MiB |
 | Versions prior to 2016-05-31 | 4 MiB | Approximately 195 GiB (4 MiB X 50,000 blocks) | 64 MiB |
 
-If you attempt to upload a block blob that is larger than 256 MiB for version 2016-05-31 and later, and 64 MiB for older versions, or a page blob larger than 8 TiB, the service returns status code 413 (Request Entity Too Large). The Blob service also returns additional information about the error in the response, including the maximum blob size permitted in bytes.
+If you attempt to upload a block blob that is larger than the maximum size permitted for that service version or a page blob that is larger than 8 TiB, then the service returns status code 413 (Request Entity Too Large). The Blob service also returns additional information about the error in the response, including the maximum blob size permitted in bytes.
 
 To create a new page blob, first initialize the blob by calling `Put Blob` and specify its maximum size, up to 8 TiB. When creating a page blob, do not include content in the request body. Once the blob has been created, call [Put Page](Put-Page.md) to add content to the blob or to modify it.  
 

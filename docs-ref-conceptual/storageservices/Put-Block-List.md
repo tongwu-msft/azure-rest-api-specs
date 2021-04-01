@@ -223,15 +223,13 @@ With `Put Block List`, you can modify an existing blob by inserting, updating, o
   
 If a block ID is specified in the `Latest` element, and the same block ID exists in both the committed and uncommitted block lists, `Put Block List` commits the block from the uncommitted block list. If the block ID exists in the committed block list but not in the uncommitted block list, then `Put Block List` commits the block from the committed block list.  
   
-Each block can be a different size. The following table describes the maximum block and blob sizes permitted by service version.
+Each block in a block blob can be a different size. A block blob can include a maximum of 50,000 committed blocks. The maximum number of uncommitted blocks that may be associated with a blob is 100,000. The following table describes the maximum block and blob sizes permitted by service version:
 
 | Service version | Maximum block size (via Put Block) | Maximum blob size (via Put Block List) | Maximum blob size via single write operation (via Put Blob) |
 |-|-|-|-|
 | Version 2019-12-12 and later | 4000 MiB | Approximately 190.7 TiB (4000 MiB X 50,000 blocks) | 5000 MiB (preview) |
 | Version 2016-05-31 through version 2019-07-07 | 100 MiB | Approximately 4.75 TiB (100 MiB X 50,000 blocks) | 256 MiB |
 | Versions prior to 2016-05-31 | 4 MiB | Approximately 195 GiB (4 MiB X 50,000 blocks) | 64 MiB |
-
-The maximum number of uncommitted blocks that may be associated with a blob is 100,000.  
   
 When you call `Put Block List` to update an existing blob, the blob's existing properties and metadata are overwritten. However, any existing snapshots are retained with the blob. You can use the conditional request headers to perform the operation only if a specified condition is met.  
   

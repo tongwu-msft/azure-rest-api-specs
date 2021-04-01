@@ -117,9 +117,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
   
 ## Remarks  
 
-`Put Block` uploads a block for future inclusion in a block blob. A block blob can include a maximum of 50,000 blocks.
-
-Each block can be a different size. The following table describes the maximum block and blob sizes permitted by service version.
+`Put Block` uploads a block for future inclusion in a block blob. Each block in a block blob can be a different size. A block blob can include a maximum of 50,000 committed blocks. The following table describes the maximum block and blob sizes permitted by service version:
 
 | Service version | Maximum block size (via Put Block) | Maximum blob size (via Put Block List) | Maximum blob size via single write operation (via Put Blob) |
 |-|-|-|-|
