@@ -3,14 +3,14 @@ uid: management.azure.com.compute.cloudservices.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Cloud Services
-apiVersion: 2020-10-01-preview
+apiVersion: 2021-03-01
 summary: Create or update a cloud service. Please note some properties can be set only during cloud service creation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}?api-version=2020-10-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -101,6 +101,13 @@ definitions:
       (Optional) Indicates whether to start the cloud service immediately after it is created. The default value is `true`.
 
       If false, the service model is still deployed, but the code is not run immediately. Instead, the service is PoweredOff until you call Start, at which time the service will be started. A deployed service still incurs charges, even if it is poweredoff.
+    types:
+    - uid: boolean
+  - name: allowModelOverride
+    description: >-
+      (Optional) Indicates whether the role sku properties (roleProfile.roles.sku) specified in the model/template should override the role instance count and vm size specified in the .cscfg and .csdef respectively.
+
+      The default value is `false`.
     types:
     - uid: boolean
   - name: upgradeMode
@@ -222,12 +229,12 @@ definitions:
   kind: object
   properties:
   - name: loadBalancerConfigurations
-    description: The list of load balancer configurations for the cloud service.
+    description: List of Load balancer configurations. Cloud service can have up to two load balancer configurations, corresponding to a Public Load Balancer and an Internal Load Balancer.
     types:
     - uid: LoadBalancerConfiguration
       isArray: true
   - name: swappableCloudService
-    description: ''
+    description: The id reference of the cloud service containing the target IP with which the subject cloud service can perform a swap. This property cannot be updated once it is set. The swappable cloud service referred by this id must be present otherwise an error will be thrown.
     types:
     - uid: SubResource
 - name: CloudServiceExtensionProfile
@@ -293,12 +300,16 @@ definitions:
   description: Describes the load balancer configuration.
   kind: object
   properties:
+  - name: id
+    description: Resource Id
+    types:
+    - uid: string
   - name: name
-    description: Resource Name
+    description: The name of the Load balancer
     types:
     - uid: string
   - name: properties
-    description: ''
+    description: Properties of the load balancer configuration.
     types:
     - uid: LoadBalancerConfigurationProperties
 - name: SubResource
@@ -376,7 +387,7 @@ definitions:
   kind: object
   properties:
   - name: frontendIPConfigurations
-    description: List of IP
+    description: Specifies the frontend IP to be used for the load balancer. Only IPv4 frontend IP address is supported. Each load balancer configuration must have exactly one frontend IP configuration.
     types:
     - uid: LoadBalancerFrontendIPConfiguration
       isArray: true
@@ -439,11 +450,11 @@ definitions:
   kind: object
   properties:
   - name: name
-    description: ''
+    description: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer. This name can be used to access the resource.
     types:
     - uid: string
   - name: properties
-    description: Describes a cloud service IP Configuration
+    description: Properties of load balancer frontend ip configuration.
     types:
     - uid: LoadBalancerFrontendIPConfigurationProperties
 - name: CloudServiceVaultAndSecretReference
@@ -462,21 +473,21 @@ definitions:
   kind: object
   properties:
   - name: publicIPAddress
-    description: ''
+    description: The reference to the public ip address resource.
     types:
     - uid: SubResource
   - name: subnet
-    description: ''
+    description: The reference to the virtual network subnet resource.
     types:
     - uid: SubResource
   - name: privateIPAddress
-    description: The private IP address referenced by the cloud service.
+    description: The virtual network private IP address of the IP configuration.
     types:
     - uid: string
 examples:
 - name: Create New Cloud Service with Single Role
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2020-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2021-03-01
     body: >-
       {
         "location": "westus",
@@ -618,7 +629,7 @@ examples:
       }
 - name: Create New Cloud Service with Single Role and RDP Extension
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2020-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2021-03-01
     body: >-
       {
         "properties": {
@@ -811,7 +822,7 @@ examples:
       }
 - name: Create New Cloud Service with Multiple Roles
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2020-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2021-03-01
     body: >-
       {
         "properties": {
@@ -977,7 +988,7 @@ examples:
       }
 - name: Create New Cloud Service with Single Role and Certificate from Key Vault
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2020-10-01-preview
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2021-03-01
     body: >-
       {
         "location": "westus",

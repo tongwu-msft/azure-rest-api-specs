@@ -5508,6 +5508,12 @@
 #### [List Available Sizes](compute/AvailabilitySets/ListAvailableSizes.yml)
 #### [List By Subscription](compute/AvailabilitySets/ListBySubscription.yml)
 #### [Update](compute/AvailabilitySets/Update.yml)
+### Cloud Service Operating Systems
+#### [Overview](compute/CloudServiceOperatingSystems.yml)
+#### [Get OS Family](compute/CloudServiceOperatingSystems/GetOSFamily.yml)
+#### [Get OS Version](compute/CloudServiceOperatingSystems/GetOSVersion.yml)
+#### [List OS Families](compute/CloudServiceOperatingSystems/ListOSFamilies.yml)
+#### [List OS Versions](compute/CloudServiceOperatingSystems/ListOSVersions.yml)
 ### Cloud Service Role Instances
 #### [Overview](compute/CloudServiceRoleInstances.yml)
 #### [Delete](compute/CloudServiceRoleInstances/Delete.yml)
