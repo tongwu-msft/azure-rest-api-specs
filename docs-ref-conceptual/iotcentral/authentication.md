@@ -44,9 +44,9 @@ When using a bearer token in API requests, the caller is granted the same level 
 
 ### Service principal authentication
 To use an AAD service principal to authenticate against the API, first you will need to create the service principal. You will need to get the tenant ID and object ID of your service principal:
-1. Go to Azure Portal -> Azure Active Directory -> Overview. Copy the **tenantID**
+1. Go to Azure portal -> Azure Active Directory -> Overview. Copy the **tenantID**
 2. Go to Enterprise applications. Create a new application or choose an existing one. Copy the **objectID**
-3. Go to Azure Portal -> Azure Active Directory -> App registrations -> your app -> API Permissions. Click Add a permission -> APIs my organization uses and search for **Microsoft IoT Central**. Choose the item that matches this exact text.
+3. Go to Azure portal -> Azure Active Directory -> App registrations -> your app -> API Permissions. Click Add a permission -> APIs my organization uses and search for **Microsoft IoT Central**. Choose the item that matches this exact text.
 4. Select the **user_impersonation** and **Application.ReadWrite.All** permissions and add them.
 5. Select **Grant admin consent for your directory**.
 
