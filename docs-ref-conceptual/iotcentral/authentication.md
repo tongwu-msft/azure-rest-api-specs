@@ -31,7 +31,7 @@ By default, 3 roles are available in your application. [Learn more about creatin
 You can also create new API tokens programmatically. To make the API request to create a new API token, you will need an Authorization header containing an API token or bearer with permissions to create new API tokens. [See docs for API tokens operations](https://docs.microsoft.com/rest/api/iotcentral/apitokens).
 
 ## AAD bearer token
-A bearer token is associated with an Azure Active Directory user account. You can generate a bearer token in the Azure CLI command: 
+A bearer token is associated with an Azure Active Directory user account that has been added to your IoT Central application. You can generate a bearer token in the Azure CLI command: 
 `az account get-access-token --resource https://apps.azureiotcentral.com`
 
 Construct an API request with the following header:
@@ -41,6 +41,19 @@ Construct an API request with the following header:
 |Authorization|Bearer \<bearer token value\>|
 
 When using a bearer token in API requests, the caller is granted the same level of access that the Azure Active Directory user has in the IoT Central application.
+
+### Service principal authentication
+To use an AAD service principal to authenticate against the API, first you will need to create the service principal. You will need to get the tenant ID and object ID of your service principal:
+1. Go to Azure portal -> Azure Active Directory -> Overview. Copy the **tenantID**
+2. Go to Enterprise applications. Create a new application or choose an existing one. Copy the **objectID**
+3. Go to Azure portal -> Azure Active Directory -> App registrations -> your app -> API Permissions. Click Add a permission -> APIs my organization uses and search for **Microsoft IoT Central**. Choose the item that matches this exact text.
+4. Select the **user_impersonation** and **Application.ReadWrite.All** permissions and add them.
+5. Select **Grant admin consent for your directory**.
+
+Finally, add your service principal to your IoT Central application. This is possible through the APIs today. 
+1. Use the [*Create users* API](https://docs.microsoft.com/rest/api/iotcentral/users/create) to add this service principal user. Make sure you use the **{tenantID}** and **{objectID}** when creating the new user.
+
+Now you can use the bearer token associated to this service principal user to make API requests, following the same steps as above.
 
 ## Next steps
 
