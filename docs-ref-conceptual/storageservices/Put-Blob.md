@@ -45,7 +45,7 @@ The following additional parameters may be specified on the request URI.
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`timeout`|Optional. The<br /><br /> timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
+|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers (All Blob Types)  
 
