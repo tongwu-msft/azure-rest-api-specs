@@ -12,7 +12,7 @@ ms.author: pemari
 
 # Understanding block blobs, append blobs, and page blobs
 
-The storage service offers three types of blobs, *block blobs*, *append blobs*, and *page blobs*. You specify the blob type when you create the blob. Once the blob has been created, its type cannot be changed, and it can be updated only by using operations appropriate for that blob type, *i.e.*, writing a block or list of blocks to a block blob, appending blocks to a append blob, and writing pages to a page blob.  
+The storage service offers three types of blobs, *block blobs*, *append blobs*, and *page blobs*. You specify the blob type when you create the blob. Once the blob has been created, its type cannot be changed, and it can be updated only by using operations appropriate for that blob type, *i.e.*, writing a block or list of blocks to a block blob, appending blocks to an append blob, and writing pages to a page blob.  
   
 All blobs reflect committed changes immediately. Each version of the blob has a unique tag, called an *ETag*, that you can use with access conditions to assure you only change a specific instance of the blob.  
 
@@ -25,7 +25,7 @@ Any blob can be duplicated in a snapshot. For information about snapshots, see [
   
 ## About block blobs
 
-Block blobs are optimized for uploading large amounts of data efficiently. Block blobs are comprised of blocks, each of which is identified by a block ID. A block blob can include up to 50,000 blocks. Each block in a block blob can be a different size, up to the maximum size permitted for the service version in use. To create or modify a block blob, write a set of blocks via the [Put Block](Put-Block.md) operation and then commit the blocks to a blob with the [Put Block List](Put-Block-List.md) operation.
+Block blobs are optimized for uploading large amounts of data efficiently. Block blobs are composed of blocks, each of which is identified by a block ID. A block blob can include up to 50,000 blocks. Each block in a block blob can be a different size, up to the maximum size permitted for the service version in use. To create or modify a block blob, write a set of blocks via the [Put Block](Put-Block.md) operation and then commit the blocks to a blob with the [Put Block List](Put-Block-List.md) operation.
 
 Blobs that are less than a certain size (determined by service version) can be uploaded in their entirety with a single write operation via [Put Blob](Put-Blob.md).
 
@@ -51,13 +51,13 @@ If you write a block for a blob that does not exist, a new block blob is created
 
 ## About page blobs
 
-Page blobs are a collection of 512-byte pages optimized for random read and write operations. To create a page blob, you initialize the page blob and specify the maximum size the page blob will grow. To add or update the contents of a page blob, you write a page or pages by specifying an offset and a range that align to 512-byte page boundaries. A write to a page blob can overwrite just one page, some pages, or up to 4 MiB of the page blob. Writes to page blobs happen in-place and are immediately committed to the blob. The maximum size for a page blob is 8 TiB.  
+Page blobs are a collection of 512-byte pages optimized for random read and write operations. To create a page blob, you initialize the page blob and specify the maximum size the page blob will grow. To add or update the contents of a page blob, you write a page or pages by specifying an offset and a range that both align to 512-byte page boundaries. A write to a page blob can overwrite just one page, some pages, or up to 4 MiB of the page blob. Writes to page blobs happen in-place and are immediately committed to the blob. The maximum size for a page blob is 8 TiB.  
   
 Azure virtual machine disks are backed by page blobs. Azure offers two types of durable disk storage: premium and standard. Premium storage for page blobs is designed for Azure virtual machine workloads that require consistent high performance and low latency. For detailed information, see the **Premium solid-state drives (SSD)** section of the article [Select a disk type for IaaS VMs](https://docs.microsoft.com/azure/virtual-machines/windows/disks-types#premium-ssd). For information about the scalability targets for premium storage for page blobs, see [Azure Storage Scalability and Performance Targets](/azure/storage/storage-scalability-targets).
   
 ## About append blobs
 
-An append blob is comprised of blocks and is optimized for append operations. When you modify an append blob, blocks are added to the end of the blob only, via the [Append Block](Append-Block.md) operation. Updating or deleting of existing blocks is not supported. Unlike a block blob, an append blob does not expose its block IDs.  
+An append blob is composed of blocks and is optimized for append operations. When you modify an append blob, blocks are added to the end of the blob only, via the [Append Block](Append-Block.md) operation. Updating or deleting of existing blocks is not supported. Unlike a block blob, an append blob does not expose its block IDs.  
 
 Each block in an append blob can be a different size, up to a maximum of 4 MiB, and an append blob can include up to 50,000 blocks. The maximum size of an append blob is therefore slightly more than 195 GiB (4 MiB X 50,000 blocks).  
   
