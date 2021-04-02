@@ -1,6 +1,7 @@
 ---
 title: "Scheme"
-ms.date: "10/21/2020"
+description: "Scheme"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -35,5 +36,5 @@ Possible values include: 'http', 'https'
 Possible values are: 
 
   - `http` - Indicates that the probe is http.
-  - `https` - Indicates that the probe is https. No cert validaton.
+  - `https` - Indicates that the probe is https. No cert validation.
 

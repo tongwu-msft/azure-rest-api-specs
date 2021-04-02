@@ -1,6 +1,7 @@
 ---
 title: "StatefulServiceDescription"
-ms.date: "10/21/2020"
+description: "StatefulServiceDescription"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -47,6 +48,8 @@ Describes a stateful service.
 | [`ServicePackageActivationMode`](#servicepackageactivationmode) | string (enum) | No |
 | [`ServiceDnsName`](#servicednsname) | string | No |
 | [`ScalingPolicies`](#scalingpolicies) | array of [ScalingPolicyDescription](sfclient-model-scalingpolicydescription.md) | No |
+| [`TagsRequiredToPlace`](#tagsrequiredtoplace) | [NodeTagsDescription](sfclient-model-nodetagsdescription.md) | No |
+| [`TagsRequiredToRun`](#tagsrequiredtorun) | [NodeTagsDescription](sfclient-model-nodetagsdescription.md) | No |
 | [`TargetReplicaSetSize`](#targetreplicasetsize) | integer | Yes |
 | [`MinReplicaSetSize`](#minreplicasetsize) | integer | Yes |
 | [`HasPersistedState`](#haspersistedstate) | boolean | Yes |
@@ -56,6 +59,7 @@ Describes a stateful service.
 | [`StandByReplicaKeepDurationSeconds`](#standbyreplicakeepdurationseconds) | integer (int64) | No |
 | [`ServicePlacementTimeLimitSeconds`](#serviceplacementtimelimitseconds) | integer (int64) | No |
 | [`DropSourceReplicaOnMove`](#dropsourcereplicaonmove) | boolean | No |
+| [`ReplicaLifecycleDescription`](#replicalifecycledescription) | [ReplicaLifecycleDescription](sfclient-model-replicalifecycledescription.md) | No |
 
 ____
 ### `ApplicationName`
@@ -177,6 +181,20 @@ __Required__: No<br/>
 Scaling policies for this service.
 
 ____
+### `TagsRequiredToPlace`
+__Type__: [NodeTagsDescription](sfclient-model-nodetagsdescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Tags for placement of this service.
+
+____
+### `TagsRequiredToRun`
+__Type__: [NodeTagsDescription](sfclient-model-nodetagsdescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Tags for running of this service.
+
+____
 ### `TargetReplicaSetSize`
 __Type__: integer <br/>
 __Required__: Yes<br/>
@@ -258,3 +276,10 @@ __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>
 Indicates whether to drop source Secondary replica even if the target replica has not finished build. If desired behavior is to drop it as soon as possible the value of this property is true, if not it is false.
+
+____
+### `ReplicaLifecycleDescription`
+__Type__: [ReplicaLifecycleDescription](sfclient-model-replicalifecycledescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Defines how replicas of this service will behave during their lifecycle.

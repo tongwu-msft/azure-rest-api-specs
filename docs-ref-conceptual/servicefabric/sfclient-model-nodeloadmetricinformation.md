@@ -1,6 +1,7 @@
 ---
 title: "NodeLoadMetricInformation"
-ms.date: "10/21/2020"
+description: "NodeLoadMetricInformation"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

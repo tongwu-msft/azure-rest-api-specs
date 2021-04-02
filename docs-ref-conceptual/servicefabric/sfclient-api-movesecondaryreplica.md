@@ -1,6 +1,7 @@
 ---
 title: "Move Secondary Replica"
-ms.date: "10/21/2020"
+description: "Move Secondary Replica"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -83,7 +84,7 @@ ____
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The name of the target node for secondary replica move. If not specified, replica is moved to a random node.
+The name of the target node for secondary replica or instance move. If not specified, replica or instance is moved to a random node.
 
 ____
 ### `IgnoreConstraints`
@@ -91,7 +92,7 @@ __Type__: boolean <br/>
 __Required__: No<br/>
 __Default__: `false` <br/>
 <br/>
-Ignore constraints when moving a replica. If this parameter is not specified, all constraints are honored.
+Ignore constraints when moving a replica or instance. If this parameter is not specified, all constraints are honored.
 
 ____
 ### `timeout`

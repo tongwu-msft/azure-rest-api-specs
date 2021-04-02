@@ -1,6 +1,7 @@
 ---
 title: "ServicePlacementAllowMultipleStatelessInstancesOnNodePolicyDescription"
-ms.date: "01/28/2021"
+description: "ServicePlacementAllowMultipleStatelessInstancesOnNodePolicyDescription"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
