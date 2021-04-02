@@ -1,3 +1,9 @@
+---
+title: "Service fabric client table of contents"
+description: Service Fabric client table of contents
+ms.service: "service-fabric"
+---
+
 # [Service Fabric Client APIs](sfclient-index.md)
 ## [Authenticating Service Fabric REST Requests](sfclient-authenticating-service-fabric-rest-requests.md)
 ## [Service Fabric Names and JSON Serialization](sfclient-service-fabric-names-and-json-serialization.md)
