@@ -26,19 +26,19 @@ The REST APIs for storage services expose the storage account as a resource.
 ## Blob Service
 The Blob service provides storage for entities, such as binary files and text files. The REST API for the Blob service exposes two resources: containers and blobs. A container is like a folder, containing a set of blobs; every blob must reside in a container. The Blob service defines three types of blobs:
 
--   Block blobs, which are optimized for streaming. This type of blob is the only blob type available with versions prior to 2009-09-19.
+- Block blobs, which are optimized for streaming. This type of blob is the only blob type available with versions prior to 2009-09-19.
 
--   Page blobs, which are optimized for random read/write operations and which provide the ability to write to a range of bytes in a blob. Page blobs are available with version 2009-09-19 and later. These are primarily used for the VHD files backing the AzureVMs.
+- Page blobs, which are optimized for random read/write operations and which provide the ability to write to a range of bytes in a blob. Page blobs are available with version 2009-09-19 and later. These are primarily used for the VHD files backing the AzureVMs.
 
--   Append blobs, which are optimized for append operations only. Append blobs are available only with version 2015-02-21 and later.
+- Append blobs, which are optimized for append operations only. Append blobs are available only with version 2015-02-21 and later.
 
 Containers and blobs support user-defined metadata in the form of name-value pairs specified as headers on a request operation.
 
 Using the REST API for the Blob service, developers can create a hierarchical namespace similar to a file system. Blob names may encode a hierarchy by using a configurable path separator. For example, the blob names *MyGroup/MyBlob1* and *MyGroup/MyBlob2* imply a virtual level of organization for blobs. The enumeration operation for blobs supports traversing the virtual hierarchy in a manner similar to that of a file system, so that you can return a set of blobs that are organized beneath a group. For example, you can enumerate all blobs organized under *MyGroup/*.
 
-A block blob may be created in one of two ways. Block blobs less than or equal to 256 MiB (5000 MiB) in size can be uploaded by calling the [Put Blob](Put-Blob.md) operation. Block blobs larger than this must be uploaded as a set of blocks, each of which must be less than or equal to 100 MiB (4000 MiB) in size. A set of successfully uploaded blocks can be assembled in a specified order into a single contiguous blob by calling [Put Block List](Put-Block-List.md). The maximum size currently supported for a block blob is 4.75 TiB (190.7 TiB).
+A block blob may be created in one of two ways. You can upload a blob with a single [Put Blob](Put-Blob.md) operation, or you can upload a blob as a set of blocks with a [Put Block](Put-Block.md) operation and commit the blocks to a blob with a [Put Block List](Put-Block-List.md) operation.
 
-Page blobs are created and initialized with a maximum size with a call to [Put Blob](Put-Blob.md). To write content to a page blob, you call the [Put Page](Put-Page.md) operation. The maximum size currently supported for a page blob is 8 TiB.
+Page blobs are created and initialized with a maximum size with a call to [Put Blob](Put-Blob.md). To write content to a page blob, you call the [Put Page](Put-Page.md) operation.
 
 Append blobs can be created by calling [Put Blob](Put-Blob.md). An append blob created with the [Put Blob](Put-Blob.md) operation does not include any content. To write content to an append blob, you add blocks to the end of the blob by calling the [Append Block](Append-Block.md) operation. Updating or deleting existing blocks is not supported. Each block can be of different size, up to a maximum of 4 MiB. The maximum size for an append blob is 195 GiB, and an append blob can include no more than 50,000 blocks.
 
