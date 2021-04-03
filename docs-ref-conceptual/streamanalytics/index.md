@@ -1,6 +1,6 @@
 ---
 title: Azure Stream Analytics REST API Reference
-description: This site explains the REST APIs that you use to manage Azure Stream Analytics: Clusters, Function, Inputs, Operations, Outputs, Private endpoints, Streaming jobs, Subscriptions, Transformations.
+description: This site explains the REST APIs that you use to manage Azure Stream Analytics- Clusters, Function, Inputs, Operations, Outputs, Private endpoints, Streaming jobs, Subscriptions, Transformations.
 ms.service: stream-analytics
 ms.topic: reference
 ms.date: 04/02/2021
