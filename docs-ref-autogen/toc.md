@@ -3018,6 +3018,9 @@
 ## Vaults
 ### [Overview](netapp/Vaults.yml)
 ### [List](netapp/Vaults/List.yml)
+## Volume Backup Status
+### [Overview](netapp/VolumeBackupStatus.yml)
+### [Get](netapp/VolumeBackupStatus/Get.yml)
 ## Volumes
 ### [Overview](netapp/Volumes.yml)
 ### [Authorize Replication](netapp/Volumes/AuthorizeReplication.yml)
@@ -4035,6 +4038,10 @@
 ##### [Move](billing/2020-05-01/Products/Move.yml)
 ##### [Update](billing/2020-05-01/Products/Update.yml)
 ##### [Validate Move](billing/2020-05-01/Products/ValidateMove.yml)
+#### Reservations
+##### [Overview](billing/2020-05-01/Reservations.yml)
+##### [List By Billing Account](billing/2020-05-01/Reservations/ListByBillingAccount.yml)
+##### [List By Billing Profile](billing/2020-05-01/Reservations/ListByBillingProfile.yml)
 #### Transactions
 ##### [Overview](billing/2020-05-01/Transactions.yml)
 ##### [List By Invoice](billing/2020-05-01/Transactions/ListByInvoice.yml)

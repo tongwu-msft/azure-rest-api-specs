@@ -3,7 +3,7 @@ title: Put Block List (REST API) - Azure Storage
 description: The Put Block List operation writes a blob by specifying the list of block IDs that make up the blob.
 author: pemari-msft
 
-ms.date: 03/27/2021
+ms.date: 04/01/2021
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -13,35 +13,39 @@ ms.author: pemari
 
 The `Put Block List` operation writes a blob by specifying the list of block IDs that make up the blob. In order to be written as part of a blob, a block must have been successfully written to the server in a prior [Put Block](Put-Block.md) operation.  
   
- You can call `Put Block List` to update a blob by uploading only those blocks that have changed, then committing the new and existing blocks together. You can do this by specifying whether to commit a block from the committed block list or from the uncommitted block list, or to commit the most recently uploaded version of the block, whichever list it may belong to.  
+You can call `Put Block List` to update a blob by uploading only those blocks that have changed, then committing the new and existing blocks together. You can do this by specifying whether to commit a block from the committed block list or from the uncommitted block list, or to commit the most recently uploaded version of the block, whichever list it may belong to.  
   
 ## Request  
- The `Put Block List` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
+
+The `Put Block List` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
 |PUT Method Request URI|HTTP Version|  
 |----------------------------|------------------|  
 |`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist`|HTTP/1.1|  
   
 ### Emulated Storage Service URI  
- When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
+
+When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
 |PUT Method Request URI|HTTP Version|  
 |----------------------------|------------------|  
 |`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=blocklist`|HTTP/1.1|  
   
- The storage emulator only supports blob sizes up to 2 GiB.  
-  
- For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
+The storage emulator only supports blob sizes up to 2 GiB.  
+
+For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
 ### URI Parameters  
- The following additional parameters may be specified on the request URI.  
+
+The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
- The following table describes required and optional request headers.  
+
+The following table describes required and optional request headers.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
@@ -64,7 +68,7 @@ The `Put Block List` operation writes a blob by specifying the list of block IDs
 |`x-ms-blob-content-disposition`|Optional. Sets the blob’s `Content-Disposition` header. Available for versions 2013-08-15 and later.<br /><br /> The `Content-Disposition` header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to `attachment`, it indicates that the user-agent should not display the response, but instead show a Save As dialog.<br /><br /> The response from the [Get Blob](Get-Blob.md) and [Get Blob Properties](Get-Blob-Properties.md) operations includes the content-disposition header.|  
 |`x-ms-access-tier`|Optional. Version 2018-11-09 and newer. Indicates the tier to be set on a blob. For block blobs, supported on blob storage or general purpose v2 accounts only with version 2018-11-09 and newer. Valid values for block blob tiers are `Hot`/`Cool`/`Archive`. For detailed information about block blob tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).|  
   
- This operation also supports the use of conditional headers to commit the block list only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
+This operation also supports the use of conditional headers to commit the block list only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
 ### Request Headers (Customer-provided encryption keys)
   
@@ -77,19 +81,20 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 |`x-ms-encryption-algorithm: AES256`|Required. Specifies the algorithm to use for encryption. The value of this header must be `AES256`.|  
   
 ### Request Body  
- In the request body, you can specify which block list the Blob service should check for the requested block. In this way you can update an existing blob by inserting, replacing, or deleting individual blocks, rather than reuploading the entire blob. Once you've uploaded the block or blocks that have changed, you can commit a new version of the blob by committing the new blocks together with the existing blocks that you wish to keep.  
+
+In the request body, you can specify which block list the Blob service should check for the requested block. In this way you can update an existing blob by inserting, replacing, or deleting individual blocks, rather than reuploading the entire blob. Once you've uploaded the block or blocks that have changed, you can commit a new version of the blob by committing the new blocks together with the existing blocks that you wish to keep.  
   
- To update a blob, you can specify that the service should look for a block ID in the committed block list, in the uncommitted block list, or in the uncommitted block list first and then in the committed block list. To indicate which approach to use, specify the block ID within the appropriate XML element within the request body, as follows:  
+To update a blob, you can specify that the service should look for a block ID in the committed block list, in the uncommitted block list, or in the uncommitted block list first and then in the committed block list. To indicate which approach to use, specify the block ID within the appropriate XML element within the request body, as follows:  
   
--   Specify the block ID within the `Committed` element to indicate that the Blob service should search only the committed block list for the named block. If the block is not found in the committed block list, it will not be written as part of the blob, and the Blob service will return status code 400 (Bad Request).  
+- Specify the block ID within the `Committed` element to indicate that the Blob service should search only the committed block list for the named block. If the block is not found in the committed block list, it will not be written as part of the blob, and the Blob service will return status code 400 (Bad Request).  
   
--   Specify the block ID within the `Uncommitted` element to indicate that the Blob service should search only the uncommitted block list for the named block. If the block is not found in the uncommitted block list, it will not be written as part of the blob, and the Blob service will return status code 400 (Bad Request).  
+- Specify the block ID within the `Uncommitted` element to indicate that the Blob service should search only the uncommitted block list for the named block. If the block is not found in the uncommitted block list, it will not be written as part of the blob, and the Blob service will return status code 400 (Bad Request).  
   
--   Specify the block ID within the `Latest` element to indicate that the Blob service should first search the uncommitted block list. If the block is found in the uncommitted list, that version of the block is the latest and should be written to the blob. If the block is not found in the uncommitted list, then the service should search the committed block list for the named block and write that block to the blob if it is found.  
+- Specify the block ID within the `Latest` element to indicate that the Blob service should first search the uncommitted block list. If the block is found in the uncommitted list, that version of the block is the latest and should be written to the blob. If the block is not found in the uncommitted list, then the service should search the committed block list for the named block and write that block to the blob if it is found.  
   
- The request body for this version of `Put Block List` uses following XML format:  
+The request body for this version of `Put Block List` uses following XML format:  
   
-```  
+```xml
 <?xml version="1.0" encoding="utf-8"?>  
 <BlockList>  
   <Committed>first-base64-encoded-block-id</Committed>  
@@ -101,10 +106,10 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 ```  
   
 ### Sample Request  
- To demonstrate `Put Block List`, assume you have uploaded three blocks that you now wish to commit. The following example commits a new blob by indicating that the latest version of each block listed should be used. It's not necessary to know whether these blocks have already been committed.  
+
+To demonstrate `Put Block List`, assume you have uploaded three blocks that you now wish to commit. The following example commits a new blob by indicating that the latest version of each block listed should be used. It's not necessary to know whether these blocks have already been committed.  
   
-```  
-  
+```http
 Request Syntax:  
 PUT https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist HTTP/1.1  
   
@@ -127,16 +132,15 @@ Request Body:
   
  Next, assume that you wish to update the blob. The new blob will have the following changes:  
   
--   A new block with ID `ANAAAA==`. This block must first be uploaded with a call to [Put Block](Put-Block.md) and will appear in the uncommitted block list until the call to `Put Block List`.  
+- A new block with ID `ANAAAA==`. This block must first be uploaded with a call to [Put Block](Put-Block.md) and will appear in the uncommitted block list until the call to `Put Block List`.  
   
--   An updated version of the block with ID `AZAAAA==`. This block must first be uploaded with a call to [Put Block](Put-Block.md) and will appear in the uncommitted block list until the call to `Put Block List`.  
+- An updated version of the block with ID `AZAAAA==`. This block must first be uploaded with a call to [Put Block](Put-Block.md) and will appear in the uncommitted block list until the call to `Put Block List`.  
   
--   Removal of the block with the ID `AAAAAA==`. Given that this block is not included in the next call to `Put Block List`, the block will effectively be removed from the blob.  
+- Removal of the block with the ID `AAAAAA==`. Given that this block is not included in the next call to `Put Block List`, the block will effectively be removed from the blob.  
   
  The following example shows the call to `Put Block List` that updates the blob:  
   
-```  
-  
+```http  
 Request Syntax:  
 PUT https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=blocklist HTTP/1.1  
   
@@ -157,16 +161,19 @@ Request Body:
   
 ```  
   
-## Response  
- The response includes an HTTP status code and a set of response headers.  
+## Response
+  
+The response includes an HTTP status code and a set of response headers.  
   
 ### Status Code  
- A successful operation returns status code 201 (Created).  
+
+A successful operation returns status code 201 (Created).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
+
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response|Descriptions|  
 |--------------|------------------|  
@@ -185,7 +192,7 @@ Request Body:
   
 ### Sample Response  
   
-```  
+```http  
 Response Status:  
 HTTP/1.1 201 Created  
   
@@ -201,39 +208,47 @@ x-ms-version-id: <DateTime>
 ```  
   
 ## Authorization  
- This operation can be called by the account owner and by anyone with a Shared Access Signature that has permission to write to this blob or its container.  
+
+This operation can be called by the account owner and by anyone with a Shared Access Signature that has permission to write to this blob or its container.  
   
- If a request specifies tags with the `x-ms-tags` request header, the caller must meet the authorization requirements of the [Set Blob Tags](Set-Blob-Tags.md) operation.  
+If a request specifies tags with the `x-ms-tags` request header, the caller must meet the authorization requirements of the [Set Blob Tags](Set-Blob-Tags.md) operation.  
   
 ## Remarks  
- The `Put Block List` operation enforces the order in which blocks are to be combined to create a blob.  
+
+The `Put Block List` operation enforces the order in which blocks are to be combined to create a blob.  
   
- The same block ID can be specified more than one time in the list of blocks. If a block ID is specified more than one time, it will represent the range of bytes in each of those locations in the block list for the final committed blob. If a block ID appears more than once in the list, both instances of the block ID must be specified within the same block list. In other words, both instances must be specified within the `Committed` element, the `Uncommitted` element, or the `Latest` element.  
+The same block ID can be specified more than one time in the list of blocks. If a block ID is specified more than one time, it will represent the range of bytes in each of those locations in the block list for the final committed blob. If a block ID appears more than once in the list, both instances of the block ID must be specified within the same block list. In other words, both instances must be specified within the `Committed` element, the `Uncommitted` element, or the `Latest` element.  
   
- With `Put Block List`, you can modify an existing blob by inserting, updating, or deleting individual blocks, without uploading the whole blob again. You can specify block IDs from both the current committed block list and the uncommitted block list to create a new blob or update the content of an existing blob. In this way, you can update a blob by specifying a few new blocks from the uncommitted block list, and the rest from the committed block list, which are already part of the existing blob.  
+With `Put Block List`, you can modify an existing blob by inserting, updating, or deleting individual blocks, without uploading the whole blob again. You can specify block IDs from both the current committed block list and the uncommitted block list to create a new blob or update the content of an existing blob. In this way, you can update a blob by specifying a few new blocks from the uncommitted block list, and the rest from the committed block list, which are already part of the existing blob.  
   
- If a block ID is specified in the `Latest` element, and the same block ID exists in both the committed and uncommitted block lists, `Put Block List` commits the block from the uncommitted block list. If the block ID exists in the committed block list but not in the uncommitted block list, then `Put Block List` commits the block from the committed block list.  
+If a block ID is specified in the `Latest` element, and the same block ID exists in both the committed and uncommitted block lists, `Put Block List` commits the block from the uncommitted block list. If the block ID exists in the committed block list but not in the uncommitted block list, then `Put Block List` commits the block from the committed block list.  
   
- Each block can be a different size, up to a maximum of 4000 MiB for version 2019-12-12 and later, 100 MiB for version 2016-05-31 and later, and 4 MiB for older versions. The maximum size of a block blob is therefore 190.7 TiB (4000 MiB X 50,000 blocks) for version 2019-12-12 and later, 4.75 TiB (100 MiB X 50,000 blocks) for version 2016-05-31 and later, and 195 GiB (4 MiB X 50,000 blocks) for all older versions. If you attempt to commit more than 50,000 blocks, the service returns status code 400 (Block List Too Long). The service also returns additional information about the error in the response, including the maximum number of blocks permitted.  
+Each block in a block blob can be a different size. A block blob can include a maximum of 50,000 committed blocks. The maximum number of uncommitted blocks that may be associated with a blob is 100,000. The following table describes the maximum block and blob sizes permitted by service version:
+
+| Service version | Maximum block size (via Put Block) | Maximum blob size (via Put Block List) | Maximum blob size via single write operation (via Put Blob) |
+|-|-|-|-|
+| Version 2019-12-12 and later | 4000 MiB | Approximately 190.7 TiB (4000 MiB X 50,000 blocks) | 5000 MiB (preview) |
+| Version 2016-05-31 through version 2019-07-07 | 100 MiB | Approximately 4.75 TiB (100 MiB X 50,000 blocks) | 256 MiB |
+| Versions prior to 2016-05-31 | 4 MiB | Approximately 195 GiB (4 MiB X 50,000 blocks) | 64 MiB |
   
- The maximum number of uncommitted blocks that may be associated with a blob is 100,000.  
+When you call `Put Block List` to update an existing blob, the blob's existing properties and metadata are overwritten. However, any existing snapshots are retained with the blob. You can use the conditional request headers to perform the operation only if a specified condition is met.  
   
- When you call `Put Block List` to update an existing blob, the blob's existing properties and metadata are overwritten. However, any existing snapshots are retained with the blob. You can use the conditional request headers to perform the operation only if a specified condition is met.  
+If the `Put Block List` operation fails due to a missing block, you will need to upload the missing block.  
   
- If the `Put Block List` operation fails due to a missing block, you will need to upload the missing block.  
+Any uncommitted blocks will be garbage collected if there are no successful calls to `Put Block` or `Put Block List` on the blob within a week following the last successful `Put Block` operation. If [Put Blob](Put-Blob.md) is called on the blob, any uncommitted blocks will be garbage collected.  
   
- Any uncommitted blocks will be garbage collected if there are no successful calls to `Put Block` or `Put Block List` on the blob within a week following the last successful `Put Block` operation. If [Put Blob](Put-Blob.md) is called on the blob, any uncommitted blocks will be garbage collected.  
-  
- If tags are provided in the `x-ms-tags` header, they must be query-string encoded. Tag keys and values must conform to the naming and length requirements as specified in Set Blob Tags. Further, the `x-ms-tags` header may contain up to 2 kb of tags. If more tags are required, use the [Set Blob Tags](Set-Blob-Tags.md) operation.  
-  
- If the blob has an active lease, the client must specify a valid lease ID on the request in order to commit the block list. If the client does not specify a lease ID, or specifies an invalid lease ID, the Blob service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the blob does not have an active lease, the Blob service also returns status code 412 (Precondition Failed). If the client specifies a lease ID on a blob that does not yet exist, the Blob service will return status code 412 (Precondition Failed) for requests made against version 2013-08-15 and later; for prior versions the Blob service will return status code 201 (Created).  
-  
- If the blob has an active lease and you call `Put Block List` to update the blob, the lease is maintained on the updated blob.  
-  
- `Put Block List` applies only to block blobs. Calling `Put Block List` on a page blob results in status code 400 (Bad Request).  
-  
- Overwriting an archived blob will fail and overwriting a `hot`/`cool` blob will inherit the tier from the old blob if x-ms-access-tier header is not provided.
+If tags are provided in the `x-ms-tags` header, they must be query-string encoded. Tag keys and values must conform to the naming and length requirements as specified in Set Blob Tags. Further, the `x-ms-tags` header may contain tags up to 2 KiB in size. If more tags are required, use the [Set Blob Tags](Set-Blob-Tags.md) operation.  
+
+If the blob has an active lease, the client must specify a valid lease ID on the request in order to commit the block list. If the client does not specify a lease ID, or specifies an invalid lease ID, the Blob service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the blob does not have an active lease, the Blob service also returns status code 412 (Precondition Failed). If the client specifies a lease ID on a blob that does not yet exist, the Blob service will return status code 412 (Precondition Failed) for requests made against version 2013-08-15 and later; for prior versions the Blob service will return status code 201 (Created).  
+
+If the blob has an active lease and you call `Put Block List` to update the blob, the lease is maintained on the updated blob.  
+
+`Put Block List` applies only to block blobs. Calling `Put Block List` on a page blob results in status code 400 (Bad Request).  
+
+Overwriting an archived blob will fail and overwriting a `hot`/`cool` blob will inherit the tier from the old blob if x-ms-access-tier header is not provided.
+
 ## See Also  
+
  [Understanding Block Blobs, Append Blobs, and Page Blobs](Understanding-Block-Blobs--Append-Blobs--and-Page-Blobs.md)   
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
