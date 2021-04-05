@@ -3018,6 +3018,9 @@
 ## Vaults
 ### [Overview](netapp/Vaults.yml)
 ### [List](netapp/Vaults/List.yml)
+## Volume Backup Status
+### [Overview](netapp/VolumeBackupStatus.yml)
+### [Get](netapp/VolumeBackupStatus/Get.yml)
 ## Volumes
 ### [Overview](netapp/Volumes.yml)
 ### [Authorize Replication](netapp/Volumes/AuthorizeReplication.yml)
