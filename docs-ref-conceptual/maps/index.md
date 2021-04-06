@@ -2,7 +2,7 @@
 title: Azure Maps overview | Microsoft Docs
 description: Overview of Azure Maps service
 ms.date: 04/06/2021
-ms.prod: maps
+ms.service: azure-maps
 ms.topic: reference
 ms.devlang: rest-api
 author: sethmanheim
