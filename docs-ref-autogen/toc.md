@@ -9559,14 +9559,14 @@
 ### [Get Traffic Incident Viewport](maps/Traffic/GetTrafficIncidentViewport.yml)
 ## Weather
 ### [Overview](maps/Weather.yml)
-### [Get Current Conditions Preview](maps/Weather/GetCurrentConditionsPreview.yml)
-### [Get Daily Forecast Preview](maps/Weather/GetDailyForecastPreview.yml)
-### [Get Daily Indices Preview](maps/Weather/GetDailyIndicesPreview.yml)
-### [Get Hourly Forecast Preview](maps/Weather/GetHourlyForecastPreview.yml)
-### [Get Minute Forecast Preview](maps/Weather/GetMinuteForecastPreview.yml)
-### [Get Quarter Day Forecast Preview](maps/Weather/GetQuarterDayForecastPreview.yml)
-### [Get Severe Weather Alerts Preview](maps/Weather/GetSevereWeatherAlertsPreview.yml)
-### [Get Weather Along Route Preview](maps/Weather/GetWeatherAlongRoutePreview.yml)
+### [Get Current Conditions](maps/Weather/GetCurrentConditions.yml)
+### [Get Daily Forecast](maps/Weather/GetDailyForecast.yml)
+### [Get Daily Indices](maps/Weather/GetDailyIndices.yml)
+### [Get Hourly Forecas](maps/Weather/GetHourlyForecas.yml)
+### [Get Minute Forecast](maps/Weather/GetMinuteForecast.yml)
+### [Get Quarter Day Forecast](maps/Weather/GetQuarterDayForecast.yml)
+### [Get Severe Weather Alerts](maps/Weather/GetSevereWeatherAlerts.yml)
+### [Get Weather Along Route](maps/Weather/GetWeatherAlongRoute.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
 ## Alias
