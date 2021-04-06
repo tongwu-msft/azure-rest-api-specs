@@ -5450,6 +5450,17 @@
 #### [Release Phone Numbers](communication/PhoneNumberAdministration/ReleasePhoneNumbers.yml)
 #### [Unconfigure Number](communication/PhoneNumberAdministration/UnconfigureNumber.yml)
 #### [Update Capabilities](communication/PhoneNumberAdministration/UpdateCapabilities.yml)
+### Phone Numbers
+#### [Overview](communication/PhoneNumbers.yml)
+#### [Cancel Operation](communication/PhoneNumbers/CancelOperation.yml)
+#### [Get By Number](communication/PhoneNumbers/GetByNumber.yml)
+#### [Get Operation](communication/PhoneNumbers/GetOperation.yml)
+#### [Get Search Result](communication/PhoneNumbers/GetSearchResult.yml)
+#### [List Phone Numbers](communication/PhoneNumbers/ListPhoneNumbers.yml)
+#### [Purchase Phone Numbers](communication/PhoneNumbers/PurchasePhoneNumbers.yml)
+#### [Release Phone Number](communication/PhoneNumbers/ReleasePhoneNumber.yml)
+#### [Search Available Phone Numbers](communication/PhoneNumbers/SearchAvailablePhoneNumbers.yml)
+#### [Update Capabilities](communication/PhoneNumbers/UpdateCapabilities.yml)
 ### Sms
 #### [Overview](communication/Sms.yml)
 #### [Send](communication/Sms/Send.yml)
