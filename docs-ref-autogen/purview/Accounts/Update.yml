@@ -52,6 +52,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: properties
+    in: body
+    description: The account properties.
+    types:
+    - uid: AccountProperties
   - name: tags
     in: body
     description: Tags on the azure resource.
@@ -61,23 +66,191 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: properties.cloudConnectors
-    in: body
+requestHeader: []
+definitions:
+- name: AccountProperties
+  description: The account properties
+  kind: object
+  properties:
+  - name: cloudConnectors
     description: >-
       Cloud connectors.
 
       External cloud identifier used as part of scanning configuration.
     types:
     - uid: CloudConnectors
-  - name: properties.publicNetworkAccess
-    in: body
+  - name: createdAt
+    isReadyOnly: true
+    description: Gets the time at which the entity was created.
+    types:
+    - uid: string
+  - name: createdBy
+    isReadyOnly: true
+    description: Gets the creator of the entity.
+    types:
+    - uid: string
+  - name: createdByObjectId
+    isReadyOnly: true
+    description: Gets the creators of the entity's object id.
+    types:
+    - uid: string
+  - name: endpoints
+    isReadyOnly: true
+    description: The URIs that are the public endpoints of the account.
+    types:
+    - uid: Endpoints
+  - name: friendlyName
+    isReadyOnly: true
+    description: Gets or sets the friendly name.
+    types:
+    - uid: string
+  - name: managedResources
+    isReadyOnly: true
+    description: Gets the resource identifiers of the managed resources.
+    types:
+    - uid: ManagedResources
+  - name: privateEndpointConnections
+    isReadyOnly: true
+    description: Gets the private endpoint connections information.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
+  - name: provisioningState
+    isReadyOnly: true
+    description: Gets or sets the state of the provisioning.
+    types:
+    - uid: provisioningState
+  - name: publicNetworkAccess
     description: Gets or sets the public network access.
     types:
     - uid: publicNetworkAccess
-requestHeader: []
-definitions:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
+- name: Account
+  description: Account resource
+  kind: object
+  properties:
+  - name: sku
+    description: Gets or sets the Sku.
+    types:
+    - uid: AccountSku
+  - name: properties.cloudConnectors
+    description: >-
+      Cloud connectors.
+
+      External cloud identifier used as part of scanning configuration.
+    types:
+    - uid: CloudConnectors
+  - name: properties.createdAt
+    isReadyOnly: true
+    description: Gets the time at which the entity was created.
+    types:
+    - uid: string
+  - name: properties.createdBy
+    isReadyOnly: true
+    description: Gets the creator of the entity.
+    types:
+    - uid: string
+  - name: properties.createdByObjectId
+    isReadyOnly: true
+    description: Gets the creators of the entity's object id.
+    types:
+    - uid: string
+  - name: properties.endpoints
+    isReadyOnly: true
+    description: The URIs that are the public endpoints of the account.
+    types:
+    - uid: Endpoints
+  - name: properties.friendlyName
+    isReadyOnly: true
+    description: Gets or sets the friendly name.
+    types:
+    - uid: string
+  - name: properties.managedResources
+    isReadyOnly: true
+    description: Gets the resource identifiers of the managed resources.
+    types:
+    - uid: AccountProperties.ManagedResources
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: Gets the private endpoint connections information.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Gets or sets the state of the provisioning.
+    types:
+    - uid: provisioningState
+  - name: properties.publicNetworkAccess
+    description: Gets or sets the public network access.
+    types:
+    - uid: publicNetworkAccess
+  - name: properties.systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: AccountProperties.SystemData
+  - name: id
+    isReadyOnly: true
+    description: Gets or sets the identifier.
+    types:
+    - uid: string
+  - name: identity
+    description: Identity Info on the tracked resource
+    types:
+    - uid: Identity
+  - name: location
+    description: Gets or sets the location.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Gets or sets the name.
+    types:
+    - uid: string
+  - name: tags
+    description: Tags on the azure resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Gets or sets the type.
+    types:
+    - uid: string
+- name: ErrorResponseModel
+  description: Default error response model
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Gets or sets the error.
+    types:
+    - uid: Error
+- name: AccountUpdateParameters
+  description: The account update properties.
+  kind: object
+  properties:
+  - name: properties
+    description: The account properties.
+    types:
+    - uid: AccountProperties
+  - name: tags
+    description: Tags on the azure resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: CloudConnectors
-  description: Properties for configuring third party cloud connections.
   kind: object
   properties:
   - name: awsExternalId
@@ -108,6 +281,25 @@ definitions:
     types:
     - uid: string
 - name: ManagedResources
+  description: The managed resources in customer subscription.
+  kind: object
+  properties:
+  - name: eventHubNamespace
+    isReadyOnly: true
+    description: Gets the managed event hub namespace resource identifier.
+    types:
+    - uid: string
+  - name: resourceGroup
+    isReadyOnly: true
+    description: Gets the managed resource group resource identifier. This resource group will host resource dependencies for the account.
+    types:
+    - uid: string
+  - name: storageAccount
+    isReadyOnly: true
+    description: Gets the managed storage account resource identifier.
+    types:
+    - uid: string
+- name: AccountProperties.ManagedResources
   description: Gets the resource identifiers of the managed resources.
   kind: object
   properties:
@@ -158,206 +350,6 @@ definitions:
     description: Gets or sets the type.
     types:
     - uid: string
-- name: Account
-  description: Account resource
-  kind: object
-  properties:
-  - name: sku
-    description: Gets or sets the Sku.
-    types:
-    - uid: AccountSku
-  - name: properties.cloudConnectors
-    description: >-
-      Cloud connectors.
-
-      External cloud identifier used as part of scanning configuration.
-    types:
-    - uid: CloudConnectors
-  - name: properties.createdAt
-    isReadyOnly: true
-    description: Gets the time at which the entity was created.
-    types:
-    - uid: string
-  - name: properties.createdBy
-    isReadyOnly: true
-    description: Gets the creator of the entity.
-    types:
-    - uid: string
-  - name: properties.createdByObjectId
-    isReadyOnly: true
-    description: Gets the creators of the entity's object id.
-    types:
-    - uid: string
-  - name: properties.endpoints
-    isReadyOnly: true
-    description: The URIs that are the public endpoints of the account.
-    types:
-    - uid: Endpoints
-  - name: properties.friendlyName
-    isReadyOnly: true
-    description: Gets or sets the friendly name.
-    types:
-    - uid: string
-  - name: properties.managedResources
-    isReadyOnly: true
-    description: Gets the resource identifiers of the managed resources.
-    types:
-    - uid: ManagedResources
-  - name: properties.privateEndpointConnections
-    isReadyOnly: true
-    description: Gets the private endpoint connections information.
-    types:
-    - uid: PrivateEndpointConnection
-      isArray: true
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: Gets or sets the state of the provisioning.
-    types:
-    - uid: provisioningState
-  - name: properties.publicNetworkAccess
-    description: Gets or sets the public network access.
-    types:
-    - uid: publicNetworkAccess
-  - name: id
-    isReadyOnly: true
-    description: Gets or sets the identifier.
-    types:
-    - uid: string
-  - name: identity
-    description: Identity Info on the tracked resource
-    types:
-    - uid: Identity
-  - name: location
-    description: Gets or sets the location.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Gets or sets the name.
-    types:
-    - uid: string
-  - name: tags
-    description: Tags on the azure resource.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Gets or sets the type.
-    types:
-    - uid: string
-- name: ErrorResponseModel
-  description: Default error response model
-  kind: object
-  properties:
-  - name: error
-    isReadyOnly: true
-    description: Gets or sets the error.
-    types:
-    - uid: Error
-- name: AccountUpdateParameters
-  description: The account update properties.
-  kind: object
-  properties:
-  - name: tags
-    description: Tags on the azure resource.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: properties.cloudConnectors
-    description: >-
-      Cloud connectors.
-
-      External cloud identifier used as part of scanning configuration.
-    types:
-    - uid: CloudConnectors
-  - name: properties.createdAt
-    isReadyOnly: true
-    description: Gets the time at which the entity was created.
-    types:
-    - uid: string
-  - name: properties.createdBy
-    isReadyOnly: true
-    description: Gets the creator of the entity.
-    types:
-    - uid: string
-  - name: properties.createdByObjectId
-    isReadyOnly: true
-    description: Gets the creators of the entity's object id.
-    types:
-    - uid: string
-  - name: properties.endpoints
-    isReadyOnly: true
-    description: The URIs that are the public endpoints of the account.
-    types:
-    - uid: Endpoints
-  - name: properties.friendlyName
-    isReadyOnly: true
-    description: Gets or sets the friendly name.
-    types:
-    - uid: string
-  - name: properties.managedResources
-    isReadyOnly: true
-    description: Gets the resource identifiers of the managed resources.
-    types:
-    - uid: ManagedResources
-  - name: properties.privateEndpointConnections
-    isReadyOnly: true
-    description: Gets the private endpoint connections information.
-    types:
-    - uid: PrivateEndpointConnection
-      isArray: true
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: Gets or sets the state of the provisioning.
-    types:
-    - uid: provisioningState
-  - name: properties.publicNetworkAccess
-    description: Gets or sets the public network access.
-    types:
-    - uid: publicNetworkAccess
-- name: PrivateEndpoint
-  description: A private endpoint class.
-  kind: object
-  properties:
-  - name: id
-    description: The private endpoint identifier.
-    types:
-    - uid: string
-- name: PrivateLinkServiceConnectionState
-  description: The private link service connection state.
-  kind: object
-  properties:
-  - name: actionsRequired
-    description: The required actions.
-    types:
-    - uid: string
-  - name: description
-    description: The description.
-    types:
-    - uid: string
-  - name: status
-    description: The status.
-    types:
-    - uid: status
-- name: AccountSku
-  description: The Sku
-  kind: object
-  properties:
-  - name: capacity
-    description: 'Gets or sets the sku capacity. Possible values include: 4, 16'
-    types:
-    - uid: integer
-  - name: name
-    description: Gets or sets the sku name.
-    types:
-    - uid: name
 - name: provisioningState
   description: Gets or sets the state of the provisioning.
   kind: enum
@@ -399,6 +391,74 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of the last modification the resource (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: lastModifiedByType
+- name: AccountProperties.SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of the last modification the resource (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: lastModifiedByType
+- name: AccountSku
+  description: The Sku
+  kind: object
+  properties:
+  - name: capacity
+    description: 'Gets or sets the sku capacity. Possible values include: 4, 16'
+    types:
+    - uid: integer
+  - name: name
+    description: Gets or sets the sku name.
+    types:
+    - uid: name
 - name: Identity
   description: The Managed Identity of the resource
   kind: object
@@ -442,23 +502,60 @@ definitions:
     description: Gets or sets the target.
     types:
     - uid: string
-- name: status
-  description: The status.
+- name: PrivateEndpoint
+  description: A private endpoint class.
+  kind: object
+  properties:
+  - name: id
+    description: The private endpoint identifier.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: The private link service connection state.
+  kind: object
+  properties:
+  - name: actionsRequired
+    description: The required actions.
+    types:
+    - uid: string
+  - name: description
+    description: The description.
+    types:
+    - uid: string
+  - name: status
+    description: The status.
+    types:
+    - uid: status
+- name: createdByType
+  description: The type of identity that created the resource.
   kind: enum
   properties:
-  - name: Unknown
+  - name: User
     types:
     - uid: string
-  - name: Pending
+  - name: Application
     types:
     - uid: string
-  - name: Approved
+  - name: ManagedIdentity
     types:
     - uid: string
-  - name: Rejected
+  - name: Key
     types:
     - uid: string
-  - name: Disconnected
+- name: lastModifiedByType
+  description: The type of identity that last modified the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
     types:
     - uid: string
 - name: name
@@ -498,6 +595,25 @@ definitions:
   - name: target
     isReadyOnly: true
     description: Gets or sets the target.
+    types:
+    - uid: string
+- name: status
+  description: The status.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
     types:
     - uid: string
 examples:
