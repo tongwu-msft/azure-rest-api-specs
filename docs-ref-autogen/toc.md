@@ -2826,6 +2826,12 @@
 #### [Delete](migrate/assessment/HyperVCollectors/Delete.yml)
 #### [Get](migrate/assessment/HyperVCollectors/Get.yml)
 #### [List By Project](migrate/assessment/HyperVCollectors/ListByProject.yml)
+### Import Collectors
+#### [Overview](migrate/assessment/ImportCollectors.yml)
+#### [Create](migrate/assessment/ImportCollectors/Create.yml)
+#### [Delete](migrate/assessment/ImportCollectors/Delete.yml)
+#### [Get](migrate/assessment/ImportCollectors/Get.yml)
+#### [List By Project](migrate/assessment/ImportCollectors/ListByProject.yml)
 ### Machines
 #### [Overview](migrate/assessment/Machines.yml)
 #### [Get](migrate/assessment/Machines/Get.yml)
@@ -2833,6 +2839,16 @@
 ### Operations
 #### [Overview](migrate/assessment/Operations.yml)
 #### [List](migrate/assessment/Operations/List.yml)
+### Private Endpoint Connection
+#### [Overview](migrate/assessment/PrivateEndpointConnection.yml)
+#### [Delete](migrate/assessment/PrivateEndpointConnection/Delete.yml)
+#### [Get](migrate/assessment/PrivateEndpointConnection/Get.yml)
+#### [List By Project](migrate/assessment/PrivateEndpointConnection/ListByProject.yml)
+#### [Update](migrate/assessment/PrivateEndpointConnection/Update.yml)
+### Private Link Resource
+#### [Overview](migrate/assessment/PrivateLinkResource.yml)
+#### [Get](migrate/assessment/PrivateLinkResource/Get.yml)
+#### [List By Project](migrate/assessment/PrivateLinkResource/ListByProject.yml)
 ### Projects
 #### [Overview](migrate/assessment/Projects.yml)
 #### [Assessment Options](migrate/assessment/Projects/AssessmentOptions.yml)
@@ -2843,6 +2859,12 @@
 #### [List](migrate/assessment/Projects/List.yml)
 #### [List By Subscription](migrate/assessment/Projects/ListBySubscription.yml)
 #### [Update](migrate/assessment/Projects/Update.yml)
+### Server Collectors
+#### [Overview](migrate/assessment/ServerCollectors.yml)
+#### [Create](migrate/assessment/ServerCollectors/Create.yml)
+#### [Delete](migrate/assessment/ServerCollectors/Delete.yml)
+#### [Get](migrate/assessment/ServerCollectors/Get.yml)
+#### [List By Project](migrate/assessment/ServerCollectors/ListByProject.yml)
 ### VM ware Collectors
 #### [Overview](migrate/assessment/VMwareCollectors.yml)
 #### [Create](migrate/assessment/VMwareCollectors/Create.yml)
@@ -5450,6 +5472,17 @@
 #### [Release Phone Numbers](communication/PhoneNumberAdministration/ReleasePhoneNumbers.yml)
 #### [Unconfigure Number](communication/PhoneNumberAdministration/UnconfigureNumber.yml)
 #### [Update Capabilities](communication/PhoneNumberAdministration/UpdateCapabilities.yml)
+### Phone Numbers
+#### [Overview](communication/PhoneNumbers.yml)
+#### [Cancel Operation](communication/PhoneNumbers/CancelOperation.yml)
+#### [Get By Number](communication/PhoneNumbers/GetByNumber.yml)
+#### [Get Operation](communication/PhoneNumbers/GetOperation.yml)
+#### [Get Search Result](communication/PhoneNumbers/GetSearchResult.yml)
+#### [List Phone Numbers](communication/PhoneNumbers/ListPhoneNumbers.yml)
+#### [Purchase Phone Numbers](communication/PhoneNumbers/PurchasePhoneNumbers.yml)
+#### [Release Phone Number](communication/PhoneNumbers/ReleasePhoneNumber.yml)
+#### [Search Available Phone Numbers](communication/PhoneNumbers/SearchAvailablePhoneNumbers.yml)
+#### [Update Capabilities](communication/PhoneNumbers/UpdateCapabilities.yml)
 ### Sms
 #### [Overview](communication/Sms.yml)
 #### [Send](communication/Sms/Send.yml)
@@ -6210,6 +6243,12 @@
 ##### [Migrate Gremlin Graph To Manual Throughput](cosmos-db-resource-provider/2021-03-01-preview/GremlinResources/MigrateGremlinGraphToManualThroughput.yml)
 ##### [Update Gremlin Database Throughput](cosmos-db-resource-provider/2021-03-01-preview/GremlinResources/UpdateGremlinDatabaseThroughput.yml)
 ##### [Update Gremlin Graph Throughput](cosmos-db-resource-provider/2021-03-01-preview/GremlinResources/UpdateGremlinGraphThroughput.yml)
+#### Location Get
+##### [Overview](cosmos-db-resource-provider/2021-03-01-preview/LocationGet.yml)
+##### [Location Get](cosmos-db-resource-provider/2021-03-01-preview/LocationGet/LocationGet.yml)
+#### Location List
+##### [Overview](cosmos-db-resource-provider/2021-03-01-preview/LocationList.yml)
+##### [Location List](cosmos-db-resource-provider/2021-03-01-preview/LocationList/LocationList.yml)
 #### Mongo DB Resources
 ##### [Overview](cosmos-db-resource-provider/2021-03-01-preview/MongoDBResources.yml)
 ##### [Create Update Mongo DB Collection](cosmos-db-resource-provider/2021-03-01-preview/MongoDBResources/CreateUpdateMongoDBCollection.yml)
@@ -9548,14 +9587,14 @@
 ### [Get Traffic Incident Viewport](maps/Traffic/GetTrafficIncidentViewport.yml)
 ## Weather
 ### [Overview](maps/Weather.yml)
-### [Get Current Conditions Preview](maps/Weather/GetCurrentConditionsPreview.yml)
-### [Get Daily Forecast Preview](maps/Weather/GetDailyForecastPreview.yml)
-### [Get Daily Indices Preview](maps/Weather/GetDailyIndicesPreview.yml)
-### [Get Hourly Forecast Preview](maps/Weather/GetHourlyForecastPreview.yml)
-### [Get Minute Forecast Preview](maps/Weather/GetMinuteForecastPreview.yml)
-### [Get Quarter Day Forecast Preview](maps/Weather/GetQuarterDayForecastPreview.yml)
-### [Get Severe Weather Alerts Preview](maps/Weather/GetSevereWeatherAlertsPreview.yml)
-### [Get Weather Along Route Preview](maps/Weather/GetWeatherAlongRoutePreview.yml)
+### [Get Current Conditions](maps/Weather/GetCurrentConditions.yml)
+### [Get Daily Forecast](maps/Weather/GetDailyForecast.yml)
+### [Get Daily Indices](maps/Weather/GetDailyIndices.yml)
+### [Get Hourly Forecas](maps/Weather/GetHourlyForecas.yml)
+### [Get Minute Forecast](maps/Weather/GetMinuteForecast.yml)
+### [Get Quarter Day Forecast](maps/Weather/GetQuarterDayForecast.yml)
+### [Get Severe Weather Alerts](maps/Weather/GetSevereWeatherAlerts.yml)
+### [Get Weather Along Route](maps/Weather/GetWeatherAlongRoute.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
 ## Alias

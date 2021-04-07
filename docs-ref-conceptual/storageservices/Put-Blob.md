@@ -3,7 +3,7 @@ title: Put Blob (REST API) - Azure Storage
 description: The Put Blob operation creates a new block, page, or append blob, or updates the content of an existing block blob.
 author: pemari-msft
 
-ms.date: 04/01/2021
+ms.date: 04/06/2021
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
