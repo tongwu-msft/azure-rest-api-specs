@@ -4,7 +4,7 @@ description: Provides operations to programmatically get Azure service retail pr
 author: bandersmsft
 ms.author: banders
 ms.reviewer: mumami
-ms.date: 02/10/2021
+ms.date: 04/07/2021
 ms.topic: reference
 ms.service: cost-management-billing
 ms.subservice: cost-management
@@ -45,6 +45,12 @@ Example call filtered for compute resources
 
 ```http
 https://prices.azure.com/api/retail/prices?$filter=serviceFamily eq 'Compute'
+```
+
+Example call filtered for compute with currency in euro
+
+```http
+https://prices.azure.com/api/retail/prices?currencyCode='EUR'&$filter=serviceFamily eq 'Compute'
 ```
 
 ## API response examples
@@ -104,6 +110,34 @@ Here's a sample API response with reservation prices and term in the response.
         }
 ```
 
+Here's a sample response with a non-USD currency. The API supports 17 different currencies.
+
+```json
+{
+  "currencyCode": "EUR",
+  "tierMinimumUnits": 0,
+  "retailPrice": 0.6176,
+  "unitPrice": 0.6176,
+  "armRegionName": "westeurope",
+  "location": "EU West",
+  "effectiveStartDate": "2021-04-01T00:00:00Z",
+  "meterId": "000a794b-bdb0-58be-a0cd-0c3a0f222923",
+  "meterName": "F16s Spot",
+  "productId": "DZH318Z0BQPS",
+  "skuId": "DZH318Z0BQPS/00TG",
+  "productName": "Virtual Machines FS Series Windows",
+  "skuName": "F16s Spot",
+  "serviceName": "Virtual Machines",
+  "serviceId": "DZH313Z7MMC8",
+  "serviceFamily": "Compute",
+  "unitOfMeasure": "1 Hour",
+  "type": "Consumption",
+  "isPrimaryMeterRegion": true,
+  "armSkuName": "Standard_F16s"
+}
+```
+
+
 ## API property details
 
 Here's all the property details that are a part of the API response.
@@ -151,6 +185,30 @@ Filters are supported for the following fields:
 - armSkuName
  
 You append the filters to the API endpoint, as shown in the API sample calls.
+
+## Supported currencies
+
+You append the currency code to the API endpoint, as shown in the API sample call.
+
+| Currency code | Detail |
+| --- | --- |
+| USD | US dollar |
+| AUD​ | Australian dollar​ |
+| BRL​ | Brazilian real​ |
+| CAD​ | Canadian dollar​ |
+| CHF​ | Swiss franc​ |
+| CNY​ | Chinese yuan​ |
+| DKK​ | Danish krone​ |
+| EUR​ | Euro​ |
+| GBP​ | British pound​ |
+| INR​ | Indian rupee​ |
+| JPY​ | Japanese yen​ |
+| KRW​ | Korean won​ |
+| NOK​ | Norwegian krone​ |
+| NZD​ | New Zealand dollar​ |
+| RUB​ | Russian ruble​ |
+| SEK​ | Swedish krona​ |
+| TWD​ | Taiwan dollar​ |
 
 ## Next steps
 
