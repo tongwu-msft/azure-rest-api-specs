@@ -6221,6 +6221,12 @@
 ##### [Migrate Gremlin Graph To Manual Throughput](cosmos-db-resource-provider/2021-03-01-preview/GremlinResources/MigrateGremlinGraphToManualThroughput.yml)
 ##### [Update Gremlin Database Throughput](cosmos-db-resource-provider/2021-03-01-preview/GremlinResources/UpdateGremlinDatabaseThroughput.yml)
 ##### [Update Gremlin Graph Throughput](cosmos-db-resource-provider/2021-03-01-preview/GremlinResources/UpdateGremlinGraphThroughput.yml)
+#### Location Get
+##### [Overview](cosmos-db-resource-provider/2021-03-01-preview/LocationGet.yml)
+##### [Location Get](cosmos-db-resource-provider/2021-03-01-preview/LocationGet/LocationGet.yml)
+#### Location List
+##### [Overview](cosmos-db-resource-provider/2021-03-01-preview/LocationList.yml)
+##### [Location List](cosmos-db-resource-provider/2021-03-01-preview/LocationList/LocationList.yml)
 #### Mongo DB Resources
 ##### [Overview](cosmos-db-resource-provider/2021-03-01-preview/MongoDBResources.yml)
 ##### [Create Update Mongo DB Collection](cosmos-db-resource-provider/2021-03-01-preview/MongoDBResources/CreateUpdateMongoDBCollection.yml)
