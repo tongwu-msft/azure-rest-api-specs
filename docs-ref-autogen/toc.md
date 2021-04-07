@@ -9590,7 +9590,7 @@
 ### [Get Current Conditions](maps/Weather/GetCurrentConditions.yml)
 ### [Get Daily Forecast](maps/Weather/GetDailyForecast.yml)
 ### [Get Daily Indices](maps/Weather/GetDailyIndices.yml)
-### [Get Hourly Forecas](maps/Weather/GetHourlyForecas.yml)
+### [Get Hourly Forecast](maps/Weather/GetHourlyForecast.yml)
 ### [Get Minute Forecast](maps/Weather/GetMinuteForecast.yml)
 ### [Get Quarter Day Forecast](maps/Weather/GetQuarterDayForecast.yml)
 ### [Get Severe Weather Alerts](maps/Weather/GetSevereWeatherAlerts.yml)
