@@ -110,7 +110,7 @@ Here's a sample API response with reservation prices and term in the response.
         }
 ```
 
-Here's a sample response with a non-USD currency. The API supports 17 different currencies.
+Here's a sample response with a non-USD currency.
 
 ```json
 {
@@ -144,7 +144,7 @@ Here's all the property details that are a part of the API response.
 
 | Field | Example Values | Definition |
 | --- | --- | --- |
-| currencyCode | USD | The currency in which rates are defined and returns prices in USD. |
+| currencyCode | USD | The currency in which rates are defined and returns prices in USD unless specified. |
 | tierMinimumUnits | 0 | Minimum units of consumption to avail the price |
 | reservationTerm | 1 year | Reservation term – 1 year or 3 years |
 | retailPrice | 0.176346 | Prices without discount |
