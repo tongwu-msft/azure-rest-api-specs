@@ -2826,6 +2826,12 @@
 #### [Delete](migrate/assessment/HyperVCollectors/Delete.yml)
 #### [Get](migrate/assessment/HyperVCollectors/Get.yml)
 #### [List By Project](migrate/assessment/HyperVCollectors/ListByProject.yml)
+### Import Collectors
+#### [Overview](migrate/assessment/ImportCollectors.yml)
+#### [Create](migrate/assessment/ImportCollectors/Create.yml)
+#### [Delete](migrate/assessment/ImportCollectors/Delete.yml)
+#### [Get](migrate/assessment/ImportCollectors/Get.yml)
+#### [List By Project](migrate/assessment/ImportCollectors/ListByProject.yml)
 ### Machines
 #### [Overview](migrate/assessment/Machines.yml)
 #### [Get](migrate/assessment/Machines/Get.yml)
@@ -2833,6 +2839,16 @@
 ### Operations
 #### [Overview](migrate/assessment/Operations.yml)
 #### [List](migrate/assessment/Operations/List.yml)
+### Private Endpoint Connection
+#### [Overview](migrate/assessment/PrivateEndpointConnection.yml)
+#### [Delete](migrate/assessment/PrivateEndpointConnection/Delete.yml)
+#### [Get](migrate/assessment/PrivateEndpointConnection/Get.yml)
+#### [List By Project](migrate/assessment/PrivateEndpointConnection/ListByProject.yml)
+#### [Update](migrate/assessment/PrivateEndpointConnection/Update.yml)
+### Private Link Resource
+#### [Overview](migrate/assessment/PrivateLinkResource.yml)
+#### [Get](migrate/assessment/PrivateLinkResource/Get.yml)
+#### [List By Project](migrate/assessment/PrivateLinkResource/ListByProject.yml)
 ### Projects
 #### [Overview](migrate/assessment/Projects.yml)
 #### [Assessment Options](migrate/assessment/Projects/AssessmentOptions.yml)
@@ -2843,6 +2859,12 @@
 #### [List](migrate/assessment/Projects/List.yml)
 #### [List By Subscription](migrate/assessment/Projects/ListBySubscription.yml)
 #### [Update](migrate/assessment/Projects/Update.yml)
+### Server Collectors
+#### [Overview](migrate/assessment/ServerCollectors.yml)
+#### [Create](migrate/assessment/ServerCollectors/Create.yml)
+#### [Delete](migrate/assessment/ServerCollectors/Delete.yml)
+#### [Get](migrate/assessment/ServerCollectors/Get.yml)
+#### [List By Project](migrate/assessment/ServerCollectors/ListByProject.yml)
 ### VM ware Collectors
 #### [Overview](migrate/assessment/VMwareCollectors.yml)
 #### [Create](migrate/assessment/VMwareCollectors/Create.yml)
