@@ -10472,6 +10472,9 @@
 #### [Regenerate Keys](notificationhubs/NotificationHubs/RegenerateKeys.yml)
 # Peering
 ## [Overview](../docs-ref-conceptual/peering/index.md)
+## Cdn Peering Prefixes
+### [Overview](peering/CdnPeeringPrefixes.yml)
+### [List](peering/CdnPeeringPrefixes/List.yml)
 ## Check Service Provider Availability
 ### [Overview](peering/CheckServiceProviderAvailability.yml)
 ### [Check Service Provider Availability](peering/CheckServiceProviderAvailability/CheckServiceProviderAvailability.yml)
