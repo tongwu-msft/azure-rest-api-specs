@@ -44,7 +44,7 @@ Quota API makes it easy to look up your quotas and request increases using these
 
 > [!IMPORTANT]
 > To use Quota API, you must:
-> * Register the Microsoft.Capacity resource provider for all your subscriptions using [PowerShell](#registering-the-microsoft.capacity-resource-provider).
+> * Register the Microsoft.Capacity resource provider for all your subscriptions using [PowerShell](#registering-the-microsoftcapacity-resource-provider).
 > * Assign the [Quota Request Operator role](#quota-request-operator-role) to all user accounts and applications that will perform quota operations. 
 
 ### Registering the Microsoft.Capacity resource provider
