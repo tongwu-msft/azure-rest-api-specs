@@ -37,7 +37,6 @@ With Quota API you can:
 Quota API makes it easy to look up your quotas and request increases using these REST operations:
 
 * For the quota management REST operations details, see [Quota API reference](xref:management.azure.com.reserved-vm-instances.quota).
-
 * For the quota request status REST operations details, see [Quota request status API reference](xref:management.azure.com.reserved-vm-instances.quotarequeststatus).
 
 
@@ -50,13 +49,13 @@ Quota API makes it easy to look up your quotas and request increases using these
 
 ### Registering the Microsoft.Capacity resource provider
 
-To register the Microsoft.Capacity resource provider use this PowerShell command:
+To register the Microsoft.Capacity resource provider, use this PowerShell command:
 
 ```azurepowershell-interactive
 Register-AzResourceProvider -ProviderNamespace Microsoft.Capacity
 ```
 
-Which returns an oputput similar to this:
+It returns an oputput similar to this:
 
 ```output
 ProviderNamespace : Microsoft.Capacity
