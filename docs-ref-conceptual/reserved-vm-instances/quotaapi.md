@@ -44,12 +44,12 @@ Quota API makes it easy to look up your quotas and request increases using these
 
 > [!IMPORTANT]
 > Before you can use Quota API, you must:
-> * Register the Microsoft.Capacity resource provider for all your subscriptions using [PowerShell](#registering-the-microsoftcapacity-resource-provider).
+> * Register the Microsoft Capacity (Microsoft.Capacity) resource provider for all your subscriptions using [PowerShell](#registering-the-microsoftcapacity-resource-provider).
 > * Assign the [Quota Request Operator role](#quota-request-operator-role) to all user accounts and applications that will perform quota operations. 
 
-### Registering the Microsoft.Capacity resource provider
+### Registering the Microsoft Capacity resource provider
 
-To register the Microsoft.Capacity resource provider, use this PowerShell command:
+To register the Microsoft Capacity resource provider, use this PowerShell command:
 
 ```azurepowershell-interactive
 Register-AzResourceProvider -ProviderNamespace Microsoft.Capacity
@@ -96,7 +96,7 @@ Most quotas are specific for a workload in any one region. Request separate quot
 
 ### Throttling
 
-Every subscription-level and tenant-level API calls can be throttled if you send too many API requests. If you API call is throttled, you'll get an error message stating that the server rejected the API request. You can retry the API call after some time has elapsed.
+Every subscription-level and tenant-level API calls can be throttled if you send too many API requests. If your API call is throttled, you'll get an error message stating that the server rejected the API request. You can retry the API call after some time has elapsed.
 
 For details on API throttling, how to troubleshoot throttling issues, and how to avoid being throttled, see [Troubleshooting throttling errors in Azure](https://docs.microsoft.com/azure/virtual-machines/troubleshooting/troubleshooting-throttling-errors).
 
