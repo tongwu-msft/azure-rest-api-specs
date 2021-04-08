@@ -38,37 +38,92 @@ requestBody:
   parameters:
   - name: properties.scope
     in: body
-    description: For the myscope setting, sets the default scope the current user will see when they sign into Azure Cost Management in the Azure portal.
+    isRequired: true
+    description: Sets the default scope the current user will see when they sign into Azure Cost Management in the Azure portal.
     types:
     - uid: string
+  - name: properties.startOn
+    in: body
+    description: 'Indicates what scope Cost Management in the Azure portal should default to. Allowed values: LastUsed.'
+    types:
+    - uid: LastUsed
+    - uid: ScopePicker
+    - uid: SpecificScope
+    typesTitle: enum
+  - name: properties.cache
+    in: body
+    description: Array of scopes with additional details used by Cost Management in the Azure portal.
+    types:
+    - uid: Cache
+      isArray: true
 requestHeader: []
 definitions:
+- name: Cache
+  description: Array of scopes with additional details used by Cost Management in the Azure portal.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID used by Resource Manager to uniquely identify the scope.
+    types:
+    - uid: string
+  - name: name
+    description: Display name for the scope.
+    types:
+    - uid: string
+  - name: channel
+    description: 'Indicates the account type. Allowed values include: EA, PAYG, Modern, Internal, Unknown.'
+    types:
+    - uid: string
+  - name: subchannel
+    description: 'Indicates the type of modern account. Allowed values include: Individual, Enterprise, Partner, Indirect, NotApplicable'
+    types:
+    - uid: string
+  - name: parent
+    description: Resource ID of the parent scope. For instance, subscription's resource ID for a resource group or a management group resource ID for a subscription.
+    types:
+    - uid: string
+  - name: status
+    description: Indicates the status of the scope. Status only applies to subscriptions and billing accounts.
+    types:
+    - uid: string
 - name: Setting
-  description: State of Setting
+  description: State of the myscope setting.
   kind: object
   properties:
   - name: properties.scope
-    description: For the myscope setting, sets the default scope the current user will see when they sign into Azure Cost Management in the Azure portal.
+    description: Sets the default scope the current user will see when they sign into Azure Cost Management in the Azure portal.
     types:
     - uid: string
+  - name: properties.startOn
+    description: 'Indicates what scope Cost Management in the Azure portal should default to. Allowed values: LastUsed.'
+    types:
+    - uid: LastUsed
+    - uid: ScopePicker
+    - uid: SpecificScope
+    typesTitle: enum
+  - name: properties.cache
+    description: Array of scopes with additional details used by Cost Management in the Azure portal.
+    types:
+    - uid: Cache
+      isArray: true
   - name: id
     isReadyOnly: true
-    description: Resource Id
+    description: Resource Id.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name
+    description: Resource name.
     types:
     - uid: string
   - name: kind
     isReadyOnly: true
-    description: Resource kind
+    description: Resource kind.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type
+    description: Resource type.
     types:
     - uid: string
 - name: ErrorResponse
@@ -100,7 +155,18 @@ examples:
     body: >-
       {
         "properties": {
-          "scope": "/subscriptions/00000000-0000-0000-0000-000000000000"
+          "scope": "/subscriptions/00000000-0000-0000-0000-000000000000",
+          "startOn": "LastUsed",
+          "cache": [
+            {
+              "id": "/providers/Microsoft.Management/managementGroups/72f988bf-86f1-41af-91ab-2d7cd011db47",
+              "name": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+              "channel": "Modern",
+              "subchannel": "NotApplicable",
+              "parent": "/providers/Microsoft.Management/managementGroups/acm",
+              "status": "enabled"
+            }
+          ]
         }
       }
   responses:
@@ -110,9 +176,20 @@ examples:
         "id": "/providers/Microsoft.CostManagement/settings/myscope",
         "name": "myscope",
         "kind": "user",
-        "type": "Microsoft.CostManagement/settings",
+        "type": "Microsoft.CostManagement/Settings",
         "properties": {
-          "scope": "/subscriptions/00000000-0000-0000-0000-000000000000"
+          "scope": "/subscriptions/00000000-0000-0000-0000-000000000000",
+          "startOn": "LastUsed",
+          "cache": [
+            {
+              "id": "/providers/Microsoft.Management/managementGroups/72f988bf-86f1-41af-91ab-2d7cd011db47",
+              "name": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+              "channel": "Modern",
+              "subchannel": "NotApplicable",
+              "parent": "/providers/Microsoft.Management/managementGroups/acm",
+              "status": "enabled"
+            }
+          ]
         }
       }
 security:
