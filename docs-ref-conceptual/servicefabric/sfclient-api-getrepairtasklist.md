@@ -1,7 +1,7 @@
 ---
 title: "Get Repair Task List"
 description: "Get Repair Task List"
-ms.date: "04/02/2021"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
