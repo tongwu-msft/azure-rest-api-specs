@@ -7546,6 +7546,9 @@
 #### [List By Resource Group](deviceupdate/resourcemanager/Accounts/ListByResourceGroup.yml)
 #### [List By Subscription](deviceupdate/resourcemanager/Accounts/ListBySubscription.yml)
 #### [Update](deviceupdate/resourcemanager/Accounts/Update.yml)
+### Check Name Availability
+#### [Overview](deviceupdate/resourcemanager/CheckNameAvailability.yml)
+#### [Check Name Availability](deviceupdate/resourcemanager/CheckNameAvailability/CheckNameAvailability.yml)
 ### Instances
 #### [Overview](deviceupdate/resourcemanager/Instances.yml)
 #### [Create](deviceupdate/resourcemanager/Instances/Create.yml)

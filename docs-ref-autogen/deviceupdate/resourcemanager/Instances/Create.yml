@@ -52,7 +52,7 @@ responses:
 - name: Other Status Codes
   description: Error response describing the reason for operation failure.
   types:
-  - uid: ErrorDefinition
+  - uid: ErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -79,6 +79,34 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: IotHubSettings
   description: Device Update account integration with IoT Hub settings.
   kind: object
@@ -99,6 +127,11 @@ definitions:
   description: Device Update instance details.
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state.
@@ -141,15 +174,30 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-- name: ErrorDefinition
-  description: Error response indicates that the service is not able to process the incoming request.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    isReadyOnly: true
-    description: "Error Response  \nError details."
+    description: The error object.
     types:
-    - uid: ErrorResponse
+    - uid: ErrorDetail
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: ProvisioningState
   description: Provisioning state.
   kind: enum
@@ -172,8 +220,8 @@ definitions:
   - name: Creating
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error Response
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
@@ -195,7 +243,7 @@ definitions:
     isReadyOnly: true
     description: The error details.
     types:
-    - uid: ErrorResponse
+    - uid: ErrorDetail
       isArray: true
   - name: additionalInfo
     isReadyOnly: true
@@ -223,7 +271,7 @@ examples:
     uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue?api-version=2020-03-01-preview
     body: >-
       {
-        "location": "West US 2",
+        "location": "westus2",
         "properties": {
           "iotHubs": [
             {
@@ -239,7 +287,7 @@ examples:
     body: >-
       {
         "name": "blue",
-        "location": "West US 2",
+        "location": "westus2",
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue",
         "type": "Microsoft.DeviceUpdate/accounts/instances",
         "properties": {
