@@ -1,6 +1,7 @@
 ---
-title: "Service Fabric Client REST API Reference"
-ms.date: "10/21/2020"
+title: "ServiceFabricClientAPIs"
+description: "ServiceFabricClientAPIs"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -36,7 +37,7 @@ Service Fabric Client APIs allow deploying and managing microservices based appl
 
 
 > [!IMPORTANT]
->  These APIs work with Service Fabric clusters running runtime version 7.2.0.46 and above.
+>  These APIs work with Service Fabric clusters running runtime version 8.0.0.46 and above.
 >
 
 ## Versioning
@@ -145,6 +146,8 @@ Following is a list of Service Fabric Client REST APIs.
 | [Remove Configuration Overrides](sfclient-api-removeconfigurationoverrides.md) | Removes configuration overrides on the specified node.<br/> |
 | [Get Configuration Overrides](sfclient-api-getconfigurationoverrides.md) | Gets the list of configuration overrides on the specified node.<br/> |
 | [Add Configuration Parameter Overrides](sfclient-api-addconfigurationparameteroverrides.md) | Adds the list of configuration overrides on the specified node.<br/> |
+| [Remove Node Tags](sfclient-api-removenodetags.md) | Removes the list of tags from the specified node.<br/> |
+| [Add Node Tags](sfclient-api-addnodetags.md) | Adds the list of tags on the specified node.<br/> |
 
 ----
 ## [ApplicationType APIs](sfclient-index-applicationtype.md)
@@ -216,6 +219,7 @@ Following is a list of Service Fabric Client REST APIs.
 
 | Name | Description |
 | --- | --- |
+| [Get Loaded Partition Info List](sfclient-api-getloadedpartitioninfolist.md) | Gets ordered list of partitions.<br/> |
 | [Get Partition Info List](sfclient-api-getpartitioninfolist.md) | Gets the list of partitions of a Service Fabric service.<br/> |
 | [Get Partition Info](sfclient-api-getpartitioninfo.md) | Gets the information about a Service Fabric partition.<br/> |
 | [Get Service Name Info](sfclient-api-getservicenameinfo.md) | Gets the name of the Service Fabric service for a partition.<br/> |
@@ -231,6 +235,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [Move Primary Replica](sfclient-api-moveprimaryreplica.md) | Moves the primary replica of a partition of a stateful service.<br/> |
 | [Move Secondary Replica](sfclient-api-movesecondaryreplica.md) | Moves the secondary replica of a partition of a stateful service.<br/> |
 | [Update Partition Load](sfclient-api-updatepartitionload.md) | Update the loads of provided partitions for specific metrics.<br/> |
+| [Move Instance](sfclient-api-moveinstance.md) | Moves the instance of a partition of a stateless service.<br/> |
 
 ----
 ## [RepairManagement APIs](sfclient-index-repairmanagement.md)
@@ -877,6 +882,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [ImpactLevel enum](sfclient-model-impactlevel.md) | Possible values include: 'Invalid', 'None', 'Restart', 'RemoveData', 'RemoveNode'<br/> |
 | [InlinedValueSecretResourceProperties](sfclient-model-inlinedvaluesecretresourceproperties.md) | Describes the properties of a secret resource whose value is provided explicitly as plaintext. The secret resource may have multiple values, each being uniquely versioned. The secret value of each version is stored encrypted, and delivered as plaintext into the context of applications referencing it.<br/> |
 | [InlinedValueSecretResourceProperties](sfclient-model-inlinedvaluesecretresourceproperties.md) | Describes the properties of a secret resource whose value is provided explicitly as plaintext. The secret resource may have multiple values, each being uniquely versioned. The secret value of each version is stored encrypted, and delivered as plaintext into the context of applications referencing it.<br/> |
+| [InstanceLifecycleDescription](sfclient-model-instancelifecycledescription.md) | Describes how the instance will behave<br/> |
 | [Int64PropertyValue](sfclient-model-int64propertyvalue.md) | Describes a Service Fabric property value of type Int64.<br/> |
 | [Int64PropertyValue](sfclient-model-int64propertyvalue.md) | Describes a Service Fabric property value of type Int64.<br/> |
 | [Int64RangePartitionInformation](sfclient-model-int64rangepartitioninformation.md) | Describes the partition information for the integer range that is based on partition schemes.<br/> |
@@ -885,6 +891,9 @@ Following is a list of Service Fabric Client REST APIs.
 | [InvokeQuorumLossResult](sfclient-model-invokequorumlossresult.md) | Represents information about an operation in a terminal state (Completed or Faulted).<br/> |
 | [KeyValueStoreReplicaStatus](sfclient-model-keyvaluestorereplicastatus.md) | Key value store related information for the replica.<br/> |
 | [KeyValueStoreReplicaStatus](sfclient-model-keyvaluestorereplicastatus.md) | Key value store related information for the replica.<br/> |
+| [LoadedPartitionInformationQueryDescription](sfclient-model-loadedpartitioninformationquerydescription.md) | Represents data structure that contains query information.<br/> |
+| [LoadedPartitionInformationResult](sfclient-model-loadedpartitioninformationresult.md) | Represents partition information.<br/> |
+| [LoadedPartitionInformationResultList](sfclient-model-loadedpartitioninformationresultlist.md) | Represents data structure that contains top/least loaded partitions for a certain metric.<br/> |
 | [LoadMetricInformation](sfclient-model-loadmetricinformation.md) | Represents data structure that contains load information for a certain metric in a cluster.<br/> |
 | [LoadMetricReport](sfclient-model-loadmetricreport.md) | Represents the load metric report which contains the time metric was reported, its name and value.<br/> |
 | [LoadMetricReportInfo](sfclient-model-loadmetricreportinfo.md) | Information about load reported by replica.<br/> |
@@ -892,6 +901,9 @@ Following is a list of Service Fabric Client REST APIs.
 | [LocalNetworkResourceProperties](sfclient-model-localnetworkresourceproperties.md) | Information about a Service Fabric container network local to a single Service Fabric cluster.<br/> |
 | [ManagedApplicationIdentity](sfclient-model-managedapplicationidentity.md) | Describes a managed application identity.<br/> |
 | [ManagedApplicationIdentityDescription](sfclient-model-managedapplicationidentitydescription.md) | Managed application identity description.<br/> |
+| [ManagedIdentityAzureBlobBackupStorageDescription](sfclient-model-managedidentityazureblobbackupstoragedescription.md) | Describes the parameters for Azure blob store (connected using managed identity) used for storing and enumerating backups.<br/> |
+| [ManagedIdentityAzureBlobBackupStorageDescription](sfclient-model-managedidentityazureblobbackupstoragedescription.md) | Describes the parameters for Azure blob store (connected using managed identity) used for storing and enumerating backups.<br/> |
+| [ManagedIdentityType enum](sfclient-model-managedidentitytype.md) | The type of managed identity to be used to connect to Azure Blob Store via Managed Identity.<br/> |
 | [MetricLoadDescription](sfclient-model-metricloaddescription.md) | Specifies metric load information.<br/> |
 | [MonitoringPolicyDescription](sfclient-model-monitoringpolicydescription.md) | Describes the parameters for monitoring an upgrade in Monitored mode.<br/> |
 | [MoveCost enum](sfclient-model-movecost.md) | Specifies the move cost for the service.<br/> |
@@ -960,9 +972,13 @@ Following is a list of Service Fabric Client REST APIs.
 | [NodesHealthEvaluation](sfclient-model-nodeshealthevaluation.md) | Represents health evaluation for nodes, containing health evaluations for each unhealthy node that impacted current aggregated health state. Can be returned when evaluating cluster health and the aggregated health state is either Error or Warning.<br/> |
 | [NodeStatus enum](sfclient-model-nodestatus.md) | The status of the node.<br/> |
 | [NodeStatusFilter enum](sfclient-model-nodestatusfilter.md) | Possible values include: 'default', 'all', 'up', 'down', 'enabling', 'disabling', 'disabled', 'unknown', 'removed'<br/> |
+| [NodeTagsDescription](sfclient-model-nodetagsdescription.md) | Describes the tags required for placement or running of the service.<br/> |
 | [NodeTransitionProgress](sfclient-model-nodetransitionprogress.md) | Information about an NodeTransition operation.  This class contains an OperationState and a NodeTransitionResult.  The NodeTransitionResult is not valid until OperationState<br/>is Completed or Faulted.<br/> |
 | [NodeTransitionResult](sfclient-model-nodetransitionresult.md) | Represents information about an operation in a terminal state (Completed or Faulted).<br/> |
 | [NodeTransitionType enum](sfclient-model-nodetransitiontype.md) | Possible values include: 'Invalid', 'Start', 'Stop'<br/> |
+| [NodeTypeHealthPolicyMapItem](sfclient-model-nodetypehealthpolicymapitem.md) | Defines an item in NodeTypeHealthPolicyMap.<br/> |
+| [NodeTypeNodesHealthEvaluation](sfclient-model-nodetypenodeshealthevaluation.md) | Represents health evaluation for nodes of a particular node type. The node type nodes evaluation can be returned when cluster health evaluation returns unhealthy aggregated health state, either Error or Warning. It contains health evaluations for each unhealthy node of the included node type that impacted current aggregated health state.<br/> |
+| [NodeTypeNodesHealthEvaluation](sfclient-model-nodetypenodeshealthevaluation.md) | Represents health evaluation for nodes of a particular node type. The node type nodes evaluation can be returned when cluster health evaluation returns unhealthy aggregated health state, either Error or Warning. It contains health evaluations for each unhealthy node of the included node type that impacted current aggregated health state.<br/> |
 | [NodeUpEvent](sfclient-model-nodeupevent.md) | Node Up event.<br/> |
 | [NodeUpEvent](sfclient-model-nodeupevent.md) | Node Up event.<br/> |
 | [NodeUpgradePhase enum](sfclient-model-nodeupgradephase.md) | The state of the upgrading node.<br/> |
@@ -971,6 +987,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [OperationState enum](sfclient-model-operationstate.md) | The state of the operation.<br/> |
 | [OperationStatus](sfclient-model-operationstatus.md) | Contains the OperationId, OperationState, and OperationType for user-induced operations.<br/> |
 | [OperationType enum](sfclient-model-operationtype.md) | The type of the operation.<br/> |
+| [Ordering enum](sfclient-model-ordering.md) | Defines the order.<br/> |
 | [PackageSharingPolicyInfo](sfclient-model-packagesharingpolicyinfo.md) | Represents a policy for the package sharing.<br/> |
 | [PackageSharingPolicyScope enum](sfclient-model-packagesharingpolicyscope.md) | Represents the scope for PackageSharingPolicy. This is specified during DeployServicePackageToNode operation.<br/> |
 | [PagedApplicationInfoList](sfclient-model-pagedapplicationinfolist.md) | The list of applications in the cluster. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.<br/> |
@@ -1094,6 +1111,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [ReplicaHealthStateFilter](sfclient-model-replicahealthstatefilter.md) | Defines matching criteria to determine whether a replica should be included as a child of a partition in the cluster health chunk.<br/>The replicas are only returned if the parent entities match a filter specified in the cluster health chunk query description. The parent partition, service and application must be included in the cluster health chunk.<br/>One filter can match zero, one or multiple replicas, depending on its properties.<br/> |
 | [ReplicaInfo](sfclient-model-replicainfo.md) | Information about the identity, status, health, node name, uptime, and other details about the replica.<br/> |
 | [ReplicaKind enum](sfclient-model-replicakind.md) | The role of a replica of a stateful service.<br/> |
+| [ReplicaLifecycleDescription](sfclient-model-replicalifecycledescription.md) | Describes how the replica will behave<br/> |
 | [ReplicaMetricLoadDescription](sfclient-model-replicametricloaddescription.md) | Specifies metric loads of a partition's specific secondary replica or instance.<br/> |
 | [ReplicaRole enum](sfclient-model-replicarole.md) | The role of a replica of a stateful service.<br/> |
 | [ReplicasHealthEvaluation](sfclient-model-replicashealthevaluation.md) | Represents health evaluation for replicas, containing health evaluations for each unhealthy replica that impacted current aggregated health state. Can be returned when evaluating partition health and the aggregated health state is either Error or Warning.<br/> |

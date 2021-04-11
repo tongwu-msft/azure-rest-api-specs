@@ -1,6 +1,7 @@
 ---
 title: "StatelessServiceDescription"
-ms.date: "01/28/2021"
+description: "StatelessServiceDescription"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -47,11 +48,14 @@ Describes a stateless service.
 | [`ServicePackageActivationMode`](#servicepackageactivationmode) | string (enum) | No |
 | [`ServiceDnsName`](#servicednsname) | string | No |
 | [`ScalingPolicies`](#scalingpolicies) | array of [ScalingPolicyDescription](sfclient-model-scalingpolicydescription.md) | No |
+| [`TagsRequiredToPlace`](#tagsrequiredtoplace) | [NodeTagsDescription](sfclient-model-nodetagsdescription.md) | No |
+| [`TagsRequiredToRun`](#tagsrequiredtorun) | [NodeTagsDescription](sfclient-model-nodetagsdescription.md) | No |
 | [`InstanceCount`](#instancecount) | integer | Yes |
 | [`MinInstanceCount`](#mininstancecount) | integer | No |
 | [`MinInstancePercentage`](#mininstancepercentage) | integer | No |
 | [`Flags`](#flags) | integer | No |
 | [`InstanceCloseDelayDurationSeconds`](#instanceclosedelaydurationseconds) | integer (int64) | No |
+| [`InstanceLifecycleDescription`](#instancelifecycledescription) | [InstanceLifecycleDescription](sfclient-model-instancelifecycledescription.md) | No |
 | [`InstanceRestartWaitDurationSeconds`](#instancerestartwaitdurationseconds) | integer (int64) | No |
 
 ____
@@ -174,6 +178,20 @@ __Required__: No<br/>
 Scaling policies for this service.
 
 ____
+### `TagsRequiredToPlace`
+__Type__: [NodeTagsDescription](sfclient-model-nodetagsdescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Tags for placement of this service.
+
+____
+### `TagsRequiredToRun`
+__Type__: [NodeTagsDescription](sfclient-model-nodetagsdescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Tags for running of this service.
+
+____
 ### `InstanceCount`
 __Type__: integer <br/>
 __Required__: Yes<br/>
@@ -231,6 +249,13 @@ the following upon receiving the endpoint removal notification:
     - Connect to a different instance of the service partition for future requests.
 Note, the default value of InstanceCloseDelayDuration is 0, which indicates that there won't be any delay or removal of the endpoint prior to closing the instance.
 
+
+____
+### `InstanceLifecycleDescription`
+__Type__: [InstanceLifecycleDescription](sfclient-model-instancelifecycledescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Defines how instances of this service will behave during their lifecycle.
 
 ____
 ### `InstanceRestartWaitDurationSeconds`

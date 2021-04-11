@@ -1,6 +1,7 @@
 ---
 title: "BackupStorageKind"
-ms.date: "10/21/2020"
+description: "BackupStorageKind"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -39,4 +40,5 @@ Possible values are:
   - `FileShare` - Indicates file/ SMB share to be used as backup storage.
   - `AzureBlobStore` - Indicates Azure blob store to be used as backup storage.
   - `DsmsAzureBlobStore` - Indicates Dsms Azure blob store to be used as backup storage.
+  - `ManagedIdentityAzureBlobStore` - Indicates Azure blob store to be used as backup storage using managed identity.
 

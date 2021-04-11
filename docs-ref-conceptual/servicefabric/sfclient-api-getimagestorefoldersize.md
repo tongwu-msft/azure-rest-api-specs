@@ -1,5 +1,6 @@
 ---
 title: "Get Image Store Folder Size"
+description: "Get Image Store Folder Size"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

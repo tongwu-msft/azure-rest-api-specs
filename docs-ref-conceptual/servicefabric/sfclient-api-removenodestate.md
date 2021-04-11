@@ -1,5 +1,6 @@
 ---
 title: "Remove Node State"
+description: "Remove Node State"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

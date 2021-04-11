@@ -1,5 +1,6 @@
 ---
 title: "Get Partition Backup Progress"
+description: "Get Partition Backup Progress"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

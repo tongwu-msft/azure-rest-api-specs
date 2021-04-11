@@ -1,5 +1,6 @@
 ---
 title: "Get Cluster Configuration"
+description: "Get Cluster Configuration"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

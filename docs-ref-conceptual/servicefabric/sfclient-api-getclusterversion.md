@@ -1,5 +1,6 @@
 ---
 title: "Get Cluster Version"
+description: "Get Cluster Version"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

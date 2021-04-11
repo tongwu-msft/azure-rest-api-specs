@@ -1,5 +1,6 @@
 ---
 title: "Get Container Logs Deployed On Node"
+description: "Get Container Logs Deployed On Node"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

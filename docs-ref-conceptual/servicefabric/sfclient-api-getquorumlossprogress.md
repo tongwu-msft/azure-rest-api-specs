@@ -1,5 +1,6 @@
 ---
 title: "Get Quorum Loss Progress"
+description: "Get Quorum Loss Progress"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

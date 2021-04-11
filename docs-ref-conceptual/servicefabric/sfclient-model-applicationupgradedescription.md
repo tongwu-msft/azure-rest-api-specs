@@ -1,5 +1,6 @@
 ---
 title: "ApplicationUpgradeDescription"
+description: "ApplicationUpgradeDescription"
 ms.date: "01/28/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"

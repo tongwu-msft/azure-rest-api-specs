@@ -1,5 +1,6 @@
 ---
 title: "Get Fault Operation List"
+description: "Get Fault Operation List"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

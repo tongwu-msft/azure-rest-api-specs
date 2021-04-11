@@ -1,5 +1,6 @@
 ---
 title: "Get Partition Restart Progress"
+description: "Get Partition Restart Progress"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

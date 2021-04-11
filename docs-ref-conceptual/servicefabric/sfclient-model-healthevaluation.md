@@ -1,6 +1,7 @@
 ---
 title: "HealthEvaluation"
-ms.date: "10/21/2020"
+description: "HealthEvaluation"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -58,4 +59,5 @@ The following table lists the value of the `Kind` property and corresponding der
 | SystemApplication | [SystemApplicationHealthEvaluation](sfclient-model-systemapplicationhealthevaluation.md) |
 | UpgradeDomainDeltaNodesCheck | [UpgradeDomainDeltaNodesCheckHealthEvaluation](sfclient-model-upgradedomaindeltanodescheckhealthevaluation.md) |
 | UpgradeDomainNodes | [UpgradeDomainNodesHealthEvaluation](sfclient-model-upgradedomainnodeshealthevaluation.md) |
+| NodeTypeNodes | [NodeTypeNodesHealthEvaluation](sfclient-model-nodetypenodeshealthevaluation.md) |
 
