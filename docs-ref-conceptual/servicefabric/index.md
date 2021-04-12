@@ -2,6 +2,7 @@
 title: "Service Fabric REST APIs"
 ms.date: 4/12/2020
 ms.service: "service-fabric"
+ms.description: "Service fabric Rest API index"
 ms.topic: "reference"
 applies_to: 
   - "Azure"
