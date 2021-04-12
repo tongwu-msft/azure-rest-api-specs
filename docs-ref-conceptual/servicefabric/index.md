@@ -1,6 +1,6 @@
 ---
 title: "Service Fabric REST APIs"
-ms.date: 4/12/2020
+ms.date: 4/12/2021
 ms.service: "service-fabric"
 description: "Service fabric Rest API index"
 ms.topic: "reference"
