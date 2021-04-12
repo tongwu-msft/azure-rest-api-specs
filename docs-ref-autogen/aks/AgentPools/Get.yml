@@ -3,14 +3,14 @@ uid: management.azure.com.aks.agentpools.get
 name: Get
 service: AKS
 groupName: Agent Pools
-apiVersion: 2020-11-01
+apiVersion: 2021-03-01
 summary: "Gets the agent pool.  \nGets the details of the agent pool by managed cluster and resource group."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2020-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -80,7 +80,7 @@ definitions:
   - name: properties.vmSize
     description: Size of agent VMs.
     types:
-    - uid: ContainerServiceVMSizeTypes
+    - uid: string
   - name: properties.osDiskSizeGB
     description: OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.
     types:
@@ -89,6 +89,10 @@ definitions:
     description: OS disk type to be used for machines in a given agent pool. Allowed values are 'Ephemeral' and 'Managed'. If unspecified, defaults to 'Ephemeral' when the VM supports ephemeral OS and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation.
     types:
     - uid: OSDiskType
+  - name: properties.kubeletDiskType
+    description: KubeletDiskType determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage. Currently allows one value, OS, resulting in Kubelet using the OS disk for data.
+    types:
+    - uid: KubeletDiskType
   - name: properties.vnetSubnetID
     description: VNet SubnetID specifies the VNet's subnet identifier for nodes and maybe pods
     types:
@@ -105,6 +109,10 @@ definitions:
     description: OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
     types:
     - uid: OSType
+  - name: properties.osSKU
+    description: OsSKU to be used to specify os sku. Choose from Ubuntu(default) and CBLMariner for Linux OSType. Not applicable to Windows OSType.
+    types:
+    - uid: OSSKU
   - name: properties.maxCount
     description: Maximum number of nodes for auto-scaling
     types:
@@ -157,6 +165,10 @@ definitions:
     description: Enable public IP for nodes
     types:
     - uid: boolean
+  - name: properties.nodePublicIPPrefixID
+    description: Public IP Prefix ID. VM nodes use IPs assigned from this Public IP Prefix.
+    types:
+    - uid: string
   - name: properties.scaleSetPriority
     description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
     types:
@@ -202,6 +214,18 @@ definitions:
     description: LinuxOSConfig specifies the OS configuration of linux agent nodes.
     types:
     - uid: LinuxOSConfig
+  - name: properties.enableEncryptionAtHost
+    description: Whether to enable EncryptionAtHost
+    types:
+    - uid: boolean
+  - name: properties.enableFIPS
+    description: Whether to use FIPS enabled OS
+    types:
+    - uid: boolean
+  - name: properties.gpuInstanceProfile
+    description: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU. Supported values are MIG1g, MIG2g, MIG3g, MIG4g and MIG7g.
+    types:
+    - uid: 'GPUInstanceProfile '
 - name: CloudError
   description: An error response from the Container service.
   kind: object
@@ -210,532 +234,6 @@ definitions:
     description: Details about the error.
     types:
     - uid: CloudErrorBody
-- name: ContainerServiceVMSizeTypes
-  description: Size of agent VMs.
-  kind: enum
-  properties:
-  - name: Standard_A1
-    types:
-    - uid: string
-  - name: Standard_A10
-    types:
-    - uid: string
-  - name: Standard_A11
-    types:
-    - uid: string
-  - name: Standard_A1_v2
-    types:
-    - uid: string
-  - name: Standard_A2
-    types:
-    - uid: string
-  - name: Standard_A2_v2
-    types:
-    - uid: string
-  - name: Standard_A2m_v2
-    types:
-    - uid: string
-  - name: Standard_A3
-    types:
-    - uid: string
-  - name: Standard_A4
-    types:
-    - uid: string
-  - name: Standard_A4_v2
-    types:
-    - uid: string
-  - name: Standard_A4m_v2
-    types:
-    - uid: string
-  - name: Standard_A5
-    types:
-    - uid: string
-  - name: Standard_A6
-    types:
-    - uid: string
-  - name: Standard_A7
-    types:
-    - uid: string
-  - name: Standard_A8
-    types:
-    - uid: string
-  - name: Standard_A8_v2
-    types:
-    - uid: string
-  - name: Standard_A8m_v2
-    types:
-    - uid: string
-  - name: Standard_A9
-    types:
-    - uid: string
-  - name: Standard_B2ms
-    types:
-    - uid: string
-  - name: Standard_B2s
-    types:
-    - uid: string
-  - name: Standard_B4ms
-    types:
-    - uid: string
-  - name: Standard_B8ms
-    types:
-    - uid: string
-  - name: Standard_D1
-    types:
-    - uid: string
-  - name: Standard_D11
-    types:
-    - uid: string
-  - name: Standard_D11_v2
-    types:
-    - uid: string
-  - name: Standard_D11_v2_Promo
-    types:
-    - uid: string
-  - name: Standard_D12
-    types:
-    - uid: string
-  - name: Standard_D12_v2
-    types:
-    - uid: string
-  - name: Standard_D12_v2_Promo
-    types:
-    - uid: string
-  - name: Standard_D13
-    types:
-    - uid: string
-  - name: Standard_D13_v2
-    types:
-    - uid: string
-  - name: Standard_D13_v2_Promo
-    types:
-    - uid: string
-  - name: Standard_D14
-    types:
-    - uid: string
-  - name: Standard_D14_v2
-    types:
-    - uid: string
-  - name: Standard_D14_v2_Promo
-    types:
-    - uid: string
-  - name: Standard_D15_v2
-    types:
-    - uid: string
-  - name: Standard_D16_v3
-    types:
-    - uid: string
-  - name: Standard_D16s_v3
-    types:
-    - uid: string
-  - name: Standard_D1_v2
-    types:
-    - uid: string
-  - name: Standard_D2
-    types:
-    - uid: string
-  - name: Standard_D2_v2
-    types:
-    - uid: string
-  - name: Standard_D2_v2_Promo
-    types:
-    - uid: string
-  - name: Standard_D2_v3
-    types:
-    - uid: string
-  - name: Standard_D2s_v3
-    types:
-    - uid: string
-  - name: Standard_D3
-    types:
-    - uid: string
-  - name: Standard_D32_v3
-    types:
-    - uid: string
-  - name: Standard_D32s_v3
-    types:
-    - uid: string
-  - name: Standard_D3_v2
-    types:
-    - uid: string
-  - name: Standard_D3_v2_Promo
-    types:
-    - uid: string
-  - name: Standard_D4
-    types:
-    - uid: string
-  - name: Standard_D4_v2
-    types:
-    - uid: string
-  - name: Standard_D4_v2_Promo
-    types:
-    - uid: string
-  - name: Standard_D4_v3
-    types:
-    - uid: string
-  - name: Standard_D4s_v3
-    types:
-    - uid: string
-  - name: Standard_D5_v2
-    types:
-    - uid: string
-  - name: Standard_D5_v2_Promo
-    types:
-    - uid: string
-  - name: Standard_D64_v3
-    types:
-    - uid: string
-  - name: Standard_D64s_v3
-    types:
-    - uid: string
-  - name: Standard_D8_v3
-    types:
-    - uid: string
-  - name: Standard_D8s_v3
-    types:
-    - uid: string
-  - name: Standard_DS1
-    types:
-    - uid: string
-  - name: Standard_DS11
-    types:
-    - uid: string
-  - name: Standard_DS11_v2
-    types:
-    - uid: string
-  - name: Standard_DS11_v2_Promo
-    types:
-    - uid: string
-  - name: Standard_DS12
-    types:
-    - uid: string
-  - name: Standard_DS12_v2
-    types:
-    - uid: string
-  - name: Standard_DS12_v2_Promo
-    types:
-    - uid: string
-  - name: Standard_DS13
-    types:
-    - uid: string
-  - name: Standard_DS13-2_v2
-    types:
-    - uid: string
-  - name: Standard_DS13-4_v2
-    types:
-    - uid: string
-  - name: Standard_DS13_v2
-    types:
-    - uid: string
-  - name: Standard_DS13_v2_Promo
-    types:
-    - uid: string
-  - name: Standard_DS14
-    types:
-    - uid: string
-  - name: Standard_DS14-4_v2
-    types:
-    - uid: string
-  - name: Standard_DS14-8_v2
-    types:
-    - uid: string
-  - name: Standard_DS14_v2
-    types:
-    - uid: string
-  - name: Standard_DS14_v2_Promo
-    types:
-    - uid: string
-  - name: Standard_DS15_v2
-    types:
-    - uid: string
-  - name: Standard_DS1_v2
-    types:
-    - uid: string
-  - name: Standard_DS2
-    types:
-    - uid: string
-  - name: Standard_DS2_v2
-    types:
-    - uid: string
-  - name: Standard_DS2_v2_Promo
-    types:
-    - uid: string
-  - name: Standard_DS3
-    types:
-    - uid: string
-  - name: Standard_DS3_v2
-    types:
-    - uid: string
-  - name: Standard_DS3_v2_Promo
-    types:
-    - uid: string
-  - name: Standard_DS4
-    types:
-    - uid: string
-  - name: Standard_DS4_v2
-    types:
-    - uid: string
-  - name: Standard_DS4_v2_Promo
-    types:
-    - uid: string
-  - name: Standard_DS5_v2
-    types:
-    - uid: string
-  - name: Standard_DS5_v2_Promo
-    types:
-    - uid: string
-  - name: Standard_E16_v3
-    types:
-    - uid: string
-  - name: Standard_E16s_v3
-    types:
-    - uid: string
-  - name: Standard_E2_v3
-    types:
-    - uid: string
-  - name: Standard_E2s_v3
-    types:
-    - uid: string
-  - name: Standard_E32-16s_v3
-    types:
-    - uid: string
-  - name: Standard_E32-8s_v3
-    types:
-    - uid: string
-  - name: Standard_E32_v3
-    types:
-    - uid: string
-  - name: Standard_E32s_v3
-    types:
-    - uid: string
-  - name: Standard_E4_v3
-    types:
-    - uid: string
-  - name: Standard_E4s_v3
-    types:
-    - uid: string
-  - name: Standard_E64-16s_v3
-    types:
-    - uid: string
-  - name: Standard_E64-32s_v3
-    types:
-    - uid: string
-  - name: Standard_E64_v3
-    types:
-    - uid: string
-  - name: Standard_E64s_v3
-    types:
-    - uid: string
-  - name: Standard_E8_v3
-    types:
-    - uid: string
-  - name: Standard_E8s_v3
-    types:
-    - uid: string
-  - name: Standard_F1
-    types:
-    - uid: string
-  - name: Standard_F16
-    types:
-    - uid: string
-  - name: Standard_F16s
-    types:
-    - uid: string
-  - name: Standard_F16s_v2
-    types:
-    - uid: string
-  - name: Standard_F1s
-    types:
-    - uid: string
-  - name: Standard_F2
-    types:
-    - uid: string
-  - name: Standard_F2s
-    types:
-    - uid: string
-  - name: Standard_F2s_v2
-    types:
-    - uid: string
-  - name: Standard_F32s_v2
-    types:
-    - uid: string
-  - name: Standard_F4
-    types:
-    - uid: string
-  - name: Standard_F4s
-    types:
-    - uid: string
-  - name: Standard_F4s_v2
-    types:
-    - uid: string
-  - name: Standard_F64s_v2
-    types:
-    - uid: string
-  - name: Standard_F72s_v2
-    types:
-    - uid: string
-  - name: Standard_F8
-    types:
-    - uid: string
-  - name: Standard_F8s
-    types:
-    - uid: string
-  - name: Standard_F8s_v2
-    types:
-    - uid: string
-  - name: Standard_G1
-    types:
-    - uid: string
-  - name: Standard_G2
-    types:
-    - uid: string
-  - name: Standard_G3
-    types:
-    - uid: string
-  - name: Standard_G4
-    types:
-    - uid: string
-  - name: Standard_G5
-    types:
-    - uid: string
-  - name: Standard_GS1
-    types:
-    - uid: string
-  - name: Standard_GS2
-    types:
-    - uid: string
-  - name: Standard_GS3
-    types:
-    - uid: string
-  - name: Standard_GS4
-    types:
-    - uid: string
-  - name: Standard_GS4-4
-    types:
-    - uid: string
-  - name: Standard_GS4-8
-    types:
-    - uid: string
-  - name: Standard_GS5
-    types:
-    - uid: string
-  - name: Standard_GS5-16
-    types:
-    - uid: string
-  - name: Standard_GS5-8
-    types:
-    - uid: string
-  - name: Standard_H16
-    types:
-    - uid: string
-  - name: Standard_H16m
-    types:
-    - uid: string
-  - name: Standard_H16mr
-    types:
-    - uid: string
-  - name: Standard_H16r
-    types:
-    - uid: string
-  - name: Standard_H8
-    types:
-    - uid: string
-  - name: Standard_H8m
-    types:
-    - uid: string
-  - name: Standard_L16s
-    types:
-    - uid: string
-  - name: Standard_L32s
-    types:
-    - uid: string
-  - name: Standard_L4s
-    types:
-    - uid: string
-  - name: Standard_L8s
-    types:
-    - uid: string
-  - name: Standard_M128-32ms
-    types:
-    - uid: string
-  - name: Standard_M128-64ms
-    types:
-    - uid: string
-  - name: Standard_M128ms
-    types:
-    - uid: string
-  - name: Standard_M128s
-    types:
-    - uid: string
-  - name: Standard_M64-16ms
-    types:
-    - uid: string
-  - name: Standard_M64-32ms
-    types:
-    - uid: string
-  - name: Standard_M64ms
-    types:
-    - uid: string
-  - name: Standard_M64s
-    types:
-    - uid: string
-  - name: Standard_NC12
-    types:
-    - uid: string
-  - name: Standard_NC12s_v2
-    types:
-    - uid: string
-  - name: Standard_NC12s_v3
-    types:
-    - uid: string
-  - name: Standard_NC24
-    types:
-    - uid: string
-  - name: Standard_NC24r
-    types:
-    - uid: string
-  - name: Standard_NC24rs_v2
-    types:
-    - uid: string
-  - name: Standard_NC24rs_v3
-    types:
-    - uid: string
-  - name: Standard_NC24s_v2
-    types:
-    - uid: string
-  - name: Standard_NC24s_v3
-    types:
-    - uid: string
-  - name: Standard_NC6
-    types:
-    - uid: string
-  - name: Standard_NC6s_v2
-    types:
-    - uid: string
-  - name: Standard_NC6s_v3
-    types:
-    - uid: string
-  - name: Standard_ND12s
-    types:
-    - uid: string
-  - name: Standard_ND24rs
-    types:
-    - uid: string
-  - name: Standard_ND24s
-    types:
-    - uid: string
-  - name: Standard_ND6s
-    types:
-    - uid: string
-  - name: Standard_NV12
-    types:
-    - uid: string
-  - name: Standard_NV24
-    types:
-    - uid: string
-  - name: Standard_NV6
-    types:
-    - uid: string
 - name: OSDiskType
   description: OSDiskType represents the type of an OS disk on an agent pool.
   kind: enum
@@ -746,6 +244,16 @@ definitions:
   - name: Ephemeral
     types:
     - uid: string
+- name: KubeletDiskType
+  description: "KubeletDiskType determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage. Allowed values: 'OS', 'Temporary' (preview)."
+  kind: enum
+  properties:
+  - name: OS
+    types:
+    - uid: string
+  - name: Temporary
+    types:
+    - uid: string
 - name: OSType
   description: OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
   kind: enum
@@ -754,6 +262,16 @@ definitions:
     types:
     - uid: string
   - name: Windows
+    types:
+    - uid: string
+- name: OSSKU
+  description: OsSKU to be used to specify os sku. Choose from Ubuntu(default) and CBLMariner for Linux OSType. Not applicable to Windows OSType.
+  kind: enum
+  properties:
+  - name: Ubuntu
+    types:
+    - uid: string
+  - name: CBLMariner
     types:
     - uid: string
 - name: AgentPoolType
@@ -849,6 +367,18 @@ definitions:
     description: If set to true it will make the Kubelet fail to start if swap is enabled on the node.
     types:
     - uid: boolean
+  - name: containerLogMaxSizeMB
+    description: The maximum size (e.g. 10Mi) of container log file before it is rotated.
+    types:
+    - uid: integer
+  - name: containerLogMaxFiles
+    description: The maximum number of container log files that can be present for a container. The number must be ≥ 2.
+    types:
+    - uid: integer
+  - name: podMaxPids
+    description: The maximum number of processes per pod.
+    types:
+    - uid: integer
 - name: LinuxOSConfig
   description: OS configurations of Linux agent nodes.
   kind: object
@@ -869,6 +399,25 @@ definitions:
     description: SwapFileSizeMB specifies size in MB of a swap file will be created on each node.
     types:
     - uid: integer
+- name: 'GPUInstanceProfile '
+  description: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU. Supported values are MIG1g, MIG2g, MIG3g, MIG4g and MIG7g.
+  kind: enum
+  properties:
+  - name: MIG1g
+    types:
+    - uid: string
+  - name: MIG2g
+    types:
+    - uid: string
+  - name: MIG3g
+    types:
+    - uid: string
+  - name: MIG4g
+    types:
+    - uid: string
+  - name: MIG7g
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the Container service.
   kind: object
@@ -912,8 +461,16 @@ definitions:
     description: Sysctl setting net.core.netdev_max_backlog.
     types:
     - uid: integer
+  - name: netCoreRmemDefault
+    description: Sysctl setting net.core.rmem_default.
+    types:
+    - uid: integer
   - name: netCoreRmemMax
     description: Sysctl setting net.core.rmem_max.
+    types:
+    - uid: integer
+  - name: netCoreWmemDefault
+    description: Sysctl setting net.core.wmem_default.
     types:
     - uid: integer
   - name: netCoreWmemMax
@@ -946,14 +503,6 @@ definitions:
     - uid: integer
   - name: netIpv4TcpkeepaliveIntvl
     description: Sysctl setting net.ipv4.tcp_keepalive_intvl.
-    types:
-    - uid: integer
-  - name: netIpv4TcpRmem
-    description: Sysctl setting net.ipv4.tcp_rmem.
-    types:
-    - uid: integer
-  - name: netIpv4TcpWmem
-    description: Sysctl setting net.ipv4.tcp_wmem.
     types:
     - uid: integer
   - name: netIpv4TcpTwReuse
@@ -1019,7 +568,7 @@ definitions:
 examples:
 - name: Get Agent Pool
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2020-11-01
+    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-03-01
   responses:
   - statusCode: "200"
     body: >-
