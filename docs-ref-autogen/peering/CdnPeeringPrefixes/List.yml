@@ -1,21 +1,27 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.peering.peeringserviceproviders.list
+uid: management.azure.com.peering.cdnpeeringprefixes.list
 name: List
 service: Peering
-groupName: Peering Service Providers
+groupName: Cdn Peering Prefixes
 apiVersion: 2021-01-01
-summary: Lists all of the available peering service locations for the specified kind of peering.
+summary: Lists all of the advertised prefixes for the specified peering location
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringServiceProviders?api-version=2021-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Peering/cdnPeeringPrefixes?peeringLocation={peeringLocation}&api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: The Azure subscription ID.
+  types:
+  - uid: string
+- name: peeringLocation
+  in: query
+  isRequired: true
+  description: The peering location.
   types:
   - uid: string
 - name: api-version
@@ -28,24 +34,24 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: PeeringServiceProviderListResult
+  - uid: CdnPeeringPrefixListResult
 - name: Other Status Codes
   description: Error response describing why the operation has failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: PeeringServiceProviderListResult
-  description: The paginated list of peering service providers.
+- name: CdnPeeringPrefixListResult
+  description: The paginated list of CDN peering prefixes.
   kind: object
   properties:
   - name: value
-    description: The list of peering service providers.
+    description: The list of CDN peering prefixes.
     types:
-    - uid: PeeringServiceProvider
+    - uid: CdnPeeringPrefix
       isArray: true
   - name: nextLink
-    description: The link to fetch the next page of peering service providers.
+    description: The link to fetch the next page of CDN peering prefixes.
     types:
     - uid: string
 - name: ErrorResponse
@@ -56,19 +62,35 @@ definitions:
     description: The error detail that describes why an operation has failed.
     types:
     - uid: ErrorDetail
-- name: PeeringServiceProvider
-  description: PeeringService provider
+- name: CdnPeeringPrefix
+  description: The CDN peering prefix
   kind: object
   properties:
-  - name: properties.serviceProviderName
-    description: The name of the service provider.
+  - name: properties.prefix
+    isReadyOnly: true
+    description: The prefix.
     types:
     - uid: string
-  - name: properties.peeringLocations
-    description: The list of locations at which the service provider peers with Microsoft.
+  - name: properties.azureRegion
+    isReadyOnly: true
+    description: The Azure region.
     types:
     - uid: string
-      isArray: true
+  - name: properties.azureService
+    isReadyOnly: true
+    description: The Azure service.
+    types:
+    - uid: string
+  - name: properties.isPrimaryRegion
+    isReadyOnly: true
+    description: The flag that indicates whether or not this is the primary region.
+    types:
+    - uid: boolean
+  - name: properties.bgpCommunity
+    isReadyOnly: true
+    description: The BGP Community
+    types:
+    - uid: string
   - name: name
     isReadyOnly: true
     description: The name of the resource.
@@ -99,9 +121,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List peering service providers
+- name: List all the cdn peering prefixes advertised at a particular peering location
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Peering/peeringServiceProviders?api-version=2021-01-01
+    uri: GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Peering/cdnPeeringPrefixes?peeringLocation=peeringLocation0&api-version=2021-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -109,27 +131,15 @@ examples:
         "value": [
           {
             "properties": {
-              "serviceProviderName": "peeringServiceProvider1",
-              "peeringLocations": [
-                "peeringLocation1",
-                "peeringLocation2"
-              ]
+              "prefix": "192.168.1.0/24",
+              "azureRegion": "West Central US",
+              "azureService": "AzureCompute",
+              "isPrimaryRegion": false,
+              "bgpCommunity": "0000:0000"
             },
-            "name": "peeringServiceProvider1",
-            "id": "/subscriptions/subId/providers/Microsoft.Peering/peeringServiceProviders/peeringServiceProvider1",
-            "type": "Microsoft.Peering/peeringServiceProviders"
-          },
-          {
-            "properties": {
-              "serviceProviderName": "peeringServiceProvider2",
-              "peeringLocations": [
-                "peeringLocation1",
-                "peeringLocation2"
-              ]
-            },
-            "name": "peeringServiceProvider2",
-            "id": "/subscriptions/subId/providers/Microsoft.Peering/peeringServiceProviders/peeringServiceProvider2",
-            "type": "Microsoft.Peering/peeringServiceProviders"
+            "name": "CdnPrefix_192_168_1_0_24",
+            "id": "/subscriptions/subId/providers/Microsoft.Peering/cdnPeeringPrefixes/CdnPrefix_192_168_1_0_24",
+            "type": "Microsoft.Peering/cdnPeeringPrefixes"
           }
         ]
       }
