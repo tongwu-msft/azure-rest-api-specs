@@ -7292,6 +7292,7 @@
 ### [Get](desktopvirtualization/HostPools/Get.yml)
 ### [List](desktopvirtualization/HostPools/List.yml)
 ### [List By Resource Group](desktopvirtualization/HostPools/ListByResourceGroup.yml)
+### [Retrieve Registration Token](desktopvirtualization/HostPools/RetrieveRegistrationToken.yml)
 ### [Update](desktopvirtualization/HostPools/Update.yml)
 ## MSIX Packages
 ### [Overview](desktopvirtualization/MSIXPackages.yml)
