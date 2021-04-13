@@ -7293,9 +7293,28 @@
 ### [List](desktopvirtualization/HostPools/List.yml)
 ### [List By Resource Group](desktopvirtualization/HostPools/ListByResourceGroup.yml)
 ### [Update](desktopvirtualization/HostPools/Update.yml)
+## MSIX Packages
+### [Overview](desktopvirtualization/MSIXPackages.yml)
+### [Create Or Update](desktopvirtualization/MSIXPackages/CreateOrUpdate.yml)
+### [Delete](desktopvirtualization/MSIXPackages/Delete.yml)
+### [Get](desktopvirtualization/MSIXPackages/Get.yml)
+### [List](desktopvirtualization/MSIXPackages/List.yml)
+### [Update](desktopvirtualization/MSIXPackages/Update.yml)
+## Msix Images
+### [Overview](desktopvirtualization/MsixImages.yml)
+### [Expand](desktopvirtualization/MsixImages/Expand.yml)
 ## Operations
 ### [Overview](desktopvirtualization/Operations.yml)
 ### [List](desktopvirtualization/Operations/List.yml)
+## Scaling Plans
+### [Overview](desktopvirtualization/ScalingPlans.yml)
+### [Create](desktopvirtualization/ScalingPlans/Create.yml)
+### [Delete](desktopvirtualization/ScalingPlans/Delete.yml)
+### [Get](desktopvirtualization/ScalingPlans/Get.yml)
+### [List By Host Pool](desktopvirtualization/ScalingPlans/ListByHostPool.yml)
+### [List By Resource Group](desktopvirtualization/ScalingPlans/ListByResourceGroup.yml)
+### [List By Subscription](desktopvirtualization/ScalingPlans/ListBySubscription.yml)
+### [Update](desktopvirtualization/ScalingPlans/Update.yml)
 ## Session Hosts
 ### [Overview](desktopvirtualization/SessionHosts.yml)
 ### [Delete](desktopvirtualization/SessionHosts/Delete.yml)
