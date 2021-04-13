@@ -1,6 +1,7 @@
 ---
 title: "Partition"
-ms.date: "10/21/2020"
+description: "Partition"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -30,6 +31,7 @@ translation.priority.mt:
 
 | Name | Description |
 | --- | --- |
+| [Get Loaded Partition Info List](sfclient-api-getloadedpartitioninfolist.md) | Gets ordered list of partitions.<br/> |
 | [Get Partition Info List](sfclient-api-getpartitioninfolist.md) | Gets the list of partitions of a Service Fabric service.<br/> |
 | [Get Partition Info](sfclient-api-getpartitioninfo.md) | Gets the information about a Service Fabric partition.<br/> |
 | [Get Service Name Info](sfclient-api-getservicenameinfo.md) | Gets the name of the Service Fabric service for a partition.<br/> |
@@ -45,4 +47,5 @@ translation.priority.mt:
 | [Move Primary Replica](sfclient-api-moveprimaryreplica.md) | Moves the primary replica of a partition of a stateful service.<br/> |
 | [Move Secondary Replica](sfclient-api-movesecondaryreplica.md) | Moves the secondary replica of a partition of a stateful service.<br/> |
 | [Update Partition Load](sfclient-api-updatepartitionload.md) | Update the loads of provided partitions for specific metrics.<br/> |
+| [Move Instance](sfclient-api-moveinstance.md) | Moves the instance of a partition of a stateless service.<br/> |
 

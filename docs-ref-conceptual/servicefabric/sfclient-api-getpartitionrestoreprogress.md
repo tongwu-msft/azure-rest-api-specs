@@ -1,5 +1,6 @@
 ---
 title: "Get Partition Restore Progress"
+description: "Get Partition Restore Progress"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

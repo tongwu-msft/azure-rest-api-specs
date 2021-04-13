@@ -1,6 +1,7 @@
 ---
 title: "ProbeHttpGet"
-ms.date: "10/21/2020"
+description: "ProbeHttpGet"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -79,6 +80,6 @@ Scheme for the http probe. Can be Http or Https.
 Possible values are: 
 
   - `http` - Indicates that the probe is http.
-  - `https` - Indicates that the probe is https. No cert validaton.
+  - `https` - Indicates that the probe is https. No cert validation.
 
 

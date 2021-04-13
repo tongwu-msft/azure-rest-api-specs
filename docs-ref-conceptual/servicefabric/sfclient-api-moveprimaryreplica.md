@@ -1,6 +1,7 @@
 ---
 title: "Move Primary Replica"
-ms.date: "10/21/2020"
+description: "Move Primary Replica"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -83,7 +84,7 @@ __Type__: boolean <br/>
 __Required__: No<br/>
 __Default__: `false` <br/>
 <br/>
-Ignore constraints when moving a replica. If this parameter is not specified, all constraints are honored.
+Ignore constraints when moving a replica or instance. If this parameter is not specified, all constraints are honored.
 
 ____
 ### `timeout`

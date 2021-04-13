@@ -1,6 +1,7 @@
 ---
 title: "Node"
-ms.date: "10/21/2020"
+description: "Node"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -43,4 +44,6 @@ translation.priority.mt:
 | [Remove Configuration Overrides](sfclient-api-removeconfigurationoverrides.md) | Removes configuration overrides on the specified node.<br/> |
 | [Get Configuration Overrides](sfclient-api-getconfigurationoverrides.md) | Gets the list of configuration overrides on the specified node.<br/> |
 | [Add Configuration Parameter Overrides](sfclient-api-addconfigurationparameteroverrides.md) | Adds the list of configuration overrides on the specified node.<br/> |
+| [Remove Node Tags](sfclient-api-removenodetags.md) | Removes the list of tags from the specified node.<br/> |
+| [Add Node Tags](sfclient-api-addnodetags.md) | Adds the list of tags on the specified node.<br/> |
 

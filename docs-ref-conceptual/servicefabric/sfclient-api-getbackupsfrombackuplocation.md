@@ -1,5 +1,6 @@
 ---
 title: "Get Backups From Backup Location"
+description: "Get Backups From Backup Location"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

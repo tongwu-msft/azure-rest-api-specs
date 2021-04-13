@@ -1,6 +1,7 @@
 ---
 title: "StatelessServiceUpdateDescription"
-ms.date: "01/28/2021"
+description: "StatelessServiceUpdateDescription"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -40,11 +41,15 @@ Describes an update for a stateless service.
 | [`ServicePlacementPolicies`](#serviceplacementpolicies) | array of [ServicePlacementPolicyDescription](sfclient-model-serviceplacementpolicydescription.md) | No |
 | [`DefaultMoveCost`](#defaultmovecost) | string (enum) | No |
 | [`ScalingPolicies`](#scalingpolicies) | array of [ScalingPolicyDescription](sfclient-model-scalingpolicydescription.md) | No |
+| [`ServiceDnsName`](#servicednsname) | string | No |
+| [`TagsForPlacement`](#tagsforplacement) | [NodeTagsDescription](sfclient-model-nodetagsdescription.md) | No |
+| [`TagsForRunning`](#tagsforrunning) | [NodeTagsDescription](sfclient-model-nodetagsdescription.md) | No |
 | [`InstanceCount`](#instancecount) | integer | No |
 | [`MinInstanceCount`](#mininstancecount) | integer | No |
 | [`MinInstancePercentage`](#mininstancepercentage) | integer | No |
 | [`InstanceCloseDelayDurationSeconds`](#instanceclosedelaydurationseconds) | string | No |
-| [`InstanceRestartWaitDurationSeconds`](#instancerestartwaitdurationseconds) | integer (int64) | No |
+| [`InstanceLifecycleDescription`](#instancelifecycledescription) | [InstanceLifecycleDescription](sfclient-model-instancelifecycledescription.md) | No |
+| [`InstanceRestartWaitDurationSeconds`](#instancerestartwaitdurationseconds) | string | No |
 
 ____
 ### `Flags`
@@ -71,7 +76,11 @@ For example, if the provided value is 6 then the flags for ReplicaRestartWaitDur
 - MinInstanceCount - Indicates the MinInstanceCount property is set. The value is 4096.
 - MinInstancePercentage - Indicates the MinInstancePercentage property is set. The value is 8192.
 - InstanceCloseDelayDuration - Indicates the InstanceCloseDelayDuration property is set. The value is 16384.
-- DropSourceReplicaOnMove - Indicates the DropSourceReplicaOnMove property is set. The value is 32768.
+- InstanceRestartWaitDuration - Indicates the InstanceCloseDelayDuration property is set. The value is 32768.
+- DropSourceReplicaOnMove - Indicates the DropSourceReplicaOnMove property is set. The value is 65536.
+- ServiceDnsName - Indicates the ServiceDnsName property is set. The value is 131072.
+- TagsForPlacement - Indicates the TagsForPlacement property is set. The value is 1048576.
+- TagsForRunning - Indicates the TagsForRunning property is set. The value is 2097152.
 
 
 ____
@@ -129,6 +138,27 @@ __Required__: No<br/>
 Scaling policies for this service.
 
 ____
+### `ServiceDnsName`
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+The DNS name of the service.
+
+____
+### `TagsForPlacement`
+__Type__: [NodeTagsDescription](sfclient-model-nodetagsdescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Tags for placement of this service.
+
+____
+### `TagsForRunning`
+__Type__: [NodeTagsDescription](sfclient-model-nodetagsdescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Tags for running of this service.
+
+____
 ### `InstanceCount`
 __Type__: integer <br/>
 __Required__: No<br/>
@@ -171,11 +201,16 @@ the following upon receiving the endpoint removal notification:
 
 
 ____
-### `InstanceRestartWaitDurationSeconds`
-__Type__: integer (int64) <br/>
+### `InstanceLifecycleDescription`
+__Type__: [InstanceLifecycleDescription](sfclient-model-instancelifecycledescription.md) <br/>
 __Required__: No<br/>
-__InclusiveMaximum__: `4294967295` <br/>
-__InclusiveMinimum__: `0` <br/>
+<br/>
+Defines how instances of this service will behave during their lifecycle.
+
+____
+### `InstanceRestartWaitDurationSeconds`
+__Type__: string <br/>
+__Required__: No<br/>
 <br/>
 When a stateless instance goes down, this timer starts. When it expires Service Fabric will create a new instance on any node in the cluster. 
 This configuration is to reduce unnecessary creation of a new instance in situations where the instance going down is likely to recover in a short time. For example, during an upgrade.

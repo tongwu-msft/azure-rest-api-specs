@@ -1,5 +1,6 @@
 ---
 title: "Get Upgrade Progress"
+description: "Get Upgrade Progress"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

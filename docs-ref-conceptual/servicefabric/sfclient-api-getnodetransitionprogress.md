@@ -1,5 +1,6 @@
 ---
 title: "Get Node Transition Progress"
+description: "Get Node Transition Progress"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

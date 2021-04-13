@@ -1,5 +1,6 @@
 ---
 title: "Get Application Type Info List By Name"
+description: "Get Application Type Info List By Name"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

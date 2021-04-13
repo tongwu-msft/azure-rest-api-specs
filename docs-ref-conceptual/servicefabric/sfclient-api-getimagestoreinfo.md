@@ -1,5 +1,6 @@
 ---
 title: "Get Image Store Info"
+description: "Get Image Store Info"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

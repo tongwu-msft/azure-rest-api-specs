@@ -1,5 +1,6 @@
 ---
 title: "Suspend Application Backup"
+description: "Suspend Application Backup"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

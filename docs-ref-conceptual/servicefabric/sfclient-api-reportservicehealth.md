@@ -1,5 +1,6 @@
 ---
 title: "Report Service Health"
+description: "Report Service Health"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -1,5 +1,6 @@
 ---
 title: "Update Partition Load"
+description: "Update Partition Load"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

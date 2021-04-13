@@ -1,6 +1,7 @@
 ---
 title: "Update Backup Policy"
-ms.date: "10/21/2020"
+description: "Update Backup Policy"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -35,7 +36,7 @@ Updates the backup policy identified by {backupPolicyName}
 ## Request
 | Method | Request URI |
 | ------ | ----------- |
-| POST | `/BackupRestore/BackupPolicies/{backupPolicyName}/$/Update?api-version=6.4&timeout={timeout}` |
+| POST | `/BackupRestore/BackupPolicies/{backupPolicyName}/$/Update?api-version=6.4&timeout={timeout}&ValidateConnection={ValidateConnection}` |
 
 
 ## Parameters
@@ -44,6 +45,7 @@ Updates the backup policy identified by {backupPolicyName}
 | [`backupPolicyName`](#backuppolicyname) | string | Yes | Path |
 | [`api-version`](#api-version) | string | Yes | Query |
 | [`timeout`](#timeout) | integer (int64) | No | Query |
+| [`ValidateConnection`](#validateconnection) | boolean | No | Query |
 | [`BackupPolicyDescription`](#backuppolicydescription) | [BackupPolicyDescription](sfclient-model-backuppolicydescription.md) | Yes | Body |
 
 ____
@@ -75,6 +77,14 @@ __InclusiveMaximum__: `4294967295` <br/>
 __InclusiveMinimum__: `1` <br/>
 <br/>
 The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+
+____
+### `ValidateConnection`
+__Type__: boolean <br/>
+__Required__: No<br/>
+__Default__: `false` <br/>
+<br/>
+Specifies whether to validate the storage connection and credentials before creating or updating the backup policies.
 
 ____
 ### `BackupPolicyDescription`

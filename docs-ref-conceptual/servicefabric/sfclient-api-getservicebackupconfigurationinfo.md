@@ -1,5 +1,6 @@
 ---
 title: "Get Service Backup Configuration Info"
+description: "Get Service Backup Configuration Info"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

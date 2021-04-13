@@ -1,5 +1,6 @@
 ---
 title: "Start Cluster Configuration Upgrade"
+description: "Start Cluster Configuration Upgrade"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

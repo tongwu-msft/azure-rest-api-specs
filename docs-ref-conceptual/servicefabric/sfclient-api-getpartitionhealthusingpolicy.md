@@ -1,5 +1,6 @@
 ---
 title: "Get Partition Health Using Policy"
+description: "Get Partition Health Using Policy"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

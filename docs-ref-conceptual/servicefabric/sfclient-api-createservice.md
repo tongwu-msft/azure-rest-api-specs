@@ -1,6 +1,7 @@
 ---
 title: "Create Service"
-ms.date: "01/28/2021"
+description: "Create Service"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -150,7 +151,7 @@ POST http://localhost:19080/Applications/test/$/GetServices/$/Create?api-version
 The response body is empty.
 ### Stateless service with dns name and auto scaling
 
-This example shows how to create a stateless Service Fabric service with a dns name defined and auto scaling based on cpu usage.
+This example shows how to create a stateless Service Fabric service with a dns name definied and auto scaling based on cpu usage.
 
 #### Request
 ```
