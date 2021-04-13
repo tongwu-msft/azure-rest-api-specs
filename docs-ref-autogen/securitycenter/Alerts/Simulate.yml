@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.securitycenter.alerts.updatesubscriptionlevelalertstatetoreactivate
-name: Update Subscription Level Alert State To Reactivate
+uid: management.azure.com.securitycenter.alerts.simulate
+name: Simulate
 service: Security Center
 groupName: Alerts
-apiVersion: 2020-01-01
-summary: Update the alert's state
+apiVersion: 2021-01-01
+summary: Simulate security alerts
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/activate?api-version=2020-01-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/default/simulate?api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -25,12 +25,6 @@ uriParameters:
   description: The location where ASC stores the data of the subscription. can be retrieved from Get locations
   types:
   - uid: string
-- name: alertName
-  in: path
-  isRequired: true
-  description: Name of the alert object
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -38,12 +32,21 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 204 No Content
-  description: No Content
+- name: 202 Accepted
+  description: Accepted
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties
+    in: body
+    description: Alert Simulator request body data.
+    types:
+    - uid: AlertSimulatorBundlesRequestProperties
+    typesTitle: AlertSimulatorRequestProperties
 requestHeader: []
 definitions:
 - name: CloudError
@@ -77,6 +80,29 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: AlertSimulatorRequestBody
+  description: Alert Simulator request body.
+  kind: object
+  properties:
+  - name: properties
+    description: Alert Simulator request body data.
+    types:
+    - uid: AlertSimulatorBundlesRequestProperties
+    typesTitle: AlertSimulatorRequestProperties
+- name: AlertSimulatorBundlesRequestProperties
+  description: Simulate alerts according to this bundles.
+  kind: object
+  properties:
+  - name: bundles
+    description: Bundles list.
+    types:
+    - uid: string
+      isArray: true
+  - name: kind
+    description: The kind of alert simulation.
+    types:
+    - uid: Bundles
+    typesTitle: string
 - name: CloudErrorBody
   description: The error detail.
   kind: object
@@ -123,11 +149,27 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Update security alert state on a subscription from a security data location
+- name: Simulate security alerts on a subscription
   request:
-    uri: POST https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/locations/westeurope/alerts/2518298467986649999_4d25bfef-2d77-4a08-adc0-3e35715cc92a/activate?api-version=2020-01-01
+    uri: POST https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/locations/centralus/alerts/default/simulate?api-version=2021-01-01
+    body: >-
+      {
+        "properties": {
+          "kind": "Bundles",
+          "bundles": [
+            "AppServices",
+            "DNS",
+            "KeyVaults",
+            "KubernetesService",
+            "ResourceManager",
+            "SqlServers",
+            "StorageAccounts",
+            "VirtualMachines"
+          ]
+        }
+      }
   responses:
-  - statusCode: "204"
+  - statusCode: "202"
 security:
 - name: azure_auth
   type: oauth2
