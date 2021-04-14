@@ -9,7 +9,7 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events?api-version=2018-07-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events?api-version=2018-07-01&$filter={$filter}&view={view}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events?api-version=2018-07-01&$filter={$filter}&queryStartTime={queryStartTime}&view={view}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -26,7 +26,12 @@ uriParameters:
   - uid: string
 - name: $filter
   in: query
-  description: The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN
+  description: A valid odata query to limit the events returned. The logical operators and, or, equal, not equal, and top are supported. For example, $filter=Properties/EventType eq 'ServiceIssue' or Properties/EventType eq 'PlannedMaintenance' OR %24filter=Properties%2FEventType%20eq%20%27ServiceIssue%27%20or%20Properties%2FEventType%20eq%20%27PlannedMaintenance%27
+  types:
+  - uid: string
+- name: queryStartTime
+  in: query
+  description: Specifies from when to return events, based on the lastUpdateTime property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020
   types:
   - uid: string
 - name: view
@@ -395,7 +400,7 @@ definitions:
 examples:
 - name: ListEventsBySubscriptionId
   request:
-    uri: GET https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.ResourceHealth/events?api-version=2018-07-01&$filter=service eq 'Virtual Machines' or region eq 'West US'
+    uri: GET https://management.azure.com/subscriptions/subscriptionId/providers/Microsoft.ResourceHealth/events?api-version=2018-07-01&$filter=service eq 'Virtual Machines' or region eq 'West US'&queryStartTime=7/24/2020
   responses:
   - statusCode: "200"
     body: >-
