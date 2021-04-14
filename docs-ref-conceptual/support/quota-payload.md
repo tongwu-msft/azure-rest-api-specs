@@ -128,7 +128,7 @@ To request quota at the account level, set _quotaChangeRequestSubType_ to "Accou
 | :--- |:---|:---|:---| :---|
 |AccountName|True|string|Unique account name in the Batch service|testBatchAccount|
 |Type|string|True|Desired sub-resource type|Jobs|
-|VM Family|True|string| Microsoft.Compute [SKU family](https://docs.microsoft.com/rest/api/compute/resourceskus/list). Specify only for **Dedicated** core sub-resource.|standardA0_A7Family|
+|VM Family|True|string| Microsoft.Compute [SKU family](https://docs.microsoft.com/rest/api/compute/resourceskus/list). Specify only for **Dedicated** or **LowPriority** core sub-resource.|standardDv3Family|
 |NewLimit|True|integer|Desired new quota limit|5|
 
 Supported _sub-resource_ types for Batch Account:
@@ -151,7 +151,7 @@ To request a quota increase for _Dedicated Cores_ for an Azure Batch account:
   "quotaChangeRequests": [
     {
       "region": "EastUS",
-      "payload": "{\"AccountName\":\"testBatchAccount\",\"VMFamily\":\"standardA0_A7Family\",\"NewLimit\":200,\"Type\":\"Dedicated\"}"
+      "payload": "{\"AccountName\":\"testBatchAccount\",\"VMFamily\":\"standardDv3Family\",\"NewLimit\":200,\"Type\":\"Dedicated\"}"
     }
   ]
 }
@@ -175,6 +175,25 @@ To request a quota increase for _Jobs_ for an Azure Batch account:
 ```
 
 View complete request and response body for [Quota increase for Batch account (Jobs)](https://docs.microsoft.com/rest/api/support/supporttickets/create?branch=support#create-a-ticket-to-request-quota-increase-for-active-jobs-and-job-schedules-for-a-batch-account)
+
+To request a quota increase for both _Dedicated Cores_ and _LowPriority Cores_ for an Azure Batch account:
+
+```json
+"quotaTicketDetails": {
+  "quotaChangeRequestVersion": "1.0",
+  "quotaChangeRequestSubType": "Account",
+"quotaChangeRequests": [
+    {
+      "region": "EastUS",
+      "payload": "{\"AccountName\":\"testBatchAccount\",\"VMFamily\":\"standardDv3Family\",\"NewLimit\":200,\"Type\":\"Dedicated\"}"
+    },
+    {
+      "region": "EastUS",
+      "payload": "{\"AccountName\":\"testBatchAccount\",\"VMFamily\":\"standardDv2Family\",\"NewLimit\":200,\"Type\":\"LowPriority\"}"
+    },
+  ]
+}
+```
 
 ## Azure SQL Database
 
