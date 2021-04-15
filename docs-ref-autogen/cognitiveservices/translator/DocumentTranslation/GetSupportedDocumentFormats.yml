@@ -1,14 +1,14 @@
 ### YamlMime:RESTOperation
-uid: cognitiveservices.translator.documenttranslation.getglossaryformats
-name: Get Glossary Formats
+uid: cognitiveservices.translator.documenttranslation.getsupporteddocumentformats
+name: Get Supported Document Formats
 service: Cognitive Services
 groupName: Document Translation
 apiVersion: v1.0-preview.1
-summary: "Returns the list of supported glossary formats  \nThe list of supported glossary formats supported by the Document Translation service.\nThe list includes the common file extension used."
+summary: "Returns a list of supported document formats  \nThe list of supported document formats supported by the Document Translation service.\nThe list includes the common file extension, as well as the content-type if using the upload API."
 produces:
 - application/json
 paths:
-- content: GET {endpoint}/translator/text/batch/v1.0-preview.1/glossaries/formats
+- content: GET {endpoint}/translator/text/batch/v1.0-preview.1/documents/formats
 uriParameters:
 - name: endpoint
   in: path
@@ -22,21 +22,21 @@ responses:
   headers:
   - name: Retry-After
     value: integer
-  description: Returns the list of supported glossary file formats
+  description: Returns the list of supported document file formats
   types:
-  - uid: FileFormatListResult
+  - uid: SupportedFileFormats
 - name: Other Status Codes
   description: Too many requests
   types:
-  - uid: ErrorResponseV2
+  - uid: TranslationErrorResponse
 - name: 500 Internal Server Error
   description: Internal Server Error
   types:
-  - uid: ErrorResponseV2
+  - uid: TranslationErrorResponse
 - name: Other Status Codes
   description: Server temporary unavailable
   types:
-  - uid: ErrorResponseV2
+  - uid: TranslationErrorResponse
 requestHeader:
 - name: Ocp-Apim-Subscription-Key
   in: header
@@ -45,7 +45,7 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: FileFormatListResult
+- name: SupportedFileFormats
   description: Base type for List return in our api
   kind: object
   properties:
@@ -54,7 +54,7 @@ definitions:
     types:
     - uid: FileFormat
       isArray: true
-- name: ErrorResponseV2
+- name: TranslationErrorResponse
   description: >-
     Contains unified error information used for HTTP responses across any Cognitive Service. Instances
 
@@ -66,7 +66,7 @@ definitions:
   - name: error
     description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
     types:
-    - uid: ErrorV2
+    - uid: TranslationError
 - name: FileFormat
   kind: object
   properties:
@@ -93,14 +93,14 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: ErrorV2
+- name: TranslationError
   description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
   kind: object
   properties:
   - name: code
     description: Enums containing high level error codes.
     types:
-    - uid: ErrorCodeV2
+    - uid: TranslationErrorCode
   - name: message
     description: Gets high level error message.
     types:
@@ -116,8 +116,8 @@ definitions:
 
       This contains required properties ErrorCode, message and optional properties target, details(key value pair), inner error(this can be nested).
     types:
-    - uid: InnerErrorV2
-- name: ErrorCodeV2
+    - uid: InnerTranslationError
+- name: TranslationErrorCode
   description: Enums containing high level error codes.
   kind: enum
   properties:
@@ -142,7 +142,7 @@ definitions:
   - name: RequestRateTooHigh
     types:
     - uid: string
-- name: InnerErrorV2
+- name: InnerTranslationError
   description: >-
     New Inner Error format which conforms to Cognitive Services API Guidelines which is available at https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow.
 
@@ -168,11 +168,11 @@ definitions:
 
       This contains required properties ErrorCode, message and optional properties target, details(key value pair), inner error(this can be nested).
     types:
-    - uid: InnerErrorV2
+    - uid: InnerTranslationError
 examples:
-- name: Get Glossary Formats
+- name: Get Document Formats
   request:
-    uri: GET {endpoint}/translator/text/batch/v1.0-preview.1/glossaries/formats
+    uri: GET {endpoint}/translator/text/batch/v1.0-preview.1/documents/formats
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'
@@ -223,32 +223,58 @@ examples:
       {
         "value": [
           {
-            "format": "XLIFF",
+            "format": "PlainText",
             "fileExtensions": [
-              ".xlf"
+              ".txt"
             ],
             "contentTypes": [
-              "application/xliff+xml"
-            ],
-            "defaultVersion": "1.2",
-            "versions": [
-              "1.0",
-              "1.1",
-              "1.2"
+              "text/plain"
             ]
           },
           {
-            "format": "TMX",
+            "format": "PortableDocumentFormat",
             "fileExtensions": [
-              ".tmx"
+              ".pdf"
             ],
-            "contentTypes": [],
-            "versions": [
-              "1.0",
-              "1.1",
-              "1.2",
-              "1.3",
-              "1.4"
+            "contentTypes": [
+              "application/pdf"
+            ]
+          },
+          {
+            "format": "OpenXmlWord",
+            "fileExtensions": [
+              ".docx"
+            ],
+            "contentTypes": [
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            ]
+          },
+          {
+            "format": "OpenXmlPresentation",
+            "fileExtensions": [
+              ".pptx"
+            ],
+            "contentTypes": [
+              "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+            ]
+          },
+          {
+            "format": "OpenXmlSpreadsheet",
+            "fileExtensions": [
+              ".xlsx"
+            ],
+            "contentTypes": [
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            ]
+          },
+          {
+            "format": "HtmlFile",
+            "fileExtensions": [
+              ".html",
+              ".htm"
+            ],
+            "contentTypes": [
+              "text/html"
             ]
           }
         ]

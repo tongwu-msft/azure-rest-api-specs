@@ -1,14 +1,14 @@
 ### YamlMime:RESTOperation
-uid: cognitiveservices.translator.documenttranslation.getdocumentstoragesource
-name: Get Document Storage Source
+uid: cognitiveservices.translator.documenttranslation.gettranslationstatus
+name: Get Translation Status
 service: Cognitive Services
 groupName: Document Translation
 apiVersion: v1.0-preview.1
-summary: "Returns a list of supported storage sources  \nReturns a list of storage sources/options supported by the Document Translation service."
+summary: "Returns the status for a document translation request  \nReturns the status for a document translation request.\nThe status includes the overall request status, as well as the status for documents that are being translated as part of that request."
 produces:
 - application/json
 paths:
-- content: GET {endpoint}/translator/text/batch/v1.0-preview.1/storagesources
+- content: GET {endpoint}/translator/text/batch/v1.0-preview.1/batches/{id}
 uriParameters:
 - name: endpoint
   in: path
@@ -17,26 +17,43 @@ uriParameters:
   description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
   types:
   - uid: string
+- name: id
+  in: path
+  isRequired: true
+  description: Format - uuid.  The operation id
+  types:
+  - uid: string
+  format: uuid
 responses:
 - name: 200 OK
   headers:
   - name: Retry-After
     value: integer
-  description: Successful request and returns the list of storage sources
+  - name: ETag
+    value: string
+  description: Successful request and returns the status of the batch translation operation
   types:
-  - uid: StorageSourceListResult
+  - uid: TranslationStatus
+- name: 401 Unauthorized
+  description: Unauthorized.  Please check your credentials
+  types:
+  - uid: TranslationErrorResponse
+- name: 404 Not Found
+  description: Resource is not found
+  types:
+  - uid: TranslationErrorResponse
 - name: Other Status Codes
   description: Too many requests
   types:
-  - uid: ErrorResponseV2
+  - uid: TranslationErrorResponse
 - name: 500 Internal Server Error
   description: Internal Server Error
   types:
-  - uid: ErrorResponseV2
+  - uid: TranslationErrorResponse
 - name: Other Status Codes
   description: Server temporary unavailable
   types:
-  - uid: ErrorResponseV2
+  - uid: TranslationErrorResponse
 requestHeader:
 - name: Ocp-Apim-Subscription-Key
   in: header
@@ -45,16 +62,35 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: StorageSourceListResult
-  description: Base type for List return in our api
+- name: TranslationStatus
+  description: Translation job status response
   kind: object
   properties:
-  - name: value
-    description: list of objects
+  - name: id
+    description: Id of the operation.
     types:
     - uid: string
-      isArray: true
-- name: ErrorResponseV2
+  - name: createdDateTimeUtc
+    description: Operation created date time
+    types:
+    - uid: string
+  - name: lastActionDateTimeUtc
+    description: Date time in which the operation's status has been updated
+    types:
+    - uid: string
+  - name: status
+    description: List of possible statuses for job or document
+    types:
+    - uid: Status
+  - name: error
+    description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
+    types:
+    - uid: TranslationError
+  - name: summary
+    description: ''
+    types:
+    - uid: StatusSummary
+- name: TranslationErrorResponse
   description: >-
     Contains unified error information used for HTTP responses across any Cognitive Service. Instances
 
@@ -66,15 +102,40 @@ definitions:
   - name: error
     description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
     types:
-    - uid: ErrorV2
-- name: ErrorV2
+    - uid: TranslationError
+- name: Status
+  description: List of possible statuses for job or document
+  kind: enum
+  properties:
+  - name: NotStarted
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+  - name: Cancelling
+    types:
+    - uid: string
+  - name: ValidationFailed
+    types:
+    - uid: string
+- name: TranslationError
   description: This contains an outer error with error code, message, details, target and an inner error with more descriptive details.
   kind: object
   properties:
   - name: code
     description: Enums containing high level error codes.
     types:
-    - uid: ErrorCodeV2
+    - uid: TranslationErrorCode
   - name: message
     description: Gets high level error message.
     types:
@@ -90,8 +151,39 @@ definitions:
 
       This contains required properties ErrorCode, message and optional properties target, details(key value pair), inner error(this can be nested).
     types:
-    - uid: InnerErrorV2
-- name: ErrorCodeV2
+    - uid: InnerTranslationError
+- name: StatusSummary
+  kind: object
+  properties:
+  - name: total
+    description: Total count
+    types:
+    - uid: integer
+  - name: failed
+    description: Failed count
+    types:
+    - uid: integer
+  - name: success
+    description: Number of Success
+    types:
+    - uid: integer
+  - name: inProgress
+    description: Number of in progress
+    types:
+    - uid: integer
+  - name: notYetStarted
+    description: Count of not yet started
+    types:
+    - uid: integer
+  - name: cancelled
+    description: Number of cancelled
+    types:
+    - uid: integer
+  - name: totalCharacterCharged
+    description: Total characters charged by the API
+    types:
+    - uid: integer
+- name: TranslationErrorCode
   description: Enums containing high level error codes.
   kind: enum
   properties:
@@ -116,7 +208,7 @@ definitions:
   - name: RequestRateTooHigh
     types:
     - uid: string
-- name: InnerErrorV2
+- name: InnerTranslationError
   description: >-
     New Inner Error format which conforms to Cognitive Services API Guidelines which is available at https://microsoft.sharepoint.com/%3Aw%3A/t/CognitiveServicesPMO/EUoytcrjuJdKpeOKIK_QRC8BPtUYQpKBi8JsWyeDMRsWlQ?e=CPq8ow.
 
@@ -142,21 +234,35 @@ definitions:
 
       This contains required properties ErrorCode, message and optional properties target, details(key value pair), inner error(this can be nested).
     types:
-    - uid: InnerErrorV2
+    - uid: InnerTranslationError
 examples:
-- name: Get Document Storage Sources
+- name: Get Batch Operation Status
   request:
-    uri: GET {endpoint}/translator/text/batch/v1.0-preview.1/storagesources
+    uri: GET {endpoint}/translator/text/batch/v1.0-preview.1/batches/727BF148-F327-47A0-9481-ABAE6362F11E
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'
   responses:
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "Unauthorized",
+          "message": "User is not authorized",
+          "target": "Operation",
+          "innerError": {
+            "code": "Unauthorized",
+            "message": "Operation is not authorized"
+          }
+        }
+      }
   - statusCode: "429"
     body: >-
       {
         "error": {
           "code": "RequestRateTooHigh",
           "message": "User's request rate is too high",
+          "target": "Operation",
           "innerError": {
             "code": "RateTooHigh",
             "message": "Request rate is too high"
@@ -169,6 +275,7 @@ examples:
         "error": {
           "code": "InternalServerError",
           "message": "Internal Server Error",
+          "target": "Operation",
           "innerError": {
             "code": "InternalServerError",
             "message": "Unexpected internal server error has occurred"
@@ -181,9 +288,23 @@ examples:
         "error": {
           "code": "ServiceUnavailable",
           "message": "Service is temporary unavailable",
+          "target": "Operation",
           "innerError": {
             "code": "ServiceTemporaryUnavailable",
             "message": "Service is currently unavailable.  Please try again later"
+          }
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "ResourceNotFound",
+          "message": "id not found",
+          "target": "Operation",
+          "innerError": {
+            "code": "ResourceNotFound",
+            "message": "Resource requested is not found"
           }
         }
       }
@@ -195,9 +316,19 @@ examples:
       value: 686897696a7c876b7e
     body: >-
       {
-        "value": [
-          "AzureBlob"
-        ]
+        "id": "727bf148-f327-47a0-9481-abae6362f11e",
+        "createdDateTimeUtc": "2020-03-26T00:00:00Z",
+        "lastActionDateTimeUtc": "2020-03-26T01:00:00Z",
+        "status": "Succeeded",
+        "summary": {
+          "total": 10,
+          "failed": 1,
+          "success": 9,
+          "inProgress": 0,
+          "notYetStarted": 0,
+          "cancelled": 0,
+          "totalCharacterCharged": 0
+        }
       }
 security:
 - name: Ocp-Apim-Subscription-Key
