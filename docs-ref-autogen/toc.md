@@ -4271,15 +4271,15 @@
 ## Translator
 ### Document Translation
 #### [Overview](cognitiveservices/translator/DocumentTranslation.yml)
-#### [Cancel Operation](cognitiveservices/translator/DocumentTranslation/CancelOperation.yml)
-#### [Get Document Formats](cognitiveservices/translator/DocumentTranslation/GetDocumentFormats.yml)
+#### [Cancel Translation](cognitiveservices/translator/DocumentTranslation/CancelTranslation.yml)
 #### [Get Document Status](cognitiveservices/translator/DocumentTranslation/GetDocumentStatus.yml)
-#### [Get Document Storage Source](cognitiveservices/translator/DocumentTranslation/GetDocumentStorageSource.yml)
-#### [Get Glossary Formats](cognitiveservices/translator/DocumentTranslation/GetGlossaryFormats.yml)
-#### [Get Operation Documents Status](cognitiveservices/translator/DocumentTranslation/GetOperationDocumentsStatus.yml)
-#### [Get Operation Status](cognitiveservices/translator/DocumentTranslation/GetOperationStatus.yml)
-#### [Get Operations](cognitiveservices/translator/DocumentTranslation/GetOperations.yml)
-#### [Submit Batch Request](cognitiveservices/translator/DocumentTranslation/SubmitBatchRequest.yml)
+#### [Get Documents Status](cognitiveservices/translator/DocumentTranslation/GetDocumentsStatus.yml)
+#### [Get Supported Document Formats](cognitiveservices/translator/DocumentTranslation/GetSupportedDocumentFormats.yml)
+#### [Get Supported Glossary Formats](cognitiveservices/translator/DocumentTranslation/GetSupportedGlossaryFormats.yml)
+#### [Get Supported Storage Sources](cognitiveservices/translator/DocumentTranslation/GetSupportedStorageSources.yml)
+#### [Get Translation Status](cognitiveservices/translator/DocumentTranslation/GetTranslationStatus.yml)
+#### [Get Translations Status](cognitiveservices/translator/DocumentTranslation/GetTranslationsStatus.yml)
+#### [Start Translation](cognitiveservices/translator/DocumentTranslation/StartTranslation.yml)
 ### Translator
 #### [Overview](cognitiveservices/translator/Translator.yml)
 #### [Break Sentence](cognitiveservices/translator/Translator/BreakSentence.yml)
