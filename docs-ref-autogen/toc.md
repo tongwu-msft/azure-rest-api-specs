@@ -10055,6 +10055,9 @@
 #### [List By Resource Group](monitor/AutoscaleSettings/ListByResourceGroup.yml)
 #### [List By Subscription](monitor/AutoscaleSettings/ListBySubscription.yml)
 #### [Update](monitor/AutoscaleSettings/Update.yml)
+### Baselines
+#### [Overview](monitor/Baselines.yml)
+#### [List](monitor/Baselines/List.yml)
 ### Data Collection Rule Associations
 #### [Overview](monitor/DataCollectionRuleAssociations.yml)
 #### [Create](monitor/DataCollectionRuleAssociations/Create.yml)
@@ -10108,9 +10111,6 @@
 #### [Overview](monitor/MetricAlertsStatus.yml)
 #### [List](monitor/MetricAlertsStatus/List.yml)
 #### [List By Name](monitor/MetricAlertsStatus/ListByName.yml)
-### Metric Baseline
-#### [Overview](monitor/MetricBaseline.yml)
-#### [Get](monitor/MetricBaseline/Get.yml)
 ### Metric Definitions
 #### [Overview](monitor/MetricDefinitions.yml)
 #### [List](monitor/MetricDefinitions/List.yml)
