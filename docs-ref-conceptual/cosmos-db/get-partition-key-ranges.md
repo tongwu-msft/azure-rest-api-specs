@@ -23,6 +23,9 @@ translation.priority.mt:
 ---
 # Get Partition key ranges
 Performing a `GET` on a specific collection's `pkranges` child resource retrieves the list of partition key ranges for the collection.  
+
+> [!NOTE]
+> These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md). API reference articles are listed below.
   
 ## Request  
   
