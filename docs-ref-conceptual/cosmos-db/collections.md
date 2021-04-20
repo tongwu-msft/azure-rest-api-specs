@@ -27,7 +27,7 @@ translation.priority.mt:
 The REST API supports basic CRUD operations on the resources under a database account. A collection is a container of JSON documents and associated JavaScript application logic, i.e. stored procedures, triggers and user-defined functions. This topic outlines the REST operations used to manage document collections.
 
 > [!NOTE]
-> These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md). API reference articles are listed below.  
+> These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md).  
   
 A collection maps to a container in Azure Cosmos DB. Therefore, it is a billable entity, where the cost is determined by the provisioned throughput expressed in request units per second. Collections can span one or more partitions/servers and scaled up and down in terms of throughput. Collections are automatically partitioned into one or more physical servers by Azure Cosmos DB. 
 
