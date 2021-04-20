@@ -74,7 +74,7 @@ translation.priority.mt:
 |Property|Description|  
 |--------------|-----------------|  
 |**automatic**|Indicates whether automatic indexing is on or off. The default value is True, thus all documents are indexed. Setting the value to False would allow manual configuration of indexing paths.|  
-|**indexingMode**|By default, the indexing mode is Consistent. This means that indexing occurs synchronously during insertion, replacment or deletion of documents. To have indexing occur asynchronously, set the indexing mode to lazy.|  
+|**indexingMode**|By default, the indexing mode is Consistent. This means that indexing occurs synchronously during insertion, replacement, or deletion of documents. To have indexing occur asynchronously, set the indexing mode to lazy.|  
 |**includedPaths**|The array containing document paths to be indexed. By default, two paths are included: the / path which specifies that all document paths be indexed, and the _ts path, which indexes for a timestamp range comparison.<br /><br /> Within element in the array.|  
   
  **Properties under Included Path**  
