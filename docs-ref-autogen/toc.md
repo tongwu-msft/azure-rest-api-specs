@@ -2236,6 +2236,9 @@
 ### Classic Administrators
 #### [Overview](authorization/ClassicAdministrators.yml)
 #### [List](authorization/ClassicAdministrators/List.yml)
+### Eligible Child Resources
+#### [Overview](authorization/EligibleChildResources.yml)
+#### [Get](authorization/EligibleChildResources/Get.yml)
 ### Global Administrator
 #### [Overview](authorization/GlobalAdministrator.yml)
 #### [Elevate Access](authorization/GlobalAdministrator/ElevateAccess.yml)
@@ -2262,6 +2265,20 @@
 ### Role Assignment Approval Steps
 #### [Overview](authorization/RoleAssignmentApprovalSteps.yml)
 #### [List](authorization/RoleAssignmentApprovalSteps/List.yml)
+### Role Assignment Schedule Instances
+#### [Overview](authorization/RoleAssignmentScheduleInstances.yml)
+#### [Get](authorization/RoleAssignmentScheduleInstances/Get.yml)
+#### [List For Scope](authorization/RoleAssignmentScheduleInstances/ListForScope.yml)
+### Role Assignment Schedule Requests
+#### [Overview](authorization/RoleAssignmentScheduleRequests.yml)
+#### [Cancel](authorization/RoleAssignmentScheduleRequests/Cancel.yml)
+#### [Create](authorization/RoleAssignmentScheduleRequests/Create.yml)
+#### [Get](authorization/RoleAssignmentScheduleRequests/Get.yml)
+#### [List For Scope](authorization/RoleAssignmentScheduleRequests/ListForScope.yml)
+### Role Assignment Schedules
+#### [Overview](authorization/RoleAssignmentSchedules.yml)
+#### [Get](authorization/RoleAssignmentSchedules/Get.yml)
+#### [List For Scope](authorization/RoleAssignmentSchedules/ListForScope.yml)
 ### Role Assignments
 #### [Overview](authorization/RoleAssignments.yml)
 #### [Create](authorization/RoleAssignments/Create.yml)
@@ -2281,6 +2298,32 @@
 #### [Get](authorization/RoleDefinitions/Get.yml)
 #### [Get By Id](authorization/RoleDefinitions/GetById.yml)
 #### [List](authorization/RoleDefinitions/List.yml)
+### Role Eligibility Schedule Instances
+#### [Overview](authorization/RoleEligibilityScheduleInstances.yml)
+#### [Get](authorization/RoleEligibilityScheduleInstances/Get.yml)
+#### [List For Scope](authorization/RoleEligibilityScheduleInstances/ListForScope.yml)
+### Role Eligibility Schedule Requests
+#### [Overview](authorization/RoleEligibilityScheduleRequests.yml)
+#### [Cancel](authorization/RoleEligibilityScheduleRequests/Cancel.yml)
+#### [Create](authorization/RoleEligibilityScheduleRequests/Create.yml)
+#### [Get](authorization/RoleEligibilityScheduleRequests/Get.yml)
+#### [List For Scope](authorization/RoleEligibilityScheduleRequests/ListForScope.yml)
+### Role Eligibility Schedules
+#### [Overview](authorization/RoleEligibilitySchedules.yml)
+#### [Get](authorization/RoleEligibilitySchedules/Get.yml)
+#### [List For Scope](authorization/RoleEligibilitySchedules/ListForScope.yml)
+### Role Management Policies
+#### [Overview](authorization/RoleManagementPolicies.yml)
+#### [Delete](authorization/RoleManagementPolicies/Delete.yml)
+#### [Get](authorization/RoleManagementPolicies/Get.yml)
+#### [List For Scope](authorization/RoleManagementPolicies/ListForScope.yml)
+#### [Update](authorization/RoleManagementPolicies/Update.yml)
+### Role Management Policy Assignments
+#### [Overview](authorization/RoleManagementPolicyAssignments.yml)
+#### [Create](authorization/RoleManagementPolicyAssignments/Create.yml)
+#### [Delete](authorization/RoleManagementPolicyAssignments/Delete.yml)
+#### [Get](authorization/RoleManagementPolicyAssignments/Get.yml)
+#### [List For Scope](authorization/RoleManagementPolicyAssignments/ListForScope.yml)
 ### Scope Role Assignment Approval
 #### [Overview](authorization/ScopeRoleAssignmentApproval.yml)
 #### [Get By Id](authorization/ScopeRoleAssignmentApproval/GetById.yml)
