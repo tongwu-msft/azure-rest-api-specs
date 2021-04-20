@@ -45,11 +45,11 @@ type=master&ver=1.0&sig=5mDuQBYA0kb70WDJoTUzSBMTG3owkC0/cEN4fqa18/s=
   
 The parts enclosed in brackets are as follows:  
   
--   {typeoftoken} denotes the type of token: master, resource, or aad(if you are using [Azure Cosmos DB RBAC](/azure/cosmos-db/how-to-setup-rbac)).  
+-   {typeoftoken} denotes the type of token: **master**, **resource**, or **aad**(if you are using [Azure Cosmos DB RBAC](/azure/cosmos-db/how-to-setup-rbac)).  
   
--   {tokenversion} denotes the version of the token, currently 1.0.  
+-   {tokenversion} denotes the version of the token, currently **1.0**.  
   
--   {hashsignature} denotes the hashed token signature or the oauth token if you are using [Azure Cosmos DB RBAC](/azure/cosmos-db/how-to-setup-rbac).  
+-   {hashsignature} denotes the **hashed token** signature or the **oauth token** if you are using [Azure Cosmos DB RBAC](/azure/cosmos-db/how-to-setup-rbac).  
   
  The authorization string should be encoded before adding it to the REST request to ensure that it contains no invalid characters. Ensure that it's Base64 encoded using MIME RFC2045. Also, the master key used in the hashsignature should be decoded using MIME RFC2045 as it's Base64 encoded. If you see any issues with authorization, see how to [Diagnose and troubleshoot unauthorized exceptions.](/azure/cosmos-db/troubleshoot-unauthorized)
   
