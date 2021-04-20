@@ -1,7 +1,7 @@
 ---
 title: "Replace a Collection - Azure Cosmos DB REST API"
 description: Learn how to replace a collection's properties by using a REST API request, the request and response object formats for this operation.  
-ms.date: "03/29/2016"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 22f0a0f2-df1e-40d4-b5ff-12aeecaa1419
@@ -23,7 +23,10 @@ translation.priority.mt:
 ---
 # Replace a Collection
   Replace Collection supports changing the indexing policy of a collection after creation. Changing other properties of a collection like the ID or the partition key are not supported.  
-  
+
+> [!NOTE]
+> These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md).
+
 ## Request  
   
 |Method|Request URI|Description|  
@@ -170,7 +173,7 @@ translation.priority.mt:
   
 ```  
 PUT https://querydemo.documents.azure.com/dbs/XrdaAA==/colls/XrdaAKx3Hgw= HTTP/1.1  
-x-ms-date: Mon, 28 Mar 2016 22:12:16 GMT  
+x-ms.date: 04/20/2021
 authorization: type%3dmaster%26ver%3d1.0%26sig%3dZY2s2H1TuPFKk1H2od5qVLbn57vjI9rKz0CMXKOk3GA%3d  
 Cache-Control: no-cache  
 User-Agent: Microsoft.Azure.Documents.Client/1.6.0.0  

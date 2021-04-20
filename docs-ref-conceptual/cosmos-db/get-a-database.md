@@ -1,7 +1,7 @@
 ---
 title: "Get a Database - Azure Cosmos DB REST API"
 description: Get a database REST API syntax. Request and response headers, body, status codes and examples.
-ms.date: "02/25/2016"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 913ce1db-fe8c-4045-9c65-506b13d716a7
@@ -23,6 +23,9 @@ translation.priority.mt:
 ---
 # Get a Database
   To retrieve a database resource, perform a GET on the database resource.  
+
+> [!NOTE]
+> These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md).
   
 ## Request  
   

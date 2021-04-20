@@ -1,7 +1,7 @@
 ---
 title: "Access Control on Azure Cosmos DB Resources"
 description: Learn how to use REST API to query resource tokens, master keys, authorization header, and how to construct hash tokens.  
-ms.date: "12/1/2020"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: c3c3324c-9a3f-4cad-8a74-bd73d8b4e40b
@@ -41,16 +41,15 @@ An authorization string looks like this example:
   
 ```  
 type=master&ver=1.0&sig=5mDuQBYA0kb70WDJoTUzSBMTG3owkC0/cEN4fqa18/s=  
-  
 ```  
   
 The parts enclosed in brackets are as follows:  
   
--   {typeoftoken} denotes the type of token: master or resource.  
+-   {typeoftoken} denotes the type of token: **master**, **resource**, or **aad**(if you are using [Azure Cosmos DB RBAC](/azure/cosmos-db/how-to-setup-rbac)).  
   
--   {tokenversion} denotes the version of the token, currently 1.0.  
+-   {tokenversion} denotes the version of the token, currently **1.0**.  
   
--   {hashsignature} denotes the hashed token signature.  
+-   {hashsignature} denotes the **hashed token** signature or the **oauth token** if you are using [Azure Cosmos DB RBAC](/azure/cosmos-db/how-to-setup-rbac).  
   
  The authorization string should be encoded before adding it to the REST request to ensure that it contains no invalid characters. Ensure that it's Base64 encoded using MIME RFC2045. Also, the master key used in the hashsignature should be decoded using MIME RFC2045 as it's Base64 encoded. If you see any issues with authorization, see how to [Diagnose and troubleshoot unauthorized exceptions.](/azure/cosmos-db/troubleshoot-unauthorized)
   
