@@ -2,7 +2,7 @@
 ms.assetid: 7b406a24-3966-484a-b926-af54421b1dc1
 title: "Azure Cosmos DB: REST Resource Provider for Core (SQL) API"
 description: Learn how to run REST API commands on different Azure Cosmos DB resources.
-ms.date: "06/08/2020"
+ms.date: "04/20/2021"
 ms.service: cosmos-db
 author: markjbrown
 ms.author: mjbrown

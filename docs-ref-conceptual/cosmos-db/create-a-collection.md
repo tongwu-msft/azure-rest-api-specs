@@ -1,7 +1,7 @@
 ---
 title: "Create a Collection - Azure Cosmos DB REST API"
 description: Create collection REST API syntax. Request and response headers, body, status codes and examples.
-ms.date: "08/6/2020"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: daea28f8-c1c3-42d4-8269-24fa6e972d38
@@ -201,7 +201,7 @@ The following example creates a collection with manual throughput of 400 RU/s. `
 ```  
 POST https://querydemo.documents.azure.com/dbs/testdb/colls HTTP/1.1  
 x-ms-offer-throughput: 400  
-x-ms-date: Mon, 28 Mar 2016 21:30:09 GMT  
+x-ms.date: 04/20/2021
 authorization: type%3dmaster%26ver%3d1.0%26sig%3dpDOKhfllik0BJijp5apzqHL%2bjtoFhsvdhAGE5F8%2bOiE%3d  
 Cache-Control: no-cache  
 User-Agent: contoso/1.0  

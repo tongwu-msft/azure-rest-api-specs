@@ -1,7 +1,7 @@
 ---
 title: "Databases - Azure Cosmos DB REST API"
 description: REST API operations on Azure Cosmos DB databases. Request and response headers, body, status codes and examples.
-ms.date: "02/16/2016"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 575036a3-9192-4918-ab61-d0a7d8ede8ba

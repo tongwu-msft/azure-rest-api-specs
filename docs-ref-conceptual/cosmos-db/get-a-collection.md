@@ -1,7 +1,7 @@
 ---
 title: "Get a Collection - Azure Cosmos DB REST API"
 description: Get a collection REST API syntax. Request and response headers, body, status codes and examples.
-ms.date: "03/29/2016"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: c2f93095-bd4c-4b11-a396-8f6a2574a3b3

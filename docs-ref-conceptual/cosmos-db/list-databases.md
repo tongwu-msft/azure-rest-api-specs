@@ -1,7 +1,7 @@
 ---
 title: "List Databases - Azure Cosmos DB REST API"
 description: List databases REST API syntax. Request and response headers, body, status codes and examples.
-ms.date: "02/25/2016"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: ca9ca696-fd60-4e21-8107-5ea293f20cdb

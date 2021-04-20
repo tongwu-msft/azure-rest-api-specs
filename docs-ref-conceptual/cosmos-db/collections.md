@@ -1,7 +1,7 @@
 ---
 title: "Collections -  Azure Cosmos DB REST API"
 description: Learn how to use REST API to create, query, and manage a collection, and indexing policies for Azure Cosmos DB.
-ms.date: "08/16/2017"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: c5fc31e0-7914-4a64-a5ad-4472e9953c7d

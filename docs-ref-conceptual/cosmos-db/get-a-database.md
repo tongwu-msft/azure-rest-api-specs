@@ -1,7 +1,7 @@
 ---
 title: "Get a Database - Azure Cosmos DB REST API"
 description: Get a database REST API syntax. Request and response headers, body, status codes and examples.
-ms.date: "02/25/2016"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 913ce1db-fe8c-4045-9c65-506b13d716a7

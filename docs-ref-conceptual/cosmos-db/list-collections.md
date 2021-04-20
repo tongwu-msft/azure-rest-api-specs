@@ -1,7 +1,7 @@
 ---
 title: "List Collections - Azure Cosmos DB REST API"
 description: List collections REST API syntax. Request and response headers, body, status codes and examples.
-ms.date: "03/29/2016"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 6a05af95-f3e7-4729-94a3-179e5eaa188d
@@ -142,7 +142,7 @@ translation.priority.mt:
   
 ```  
 GET https://querydemo.documents.azure.com/dbs/SampleDatabase/colls HTTP/1.1  
-x-ms-date: Mon, 28 Mar 2016 21:26:00 GMT  
+x-ms.date: 04/20/2021
 authorization: type%3dmaster%26ver%3d1.0%26sig%3dQdp6TjZxdeJAKSiUfG%2fd7dS46USXy1IF%2bt5ToLdvOaA%3d  
 Cache-Control: no-cache  
 User-Agent: Microsoft.Azure.Documents.Client/1.6.0.0Internal Azure DocumentDB Studio/0.61  
