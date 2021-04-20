@@ -10247,11 +10247,15 @@
 ### Check Name Availability
 #### [Overview](mysql/flexibleserver(preview)/CheckNameAvailability.yml)
 #### [Execute](mysql/flexibleserver(preview)/CheckNameAvailability/Execute.yml)
+### Check Virtual Network Subnet Usage
+#### [Overview](mysql/flexibleserver(preview)/CheckVirtualNetworkSubnetUsage.yml)
+#### [Execute](mysql/flexibleserver(preview)/CheckVirtualNetworkSubnetUsage/Execute.yml)
 ### Configurations
 #### [Overview](mysql/flexibleserver(preview)/Configurations.yml)
-#### [Create Or Update](mysql/flexibleserver(preview)/Configurations/CreateOrUpdate.yml)
+#### [Batch Update](mysql/flexibleserver(preview)/Configurations/BatchUpdate.yml)
 #### [Get](mysql/flexibleserver(preview)/Configurations/Get.yml)
 #### [List By Server](mysql/flexibleserver(preview)/Configurations/ListByServer.yml)
+#### [Update](mysql/flexibleserver(preview)/Configurations/Update.yml)
 ### Databases
 #### [Overview](mysql/flexibleserver(preview)/Databases.yml)
 #### [Create Or Update](mysql/flexibleserver(preview)/Databases/CreateOrUpdate.yml)
@@ -10264,38 +10268,21 @@
 #### [Delete](mysql/flexibleserver(preview)/FirewallRules/Delete.yml)
 #### [Get](mysql/flexibleserver(preview)/FirewallRules/Get.yml)
 #### [List By Server](mysql/flexibleserver(preview)/FirewallRules/ListByServer.yml)
-### Location Based Performance Tier
-#### [Overview](mysql/flexibleserver(preview)/LocationBasedPerformanceTier.yml)
-#### [List](mysql/flexibleserver(preview)/LocationBasedPerformanceTier/List.yml)
-### Log Files
-#### [Overview](mysql/flexibleserver(preview)/LogFiles.yml)
-#### [List By Server](mysql/flexibleserver(preview)/LogFiles/ListByServer.yml)
+### Location Based Capabilities
+#### [Overview](mysql/flexibleserver(preview)/LocationBasedCapabilities.yml)
+#### [List](mysql/flexibleserver(preview)/LocationBasedCapabilities/List.yml)
 ### Operations
 #### [Overview](mysql/flexibleserver(preview)/Operations.yml)
 #### [List](mysql/flexibleserver(preview)/Operations/List.yml)
-### Recoverable Servers
-#### [Overview](mysql/flexibleserver(preview)/RecoverableServers.yml)
-#### [Get](mysql/flexibleserver(preview)/RecoverableServers/Get.yml)
 ### Replicas
 #### [Overview](mysql/flexibleserver(preview)/Replicas.yml)
 #### [List By Server](mysql/flexibleserver(preview)/Replicas/ListByServer.yml)
-### Server Administrators
-#### [Overview](mysql/flexibleserver(preview)/ServerAdministrators.yml)
-#### [Create Or Update](mysql/flexibleserver(preview)/ServerAdministrators/CreateOrUpdate.yml)
-#### [Delete](mysql/flexibleserver(preview)/ServerAdministrators/Delete.yml)
-#### [Get](mysql/flexibleserver(preview)/ServerAdministrators/Get.yml)
-#### [List](mysql/flexibleserver(preview)/ServerAdministrators/List.yml)
-### Server Based Performance Tier
-#### [Overview](mysql/flexibleserver(preview)/ServerBasedPerformanceTier.yml)
-#### [List](mysql/flexibleserver(preview)/ServerBasedPerformanceTier/List.yml)
-### Server Parameters
-#### [Overview](mysql/flexibleserver(preview)/ServerParameters.yml)
-#### [List Update Configurations](mysql/flexibleserver(preview)/ServerParameters/ListUpdateConfigurations.yml)
-### Server Security Alert Policies
-#### [Overview](mysql/flexibleserver(preview)/ServerSecurityAlertPolicies.yml)
-#### [Create Or Update](mysql/flexibleserver(preview)/ServerSecurityAlertPolicies/CreateOrUpdate.yml)
-#### [Get](mysql/flexibleserver(preview)/ServerSecurityAlertPolicies/Get.yml)
-#### [List By Server](mysql/flexibleserver(preview)/ServerSecurityAlertPolicies/ListByServer.yml)
+### Server Keys
+#### [Overview](mysql/flexibleserver(preview)/ServerKeys.yml)
+#### [Create Or Update](mysql/flexibleserver(preview)/ServerKeys/CreateOrUpdate.yml)
+#### [Delete](mysql/flexibleserver(preview)/ServerKeys/Delete.yml)
+#### [Get](mysql/flexibleserver(preview)/ServerKeys/Get.yml)
+#### [List By Server](mysql/flexibleserver(preview)/ServerKeys/ListByServer.yml)
 ### Servers
 #### [Overview](mysql/flexibleserver(preview)/Servers.yml)
 #### [Create](mysql/flexibleserver(preview)/Servers/Create.yml)
@@ -10304,13 +10291,9 @@
 #### [List](mysql/flexibleserver(preview)/Servers/List.yml)
 #### [List By Resource Group](mysql/flexibleserver(preview)/Servers/ListByResourceGroup.yml)
 #### [Restart](mysql/flexibleserver(preview)/Servers/Restart.yml)
+#### [Start](mysql/flexibleserver(preview)/Servers/Start.yml)
+#### [Stop](mysql/flexibleserver(preview)/Servers/Stop.yml)
 #### [Update](mysql/flexibleserver(preview)/Servers/Update.yml)
-### Virtual Network Rules
-#### [Overview](mysql/flexibleserver(preview)/VirtualNetworkRules.yml)
-#### [Create Or Update](mysql/flexibleserver(preview)/VirtualNetworkRules/CreateOrUpdate.yml)
-#### [Delete](mysql/flexibleserver(preview)/VirtualNetworkRules/Delete.yml)
-#### [Get](mysql/flexibleserver(preview)/VirtualNetworkRules/Get.yml)
-#### [List By Server](mysql/flexibleserver(preview)/VirtualNetworkRules/ListByServer.yml)
 ## Single Server
 ### Advisors
 #### [Overview](mysql/singleserver/Advisors.yml)
