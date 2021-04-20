@@ -15,9 +15,6 @@ service_description: Azure Cosmos DB is a distributed NoSQL database service des
 
 The Resource Provider API requires all requests to be versioned. To make a request, you must specify the version that you want to use for that operation. The latest  supported version is 2020-04-01.
 
-> [!NOTE]
-> These API reference articles shows how to create resources using the Azure Cosmos DB management plane API. The management plane AP offers complete feature support for all Azure Cosmos DB resources. If you are using an older version of REST API, you may require the [data plane API](../cosmos-db/index.md) which you can use to configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs.
-
 ## Authorization Token
 
 All Azure Resource Manager REST calls require a valid authorization token in the request header to succeed. See  [Create the request: Acquire an access token](~/index.md#create-the-request) for details on how to obtain this authorization token.
