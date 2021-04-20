@@ -88,7 +88,11 @@ x-ms-account-kind: StorageV2
 ```  
   
 ## Authorization  
- The storage account owner and users with valid SAS tokens may call this operation. In this context, a valid SAS token must have at least one available permission for the resource specified in the SAS token.
+ This operation may be authorized with:
+ - Shared Key
+ - A valid account or service SAS with at least one available permission
+
+ Note: OAuth-based authorization via an Access Token from AAD/MSI or a User Delegation SAS is not supported with this API.
   
 ## Remarks  
  The URL path of the request does not affect the information given by this operation. Its purpose is to allow the request to correctly authorize with a SAS token that specifies the allowed resource.  
