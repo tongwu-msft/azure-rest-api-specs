@@ -3626,8 +3626,6 @@
 ## File Servers
 ### [Overview](batchai/FileServers.yml)
 ### [Create](batchai/FileServers/Create.yml)
-### [Delete](batchai/FileServers/Delete.yml)
-### [Get](batchai/FileServers/Get.yml)
 ### [List By Workspace](batchai/FileServers/ListByWorkspace.yml)
 ## Jobs
 ### [Overview](batchai/Jobs.yml)
