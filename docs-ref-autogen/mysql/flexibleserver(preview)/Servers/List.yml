@@ -3,25 +3,25 @@ uid: management.azure.com.mysql.flexibleserver(preview).servers.list
 name: List
 service: MySQL
 groupName: Servers
-apiVersion: 2017-12-01-preview
+apiVersion: 2020-07-01-preview
 summary: List all the servers in a given subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DBForMySQL/servers?api-version=2017-12-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DBForMySql/flexibleServers?api-version=2020-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The subscription ID that identifies an Azure subscription.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: The API version to use for the request.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -44,14 +44,18 @@ definitions:
     types:
     - uid: Server
       isArray: true
+  - name: nextLink
+    description: The link used to get the next page of operations.
+    types:
+    - uid: string
 - name: CloudError
   description: An error response from the Batch service.
   kind: object
   properties:
   - name: error
-    description: An error response from the Batch service.
+    description: "Error Response  \nThe resource management error response."
     types:
-    - uid: CloudErrorBody
+    - uid: ErrorResponse
 - name: Server
   description: Represents a server.
   kind: object
@@ -59,13 +63,17 @@ definitions:
   - name: identity
     description: The Azure Active Directory identity of the server.
     types:
-    - uid: ResourceIdentity
+    - uid: Identity
   - name: sku
     description: The SKU (pricing tier) of the server.
     types:
     - uid: Sku
   - name: properties.administratorLogin
     description: The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation).
+    types:
+    - uid: string
+  - name: properties.administratorLoginPassword
+    description: The password of the administrator login (required for server creation).
     types:
     - uid: string
   - name: properties.version
@@ -76,28 +84,31 @@ definitions:
     description: Enable ssl enforcement or not when connect to server.
     types:
     - uid: SslEnforcementEnum
-  - name: properties.minimalTlsVersion
-    description: Enforce a minimal Tls version for the server.
-    types:
-    - uid: MinimalTlsVersionEnum
-  - name: properties.byokEnforcement
-    isReadyOnly: true
-    description: Status showing whether the server data encryption is enabled with customer-managed keys.
-    types:
-    - uid: string
   - name: properties.infrastructureEncryption
     description: Status showing whether the server enabled infrastructure encryption.
     types:
-    - uid: InfrastructureEncryption
-  - name: properties.userVisibleState
-    description: A state of a server that is visible to user.
+    - uid: InfrastructureEncryptionEnum
+  - name: properties.state
+    isReadyOnly: true
+    description: The state of a server.
     types:
     - uid: ServerState
+  - name: properties.haState
+    isReadyOnly: true
+    description: The state of a HA server.
+    types:
+    - uid: ServerHAState
+  - name: properties.haEnabled
+    description: Enable HA or not for a server.
+    types:
+    - uid: HaEnabledEnum
   - name: properties.fullyQualifiedDomainName
+    isReadyOnly: true
     description: The fully qualified domain name of a server.
     types:
     - uid: string
   - name: properties.earliestRestoreDate
+    isReadyOnly: true
     description: Earliest restore point creation time (ISO8601 format)
     types:
     - uid: string
@@ -106,27 +117,61 @@ definitions:
     types:
     - uid: StorageProfile
   - name: properties.replicationRole
-    description: The replication role of the server.
-    types:
-    - uid: string
-  - name: properties.masterServerId
-    description: The master server id of a replica server.
+    description: The replication role.
     types:
     - uid: string
   - name: properties.replicaCapacity
-    description: The maximum number of replicas that a master server can have.
+    isReadyOnly: true
+    description: The maximum number of replicas that a primary server can have.
     types:
     - uid: integer
   - name: properties.publicNetworkAccess
-    description: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+    isReadyOnly: true
+    description: Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled' or 'Disabled'
     types:
     - uid: PublicNetworkAccessEnum
-  - name: properties.privateEndpointConnections
-    isReadyOnly: true
-    description: List of private endpoint connections on a server
+  - name: properties.maintenanceWindow
+    description: Maintenance window of a server.
     types:
-    - uid: ServerPrivateEndpointConnection
-      isArray: true
+    - uid: MaintenanceWindow
+  - name: properties.sourceServerId
+    description: The source MySQL server id.
+    types:
+    - uid: string
+  - name: properties.restorePointInTime
+    description: Restore point creation time (ISO8601 format), specifying the time to restore from.
+    types:
+    - uid: string
+  - name: properties.availabilityZone
+    description: availability Zone information of the server.
+    types:
+    - uid: string
+  - name: properties.standbyAvailabilityZone
+    isReadyOnly: true
+    description: availability Zone information of the server.
+    types:
+    - uid: string
+  - name: properties.byokEnforcement
+    isReadyOnly: true
+    description: Status showing whether the data encryption is enabled with customer-managed keys.
+    types:
+    - uid: string
+  - name: properties.delegatedSubnetArguments
+    description: Delegated subnet arguments.
+    types:
+    - uid: DelegatedSubnetArguments
+  - name: properties.createMode
+    description: The mode to create a new MySQL server.
+    types:
+    - uid: CreateMode
+  - name: properties.tags
+    description: Application-specific metadata in the form of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: tags
     description: Resource tags.
     types:
@@ -154,80 +199,72 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-- name: CloudErrorBody
-  description: An error response from the Batch service.
+- name: ErrorResponse
+  description: Error Response
   kind: object
   properties:
   - name: code
-    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: A message describing the error, intended to be suitable for display in a user interface.
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: The target of the particular error. For example, the name of the property in error.
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: A list of additional details about the error.
+    isReadyOnly: true
+    description: The error details.
     types:
-    - uid: CloudErrorBody
+    - uid: ErrorResponse
       isArray: true
-- name: ResourceIdentity
-  description: Azure Active Directory identity configuration for a resource.
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: Identity
+  description: Identity for the resource.
   kind: object
   properties:
   - name: principalId
     isReadyOnly: true
-    description: The Azure Active Directory principal id.
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of resource.
     types:
     - uid: string
   - name: type
-    description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+    description: The identity type.
     types:
-    - uid: IdentityType
-  - name: tenantId
-    isReadyOnly: true
-    description: The Azure Active Directory tenant id.
-    types:
-    - uid: string
+    - uid: ResourceIdentityType
 - name: Sku
   description: Billing information related properties of a server.
   kind: object
   properties:
   - name: name
-    description: The name of the sku, typically, tier + family + cores, e.g. B_Gen4_1, GP_Gen5_8.
+    description: The name of the sku, e.g. Standard_D32s_v3.
     types:
     - uid: string
   - name: tier
-    description: The tier of the particular SKU, e.g. Basic.
+    description: The tier of the particular SKU, e.g. GeneralPurpose.
     types:
     - uid: SkuTier
-  - name: capacity
-    description: The scale up/out capacity, representing server's compute units.
-    types:
-    - uid: integer
-  - name: size
-    description: The size code, to be interpreted by resource as appropriate.
-    types:
-    - uid: string
-  - name: family
-    description: The family of hardware.
-    types:
-    - uid: string
 - name: ServerVersion
   description: The version of a server.
   kind: enum
   properties:
-  - name: "5.6"
-    types:
-    - uid: string
   - name: "5.7"
-    types:
-    - uid: string
-  - name: "8.0"
     types:
     - uid: string
 - name: SslEnforcementEnum
@@ -240,23 +277,7 @@ definitions:
   - name: Disabled
     types:
     - uid: string
-- name: MinimalTlsVersionEnum
-  description: Enforce a minimal Tls version for the server.
-  kind: enum
-  properties:
-  - name: TLS1_0
-    types:
-    - uid: string
-  - name: TLS1_1
-    types:
-    - uid: string
-  - name: TLS1_2
-    types:
-    - uid: string
-  - name: TLSEnforcementDisabled
-    types:
-    - uid: string
-- name: InfrastructureEncryption
+- name: InfrastructureEncryptionEnum
   description: Status showing whether the server enabled infrastructure encryption.
   kind: enum
   properties:
@@ -267,7 +288,7 @@ definitions:
     types:
     - uid: string
 - name: ServerState
-  description: A state of a server that is visible to user.
+  description: The state of a server.
   kind: enum
   properties:
   - name: Ready
@@ -279,7 +300,48 @@ definitions:
   - name: Disabled
     types:
     - uid: string
-  - name: Inaccessible
+  - name: Starting
+    types:
+    - uid: string
+  - name: Stopping
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+- name: ServerHAState
+  description: The state of a HA server.
+  kind: enum
+  properties:
+  - name: NotEnabled
+    types:
+    - uid: string
+  - name: CreatingStandby
+    types:
+    - uid: string
+  - name: ReplicatingData
+    types:
+    - uid: string
+  - name: FailingOver
+    types:
+    - uid: string
+  - name: Healthy
+    types:
+    - uid: string
+  - name: RemovingStandby
+    types:
+    - uid: string
+- name: HaEnabledEnum
+  description: Enable HA or not for a server.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 - name: StorageProfile
@@ -290,20 +352,25 @@ definitions:
     description: Backup retention days for the server.
     types:
     - uid: integer
-  - name: geoRedundantBackup
-    description: Enable Geo-redundant or not for server backup.
-    types:
-    - uid: GeoRedundantBackup
   - name: storageMB
     description: Max storage allowed for a server.
+    types:
+    - uid: integer
+  - name: storageIops
+    description: Storage IOPS for a server.
     types:
     - uid: integer
   - name: storageAutogrow
     description: Enable Storage Auto Grow.
     types:
     - uid: StorageAutogrow
+  - name: fileStorageSkuName
+    isReadyOnly: true
+    description: The sku name of the file storage.
+    types:
+    - uid: string
 - name: PublicNetworkAccessEnum
-  description: Whether or not public endpoint access is allowed for this server.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+  description: Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled' or 'Disabled'
   kind: enum
   properties:
   - name: Enabled
@@ -312,48 +379,79 @@ definitions:
   - name: Disabled
     types:
     - uid: string
-- name: ServerPrivateEndpointConnection
-  description: A private endpoint connection under a server
+- name: MaintenanceWindow
+  description: Maintenance window of a server.
   kind: object
   properties:
-  - name: id
-    isReadyOnly: true
-    description: Resource Id of the private endpoint connection.
+  - name: customWindow
+    description: indicates whether custom window is enabled or disabled
     types:
     - uid: string
-  - name: properties
-    isReadyOnly: true
-    description: Private endpoint connection properties
+  - name: startHour
+    description: start hour for maintenance window
     types:
-    - uid: PrivateEndpointConnectionProperties
-- name: IdentityType
-  description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+    - uid: integer
+  - name: startMinute
+    description: start minute for maintenance window
+    types:
+    - uid: integer
+  - name: dayOfWeek
+    description: day of week for maintenance window
+    types:
+    - uid: integer
+- name: DelegatedSubnetArguments
+  description: Delegated subnet arguments of a server
+  kind: object
+  properties:
+  - name: subnetArmResourceId
+    description: delegated subnet arm resource id.
+    types:
+    - uid: string
+- name: CreateMode
+  description: The mode to create a new MySQL server.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: PointInTimeRestore
+    types:
+    - uid: string
+  - name: Replica
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: ResourceIdentityType
+  description: The identity type.
   kind: enum
   properties:
   - name: SystemAssigned
     types:
     - uid: string
 - name: SkuTier
-  description: The tier of the particular SKU, e.g. Basic.
+  description: The tier of the particular SKU, e.g. GeneralPurpose.
   kind: enum
   properties:
-  - name: Basic
+  - name: Burstable
     types:
     - uid: string
   - name: GeneralPurpose
     types:
     - uid: string
   - name: MemoryOptimized
-    types:
-    - uid: string
-- name: GeoRedundantBackup
-  description: Enable Geo-redundant or not for server backup.
-  kind: enum
-  properties:
-  - name: Enabled
-    types:
-    - uid: string
-  - name: Disabled
     types:
     - uid: string
 - name: StorageAutogrow
@@ -366,92 +464,10 @@ definitions:
   - name: Disabled
     types:
     - uid: string
-- name: PrivateEndpointConnectionProperties
-  description: Properties of a private endpoint connection.
-  kind: object
-  properties:
-  - name: privateEndpoint
-    description: Private endpoint which the connection belongs to.
-    types:
-    - uid: PrivateEndpointProperty
-  - name: privateLinkServiceConnectionState
-    description: Connection state of the private endpoint connection.
-    types:
-    - uid: PrivateLinkServiceConnectionStateProperty
-  - name: provisioningState
-    isReadyOnly: true
-    description: State of the private endpoint connection.
-    types:
-    - uid: PrivateEndpointProvisioningState
-- name: PrivateEndpointProperty
-  kind: object
-  properties:
-  - name: id
-    description: Resource id of the private endpoint.
-    types:
-    - uid: string
-- name: PrivateLinkServiceConnectionStateProperty
-  kind: object
-  properties:
-  - name: status
-    description: The private link service connection status.
-    types:
-    - uid: PrivateLinkServiceConnectionStateStatus
-  - name: description
-    description: The private link service connection description.
-    types:
-    - uid: string
-  - name: actionsRequired
-    isReadyOnly: true
-    description: The actions required for private link service connection.
-    types:
-    - uid: PrivateLinkServiceConnectionStateActionsRequire
-- name: PrivateEndpointProvisioningState
-  description: State of the private endpoint connection.
-  kind: enum
-  properties:
-  - name: Approving
-    types:
-    - uid: string
-  - name: Ready
-    types:
-    - uid: string
-  - name: Dropping
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Rejecting
-    types:
-    - uid: string
-- name: PrivateLinkServiceConnectionStateStatus
-  description: The private link service connection status.
-  kind: enum
-  properties:
-  - name: Approved
-    types:
-    - uid: string
-  - name: Pending
-    types:
-    - uid: string
-  - name: Rejected
-    types:
-    - uid: string
-  - name: Disconnected
-    types:
-    - uid: string
-- name: PrivateLinkServiceConnectionStateActionsRequire
-  description: The actions required for private link service connection.
-  kind: enum
-  properties:
-  - name: None
-    types:
-    - uid: string
 examples:
-- name: ServerList
+- name: List servers in a subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/providers/Microsoft.DBForMySQL/servers?api-version=2017-12-01-preview
+    uri: GET https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/providers/Microsoft.DBForMySql/flexibleServers?api-version=2020-07-01-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -459,81 +475,81 @@ examples:
         "value": [
           {
             "sku": {
-              "name": "B_Gen4_2",
-              "tier": "Basic",
-              "family": "Gen4",
-              "capacity": 2
+              "name": "Standard_D12_v2",
+              "tier": "GeneralPurpose"
             },
             "properties": {
               "administratorLogin": "testuser",
               "storageProfile": {
                 "storageMB": 5120,
+                "storageIops": 200,
                 "backupRetentionDays": 7,
-                "geoRedundantBackup": "Disabled"
+                "fileStorageSkuName": "Premium_LRS"
               },
               "version": "5.7",
               "sslEnforcement": "Enabled",
-              "minimalTlsVersion": "TLS1_2",
-              "userVisibleState": "Ready",
+              "state": "Ready",
+              "haState": "NotEnabled",
+              "haEnabled": "Disabled",
               "fullyQualifiedDomainName": "mysqltestsvc1.mysql.database.azure.com",
-              "earliestRestoreDate": "2018-02-28T23:56:02.627+00:00"
+              "publicNetworkAccess": "Enabled"
             },
             "location": "westus",
-            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/servers/mysqltestsvc1",
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestsvc1",
             "name": "mysqltestsvc1",
-            "type": "Microsoft.DBforMySQL/servers"
+            "type": "Microsoft.DBforMySQL/flexibleServers"
           },
           {
             "sku": {
-              "name": "GP_Gen4_2",
-              "tier": "GeneralPurpose",
-              "family": "Gen4",
-              "capacity": 2
+              "name": "Standard_D12_v2",
+              "tier": "GeneralPurpose"
             },
             "properties": {
               "administratorLogin": "testuser",
               "storageProfile": {
                 "storageMB": 5120,
+                "storageIops": 200,
                 "backupRetentionDays": 7,
-                "geoRedundantBackup": "Disabled"
+                "fileStorageSkuName": "Premium_LRS"
               },
               "version": "5.7",
               "sslEnforcement": "Enabled",
-              "minimalTlsVersion": "TLS1_1",
-              "userVisibleState": "Ready",
+              "state": "Ready",
+              "haState": "NotEnabled",
+              "haEnabled": "Disabled",
               "fullyQualifiedDomainName": "mysqltstsvc2.mysql.database.azure.com",
-              "earliestRestoreDate": "2018-02-28T23:56:54.3+00:00"
+              "publicNetworkAccess": "Enabled"
             },
             "location": "westus",
-            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/servers/mysqltstsvc2",
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/flexibleServers/mysqltstsvc2",
             "name": "mysqltstsvc2",
-            "type": "Microsoft.DBforMySQL/servers"
+            "type": "Microsoft.DBforMySQL/flexibleServers"
           },
           {
             "sku": {
-              "name": "GP_Gen4_4",
-              "tier": "GeneralPurpose",
-              "family": "Gen4",
-              "capacity": 4
+              "name": "Standard_D13_v2",
+              "tier": "GeneralPurpose"
             },
             "properties": {
               "administratorLogin": "testuser",
               "storageProfile": {
                 "storageMB": 102400,
+                "storageIops": 200,
                 "backupRetentionDays": 35,
-                "geoRedundantBackup": "Enabled"
+                "fileStorageSkuName": "Premium_LRS"
               },
               "version": "5.7",
               "sslEnforcement": "Enabled",
-              "minimalTlsVersion": "TLS1_0",
-              "userVisibleState": "Ready",
+              "state": "Ready",
+              "haState": "NotEnabled",
+              "haEnabled": "Disabled",
               "fullyQualifiedDomainName": "mysqltestsvc3.mysql.database.azure.com",
-              "earliestRestoreDate": "2018-02-28T23:59:44.847+00:00"
+              "publicNetworkAccess": "Enabled"
             },
             "location": "westus",
-            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg1/providers/Microsoft.DBforMySQL/servers/mysqltestsvc3",
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg1/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestsvc3",
             "name": "mysqltestsvc3",
-            "type": "Microsoft.DBforMySQL/servers"
+            "type": "Microsoft.DBforMySQL/flexibleServers"
           }
         ]
       }

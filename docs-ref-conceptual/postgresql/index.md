@@ -28,12 +28,12 @@ Azure Database for PostgreSQL provides a managed database service for app develo
 
 | Operation group | Description |
 |---|---|
-| [Server](xref:management.azure.com.postgresql.servers) | Create, Restore, Update, Delete, Get, or List servers. |
-| [Configurations](xref:management.azure.com.postgresql.configurations) | Update, Get, and List the configuration of a server. | 
-| [Databases](xref:management.azure.com.postgresql.databases)  | Create, Delete, Get, or List databases in the server. | 
-| [Firewall Rules](xref:management.azure.com.postgresql.firewallrules) | Creates, Delete, Get, or List the firewall rules in a server. |
-| [Log Files](xref:management.azure.com.postgresql.logfiles) | Lists the log files in a given server. |
-| [Operations](xref:management.azure.com.postgresql.operations) | Lists the available REST API operations. |
+| [Server](/rest/api/postgresql/singleserver/servers) | Create, Restore, Update, Delete, Get, or List servers. |
+| [Configurations](/rest/api/postgresql/singleserver/configurations) | Update, Get, and List the configuration of a server. | 
+| [Databases](/rest/api/postgresql/singleserver/databases)  | Create, Delete, Get, or List databases in the server. | 
+| [Firewall Rules](/rest/api/postgresql/singleserver/firewallrules) | Creates, Delete, Get, or List the firewall rules in a server. |
+| [Log Files](/rest/api/postgresql/singleserver/logfiles) | Lists the log files in a given server. |
+| [Operations](/rest/api/postgresql/singleserver/operations) | Lists the available REST API operations. |
 
 ## Flexible Server REST operations
 
@@ -41,7 +41,7 @@ Azure Database for PostgreSQL provides a managed database service for app develo
 |---|---|
 | [Server](/rest/api/postgresql/flexibleserver(preview)/servers) | Create, Restore, Update, Delete, Get, or List servers. |
 | [Configurations](/rest/api/postgresql/flexibleserver(preview)/configurations) | Update, Get, and List the configuration of a server. | 
-| [Databases](xref:management.azure.com.postgresql.databases)  | Create, Delete, Get, or List databases in the server. | 
+| [Databases](/rest/api/postgresql/flexibleserver(preview)/databases)  | Create, Delete, Get, or List databases in the server. | 
 | [Firewall Rules](/rest/api/postgresql/flexibleserver(preview)/firewallrules) | Creates, Delete, Get, or List the firewall rules in a server. |
 | [Log Files](xref:management.azure.com.postgresql.logfiles) | Lists the log files in a given server. |
 | [Operations](/rest/api/postgresql/flexibleserver(preview)/operations) | Lists the available REST API operations. |

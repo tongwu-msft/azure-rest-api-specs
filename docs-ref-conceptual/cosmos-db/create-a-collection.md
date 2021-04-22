@@ -1,7 +1,7 @@
 ---
 title: "Create a Collection - Azure Cosmos DB REST API"
 description: Create collection REST API syntax. Request and response headers, body, status codes and examples.
-ms.date: "08/6/2020"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: daea28f8-c1c3-42d4-8269-24fa6e972d38
@@ -24,6 +24,9 @@ translation.priority.mt:
 # Create Collection
 
 The `Create Collection` operation creates a new collection in a database.
+
+> [!NOTE]
+> These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md).
   
 ## Request  
   
@@ -198,7 +201,7 @@ The following example creates a collection with manual throughput of 400 RU/s. `
 ```  
 POST https://querydemo.documents.azure.com/dbs/testdb/colls HTTP/1.1  
 x-ms-offer-throughput: 400  
-x-ms-date: Mon, 28 Mar 2016 21:30:09 GMT  
+x-ms.date: 04/20/2021
 authorization: type%3dmaster%26ver%3d1.0%26sig%3dpDOKhfllik0BJijp5apzqHL%2bjtoFhsvdhAGE5F8%2bOiE%3d  
 Cache-Control: no-cache  
 User-Agent: contoso/1.0  
