@@ -2850,6 +2850,17 @@
 ## Operations
 ### [Overview](azurerekusto/Operations.yml)
 ### [List](azurerekusto/Operations/List.yml)
+## Operations Results
+### [Overview](azurerekusto/OperationsResults.yml)
+### [Get](azurerekusto/OperationsResults/Get.yml)
+## Scripts
+### [Overview](azurerekusto/Scripts.yml)
+### [Check Name Availability](azurerekusto/Scripts/CheckNameAvailability.yml)
+### [Create Or Update](azurerekusto/Scripts/CreateOrUpdate.yml)
+### [Delete](azurerekusto/Scripts/Delete.yml)
+### [Get](azurerekusto/Scripts/Get.yml)
+### [List By Database](azurerekusto/Scripts/ListByDatabase.yml)
+### [Update](azurerekusto/Scripts/Update.yml)
 # Azure Migrate
 ## [Overview](../docs-ref-conceptual/migrate/index.md)
 ## Assessment

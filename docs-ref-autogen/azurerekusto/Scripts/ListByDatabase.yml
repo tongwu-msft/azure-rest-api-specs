@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.azurerekusto.databaseprincipalassignments.list
-name: List
+uid: management.azure.com.azurerekusto.scripts.listbydatabase
+name: List By Database
 service: Azure Kusto
-groupName: Database Principal Assignments
+groupName: Scripts
 apiVersion: 2021-01-01
-summary: Lists all Kusto cluster database principalAssignments.
+summary: Returns the list of database scripts for given database.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/principalAssignments?api-version=2021-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts?api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,23 +44,23 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK.
+  description: The list result of Kusto database scripts.
   types:
-  - uid: DatabasePrincipalAssignmentListResult
+  - uid: ScriptListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: DatabasePrincipalAssignmentListResult
-  description: The list Kusto database principal assignments operation response.
+- name: ScriptListResult
+  description: The list Kusto database script operation response.
   kind: object
   properties:
   - name: value
-    description: The list of Kusto database principal assignments.
+    description: The list of Kusto scripts.
     types:
-    - uid: DatabasePrincipalAssignment
+    - uid: Script
       isArray: true
 - name: CloudError
   description: An error response from Kusto.
@@ -70,36 +70,31 @@ definitions:
     description: An error response from Kusto.
     types:
     - uid: CloudErrorBody
-- name: DatabasePrincipalAssignment
-  description: Class representing a database principal assignment.
+- name: Script
+  description: Class representing a database script.
   kind: object
   properties:
-  - name: properties.principalId
-    description: The principal ID assigned to the database principal. It can be a user email, application ID, or security group name.
-    types:
-    - uid: string
-  - name: properties.role
-    description: Database principal role.
-    types:
-    - uid: DatabasePrincipalRole
-  - name: properties.tenantId
-    description: The tenant id of the principal
-    types:
-    - uid: string
-  - name: properties.principalType
-    description: Principal type.
-    types:
-    - uid: PrincipalType
-  - name: properties.tenantName
+  - name: systemData
     isReadyOnly: true
-    description: The tenant name of the principal
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+  - name: properties.scriptUrl
+    description: The url to the KQL script blob file.
     types:
     - uid: string
-  - name: properties.principalName
-    isReadyOnly: true
-    description: The principal name
+  - name: properties.scriptUrlSasToken
+    description: The SaS token.
     types:
     - uid: string
+  - name: properties.forceUpdateTag
+    description: A unique string. If changed the script will be applied again.
+    types:
+    - uid: string
+  - name: properties.continueOnErrors
+    description: Flag that indicates whether to continue if one of the command fails.
+    types:
+    - uid: boolean
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioned state of the resource.
@@ -141,39 +136,32 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: DatabasePrincipalRole
-  description: Database principal role.
-  kind: enum
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
   properties:
-  - name: Admin
+  - name: createdBy
+    description: The identity that created the resource.
     types:
     - uid: string
-  - name: Ingestor
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
     types:
     - uid: string
-  - name: Monitor
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
     types:
     - uid: string
-  - name: User
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
     types:
-    - uid: string
-  - name: UnrestrictedViewer
-    types:
-    - uid: string
-  - name: Viewer
-    types:
-    - uid: string
-- name: PrincipalType
-  description: Principal type.
-  kind: enum
-  properties:
-  - name: App
-    types:
-    - uid: string
-  - name: Group
-    types:
-    - uid: string
-  - name: User
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: ProvisioningState
@@ -198,41 +186,49 @@ definitions:
   - name: Moving
     types:
     - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
-- name: KustoPrincipalAssignmentsList
+- name: KustoScriptsList
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/databases/Kustodatabase8/principalAssignments?api-version=2021-01-01
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/databases/Kustodatabase8/scripts?api-version=2021-01-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoclusterrptest4/Databases/Kustodatabase8/PrincipalAssignments/kustoprincipal1",
-            "name": "kustoclusterrptest4/Kustodatabase8/kustoprincipal1",
-            "type": "Microsoft.Kusto/Clusters/Databases/PrincipalAssignments",
+            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoclusterrptest4/Databases/Kustodatabase8/Scripts/kustoScript1",
+            "name": "kustoclusterrptest4/Kustodatabase8/kustoScript1",
+            "type": "Microsoft.Kusto/Clusters/Databases/Scripts",
             "properties": {
-              "role": "Admin",
-              "principalId": "87654321-1234-1234-1234-123456789123",
-              "principalType": "App",
-              "tenantId": "12345678-1234-1234-1234-123456789123",
-              "tenantName": "tenantName",
-              "principalName": "TestApp",
-              "provisioningState": "Succeeded"
+              "scriptUrl": "https://mysa.blob.core.windows.net/container/script.txt",
+              "forceUpdateTag": "2bcf3c21-ffd1-4444-b9dd-e52e00ee53fe",
+              "continueOnErrors": true
             }
           },
           {
-            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoclusterrptest4/Databases/Kustodatabase8/PrincipalAssignments/kustoprincipal1",
-            "name": "kustoclusterrptest4/Kustodatabase8/kustoprincipal2",
-            "type": "Microsoft.Kusto/Clusters/Databases/PrincipalAssignments",
+            "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoclusterrptest4/Databases/Kustodatabase8/Scripts/kustoScript2",
+            "name": "kustoclusterrptest4/Kustodatabase8/kustoScript2",
+            "type": "Microsoft.Kusto/Clusters/Databases/Scripts",
             "properties": {
-              "role": "Admin",
-              "principalId": "87654321-1234-1234-1234-123456789123",
-              "principalType": "App",
-              "tenantId": "12345678-1234-1234-1234-123456789123",
-              "tenantName": "tenantName",
-              "principalName": "TestApp",
-              "provisioningState": "Succeeded"
+              "scriptUrl": "https://mysa.blob.core.windows.net/container/script2.txt",
+              "forceUpdateTag": "2bcf3c21-ffd1-4444-b9dd-e52e00ee53fe",
+              "continueOnErrors": true
             }
           }
         ]

@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.azurerekusto.databaseprincipalassignments.checknameavailability
+uid: management.azure.com.azurerekusto.scripts.checknameavailability
 name: Check Name Availability
 service: Azure Kusto
-groupName: Database Principal Assignments
+groupName: Scripts
 apiVersion: 2021-01-01
-summary: Checks that the database principal assignment is valid and is not already in use.
+summary: Checks that the script name is valid and is not already in use.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/checkPrincipalAssignmentNameAvailability?api-version=2021-01-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scriptsCheckNameAvailability?api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,7 +44,7 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK -- Operation to check the kusto resource name availability was successful.
+  description: OK -- Operation to check the Kusto resource name availability was successful.
   types:
   - uid: CheckNameResult
 - name: Other Status Codes
@@ -57,15 +57,15 @@ requestBody:
   - name: name
     in: body
     isRequired: true
-    description: Principal Assignment resource name.
+    description: Script name.
     types:
     - uid: string
   - name: type
     in: body
     isRequired: true
-    description: The type of resource, Microsoft.Kusto/clusters/databases/principalAssignments.
+    description: The type of resource, Microsoft.Kusto/clusters/databases/scripts.
     types:
-    - uid: DatabasePrincipalAssignmentType
+    - uid: ScriptType
 requestHeader: []
 definitions:
 - name: CheckNameResult
@@ -96,18 +96,18 @@ definitions:
     description: An error response from Kusto.
     types:
     - uid: CloudErrorBody
-- name: DatabasePrincipalAssignmentCheckNameRequest
-  description: A principal assignment check name availability request.
+- name: ScriptCheckNameRequest
+  description: A script name availability request.
   kind: object
   properties:
   - name: name
-    description: Principal Assignment resource name.
+    description: Script name.
     types:
     - uid: string
   - name: type
-    description: The type of resource, Microsoft.Kusto/clusters/databases/principalAssignments.
+    description: The type of resource, Microsoft.Kusto/clusters/databases/scripts.
     types:
-    - uid: DatabasePrincipalAssignmentType
+    - uid: ScriptType
 - name: reason
   description: Message providing the reason why the given name is invalid.
   kind: enum
@@ -139,29 +139,29 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: DatabasePrincipalAssignmentType
-  description: The type of resource, Microsoft.Kusto/clusters/databases/principalAssignments.
+- name: ScriptType
+  description: The type of resource, Microsoft.Kusto/clusters/databases/scripts.
   kind: enum
   properties:
-  - name: Microsoft.Kusto/clusters/databases/principalAssignments
+  - name: Microsoft.Kusto/clusters/databases/scripts
     types:
     - uid: string
 examples:
-- name: KustoDatabaseCheckNameAvailability
+- name: KustoScriptsCheckNameAvailability
   request:
-    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/databases/Kustodatabase8/checkPrincipalAssignmentNameAvailability?api-version=2021-01-01
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/databases/db/scriptsCheckNameAvailability?api-version=2021-01-01
     body: >-
       {
-        "name": "kustoprincipal1",
-        "type": "Microsoft.Kusto/clusters/databases/principalAssignments"
+        "name": "kustoScriptName1",
+        "type": "Microsoft.Kusto/clusters/databases/scripts"
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "name": "kustoprincipal1",
+        "name": "kustoScriptName1",
         "nameAvailable": false,
-        "message": "Name 'kustoprincipal1' is already taken. Please specify a different name"
+        "message": "Name 'kustoScriptName1' is already taken. Please specify a different name"
       }
 security: []
 errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.clusters.update
 name: Update
 service: Azure Kusto
 groupName: Clusters
-apiVersion: 2020-09-18
+apiVersion: 2021-01-01
 summary: Update a Kusto cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}?api-version=2020-09-18
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}?api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -126,7 +126,12 @@ requestBody:
     description: The engine type
     types:
     - uid: EngineType
-requestHeader: []
+requestHeader:
+- name: If-Match
+  in: header
+  description: The ETag of the cluster. Omit this value to always overwrite the current cluster. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes.
+  types:
+  - uid: string
 definitions:
 - name: AzureSku
   description: Azure SKU definition.
@@ -256,6 +261,11 @@ definitions:
     description: The identity of the cluster, if configured.
     types:
     - uid: Identity
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
   - name: properties.state
     isReadyOnly: true
     description: The state of the resource.
@@ -492,6 +502,12 @@ definitions:
   - name: Standard_L16s
     types:
     - uid: string
+  - name: Standard_L8s_v2
+    types:
+    - uid: string
+  - name: Standard_L16s_v2
+    types:
+    - uid: string
   - name: Standard_D11_v2
     types:
     - uid: string
@@ -505,6 +521,9 @@ definitions:
     types:
     - uid: string
   - name: Standard_E64i_v3
+    types:
+    - uid: string
+  - name: Standard_E80ids_v4
     types:
     - uid: string
   - name: Standard_E2a_v4
@@ -673,11 +692,14 @@ definitions:
 examples:
 - name: KustoClustersUpdate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4?api-version=2020-09-18
+    uri: PATCH https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4?api-version=2021-01-01
     body: >-
       {
         "location": "westus"
       }
+    headers:
+    - name: If-Match
+      value: '*'
   responses:
   - statusCode: "200"
     body: >-
@@ -688,6 +710,7 @@ examples:
         "location": "westus",
         "properties": {
           "provisioningState": "Succeeded",
+          "enableDiskEncryption": false,
           "enableStreamingIngest": true,
           "enablePurge": true,
           "keyVaultProperties": {
@@ -707,7 +730,8 @@ examples:
           "tenantId": "b932977f-6277-4ab7-a2cd-5bd21f07aaf4",
           "principalId": "faabad1f-4876-463c-af9d-6ba2d2d2394c",
           "userAssignedIdentities": {}
-        }
+        },
+        "etag": "abcd123"
       }
   - statusCode: "201"
     body: >-
@@ -718,6 +742,7 @@ examples:
         "location": "westus",
         "properties": {
           "provisioningState": "Succeeded",
+          "enableDiskEncryption": false,
           "enableStreamingIngest": true,
           "enablePurge": true,
           "keyVaultProperties": {
@@ -737,7 +762,8 @@ examples:
           "tenantId": "b932977f-6277-4ab7-a2cd-5bd21f07aaf4",
           "principalId": "faabad1f-4876-463c-af9d-6ba2d2d2394c",
           "userAssignedIdentities": {}
-        }
+        },
+        "etag": "abcd123"
       }
   - statusCode: "202"
     body: >-
@@ -748,6 +774,7 @@ examples:
         "location": "westus",
         "properties": {
           "provisioningState": "Succeeded",
+          "enableDiskEncryption": false,
           "enableStreamingIngest": true,
           "enablePurge": true,
           "engineType": "V2"
@@ -762,7 +789,8 @@ examples:
           "tenantId": "b932977f-6277-4ab7-a2cd-5bd21f07aaf4",
           "principalId": "faabad1f-4876-463c-af9d-6ba2d2d2394c",
           "userAssignedIdentities": {}
-        }
+        },
+        "etag": "abcd123"
       }
 security: []
 errorCodes: []
