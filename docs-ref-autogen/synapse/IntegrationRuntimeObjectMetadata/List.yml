@@ -3,14 +3,14 @@ uid: management.azure.com.synapse.integrationruntimeobjectmetadata.list
 name: List
 service: Synapse
 groupName: Integration Runtime Object Metadata
-apiVersion: 2019-06-01-preview
+apiVersion: 2021-03-01
 summary: "Get integration runtime object metadata  \nGet object metadata from an integration runtime"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/getObjectMetadata?api-version=2019-06-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/getObjectMetadata?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -51,7 +51,7 @@ responses:
 - name: Other Status Codes
   description: An error response received from the Azure Synapse service.
   types:
-  - uid: CloudError
+  - uid: ErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -82,27 +82,14 @@ definitions:
     description: The link to the next page of results, if any remaining results exist.
     types:
     - uid: string
-- name: CloudError
-  description: The object that defines the structure of an Azure Synapse error response.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
-  - name: error.code
-    description: Error code.
+  - name: error
+    description: The error object.
     types:
-    - uid: string
-  - name: error.message
-    description: Error message.
-    types:
-    - uid: string
-  - name: error.target
-    description: Property name/path in request associated with error.
-    types:
-    - uid: string
-  - name: error.details
-    description: Array with additional error details.
-    types:
-    - uid: CloudError
-      isArray: true
+    - uid: ErrorDetail
 - name: GetSsisObjectMetadataRequest
   description: The request payload of get SSIS object metadata.
   kind: object
@@ -111,6 +98,37 @@ definitions:
     description: Metadata path.
     types:
     - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: SsisFolder
   description: Ssis folder.
   kind: object
@@ -239,6 +257,20 @@ definitions:
     description: Metadata description.
     types:
     - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 - name: SsisObjectMetadataType
   description: The type of SSIS object metadata.
   kind: enum
@@ -362,7 +394,7 @@ definitions:
 examples:
 - name: Get integration runtime object metadata
   request:
-    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.Synapse/workspaces/exampleWorkspace/integrationRuntimes/testactivityv2/getObjectMetadata?api-version=2019-06-01-preview
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.Synapse/workspaces/exampleWorkspace/integrationRuntimes/testactivityv2/getObjectMetadata?api-version=2021-03-01
     body: >-
       {
         "metadataPath": "ssisFolders"
@@ -788,7 +820,7 @@ examples:
             "name": "96"
           }
         ],
-        "nextLink": "https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.Synapse/workspaces/exampleWorkspaceName/integrationRuntimes/testactivityv2/getObjectMetadata?api-version=2019-06-01-preview&%24skipToken=https%3a%2f%2fwcu.frontend.clouddatahub.net%2fsubscriptions%2f12345678-1234-1234-1234-12345678abc%2fdatafactories%2f6C8E7C90-FD45-4010-8B7C-B5227D0F0CB7%2fintegrationruntimes%2fTESTACTIVITYV2%2fgetSsisObjectMetadata%3f%24skipToken%3dc3Npc0ZvbGRlcnNAQDIwMTgtMTEtMjlUMDM6NTk6MzIuMDQ1Mzc1MiswMDowMEBAZm9sZGVyQEAwMDAwMDAwMDAwMDAwMDAwMTAx0%26api-version%3d1.0"
+        "nextLink": "https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.Synapse/workspaces/exampleWorkspaceName/integrationRuntimes/testactivityv2/getObjectMetadata?api-version=2021-03-01&%24skipToken=https%3a%2f%2fwcu.frontend.clouddatahub.net%2fsubscriptions%2f12345678-1234-1234-1234-12345678abc%2fdatafactories%2f6C8E7C90-FD45-4010-8B7C-B5227D0F0CB7%2fintegrationruntimes%2fTESTACTIVITYV2%2fgetSsisObjectMetadata%3f%24skipToken%3dc3Npc0ZvbGRlcnNAQDIwMTgtMTEtMjlUMDM6NTk6MzIuMDQ1Mzc1MiswMDowMEBAZm9sZGVyQEAwMDAwMDAwMDAwMDAwMDAwMTAx0%26api-version%3d1.0"
       }
 security: []
 errorCodes: []
