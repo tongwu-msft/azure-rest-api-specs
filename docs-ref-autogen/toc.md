@@ -3607,6 +3607,29 @@
 ## Operations
 ### [Overview](stackhci/Operations.yml)
 ### [List](stackhci/Operations/List.yml)
+# Azure Web PubSub Service
+## [Overview](../docs-ref-conceptual/webpubsub/index.md)
+## Health Api
+### [Overview](webpubsub/HealthApi.yml)
+### [Get Service Status](webpubsub/HealthApi/GetServiceStatus.yml)
+## Web Pub Sub
+### [Overview](webpubsub/WebPubSub.yml)
+### [Add Connection To Group](webpubsub/WebPubSub/AddConnectionToGroup.yml)
+### [Add User To Group](webpubsub/WebPubSub/AddUserToGroup.yml)
+### [Check Permission](webpubsub/WebPubSub/CheckPermission.yml)
+### [Close Client Connection](webpubsub/WebPubSub/CloseClientConnection.yml)
+### [Connection Exists](webpubsub/WebPubSub/ConnectionExists.yml)
+### [Grant Permission](webpubsub/WebPubSub/GrantPermission.yml)
+### [Group Exists](webpubsub/WebPubSub/GroupExists.yml)
+### [Remove Connection From Group](webpubsub/WebPubSub/RemoveConnectionFromGroup.yml)
+### [Remove User From All Groups](webpubsub/WebPubSub/RemoveUserFromAllGroups.yml)
+### [Remove User From Group](webpubsub/WebPubSub/RemoveUserFromGroup.yml)
+### [Revoke Permission](webpubsub/WebPubSub/RevokePermission.yml)
+### [Send To All](webpubsub/WebPubSub/SendToAll.yml)
+### [Send To Connection](webpubsub/WebPubSub/SendToConnection.yml)
+### [Send To Group](webpubsub/WebPubSub/SendToGroup.yml)
+### [Send To User](webpubsub/WebPubSub/SendToUser.yml)
+### [User Exists](webpubsub/WebPubSub/UserExists.yml)
 # Batch AI
 ## [Overview](../docs-ref-conceptual/BatchAI/index.md)
 ## Clusters
