@@ -52,6 +52,7 @@ Indexer configuration varies based on the type of data source. For data-platform
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | indexer name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
 | api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| [skipvalidation](#skipvalidation) | Optional. Skips validation of the target index, data source, and skillset (if any).|
 
 ## Request Headers
 
@@ -167,6 +168,21 @@ An indexer can optionally take configuration parameters that modify runtime beha
       ... other indexer properties
       "parameters" : { "maxFailedItems" : "15", "batchSize" : "100", "configuration" : { "parsingMode" : "json", "indexedFileNameExtensions" : ".json, .jpg, .png", "imageAction" : "generateNormalizedImages", "dataToExtract" : "contentAndMetadata" } }
     }
+```
+
+<a name="skipvalidation"></a>
+
+### "skipvalidation"
+
+Disables validation of the target index, data source, and skillset (if any). Validation may take a long time, particularly if a data source query takes a long time to run. Adding `&skipvalidation=true` to the create indexer URI may speed up the create indexer request.
+
+> [!NOTE]
+> `skipvalidation` is not recommended when creating new indexers because no validation on the target index, data source, or skillset (if any) is run. Using `skipvalidation` when creating new indexers may result in unexpected failures during indexer runs.
+
+```http
+PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]&skipvalidation=true
+    Content-Type: application/json  
+    api-key: [admin key]    
 ```
 
 #### General parameters for all indexers
