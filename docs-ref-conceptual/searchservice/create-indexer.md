@@ -44,7 +44,6 @@ Indexer configuration varies based on the type of data source. For data-platform
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | indexer name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
 | api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
-| [skipvalidation](#skipvalidation) | Optional. Skips validation of the target index, data source, and skillset (if any).|
 
 ## Request Headers
 
@@ -92,22 +91,8 @@ The following JSON is a high-level representation of the main parts of the defin
 |fieldMappings| Optional. Explicitly associates a source field to a destination field in search index. Used when source and destination fields have different names or types, or when you want to specify a function. A `fieldMappings` section includes `sourceFieldName` (required, a field in the underlying data source), `targetFieldName` (required, a field in an index), and an optional `mappingFunction` for encoding output. A list of supported functions and examples can be found at [field mapping functions](https://docs.microsoft.com/azure/search/search-indexer-field-mappings#field-mapping-functions). For more general information, see [Field mappings and transformations](https://docs.microsoft.com/azure/search/search-indexer-field-mappings). |
 |outputFieldMappings| Required for [an enrichment pipeline](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro). Maps output from a skillset to an index or projection. An `outputFieldMappings` section includes `sourceFieldName` (required, a node in an enrichment tree), `targetFieldName` (required, a field in an index), and an optional `mappingFunction` for encoding output. A list of supported functions and examples can be found at [field mapping functions](https://docs.microsoft.com/azure/search/search-indexer-field-mappings#field-mapping-functions). For more general information, see [How to map output fields from a skillset](https://docs.microsoft.com/azure/search/cognitive-search-output-field-mapping).|
 |encryptionKey| Optional. Used to encrypt an indexer definition at rest with your own keys, managed in your Azure Key Vault. Available for billable search services created on or after 2019-01-01. </br></br> An `encryptionKey` section contains a user-defined `keyVaultKeyName` (required), a system-generated `keyVaultKeyVersion` (required), and a `keyVaultUri` providing the key (required, also referred to as DNS name). An example URI might be "https://my-keyvault-name.vault.azure.net". </br></br>Optionally, you can specify `accessCredentials` if you are not using a managed system identity. Properties of `accessCredentials` include `applicationId` (Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault), and `applicationSecret` (authentication key of the specified Azure AD application). An example in the next section illustrates the syntax. |
-|disabled| Optional. Boolean value indicating whether the indexer is disabled. Set this property if you want to create an indexer definition without immediately running it. False by default. |
+|disabled| Optional. Boolean value indicating whether the indexer is disabled. Set this property if you want to create an indexer definition without immediately running it. False by default. |  
 
-<a name="skipvalidation"></a>
-
-### "skipvalidation"
-
-Disables validation of the target index, data source, and skillset (if any). Validation may take a long time, particularly if a data source query takes a long time to run. Adding `&skipvalidation=true` to the create indexer URI may speed up the create indexer request.
-
-> [!NOTE]
-> `skipvalidation` is not recommended when creating new indexers because no validation on the target index, data source, or skillset (if any) is run. Using `skipvalidation` when creating new indexers may result in unexpected failures during indexer runs.
-
-```http
-PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]&skipvalidation=true
-    Content-Type: application/json  
-    api-key: [admin key]    
-```
 
 ### Blob configuration parameters
 
