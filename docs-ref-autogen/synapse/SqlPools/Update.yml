@@ -3,13 +3,13 @@ uid: management.azure.com.synapse.sqlpools.update
 name: Update
 service: Synapse
 groupName: Sql Pools
-apiVersion: 2019-06-01-preview
+apiVersion: 2021-03-01
 summary: "Update SQL pool  \nApply a partial update to a SQL pool"
 consumes: []
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}?api-version=2019-06-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,7 +52,7 @@ responses:
 - name: Other Status Codes
   description: ''
   types:
-  - uid: ErrorContract
+  - uid: ErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -120,6 +120,11 @@ requestBody:
     description: Date the SQL pool was created
     types:
     - uid: string
+  - name: properties.storageAccountType
+    in: body
+    description: The storage account type used to store backups for this sql pool.
+    types:
+    - uid: StorageAccountType
 requestHeader: []
 definitions:
 - name: Sku
@@ -182,6 +187,10 @@ definitions:
     description: Date the SQL pool was created
     types:
     - uid: string
+  - name: properties.storageAccountType
+    description: The storage account type used to store backups for this sql pool.
+    types:
+    - uid: StorageAccountType
   - name: tags
     description: Resource tags.
     types:
@@ -209,14 +218,14 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-- name: ErrorContract
-  description: Error details.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: "Error Response  \nThe error details."
+    description: The error object.
     types:
-    - uid: ErrorResponse
+    - uid: ErrorDetail
 - name: SqlPoolPatchInfo
   description: SQL pool patch info
   kind: object
@@ -273,8 +282,25 @@ definitions:
     description: Date the SQL pool was created
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error Response
+  - name: properties.storageAccountType
+    description: The storage account type used to store backups for this sql pool.
+    types:
+    - uid: StorageAccountType
+- name: StorageAccountType
+  description: The storage account type used to store backups for this sql pool.
+  kind: enum
+  properties:
+  - name: GRS
+    types:
+    - uid: string
+  - name: LRS
+    types:
+    - uid: string
+  - name: ZRS
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
@@ -296,7 +322,7 @@ definitions:
     isReadyOnly: true
     description: The error details.
     types:
-    - uid: ErrorResponse
+    - uid: ErrorDetail
       isArray: true
   - name: additionalInfo
     isReadyOnly: true
@@ -340,7 +366,7 @@ definitions:
 examples:
 - name: Update a SQL Analytics pool
   request:
-    uri: PATCH https://management.azure.com/subscriptions/01234567-89ab-4def-0123-456789abcdef/resourceGroups/ExampleResourceGroup/providers/Microsoft.Synapse/workspaces/ExampleWorkspace/sqlPools/ExampleSqlPool?api-version=2019-06-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/01234567-89ab-4def-0123-456789abcdef/resourceGroups/ExampleResourceGroup/providers/Microsoft.Synapse/workspaces/ExampleWorkspace/sqlPools/ExampleSqlPool?api-version=2021-03-01
     body: >-
       {
         "location": "West US 2",
@@ -381,7 +407,8 @@ examples:
           "status": "Paused",
           "restorePointInTime": "1970-01-01T00:00:00.000Z",
           "createMode": "",
-          "creationDate": "1970-01-01T00:00:00.000Z"
+          "creationDate": "1970-01-01T00:00:00.000Z",
+          "storageAccountType": "GRS"
         }
       }
   - statusCode: "202"
