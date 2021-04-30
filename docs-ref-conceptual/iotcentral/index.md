@@ -28,15 +28,14 @@ The IoT Central REST API provides operations for working with the following reso
 
 | Operation group | Description                                                        | Learn more |
 |-----------------|--------------------------------------------------------------------|------------| 
-| [API Tokens](https://docs.microsoft.com/rest/api/iotcentral/apitokens)  | Create, read, delete access tokens used to interact with the IoT Central public APIs| [Authenticating against the API](https://aka.ms/iotcentralapidocsauth)
-| [Applications](https://docs.microsoft.com/rest/api/iotcentral/applications) | Get information about and list IoT Central applications | [IoT Central Applications](/azure/iot-central/preview/quick-deploy-iot-central)|
-| [Continuous Data Exports](https://docs.microsoft.com/rest/api/iotcentral/continuousdataexports) | Manage data exports within your IoT Central application | [Export your data](/azure/iot-central/preview/howto-export-data)|
-| [Device Templates](https://docs.microsoft.com/rest/api/iotcentral/devicetemplates) | Create, read, and delete device templates within an IoT Central application| [Setup device template](https://docs.microsoft.com/azure/iot-central/core/howto-set-up-template)|
-| [Devices](https://docs.microsoft.com/rest/api/iotcentral/devices) | Get information about and manage devices and IoT Edge modules in your IoT Central application| [Manage your devices](/azure/iot-central/preview/howto-manage-devices)|
-| [Device Groups](https://docs.microsoft.com/rest/api/iotcentral/devicegroups)| List the set of device groups within your application | [List Device Groups](https://docs.microsoft.com/azure/iot-central/core/tutorial-use-device-groups) |
-| [Jobs](https://docs.microsoft.com/rest/api/iotcentral/jobs)|Get information about and manage jobs within your application | [Manage your jobs](/azure/iot-central/core/howto-run-a-job) |
-| [Roles](https://docs.microsoft.com/rest/api/iotcentral/roles)| List roles within your application | [Manage users and roles](/azure/iot-central/core/howto-manage-users-roles)|
-| [Users](https://docs.microsoft.com/rest/api/iotcentral/users)| Add, update, and remove users within your application | [Manage users and roles](/azure/iot-central/core/howto-manage-users-roles) |
+| [API Tokens](https://docs.microsoft.com/rest/api/iotcentral/1.0/apitokens)  | Create, read, delete access tokens used to interact with the IoT Central public APIs| [Authenticating against the API](https://aka.ms/iotcentralapidocsauth)
+| [Continuous Data Exports](https://docs.microsoft.com/rest/api/iotcentral/2021-04-30preview/continuousdataexports) | Manage data exports within your IoT Central application | [Export your data](/azure/iot-central/preview/howto-export-data)|
+| [Device Templates](https://docs.microsoft.com/rest/api/iotcentral/1.0/devicetemplates) | Create, read, and delete device templates within an IoT Central application| [Setup device template](https://docs.microsoft.com/azure/iot-central/core/howto-set-up-template)|
+| [Devices](https://docs.microsoft.com/rest/api/iotcentral/1.0/devices) | Get information about and manage devices and IoT Edge modules in your IoT Central application| [Manage your devices](/azure/iot-central/preview/howto-manage-devices)|
+| [Device Groups](https://docs.microsoft.com/rest/api/iotcentral/2021-04-30preview/devicegroups)| List the set of device groups within your application | [List Device Groups](https://docs.microsoft.com/azure/iot-central/core/tutorial-use-device-groups) |
+| [Jobs](https://docs.microsoft.com/rest/api/iotcentral/2021-04-30preview/jobs)|Get information about and manag jobs within your application | [Manage your jobs](/azure/iot-central/core/howto-run-a-job) |
+| [Roles](https://docs.microsoft.com/rest/api/iotcentral/1.0/roles)| List roles within your application | [Manage users and roles](/azure/iot-central/core/howto-manage-users-roles)|
+| [Users](https://docs.microsoft.com/rest/api/iotcentral/1.0/users)| Add, update, and remove users within your application | [Manage users and roles](/azure/iot-central/core/howto-manage-users-roles) |
 
 ## Next steps
 
