@@ -3,13 +3,13 @@ uid: management.azure.com.synapse.sqlpools.get
 name: Get
 service: Synapse
 groupName: Sql Pools
-apiVersion: 2019-06-01-preview
+apiVersion: 2021-03-01
 summary: "Get SQL pool  \nGet SQL pool properties"
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}?api-version=2019-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -50,7 +50,7 @@ responses:
 - name: Other Status Codes
   description: ''
   types:
-  - uid: ErrorContract
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: SqlPool
@@ -97,6 +97,10 @@ definitions:
     description: Date the SQL pool was created
     types:
     - uid: string
+  - name: properties.storageAccountType
+    description: The storage account type used to store backups for this sql pool.
+    types:
+    - uid: StorageAccountType
   - name: tags
     description: Resource tags.
     types:
@@ -124,14 +128,14 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-- name: ErrorContract
-  description: Error details.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: "Error Response  \nThe error details."
+    description: The error object.
     types:
-    - uid: ErrorResponse
+    - uid: ErrorDetail
 - name: Sku
   description: Sku
   kind: object
@@ -148,8 +152,21 @@ definitions:
     description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
     types:
     - uid: integer
-- name: ErrorResponse
-  description: Error Response
+- name: StorageAccountType
+  description: The storage account type used to store backups for this sql pool.
+  kind: enum
+  properties:
+  - name: GRS
+    types:
+    - uid: string
+  - name: LRS
+    types:
+    - uid: string
+  - name: ZRS
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
@@ -171,7 +188,7 @@ definitions:
     isReadyOnly: true
     description: The error details.
     types:
-    - uid: ErrorResponse
+    - uid: ErrorDetail
       isArray: true
   - name: additionalInfo
     isReadyOnly: true
@@ -215,7 +232,7 @@ definitions:
 examples:
 - name: Get a SQL Analytics pool
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Synapse/workspaces/sqlcrudtest-2080/sqlPools/sqlcrudtest-9187?api-version=2019-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-6852/providers/Microsoft.Synapse/workspaces/sqlcrudtest-2080/sqlPools/sqlcrudtest-9187?api-version=2021-03-01
   responses:
   - statusCode: "200"
     body: >-
@@ -233,7 +250,8 @@ examples:
           "maxSizeBytes": 268435456000,
           "creationDate": "2017-02-10T00:56:19.2Z",
           "provisioningState": "Succeeded",
-          "restorePointInTime": "0001-01-01T00:00:00Z"
+          "restorePointInTime": "0001-01-01T00:00:00Z",
+          "storageAccountType": "GRS"
         },
         "sku": {
           "name": "DW100c"

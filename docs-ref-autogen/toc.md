@@ -18622,11 +18622,11 @@
 ## Operations
 ### [Overview](synapse/Operations.yml)
 ### [Check Name Availability](synapse/Operations/CheckNameAvailability.yml)
-## Operations (Preview)
-### [Overview](synapse/Operations%20(Preview).yml)
-### [Get Azure Async Header Result](synapse/Operations%20(Preview)/GetAzureAsyncHeaderResult.yml)
-### [Get Location Header Result](synapse/Operations%20(Preview)/GetLocationHeaderResult.yml)
-### [List](synapse/Operations%20(Preview)/List.yml)
+## Operations 2
+### [Overview](synapse/Operations%202.yml)
+### [Get Azure Async Header Result](synapse/Operations%202/GetAzureAsyncHeaderResult.yml)
+### [Get Location Header Result](synapse/Operations%202/GetLocationHeaderResult.yml)
+### [List](synapse/Operations%202/List.yml)
 ## Private Endpoint Connections
 ### [Overview](synapse/PrivateEndpointConnections.yml)
 ### [Create](synapse/PrivateEndpointConnections/Create.yml)
@@ -18775,6 +18775,7 @@
 ### [Get](synapse/SqlPools/Get.yml)
 ### [List By Workspace](synapse/SqlPools/ListByWorkspace.yml)
 ### [Pause](synapse/SqlPools/Pause.yml)
+### [Rename](synapse/SqlPools/Rename.yml)
 ### [Resume](synapse/SqlPools/Resume.yml)
 ### [Update](synapse/SqlPools/Update.yml)
 ## Workspace Aad Admins
@@ -18954,14 +18955,17 @@
 #### [Create Or Update](synapse/sqlserver/WorkspaceManagedSqlServerBlobAuditingPolicies/CreateOrUpdate.yml)
 #### [Get](synapse/sqlserver/WorkspaceManagedSqlServerBlobAuditingPolicies/Get.yml)
 #### [List By Workspace](synapse/sqlserver/WorkspaceManagedSqlServerBlobAuditingPolicies/ListByWorkspace.yml)
+### Workspace Managed Sql Server Encryption Protector
+#### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerEncryptionProtector.yml)
+#### [Create Or Update](synapse/sqlserver/WorkspaceManagedSqlServerEncryptionProtector/CreateOrUpdate.yml)
+#### [Get](synapse/sqlserver/WorkspaceManagedSqlServerEncryptionProtector/Get.yml)
+#### [List](synapse/sqlserver/WorkspaceManagedSqlServerEncryptionProtector/List.yml)
+#### [Revalidate](synapse/sqlserver/WorkspaceManagedSqlServerEncryptionProtector/Revalidate.yml)
 ### Workspace Managed Sql Server Extended Blob Auditing Policies
 #### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies.yml)
 #### [Create Or Update](synapse/sqlserver/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies/CreateOrUpdate.yml)
 #### [Get](synapse/sqlserver/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies/Get.yml)
 #### [List By Workspace](synapse/sqlserver/WorkspaceManagedSqlServerExtendedBlobAuditingPolicies/ListByWorkspace.yml)
-### Workspace Managed Sql Server Recoverable Sqlpools
-#### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlpools.yml)
-#### [List](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlpools/List.yml)
 ### Workspace Managed Sql Server Security Alert Policy
 #### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerSecurityAlertPolicy.yml)
 #### [Create Or Update](synapse/sqlserver/WorkspaceManagedSqlServerSecurityAlertPolicy/CreateOrUpdate.yml)
@@ -18979,6 +18983,7 @@
 ### WorkspaceManagedSqlServerRecoverableSqlPools 2
 #### [Overview](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlPools%202.yml)
 #### [Get](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlPools%202/Get.yml)
+#### [List](synapse/sqlserver/WorkspaceManagedSqlServerRecoverableSqlPools%202/List.yml)
 # Time Series Insights
 ## [Overview](../docs-ref-conceptual/time-series-insights/index.md)
 ## Data Access (Gen2)
