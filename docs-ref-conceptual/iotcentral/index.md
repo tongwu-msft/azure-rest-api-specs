@@ -6,7 +6,7 @@ ms.service: iot-central
 ms.topic: reference
 author: avneet723
 ms.author: avneets
-ms.date: 11/17/2020
+ms.date: 05/03/2021
 ---
 
 # Azure IoT Central REST API reference
@@ -39,7 +39,7 @@ The IoT Central REST API provides operations for working with the following reso
 
 ## Next steps
 
-Learn how to authenticate to use the API
+Learn how to authenticate to use the IoT Central API
 * [Authentication and authorization](authentication.md)
 Learn more about IoT Central
 * [Azure IoT Central Documentation](https://docs.microsoft.com/azure/iot-central)
