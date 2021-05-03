@@ -33,7 +33,7 @@ The IoT Central REST API provides operations for working with the following reso
 | [Device Templates](https://docs.microsoft.com/rest/api/iotcentral/1.0/devicetemplates) | Create, read, and delete device templates within an IoT Central application| [Setup device template](https://docs.microsoft.com/azure/iot-central/core/howto-set-up-template)|
 | [Devices](https://docs.microsoft.com/rest/api/iotcentral/1.0/devices) | Get information about and manage devices and IoT Edge modules in your IoT Central application| [Manage your devices](/azure/iot-central/preview/howto-manage-devices)|
 | [Device Groups](https://docs.microsoft.com/rest/api/iotcentral/2021-04-30preview/devicegroups)| List the set of device groups within your application | [List Device Groups](https://docs.microsoft.com/azure/iot-central/core/tutorial-use-device-groups) |
-| [Jobs](https://docs.microsoft.com/rest/api/iotcentral/2021-04-30preview/jobs)|Get information about and manag jobs within your application | [Manage your jobs](/azure/iot-central/core/howto-run-a-job) |
+| [Jobs](https://docs.microsoft.com/rest/api/iotcentral/2021-04-30preview/jobs)|Get information about and manage jobs within your application | [Manage your jobs](/azure/iot-central/core/howto-run-a-job) |
 | [Roles](https://docs.microsoft.com/rest/api/iotcentral/1.0/roles)| List roles within your application | [Manage users and roles](/azure/iot-central/core/howto-manage-users-roles)|
 | [Users](https://docs.microsoft.com/rest/api/iotcentral/1.0/users)| Add, update, and remove users within your application | [Manage users and roles](/azure/iot-central/core/howto-manage-users-roles) |
 
