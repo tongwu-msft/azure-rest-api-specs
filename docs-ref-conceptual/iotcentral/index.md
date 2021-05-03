@@ -11,11 +11,11 @@ ms.date: 11/17/2020
 
 # Azure IoT Central REST API reference
 
-[Azure IoT Central](https://docs.microsoft.com/azure/iot-central/) is an IoT application platform that reduces the burden and cost of developing, managing, and maintaining enterprise-grade IoT solutions. 
+[Azure IoT Central](https://docs.microsoft.com/azure/iot-central/) is an IoT application platform that is highly secure, scales with your business as it grows, ensures your investments are repeatable, and integrates with your existing business apps. It reduces the burden and cost of developing, managing, and maintaining enterprise-grade IoT solutions. 
 
-Use IoT Central to connect and manage millions of devices, visualize the data and insights your devices generate, and monitor your devices at scale. Furthermore, it enables you to act on device insights by extending IoT intelligence into line-of-business applications.
+Use IoT Central to connect and manage millions of devices, visualize the data and insights your devices generate, and monitor your devices at scale. The extensibility surface of the platform enables you to act on device insights by extending IoT intelligence into line-of-business applications.
 
-The IoT Central REST API enables you to develop clients that integrate with IoT Central applications. Use the REST API to build applications and experiences using the power of IoT Central for device provisioning, management, and operations.
+The IoT Central REST API enables you to develop clients that integrate with your application. Use the REST API to build applications and experiences using the power of IoT Central for device provisioning, management, and operations.
 
 > [!Note]
 > The IoT Central REST API can be used with IoT Central V3 applications. Learn about [how to check the version of your application](https://docs.microsoft.com/azure/iot-central/core/howto-get-app-info).
