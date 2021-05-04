@@ -5518,9 +5518,6 @@
 #### [List Keys](communication/CommunicationService/ListKeys.yml)
 #### [Regenerate Key](communication/CommunicationService/RegenerateKey.yml)
 #### [Update](communication/CommunicationService/Update.yml)
-### Operation Statuses
-#### [Overview](communication/OperationStatuses.yml)
-#### [Get](communication/OperationStatuses/Get.yml)
 ### Operations
 #### [Overview](communication/Operations.yml)
 #### [List](communication/Operations/List.yml)
