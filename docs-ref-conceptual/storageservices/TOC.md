@@ -201,6 +201,7 @@
 ### [Get Share Stats](get-share-stats.md)
 ### [Create Permission](create-permission.md)
 ### [Get Permission](get-permission.md)
+### [Lease Share](lease-share.md)
 ## [Operations on Directories](operations-on-directories.md)
 ### [List Directories and Files](list-directories-and-files.md)
 ### [Create Directory](create-directory.md)
