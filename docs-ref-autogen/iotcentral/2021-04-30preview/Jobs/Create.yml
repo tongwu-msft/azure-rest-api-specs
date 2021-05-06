@@ -61,6 +61,16 @@ requestBody:
     description: The ID of the device group on which to execute the job.
     types:
     - uid: string
+  - name: batch
+    in: body
+    description: The batching configuration for the job.
+    types:
+    - uid: JobBatch
+  - name: cancellationThreshold
+    in: body
+    description: The cancellation threshold for the job.
+    types:
+    - uid: JobCancellationThreshold
   - name: data
     in: body
     isRequired: true
@@ -70,6 +80,36 @@ requestBody:
       isArray: true
 requestHeader: []
 definitions:
+- name: JobBatch
+  kind: object
+  properties:
+  - name: type
+    description: Whether batching is done on a specified number of devices or a percentage of the total devices.
+    types:
+    - uid: number
+    - uid: percentage
+    typesTitle: enum
+  - name: value
+    description: The number or percentage of devices on which batching is done.
+    types:
+    - uid: number
+- name: JobCancellationThreshold
+  kind: object
+  properties:
+  - name: type
+    description: Whether the cancellation threshold is per a specified number of devices or a percentage of the total devices.
+    types:
+    - uid: number
+    - uid: percentage
+    typesTitle: enum
+  - name: value
+    description: The number or percentage of devices on which the cancellation threshold is applied.
+    types:
+    - uid: number
+  - name: batch
+    description: Whether the cancellation threshold applies per-batch or to the overall job.
+    types:
+    - uid: boolean
 - name: Job
   kind: object
   properties:
@@ -90,6 +130,14 @@ definitions:
     description: The ID of the device group on which to execute the job.
     types:
     - uid: string
+  - name: batch
+    description: The batching configuration for the job.
+    types:
+    - uid: JobBatch
+  - name: cancellationThreshold
+    description: The cancellation threshold for the job.
+    types:
+    - uid: JobCancellationThreshold
   - name: data
     description: The capabilities being updated by the job and the values with which they are being updated.
     types:
@@ -108,6 +156,15 @@ examples:
       {
         "displayName": "My Job",
         "group": "475cad48-b7ff-4a09-b51e-1a9021385453",
+        "batch": {
+          "type": "percentage",
+          "value": 10
+        },
+        "cancellationThreshold": {
+          "type": "number",
+          "value": 2,
+          "batch": false
+        },
         "data": [
           {
             "type": "PropertyJobData",
@@ -124,6 +181,15 @@ examples:
         "id": "myJobId",
         "displayName": "My Job",
         "group": "475cad48-b7ff-4a09-b51e-1a9021385453",
+        "batch": {
+          "type": "percentage",
+          "value": 10
+        },
+        "cancellationThreshold": {
+          "type": "number",
+          "value": 2,
+          "batch": false
+        },
         "data": [
           {
             "type": "PropertyJobData",
