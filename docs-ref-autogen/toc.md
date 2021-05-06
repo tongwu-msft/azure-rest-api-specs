@@ -5442,6 +5442,39 @@
 ### Operations
 #### [Overview](cognitiveservices-qnamaker/qnamaker5.0preview1/Operations.yml)
 #### [Get Details](cognitiveservices-qnamaker/qnamaker5.0preview1/Operations/GetDetails.yml)
+## QnA Maker 5.0 Preview 2
+### Alterations
+#### [Overview](cognitiveservices-qnamaker/qnamaker5.0preview2/Alterations.yml)
+#### [Get](cognitiveservices-qnamaker/qnamaker5.0preview2/Alterations/Get.yml)
+#### [Get Alterations For Kb](cognitiveservices-qnamaker/qnamaker5.0preview2/Alterations/GetAlterationsForKb.yml)
+#### [Replace](cognitiveservices-qnamaker/qnamaker5.0preview2/Alterations/Replace.yml)
+#### [Replace Alterations For Kb](cognitiveservices-qnamaker/qnamaker5.0preview2/Alterations/ReplaceAlterationsForKb.yml)
+### Endpoint Keys
+#### [Overview](cognitiveservices-qnamaker/qnamaker5.0preview2/EndpointKeys.yml)
+#### [Get Keys](cognitiveservices-qnamaker/qnamaker5.0preview2/EndpointKeys/GetKeys.yml)
+#### [Refresh Keys](cognitiveservices-qnamaker/qnamaker5.0preview2/EndpointKeys/RefreshKeys.yml)
+### Endpoint Settings
+#### [Overview](cognitiveservices-qnamaker/qnamaker5.0preview2/EndpointSettings.yml)
+#### [Get Settings](cognitiveservices-qnamaker/qnamaker5.0preview2/EndpointSettings/GetSettings.yml)
+#### [Update Settings](cognitiveservices-qnamaker/qnamaker5.0preview2/EndpointSettings/UpdateSettings.yml)
+### Knowledgebase
+#### [Overview](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase.yml)
+#### [Create](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/Create.yml)
+#### [Delete](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/Delete.yml)
+#### [Download](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/Download.yml)
+#### [Generate Answer](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/GenerateAnswer.yml)
+#### [Get Details](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/GetDetails.yml)
+#### [List All](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/ListAll.yml)
+#### [Publish](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/Publish.yml)
+#### [Replace](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/Replace.yml)
+#### [Train](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/Train.yml)
+#### [Update](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/Update.yml)
+### Operations
+#### [Overview](cognitiveservices-qnamaker/qnamaker5.0preview2/Operations.yml)
+#### [Get Details](cognitiveservices-qnamaker/qnamaker5.0preview2/Operations/GetDetails.yml)
+### Prebuilt
+#### [Overview](cognitiveservices-qnamaker/qnamaker5.0preview2/Prebuilt.yml)
+#### [Generate Answer](cognitiveservices-qnamaker/qnamaker5.0preview2/Prebuilt/GenerateAnswer.yml)
 # Cognitive Services - Text Analytics
 ## [Overview](../docs-ref-conceptual/cognitiveservices-textanalytics/index.md)
 ## 3.0
