@@ -3,14 +3,14 @@ uid: management.azure.com.resources.deployments.validateatmanagementgroupscope
 name: Validate At Management Group Scope
 service: Resource Management
 groupName: Deployments
-apiVersion: 2020-10-01
+apiVersion: 2021-04-01
 summary: Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/validate?api-version=2020-10-01
+- content: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/validate?api-version=2021-04-01
 uriParameters:
 - name: groupId
   in: path
@@ -24,6 +24,7 @@ uriParameters:
   description: The name of the deployment.
   types:
   - uid: string
+  pattern: ^[-\w\._\(\)]+$
 - name: api-version
   in: query
   isRequired: true
@@ -452,6 +453,10 @@ definitions:
     types:
     - uid: ProviderResourceType
       isArray: true
+  - name: providerAuthorizationConsentState
+    description: The provider authorization consent state.
+    types:
+    - uid: ProviderAuthorizationConsentState
 - name: Dependency
   description: Deployment dependency information.
   kind: object
@@ -532,11 +537,6 @@ definitions:
     description: The default API version.
     types:
     - uid: string
-  - name: zoneMappings
-    description: ''
-    types:
-    - uid: ZoneMapping
-      isArray: true
   - name: apiProfiles
     isReadyOnly: true
     description: The API profiles for the resource provider.
@@ -555,6 +555,22 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ProviderAuthorizationConsentState
+  description: The provider authorization consent state.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: Required
+    types:
+    - uid: string
+  - name: NotRequired
+    types:
+    - uid: string
+  - name: Consented
+    types:
+    - uid: string
 - name: BasicDependency
   description: Deployment dependency information.
   kind: object
@@ -618,18 +634,6 @@ definitions:
     description: The default alias path metadata. Applies to the default path and to any alias path that doesn't have metadata
     types:
     - uid: AliasPathMetadata
-- name: ZoneMapping
-  kind: object
-  properties:
-  - name: location
-    description: The location of the zone mapping.
-    types:
-    - uid: string
-  - name: zones
-    description: ''
-    types:
-    - uid: string
-      isArray: true
 - name: ApiProfile
   kind: object
   properties:

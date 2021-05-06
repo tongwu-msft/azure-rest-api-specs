@@ -11871,6 +11871,7 @@
 ### [Get At Tenant Scope](resources/Providers/GetAtTenantScope.yml)
 ### [List](resources/Providers/List.yml)
 ### [List At Tenant Scope](resources/Providers/ListAtTenantScope.yml)
+### [Provider Permissions](resources/Providers/ProviderPermissions.yml)
 ### [Register](resources/Providers/Register.yml)
 ### [Register At Management Group Scope](resources/Providers/RegisterAtManagementGroupScope.yml)
 ### [Unregister](resources/Providers/Unregister.yml)
