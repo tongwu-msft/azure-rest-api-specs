@@ -1,0 +1,351 @@
+### YamlMime:RESTOperation
+uid: purview.scanningdataplane.triggers.createtrigger
+name: Create Trigger
+service: Purview
+groupName: Triggers
+apiVersion: 2018-12-01-preview
+summary: Creates an instance of a trigger
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT {Endpoint}/datasources/{dataSourceName}/scans/{scanName}/triggers/default?api-version=2018-12-01-preview
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The scanning endpoint of your purview account. Example: https://{accountName}.scan.purview.azure.com'
+  types:
+  - uid: string
+- name: dataSourceName
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: scanName
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version to use.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: Trigger
+- name: 201 Created
+  description: Success
+  types:
+  - uid: Trigger
+- name: Other Status Codes
+  description: An error response received from the Scanning Service
+  types:
+  - uid: ErrorResponseModel
+requestBody:
+- name: default
+  parameters:
+  - name: properties
+    in: body
+    description: ''
+    types:
+    - uid: Properties
+requestHeader: []
+definitions:
+- name: Properties
+  kind: object
+  properties:
+  - name: baseUrl
+    description: ''
+    types:
+    - uid: string
+  - name: description
+    description: ''
+    types:
+    - uid: string
+- name: Trigger
+  kind: object
+  properties:
+  - name: properties
+    description: ''
+    types:
+    - uid: Properties
+  - name: id
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: ErrorResponseModel
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: Error
+- name: Recurrence
+  kind: object
+  properties:
+  - name: frequency
+    description: ''
+    types:
+    - uid: TriggerFrequency
+  - name: interval
+    description: ''
+    types:
+    - uid: integer
+  - name: startTime
+    description: ''
+    types:
+    - uid: string
+  - name: endTime
+    description: ''
+    types:
+    - uid: string
+  - name: schedule
+    description: ''
+    types:
+    - uid: Schedule
+  - name: timeZone
+    description: ''
+    types:
+    - uid: string
+- name: ScanLevelType
+  kind: enum
+  properties:
+  - name: Full
+    types:
+    - uid: string
+  - name: Incremental
+    types:
+    - uid: string
+- name: Error
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: details
+    description: ''
+    types:
+    - uid: ErrorModel
+      isArray: true
+- name: TriggerFrequency
+  kind: enum
+  properties:
+  - name: Week
+    types:
+    - uid: string
+  - name: Month
+    types:
+    - uid: string
+- name: Schedule
+  kind: object
+  properties:
+  - name: additionalProperties
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: minutes
+    description: ''
+    types:
+    - uid: integer
+      isArray: true
+  - name: hours
+    description: ''
+    types:
+    - uid: integer
+      isArray: true
+  - name: weekDays
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: monthDays
+    description: ''
+    types:
+    - uid: integer
+      isArray: true
+  - name: monthlyOccurrences
+    description: ''
+    types:
+    - uid: RecurrenceScheduleOccurrence
+      isArray: true
+- name: ErrorModel
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: details
+    description: ''
+    types:
+    - uid: ErrorModel
+      isArray: true
+- name: RecurrenceScheduleOccurrence
+  kind: object
+  properties:
+  - name: additionalProperties
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: day
+    description: ''
+    types:
+    - uid: DayOfWeek
+  - name: occurrence
+    description: ''
+    types:
+    - uid: integer
+- name: DayOfWeek
+  kind: enum
+  properties:
+  - name: Sunday
+    types:
+    - uid: string
+  - name: Monday
+    types:
+    - uid: string
+  - name: Tuesday
+    types:
+    - uid: string
+  - name: Wednesday
+    types:
+    - uid: string
+  - name: Thursday
+    types:
+    - uid: string
+  - name: Friday
+    types:
+    - uid: string
+  - name: Saturday
+    types:
+    - uid: string
+examples:
+- name: Triggers_CreateTrigger
+  request:
+    uri: PUT {Endpoint}/datasources/DataSource1/scans/Scan1/triggers/default?api-version=2018-12-01-preview
+    body: >-
+      {
+        "properties": {
+          "recurrenceInterval": null,
+          "scanLevel": "Incremental",
+          "recurrence": {
+            "startTime": "2021-02-12T14:59:00.416Z",
+            "endTime": "2021-02-25T00:00:00.000Z",
+            "interval": 1,
+            "frequency": "Month",
+            "schedule": {
+              "hours": [
+                23
+              ],
+              "minutes": [
+                56
+              ],
+              "monthDays": [
+                10
+              ]
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: x-ms-request-id
+      value: d5496da4-9c52-402f-b067-83cc9ddea888
+    body: >-
+      {
+        "name": "Trigger1",
+        "id": "datasources/AzureBlob-DSTDParv/scans/Scan-PUl/triggers/default",
+        "properties": {
+          "recurrence": {
+            "frequency": "Month",
+            "interval": 4,
+            "startTime": "2021-02-12T14:59:00.416Z",
+            "endTime": "2021-02-25T00:00:00Z",
+            "schedule": {
+              "minutes": [
+                56
+              ],
+              "hours": [
+                23
+              ],
+              "weekDays": null,
+              "monthDays": null,
+              "monthlyOccurrences": [
+                {
+                  "day": "Wednesday",
+                  "occurrence": 2
+                }
+              ]
+            }
+          },
+          "recurrenceInterval": null,
+          "createdAt": "2021-02-12T14:58:58.0478425Z",
+          "lastModifiedAt": "2021-02-12T15:39:53.6482996Z",
+          "lastScheduled": null,
+          "scanLevel": "Incremental"
+        }
+      }
+  - statusCode: "200"
+    headers:
+    - name: x-ms-request-id
+      value: d5496da4-9c52-402f-b067-83cc9ddea888
+    body: >-
+      {
+        "name": "Trigger1",
+        "id": "datasources/AzureBlob-DSTDParv/scans/Scan-PUl/triggers/default",
+        "properties": {
+          "recurrence": {
+            "frequency": "Month",
+            "interval": 1,
+            "startTime": "2020-06-03T19:15:00Z",
+            "endTime": "2020-06-03T19:22:00Z",
+            "schedule": null
+          },
+          "recurrenceInterval": null,
+          "createdAt": "2020-06-11T05:15:04.1940429Z",
+          "lastModifiedAt": "2020-06-19T22:26:22.6514064Z",
+          "lastScheduled": null,
+          "scanLevel": "Incremental"
+        }
+      }
+security: []
+errorCodes: []
