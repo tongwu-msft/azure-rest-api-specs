@@ -2336,6 +2336,47 @@
 ### Scope Role Assignment Approval Steps
 #### [Overview](authorization/ScopeRoleAssignmentApprovalSteps.yml)
 #### [List](authorization/ScopeRoleAssignmentApprovalSteps/List.yml)
+### AccessReviewCalls
+#### Access Review Default Settings
+##### [Overview](authorization/accessreviewcalls/AccessReviewDefaultSettings.yml)
+##### [Get](authorization/accessreviewcalls/AccessReviewDefaultSettings/Get.yml)
+##### [Put](authorization/accessreviewcalls/AccessReviewDefaultSettings/Put.yml)
+#### Access Review Instance
+##### [Overview](authorization/accessreviewcalls/AccessReviewInstance.yml)
+##### [Accept Recommendations](authorization/accessreviewcalls/AccessReviewInstance/AcceptRecommendations.yml)
+##### [Apply Decisions](authorization/accessreviewcalls/AccessReviewInstance/ApplyDecisions.yml)
+##### [Reset Decisions](authorization/accessreviewcalls/AccessReviewInstance/ResetDecisions.yml)
+##### [Send Reminders](authorization/accessreviewcalls/AccessReviewInstance/SendReminders.yml)
+##### [Stop](authorization/accessreviewcalls/AccessReviewInstance/Stop.yml)
+#### Access Review Instance Decisions
+##### [Overview](authorization/accessreviewcalls/AccessReviewInstanceDecisions.yml)
+##### [List](authorization/accessreviewcalls/AccessReviewInstanceDecisions/List.yml)
+#### Access Review Instance My Decisions
+##### [Overview](authorization/accessreviewcalls/AccessReviewInstanceMyDecisions.yml)
+##### [Get By Id](authorization/accessreviewcalls/AccessReviewInstanceMyDecisions/GetById.yml)
+##### [List](authorization/accessreviewcalls/AccessReviewInstanceMyDecisions/List.yml)
+##### [Patch](authorization/accessreviewcalls/AccessReviewInstanceMyDecisions/Patch.yml)
+#### Access Review Instances
+##### [Overview](authorization/accessreviewcalls/AccessReviewInstances.yml)
+##### [Get By Id](authorization/accessreviewcalls/AccessReviewInstances/GetById.yml)
+##### [List](authorization/accessreviewcalls/AccessReviewInstances/List.yml)
+#### Access Review Instances Assigned For My Approval
+##### [Overview](authorization/accessreviewcalls/AccessReviewInstancesAssignedForMyApproval.yml)
+##### [Get By Id](authorization/accessreviewcalls/AccessReviewInstancesAssignedForMyApproval/GetById.yml)
+##### [List](authorization/accessreviewcalls/AccessReviewInstancesAssignedForMyApproval/List.yml)
+#### Access Review Schedule Definitions
+##### [Overview](authorization/accessreviewcalls/AccessReviewScheduleDefinitions.yml)
+##### [Create Or Update By Id](authorization/accessreviewcalls/AccessReviewScheduleDefinitions/CreateOrUpdateById.yml)
+##### [Delete By Id](authorization/accessreviewcalls/AccessReviewScheduleDefinitions/DeleteById.yml)
+##### [Get By Id](authorization/accessreviewcalls/AccessReviewScheduleDefinitions/GetById.yml)
+##### [List](authorization/accessreviewcalls/AccessReviewScheduleDefinitions/List.yml)
+##### [Stop](authorization/accessreviewcalls/AccessReviewScheduleDefinitions/Stop.yml)
+#### Access Review Schedule Definitions Assigned For My Approval
+##### [Overview](authorization/accessreviewcalls/AccessReviewScheduleDefinitionsAssignedForMyApproval.yml)
+##### [List](authorization/accessreviewcalls/AccessReviewScheduleDefinitionsAssignedForMyApproval/List.yml)
+#### Operations
+##### [Overview](authorization/accessreviewcalls/Operations.yml)
+##### [List](authorization/accessreviewcalls/Operations/List.yml)
 # Automation
 ## [Overview](../docs-ref-conceptual/automation/index.md)
 ## Activity
