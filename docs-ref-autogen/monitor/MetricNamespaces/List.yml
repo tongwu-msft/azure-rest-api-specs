@@ -69,7 +69,7 @@ definitions:
   kind: object
   properties:
   - name: id
-    description: The ID of the metricNamespace.
+    description: The ID of the metric namespace.
     types:
     - uid: string
   - name: type
@@ -77,13 +77,30 @@ definitions:
     types:
     - uid: string
   - name: name
-    description: The name of the namespace.
+    description: The escaped name of the namespace.
     types:
     - uid: string
+  - name: classification
+    description: Kind of namespace
+    types:
+    - uid: NamespaceClassification
   - name: properties
     description: Properties which include the fully qualified namespace name.
     types:
     - uid: MetricNamespaceName
+- name: NamespaceClassification
+  description: Kind of namespace
+  kind: enum
+  properties:
+  - name: Platform
+    types:
+    - uid: string
+  - name: Custom
+    types:
+    - uid: string
+  - name: Qos
+    types:
+    - uid: string
 - name: MetricNamespaceName
   description: The fully qualified metric namespace name.
   kind: object
@@ -95,18 +112,28 @@ definitions:
 examples:
 - name: Get Metric Namespaces without filter
   request:
-    uri: GET https://management.azure.com/subscriptions/a252e87d-ec06-45b1-8901-57e613be91b0/resourceGroups/larrytest/providers/Microsoft.DocumentDB/databaseAccounts/larrytestdocdb/providers/microsoft.insights/metricNamespaces?api-version=2017-12-01-preview&startTime=2018-08-31T15:53:00Z
+    uri: GET https://management.azure.com/subscriptions/182c901a-129a-4f5d-86e4-cc6b294590a2/resourceGroups/hyr-log/providers/microsoft.insights/components/f1-bill/providers/microsoft.insights/metricNamespaces?api-version=2017-12-01-preview&startTime=2020-08-31T15:53:00Z
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/a252e87d-ec06-45b1-8901-57e613be91b0/resourceGroups/larrytest/providers/Microsoft.DocumentDB/databaseAccounts/larrytestdocdb/providers/microsoft.insights/metricNamespaces/Microsoft.DocumentDB-databaseAccounts",
-            "name": "Microsoft.DocumentDB-databaseAccounts",
+            "id": "/subscriptions/182c901a-129a-4f5d-86e4-cc6b294590a2/resourceGroups/hyr-log/providers/microsoft.insights/components/f1-bill/providers/microsoft.insights/metricNamespaces/Azure.ApplicationInsights",
+            "name": "Azure.ApplicationInsights",
             "type": "Microsoft.Insights/metricNamespaces",
+            "classification": "Custom",
             "properties": {
-              "metricNamespaceName": "Microsoft.DocumentDB/databaseAccounts"
+              "metricNamespaceName": "Azure.ApplicationInsights"
+            }
+          },
+          {
+            "id": "/subscriptions/182c901a-129a-4f5d-86e4-cc6b294590a2/resourceGroups/hyr-log/providers/microsoft.insights/components/f1-bill/providers/microsoft.insights/metricNamespaces/microsoft.insights-components",
+            "name": "microsoft.insights-components",
+            "type": "Microsoft.Insights/metricNamespaces",
+            "classification": "Platform",
+            "properties": {
+              "metricNamespaceName": "microsoft.insights/components"
             }
           }
         ]
