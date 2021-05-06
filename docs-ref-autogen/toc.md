@@ -2336,6 +2336,47 @@
 ### Scope Role Assignment Approval Steps
 #### [Overview](authorization/ScopeRoleAssignmentApprovalSteps.yml)
 #### [List](authorization/ScopeRoleAssignmentApprovalSteps/List.yml)
+### AccessReviewCalls
+#### Access Review Default Settings
+##### [Overview](authorization/accessreviewcalls/AccessReviewDefaultSettings.yml)
+##### [Get](authorization/accessreviewcalls/AccessReviewDefaultSettings/Get.yml)
+##### [Put](authorization/accessreviewcalls/AccessReviewDefaultSettings/Put.yml)
+#### Access Review Instance
+##### [Overview](authorization/accessreviewcalls/AccessReviewInstance.yml)
+##### [Accept Recommendations](authorization/accessreviewcalls/AccessReviewInstance/AcceptRecommendations.yml)
+##### [Apply Decisions](authorization/accessreviewcalls/AccessReviewInstance/ApplyDecisions.yml)
+##### [Reset Decisions](authorization/accessreviewcalls/AccessReviewInstance/ResetDecisions.yml)
+##### [Send Reminders](authorization/accessreviewcalls/AccessReviewInstance/SendReminders.yml)
+##### [Stop](authorization/accessreviewcalls/AccessReviewInstance/Stop.yml)
+#### Access Review Instance Decisions
+##### [Overview](authorization/accessreviewcalls/AccessReviewInstanceDecisions.yml)
+##### [List](authorization/accessreviewcalls/AccessReviewInstanceDecisions/List.yml)
+#### Access Review Instance My Decisions
+##### [Overview](authorization/accessreviewcalls/AccessReviewInstanceMyDecisions.yml)
+##### [Get By Id](authorization/accessreviewcalls/AccessReviewInstanceMyDecisions/GetById.yml)
+##### [List](authorization/accessreviewcalls/AccessReviewInstanceMyDecisions/List.yml)
+##### [Patch](authorization/accessreviewcalls/AccessReviewInstanceMyDecisions/Patch.yml)
+#### Access Review Instances
+##### [Overview](authorization/accessreviewcalls/AccessReviewInstances.yml)
+##### [Get By Id](authorization/accessreviewcalls/AccessReviewInstances/GetById.yml)
+##### [List](authorization/accessreviewcalls/AccessReviewInstances/List.yml)
+#### Access Review Instances Assigned For My Approval
+##### [Overview](authorization/accessreviewcalls/AccessReviewInstancesAssignedForMyApproval.yml)
+##### [Get By Id](authorization/accessreviewcalls/AccessReviewInstancesAssignedForMyApproval/GetById.yml)
+##### [List](authorization/accessreviewcalls/AccessReviewInstancesAssignedForMyApproval/List.yml)
+#### Access Review Schedule Definitions
+##### [Overview](authorization/accessreviewcalls/AccessReviewScheduleDefinitions.yml)
+##### [Create Or Update By Id](authorization/accessreviewcalls/AccessReviewScheduleDefinitions/CreateOrUpdateById.yml)
+##### [Delete By Id](authorization/accessreviewcalls/AccessReviewScheduleDefinitions/DeleteById.yml)
+##### [Get By Id](authorization/accessreviewcalls/AccessReviewScheduleDefinitions/GetById.yml)
+##### [List](authorization/accessreviewcalls/AccessReviewScheduleDefinitions/List.yml)
+##### [Stop](authorization/accessreviewcalls/AccessReviewScheduleDefinitions/Stop.yml)
+#### Access Review Schedule Definitions Assigned For My Approval
+##### [Overview](authorization/accessreviewcalls/AccessReviewScheduleDefinitionsAssignedForMyApproval.yml)
+##### [List](authorization/accessreviewcalls/AccessReviewScheduleDefinitionsAssignedForMyApproval/List.yml)
+#### Operations
+##### [Overview](authorization/accessreviewcalls/Operations.yml)
+##### [List](authorization/accessreviewcalls/Operations/List.yml)
 # Automation
 ## [Overview](../docs-ref-conceptual/automation/index.md)
 ## Activity
@@ -5442,6 +5483,39 @@
 ### Operations
 #### [Overview](cognitiveservices-qnamaker/qnamaker5.0preview1/Operations.yml)
 #### [Get Details](cognitiveservices-qnamaker/qnamaker5.0preview1/Operations/GetDetails.yml)
+## QnA Maker 5.0 Preview 2
+### Alterations
+#### [Overview](cognitiveservices-qnamaker/qnamaker5.0preview2/Alterations.yml)
+#### [Get](cognitiveservices-qnamaker/qnamaker5.0preview2/Alterations/Get.yml)
+#### [Get Alterations For Kb](cognitiveservices-qnamaker/qnamaker5.0preview2/Alterations/GetAlterationsForKb.yml)
+#### [Replace](cognitiveservices-qnamaker/qnamaker5.0preview2/Alterations/Replace.yml)
+#### [Replace Alterations For Kb](cognitiveservices-qnamaker/qnamaker5.0preview2/Alterations/ReplaceAlterationsForKb.yml)
+### Endpoint Keys
+#### [Overview](cognitiveservices-qnamaker/qnamaker5.0preview2/EndpointKeys.yml)
+#### [Get Keys](cognitiveservices-qnamaker/qnamaker5.0preview2/EndpointKeys/GetKeys.yml)
+#### [Refresh Keys](cognitiveservices-qnamaker/qnamaker5.0preview2/EndpointKeys/RefreshKeys.yml)
+### Endpoint Settings
+#### [Overview](cognitiveservices-qnamaker/qnamaker5.0preview2/EndpointSettings.yml)
+#### [Get Settings](cognitiveservices-qnamaker/qnamaker5.0preview2/EndpointSettings/GetSettings.yml)
+#### [Update Settings](cognitiveservices-qnamaker/qnamaker5.0preview2/EndpointSettings/UpdateSettings.yml)
+### Knowledgebase
+#### [Overview](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase.yml)
+#### [Create](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/Create.yml)
+#### [Delete](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/Delete.yml)
+#### [Download](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/Download.yml)
+#### [Generate Answer](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/GenerateAnswer.yml)
+#### [Get Details](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/GetDetails.yml)
+#### [List All](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/ListAll.yml)
+#### [Publish](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/Publish.yml)
+#### [Replace](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/Replace.yml)
+#### [Train](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/Train.yml)
+#### [Update](cognitiveservices-qnamaker/qnamaker5.0preview2/Knowledgebase/Update.yml)
+### Operations
+#### [Overview](cognitiveservices-qnamaker/qnamaker5.0preview2/Operations.yml)
+#### [Get Details](cognitiveservices-qnamaker/qnamaker5.0preview2/Operations/GetDetails.yml)
+### Prebuilt
+#### [Overview](cognitiveservices-qnamaker/qnamaker5.0preview2/Prebuilt.yml)
+#### [Generate Answer](cognitiveservices-qnamaker/qnamaker5.0preview2/Prebuilt/GenerateAnswer.yml)
 # Cognitive Services - Text Analytics
 ## [Overview](../docs-ref-conceptual/cognitiveservices-textanalytics/index.md)
 ## 3.0
