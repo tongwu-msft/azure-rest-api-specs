@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.clusters.createorupdate
 name: Create Or Update
 service: Azure Kusto
 groupName: Clusters
-apiVersion: 2020-09-18
+apiVersion: 2021-01-01
 summary: Create or update a Kusto cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}?api-version=2020-09-18
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}?api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -130,7 +130,17 @@ requestBody:
     description: The geo-location where the resource lives
     types:
     - uid: string
-requestHeader: []
+requestHeader:
+- name: If-Match
+  in: header
+  description: The ETag of the cluster. Omit this value to always overwrite the current cluster. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes.
+  types:
+  - uid: string
+- name: If-None-Match
+  in: header
+  description: Set to '*' to allow a new cluster to be created, but to prevent updating an existing cluster. Other values will result in a 412 Pre-condition Failed response.
+  types:
+  - uid: string
 definitions:
 - name: AzureSku
   description: Azure SKU definition.
@@ -260,6 +270,11 @@ definitions:
     description: The identity of the cluster, if configured.
     types:
     - uid: Identity
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
   - name: properties.state
     isReadyOnly: true
     description: The state of the resource.
@@ -390,6 +405,12 @@ definitions:
   - name: Standard_L16s
     types:
     - uid: string
+  - name: Standard_L8s_v2
+    types:
+    - uid: string
+  - name: Standard_L16s_v2
+    types:
+    - uid: string
   - name: Standard_D11_v2
     types:
     - uid: string
@@ -403,6 +424,9 @@ definitions:
     types:
     - uid: string
   - name: Standard_E64i_v3
+    types:
+    - uid: string
+  - name: Standard_E80ids_v4
     types:
     - uid: string
   - name: Standard_E2a_v4
@@ -571,7 +595,7 @@ definitions:
 examples:
 - name: KustoClustersCreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4?api-version=2020-09-18
+    uri: PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4?api-version=2021-01-01
     body: >-
       {
         "location": "westus",
@@ -599,6 +623,7 @@ examples:
         "location": "westus",
         "properties": {
           "provisioningState": "Succeeded",
+          "enableDiskEncryption": false,
           "enableStreamingIngest": true,
           "enablePurge": true,
           "enableDoubleEncryption": false,
@@ -619,7 +644,8 @@ examples:
           "tenantId": "b932977f-6277-4ab7-a2cd-5bd21f07aaf4",
           "principalId": "faabad1f-4876-463c-af9d-6ba2d2d2394c",
           "userAssignedIdentities": {}
-        }
+        },
+        "etag": "abcd"
       }
   - statusCode: "201"
     body: >-
@@ -630,6 +656,7 @@ examples:
         "location": "westus",
         "properties": {
           "provisioningState": "Succeeded",
+          "enableDiskEncryption": false,
           "enableStreamingIngest": true,
           "enablePurge": true,
           "enableDoubleEncryption": false,
@@ -650,7 +677,8 @@ examples:
           "tenantId": "b932977f-6277-4ab7-a2cd-5bd21f07aaf4",
           "principalId": "faabad1f-4876-463c-af9d-6ba2d2d2394c",
           "userAssignedIdentities": {}
-        }
+        },
+        "etag": "abcd123"
       }
 security: []
 errorCodes: []
