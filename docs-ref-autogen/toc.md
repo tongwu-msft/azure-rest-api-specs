@@ -11203,6 +11203,60 @@
 ### [Overview](purview/PrivateLinkResources.yml)
 ### [Get By Group Id](purview/PrivateLinkResources/GetByGroupId.yml)
 ### [List By Account](purview/PrivateLinkResources/ListByAccount.yml)
+## Scanning Data Plane
+### Classification Rules
+#### [Overview](purview/scanningdataplane/ClassificationRules.yml)
+#### [Create Or Update](purview/scanningdataplane/ClassificationRules/CreateOrUpdate.yml)
+#### [Delete](purview/scanningdataplane/ClassificationRules/Delete.yml)
+#### [Get](purview/scanningdataplane/ClassificationRules/Get.yml)
+#### [List All](purview/scanningdataplane/ClassificationRules/ListAll.yml)
+#### [List Versions By Classification Rule Name](purview/scanningdataplane/ClassificationRules/ListVersionsByClassificationRuleName.yml)
+#### [Tag Classification Version](purview/scanningdataplane/ClassificationRules/TagClassificationVersion.yml)
+### Data Sources
+#### [Overview](purview/scanningdataplane/DataSources.yml)
+#### [Create Or Update](purview/scanningdataplane/DataSources/CreateOrUpdate.yml)
+#### [Delete](purview/scanningdataplane/DataSources/Delete.yml)
+#### [Get](purview/scanningdataplane/DataSources/Get.yml)
+#### [List All](purview/scanningdataplane/DataSources/ListAll.yml)
+### Filters
+#### [Overview](purview/scanningdataplane/Filters.yml)
+#### [Create Or Update](purview/scanningdataplane/Filters/CreateOrUpdate.yml)
+#### [Get](purview/scanningdataplane/Filters/Get.yml)
+### Key Vault Connections
+#### [Overview](purview/scanningdataplane/KeyVaultConnections.yml)
+#### [Create](purview/scanningdataplane/KeyVaultConnections/Create.yml)
+#### [Delete](purview/scanningdataplane/KeyVaultConnections/Delete.yml)
+#### [Get](purview/scanningdataplane/KeyVaultConnections/Get.yml)
+#### [List All](purview/scanningdataplane/KeyVaultConnections/ListAll.yml)
+### Scan Result
+#### [Overview](purview/scanningdataplane/ScanResult.yml)
+#### [Cancel Scan](purview/scanningdataplane/ScanResult/CancelScan.yml)
+#### [List Scan History](purview/scanningdataplane/ScanResult/ListScanHistory.yml)
+#### [Run Scan](purview/scanningdataplane/ScanResult/RunScan.yml)
+### Scan Rulesets
+#### [Overview](purview/scanningdataplane/ScanRulesets.yml)
+#### [Create Or Update](purview/scanningdataplane/ScanRulesets/CreateOrUpdate.yml)
+#### [Delete](purview/scanningdataplane/ScanRulesets/Delete.yml)
+#### [Get](purview/scanningdataplane/ScanRulesets/Get.yml)
+#### [List All](purview/scanningdataplane/ScanRulesets/ListAll.yml)
+### Scans
+#### [Overview](purview/scanningdataplane/Scans.yml)
+#### [Create Or Update](purview/scanningdataplane/Scans/CreateOrUpdate.yml)
+#### [Delete](purview/scanningdataplane/Scans/Delete.yml)
+#### [Get](purview/scanningdataplane/Scans/Get.yml)
+#### [List By Data Source](purview/scanningdataplane/Scans/ListByDataSource.yml)
+### System Scan Rulesets
+#### [Overview](purview/scanningdataplane/SystemScanRulesets.yml)
+#### [Get](purview/scanningdataplane/SystemScanRulesets/Get.yml)
+#### [Get By Version](purview/scanningdataplane/SystemScanRulesets/GetByVersion.yml)
+#### [Get Latest](purview/scanningdataplane/SystemScanRulesets/GetLatest.yml)
+#### [List All](purview/scanningdataplane/SystemScanRulesets/ListAll.yml)
+#### [List Versions By Data Source](purview/scanningdataplane/SystemScanRulesets/ListVersionsByDataSource.yml)
+### Triggers
+#### [Overview](purview/scanningdataplane/Triggers.yml)
+#### [Create Trigger](purview/scanningdataplane/Triggers/CreateTrigger.yml)
+#### [Delete Trigger](purview/scanningdataplane/Triggers/DeleteTrigger.yml)
+#### [Get Trigger](purview/scanningdataplane/Triggers/GetTrigger.yml)
 # Recovery Services
 ## [Overview](../docs-ref-conceptual/recoveryservices/index.md)
 ## Operations Vaults
