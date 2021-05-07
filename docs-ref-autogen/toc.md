@@ -9556,12 +9556,16 @@
 #### [Update](azureml/workspacesandcomputes/Workspaces/Update.yml)
 # Maintenance
 ## [Overview](../docs-ref-conceptual/maintenance/index.md)
+## Apply Update For Resource Group
+### [Overview](maintenance/ApplyUpdateForResourceGroup.yml)
+### [List](maintenance/ApplyUpdateForResourceGroup/List.yml)
 ## Apply Updates
 ### [Overview](maintenance/ApplyUpdates.yml)
 ### [Create Or Update](maintenance/ApplyUpdates/CreateOrUpdate.yml)
 ### [Create Or Update Parent](maintenance/ApplyUpdates/CreateOrUpdateParent.yml)
 ### [Get](maintenance/ApplyUpdates/Get.yml)
 ### [Get Parent](maintenance/ApplyUpdates/GetParent.yml)
+### [List](maintenance/ApplyUpdates/List.yml)
 ## Configuration Assignments
 ### [Overview](maintenance/ConfigurationAssignments.yml)
 ### [Create Or Update](maintenance/ConfigurationAssignments/CreateOrUpdate.yml)
@@ -9577,6 +9581,9 @@
 ### [Get](maintenance/MaintenanceConfigurations/Get.yml)
 ### [List](maintenance/MaintenanceConfigurations/List.yml)
 ### [Update](maintenance/MaintenanceConfigurations/Update.yml)
+## Maintenance Configurations For Resource Group
+### [Overview](maintenance/MaintenanceConfigurationsForResourceGroup.yml)
+### [List](maintenance/MaintenanceConfigurationsForResourceGroup/List.yml)
 ## Operations
 ### [Overview](maintenance/Operations.yml)
 ### [List](maintenance/Operations/List.yml)

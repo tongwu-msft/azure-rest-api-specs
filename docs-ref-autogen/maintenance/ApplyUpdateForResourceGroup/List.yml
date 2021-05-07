@@ -1,15 +1,15 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.maintenance.configurationassignments.list
+uid: management.azure.com.maintenance.applyupdateforresourcegroup.list
 name: List
 service: Maintenance
-groupName: Configuration Assignments
+groupName: Apply Update For Resource Group
 apiVersion: 2021-05-01
-summary: "List configurationAssignments for resource  \nList configurationAssignments for resource."
+summary: Get Configuration records within a subscription and resource group
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{providerName}/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/configurationAssignments?api-version=2021-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maintenance/applyUpdates?api-version=2021-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -20,25 +20,7 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: Resource group name
-  types:
-  - uid: string
-- name: providerName
-  in: path
-  isRequired: true
-  description: Resource provider name
-  types:
-  - uid: string
-- name: resourceType
-  in: path
-  isRequired: true
-  description: Resource type
-  types:
-  - uid: string
-- name: resourceName
-  in: path
-  isRequired: true
-  description: Resource identifier
+  description: Resource Group Name
   types:
   - uid: string
 - name: api-version
@@ -51,21 +33,21 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: ListConfigurationAssignmentsResult
+  - uid: ListApplyUpdate
 - name: Other Status Codes
   description: BadRequest
   types:
   - uid: MaintenanceError
 requestHeader: []
 definitions:
-- name: ListConfigurationAssignmentsResult
-  description: Response for ConfigurationAssignments list
+- name: ListApplyUpdate
+  description: Response for ApplyUpdate list
   kind: object
   properties:
   - name: value
-    description: The list of configuration Assignments
+    description: The list of apply updates
     types:
-    - uid: ConfigurationAssignment
+    - uid: ApplyUpdate
       isArray: true
 - name: MaintenanceError
   description: An error response received from the Azure Maintenance service.
@@ -75,20 +57,20 @@ definitions:
     description: Details of the error
     types:
     - uid: ErrorDetails
-- name: ConfigurationAssignment
-  description: Configuration Assignment
+- name: ApplyUpdate
+  description: Apply Update request
   kind: object
   properties:
-  - name: location
-    description: Location of the resource
+  - name: properties.status
+    description: The status
     types:
-    - uid: string
-  - name: properties.maintenanceConfigurationId
-    description: The maintenance configuration Id
-    types:
-    - uid: string
+    - uid: UpdateStatus
   - name: properties.resourceId
-    description: The unique resourceId
+    description: The resourceId
+    types:
+    - uid: string
+  - name: properties.lastUpdateTime
+    description: Last Update time
     types:
     - uid: string
   - name: id
@@ -121,6 +103,30 @@ definitions:
     - uid: string
   - name: message
     description: Human-readable representation of the error.
+    types:
+    - uid: string
+- name: UpdateStatus
+  description: The status
+  kind: enum
+  properties:
+  - name: Pending
+    description: There are pending updates to be installed.
+    types:
+    - uid: string
+  - name: InProgress
+    description: Updates installation are in progress.
+    types:
+    - uid: string
+  - name: Completed
+    description: All updates are successfully applied.
+    types:
+    - uid: string
+  - name: RetryNow
+    description: Updates installation failed but are ready to retry again.
+    types:
+    - uid: string
+  - name: RetryLater
+    description: Updates installation failed and should be retried later.
     types:
     - uid: string
 - name: systemData
@@ -168,21 +174,21 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ConfigurationAssignments_List
+- name: ApplyUpdatesResourceGroup_List
   request:
-    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourcegroups/examplerg/providers/Microsoft.Compute/virtualMachineScaleSets/smdtest1/providers/Microsoft.Maintenance/configurationAssignments?api-version=2021-05-01
+    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.Maintenance/applyUpdates?api-version=2021-05-01
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourcegroups/examplerg/providers/Microsoft.Compute/virtualMachineScaleSets/smdtest1/providers/Microsoft.Maintenance/configurationAssignments/workervmConfiguration",
-            "name": "workervmConfiguration",
-            "type": "Microsoft.Maintenance/configurationAssignments",
+            "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourcegroups/examplerg/providers/Microsoft.Compute/virtualMachineScaleSets/smdtest1/providers/Microsoft.Maintenance/applyUpdates/e9b9685d-78e4-44c4-a81c-64a14f9b87b6",
+            "name": "e9b9685d-78e4-44c4-a81c-64a14f9b87b6",
+            "type": "Microsoft.Maintenance/applyUpdates",
             "properties": {
-              "maintenanceConfigurationId": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourcegroups/examplerg/providers/Microsoft.Maintenance/maintenanceConfigurations/configuration1",
-              "resourceId": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourcegroups/examplerg/providers/Microsoft.Compute/virtualMachineScaleSets/smdtest1"
+              "resourceId": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourcegroups/examplerg/providers/Microsoft.Compute/virtualMachineScaleSets/smdtest1",
+              "status": "Completed"
             }
           }
         ]
