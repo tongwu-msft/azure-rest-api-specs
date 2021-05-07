@@ -7707,6 +7707,7 @@
 #### [Create](deviceupdate/resourcemanager/Accounts/Create.yml)
 #### [Delete](deviceupdate/resourcemanager/Accounts/Delete.yml)
 #### [Get](deviceupdate/resourcemanager/Accounts/Get.yml)
+#### [Head](deviceupdate/resourcemanager/Accounts/Head.yml)
 #### [List By Resource Group](deviceupdate/resourcemanager/Accounts/ListByResourceGroup.yml)
 #### [List By Subscription](deviceupdate/resourcemanager/Accounts/ListBySubscription.yml)
 #### [Update](deviceupdate/resourcemanager/Accounts/Update.yml)
@@ -7718,6 +7719,7 @@
 #### [Create](deviceupdate/resourcemanager/Instances/Create.yml)
 #### [Delete](deviceupdate/resourcemanager/Instances/Delete.yml)
 #### [Get](deviceupdate/resourcemanager/Instances/Get.yml)
+#### [Head](deviceupdate/resourcemanager/Instances/Head.yml)
 #### [List By Account](deviceupdate/resourcemanager/Instances/ListByAccount.yml)
 #### [Update](deviceupdate/resourcemanager/Instances/Update.yml)
 ### Operations
