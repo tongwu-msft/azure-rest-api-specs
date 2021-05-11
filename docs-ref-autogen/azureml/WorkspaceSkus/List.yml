@@ -1,0 +1,303 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azureml.workspaceskus.list
+name: List
+service: Machine Learning
+groupName: Workspace Skus
+apiVersion: 2021-03-01-preview
+summary: Lists all skus with associated features
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/workspaces/skus?api-version=2021-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+  types:
+  - uid: SkuListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: SkuListResult
+  description: List of skus with features
+  kind: object
+  properties:
+  - name: value
+    description: Describes Workspace Sku details and features
+    types:
+    - uid: WorkspaceSku
+      isArray: true
+  - name: nextLink
+    description: The URI to fetch the next page of Workspace Skus. Call ListNext() with this URI to fetch the next page of Workspace Skus
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: WorkspaceSku
+  description: Describes Workspace Sku details and features
+  kind: object
+  properties:
+  - name: locations
+    isReadyOnly: true
+    description: The set of locations that the SKU is available. This will be supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.).
+    types:
+    - uid: string
+      isArray: true
+  - name: locationInfo
+    isReadyOnly: true
+    description: A list of locations and availability zones in those locations where the SKU is available.
+    types:
+    - uid: ResourceSkuLocationInfo
+      isArray: true
+  - name: tier
+    isReadyOnly: true
+    description: Sku Tier like Basic or Enterprise
+    types:
+    - uid: string
+  - name: resourceType
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: capabilities
+    isReadyOnly: true
+    description: List of features/user capabilities associated with the sku
+    types:
+    - uid: SKUCapability
+      isArray: true
+  - name: restrictions
+    description: The restrictions because of which SKU cannot be used. This is empty if there are no restrictions.
+    types:
+    - uid: Restriction
+      isArray: true
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ResourceSkuLocationInfo
+  kind: object
+  properties:
+  - name: location
+    isReadyOnly: true
+    description: Location of the SKU
+    types:
+    - uid: string
+  - name: zones
+    isReadyOnly: true
+    description: List of availability zones where the SKU is supported.
+    types:
+    - uid: string
+      isArray: true
+  - name: zoneDetails
+    isReadyOnly: true
+    description: Details of capabilities available to a SKU in specific zones.
+    types:
+    - uid: ResourceSkuZoneDetails
+      isArray: true
+- name: SKUCapability
+  description: Features/user capabilities associated with the sku
+  kind: object
+  properties:
+  - name: name
+    description: Capability/Feature ID
+    types:
+    - uid: string
+  - name: value
+    description: Details about the feature/capability
+    types:
+    - uid: string
+- name: Restriction
+  description: The restriction because of which SKU cannot be used.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The type of restrictions. As of now only possible value for this is location.
+    types:
+    - uid: string
+  - name: values
+    isReadyOnly: true
+    description: The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted.
+    types:
+    - uid: string
+      isArray: true
+  - name: reasonCode
+    description: The reason for the restriction.
+    types:
+    - uid: ReasonCode
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: ResourceSkuZoneDetails
+  description: Describes The zonal capabilities of a SKU.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The set of zones that the SKU is available in with the specified capabilities.
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    isReadyOnly: true
+    description: A list of capabilities that are available for the SKU in the specified list of zones.
+    types:
+    - uid: SKUCapability
+      isArray: true
+- name: ReasonCode
+  description: The reason for the restriction.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: NotAvailableForRegion
+    types:
+    - uid: string
+  - name: NotAvailableForSubscription
+    types:
+    - uid: string
+examples:
+- name: List Skus
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.MachineLearningServices/workspaces/skus?api-version=2021-03-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "resourceType": "workspaces",
+            "name": "Basic",
+            "tier": "Basic",
+            "locations": [
+              "westus"
+            ],
+            "locationInfo": [
+              {
+                "location": "westus",
+                "zones": [
+                  "westus-AZ02",
+                  "westus-AZ01"
+                ]
+              }
+            ],
+            "capabilities": [
+              {
+                "name": "automatedml_readhyperdrivesdk",
+                "value": "{\n  \"id\": \"automatedml_ readhyperdrivesdk\",\n  \"name\": \"Read hyperdrive SDK\",\n  \"description\": \"Read only access to Hyperdrive in the SDK\"\n}"
+              },
+              {
+                "name": "workspace_upgradeworkspacesdk",
+                "value": "{\n  \"id\": \"workspace_upgradeworkspacesdk\",\n  \"name\": \"Upgrade workspace SDK\",\n  \"description\": \"Upgrade workspace from Basic to enterprise from the SDK\"\n}"
+              }
+            ],
+            "restrictions": []
+          },
+          {
+            "resourceType": "workspaces",
+            "name": "Enterprise",
+            "tier": "Enterprise",
+            "locations": [
+              "westus"
+            ],
+            "locationInfo": [
+              {
+                "location": "westus",
+                "zones": [
+                  "westus-AZ01"
+                ],
+                "zoneDetails": [
+                  {
+                    "name": [
+                      "westus-AZ01"
+                    ],
+                    "capabilities": [
+                      {
+                        "name": "automatedml_createeditexperimentssdk",
+                        "value": "{\n  \"id\": \"automatedml_createeditexperimentssdk\",\n  \"name\": \"Create edit experiments SDK\",\n  \"description\": \"Create, edit or delete AutoML experiments in the SDK\"\n}"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "capabilities": [
+              {
+                "name": "automatedml_createeditexperimentssdk",
+                "value": "{\n  \"id\": \"automatedml_createeditexperimentssdk\",\n  \"name\": \"Create edit experiments SDK\",\n  \"description\": \"Create, edit or delete AutoML experiments in the SDK\"\n}"
+              }
+            ],
+            "restrictions": []
+          }
+        ],
+        "nextLink": null
+      }
+security: []
+errorCodes: []
