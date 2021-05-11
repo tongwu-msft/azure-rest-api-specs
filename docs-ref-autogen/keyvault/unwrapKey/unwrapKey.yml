@@ -3,14 +3,14 @@ uid: keyvault.unwrapkey.unwrapkey
 name: unwrap Key
 service: Key Vault
 groupName: unwrap Key
-apiVersion: "7.1"
+apiVersion: "7.2"
 summary: "Unwraps a symmetric key using the specified key that was initially used for wrapping that key.  \nThe UNWRAP operation supports decryption of a symmetric key using the target key encryption key. This operation is the reverse of the WRAP operation. The UNWRAP operation applies to asymmetric and symmetric keys stored in Azure Key Vault since it uses the private portion of the key. This operation requires the keys/unwrapKey permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {vaultBaseUrl}/keys/{key-name}/{key-version}/unwrapkey?api-version=7.1
+- content: POST {vaultBaseUrl}/keys/{key-name}/{key-version}/unwrapkey?api-version=7.2
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -61,6 +61,21 @@ requestBody:
     description: ''
     types:
     - uid: string
+  - name: iv
+    in: body
+    description: Initialization vector for symmetric algorithms.
+    types:
+    - uid: string
+  - name: aad
+    in: body
+    description: Additional data to authenticate but not encrypt/decrypt when using authenticated crypto algorithms.
+    types:
+    - uid: string
+  - name: tag
+    in: body
+    description: The tag to authenticate when performing decryption with an authenticated algorithm.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: KeyOperationResult
@@ -73,6 +88,21 @@ definitions:
     types:
     - uid: string
   - name: value
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: iv
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: tag
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: aad
     isReadyOnly: true
     description: ''
     types:
@@ -96,6 +126,18 @@ definitions:
     - uid: JsonWebKeyEncryptionAlgorithm
   - name: value
     description: ''
+    types:
+    - uid: string
+  - name: iv
+    description: Initialization vector for symmetric algorithms.
+    types:
+    - uid: string
+  - name: aad
+    description: Additional data to authenticate but not encrypt/decrypt when using authenticated crypto algorithms.
+    types:
+    - uid: string
+  - name: tag
+    description: The tag to authenticate when performing decryption with an authenticated algorithm.
     types:
     - uid: string
 - name: Error
@@ -130,10 +172,46 @@ definitions:
   - name: RSA1_5
     types:
     - uid: string
+  - name: A128GCM
+    types:
+    - uid: string
+  - name: A192GCM
+    types:
+    - uid: string
+  - name: A256GCM
+    types:
+    - uid: string
+  - name: A128KW
+    types:
+    - uid: string
+  - name: A192KW
+    types:
+    - uid: string
+  - name: A256KW
+    types:
+    - uid: string
+  - name: A128CBC
+    types:
+    - uid: string
+  - name: A192CBC
+    types:
+    - uid: string
+  - name: A256CBC
+    types:
+    - uid: string
+  - name: A128CBCPAD
+    types:
+    - uid: string
+  - name: A192CBCPAD
+    types:
+    - uid: string
+  - name: A256CBCPAD
+    types:
+    - uid: string
 examples:
 - name: Unwrapkey
   request:
-    uri: POST https://myvault.vault.azure.net//keys/sdktestkey/0698c2156c1a4e1da5b6bab6f6422fd6/unwrapkey?api-version=7.1
+    uri: POST https://myvault.vault.azure.net//keys/sdktestkey/0698c2156c1a4e1da5b6bab6f6422fd6/unwrapkey?api-version=7.2
     body: >-
       {
         "alg": "RSA1_5",

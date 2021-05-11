@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.attacheddatabaseconfigurations.listbyclus
 name: List By Cluster
 service: Azure Kusto
 groupName: Attached Database Configurations
-apiVersion: 2020-09-18
+apiVersion: 2021-01-01
 summary: Returns the list of attached database configurations of the given Kusto cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations?api-version=2020-09-18
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations?api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -95,6 +95,10 @@ definitions:
     description: The default principals modification kind
     types:
     - uid: DefaultPrincipalsModificationKind
+  - name: properties.tableLevelSharingProperties
+    description: Table level sharing specifications
+    types:
+    - uid: TableLevelSharingProperties
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -166,10 +170,44 @@ definitions:
   - name: None
     types:
     - uid: string
+- name: TableLevelSharingProperties
+  description: Tables that will be included and excluded in the follower database
+  kind: object
+  properties:
+  - name: tablesToInclude
+    description: List of tables to include in the follower database
+    types:
+    - uid: string
+      isArray: true
+  - name: tablesToExclude
+    description: List of tables to exclude from the follower database
+    types:
+    - uid: string
+      isArray: true
+  - name: externalTablesToInclude
+    description: List of external tables to include in the follower database
+    types:
+    - uid: string
+      isArray: true
+  - name: externalTablesToExclude
+    description: List of external tables exclude from the follower database
+    types:
+    - uid: string
+      isArray: true
+  - name: materializedViewsToInclude
+    description: List of materialized views to include in the follower database
+    types:
+    - uid: string
+      isArray: true
+  - name: materializedViewsToExclude
+    description: List of materialized views exclude from the follower database
+    types:
+    - uid: string
+      isArray: true
 examples:
 - name: KustoAttachedDatabaseConfigurationsListByCluster
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/attachedDatabaseConfigurations?api-version=2020-09-18
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/attachedDatabaseConfigurations?api-version=2021-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -196,6 +234,26 @@ examples:
               "clusterResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterLeader",
               "databaseName": "db1",
               "defaultPrincipalsModificationKind": "Union",
+              "tableLevelSharingProperties": {
+                "tablesToInclude": [
+                  "Table1"
+                ],
+                "tablesToExclude": [
+                  "Table2"
+                ],
+                "externalTablesToInclude": [
+                  "ExternalTable1"
+                ],
+                "externalTablesToExclude": [
+                  "ExternalTable2"
+                ],
+                "materializedViewsToInclude": [
+                  "MaterializedViewTable1"
+                ],
+                "materializedViewsToExclude": [
+                  "MaterializedViewTable2"
+                ]
+              },
               "provisioningState": "Succeeded"
             }
           }

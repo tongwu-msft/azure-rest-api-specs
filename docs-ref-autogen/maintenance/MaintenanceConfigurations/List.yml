@@ -3,13 +3,13 @@ uid: management.azure.com.maintenance.maintenanceconfigurations.list
 name: List
 service: Maintenance
 groupName: Maintenance Configurations
-apiVersion: 2020-07-01-preview
+apiVersion: 2021-05-01
 summary: Get Configuration records within a subscription
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/maintenanceConfigurations?api-version=2020-07-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Maintenance/maintenanceConfigurations?api-version=2021-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -84,7 +84,7 @@ definitions:
     types:
     - uid: MaintenanceScope
   - name: properties.visibility
-    description: Gets or sets the visibility of the configuration
+    description: Gets or sets the visibility of the configuration. The default value is 'Custom'
     types:
     - uid: Visibility
   - name: properties.maintenanceWindow.startDateTime
@@ -122,6 +122,11 @@ definitions:
     description: Type of the resource
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorDetails
   description: An error response details received from the Azure Maintenance service.
   kind: object
@@ -138,47 +143,90 @@ definitions:
   description: Gets or sets maintenanceScope of the configuration
   kind: enum
   properties:
-  - name: All
-    types:
-    - uid: string
   - name: Host
-    types:
-    - uid: string
-  - name: Resource
-    types:
-    - uid: string
-  - name: InResource
+    description: This maintenance scope controls installation of azure platform updates i.e. services on physical nodes hosting customer VMs.
     types:
     - uid: string
   - name: OSImage
+    description: This maintenance scope controls os image installation on VM/VMSS
     types:
     - uid: string
   - name: Extension
+    description: This maintenance scope controls extension installation on VM/VMSS
     types:
     - uid: string
   - name: InGuestPatch
+    description: This maintenance scope controls installation of windows and linux packages on VM/VMSS
     types:
     - uid: string
   - name: SQLDB
+    description: This maintenance scope controls installation of SQL server platform updates.
     types:
     - uid: string
   - name: SQLManagedInstance
+    description: This maintenance scope controls installation of SQL managed instance platform update.
     types:
     - uid: string
 - name: Visibility
-  description: Gets or sets the visibility of the configuration
+  description: Gets or sets the visibility of the configuration. The default value is 'Custom'
   kind: enum
   properties:
   - name: Custom
+    description: Only visible to users with permissions.
     types:
     - uid: string
   - name: Public
+    description: Visible to all users.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
     types:
     - uid: string
 examples:
 - name: MaintenanceConfigurations_List
   request:
-    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.Maintenance/maintenanceConfigurations?api-version=2020-07-01-preview
+    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.Maintenance/maintenanceConfigurations?api-version=2021-05-01
   responses:
   - statusCode: "200"
     body: >-
@@ -190,7 +238,7 @@ examples:
             "location": "westus2",
             "properties": {
               "namespace": "Microsoft.Maintenance",
-              "maintenanceScope": "OSImage",
+              "maintenanceScope": "Host",
               "visibility": "Custom",
               "maintenanceWindow": {
                 "startDateTime": "2020-04-30 08:00",

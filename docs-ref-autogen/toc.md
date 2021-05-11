@@ -2891,6 +2891,17 @@
 ## Operations
 ### [Overview](azurerekusto/Operations.yml)
 ### [List](azurerekusto/Operations/List.yml)
+## Operations Results
+### [Overview](azurerekusto/OperationsResults.yml)
+### [Get](azurerekusto/OperationsResults/Get.yml)
+## Scripts
+### [Overview](azurerekusto/Scripts.yml)
+### [Check Name Availability](azurerekusto/Scripts/CheckNameAvailability.yml)
+### [Create Or Update](azurerekusto/Scripts/CreateOrUpdate.yml)
+### [Delete](azurerekusto/Scripts/Delete.yml)
+### [Get](azurerekusto/Scripts/Get.yml)
+### [List By Database](azurerekusto/Scripts/ListByDatabase.yml)
+### [Update](azurerekusto/Scripts/Update.yml)
 # Azure Migrate
 ## [Overview](../docs-ref-conceptual/migrate/index.md)
 ## Assessment
@@ -7707,6 +7718,7 @@
 #### [Create](deviceupdate/resourcemanager/Accounts/Create.yml)
 #### [Delete](deviceupdate/resourcemanager/Accounts/Delete.yml)
 #### [Get](deviceupdate/resourcemanager/Accounts/Get.yml)
+#### [Head](deviceupdate/resourcemanager/Accounts/Head.yml)
 #### [List By Resource Group](deviceupdate/resourcemanager/Accounts/ListByResourceGroup.yml)
 #### [List By Subscription](deviceupdate/resourcemanager/Accounts/ListBySubscription.yml)
 #### [Update](deviceupdate/resourcemanager/Accounts/Update.yml)
@@ -7718,6 +7730,7 @@
 #### [Create](deviceupdate/resourcemanager/Instances/Create.yml)
 #### [Delete](deviceupdate/resourcemanager/Instances/Delete.yml)
 #### [Get](deviceupdate/resourcemanager/Instances/Get.yml)
+#### [Head](deviceupdate/resourcemanager/Instances/Head.yml)
 #### [List By Account](deviceupdate/resourcemanager/Instances/ListByAccount.yml)
 #### [Update](deviceupdate/resourcemanager/Instances/Update.yml)
 ### Operations
@@ -9554,12 +9567,16 @@
 #### [Update](azureml/workspacesandcomputes/Workspaces/Update.yml)
 # Maintenance
 ## [Overview](../docs-ref-conceptual/maintenance/index.md)
+## Apply Update For Resource Group
+### [Overview](maintenance/ApplyUpdateForResourceGroup.yml)
+### [List](maintenance/ApplyUpdateForResourceGroup/List.yml)
 ## Apply Updates
 ### [Overview](maintenance/ApplyUpdates.yml)
 ### [Create Or Update](maintenance/ApplyUpdates/CreateOrUpdate.yml)
 ### [Create Or Update Parent](maintenance/ApplyUpdates/CreateOrUpdateParent.yml)
 ### [Get](maintenance/ApplyUpdates/Get.yml)
 ### [Get Parent](maintenance/ApplyUpdates/GetParent.yml)
+### [List](maintenance/ApplyUpdates/List.yml)
 ## Configuration Assignments
 ### [Overview](maintenance/ConfigurationAssignments.yml)
 ### [Create Or Update](maintenance/ConfigurationAssignments/CreateOrUpdate.yml)
@@ -9575,6 +9592,9 @@
 ### [Get](maintenance/MaintenanceConfigurations/Get.yml)
 ### [List](maintenance/MaintenanceConfigurations/List.yml)
 ### [Update](maintenance/MaintenanceConfigurations/Update.yml)
+## Maintenance Configurations For Resource Group
+### [Overview](maintenance/MaintenanceConfigurationsForResourceGroup.yml)
+### [List](maintenance/MaintenanceConfigurationsForResourceGroup/List.yml)
 ## Operations
 ### [Overview](maintenance/Operations.yml)
 ### [List](maintenance/Operations/List.yml)
@@ -11190,6 +11210,60 @@
 ### [Overview](purview/PrivateLinkResources.yml)
 ### [Get By Group Id](purview/PrivateLinkResources/GetByGroupId.yml)
 ### [List By Account](purview/PrivateLinkResources/ListByAccount.yml)
+## Scanning Data Plane
+### Classification Rules
+#### [Overview](purview/scanningdataplane/ClassificationRules.yml)
+#### [Create Or Update](purview/scanningdataplane/ClassificationRules/CreateOrUpdate.yml)
+#### [Delete](purview/scanningdataplane/ClassificationRules/Delete.yml)
+#### [Get](purview/scanningdataplane/ClassificationRules/Get.yml)
+#### [List All](purview/scanningdataplane/ClassificationRules/ListAll.yml)
+#### [List Versions By Classification Rule Name](purview/scanningdataplane/ClassificationRules/ListVersionsByClassificationRuleName.yml)
+#### [Tag Classification Version](purview/scanningdataplane/ClassificationRules/TagClassificationVersion.yml)
+### Data Sources
+#### [Overview](purview/scanningdataplane/DataSources.yml)
+#### [Create Or Update](purview/scanningdataplane/DataSources/CreateOrUpdate.yml)
+#### [Delete](purview/scanningdataplane/DataSources/Delete.yml)
+#### [Get](purview/scanningdataplane/DataSources/Get.yml)
+#### [List All](purview/scanningdataplane/DataSources/ListAll.yml)
+### Filters
+#### [Overview](purview/scanningdataplane/Filters.yml)
+#### [Create Or Update](purview/scanningdataplane/Filters/CreateOrUpdate.yml)
+#### [Get](purview/scanningdataplane/Filters/Get.yml)
+### Key Vault Connections
+#### [Overview](purview/scanningdataplane/KeyVaultConnections.yml)
+#### [Create](purview/scanningdataplane/KeyVaultConnections/Create.yml)
+#### [Delete](purview/scanningdataplane/KeyVaultConnections/Delete.yml)
+#### [Get](purview/scanningdataplane/KeyVaultConnections/Get.yml)
+#### [List All](purview/scanningdataplane/KeyVaultConnections/ListAll.yml)
+### Scan Result
+#### [Overview](purview/scanningdataplane/ScanResult.yml)
+#### [Cancel Scan](purview/scanningdataplane/ScanResult/CancelScan.yml)
+#### [List Scan History](purview/scanningdataplane/ScanResult/ListScanHistory.yml)
+#### [Run Scan](purview/scanningdataplane/ScanResult/RunScan.yml)
+### Scan Rulesets
+#### [Overview](purview/scanningdataplane/ScanRulesets.yml)
+#### [Create Or Update](purview/scanningdataplane/ScanRulesets/CreateOrUpdate.yml)
+#### [Delete](purview/scanningdataplane/ScanRulesets/Delete.yml)
+#### [Get](purview/scanningdataplane/ScanRulesets/Get.yml)
+#### [List All](purview/scanningdataplane/ScanRulesets/ListAll.yml)
+### Scans
+#### [Overview](purview/scanningdataplane/Scans.yml)
+#### [Create Or Update](purview/scanningdataplane/Scans/CreateOrUpdate.yml)
+#### [Delete](purview/scanningdataplane/Scans/Delete.yml)
+#### [Get](purview/scanningdataplane/Scans/Get.yml)
+#### [List By Data Source](purview/scanningdataplane/Scans/ListByDataSource.yml)
+### System Scan Rulesets
+#### [Overview](purview/scanningdataplane/SystemScanRulesets.yml)
+#### [Get](purview/scanningdataplane/SystemScanRulesets/Get.yml)
+#### [Get By Version](purview/scanningdataplane/SystemScanRulesets/GetByVersion.yml)
+#### [Get Latest](purview/scanningdataplane/SystemScanRulesets/GetLatest.yml)
+#### [List All](purview/scanningdataplane/SystemScanRulesets/ListAll.yml)
+#### [List Versions By Data Source](purview/scanningdataplane/SystemScanRulesets/ListVersionsByDataSource.yml)
+### Triggers
+#### [Overview](purview/scanningdataplane/Triggers.yml)
+#### [Create Trigger](purview/scanningdataplane/Triggers/CreateTrigger.yml)
+#### [Delete Trigger](purview/scanningdataplane/Triggers/DeleteTrigger.yml)
+#### [Get Trigger](purview/scanningdataplane/Triggers/GetTrigger.yml)
 # Recovery Services
 ## [Overview](../docs-ref-conceptual/recoveryservices/index.md)
 ## Operations Vaults
@@ -11871,6 +11945,7 @@
 ### [Get At Tenant Scope](resources/Providers/GetAtTenantScope.yml)
 ### [List](resources/Providers/List.yml)
 ### [List At Tenant Scope](resources/Providers/ListAtTenantScope.yml)
+### [Provider Permissions](resources/Providers/ProviderPermissions.yml)
 ### [Register](resources/Providers/Register.yml)
 ### [Register At Management Group Scope](resources/Providers/RegisterAtManagementGroupScope.yml)
 ### [Unregister](resources/Providers/Unregister.yml)

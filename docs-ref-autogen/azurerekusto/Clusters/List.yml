@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.clusters.list
 name: List
 service: Azure Kusto
 groupName: Clusters
-apiVersion: 2020-09-18
+apiVersion: 2021-01-01
 summary: Lists all Kusto clusters within a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/clusters?api-version=2020-09-18
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/clusters?api-version=2021-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -69,6 +69,11 @@ definitions:
     description: The identity of the cluster, if configured.
     types:
     - uid: Identity
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
   - name: properties.state
     isReadyOnly: true
     description: The state of the resource.
@@ -386,6 +391,12 @@ definitions:
   - name: Standard_L16s
     types:
     - uid: string
+  - name: Standard_L8s_v2
+    types:
+    - uid: string
+  - name: Standard_L16s_v2
+    types:
+    - uid: string
   - name: Standard_D11_v2
     types:
     - uid: string
@@ -399,6 +410,9 @@ definitions:
     types:
     - uid: string
   - name: Standard_E64i_v3
+    types:
+    - uid: string
+  - name: Standard_E80ids_v4
     types:
     - uid: string
   - name: Standard_E2a_v4
@@ -483,7 +497,7 @@ definitions:
 examples:
 - name: KustoClustersList
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/providers/Microsoft.Kusto/clusters?api-version=2020-09-18
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/providers/Microsoft.Kusto/clusters?api-version=2021-01-01
   responses:
   - statusCode: "200"
     body: >-
@@ -496,18 +510,21 @@ examples:
             "location": "westus",
             "properties": {
               "provisioningState": "Succeeded",
+              "enableDiskEncryption": false,
+              "enableStreamingIngest": true,
               "keyVaultProperties": {
                 "keyVaultUri": "https://dummy.keyvault.com",
                 "keyName": "keyName",
                 "keyVersion": "keyVersion"
               },
-              "engineType": "V2"
+              "engineType": "V3"
             },
             "sku": {
               "name": "Standard_L8s",
               "capacity": 2,
               "tier": "Standard"
-            }
+            },
+            "etag": "abcd123"
           },
           {
             "id": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/KustoClusterRPTest3",
@@ -515,13 +532,17 @@ examples:
             "type": "Microsoft.Kusto/Clusters",
             "location": "westus",
             "properties": {
-              "provisioningState": "Succeeded"
+              "provisioningState": "Succeeded",
+              "enableDiskEncryption": true,
+              "enableStreamingIngest": true,
+              "engineType": "V2"
             },
             "sku": {
               "name": "Standard_L8s",
               "capacity": 2,
               "tier": "Standard"
-            }
+            },
+            "etag": "abcd123"
           }
         ]
       }

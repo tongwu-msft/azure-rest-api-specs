@@ -3,14 +3,14 @@ uid: keyvault.encrypt.encrypt
 name: encrypt
 service: Key Vault
 groupName: encrypt
-apiVersion: "7.1"
+apiVersion: "7.2"
 summary: "Encrypts an arbitrary sequence of bytes using an encryption key that is stored in a key vault.  \nThe ENCRYPT operation encrypts an arbitrary sequence of bytes using an encryption key that is stored in Azure Key Vault. Note that the ENCRYPT operation only supports a single block of data, the size of which is dependent on the target key and the encryption algorithm to be used. The ENCRYPT operation is only strictly necessary for symmetric keys stored in Azure Key Vault since protection with an asymmetric key can be performed using public portion of the key. This operation is supported for asymmetric keys as a convenience for callers that have a key-reference but do not have access to the public key material. This operation requires the keys/encrypt permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {vaultBaseUrl}/keys/{key-name}/{key-version}/encrypt?api-version=7.1
+- content: POST {vaultBaseUrl}/keys/{key-name}/{key-version}/encrypt?api-version=7.2
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -61,6 +61,21 @@ requestBody:
     description: ''
     types:
     - uid: string
+  - name: iv
+    in: body
+    description: Initialization vector for symmetric algorithms.
+    types:
+    - uid: string
+  - name: aad
+    in: body
+    description: Additional data to authenticate but not encrypt/decrypt when using authenticated crypto algorithms.
+    types:
+    - uid: string
+  - name: tag
+    in: body
+    description: The tag to authenticate when performing decryption with an authenticated algorithm.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: KeyOperationResult
@@ -73,6 +88,21 @@ definitions:
     types:
     - uid: string
   - name: value
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: iv
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: tag
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: aad
     isReadyOnly: true
     description: ''
     types:
@@ -96,6 +126,18 @@ definitions:
     - uid: JsonWebKeyEncryptionAlgorithm
   - name: value
     description: ''
+    types:
+    - uid: string
+  - name: iv
+    description: Initialization vector for symmetric algorithms.
+    types:
+    - uid: string
+  - name: aad
+    description: Additional data to authenticate but not encrypt/decrypt when using authenticated crypto algorithms.
+    types:
+    - uid: string
+  - name: tag
+    description: The tag to authenticate when performing decryption with an authenticated algorithm.
     types:
     - uid: string
 - name: Error
@@ -130,10 +172,46 @@ definitions:
   - name: RSA1_5
     types:
     - uid: string
+  - name: A128GCM
+    types:
+    - uid: string
+  - name: A192GCM
+    types:
+    - uid: string
+  - name: A256GCM
+    types:
+    - uid: string
+  - name: A128KW
+    types:
+    - uid: string
+  - name: A192KW
+    types:
+    - uid: string
+  - name: A256KW
+    types:
+    - uid: string
+  - name: A128CBC
+    types:
+    - uid: string
+  - name: A192CBC
+    types:
+    - uid: string
+  - name: A256CBC
+    types:
+    - uid: string
+  - name: A128CBCPAD
+    types:
+    - uid: string
+  - name: A192CBCPAD
+    types:
+    - uid: string
+  - name: A256CBCPAD
+    types:
+    - uid: string
 examples:
 - name: Encrypt example
   request:
-    uri: POST https://myvault.vault.azure.net//keys/sdktestkey/f6bc1f3d37c14b2bb1a2ebb4b24e9535/encrypt?api-version=7.1
+    uri: POST https://myvault.vault.azure.net//keys/sdktestkey/f6bc1f3d37c14b2bb1a2ebb4b24e9535/encrypt?api-version=7.2
     body: >-
       {
         "alg": "RSA1_5",
