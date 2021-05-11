@@ -9622,12 +9622,6 @@
 ### [List](azureml/LabelingJobs/List.yml)
 ### [Pause](azureml/LabelingJobs/Pause.yml)
 ### [Resume](azureml/LabelingJobs/Resume.yml)
-## Machine Learning Services
-### [Overview](azureml/MachineLearningServices.yml)
-### [Create Or Update](azureml/MachineLearningServices/CreateOrUpdate.yml)
-### [Delete](azureml/MachineLearningServices/Delete.yml)
-### [Get](azureml/MachineLearningServices/Get.yml)
-### [List By Workspace](azureml/MachineLearningServices/ListByWorkspace.yml)
 ## Model Containers
 ### [Overview](azureml/ModelContainers.yml)
 ### [Create Or Update](azureml/ModelContainers/CreateOrUpdate.yml)
@@ -9690,12 +9684,6 @@
 ### [Delete](azureml/WorkspaceConnections/Delete.yml)
 ### [Get](azureml/WorkspaceConnections/Get.yml)
 ### [List](azureml/WorkspaceConnections/List.yml)
-## Workspace Features
-### [Overview](azureml/WorkspaceFeatures.yml)
-### [List](azureml/WorkspaceFeatures/List.yml)
-## Workspace Skus
-### [Overview](azureml/WorkspaceSkus.yml)
-### [List](azureml/WorkspaceSkus/List.yml)
 ## Workspaces
 ### [Overview](azureml/Workspaces.yml)
 ### [Create Or Update](azureml/Workspaces/CreateOrUpdate.yml)
