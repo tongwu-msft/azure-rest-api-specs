@@ -19,7 +19,7 @@ The Microsoft Azure storage services support multiple versions. To make a reques
   
 The 2020-08-04 service version includes the following features:
 
-- The ability to aquire, break, change, renew, and release a lease on a File Share.  For more information, see [Lease Share](lease-share.md),
+- The ability to acquire, break, change, renew, and release a lease on a File Share.  For more information, see [Lease Share](lease-share.md).
 - The ability to list deleted blobs and restore deleted blobs on storage accounts with hierarchical namespace enabled.  For more information, see [List Blobs](List-Blobs.md) and [Undelete Blob](Undelete-Blob.md).
 
 ## Specifying service versions in requests  
