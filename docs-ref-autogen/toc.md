@@ -4299,16 +4299,6 @@
 ### Resource Skus
 #### [Overview](cognitiveservices/accountmanagement/ResourceSkus.yml)
 #### [List](cognitiveservices/accountmanagement/ResourceSkus/List.yml)
-## Anomaly Detector
-### Detect Change Point
-#### [Overview](cognitiveservices/anomalydetector/DetectChangePoint.yml)
-#### [Detect Change Point](cognitiveservices/anomalydetector/DetectChangePoint/DetectChangePoint.yml)
-### Detect Entire Series
-#### [Overview](cognitiveservices/anomalydetector/DetectEntireSeries.yml)
-#### [Detect Entire Series](cognitiveservices/anomalydetector/DetectEntireSeries/DetectEntireSeries.yml)
-### Detect Last Point
-#### [Overview](cognitiveservices/anomalydetector/DetectLastPoint.yml)
-#### [Detect Last Point](cognitiveservices/anomalydetector/DetectLastPoint/DetectLastPoint.yml)
 ## Bing Visual Search
 ### Images
 #### [Overview](cognitiveservices/bingvisualsearch/Images.yml)
@@ -4405,6 +4395,18 @@
 #### [Languages](cognitiveservices/translator/Translator/Languages.yml)
 #### [Translate](cognitiveservices/translator/Translator/Translate.yml)
 #### [Transliterate](cognitiveservices/translator/Translator/Transliterate.yml)
+# Cognitive Services - AnomalyDetector
+## [Overview](../docs-ref-conceptual/anomalydetector/index.md)
+## Anomaly Detector 1.0
+### Detect Change Point
+#### [Overview](anomalydetector/anomalydetector1.0/DetectChangePoint.yml)
+#### [Detect Change Point](anomalydetector/anomalydetector1.0/DetectChangePoint/DetectChangePoint.yml)
+### Detect Entire Series
+#### [Overview](anomalydetector/anomalydetector1.0/DetectEntireSeries.yml)
+#### [Detect Entire Series](anomalydetector/anomalydetector1.0/DetectEntireSeries/DetectEntireSeries.yml)
+### Detect Last Point
+#### [Overview](anomalydetector/anomalydetector1.0/DetectLastPoint.yml)
+#### [Detect Last Point](anomalydetector/anomalydetector1.0/DetectLastPoint/DetectLastPoint.yml)
 # Cognitive Services - Bing Search
 ## [Overview](../docs-ref-conceptual/cognitiveservices-bingsearch/index.md)
 ## Bing Autosuggest API
