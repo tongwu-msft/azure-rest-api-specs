@@ -18128,6 +18128,7 @@
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
 ### Previous Azure Storage services versions
 #### [Overview](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
+#### [Version 2020-06-12](../docs-ref-conceptual/storageservices/version-2020-06-12.md)
 #### [Version 2020-04-08](../docs-ref-conceptual/storageservices/version-2020-04-08.md)
 #### [Version 2020-02-10](../docs-ref-conceptual/storageservices/version-2020-02-10.md)
 #### [Version 2019-12-12](../docs-ref-conceptual/storageservices/version-2019-12-12.md)
@@ -18354,6 +18355,7 @@
 #### [Get Share Stats](../docs-ref-conceptual/storageservices/get-share-stats.md)
 #### [Create Permission](../docs-ref-conceptual/storageservices/create-permission.md)
 #### [Get Permission](../docs-ref-conceptual/storageservices/get-permission.md)
+#### [Lease Share](../docs-ref-conceptual/storageservices/lease-share.md)
 ### Operations on Directories
 #### [Overview](../docs-ref-conceptual/storageservices/operations-on-directories.md)
 #### [List Directories and Files](../docs-ref-conceptual/storageservices/list-directories-and-files.md)
