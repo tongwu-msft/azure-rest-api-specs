@@ -1,7 +1,7 @@
 ---
 title: Search Documents (api-version=2020-06-30-Preview)
 description: Preview version of the Search Documents REST API for Cognitive Search.
-ms.date: 03/09/2021
+ms.date: 05/19/2021
 ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
@@ -133,7 +133,7 @@ A query accepts several parameters on the URL when called with GET, and as JSON 
 | highlightPreTag | string | Optional. Defaults to `"</em>"`. A string tag that prepends to the highlighted term. Must be set with highlightPostTag. Reserved characters in URL must be percent-encoded (for example, %23 instead of #).  |
 | minimumCoverage | integer | Optional. Valid values are a number between 0 and 100, indicating the percentage of the index that must be available to service the query before it can be reported as a success. Defaults to "100". </br></br>One hundred percent coverage means that all shards responded to the request (neither service health issues nor maintenance activities reduced coverage). Under the default setting, less than full coverage will return HTTP status code 503.</br></br>Lowering minimumCoverage can be useful if 503 errors are occurring and you want to increase the probability of query success, especially for services that are configured for one replica. If you set minimumCoverage and Search succeeds, it will return HTTP 200 and include a @search.coverage value in the response indicating the percentage of the index that was included in the query. In this scenario, not all matching documents are guaranteed to be present in the search results, but if search availability is more important than recall, then reducing coverage can be a viable mitigation strategy. |
 | $orderby | string | Optional. A list of comma-separated expressions to sort the results by. When called with POST, this parameter is named orderby instead of $orderby. Each expression can be either a field name or a call to the geo.distance() function. Each expression can be followed by "asc" to indicate ascending, and "desc" to indicate descending. If there are null values in the sort field, nulls appear first in ascending order and last in descending order. The default is ascending order. Ties will be broken by the match scores of documents. If no $orderby is specified, the default sort order is descending by document match score. There is a limit of 32 clauses for $orderby. |
-| queryLanguage (preview) | string | Optional. Valid values are "en-us" or "none". Defaults to "none". This parameter must be set if you use either speller or queryType=semantic. The specified language is independent of other locale-based field attributes, such as language analyzers used for indexing and full text search. When queryLanguage is used with speller, the language determines which dictionary used for spelling corrections. When used with queryType=semantic, the queryLanguage value is used for secondary ranking over a primary result set (primary results are affected by analyzers). |
+| queryLanguage (preview) | string | Optional. Valid values are a [supported language](#queryLanguage) or "none". Defaults to "none". This parameter must be set if you use either speller or queryType=semantic. The language specified in queryLanguage is used for spell check and by the semantic models that identify a caption or answer. The libraries used for queryLanguage is independent of other locale-based field attributes, such as [language analyzers](https://docs.microsoft.com/azure/search/index-add-language-analyzers#supported-language-analyzers) used for indexing and full text search. When queryLanguage is used with speller, the language determines which lexicons are used for spelling corrections. When used with queryType=semantic, the queryLanguage value is used for a secondary semantic ranking over an initial result set. |
 | queryType| string | Optional. Valid values are "simple", "full", or "semantic" (preview). Defaults to "simple". </br></br>"simple" interprets query strings using the [simple query syntax](https://docs.microsoft.com/azure/search/query-simple-syntax) that allows for symbols such as `+`, `*` and `""`. Queries are evaluated across all searchable fields (or fields indicated in searchFields) in each document by default. </br></br>"full" interprets query strings using the [full Lucene query syntax](https://docs.microsoft.com/azure/search/query-lucene-syntax) which allows field-specific and weighted searches. Range search in the Lucene query language is not supported in favor of $filter which offers similar functionality.</br></br>"semantic" improves precision of search results by reranking the top 50 matches using a ranking model trained on the Bing corpus for queries expressed in natural language as opposed to keywords. If you set the query type to semantic, you must also set queryLanguage. You can optionally set searchFields to specify a priority order for calculating the semantic score, and optionally set answers if you want to also return the top 3 answers if the query input was formulated in natural language (*"what is a ...*). |
 | scoringParameter | string | Optional. Indicates the values for each parameter defined in a scoring function (such as referencePointParameter) using the format "name-value1,value2,..." When called with POST, this parameter is named scoringParameters instead of scoringParameter. Also, you specify it as a JSON array of strings where each string is a separate name-values pair. </br></br>For scoring profiles that include a function, separate the function from its input list with a `-` character. For example, a function called `"mylocation"` would be "&scoringParameter=mylocation--122.2,44.8". The first dash separates the function name from the value list, while the second dash is part of the first value (longitude in this example). </br></br>For scoring parameters such as for tag boosting that can contain commas, you can escape any such values in the list using single quotes. If the values themselves contain single quotes, you can escape them by doubling. Suppose you have a tag boosting parameter called `"mytag"` and you want to boost on the tag values "Hello, O'Brien" and "Smith", the query string option would then be "&scoringParameter=mytag-'Hello, O''Brien',Smith". Quotes are only required for values that contain commas. |
 | scoringProfile | string | Optional. The name of a scoring profile to evaluate match scores for matching documents in order to sort the results. |
@@ -540,6 +540,32 @@ You can find additional examples in [OData Expression Syntax for Azure Cognitive
                 "termFrequency": 1
             }
           . . .
+
+## Definitions
+
+This section provides details about parameters that are too complex to cover in the main table.
+
+[queryLanguage](#queryLanguage)
+
+<a name="queryLanguage"></a>
+
+### queryLanguage supported languages
+
+Default is "none".
+
+| Language | queryLanguage | Semantic caption | Semantic answer | Speller |
+|----------|---------------|------------------|-----------------|---------|
+| English [EN] | EN, EN-US (default), EN-GB, EN-IN, EN-CA, EN-AU | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Spanish [ES] | ES, ES-ES (default), ES-MX | \:heavy_check_mark\: | :heavy_check_mark: | :heavy_check_mark: |
+| French [FR] | FR, FR-FR (default), FR-CA | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| German [DE] | DE, DE-DE (default) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Portuguese [PT] | PT, PT-BR (default), PT-PT | :heavy_check_mark: | preview | :x: |
+| Chinese [ZH] | ZH, ZH-CN (default), ZH-TW | :heavy_check_mark: | preview |  |
+| Italian [IT] | IT, IT-IT (default) | :heavy_check_mark: | preview |  |
+| Japanese [JA] | JA, JA-JP (default) | :heavy_check_mark: | preview |  |
+| Dutch [NL] | NL, NL-BE (default), NL-NL | preview | preview |  |
+| Korean [KO] | KO, KO-KR (default) | preview | preview |  |
+| Russian [RU] | RU, RU-RU (default) | preview | preview |  |
 
 ## See also
 
