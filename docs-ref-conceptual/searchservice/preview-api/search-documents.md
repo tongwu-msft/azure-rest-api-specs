@@ -555,13 +555,13 @@ Default is "none".
 
 | Language | queryLanguage | Semantic caption | Semantic answer | Speller |
 |----------|---------------|------------------|-----------------|---------|
-| English [EN] | EN, EN-US (default), EN-GB, EN-IN, EN-CA, EN-AU | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| English [EN] | EN, EN-US (default), EN-GB, EN-IN, EN-CA, EN-AU | production-ready | production-ready | production-ready |
 | Spanish [ES] | ES, ES-ES (default), ES-MX | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | French [FR] | FR, FR-FR (default), FR-CA | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | German [DE] | DE, DE-DE (default) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Portuguese [PT] | PT, PT-BR (default), PT-PT | :heavy_check_mark: | preview | :x: |
 | Chinese [ZH] | ZH, ZH-CN (default), ZH-TW | :heavy_check_mark: | preview | :x:  |
-| Italian [IT] | IT, IT-IT (default) | :heavy_check_mark: | preview | :x: |
+| Italian [IT] | IT, IT-IT (default) | production-ready | preview |  |
 | Japanese [JA] | JA, JA-JP (default) | :heavy_check_mark: | preview | :x: |
 | Korean [KO] | KO, KO-KR (default) | preview | preview | :x:  |
 | Russian [RU] | RU, RU-RU (default) | preview | preview | :x: |
