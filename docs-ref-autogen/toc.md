@@ -11303,136 +11303,330 @@
 ### [Update](recoveryservices/Vaults/Update.yml)
 # Recovery Services - Backup
 ## [Overview](../docs-ref-conceptual/backup/index.md)
-## Backup Engines
-### [Overview](backup/BackupEngines.yml)
-### [Get](backup/BackupEngines/Get.yml)
-### [List](backup/BackupEngines/List.yml)
-## Backup Jobs
-### [Overview](backup/BackupJobs.yml)
-### [List](backup/BackupJobs/List.yml)
-## Backup Operation Results
-### [Overview](backup/BackupOperationResults.yml)
-### [Get](backup/BackupOperationResults/Get.yml)
-## Backup Operation Statuses
-### [Overview](backup/BackupOperationStatuses.yml)
-### [Get](backup/BackupOperationStatuses/Get.yml)
-## Backup Policies
-### [Overview](backup/BackupPolicies.yml)
-### [List](backup/BackupPolicies/List.yml)
-## Backup Protectable Items
-### [Overview](backup/BackupProtectableItems.yml)
-### [List](backup/BackupProtectableItems/List.yml)
-## Backup Protected Items
-### [Overview](backup/BackupProtectedItems.yml)
-### [List](backup/BackupProtectedItems/List.yml)
-## Backup Protection Containers
-### [Overview](backup/BackupProtectionContainers.yml)
-### [List](backup/BackupProtectionContainers/List.yml)
-## Backup Protection Intent
-### [Overview](backup/BackupProtectionIntent.yml)
-### [List](backup/BackupProtectionIntent/List.yml)
-## Backup Resource Storage Configs
-### [Overview](backup/BackupResourceStorageConfigs.yml)
-### [Get](backup/BackupResourceStorageConfigs/Get.yml)
-### [Patch](backup/BackupResourceStorageConfigs/Patch.yml)
-### [Update](backup/BackupResourceStorageConfigs/Update.yml)
-## Backup Resource Vault Configs
-### [Overview](backup/BackupResourceVaultConfigs.yml)
-### [Get](backup/BackupResourceVaultConfigs/Get.yml)
-### [Update](backup/BackupResourceVaultConfigs/Update.yml)
-## Backup Status
-### [Overview](backup/BackupStatus.yml)
-### [Get](backup/BackupStatus/Get.yml)
-## Backup Usage Summaries
-### [Overview](backup/BackupUsageSummaries.yml)
-### [List](backup/BackupUsageSummaries/List.yml)
-## Backup Workload Items
-### [Overview](backup/BackupWorkloadItems.yml)
-### [List](backup/BackupWorkloadItems/List.yml)
-## Backups
-### [Overview](backup/Backups.yml)
-### [Trigger](backup/Backups/Trigger.yml)
-## Export Jobs Operation Results
-### [Overview](backup/ExportJobsOperationResults.yml)
-### [Get](backup/ExportJobsOperationResults/Get.yml)
-## Feature Support
-### [Overview](backup/FeatureSupport.yml)
-### [Validate](backup/FeatureSupport/Validate.yml)
-## Item Level Recovery Connections
-### [Overview](backup/ItemLevelRecoveryConnections.yml)
-### [Provision](backup/ItemLevelRecoveryConnections/Provision.yml)
-### [Revoke](backup/ItemLevelRecoveryConnections/Revoke.yml)
-## Job Cancellations
-### [Overview](backup/JobCancellations.yml)
-### [Trigger](backup/JobCancellations/Trigger.yml)
-## Job Details
-### [Overview](backup/JobDetails.yml)
-### [Get](backup/JobDetails/Get.yml)
-## Job Operation Results
-### [Overview](backup/JobOperationResults.yml)
-### [Get](backup/JobOperationResults/Get.yml)
-## Jobs
-### [Overview](backup/Jobs.yml)
-### [Export](backup/Jobs/Export.yml)
-## Operation
-### [Overview](backup/Operation.yml)
-### [Validate](backup/Operation/Validate.yml)
-## Protectable Containers
-### [Overview](backup/ProtectableContainers.yml)
-### [List](backup/ProtectableContainers/List.yml)
-## Protected Item Operation Results
-### [Overview](backup/ProtectedItemOperationResults.yml)
-### [Get](backup/ProtectedItemOperationResults/Get.yml)
-## Protected Item Operation Statuses
-### [Overview](backup/ProtectedItemOperationStatuses.yml)
-### [Get](backup/ProtectedItemOperationStatuses/Get.yml)
-## Protected Items
-### [Overview](backup/ProtectedItems.yml)
-### [Create Or Update](backup/ProtectedItems/CreateOrUpdate.yml)
-### [Delete](backup/ProtectedItems/Delete.yml)
-### [Get](backup/ProtectedItems/Get.yml)
-## Protection Container Operation Results
-### [Overview](backup/ProtectionContainerOperationResults.yml)
-### [Get](backup/ProtectionContainerOperationResults/Get.yml)
-## Protection Container Refresh Operation Results
-### [Overview](backup/ProtectionContainerRefreshOperationResults.yml)
-### [Get](backup/ProtectionContainerRefreshOperationResults/Get.yml)
-## Protection Containers
-### [Overview](backup/ProtectionContainers.yml)
-### [Get](backup/ProtectionContainers/Get.yml)
-### [Inquire](backup/ProtectionContainers/Inquire.yml)
-### [Refresh](backup/ProtectionContainers/Refresh.yml)
-### [Register](backup/ProtectionContainers/Register.yml)
-### [Unregister](backup/ProtectionContainers/Unregister.yml)
-## Protection Intent
-### [Overview](backup/ProtectionIntent.yml)
-### [Create Or Update](backup/ProtectionIntent/CreateOrUpdate.yml)
-### [Delete](backup/ProtectionIntent/Delete.yml)
-### [Get](backup/ProtectionIntent/Get.yml)
-### [Validate](backup/ProtectionIntent/Validate.yml)
-## Protection Policies
-### [Overview](backup/ProtectionPolicies.yml)
-### [Create Or Update](backup/ProtectionPolicies/CreateOrUpdate.yml)
-### [Get](backup/ProtectionPolicies/Get.yml)
-## Protection Policy Operation Results
-### [Overview](backup/ProtectionPolicyOperationResults.yml)
-### [Get](backup/ProtectionPolicyOperationResults/Get.yml)
-## Protection Policy Operation Statuses
-### [Overview](backup/ProtectionPolicyOperationStatuses.yml)
-### [Get](backup/ProtectionPolicyOperationStatuses/Get.yml)
-## ProtectionPolicies(2016-12-01)
-### [Overview](backup/ProtectionPolicies(2016-12-01).yml)
-### [Delete](backup/ProtectionPolicies(2016-12-01)/Delete.yml)
-## Recovery Points
-### [Overview](backup/RecoveryPoints.yml)
-### [Get](backup/RecoveryPoints/Get.yml)
-### [List](backup/RecoveryPoints/List.yml)
-## Restores
-### [Overview](backup/Restores.yml)
-### [Trigger](backup/Restores/Trigger.yml)
-## Security PI Ns
-### [Overview](backup/SecurityPINs.yml)
-### [Get](backup/SecurityPINs/Get.yml)
+## 2016-12-01
+### Backup Engines
+#### [Overview](backup/2016-12-01/BackupEngines.yml)
+#### [Get](backup/2016-12-01/BackupEngines/Get.yml)
+#### [List](backup/2016-12-01/BackupEngines/List.yml)
+### Backup Operation Results
+#### [Overview](backup/2016-12-01/BackupOperationResults.yml)
+#### [Get](backup/2016-12-01/BackupOperationResults/Get.yml)
+### Backup Operation Statuses
+#### [Overview](backup/2016-12-01/BackupOperationStatuses.yml)
+#### [Get](backup/2016-12-01/BackupOperationStatuses/Get.yml)
+### Backup Protectable Items
+#### [Overview](backup/2016-12-01/BackupProtectableItems.yml)
+#### [List](backup/2016-12-01/BackupProtectableItems/List.yml)
+### Backup Protection Containers
+#### [Overview](backup/2016-12-01/BackupProtectionContainers.yml)
+#### [List](backup/2016-12-01/BackupProtectionContainers/List.yml)
+### Backup Resource Storage Configs
+#### [Overview](backup/2016-12-01/BackupResourceStorageConfigs.yml)
+#### [Get](backup/2016-12-01/BackupResourceStorageConfigs/Get.yml)
+#### [Patch](backup/2016-12-01/BackupResourceStorageConfigs/Patch.yml)
+#### [Update](backup/2016-12-01/BackupResourceStorageConfigs/Update.yml)
+### Backup Workload Items
+#### [Overview](backup/2016-12-01/BackupWorkloadItems.yml)
+#### [List](backup/2016-12-01/BackupWorkloadItems/List.yml)
+### Backups
+#### [Overview](backup/2016-12-01/Backups.yml)
+#### [Trigger](backup/2016-12-01/Backups/Trigger.yml)
+### Item Level Recovery Connections
+#### [Overview](backup/2016-12-01/ItemLevelRecoveryConnections.yml)
+#### [Provision](backup/2016-12-01/ItemLevelRecoveryConnections/Provision.yml)
+#### [Revoke](backup/2016-12-01/ItemLevelRecoveryConnections/Revoke.yml)
+### Protectable Containers
+#### [Overview](backup/2016-12-01/ProtectableContainers.yml)
+#### [List](backup/2016-12-01/ProtectableContainers/List.yml)
+### Protected Item Operation Statuses
+#### [Overview](backup/2016-12-01/ProtectedItemOperationStatuses.yml)
+#### [Get](backup/2016-12-01/ProtectedItemOperationStatuses/Get.yml)
+### Protection Container Operation Results
+#### [Overview](backup/2016-12-01/ProtectionContainerOperationResults.yml)
+#### [Get](backup/2016-12-01/ProtectionContainerOperationResults/Get.yml)
+### Protection Container Refresh Operation Results
+#### [Overview](backup/2016-12-01/ProtectionContainerRefreshOperationResults.yml)
+#### [Get](backup/2016-12-01/ProtectionContainerRefreshOperationResults/Get.yml)
+### Protection Containers
+#### [Overview](backup/2016-12-01/ProtectionContainers.yml)
+#### [Get](backup/2016-12-01/ProtectionContainers/Get.yml)
+#### [Inquire](backup/2016-12-01/ProtectionContainers/Inquire.yml)
+#### [Refresh](backup/2016-12-01/ProtectionContainers/Refresh.yml)
+#### [Register](backup/2016-12-01/ProtectionContainers/Register.yml)
+#### [Unregister](backup/2016-12-01/ProtectionContainers/Unregister.yml)
+### Protection Policies
+#### [Overview](backup/2016-12-01/ProtectionPolicies.yml)
+#### [Delete](backup/2016-12-01/ProtectionPolicies/Delete.yml)
+### Protection Policy Operation Statuses
+#### [Overview](backup/2016-12-01/ProtectionPolicyOperationStatuses.yml)
+#### [Get](backup/2016-12-01/ProtectionPolicyOperationStatuses/Get.yml)
+### Security PI Ns
+#### [Overview](backup/2016-12-01/SecurityPINs.yml)
+#### [Get](backup/2016-12-01/SecurityPINs/Get.yml)
+## 2017-07-01
+### Backup Protection Intent
+#### [Overview](backup/2017-07-01/BackupProtectionIntent.yml)
+#### [List](backup/2017-07-01/BackupProtectionIntent/List.yml)
+### Backup Status
+#### [Overview](backup/2017-07-01/BackupStatus.yml)
+#### [Get](backup/2017-07-01/BackupStatus/Get.yml)
+### Backup Usage Summaries
+#### [Overview](backup/2017-07-01/BackupUsageSummaries.yml)
+#### [List](backup/2017-07-01/BackupUsageSummaries/List.yml)
+### Feature Support
+#### [Overview](backup/2017-07-01/FeatureSupport.yml)
+#### [Validate](backup/2017-07-01/FeatureSupport/Validate.yml)
+### Protection Intent
+#### [Overview](backup/2017-07-01/ProtectionIntent.yml)
+#### [Create Or Update](backup/2017-07-01/ProtectionIntent/CreateOrUpdate.yml)
+#### [Delete](backup/2017-07-01/ProtectionIntent/Delete.yml)
+#### [Get](backup/2017-07-01/ProtectionIntent/Get.yml)
+#### [Validate](backup/2017-07-01/ProtectionIntent/Validate.yml)
+## 2018-12-20
+### Aad Properties
+#### [Overview](backup/2018-12-20/AadProperties.yml)
+#### [Get](backup/2018-12-20/AadProperties/Get.yml)
+### Backup Crr Job Details
+#### [Overview](backup/2018-12-20/BackupCrrJobDetails.yml)
+#### [Get](backup/2018-12-20/BackupCrrJobDetails/Get.yml)
+### Backup Crr Jobs
+#### [Overview](backup/2018-12-20/BackupCrrJobs.yml)
+#### [List](backup/2018-12-20/BackupCrrJobs/List.yml)
+### Backup Protected Items Crr
+#### [Overview](backup/2018-12-20/BackupProtectedItemsCrr.yml)
+#### [List](backup/2018-12-20/BackupProtectedItemsCrr/List.yml)
+### Backup Resource Storage Configs
+#### [Overview](backup/2018-12-20/BackupResourceStorageConfigs.yml)
+#### [Get](backup/2018-12-20/BackupResourceStorageConfigs/Get.yml)
+#### [Update](backup/2018-12-20/BackupResourceStorageConfigs/Update.yml)
+#### [patch](backup/2018-12-20/BackupResourceStorageConfigs/patch.yml)
+### Cross Region Restore
+#### [Overview](backup/2018-12-20/CrossRegionRestore.yml)
+#### [Trigger](backup/2018-12-20/CrossRegionRestore/Trigger.yml)
+### Crr Operation Results
+#### [Overview](backup/2018-12-20/CrrOperationResults.yml)
+#### [Get](backup/2018-12-20/CrrOperationResults/Get.yml)
+### Crr Operation Status
+#### [Overview](backup/2018-12-20/CrrOperationStatus.yml)
+#### [Get](backup/2018-12-20/CrrOperationStatus/Get.yml)
+### Recovery Points
+#### [Overview](backup/2018-12-20/RecoveryPoints.yml)
+#### [Get Access Token](backup/2018-12-20/RecoveryPoints/GetAccessToken.yml)
+### Recovery Points Crr
+#### [Overview](backup/2018-12-20/RecoveryPointsCrr.yml)
+#### [List](backup/2018-12-20/RecoveryPointsCrr/List.yml)
+## 2019-05-13
+### Backup Jobs
+#### [Overview](backup/2019-05-13/BackupJobs.yml)
+#### [List](backup/2019-05-13/BackupJobs/List.yml)
+### Backup Policies
+#### [Overview](backup/2019-05-13/BackupPolicies.yml)
+#### [List](backup/2019-05-13/BackupPolicies/List.yml)
+### Backup Protected Items
+#### [Overview](backup/2019-05-13/BackupProtectedItems.yml)
+#### [List](backup/2019-05-13/BackupProtectedItems/List.yml)
+### Backup Resource Vault Configs
+#### [Overview](backup/2019-05-13/BackupResourceVaultConfigs.yml)
+#### [Get](backup/2019-05-13/BackupResourceVaultConfigs/Get.yml)
+#### [Update](backup/2019-05-13/BackupResourceVaultConfigs/Update.yml)
+### Export Jobs Operation Results
+#### [Overview](backup/2019-05-13/ExportJobsOperationResults.yml)
+#### [Get](backup/2019-05-13/ExportJobsOperationResults/Get.yml)
+### Job Cancellations
+#### [Overview](backup/2019-05-13/JobCancellations.yml)
+#### [Trigger](backup/2019-05-13/JobCancellations/Trigger.yml)
+### Job Details
+#### [Overview](backup/2019-05-13/JobDetails.yml)
+#### [Get](backup/2019-05-13/JobDetails/Get.yml)
+### Job Operation Results
+#### [Overview](backup/2019-05-13/JobOperationResults.yml)
+#### [Get](backup/2019-05-13/JobOperationResults/Get.yml)
+### Jobs
+#### [Overview](backup/2019-05-13/Jobs.yml)
+#### [Export](backup/2019-05-13/Jobs/Export.yml)
+### Operation
+#### [Overview](backup/2019-05-13/Operation.yml)
+#### [Validate](backup/2019-05-13/Operation/Validate.yml)
+### Protected Item Operation Results
+#### [Overview](backup/2019-05-13/ProtectedItemOperationResults.yml)
+#### [Get](backup/2019-05-13/ProtectedItemOperationResults/Get.yml)
+### Protected Items
+#### [Overview](backup/2019-05-13/ProtectedItems.yml)
+#### [Create Or Update](backup/2019-05-13/ProtectedItems/CreateOrUpdate.yml)
+#### [Delete](backup/2019-05-13/ProtectedItems/Delete.yml)
+#### [Get](backup/2019-05-13/ProtectedItems/Get.yml)
+### Protection Policies
+#### [Overview](backup/2019-05-13/ProtectionPolicies.yml)
+#### [Create Or Update](backup/2019-05-13/ProtectionPolicies/CreateOrUpdate.yml)
+#### [Get](backup/2019-05-13/ProtectionPolicies/Get.yml)
+### Protection Policy Operation Results
+#### [Overview](backup/2019-05-13/ProtectionPolicyOperationResults.yml)
+#### [Get](backup/2019-05-13/ProtectionPolicyOperationResults/Get.yml)
+### Recovery Points
+#### [Overview](backup/2019-05-13/RecoveryPoints.yml)
+#### [Get](backup/2019-05-13/RecoveryPoints/Get.yml)
+#### [List](backup/2019-05-13/RecoveryPoints/List.yml)
+### Restores
+#### [Overview](backup/2019-05-13/Restores.yml)
+#### [Trigger](backup/2019-05-13/Restores/Trigger.yml)
+## 2021-02-10
+### BMS Prepare Data Move
+#### [Overview](backup/2021-02-10/BMSPrepareDataMove.yml)
+#### [BMS Prepare Data Move](backup/2021-02-10/BMSPrepareDataMove/BMSPrepareDataMove.yml)
+### BMS Prepare Data Move Operation Result
+#### [Overview](backup/2021-02-10/BMSPrepareDataMoveOperationResult.yml)
+#### [Get](backup/2021-02-10/BMSPrepareDataMoveOperationResult/Get.yml)
+### BMS Trigger Data Move
+#### [Overview](backup/2021-02-10/BMSTriggerDataMove.yml)
+#### [BMS Trigger Data Move](backup/2021-02-10/BMSTriggerDataMove/BMSTriggerDataMove.yml)
+### Backup Engines
+#### [Overview](backup/2021-02-10/BackupEngines.yml)
+#### [Get](backup/2021-02-10/BackupEngines/Get.yml)
+#### [List](backup/2021-02-10/BackupEngines/List.yml)
+### Backup Jobs
+#### [Overview](backup/2021-02-10/BackupJobs.yml)
+#### [List](backup/2021-02-10/BackupJobs/List.yml)
+### Backup Operation Results
+#### [Overview](backup/2021-02-10/BackupOperationResults.yml)
+#### [Get](backup/2021-02-10/BackupOperationResults/Get.yml)
+### Backup Operation Statuses
+#### [Overview](backup/2021-02-10/BackupOperationStatuses.yml)
+#### [Get](backup/2021-02-10/BackupOperationStatuses/Get.yml)
+### Backup Policies
+#### [Overview](backup/2021-02-10/BackupPolicies.yml)
+#### [List](backup/2021-02-10/BackupPolicies/List.yml)
+### Backup Protectable Items
+#### [Overview](backup/2021-02-10/BackupProtectableItems.yml)
+#### [List](backup/2021-02-10/BackupProtectableItems/List.yml)
+### Backup Protected Items
+#### [Overview](backup/2021-02-10/BackupProtectedItems.yml)
+#### [List](backup/2021-02-10/BackupProtectedItems/List.yml)
+### Backup Protection Containers
+#### [Overview](backup/2021-02-10/BackupProtectionContainers.yml)
+#### [List](backup/2021-02-10/BackupProtectionContainers/List.yml)
+### Backup Protection Intent
+#### [Overview](backup/2021-02-10/BackupProtectionIntent.yml)
+#### [List](backup/2021-02-10/BackupProtectionIntent/List.yml)
+### Backup Resource Encryption Configs
+#### [Overview](backup/2021-02-10/BackupResourceEncryptionConfigs.yml)
+#### [Get](backup/2021-02-10/BackupResourceEncryptionConfigs/Get.yml)
+#### [Update](backup/2021-02-10/BackupResourceEncryptionConfigs/Update.yml)
+### Backup Resource Vault Configs
+#### [Overview](backup/2021-02-10/BackupResourceVaultConfigs.yml)
+#### [Get](backup/2021-02-10/BackupResourceVaultConfigs/Get.yml)
+#### [Put](backup/2021-02-10/BackupResourceVaultConfigs/Put.yml)
+#### [Update](backup/2021-02-10/BackupResourceVaultConfigs/Update.yml)
+### Backup Status
+#### [Overview](backup/2021-02-10/BackupStatus.yml)
+#### [Get](backup/2021-02-10/BackupStatus/Get.yml)
+### Backup Usage Summaries
+#### [Overview](backup/2021-02-10/BackupUsageSummaries.yml)
+#### [List](backup/2021-02-10/BackupUsageSummaries/List.yml)
+### Backup Workload Items
+#### [Overview](backup/2021-02-10/BackupWorkloadItems.yml)
+#### [List](backup/2021-02-10/BackupWorkloadItems/List.yml)
+### Backups
+#### [Overview](backup/2021-02-10/Backups.yml)
+#### [Trigger](backup/2021-02-10/Backups/Trigger.yml)
+### Export Jobs Operation Results
+#### [Overview](backup/2021-02-10/ExportJobsOperationResults.yml)
+#### [Get](backup/2021-02-10/ExportJobsOperationResults/Get.yml)
+### Feature Support
+#### [Overview](backup/2021-02-10/FeatureSupport.yml)
+#### [Validate](backup/2021-02-10/FeatureSupport/Validate.yml)
+### Get Operation Status
+#### [Overview](backup/2021-02-10/GetOperationStatus.yml)
+#### [Get Operation Status](backup/2021-02-10/GetOperationStatus/GetOperationStatus.yml)
+### Item Level Recovery Connections
+#### [Overview](backup/2021-02-10/ItemLevelRecoveryConnections.yml)
+#### [Provision](backup/2021-02-10/ItemLevelRecoveryConnections/Provision.yml)
+#### [Revoke](backup/2021-02-10/ItemLevelRecoveryConnections/Revoke.yml)
+### Job Cancellations
+#### [Overview](backup/2021-02-10/JobCancellations.yml)
+#### [Trigger](backup/2021-02-10/JobCancellations/Trigger.yml)
+### Job Details
+#### [Overview](backup/2021-02-10/JobDetails.yml)
+#### [Get](backup/2021-02-10/JobDetails/Get.yml)
+### Job Operation Results
+#### [Overview](backup/2021-02-10/JobOperationResults.yml)
+#### [Get](backup/2021-02-10/JobOperationResults/Get.yml)
+### Jobs
+#### [Overview](backup/2021-02-10/Jobs.yml)
+#### [Export](backup/2021-02-10/Jobs/Export.yml)
+### Move Recovery Point
+#### [Overview](backup/2021-02-10/MoveRecoveryPoint.yml)
+#### [Move Recovery Point](backup/2021-02-10/MoveRecoveryPoint/MoveRecoveryPoint.yml)
+### Operation
+#### [Overview](backup/2021-02-10/Operation.yml)
+#### [Validate](backup/2021-02-10/Operation/Validate.yml)
+### Operations
+#### [Overview](backup/2021-02-10/Operations.yml)
+#### [List](backup/2021-02-10/Operations/List.yml)
+### Private Endpoint
+#### [Overview](backup/2021-02-10/PrivateEndpoint.yml)
+#### [Get Operation Status](backup/2021-02-10/PrivateEndpoint/GetOperationStatus.yml)
+### Private Endpoint Connection
+#### [Overview](backup/2021-02-10/PrivateEndpointConnection.yml)
+#### [Delete](backup/2021-02-10/PrivateEndpointConnection/Delete.yml)
+#### [Get](backup/2021-02-10/PrivateEndpointConnection/Get.yml)
+#### [Put](backup/2021-02-10/PrivateEndpointConnection/Put.yml)
+### Protectable Containers
+#### [Overview](backup/2021-02-10/ProtectableContainers.yml)
+#### [List](backup/2021-02-10/ProtectableContainers/List.yml)
+### Protected Item Operation Results
+#### [Overview](backup/2021-02-10/ProtectedItemOperationResults.yml)
+#### [Get](backup/2021-02-10/ProtectedItemOperationResults/Get.yml)
+### Protected Item Operation Statuses
+#### [Overview](backup/2021-02-10/ProtectedItemOperationStatuses.yml)
+#### [Get](backup/2021-02-10/ProtectedItemOperationStatuses/Get.yml)
+### Protected Items
+#### [Overview](backup/2021-02-10/ProtectedItems.yml)
+#### [Create Or Update](backup/2021-02-10/ProtectedItems/CreateOrUpdate.yml)
+#### [Delete](backup/2021-02-10/ProtectedItems/Delete.yml)
+#### [Get](backup/2021-02-10/ProtectedItems/Get.yml)
+### Protection Container Operation Results
+#### [Overview](backup/2021-02-10/ProtectionContainerOperationResults.yml)
+#### [Get](backup/2021-02-10/ProtectionContainerOperationResults/Get.yml)
+### Protection Container Refresh Operation Results
+#### [Overview](backup/2021-02-10/ProtectionContainerRefreshOperationResults.yml)
+#### [Get](backup/2021-02-10/ProtectionContainerRefreshOperationResults/Get.yml)
+### Protection Containers
+#### [Overview](backup/2021-02-10/ProtectionContainers.yml)
+#### [Get](backup/2021-02-10/ProtectionContainers/Get.yml)
+#### [Inquire](backup/2021-02-10/ProtectionContainers/Inquire.yml)
+#### [Refresh](backup/2021-02-10/ProtectionContainers/Refresh.yml)
+#### [Register](backup/2021-02-10/ProtectionContainers/Register.yml)
+#### [Unregister](backup/2021-02-10/ProtectionContainers/Unregister.yml)
+### Protection Intent
+#### [Overview](backup/2021-02-10/ProtectionIntent.yml)
+#### [Create Or Update](backup/2021-02-10/ProtectionIntent/CreateOrUpdate.yml)
+#### [Delete](backup/2021-02-10/ProtectionIntent/Delete.yml)
+#### [Get](backup/2021-02-10/ProtectionIntent/Get.yml)
+#### [Validate](backup/2021-02-10/ProtectionIntent/Validate.yml)
+### Protection Policies
+#### [Overview](backup/2021-02-10/ProtectionPolicies.yml)
+#### [Create Or Update](backup/2021-02-10/ProtectionPolicies/CreateOrUpdate.yml)
+#### [Delete](backup/2021-02-10/ProtectionPolicies/Delete.yml)
+#### [Get](backup/2021-02-10/ProtectionPolicies/Get.yml)
+### Protection Policy Operation Results
+#### [Overview](backup/2021-02-10/ProtectionPolicyOperationResults.yml)
+#### [Get](backup/2021-02-10/ProtectionPolicyOperationResults/Get.yml)
+### Protection Policy Operation Statuses
+#### [Overview](backup/2021-02-10/ProtectionPolicyOperationStatuses.yml)
+#### [Get](backup/2021-02-10/ProtectionPolicyOperationStatuses/Get.yml)
+### Recovery Points
+#### [Overview](backup/2021-02-10/RecoveryPoints.yml)
+#### [Get](backup/2021-02-10/RecoveryPoints/Get.yml)
+#### [List](backup/2021-02-10/RecoveryPoints/List.yml)
+### Recovery Points Recommended For Move
+#### [Overview](backup/2021-02-10/RecoveryPointsRecommendedForMove.yml)
+#### [List](backup/2021-02-10/RecoveryPointsRecommendedForMove/List.yml)
+### Restores
+#### [Overview](backup/2021-02-10/Restores.yml)
+#### [Trigger](backup/2021-02-10/Restores/Trigger.yml)
+### Security PI Ns
+#### [Overview](backup/2021-02-10/SecurityPINs.yml)
+#### [Get](backup/2021-02-10/SecurityPINs/Get.yml)
 # Recovery Services - Site Recovery
 ## [Overview](../docs-ref-conceptual/site-recovery/index.md)
 ## Migration Recovery Points
