@@ -551,7 +551,7 @@ This section provides details about parameters that are too complex to cover in 
 
 ### queryLanguage
 
-Valid values for the queryLanguage parameter are provided in the following table. The queryLanguage parameter is required for a query request that includes "queryType=semantic" or "speller=lexicon". There is only queryLanguage value for the entire query, and that value will be used for semantic ranking, captions, answers, and speller. There is no override for individual features. For more information about using each feature, see [Enable semantic ranking and captions](/azure/search/semantic-how-to-query-request), [Return a semantic answer](/azure/search/semantic-answers), and [Add spell check to queries](/azure/search/speller-how-to-add).
+Valid values for the queryLanguage parameter are provided in the following table. The queryLanguage parameter is required for a query request that includes "queryType=semantic" or "speller=lexicon". There is only queryLanguage value for the entire request, and that value will be used for semantic ranking, captions, answers, and speller (there is no override for individual features). For more information about using each feature, see [Enable semantic ranking and captions](/azure/search/semantic-how-to-query-request), [Return a semantic answer](/azure/search/semantic-answers), and [Add spell check to queries](/azure/search/speller-how-to-add).
 
 If you specify a language code that is not supported by a given feature, the service will return HTTP 400. 
 
