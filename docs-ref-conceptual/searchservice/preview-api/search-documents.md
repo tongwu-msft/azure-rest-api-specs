@@ -133,7 +133,7 @@ A query accepts several parameters on the URL when called with GET, and as JSON 
 | highlightPreTag | string | Optional. Defaults to `"</em>"`. A string tag that prepends to the highlighted term. Must be set with highlightPostTag. Reserved characters in URL must be percent-encoded (for example, %23 instead of #).  |
 | minimumCoverage | integer | Optional. Valid values are a number between 0 and 100, indicating the percentage of the index that must be available to service the query before it can be reported as a success. Defaults to "100". </br></br>One hundred percent coverage means that all shards responded to the request (neither service health issues nor maintenance activities reduced coverage). Under the default setting, less than full coverage will return HTTP status code 503.</br></br>Lowering minimumCoverage can be useful if 503 errors are occurring and you want to increase the probability of query success, especially for services that are configured for one replica. If you set minimumCoverage and Search succeeds, it will return HTTP 200 and include a @search.coverage value in the response indicating the percentage of the index that was included in the query. In this scenario, not all matching documents are guaranteed to be present in the search results, but if search availability is more important than recall, then reducing coverage can be a viable mitigation strategy. |
 | $orderby | string | Optional. A list of comma-separated expressions to sort the results by. When called with POST, this parameter is named orderby instead of $orderby. Each expression can be either a field name or a call to the geo.distance() function. Each expression can be followed by "asc" to indicate ascending, and "desc" to indicate descending. If there are null values in the sort field, nulls appear first in ascending order and last in descending order. The default is ascending order. Ties will be broken by the match scores of documents. If no $orderby is specified, the default sort order is descending by document match score. There is a limit of 32 clauses for $orderby. |
-| queryLanguage (preview) | string | Optional. Valid values are a [supported language](#queryLanguage) or "none". Defaults to "none". This parameter must be set if you use either speller or queryType=semantic. The language specified in queryLanguage is used for spell check and by the semantic models that identify a caption or answer. The libraries used for queryLanguage is independent of other locale-based field attributes, such as [language analyzers](/azure/search/index-add-language-analyzers#supported-language-analyzers) used for indexing and full text search. When queryLanguage is used with speller, the language determines which lexicons are used for spelling corrections. When used with queryType=semantic, the queryLanguage value is used for a secondary semantic ranking over an initial result set. |
+| queryLanguage (preview) | string | Optional. Valid values are either a [supported language](#queryLanguage) or "none". Defaults to "none". This parameter must be set if you use either speller or queryType=semantic. The language specified in queryLanguage is used for spell check and by the semantic models that extract a caption or answer. The libraries used for queryLanguage are independent of other locale-based field attributes, such as [language analyzers](/azure/search/index-add-language-analyzers#supported-language-analyzers) used for indexing and full text search. |
 | queryType| string | Optional. Valid values are "simple", "full", or "semantic" (preview). Defaults to "simple". </br></br>"simple" interprets query strings using the [simple query syntax](/azure/search/query-simple-syntax) that allows for symbols such as `+`, `*` and `""`. Queries are evaluated across all searchable fields (or fields indicated in searchFields) in each document by default. </br></br>"full" interprets query strings using the [full Lucene query syntax](/azure/search/query-lucene-syntax) which allows field-specific and weighted searches. Range search in the Lucene query language is not supported in favor of $filter which offers similar functionality.</br></br>"semantic" improves precision of search results by reranking the top 50 matches using a ranking model trained on the Bing corpus for queries expressed in natural language as opposed to keywords. If you set the query type to semantic, you must also set queryLanguage. You can optionally set searchFields to specify a priority order for calculating the semantic score, and optionally set answers if you want to also return the top 3 answers if the query input was formulated in natural language (*"what is a ...*). |
 | scoringParameter | string | Optional. Indicates the values for each parameter defined in a scoring function (such as referencePointParameter) using the format "name-value1,value2,..." When called with POST, this parameter is named scoringParameters instead of scoringParameter. Also, you specify it as a JSON array of strings where each string is a separate name-values pair. </br></br>For scoring profiles that include a function, separate the function from its input list with a `-` character. For example, a function called `"mylocation"` would be "&scoringParameter=mylocation--122.2,44.8". The first dash separates the function name from the value list, while the second dash is part of the first value (longitude in this example). </br></br>For scoring parameters such as for tag boosting that can contain commas, you can escape any such values in the list using single quotes. If the values themselves contain single quotes, you can escape them by doubling. Suppose you have a tag boosting parameter called `"mytag"` and you want to boost on the tag values "Hello, O'Brien" and "Smith", the query string option would then be "&scoringParameter=mytag-'Hello, O''Brien',Smith". Quotes are only required for values that contain commas. |
 | scoringProfile | string | Optional. The name of a scoring profile to evaluate match scores for matching documents in order to sort the results. |
@@ -549,50 +549,54 @@ This section provides details about parameters that are too complex to cover in 
 
 <a name="queryLanguage"></a>
 
-### queryLanguage supported languages
+### queryLanguage
 
-Default is "none".
+Valid values for the queryLanguage parameter are provided in the following table. A query request can only accept one value for queryLanguage, and that value will be used for semantic ranking, captions, answers, and speller. There is no override for individual features. For more information about using each feature, see [Enable semantic ranking and captions](/azure/search/semantic-how-to-query-request), [Return a semantic answer](/azure/search/semantic-answers), and [Add spell check to queries](/azure/search/speller-how-to-add).
+
+If you specify a language code that is not supported by a given feature, the service will return HTTP 400. 
+
+The "(preview)" designation indicates that cross-validation testing across all features (semantic ranking, captions, answers, or spell check) is either ongoing or pending. We encourage the use of all of the language variants in the following table, but recommend thorough testing of preview languages to validate the results for your content.
 
 | Language | queryLanguage | Semantic caption | Semantic answer | Speller |
 |----------|---------------|------------------|-----------------|---------|
-| English [EN] | EN, EN-US (default), EN-GB, EN-IN, EN-CA, EN-AU | production-ready | production-ready | production-ready |
-| Spanish [ES] | ES, ES-ES (default), ES-MX | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| French [FR] | FR, FR-FR (default), FR-CA | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| German [DE] | DE, DE-DE (default) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Portuguese [PT] | PT, PT-BR (default), PT-PT | :heavy_check_mark: | preview | :x: |
-| Chinese [ZH] | ZH, ZH-CN (default), ZH-TW | :heavy_check_mark: | preview | :x:  |
-| Italian [IT] | IT, IT-IT (default) | production-ready | preview |  |
-| Japanese [JA] | JA, JA-JP (default) | :heavy_check_mark: | preview | :x: |
-| Korean [KO] | KO, KO-KR (default) | preview | preview | :x:  |
-| Russian [RU] | RU, RU-RU (default) | preview | preview | :x: |
-| Czech [CS] | CS, CS-CZ (default) | preview | preview | :x: |
-| Dutch [NL] | NL, NL-BE (default), NL-N | preview | preview | :x: |
-Polish [PL]  | PL, PL-PL (default)  | preview | preview | :x: |
-Swedish [SV] | SV, SV-SE (default)  | preview | preview | :x: |
-Turkish [TR] | TR, TR-TR (default)  | preview | preview | :x: |
-Hindi [HI] | HI, HI-IN (default)  | preview | preview | :x: |
-Arabic [AR] | AR, AR-SA (default), AR-EG, AR-MA. AR-KW, AR-JO  | preview | preview | :x: |
-Danish [DA] | DA, DA-DK (default)  | preview | preview | :x: |
-Norwegian [NO] | NO, NO-NO (default)  | preview | preview | :x: |
-Bulgarian [BG] | BG, BG-BG (default)  | preview | preview | :x: |
-Croatian [HR]  | HR, HR-HR (default), HR-BA  | preview | preview | :x: |
-Malaysian [MS]  | MS, MS-MY (default), MS-BN  | preview | preview | :x: |
-Slovenian [SL] | SL, SL-SL (default)  | preview | preview | :x: |
-Tamil [TA] | TA, TA-IN (default)  | preview | preview | :x: |
-Vietnamese [VA] | VA, VI-VN (default)  | preview | preview | :x: |
-Greek [EL] | EL, EL-GR (default)  | preview | preview | :x: |
-Romanian [RO] | RO, RO-RO (default)  | preview | preview | :x: |
-Icelandic [IS] | IS, IS-IS (default)  | preview | preview | :x: |
-Indonesian [ID] | ID, ID-ID (default)  | preview | preview | :x: |
-Thai [TH] | TH, TH-TH (default)  | preview | preview | :x: |
-Lithuanian [LT]  | LT, LT-LT (default)  | preview | preview | :x: |
-Ukrainian [UK] | UK, UK-UA (default)  | preview | preview | :x: |
+| English [EN] | EN, EN-US (default), EN-GB, EN-IN, EN-CA, EN-AU | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: (EN, EN-US) |
+| Spanish [ES] | ES, ES-ES (default), ES-MX | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: (ES, ES-ES) |
+| French [FR] | FR, FR-FR (default), FR-CA | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: (FR, FR-FR) |
+| German [DE] | DE, DE-DE (default) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: (DE, DE-DE) |
+| Portuguese [PT] | PT, PT-BR (default), PT-PT | :heavy_check_mark: | :heavy_check_mark: (preview) | |
+| Chinese [ZH] | ZH, ZH-CN (default), ZH-TW | :heavy_check_mark: | :heavy_check_mark: (preview) |  |
+| Italian [IT] | IT, IT-IT (default) | :heavy_check_mark: | :heavy_check_mark: (preview) |  |
+| Japanese [JA] | JA, JA-JP (default) | :heavy_check_mark: | :heavy_check_mark: (preview) |  |
+| Korean [KO] | KO, KO-KR (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Russian [RU] | RU, RU-RU (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Czech [CS] | CS, CS-CZ (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Dutch [NL] | NL, NL-BE (default), NL-N | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Polish [PL]  | PL, PL-PL (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Swedish [SV] | SV, SV-SE (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Turkish [TR] | TR, TR-TR (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Hindi [HI] | HI, HI-IN (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Arabic [AR] | AR, AR-SA (default), AR-EG, AR-MA. AR-KW, AR-JO  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Danish [DA] | DA, DA-DK (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Norwegian [NO] | NO, NO-NO (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Bulgarian [BG] | BG, BG-BG (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Croatian [HR]  | HR, HR-HR (default), HR-BA  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Malaysian [MS]  | MS, MS-MY (default), MS-BN  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Slovenian [SL] | SL, SL-SL (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Tamil [TA] | TA, TA-IN (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Vietnamese [VA] | VA, VI-VN (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Greek [EL] | EL, EL-GR (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Romanian [RO] | RO, RO-RO (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Icelandic [IS] | IS, IS-IS (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Indonesian [ID] | ID, ID-ID (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Thai [TH] | TH, TH-TH (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Lithuanian [LT]  | LT, LT-LT (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Ukrainian [UK] | UK, UK-UA (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 Latvian [LV] | LV, LV-LV (default) 
-Estonian [ET] | ET, ET-EE (default)  | preview | preview | :x: |
-Catalan [CA] | CA, CA-ES (default)  | preview | preview | :x: |
-Finnish [FI] | FI, FI-FI (default)  | preview | preview | :x: |
-Serbian [SR] (Cyrillic or Latin) | SR, SR-BA (default), SR-ME, SR-RS  | preview | preview | :x: |
-Slovak [SK] | SK, SK-SK (default)  | preview | preview | :x: |
+Estonian [ET] | ET, ET-EE (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Catalan [CA] | CA, CA-ES (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Finnish [FI] | FI, FI-FI (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Serbian [SR] (Cyrillic or Latin) | SR, SR-BA (default), SR-ME, SR-RS  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+Slovak [SK] | SK, SK-SK (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 
 ## See also
 
