@@ -3292,9 +3292,9 @@
 ### [Get](azurestack/Backups/Get.yml)
 ### [List](azurestack/Backups/List.yml)
 ### [Restore](azurestack/Backups/Restore.yml)
-## Check Identity Health
-### [Overview](azurestack/CheckIdentityHealth.yml)
-### [Check Identity Health](azurestack/CheckIdentityHealth/CheckIdentityHealth.yml)
+## Commerce
+### [Overview](azurestack/Commerce.yml)
+### [Update Encryption](azurestack/Commerce/UpdateEncryption.yml)
 ## Compute Operation Results
 ### [Overview](azurestack/ComputeOperationResults.yml)
 ### [Get](azurestack/ComputeOperationResults/Get.yml)
@@ -3528,9 +3528,6 @@
 ## Resource Provider State
 ### [Overview](azurestack/ResourceProviderState.yml)
 ### [Get](azurestack/ResourceProviderState/Get.yml)
-## Restore Data
-### [Overview](azurestack/RestoreData.yml)
-### [Restore Data](azurestack/RestoreData/RestoreData.yml)
 ## Scale Unit Nodes
 ### [Overview](azurestack/ScaleUnitNodes.yml)
 ### [Get](azurestack/ScaleUnitNodes/Get.yml)
@@ -3598,12 +3595,15 @@
 ### [List](azurestack/SubscriberUsageAggregates/List.yml)
 ## Subscriptions
 ### [Overview](azurestack/Subscriptions.yml)
+### [Check Identity Health](azurestack/Subscriptions/CheckIdentityHealth.yml)
 ### [Check Name Availability](azurestack/Subscriptions/CheckNameAvailability.yml)
 ### [Create Or Update](azurestack/Subscriptions/CreateOrUpdate.yml)
 ### [Delete](azurestack/Subscriptions/Delete.yml)
 ### [Get](azurestack/Subscriptions/Get.yml)
 ### [List](azurestack/Subscriptions/List.yml)
 ### [Move Subscriptions](azurestack/Subscriptions/MoveSubscriptions.yml)
+### [Restore Data](azurestack/Subscriptions/RestoreData.yml)
+### [Update Encryption](azurestack/Subscriptions/UpdateEncryption.yml)
 ### [Validate Move Subscriptions](azurestack/Subscriptions/ValidateMoveSubscriptions.yml)
 ## Subscriptions (User)
 ### [Overview](azurestack/Subscriptions%20(User).yml)
@@ -3611,12 +3611,6 @@
 ### [Delete](azurestack/Subscriptions%20(User)/Delete.yml)
 ### [Get](azurestack/Subscriptions%20(User)/Get.yml)
 ### [List](azurestack/Subscriptions%20(User)/List.yml)
-## Update Encryption (Commerce)
-### [Overview](azurestack/Update%20Encryption%20(Commerce).yml)
-### [Update Encryption](azurestack/Update%20Encryption%20(Commerce)/UpdateEncryption.yml)
-## Update Encryption (SubscriptionsAdmin)
-### [Overview](azurestack/Update%20Encryption%20(SubscriptionsAdmin).yml)
-### [Update Encryption](azurestack/Update%20Encryption%20(SubscriptionsAdmin)/UpdateEncryption.yml)
 ## Update Locations
 ### [Overview](azurestack/UpdateLocations.yml)
 ### [Get](azurestack/UpdateLocations/Get.yml)

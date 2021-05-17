@@ -37,6 +37,10 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: Other Status Codes
+  description: Unexpected Error
+  types:
+  - uid: Error
 - name: 200 OK
   description: OK
   types:
@@ -80,6 +84,14 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
+- name: Error
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
 - name: PlanAcquisition
   description: Represents the acquisition of an add-on plan for a subscription.
   kind: object
@@ -108,6 +120,26 @@ definitions:
     description: Acquisition time.
     types:
     - uid: string
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Internal error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
 - name: ProvisioningState
   description: Provisioning state for subscriptions service resources, for example, resource provider registration.
   kind: enum
@@ -134,11 +166,9 @@ examples:
     uri: PUT https://management.azure.com/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions.Admin/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/acquiredPlans/718c7f7c-4868-479a-98ce-5caaa8f158c8?api-version=2015-11-01
     body: >-
       {
-        "properties": {
-          "acquisitionId": "718c7f7c-4868-479a-98ce-5caaa8f158c8",
-          "id": "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/acquiredPlans/718c7f7c-4868-479a-98ce-5caaa8f158c8",
-          "planId": "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions/plans/balaplan"
-        }
+        "acquisitionId": "718c7f7c-4868-479a-98ce-5caaa8f158c8",
+        "id": "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/acquiredPlans/718c7f7c-4868-479a-98ce-5caaa8f158c8",
+        "planId": "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions/plans/balaplan"
       }
   responses:
   - statusCode: "200"
