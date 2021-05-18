@@ -1,18 +1,16 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.v2.dataset.create
+uid: maps.v2.dataset.create
 name: Create
 service: Maps Creator
 groupName: Dataset
 apiVersion: "2.0"
 summary: >-
-  ## Dataset Create API
+  **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
-  ### Applies to: S1 pricing tier.
+  Creator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. [This](https://docs.microsoft.com/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.
 
-
-  Creator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. The Dataset APIs are part of Creator. This API allows the caller to create a dataset from data that was uploaded to the Azure Maps Data Service and converted using the Azure Maps Conversion Service.
-
+   This API allows the caller to create a dataset from data that was uploaded to the Azure Maps Data Service and converted using the Azure Maps Conversion Service.
 
   You can use this API in a scenario like uploading a DWG zip package for a building, converting the zip package using the Azure Maps Conversion Service, and creating a dataset from the converted zip package. The created dataset can be used to create tilesets using the Azure Maps Tileset Service and can be queried via the Azure Maps WFS Service.
 
@@ -23,16 +21,22 @@ summary: >-
   To create your dataset, you will use a `POST` request where the `conversionId` query parameter is an ID that represents the converted DWG zip package, the `datasetId` parameter will be the ID of a previously created dataset to append with the current dataset and, optionally, the `description` query parameter will contain a description (if description is not provided a default description will be given).
 
 
-  The Create API is a [long-running request](https://aka.ms/am-creator-lrt).
+  The Create API is a [long-running request](https://aka.ms/am-creator-lrt-v2).
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: POST https://atlas.microsoft.com/datasets?api-version=2.0&conversionId={conversionId}
-- content: POST https://atlas.microsoft.com/datasets?subscription-key={subscription-key}&api-version=2.0&conversionId={conversionId}&datasetId={datasetId}&description={description}
+- content: POST https://{geography}.atlas.microsoft.com/datasets?api-version=2.0&conversionId={conversionId}
+- content: POST https://{geography}.atlas.microsoft.com/datasets?subscription-key={subscription-key}&api-version=2.0&conversionId={conversionId}&datasetId={datasetId}&description={description}
   isOptional: true
 uriParameters:
+- name: geography
+  in: path
+  isRequired: true
+  description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
+  types:
+  - uid: string
 - name: subscription-key
   in: query
   description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
@@ -52,7 +56,7 @@ uriParameters:
   - uid: string
 - name: datasetId
   in: query
-  description: The ID for the dataset to append with. The dataset must originate from a conversion ontology that matches conversionId
+  description: The ID for the dataset to append with. The dataset must originate from a conversion [ontology](https://docs.microsoft.com/en-us/azure/azure-maps/creator-facility-ontology) that matches conversionId
   types:
   - uid: string
 - name: description
@@ -126,12 +130,12 @@ definitions:
 examples:
 - name: Create dataset from a converted CAD file provided by conversionId
   request:
-    uri: POST https://atlas.microsoft.com/datasets?subscription-key=[subscription-key]&api-version=2.0&conversionId=[conversionId]
+    uri: POST https://us.atlas.microsoft.com/datasets?subscription-key=[subscription-key]&api-version=2.0&conversionId=[conversionId]
   responses:
   - statusCode: "202"
     headers:
     - name: Operation-Location
-      value: https://atlas.microsoft.com/dataset/operations/{operationId}?api-version=1.0
+      value: https://us.atlas.microsoft.com/datasets/operations/{operationId}?api-version=2.0
     - name: Access-Control-Expose-Headers
       value: Operation-Location
   - statusCode: "400"

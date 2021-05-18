@@ -1,22 +1,22 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.datav2.update
-name: Update
+uid: maps.datav2.listpreview
+name: List Preview
 service: Maps
 groupName: Data V2
 apiVersion: "2.0"
-summary: "**Data Update API**\n\n**Applies to:** S1 pricing tier.\n\nThe Data Update API allows the caller to update a previously uploaded data content.\n\nYou can use this API in a scenario like adding or removing geofences to or from an existing collection of geofences. \nGeofences are uploaded using the [Data Upload API](https://docs.microsoft.com/rest/api/maps/data/uploadpreview), for \nuse in the [Azure Maps Geofencing Service](https://docs.microsoft.com/rest/api/maps/spatial).\n\nPlease note that the Update API will *replace* and *override* the existing data content.\n\n## Submit Update Request\n\nTo update your content you will use a `PUT` request. The request body will contain the new data that will replace \nthe existing data. The `Content-Type` header will be set to the content type of the data, and the path will contain \nthe `udid` of the data to be update.\n\nFor example, to update a collection of geofences that were previously uploaded using the Upload API, place the new \ngeofence content in the request body. Set the `udid` parameter in the path to the `udid` of the data received \npreviously in the upload API response. And set the `Content-Type` header to one of the following media types:\n\n- `application/json`\n- `application/vnd.geo+json`\n- `application/octet-stream`\n\nHere's a sample request body for updating a simple Geofence. It's represented as a circle geometry using a center \npoint and a radius. The sample below is in `GeoJSON`:\n\n```json\n{\n    \"type\": \"FeatureCollection\",\n    \"features\": [{\n        \"type\": \"Feature\",\n        \"geometry\": {\n            \"type\": \"Point\",\n            \"coordinates\": [-122.126986, 47.639754]\n        },\n        \"properties\": {\n            \"geometryId\": \"001\",\n            \"radius\": 500\n        }\n    }]\n}\n```\n\nThe previously uploaded geofence had a radius of 100m. The above request will update it to 500m.\n\nThe Data Update API performs a \n[long-running request](https://docs.microsoft.com/azure/azure-maps/private-atlas-long-running-operation).\n\n## Data Update Limits\n\nPlease, be aware that currently every Azure Maps account has a [data storage limit](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#azure-maps-limits). \nOnce the storage limit is reached, all the new upload API calls will return a `409 Conflict` http error response. \nYou can always use the [Data Delete API](https://docs.microsoft.com/rest/api/maps/data/deletepreview) to \ndelete old/unused content and create space for new uploads."
+summary: "**Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nThis API allows the caller to fetch a list of all content uploaded previously using the [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data%20v2/uploadpreview).   \n\n\n### Submit List Request\n\nTo list all your map data content you will issue a `GET` request with no additional parameters.\n\n\n### List Data Response\n\nThe Data List API returns the complete list of all data in `json` format. The response contains the following details for each data resource:\n\n  > udid - The unique data id for the data resource.\n\n  > location - The location of the data resource. Execute a HTTP `GET` on this location to download the data.\n\n\nHere's a sample response returning the `udid` and `location` of 3 data resources:  \n\n<br>\n\n```json\n{\n    \"mapDataList\": \n    [\n        {\n            \"udid\": \"9a1288fa-1858-4a3b-b68d-13a8j5af7d7c\",\n            \"location\": \"https://us.atlas.microsoft.com/mapData/9a1288fa-1858-4a3b-b68d-13a8j5af7d7c?api-version=1.0\",\n            \"sizeInBytes\": 29920,\n            \"uploadStatus\": \"Completed\"\n        },\n        {\n            \"udid\": \"8b1288fa-1958-4a2b-b68e-13a7i5af7d7c\",\n            \"location\": \"https://us.atlas.microsoft.com/mapData/8b1288fa-1958-4a2b-b68e-13a7i5af7d7c?api-version=1.0\",\n            \"sizeInBytes\": 1339,\n            \"uploadStatus\": \"Completed\"\n        },\n        {\n            \"udid\": \"7c1288fa-2058-4a1b-b68f-13a6h5af7d7c\",\n            \"location\": \"https://us.atlas.microsoft.com/mapData/7c1288fa-2058-4a1b-b68f-13a6h5af7d7c?api-version=1.0\",\n            \"sizeInBytes\": 1650,\n            \"uploadStatus\": \"Pending\"\n        }]\n}\n```\n\n<br>"
 consumes: []
 produces:
 - application/json
 paths:
-- content: PUT https://atlas.microsoft.com/mapData/{udid}?api-version=2.0
-- content: PUT https://atlas.microsoft.com/mapData/{udid}?subscription-key={subscription-key}&api-version=2.0&description={description}
+- content: GET https://{geography}.atlas.microsoft.com/mapData?api-version=2.0
+- content: GET https://{geography}.atlas.microsoft.com/mapData?subscription-key={subscription-key}&api-version=2.0
   isOptional: true
 uriParameters:
-- name: udid
+- name: geography
   in: path
   isRequired: true
-  description: The unique data id for the content. The `udid` must have been obtained from a successful [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadpreview) call.
+  description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
   types:
   - uid: string
 - name: subscription-key
@@ -30,21 +30,14 @@ uriParameters:
   description: Version number of Azure Maps API. Current version is 2.0
   types:
   - uid: string
-- name: description
-  in: query
-  description: The description to be given to the upload.
-  types:
-  - uid: string
 responses:
 - name: 200 OK
-  description: Data update failed. The uploaded content did not satisfy all the validation checks. The response body contains all the errors that were encountered.
-  types:
-  - uid: ODataErrorResponse
-- name: 202 Accepted
   headers:
-  - name: Operation-Location
+  - name: Content-Type
     value: string
-  description: 'Request Accepted: The request has been accepted for processing. Please use the URL in the Operation-Location Header to obtain status.'
+  description: List data request completed successfully. The response body contains a list of all the previously uploaded data.
+  types:
+  - uid: MapDataListResponse
 - name: 400 Bad Request
   description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
   types:
@@ -68,14 +61,6 @@ responses:
   description: An error occurred while processing the request. Please try again later.
   types:
   - uid: ODataErrorResponse
-requestBody:
-- name: default
-  parameters:
-  - name: UpdateContent
-    in: body
-    description: The new content that will update/replace the previously uploaded content.
-    types:
-    - uid: object
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -83,6 +68,16 @@ requestHeader:
   types:
   - uid: string
 definitions:
+- name: MapDataListResponse
+  description: The response model for the Data List API. Returns a list of all the previously uploaded data.
+  kind: object
+  properties:
+  - name: mapDataList
+    isReadyOnly: true
+    description: A list of all the previously uploaded data.
+    types:
+    - uid: MapDataDetailInfo
+      isArray: true
 - name: ODataErrorResponse
   description: This response object is returned when an error occurs in the Maps API.
   kind: object
@@ -91,6 +86,40 @@ definitions:
     description: This object is returned when an error occurs in the Maps API.
     types:
     - uid: ODataError
+- name: MapDataDetailInfo
+  description: Detail information for the data.
+  kind: object
+  properties:
+  - name: udid
+    isReadyOnly: true
+    description: The unique data id for the data.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The location of the data. Execute a HTTP `GET` on this location to download the data.
+    types:
+    - uid: string
+  - name: sizeInBytes
+    isReadyOnly: true
+    description: The size of the content in bytes.
+    types:
+    - uid: integer
+  - name: uploadStatus
+    isReadyOnly: true
+    description: The current upload status of the content.
+    types:
+    - uid: string
+  - name: dataFormat
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
 - name: ODataError
   description: This object is returned when an error occurs in the Maps API.
   kind: object
@@ -116,43 +145,33 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Update previously uploaded GeoJSON data containing geometries that represent a collection of geofences
+- name: List all the previously uploaded data
   request:
-    uri: PUT https://atlas.microsoft.com/mapData/25084fb7-307a-4720-8f91-7952a0b91012?subscription-key=[subscription-key]&api-version=2.0
-    body: >-
-      {
-        "type": "FeatureCollection",
-        "features": [
-          {
-            "type": "Feature",
-            "geometry": {
-              "type": "Point",
-              "coordinates": [
-                -122.126986,
-                47.639754
-              ]
-            },
-            "properties": {
-              "geometryId": "001",
-              "radius": 500
-            }
-          }
-        ]
-      }
+    uri: GET https://us.atlas.microsoft.com/mapData?subscription-key=[subscription-key]&api-version=2.0
   responses:
-  - statusCode: "202"
-    headers:
-    - name: Operation-Location
-      value: https://atlas.microsoft.com/mapData/operations/{operationId}?api-version=1.0
-    - name: Access-Control-Expose-Headers
-      value: Operation-Location
   - statusCode: "200"
     body: >-
       {
-        "error": {
-          "code": "400 Bad Request",
-          "message": "Upload request failed. Your data has been removed as we encountered the following problems with it: Map data is not a valid GeoJSON geometry."
-        }
+        "mapDataList": [
+          {
+            "udid": "f6495f62-94f8-0ec2-c252-45626f82fcb2",
+            "location": "https://us.atlas.microsoft.com/mapData/f6495f62-94f8-0ec2-c252-45626f82fcb2?api-version=1.0",
+            "sizeInBytes": 29920,
+            "uploadStatus": "Completed"
+          },
+          {
+            "udid": "8b1288fa-1958-4a2b-b68e-13a7i5af7d7c",
+            "location": "https://us.atlas.microsoft.com/mapData/8b1288fa-1958-4a2b-b68e-13a7i5af7d7c?api-version=1.0",
+            "sizeInBytes": 1339,
+            "uploadStatus": "Completed"
+          },
+          {
+            "udid": "7c1288fa-2058-4a1b-b68f-13a6h5af7d7c",
+            "location": "https://us.atlas.microsoft.com/mapData/7c1288fa-2058-4a1b-b68f-13a6h5af7d7c?api-version=1.0",
+            "sizeInBytes": 1650,
+            "uploadStatus": "Pending"
+          }
+        ]
       }
   - statusCode: "400"
     body: >-

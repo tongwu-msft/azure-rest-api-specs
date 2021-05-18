@@ -43,6 +43,10 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: Other Status Codes
+  description: Unexpected Error
+  types:
+  - uid: Error
 - name: 201 Created
   description: Created
   types:
@@ -66,6 +70,14 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
+- name: Error
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
 - name: OfferDelegation
   description: Offer delegation.
   kind: object
@@ -102,11 +114,36 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Internal error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
 examples:
 - name: Create or update the offer delegation.
   request:
     uri: PUT https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/cnur9852subscrrg374/providers/Microsoft.Subscriptions.Admin/offers/cnur9852tenantoffer374/offerDelegations/testOfferDelegation?api-version=2015-11-01
-    body: "\"newDelegationName\""
+    body: >-
+      {
+        "properties": {
+          "subscriptionId": "20ff7fc3-e762-44dd-bd96-b71116dcdc23"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-

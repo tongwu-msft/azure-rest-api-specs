@@ -1,17 +1,11 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.v2.dataset.getoperation
+uid: maps.v2.dataset.getoperation
 name: Get Operation
 service: Maps Creator
 groupName: Dataset
 apiVersion: "2.0"
 summary: >-
-  ## Dataset Operations API
-
-
-  ### Applies to: S1 pricing tier
-
-
-  Creator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. The Dataset APIs are part of Creator. This API allows the caller to view the current progress of a dataset operation and the path is obtained from a call to the Create API.
+  This API allows the caller to view the current progress of a dataset operation and the path is obtained from a call to the Create API.
 
 
   ### Submit Operations Request
@@ -29,10 +23,16 @@ produces:
 - application/json
 - application/xml
 paths:
-- content: GET https://atlas.microsoft.com/datasets/operations/{operationId}?api-version=2.0
-- content: GET https://atlas.microsoft.com/datasets/operations/{operationId}?subscription-key={subscription-key}&api-version=2.0
+- content: GET https://{geography}.atlas.microsoft.com/datasets/operations/{operationId}?api-version=2.0
+- content: GET https://{geography}.atlas.microsoft.com/datasets/operations/{operationId}?subscription-key={subscription-key}&api-version=2.0
   isOptional: true
 uriParameters:
+- name: geography
+  in: path
+  isRequired: true
+  description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
+  types:
+  - uid: string
 - name: operationId
   in: path
   isRequired: true
@@ -80,11 +80,6 @@ definitions:
   - name: created
     isReadyOnly: true
     description: The created timestamp.
-    types:
-    - uid: string
-  - name: resourceLocation
-    isReadyOnly: true
-    description: The location URI for details about the created resource. This is only provided when the request was successfully completed.
     types:
     - uid: string
   - name: error
@@ -150,7 +145,7 @@ definitions:
 examples:
 - name: Get the status of an operation which is still running
   request:
-    uri: GET https://atlas.microsoft.com/datasets/operations/8b1288fa-1958-4a2b-b68e-13a7i5af7d7c?subscription-key=[subscription-key]&api-version=2.0
+    uri: GET https://us.atlas.microsoft.com/datasets/operations/8b1288fa-1958-4a2b-b68e-13a7i5af7d7c?subscription-key=[subscription-key]&api-version=2.0
   responses:
   - statusCode: "200"
     body: >-
@@ -169,7 +164,7 @@ examples:
       }
 - name: Get the status of an operation which has finished successfully
   request:
-    uri: GET https://atlas.microsoft.com/datasets/operations/8b1288fa-1958-4a2b-b68e-13a7i5af7d7c?subscription-key=[subscription-key]&api-version=2.0
+    uri: GET https://us.atlas.microsoft.com/datasets/operations/8b1288fa-1958-4a2b-b68e-13a7i5af7d7c?subscription-key=[subscription-key]&api-version=2.0
   responses:
   - statusCode: "200"
     headers:
@@ -179,8 +174,7 @@ examples:
       {
         "operationId": "8b1288fa-1958-4a2b-b68e-13a7i5af7d7c",
         "created": "2021-04-20T22:43:14.9401559+00:00",
-        "status": "Succeeded",
-        "resourceLocation": "https://us.atlas.microsoft.com/datasets/3e36b996-f6d1-b068-0fcb-dd6b014c3447?api-version=2.0"
+        "status": "Succeeded"
       }
   - statusCode: "400"
     body: >-

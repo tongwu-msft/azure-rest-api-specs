@@ -11,7 +11,7 @@ produces:
 - application/json
 paths:
 - content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}?api-version=2021-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}?api-version=2021-03-01&$expand=instanceView
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}?api-version=2021-03-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -44,7 +44,7 @@ uriParameters:
   - uid: string
 - name: $expand
   in: query
-  description: The expand expression to apply to the operation.
+  description: The expand expression to apply to the operation. 'UserData' is not supported for cloud services.
   types:
   - uid: InstanceViewTypes
 responses:
@@ -59,10 +59,13 @@ responses:
 requestHeader: []
 definitions:
 - name: InstanceViewTypes
-  description: The expand expression to apply to the operation.
+  description: The expand expression to apply to the operation. 'UserData' is not supported for cloud services.
   kind: enum
   properties:
   - name: instanceView
+    types:
+    - uid: string
+  - name: userData
     types:
     - uid: string
 - name: CloudError
@@ -276,7 +279,7 @@ definitions:
 examples:
 - name: Get Cloud Service Role Instance
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roleInstances/{roleInstance-name}?api-version=2021-03-01&$expand=instanceView
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roleInstances/{roleInstance-name}?api-version=2021-03-01
   responses:
   - statusCode: "200"
     body: >-

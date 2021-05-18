@@ -1,18 +1,30 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.datav2.upload
-name: Upload
+uid: maps.datav2.updatepreview
+name: Update Preview
 service: Maps
 groupName: Data V2
 apiVersion: "2.0"
-summary: "**Data Upload API**\n\n**Applies to:** S1 pricing tier.\n\nThe Data Upload API allows the caller to upload data content to the Azure Maps service.\nYou can use this API in a scenario like uploading a collection of Geofences in `GeoJSON` \nformat, for use in our [Azure Maps Geofencing Service](https://docs.microsoft.com/rest/api/maps/spatial).\n\n## Submit Upload Request\n\nTo upload your content you will use a `POST` request. The request body will contain the data to upload. The \n`dataFormat` query parameter will contain the format for the data, the `dataSharingLevel` query parameter \ncan contain the sharing level for the data. The `Content-Type` header will be set to the content type of the \ndata.\n\nFor example, to upload a collection of geofences  in `GeoJSON` format, set the request body to the geofence \ncontent. Set the `dataFormat` query parameter to _geojson_, and set the `Content-Type` header to either one \nof the following media types:\n\n- `application/json`\n- `application/vnd.geo+json`\n- `application/octet-stream`\n\nHere's a sample request body for uploading a simple Geofence represented as a circle geometry using a center \npoint and a radius. The sample below is in `GeoJSON`:\n\n```json\n{\n    \"type\": \"FeatureCollection\",\n    \"features\": [{\n        \"type\": \"Feature\",\n        \"geometry\": {\n            \"type\": \"Point\",\n            \"coordinates\": [-122.126986, 47.639754]\n        },\n        \"properties\": {\n            \"geometryId\": \"001\",\n            \"radius\": 500\n        }\n    }]\n}\n```\n\nThe Data Upload API performs a \n[long-running request](https://docs.microsoft.com/azure/azure-maps/private-atlas-long-running-operation).\n\n## Data Upload Limits\n\nPlease, be aware that currently every Azure Maps account has a [data storage limit](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#azure-maps-limits). \nOnce the storage limit is reached, all the new upload API calls will return a `409 Conflict` http error response. \nYou can always use the [Data Delete API](https://docs.microsoft.com/rest/api/maps/data/deletepreview) to \ndelete old/unused content and create space for new uploads."
+summary: "**Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nThe Data Update API allows the caller to update a previously uploaded data content.\n\nYou can use this API in a scenario like adding or removing geofences to or from an existing collection of geofences. \nGeofences are uploaded using the [Data Upload API](https://docs.microsoft.com/rest/api/maps/data%20v2/uploadpreview), for \nuse in the [Azure Maps Geofencing Service](https://docs.microsoft.com/rest/api/maps/spatial).\n\nPlease note that the Update API will *replace* and *override* the existing data content.\n\n## Submit Update Request\n\nTo update your content you will use a `PUT` request. The request body will contain the new data that will replace \nthe existing data. The `Content-Type` header will be set to the content type of the data, and the path will contain \nthe `udid` of the data to be update.\n\nFor example, to update a collection of geofences that were previously uploaded using the Upload API, place the new \ngeofence content in the request body. Set the `udid` parameter in the path to the `udid` of the data received \npreviously in the upload API response. And set the `Content-Type` header to one of the following media types:\n\n- `application/json`\n- `application/vnd.geo+json`\n- `application/octet-stream`\n\nHere's a sample request body for updating a simple Geofence. It's represented as a circle geometry using a center \npoint and a radius. The sample below is in `GeoJSON`:\n\n```json\n{\n    \"type\": \"FeatureCollection\",\n    \"features\": [{\n        \"type\": \"Feature\",\n        \"geometry\": {\n            \"type\": \"Point\",\n            \"coordinates\": [-122.126986, 47.639754]\n        },\n        \"properties\": {\n            \"geometryId\": \"001\",\n            \"radius\": 500\n        }\n    }]\n}\n```\n\nThe previously uploaded geofence had a radius of 100m. The above request will update it to 500m.\n\nThe Data Update API performs a \n[long-running request](https://aka.ms/am-creator-lrt-v2).\n\n## Data Update Limits\n\nPlease, be aware that currently every Azure Maps account has a [data storage limit](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#azure-maps-limits). \nOnce the storage limit is reached, all the new upload API calls will return a `409 Conflict` http error response. \nYou can always use the [Data Delete API](https://docs.microsoft.com/rest/api/maps/data%20v2/deletepreview) to \ndelete old/unused content and create space for new uploads."
 consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://atlas.microsoft.com/mapData?api-version=2.0&dataFormat={dataFormat}
-- content: POST https://atlas.microsoft.com/mapData?subscription-key={subscription-key}&api-version=2.0&description={description}&dataFormat={dataFormat}
+- content: PUT https://{geography}.atlas.microsoft.com/mapData/{udid}?api-version=2.0
+- content: PUT https://{geography}.atlas.microsoft.com/mapData/{udid}?subscription-key={subscription-key}&api-version=2.0&description={description}
   isOptional: true
 uriParameters:
+- name: geography
+  in: path
+  isRequired: true
+  description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
+  types:
+  - uid: string
+- name: udid
+  in: path
+  isRequired: true
+  description: The unique data id for the content. The `udid` must have been obtained from a successful [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data%20v2/uploadpreview) call.
+  types:
+  - uid: string
 - name: subscription-key
   in: query
   description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
@@ -29,15 +41,9 @@ uriParameters:
   description: The description to be given to the upload.
   types:
   - uid: string
-- name: dataFormat
-  in: query
-  isRequired: true
-  description: Data format of the content being uploaded.
-  types:
-  - uid: UploadDataFormat
 responses:
 - name: 200 OK
-  description: Data upload failed. The uploaded content did not satisfy all the validation checks. The response body contains all the errors that were encountered.
+  description: Data update failed. The uploaded content did not satisfy all the validation checks. The response body contains all the errors that were encountered.
   types:
   - uid: ODataErrorResponse
 - name: 202 Accepted
@@ -71,9 +77,9 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: UploadContent
+  - name: UpdateContent
     in: body
-    description: The content to upload.
+    description: The new content that will update/replace the previously uploaded content.
     types:
     - uid: object
 requestHeader:
@@ -83,22 +89,6 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: UploadDataFormat
-  description: Data format of the content being uploaded.
-  kind: enum
-  properties:
-  - name: geojson
-    description: '[GeoJSON](https://tools.ietf.org/html/rfc7946) is a JSON based geospatial data interchange format.'
-    types:
-    - uid: string
-  - name: zip
-    description: Compressed data format.
-    types:
-    - uid: string
-  - name: dwgzippackage
-    description: ''
-    types:
-    - uid: string
 - name: ODataErrorResponse
   description: This response object is returned when an error occurs in the Maps API.
   kind: object
@@ -132,9 +122,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Upload GeoJSON data containing geometries that represent a collection of geofences
+- name: Update previously uploaded GeoJSON data containing geometries that represent a collection of geofences
   request:
-    uri: POST https://atlas.microsoft.com/mapData?subscription-key=[subscription-key]&api-version=2.0&dataFormat=geojson
+    uri: PUT https://us.atlas.microsoft.com/mapData/25084fb7-307a-4720-8f91-7952a0b91012?subscription-key=[subscription-key]&api-version=2.0
     body: >-
       {
         "type": "FeatureCollection",
@@ -159,7 +149,7 @@ examples:
   - statusCode: "202"
     headers:
     - name: Operation-Location
-      value: https://atlas.microsoft.com/mapData/metadata/{udid}?api-version=1.0
+      value: https://us.atlas.microsoft.com/mapData/operations/{operationId}?api-version=1.0
     - name: Access-Control-Expose-Headers
       value: Operation-Location
   - statusCode: "200"

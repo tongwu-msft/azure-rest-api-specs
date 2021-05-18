@@ -1,18 +1,24 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.v2.featurestate.createstateset
+uid: maps.v2.featurestate.createstateset
 name: Create Stateset
 service: Maps Creator
 groupName: Feature State
 apiVersion: "2.0"
-summary: "**Applies to:** S1 pricing tier.\n<br>\n\nThis POST API allows the user to create a new Stateset and define stateset style using request body.\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. The Feature State API is part of Creator. \n\nThe Feature State service allows the user to update the states of a feature and query them to be used in other services. The dynamic properties of a feature that don't belong to the dataset are referred to as *states* here.\n\nThis Feature State service pivot on the Stateset. Like Tileset, Stateset encapsulates the storage mechanism for feature states for a dataset.\n\nOnce the stateset is created, users can use that statesetId to post feature state updates and retrieve the current feature states. A feature can have only one state at a given point in time. \n\nFeature state is defined by the key name, value and the timestamp. When a feature state update is posted to Azure Maps, the state value gets updated only if the provided state’s timestamp is later than the stored timestamp. \n\nAzure Maps MapControl provides a way to use these feature states to style the features. Please refer to the State Tile documentation for more information."
+summary: "**Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. [This](https://docs.microsoft.com/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.\n\nThis POST API allows the user to create a new Stateset and define stateset style using request body.\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. The Feature State API is part of Creator. \n\nThe Feature State service allows the user to update the states of a feature and query them to be used in other services. The dynamic properties of a feature that don't belong to the dataset are referred to as *states* here.\n\nThis Feature State service pivot on the Stateset. Like Tileset, Stateset encapsulates the storage mechanism for feature states for a dataset.\n\nOnce the stateset is created, users can use that statesetId to post feature state updates and retrieve the current feature states. A feature can have only one state at a given point in time. \n\nFeature state is defined by the key name, value and the timestamp. When a feature state update is posted to Azure Maps, the state value gets updated only if the provided state’s timestamp is later than the stored timestamp. \n\nAzure Maps MapControl provides a way to use these feature states to style the features. Please refer to the State Tile documentation for more information."
 consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://atlas.microsoft.com/featureStateSets?api-version=2.0&datasetId={datasetId}
-- content: POST https://atlas.microsoft.com/featureStateSets?subscription-key={subscription-key}&api-version=2.0&datasetId={datasetId}
+- content: POST https://{geography}.atlas.microsoft.com/featureStateSets?api-version=2.0&datasetId={datasetId}
+- content: POST https://{geography}.atlas.microsoft.com/featureStateSets?subscription-key={subscription-key}&api-version=2.0&datasetId={datasetId}&description={description}
   isOptional: true
 uriParameters:
+- name: geography
+  in: path
+  isRequired: true
+  description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
+  types:
+  - uid: string
 - name: subscription-key
   in: query
   description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
@@ -27,7 +33,12 @@ uriParameters:
 - name: datasetId
   in: query
   isRequired: true
-  description: The datasetId must have been obtained from a successful [Dataset Create API](https://review.docs.microsoft.com/en-us/rest-staging/api/maps-master/dataset/createpreview?branch=lbs) call.
+  description: The datasetId must have been obtained from a successful [Dataset Create API](https://docs.microsoft.com/en-us/rest/api/maps/v2/dataset/create) call.
+  types:
+  - uid: string
+- name: description
+  in: query
+  description: Description for the stateset. Max length allowed is 1000.
   types:
   - uid: string
 responses:
@@ -122,7 +133,7 @@ definitions:
 examples:
 - name: Create a new stateset with a datasetId
   request:
-    uri: POST https://atlas.microsoft.com/featureStateSets?subscription-key=[subscription-key]&api-version=2.0&datasetId=5d34fbe8-87b7-f7c0-3144-c50e003a3c75
+    uri: POST https://us.atlas.microsoft.com/featureStateSets?subscription-key=[subscription-key]&api-version=2.0&datasetId=5d34fbe8-87b7-f7c0-3144-c50e003a3c75&description=Stateset for Azure Maps POC.
     body: >-
       {
         "styles": [
