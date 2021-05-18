@@ -25,6 +25,10 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: Other Status Codes
+  description: Unexpected Error
+  types:
+  - uid: Error
 - name: 204 No Content
   description: No Content -- The subscriptions can be moved to the target delegated provider offer.
 - name: 202 Accepted
@@ -46,6 +50,14 @@ requestBody:
       isArray: true
 requestHeader: []
 definitions:
+- name: Error
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
 - name: MoveSubscriptionsDefinition
   description: The move subscriptions action definition
   kind: object
@@ -59,19 +71,37 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Internal error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
 examples:
 - name: Validate that user subscriptions can be moved from the Default Provider to a Delegated Provider.
   request:
     uri: POST https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Subscriptions.Admin/validateMoveSubscriptions?api-version=2015-11-01
     body: >-
       {
-        "properties": {
-          "targetDelegatedProviderOffer": "/subscriptions/36a6bf33-6df4-4acd-a30e-7b92c1c7b322/providers/Microsoft.Subscriptions.Admin/delegatedProviders/8bb14c82-7b09-40f4-ade3-e5c71308cfcd/offers/del1",
-          "resources": [
-            "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions.Admin/subscriptions/5144634d-7e4d-443b-a304-d27e44220fc6",
-            "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions.Admin/subscriptions/55049d1c-9727-4f79-95b6-50d1f3ee2b28"
-          ]
-        }
+        "targetDelegatedProviderOffer": "/subscriptions/36a6bf33-6df4-4acd-a30e-7b92c1c7b322/providers/Microsoft.Subscriptions.Admin/delegatedProviders/8bb14c82-7b09-40f4-ade3-e5c71308cfcd/offers/del1",
+        "resources": [
+          "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions.Admin/subscriptions/5144634d-7e4d-443b-a304-d27e44220fc6",
+          "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions.Admin/subscriptions/55049d1c-9727-4f79-95b6-50d1f3ee2b28"
+        ]
       }
   responses:
   - statusCode: "204"
@@ -81,13 +111,11 @@ examples:
     uri: POST https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Subscriptions.Admin/validateMoveSubscriptions?api-version=2015-11-01
     body: >-
       {
-        "properties": {
-          "targetDelegatedProviderOffer": null,
-          "resources": [
-            "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions.Admin/subscriptions/5144634d-7e4d-443b-a304-d27e44220fc6",
-            "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions.Admin/subscriptions/55049d1c-9727-4f79-95b6-50d1f3ee2b28"
-          ]
-        }
+        "targetDelegatedProviderOffer": null,
+        "resources": [
+          "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions.Admin/subscriptions/5144634d-7e4d-443b-a304-d27e44220fc6",
+          "/subscriptions/8158498d-27b1-4ccf-9aa1-de0f925731e6/providers/Microsoft.Subscriptions.Admin/subscriptions/55049d1c-9727-4f79-95b6-50d1f3ee2b28"
+        ]
       }
   responses:
   - statusCode: "204"

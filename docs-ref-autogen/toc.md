@@ -3292,9 +3292,9 @@
 ### [Get](azurestack/Backups/Get.yml)
 ### [List](azurestack/Backups/List.yml)
 ### [Restore](azurestack/Backups/Restore.yml)
-## Check Identity Health
-### [Overview](azurestack/CheckIdentityHealth.yml)
-### [Check Identity Health](azurestack/CheckIdentityHealth/CheckIdentityHealth.yml)
+## Commerce
+### [Overview](azurestack/Commerce.yml)
+### [Update Encryption](azurestack/Commerce/UpdateEncryption.yml)
 ## Compute Operation Results
 ### [Overview](azurestack/ComputeOperationResults.yml)
 ### [Get](azurestack/ComputeOperationResults/Get.yml)
@@ -3528,9 +3528,6 @@
 ## Resource Provider State
 ### [Overview](azurestack/ResourceProviderState.yml)
 ### [Get](azurestack/ResourceProviderState/Get.yml)
-## Restore Data
-### [Overview](azurestack/RestoreData.yml)
-### [Restore Data](azurestack/RestoreData/RestoreData.yml)
 ## Scale Unit Nodes
 ### [Overview](azurestack/ScaleUnitNodes.yml)
 ### [Get](azurestack/ScaleUnitNodes/Get.yml)
@@ -3598,12 +3595,15 @@
 ### [List](azurestack/SubscriberUsageAggregates/List.yml)
 ## Subscriptions
 ### [Overview](azurestack/Subscriptions.yml)
+### [Check Identity Health](azurestack/Subscriptions/CheckIdentityHealth.yml)
 ### [Check Name Availability](azurestack/Subscriptions/CheckNameAvailability.yml)
 ### [Create Or Update](azurestack/Subscriptions/CreateOrUpdate.yml)
 ### [Delete](azurestack/Subscriptions/Delete.yml)
 ### [Get](azurestack/Subscriptions/Get.yml)
 ### [List](azurestack/Subscriptions/List.yml)
 ### [Move Subscriptions](azurestack/Subscriptions/MoveSubscriptions.yml)
+### [Restore Data](azurestack/Subscriptions/RestoreData.yml)
+### [Update Encryption](azurestack/Subscriptions/UpdateEncryption.yml)
 ### [Validate Move Subscriptions](azurestack/Subscriptions/ValidateMoveSubscriptions.yml)
 ## Subscriptions (User)
 ### [Overview](azurestack/Subscriptions%20(User).yml)
@@ -3611,12 +3611,6 @@
 ### [Delete](azurestack/Subscriptions%20(User)/Delete.yml)
 ### [Get](azurestack/Subscriptions%20(User)/Get.yml)
 ### [List](azurestack/Subscriptions%20(User)/List.yml)
-## Update Encryption (Commerce)
-### [Overview](azurestack/Update%20Encryption%20(Commerce).yml)
-### [Update Encryption](azurestack/Update%20Encryption%20(Commerce)/UpdateEncryption.yml)
-## Update Encryption (SubscriptionsAdmin)
-### [Overview](azurestack/Update%20Encryption%20(SubscriptionsAdmin).yml)
-### [Update Encryption](azurestack/Update%20Encryption%20(SubscriptionsAdmin)/UpdateEncryption.yml)
 ## Update Locations
 ### [Overview](azurestack/UpdateLocations.yml)
 ### [Get](azurestack/UpdateLocations/Get.yml)
@@ -9733,6 +9727,14 @@
 ### [List Preview](maps/Data/ListPreview.yml)
 ### [Update Preview](maps/Data/UpdatePreview.yml)
 ### [Upload Preview](maps/Data/UploadPreview.yml)
+## Data V2
+### [Overview](maps/Data%20V2.yml)
+### [Delete Preview](maps/Data%20V2/DeletePreview.yml)
+### [Download Preview](maps/Data%20V2/DownloadPreview.yml)
+### [Get Operation Preview](maps/Data%20V2/GetOperationPreview.yml)
+### [List Preview](maps/Data%20V2/ListPreview.yml)
+### [Update Preview](maps/Data%20V2/UpdatePreview.yml)
+### [Upload Preview](maps/Data%20V2/UploadPreview.yml)
 ## Elevation
 ### [Overview](maps/Elevation.yml)
 ### [Get Data For Bounding Box](maps/Elevation/GetDataForBoundingBox.yml)
@@ -9870,6 +9872,55 @@
 ### [Get Features Preview](maps/WFS/GetFeaturesPreview.yml)
 ### [Get Landing Page Preview](maps/WFS/GetLandingPagePreview.yml)
 ### [Get Requirements Classes Preview](maps/WFS/GetRequirementsClassesPreview.yml)
+## V2
+### Alias
+#### [Overview](maps/v2/Alias.yml)
+#### [Assign](maps/v2/Alias/Assign.yml)
+#### [Create](maps/v2/Alias/Create.yml)
+#### [Delete](maps/v2/Alias/Delete.yml)
+#### [Get Details](maps/v2/Alias/GetDetails.yml)
+#### [List](maps/v2/Alias/List.yml)
+### Conversion
+#### [Overview](maps/v2/Conversion.yml)
+#### [Convert](maps/v2/Conversion/Convert.yml)
+#### [Delete](maps/v2/Conversion/Delete.yml)
+#### [Get](maps/v2/Conversion/Get.yml)
+#### [Get Operation](maps/v2/Conversion/GetOperation.yml)
+#### [List](maps/v2/Conversion/List.yml)
+### Dataset
+#### [Overview](maps/v2/Dataset.yml)
+#### [Create](maps/v2/Dataset/Create.yml)
+#### [Delete](maps/v2/Dataset/Delete.yml)
+#### [Get](maps/v2/Dataset/Get.yml)
+#### [Get Operation](maps/v2/Dataset/GetOperation.yml)
+#### [List](maps/v2/Dataset/List.yml)
+### Feature State
+#### [Overview](maps/v2/FeatureState.yml)
+#### [Create Stateset](maps/v2/FeatureState/CreateStateset.yml)
+#### [Delete State](maps/v2/FeatureState/DeleteState.yml)
+#### [Delete Stateset](maps/v2/FeatureState/DeleteStateset.yml)
+#### [Get States](maps/v2/FeatureState/GetStates.yml)
+#### [Get Stateset](maps/v2/FeatureState/GetStateset.yml)
+#### [List Stateset](maps/v2/FeatureState/ListStateset.yml)
+#### [Put Stateset](maps/v2/FeatureState/PutStateset.yml)
+#### [Update States](maps/v2/FeatureState/UpdateStates.yml)
+### Tileset
+#### [Overview](maps/v2/Tileset.yml)
+#### [Create](maps/v2/Tileset/Create.yml)
+#### [Delete](maps/v2/Tileset/Delete.yml)
+#### [Get](maps/v2/Tileset/Get.yml)
+#### [Get Operation](maps/v2/Tileset/GetOperation.yml)
+#### [List](maps/v2/Tileset/List.yml)
+### WFS
+#### [Overview](maps/v2/WFS.yml)
+#### [Collection Definition](maps/v2/WFS/CollectionDefinition.yml)
+#### [Collection Description](maps/v2/WFS/CollectionDescription.yml)
+#### [Collections Description](maps/v2/WFS/CollectionsDescription.yml)
+#### [Delete Feature](maps/v2/WFS/DeleteFeature.yml)
+#### [Get Feature](maps/v2/WFS/GetFeature.yml)
+#### [Get Features](maps/v2/WFS/GetFeatures.yml)
+#### [Get Landing Page](maps/v2/WFS/GetLandingPage.yml)
+#### [Get Requirements Classes](maps/v2/WFS/GetRequirementsClasses.yml)
 # Maps Management
 ## [Overview](../docs-ref-conceptual/maps-management/index.md)
 ## Accounts
