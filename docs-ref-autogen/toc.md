@@ -18638,6 +18638,7 @@
 #### [Lease](storagerp/BlobContainers/Lease.yml)
 #### [List](storagerp/BlobContainers/List.yml)
 #### [Lock Immutability Policy](storagerp/BlobContainers/LockImmutabilityPolicy.yml)
+#### [Object Level Worm](storagerp/BlobContainers/ObjectLevelWorm.yml)
 #### [Set Legal Hold](storagerp/BlobContainers/SetLegalHold.yml)
 #### [Update](storagerp/BlobContainers/Update.yml)
 ### Blob Inventory Policies
@@ -18671,6 +18672,7 @@
 #### [Create](storagerp/FileShares/Create.yml)
 #### [Delete](storagerp/FileShares/Delete.yml)
 #### [Get](storagerp/FileShares/Get.yml)
+#### [Lease](storagerp/FileShares/Lease.yml)
 #### [List](storagerp/FileShares/List.yml)
 #### [Restore](storagerp/FileShares/Restore.yml)
 #### [Update](storagerp/FileShares/Update.yml)

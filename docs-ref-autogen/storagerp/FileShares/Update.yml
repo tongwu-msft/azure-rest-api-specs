@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.fileshares.update
 name: Update
 service: Storage Resource Provider
 groupName: File Shares
-apiVersion: 2021-01-01
+apiVersion: 2021-04-01
 summary: 'Updates share properties as specified in request body. Properties not mentioned in the request will not be changed. Update fails if the specified share does not already exist. '
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}?api-version=2021-01-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}?api-version=2021-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -84,8 +84,25 @@ requestBody:
     description: Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and Cool. FileStorage account can choose Premium.
     types:
     - uid: ShareAccessTier
+  - name: properties.signedIdentifiers
+    in: body
+    description: List of stored access policies specified on the share.
+    types:
+    - uid: SignedIdentifier
+      isArray: true
 requestHeader: []
 definitions:
+- name: SignedIdentifier
+  kind: object
+  properties:
+  - name: id
+    description: An unique identifier of the stored access policy.
+    types:
+    - uid: string
+  - name: accessPolicy
+    description: Access policy
+    types:
+    - uid: AccessPolicy
 - name: FileShare
   description: Properties of the file share, including Id, resource name, resource type, Etag.
   kind: object
@@ -154,6 +171,26 @@ definitions:
     description: The approximate size of the data stored on the share. Note that this value may not include all recently created or recently resized files.
     types:
     - uid: integer
+  - name: properties.leaseStatus
+    isReadyOnly: true
+    description: The lease status of the share.
+    types:
+    - uid: LeaseStatus
+  - name: properties.leaseState
+    isReadyOnly: true
+    description: Lease state of the share.
+    types:
+    - uid: LeaseState
+  - name: properties.leaseDuration
+    isReadyOnly: true
+    description: Specifies whether the lease on a share is of infinite or fixed duration, only when the share is leased.
+    types:
+    - uid: LeaseDuration
+  - name: properties.signedIdentifiers
+    description: List of stored access policies specified on the share.
+    types:
+    - uid: SignedIdentifier
+      isArray: true
   - name: properties.snapshotTime
     isReadyOnly: true
     description: Creation time of share snapshot returned in the response of list shares with expand param "snapshots".
@@ -187,6 +224,21 @@ definitions:
     description: An error response from the Storage service.
     types:
     - uid: CloudErrorBody
+- name: AccessPolicy
+  kind: object
+  properties:
+  - name: start
+    description: Start time of the access policy
+    types:
+    - uid: string
+  - name: expiry
+    description: Expiry time of the access policy
+    types:
+    - uid: string
+  - name: permission
+    description: List of abbreviated permissions.
+    types:
+    - uid: string
 - name: EnabledProtocols
   description: The authentication protocol that is used for the file share. Can only be specified when creating a share.
   kind: enum
@@ -226,6 +278,45 @@ definitions:
   - name: Premium
     types:
     - uid: string
+- name: LeaseStatus
+  description: The lease status of the share.
+  kind: enum
+  properties:
+  - name: Locked
+    types:
+    - uid: string
+  - name: Unlocked
+    types:
+    - uid: string
+- name: LeaseState
+  description: Lease state of the share.
+  kind: enum
+  properties:
+  - name: Available
+    types:
+    - uid: string
+  - name: Leased
+    types:
+    - uid: string
+  - name: Expired
+    types:
+    - uid: string
+  - name: Breaking
+    types:
+    - uid: string
+  - name: Broken
+    types:
+    - uid: string
+- name: LeaseDuration
+  description: Specifies whether the lease on a share is of infinite or fixed duration, only when the share is leased.
+  kind: enum
+  properties:
+  - name: Infinite
+    types:
+    - uid: string
+  - name: Fixed
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the Storage service.
   kind: object
@@ -250,7 +341,7 @@ definitions:
 examples:
 - name: UpdateShares
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/fileServices/default/shares/share6185?api-version=2021-01-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/fileServices/default/shares/share6185?api-version=2021-04-01
     body: >-
       {
         "properties": {
@@ -270,6 +361,44 @@ examples:
           "metadata": {
             "type": "image"
           }
+        }
+      }
+- name: UpdateShareAcls
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/fileServices/default/shares/share6185?api-version=2021-04-01
+    body: >-
+      {
+        "properties": {
+          "signedIdentifiers": [
+            {
+              "id": "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI",
+              "accessPolicy": {
+                "start": "2021-04-01T08:49:37.0000000Z",
+                "expiry": "2021-05-01T08:49:37.0000000Z",
+                "permission": "rwd"
+              }
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/fileServices/default/shares/share6185",
+        "name": "share6185",
+        "type": "Microsoft.Storage/storageAccounts/fileServices/shares",
+        "properties": {
+          "signedIdentifiers": [
+            {
+              "id": "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI",
+              "accessPolicy": {
+                "start": "2021-04-01T08:49:37.0000000Z",
+                "expiry": "2021-05-01T08:49:37.0000000Z",
+                "permission": "rwd"
+              }
+            }
+          ]
         }
       }
 security:
