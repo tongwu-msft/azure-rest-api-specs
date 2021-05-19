@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.storageaccounts.create
 name: Create
 service: Storage Resource Provider
 groupName: Storage Accounts
-apiVersion: 2021-01-01
+apiVersion: 2021-04-01
 summary: Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2021-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2021-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -84,6 +84,16 @@ requestBody:
     description: The identity of the resource.
     types:
     - uid: Identity
+  - name: properties.sasPolicy
+    in: body
+    description: SasPolicy assigned to the storage account.
+    types:
+    - uid: SasPolicy
+  - name: properties.keyPolicy
+    in: body
+    description: KeyPolicy assigned to the storage account.
+    types:
+    - uid: KeyPolicy
   - name: properties.customDomain
     in: body
     description: User domain assigned to the storage account. Name is the CNAME source. Only one custom domain is supported per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name property.
@@ -149,6 +159,11 @@ requestBody:
     description: NFS 3.0 protocol support enabled if set to true.
     types:
     - uid: boolean
+  - name: properties.allowCrossTenantReplication
+    in: body
+    description: Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property.
+    types:
+    - uid: boolean
 requestHeader: []
 definitions:
 - name: Sku
@@ -202,6 +217,26 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: UserAssignedIdentity
+- name: SasPolicy
+  description: SasPolicy assigned to the storage account.
+  kind: object
+  properties:
+  - name: sasExpirationPeriod
+    description: The SAS expiration period, DD.HH:MM:SS.
+    types:
+    - uid: string
+  - name: expirationAction
+    description: The SAS expiration action. Can only be Log.
+    types:
+    - uid: ExpirationAction
+- name: KeyPolicy
+  description: KeyPolicy assigned to the storage account.
+  kind: object
+  properties:
+  - name: keyExpirationPeriodInDays
+    description: The key expiration period in days.
+    types:
+    - uid: integer
 - name: CustomDomain
   description: The custom domain assigned to this storage account. This can be set via Update.
   kind: object
@@ -277,6 +312,10 @@ definitions:
     description: Required if choose AD.
     types:
     - uid: ActiveDirectoryProperties
+  - name: defaultSharePermission
+    description: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
+    types:
+    - uid: DefaultSharePermission
 - name: RoutingPreference
   description: Routing preference defines the type of network, either microsoft or internet routing to be used to deliver the user data, the default option is microsoft routing
   kind: object
@@ -360,6 +399,21 @@ definitions:
     description: Gets the custom domain the user assigned to this storage account.
     types:
     - uid: CustomDomain
+  - name: properties.sasPolicy
+    isReadyOnly: true
+    description: SasPolicy assigned to the storage account.
+    types:
+    - uid: SasPolicy
+  - name: properties.keyPolicy
+    isReadyOnly: true
+    description: KeyPolicy assigned to the storage account.
+    types:
+    - uid: KeyPolicy
+  - name: properties.keyCreationTime
+    isReadyOnly: true
+    description: Storage account keys creation time.
+    types:
+    - uid: KeyCreationTime
   - name: properties.secondaryEndpoints
     isReadyOnly: true
     description: Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object from the secondary location of the storage account. Only available if the SKU name is Standard_RAGRS.
@@ -437,6 +491,10 @@ definitions:
     description: NFS 3.0 protocol support enabled if set to true.
     types:
     - uid: boolean
+  - name: properties.allowCrossTenantReplication
+    description: Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property.
+    types:
+    - uid: boolean
   - name: tags
     description: Resource tags.
     types:
@@ -496,6 +554,14 @@ definitions:
     description: The identity of the resource.
     types:
     - uid: Identity
+  - name: properties.sasPolicy
+    description: SasPolicy assigned to the storage account.
+    types:
+    - uid: SasPolicy
+  - name: properties.keyPolicy
+    description: KeyPolicy assigned to the storage account.
+    types:
+    - uid: KeyPolicy
   - name: properties.customDomain
     description: User domain assigned to the storage account. Name is the CNAME source. Only one custom domain is supported per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name property.
     types:
@@ -546,6 +612,10 @@ definitions:
     - uid: boolean
   - name: properties.isNfsV3Enabled
     description: NFS 3.0 protocol support enabled if set to true.
+    types:
+    - uid: boolean
+  - name: properties.allowCrossTenantReplication
+    description: Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property.
     types:
     - uid: boolean
 - name: SkuName
@@ -621,6 +691,13 @@ definitions:
   - name: clientId
     isReadyOnly: true
     description: The client ID of the identity.
+    types:
+    - uid: string
+- name: ExpirationAction
+  description: The SAS expiration action. Can only be Log.
+  kind: enum
+  properties:
+  - name: Log
     types:
     - uid: string
 - name: EncryptionServices
@@ -794,6 +871,25 @@ definitions:
     description: Specifies the security identifier (SID) for Azure Storage.
     types:
     - uid: string
+- name: DefaultSharePermission
+  description: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: StorageFileDataSmbShareReader
+    types:
+    - uid: string
+  - name: StorageFileDataSmbShareContributor
+    types:
+    - uid: string
+  - name: StorageFileDataSmbShareElevatedContributor
+    types:
+    - uid: string
+  - name: StorageFileDataSmbShareOwner
+    types:
+    - uid: string
 - name: RoutingChoice
   description: Routing Choice defines the kind of network routing opted by the user.
   kind: enum
@@ -886,6 +982,18 @@ definitions:
     types:
     - uid: string
   - name: unavailable
+    types:
+    - uid: string
+- name: KeyCreationTime
+  description: Storage account keys creation time.
+  kind: object
+  properties:
+  - name: key1
+    description: ''
+    types:
+    - uid: string
+  - name: key2
+    description: ''
     types:
     - uid: string
 - name: AccessTier
@@ -1024,19 +1132,19 @@ definitions:
   description: Gets the state of virtual network rule.
   kind: enum
   properties:
-  - name: provisioning
+  - name: Provisioning
     types:
     - uid: string
-  - name: deprovisioning
+  - name: Deprovisioning
     types:
     - uid: string
-  - name: succeeded
+  - name: Succeeded
     types:
     - uid: string
-  - name: failed
+  - name: Failed
     types:
     - uid: string
-  - name: networkSourceDeleted
+  - name: NetworkSourceDeleted
     types:
     - uid: string
 - name: StorageAccountMicrosoftEndpoints
@@ -1215,7 +1323,7 @@ definitions:
 examples:
 - name: StorageAccountCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-01-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-04-01
     body: >-
       {
         "sku": {
@@ -1228,6 +1336,13 @@ examples:
           "name": "losangeles001"
         },
         "properties": {
+          "keyPolicy": {
+            "keyExpirationPeriodInDays": 20
+          },
+          "sasPolicy": {
+            "sasExpirationPeriod": "1.15:59:59",
+            "expirationAction": "Log"
+          },
           "isHnsEnabled": true,
           "allowBlobPublicAccess": false,
           "minimumTlsVersion": "TLS1_2",
@@ -1270,6 +1385,17 @@ examples:
           "name": "losangeles001"
         },
         "properties": {
+          "keyPolicy": {
+            "keyExpirationPeriodInDays": 20
+          },
+          "sasPolicy": {
+            "sasExpirationPeriod": "1.15:59:59",
+            "expirationAction": "Log"
+          },
+          "keyCreationTime": {
+            "key1": "2021-03-18T04:42:22.4322836Z",
+            "key2": "2021-03-18T04:42:22.4322836Z"
+          },
           "isHnsEnabled": true,
           "allowBlobPublicAccess": false,
           "minimumTlsVersion": "TLS1_2",
@@ -1338,7 +1464,7 @@ examples:
   - statusCode: "202"
 - name: NfsV3AccountCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-01-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-04-01
     body: >-
       {
         "sku": {
@@ -1394,7 +1520,7 @@ examples:
   - statusCode: "202"
 - name: StorageAccountCreateUserAssignedEncryptionIdentityWithCMK
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-01-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-04-01
     body: >-
       {
         "identity": {
