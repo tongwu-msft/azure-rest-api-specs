@@ -8943,6 +8943,15 @@
 ## Delete Storage Account
 ### [Overview](keyvault/DeleteStorageAccount.yml)
 ### [Delete Storage Account](keyvault/DeleteStorageAccount/DeleteStorageAccount.yml)
+## Full Backup
+### [Overview](keyvault/FullBackup.yml)
+### [Full Backup](keyvault/FullBackup/FullBackup.yml)
+## Full Backup Status
+### [Overview](keyvault/FullBackupStatus.yml)
+### [Full Backup Status](keyvault/FullBackupStatus/FullBackupStatus.yml)
+## Full Restore Operation
+### [Overview](keyvault/FullRestoreOperation.yml)
+### [Full Restore Operation](keyvault/FullRestoreOperation/FullRestoreOperation.yml)
 ## Get Certificate
 ### [Overview](keyvault/GetCertificate.yml)
 ### [Get Certificate](keyvault/GetCertificate/GetCertificate.yml)
@@ -9027,6 +9036,13 @@
 ## Get Storage Accounts
 ### [Overview](keyvault/GetStorageAccounts.yml)
 ### [Get Storage Accounts](keyvault/GetStorageAccounts/GetStorageAccounts.yml)
+## HSM Security Domain
+### [Overview](keyvault/HSMSecurityDomain.yml)
+### [Download](keyvault/HSMSecurityDomain/Download.yml)
+### [Download Pending](keyvault/HSMSecurityDomain/DownloadPending.yml)
+### [Transfer Key](keyvault/HSMSecurityDomain/TransferKey.yml)
+### [Upload](keyvault/HSMSecurityDomain/Upload.yml)
+### [Upload Pending](keyvault/HSMSecurityDomain/UploadPending.yml)
 ## Import Certificate
 ### [Overview](keyvault/ImportCertificate.yml)
 ### [Import Certificate](keyvault/ImportCertificate/ImportCertificate.yml)
@@ -9083,9 +9099,27 @@
 ## Restore Secret
 ### [Overview](keyvault/RestoreSecret.yml)
 ### [Restore Secret](keyvault/RestoreSecret/RestoreSecret.yml)
+## Restore Status
+### [Overview](keyvault/RestoreStatus.yml)
+### [Restore Status](keyvault/RestoreStatus/RestoreStatus.yml)
 ## Restore Storage Account
 ### [Overview](keyvault/RestoreStorageAccount.yml)
 ### [Restore Storage Account](keyvault/RestoreStorageAccount/RestoreStorageAccount.yml)
+## Role Assignments
+### [Overview](keyvault/RoleAssignments.yml)
+### [Create](keyvault/RoleAssignments/Create.yml)
+### [Delete](keyvault/RoleAssignments/Delete.yml)
+### [Get](keyvault/RoleAssignments/Get.yml)
+### [List For Scope](keyvault/RoleAssignments/ListForScope.yml)
+## Role Definitions
+### [Overview](keyvault/RoleDefinitions.yml)
+### [Create Or Update](keyvault/RoleDefinitions/CreateOrUpdate.yml)
+### [Delete](keyvault/RoleDefinitions/Delete.yml)
+### [Get](keyvault/RoleDefinitions/Get.yml)
+### [List](keyvault/RoleDefinitions/List.yml)
+## Selective Key Restore Operation
+### [Overview](keyvault/SelectiveKeyRestoreOperation.yml)
+### [Selective Key Restore Operation](keyvault/SelectiveKeyRestoreOperation/SelectiveKeyRestoreOperation.yml)
 ## Set Certificate Contacts
 ### [Overview](keyvault/SetCertificateContacts.yml)
 ### [Set Certificate Contacts](keyvault/SetCertificateContacts/SetCertificateContacts.yml)
