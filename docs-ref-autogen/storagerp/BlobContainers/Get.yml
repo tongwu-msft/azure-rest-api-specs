@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.blobcontainers.get
 name: Get
 service: Storage Resource Provider
 groupName: Blob Containers
-apiVersion: 2021-01-01
+apiVersion: 2021-04-01
 summary: 'Gets properties of a specified container. '
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}?api-version=2021-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}?api-version=2021-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -134,6 +134,10 @@ definitions:
     description: The hasImmutabilityPolicy public property is set to true by SRP if ImmutabilityPolicy has been created for this container. The hasImmutabilityPolicy public property is set to false by SRP if ImmutabilityPolicy has not been created for this container.
     types:
     - uid: boolean
+  - name: properties.immutableStorageWithVersioning
+    description: The object level immutability property of the container. The property is immutable and can only be set to true at the container creation time. Existing containers must undergo a migration process.
+    types:
+    - uid: ImmutableStorageWithVersioning
   - name: etag
     isReadyOnly: true
     description: Resource Etag.
@@ -248,6 +252,24 @@ definitions:
     types:
     - uid: TagProperty
       isArray: true
+- name: ImmutableStorageWithVersioning
+  description: Object level immutability properties of the container.
+  kind: object
+  properties:
+  - name: enabled
+    description: This is an immutable property, when set to true it enables object level immutability at the container level.
+    types:
+    - uid: boolean
+  - name: timeStamp
+    isReadyOnly: true
+    description: Returns the date and time the object level immutability was enabled.
+    types:
+    - uid: string
+  - name: migrationState
+    isReadyOnly: true
+    description: This property denotes the container level immutability to object level immutability migration state.
+    types:
+    - uid: MigrationState
 - name: UpdateHistoryProperty
   description: An update history of the ImmutabilityPolicy of a blob container.
   kind: object
@@ -321,6 +343,16 @@ definitions:
     description: Returns the User Principal Name of the user who added the tag.
     types:
     - uid: string
+- name: MigrationState
+  description: This property denotes the container level immutability to object level immutability migration state.
+  kind: enum
+  properties:
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
 - name: ImmutabilityPolicyUpdateType
   description: 'The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.'
   kind: enum
@@ -337,7 +369,7 @@ definitions:
 examples:
 - name: GetContainers
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9871/providers/Microsoft.Storage/storageAccounts/sto6217/blobServices/default/containers/container1634?api-version=2021-01-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9871/providers/Microsoft.Storage/storageAccounts/sto6217/blobServices/default/containers/container1634?api-version=2021-04-01
   responses:
   - statusCode: "200"
     body: >-
