@@ -326,6 +326,18 @@ definitions:
     description: The provisioning state of the network interface resource.
     types:
     - uid: ProvisioningState
+  - name: properties.nicType
+    description: Type of Network Interface resource.
+    types:
+    - uid: NetworkInterfaceNicType
+  - name: properties.privateLinkService
+    description: Privatelinkservice of the network interface resource.
+    types:
+    - uid: PrivateLinkService
+  - name: properties.migrationPhase
+    description: Migration phase of Network Interface resource.
+    types:
+    - uid: NetworkInterfaceMigrationPhase
   - name: id
     description: Resource ID.
     types:
@@ -363,6 +375,10 @@ definitions:
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    description: Resource type.
     types:
     - uid: string
   - name: properties.addressPrefix
@@ -454,6 +470,11 @@ definitions:
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
     - uid: VirtualNetworkPrivateLinkServiceNetworkPolicies
+  - name: properties.applicationGatewayIpConfigurations
+    description: Application gateway IP configurations of virtual network resource.
+    types:
+    - uid: ApplicationGatewayIPConfiguration
+      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -753,6 +774,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: type
+    description: Resource type.
+    types:
+    - uid: string
   - name: properties.virtualNetworkTaps
     description: The reference to Virtual Network Taps.
     types:
@@ -874,6 +899,123 @@ definitions:
   - name: internalDomainNameSuffix
     isReadyOnly: true
     description: Even if internalDnsNameLabel is not specified, a DNS entry is created for the primary NIC of the VM. This DNS name can be constructed by concatenating the VM name with the value of internalDomainNameSuffix.
+    types:
+    - uid: string
+- name: NetworkInterfaceNicType
+  description: Type of Network Interface resource.
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+  - name: Elastic
+    types:
+    - uid: string
+- name: PrivateLinkService
+  description: Private link service resource.
+  kind: object
+  properties:
+  - name: extendedLocation
+    description: The extended location of the load balancer.
+    types:
+    - uid: ExtendedLocation
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.loadBalancerFrontendIpConfigurations
+    description: An array of references to the load balancer IP configurations.
+    types:
+    - uid: FrontendIPConfiguration
+      isArray: true
+  - name: properties.ipConfigurations
+    description: An array of private link service IP configurations.
+    types:
+    - uid: PrivateLinkServiceIpConfiguration
+      isArray: true
+  - name: properties.networkInterfaces
+    isReadyOnly: true
+    description: An array of references to the network interfaces created for this private link service.
+    types:
+    - uid: NetworkInterface
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private link service resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: An array of list about connections to the private endpoint.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
+  - name: properties.visibility
+    description: The visibility list of the private link service.
+    types:
+    - uid: Visibility
+  - name: properties.autoApproval
+    description: The auto-approval list of the private link service.
+    types:
+    - uid: AutoApproval
+  - name: properties.fqdns
+    description: The list of Fqdn.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.alias
+    isReadyOnly: true
+    description: The alias of the private link service.
+    types:
+    - uid: string
+  - name: properties.enableProxyProtocol
+    description: Whether the private link service is enabled for proxy protocol or not.
+    types:
+    - uid: boolean
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: NetworkInterfaceMigrationPhase
+  description: Migration phase of Network Interface resource.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Prepare
+    types:
+    - uid: string
+  - name: Commit
+    types:
+    - uid: string
+  - name: Abort
+    types:
+    - uid: string
+  - name: Committed
     types:
     - uid: string
 - name: RouteTable
@@ -1177,6 +1319,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: type
+    description: Resource type.
+    types:
+    - uid: string
   - name: properties.serviceName
     description: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).
     types:
@@ -1214,6 +1360,37 @@ definitions:
     types:
     - uid: string
   - name: Disabled
+    types:
+    - uid: string
+- name: ApplicationGatewayIPConfiguration
+  description: IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the IP configuration that is unique within an Application Gateway.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+  - name: properties.subnet
+    description: Reference to the subnet resource. A subnet from where application gateway gets its private address.
+    types:
+    - uid: SubResource
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the application gateway IP configuration resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
     types:
     - uid: string
 - name: RetentionPolicyParameters
@@ -1622,6 +1799,22 @@ definitions:
     description: The provisioning state of the public IP address resource.
     types:
     - uid: ProvisioningState
+  - name: properties.servicePublicIPAddress
+    description: The service public IP address of the public IP address resource.
+    types:
+    - uid: PublicIPAddress
+  - name: properties.natGateway
+    description: The NatGateway for the Public IP address.
+    types:
+    - uid: NatGateway
+  - name: properties.migrationPhase
+    description: Migration phase of Public IP Address.
+    types:
+    - uid: PublicIPAddressMigrationPhase
+  - name: properties.linkedPublicIPAddress
+    description: The linked public IP address of the public IP address resource.
+    types:
+    - uid: PublicIPAddress
   - name: id
     description: Resource ID.
     types:
@@ -1665,6 +1858,192 @@ definitions:
   - name: fqdns
     isReadyOnly: true
     description: List of FQDNs for current private link connection.
+    types:
+    - uid: string
+      isArray: true
+- name: FrontendIPConfiguration
+  description: Frontend IP address of the load balancer.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+  - name: zones
+    description: A list of availability zones denoting the IP allocated for the resource needs to come from.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.inboundNatRules
+    isReadyOnly: true
+    description: An array of references to inbound rules that use this frontend IP.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.inboundNatPools
+    isReadyOnly: true
+    description: An array of references to inbound pools that use this frontend IP.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.outboundRules
+    isReadyOnly: true
+    description: An array of references to outbound rules that use this frontend IP.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.loadBalancingRules
+    isReadyOnly: true
+    description: An array of references to load balancing rules that use this frontend IP.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.privateIPAddress
+    description: The private IP address of the IP configuration.
+    types:
+    - uid: string
+  - name: properties.privateIPAllocationMethod
+    description: The Private IP allocation method.
+    types:
+    - uid: IPAllocationMethod
+  - name: properties.privateIPAddressVersion
+    description: Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
+    types:
+    - uid: IPVersion
+  - name: properties.subnet
+    description: The reference to the subnet resource.
+    types:
+    - uid: Subnet
+  - name: properties.publicIPAddress
+    description: The reference to the Public IP resource.
+    types:
+    - uid: PublicIPAddress
+  - name: properties.publicIPPrefix
+    description: The reference to the Public IP Prefix resource.
+    types:
+    - uid: SubResource
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the frontend IP configuration resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: PrivateLinkServiceIpConfiguration
+  description: The private link service ip configuration.
+  kind: object
+  properties:
+  - name: name
+    description: The name of private link service ip configuration.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: properties.privateIPAddress
+    description: The private IP address of the IP configuration.
+    types:
+    - uid: string
+  - name: properties.privateIPAllocationMethod
+    description: The private IP address allocation method.
+    types:
+    - uid: IPAllocationMethod
+  - name: properties.subnet
+    description: The reference to the subnet resource.
+    types:
+    - uid: Subnet
+  - name: properties.primary
+    description: Whether the ip configuration is primary or not.
+    types:
+    - uid: boolean
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private link service IP configuration resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.privateIPAddressVersion
+    description: Whether the specific IP configuration is IPv4 or IPv6. Default is IPv4.
+    types:
+    - uid: IPVersion
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: PrivateEndpointConnection
+  description: PrivateEndpointConnection resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.privateEndpoint
+    isReadyOnly: true
+    description: The resource of private end point.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: A collection of information about the state of the connection between service consumer and provider.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private endpoint connection resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.linkIdentifier
+    isReadyOnly: true
+    description: The consumer link id.
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: Visibility
+  description: The visibility list of the private link service.
+  kind: object
+  properties:
+  - name: subscriptions
+    description: The list of subscriptions.
+    types:
+    - uid: string
+      isArray: true
+- name: AutoApproval
+  description: The auto-approval list of the private link service.
+  kind: object
+  properties:
+  - name: subscriptions
+    description: The list of subscriptions.
     types:
     - uid: string
       isArray: true
@@ -1792,86 +2171,6 @@ definitions:
     description: A message indicating if changes on the service provider require any updates on the consumer.
     types:
     - uid: string
-- name: FrontendIPConfiguration
-  description: Frontend IP address of the load balancer.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the resource that is unique within the set of frontend IP configurations used by the load balancer. This name can be used to access the resource.
-    types:
-    - uid: string
-  - name: etag
-    isReadyOnly: true
-    description: A unique read-only string that changes whenever the resource is updated.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Type of the resource.
-    types:
-    - uid: string
-  - name: zones
-    description: A list of availability zones denoting the IP allocated for the resource needs to come from.
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.inboundNatRules
-    isReadyOnly: true
-    description: An array of references to inbound rules that use this frontend IP.
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.inboundNatPools
-    isReadyOnly: true
-    description: An array of references to inbound pools that use this frontend IP.
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.outboundRules
-    isReadyOnly: true
-    description: An array of references to outbound rules that use this frontend IP.
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.loadBalancingRules
-    isReadyOnly: true
-    description: An array of references to load balancing rules that use this frontend IP.
-    types:
-    - uid: SubResource
-      isArray: true
-  - name: properties.privateIPAddress
-    description: The private IP address of the IP configuration.
-    types:
-    - uid: string
-  - name: properties.privateIPAllocationMethod
-    description: The Private IP allocation method.
-    types:
-    - uid: IPAllocationMethod
-  - name: properties.privateIPAddressVersion
-    description: Whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.
-    types:
-    - uid: IPVersion
-  - name: properties.subnet
-    description: The reference to the subnet resource.
-    types:
-    - uid: Subnet
-  - name: properties.publicIPAddress
-    description: The reference to the Public IP resource.
-    types:
-    - uid: PublicIPAddress
-  - name: properties.publicIPPrefix
-    description: The reference to the Public IP Prefix resource.
-    types:
-    - uid: SubResource
-  - name: properties.provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the frontend IP configuration resource.
-    types:
-    - uid: ProvisioningState
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
 - name: ApplicationGatewayBackendAddress
   description: Backend address of an application gateway.
   kind: object
@@ -1982,6 +2281,99 @@ definitions:
     description: 'The value of the IP tag associated with the public IP. Example: SQL.'
     types:
     - uid: string
+- name: NatGateway
+  description: Nat Gateway resource.
+  kind: object
+  properties:
+  - name: sku
+    description: The nat gateway SKU.
+    types:
+    - uid: NatGatewaySku
+  - name: zones
+    description: A list of availability zones denoting the zone in which Nat Gateway should be deployed.
+    types:
+    - uid: string
+      isArray: true
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.idleTimeoutInMinutes
+    description: The idle timeout of the nat gateway.
+    types:
+    - uid: integer
+  - name: properties.publicIpAddresses
+    description: An array of public ip addresses associated with the nat gateway resource.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.publicIpPrefixes
+    description: An array of public ip prefixes associated with the nat gateway resource.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.subnets
+    isReadyOnly: true
+    description: An array of references to the subnets using this nat gateway resource.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.resourceGuid
+    isReadyOnly: true
+    description: The resource GUID property of the NAT gateway resource.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the NAT gateway resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: PublicIPAddressMigrationPhase
+  description: Migration phase of Public IP Address.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Prepare
+    types:
+    - uid: string
+  - name: Commit
+    types:
+    - uid: string
+  - name: Abort
+    types:
+    - uid: string
+  - name: Committed
+    types:
+    - uid: string
 - name: RouteNextHopType
   description: The type of Azure hop the packet should be sent to.
   kind: enum
@@ -2028,6 +2420,21 @@ definitions:
   - name: Basic
     types:
     - uid: string
+  - name: Standard
+    types:
+    - uid: string
+- name: NatGatewaySku
+  description: SKU of nat gateway.
+  kind: object
+  properties:
+  - name: name
+    description: Name of Nat Gateway SKU.
+    types:
+    - uid: NatGatewaySkuName
+- name: NatGatewaySkuName
+  description: Name of Nat Gateway SKU.
+  kind: enum
+  properties:
   - name: Standard
     types:
     - uid: string
