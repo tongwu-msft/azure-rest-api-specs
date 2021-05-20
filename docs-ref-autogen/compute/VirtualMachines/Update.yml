@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachines.update
 name: Update
 service: Compute
 groupName: Virtual Machines
-apiVersion: 2020-12-01
+apiVersion: 2021-03-01
 summary: The operation to update a virtual machine.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2020-12-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -97,7 +97,7 @@ requestBody:
     - uid: DiagnosticsProfile
   - name: properties.availabilitySet
     in: body
-    description: Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Currently, a VM can only be added to availability set at creation time. The availability set to which the VM is being added should be under the same resource group as the availability set resource. An existing VM cannot be added to an availability set. <br><br>This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
+    description: Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Availability sets overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview). <br><br> For more information on Azure planned maintenance, see [Maintenance and updates for Virtual Machines in Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates) <br><br> Currently, a VM can only be added to availability set at creation time. The availability set to which the VM is being added should be under the same resource group as the availability set resource. An existing VM cannot be added to an availability set. <br><br>This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
     types:
     - uid: SubResource
   - name: properties.virtualMachineScaleSet
@@ -150,6 +150,16 @@ requestBody:
     description: "Specifies the scale set logical fault domain into which the Virtual Machine will be created. By default, the Virtual Machine will by automatically assigned to a fault domain that best maintains balance across available fault domains.<br><li>This is applicable only if the 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01"
     types:
     - uid: integer
+  - name: properties.scheduledEventsProfile
+    in: body
+    description: Specifies Scheduled Event related configurations.
+    types:
+    - uid: ScheduledEventsProfile
+  - name: properties.userData
+    in: body
+    description: 'UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01'
+    types:
+    - uid: string
   - name: tags
     in: body
     description: Resource tags
@@ -208,7 +218,7 @@ definitions:
   kind: object
   properties:
   - name: vmSize
-    description: 'Specifies the size of the virtual machine. <br><br> The enum data type is currently deprecated and will be removed by December 23rd 2023. <br><br> Recommended way to get the list of available sizes is using these APIs: <br><br> [List all available virtual machine sizes in an availability set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes) <br><br> [List all available virtual machine sizes in a region]( https://docs.microsoft.com/en-us/rest/api/compute/resourceskus/list) <br><br> [List all available virtual machine sizes for resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes). <br><br> The available VM sizes depend on region and availability set.'
+    description: 'Specifies the size of the virtual machine. <br><br> The enum data type is currently deprecated and will be removed by December 23rd 2023. <br><br> Recommended way to get the list of available sizes is using these APIs: <br><br> [List all available virtual machine sizes in an availability set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes) <br><br> [List all available virtual machine sizes in a region]( https://docs.microsoft.com/rest/api/compute/resourceskus/list) <br><br> [List all available virtual machine sizes for resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/sizes). <br><br> The available VM sizes depend on region and availability set.'
     types:
     - uid: VirtualMachineSizeTypes
 - name: StorageProfile
@@ -220,11 +230,11 @@ definitions:
     types:
     - uid: ImageReference
   - name: osDisk
-    description: Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+    description: Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
     types:
     - uid: OSDisk
   - name: dataDisks
-    description: Specifies the parameters that are used to add a data disk to a virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+    description: Specifies the parameters that are used to add a data disk to a virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
     types:
     - uid: DataDisk
       isArray: true
@@ -241,19 +251,19 @@ definitions:
   kind: object
   properties:
   - name: computerName
-    description: Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#1-naming-conventions).
+    description: Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://docs.microsoft.com/azure/azure-resource-manager/management/resource-name-rules).
     types:
     - uid: string
   - name: adminUsername
-    description: Specifies the name of the administrator account. <br><br> This property cannot be updated after the VM is created. <br><br> **Windows-only restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters  <br><br><li> For root access to the Linux VM, see [Using root privileges on Linux virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)<br><li> For a list of built-in system users on Linux that should not be used in this field, see [Selecting User Names for Linux on Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+    description: Specifies the name of the administrator account. <br><br> This property cannot be updated after the VM is created. <br><br> **Windows-only restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters.
     types:
     - uid: string
   - name: adminPassword
-    description: Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)
+    description: Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection)
     types:
     - uid: string
   - name: customData
-    description: 'Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. <br><br> **Note: Do not pass any secrets or passwords in customData property** <br><br> This property cannot be updated after the VM is created. <br><br> customData is passed to the VM to be saved as a file, for more information see [Custom Data on Azure VMs](https://azure.microsoft.com/en-us/blog/custom-data-and-cloud-init-on-windows-azure/) <br><br> For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)'
+    description: 'Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. <br><br> **Note: Do not pass any secrets or passwords in customData property** <br><br> This property cannot be updated after the VM is created. <br><br> customData is passed to the VM to be saved as a file, for more information see [Custom Data on Azure VMs](https://azure.microsoft.com/blog/custom-data-and-cloud-init-on-windows-azure/) <br><br> For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init)'
     types:
     - uid: string
   - name: windowsConfiguration
@@ -261,7 +271,7 @@ definitions:
     types:
     - uid: WindowsConfiguration
   - name: linuxConfiguration
-    description: Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json) <br><br> For running non-endorsed distributions, see [Information for Non-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+    description: Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
     types:
     - uid: LinuxConfiguration
   - name: secrets
@@ -278,13 +288,22 @@ definitions:
     types:
     - uid: boolean
 - name: NetworkProfile
-  description: Specifies the network interfaces of the virtual machine.
+  description: Specifies the network interfaces or the networking configuration of the virtual machine.
   kind: object
   properties:
   - name: networkInterfaces
     description: Specifies the list of resource Ids for the network interfaces associated with the virtual machine.
     types:
     - uid: NetworkInterfaceReference
+      isArray: true
+  - name: networkApiVersion
+    description: specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations
+    types:
+    - uid: NetworkApiVersion
+  - name: networkInterfaceConfigurations
+    description: Specifies the networking configurations that will be used to create the virtual machine networking resources.
+    types:
+    - uid: VirtualMachineNetworkInterfaceConfiguration
       isArray: true
 - name: SecurityProfile
   description: Specifies the Security profile settings for the virtual machine or virtual machine scale set.
@@ -398,6 +417,13 @@ definitions:
     description: '[Preview Feature] The status of virtual machine patch operations.'
     types:
     - uid: VirtualMachinePatchStatus
+- name: ScheduledEventsProfile
+  kind: object
+  properties:
+  - name: terminateNotificationProfile
+    description: Specifies Terminate Scheduled Event related configurations.
+    types:
+    - uid: TerminateNotificationProfile
 - name: VirtualMachine
   description: Describes a Virtual Machine.
   kind: object
@@ -454,7 +480,7 @@ definitions:
     types:
     - uid: DiagnosticsProfile
   - name: properties.availabilitySet
-    description: Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Currently, a VM can only be added to availability set at creation time. The availability set to which the VM is being added should be under the same resource group as the availability set resource. An existing VM cannot be added to an availability set. <br><br>This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
+    description: Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Availability sets overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview). <br><br> For more information on Azure planned maintenance, see [Maintenance and updates for Virtual Machines in Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates) <br><br> Currently, a VM can only be added to availability set at creation time. The availability set to which the VM is being added should be under the same resource group as the availability set resource. An existing VM cannot be added to an availability set. <br><br>This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
     types:
     - uid: SubResource
   - name: properties.virtualMachineScaleSet
@@ -512,6 +538,14 @@ definitions:
     description: "Specifies the scale set logical fault domain into which the Virtual Machine will be created. By default, the Virtual Machine will by automatically assigned to a fault domain that best maintains balance across available fault domains.<br><li>This is applicable only if the 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01"
     types:
     - uid: integer
+  - name: properties.scheduledEventsProfile
+    description: Specifies Scheduled Event related configurations.
+    types:
+    - uid: ScheduledEventsProfile
+  - name: properties.userData
+    description: 'UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01'
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -585,7 +619,7 @@ definitions:
     types:
     - uid: DiagnosticsProfile
   - name: properties.availabilitySet
-    description: Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Currently, a VM can only be added to availability set at creation time. The availability set to which the VM is being added should be under the same resource group as the availability set resource. An existing VM cannot be added to an availability set. <br><br>This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
+    description: Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Availability sets overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview). <br><br> For more information on Azure planned maintenance, see [Maintenance and updates for Virtual Machines in Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates) <br><br> Currently, a VM can only be added to availability set at creation time. The availability set to which the VM is being added should be under the same resource group as the availability set resource. An existing VM cannot be added to an availability set. <br><br>This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
     types:
     - uid: SubResource
   - name: properties.virtualMachineScaleSet
@@ -643,6 +677,14 @@ definitions:
     description: "Specifies the scale set logical fault domain into which the Virtual Machine will be created. By default, the Virtual Machine will by automatically assigned to a fault domain that best maintains balance across available fault domains.<br><li>This is applicable only if the 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01"
     types:
     - uid: integer
+  - name: properties.scheduledEventsProfile
+    description: Specifies Scheduled Event related configurations.
+    types:
+    - uid: ScheduledEventsProfile
+  - name: properties.userData
+    description: 'UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01'
+    types:
+    - uid: string
   - name: tags
     description: Resource tags
     types:
@@ -676,7 +718,7 @@ definitions:
     types:
     - uid: ''
 - name: VirtualMachineSizeTypes
-  description: 'Specifies the size of the virtual machine. <br><br> The enum data type is currently deprecated and will be removed by December 23rd 2023. <br><br> Recommended way to get the list of available sizes is using these APIs: <br><br> [List all available virtual machine sizes in an availability set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes) <br><br> [List all available virtual machine sizes in a region]( https://docs.microsoft.com/en-us/rest/api/compute/resourceskus/list) <br><br> [List all available virtual machine sizes for resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/en-us/azure/virtual-machines/sizes). <br><br> The available VM sizes depend on region and availability set.'
+  description: 'Specifies the size of the virtual machine. <br><br> The enum data type is currently deprecated and will be removed by December 23rd 2023. <br><br> Recommended way to get the list of available sizes is using these APIs: <br><br> [List all available virtual machine sizes in an availability set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes) <br><br> [List all available virtual machine sizes in a region]( https://docs.microsoft.com/rest/api/compute/resourceskus/list) <br><br> [List all available virtual machine sizes for resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/sizes). <br><br> The available VM sizes depend on region and availability set.'
   kind: enum
   properties:
   - name: Basic_A0
@@ -1207,7 +1249,7 @@ definitions:
     types:
     - uid: string
 - name: OSDisk
-  description: Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-about-disks-vhds?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
+  description: Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview).
   kind: object
   properties:
   - name: osType
@@ -1254,6 +1296,10 @@ definitions:
     description: The managed disk parameters.
     types:
     - uid: ManagedDiskParameters
+  - name: deleteOption
+    description: 'Specifies whether OS Disk should be deleted or detached upon VM deletion. <br><br> Possible values: <br><br> **Delete** If this value is used, the OS disk is deleted when VM is deleted.<br><br> **Detach** If this value is used, the os disk is retained after VM is deleted. <br><br> The default value is set to **detach**. For an ephemeral OS Disk, the default value is set to **Delete**. User cannot change the delete option for ephemeral OS Disk.'
+    types:
+    - uid: DiskDeleteOptionTypes
 - name: DataDisk
   description: Describes a data disk.
   kind: object
@@ -1312,6 +1358,10 @@ definitions:
     description: "Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach**. <br><br> detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. <br><br> This feature is still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'."
     types:
     - uid: DiskDetachOptionTypes
+  - name: deleteOption
+    description: 'Specifies whether data disk should be deleted or detached upon VM deletion.<br><br> Possible values: <br><br> **Delete** If this value is used, the data disk is deleted when VM is deleted.<br><br> **Detach** If this value is used, the data disk is retained after VM is deleted.<br><br> The default value is set to **detach**'
+    types:
+    - uid: DiskDeleteOptionTypes
 - name: WindowsConfiguration
   description: Specifies Windows operating system settings on the virtual machine.
   kind: object
@@ -1325,7 +1375,7 @@ definitions:
     types:
     - uid: boolean
   - name: timeZone
-    description: Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time". <br><br> Possible values can be [TimeZoneInfo.Id](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.id?#System_TimeZoneInfo_Id) value from time zones returned by [TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.getsystemtimezones).
+    description: Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time". <br><br> Possible values can be [TimeZoneInfo.Id](https://docs.microsoft.com/dotnet/api/system.timezoneinfo.id?#System_TimeZoneInfo_Id) value from time zones returned by [TimeZoneInfo.GetSystemTimeZones](https://docs.microsoft.com/dotnet/api/system.timezoneinfo.getsystemtimezones).
     types:
     - uid: string
   - name: additionalUnattendContent
@@ -1342,7 +1392,7 @@ definitions:
     types:
     - uid: WinRMConfiguration
 - name: LinuxConfiguration
-  description: Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json) <br><br> For running non-endorsed distributions, see [Information for Non-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+  description: Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
   kind: object
   properties:
   - name: disablePasswordAuthentication
@@ -1382,10 +1432,66 @@ definitions:
     description: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
     types:
     - uid: boolean
+  - name: properties.deleteOption
+    description: Specify what happens to the network interface when the VM is deleted
+    types:
+    - uid: DeleteOptions
   - name: id
     description: Resource Id
     types:
     - uid: string
+- name: NetworkApiVersion
+  description: specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations
+  kind: enum
+  properties:
+  - name: 2020-11-01
+    types:
+    - uid: string
+- name: VirtualMachineNetworkInterfaceConfiguration
+  description: Describes a virtual machine network interface configurations.
+  kind: object
+  properties:
+  - name: name
+    description: The network interface configuration name.
+    types:
+    - uid: string
+  - name: properties.primary
+    description: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
+    types:
+    - uid: boolean
+  - name: properties.deleteOption
+    description: Specify what happens to the network interface when the VM is deleted
+    types:
+    - uid: DeleteOptions
+  - name: properties.enableAcceleratedNetworking
+    description: Specifies whether the network interface is accelerated networking-enabled.
+    types:
+    - uid: boolean
+  - name: properties.enableFpga
+    description: Specifies whether the network interface is FPGA networking-enabled.
+    types:
+    - uid: boolean
+  - name: properties.enableIPForwarding
+    description: Whether IP forwarding enabled on this NIC.
+    types:
+    - uid: boolean
+  - name: properties.networkSecurityGroup
+    description: The network security group.
+    types:
+    - uid: SubResource
+  - name: properties.dnsSettings
+    description: The dns settings to be applied on the network interfaces.
+    types:
+    - uid: VirtualMachineNetworkInterfaceDnsSettingsConfiguration
+  - name: properties.ipConfigurations
+    description: Specifies the IP configurations of the network interface.
+    types:
+    - uid: VirtualMachineNetworkInterfaceIPConfiguration
+      isArray: true
+  - name: properties.dscpConfiguration
+    description: ''
+    types:
+    - uid: SubResource
 - name: UefiSettings
   description: 'Specifies the security settings like secure boot and vTPM used while creating the virtual machine. <br><br>Minimum api-version: 2020-12-01'
   kind: object
@@ -1591,6 +1697,17 @@ definitions:
     types:
     - uid: InstanceViewStatus
       isArray: true
+- name: TerminateNotificationProfile
+  kind: object
+  properties:
+  - name: notBeforeTimeout
+    description: Configurable length of time a Virtual Machine being deleted will have to potentially approve the Terminate Scheduled Event before the event is auto approved (timed out). The configuration must be specified in ISO 8601 format, the default value is 5 minutes (PT5M)
+    types:
+    - uid: string
+  - name: enable
+    description: Specifies whether the Terminate Scheduled event is enabled or disabled.
+    types:
+    - uid: boolean
 - name: VirtualMachineExtension
   description: Describes a Virtual Machine Extension.
   kind: object
@@ -1733,7 +1850,7 @@ definitions:
     types:
     - uid: string
 - name: CachingTypes
-  description: 'Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None** for Standard storage. **ReadOnly** for Premium storage.'
+  description: Gets the caching type.
   kind: enum
   properties:
   - name: None
@@ -1754,7 +1871,7 @@ definitions:
     types:
     - uid: DiffDiskOptions
   - name: placement
-    description: 'Specifies the ephemeral disk placement for operating system disk.<br><br> Possible values are: <br><br> **CacheDisk** <br><br> **ResourceDisk** <br><br> Default: **CacheDisk** if one is configured for the VM size otherwise **ResourceDisk** is used.<br><br> Refer to VM size documentation for Windows VM at https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes and Linux VM at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk.'
+    description: 'Specifies the ephemeral disk placement for operating system disk.<br><br> Possible values are: <br><br> **CacheDisk** <br><br> **ResourceDisk** <br><br> Default: **CacheDisk** if one is configured for the VM size otherwise **ResourceDisk** is used.<br><br> Refer to VM size documentation for Windows VM at https://docs.microsoft.com/azure/virtual-machines/windows/sizes and Linux VM at https://docs.microsoft.com/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk.'
     types:
     - uid: DiffDiskPlacement
 - name: DiskCreateOptionTypes
@@ -1784,6 +1901,16 @@ definitions:
     - uid: DiskEncryptionSetParameters
   - name: id
     description: Resource Id
+    types:
+    - uid: string
+- name: DiskDeleteOptionTypes
+  description: 'Specifies whether OS Disk should be deleted or detached upon VM deletion. <br><br> Possible values: <br><br> **Delete** If this value is used, the OS disk is deleted when VM is deleted.<br><br> **Detach** If this value is used, the os disk is retained after VM is deleted. <br><br> The default value is set to **detach**. For an ephemeral OS Disk, the default value is set to **Delete**. User cannot change the delete option for ephemeral OS Disk.'
+  kind: enum
+  properties:
+  - name: Delete
+    types:
+    - uid: string
+  - name: Detach
     types:
     - uid: string
 - name: DiskDetachOptionTypes
@@ -1818,13 +1945,17 @@ definitions:
   kind: object
   properties:
   - name: patchMode
-    description: 'Specifies the mode of VM Guest Patching to IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of patches to a virtual machine. You do this by applying patches manually inside the VM. In this mode, automatic updates are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br /> **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **AutomaticByPlatform** - the virtual machine will automatically updated by the platform. The properties provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true '
+    description: 'Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated to virtual machine scale set with OrchestrationMode as Flexible.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of patches to a virtual machine. You do this by applying patches manually inside the VM. In this mode, automatic updates are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br /> **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **AutomaticByPlatform** - the virtual machine will automatically updated by the platform. The properties provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true '
     types:
     - uid: WindowsVMGuestPatchMode
   - name: enableHotpatching
     description: Enables customers to patch their Azure VMs without requiring a reboot. For enableHotpatching, the 'provisionVMAgent' must be set to true and 'patchMode' must be set to 'AutomaticByPlatform'.
     types:
     - uid: boolean
+  - name: assessmentMode
+    description: 'Specifies the mode of VM Guest patch assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine.<br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true. '
+    types:
+    - uid: WindowsPatchAssessmentMode
 - name: WinRMConfiguration
   description: Describes Windows Remote Management configuration of the VM
   kind: object
@@ -1848,9 +1979,13 @@ definitions:
   kind: object
   properties:
   - name: patchMode
-    description: Specifies the mode of VM Guest Patching to IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - The virtual machine's default patching configuration is used. <br /><br /> **AutomaticByPlatform** - The virtual machine will be automatically updated by the platform. The property provisionVMAgent must be true
+    description: Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated to virtual machine scale set with OrchestrationMode as Flexible.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - The virtual machine's default patching configuration is used. <br /><br /> **AutomaticByPlatform** - The virtual machine will be automatically updated by the platform. The property provisionVMAgent must be true
     types:
     - uid: LinuxVMGuestPatchMode
+  - name: assessmentMode
+    description: Specifies the mode of VM Guest Patch Assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine. <br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
+    types:
+    - uid: LinuxPatchAssessmentMode
 - name: VaultCertificate
   description: Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
   kind: object
@@ -1863,6 +1998,64 @@ definitions:
     description: For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate should be added. The specified certificate store is implicitly in the LocalMachine account. <br><br>For Linux VMs, the certificate file is placed under the /var/lib/waagent directory, with the file name &lt;UppercaseThumbprint&gt;.crt for the X509 certificate file and &lt;UppercaseThumbprint&gt;.prv for private key. Both of these files are .pem formatted.
     types:
     - uid: string
+- name: DeleteOptions
+  description: Specify what happens to the network interface when the VM is deleted
+  kind: enum
+  properties:
+  - name: Delete
+    types:
+    - uid: string
+  - name: Detach
+    types:
+    - uid: string
+- name: VirtualMachineNetworkInterfaceDnsSettingsConfiguration
+  description: Describes a virtual machines network configuration's DNS settings.
+  kind: object
+  properties:
+  - name: dnsServers
+    description: List of DNS servers IP addresses
+    types:
+    - uid: string
+      isArray: true
+- name: VirtualMachineNetworkInterfaceIPConfiguration
+  description: Describes a virtual machine network profile's IP configuration.
+  kind: object
+  properties:
+  - name: name
+    description: The IP configuration name.
+    types:
+    - uid: string
+  - name: properties.subnet
+    description: Specifies the identifier of the subnet.
+    types:
+    - uid: SubResource
+  - name: properties.primary
+    description: Specifies the primary network interface in case the virtual machine has more than 1 network interface.
+    types:
+    - uid: boolean
+  - name: properties.publicIPAddressConfiguration
+    description: The publicIPAddressConfiguration.
+    types:
+    - uid: VirtualMachinePublicIPAddressConfiguration
+  - name: properties.privateIPAddressVersion
+    description: "Available from Api-Version 2017-03-30 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and 'IPv6'."
+    types:
+    - uid: IPVersions
+  - name: properties.applicationSecurityGroups
+    description: Specifies an array of references to application security group.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.applicationGatewayBackendAddressPools
+    description: Specifies an array of references to backend address pools of application gateways. A virtual machine can reference backend address pools of multiple application gateways. Multiple virtual machines cannot use the same application gateway.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.loadBalancerBackendAddressPools
+    description: Specifies an array of references to backend address pools of load balancers. A virtual machine can reference backend address pools of one public and one internal load balancer. [Multiple virtual machines cannot use the same basic sku load balancer].
+    types:
+    - uid: SubResource
+      isArray: true
 - name: VirtualMachineExtensionHandlerInstanceView
   description: The instance view of a virtual machine extension handler.
   kind: object
@@ -2050,7 +2243,7 @@ definitions:
     types:
     - uid: string
 - name: DiffDiskPlacement
-  description: Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to choose the location i.e, cache disk or resource disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VM at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements
+  description: Specifies the ephemeral disk placement for operating system disk. This property can be used by user in the request to choose the location i.e, cache disk or resource disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer Ephemeral OS disk size requirements for Windows VM at https://docs.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VM at https://docs.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements
   kind: enum
   properties:
   - name: CacheDisk
@@ -2114,13 +2307,23 @@ definitions:
     types:
     - uid: string
 - name: WindowsVMGuestPatchMode
-  description: 'Specifies the mode of VM Guest Patching to IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of patches to a virtual machine. You do this by applying patches manually inside the VM. In this mode, automatic updates are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br /> **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **AutomaticByPlatform** - the virtual machine will automatically updated by the platform. The properties provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true '
+  description: 'Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated to virtual machine scale set with OrchestrationMode as Flexible.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of patches to a virtual machine. You do this by applying patches manually inside the VM. In this mode, automatic updates are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br /> **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **AutomaticByPlatform** - the virtual machine will automatically updated by the platform. The properties provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true '
   kind: enum
   properties:
   - name: Manual
     types:
     - uid: string
   - name: AutomaticByOS
+    types:
+    - uid: string
+  - name: AutomaticByPlatform
+    types:
+    - uid: string
+- name: WindowsPatchAssessmentMode
+  description: 'Specifies the mode of VM Guest patch assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine.<br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true. '
+  kind: enum
+  properties:
+  - name: ImageDefault
     types:
     - uid: string
   - name: AutomaticByPlatform
@@ -2147,17 +2350,78 @@ definitions:
     types:
     - uid: string
   - name: keyData
-    description: SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+    description: SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure]https://docs.microsoft.com/azure/virtual-machines/linux/create-ssh-keys-detailed).
     types:
     - uid: string
 - name: LinuxVMGuestPatchMode
-  description: Specifies the mode of VM Guest Patching to IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - The virtual machine's default patching configuration is used. <br /><br /> **AutomaticByPlatform** - The virtual machine will be automatically updated by the platform. The property provisionVMAgent must be true
+  description: Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated to virtual machine scale set with OrchestrationMode as Flexible.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - The virtual machine's default patching configuration is used. <br /><br /> **AutomaticByPlatform** - The virtual machine will be automatically updated by the platform. The property provisionVMAgent must be true
   kind: enum
   properties:
   - name: ImageDefault
     types:
     - uid: string
   - name: AutomaticByPlatform
+    types:
+    - uid: string
+- name: LinuxPatchAssessmentMode
+  description: Specifies the mode of VM Guest Patch Assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine. <br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
+  kind: enum
+  properties:
+  - name: ImageDefault
+    types:
+    - uid: string
+  - name: AutomaticByPlatform
+    types:
+    - uid: string
+- name: VirtualMachinePublicIPAddressConfiguration
+  description: Describes a virtual machines IP Configuration's PublicIPAddress configuration
+  kind: object
+  properties:
+  - name: name
+    description: The publicIP address configuration name.
+    types:
+    - uid: string
+  - name: sku
+    description: Describes the public IP Sku
+    types:
+    - uid: PublicIPAddressSku
+  - name: properties.idleTimeoutInMinutes
+    description: The idle timeout of the public IP address.
+    types:
+    - uid: integer
+  - name: properties.deleteOption
+    description: Specify what happens to the public IP address when the VM is deleted
+    types:
+    - uid: DeleteOptions
+  - name: properties.dnsSettings
+    description: The dns settings to be applied on the publicIP addresses .
+    types:
+    - uid: VirtualMachinePublicIPAddressDnsSettingsConfiguration
+  - name: properties.ipTags
+    description: The list of IP tags associated with the public IP address.
+    types:
+    - uid: VirtualMachineIpTag
+      isArray: true
+  - name: properties.publicIPPrefix
+    description: The PublicIPPrefix from which to allocate publicIP addresses.
+    types:
+    - uid: SubResource
+  - name: properties.publicIPAddressVersion
+    description: "Available from Api-Version 2019-07-01 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'."
+    types:
+    - uid: IPVersions
+  - name: properties.publicIPAllocationMethod
+    description: Specify the public IP allocation type
+    types:
+    - uid: PublicIPAllocationMethod
+- name: IPVersions
+  description: "Available from Api-Version 2019-07-01 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'."
+  kind: enum
+  properties:
+  - name: IPv4
+    types:
+    - uid: string
+  - name: IPv6
     types:
     - uid: string
 - name: PatchOperationStatus
@@ -2214,6 +2478,48 @@ definitions:
   - name: Https
     types:
     - uid: string
+- name: PublicIPAddressSku
+  description: Describes the public IP Sku
+  kind: object
+  properties:
+  - name: publicIPAddressSkuName
+    description: Specify public IP sku name
+    types:
+    - uid: PublicIPAddressSkuName
+  - name: publicIPAddressSkuTier
+    description: Specify public IP sku tier
+    types:
+    - uid: PublicIPAddressSkuTier
+- name: VirtualMachinePublicIPAddressDnsSettingsConfiguration
+  description: Describes a virtual machines network configuration's DNS settings.
+  kind: object
+  properties:
+  - name: domainNameLabel
+    description: The Domain name label prefix of the PublicIPAddress resources that will be created. The generated name label is the concatenation of the domain name label and vm network profile unique ID.
+    types:
+    - uid: string
+- name: VirtualMachineIpTag
+  description: Contains the IP tag associated with the public IP address.
+  kind: object
+  properties:
+  - name: ipTagType
+    description: 'IP tag type. Example: FirstPartyUsage.'
+    types:
+    - uid: string
+  - name: tag
+    description: 'IP tag associated with the public IP. Example: SQL, Storage etc.'
+    types:
+    - uid: string
+- name: PublicIPAllocationMethod
+  description: Specify the public IP allocation type
+  kind: enum
+  properties:
+  - name: Dynamic
+    types:
+    - uid: string
+  - name: Static
+    types:
+    - uid: string
 - name: ApiErrorBase
   description: Api error base.
   kind: object
@@ -2242,10 +2548,30 @@ definitions:
     description: The internal error message or exception dump.
     types:
     - uid: string
+- name: PublicIPAddressSkuName
+  description: Specify public IP sku name
+  kind: enum
+  properties:
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+- name: PublicIPAddressSkuTier
+  description: Specify public IP sku tier
+  kind: enum
+  properties:
+  - name: Regional
+    types:
+    - uid: string
+  - name: Global
+    types:
+    - uid: string
 examples:
 - name: Update a VM by detaching data disk
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2020-12-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-03-01
     body: >-
       {
         "properties": {
@@ -2375,7 +2701,7 @@ examples:
       }
 - name: Update a VM by force-detaching data disk
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2020-12-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-03-01
     body: >-
       {
         "properties": {
