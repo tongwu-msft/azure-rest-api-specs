@@ -3,15 +3,15 @@ uid: management.azure.com.resources.deployments.listatsubscriptionscope
 name: List At Subscription Scope
 service: Resource Management
 groupName: Deployments
-apiVersion: 2020-06-01
+apiVersion: 2021-04-01
 summary: Get all the deployments for a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/?api-version=2020-06-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/?$filter={$filter}&$top={$top}&api-version=2020-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/?$filter={$filter}&$top={$top}&api-version=2021-04-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -312,6 +312,10 @@ definitions:
     types:
     - uid: ProviderResourceType
       isArray: true
+  - name: providerAuthorizationConsentState
+    description: The provider authorization consent state.
+    types:
+    - uid: ProviderAuthorizationConsentState
 - name: Dependency
   description: Deployment dependency information.
   kind: object
@@ -346,11 +350,15 @@ definitions:
     types:
     - uid: string
   - name: relativePath
-    description: Applicable only if this template link references a Template Spec. This relativePath property can optionally be used to reference a Template Spec artifact by path.
+    description: The relativePath property can be used to deploy a linked template at a location relative to the parent. If the parent template was linked with a TemplateSpec, this will reference an artifact in the TemplateSpec.  If the parent was linked with a URI, the child deployment will be a combination of the parent and relativePath URIs
     types:
     - uid: string
   - name: contentVersion
     description: If included, must match the ContentVersion in the template.
+    types:
+    - uid: string
+  - name: queryString
+    description: The query string (for example, a SAS token) to be used with the templateLink URI.
     types:
     - uid: string
 - name: ParametersLink
@@ -422,6 +430,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: locationMappings
+    description: The location mappings that are supported by this resource type.
+    types:
+    - uid: ProviderExtendedLocation
+      isArray: true
   - name: aliases
     description: The aliases that are supported by this resource type.
     types:
@@ -455,6 +468,22 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ProviderAuthorizationConsentState
+  description: The provider authorization consent state.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: Required
+    types:
+    - uid: string
+  - name: NotRequired
+    types:
+    - uid: string
+  - name: Consented
+    types:
+    - uid: string
 - name: BasicDependency
   description: Deployment dependency information.
   kind: object
@@ -481,6 +510,23 @@ definitions:
   - name: SpecificDeployment
     types:
     - uid: string
+- name: ProviderExtendedLocation
+  description: 'The provider extended location. '
+  kind: object
+  properties:
+  - name: location
+    description: The azure location.
+    types:
+    - uid: string
+  - name: type
+    description: The extended location type.
+    types:
+    - uid: string
+  - name: extendedLocations
+    description: The extended locations for the azure location.
+    types:
+    - uid: string
+      isArray: true
 - name: Alias
   description: 'The alias type. '
   kind: object

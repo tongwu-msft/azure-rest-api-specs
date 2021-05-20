@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgateways.updatetags
 name: Update Tags
 service: Network Gateway
 groupName: Virtual Network Gateways
-apiVersion: 2020-07-01
+apiVersion: 2020-11-01
 summary: Updates a virtual network gateway tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}?api-version=2020-07-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}?api-version=2020-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -65,6 +65,10 @@ definitions:
   description: A common class for general resource information.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of type local virtual network gateway.
+    types:
+    - uid: ExtendedLocation
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
@@ -138,14 +142,10 @@ definitions:
     description: The IP address allocated by the gateway to which dns requests can be sent.
     types:
     - uid: string
-  - name: properties.virtualNetworkExtendedLocationResourceId
-    description: MAS FIJI customer vnet resource id. VirtualNetworkGateway of type local gateway is associated with the customer vnet.
+  - name: properties.vNetExtendedLocationResourceId
+    description: Customer vnet resource id. VirtualNetworkGateway of type local gateway is associated with the customer vnet.
     types:
     - uid: string
-  - name: properties.extendedLocation
-    description: The extended location of type local virtual network gateway.
-    types:
-    - uid: ExtendedLocation
   - name: id
     description: Resource ID.
     types:
@@ -192,6 +192,18 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ExtendedLocation
+  description: ExtendedLocation complex type.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: VirtualNetworkGatewayIPConfiguration
   description: IP configuration for virtual network gateway.
   kind: object
@@ -315,6 +327,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: vpnAuthenticationTypes
+    description: VPN authentication types for the virtual network gateway..
+    types:
+    - uid: string
+      isArray: true
   - name: vpnClientIpsecPolicies
     description: VpnClientIpsecPolicies for virtual network gateway P2S client.
     types:
@@ -391,18 +408,6 @@ definitions:
   - name: Failed
     types:
     - uid: string
-- name: ExtendedLocation
-  description: ExtendedLocation complex type.
-  kind: object
-  properties:
-  - name: name
-    description: The name of the extended location.
-    types:
-    - uid: string
-  - name: type
-    description: The type of the extended location.
-    types:
-    - uid: ExtendedLocationTypes
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -424,6 +429,13 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 - name: IPAllocationMethod
   description: IP address allocation method.
   kind: enum
@@ -673,13 +685,6 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: ExtendedLocationTypes
-  description: The type of the extended location.
-  kind: enum
-  properties:
-  - name: EdgeZone
-    types:
-    - uid: string
 - name: IpsecEncryption
   description: The IPSec encryption algorithm (IKE phase 1).
   kind: enum
@@ -842,7 +847,7 @@ definitions:
 examples:
 - name: UpdateVirtualNetworkGatewayTags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw?api-version=2020-07-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw?api-version=2020-11-01
     body: >-
       {
         "tags": {

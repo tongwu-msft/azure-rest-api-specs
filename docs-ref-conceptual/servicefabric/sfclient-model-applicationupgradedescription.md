@@ -1,6 +1,7 @@
 ---
 title: "ApplicationUpgradeDescription"
-ms.date: "10/21/2020"
+description: "ApplicationUpgradeDescription"
+ms.date: "01/28/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -44,6 +45,7 @@ Describes the parameters for an application upgrade. Note that upgrade descripti
 | [`MonitoringPolicy`](#monitoringpolicy) | [MonitoringPolicyDescription](sfclient-model-monitoringpolicydescription.md) | No |
 | [`ApplicationHealthPolicy`](#applicationhealthpolicy) | [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) | No |
 | [`InstanceCloseDelayDurationInSeconds`](#instanceclosedelaydurationinseconds) | integer (int64) | No |
+| [`ManagedApplicationIdentity`](#managedapplicationidentity) | [ManagedApplicationIdentityDescription](sfclient-model-managedapplicationidentitydescription.md) | No |
 
 ____
 ### `Name`
@@ -161,3 +163,10 @@ Duration in seconds, to wait before a stateless instance is closed, to allow the
 upgrade, only for those instances which have a non-zero delay duration configured in the service description. See InstanceCloseDelayDurationSeconds property in $ref: "#/definitions/StatelessServiceDescription.yaml" for details.
 Note, the default value of InstanceCloseDelayDurationInSeconds is 4294967295, which indicates that the behavior will entirely depend on the delay configured in the stateless service description.
 
+
+____
+### `ManagedApplicationIdentity`
+__Type__: [ManagedApplicationIdentityDescription](sfclient-model-managedapplicationidentitydescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Managed application identity description.

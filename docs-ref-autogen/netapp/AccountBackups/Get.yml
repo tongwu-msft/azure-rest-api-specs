@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.accountbackups.get
 name: Get
 service: Azure NetApp Files
 groupName: Account Backups
-apiVersion: 2020-09-01
+apiVersion: 2020-12-01
 summary: Get Backup for a Netapp Account
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/accountBackups/{backupName}?api-version=2020-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/accountBackups/{backupName}?api-version=2020-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -101,13 +101,35 @@ definitions:
     - uid: string
   - name: properties.backupType
     isReadyOnly: true
-    description: Type of backup adhoc or scheduled
+    description: "backupType  \nType of backup Manual or Scheduled"
+    types:
+    - uid: backupType
+  - name: properties.failureReason
+    isReadyOnly: true
+    description: Failure reason
+    types:
+    - uid: string
+  - name: properties.volumeName
+    isReadyOnly: true
+    description: Volume name
+    types:
+    - uid: string
+- name: backupType
+  description: backupType
+  kind: enum
+  properties:
+  - name: Manual
+    description: Manual backup
+    types:
+    - uid: string
+  - name: Scheduled
+    description: Scheduled backup
     types:
     - uid: string
 examples:
 - name: AccountBackups_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/accountBackups/backup1?api-version=2020-09-01
+    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/accountBackups/backup1?api-version=2020-12-01
   responses:
   - statusCode: "200"
     body: >-
@@ -121,7 +143,7 @@ examples:
           "provisioningState": "Succeeded",
           "size": 10011,
           "label": "myLabel",
-          "backupType": "adhoc"
+          "backupType": "Manual"
         }
       }
 security:

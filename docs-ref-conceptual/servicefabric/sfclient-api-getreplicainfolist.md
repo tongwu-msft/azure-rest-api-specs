@@ -1,5 +1,6 @@
 ---
 title: "Get Replica Info List"
+description: "Get Replica Info List"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

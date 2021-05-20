@@ -1,5 +1,6 @@
 ---
 title: "Get Partitions Event List"
+description: "Get Partitions Event List"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

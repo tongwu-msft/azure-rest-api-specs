@@ -3,15 +3,15 @@ uid: management.azure.com.storagerp.blobcontainers.list
 name: List
 service: Storage Resource Provider
 groupName: Blob Containers
-apiVersion: 2019-06-01
+apiVersion: 2021-04-01
 summary: Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers?api-version=2019-06-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers?api-version=2019-06-01&$maxpagesize={$maxpagesize}&$filter={$filter}&$include=deleted
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers?api-version=2021-04-01&$maxpagesize={$maxpagesize}&$filter={$filter}&$include=deleted
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -167,6 +167,10 @@ definitions:
     description: The hasImmutabilityPolicy public property is set to true by SRP if ImmutabilityPolicy has been created for this container. The hasImmutabilityPolicy public property is set to false by SRP if ImmutabilityPolicy has not been created for this container.
     types:
     - uid: boolean
+  - name: properties.immutableStorageWithVersioning
+    description: The object level immutability property of the container. The property is immutable and can only be set to true at the container creation time. Existing containers must undergo a migration process.
+    types:
+    - uid: ImmutableStorageWithVersioning
   - name: etag
     isReadyOnly: true
     description: Resource Etag.
@@ -281,6 +285,24 @@ definitions:
     types:
     - uid: TagProperty
       isArray: true
+- name: ImmutableStorageWithVersioning
+  description: Object level immutability properties of the container.
+  kind: object
+  properties:
+  - name: enabled
+    description: This is an immutable property, when set to true it enables object level immutability at the container level.
+    types:
+    - uid: boolean
+  - name: timeStamp
+    isReadyOnly: true
+    description: Returns the date and time the object level immutability was enabled.
+    types:
+    - uid: string
+  - name: migrationState
+    isReadyOnly: true
+    description: This property denotes the container level immutability to object level immutability migration state.
+    types:
+    - uid: MigrationState
 - name: UpdateHistoryProperty
   description: An update history of the ImmutabilityPolicy of a blob container.
   kind: object
@@ -354,6 +376,16 @@ definitions:
     description: Returns the User Principal Name of the user who added the tag.
     types:
     - uid: string
+- name: MigrationState
+  description: This property denotes the container level immutability to object level immutability migration state.
+  kind: enum
+  properties:
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
 - name: ImmutabilityPolicyUpdateType
   description: 'The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.'
   kind: enum
@@ -370,7 +402,7 @@ definitions:
 examples:
 - name: ListContainers
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2019-06-01&$include=deleted
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2021-04-01&$include=deleted
   responses:
   - statusCode: "200"
     body: >-
@@ -405,11 +437,11 @@ examples:
             }
           }
         ],
-        "nextLink": "https://sto1590endpoint/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2019-06-01&$maxpagesize=2&$skipToken=/sto1590/container5103"
+        "nextLink": "https://sto1590endpoint/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2020-08-01-preview&$maxpagesize=2&$skipToken=/sto1590/container5103"
       }
 - name: ListDeletedContainers
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2019-06-01&$include=deleted
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2021-04-01&$include=deleted
   responses:
   - statusCode: "200"
     body: >-

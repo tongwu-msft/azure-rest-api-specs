@@ -1,7 +1,7 @@
 ---
 title: Reset Documents (api-version=2020-06-30-Preview)
-description: Re-ingest a subset of documents from a data source with customer-provided document keys.
-ms.date: 02/02/2020
+description: Preview API used to re-ingest a subset of documents from a data source with customer-provided document keys.
+ms.date: 02/02/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -15,10 +15,15 @@ ms.manager: jennmar
 
 **API Version: 2020-06-30-Preview**
 
+> [!Important]
+> This preview API adds the ability to flag specific documents for reprocessing by an indexer. Document keys passed in the request are processed in full on the next run. The entire API is a preview feature. For more information, see [Reset and run an indexer](https://docs.microsoft.com/azure/search/search-howto-run-reset-indexers).
+
 The Reset Documents API allows you to selectively reprocess documents from your data source. The API accepts document keys as input, and prioritizes the processing of those documents ahead of other documents from the same data source. This API works for all indexers (with or without a skillset). If the call succeeds, customers will always get a 204 NoContent response.
+
 * For indexers with a skillset and incremental enrichment enabled, Reset Documents will clear the cache and re-run the full skillset.
 * For indexers without a skillset, Reset Documents will simply read the source document from the data source and update/insert the contents into the index.
-* For indexers with field mappings, Reset Documents will use the field mappings to relate a document key to a mapped field in the data source.
+
+If your document key is referenced in an indexer field mapping, the indexer will use field mapping to locate the appropriate field in the underlying data source.
 
 This API works for all indexers (with or without a skillset). If the call succeeds, customers will always get a 204 NoContent response. If the indexer doesn’t have a skillset, it will simply read the document from the data source and update/insert the document into the index.
 
@@ -38,7 +43,7 @@ Reset documents is an asynchronous API. Invoking the API adds the document keys 
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | indexer name  | Required. The request URI specifies the name of the indexer to update. |
-| api-version | Required. The current preview version is api-version=2020-06-30-Preview` (case-sensitive). See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 | overwrite | Optional. This parameter determines whether consecutive Reset Document operations are combined or overwritten. Default is false. When false, the call’s payload of document keys will be added to the list of keys already queued up for reprocessing. If true, the call’s payload of document keys will overwrite the existing list, including clearing the list of reset documents if you set the keys to null.|
 
 ## Request Headers

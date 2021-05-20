@@ -1,0 +1,204 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cost-management.settings.createorupdate
+name: Create Or Update
+service: Cost Management
+groupName: Settings
+apiVersion: 2019-11-01
+summary: Sets a new value for a specific setting.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/providers/Microsoft.CostManagement/settings/{settingName}?api-version=2019-11-01
+uriParameters:
+- name: settingName
+  in: path
+  isRequired: true
+  description: 'Name of the setting. Allowed values: myscope'
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2019-11-01.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: Setting
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.scope
+    in: body
+    isRequired: true
+    description: Sets the default scope the current user will see when they sign into Azure Cost Management in the Azure portal.
+    types:
+    - uid: string
+  - name: properties.startOn
+    in: body
+    description: 'Indicates what scope Cost Management in the Azure portal should default to. Allowed values: LastUsed.'
+    types:
+    - uid: LastUsed
+    - uid: ScopePicker
+    - uid: SpecificScope
+    typesTitle: enum
+  - name: properties.cache
+    in: body
+    description: Array of scopes with additional details used by Cost Management in the Azure portal.
+    types:
+    - uid: Cache
+      isArray: true
+requestHeader: []
+definitions:
+- name: Cache
+  description: Array of scopes with additional details used by Cost Management in the Azure portal.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID used by Resource Manager to uniquely identify the scope.
+    types:
+    - uid: string
+  - name: name
+    description: Display name for the scope.
+    types:
+    - uid: string
+  - name: channel
+    description: 'Indicates the account type. Allowed values include: EA, PAYG, Modern, Internal, Unknown.'
+    types:
+    - uid: string
+  - name: subchannel
+    description: 'Indicates the type of modern account. Allowed values include: Individual, Enterprise, Partner, Indirect, NotApplicable'
+    types:
+    - uid: string
+  - name: parent
+    description: Resource ID of the parent scope. For instance, subscription's resource ID for a resource group or a management group resource ID for a subscription.
+    types:
+    - uid: string
+  - name: status
+    description: Indicates the status of the scope. Status only applies to subscriptions and billing accounts.
+    types:
+    - uid: string
+- name: Setting
+  description: State of the myscope setting.
+  kind: object
+  properties:
+  - name: properties.scope
+    description: Sets the default scope the current user will see when they sign into Azure Cost Management in the Azure portal.
+    types:
+    - uid: string
+  - name: properties.startOn
+    description: 'Indicates what scope Cost Management in the Azure portal should default to. Allowed values: LastUsed.'
+    types:
+    - uid: LastUsed
+    - uid: ScopePicker
+    - uid: SpecificScope
+    typesTitle: enum
+  - name: properties.cache
+    description: Array of scopes with additional details used by Cost Management in the Azure portal.
+    types:
+    - uid: Cache
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: kind
+    isReadyOnly: true
+    description: Resource kind.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: "Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header."
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: CreateOrUpdateSetting
+  request:
+    uri: PUT https://management.azure.com/providers/Microsoft.CostManagement/settings/myscope?api-version=2019-11-01
+    body: >-
+      {
+        "properties": {
+          "scope": "/subscriptions/00000000-0000-0000-0000-000000000000",
+          "startOn": "LastUsed",
+          "cache": [
+            {
+              "id": "/providers/Microsoft.Management/managementGroups/72f988bf-86f1-41af-91ab-2d7cd011db47",
+              "name": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+              "channel": "Modern",
+              "subchannel": "NotApplicable",
+              "parent": "/providers/Microsoft.Management/managementGroups/acm",
+              "status": "enabled"
+            }
+          ]
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/providers/Microsoft.CostManagement/settings/myscope",
+        "name": "myscope",
+        "kind": "user",
+        "type": "Microsoft.CostManagement/Settings",
+        "properties": {
+          "scope": "/subscriptions/00000000-0000-0000-0000-000000000000",
+          "startOn": "LastUsed",
+          "cache": [
+            {
+              "id": "/providers/Microsoft.Management/managementGroups/72f988bf-86f1-41af-91ab-2d7cd011db47",
+              "name": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+              "channel": "Modern",
+              "subchannel": "NotApplicable",
+              "parent": "/providers/Microsoft.Management/managementGroups/acm",
+              "status": "enabled"
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

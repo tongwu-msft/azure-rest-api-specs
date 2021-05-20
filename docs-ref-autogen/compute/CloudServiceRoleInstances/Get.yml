@@ -3,15 +3,15 @@ uid: management.azure.com.compute.cloudserviceroleinstances.get
 name: Get
 service: Compute
 groupName: Cloud Service Role Instances
-apiVersion: 2020-10-01-preview
+apiVersion: 2021-03-01
 summary: Gets a role instance from a cloud service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}?api-version=2020-10-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}?api-version=2020-10-01-preview&$expand=instanceView
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}?api-version=2021-03-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -44,7 +44,7 @@ uriParameters:
   - uid: string
 - name: $expand
   in: query
-  description: The expand expression to apply to the operation.
+  description: The expand expression to apply to the operation. 'UserData' is not supported for cloud services.
   types:
   - uid: InstanceViewTypes
 responses:
@@ -59,10 +59,13 @@ responses:
 requestHeader: []
 definitions:
 - name: InstanceViewTypes
-  description: The expand expression to apply to the operation.
+  description: The expand expression to apply to the operation. 'UserData' is not supported for cloud services.
   kind: enum
   properties:
   - name: instanceView
+    types:
+    - uid: string
+  - name: userData
     types:
     - uid: string
 - name: CloudError
@@ -273,7 +276,32 @@ definitions:
   - name: Error
     types:
     - uid: string
-examples: []
+examples:
+- name: Get Cloud Service Role Instance
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roleInstances/{roleInstance-name}?api-version=2021-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "{roleInstance-name}",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roleInstances/{roleInstance-name}",
+        "type": "Microsoft.Compute/cloudServices/roleInstances",
+        "location": "eastus2euap",
+        "sku": {
+          "name": "Standard_D1_v2",
+          "tier": "Standard"
+        },
+        "properties": {
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roleInstances/{roleInstance-name}/networkInterfaces/nic1"
+              }
+            ]
+          }
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2

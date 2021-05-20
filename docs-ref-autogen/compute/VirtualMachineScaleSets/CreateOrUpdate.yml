@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesets.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2020-06-01
+apiVersion: 2020-12-01
 summary: Create or update a VM scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2020-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2020-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -69,6 +69,11 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: extendedLocation
+    in: body
+    description: The extended location of the Virtual Machine Scale Set.
+    types:
+    - uid: ExtendedLocation
   - name: properties.upgradePolicy
     in: body
     description: The upgrade policy.
@@ -129,6 +134,11 @@ requestBody:
     description: Specifies the scale-in policy that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in.
     types:
     - uid: ScaleInPolicy
+  - name: properties.orchestrationMode
+    in: body
+    description: Specifies the orchestration mode for the virtual machine scale set.
+    types:
+    - uid: OrchestrationMode
   - name: location
     in: body
     isRequired: true
@@ -204,6 +214,18 @@ definitions:
     description: "The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
     types:
     - uid: UserAssignedIdentities
+- name: ExtendedLocation
+  description: The complex type of the extended location.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: UpgradePolicy
   description: Describes an upgrade policy - automatic, manual, or rolling.
   kind: object
@@ -325,6 +347,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: extendedLocation
+    description: The extended location of the Virtual Machine Scale Set.
+    types:
+    - uid: ExtendedLocation
   - name: properties.upgradePolicy
     description: The upgrade policy.
     types:
@@ -383,6 +409,10 @@ definitions:
     description: Specifies the scale-in policy that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in.
     types:
     - uid: ScaleInPolicy
+  - name: properties.orchestrationMode
+    description: Specifies the orchestration mode for the virtual machine scale set.
+    types:
+    - uid: OrchestrationMode
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -434,6 +464,13 @@ definitions:
     description: ''
     types:
     - uid: ''
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 - name: UpgradeMode
   description: Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action.<br /><br /> **Automatic** - All virtual machines in the scale set are  automatically updated at the same time.
   kind: enum
@@ -467,6 +504,14 @@ definitions:
     description: The wait time between completing the update for all virtual machines in one batch and starting the next batch. The time duration should be specified in ISO 8601 format. The default value is 0 seconds (PT0S).
     types:
     - uid: string
+  - name: enableCrossZoneUpgrade
+    description: Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration the Update Domain and maxBatchInstancePercent to determine the batch size.
+    types:
+    - uid: boolean
+  - name: prioritizeUnhealthyInstances
+    description: Upgrade all unhealthy instances in a scale set before any healthy instances.
+    types:
+    - uid: boolean
 - name: AutomaticOSUpgradePolicy
   description: The configuration parameters used for performing automatic OS upgrade.
   kind: object
@@ -546,10 +591,18 @@ definitions:
   description: Specifies the Security profile settings for the virtual machine or virtual machine scale set.
   kind: object
   properties:
+  - name: uefiSettings
+    description: 'Specifies the security settings like secure boot and vTPM used while creating the virtual machine. <br><br>Minimum api-version: 2020-12-01'
+    types:
+    - uid: UefiSettings
   - name: encryptionAtHost
     description: 'This property can be used by user in the request to enable or disable the Host Encryption for the virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp disk at host itself. <br><br> Default: The Encryption at host will be disabled unless this property is set to true for the resource.'
     types:
     - uid: boolean
+  - name: securityType
+    description: 'Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.'
+    types:
+    - uid: SecurityTypes
 - name: DiagnosticsProfile
   description: 'Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.'
   kind: object
@@ -609,6 +662,16 @@ definitions:
     description: Specifies Terminate Scheduled Event related configurations.
     types:
     - uid: TerminateNotificationProfile
+- name: OrchestrationMode
+  description: Specifies the orchestration mode for the virtual machine scale set.
+  kind: enum
+  properties:
+  - name: Uniform
+    types:
+    - uid: string
+  - name: Flexible
+    types:
+    - uid: string
 - name: WindowsConfiguration
   description: Specifies Windows operating system settings on the virtual machine.
   kind: object
@@ -631,7 +694,7 @@ definitions:
     - uid: AdditionalUnattendContent
       isArray: true
   - name: patchSettings
-    description: Specifies settings related to in-guest patching (KBs).
+    description: '[Preview Feature] Specifies settings related to VM Guest Patching on Windows.'
     types:
     - uid: PatchSettings
   - name: winRM
@@ -654,6 +717,10 @@ definitions:
     description: Indicates whether virtual machine agent should be provisioned on the virtual machine. <br><br> When this property is not specified in the request body, default behavior is to set it to true.  This will ensure that VM Agent is installed on the VM so that extensions can be added to the VM later.
     types:
     - uid: boolean
+  - name: patchSettings
+    description: '[Preview Feature] Specifies settings related to VM Guest Patching on Linux.'
+    types:
+    - uid: LinuxPatchSettings
 - name: VaultSecretGroup
   description: Describes a set of certificates which are all in the same Key Vault.
   kind: object
@@ -830,6 +897,25 @@ definitions:
     description: Resource Id
     types:
     - uid: string
+- name: UefiSettings
+  description: 'Specifies the security settings like secure boot and vTPM used while creating the virtual machine. <br><br>Minimum api-version: 2020-12-01'
+  kind: object
+  properties:
+  - name: secureBootEnabled
+    description: 'Specifies whether secure boot should be enabled on the virtual machine. <br><br>Minimum api-version: 2020-12-01'
+    types:
+    - uid: boolean
+  - name: vTpmEnabled
+    description: 'Specifies whether vTPM should be enabled on the virtual machine. <br><br>Minimum api-version: 2020-12-01'
+    types:
+    - uid: boolean
+- name: SecurityTypes
+  description: 'Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch.'
+  kind: enum
+  properties:
+  - name: TrustedLaunch
+    types:
+    - uid: string
 - name: BootDiagnostics
   description: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br> Azure also enables you to see a screenshot of the VM from the hypervisor.
   kind: object
@@ -934,12 +1020,17 @@ definitions:
     types:
     - uid: string
 - name: PatchSettings
+  description: Specifies settings related to VM Guest Patching on Windows.
   kind: object
   properties:
   - name: patchMode
-    description: 'Specifies the mode of in-guest patching to IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of patches to a virtual machine. You do this by applying patches manually inside the VM. In this mode, automatic updates are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br /> **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> ** AutomaticByPlatform** - the virtual machine will automatically updated by the platform. The properties provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true '
+    description: 'Specifies the mode of VM Guest Patching to IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of patches to a virtual machine. You do this by applying patches manually inside the VM. In this mode, automatic updates are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br /> **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **AutomaticByPlatform** - the virtual machine will automatically updated by the platform. The properties provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true '
     types:
-    - uid: InGuestPatchMode
+    - uid: WindowsVMGuestPatchMode
+  - name: enableHotpatching
+    description: Enables customers to patch their Azure VMs without requiring a reboot. For enableHotpatching, the 'provisionVMAgent' must be set to true and 'patchMode' must be set to 'AutomaticByPlatform'.
+    types:
+    - uid: boolean
 - name: WinRMConfiguration
   description: Describes Windows Remote Management configuration of the VM
   kind: object
@@ -958,6 +1049,14 @@ definitions:
     types:
     - uid: SshPublicKey
       isArray: true
+- name: LinuxPatchSettings
+  description: Specifies settings related to VM Guest Patching on Linux.
+  kind: object
+  properties:
+  - name: patchMode
+    description: Specifies the mode of VM Guest Patching to IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - The virtual machine's default patching configuration is used. <br /><br /> **AutomaticByPlatform** - The virtual machine will be automatically updated by the platform. The property provisionVMAgent must be true
+    types:
+    - uid: LinuxVMGuestPatchMode
 - name: VaultCertificate
   description: Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
   kind: object
@@ -1119,8 +1218,8 @@ definitions:
   - name: FirstLogonCommands
     types:
     - uid: string
-- name: InGuestPatchMode
-  description: 'Specifies the mode of in-guest patching to IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of patches to a virtual machine. You do this by applying patches manually inside the VM. In this mode, automatic updates are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br /> **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> ** AutomaticByPlatform** - the virtual machine will automatically updated by the platform. The properties provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true '
+- name: WindowsVMGuestPatchMode
+  description: 'Specifies the mode of VM Guest Patching to IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of patches to a virtual machine. You do this by applying patches manually inside the VM. In this mode, automatic updates are disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br /> **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **AutomaticByPlatform** - the virtual machine will automatically updated by the platform. The properties provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true '
   kind: enum
   properties:
   - name: Manual
@@ -1156,6 +1255,16 @@ definitions:
     description: SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
     types:
     - uid: string
+- name: LinuxVMGuestPatchMode
+  description: Specifies the mode of VM Guest Patching to IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - The virtual machine's default patching configuration is used. <br /><br /> **AutomaticByPlatform** - The virtual machine will be automatically updated by the platform. The property provisionVMAgent must be true
+  kind: enum
+  properties:
+  - name: ImageDefault
+    types:
+    - uid: string
+  - name: AutomaticByPlatform
+    types:
+    - uid: string
 - name: DiffDiskOptions
   description: Specifies the ephemeral disk settings for operating system disk.
   kind: enum
@@ -1187,6 +1296,12 @@ definitions:
     types:
     - uid: string
   - name: UltraSSD_LRS
+    types:
+    - uid: string
+  - name: Premium_ZRS
+    types:
+    - uid: string
+  - name: StandardSSD_ZRS
     types:
     - uid: string
 - name: DiskEncryptionSetParameters
@@ -1269,7 +1384,7 @@ definitions:
 examples:
 - name: Create a scale set with password authentication.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -1479,7 +1594,7 @@ examples:
       }
 - name: Create a scale set with ssh authentication.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -1713,7 +1828,7 @@ examples:
       }
 - name: Create a scale set with premium storage.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -1923,7 +2038,7 @@ examples:
       }
 - name: Create a scale set with empty data disks on each vm.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -2188,7 +2303,7 @@ examples:
       }
 - name: Create a scale set with an azure load balancer.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -2434,7 +2549,7 @@ examples:
       }
 - name: Create a scale set with an azure application gateway.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -2659,7 +2774,7 @@ examples:
       }
 - name: Create a scale set with boot diagnostics.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -2887,7 +3002,7 @@ examples:
       }
 - name: Create a scale set with managed boot diagnostics.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -3112,7 +3227,7 @@ examples:
       }
 - name: Create a scale set with a marketplace image plan.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -3337,7 +3452,7 @@ examples:
       }
 - name: Create a scale set from a custom image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -3536,7 +3651,7 @@ examples:
       }
 - name: Create a platform-image scale set with unmanaged os disks.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -3753,7 +3868,7 @@ examples:
       }
 - name: Create a custom-image scale set from an unmanaged generalized os image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -3950,7 +4065,7 @@ examples:
       }
 - name: Create a scale set with virtual machines in different zones.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -4229,7 +4344,7 @@ examples:
       }
 - name: Create a scale set with ephemeral os disks.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -4463,7 +4578,7 @@ examples:
       }
 - name: Create a scale set with terminate scheduled events enabled.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -4691,7 +4806,7 @@ examples:
       }
 - name: Create a scale set with automatic repairs enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -4913,7 +5028,7 @@ examples:
       }
 - name: Create a scale set with DiskEncryptionSet resource in os disk and data disk.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -5163,7 +5278,7 @@ examples:
       }
 - name: Create a scale set with ephemeral os disks using placement property.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -5400,7 +5515,7 @@ examples:
       }
 - name: Create a scale set with extension time budget.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -5673,7 +5788,7 @@ examples:
       }
 - name: Create a scale set with Host Encryption using encryptionAtHost property.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -5907,7 +6022,7 @@ examples:
       }
 - name: Create a scale set with Fpga Network Interfaces.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
     body: >-
       {
         "sku": {
@@ -6170,6 +6285,237 @@ examples:
         "location": "westus",
         "type": "Microsoft.Compute/virtualMachineScaleSets",
         "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}"
+      }
+- name: Create a scale set with Uefi Settings of secureBoot and vTPM.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}?api-version=2020-12-01
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D2s_v3"
+        },
+        "properties": {
+          "overprovision": true,
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "windows10-tvm",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "18363.592.2001092016",
+                "offer": "windowsserver-gen2preview-preview"
+              },
+              "osDisk": {
+                "caching": "ReadOnly",
+                "managedDisk": {
+                  "storageAccountType": "StandardSSD_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "securityProfile": {
+              "uefiSettings": {
+                "secureBootEnabled": true,
+                "vTpmEnabled": true
+              },
+              "securityType": "TrustedLaunch"
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "adminPassword": "{your-password}"
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          }
+        },
+        "location": "westus"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D2s_v3"
+        },
+        "name": "{vmss-name}",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "b9e23088-6ffc-46e0-9e02-b0a6eeef47db",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "windows10-tvm",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "18363.592.2001092016",
+                "offer": "windowsserver-gen2preview-preview"
+              },
+              "osDisk": {
+                "caching": "ReadOnly",
+                "managedDisk": {
+                  "storageAccountType": "StandardSSD_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "securityProfile": {
+              "uefiSettings": {
+                "secureBootEnabled": true,
+                "vTpmEnabled": true
+              },
+              "securityType": "TrustedLaunch"
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "sku": {
+          "tier": "Standard",
+          "capacity": 3,
+          "name": "Standard_D2s_v3"
+        },
+        "name": "{vmss-name}",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}",
+        "type": "Microsoft.Compute/virtualMachineScaleSets",
+        "properties": {
+          "singlePlacementGroup": true,
+          "overprovision": true,
+          "uniqueId": "b9e23088-6ffc-46e0-9e02-b0a6eeef47db",
+          "virtualMachineProfile": {
+            "storageProfile": {
+              "imageReference": {
+                "sku": "windows10-tvm",
+                "publisher": "MicrosoftWindowsServer",
+                "version": "18363.592.2001092016",
+                "offer": "windowsserver-gen2preview-preview"
+              },
+              "osDisk": {
+                "caching": "ReadOnly",
+                "managedDisk": {
+                  "storageAccountType": "StandardSSD_LRS"
+                },
+                "createOption": "FromImage"
+              }
+            },
+            "securityProfile": {
+              "uefiSettings": {
+                "secureBootEnabled": true,
+                "vTpmEnabled": true
+              },
+              "securityType": "TrustedLaunch"
+            },
+            "osProfile": {
+              "computerNamePrefix": "{vmss-name}",
+              "adminUsername": "{your-username}",
+              "secrets": [],
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              }
+            },
+            "networkProfile": {
+              "networkInterfaceConfigurations": [
+                {
+                  "name": "{vmss-name}",
+                  "properties": {
+                    "dnsSettings": {
+                      "dnsServers": []
+                    },
+                    "primary": true,
+                    "enableIPForwarding": true,
+                    "ipConfigurations": [
+                      {
+                        "name": "{vmss-name}",
+                        "properties": {
+                          "subnet": {
+                            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/nsgExistingVnet/subnets/nsgExistingSubnet"
+                          },
+                          "privateIPAddressVersion": "IPv4"
+                        }
+                      }
+                    ],
+                    "enableAcceleratedNetworking": false
+                  }
+                }
+              ]
+            }
+          },
+          "upgradePolicy": {
+            "mode": "Manual"
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "westus"
       }
 security:
 - name: azure_auth

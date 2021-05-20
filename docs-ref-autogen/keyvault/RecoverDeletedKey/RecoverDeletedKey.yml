@@ -3,14 +3,14 @@ uid: keyvault.recoverdeletedkey.recoverdeletedkey
 name: Recover Deleted Key
 service: Key Vault
 groupName: Recover Deleted Key
-apiVersion: "7.1"
+apiVersion: "7.2"
 summary: "Recovers the deleted key to its latest version.  \nThe Recover Deleted Key operation is applicable for deleted keys in soft-delete enabled vaults. It recovers the deleted key back to its latest version under /keys. An attempt to recover an non-deleted key will return an error. Consider this the inverse of the delete operation on soft-delete enabled vaults. This operation requires the keys/recover permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {vaultBaseUrl}/deletedkeys/{key-name}/recover?api-version=7.1
+- content: POST {vaultBaseUrl}/deletedkeys/{key-name}/recover?api-version=7.2
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -130,7 +130,7 @@ definitions:
     types:
     - uid: string
   - name: key_hsm
-    description: HSM Token, used with 'Bring Your Own Key'.
+    description: Protected Key, used with 'Bring Your Own Key'.
     types:
     - uid: string
   - name: crv
@@ -221,7 +221,11 @@ definitions:
     types:
     - uid: string
   - name: oct
-    description: Not supported in this version. Octet sequence (used to represent symmetric keys)
+    description: Octet sequence (used to represent symmetric keys)
+    types:
+    - uid: string
+  - name: oct-HSM
+    description: Octet sequence (used to represent symmetric keys) which is not exportable from the HSM.
     types:
     - uid: string
 - name: JsonWebKeyCurveName
@@ -279,7 +283,7 @@ definitions:
 examples:
 - name: RecoverDeletedKey
   request:
-    uri: POST https://myvault.vault.azure.net//deletedkeys/CreateDeleteRecoverPurgeTest/recover?api-version=7.1
+    uri: POST https://myvault.vault.azure.net//deletedkeys/CreateDeleteRecoverPurgeTest/recover?api-version=7.2
   responses:
   - statusCode: "200"
     body: >-

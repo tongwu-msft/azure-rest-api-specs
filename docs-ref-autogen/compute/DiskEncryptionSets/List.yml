@@ -3,14 +3,14 @@ uid: management.azure.com.compute.diskencryptionsets.list
 name: List
 service: Compute
 groupName: Disk Encryption Sets
-apiVersion: 2020-06-30
+apiVersion: 2020-12-01
 summary: Lists all the disk encryption sets under a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskEncryptionSets?api-version=2020-06-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskEncryptionSets?api-version=2020-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -71,16 +71,25 @@ definitions:
   - name: properties.activeKey
     description: The key vault key which is currently used by this disk encryption set.
     types:
-    - uid: KeyVaultAndKeyReference
+    - uid: KeyForDiskEncryptionSet
   - name: properties.previousKeys
     isReadyOnly: true
     description: A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation.
     types:
-    - uid: KeyVaultAndKeyReference
+    - uid: KeyForDiskEncryptionSet
       isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
     description: The disk encryption set provisioning state.
+    types:
+    - uid: string
+  - name: properties.rotationToLatestKeyVersionEnabled
+    description: Set this flag to true to enable auto-updating of this disk encryption set to the latest key version.
+    types:
+    - uid: boolean
+  - name: properties.lastKeyRotationTimestamp
+    isReadyOnly: true
+    description: The time when the active key of this disk encryption set was updated.
     types:
     - uid: string
   - name: id
@@ -140,7 +149,7 @@ definitions:
   kind: object
   properties:
   - name: type
-    description: The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported.
+    description: The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory tenant; it will cause the encrypted resources to lose access to the keys.
     types:
     - uid: DiskEncryptionSetIdentityType
   - name: principalId
@@ -165,16 +174,16 @@ definitions:
     description: Resource using diskEncryptionSet would be encrypted at rest with two layers of encryption. One of the keys is Customer managed and the other key is Platform managed.
     types:
     - uid: string
-- name: KeyVaultAndKeyReference
-  description: Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the encryptionKey
+- name: KeyForDiskEncryptionSet
+  description: Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots
   kind: object
   properties:
   - name: sourceVault
-    description: Resource id of the KeyVault containing the key or secret
+    description: Resource id of the KeyVault containing the key or secret. This property is optional and cannot be used if the KeyVault subscription is not the same as the Disk Encryption Set subscription.
     types:
     - uid: SourceVault
   - name: keyUrl
-    description: Url pointing to a key or secret in KeyVault
+    description: Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of rotationToLatestKeyVersionEnabled value.
     types:
     - uid: string
 - name: ApiErrorBase
@@ -206,10 +215,13 @@ definitions:
     types:
     - uid: string
 - name: DiskEncryptionSetIdentityType
-  description: The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported.
+  description: The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory tenant; it will cause the encrypted resources to lose access to the keys.
   kind: enum
   properties:
   - name: SystemAssigned
+    types:
+    - uid: string
+  - name: None
     types:
     - uid: string
 - name: SourceVault
@@ -223,7 +235,7 @@ definitions:
 examples:
 - name: List all disk encryption sets in a subscription.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/diskEncryptionSets?api-version=2020-06-30
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/diskEncryptionSets?api-version=2020-12-01
   responses:
   - statusCode: "200"
     body: >-

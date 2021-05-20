@@ -61,9 +61,10 @@ An admin API key is required for viewing system information. Indexers require an
 + [Get Indexer Status](get-indexer-status.md)  
 + [Reset Indexer](reset-indexer.md)  
 
-## See also  
- [Get started with Azure Cognitive Search REST APIs](https://docs.microsoft.com/azure/search/search-get-started-rest)   
- [Create and manage API keys](https://docs.microsoft.com/azure/search/search-security-api-keys)
- [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)  
- [Indexers in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-indexer-overview)
- [Tutorial: Index Azure JSON blobs](https://docs.microsoft.com/azure/search/search-semi-structured-data)
+## See also
+ 
++ [Get started with Azure Cognitive Search REST APIs](https://docs.microsoft.com/azure/search/search-get-started-rest)
++ [Create and manage API keys](https://docs.microsoft.com/azure/search/search-security-api-keys)
++ [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity)  
++ [Indexers in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-indexer-overview)
++ [Tutorial: Index Azure JSON blobs](https://docs.microsoft.com/azure/search/search-semi-structured-data)

@@ -1,5 +1,6 @@
 ---
 title: "Get Cluster Health Chunk Using Policy And Advanced Filters"
+description: "Get Cluster Health Chunk Using Policy And Advanced Filters"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

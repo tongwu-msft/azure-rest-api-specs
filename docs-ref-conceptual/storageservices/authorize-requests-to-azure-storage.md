@@ -3,7 +3,7 @@ title: Authorize requests to Azure Storage (REST API)
 description: Every request made against a secured resource in the Blob, File, Queue, or Table service must be authorized. Authorization ensures that resources in your storage account are accessible only when you want them to be, and only to those users or applications to whom you grant access.
 author: tamram
 
-ms.date: 03/10/2020
+ms.date: 04/07/2021
 ms.service: storage
 ms.topic: reference
 ms.author: tamram
@@ -15,13 +15,13 @@ Every request made against a secured resource in the Blob, File, Queue, or Table
 
 The following table describes the options that Azure Storage offers for authorizing access to resources:
 
-| Shared Key (storage account key) | Shared access signature (SAS) | Azure Active Directory (Azure AD) | Active Directory (preview) | Anonymous public read access |
+| Azure artifact | Shared Key (storage account key) | Shared access signature (SAS) | Azure Active Directory (Azure AD) | On-premises Active Directory Domain Services | Anonymous public read access |
 |--|--|--|--|--|--|
-| Azure Blobs | [Supported](authorize-with-shared-key.md) | [Supported](/azure/storage/common/storage-sas-overview/) | [Supported](/azure/storage/common/storage-auth-aad/) | Not supported | [Supported](/azure/storage/blobs/storage-manage-access-to-resources/) |
-| Azure Files (SMB) | [Supported](authorize-with-shared-key.md) | Not supported | [Supported, only with Azure AD Domain Services](/azure/storage/files/storage-files-active-directory-overview/) | [Supported, credentials must be synced to Azure AD](/azure/storage/files/storage-files-active-directory-overview/) | Not supported |
-| Azure Files (REST) | [Supported](authorize-with-shared-key.md) | [Supported](/azure/storage/common/storage-sas-overview/) | Not supported | Not supported | Not supported |
-| Azure Queues | [Supported](authorize-with-shared-key.md) | [Supported](/azure/storage/common/storage-sas-overview/) | [Supported](/azure/storage/common/storage-auth-aad/) | Not Supported | Not supported |
-| Azure Tables | [Supported](authorize-with-shared-key.md) | [Supported](/azure/storage/common/storage-sas-overview/) | Not supported | Not supported | Not supported |
+| Azure Blobs | [Supported](authorize-with-shared-key.md) | [Supported](/azure/storage/common/storage-sas-overview?toc=%2fazure%2fstorage%2fblobs%2ftoc.json) | [Supported](/azure/storage/common/storage-auth-aad) | Not supported | [Supported](/azure/storage/blobs/anonymous-read-access-configure) |
+| Azure Files (SMB) | [Supported](authorize-with-shared-key.md) | Not supported | [Supported, only with AAD Domain Services](/azure/storage/files/storage-files-active-directory-overview) | [Supported, credentials must be synced to Azure AD](/azure/storage/files/storage-files-active-directory-overview) | Not supported |
+| Azure Files (REST) | [Supported](authorize-with-shared-key.md) | [Supported](/azure/storage/common/storage-sas-overview?toc=%2fazure%2fstorage%2ffiles%2ftoc.json) | Not supported | Not supported | Not supported |
+| Azure Queues | [Supported](authorize-with-shared-key.md) | [Supported](/azure/storage/common/storage-sas-overview?toc=%2fazure%2fstorage%2fqueues%2ftoc.json) | [Supported](/azure/storage/common/storage-auth-aad) | Not Supported | Not supported |
+| Azure Tables | [Supported](authorize-with-shared-key.md) | [Supported](/azure/storage/common/storage-sas-overview) | Not supported | Not supported | Not supported |
 
 Each authorization option is briefly described below:
 
@@ -29,7 +29,7 @@ Each authorization option is briefly described below:
 
 - **Azure Active Directory Domain Services (Azure AD DS) authorization** for Azure Files. Azure Files supports identity-based authorization over Server Message Block (SMB) through Azure AD DS. You can use RBAC for fine-grained control over a client's access to Azure Files resources in a storage account. For more information regarding Azure Files authentication using domain services, see [Azure Files identity-based authorization](/azure/storage/files/storage-files-active-directory-overview).
 
-- **Active Directory (AD) authorization (preview)** for Azure Files. Azure Files supports identity-based authorization over SMB through AD. Your AD domain service can be hosted on on-premises machines or in Azure VMs. SMB access to Files is supported using AD credentials from domain joined machines, either on-premises or in Azure. You can use RBAC for share level access control and NTFS DACLs for directory and file level permission enforcement. For more information regarding Azure Files authentication using domain services, see [Azure Files identity-based authorization](/azure/storage/files/storage-files-active-directory-overview).
+- **Active Directory (AD) authorization** for Azure Files. Azure Files supports identity-based authorization over SMB through AD. Your AD domain service can be hosted on on-premises machines or in Azure VMs. SMB access to Files is supported using AD credentials from domain joined machines, either on-premises or in Azure. You can use RBAC for share level access control and NTFS DACLs for directory and file level permission enforcement. For more information regarding Azure Files authentication using domain services, see [Azure Files identity-based authorization](/azure/storage/files/storage-files-active-directory-overview).
 
 - **Shared Key:** Shared Key authorization relies on your account access keys and other parameters to produce an encrypted signature string that is passed on the request in the *Authorization* header. For more information about Shared Key authorization, see [Authorize with Shared Key](Authorize-with-Shared-Key.md).
 

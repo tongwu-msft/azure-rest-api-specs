@@ -1,7 +1,7 @@
 ---
 title: "Delete a Database - Azure Cosmos DB REST API"
 description: Delete a database REST API syntax. Request and response headers, body, status codes and examples.
-ms.date: "02/25/2016"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: f45e012d-eacd-44e5-9cdf-53c75fd3fc53
@@ -23,6 +23,9 @@ translation.priority.mt:
 ---
 # Delete Database
 The `Delete Database` operation deletes an existing database in the database account.  
+
+> [!NOTE]
+> These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md).
 
 ## Request  
   

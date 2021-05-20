@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachines.instanceview
 name: Instance View
 service: Compute
 groupName: Virtual Machines
-apiVersion: 2020-06-01
+apiVersion: 2020-12-01
 summary: Retrieves information about the run-time state of a virtual machine.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/instanceView?api-version=2020-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/instanceView?api-version=2020-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -113,7 +113,7 @@ definitions:
     - uid: InstanceViewStatus
       isArray: true
   - name: patchStatus
-    description: The status of virtual machine patch operations.
+    description: '[Preview Feature] The status of virtual machine patch operations.'
     types:
     - uid: VirtualMachinePatchStatus
 - name: HyperVGenerationType
@@ -284,6 +284,12 @@ definitions:
     description: The installation summary of the latest installation operation for the virtual machine.
     types:
     - uid: LastPatchInstallationSummary
+  - name: configurationStatuses
+    isReadyOnly: true
+    description: The enablement status of the specified patchMode
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
 - name: VirtualMachineExtensionHandlerInstanceView
   description: The instance view of a virtual machine extension handler.
   kind: object
@@ -351,7 +357,7 @@ definitions:
   properties:
   - name: status
     isReadyOnly: true
-    description: The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Failed", "Succeeded", or "CompletedWithWarnings."
+    description: The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
     types:
     - uid: PatchOperationStatus
   - name: assessmentActivityId
@@ -395,7 +401,7 @@ definitions:
   properties:
   - name: status
     isReadyOnly: true
-    description: The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Failed", "Succeeded", or "CompletedWithWarnings."
+    description: The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
     types:
     - uid: PatchOperationStatus
   - name: installationActivityId
@@ -408,11 +414,6 @@ definitions:
     description: Describes whether the operation ran out of time before it completed all its intended actions
     types:
     - uid: boolean
-  - name: rebootStatus
-    isReadyOnly: true
-    description: The reboot status of the machine after the patch operation. It will be in "NotNeeded" status if reboot is not needed after the patch operation. "Required" will be the status once the patch is applied and machine is required to reboot. "Started" will be the reboot status when the machine has started to reboot. "Failed" will be the status if the machine is failed to reboot. "Completed" will be the status once the machine is rebooted successfully
-    types:
-    - uid: RebootStatus
   - name: notSelectedPatchCount
     isReadyOnly: true
     description: The number of all available patches but not going to be installed because it didn't match a classification or inclusion list entry.
@@ -448,11 +449,6 @@ definitions:
     description: The UTC timestamp when the operation began.
     types:
     - uid: string
-  - name: startedBy
-    isReadyOnly: true
-    description: The person or system account that started the operation
-    types:
-    - uid: string
   - name: error
     isReadyOnly: true
     description: The errors that were encountered during execution of the operation. The details array contains the list of them.
@@ -483,9 +479,12 @@ definitions:
     types:
     - uid: SubResource
 - name: PatchOperationStatus
-  description: The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Failed", "Succeeded", or "CompletedWithWarnings."
+  description: The overall success or failure status of the operation. It remains "InProgress" until the operation completes. At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
   kind: enum
   properties:
+  - name: Unknown
+    types:
+    - uid: string
   - name: InProgress
     types:
     - uid: string
@@ -521,25 +520,6 @@ definitions:
     - uid: string
   - name: message
     description: The error message.
-    types:
-    - uid: string
-- name: RebootStatus
-  description: The reboot status of the machine after the patch operation. It will be in "NotNeeded" status if reboot is not needed after the patch operation. "Required" will be the status once the patch is applied and machine is required to reboot. "Started" will be the reboot status when the machine has started to reboot. "Failed" will be the status if the machine is failed to reboot. "Completed" will be the status once the machine is rebooted successfully
-  kind: enum
-  properties:
-  - name: NotNeeded
-    types:
-    - uid: string
-  - name: Required
-    types:
-    - uid: string
-  - name: Started
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Completed
     types:
     - uid: string
 - name: SubResource
@@ -580,7 +560,7 @@ definitions:
 examples:
 - name: Get Virtual Machine Instance View.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM/instanceView?api-version=2020-06-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM/instanceView?api-version=2020-12-01
   responses:
   - statusCode: "200"
     body: >-
@@ -665,12 +645,13 @@ examples:
             "criticalAndSecurityPatchCount": 1,
             "otherPatchCount": 2,
             "startTime": "2020-04-24T21:02:04.2556154Z",
+            "lastModifiedTime": "2020-04-24T21:02:04.2556154Z",
             "error": null
           },
           "lastPatchInstallationSummary": {
             "status": "Succeeded",
+            "installationActivityId": "68f8b292-dfc2-4646-9981-33cc88631968",
             "maintenanceWindowExceeded": false,
-            "rebootStatus": "Completed",
             "notSelectedPatchCount": 1,
             "excludedPatchCount": 1,
             "pendingPatchCount": 1,
@@ -678,9 +659,22 @@ examples:
             "failedPatchCount": 1,
             "startTime": "2020-04-24T21:02:04.2556154Z",
             "lastModifiedTime": "2020-04-24T21:02:04.2556154Z",
-            "startedBy": "platform",
             "error": null
-          }
+          },
+          "configurationStatuses": [
+            {
+              "code": "PatchModeConfigurationState/Ready",
+              "level": "Info",
+              "displayStatus": "Status_PatchModeConfigurationState_Ready",
+              "time": "2020-04-24T21:02:04.2556154Z"
+            },
+            {
+              "code": "PatchModeConfigurationState/Pending",
+              "level": "Info",
+              "displayStatus": "Status_PatchModeConfigurationState_Pending",
+              "time": "2020-04-24T21:02:04.2556154Z"
+            }
+          ]
         },
         "statuses": [
           {
@@ -698,7 +692,7 @@ examples:
       }
 - name: Get instance view of a virtual machine placed on a dedicated host group through automatic placement.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM/instanceView?api-version=2020-06-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM/instanceView?api-version=2020-12-01
   responses:
   - statusCode: "200"
     body: >-
@@ -714,7 +708,7 @@ examples:
               "level": "Info",
               "displayStatus": "Ready",
               "message": "GuestAgent is running and accepting new configurations.",
-              "time": "2020-06-01T23:11:22+00:00"
+              "time": "2020-12-01T23:11:22+00:00"
             }
           ]
         },
@@ -726,7 +720,7 @@ examples:
                 "code": "ProvisioningState/succeeded",
                 "level": "Info",
                 "displayStatus": "Provisioning succeeded",
-                "time": "2020-06-01T21:29:47.477089+00:00"
+                "time": "2020-12-01T21:29:47.477089+00:00"
               }
             ]
           }
@@ -738,7 +732,7 @@ examples:
             "code": "ProvisioningState/succeeded",
             "level": "Info",
             "displayStatus": "Provisioning succeeded",
-            "time": "2020-06-01T21:30:12.8051917+00:00"
+            "time": "2020-12-01T21:30:12.8051917+00:00"
           },
           {
             "code": "PowerState/running",

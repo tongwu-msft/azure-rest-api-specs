@@ -10,7 +10,7 @@ manager: deepakpalled
 ms.manager: dpalled
 author: shreyasharmamsft
 ms.author: shresha
-ms.date: 08/05/2020
+ms.date: 03/05/2021
 ---
 
 # Azure Time Series Insights Gen2 Time Series Expression syntax
@@ -137,8 +137,9 @@ For comparison expressions (**<**, **>**, **<=**, **>=**, **=**, **!=**), the op
 
 > [!NOTE]
 > **String** type is not nullable in Warm Store:
->   * Comparison of **String** against **NULL** and empty string (**''**) behaves the same way: `$event.p1.String = NULL` is equivalent to `$event.p1.String = ''`.
->   * API may return **NULL** values even if original events contained empty strings.
+>
+> * Comparison of **String** against **NULL** and empty string (**''**) behaves the same way: `$event.p1.String = NULL` is equivalent to `$event.p1.String = ''`.
+> * API may return **NULL** values even if original events contained empty strings.
 >
 > In the future, the same behavior will be on Cold Store.
 >

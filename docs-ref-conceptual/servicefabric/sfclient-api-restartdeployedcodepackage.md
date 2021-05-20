@@ -1,5 +1,6 @@
 ---
 title: "Restart Deployed Code Package"
+description: "Restart Deployed Code Package"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

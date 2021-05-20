@@ -1,5 +1,6 @@
 ---
 title: "Commit Image Store Upload Session"
+description: "Commit Image Store Upload Session"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

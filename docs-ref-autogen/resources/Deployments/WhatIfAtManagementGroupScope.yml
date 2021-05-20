@@ -3,14 +3,14 @@ uid: management.azure.com.resources.deployments.whatifatmanagementgroupscope
 name: What If At Management Group Scope
 service: Resource Management
 groupName: Deployments
-apiVersion: 2020-06-01
+apiVersion: 2021-04-01
 summary: Returns changes that will be made by the deployment if executed at the scope of the management group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf?api-version=2020-06-01
+- content: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf?api-version=2021-04-01
 uriParameters:
 - name: groupId
   in: path
@@ -162,11 +162,15 @@ definitions:
     types:
     - uid: string
   - name: relativePath
-    description: Applicable only if this template link references a Template Spec. This relativePath property can optionally be used to reference a Template Spec artifact by path.
+    description: The relativePath property can be used to deploy a linked template at a location relative to the parent. If the parent template was linked with a TemplateSpec, this will reference an artifact in the TemplateSpec.  If the parent was linked with a URI, the child deployment will be a combination of the parent and relativePath URIs
     types:
     - uid: string
   - name: contentVersion
     description: If included, must match the ContentVersion in the template.
+    types:
+    - uid: string
+  - name: queryString
+    description: The query string (for example, a SAS token) to be used with the templateLink URI.
     types:
     - uid: string
 - name: ParametersLink
@@ -262,6 +266,10 @@ definitions:
     description: Type of change that will be made to the resource when the deployment is executed.
     types:
     - uid: ChangeType
+  - name: unsupportedReason
+    description: The explanation about why the resource is unsupported by What-If.
+    types:
+    - uid: string
   - name: before
     description: The snapshot of the resource before the deployment is executed.
     types:
@@ -350,6 +358,10 @@ definitions:
     description: The resource exists in the current state and the desired state and will be redeployed when the deployment is executed. The properties of the resource will change.
     types:
     - uid: string
+  - name: Unsupported
+    description: The resource is not supported by What-If.
+    types:
+    - uid: string
 - name: WhatIfPropertyChange
   description: The predicted change to the resource property.
   kind: object
@@ -395,10 +407,14 @@ definitions:
     description: The property is an array and contains nested changes.
     types:
     - uid: string
+  - name: NoEffect
+    description: The property will not be set or updated.
+    types:
+    - uid: string
 examples:
 - name: Predict template changes at management group scope
   request:
-    uri: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/myManagementGruop/providers/Microsoft.Resources/deployments/exampleDeploymentName/whatIf?api-version=2020-06-01
+    uri: POST https://management.azure.com/providers/Microsoft.Management/managementGroups/myManagementGruop/providers/Microsoft.Resources/deployments/exampleDeploymentName/whatIf?api-version=2021-04-01
     body: >-
       {
         "location": "eastus",

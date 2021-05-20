@@ -1,0 +1,164 @@
+### YamlMime:RESTOperation
+uid: formrecognizer.2.0.getcustommodelcopyresult.getcustommodelcopyresult
+name: Get Custom Model Copy Result
+service: Cognitive Services - Form Recognizer
+groupName: Get Custom Model Copy Result
+apiVersion: "2.0"
+summary: "Get Custom Model Copy Result  \nObtain current status and the result of a custom model copy operation."
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/formrecognizer/v2.0/custom/models/{modelId}/copyResults/{resultId}
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: modelId
+  in: path
+  isRequired: true
+  description: Model identifier.
+  types:
+  - uid: string
+  format: uuid
+- name: resultId
+  in: path
+  isRequired: true
+  description: Copy operation result identifier.
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: CopyOperationResult
+- name: Other Status Codes
+  description: Response entity accompanying non-successful responses containing additional details about the error.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: CopyOperationResult
+  description: Status and result of the queued copy operation.
+  kind: object
+  properties:
+  - name: status
+    description: Operation status.
+    types:
+    - uid: OperationStatus
+  - name: createdDateTime
+    description: Date and time (UTC) when the copy operation was submitted.
+    types:
+    - uid: string
+  - name: lastUpdatedDateTime
+    description: Date and time (UTC) when the status was last updated.
+    types:
+    - uid: string
+  - name: copyResult
+    description: Results of the copy operation.
+    types:
+    - uid: CopyResult
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: ErrorInformation
+- name: OperationStatus
+  description: Status of the queued operation.
+  kind: enum
+  properties:
+  - name: notStarted
+    types:
+    - uid: string
+  - name: running
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+- name: CopyResult
+  description: Custom model copy result.
+  kind: object
+  properties:
+  - name: modelId
+    description: Identifier of the target model.
+    types:
+    - uid: string
+  - name: errors
+    description: Errors returned during the copy operation.
+    types:
+    - uid: ErrorInformation
+      isArray: true
+- name: ErrorInformation
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Get copy custom model result
+  request:
+    uri: GET {endpoint}/formrecognizer/v2.0/custom/models/{modelId}/copyResults/{resultId}
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "succeeded",
+        "createdDateTime": "2020-01-01T00:00:00Z",
+        "lastUpdatedDateTime": "2020-01-01T00:01:00Z",
+        "copyResult": {
+          "modelId": "{modelId}",
+          "errors": []
+        }
+      }
+- name: Get copy custom model result with failures
+  request:
+    uri: GET {endpoint}/formrecognizer/v2.0/custom/models/{modelId}/copyResults/{resultId}
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "failed",
+        "createdDateTime": "2020-01-01T00:00:00Z",
+        "lastUpdatedDateTime": "2020-01-01T00:01:00Z",
+        "copyResult": {
+          "modelId": "{modelId}",
+          "errors": [
+            {
+              "code": "ResourceResolverError",
+              "message": "{ErrorMessage}"
+            }
+          ]
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.resources.templatespecversions.update
 name: Update
 service: Resource Management
 groupName: Template Spec Versions
-apiVersion: 2019-06-01-preview
+apiVersion: 2021-05-01
 summary: Updates Template Spec Version tags with specified values.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/templateSpecs/{templateSpecName}/versions/{templateSpecVersion}?api-version=2019-06-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/templateSpecs/{templateSpecName}/versions/{templateSpecVersion}?api-version=2021-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -93,7 +93,7 @@ definitions:
     types:
     - uid: createdByType
   - name: lastModifiedAt
-    description: The type of identity that last modified the resource.
+    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: TemplateSpecVersion
@@ -112,18 +112,25 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: properties.artifacts
-    description: An array of Template Spec artifacts.
-    types:
-    - uid: TemplateSpecTemplateArtifact
-      isArray: true
-    typesTitle: TemplateSpecArtifact[]
   - name: properties.description
     description: Template Spec version description.
     types:
     - uid: string
-  - name: properties.template
-    description: The Azure Resource Manager template content.
+  - name: properties.linkedTemplates
+    description: An array of linked template artifacts.
+    types:
+    - uid: LinkedTemplateArtifact
+      isArray: true
+  - name: properties.metadata
+    description: The version metadata. Metadata is an open-ended object and is typically a collection of key-value pairs.
+    types:
+    - uid: object
+  - name: properties.mainTemplate
+    description: The main Azure Resource Manager template content.
+    types:
+    - uid: object
+  - name: properties.uiFormDefinition
+    description: The Azure Resource Manager template UI definition content.
     types:
     - uid: object
   - name: id
@@ -202,6 +209,18 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: LinkedTemplateArtifact
+  description: Represents a Template Spec artifact containing an embedded Azure Resource Manager template for use as a linked template.
+  kind: object
+  properties:
+  - name: path
+    description: A filesystem safe relative path of the artifact.
+    types:
+    - uid: string
+  - name: template
+    description: The Azure Resource Manager template.
+    types:
+    - uid: object
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -233,23 +252,6 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: TemplateSpecTemplateArtifact
-  description: Represents a Template Spec artifact containing an embedded Azure Resource Manager template.
-  kind: object
-  properties:
-  - name: template
-    description: The Azure Resource Manager template.
-    types:
-    - uid: object
-  - name: path
-    description: A filesystem safe relative path of the artifact.
-    types:
-    - uid: string
-  - name: kind
-    description: The kind of artifact.
-    types:
-    - uid: template
-    typesTitle: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -267,7 +269,7 @@ definitions:
 examples:
 - name: TemplateSpecsPatch
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/simpleTemplateSpec/versions/v1.0?api-version=2019-06-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/simpleTemplateSpec/versions/v1.0?api-version=2021-05-01
     body: >-
       {
         "tags": {
@@ -292,7 +294,7 @@ examples:
         },
         "properties": {
           "description": "This is version v1.0 of our template content",
-          "template": {
+          "mainTemplate": {
             "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
             "contentVersion": "1.0.0.0",
             "parameters": {},

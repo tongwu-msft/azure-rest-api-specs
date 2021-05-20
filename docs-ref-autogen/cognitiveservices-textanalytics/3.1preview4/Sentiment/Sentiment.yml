@@ -1,0 +1,683 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices-textanalytics.3.1preview4.sentiment.sentiment
+name: Sentiment
+service: Cognitive Services - Text Analytics
+groupName: Sentiment
+apiVersion: v3.1-preview.4
+summary: "Sentiment  \nThe API returns a detailed sentiment analysis for the input text. The analysis is done in multiple levels of granularity, start from the a document level, down to sentence and key terms (targets and assessments)."
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST {Endpoint}/text/analytics/v3.1-preview.4/sentiment
+- content: POST {Endpoint}/text/analytics/v3.1-preview.4/sentiment?model-version={model-version}&showStats={showStats}&opinionMining={opinionMining}&stringIndexType={stringIndexType}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: model-version
+  in: query
+  description: '(Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. '
+  types:
+  - uid: string
+- name: showStats
+  in: query
+  description: (Optional) if set to true, response will contain request and document level statistics.
+  types:
+  - uid: boolean
+- name: opinionMining
+  in: query
+  description: (Optional) if set to true, response will contain not only sentiment prediction but also opinion mining (aspect-based sentiment analysis) results.
+  types:
+  - uid: boolean
+- name: stringIndexType
+  in: query
+  description: (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets
+  types:
+  - uid: StringIndexType
+responses:
+- name: 200 OK
+  description: A successful call results in a document sentiment prediction, as well as sentiment scores for each sentiment class (Positive, Negative, and Neutral)
+  types:
+  - uid: SentimentResponse
+- name: 400 Bad Request
+  description: Bad Request.
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: Internal error response
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: documents
+    in: body
+    isRequired: true
+    description: The set of documents to process as part of this batch.
+    types:
+    - uid: MultiLanguageInput
+      isArray: true
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: StringIndexType
+  kind: enum
+  properties:
+  - name: TextElements_v8
+    description: Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo.
+    types:
+    - uid: string
+  - name: UnicodeCodePoint
+    description: Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python.
+    types:
+    - uid: string
+  - name: Utf16CodeUnit
+    description: Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript.
+    types:
+    - uid: string
+- name: MultiLanguageInput
+  description: Contains an input document to be analyzed by the service.
+  kind: object
+  properties:
+  - name: id
+    description: A unique, non-empty document identifier.
+    types:
+    - uid: string
+  - name: text
+    description: The input text to process.
+    types:
+    - uid: string
+  - name: language
+    description: (Optional) This is the 2 letter ISO 639-1 representation of a language. For example, use "en" for English; "es" for Spanish etc. If not set, use "en" for English as default.
+    types:
+    - uid: string
+- name: SentimentResponse
+  kind: object
+  properties:
+  - name: documents
+    description: Sentiment analysis per document.
+    types:
+    - uid: DocumentSentiment
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: DocumentError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: Document Error.
+    types:
+    - uid: TextAnalyticsError
+- name: MultiLanguageBatchInput
+  description: Contains a set of input documents to be analyzed by the service.
+  kind: object
+  properties:
+  - name: documents
+    description: The set of documents to process as part of this batch.
+    types:
+    - uid: MultiLanguageInput
+      isArray: true
+- name: DocumentSentiment
+  kind: object
+  properties:
+  - name: id
+    description: Unique, non-empty document identifier.
+    types:
+    - uid: string
+  - name: sentiment
+    description: Predicted sentiment for document (Negative, Neutral, Positive, or Mixed).
+    types:
+    - uid: DocumentSentimentValue
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the document payload.
+    types:
+    - uid: DocumentStatistics
+  - name: confidenceScores
+    description: Document level sentiment confidence scores between 0 and 1 for each sentiment class.
+    types:
+    - uid: SentimentConfidenceScorePerLabel
+  - name: sentences
+    description: Sentence level sentiment analysis.
+    types:
+    - uid: SentenceSentiment
+      isArray: true
+  - name: warnings
+    description: Warnings encountered while processing document.
+    types:
+    - uid: TextAnalyticsWarning
+      isArray: true
+- name: DocumentError
+  kind: object
+  properties:
+  - name: id
+    description: Document Id.
+    types:
+    - uid: string
+  - name: error
+    description: Document Error.
+    types:
+    - uid: TextAnalyticsError
+- name: RequestStatistics
+  description: if showStats=true was specified in the request this field will contain information about the request payload.
+  kind: object
+  properties:
+  - name: documentsCount
+    description: Number of documents submitted in the request.
+    types:
+    - uid: integer
+  - name: validDocumentsCount
+    description: Number of valid documents. This excludes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: erroneousDocumentsCount
+    description: Number of invalid documents. This includes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: transactionsCount
+    description: Number of transactions for the request.
+    types:
+    - uid: integer
+- name: TextAnalyticsError
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: ErrorCodeValue
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: Inner error contains more specific information.
+    types:
+    - uid: InnerError
+  - name: details
+    description: Details about specific errors that led to this reported error.
+    types:
+    - uid: TextAnalyticsError
+      isArray: true
+- name: DocumentSentimentValue
+  description: Predicted sentiment for document (Negative, Neutral, Positive, or Mixed).
+  kind: enum
+  properties:
+  - name: positive
+    types:
+    - uid: string
+  - name: neutral
+    types:
+    - uid: string
+  - name: negative
+    types:
+    - uid: string
+  - name: mixed
+    types:
+    - uid: string
+- name: DocumentStatistics
+  description: if showStats=true was specified in the request this field will contain information about the document payload.
+  kind: object
+  properties:
+  - name: charactersCount
+    description: Number of text elements recognized in the document.
+    types:
+    - uid: integer
+  - name: transactionsCount
+    description: Number of transactions for the document.
+    types:
+    - uid: integer
+- name: SentimentConfidenceScorePerLabel
+  description: 'Represents the confidence scores between 0 and 1 across all sentiment classes: positive, neutral, negative.'
+  kind: object
+  properties:
+  - name: positive
+    description: ''
+    types:
+    - uid: number
+  - name: neutral
+    description: ''
+    types:
+    - uid: number
+  - name: negative
+    description: ''
+    types:
+    - uid: number
+- name: SentenceSentiment
+  kind: object
+  properties:
+  - name: text
+    description: The sentence text.
+    types:
+    - uid: string
+  - name: sentiment
+    description: The predicted Sentiment for the sentence.
+    types:
+    - uid: SentenceSentimentValue
+  - name: confidenceScores
+    description: The sentiment confidence score between 0 and 1 for the sentence for all classes.
+    types:
+    - uid: SentimentConfidenceScorePerLabel
+  - name: offset
+    description: The sentence offset from the start of the document.
+    types:
+    - uid: integer
+  - name: length
+    description: The length of the sentence.
+    types:
+    - uid: integer
+  - name: targets
+    description: The array of sentence targets for the sentence.
+    types:
+    - uid: SentenceTarget
+      isArray: true
+  - name: assessments
+    description: The array of assessments for the sentence.
+    types:
+    - uid: SentenceAssessment
+      isArray: true
+- name: TextAnalyticsWarning
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: WarningCodeValue
+  - name: message
+    description: Warning message.
+    types:
+    - uid: string
+  - name: targetRef
+    description: A JSON pointer reference indicating the target object.
+    types:
+    - uid: string
+- name: ErrorCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidArgument
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: ServiceUnavailable
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+- name: InnerError
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: InnerErrorCodeValue
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: Inner error contains more specific information.
+    types:
+    - uid: InnerError
+- name: SentenceSentimentValue
+  description: The predicted Sentiment for the sentence.
+  kind: enum
+  properties:
+  - name: positive
+    types:
+    - uid: string
+  - name: neutral
+    types:
+    - uid: string
+  - name: negative
+    types:
+    - uid: string
+- name: SentenceTarget
+  kind: object
+  properties:
+  - name: sentiment
+    description: Targeted sentiment in the sentence.
+    types:
+    - uid: TokenSentimentValue
+  - name: confidenceScores
+    description: Target sentiment confidence scores for the target in the sentence.
+    types:
+    - uid: TargetConfidenceScoreLabel
+  - name: offset
+    description: The target offset from the start of the sentence.
+    types:
+    - uid: integer
+  - name: length
+    description: The length of the target.
+    types:
+    - uid: integer
+  - name: text
+    description: The target text detected.
+    types:
+    - uid: string
+  - name: relations
+    description: The array of either assessment or target objects which is related to the target.
+    types:
+    - uid: TargetRelation
+      isArray: true
+- name: SentenceAssessment
+  kind: object
+  properties:
+  - name: sentiment
+    description: Assessment sentiment in the sentence.
+    types:
+    - uid: TokenSentimentValue
+  - name: confidenceScores
+    description: Assessment sentiment confidence scores in the sentence.
+    types:
+    - uid: TargetConfidenceScoreLabel
+  - name: offset
+    description: The assessment offset from the start of the sentence.
+    types:
+    - uid: integer
+  - name: length
+    description: The length of the assessment.
+    types:
+    - uid: integer
+  - name: text
+    description: The assessment text detected.
+    types:
+    - uid: string
+  - name: isNegated
+    description: The indicator representing if the assessment is negated.
+    types:
+    - uid: boolean
+- name: WarningCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: LongWordsInDocument
+    types:
+    - uid: string
+  - name: DocumentTruncated
+    types:
+    - uid: string
+- name: InnerErrorCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: InvalidParameterValue
+    types:
+    - uid: string
+  - name: InvalidRequestBodyFormat
+    types:
+    - uid: string
+  - name: EmptyRequest
+    types:
+    - uid: string
+  - name: MissingInputRecords
+    types:
+    - uid: string
+  - name: InvalidDocument
+    types:
+    - uid: string
+  - name: ModelVersionIncorrect
+    types:
+    - uid: string
+  - name: InvalidDocumentBatch
+    types:
+    - uid: string
+  - name: UnsupportedLanguageCode
+    types:
+    - uid: string
+  - name: InvalidCountryHint
+    types:
+    - uid: string
+- name: TokenSentimentValue
+  description: Targeted sentiment in the sentence.
+  kind: enum
+  properties:
+  - name: positive
+    types:
+    - uid: string
+  - name: mixed
+    types:
+    - uid: string
+  - name: negative
+    types:
+    - uid: string
+- name: TargetConfidenceScoreLabel
+  description: 'Represents the confidence scores across all sentiment classes: positive, neutral, negative.'
+  kind: object
+  properties:
+  - name: positive
+    description: ''
+    types:
+    - uid: number
+  - name: negative
+    description: ''
+    types:
+    - uid: number
+- name: TargetRelation
+  kind: object
+  properties:
+  - name: relationType
+    description: The type related to the target.
+    types:
+    - uid: TargetRelationType
+  - name: ref
+    description: The JSON pointer indicating the linked object.
+    types:
+    - uid: string
+- name: TargetRelationType
+  description: The type related to the target.
+  kind: enum
+  properties:
+  - name: assessment
+    types:
+    - uid: string
+  - name: target
+    types:
+    - uid: string
+examples:
+- name: Successful Sentiment request
+  request:
+    uri: POST {Endpoint}/text/analytics/v3.1-preview.4/sentiment
+    body: >-
+      {
+        "documents": [
+          {
+            "id": "1",
+            "language": "en",
+            "text": "Great atmosphere. Close to plenty of restaurants, hotels, and transit! Staff are friendly and helpful."
+          }
+        ]
+      }
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "documents": [
+          {
+            "confidenceScores": {
+              "negative": 0,
+              "neutral": 0,
+              "positive": 1
+            },
+            "id": "1",
+            "sentences": [
+              {
+                "targets": [
+                  {
+                    "confidenceScores": {
+                      "negative": 0,
+                      "positive": 1
+                    },
+                    "length": 10,
+                    "offset": 6,
+                    "relations": [
+                      {
+                        "ref": "#/documents/0/sentences/0/assessments/0",
+                        "relationType": "assessment"
+                      }
+                    ],
+                    "sentiment": "positive",
+                    "text": "atmosphere"
+                  }
+                ],
+                "confidenceScores": {
+                  "negative": 0,
+                  "neutral": 0,
+                  "positive": 1
+                },
+                "length": 17,
+                "offset": 0,
+                "assessments": [
+                  {
+                    "confidenceScores": {
+                      "negative": 0,
+                      "positive": 1
+                    },
+                    "isNegated": false,
+                    "length": 5,
+                    "offset": 0,
+                    "sentiment": "positive",
+                    "text": "great"
+                  }
+                ],
+                "sentiment": "positive",
+                "text": "Great atmosphere."
+              },
+              {
+                "targets": [
+                  {
+                    "confidenceScores": {
+                      "negative": 0.01,
+                      "positive": 0.99
+                    },
+                    "length": 11,
+                    "offset": 37,
+                    "relations": [
+                      {
+                        "ref": "#/documents/0/sentences/1/assessments/0",
+                        "relationType": "assessment"
+                      }
+                    ],
+                    "sentiment": "positive",
+                    "text": "restaurants"
+                  },
+                  {
+                    "confidenceScores": {
+                      "negative": 0.01,
+                      "positive": 0.99
+                    },
+                    "length": 6,
+                    "offset": 50,
+                    "relations": [
+                      {
+                        "ref": "#/documents/0/sentences/1/assessments/0",
+                        "relationType": "assessment"
+                      }
+                    ],
+                    "sentiment": "positive",
+                    "text": "hotels"
+                  }
+                ],
+                "confidenceScores": {
+                  "negative": 0.01,
+                  "neutral": 0.86,
+                  "positive": 0.13
+                },
+                "length": 52,
+                "offset": 18,
+                "assessments": [
+                  {
+                    "confidenceScores": {
+                      "negative": 0.01,
+                      "positive": 0.99
+                    },
+                    "isNegated": false,
+                    "length": 15,
+                    "offset": 18,
+                    "sentiment": "positive",
+                    "text": "Close to plenty"
+                  }
+                ],
+                "sentiment": "neutral",
+                "text": "Close to plenty of restaurants, hotels, and transit!"
+              }
+            ],
+            "sentiment": "positive",
+            "warnings": []
+          }
+        ],
+        "errors": [],
+        "modelVersion": "2020-04-01"
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "InvalidRequest",
+          "message": "Invalid Request.",
+          "innererror": {
+            "code": "MissingInputRecords",
+            "message": "Missing input records."
+          }
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "InternalServerError",
+          "message": "Internal Server Error"
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+errorCodes: []

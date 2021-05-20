@@ -19,12 +19,24 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: Other Status Codes
+  description: Unexpected Error
+  types:
+  - uid: Error
 - name: 200 OK
   description: OK
   types:
   - uid: OperationList
 requestHeader: []
 definitions:
+- name: Error
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
 - name: OperationList
   description: List of supported operations.
   kind: object
@@ -34,14 +46,40 @@ definitions:
     types:
     - uid: Operation
       isArray: true
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Internal error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
 - name: Operation
   description: Supported REST operation.
   kind: object
   properties:
   - name: display
+    isReadyOnly: true
     description: Display information for the operation.
     types:
     - uid: Display
+  - name: isDataAction
+    isReadyOnly: true
+    description: Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+    types:
+    - uid: boolean
   - name: name
     isReadyOnly: true
     description: Name of the operation being performed on an object.
@@ -53,27 +91,27 @@ definitions:
     types:
     - uid: string
 - name: Display
-  description: Display information for the operation.
+  description: Contains the localized display information for this particular operation / action.
   kind: object
   properties:
-  - name: description
-    isReadyOnly: true
-    description: Description for the operation.
-    types:
-    - uid: string
-  - name: operation
-    isReadyOnly: true
-    description: Display name of the operation.
-    types:
-    - uid: string
   - name: provider
     isReadyOnly: true
-    description: Resource provider display name.
+    description: The localized friendly form of the resource provider name – it is expected to also include the publisher/company responsible. It should use Title Casing and begin with "Microsoft" for 1st party services. e.g. "Microsoft Monitoring Insights" or "Microsoft Compute."
     types:
     - uid: string
   - name: resource
     isReadyOnly: true
-    description: Resource type display name related to the operation.
+    description: The localized, friendly version of the resource type related to this action or operation; the resource type should match the public documentation for the resource provider.
+    types:
+    - uid: string
+  - name: operation
+    isReadyOnly: true
+    description: The localized, friendly name for the operation. Use the name as it will displayed to the user.
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: The localized, friendly description for the operation. The description will be displayed to the user. It should be thorough and concise for used in both tooltips and detailed views.
     types:
     - uid: string
 examples:

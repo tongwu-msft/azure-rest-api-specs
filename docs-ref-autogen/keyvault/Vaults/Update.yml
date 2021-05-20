@@ -274,6 +274,11 @@ definitions:
     description: The URI of the vault for performing operations on keys and secrets. This property is readonly
     types:
     - uid: string
+  - name: hsmPoolResourceId
+    isReadyOnly: true
+    description: The resource id of HSM Pool.
+    types:
+    - uid: string
   - name: enabledForDeployment
     description: Property to specify whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault.
     types:
@@ -409,6 +414,10 @@ definitions:
     description: Full resource id of a vnet subnet, such as '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
     types:
     - uid: string
+  - name: ignoreMissingVnetServiceEndpoint
+    description: Property to specify whether NRP will ignore the check if parent subnet has serviceEndpoints configured.
+    types:
+    - uid: boolean
 - name: VaultProvisioningState
   description: Provisioning state of the vault.
   kind: enum
@@ -423,6 +432,14 @@ definitions:
   description: Private endpoint connection item.
   kind: object
   properties:
+  - name: id
+    description: Id of private endpoint connection.
+    types:
+    - uid: string
+  - name: etag
+    description: Modified whenever there is a change in the state of private endpoint connection.
+    types:
+    - uid: string
   - name: properties.privateEndpoint
     description: Properties of the private endpoint object.
     types:
@@ -583,6 +600,21 @@ examples:
             "name": "standard"
           },
           "tenantId": "00000000-0000-0000-0000-000000000000",
+          "networkAcls": {
+            "bypass": "AzureServices",
+            "defaultAction": "Deny",
+            "ipRules": [
+              {
+                "value": ""
+              }
+            ],
+            "virtualNetworkRules": [
+              {
+                "id": "",
+                "ignoreMissingVnetServiceEndpoint": false
+              }
+            ]
+          },
           "accessPolicies": [
             {
               "tenantId": "00000000-0000-0000-0000-000000000000",
@@ -635,9 +667,26 @@ examples:
               }
             }
           ],
+          "privateEndpointConnections": [
+            {
+              "id": "",
+              "etag": "",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateEndpoint": {
+                  "id": ""
+                },
+                "privateLinkServiceConnectionState": {
+                  "status": "Approved",
+                  "actionsRequired": "None"
+                }
+              }
+            }
+          ],
           "enabledForDeployment": true,
           "enabledForDiskEncryption": true,
           "enabledForTemplateDeployment": true,
+          "hsmPoolResourceId": "00000000-0000-0000-0000-000000000000",
           "vaultUri": "https://sample-vault.vault.azure.net",
           "provisioningState": "Succeeded"
         }
@@ -712,6 +761,7 @@ examples:
           "enabledForDiskEncryption": true,
           "enabledForTemplateDeployment": true,
           "vaultUri": "https://sample-vault.vault.azure.net",
+          "hsmPoolResourceId": "00000000-0000-0000-0000-000000000000",
           "provisioningState": "Succeeded"
         }
       }
@@ -724,6 +774,14 @@ examples:
         }
       }
   - statusCode: "409"
+    body: >-
+      {
+        "error": {
+          "code": "",
+          "message": ""
+        }
+      }
+  - statusCode: default
     body: >-
       {
         "error": {

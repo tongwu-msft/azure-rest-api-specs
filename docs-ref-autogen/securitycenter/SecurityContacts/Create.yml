@@ -33,6 +33,10 @@ uriParameters:
   - uid: string
 responses:
 - name: 201 Created
+  description: Created
+  types:
+  - uid: SecurityContact
+- name: 200 OK
   description: OK
   types:
   - uid: SecurityContact
@@ -40,8 +44,56 @@ responses:
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.emails
+    in: body
+    description: List of email addresses which will get notifications from Azure Security Center by the configurations defined in this security contact.
+    types:
+    - uid: string
+  - name: properties.phone
+    in: body
+    description: The security contact's phone number
+    types:
+    - uid: string
+  - name: properties.alertNotifications
+    in: body
+    description: Defines whether to send email notifications about new security alerts
+    types:
+    - uid: AlertNotifications
+  - name: properties.notificationsByRole
+    in: body
+    description: Defines whether to send email notifications from Azure Security Center to persons with specific RBAC roles on the subscription.
+    types:
+    - uid: NotificationsByRole
 requestHeader: []
 definitions:
+- name: AlertNotifications
+  description: Defines whether to send email notifications about new security alerts
+  kind: object
+  properties:
+  - name: state
+    description: Defines if email notifications will be sent about new security alerts
+    types:
+    - uid: state
+  - name: minimalSeverity
+    description: Defines the minimal alert severity which will be sent as email notifications
+    types:
+    - uid: minimalSeverity
+- name: NotificationsByRole
+  description: Defines whether to send email notifications from Azure Security Center to persons with specific RBAC roles on the subscription.
+  kind: object
+  properties:
+  - name: state
+    description: Defines whether to send email notifications from Azure Security Center to persons with specific RBAC roles on the subscription.
+    types:
+    - uid: state
+  - name: roles
+    description: 'Defines which RBAC roles will get email notifications from Azure Security Center. List of allowed RBAC roles: '
+    types:
+    - uid: string
+      isArray: true
 - name: SecurityContact
   description: Contact details and configurations for notifications coming from Azure Security Center.
   kind: object
@@ -108,31 +160,34 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: AlertNotifications
-  description: Defines whether to send email notifications about new security alerts
-  kind: object
+- name: state
+  description: Defines if email notifications will be sent about new security alerts
+  kind: enum
   properties:
-  - name: state
-    description: Defines if email notifications will be sent about new security alerts
-    types:
-    - uid: state
-  - name: minimalSeverity
-    description: Defines the minimal alert severity which will be sent as email notifications
-    types:
-    - uid: minimalSeverity
-- name: NotificationsByRole
-  description: Defines whether to send email notifications from Azure Security Center to persons with specific RBAC roles on the subscription.
-  kind: object
-  properties:
-  - name: state
-    description: Defines whether to send email notifications from Azure Security Center to persons with specific RBAC roles on the subscription.
-    types:
-    - uid: state
-  - name: roles
-    description: 'Defines which RBAC roles will get email notifications from Azure Security Center. List of allowed RBAC roles: '
+  - name: On
+    description: Get notifications on new alerts
     types:
     - uid: string
-      isArray: true
+  - name: Off
+    description: Don't get notifications on new alerts
+    types:
+    - uid: string
+- name: minimalSeverity
+  description: Defines the minimal alert severity which will be sent as email notifications
+  kind: enum
+  properties:
+  - name: High
+    description: Get notifications on new alerts with High severity
+    types:
+    - uid: string
+  - name: Medium
+    description: Get notifications on new alerts with medium or high severity
+    types:
+    - uid: string
+  - name: Low
+    description: Don't get notifications on new alerts with low, medium or high severity
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: The error detail.
   kind: object
@@ -178,40 +233,50 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-- name: state
-  description: Defines if email notifications will be sent about new security alerts
-  kind: enum
-  properties:
-  - name: On
-    description: Get notifications on new alerts
-    types:
-    - uid: string
-  - name: Off
-    description: Don't get notifications on new alerts
-    types:
-    - uid: string
-- name: minimalSeverity
-  description: Defines the minimal alert severity which will be sent as email notifications
-  kind: enum
-  properties:
-  - name: High
-    description: Get notifications on new alerts with High severity
-    types:
-    - uid: string
-  - name: Medium
-    description: Get notifications on new alerts with medium or high severity
-    types:
-    - uid: string
-  - name: Low
-    description: Don't get notifications on new alerts with low, medium or high severity
-    types:
-    - uid: string
 examples:
 - name: Create security contact data
   request:
     uri: PUT https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/securityContacts/default?api-version=2020-01-01-preview
+    body: >-
+      {
+        "properties": {
+          "notificationsByRole": {
+            "state": "On",
+            "roles": [
+              "Owner"
+            ]
+          },
+          "emails": "john@contoso.com;jane@contoso.com",
+          "phone": "(214)275-4038",
+          "alertNotifications": {
+            "state": "On",
+            "minimalSeverity": "Low"
+          }
+        }
+      }
   responses:
   - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/securityContacts/default",
+        "name": "default",
+        "type": "Microsoft.Security/securityContact",
+        "properties": {
+          "notificationsByRole": {
+            "state": "On",
+            "roles": [
+              "Owner"
+            ]
+          },
+          "emails": "john@microsoft.com;jane@microsoft.com",
+          "phone": "(214)275-4038",
+          "alertNotifications": {
+            "state": "On",
+            "minimalSeverity": "Low"
+          }
+        }
+      }
+  - statusCode: "200"
     body: >-
       {
         "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/securityContacts/default",

@@ -1,5 +1,6 @@
 ---
 title: "Int64PropertyValue"
+description: "Int64PropertyValue"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

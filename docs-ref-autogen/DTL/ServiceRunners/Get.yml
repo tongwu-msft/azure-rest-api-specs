@@ -103,7 +103,7 @@ definitions:
   - name: type
     description: Managed identity.
     types:
-    - uid: string
+    - uid: ManagedIdentityType
   - name: principalId
     description: The principal id of resource identity.
     types:
@@ -137,7 +137,44 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-examples: []
+- name: ManagedIdentityType
+  description: Managed identity.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+examples:
+- name: ServiceRunners_Get
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{devtestlabName}/servicerunners/{servicerunnerName}?api-version=2018-09-15
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "identity": {
+          "type": "{identityType}",
+          "principalId": "{identityPrincipalId}",
+          "tenantId": "{identityTenantId}",
+          "clientSecretUrl": "{identityClientSecretUrl}"
+        },
+        "id": "/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/serviceRunners/{serviceRunnerName}",
+        "name": "{serviceRunnerName}",
+        "type": "Microsoft.DevTestLab/labs/serviceRunners",
+        "location": "{location}",
+        "tags": {
+          "tagName1": "tagValue1"
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2

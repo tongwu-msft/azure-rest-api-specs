@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.storageaccounts.listbyresourcegroup
 name: List By Resource Group
 service: Storage Resource Provider
 groupName: Storage Accounts
-apiVersion: 2019-06-01
+apiVersion: 2021-04-01
 summary: Lists all the storage accounts available under the given resource group. Note that storage keys are not returned; use the ListKeys operation for this.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts?api-version=2019-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts?api-version=2021-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -71,6 +71,10 @@ definitions:
     description: The identity of the resource.
     types:
     - uid: Identity
+  - name: extendedLocation
+    description: The extendedLocation of the resource.
+    types:
+    - uid: ExtendedLocation
   - name: properties.provisioningState
     isReadyOnly: true
     description: Gets the status of the storage account at the time the operation was called.
@@ -116,6 +120,21 @@ definitions:
     description: Gets the custom domain the user assigned to this storage account.
     types:
     - uid: CustomDomain
+  - name: properties.sasPolicy
+    isReadyOnly: true
+    description: SasPolicy assigned to the storage account.
+    types:
+    - uid: SasPolicy
+  - name: properties.keyPolicy
+    isReadyOnly: true
+    description: KeyPolicy assigned to the storage account.
+    types:
+    - uid: KeyPolicy
+  - name: properties.keyCreationTime
+    isReadyOnly: true
+    description: Storage account keys creation time.
+    types:
+    - uid: KeyCreationTime
   - name: properties.secondaryEndpoints
     isReadyOnly: true
     description: Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object from the secondary location of the storage account. Only available if the SKU name is Standard_RAGRS.
@@ -187,6 +206,14 @@ definitions:
     - uid: MinimumTlsVersion
   - name: properties.allowSharedKeyAccess
     description: Indicates whether the storage account permits requests to be authorized with the account access key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure Active Directory (Azure AD). The default value is null, which is equivalent to true.
+    types:
+    - uid: boolean
+  - name: properties.isNfsV3Enabled
+    description: NFS 3.0 protocol support enabled if set to true.
+    types:
+    - uid: boolean
+  - name: properties.allowCrossTenantReplication
+    description: Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property.
     types:
     - uid: boolean
   - name: tags
@@ -266,6 +293,26 @@ definitions:
     description: The identity type.
     types:
     - uid: IdentityType
+  - name: userAssignedIdentities
+    description: Gets or sets a list of key value pairs that describe the set of User Assigned identities that will be used with this storage account. The key is the ARM resource identifier of the identity. Only 1 User Assigned identity is permitted here.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
+- name: ExtendedLocation
+  description: The complex type of the extended location.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: ProvisioningState
   description: Gets the status of the storage account at the time the operation was called.
   kind: enum
@@ -343,6 +390,38 @@ definitions:
     description: Indicates whether indirect CName validation is enabled. Default value is false. This should only be set on updates.
     types:
     - uid: boolean
+- name: SasPolicy
+  description: SasPolicy assigned to the storage account.
+  kind: object
+  properties:
+  - name: sasExpirationPeriod
+    description: The SAS expiration period, DD.HH:MM:SS.
+    types:
+    - uid: string
+  - name: expirationAction
+    description: The SAS expiration action. Can only be Log.
+    types:
+    - uid: ExpirationAction
+- name: KeyPolicy
+  description: KeyPolicy assigned to the storage account.
+  kind: object
+  properties:
+  - name: keyExpirationPeriodInDays
+    description: The key expiration period in days.
+    types:
+    - uid: integer
+- name: KeyCreationTime
+  description: Storage account keys creation time.
+  kind: object
+  properties:
+  - name: key1
+    description: ''
+    types:
+    - uid: string
+  - name: key2
+    description: ''
+    types:
+    - uid: string
 - name: Encryption
   description: The encryption settings on the storage account.
   kind: object
@@ -363,6 +442,10 @@ definitions:
     description: Properties provided by key vault.
     types:
     - uid: KeyVaultProperties
+  - name: identity
+    description: The identity to be used with service-side encryption at rest.
+    types:
+    - uid: EncryptionIdentity
 - name: AccessTier
   description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
   kind: enum
@@ -385,6 +468,10 @@ definitions:
     description: Required if choose AD.
     types:
     - uid: ActiveDirectoryProperties
+  - name: defaultSharePermission
+    description: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
+    types:
+    - uid: DefaultSharePermission
 - name: NetworkRuleSet
   description: Network rule set
   kind: object
@@ -393,6 +480,11 @@ definitions:
     description: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
     types:
     - uid: Bypass
+  - name: resourceAccessRules
+    description: Sets the resource access rules
+    types:
+    - uid: ResourceAccessRule
+      isArray: true
   - name: virtualNetworkRules
     description: Sets the virtual network rules
     types:
@@ -563,7 +655,37 @@ definitions:
   description: The identity type.
   kind: enum
   properties:
+  - name: None
+    types:
+    - uid: string
   - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentity
+  description: UserAssignedIdentity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the identity.
+    types:
+    - uid: string
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
     types:
     - uid: string
 - name: StorageAccountMicrosoftEndpoints
@@ -624,6 +746,13 @@ definitions:
     description: Gets the dfs endpoint.
     types:
     - uid: string
+- name: ExpirationAction
+  description: The SAS expiration action. Can only be Log.
+  kind: enum
+  properties:
+  - name: Log
+    types:
+    - uid: string
 - name: EncryptionServices
   description: A list of services that support encryption.
   kind: object
@@ -680,6 +809,14 @@ definitions:
     description: Timestamp of last rotation of the Key Vault Key.
     types:
     - uid: string
+- name: EncryptionIdentity
+  description: Encryption identity for the storage account.
+  kind: object
+  properties:
+  - name: userAssignedIdentity
+    description: Resource identifier of the UserAssigned identity to be associated with server-side encryption on the storage account.
+    types:
+    - uid: string
 - name: DirectoryServiceOptions
   description: Indicates the directory service used.
   kind: enum
@@ -721,6 +858,25 @@ definitions:
     description: Specifies the security identifier (SID) for Azure Storage.
     types:
     - uid: string
+- name: DefaultSharePermission
+  description: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: StorageFileDataSmbShareReader
+    types:
+    - uid: string
+  - name: StorageFileDataSmbShareContributor
+    types:
+    - uid: string
+  - name: StorageFileDataSmbShareElevatedContributor
+    types:
+    - uid: string
+  - name: StorageFileDataSmbShareOwner
+    types:
+    - uid: string
 - name: Bypass
   description: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
   kind: enum
@@ -735,6 +891,18 @@ definitions:
     types:
     - uid: string
   - name: AzureServices
+    types:
+    - uid: string
+- name: ResourceAccessRule
+  description: Resource Access Rule.
+  kind: object
+  properties:
+  - name: tenantId
+    description: Tenant Id
+    types:
+    - uid: string
+  - name: resourceId
+    description: Resource Id
     types:
     - uid: string
 - name: VirtualNetworkRule
@@ -893,19 +1061,19 @@ definitions:
   description: Gets the state of virtual network rule.
   kind: enum
   properties:
-  - name: provisioning
+  - name: Provisioning
     types:
     - uid: string
-  - name: deprovisioning
+  - name: Deprovisioning
     types:
     - uid: string
-  - name: succeeded
+  - name: Succeeded
     types:
     - uid: string
-  - name: failed
+  - name: Failed
     types:
     - uid: string
-  - name: networkSourceDeleted
+  - name: NetworkSourceDeleted
     types:
     - uid: string
 - name: PrivateEndpointServiceConnectionStatus
@@ -946,7 +1114,7 @@ definitions:
 examples:
 - name: StorageAccountListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6117/providers/Microsoft.Storage/storageAccounts?api-version=2019-06-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6117/providers/Microsoft.Storage/storageAccounts?api-version=2021-04-01
   responses:
   - statusCode: "200"
     body: >-

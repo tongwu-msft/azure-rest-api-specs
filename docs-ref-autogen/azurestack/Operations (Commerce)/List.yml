@@ -23,6 +23,10 @@ responses:
   description: OK
   types:
   - uid: OperationList
+- name: Other Status Codes
+  description: Default Response.
+  types:
+  - uid: ExtendedErrorInfo
 requestHeader: []
 definitions:
 - name: OperationList
@@ -38,35 +42,79 @@ definitions:
     description: URI to the next page of operations.
     types:
     - uid: string
+- name: ExtendedErrorInfo
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
 - name: Operation
   description: Describes the supported REST operation.
   kind: object
   properties:
-  - name: name
-    description: The name of the operation performed on the object. The name should match the action name that appears in RBAC or the event service.
-    types:
-    - uid: string
   - name: display
+    isReadyOnly: true
     description: Contains the localized display information for this particular operation or action.
     types:
     - uid: Display
+  - name: isDataAction
+    isReadyOnly: true
+    description: Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+    types:
+    - uid: boolean
+  - name: name
+    isReadyOnly: true
+    description: The name of the operation performed on the object. The name should match the action name that appears in RBAC or the event service.
+    types:
+    - uid: string
+  - name: origin
+    isReadyOnly: true
+    description: Origin for the operation.
+    types:
+    - uid: string
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Internal error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
 - name: Display
   description: Contains the localized display information for this particular operation / action.
   kind: object
   properties:
   - name: provider
-    description: The localized, friendly version of the resource provider name. The provider name is expected to include the name of the publisher or company responsible. The provider name format should use title case and begin with "Microsoft" for first-party services. For example, the provider name may be"Microsoft Monitoring Insights" or "Microsoft Compute".
+    isReadyOnly: true
+    description: The localized friendly form of the resource provider name – it is expected to also include the publisher/company responsible. It should use Title Casing and begin with "Microsoft" for 1st party services. e.g. "Microsoft Monitoring Insights" or "Microsoft Compute."
     types:
     - uid: string
   - name: resource
+    isReadyOnly: true
     description: The localized, friendly version of the resource type related to this action or operation; the resource type should match the public documentation for the resource provider.
     types:
     - uid: string
   - name: operation
-    description: The localized, friendly name for the operation. Use the name as it will be displayed to the user.
+    isReadyOnly: true
+    description: The localized, friendly name for the operation. Use the name as it will displayed to the user.
     types:
     - uid: string
   - name: description
+    isReadyOnly: true
     description: The localized, friendly description for the operation. The description will be displayed to the user. It should be thorough and concise for used in both tooltips and detailed views.
     types:
     - uid: string

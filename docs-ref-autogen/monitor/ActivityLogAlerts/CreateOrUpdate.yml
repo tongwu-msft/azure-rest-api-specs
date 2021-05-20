@@ -3,14 +3,14 @@ uid: management.azure.com.monitor.activitylogalerts.createorupdate
 name: Create Or Update
 service: Monitor
 groupName: Activity Log Alerts
-apiVersion: 2017-04-01
-summary: Create a new activity log alert or update an existing one.
+apiVersion: 2020-10-01
+summary: Create a new Activity Log Alert rule or update an existing one.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/activityLogAlerts/{activityLogAlertName}?api-version=2017-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/activityLogAlerts/{activityLogAlertName}?api-version=2020-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,13 +21,14 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
+  pattern: ^[-\w\._\(\)]+$
 - name: activityLogAlertName
   in: path
   isRequired: true
-  description: The name of the activity log alert.
+  description: The name of the Activity Log Alert rule.
   types:
   - uid: string
 - name: api-version
@@ -38,15 +39,15 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: An existing activity log alert was successfully updated.
+  description: An existing Activity Log Alert rule was successfully updated.
   types:
   - uid: ActivityLogAlertResource
 - name: 201 Created
-  description: A new activity log alert was successfully created.
+  description: A new Activity Log Alert rule was successfully created.
   types:
   - uid: ActivityLogAlertResource
 - name: Other Status Codes
-  description: An error occurred and the activity log alert could not be created or updated.
+  description: An error occurred and the Activity Log Alert rule could not be created or updated.
   types:
   - uid: ErrorResponse
 requestBody:
@@ -55,41 +56,40 @@ requestBody:
   - name: properties.scopes
     in: body
     isRequired: true
-    description: A list of resourceIds that will be used as prefixes. The alert will only apply to activityLogs with resourceIds that fall under one of these prefixes. This list must include at least one item.
+    description: A list of resource IDs that will be used as prefixes. The alert will only apply to Activity Log events with resource IDs that fall under one of these prefixes. This list must include at least one item.
     types:
     - uid: string
       isArray: true
-  - name: properties.enabled
-    in: body
-    description: Indicates whether this activity log alert is enabled. If an activity log alert is not enabled, then none of its actions will be activated.
-    types:
-    - uid: boolean
   - name: properties.condition
     in: body
     isRequired: true
     description: The condition that will cause this alert to activate.
     types:
-    - uid: ActivityLogAlertAllOfCondition
+    - uid: AlertRuleAllOfCondition
   - name: properties.actions
     in: body
     isRequired: true
     description: The actions that will activate when the condition is met.
     types:
-    - uid: ActivityLogAlertActionList
+    - uid: ActionList
+  - name: properties.enabled
+    in: body
+    description: Indicates whether this Activity Log Alert rule is enabled. If an Activity Log Alert rule is not enabled, then none of its actions will be activated.
+    types:
+    - uid: boolean
   - name: properties.description
     in: body
-    description: A description of this activity log alert.
+    description: A description of this Activity Log Alert rule.
     types:
     - uid: string
   - name: location
     in: body
-    isRequired: true
-    description: Resource location
+    description: The location of the resource. Since Azure Activity Log Alerts is a global service, the location of the rules should always be 'global'.
     types:
     - uid: string
   - name: tags
     in: body
-    description: Resource tags
+    description: The tags of the resource.
     types:
     - uid: object
       isDictionary: true
@@ -98,70 +98,70 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: ActivityLogAlertAllOfCondition
-  description: An Activity Log alert condition that is met when all its member conditions are met.
+- name: AlertRuleAllOfCondition
+  description: An Activity Log Alert rule condition that is met when all its member conditions are met.
   kind: object
   properties:
   - name: allOf
-    description: The list of activity log alert conditions.
+    description: The list of Activity Log Alert rule conditions.
     types:
-    - uid: ActivityLogAlertLeafCondition
+    - uid: AlertRuleAnyOfOrLeafCondition
       isArray: true
-- name: ActivityLogAlertActionList
-  description: A list of activity log alert actions.
+- name: ActionList
+  description: A list of Activity Log Alert rule actions.
   kind: object
   properties:
   - name: actionGroups
-    description: The list of activity log alerts.
+    description: The list of the Action Groups.
     types:
-    - uid: ActivityLogAlertActionGroup
+    - uid: ActionGroup
       isArray: true
 - name: ActivityLogAlertResource
-  description: An activity log alert resource.
+  description: An Activity Log Alert rule resource.
   kind: object
   properties:
   - name: properties.scopes
-    description: A list of resourceIds that will be used as prefixes. The alert will only apply to activityLogs with resourceIds that fall under one of these prefixes. This list must include at least one item.
+    description: A list of resource IDs that will be used as prefixes. The alert will only apply to Activity Log events with resource IDs that fall under one of these prefixes. This list must include at least one item.
     types:
     - uid: string
       isArray: true
-  - name: properties.enabled
-    description: Indicates whether this activity log alert is enabled. If an activity log alert is not enabled, then none of its actions will be activated.
-    types:
-    - uid: boolean
   - name: properties.condition
     description: The condition that will cause this alert to activate.
     types:
-    - uid: ActivityLogAlertAllOfCondition
+    - uid: AlertRuleAllOfCondition
   - name: properties.actions
     description: The actions that will activate when the condition is met.
     types:
-    - uid: ActivityLogAlertActionList
+    - uid: ActionList
+  - name: properties.enabled
+    description: Indicates whether this Activity Log Alert rule is enabled. If an Activity Log Alert rule is not enabled, then none of its actions will be activated.
+    types:
+    - uid: boolean
   - name: properties.description
-    description: A description of this activity log alert.
+    description: A description of this Activity Log Alert rule.
     types:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: Azure resource Id
+    description: The resource Id.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Azure resource name
+    description: The name of the resource.
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Azure resource type
+    description: The type of the resource.
     types:
     - uid: string
   - name: location
-    description: Resource location
+    description: The location of the resource. Since Azure Activity Log Alerts is a global service, the location of the rules should always be 'global'.
     types:
     - uid: string
   - name: tags
-    description: Resource tags
+    description: The tags of the resource.
     types:
     - uid: object
       isDictionary: true
@@ -169,35 +169,59 @@ definitions:
       - uid: string
       - uid: string
 - name: ErrorResponse
-  description: Describes the format of Error response.
+  description: The error response.
   kind: object
   properties:
   - name: code
-    description: Error code
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: Error message indicating why the operation failed.
+    isReadyOnly: true
+    description: The error message indicating why the operation failed.
     types:
     - uid: string
-- name: ActivityLogAlertLeafCondition
-  description: An Activity Log alert condition that is met by comparing an activity log field and value.
+- name: AlertRuleAnyOfOrLeafCondition
+  description: >
+    An Activity Log Alert rule condition that is met when all its member conditions are met.
+
+    Each condition can be of one of the following types:
+
+    __Important__: Each type has its unique subset of properties. Properties from different types CANNOT exist in one condition.
+       * __Leaf Condition -__ must contain 'field' and either 'equals' or 'containsAny'.
+      _Please note, 'anyOf' should __not__ be set in a Leaf Condition._
+      * __AnyOf Condition -__ must contain __only__ 'anyOf' (which is an array of Leaf Conditions).
+      _Please note, 'field', 'equals' and 'containsAny' should __not__ be set in an AnyOf Condition._
   kind: object
   properties:
+  - name: anyOf
+    description: "An Activity Log Alert rule 'anyOf' condition.  \nAn Activity Log Alert rule condition that is met when at least one of its member leaf conditions are met."
+    types:
+    - uid: AlertRuleLeafCondition
+      isArray: true
   - name: field
-    description: "The name of the field that this condition will examine. The possible values for this field are (case-insensitive): 'resourceId', 'category', 'caller', 'level', 'operationName', 'resourceGroup', 'resourceProvider', 'status', 'subStatus', 'resourceType', or anything beginning with 'properties.'."
+    description: >-
+      The name of the Activity Log event's field that this condition will examine.
+
+      The possible values for this field are (case-insensitive): 'resourceId', 'category', 'caller', 'level', 'operationName', 'resourceGroup', 'resourceProvider', 'status', 'subStatus', 'resourceType', or anything beginning with 'properties'.
     types:
     - uid: string
   - name: equals
-    description: The field value will be compared to this value (case-insensitive) to determine if the condition is met.
+    description: The value of the event's field will be compared to this value (case-insensitive) to determine if the condition is met.
     types:
     - uid: string
-- name: ActivityLogAlertActionGroup
+  - name: containsAny
+    description: The value of the event's field will be compared to the values in this array (case-insensitive) to determine if the condition is met.
+    types:
+    - uid: string
+      isArray: true
+- name: ActionGroup
   description: A pointer to an Azure Action Group.
   kind: object
   properties:
   - name: actionGroupId
-    description: The resourceId of the action group. This cannot be null or empty.
+    description: The resource ID of the Action Group. This cannot be null or empty.
     types:
     - uid: string
   - name: webhookProperties
@@ -208,27 +232,49 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: AlertRuleLeafCondition
+  description: >-
+    An Activity Log Alert rule condition that is met by comparing the field and value of an Activity Log event.
+
+    This condition must contain 'field' and either 'equals' or 'containsAny'.
+  kind: object
+  properties:
+  - name: field
+    description: >-
+      The name of the Activity Log event's field that this condition will examine.
+
+      The possible values for this field are (case-insensitive): 'resourceId', 'category', 'caller', 'level', 'operationName', 'resourceGroup', 'resourceProvider', 'status', 'subStatus', 'resourceType', or anything beginning with 'properties'.
+    types:
+    - uid: string
+  - name: equals
+    description: The value of the event's field will be compared to this value (case-insensitive) to determine if the condition is met.
+    types:
+    - uid: string
+  - name: containsAny
+    description: The value of the event's field will be compared to the values in this array (case-insensitive) to determine if the condition is met.
+    types:
+    - uid: string
+      isArray: true
 examples:
-- name: Create or update an activity log alert
+- name: Create or update an Activity Log Alert rule
   request:
-    uri: PUT https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-ActivityLogAlerts/providers/microsoft.insights/activityLogAlerts/SampleActivityLogAlert?api-version=2017-04-01
+    uri: PUT https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/activityLogAlerts/SampleActivityLogAlertRule?api-version=2020-10-01
     body: >-
       {
         "location": "Global",
         "tags": {},
         "properties": {
           "scopes": [
-            "subscriptions/187f412d-1758-44d9-b052-169e2564721d"
+            "/subscriptions/187f412d-1758-44d9-b052-169e2564721d"
           ],
-          "enabled": true,
           "condition": {
             "allOf": [
               {
-                "field": "Category",
+                "field": "category",
                 "equals": "Administrative"
               },
               {
-                "field": "Level",
+                "field": "level",
                 "equals": "Error"
               }
             ]
@@ -236,30 +282,30 @@ examples:
           "actions": {
             "actionGroups": [
               {
-                "actionGroupId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-ActionGroups/providers/microsoft.insights/actionGroups/SampleActionGroup",
+                "actionGroupId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/actionGroups/SampleActionGroup",
                 "webhookProperties": {
-                  "sampleWebhookProperty": "samplePropertyValue"
+                  "sampleWebhookProperty": "SamplePropertyValue"
                 }
               }
             ]
           },
-          "description": "Sample activity log alert description"
+          "enabled": true,
+          "description": "Description of sample Activity Log Alert rule."
         }
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-ActivityLogAlerts/providers/microsoft.insights/activityLogAlerts/SampleActivityLogAlert",
+        "id": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/microsoft.insights/activityLogAlerts/SampleActivityLogAlertRule",
         "type": "Microsoft.Insights/ActivityLogAlerts",
-        "name": "SampleActivityLogAlert",
+        "name": "SampleActivityLogAlertRule",
         "location": "Global",
         "tags": {},
         "properties": {
           "scopes": [
             "subscriptions/187f412d-1758-44d9-b052-169e2564721d"
           ],
-          "enabled": true,
           "condition": {
             "allOf": [
               {
@@ -275,29 +321,29 @@ examples:
           "actions": {
             "actionGroups": [
               {
-                "actionGroupId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-ActionGroups/providers/microsoft.insights/actionGroups/SampleActionGroup",
+                "actionGroupId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/microsoft.insights/actionGroups/SampleActionGroup",
                 "webhookProperties": {
-                  "sampleWebhookProperty": "samplePropertyValue"
+                  "sampleWebhookProperty": "SamplePropertyValue"
                 }
               }
             ]
           },
-          "description": "Sample activity log alert description"
+          "enabled": true,
+          "description": "Description of sample Activity Log Alert rule."
         }
       }
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/microsoft.insights/activityLogAlerts/SampleActivityLogAlert",
+        "id": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/microsoft.insights/activityLogAlerts/SampleActivityLogAlertRule",
         "type": "Microsoft.Insights/ActivityLogAlerts",
-        "name": "SampleActivityLogAlert",
+        "name": "SampleActivityLogAlertRule",
         "location": "Global",
         "tags": {},
         "properties": {
           "scopes": [
             "subscriptions/187f412d-1758-44d9-b052-169e2564721d"
           ],
-          "enabled": true,
           "condition": {
             "allOf": [
               {
@@ -313,14 +359,276 @@ examples:
           "actions": {
             "actionGroups": [
               {
-                "actionGroupId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-ActionGroups/providers/microsoft.insights/actionGroups/SampleActionGroup",
+                "actionGroupId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/microsoft.insights/actionGroups/SampleActionGroup",
                 "webhookProperties": {
-                  "sampleWebhookProperty": "samplePropertyValue"
+                  "sampleWebhookProperty": "SamplePropertyValue"
                 }
               }
             ]
           },
-          "description": "Sample activity log alert description"
+          "enabled": true,
+          "description": "Description of sample Activity Log Alert rule."
+        }
+      }
+- name: Create or update an Activity Log Alert rule with 'anyOf' condition
+  request:
+    uri: PUT https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/activityLogAlerts/SampleActivityLogAlertRuleWithAnyOfCondition?api-version=2020-10-01
+    body: >-
+      {
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "subscriptions/187f412d-1758-44d9-b052-169e2564721d"
+          ],
+          "condition": {
+            "allOf": [
+              {
+                "field": "category",
+                "equals": "ServiceHealth"
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "properties.incidentType",
+                    "equals": "Incident"
+                  },
+                  {
+                    "field": "properties.incidentType",
+                    "equals": "Maintenance"
+                  }
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "actionGroups": [
+              {
+                "actionGroupId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/actionGroups/SampleActionGroup",
+                "webhookProperties": {
+                  "sampleWebhookProperty": "SamplePropertyValue"
+                }
+              }
+            ]
+          },
+          "enabled": true,
+          "description": "Description of sample Activity Log Alert rule with 'anyOf' condition."
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/microsoft.insights/activityLogAlerts/SampleActivityLogAlertRuleWithAnyOfCondition",
+        "type": "Microsoft.Insights/ActivityLogAlerts",
+        "name": "SampleActivityLogAlertRuleWithAnyOfCondition",
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "subscriptions/187f412d-1758-44d9-b052-169e2564721d"
+          ],
+          "condition": {
+            "allOf": [
+              {
+                "field": "category",
+                "equals": "ServiceHealth"
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "properties.incidentType",
+                    "equals": "Incident"
+                  },
+                  {
+                    "field": "properties.incidentType",
+                    "equals": "Maintenance"
+                  }
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "actionGroups": [
+              {
+                "actionGroupId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/actionGroups/SampleActionGroup",
+                "webhookProperties": {
+                  "sampleWebhookProperty": "SamplePropertyValue"
+                }
+              }
+            ]
+          },
+          "enabled": true,
+          "description": "Description of sample Activity Log Alert rule with 'anyOf' condition."
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/microsoft.insights/activityLogAlerts/SampleActivityLogAlertRuleWithAnyOfCondition",
+        "type": "Microsoft.Insights/ActivityLogAlerts",
+        "name": "SampleActivityLogAlertRuleWithAnyOfCondition",
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "subscriptions/187f412d-1758-44d9-b052-169e2564721d"
+          ],
+          "condition": {
+            "allOf": [
+              {
+                "field": "category",
+                "equals": "ServiceHealth"
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "properties.incidentType",
+                    "equals": "Incident"
+                  },
+                  {
+                    "field": "properties.incidentType",
+                    "equals": "Maintenance"
+                  }
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "actionGroups": [
+              {
+                "actionGroupId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/actionGroups/SampleActionGroup",
+                "webhookProperties": {
+                  "sampleWebhookProperty": "SamplePropertyValue"
+                }
+              }
+            ]
+          },
+          "enabled": true,
+          "description": "Description of sample Activity Log Alert rule with 'anyOf' condition."
+        }
+      }
+- name: Create or update an Activity Log Alert rule with 'containsAny'
+  request:
+    uri: PUT https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/activityLogAlerts/SampleActivityLogAlertRuleWithContainsAny?api-version=2020-10-01
+    body: >-
+      {
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "subscriptions/187f412d-1758-44d9-b052-169e2564721d"
+          ],
+          "condition": {
+            "allOf": [
+              {
+                "field": "category",
+                "equals": "ServiceHealth"
+              },
+              {
+                "field": "properties.impactedServices[*].ImpactedRegions[*].RegionName",
+                "containsAny": [
+                  "North Europe",
+                  "West Europe"
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "actionGroups": [
+              {
+                "actionGroupId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/actionGroups/SampleActionGroup",
+                "webhookProperties": {
+                  "sampleWebhookProperty": "SamplePropertyValue"
+                }
+              }
+            ]
+          },
+          "enabled": true,
+          "description": "Description of sample Activity Log Alert rule with 'containsAny'."
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/microsoft.insights/activityLogAlerts/SampleActivityLogAlertRuleWithContainsAny",
+        "type": "Microsoft.Insights/ActivityLogAlerts",
+        "name": "SampleActivityLogAlertRuleWithContainsAny",
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "subscriptions/187f412d-1758-44d9-b052-169e2564721d"
+          ],
+          "condition": {
+            "allOf": [
+              {
+                "field": "category",
+                "equals": "ServiceHealth"
+              },
+              {
+                "field": "properties.impactedServices[*].ImpactedRegions[*].RegionName",
+                "containsAny": [
+                  "North Europe",
+                  "West Europe"
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "actionGroups": [
+              {
+                "actionGroupId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/actionGroups/SampleActionGroup",
+                "webhookProperties": {
+                  "sampleWebhookProperty": "SamplePropertyValue"
+                }
+              }
+            ]
+          },
+          "enabled": true,
+          "description": "Description of sample Activity Log Alert rule with 'containsAny'."
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/microsoft.insights/activityLogAlerts/SampleActivityLogAlertRuleWithContainsAny",
+        "type": "Microsoft.Insights/ActivityLogAlerts",
+        "name": "SampleActivityLogAlertRuleWithContainsAny",
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "subscriptions/187f412d-1758-44d9-b052-169e2564721d"
+          ],
+          "condition": {
+            "allOf": [
+              {
+                "field": "category",
+                "equals": "ServiceHealth"
+              },
+              {
+                "field": "properties.impactedServices[*].ImpactedRegions[*].RegionName",
+                "containsAny": [
+                  "North Europe",
+                  "West Europe"
+                ]
+              }
+            ]
+          },
+          "actions": {
+            "actionGroups": [
+              {
+                "actionGroupId": "/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/actionGroups/SampleActionGroup",
+                "webhookProperties": {
+                  "sampleWebhookProperty": "SamplePropertyValue"
+                }
+              }
+            ]
+          },
+          "enabled": true,
+          "description": "Description of sample Activity Log Alert rule with 'containsAny'."
         }
       }
 security:

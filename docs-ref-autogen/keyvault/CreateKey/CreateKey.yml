@@ -3,14 +3,14 @@ uid: keyvault.createkey.createkey
 name: Create Key
 service: Key Vault
 groupName: Create Key
-apiVersion: "7.1"
+apiVersion: "7.2"
 summary: "Creates a new key, stores it, then returns key parameters and attributes to the client.  \nThe create key operation can be used to create any key type in Azure Key Vault. If the named key already exists, Azure Key Vault creates a new version of the key. It requires the keys/create permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {vaultBaseUrl}/keys/{key-name}/create?api-version=7.1
+- content: POST {vaultBaseUrl}/keys/{key-name}/create?api-version=7.2
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -53,6 +53,11 @@ requestBody:
   - name: key_size
     in: body
     description: 'The key size in bits. For example: 2048, 3072, or 4096 for RSA.'
+    types:
+    - uid: integer
+  - name: public_exponent
+    in: body
+    description: The public exponent for a RSA key.
     types:
     - uid: integer
   - name: key_ops
@@ -164,6 +169,10 @@ definitions:
     description: 'The key size in bits. For example: 2048, 3072, or 4096 for RSA.'
     types:
     - uid: integer
+  - name: public_exponent
+    description: The public exponent for a RSA key.
+    types:
+    - uid: integer
   - name: key_ops
     description: JSON web key operations. For more information, see JsonWebKeyOperation.
     types:
@@ -271,7 +280,7 @@ definitions:
     types:
     - uid: string
   - name: key_hsm
-    description: HSM Token, used with 'Bring Your Own Key'.
+    description: Protected Key, used with 'Bring Your Own Key'.
     types:
     - uid: string
   - name: crv
@@ -326,7 +335,11 @@ definitions:
     types:
     - uid: string
   - name: oct
-    description: Not supported in this version. Octet sequence (used to represent symmetric keys)
+    description: Octet sequence (used to represent symmetric keys)
+    types:
+    - uid: string
+  - name: oct-HSM
+    description: Octet sequence (used to represent symmetric keys) which is not exportable from the HSM.
     types:
     - uid: string
 - name: JsonWebKeyCurveName
@@ -352,7 +365,7 @@ definitions:
 examples:
 - name: Create key
   request:
-    uri: POST https://myvault.vault.azure.net//keys/CreateSoftKeyTest/create?api-version=7.1
+    uri: POST https://myvault.vault.azure.net//keys/CreateSoftKeyTest/create?api-version=7.2
     body: >-
       {
         "kty": "RSA",

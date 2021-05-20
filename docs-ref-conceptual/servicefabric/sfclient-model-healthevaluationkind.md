@@ -1,6 +1,7 @@
 ---
 title: "HealthEvaluationKind"
-ms.date: "10/21/2020"
+description: "HealthEvaluationKind"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -56,4 +57,5 @@ Possible values are:
   - `DeltaNodesCheck` - Indicates that the health evaluation is for the delta of unhealthy cluster nodes. The value is 19.
   - `UpgradeDomainDeltaNodesCheck` - Indicates that the health evaluation is for the delta of unhealthy upgrade domain cluster nodes. The value is 20.
   - `ApplicationTypeApplications` - – Indicates that the health evaluation is for applications of an application type. The value is 21.
+  - `NodeTypeNodes` - – Indicates that the health evaluation is for nodes of a node type. The value is 22.
 

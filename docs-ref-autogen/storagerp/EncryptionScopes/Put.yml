@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.encryptionscopes.put
 name: Put
 service: Storage Resource Provider
 groupName: Encryption Scopes
-apiVersion: 2019-06-01
+apiVersion: 2021-04-01
 summary: Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}?api-version=2019-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}?api-version=2021-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -74,6 +74,11 @@ requestBody:
     description: The key vault properties for the encryption scope. This is a required field if encryption scope 'source' attribute is set to 'Microsoft.KeyVault'.
     types:
     - uid: EncryptionScopeKeyVaultProperties
+  - name: properties.requireInfrastructureEncryption
+    in: body
+    description: A boolean indicating whether or not the service applies a secondary layer of encryption with platform managed keys for data at rest.
+    types:
+    - uid: boolean
 requestHeader: []
 definitions:
 - name: EncryptionScopeKeyVaultProperties
@@ -82,6 +87,16 @@ definitions:
   properties:
   - name: keyUri
     description: The object identifier for a key vault key object. When applied, the encryption scope will use the key referenced by the identifier to enable customer-managed key support on this encryption scope.
+    types:
+    - uid: string
+  - name: currentVersionedKeyIdentifier
+    isReadyOnly: true
+    description: The object identifier of the current versioned Key Vault Key in use.
+    types:
+    - uid: string
+  - name: lastKeyRotationTimestamp
+    isReadyOnly: true
+    description: Timestamp of last rotation of the Key Vault Key.
     types:
     - uid: string
 - name: EncryptionScope
@@ -110,6 +125,10 @@ definitions:
     description: The key vault properties for the encryption scope. This is a required field if encryption scope 'source' attribute is set to 'Microsoft.KeyVault'.
     types:
     - uid: EncryptionScopeKeyVaultProperties
+  - name: properties.requireInfrastructureEncryption
+    description: A boolean indicating whether or not the service applies a secondary layer of encryption with platform managed keys for data at rest.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -168,7 +187,7 @@ definitions:
 examples:
 - name: StorageAccountPutEncryptionScope
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/resource-group-name/providers/Microsoft.Storage/storageAccounts/{storage-account-name}/encryptionScopes/{encryption-scope-name}?api-version=2019-06-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/resource-group-name/providers/Microsoft.Storage/storageAccounts/{storage-account-name}/encryptionScopes/{encryption-scope-name}?api-version=2021-04-01
     body: '{}'
   responses:
   - statusCode: "201"
@@ -191,6 +210,44 @@ examples:
         "name": "{encryption-scope-name}",
         "type": "Microsoft.Storage/storageAccounts/encryptionScopes",
         "properties": {
+          "source": "Microsoft.Storage",
+          "state": "Enabled",
+          "creationTime": "2018-10-16T02:42:41.7633306Z",
+          "lastModifiedTime": "2018-10-16T02:42:41.7633306Z"
+        }
+      }
+- name: StorageAccountPutEncryptionScopeWithInfrastructureEncryption
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/resource-group-name/providers/Microsoft.Storage/storageAccounts/{storage-account-name}/encryptionScopes/{encryption-scope-name}?api-version=2021-04-01
+    body: >-
+      {
+        "properties": {
+          "requireInfrastructureEncryption": true
+        }
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/resource-group-name/providers/Microsoft.Storage/storageAccounts/{storage-account-name}/encryptionScopes/{encryption-scope-name}",
+        "name": "{encryption-scope-name}",
+        "type": "Microsoft.Storage/storageAccounts/encryptionScopes",
+        "properties": {
+          "requireInfrastructureEncryption": true,
+          "source": "Microsoft.Storage",
+          "state": "Enabled",
+          "creationTime": "2018-10-16T02:42:41.7633306Z",
+          "lastModifiedTime": "2018-10-16T02:42:41.7633306Z"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/resource-group-name/providers/Microsoft.Storage/storageAccounts/{storage-account-name}/encryptionScopes/{encryption-scope-name}",
+        "name": "{encryption-scope-name}",
+        "type": "Microsoft.Storage/storageAccounts/encryptionScopes",
+        "properties": {
+          "requireInfrastructureEncryption": true,
           "source": "Microsoft.Storage",
           "state": "Enabled",
           "creationTime": "2018-10-16T02:42:41.7633306Z",

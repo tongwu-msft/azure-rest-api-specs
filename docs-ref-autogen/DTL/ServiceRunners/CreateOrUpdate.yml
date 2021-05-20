@@ -86,7 +86,7 @@ definitions:
   - name: type
     description: Managed identity.
     types:
-    - uid: string
+    - uid: ManagedIdentityType
   - name: principalId
     description: The principal id of resource identity.
     types:
@@ -142,6 +142,22 @@ definitions:
     description: The cloud error that occurred
     types:
     - uid: CloudErrorBody
+- name: ManagedIdentityType
+  description: Managed identity.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: Body of an error from a REST request.
   kind: object
@@ -163,7 +179,44 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-examples: []
+examples:
+- name: ServiceRunners_CreateOrUpdate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{devtestlabName}/servicerunners/{servicerunnerName}?api-version=2018-09-15
+    body: >-
+      {
+        "location": "{location}",
+        "tags": {
+          "tagName1": "tagValue1"
+        },
+        "identity": {
+          "type": "{identityType}",
+          "principalId": "{identityPrincipalId}",
+          "tenantId": "{identityTenantId}",
+          "clientSecretUrl": "{identityClientSecretUrl}"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "identity": {
+          "type": "{identityType}",
+          "principalId": "{identityPrincipalId}",
+          "tenantId": "{identityTenantId}",
+          "clientSecretUrl": "{identityClientSecretUrl}"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "identity": {
+          "type": "{identityType}",
+          "principalId": "{identityPrincipalId}",
+          "tenantId": "{identityTenantId}",
+          "clientSecretUrl": "{identityClientSecretUrl}"
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2

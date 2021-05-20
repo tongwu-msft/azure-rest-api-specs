@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.volumes.list
 name: List
 service: Azure NetApp Files
 groupName: Volumes
-apiVersion: 2020-09-01
+apiVersion: 2020-12-01
 summary: "Describe all volumes  \nList all volumes within the capacity pool"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes?api-version=2020-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes?api-version=2020-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -119,7 +119,7 @@ definitions:
     types:
     - uid: ExportPolicy
   - name: properties.protocolTypes
-    description: "protocolTypes  \nSet of protocol types"
+    description: "protocolTypes  \nSet of protocol types, default NFSv3, CIFS for SMB protocol"
     types:
     - uid: string
       isArray: true
@@ -146,6 +146,7 @@ definitions:
     types:
     - uid: string
   - name: properties.mountTargets
+    isReadyOnly: true
     description: "mountTargets  \nList of mount targets"
     types:
     - uid: mountTargetProperties
@@ -163,7 +164,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.snapshotDirectoryVisible
-    description: If enabled (true) the volume will contain a read-only .snapshot directory which provides access to each of the volume's snapshots (default to true).
+    description: If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (default to true).
     types:
     - uid: boolean
   - name: properties.kerberosEnabled
@@ -171,7 +172,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.securityStyle
-    description: The security style of volume
+    description: The security style of volume, default unix, defaults to ntfs for dual protocol or CIFS protocol
     types:
     - uid: SecurityStyle
   - name: properties.smbEncryption
@@ -186,6 +187,14 @@ definitions:
     description: Maximum throughput in Mibps that can be achieved by this volume
     types:
     - uid: number
+  - name: properties.encryptionKeySource
+    description: "Encryption Key Source. Possible values are: 'Microsoft.NetApp'"
+    types:
+    - uid: string
+  - name: properties.ldapEnabled
+    description: Specifies whether LDAP is enabled or not for a given NFS volume.
+    types:
+    - uid: boolean
 - name: ServiceLevel
   description: serviceLevel
   kind: enum
@@ -250,7 +259,7 @@ definitions:
     types:
     - uid: volumeSnapshotProperties
 - name: SecurityStyle
-  description: The security style of volume
+  description: The security style of volume, default unix, defaults to ntfs for dual protocol or CIFS protocol
   kind: enum
   properties:
   - name: ntfs
@@ -397,7 +406,7 @@ definitions:
 examples:
 - name: Volumes_List
   request:
-    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes?api-version=2020-09-01
+    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes?api-version=2020-12-01
   responses:
   - statusCode: "200"
     body: >-

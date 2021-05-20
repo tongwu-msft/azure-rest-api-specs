@@ -2,7 +2,7 @@
 title: Azure Resource Manager REST API | Microsoft Docs
 description: Operation groups for Azure Resource Manager REST API
 ms.service: azure-resource-manager
-ms.date: 01/07/2021
+ms.date: 03/30/2021
 author: tfitzmac
 ms.author: tomfitz
 service_description: Azure Resource Manager
@@ -17,26 +17,20 @@ Azure Resource Manager enables you to deploy and manage the infrastructure for y
 | Operation group                                 | Description |
 |-------------------------------------------------|-------------|
 | [Deployment Operations](xref:management.azure.com.resources.deploymentoperations) | Provides operations to get details about the operations that happen during a deployment. |
+| [Deployment Scripts](xref:management.azure.com.resources.deploymentscripts) | Provides operations for working with scripts in a template. |
 | [Deployments](xref:management.azure.com.resources.deployments)                    | Provides operations to work with deployments, including deploying a template, exporting a template, and getting information about a deployment. |
 | [Features](xref:management.azure.com.resources.features)                          | Provides operations for users to access preview features from resource providers. |
-| [Management Group Subscriptions](xref:management.azure.com.resources.managementgroupsubscriptions) | Provides operations to connect subscriptions with management groups. |
-| [Management Groups](xref:management.azure.com.resources.managementgroups) | Provides operations for working with Management Groups. |
 | [Management Locks](xref:management.azure.com.resources.managementlocks)           | Provides operations to prevent users in your organization from deleting or modifying certain resources. |
-| [Policy Assignments](xref:management.azure.com.resources.policyassignments)       | Provides operations to assign policy definitions to a scope in your subscription. |
-| [Policy Definitions](xref:management.azure.com.resources.policydefinitions)       | Provides operations to create policies that specify how users in your organization work with resources. |
-| [Policy Exemptions](xref:management.azure.com.resources.policyexemptions)         | Provides operations to create policy exemptions to exempt a scope from a policy assignment. |
-| [Policy Set Definitions](xref:management.azure.com.resources.policysetdefinitions)       | Provides operations to create groups of policy definitions. |
 | [Providers](xref:management.azure.com.resources.providers)                        | Provides operations to work with resource providers that support resources. |
 | [Resource Groups](xref:management.azure.com.resources.resourcegroups)             | Provides operations to create, delete, and access resource groups. |
 | [Resource Links](xref:management.azure.com.resources.resourcelinks)               | Provides operations to link resources that have logical relationships. |
 | [Resources](xref:management.azure.com.resources.resources)                        | Provides operations to work with deployed resources. |
 | [Subscriptions](xref:management.azure.com.resources.subscriptions)                | Provides operations to view the subscriptions for your Azure Active Directory tenant. |
 | [Tags](xref:management.azure.com.resources.tags)                                  | Provides operations to apply tag names and values to resources for organizing your resources. |
+| [Template Specs](xref:management.azure.com.resources.templatespecs) | Provides operations for working with templates that you can share in your organization. |
 | [Tenants](xref:management.azure.com.resources.tenants)                            | Provides operations to view the Azure Active Directory tenants for your account. |
-
-
 
 ## See also
 
-- [Authoring Azure Resource Manager templates](https://docs.microsoft.com/azure/resource-group-authoring-templates?toc=%2fazure%2fazure-resource-manager%2ftoc.yml)
-- [Resource Manager providers, regions, API versions, and schemas](https://docs.microsoft.com/azure/resource-manager-supported-services?toc=%2fazure%2fazure-resource-manager%2ftoc.yml)
+- [What are Azure Resource Manager templates?](https://docs.microsoft.com/azure/azure-resource-manager/templates/overview)
+- [Template Syntax](https://docs.microsoft.com/azure/azure-resource-manager/templates/template-syntax)

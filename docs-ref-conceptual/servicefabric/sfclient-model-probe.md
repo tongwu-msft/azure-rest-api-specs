@@ -1,6 +1,7 @@
 ---
 title: "Probe"
-ms.date: "10/21/2020"
+description: "Probe"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -72,7 +73,7 @@ __Type__: integer <br/>
 __Required__: No<br/>
 __Default__: `1` <br/>
 <br/>
-The count of succcessful probe executions after which probe is considered success.
+The count of successful probe executions after which probe is considered success.
 
 ____
 ### `failureThreshold`

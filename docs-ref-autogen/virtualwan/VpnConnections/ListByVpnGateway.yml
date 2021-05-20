@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.vpnconnections.listbyvpngateway
 name: List By Vpn Gateway
 service: Virtual WAN
 groupName: Vpn Connections
-apiVersion: 2020-07-01
+apiVersion: 2020-11-01
 summary: Retrieves all vpn connections for a particular virtual wan vpn gateway.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections?api-version=2020-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections?api-version=2020-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -133,6 +133,11 @@ definitions:
     types:
     - uid: IpsecPolicy
       isArray: true
+  - name: properties.trafficSelectorPolicies
+    description: The Traffic Selector Policies to be considered by this connection.
+    types:
+    - uid: TrafficSelectorPolicy
+      isArray: true
   - name: properties.enableRateLimiting
     description: EnableBgp flag.
     types:
@@ -254,6 +259,20 @@ definitions:
     description: The Pfs Group used in IKE Phase 2 for new child SA.
     types:
     - uid: PfsGroup
+- name: TrafficSelectorPolicy
+  description: An traffic selector policy for a virtual network gateway connection.
+  kind: object
+  properties:
+  - name: localAddressRanges
+    description: A collection of local address spaces in CIDR format.
+    types:
+    - uid: string
+      isArray: true
+  - name: remoteAddressRanges
+    description: A collection of remote address spaces in CIDR format.
+    types:
+    - uid: string
+      isArray: true
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -296,6 +315,10 @@ definitions:
     description: Routing weight for vpn connection.
     types:
     - uid: integer
+  - name: properties.vpnLinkConnectionMode
+    description: Vpn link connection mode.
+    types:
+    - uid: VpnLinkConnectionMode
   - name: properties.connectionStatus
     isReadyOnly: true
     description: The connection status.
@@ -349,6 +372,16 @@ definitions:
     description: The provisioning state of the VPN site link connection resource.
     types:
     - uid: ProvisioningState
+  - name: properties.ingressNatRules
+    description: List of ingress NatRules.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.egressNatRules
+    description: List of egress NatRules.
+    types:
+    - uid: SubResource
+      isArray: true
   - name: id
     description: Resource ID.
     types:
@@ -528,6 +561,19 @@ definitions:
   - name: PFSMM
     types:
     - uid: string
+- name: VpnLinkConnectionMode
+  description: Vpn link connection mode.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: ResponderOnly
+    types:
+    - uid: string
+  - name: InitiatorOnly
+    types:
+    - uid: string
 - name: PropagatedRouteTable
   description: The list of RouteTables to advertise the routes to.
   kind: object
@@ -571,7 +617,7 @@ definitions:
 examples:
 - name: VpnConnectionList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/vpnConnections?api-version=2020-07-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/vpnConnections?api-version=2020-11-01
   responses:
   - statusCode: "200"
     body: >-
@@ -588,6 +634,7 @@ examples:
             "enableInternetSecurity": false,
             "ingressBytesTransferred": 0,
             "egressBytesTransferred": 0,
+            "trafficSelectorPolicies": [],
             "vpnLinkConnections": [
               {
                 "name": "Connection-Link1",
@@ -609,7 +656,8 @@ examples:
                   "enableRateLimiting": false,
                   "useLocalAzureIpAddress": false,
                   "usePolicyBasedTrafficSelectors": false,
-                  "routingWeight": 0
+                  "routingWeight": 0,
+                  "vpnLinkConnectionMode": "Default"
                 }
               },
               {
@@ -632,7 +680,8 @@ examples:
                   "enableRateLimiting": false,
                   "useLocalAzureIpAddress": false,
                   "usePolicyBasedTrafficSelectors": false,
-                  "routingWeight": 0
+                  "routingWeight": 0,
+                  "vpnLinkConnectionMode": "Default"
                 }
               }
             ],

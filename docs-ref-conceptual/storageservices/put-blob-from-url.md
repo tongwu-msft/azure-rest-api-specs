@@ -3,7 +3,7 @@ title: Put Blob From URL (REST API) - Azure Storage
 description: The Put Blob from URL operation creates a new Block Blob where the contents of the blob are read from a given URL. 
 author: seanmcc-msft
 
-ms.date: 11/06/2020
+ms.date: 04/06/2021
 ms.service: storage
 ms.topic: reference
 ms.author: seanmcc
@@ -172,12 +172,20 @@ x-ms-version-id: <DateTime>
   
  If a request specifies tags with the `x-ms-tags` request header, the caller must meet the authorization requirements of the [Set Blob Tags](Set-Blob-Tags.md) operation.  
   
-## Remarks  
-This API is supported beginning with the `2020-04-08` version. 
+## Remarks
 
-The source blob may be of any type, including a block blob, append blob, or page blob.  The destination blob, however, must be a block blob. 
+The `Put Blob from URL` operation is supported beginning with the `2020-04-08` version.
 
-The `Put Blob from URL` operation always copies the entire source blob.  Copying a range of bytes or set of blocks is not supported. To perform partial updates, refer to Put Block From URL. The destination blob can be an existing block blob or can be a new blob created by the operation. 
+The source blob may be of any type, including a block blob, append blob, or page blob.  The destination blob, however, must be a block blob.
+
+The following table describes the maximum block and blob sizes permitted by service version.
+
+| Service version | Maximum block size (via Put Block from URL) | Maximum blob size (via Put Block List) | Maximum blob size via single write operation (via Put Blob from URL) |
+|-|-|-|-|
+| Version 2020-04-08 and later | 4000 MiB | Approximately 190.7 TiB (4000 MiB X 50,000 blocks) | 5000 MiB (preview) |
+| Versions prior to 2020-04-08 | 100 MiB | Approximately 4.75 TiB (100 MiB X 50,000 blocks) | 256 MiB |
+
+The `Put Blob from URL` operation always copies the entire source blob.  Copying a range of bytes or set of blocks is not supported. To perform partial updates, refer to [Put Block From URL](put-block-from-url.md). The destination blob can be an existing block blob or can be a new blob created by the operation. 
 
 When using a block blob as the source object, all committed blob content is copied. However, the block list is not preserved, and uncommitted blocks are not copied. The content of the destination blob will be identical to that of the source, but the committed block list will not be preserved. 
 

@@ -3,14 +3,16 @@ uid: management.azure.com.storagerp.fileshares.delete
 name: Delete
 service: Storage Resource Provider
 groupName: File Shares
-apiVersion: 2019-06-01
+apiVersion: 2021-04-01
 summary: Deletes specified share under its account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}?api-version=2019-06-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}?api-version=2021-04-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares/{shareName}?api-version=2021-04-01&$include={$include}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -43,6 +45,11 @@ uriParameters:
   description: The API version to use for this operation.
   types:
   - uid: string
+- name: $include
+  in: query
+  description: "Optional. Valid values are: snapshots, leased-snapshots, none. The default value is snapshots. For 'snapshots', the file share is deleted including all of its file share snapshots. If the file share contains leased-snapshots, the deletion fails. For 'leased-snapshots', the file share is deleted included all of its file share snapshots (leased/unleased). For 'none', the file share is deleted if it has no share snapshots. If the file share contains any snapshots (leased or unleased), the deletion fails."
+  types:
+  - uid: string
 responses:
 - name: 200 OK
   description: OK -- Delete Share operation completed successfully.
@@ -52,7 +59,12 @@ responses:
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
-requestHeader: []
+requestHeader:
+- name: x-ms-snapshot
+  in: header
+  description: Optional, used to delete a snapshot.
+  types:
+  - uid: string
 definitions:
 - name: CloudError
   description: An error response from the Storage service.
@@ -86,7 +98,7 @@ definitions:
 examples:
 - name: DeleteShares
   request:
-    uri: DELETE https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res4079/providers/Microsoft.Storage/storageAccounts/sto4506/fileServices/default/shares/share9689?api-version=2019-06-01
+    uri: DELETE https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res4079/providers/Microsoft.Storage/storageAccounts/sto4506/fileServices/default/shares/share9689?api-version=2021-04-01
   responses:
   - statusCode: "200"
   - statusCode: "204"

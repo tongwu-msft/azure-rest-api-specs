@@ -384,7 +384,7 @@ definitions:
     types:
     - uid: WebActivityAuthentication
   - name: typeProperties.reportStatusOnCallBack
-    description: 'When set to true, statusCode, output and error in callback request body will be consumed by activity. The activity can be marked as failed by setting statusCode >= 400 in callback request. Default is false. Type: boolean (or Expression with resultType boolean).'
+    description: 'When set to true, statusCode, output and error in callback request body will be consumed by activity. The activity can be marked as failed by setting statusCode >= 400 in callback request. Default is false. Type: boolean (or Expression with resultType boolean).'
     types:
     - uid: object
   - name: name
@@ -686,7 +686,7 @@ definitions:
   - name: typeProperties.waitTimeInSeconds
     description: Duration in seconds.
     types:
-    - uid: integer
+    - uid: object
   - name: name
     description: Activity name.
     types:
@@ -1277,7 +1277,7 @@ definitions:
   description: Execute data flow activity.
   kind: object
   properties:
-  - name: typeProperties.dataFlow
+  - name: typeProperties.dataflow
     description: Data flow reference.
     types:
     - uid: DataFlowReference
@@ -1293,6 +1293,18 @@ definitions:
     description: Compute properties for data flow activity.
     types:
     - uid: Compute
+  - name: typeProperties.traceLevel
+    description: "Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string)"
+    types:
+    - uid: object
+  - name: typeProperties.continueOnError
+    description: 'Continue on error setting used for data flow execution. Enables processing to continue if a sink fails. Type: boolean (or Expression with resultType boolean)'
+    types:
+    - uid: object
+  - name: typeProperties.runConcurrently
+    description: 'Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean)'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1766,6 +1778,14 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: typeProperties.storeSettings
+    description: GetMetadata activity store settings.
+    types:
+    - uid: StoreReadSettings
+  - name: typeProperties.formatSettings
+    description: GetMetadata activity format settings.
+    types:
+    - uid: FormatReadSettings
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1980,6 +2000,10 @@ definitions:
     description: Delete activity dataset reference.
     types:
     - uid: DatasetReference
+  - name: typeProperties.storeSettings
+    description: Delete activity store settings.
+    types:
+    - uid: StoreReadSettings
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -2088,6 +2112,10 @@ definitions:
       - uid: object
   - name: typeProperties.retentionTimeInDays
     description: 'The retention time for the files submitted for custom activity. Type: double (or Expression with resultType double).'
+    types:
+    - uid: object
+  - name: typeProperties.autoUserSpecification
+    description: 'Elevation level and scope for the user, default is nonadmin task. Type: string (or Expression with resultType double).'
     types:
     - uid: object
   - name: linkedServiceName
@@ -2649,6 +2677,14 @@ definitions:
     description: Redirect incompatible row settings when EnableSkipIncompatibleRow is true.
     types:
     - uid: RedirectIncompatibleRowSettings
+  - name: typeProperties.logStorageSettings
+    description: (Deprecated. Please use LogSettings) Log storage settings customer need to provide when enabling session log.
+    types:
+    - uid: LogStorageSettings
+  - name: typeProperties.logSettings
+    description: Log settings customer needs provide when enabling log.
+    types:
+    - uid: LogSettings
   - name: typeProperties.preserveRules
     description: Preserve Rules.
     types:
@@ -2659,6 +2695,14 @@ definitions:
     types:
     - uid: object
       isArray: true
+  - name: typeProperties.validateDataConsistency
+    description: 'Whether to enable Data Consistency validation. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: typeProperties.skipErrorFile
+    description: Specify the fault tolerance for data consistency.
+    types:
+    - uid: SkipErrorFile
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -3135,7 +3179,7 @@ definitions:
     types:
     - uid: string
 - name: LogStorageSettings
-  description: Log storage settings.
+  description: (Deprecated. Please use LogSettings) Log storage settings.
   kind: object
   properties:
   - name: linkedServiceName
@@ -3144,6 +3188,14 @@ definitions:
     - uid: LinkedServiceReference
   - name: path
     description: 'The path to storage for storing detailed logs of activity execution. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: logLevel
+    description: 'Gets or sets the log level, support: Info, Warning. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: enableReliableLogging
+    description: 'Specifies whether to enable reliable logging. Type: boolean (or Expression with resultType boolean).'
     types:
     - uid: object
 - name: CustomActivityReferenceObject
@@ -3186,6 +3238,10 @@ definitions:
     description: 'The configuration file of the package execution. Type: string (or Expression with resultType string).'
     types:
     - uid: object
+  - name: typeProperties.configurationAccessCredential
+    description: The configuration file access credential.
+    types:
+    - uid: SSISAccessCredential
   - name: typeProperties.packageName
     description: The package name.
     types:
@@ -3298,6 +3354,34 @@ definitions:
     - uid: object
   - name: path
     description: 'The path for storing the redirect incompatible row data. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+- name: LogSettings
+  description: Log settings.
+  kind: object
+  properties:
+  - name: enableCopyActivityLog
+    description: 'Specifies whether to enable copy activity log. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: copyActivityLogSettings
+    description: Specifies settings for copy activity log.
+    types:
+    - uid: CopyActivityLogSettings
+  - name: logLocationSettings
+    description: Log location settings customer needs to provide when enabling log.
+    types:
+    - uid: LogLocationSettings
+- name: SkipErrorFile
+  description: Skip error file.
+  kind: object
+  properties:
+  - name: fileMissing
+    description: 'Skip if file is deleted by other client during copy. Default is true. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: dataInconsistency
+    description: 'Skip if source/sink file changed by other concurrent write. Default is false. Type: boolean (or Expression with resultType boolean).'
     types:
     - uid: object
 - name: SqlPoolReferenceType
@@ -3414,6 +3498,9 @@ definitions:
   - name: InlinePackage
     types:
     - uid: string
+  - name: PackageStore
+    types:
+    - uid: string
 - name: SSISAccessCredential
   description: SSIS access credential.
   kind: object
@@ -3472,6 +3559,30 @@ definitions:
   - name: File
     types:
     - uid: string
+- name: CopyActivityLogSettings
+  description: Settings for copy activity log.
+  kind: object
+  properties:
+  - name: logLevel
+    description: 'Gets or sets the log level, support: Info, Warning. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: enableReliableLogging
+    description: 'Specifies whether to enable reliable logging. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+- name: LogLocationSettings
+  description: Log location settings.
+  kind: object
+  properties:
+  - name: linkedServiceName
+    description: Log storage linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: path
+    description: 'The path to storage for storing detailed logs of activity execution. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
 - name: AzureKeyVaultSecretReference
   description: Azure Key Vault secret reference.
   kind: object

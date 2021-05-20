@@ -1,7 +1,7 @@
 ---
 title: "Create Data Source (Azure Cognitive Search REST API)"
 description: Data source connection information used by an Azure Cognitive Search indexer when crawling external data sources.
-ms.date: 06/30/2020
+ms.date: 02/11/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -12,6 +12,7 @@ ms.author: "brjohnst"
 ms.manager: nitinme
 ---
 # Create Data Source (Azure Cognitive Search REST API)
+
 In Azure Cognitive Search, a data source is used with [indexers](create-indexer.md), providing the connection information for ad hoc or scheduled data refresh of a target index, pulling data from [supported Azure data sources](https://docs.microsoft.com/azure/search/search-indexer-overview#supported-data-sources). 
 
 You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
@@ -28,22 +29,24 @@ POST https://[service name].search.windows.net/datasources?api-version=[api-vers
 PUT https://[service name].search.windows.net/datasources/[data source name]?api-version=[api-version]
     Content-Type: application/json  
     api-key: [admin key]    
-```  
+```
+
  HTTPS is required for all service requests. If the object doesn't exist, it is created. If it already exists, it is updated to the new definition  
 
 > [!NOTE]  
->  The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).   
+> The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).   
 
- ## URI Parameters
+## URI Parameters
 
-| Parameter	  | Description  | 
+| Parameter  | Description  |
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
-| data source name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  |
+| data source name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  |
 | api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
-## Request Headers 
- The following table describes the required and optional request headers.  
+## Request Headers
+
+The following table describes the required and optional request headers.  
 
 |Fields              |Description      |  
 |--------------------|-----------------|  
@@ -53,7 +56,8 @@ PUT https://[service name].search.windows.net/datasources/[data source name]?api
 You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).  
 
 ## Request Body
- The body of the request contains a data source definition, which includes type of the data source, credentials to read the data, as well as an optional data change detection and data deletion detection policies that are used to efficiently identify changed or deleted data in the data source when used with a periodically scheduled indexer  
+
+The body of the request contains a data source definition, which includes type of the data source, credentials to read the data, as well as an optional data change detection and data deletion detection policies that are used to efficiently identify changed or deleted data in the data source when used with a periodically scheduled indexer  
 
 The following JSON is a high-level representation of the main parts of the definition.
 
@@ -76,129 +80,67 @@ The following JSON is a high-level representation of the main parts of the defin
 |--------------|-----------------|  
 |name|Required. The name of the data source. A data source name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
 |description|An optional description.|  
-|type|Required. Must be one of the supported data source types:<br /><br /> 1. `azuresql` for Azure SQL Database<br />2. `cosmosdb` for the Azure Cosmos DB SQL API<br />3. `azureblob` - Azure Blob Storage <br />4. `azuretable` - Azure Table Storage|
-|credentials|The required **connectionString** property specifies the connection string for the data source. The format of the connection string depends on the data source type:<br /><br /> -   For Azure SQL Database, this is the usual SQL Server connection string. If you're using Azure portal to retrieve the connection string, use the `ADO.NET connection string` option.<br />-   For Azure Cosmos DB, the connection string must be in the following format: `"AccountEndpoint=https://[your account name].documents.azure.com;AccountKey=[your account key];Database=[your database id]"`. All of the values are required. You can find them in the [Azure portal](https://portal.azure.com).<br /><br />Azure Storage, Azure SQL Database, and Azure Cosmos DB also support a managed identity connection string that does not include an account key in the connection string. To use the managed identity connection string format, follow the instructions for [Setting up an indexer connection to a data source using a managed identity](https://docs.microsoft.com/azure/search/search-howto-managed-identities-data-sources).<br /><br />If you are updating the data source, the connection string is not required. The values `<unchanged>` or `<redacted>` can be used in place of the actual connection string.|  
-|container|Required. Specifies the data to index using the `name` and `query` properties: <br /><br />`name`, required:<br />- Azure SQL: specifies the table or view. You can use schema-qualified names, such as `[dbo].[mytable]`.<br />- Azure Cosmos DB: specifies the SQL API collection. <br />- Azure Blob Storage: specifies the storage container.<br />- Azure Table Storage: specifies the name of the table. <br /><br />`query`, optional:<br />- Azure Cosmos DB: allows you to specify a query that flattens an arbitrary JSON document layout into a flat schema that Azure Cognitive Search can index.<br />- Azure Blob Storage: allows you to specify a virtual folder within the blob container. For example, for blob path `mycontainer/documents/blob.pdf`, `documents` can be used as the virtual folder.<br />- Azure Table Storage: allows you to specify a query that filters the set of rows to be imported.<br />- Azure SQL: query is not supported. Use views instead. |
-|[encryptionKey](#encryption-key)| Optional. Used to encrypt the data source at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys). |
+|type|Required. Must be one of the supported data source types: </br></br>`azuresql` for [Azure SQL Database](https://docs.microsoft.com/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers) </br>`cosmosdb` for the [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/search/search-howto-index-cosmosdb) </br>`azureblob` for [Azure Blob Storage](https://docs.microsoft.com/azure/search/search-howto-indexing-azure-blob-storage) </br>`azuretable` for [Azure Table Storage](https://docs.microsoft.com/azure/search/search-howto-indexing-azure-tables)|
+|credentials|Required. It contains a `connectionString` property that specifies the connection string for the data source. The format of the connection string depends on the data source type: </br></br>For Azure SQL Database, this is the usual SQL Server connection string. If you're using Azure portal to retrieve the connection string, choose the `ADO.NET connection string` option. </br></br>For Azure Cosmos DB, the connection string must be in the following format: `"AccountEndpoint=https://[your account name].documents.azure.com;AccountKey=[your account key];Database=[your database id]"`. All of the values are required. You can find them in the [Azure portal](https://portal.azure.com). </br></br>For Azure Blob Storage, the connection string formats are defined in the Credentials section of [How to configure blob indexing in Cognitive Search](https://docs.microsoft.com/azure/search/search-howto-indexing-azure-blob-storage#credentials).</br></br>Azure Storage, Azure SQL Database, and Azure Cosmos DB also support a managed identity connection string that does not include an account key in the connection string. To use the managed identity connection string format, follow the instructions for [Setting up an indexer connection to a data source using a managed identity](https://docs.microsoft.com/azure/search/search-howto-managed-identities-data-sources). </br></br>If you are updating the data source, the connection string is not required. The values `<unchanged>` or `<redacted>` can be used in place of the actual connection string.|  
+|container|Required. Specifies the data to index using the `name` (required) and `query` (optional) properties: </br></br>`name`: </br>For Azure SQL, specifies the table or view. You can use schema-qualified names, such as `[dbo].[mytable]`. </br>For Azure Cosmos DB, specifies the SQL API collection. </br>For Azure Blob Storage, specifies the storage container. </br>For Azure Table Storage, specifies the name of the table. </br></br>`query`: </br>For Azure Cosmos DB, allows you to specify a query that flattens an arbitrary JSON document layout into a flat schema that Azure Cognitive Search can index. </br>For Azure Blob Storage, allows you to specify a virtual folder within the blob container. For example, for blob path `mycontainer/documents/blob.pdf`, `documents` can be used as the virtual folder. </br>For Azure Table Storage, allows you to specify a query that filters the set of rows to be imported. </br>For Azure SQL, query is not supported. Use views instead. |
+|dataChangeDetectionPolicy | Optional. Used to identify changed data items. Supported policies vary based on the data source type. Valid policies are High Watermark Change Detection Policy and SQL Integrated Change Detection Policy. </br></br>High Watermark Change Detection Policy depends on an existing column or property that is updated in tandem with other updates (all inserts result in an update to the watermark column), and the change in value is higher. For Cosmos DB data sources, you must use the `_ts` property. For Azure SQL, an indexed `rowversion` column is the ideal candidate for use with the high water mark policy. For Azure Storage, change detection is built-in using lastModified values, eliminating any need to set the dataChangeDetectionPolicy for blob or table storage. </br></br>SQL Integrated Change Detection Policy is used to reference the native change detection features in SQL Server.  This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](https://docs.microsoft.com/sql/relational-databases/track-changes/enable-and-disable-change-tracking-sql-server) for instructions. For more information about change detection support in the indexer, see [Connect to and index Azure SQL content](https://docs.microsoft.com/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers).|
+|dataDeletionDetectionPolicy | Optional. Used to identify deleted data items. Currently, the only supported policy is the Soft Delete Policy, which identifies deleted items based on the value of a 'soft delete' column or property in the data source. </br></br> Only columns with string, integer, or boolean values are supported. The value used as `softDeleteMarkerValue` must be a string, even if the corresponding column holds integers or booleans. For example, if the value that appears in your data source is 1, use "1" as the `softDeleteMarkerValue`.    |
+|encryptionKey| Optional. Used to encrypt the data source at rest with your own keys, managed in your Azure Key Vault. Available for billable search services created on or after 2019-01-01. </br></br> An `encryptionKey` section contains a user-defined `keyVaultKeyName` (required), a system-generated `keyVaultKeyVersion` (required), and a `keyVaultUri` providing the key (required, also referred to as DNS name). An example URI might be "https://my-keyvault-name.vault.azure.net". </br></br>Optionally, you can specify `accessCredentials` if you are not using a managed system identity. Properties of `accessCredentials` include `applicationId` (Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault), and `applicationSecret` (authentication key of the specified Azure AD application). An example in the next section illustrates the syntax. |
 |disabled| Optional. Boolean value indicating whether the indexer is disabled. False by default. |  
 
- The optional **dataChangeDetectionPolicy**, **dataDeletionDetectionPolicy**, and **encryptionKey** are described below.  
+## Response
 
-### Data Change Detection Policies  
- The purpose of a data change detection policy is to efficiently identify changed data items. Supported policies vary based on the data source type. Sections below describe each policy  
-
-> [!NOTE]  
->  You can switch data detection policies after the indexer is already created, using [Reset Indexer &#40;Azure Cognitive Search REST API&#41;](reset-indexer.md).  
-
- **High Watermark Change Detection Policy**  
-
- Use this policy when your data source contains a column or property that meets the following criteria:  
-
--   All inserts specify a value for the column.  
-
--   All updates to an item also change the value of the column.  
-
--   The value of this column increases with each change.  
-
--   Queries that use a filter clause similar to the following `WHERE [High Water Mark Column] > [Current High Water Mark Value]` can be executed efficiently.  
-
- For example, when using Azure SQL data sources, an indexed `rowversion` column is the ideal candidate for use with the high water mark policy.  
-
- This policy can be specified as follows:  
-
-```json 
-{   
-    "@odata.type" : "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy",  
-    "highWaterMarkColumnName" : "[a row version or last_updated column name]"   
-}  
-
-```  
-When using Azure Cosmos DB data sources, you must use the `_ts` property provided by Azure Cosmos DB.
-
-When using Azure Blob data sources, Azure Cognitive Search automatically uses a high watermark change detection policy based on a blob's last-modified timestamp; you don't need to specify such a policy yourself.   
-
- **SQL Integrated Change Detection Policy**  
-
- If your SQL Server relational database supports [change tracking](https://docs.microsoft.com/sql/relational-databases/track-changes/about-change-tracking-sql-server), we recommend using SQL Integrated Change Tracking Policy. This policy enables the most efficient change tracking, and allows Azure Cognitive Search to identify deleted rows without you having to have an explicit "soft delete" column in your schema.  
-
- Integrated change tracking is supported starting with the following SQL Server database versions:  
-
--   SQL Server 2008 R2, if you're using SQL Server on Azure VMs.  
-
--   Azure SQL Database V12, if you're using Azure SQL Database.  
-
- When using SQL Integrated Change Tracking policy, do not specify a separate data deletion detection policy - this policy has built-in support for identifying deleted rows.  
-
- This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](https://docs.microsoft.com/sql/relational-databases/track-changes/enable-and-disable-change-tracking-sql-server) for instructions.  
-
- When structuring the **Create Data Source** request, SQL integrated change tracking policy can be specified as follows:  
-
-```json  
-{   
-    "@odata.type" : "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy"   
-}  
-```  
-
-> [!NOTE]  
-> When using [TRUNCATE TABLE](https://docs.microsoft.com/sql/t-sql/statements/truncate-table-transact-sql) to remove a large number of rows from a SQL table, the change tracking state needs to be reset via an [indexer reset](reset-indexer.md) to pick up row deletions.
-
-### Data Deletion Detection Policies  
- The purpose of a data deletion detection policy is to efficiently identify deleted data items. Currently, the only supported policy is the **Soft Delete** policy, which allows identifying deleted items based on the value of a 'soft delete' column or property in the data source. This policy can be specified as follows:  
-
-```json  
-{   
-    "@odata.type" : "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy",  
-    "softDeleteColumnName" : "the column that specifies whether a row was deleted",   
-    "softDeleteMarkerValue" : "the value that identifies a row as deleted"   
-}  
-
-```  
-
-> [!NOTE]  
->  Only columns with string, integer, or boolean values are supported. The value used as **softDeleteMarkerValue** must be a string, even if the corresponding column holds integers or booleans. For example, if the value that appears in your data source is 1, use **"1"** as the **softDeleteMarkerValue**.  
-
-<a name="encryption-key"></a>
-
-### "encryptionKey"
-
-While data sources are encrypted by default using [service-managed keys](https://docs.microsoft.com/azure/security/azure-security-encryption-atrest#data-encryption-models), you can also encrypt them with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
-
-```json
-"encryptionKey": (optional) { 
-  "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
-  "keyVaultKeyVersion": "Version of the Azure Key Vault key",
-  "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net",
-  "accessCredentials": (optional, only if not using managed system identity) {
-    "applicationId": "Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault",
-    "applicationSecret": "Authentication key of the specified Azure AD application)"}
-  }
-```
-
-> [!NOTE]
-> Encryption with customer-managed keys is not available for free services. For billable services, it is only available for search services created on or after 2019-01-01.
-
-## Response  
  For a successful request: 201 Created.  
 
-## Examples  
- If you intend to use the data source with an indexer that runs on a schedule, this example shows how to specify change and deletion detection policies:  
+## Examples
 
-```json 
+**Example: Azure SQL with change detection (High Watermark Change Detection Policy)**
+
+```json
 {   
     "name" : "asqldatasource",  
     "description" : "a description",  
     "type" : "azuresql",  
     "credentials" : { "connectionString" : "Server=tcp:....database.windows.net,1433;Database=...;User ID=...;Password=...;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;" },  
     "container" : { "name" : "sometable" },  
-    "dataChangeDetectionPolicy" : { "@odata.type" : "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy", "highWaterMarkColumnName" : "RowVersion" },   
+    "dataChangeDetectionPolicy" : { "@odata.type" : "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy", "highWaterMarkColumnName" : "RowVersion" }
+}  
+```
+
+**Example: Azure SQL with change detection (SQL Integrated Change Tracking Policy)**
+
+```json
+{   
+    "name" : "asqldatasource",  
+    "description" : "a description",  
+    "type" : "azuresql",  
+    "credentials" : { "connectionString" : "Server=tcp:....database.windows.net,1433;Database=...;User ID=...;Password=...;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;" },  
+    "container" : { "name" : "sometable" },  
+    "dataChangeDetectionPolicy" : { "@odata.type" : "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy" }
+}  
+```
+
+**Example: Azure SQL with change detection with deletion detection**
+
+Recall that the properties for deletion detection are `softDeleteColumnName` and `softDeleteMarkerValue`.
+
+```json
+{   
+    "name" : "asqldatasource",  
+    "description" : "a description",  
+    "type" : "azuresql",  
+    "credentials" : { "connectionString" : "Server=tcp:....database.windows.net,1433;Database=...;User ID=...;Password=...;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;" },  
+    "container" : { "name" : "sometable" },   
     "dataDeletionDetectionPolicy" : { "@odata.type" : "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy", "softDeleteColumnName" : "IsDeleted", "softDeleteMarkerValue" : "true" }  
 }  
 
-```  
+```
 
- If you only intend to use the data source for one-time copy of the data, the policies can be omitted:  
+**Example: Data source with required properties only**
 
-```json 
+Optional properties related to change and deletion detection can be omitted if you only intend to use the data source for one-time copy of the data:  
+
+```json
 {   
     "name" : "asqldatasource",  
     "description" : "anything you want, or nothing at all",  
@@ -208,7 +150,9 @@ While data sources are encrypted by default using [service-managed keys](https:/
 }   
 ```  
 
-  If you intend to update the data source, the credentials are not required. The values `<unchanged>` or `<redacted>` can be used in place of the connection string.
+**Example: Omitting credentials**
+
+If you intend to update the data source, the credentials are not required. The values `<unchanged>` or `<redacted>` can be used in place of the connection string.
 
 ```json
 {
@@ -220,10 +164,32 @@ While data sources are encrypted by default using [service-managed keys](https:/
 }
 ```
 
+**Example: Encryption keys**
+
+Encryption keys are customer-managed keys used for additional encryption. For more information, see [Encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
+
+```json
+{
+    "name" : "adatasource",
+    "description": "a description",
+    "type": "azuresql",
+    "credentials": { "connectionString": "<unchanged>" },
+    "container" : { "name": "sometable" }
+    "encryptionKey": (optional) { 
+      "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
+      "keyVaultKeyVersion": "Version of the Azure Key Vault key",
+      "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net",
+      "accessCredentials": (optional, only if not using managed system identity) {
+        "applicationId": "Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault",
+        "applicationSecret": "Authentication key of the specified Azure AD application)"}
+      }
+}
+```
+
 ## See also  
 
- + [Azure Cognitive Search REST APIs](index.md)   
- + [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
- + [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md)   
- + [Naming rules &#40;Azure Cognitive Search&#41;](naming-rules.md)   
- + [Data type map for indexers in Azure Cognitive Search](data-type-map-for-indexers-in-azure-search.md)  
++ [Indexers overview](https://docs.microsoft.com/azure/search/search-indexer-overview)
++ [Creating indexers](https://docs.microsoft.com/azure/search/search-howto-create-indexers)
++ [Azure Cognitive Search REST APIs](index.md)
++ [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md)
++ [Naming rules &#40;Azure Cognitive Search&#41;](naming-rules.md)

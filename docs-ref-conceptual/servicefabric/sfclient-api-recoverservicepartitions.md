@@ -1,5 +1,6 @@
 ---
 title: "Recover Service Partitions"
+description: "Recover Service Partitions"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

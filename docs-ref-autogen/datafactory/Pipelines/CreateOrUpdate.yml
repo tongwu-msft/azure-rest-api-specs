@@ -182,6 +182,11 @@ requestBody:
     description: The folder that this Pipeline is in. If not specified, Pipeline will appear at the root level.
     types:
     - uid: Folder
+  - name: properties.policy
+    in: body
+    description: Pipeline Policy.
+    types:
+    - uid: PipelinePolicy
 requestHeader:
 - name: If-Match
   in: header
@@ -221,6 +226,14 @@ definitions:
     description: The name of the folder that this Pipeline is in.
     types:
     - uid: string
+- name: PipelinePolicy
+  description: Pipeline Policy.
+  kind: object
+  properties:
+  - name: elapsedTimeMetric
+    description: Pipeline ElapsedTime Metric Policy.
+    types:
+    - uid: PipelineElapsedTimeMetricPolicy
 - name: PipelineResource
   description: Pipeline resource type.
   kind: object
@@ -342,6 +355,10 @@ definitions:
     description: The folder that this Pipeline is in. If not specified, Pipeline will appear at the root level.
     types:
     - uid: Folder
+  - name: properties.policy
+    description: Pipeline Policy.
+    types:
+    - uid: PipelinePolicy
   - name: id
     isReadyOnly: true
     description: The resource identifier.
@@ -1586,12 +1603,24 @@ definitions:
     description: 'ID of the published Azure ML pipeline. Type: string (or Expression with resultType string).'
     types:
     - uid: object
+  - name: typeProperties.mlPipelineEndpointId
+    description: 'ID of the published Azure ML pipeline endpoint. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.version
+    description: 'Version of the published Azure ML pipeline endpoint. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
   - name: typeProperties.experimentName
     description: 'Run history experiment name of the pipeline run. This information will be passed in the ExperimentName property of the published pipeline execution request. Type: string (or Expression with resultType string).'
     types:
     - uid: object
   - name: typeProperties.mlPipelineParameters
     description: 'Key,Value pairs to be passed to the published Azure ML pipeline endpoint. Keys must match the names of pipeline parameters defined in the published pipeline. Values will be passed in the ParameterAssignments property of the published pipeline execution request. Type: object with key value pairs (or Expression with resultType object).'
+    types:
+    - uid: object
+  - name: typeProperties.dataPathAssignments
+    description: 'Dictionary used for changing data path assignments without retraining. Values will be passed in the dataPathAssignments property of the published pipeline execution request. Type: object with key value pairs (or Expression with resultType object).'
     types:
     - uid: object
   - name: typeProperties.mlParentRunId
@@ -2746,6 +2775,14 @@ definitions:
   - name: Array
     types:
     - uid: string
+- name: PipelineElapsedTimeMetricPolicy
+  description: Pipeline ElapsedTime Metric Policy.
+  kind: object
+  properties:
+  - name: duration
+    description: TimeSpan value, after which an Azure Monitoring Metric is fired.
+    types:
+    - uid: object
 - name: LinkedServiceReference
   description: Linked service reference type.
   kind: object
@@ -2828,29 +2865,33 @@ definitions:
   kind: object
   properties:
   - name: type
-    description: Web activity authentication (Basic/ClientCertificate/MSI)
+    description: Web activity authentication (Basic/ClientCertificate/MSI/ServicePrincipal)
     types:
     - uid: string
   - name: pfx
-    description: Base64-encoded contents of a PFX file.
+    description: Base64-encoded contents of a PFX file or Certificate when used for ServicePrincipal
     types:
     - uid: SecureString
     - uid: AzureKeyVaultSecretReference
     typesTitle: SecretBase
   - name: username
-    description: Web activity authentication user name for basic authentication.
+    description: 'Web activity authentication user name for basic authentication or ClientID when used for ServicePrincipal. Type: string (or Expression with resultType string).'
     types:
-    - uid: string
+    - uid: object
   - name: password
-    description: Password for the PFX file or basic authentication.
+    description: Password for the PFX file or basic authentication / Secret when used for ServicePrincipal
     types:
     - uid: SecureString
     - uid: AzureKeyVaultSecretReference
     typesTitle: SecretBase
   - name: resource
-    description: Resource for which Azure Auth token will be requested when using MSI Authentication.
+    description: 'Resource for which Azure Auth token will be requested when using MSI Authentication. Type: string (or Expression with resultType string).'
     types:
-    - uid: string
+    - uid: object
+  - name: userTenant
+    description: 'TenantId for which Azure Auth token will be requested when using ServicePrincipal Authentication. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
 - name: Expression
   description: Azure Data Factory expression definition.
   kind: object
@@ -3539,6 +3580,11 @@ examples:
               "value": "@pipeline().parameters.JobId",
               "type": "Expression"
             }
+          },
+          "policy": {
+            "elapsedTimeMetric": {
+              "duration": "0.00:10:00"
+            }
           }
         }
       }
@@ -3695,6 +3741,11 @@ examples:
           "parameters": {
             "OutputBlobNameList": {
               "type": "Array"
+            }
+          },
+          "policy": {
+            "elapsedTimeMetric": {
+              "duration": "0.00:10:00"
             }
           }
         }

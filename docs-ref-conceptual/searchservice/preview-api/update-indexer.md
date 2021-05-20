@@ -1,6 +1,6 @@
 ---
 title: Update Indexer (api-version=2020-06-30-Preview)
-description: Modify an Azure Cognitive Search indexer used for crawling external data sources for searchable content.
+description: Preview version of the Update Indexer REST API for Cognitive Search.
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
@@ -16,7 +16,7 @@ ms.manager: nitinme
 **API Version: 2020-06-30-Preview**
 
 > [!Important]
-> This preview adds support for the [cache property](create-indexer.md#cache) used for [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual). If you are developing an indexer that has caching enabled, use the preview API to update the definition
+> This preview API adds support for the [cache property in Create Indexer](create-indexer.md) used for [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual). If you are developing an indexer that has caching enabled, use the preview API to update the definition
 
 You can update an existing indexer definition using an HTTP PUT request. Specify the name of the indexer to update on the request URI:  
 
@@ -34,10 +34,11 @@ Updating an indexer definition does not automatically run it, but depending on y
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | indexer name  | Required. The request URI specifies the name of the indexer to update. |
-| api-version | Required. The current preview version is `api-version=2020-06-30-Preview` (case-sensitive). See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|  
+| api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|  
 
- ## Request Headers 
- The following table describes the required and optional request headers.  
+## Request Headers
+
+The following table describes the required and optional request headers.  
 
 |Fields              |Description      |  
 |--------------------|-----------------|  
@@ -47,15 +48,18 @@ Updating an indexer definition does not automatically run it, but depending on y
 You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).    
 
 ## Request Body
- The request body syntax is the same as for [Create Indexer (2020-06-30-Preview)](create-indexer.md).
 
- When updating an existing indexer, the entire definition is replaced with the contents of the request body. In general, the best pattern to use for updates is to retrieve the indexer definition with a GET, modify it, and then update it with PUT.  
+The request body syntax is the same as for [Create Indexer (2020-06-30-Preview)](create-indexer.md).
 
-## Response  
- For a successful request: 201 Created if a new indexer was created, and 204 No Content if an existing indexer was updated.  
+When updating an existing indexer, the entire definition is replaced with the contents of the request body. In general, the best pattern to use for updates is to retrieve the indexer definition with a GET, modify it, and then update it with PUT.  
 
-## See also  
- [Azure Cognitive Search REST APIs](../index.md)   
- [HTTP status codes &#40;Azure Cognitive Search&#41;](../http-status-codes.md)   
- [Indexer operations &#40;Azure Cognitive Search REST API&#41;](../indexer-operations.md)   
- [Naming rules &#40;Azure Cognitive Search&#41;](../naming-rules.md)  
+## Response
+
+For a successful request: 201 Created if a new indexer was created, and 204 No Content if an existing indexer was updated.  
+
+## See also
+  
++ [Azure Cognitive Search REST APIs](../index.md)
++ [HTTP status codes](../http-status-codes.md)
++ [Indexer operations](../indexer-operations.md)
++ [Naming rules](../naming-rules.md)  

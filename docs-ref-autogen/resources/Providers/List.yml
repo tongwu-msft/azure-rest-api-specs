@@ -3,15 +3,15 @@ uid: management.azure.com.resources.providers.list
 name: List
 service: Resource Management
 groupName: Providers
-apiVersion: 2020-06-01
+apiVersion: 2021-04-01
 summary: Gets all resource providers for a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers?api-version=2020-06-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers?$top={$top}&$expand={$expand}&api-version=2020-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers?$top={$top}&$expand={$expand}&api-version=2021-04-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -99,6 +99,10 @@ definitions:
     types:
     - uid: ProviderResourceType
       isArray: true
+  - name: providerAuthorizationConsentState
+    description: The provider authorization consent state.
+    types:
+    - uid: ProviderAuthorizationConsentState
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -143,6 +147,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: locationMappings
+    description: The location mappings that are supported by this resource type.
+    types:
+    - uid: ProviderExtendedLocation
+      isArray: true
   - name: aliases
     description: The aliases that are supported by this resource type.
     types:
@@ -176,6 +185,22 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ProviderAuthorizationConsentState
+  description: The provider authorization consent state.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: Required
+    types:
+    - uid: string
+  - name: NotRequired
+    types:
+    - uid: string
+  - name: Consented
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -190,6 +215,23 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: ProviderExtendedLocation
+  description: 'The provider extended location. '
+  kind: object
+  properties:
+  - name: location
+    description: The azure location.
+    types:
+    - uid: string
+  - name: type
+    description: The extended location type.
+    types:
+    - uid: string
+  - name: extendedLocations
+    description: The extended locations for the azure location.
+    types:
+    - uid: string
+      isArray: true
 - name: Alias
   description: 'The alias type. '
   kind: object
@@ -360,7 +402,178 @@ definitions:
     description: The token that the alias path is referring to is modifiable by policies with 'modify' effect.
     types:
     - uid: string
-examples: []
+examples:
+- name: Get providers.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers?api-version=2021-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.TestRP1",
+            "namespace": "Microsoft.TestRP1",
+            "registrationState": "Registering",
+            "registrationPolicy": "RegistrationRequired",
+            "resourceTypes": [
+              {
+                "resourceType": "TestResourceType",
+                "locations": [
+                  "West US"
+                ],
+                "apiVersions": [
+                  "2018-01-01",
+                  "2015-05-01"
+                ],
+                "locationMappings": [
+                  {
+                    "location": "West US",
+                    "type": "EdgeZone",
+                    "extendedLocations": [
+                      "LosAngeles",
+                      "LosAngeles2"
+                    ]
+                  }
+                ],
+                "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation"
+              },
+              {
+                "resourceType": "TestResourceTypeSibling",
+                "locations": [
+                  "West US"
+                ],
+                "apiVersions": [
+                  "2018-01-01",
+                  "2015-05-01"
+                ],
+                "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources",
+            "namespace": "Microsoft.Resources",
+            "registrationState": "Registered",
+            "registrationPolicy": "RegistrationFree",
+            "resourceTypes": [
+              {
+                "resourceType": "subscriptions",
+                "locations": [
+                  "eastus",
+                  "eastus2",
+                  "westus"
+                ],
+                "apiVersions": [
+                  "2016-09-01",
+                  "2014-04-01-preview"
+                ],
+                "aliases": [],
+                "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation"
+              },
+              {
+                "resourceType": "resourceGroups",
+                "locations": [
+                  "centralus",
+                  "eastasia",
+                  "southeastasia"
+                ],
+                "apiVersions": [
+                  "2016-09-01",
+                  "2014-04-01-preview"
+                ],
+                "aliases": [],
+                "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation"
+              },
+              {
+                "resourceType": "subscriptions/resourceGroups",
+                "locations": [
+                  "eastus",
+                  "eastus2",
+                  "westus"
+                ],
+                "apiVersions": [
+                  "2016-09-01",
+                  "2014-04-01-preview"
+                ],
+                "aliases": [],
+                "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation"
+              },
+              {
+                "resourceType": "bulkDelete",
+                "locations": [
+                  "centralus",
+                  "eastasia"
+                ],
+                "apiVersions": [
+                  "2014-04-01-preview"
+                ],
+                "aliases": [],
+                "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation"
+              },
+              {
+                "resourceType": "deployments",
+                "locations": [],
+                "apiVersions": [
+                  "2017-08-01",
+                  "2017-06-01"
+                ],
+                "aliases": [],
+                "capabilities": "SupportsTags"
+              },
+              {
+                "resourceType": "tags",
+                "locations": [
+                  "DevFabric"
+                ],
+                "apiVersions": [],
+                "aliases": [],
+                "capabilities": "SupportsExtension"
+              }
+            ]
+          },
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.TestRP2",
+            "namespace": "Microsoft.TestRP2",
+            "registrationState": "NotRegistered",
+            "registrationPolicy": "RegistrationRequired",
+            "resourceTypes": [
+              {
+                "resourceType": "TestResourceType",
+                "locations": [
+                  "West US"
+                ],
+                "apiVersions": [
+                  "2018-01-01",
+                  "2015-05-01"
+                ],
+                "locationMappings": [
+                  {
+                    "location": "West US",
+                    "type": "EdgeZone",
+                    "extendedLocations": [
+                      "LosAngeles",
+                      "LosAngeles2"
+                    ]
+                  }
+                ],
+                "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation"
+              },
+              {
+                "resourceType": "TestResourceTypeSibling",
+                "locations": [
+                  "West US"
+                ],
+                "apiVersions": [
+                  "2018-01-01",
+                  "2015-05-01"
+                ],
+                "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation"
+              }
+            ]
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2

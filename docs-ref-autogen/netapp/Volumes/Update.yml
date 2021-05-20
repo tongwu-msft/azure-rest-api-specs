@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.volumes.update
 name: Update
 service: Azure NetApp Files
 groupName: Volumes
-apiVersion: 2020-09-01
+apiVersion: 2020-12-01
 summary: "Update a volume  \nPatch the specified volume"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}?api-version=2020-09-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}?api-version=2020-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -57,9 +57,11 @@ responses:
   types:
   - uid: volume
 - name: 202 Accepted
-  description: Accepted -- Create, update or delete request accepted; operation will complete asynchronously
+  description: Accepted -- Create or update request accepted; operation will complete asynchronously
 - name: Other Status Codes
   description: Error response describing why the operation failed.
+  types:
+  - uid: cloudError
 requestBody:
 - name: default
   parameters:
@@ -216,7 +218,7 @@ definitions:
     types:
     - uid: ExportPolicy
   - name: properties.protocolTypes
-    description: "protocolTypes  \nSet of protocol types"
+    description: "protocolTypes  \nSet of protocol types, default NFSv3, CIFS for SMB protocol"
     types:
     - uid: string
       isArray: true
@@ -243,6 +245,7 @@ definitions:
     types:
     - uid: string
   - name: properties.mountTargets
+    isReadyOnly: true
     description: "mountTargets  \nList of mount targets"
     types:
     - uid: mountTargetProperties
@@ -260,7 +263,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.snapshotDirectoryVisible
-    description: If enabled (true) the volume will contain a read-only .snapshot directory which provides access to each of the volume's snapshots (default to true).
+    description: If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (default to true).
     types:
     - uid: boolean
   - name: properties.kerberosEnabled
@@ -268,7 +271,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.securityStyle
-    description: The security style of volume
+    description: The security style of volume, default unix, defaults to ntfs for dual protocol or CIFS protocol
     types:
     - uid: SecurityStyle
   - name: properties.smbEncryption
@@ -283,6 +286,22 @@ definitions:
     description: Maximum throughput in Mibps that can be achieved by this volume
     types:
     - uid: number
+  - name: properties.encryptionKeySource
+    description: "Encryption Key Source. Possible values are: 'Microsoft.NetApp'"
+    types:
+    - uid: string
+  - name: properties.ldapEnabled
+    description: Specifies whether LDAP is enabled or not for a given NFS volume.
+    types:
+    - uid: boolean
+- name: cloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: cloudErrorBody
 - name: volumePatch
   description: Volume patch resource
   kind: object
@@ -453,13 +472,25 @@ definitions:
     types:
     - uid: string
 - name: SecurityStyle
-  description: The security style of volume
+  description: The security style of volume, default unix, defaults to ntfs for dual protocol or CIFS protocol
   kind: enum
   properties:
   - name: ntfs
     types:
     - uid: string
   - name: unix
+    types:
+    - uid: string
+- name: cloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
 - name: replicationObject
@@ -520,7 +551,7 @@ definitions:
 examples:
 - name: Volumes_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1?api-version=2020-09-01
+    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1?api-version=2020-12-01
     body: '{}'
   responses:
   - statusCode: "200"

@@ -13,7 +13,7 @@ ms.manager: nitinme
 ---
 # Update Skillset (Azure Cognitive Search REST API)
 
-You can update an existing [skillset](create-skillset.md) and [knowledge store](create-skillset.md#kstore) using an HTTP PUT, specifying the name of the skillset to update on the request URI.
+You can update an existing [skillset](create-skillset.md) and [knowledge store](create-skillset.md) using an HTTP PUT, specifying the name of the skillset to update on the request URI.
 
 ```http  
 PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-version=[api-version]
@@ -23,8 +23,6 @@ PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-versi
 
 > [!NOTE]
 > Skillsets are the basis of [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) in Azure Cognitive Search. A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Cognitive Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).
-
-## URI Parameters
 
 ## URI Parameters
 

@@ -63,11 +63,6 @@ requestBody:
     description: The description of the formula.
     types:
     - uid: string
-  - name: properties.author
-    in: body
-    description: The author of the formula.
-    types:
-    - uid: string
   - name: properties.osType
     in: body
     description: The OS type of the formula.
@@ -135,28 +130,12 @@ definitions:
     description: The user principal name of the virtual machine owner.
     types:
     - uid: string
-  - name: properties.createdByUserId
-    description: The object identifier of the creator of the virtual machine.
-    types:
-    - uid: string
-  - name: properties.createdByUser
-    description: The email address of creator of the virtual machine.
-    types:
-    - uid: string
   - name: properties.createdDate
     description: The creation date of the virtual machine.
     types:
     - uid: string
-  - name: properties.computeId
-    description: The resource identifier (Microsoft.Compute) of the virtual machine.
-    types:
-    - uid: string
   - name: properties.customImageId
     description: The custom image identifier of the virtual machine.
-    types:
-    - uid: string
-  - name: properties.osType
-    description: The OS type of the virtual machine.
     types:
     - uid: string
   - name: properties.size
@@ -179,10 +158,6 @@ definitions:
     description: Indicates whether this virtual machine uses an SSH key for authentication.
     types:
     - uid: boolean
-  - name: properties.fqdn
-    description: The fully-qualified domain name of the virtual machine.
-    types:
-    - uid: string
   - name: properties.labSubnetName
     description: The lab subnet name of the virtual machine.
     types:
@@ -200,10 +175,6 @@ definitions:
     types:
     - uid: ArtifactInstallProperties
       isArray: true
-  - name: properties.artifactDeploymentStatus
-    description: The artifact deployment status for the virtual machine.
-    types:
-    - uid: ArtifactDeploymentStatusProperties
   - name: properties.galleryImageReference
     description: The Microsoft Azure Marketplace image reference of the virtual machine.
     types:
@@ -228,10 +199,6 @@ definitions:
     description: Storage type to use for virtual machine (i.e. Standard, Premium).
     types:
     - uid: string
-  - name: properties.virtualMachineCreationSource
-    description: Tells source of creation of lab virtual machine. Output property only.
-    types:
-    - uid: VirtualMachineCreationSource
   - name: properties.environmentId
     description: The resource ID of the environment that contains this virtual machine, if any.
     types:
@@ -246,10 +213,6 @@ definitions:
     types:
     - uid: ScheduleCreationParameter
       isArray: true
-  - name: properties.lastKnownPowerState
-    description: Last known compute power state captured in DTL
-    types:
-    - uid: string
 - name: FormulaPropertiesFromVm
   description: Information about a VM from which a formula is to be created.
   kind: object
@@ -267,6 +230,7 @@ definitions:
     types:
     - uid: string
   - name: properties.author
+    isReadyOnly: true
     description: The author of the formula.
     types:
     - uid: string
@@ -373,22 +337,6 @@ definitions:
     description: The time that the artifact starts to install on the virtual machine.
     types:
     - uid: string
-- name: ArtifactDeploymentStatusProperties
-  description: Properties of an artifact deployment.
-  kind: object
-  properties:
-  - name: deploymentStatus
-    description: The deployment status of the artifact.
-    types:
-    - uid: string
-  - name: artifactsApplied
-    description: The total count of the artifacts that were successfully applied.
-    types:
-    - uid: integer
-  - name: totalArtifacts
-    description: The total count of the artifacts that were tentatively applied.
-    types:
-    - uid: integer
 - name: GalleryImageReference
   description: The reference information for an Azure Marketplace image.
   kind: object
@@ -453,19 +401,6 @@ definitions:
     description: The configuration for sharing a public IP address across multiple virtual machines.
     types:
     - uid: SharedPublicIpAddressConfiguration
-- name: VirtualMachineCreationSource
-  description: Tells source of creation of lab virtual machine. Output property only.
-  kind: enum
-  properties:
-  - name: FromCustomImage
-    types:
-    - uid: string
-  - name: FromGalleryImage
-    types:
-    - uid: string
-  - name: FromSharedGalleryImage
-    types:
-    - uid: string
 - name: DataDiskProperties
   description: Request body for adding a new or existing data disk to a virtual machine.
   kind: object
@@ -491,6 +426,7 @@ definitions:
     types:
     - uid: string
   - name: location
+    isReadyOnly: true
     description: The location of the new virtual machine or environment
     types:
     - uid: string
@@ -581,7 +517,7 @@ definitions:
   kind: object
   properties:
   - name: diskSizeGiB
-    description: Size of the disk to be attached in GibiBytes.
+    description: Size of the disk to be attached in Gibibytes.
     types:
     - uid: integer
   - name: diskName
@@ -707,7 +643,165 @@ definitions:
   - name: Udp
     types:
     - uid: string
-examples: []
+examples:
+- name: Formulas_CreateOrUpdate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/formulas/{formulaName}?api-version=2018-09-15
+    body: >-
+      {
+        "location": "{location}",
+        "properties": {
+          "description": "Formula using a Linux base",
+          "formulaContent": {
+            "properties": {
+              "notes": "Ubuntu Server 20.10",
+              "size": "Standard_B1ms",
+              "userName": "user",
+              "isAuthenticationWithSshKey": false,
+              "labSubnetName": "Dtl{labName}Subnet",
+              "labVirtualNetworkId": "/virtualnetworks/dtl{labName}",
+              "disallowPublicIpAddress": true,
+              "galleryImageReference": {
+                "offer": "0001-com-ubuntu-server-groovy",
+                "publisher": "canonical",
+                "sku": "20_10",
+                "osType": "Linux",
+                "version": "latest"
+              },
+              "artifacts": [
+                {
+                  "artifactId": "/artifactsources/{artifactSourceName}/artifacts/linux-install-nodejs",
+                  "parameters": []
+                }
+              ],
+              "networkInterface": {
+                "sharedPublicIpAddressConfiguration": {
+                  "inboundNatRules": [
+                    {
+                      "transportProtocol": "Tcp",
+                      "backendPort": 22
+                    }
+                  ]
+                }
+              },
+              "allowClaim": false,
+              "storageType": "Standard"
+            },
+            "location": "{location}"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "description": "Formula using a Linux base",
+          "author": "username@contoso.com",
+          "creationDate": "2018-12-22T21:25:42.9254696+00:00",
+          "formulaContent": {
+            "properties": {
+              "notes": "Ubuntu Server 20.10",
+              "size": "Standard_B1ms",
+              "userName": "user",
+              "isAuthenticationWithSshKey": false,
+              "labSubnetName": "Dtl{labName}Subnet",
+              "labVirtualNetworkId": "/virtualnetworks/dtl{labName}",
+              "disallowPublicIpAddress": true,
+              "artifacts": [
+                {
+                  "artifactId": "/artifactsources/{artifactSourceName}/artifacts/linux-install-nodejs",
+                  "parameters": []
+                }
+              ],
+              "galleryImageReference": {
+                "offer": "0001-com-ubuntu-server-groovy",
+                "publisher": "canonical",
+                "sku": "20_10",
+                "osType": "Linux",
+                "version": "latest"
+              },
+              "networkInterface": {
+                "sharedPublicIpAddressConfiguration": {
+                  "inboundNatRules": [
+                    {
+                      "transportProtocol": "Tcp",
+                      "backendPort": 22
+                    }
+                  ]
+                }
+              },
+              "allowClaim": false,
+              "storageType": "Standard"
+            },
+            "location": "{location}"
+          },
+          "provisioningState": "Succeeded",
+          "uniqueIdentifier": "{uniqueIdentifier}"
+        },
+        "id": "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/{labName}/formulas/{formulaName}",
+        "name": "{formulaName}",
+        "type": "Microsoft.DevTestLab/labs/formulas",
+        "location": "{location}",
+        "tags": {
+          "tagName1": "tagValue1"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "description": "Formula using a Linux base",
+          "author": "username@contoso.com",
+          "creationDate": "2018-12-22T21:25:42.9254696+00:00",
+          "formulaContent": {
+            "properties": {
+              "notes": "Ubuntu Server 20.10",
+              "size": "Standard_B1ms",
+              "userName": "user",
+              "isAuthenticationWithSshKey": false,
+              "labSubnetName": "Dtl{labName}Subnet",
+              "labVirtualNetworkId": "/virtualnetworks/dtl{labName}",
+              "disallowPublicIpAddress": true,
+              "artifacts": [
+                {
+                  "artifactId": "/artifactsources/{artifactSourceName}/artifacts/linux-install-nodejs",
+                  "parameters": []
+                }
+              ],
+              "galleryImageReference": {
+                "offer": "0001-com-ubuntu-server-groovy",
+                "publisher": "canonical",
+                "sku": "20_10",
+                "osType": "Linux",
+                "version": "latest"
+              },
+              "networkInterface": {
+                "sharedPublicIpAddressConfiguration": {
+                  "inboundNatRules": [
+                    {
+                      "transportProtocol": "Tcp",
+                      "backendPort": 22
+                    }
+                  ]
+                }
+              },
+              "allowClaim": false,
+              "storageType": "Standard"
+            },
+            "location": "{location}"
+          },
+          "provisioningState": "Creating",
+          "uniqueIdentifier": "{uniqueIdentifier}"
+        },
+        "id": "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/{labName}/formulas/{formulaName}",
+        "name": "{formulaName}",
+        "type": "Microsoft.DevTestLab/labs/formulas",
+        "location": "{location}",
+        "tags": {
+          "tagName1": "tagValue1"
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2

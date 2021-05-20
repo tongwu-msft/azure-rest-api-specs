@@ -1,6 +1,7 @@
 ---
 title: "StatelessServicePartitionInfo"
-ms.date: "10/21/2020"
+description: "StatelessServicePartitionInfo"
+ms.date: "01/28/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 

@@ -3,14 +3,14 @@ uid: management.azure.com.synapse.integrationruntimes.create
 name: Create
 service: Synapse
 groupName: Integration Runtimes
-apiVersion: 2019-06-01-preview
+apiVersion: 2021-03-01
 summary: "Create integration runtime  \nCreate an integration runtime"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}?api-version=2019-06-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -53,7 +53,7 @@ responses:
 - name: Other Status Codes
   description: An error response received from PUT integration runtime operation.
   types:
-  - uid: CloudError
+  - uid: ErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -102,27 +102,14 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-- name: CloudError
-  description: The object that defines the structure of an Azure Synapse error response.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
-  - name: error.code
-    description: Error code.
+  - name: error
+    description: The error object.
     types:
-    - uid: string
-  - name: error.message
-    description: Error message.
-    types:
-    - uid: string
-  - name: error.target
-    description: Property name/path in request associated with error.
-    types:
-    - uid: string
-  - name: error.details
-    description: Array with additional error details.
-    types:
-    - uid: CloudError
-      isArray: true
+    - uid: ErrorDetail
 - name: ManagedIntegrationRuntime
   description: Managed integration runtime, including managed elastic and managed dedicated integration runtimes.
   kind: object
@@ -168,6 +155,37 @@ definitions:
     description: Integration runtime description.
     types:
     - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: IntegrationRuntimeState
   description: The state of integration runtime.
   kind: enum
@@ -269,6 +287,20 @@ definitions:
   - name: SelfHosted
     types:
     - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 - name: IntegrationRuntimeDataFlowProperties
   description: Data flow properties for managed integration runtime.
   kind: object
@@ -463,7 +495,7 @@ definitions:
 examples:
 - name: Create integration runtime
   request:
-    uri: PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.Synapse/workspaces/exampleWorkspace/integrationRuntimes/exampleIntegrationRuntime?api-version=2019-06-01-preview
+    uri: PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.Synapse/workspaces/exampleWorkspace/integrationRuntimes/exampleIntegrationRuntime?api-version=2021-03-01
     body: >-
       {
         "properties": {

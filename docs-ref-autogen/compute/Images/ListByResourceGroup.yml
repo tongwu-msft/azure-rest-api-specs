@@ -3,14 +3,14 @@ uid: management.azure.com.compute.images.listbyresourcegroup
 name: List By Resource Group
 service: Compute
 groupName: Images
-apiVersion: 2020-06-01
+apiVersion: 2020-12-01
 summary: Gets the list of images under a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images?api-version=2020-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images?api-version=2020-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -54,6 +54,10 @@ definitions:
   description: The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location of the Image.
+    types:
+    - uid: ExtendedLocation
   - name: properties.sourceVirtualMachine
     description: The source virtual machine from which Image is created.
     types:
@@ -68,7 +72,7 @@ definitions:
     types:
     - uid: string
   - name: properties.hyperVGeneration
-    description: Gets the HyperVGenerationType of the VirtualMachine created from the image
+    description: Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource.
     types:
     - uid: HyperVGenerationTypes
   - name: id
@@ -98,6 +102,18 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ExtendedLocation
+  description: The complex type of the extended location.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: SubResource
   kind: object
   properties:
@@ -130,6 +146,13 @@ definitions:
     types:
     - uid: string
   - name: V2
+    types:
+    - uid: string
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
     types:
     - uid: string
 - name: ImageOSDisk
@@ -259,6 +282,12 @@ definitions:
   - name: UltraSSD_LRS
     types:
     - uid: string
+  - name: Premium_ZRS
+    types:
+    - uid: string
+  - name: StandardSSD_ZRS
+    types:
+    - uid: string
 - name: DiskEncryptionSetParameters
   description: 'Describes the parameter of customer managed disk encryption set resource id that can be specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details.'
   kind: object
@@ -270,7 +299,7 @@ definitions:
 examples:
 - name: List all virtual machine images in a resource group.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images?api-version=2020-06-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images?api-version=2020-12-01
   responses:
   - statusCode: "200"
     body: >-

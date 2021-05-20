@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.storageaccounts.update
 name: Update
 service: Storage Resource Provider
 groupName: Storage Accounts
-apiVersion: 2019-06-01
+apiVersion: 2021-04-01
 summary: The update operation can be used to update the SKU, encryption, access tier, or tags for a storage account. It can also be used to map the account to a custom domain. Only one custom domain is supported per storage account; the replacement/change of custom domain is not supported. In order to replace an old custom domain, the old value must be cleared/unregistered before a new value can be set. The update of multiple properties is supported. This call does not change the storage keys for the account. If you want to change the storage account keys, use the regenerate keys operation. The location and name of the storage account cannot be changed after creation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2019-06-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2021-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -79,6 +79,16 @@ requestBody:
     description: Provides the encryption settings on the account. The default setting is unencrypted.
     types:
     - uid: Encryption
+  - name: properties.sasPolicy
+    in: body
+    description: SasPolicy assigned to the storage account.
+    types:
+    - uid: SasPolicy
+  - name: properties.keyPolicy
+    in: body
+    description: KeyPolicy assigned to the storage account.
+    types:
+    - uid: KeyPolicy
   - name: properties.accessTier
     in: body
     description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
@@ -124,6 +134,11 @@ requestBody:
     description: Indicates whether the storage account permits requests to be authorized with the account access key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure Active Directory (Azure AD). The default value is null, which is equivalent to true.
     types:
     - uid: boolean
+  - name: properties.allowCrossTenantReplication
+    in: body
+    description: Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property.
+    types:
+    - uid: boolean
 requestHeader: []
 definitions:
 - name: Sku
@@ -157,6 +172,14 @@ definitions:
     description: The identity type.
     types:
     - uid: IdentityType
+  - name: userAssignedIdentities
+    description: Gets or sets a list of key value pairs that describe the set of User Assigned identities that will be used with this storage account. The key is the ARM resource identifier of the identity. Only 1 User Assigned identity is permitted here.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
 - name: CustomDomain
   description: The custom domain assigned to this storage account. This can be set via Update.
   kind: object
@@ -189,6 +212,30 @@ definitions:
     description: Properties provided by key vault.
     types:
     - uid: KeyVaultProperties
+  - name: identity
+    description: The identity to be used with service-side encryption at rest.
+    types:
+    - uid: EncryptionIdentity
+- name: SasPolicy
+  description: SasPolicy assigned to the storage account.
+  kind: object
+  properties:
+  - name: sasExpirationPeriod
+    description: The SAS expiration period, DD.HH:MM:SS.
+    types:
+    - uid: string
+  - name: expirationAction
+    description: The SAS expiration action. Can only be Log.
+    types:
+    - uid: ExpirationAction
+- name: KeyPolicy
+  description: KeyPolicy assigned to the storage account.
+  kind: object
+  properties:
+  - name: keyExpirationPeriodInDays
+    description: The key expiration period in days.
+    types:
+    - uid: integer
 - name: AzureFilesIdentityBasedAuthentication
   description: Settings for Azure Files identity based authentication.
   kind: object
@@ -201,6 +248,10 @@ definitions:
     description: Required if choose AD.
     types:
     - uid: ActiveDirectoryProperties
+  - name: defaultSharePermission
+    description: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
+    types:
+    - uid: DefaultSharePermission
 - name: NetworkRuleSet
   description: Network rule set
   kind: object
@@ -209,6 +260,11 @@ definitions:
     description: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
     types:
     - uid: Bypass
+  - name: resourceAccessRules
+    description: Sets the resource access rules
+    types:
+    - uid: ResourceAccessRule
+      isArray: true
   - name: virtualNetworkRules
     description: Sets the virtual network rules
     types:
@@ -257,6 +313,10 @@ definitions:
     description: The identity of the resource.
     types:
     - uid: Identity
+  - name: extendedLocation
+    description: The extendedLocation of the resource.
+    types:
+    - uid: ExtendedLocation
   - name: properties.provisioningState
     isReadyOnly: true
     description: Gets the status of the storage account at the time the operation was called.
@@ -302,6 +362,21 @@ definitions:
     description: Gets the custom domain the user assigned to this storage account.
     types:
     - uid: CustomDomain
+  - name: properties.sasPolicy
+    isReadyOnly: true
+    description: SasPolicy assigned to the storage account.
+    types:
+    - uid: SasPolicy
+  - name: properties.keyPolicy
+    isReadyOnly: true
+    description: KeyPolicy assigned to the storage account.
+    types:
+    - uid: KeyPolicy
+  - name: properties.keyCreationTime
+    isReadyOnly: true
+    description: Storage account keys creation time.
+    types:
+    - uid: KeyCreationTime
   - name: properties.secondaryEndpoints
     isReadyOnly: true
     description: Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object from the secondary location of the storage account. Only available if the SKU name is Standard_RAGRS.
@@ -375,6 +450,14 @@ definitions:
     description: Indicates whether the storage account permits requests to be authorized with the account access key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure Active Directory (Azure AD). The default value is null, which is equivalent to true.
     types:
     - uid: boolean
+  - name: properties.isNfsV3Enabled
+    description: NFS 3.0 protocol support enabled if set to true.
+    types:
+    - uid: boolean
+  - name: properties.allowCrossTenantReplication
+    description: Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property.
+    types:
+    - uid: boolean
   - name: tags
     description: Resource tags.
     types:
@@ -434,6 +517,14 @@ definitions:
     description: Provides the encryption settings on the account. The default setting is unencrypted.
     types:
     - uid: Encryption
+  - name: properties.sasPolicy
+    description: SasPolicy assigned to the storage account.
+    types:
+    - uid: SasPolicy
+  - name: properties.keyPolicy
+    description: KeyPolicy assigned to the storage account.
+    types:
+    - uid: KeyPolicy
   - name: properties.accessTier
     description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
     types:
@@ -468,6 +559,10 @@ definitions:
     - uid: MinimumTlsVersion
   - name: properties.allowSharedKeyAccess
     description: Indicates whether the storage account permits requests to be authorized with the account access key via Shared Key. If false, then all requests, including shared access signatures, must be authorized with Azure Active Directory (Azure AD). The default value is null, which is equivalent to true.
+    types:
+    - uid: boolean
+  - name: properties.allowCrossTenantReplication
+    description: Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property.
     types:
     - uid: boolean
 - name: SkuName
@@ -512,7 +607,30 @@ definitions:
   description: The identity type.
   kind: enum
   properties:
+  - name: None
+    types:
+    - uid: string
   - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentity
+  description: UserAssignedIdentity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the identity.
     types:
     - uid: string
 - name: EncryptionServices
@@ -571,6 +689,21 @@ definitions:
     description: Timestamp of last rotation of the Key Vault Key.
     types:
     - uid: string
+- name: EncryptionIdentity
+  description: Encryption identity for the storage account.
+  kind: object
+  properties:
+  - name: userAssignedIdentity
+    description: Resource identifier of the UserAssigned identity to be associated with server-side encryption on the storage account.
+    types:
+    - uid: string
+- name: ExpirationAction
+  description: The SAS expiration action. Can only be Log.
+  kind: enum
+  properties:
+  - name: Log
+    types:
+    - uid: string
 - name: DirectoryServiceOptions
   description: Indicates the directory service used.
   kind: enum
@@ -612,6 +745,25 @@ definitions:
     description: Specifies the security identifier (SID) for Azure Storage.
     types:
     - uid: string
+- name: DefaultSharePermission
+  description: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: StorageFileDataSmbShareReader
+    types:
+    - uid: string
+  - name: StorageFileDataSmbShareContributor
+    types:
+    - uid: string
+  - name: StorageFileDataSmbShareElevatedContributor
+    types:
+    - uid: string
+  - name: StorageFileDataSmbShareOwner
+    types:
+    - uid: string
 - name: Bypass
   description: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
   kind: enum
@@ -626,6 +778,18 @@ definitions:
     types:
     - uid: string
   - name: AzureServices
+    types:
+    - uid: string
+- name: ResourceAccessRule
+  description: Resource Access Rule.
+  kind: object
+  properties:
+  - name: tenantId
+    description: Tenant Id
+    types:
+    - uid: string
+  - name: resourceId
+    description: Resource Id
     types:
     - uid: string
 - name: VirtualNetworkRule
@@ -695,6 +859,18 @@ definitions:
   - name: BlockBlobStorage
     types:
     - uid: string
+- name: ExtendedLocation
+  description: The complex type of the extended location.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: ProvisioningState
   description: Gets the status of the storage account at the time the operation was called.
   kind: enum
@@ -758,6 +934,18 @@ definitions:
     types:
     - uid: string
   - name: unavailable
+    types:
+    - uid: string
+- name: KeyCreationTime
+  description: Storage account keys creation time.
+  kind: object
+  properties:
+  - name: key1
+    description: ''
+    types:
+    - uid: string
+  - name: key2
+    description: ''
     types:
     - uid: string
 - name: AccessTier
@@ -896,19 +1084,26 @@ definitions:
   description: Gets the state of virtual network rule.
   kind: enum
   properties:
-  - name: provisioning
+  - name: Provisioning
     types:
     - uid: string
-  - name: deprovisioning
+  - name: Deprovisioning
     types:
     - uid: string
-  - name: succeeded
+  - name: Succeeded
     types:
     - uid: string
-  - name: failed
+  - name: Failed
     types:
     - uid: string
-  - name: networkSourceDeleted
+  - name: NetworkSourceDeleted
+    types:
+    - uid: string
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
     types:
     - uid: string
 - name: StorageAccountMicrosoftEndpoints
@@ -1087,14 +1282,27 @@ definitions:
 examples:
 - name: StorageAccountUpdate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2019-06-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2021-04-01
     body: >-
       {
         "properties": {
+          "keyPolicy": {
+            "keyExpirationPeriodInDays": 20
+          },
+          "sasPolicy": {
+            "sasExpirationPeriod": "1.15:59:59",
+            "expirationAction": "Log"
+          },
           "allowBlobPublicAccess": false,
           "minimumTlsVersion": "TLS1_2",
           "allowSharedKeyAccess": true,
           "networkAcls": {
+            "resourceAccessRules": [
+              {
+                "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+                "resourceId": "/subscriptions/a7e99807-abbf-4642-bdec-2c809a96a8bc/resourceGroups/res9407/providers/Microsoft.Synapse/workspaces/testworkspace"
+              }
+            ],
             "defaultAction": "Allow"
           },
           "routingPreference": {
@@ -1126,12 +1334,29 @@ examples:
         "location": "eastus2(stage)",
         "name": "sto8596",
         "properties": {
+          "keyPolicy": {
+            "keyExpirationPeriodInDays": 20
+          },
+          "sasPolicy": {
+            "sasExpirationPeriod": "1.15:59:59",
+            "expirationAction": "Log"
+          },
+          "keyCreationTime": {
+            "key1": "2021-03-18T04:42:22.4322836Z",
+            "key2": "2021-03-18T04:42:22.4322836Z"
+          },
           "isHnsEnabled": true,
           "allowBlobPublicAccess": false,
           "minimumTlsVersion": "TLS1_2",
           "allowSharedKeyAccess": true,
           "creationTime": "2017-06-01T02:42:41.7633306Z",
           "networkAcls": {
+            "resourceAccessRules": [
+              {
+                "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+                "resourceId": "/subscriptions/a7e99807-abbf-4642-bdec-2c809a96a8bc/resourceGroups/res9407/providers/Microsoft.Synapse/workspaces/testworkspace"
+              }
+            ],
             "bypass": "AzureServices",
             "defaultAction": "Allow",
             "ipRules": [],
@@ -1198,7 +1423,7 @@ examples:
       }
 - name: StorageAccountEnableAD
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2019-06-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2021-04-01
     body: >-
       {
         "properties": {
@@ -1263,7 +1488,7 @@ examples:
       }
 - name: StorageAccountEnableCMK
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2019-06-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2021-04-01
     body: >-
       {
         "properties": {
@@ -1348,6 +1573,117 @@ examples:
           "key2": "value2"
         },
         "type": "Microsoft.Storage/storageAccounts"
+      }
+- name: StorageAccountUpdateUserAssignedEncryptionIdentityWithCMK
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445?api-version=2021-04-01
+    body: >-
+      {
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managed-identity-name}": {}
+          }
+        },
+        "sku": {
+          "name": "Standard_LRS"
+        },
+        "kind": "Storage",
+        "properties": {
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true
+              }
+            },
+            "keyvaultproperties": {
+              "keyvaulturi": "https://myvault8569.vault.azure.net",
+              "keyname": "wrappingKey",
+              "keyversion": ""
+            },
+            "keySource": "Microsoft.Keyvault",
+            "identity": {
+              "userAssignedIdentity": "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managed-identity-name}"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "identity": {
+          "userAssignedIdentities": {
+            "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managed-identity-name}": {
+              "principalId": "8d823284-1060-42a5-9ec4-ed3d831e24d7",
+              "clientId": "fbaa6278-1ecc-415c-819f-6e2058d3acb5"
+            }
+          },
+          "type": "UserAssigned"
+        },
+        "sku": {
+          "name": "Standard_LRS",
+          "tier": "Standard"
+        },
+        "kind": "StorageV2",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res9101/providers/Microsoft.Storage/storageAccounts/sto4445",
+        "name": "sto4445",
+        "type": "Microsoft.Storage/storageAccounts",
+        "location": "eastus",
+        "tags": {},
+        "properties": {
+          "privateEndpointConnections": [],
+          "networkAcls": {
+            "bypass": "AzureServices",
+            "virtualNetworkRules": [],
+            "ipRules": [],
+            "defaultAction": "Allow"
+          },
+          "supportsHttpsTrafficOnly": true,
+          "encryption": {
+            "identity": {
+              "userAssignedIdentity": "/subscriptions/{subscription-id}/resourcegroups/res9101/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{managed-identity-name}"
+            },
+            "keyvaultproperties": {
+              "keyvaulturi": "https://myvault8569.vault.azure.net",
+              "keyname": "wrappingKey",
+              "keyversion": "",
+              "currentVersionedKeyIdentifier": "https://myvault8569.vault.azure.net/keys/wrappingKey/0682afdd9c104f4285df20107e956cad",
+              "lastKeyRotationTimestamp": "2019-12-13T20:36:23.7023290Z"
+            },
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2020-12-15T00:43:14.1739587Z"
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2020-12-15T00:43:14.1739587Z"
+              }
+            },
+            "keySource": "Microsoft.Keyvault"
+          },
+          "accessTier": "Hot",
+          "provisioningState": "Succeeded",
+          "creationTime": "2020-12-15T00:43:14.0839093Z",
+          "primaryEndpoints": {
+            "web": "https://sto4445.web.core.windows.net/",
+            "dfs": "https://sto4445.dfs.core.windows.net/",
+            "blob": "https://sto4445.blob.core.windows.net/",
+            "file": "https://sto4445.file.core.windows.net/",
+            "queue": "https://sto4445.queue.core.windows.net/",
+            "table": "https://sto4445.table.core.windows.net/"
+          },
+          "primaryLocation": "eastus",
+          "statusOfPrimary": "available"
+        }
       }
 security:
 - name: azure_auth

@@ -54,32 +54,6 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.webHookUrl
-    in: body
-    description: The webhook URL to send notifications to.
-    types:
-    - uid: string
-  - name: properties.emailRecipient
-    in: body
-    description: The email recipient to send notifications to (can be a list of semi-colon separated email addresses).
-    types:
-    - uid: string
-  - name: properties.notificationLocale
-    in: body
-    description: The locale to use when sending a notification (fallback for unsupported languages is EN).
-    types:
-    - uid: string
-  - name: properties.description
-    in: body
-    description: Description of notification.
-    types:
-    - uid: string
-  - name: properties.events
-    in: body
-    description: The list of event for which this notification is enabled.
-    types:
-    - uid: EventFragment
-      isArray: true
   - name: tags
     in: body
     description: The tags of the resource.
@@ -91,14 +65,6 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
-- name: EventFragment
-  description: An event to be notified for.
-  kind: object
-  properties:
-  - name: eventName
-    description: The event type for which this notification is enabled (i.e. AutoShutdown, Cost)
-    types:
-    - uid: NotificationChannelEventType
 - name: NotificationChannel
   description: A notification.
   kind: object
@@ -178,27 +144,6 @@ definitions:
   description: A notification.
   kind: object
   properties:
-  - name: properties.webHookUrl
-    description: The webhook URL to send notifications to.
-    types:
-    - uid: string
-  - name: properties.emailRecipient
-    description: The email recipient to send notifications to (can be a list of semi-colon separated email addresses).
-    types:
-    - uid: string
-  - name: properties.notificationLocale
-    description: The locale to use when sending a notification (fallback for unsupported languages is EN).
-    types:
-    - uid: string
-  - name: properties.description
-    description: Description of notification.
-    types:
-    - uid: string
-  - name: properties.events
-    description: The list of event for which this notification is enabled.
-    types:
-    - uid: EventFragment
-      isArray: true
   - name: tags
     description: The tags of the resource.
     types:
@@ -207,16 +152,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: NotificationChannelEventType
-  description: The event type for which this notification is enabled (i.e. AutoShutdown, Cost)
-  kind: enum
-  properties:
-  - name: AutoShutdown
-    types:
-    - uid: string
-  - name: Cost
-    types:
-    - uid: string
 - name: Event
   description: An event to be notified for.
   kind: object
@@ -246,7 +181,47 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-examples: []
+- name: NotificationChannelEventType
+  description: The event type for which this notification is enabled (i.e. AutoShutdown, Cost)
+  kind: enum
+  properties:
+  - name: AutoShutdown
+    types:
+    - uid: string
+  - name: Cost
+    types:
+    - uid: string
+examples:
+- name: NotificationChannels_Update
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/notificationchannels/{notificationChannelName}?api-version=2018-09-15
+    body: '{}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "webHookUrl": "{webhookUrl}",
+          "emailRecipient": "{email}",
+          "notificationLocale": "en",
+          "description": "Integration configured for auto-shutdown",
+          "events": [
+            {
+              "eventName": "AutoShutdown"
+            }
+          ],
+          "createdDate": "2021-01-05T02:14:05.2392034+00:00",
+          "provisioningState": "Succeeded",
+          "uniqueIdentifier": "{uniqueIdentifier}"
+        },
+        "id": "/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/notificationChannels/{notificationChannelName}",
+        "name": "{notificationChannelName}",
+        "type": "Microsoft.DevTestLab/labs/notificationChannels",
+        "location": "{location}",
+        "tags": {
+          "tagName1": "tagValue1"
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2

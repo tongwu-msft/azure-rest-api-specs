@@ -3,7 +3,7 @@ title: Cross-Origin Resource Sharing (CORS) support for Azure Storage
 description: CORS is an HTTP feature that enables a web application running under one domain to access resources in another domain. You can set CORS rules individually for each of the Azure Storage services. When CORS rules are set, then a properly authorized request made against the service from a different domain will be evaluated to determine whether it is allowed according to the rules you have specified.
 author: tamram
 
-ms.date: 07/06/2020
+ms.date: 05/10/2021
 ms.author: tamram
 ms.service: storage
 ms.topic: reference
@@ -91,10 +91,10 @@ The following limitations apply to CORS rules:
   
 - Allowed headers and exposed headers may be either:  
 
-    - Literal headers, where the exact header name is provided, such as **x-ms-meta-processed**. A maximum of 64 literal headers may be specified on the request.  
-    - Prefixed headers, where a prefix of the header is provided, such as **x-ms-meta-data\***. Specifying a prefix in this manner allows or exposes any header that begins with the given prefix. A maximum of two prefixed headers may be specified on the request.  
+  - Literal headers, where the exact header name is provided, such as **x-ms-meta-processed**. A maximum of 64 literal headers may be specified on the request.  
+  - Prefixed headers, where a prefix of the header is provided, such as **x-ms-meta-data\***. Specifying a prefix in this manner allows or exposes any header that begins with the given prefix. A maximum of two prefixed headers may be specified on the request.  
   
-- The methods (or HTTP verbs) specified in the **AllowedMethods** element must conform to the methods supported by Azure storage service APIs. Supported methods are DELETE, GET, HEAD, MERGE, POST, OPTIONS and PUT.  
+- The methods (or HTTP verbs) specified in the **AllowedMethods** element must conform to the methods supported by Azure storage service APIs. Supported methods are DELETE, GET, HEAD, MERGE, POST, PATCH, OPTIONS and PUT.  
   
 ## Understanding CORS rule evaluation logic
   

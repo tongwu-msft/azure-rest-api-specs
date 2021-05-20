@@ -3,13 +3,13 @@ uid: management.azure.com.synapse.bigdatapools.listbyworkspace
 name: List By Workspace
 service: Synapse
 groupName: Big Data Pools
-apiVersion: 2019-06-01-preview
+apiVersion: 2021-03-01
 summary: "List the Big Data pools in a workspace.  \nList Big Data pools in a workspace."
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools?api-version=2019-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/bigDataPools?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,7 +44,7 @@ responses:
 - name: Other Status Codes
   description: ''
   types:
-  - uid: ErrorContract
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: BigDataPoolResourceInfoListResult
@@ -60,14 +60,14 @@ definitions:
     types:
     - uid: BigDataPoolResourceInfo
       isArray: true
-- name: ErrorContract
-  description: Error details.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: "Error Response  \nThe error details."
+    description: The error object.
     types:
-    - uid: ErrorResponse
+    - uid: ErrorDetail
 - name: BigDataPoolResourceInfo
   description: Big Data pool
   kind: object
@@ -119,7 +119,7 @@ definitions:
   - name: properties.customLibraries
     description: List of custom libraries/packages associated with the spark pool.
     types:
-    - uid: LibraryResourceProperties
+    - uid: LibraryInfo
       isArray: true
   - name: properties.sparkConfigProperties
     description: "Spark pool library version requirements  \nSpark configuration file to specify additional properties"
@@ -141,6 +141,11 @@ definitions:
     description: The kind of nodes that the Big Data pool provides.
     types:
     - uid: NodeSizeFamily
+  - name: properties.lastSucceededTimestamp
+    isReadyOnly: true
+    description: The time when the Big Data pool was updated successfully.
+    types:
+    - uid: string
   - name: tags
     description: Resource tags.
     types:
@@ -168,8 +173,8 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error Response
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
@@ -191,7 +196,7 @@ definitions:
     isReadyOnly: true
     description: The error details.
     types:
-    - uid: ErrorResponse
+    - uid: ErrorDetail
       isArray: true
   - name: additionalInfo
     isReadyOnly: true
@@ -252,33 +257,29 @@ definitions:
     description: The filename of the library requirements file.
     types:
     - uid: string
-- name: LibraryResourceProperties
-  description: Library/package properties
+- name: LibraryInfo
+  description: Information about a library/package created at the workspace level.
   kind: object
   properties:
   - name: name
-    isReadyOnly: true
-    description: Name of the library/package.
+    description: Name of the library.
     types:
     - uid: string
   - name: path
-    isReadyOnly: true
-    description: Location of library/package in storage account.
+    description: Storage blob path of library.
     types:
     - uid: string
   - name: containerName
-    isReadyOnly: true
-    description: Container name of the library/package.
+    description: Storage blob container name.
     types:
     - uid: string
   - name: uploadedTimestamp
     isReadyOnly: true
-    description: The last update time of the library/package.
+    description: The last update time of the library.
     types:
     - uid: string
   - name: type
-    isReadyOnly: true
-    description: Type of the library/package.
+    description: Type of the library.
     types:
     - uid: string
   - name: provisioningStatus
@@ -343,7 +344,7 @@ definitions:
 examples:
 - name: List Big Data pools in a workspace
   request:
-    uri: GET https://management.azure.com/subscriptions/01234567-89ab-4def-0123-456789abcdef/resourceGroups/ExampleResourceGroup/providers/Microsoft.Synapse/workspaces/ExampleWorkspace/bigDataPools?api-version=2019-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/01234567-89ab-4def-0123-456789abcdef/resourceGroups/ExampleResourceGroup/providers/Microsoft.Synapse/workspaces/ExampleWorkspace/bigDataPools?api-version=2021-03-01
   responses:
   - statusCode: "200"
     body: >-

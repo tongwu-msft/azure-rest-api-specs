@@ -3,14 +3,14 @@ uid: management.azure.com.compute.snapshots.update
 name: Update
 service: Compute
 groupName: Snapshots
-apiVersion: 2020-06-30
+apiVersion: 2020-12-01
 summary: Updates (patches) a snapshot.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}?api-version=2020-06-30
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}?api-version=2020-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -59,7 +59,7 @@ requestBody:
       - uid: string
   - name: sku
     in: body
-    description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS.
+    description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
     types:
     - uid: SnapshotSku
   - name: properties.osType
@@ -92,10 +92,15 @@ requestBody:
     description: ARM id of the DiskAccess resource for using private endpoints on disks.
     types:
     - uid: string
+  - name: properties.supportsHibernation
+    in: body
+    description: Indicates the OS on a snapshot supports hibernation.
+    types:
+    - uid: boolean
 requestHeader: []
 definitions:
 - name: SnapshotSku
-  description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS.
+  description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
   kind: object
   properties:
   - name: name
@@ -146,9 +151,13 @@ definitions:
     types:
     - uid: string
   - name: sku
-    description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS.
+    description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
     types:
     - uid: SnapshotSku
+  - name: extendedLocation
+    description: The extended location where the snapshot will be created. Extended location cannot be changed.
+    types:
+    - uid: ExtendedLocation
   - name: properties.timeCreated
     isReadyOnly: true
     description: The time when the snapshot was created.
@@ -162,6 +171,10 @@ definitions:
     description: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
     types:
     - uid: HyperVGeneration
+  - name: properties.purchasePlan
+    description: Purchase plan information for the image from which the source disk for the snapshot was originally created.
+    types:
+    - uid: PurchasePlan
   - name: properties.creationData
     description: Disk source information. CreationData information cannot be changed after the disk has been created.
     types:
@@ -210,6 +223,10 @@ definitions:
     description: ARM id of the DiskAccess resource for using private endpoints on disks.
     types:
     - uid: string
+  - name: properties.supportsHibernation
+    description: Indicates the OS on a snapshot supports hibernation.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -250,7 +267,7 @@ definitions:
       - uid: string
       - uid: string
   - name: sku
-    description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS.
+    description: The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot
     types:
     - uid: SnapshotSku
   - name: properties.osType
@@ -277,6 +294,10 @@ definitions:
     description: ARM id of the DiskAccess resource for using private endpoints on disks.
     types:
     - uid: string
+  - name: properties.supportsHibernation
+    description: Indicates the OS on a snapshot supports hibernation.
+    types:
+    - uid: boolean
 - name: SnapshotStorageAccountTypes
   description: The sku name.
   kind: enum
@@ -321,6 +342,18 @@ definitions:
     description: Disk is encrypted at rest with 2 layers of encryption. One of the keys is Customer managed and the other key is Platform managed.
     types:
     - uid: string
+- name: ExtendedLocation
+  description: The complex type of the extended location.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: OperatingSystemTypes
   description: The Operating System type.
   kind: enum
@@ -339,6 +372,26 @@ definitions:
     types:
     - uid: string
   - name: V2
+    types:
+    - uid: string
+- name: PurchasePlan
+  description: Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
+  kind: object
+  properties:
+  - name: name
+    description: The plan ID.
+    types:
+    - uid: string
+  - name: publisher
+    description: The publisher ID.
+    types:
+    - uid: string
+  - name: product
+    description: Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element.
+    types:
+    - uid: string
+  - name: promotionCode
+    description: The Offer Promotion Code.
     types:
     - uid: string
 - name: CreationData
@@ -448,6 +501,13 @@ definitions:
     - uid: SourceVault
   - name: keyUrl
     description: Url pointing to a key or secret in KeyVault
+    types:
+    - uid: string
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
     types:
     - uid: string
 - name: DiskCreateOption
