@@ -12399,6 +12399,14 @@
 ### [Create Or Update](securitycenter/InformationProtectionPolicies/CreateOrUpdate.yml)
 ### [Get](securitycenter/InformationProtectionPolicies/Get.yml)
 ### [List](securitycenter/InformationProtectionPolicies/List.yml)
+## Ingestion Settings
+### [Overview](securitycenter/IngestionSettings.yml)
+### [Create](securitycenter/IngestionSettings/Create.yml)
+### [Delete](securitycenter/IngestionSettings/Delete.yml)
+### [Get](securitycenter/IngestionSettings/Get.yml)
+### [List](securitycenter/IngestionSettings/List.yml)
+### [List Connection Strings](securitycenter/IngestionSettings/ListConnectionStrings.yml)
+### [List Tokens](securitycenter/IngestionSettings/ListTokens.yml)
 ## Iot Alert Types
 ### [Overview](securitycenter/IotAlertTypes.yml)
 ### [Get](securitycenter/IotAlertTypes/Get.yml)
