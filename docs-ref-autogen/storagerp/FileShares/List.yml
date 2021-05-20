@@ -3,15 +3,15 @@ uid: management.azure.com.storagerp.fileshares.list
 name: List
 service: Storage Resource Provider
 groupName: File Shares
-apiVersion: 2021-01-01
+apiVersion: 2021-04-01
 summary: Lists all shares.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares?api-version=2021-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares?api-version=2021-01-01&$maxpagesize={$maxpagesize}&$filter={$filter}&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default/shares?api-version=2021-04-01&$maxpagesize={$maxpagesize}&$filter={$filter}&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -51,9 +51,9 @@ uriParameters:
   - uid: string
 - name: $expand
   in: query
-  description: Optional, used to expand the properties within share's properties.
+  description: "Optional, used to expand the properties within share's properties. Valid values are: deleted, snapshots. Should be passed as a string with delimiter ','"
   types:
-  - uid: ListSharesExpand
+  - uid: string
 responses:
 - name: 200 OK
   description: OK -- List Shares operation completed successfully.
@@ -65,16 +65,6 @@ responses:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: ListSharesExpand
-  description: Optional, used to expand the properties within share's properties.
-  kind: enum
-  properties:
-  - name: deleted
-    types:
-    - uid: string
-  - name: snapshots
-    types:
-    - uid: string
 - name: FileShareItems
   description: Response schema. Contains list of shares returned, and if paging is requested or required, a URL to next page of shares.
   kind: object
@@ -166,6 +156,26 @@ definitions:
     description: The approximate size of the data stored on the share. Note that this value may not include all recently created or recently resized files.
     types:
     - uid: integer
+  - name: properties.leaseStatus
+    isReadyOnly: true
+    description: The lease status of the share.
+    types:
+    - uid: LeaseStatus
+  - name: properties.leaseState
+    isReadyOnly: true
+    description: Lease state of the share.
+    types:
+    - uid: LeaseState
+  - name: properties.leaseDuration
+    isReadyOnly: true
+    description: Specifies whether the lease on a share is of infinite or fixed duration, only when the share is leased.
+    types:
+    - uid: LeaseDuration
+  - name: properties.signedIdentifiers
+    description: List of stored access policies specified on the share.
+    types:
+    - uid: SignedIdentifier
+      isArray: true
   - name: properties.snapshotTime
     isReadyOnly: true
     description: Creation time of share snapshot returned in the response of list shares with expand param "snapshots".
@@ -251,10 +261,75 @@ definitions:
   - name: Premium
     types:
     - uid: string
+- name: LeaseStatus
+  description: The lease status of the share.
+  kind: enum
+  properties:
+  - name: Locked
+    types:
+    - uid: string
+  - name: Unlocked
+    types:
+    - uid: string
+- name: LeaseState
+  description: Lease state of the share.
+  kind: enum
+  properties:
+  - name: Available
+    types:
+    - uid: string
+  - name: Leased
+    types:
+    - uid: string
+  - name: Expired
+    types:
+    - uid: string
+  - name: Breaking
+    types:
+    - uid: string
+  - name: Broken
+    types:
+    - uid: string
+- name: LeaseDuration
+  description: Specifies whether the lease on a share is of infinite or fixed duration, only when the share is leased.
+  kind: enum
+  properties:
+  - name: Infinite
+    types:
+    - uid: string
+  - name: Fixed
+    types:
+    - uid: string
+- name: SignedIdentifier
+  kind: object
+  properties:
+  - name: id
+    description: An unique identifier of the stored access policy.
+    types:
+    - uid: string
+  - name: accessPolicy
+    description: Access policy
+    types:
+    - uid: AccessPolicy
+- name: AccessPolicy
+  kind: object
+  properties:
+  - name: start
+    description: Start time of the access policy
+    types:
+    - uid: string
+  - name: expiry
+    description: Expiry time of the access policy
+    types:
+    - uid: string
+  - name: permission
+    description: List of abbreviated permissions.
+    types:
+    - uid: string
 examples:
 - name: ListShares
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2021-01-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2021-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -285,7 +360,7 @@ examples:
       }
 - name: ListDeletedShares
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2021-01-01&$expand=deleted
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2021-04-01&$expand=deleted
   responses:
   - statusCode: "200"
     body: >-
@@ -319,7 +394,7 @@ examples:
       }
 - name: ListShareSnapshots
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2021-01-01&$expand=snapshots
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/fileServices/default/shares?api-version=2021-04-01&$expand=snapshots
   responses:
   - statusCode: "200"
     body: >-
