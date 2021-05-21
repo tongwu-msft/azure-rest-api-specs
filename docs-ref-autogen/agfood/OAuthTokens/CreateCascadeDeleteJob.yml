@@ -1,14 +1,14 @@
 ### YamlMime:RESTOperation
-uid: agfood.farms.getcascadedeletejobdetails
-name: Get Cascade Delete Job Details
+uid: agfood.oauthtokens.createcascadedeletejob
+name: Create Cascade Delete Job
 service: AgFood Platform
-groupName: Farms
+groupName: O Auth Tokens
 apiVersion: 2021-03-31-preview
-summary: Get a cascade delete job for specified farm.
+summary: Create a cascade delete job for OAuth tokens.
 produces:
 - application/json
 paths:
-- content: GET {Endpoint}/farms/cascade-delete/{jobId}?api-version=2021-03-31-preview
+- content: PUT {Endpoint}/oauth/tokens/remove/{jobId}?farmerId={farmerId}&oauthProviderId={oauthProviderId}&api-version=2021-03-31-preview
 uriParameters:
 - name: Endpoint
   in: path
@@ -20,7 +20,19 @@ uriParameters:
 - name: jobId
   in: path
   isRequired: true
-  description: ID of the job.
+  description: Job ID supplied by end user.
+  types:
+  - uid: string
+- name: farmerId
+  in: query
+  isRequired: true
+  description: ID of the farmer.
+  types:
+  - uid: string
+- name: oauthProviderId
+  in: query
+  isRequired: true
+  description: ID of the OAuthProvider.
   types:
   - uid: string
 - name: api-version
@@ -30,7 +42,7 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
+- name: 202 Accepted
   description: Success
   types:
   - uid: CascadeDeleteJob
@@ -193,30 +205,22 @@ definitions:
     types:
     - uid: InnerError
 examples:
-- name: Farms_GetCascadeDeleteJobDetails
+- name: OAuthTokens_CreateCascadeDeleteJob
   request:
-    uri: GET {Endpoint}/farms/cascade-delete/JOB123?api-version=2021-03-31-preview
+    uri: PUT {Endpoint}/oauth/tokens/remove/JOBID123?farmerId=FARMER123&oauthProviderId=JOHNDEERE&api-version=2021-03-31-preview
   responses:
-  - statusCode: "200"
+  - statusCode: "202"
     body: >-
       {
-        "id": "JOB123",
-        "status": "Succeeded",
-        "message": "Job completed successfully.",
-        "durationInSeconds": 14.7977857,
-        "createdDateTime": "2021-04-19T11:31:20Z",
-        "lastActionDateTime": "2021-04-19T11:31:34Z",
-        "startTime": "2021-04-19T11:31:19Z",
-        "endTime": "2021-04-19T11:31:34Z",
-        "name": "John Smith's Farm",
-        "description": "Some description",
-        "properties": {
-          "Irrigated": "Yes",
-          "RetailerId": "Retailer123"
-        },
         "farmerId": "FARMER123",
-        "resourceId": "FARM123",
-        "resourceType": "farm"
+        "resourceId": "JOHNDEERE",
+        "resourceType": "oauthtokeninfo",
+        "id": "JOBID123",
+        "status": "Waiting",
+        "message": "Created cascade delete job for 'oauthtokeninfo' resource with id 'JOHNDEERE' and farmerId 'FARMER123'.",
+        "createdDateTime": "2021-05-13T20:04:39Z",
+        "lastActionDateTime": "2021-05-13T20:04:39Z",
+        "startTime": "2021-05-13T20:04:37Z"
       }
 security:
 - name: Authorization

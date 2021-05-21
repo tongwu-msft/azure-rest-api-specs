@@ -116,7 +116,8 @@
 ### [List](agfood/OAuthProviders/List.yml)
 ## O Auth Tokens
 ### [Overview](agfood/OAuthTokens.yml)
-### [Delete](agfood/OAuthTokens/Delete.yml)
+### [Create Cascade Delete Job](agfood/OAuthTokens/CreateCascadeDeleteJob.yml)
+### [Get Cascade Delete Job Details](agfood/OAuthTokens/GetCascadeDeleteJobDetails.yml)
 ### [Get O Auth Connection Link](agfood/OAuthTokens/GetOAuthConnectionLink.yml)
 ### [List](agfood/OAuthTokens/List.yml)
 ## Planting Data
