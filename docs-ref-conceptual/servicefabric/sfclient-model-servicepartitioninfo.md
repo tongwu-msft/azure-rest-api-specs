@@ -1,7 +1,7 @@
 ---
 title: "ServicePartitionInfo"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ServicePartitionInfo"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -30,10 +30,11 @@ translation.priority.mt:
 # ServicePartitionInfo
 
 Information about a partition of a Service Fabric service.
-# Inheritance
+## Inheritance
 
-The type 'ServicePartitionInfo' is a base type of the polymorphic type model with property 'ServiceKind' as the discriminator.
-Depending upon the value of the property the serialized contents on the wire will be one of the derived types listed below.
+'ServicePartitionInfo' is the base type of the polymorphic type model. The 'ServiceKind' property is the discriminator for the derived types. 
+The value of the 'ServiceKind' property determines the serialized content on the wire (one of the following derived types). 
+The following table lists the value of the `Kind` property and corresponding derived type it represents.
 ## Derived Types
 
 | ServiceKind | Derived Type |

@@ -1,3 +1,6 @@
+---
+title: "Error Codes for Update Storage Account (Azure Storage)"
+---
 # Error Codes for Update Storage Account
 
 These are the error codes for the Update Storage Account API.
@@ -11,6 +14,7 @@ These are the error codes for the Update Storage Account API.
 | MaxTagValueLengthExceeded                   | BadRequest (400) | A value given in the tags is too long.                                                        |
 | MissingEncryptionKeySource                  | BadRequest (400) | Encryption KeySource is missing from the request.                                             |
 | MissingEncryptionService                    | BadRequest (400) | Encryption Service is missing from the request.                                               |
+| MissingMSIHeaders                           | BadRequest (400) | Managed Service Identity (MSI) is not set for this account.                                   |
 | StorageAccountNameNotValid                  | BadRequest (400) | The specified account name is not valid.                                                      |
 | StorageAccountTypeConversionNotAllowed      | BadRequest (400) | The storage account does not support account type conversion                                  |
 | StorageAccountTypeConversionCannotBeChanged | BadRequest (400) | The storage account does not support SKU conversion.                                          |

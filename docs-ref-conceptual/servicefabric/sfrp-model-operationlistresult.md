@@ -1,7 +1,6 @@
 ---
 title: "OperationListResult"
-ms.date: "2017-05-16"
-ms.prod: "azure"
+ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -10,9 +9,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric Resource Manager REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -27,7 +26,7 @@ translation.priority.mt:
 ---
 # OperationListResult
 
-Describes the result of the request to list Service Fabric operations.
+Describes the result of the request to list Service Fabric resource provider operations.
 
 ## Properties
 | Name | Type | Required |
@@ -40,7 +39,7 @@ ____
 __Type__: array of [OperationResult](sfrp-model-operationresult.md) <br/>
 __Required__: No<br/>
 <br/>
-List of Service Fabric operations supported by the Microsoft.ServiceFabric resource provider.
+List of operations supported by the Service Fabric resource provider.
 
 ____
 ### nextLink

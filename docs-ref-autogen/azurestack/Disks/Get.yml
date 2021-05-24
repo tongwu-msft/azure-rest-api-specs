@@ -1,0 +1,221 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurestack.disks.get
+name: Get
+service: Azure Stack Admin
+groupName: Disks
+apiVersion: 2018-07-30-preview
+summary: Returns the disk.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute.Admin/locations/{location}/disks/{DiskId}?api-version=2018-07-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Location of the resource.
+  types:
+  - uid: string
+- name: DiskId
+  in: path
+  isRequired: true
+  description: The disk guid as identity.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- The disk has been returned.
+  types:
+  - uid: Disk
+requestHeader: []
+definitions:
+- name: Disk
+  description: Managed Disk.
+  kind: object
+  properties:
+  - name: properties.diskId
+    description: The disk id.
+    types:
+    - uid: string
+  - name: properties.status
+    description: The disk status.
+    types:
+    - uid: DiskState
+  - name: properties.sharePath
+    description: The disk share path.
+    types:
+    - uid: string
+  - name: properties.actualSizeGB
+    isReadyOnly: true
+    description: The actual size of disk in GB.
+    types:
+    - uid: integer
+  - name: properties.provisionSizeGB
+    isReadyOnly: true
+    description: The provision size of disk in GB.
+    types:
+    - uid: integer
+  - name: properties.managedBy
+    isReadyOnly: true
+    description: Compute resource Uri which owns this disk.
+    types:
+    - uid: string
+  - name: properties.userResourceId
+    isReadyOnly: true
+    description: The disk resource Uri from user view.
+    types:
+    - uid: string
+  - name: properties.diskType
+    isReadyOnly: true
+    description: The type of the disk resource.
+    types:
+    - uid: DiskResourceType
+  - name: properties.diskSku
+    isReadyOnly: true
+    description: the disk sku.
+    types:
+    - uid: AccountType
+  - name: id
+    isReadyOnly: true
+    description: ID of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of Resource.
+    types:
+    - uid: string
+  - name: location
+    description: Location of the resource.
+    types:
+    - uid: string
+- name: DiskState
+  description: Disk State.
+  kind: enum
+  properties:
+  - name: Undefined
+    types:
+    - uid: string
+  - name: Unattached
+    types:
+    - uid: string
+  - name: Attached
+    types:
+    - uid: string
+  - name: Reserved
+    types:
+    - uid: string
+  - name: ActiveSAS
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+  - name: All
+    types:
+    - uid: string
+  - name: Recommended
+    types:
+    - uid: string
+  - name: OfflineMigration
+    types:
+    - uid: string
+  - name: OnlineMigration
+    types:
+    - uid: string
+- name: DiskResourceType
+  description: Disk resource type.
+  kind: enum
+  properties:
+  - name: Undefined
+    types:
+    - uid: string
+  - name: Disk
+    types:
+    - uid: string
+  - name: Snapshot
+    types:
+    - uid: string
+  - name: RestorePoint
+    types:
+    - uid: string
+  - name: ManagedBlob
+    types:
+    - uid: string
+- name: AccountType
+  description: Disk Sku.
+  kind: enum
+  properties:
+  - name: Standard_LRS
+    types:
+    - uid: string
+  - name: Standard_ZRS
+    types:
+    - uid: string
+  - name: Standard_GRS
+    types:
+    - uid: string
+  - name: Standard_RAGRS
+    types:
+    - uid: string
+  - name: Premium_LRS
+    types:
+    - uid: string
+  - name: StandardSSD_LRS
+    types:
+    - uid: string
+  - name: UltraSSD_LRS
+    types:
+    - uid: string
+examples:
+- name: Returns the requested disk.
+  request:
+    uri: GET https://management.azure.com/subscriptions/04666444-56f0-4d4f-afc5-dbd6b134b084/providers/Microsoft.Compute.Admin/locations/redmond/disks/423e4eb4-f791-4d13-ad5b-4d415733b0d6?api-version=2018-07-30-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/04666444-56f0-4d4f-afc5-dbd6b134b084/providers/Microsoft.Compute.Admin/locations/redmond/disks/423e4eb4-f791-4d13-ad5b-4d415733b0d6",
+        "name": "redmond/423e4eb4-f791-4d13-ad5b-4d415733b0d6",
+        "type": "Microsoft.Compute.Admin/locations/disks",
+        "location": "redmond",
+        "properties": {
+          "diskId": "423e4eb4-f791-4d13-ad5b-4d415733b0d6",
+          "status": "Unattached",
+          "sharePath": "\\\\SU1FileServer.mydomain.com\\SU1_ObjStore_4",
+          "actualSizeGB": 183,
+          "provisionSizeGB": 200,
+          "userResourceId": "/subscriptions/4496690e-348e-4dc0-addc-17395c3966ba/resourceGroups/DISKRG6ECD14E6/providers/Microsoft.Compute/Disks/diskrptest9vb55sb15w",
+          "diskType": "Disk",
+          "diskSku": "Standard_LRS"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

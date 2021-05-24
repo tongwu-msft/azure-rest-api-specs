@@ -7,7 +7,6 @@ manager: douge
 ms.author: bryanla
 ms.date: 11/30/2016
 ms.topic: reference
-ms.prod: azure
 ms.technology: azure
 ms.devlang: rest-api
 ms.assetid: D35E3780-B2BC-4450-8EF6-2710A11F99A7
@@ -40,11 +39,11 @@ A REST API request/response pair can be separated into 5 components:
     - Resource path: specifies the resource or resource collection, which may include multiple segments used by the service in determining the selection of those resources. For example: `beta/applications/00003f25-7e1f-4278-9488-efc7bac53c4a/owners` could be used to query the list of owners of a specific application within the applications collection.
     - Query string (optional): used to provide additional simple parameters, such as the API version, resource selection criteria, etc.
 2. HTTP **request message header** fields
-    - A required [HTTP method](http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) (also known as an operation or verb), which tell the service what type of operation you are requesting. Azure REST APIs support GET, HEAD, PUT, POST, and PATCH methods.
+    - A required [HTTP method](https://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html) (also known as an operation or verb), which tell the service what type of operation you are requesting. Azure REST APIs support GET, HEAD, PUT, POST, and PATCH methods.
     - Optional additional header fields as required by the specified URI and HTTP method. For example, an Authorization header that provides a bearer token containing client authorization information for the request.
 3. Optional HTTP **request message body** fields, to support the URI and HTTP operation. For example, POST operations contain MIME-encoded objects passed as complex parameters. The MIME encoding type for the body should be specified in the `Content-type` request header as well, for POST/PUT operations. Note that some services require you to use a specific MIME type, such as `application/json`.  
 4. HTTP **response message header** fields
-    - An [HTTP status code](http://www.w3.org/Protocols/HTTP/HTRESP.html), ranging from 2xx success codes to 4xx/5xx error codes. Alternatively, a service-defined status code may be returned, as indicated in the API documentation. 
+    - An [HTTP status code](https://www.w3.org/Protocols/HTTP/HTRESP.html), ranging from 2xx success codes to 4xx/5xx error codes. Alternatively, a service-defined status code may be returned, as indicated in the API documentation. 
     - Optional additional header fields as required to support the request's response, such as a `Content-type` response header.
 5. Optional HTTP **response message body** fields
     - MIME-encoded response objects may be returned in the HTTP response body, such as a response from a GET method that is returning data. Typically these will be returned in a structured format as JSON or XML, as indicated by the `Content-type` response header. For example, when requesting an access token from Azure AD, it will be returned in the response body as the `access_token` element, one of several name/value paired objects in a data collection. In this example, a response header of `Content-Type: application/json` will also be included.
@@ -129,7 +128,7 @@ All secured REST requests require the HTTPS protocol for the URI scheme, providi
 The remainder of your service's request URI (the host, resource path, and any required query string parameters) will be determined by it's related REST API specification. For example, Azure Resource Manager provider APIs use `https://management.azure.com/`, classic Azure Service Management APIs use `https://management.core.windows.net/`, both require an `api-version` query string parameter, etc.
 
 #### Request header
-The request URI will be bundled in the request message header, along with any additional fields as determined by your service's REST API specification and the [HTTP specification](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html). Here are some common header fields you might need in your request:
+The request URI will be bundled in the request message header, along with any additional fields as determined by your service's REST API specification and the [HTTP specification](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html). Here are some common header fields you might need in your request:
 
 - `Authorization`: contains the OAuth2 bearer token to secure the request, as acquired earlier from Azure AD
 - `Content-Type`: typically set to "application/json" (name/value pairs in JSON format), and specifies the MIME type of the request body.
@@ -232,7 +231,7 @@ That's it! Once you have your Azure AD application registered, and a componentiz
 
 ## Related content
 
-- See the [Azure AD Developers Guide][AAD-Dev-Guide] for more information on application registration and the the Azure AD programming model, including a comprehensive index of HowTo and QuickStart articles, and sample code.
+- See [Microsoft identity platform (Azure Active Directory for developers)][AAD-Dev-Guide] for more information on application registration and the the Azure AD programming model, including a comprehensive index of HowTo and QuickStart articles, and sample code.
 - For testing HTTP requests/responses, check out
     - [Fiddler](http://www.telerik.com/fiddler). Fiddler is a free web debugging proxy that can intercept your REST requests, making it easy to diagnose the HTTP request and response messages.
     - [JWT Decoder](http://jwt.calebb.net/) and [JWT.io](https://jwt.io/), which make it quick and easy to dump the claims in your bearer token so you can validate their contents.
@@ -264,25 +263,25 @@ Please use the LiveFyre comments section that follows this article to provide fe
 -->
 <!--Reference style links: DOCS -->
 
-[AAD-Apps-And-Sps]: ../../Azure/active-directory/active-directory-application-objects.md
-[AAD-Auth-Libraries]: ../../Azure/active-directory/active-directory-authentication-libraries.md
-[AAD-Dev-Guide]: ../../Azure/active-directory/active-directory-developers-guide.md
-[AAD-Glossary-Access-Token]: ../../Azure/active-directory/active-directory-dev-glossary.md#access-token
-[AAD-Glossary-Authorization-Grant]: ../../Azure/active-directory/active-directory-dev-glossary.md#authorization-grant
-[AAD-Glossary-Claim]: ../../Azure/active-directory/active-directory-dev-glossary.md#claim
-[AAD-Glossary-Client-Application]: ../../Azure/active-directory/active-directory-dev-glossary.md#client-application
-[AAD-Glossary-Permissions]: ../../Azure/active-directory/active-directory-dev-glossary.md#permissions
-[AAD-Glossary-Tenant]: ../../Azure/active-directory/active-directory-dev-glossary.md#tenant
-[AAD-Glossary-Native-Client]: ../../Azure/active-directory/active-directory-dev-glossary.md#native-client
-[AAD-Glossary-Web-Client]: ../../Azure/active-directory/active-directory-dev-glossary.md#web-client
+[AAD-Apps-And-Sps]: /azure/active-directory/develop/app-objects-and-service-principals
+[AAD-Auth-Libraries]: /azure/active-directory/develop/active-directory-authentication-libraries
+[AAD-Dev-Guide]: /azure/active-directory/develop/
+[AAD-Glossary-Access-Token]: /azure/active-directory/develop/developer-glossary#access-token
+[AAD-Glossary-Authorization-Grant]: /azure/active-directory/develop/developer-glossary#authorization-grant
+[AAD-Glossary-Claim]: /azure/active-directory/develop/developer-glossary#claim
+[AAD-Glossary-Client-Application]: /azure/active-directory/develop/developer-glossary#client-application
+[AAD-Glossary-Permissions]: /azure/active-directory/develop/developer-glossary#permissions
+[AAD-Glossary-Tenant]: /azure/active-directory/develop/developer-glossary#tenant
+[AAD-Glossary-Native-Client]: /azure/active-directory/develop/developer-glossary#native-client
+[AAD-Glossary-Web-Client]: /azure/active-directory/develop/developer-glossary#web-client
 [AAD-Graph-Application]: https://msdn.microsoft.com/Library/Azure/Ad/Graph/api/entity-and-complex-type-reference#application-entity
-[AAD-Howto-Tenant]: ../../Azure/active-directory/active-directory-howto-tenant.md
-[AAD-Integrating-Apps]: ../../Azure/active-directory/active-directory-integrating-applications.md
-[AAD-OAuth-Client-Creds]: ../../Azure/active-directory/active-directory-protocols-oauth-service-to-service.md#request-an-access-token
-[AAD-Oauth-Code-Authz]: ../../Azure/active-directory/active-directory-protocols-oauth-code.md#request-an-authorization-code
-[AAD-Oauth-Code-Token]: ../../Azure/active-directory/active-directory-protocols-oauth-code.md#use-the-authorization-code-to-request-an-access-token
-[ARM-Create-Sp-Portal]: ../../Azure/resource-group-create-service-principal-portal.md
-[ARM-Provider-Summary]: ../../Azure/resource-manager-supported-services.md
-[SDK-NET]: ../../dotnet/api/index.md
-[SDK-JAVA]: ../../java/api/index.md
-[SDK-CLI]: ../../cli/azure/index.md
+[AAD-Howto-Tenant]: /azure/active-directory/fundamentals/active-directory-access-create-new-tenant
+[AAD-Integrating-Apps]: /azure/active-directory/develop/quickstart-v1-update-azure-ad-app
+[AAD-OAuth-Client-Creds]: /azure/active-directory/develop/v1-oauth2-client-creds-grant-flow#request-an-access-token
+[AAD-Oauth-Code-Authz]: /azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code
+[AAD-Oauth-Code-Token]: /azure/active-directory/develop/v1-protocols-oauth-code#use-the-authorization-code-to-request-an-access-token
+[ARM-Create-Sp-Portal]: /azure/active-directory/develop/howto-create-service-principal-portal
+[ARM-Provider-Summary]: /azure/azure-resource-manager/resource-manager-supported-services
+[SDK-NET]: /dotnet/azure/
+[SDK-JAVA]: /java/azure/
+[SDK-CLI]: /cli/azure/

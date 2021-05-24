@@ -1,8 +1,7 @@
 ---
 title: "ContentKeyAuthorizationPolicy"
 ms.custom: ""
-ms.date: "2016-07-14"
-ms.prod: "azure"
+ms.date: "03/14/2018"
 ms.reviewer: ""
 ms.service: "media-services"
 ms.suite: ""
@@ -35,13 +34,8 @@ Media Services supports multiple ways of authenticating users who make key reque
  This topic describes `ContentKeyAuthorizationPolicy` and shows how to use this entity.  
   
 > [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+
 ##  <a name="mediaprocessor_entity_properties"></a> ContentKeyAuthorizationPolicy Entity Properties  
   
 |Property|Type|Description|  
@@ -52,12 +46,8 @@ Media Services supports multiple ways of authenticating users who make key reque
   
 ## Create ContentKeyAuthorizationPolicy  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
+
  The following example creates a ContentKeyAuthorizationPolicy. You can try out the example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
-  
- Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -73,7 +63,7 @@ Accept: application/json
 Accept-Charset: UTF-8  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
   
 ```  
   
@@ -87,12 +77,7 @@ x-ms-version: 2.11
   
 ## Create ContentKeyAuthorizationPolicyOption  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
  The following example creates a ContentKeyAuthorizationPolicyOption with the following values set: an `Open` authorization restriction (`"KeyRestrictionType":0`) and BaselineHttp (MPEG baseline HTTP key protocol) key delivery method (`"KeyDeliveryType":2`). You can try out the example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
-  
- Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -108,7 +93,7 @@ Accept: application/json
 Accept-Charset: UTF-8  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 ```  
   
  Request body:  
@@ -147,7 +132,7 @@ Accept: application/json
 Accept-Charset: UTF-8  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
   
 ```  
   
@@ -162,7 +147,7 @@ x-ms-version: 2.11
       {    
          "Name":"Token Authorization Policy",  
          "KeyRestrictionType":1,  
-         "Requirements":"<TokenRestrictionTemplate xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.microsoft.com/Azure/MediaServices/KeyDelivery/TokenRestrictionTemplate/v1\"><AlternateVerificationKeys><TokenVerificationKey i:type=\"SymmetricVerificationKey\"><KeyValue>dliLr1QQJrATxNuoss2Btvk1KxcDJDHvTgu7fII5LEMGAt1p6J1YAD7I0EVd6D69nEkNUlkSDXfgaJ3cswrf8g==</KeyValue></TokenVerificationKey></AlternateVerificationKeys><Audience>urn:test</Audience><Issuer>http://testacs.com/</Issuer><PrimaryVerificationKey i:type=\"SymmetricVerificationKey\"><KeyValue>tqdCrSPGDZYJ4l3YyWR1NH7OdTvucBm7bU/ZQKPszV/hR54saMgyJK9bA9bay996NtNpcA0OruHETvy885g46A==</KeyValue></PrimaryVerificationKey><RequiredClaims><TokenClaim><ClaimType>urn:microsoft:azure:mediaservices:contentkeyidentifier</ClaimType><ClaimValue i:nil=\"true\" /></TokenClaim></RequiredClaims><TokenType>JWT</TokenType></TokenRestrictionTemplate>"  
+         "Requirements":"<TokenRestrictionTemplate xmlns:i=\"https://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.microsoft.com/Azure/MediaServices/KeyDelivery/TokenRestrictionTemplate/v1\"><AlternateVerificationKeys><TokenVerificationKey i:type=\"SymmetricVerificationKey\"><KeyValue>dliLr1QQJrATxNuoss2Btvk1KxcDJDHvTgu7fII5LEMGAt1p6J1YAD7I0EVd6D69nEkNUlkSDXfgaJ3cswrf8g==</KeyValue></TokenVerificationKey></AlternateVerificationKeys><Audience>urn:test</Audience><Issuer>http://testacs.com/</Issuer><PrimaryVerificationKey i:type=\"SymmetricVerificationKey\"><KeyValue>tqdCrSPGDZYJ4l3YyWR1NH7OdTvucBm7bU/ZQKPszV/hR54saMgyJK9bA9bay996NtNpcA0OruHETvy885g46A==</KeyValue></PrimaryVerificationKey><RequiredClaims><TokenClaim><ClaimType>urn:microsoft:azure:mediaservices:contentkeyidentifier</ClaimType><ClaimValue i:nil=\"true\" /></TokenClaim></RequiredClaims><TokenType>JWT</TokenType></TokenRestrictionTemplate>"  
       }  
    ]  
 }  
@@ -171,12 +156,7 @@ x-ms-version: 2.11
   
 ## Associate options with ContentKeyAuthorizationPolicy  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
  The following example associates ContentKeyAuthorizationPolicy with ContentKeyAuthorizationPolicyOption. You can try out the example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
-  
- Make sure to use valid redirected host URI and authorization bearer token values. For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -192,7 +172,7 @@ Accept-Charset: UTF-8
 Content-Type: application/json  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
   
 ```  
   

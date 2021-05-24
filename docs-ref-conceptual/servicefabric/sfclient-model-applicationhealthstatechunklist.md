@@ -1,7 +1,7 @@
 ---
 title: "ApplicationHealthStateChunkList"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ApplicationHealthStateChunkList"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -35,11 +35,11 @@ The list of application health state chunks in the cluster that respect the inpu
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [TotalCount](#totalcount) | integer (int64) | No |
-| [Items](#items) | array of [ApplicationHealthStateChunk](sfclient-model-applicationhealthstatechunk.md) | No |
+| [`TotalCount`](#totalcount) | integer (int64) | No |
+| [`Items`](#items) | array of [ApplicationHealthStateChunk](sfclient-model-applicationhealthstatechunk.md) | No |
 
 ____
-### TotalCount
+### `TotalCount`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
@@ -47,7 +47,7 @@ Total number of entity health state objects that match the specified filters fro
 
 
 ____
-### Items
+### `Items`
 __Type__: array of [ApplicationHealthStateChunk](sfclient-model-applicationhealthstatechunk.md) <br/>
 __Required__: No<br/>
 <br/>

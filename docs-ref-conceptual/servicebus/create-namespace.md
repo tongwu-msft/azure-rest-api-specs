@@ -1,8 +1,7 @@
 ---
 title: "Create Namespace"
 ms.custom: ""
-ms.date: "05/14/2015"
-ms.prod: "azure"
+ms.date: "07/08/2020"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -10,9 +9,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 9e142123-98c6-4ca5-b8ad-363b113b39fa
 caps.latest.revision: 13
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,7 +33,7 @@ Creates a new service namespace. Once created, this namespace’s resource manif
   
 2.  The name matches regex ^[a-zA-Z][a-zA-Z0-9-]*$ (the namespace name can contain only Letters, numbers, hyphens “-“).  
   
-3.  The name does not end with “-“, “-sb“, “-mgmt“, “-cache“, or “-appfabric“.  
+3.  The name does not end with “-“, “-sb“ or “-mgmt“.  
   
 4.  The name is available via a call to provisioning i.e. the name must be unique across Azure to be successfully created.  
   
@@ -75,10 +74,10 @@ Creates a new service namespace. Once created, this namespace’s resource manif
 |401|Authorization failure.|  
 |500|Internal error.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179357.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/dd179357.aspx).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response Header|Description|  
 |---------------------|-----------------|  

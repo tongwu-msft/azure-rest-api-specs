@@ -1,45 +1,31 @@
 ---
-title: "Snapshot Blob"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Snapshot Blob (REST API) - Azure Storage
+description: The Snapshot Blob operation creates a read-only snapshot of a blob.
+author: pemari-msft
+
+ms.date: 07/06/2020
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 64468b0e-315a-42ca-a090-e32e9bade1d7
-caps.latest.revision: 30
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Snapshot Blob
+
 The `Snapshot Blob` operation creates a read-only snapshot of a blob.  
   
 ## Request  
  The `Snapshot Blob` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=snapshot`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=snapshot`|HTTP/1.1|  
   
 ### Emulated Storage Service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated account name:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=snapshot`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=snapshot`|HTTP/1.1|  
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
@@ -55,18 +41,29 @@ The `Snapshot Blob` operation creates a read-only snapshot of a blob.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-meta-name:value`|Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the base blob metadata to the snapshot. If one or more name-value pairs are specified, the snapshot is created with the specified metadata, and metadata is not copied from the base blob.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](http://msdn.microsoft.com/library/aa664670%28VS.71%29.aspx). See [Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md) for more information.|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-meta-name:value`|Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value pairs are specified, the operation will copy the base blob metadata to the snapshot. If one or more name-value pairs are specified, the snapshot is created with the specified metadata, and metadata is not copied from the base blob.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference). See [Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md) for more information.|  
 |`If-Modified-Since`|Optional. A `DateTime` value. Specify this conditional header to snapshot the blob only if it has been modified since the specified date/time. If the base blob has not been modified, the Blob service returns status code 412 (Precondition Failed).|  
 |`If-Unmodified-Since`|Optional. A `DateTime` value. Specify this conditional header to snapshot the blob only if it has not been modified since the specified date/time. If the base blob has been modified, the Blob service returns status code 412 (Precondition Failed).|  
 |`If-Match`|Optional. An ETag value. Specify an ETag value for this conditional header to snapshot the blob only if its ETag value matches the value specified. If the values do not match, the Blob service returns status code 412 (Precondition Failed).|  
 |`If-None-Match`|Optional. An ETag value.<br /><br /> Specify an ETag value for this conditional header to snapshot the blob only if its ETag value does not match the value specified. If the values are identical, the Blob service returns status code 412 (Precondition Failed).|  
-|`x-ms-lease-id:<ID>`|Optional. If this header is specified, the operation will be performed only if both of the following conditions are met:<br /><br /> -   The blob's lease is currently active.<br />-   The lease ID specified in the request matches that of the blob.<br /><br /> If this header is specified and both of these conditions are not met, the request will fail and the `Snapshot Blob` operation will fail with status code 412 (Precondition Failed).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-encryption-scope`|Optional. Indicates the encryption scope to use to encrypt the request contents. This header is supported in versions 2019-02-02 or later.|  
+|`x-ms-lease-id:<ID>`|Optional. If this header is specified, the operation will be performed only if both of the following conditions are met:<br /><br /> - The blob's lease is currently active.<br />- The lease ID specified in the request matches that of the blob.<br /><br /> If this header is specified and both of these conditions are not met, the request will fail and the `Snapshot Blob` operation will fail with status code 412 (Precondition Failed).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
  This operation also supports the use of conditional headers to execute the operation only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
+  
+### Request Headers (Customer-provided encryption keys)
+  
+Beginning with version 2019-02-02, the following headers may be specified on the request to encrypt a blob with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional. If a blob has previously been encrypted with a customer-provided key, then these headers must be included on the request to complete the read operation successfully.
+  
+|Request header|Description|  
+|--------------------|-----------------|  
+|`x-ms-encryption-key`|Required. The Base64-encoded AES-256 encryption key.|  
+|`x-ms-encryption-key-sha256`|Required. The Base64-encoded SHA256 hash of the encryption key.|  
+|`x-ms-encryption-algorithm: AES256`|Required. Specifies the algorithm to use for encryption. The value of this header must be `AES256`.|  
   
 ### Request Body  
  None.  
@@ -80,7 +77,7 @@ The `Snapshot Blob` operation creates a read-only snapshot of a blob.
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Syntax|Description|  
 |------------|-----------------|  
@@ -90,6 +87,11 @@ The `Snapshot Blob` operation creates a read-only snapshot of a blob.
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and later.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
+|`x-ms-request-server-encrypted: true/false`|Version 2019-02-02 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
+|`x-ms-encryption-key-sha256`|Version 2019-02-02 or newer. This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
+|`x-ms-encryption-scope`|Version 2019-02-02 or newer. This header is returned if the request used an encryption scope, so the client can ensure the contents of the request are successfully encrypted using the encryption scope.|  
+|`x-ms-version-id: <DateTime>`|Version 2019-12-12 and newer. This header returns an opaque DateTime value that uniquely identifies the blob. The value of this header indicates the Version of the blob, and may be used in subsequent requests to access the blob.|  
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
  None.  
@@ -106,9 +108,9 @@ The `Snapshot Blob` operation creates a read-only snapshot of a blob.
   
  The DateTime value identifies the snapshot on the URI. For example, a base blob and its snapshots have URIs similar to the following:  
   
--   **Base blob:** `http://myaccount.blob.core.windows.net/mycontainer/myblob`  
+- **Base blob:** `http://myaccount.blob.core.windows.net/mycontainer/myblob`  
   
--   **Snapshot:** `http://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`  
+- **Snapshot:** `http://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`  
   
  Note that each time you call the `Snapshot Blob` operation, a new snapshot is created, with a unique DateTime value. A blob can support any number of snapshots. Existing snapshots are never overwritten, but must be deleted explicitly by calling [Delete Blob](Delete-Blob.md) and setting the `x-ms-include-snapshots` header to the appropriate value.  
   
@@ -120,39 +122,41 @@ The `Snapshot Blob` operation creates a read-only snapshot of a blob.
   
  When you create a snapshot of a blob, the following system properties are copied to the snapshot with the same values:  
   
--   `Content-Type`  
+- `Content-Type`  
   
--   `Content-Encoding`  
+- `Content-Encoding`  
   
--   `Content-Language`  
+- `Content-Language`  
   
--   `Content-Length`  
+- `Content-Length`  
   
--   `Cache-Control`  
+- `Cache-Control`  
   
--   `Content-MD5`  
+- `Content-MD5`  
   
--   `x-ms-blob-sequence-number (for page blobs only)`  
+- `x-ms-blob-sequence-number (for page blobs only)`  
   
--   `x-ms-blob-committed-block-count (for append blobs only)`  
+- `x-ms-blob-committed-block-count (for append blobs only)`  
   
--   `x-ms-copy-id` (version 2012-02-12 and newer)  
+- `x-ms-copy-id` (version 2012-02-12 and newer)  
   
--   `x-ms-copy-status` (version 2012-02-12 and newer)  
+- `x-ms-copy-status` (version 2012-02-12 and newer)  
   
--   `x-ms-copy-source` (version 2012-02-12 and newer)  
+- `x-ms-copy-source` (version 2012-02-12 and newer)  
   
--   `x-ms-copy-progress` (version 2012-02-12 and newer)  
+- `x-ms-copy-progress` (version 2012-02-12 and newer)  
   
--   `x-ms-copy-completion-time` (version 2012-02-12 and newer)  
+- `x-ms-copy-completion-time` (version 2012-02-12 and newer)  
   
--   `x-ms-copy-status-description` (version 2012-02-12 and newer)  
+- `x-ms-copy-status-description` (version 2012-02-12 and newer)  
   
  The base blob's committed block list is also copied to the snapshot, if the blob is a block blob. Any uncommitted blocks are not copied.  
   
  The snapshot blob is always the same size as the base blob at the time the snapshot is taken, so the value of the `Content-Length` header for the snapshot blob will be the same as that for the base blob.  
   
  You can specify one or more new metadata values for the snapshot by specifying the `x-ms-meta-name:value` header on the request. If this header is not specified, the metadata associated with the base blob is copied to the snapshot.  
+  
+ Any tags associated with the base blob are copied to the snapshot.  It is not possible to set new tag values for the snapshot.  
   
  **Specifying Conditional Headers**  
   
@@ -162,9 +166,9 @@ The `Snapshot Blob` operation creates a read-only snapshot of a blob.
   
  If the base blob has an active lease, you can snapshot the blob as long as either of the following conditions are true of the request:  
   
--   The conditional `x-ms-lease-id` header is specified, and the active lease ID for the base blob is included in the request. This condition specifies that the snapshot be created only if the lease is active and the specified lease ID matches that associated with the blob.  
+- The conditional `x-ms-lease-id` header is specified, and the active lease ID for the base blob is included in the request. This condition specifies that the snapshot be created only if the lease is active and the specified lease ID matches that associated with the blob.  
   
--   The `x-ms-lease-id` header is not specified at all, in which case the exclusive-write lease is ignored.  
+- The `x-ms-lease-id` header is not specified at all, in which case the exclusive-write lease is ignored.  
   
  Note that a lease associated with the base blob is not copied to the snapshot. Snapshots cannot be leased.  
   
@@ -175,31 +179,29 @@ The `Snapshot Blob` operation creates a read-only snapshot of a blob.
  You can copy a snapshot blob over its base blob to restore an earlier version of a blob. The snapshot remains, but the base blob is overwritten with a copy that can be both read and written.  
 
 > [!NOTE]
-
->  - Promoting a snapshot in this way does not incur an additional charge for storage resources, since blocks or pages are shared between the snapshot and the base blob.  
-
->  - Setting a blob tier is not allowed on a snapshot or on block blob that has snapshots.
-
->  - If a block blob has tier set then creating a snapshot is not allowed.
-
->  - Tiers on blob storage accounts are currently in preview. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers).
+> Promoting a snapshot does not incur an additional charge for storage resources, since blocks or pages are shared between the snapshot and the base blob.  
+> Setting a blob tier on a snapshot is allowed starting REST version 2019-12-12. If a tier is set on a root blob, then all snapshots will inherit tier from base blob. Taking a snapshot on an archived blob will fail. Explicitly setting tier on an object will result in billing for the full size of the object. Taking a snapshot of a blob that has tier set would result in full copy billing of root blob and the snapshot. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
   
  **Snapshots in Premium Storage Accounts**  
   
  There are a few differences between Azure Premium Storage accounts and standard storage accounts in terms of snapshots:  
   
--   The number of snapshots per page blob in a Premium Storage account is limited to 100. If that limit is exceeded, the `Snapshot Blob` operation returns error code 409 (SnapshotCountExceeded).  
+- The number of snapshots per page blob in a Premium Storage account is limited to 100. If that limit is exceeded, the `Snapshot Blob` operation returns error code 409 (SnapshotCountExceeded).  
   
--   A snapshot of a page blob in a Premium Storage account may be taken once every ten minutes. If that rate is exceeded, the `Snapshot Blob` operation returns error code 409 (SnaphotOperationRateExceeded).  
+- A snapshot of a page blob in a Premium Storage account may be taken once every ten minutes. If that rate is exceeded, the `Snapshot Blob` operation returns error code 409 (SnaphotOperationRateExceeded).  
   
--   Reading a snapshot of a page blob in a Premium Storage account via [Get Blob](Get-Blob.md) is not supported. Calling `Get Blob` on a snapshot in a Premium Storage account returns error code 400 (Invalid Operation). However, calling [Get Blob Properties](Get-Blob-Properties.md) and [Get Blob Metadata](Get-Blob-Metadata.md) against a snapshot is supported.  
+- Reading a snapshot of a page blob in a Premium Storage account via [Get Blob](Get-Blob.md) is not supported. Calling `Get Blob` on a snapshot in a Premium Storage account returns error code 400 (Invalid Operation). However, calling [Get Blob Properties](Get-Blob-Properties.md) and [Get Blob Metadata](Get-Blob-Metadata.md) against a snapshot is supported.  
   
      To read a snapshot, you can use the [Copy Blob](Copy-Blob.md) operation to copy a snapshot to another page blob in the account. The destination blob for the copy operation must not have any existing snapshots. If the destination blob does have snapshots, then `Copy Blob` returns error code 409 (SnapshotsPresent).  
   
  For more information on calling REST operations on Azure Premium Storage resources, see [Using Blob Service Operations with Azure Premium Storage](Using-Blob-Service-Operations-with-Azure-Premium-Storage.md).  
+
+  **Snapshots with versioning enabled**
+
+ When versioning is enabled, creating a snapshot of a blob also generates a new version and saves the previous version of the base blob. The `x-ms-version-id` parameter returns an opaque DateTime value for the new version of the blob.
   
-## See Also  
+## See also
  [Creating a Snapshot of a Blob](Creating-a-Snapshot-of-a-Blob.md)   
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)

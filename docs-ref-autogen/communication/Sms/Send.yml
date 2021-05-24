@@ -1,0 +1,234 @@
+### YamlMime:RESTOperation
+uid: communication.sms.send
+name: Send
+service: Communication
+groupName: Sms
+apiVersion: 2021-03-07
+summary: Sends a SMS message from a phone number that belongs to the authenticated account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/sms?api-version=2021-03-07
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The communication resource, for example https://my-resource.communication.azure.com
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Accepted
+  types:
+  - uid: SmsSendResponse
+requestBody:
+- name: default
+  parameters:
+  - name: from
+    in: body
+    isRequired: true
+    description: The sender's phone number in E.164 format that is owned by the authenticated account.
+    types:
+    - uid: string
+  - name: smsRecipients
+    in: body
+    isRequired: true
+    description: The recipient's phone number in E.164 format. In this version, a minimum of 1 and upto 100 recipients in the list are supported.
+    types:
+    - uid: SmsRecipient
+      isArray: true
+  - name: message
+    in: body
+    isRequired: true
+    description: The contents of the message that will be sent to the recipient. The allowable content is defined by RFC 5724.
+    types:
+    - uid: string
+  - name: smsSendOptions
+    in: body
+    description: Optional configuration for sending SMS messages.
+    types:
+    - uid: SmsSendOptions
+requestHeader: []
+definitions:
+- name: SmsRecipient
+  description: Recipient details for sending SMS messages.
+  kind: object
+  properties:
+  - name: to
+    description: The recipient's phone number in E.164 format.
+    types:
+    - uid: string
+  - name: repeatabilityRequestId
+    description: If specified, the client directs that the request is repeatable; that is, the client can make the request multiple times with the same Repeatability-Request-ID and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-ID is an opaque string representing a client-generated, 36-character hexadecimal case-insensitive encoding of a UUID (GUID), identifier for the request.
+    types:
+    - uid: string
+  - name: repeatabilityFirstSent
+    description: MUST be sent by clients to specify that a request is repeatable. Repeatability-First-Sent is used to specify the date and time at which the request was first created.eg- Tue, 26 Mar 2019 16:06:51 GMT
+    types:
+    - uid: string
+- name: SmsSendOptions
+  description: Optional configuration for sending SMS messages.
+  kind: object
+  properties:
+  - name: enableDeliveryReport
+    description: Enable this flag to receive a delivery report for this message on the Azure Resource EventGrid.
+    types:
+    - uid: boolean
+  - name: tag
+    description: Use this field to provide metadata that will then be sent back in the corresponding Delivery Report.
+    types:
+    - uid: string
+- name: SmsSendResponse
+  description: Response for a successful or multi status send Sms request.
+  kind: object
+  properties:
+  - name: value
+    description: Response for a single recipient.
+    types:
+    - uid: SmsSendResponseItem
+      isArray: true
+- name: SendMessageRequest
+  description: Represents the properties of a send message request.
+  kind: object
+  properties:
+  - name: from
+    description: The sender's phone number in E.164 format that is owned by the authenticated account.
+    types:
+    - uid: string
+  - name: smsRecipients
+    description: The recipient's phone number in E.164 format. In this version, a minimum of 1 and upto 100 recipients in the list are supported.
+    types:
+    - uid: SmsRecipient
+      isArray: true
+  - name: message
+    description: The contents of the message that will be sent to the recipient. The allowable content is defined by RFC 5724.
+    types:
+    - uid: string
+  - name: smsSendOptions
+    description: Optional configuration for sending SMS messages.
+    types:
+    - uid: SmsSendOptions
+- name: SmsSendResponseItem
+  description: Response for a single recipient.
+  kind: object
+  properties:
+  - name: to
+    description: The recipient's phone number in E.164 format.
+    types:
+    - uid: string
+  - name: messageId
+    description: The identifier of the outgoing Sms message. Only present if message processed.
+    types:
+    - uid: string
+  - name: httpStatusCode
+    description: HTTP Status code.
+    types:
+    - uid: integer
+  - name: repeatabilityResult
+    description: The result of a repeatable request with one of the case-insensitive values accepted or rejected.
+    types:
+    - uid: accepted
+    - uid: rejected
+    typesTitle: enum
+  - name: successful
+    description: Indicates if the message is processed successfully or not.
+    types:
+    - uid: boolean
+  - name: errorMessage
+    description: Optional error message in case of 4xx/5xx/repeatable errors.
+    types:
+    - uid: string
+examples:
+- name: SuccessfulSend
+  request:
+    uri: POST https://contoso.communication.azure.com//sms?api-version=2021-03-07
+    body: >-
+      {
+        "from": "+18001110000",
+        "smsRecipients": [
+          {
+            "to": "+11234567890"
+          },
+          {
+            "to": "+11234567891"
+          },
+          {
+            "to": "+112345678901"
+          },
+          {
+            "to": "+11234567892"
+          },
+          {
+            "to": "+11234567893",
+            "repeatabilityRequestId": "fda6d242-46aa-4247-8bf6-619a1206f9c3",
+            "repeatabilityFirstSent": "Mon, 01 Apr 2019 06:22:03 GMT"
+          },
+          {
+            "to": "+11234567894",
+            "repeatabilityRequestId": "fda6d242-46aa-4247-8bf6-619a1206f9c3"
+          }
+        ],
+        "message": "Hello world!",
+        "smsSendOptions": {
+          "enableDeliveryReport": true,
+          "tag": "testSmsRequest"
+        }
+      }
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "value": [
+          {
+            "to": "+11234567890",
+            "messageId": "Outgoing_20200610203725bfd4ba70-70bf-4f77-925d-c0bdb5161bb3",
+            "httpStatusCode": 202,
+            "successful": true
+          },
+          {
+            "to": "+11234567891",
+            "messageId": "Outgoing_2020061020025100d1-d07e-4b19-b25d-13525d552822",
+            "httpStatusCode": 202,
+            "successful": true
+          },
+          {
+            "to": "+112345678901",
+            "httpStatusCode": 400,
+            "errorMessage": "Invalid To phone number format.",
+            "successful": false
+          },
+          {
+            "to": "+11234567892",
+            "messageId": "Outgoing_2020061020025100d1-d07e-4b19-b25d-13525d552822",
+            "httpStatusCode": 503,
+            "errorMessage": "ServiceUnavailable",
+            "successful": false
+          },
+          {
+            "to": "+11234567893",
+            "messageId": "Outgoing_2020061020025100d1-d07e-4b19-b25d-13525d552822_noam",
+            "httpStatusCode": 202,
+            "repeatabilityResult": "accepted",
+            "successful": true
+          },
+          {
+            "to": "+11234567894",
+            "messageId": "Outgoing_2020061020025100d1-d07e-4b19-b25d-13525d552822",
+            "httpStatusCode": 400,
+            "repeatabilityResult": "rejected",
+            "errorMessage": "Request sent with Invalid DateTime value for repeatability-first-sent. Expected is DateTime ,RFC1123 pattern.",
+            "successful": false
+          }
+        ]
+      }
+security: []
+errorCodes: []

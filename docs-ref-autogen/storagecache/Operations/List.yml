@@ -1,0 +1,264 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagecache.operations.list
+name: List
+service: Storagecache
+groupName: Operations
+apiVersion: 2021-03-01
+summary: Lists all of the available Resource Provider operations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.StorageCache/operations?api-version=2021-03-01
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The list of available Resource Provider operations.
+  types:
+  - uid: ApiOperationListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ApiOperationListResult
+  description: Result of the request to list Resource Provider operations. It contains a list of operations and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: nextLink
+    description: URL to get the next set of operation list results if there are any.
+    types:
+    - uid: string
+  - name: value
+    description: List of Resource Provider operations supported by the Microsoft.StorageCache resource provider.
+    types:
+    - uid: ApiOperation
+      isArray: true
+- name: CloudError
+  description: An error response.
+  kind: object
+  properties:
+  - name: error
+    description: The body of the error.
+    types:
+    - uid: CloudErrorBody
+- name: ApiOperation
+  description: 'REST API operation description: see https://github.com/Azure/azure-rest-api-specs/blob/master/documentation/openapi-authoring-automated-guidelines.md#r3023-operationsapiimplementation'
+  kind: object
+  properties:
+  - name: display
+    description: The object that represents the operation.
+    types:
+    - uid: Display
+  - name: origin
+    description: Origin of the operation.
+    types:
+    - uid: string
+  - name: isDataAction
+    description: The flag that indicates whether the operation applies to data plane.
+    types:
+    - uid: boolean
+  - name: name
+    description: 'Operation name: {provider}/{resource}/{operation}'
+    types:
+    - uid: string
+  - name: properties.serviceSpecification
+    description: Specification of the all the metrics provided for a resource type.
+    types:
+    - uid: ServiceSpecification
+- name: CloudErrorBody
+  description: An error response.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+- name: Display
+  description: The object that represents the operation.
+  kind: object
+  properties:
+  - name: operation
+    description: 'Operation type: Read, write, delete, etc.'
+    types:
+    - uid: string
+  - name: provider
+    description: 'Service provider: Microsoft.StorageCache'
+    types:
+    - uid: string
+  - name: resource
+    description: 'Resource on which the operation is performed: Cache, etc.'
+    types:
+    - uid: string
+  - name: description
+    description: The description of the operation
+    types:
+    - uid: string
+- name: ServiceSpecification
+  description: Specification of the all the metrics provided for a resource type.
+  kind: object
+  properties:
+  - name: metricSpecifications
+    description: Details about operations related to metrics.
+    types:
+    - uid: MetricSpecification
+      isArray: true
+- name: MetricSpecification
+  description: Details about operation related to metrics.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the metric.
+    types:
+    - uid: string
+  - name: displayName
+    description: Localized display name of the metric.
+    types:
+    - uid: string
+  - name: displayDescription
+    description: The description of the metric.
+    types:
+    - uid: string
+  - name: unit
+    description: The unit that the metric is measured in.
+    types:
+    - uid: string
+  - name: aggregationType
+    description: The type of metric aggregation.
+    types:
+    - uid: string
+  - name: supportedAggregationTypes
+    description: Support metric aggregation type.
+    types:
+    - uid: string
+      isArray: true
+  - name: metricClass
+    description: Type of metrics.
+    types:
+    - uid: string
+  - name: dimensions
+    description: Dimensions of the metric
+    types:
+    - uid: MetricDimension
+      isArray: true
+- name: MetricDimension
+  description: Specifications of the Dimension of metrics.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the dimension
+    types:
+    - uid: string
+  - name: displayName
+    description: Localized friendly display name of the dimension
+    types:
+    - uid: string
+  - name: internalName
+    description: Internal name of the dimension.
+    types:
+    - uid: string
+  - name: toBeExportedForShoebox
+    description: To be exported to shoe box.
+    types:
+    - uid: boolean
+examples:
+- name: StorageTargets_List
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.StorageCache/operations?api-version=2021-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.StorageCache/caches/write",
+            "display": {
+              "operation": "Create or Update Cache",
+              "provider": "Azure Storage Cache",
+              "resource": "Caches"
+            }
+          },
+          {
+            "name": "Microsoft.StorageCache/caches/delete",
+            "display": {
+              "operation": "Delete Cache",
+              "provider": "Azure Storage Cache",
+              "resource": "Caches"
+            }
+          },
+          {
+            "origin": "system",
+            "name": "Microsoft.StorageCache/caches/providers/Microsoft.Insights/metricDefinitions/read",
+            "isDataAction": false,
+            "display": {
+              "operation": "Get Cache Metric Definitions",
+              "provider": "Microsoft Azure HPC Cache",
+              "resource": "StorageCache Metric Definitions",
+              "description": "Reads Cache Metric Definitions."
+            },
+            "properties": {
+              "serviceSpecification": {
+                "metricSpecifications": [
+                  {
+                    "name": "ClientIOPS",
+                    "displayName": "Total Client IOPS",
+                    "displayDescription": "The rate of client file operations processed by the Cache.",
+                    "unit": "Count",
+                    "aggregationType": "Average",
+                    "supportedAggregationTypes": [
+                      "Minimum",
+                      "Maximum",
+                      "Average"
+                    ],
+                    "metricClass": "Transactions"
+                  },
+                  {
+                    "name": "ClientLatency",
+                    "displayName": "Average Client Latency",
+                    "displayDescription": "Average latency of client file operations to the Cache.",
+                    "unit": "Milliseconds",
+                    "aggregationType": "Average",
+                    "supportedAggregationTypes": [
+                      "Minimum",
+                      "Maximum",
+                      "Average"
+                    ],
+                    "metricClass": "Latency"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

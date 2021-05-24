@@ -1,0 +1,299 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.netapp.accounts.get
+name: Get
+service: Azure NetApp Files
+groupName: Accounts
+apiVersion: 2020-12-01
+summary: "Describe a NetApp Account  \nGet the NetApp account"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}?api-version=2020-12-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the NetApp account
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: netAppAccount
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+requestHeader: []
+definitions:
+- name: netAppAccount
+  description: NetApp account resource
+  kind: object
+  properties:
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: The system meta data relating to this resource.
+    types:
+    - uid: systemData
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Azure lifecycle management
+    types:
+    - uid: string
+  - name: properties.activeDirectories
+    description: Active Directories
+    types:
+    - uid: activeDirectory
+      isArray: true
+  - name: properties.encryption
+    description: Encryption settings
+    types:
+    - uid: accountEncryption
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: activeDirectory
+  description: Active Directory
+  kind: object
+  properties:
+  - name: activeDirectoryId
+    description: Id of the Active Directory
+    types:
+    - uid: string
+  - name: username
+    description: Username of Active Directory domain administrator
+    types:
+    - uid: string
+  - name: password
+    description: Plain text password of Active Directory domain administrator, value is masked in the response
+    types:
+    - uid: string
+  - name: domain
+    description: Name of the Active Directory domain
+    types:
+    - uid: string
+  - name: dns
+    description: Comma separated list of DNS server IP addresses (IPv4 only) for the Active Directory domain
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Status of the Active Directory
+    types:
+    - uid: ActiveDirectoryStatus
+  - name: statusDetails
+    isReadyOnly: true
+    description: Any details in regards to the Status of the Active Directory
+    types:
+    - uid: string
+  - name: smbServerName
+    description: NetBIOS name of the SMB server. This name will be registered as a computer account in the AD and used to mount volumes
+    types:
+    - uid: string
+  - name: organizationalUnit
+    description: The Organizational Unit (OU) within the Windows Active Directory
+    types:
+    - uid: string
+  - name: site
+    description: The Active Directory site the service will limit Domain Controller discovery to
+    types:
+    - uid: string
+  - name: backupOperators
+    description: Users to be added to the Built-in Backup Operator active directory group. A list of unique usernames without domain specifier
+    types:
+    - uid: string
+      isArray: true
+  - name: kdcIP
+    description: kdc server IP addresses for the active directory machine. This optional parameter is used only while creating kerberos volume.
+    types:
+    - uid: string
+  - name: adName
+    description: Name of the active directory machine. This optional parameter is used only while creating kerberos volume
+    types:
+    - uid: string
+  - name: serverRootCACertificate
+    description: When LDAP over SSL/TLS is enabled, the LDAP client is required to have base64 encoded Active Directory Certificate Service's self-signed root CA certificate, this optional parameter is used only for dual protocol with LDAP user-mapping volumes.
+    types:
+    - uid: string
+  - name: aesEncryption
+    description: If enabled, AES encryption will be enabled for SMB communication.
+    types:
+    - uid: boolean
+  - name: ldapSigning
+    description: Specifies whether or not the LDAP traffic needs to be signed.
+    types:
+    - uid: boolean
+  - name: securityOperators
+    description: Domain Users in the Active directory to be given SeSecurityPrivilege privilege (Needed for SMB Continuously available shares for SQL). A list of unique usernames without domain specifier
+    types:
+    - uid: string
+      isArray: true
+  - name: ldapOverTLS
+    description: Specifies whether or not the LDAP traffic needs to be secured via TLS.
+    types:
+    - uid: boolean
+  - name: allowLocalNfsUsersWithLdap
+    description: " If enabled, NFS client local users can also (in addition to LDAP users) access the NFS volumes."
+    types:
+    - uid: boolean
+- name: accountEncryption
+  description: Encryption settings
+  kind: object
+  properties:
+  - name: keySource
+    description: "Encryption Key Source. Possible values are: 'Microsoft.NetApp'."
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ActiveDirectoryStatus
+  description: Status of the Active Directory
+  kind: enum
+  properties:
+  - name: Created
+    description: Active Directory created but not in use
+    types:
+    - uid: string
+  - name: Updating
+    description: Active Directory Updating
+    types:
+    - uid: string
+  - name: InUse
+    description: Active Directory in use by SMB Volume
+    types:
+    - uid: string
+  - name: Deleted
+    description: Active Directory Deleted
+    types:
+    - uid: string
+  - name: Error
+    description: Error with the Active Directory
+    types:
+    - uid: string
+examples:
+- name: Accounts_Get
+  request:
+    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1?api-version=2020-12-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1",
+        "name": "account1",
+        "type": "Microsoft.NetApp/netAppAccounts",
+        "location": "eastus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "activeDirectories": [
+            {
+              "site": "SiteName",
+              "activeDirectoryId": "02da3711-6c58-2d64-098a-e3af7afaf936",
+              "username": "ad_user_name",
+              "domain": "10.10.10.3",
+              "dns": "10.10.10.3, 10.10.10.4",
+              "status": "InUse",
+              "smbServerName": "SMBServer",
+              "organizationalUnit": "Engineering",
+              "statusDetails": "Status Details",
+              "aesEncryption": true,
+              "ldapSigning": true
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

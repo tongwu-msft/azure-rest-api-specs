@@ -1,8 +1,7 @@
 ---
 title: "EncodingReservedUnitType"
 ms.custom: ""
-ms.date: "2016-07-14"
-ms.prod: "azure"
+ms.date: "03/14/2018"
 ms.reviewer: ""
 ms.service: "media-services"
 ms.suite: ""
@@ -32,18 +31,13 @@ A Media Services account is associated with a `Reserved Unit Type` which determi
   
  To update the reserved unit type or the number of reserved units, use the REST API described in this topic. For more information, see the [Scaling media processing](https://azure.microsoft.com/documentation/articles/media-services-scale-media-processing-overview/).  
   
- By default, every Media Services account can scale to up to 25 encoding units. To request a higher limit, see [How to request a higher limit for updatable quotas](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e).  
+ By default, every Media Services account can scale to up to 25 encoding units. To request a higher limit, see [How to request a higher limit for updatable quotas](https://msdn.microsoft.com/82f7e538-6bdf-4883-aa50-24574cc4996e).  
   
  The highest number of units specified for the 24-hour period is used in calculating the cost.  
   
 > [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+
  This topic gives an overview of the `EncodingReservedUnitType` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
 -   [Get EncodingReservedUnitType](#get_EncodingReservedUnitType)  
@@ -57,7 +51,7 @@ A Media Services account is associated with a `Reserved Unit Type` which determi
 |----------|----------|-----------------|  
 |`AccountId`<br /><br /> Required. Read-Only|Edm.GUID|Media Services account Id.|  
 |`ReservedUnitType`<br /><br /> Required.|Edm.Int|Reserved unit type can be one of the following: `S1` (0), `S2` (1), `S3` (2).|  
-|`CurrentReservedUnits`<br /><br /> Required.|Edm.Int|Current reserved units. The number of the encoding reserved units that you want to be provisioned for this account.<br /><br /> By default, every Media Services account can scale to up to 25 encoding units. To request a higher limit, see [How to request a higher limit for updatable quotas](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e).|  
+|`CurrentReservedUnits`<br /><br /> Required.|Edm.Int|Current reserved units. The number of the encoding reserved units that you want to be provisioned for this account.<br /><br /> By default, every Media Services account can scale to up to 25 encoding units. To request a higher limit, see [How to request a higher limit for updatable quotas](https://msdn.microsoft.com/82f7e538-6bdf-4883-aa50-24574cc4996e).|  
 |`MaxReservableUnits`<br /><br /> Read-only.|Edm.Int|Maximum number of units that can be reserved for the account.|  
   
 ##  <a name="get_EncodingReservedUnitType"></a> Get EncodingReservedUnitType  
@@ -65,14 +59,12 @@ A Media Services account is associated with a `Reserved Unit Type` which determi
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|Gets information about the encoding reserved unit type associated with your account.<br /><br /> https://media.windows.net/api/EncodingReservedUnitTypes|HTTP/1.1|  
+|GET|Gets information about the encoding reserved unit type associated with your account.<br /><br /> https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/EncodingReservedUnitTypes|HTTP/1.1|  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -84,9 +76,9 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -99,14 +91,11 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/library/dd541276.aspx).|https://media.windows.net/api/EncodingReservedUnitTypes(guid'*accountid*')|HTTP/1.1|  
+|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](https://msdn.microsoft.com/library/dd541276.aspx).|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/EncodingReservedUnitTypes(guid'*accountid*')|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -119,9 +108,9 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   

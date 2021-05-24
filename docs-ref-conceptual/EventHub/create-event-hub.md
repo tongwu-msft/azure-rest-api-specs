@@ -1,8 +1,7 @@
 ---
 title: "Create Event Hub"
 ms.custom: ""
-ms.date: "2017-05-04"
-ms.prod: "azure"
+ms.date: 07/14/2020
 ms.reviewer: ""
 ms.service: "event-hubs"
 ms.suite: ""
@@ -10,15 +9,15 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: fb28477c-a9e5-49fb-8f04-d894d9d7d1d9
 caps.latest.revision: 10
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 
 ---
 
 # Create Event Hub
 
-Creates a new Event Hub. When creating an Event Hub, you can specify the following properties. If a property is not specified, Event Hubs uses the default value for this property. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription#properties_).  
+Creates a new Event Hub. When creating an Event Hub, you can specify the following properties. If a property is not specified, Event Hubs uses the default value for this property. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription#properties).  
   
 ## Properties  
 
@@ -28,11 +27,11 @@ You must specify the properties in the order given below. Any property that is s
   
 |Property Name|Available since API version|Default|Property Description|  
 |-------------------|---------------------------------|-------------|--------------------------|  
-|MessageRetentionInDays|2014-01|0|[MessageRetentionInDays](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.messageretentionindays#Microsoft_ServiceBus_Messaging_EventHubDescription_MessageRetentionInDays)|  
-|Authorization|2014-01|(empty)|[Authorization](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.authorization#Microsoft_ServiceBus_Messaging_EventHubDescription_Authorization)|  
-|Status|2014-01|Active|[Status](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.status#Microsoft_ServiceBus_Messaging_EventHubDescription_Status)|  
-|UserMetadata|2014-01|(empty)|[UserMetadata](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.usermetadata#Microsoft_ServiceBus_Messaging_EventHubDescription_UserMetadata)|  
-|PartitionCount|2014-01|16|[PartitionCount](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.partitioncount#Microsoft_ServiceBus_Messaging_EventHubDescription_PartitionCount)|  
+|`MessageRetentionInDays`|2014-01|0|[Description](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.messageretentionindays#Microsoft_ServiceBus_Messaging_EventHubDescription_MessageRetentionInDays)|  
+|`Authorization`|2014-01|(empty)|[Description](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.authorization#Microsoft_ServiceBus_Messaging_EventHubDescription_Authorization)|  
+|`Status`|2014-01|Active|[Description](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.status#Microsoft_ServiceBus_Messaging_EventHubDescription_Status)|  
+|`UserMetadata`|2014-01|(empty)|[Description](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.usermetadata#Microsoft_ServiceBus_Messaging_EventHubDescription_UserMetadata)|  
+|`PartitionCount`|2014-01|16|[Description](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription.partitioncount#Microsoft_ServiceBus_Messaging_EventHubDescription_PartitionCount)|  
   
 ## Request  
   
@@ -42,7 +41,7 @@ You must specify the properties in the order given below. Any property that is s
   
 ### Request Headers  
 
-See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ### Request Body  
 
@@ -78,6 +77,9 @@ If the request is successful, the response body contains the description of the 
 ## Examples  
 
 **Request**  
+
+> [!NOTE]
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.
   
 ```  
 PUT https://your-namespace.servicebus.windows.net/your-event-hub?timeout=60&api-version=2014-01 HTTP/1.1  

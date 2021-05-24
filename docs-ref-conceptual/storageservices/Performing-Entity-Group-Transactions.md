@@ -1,45 +1,32 @@
 ---
-title: "Performing Entity Group Transactions"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Performing entity group transactions (REST API) - Azure Storage
+description: The Table service supports entity group transactions on entities that are in the same table and belong to the same partition group.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: b10963c6-ced3-4fcc-abee-58a9e1c2b83a
-caps.latest.revision: 38
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Performing Entity Group Transactions
+
+# Performing entity group transactions
+
 The Table service supports batch transactions on entities that are in the same table and belong to the same partition group. Multiple [Insert Entity](Insert-Entity.md), [Update Entity](Update-Entity2.md), [Merge Entity](Merge-Entity.md), [Delete Entity](Delete-Entity1.md), [Insert Or Replace Entity](Insert-Or-Replace-Entity.md), and [Insert Or Merge Entity](Insert-Or-Merge-Entity.md) operations are supported within a single transaction.  
   
-## Requirements for Entity Group Transactions  
+## Requirements for entity group transactions
+  
  An entity group transaction must meet the following requirements:  
   
 -   All entities subject to operations as part of the transaction must have the same `PartitionKey` value.  
   
 -   An entity can appear only once in the transaction, and only one operation may be performed against it.  
   
--   The transaction can include at most 100 entities, and its total payload may be no more than 4 MB in size.  
+-   The transaction can include at most 100 entities, and its total payload may be no more than 4 MiB in size.  
   
 -   All entities are subject to the limitations described in [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md).  
   
 ## Table Service Support for OData Batch Requests  
- The semantics for entity group transactions are defined by the [OData Protocol Specification](http://www.odata.org/). The OData specification defines the following concepts for batch requests:  
+ The semantics for entity group transactions are defined by the [OData Protocol Specification](https://www.odata.org/). The OData specification defines the following concepts for batch requests:  
   
 -   A *change set* is a group of one or more insert, update, or delete operations.  
   
@@ -183,7 +170,7 @@ Content-Type: application/atom+xml;type=entry
 Content-Length: ###  
   
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
+<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom">  
   <title />  
   <author>  
     <name />  
@@ -209,7 +196,7 @@ Prefer: return-no-content
 Content-Length: ###  
   
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
+<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom">  
   <title />  
   <author>  
     <name />  
@@ -234,7 +221,7 @@ Content-Type: application/atom+xml;type=entry
 Content-Length: ###  
   
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
+<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom">  
   <title />  
   <author>  
     <name />  
@@ -319,7 +306,7 @@ GET https://myaccount.table.core.windows.net/Blogs(PartitionKey='Channel_19',Row
   
  The Table service returns a status code for the entire batch request, and one or more status codes for the operations in the change set, depending on whether they succeeded or failed.  
   
- Assuming that the batch request has been properly authenticated and has been successfully received by the Table service, the batch request returns status code 202 (Accepted), even if one of the operations in the change set fails. If the batch request itself fails, it fails before any operation in the change set is executed. For example, the batch request may fail due to an authentication error, in which case the status code will indicate that failure.  
+ Assuming that the batch request has been properly authorized and has been successfully received by the Table service, the batch request returns status code 202 (Accepted), even if one of the operations in the change set fails. If the batch request itself fails, it fails before any operation in the change set is executed. For example, the batch request may fail due to an authorization error, in which case the status code will indicate that failure.  
   
  The operations in a change set are processed atomically; that is, either all operations in the batch succeed, or the entire batch fails. The Table service continues processing operations in the change set until one fails. If an operation fails, all preceding operations in the batch are rolled back. Additionally, entity group transactions execute with snapshot isolation.  
   
@@ -500,7 +487,7 @@ ETag: W/"0x5B168C7B6E589D2"
 DataServiceVersion: 3.0;  
   
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<entry xml:base="http://127.0.0.1:10002/testaccount1/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:etag="W/"0x5B168C7B6E589D2"" xmlns="http://www.w3.org/2005/Atom">  
+<entry xml:base="http://127.0.0.1:10002/testaccount1/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:etag="W/"0x5B168C7B6E589D2"" xmlns="https://www.w3.org/2005/Atom">  
     <id> https://myaccount.table.core.windows.net/Blogs(PartitionKey='Channel_19',RowKey='1')</id>  
   <title type="text"></title>  
   <updated>2013-08-30T20:44:10Z</updated>  
@@ -602,5 +589,5 @@ DataServiceVersion: 1.0;
 ```  
   
 ## See Also  
- [OData Specification](http://www.odata.org/)   
+ [OData Specification](https://www.odata.org/)   
  [Table Service Concepts](Table-Service-Concepts.md)

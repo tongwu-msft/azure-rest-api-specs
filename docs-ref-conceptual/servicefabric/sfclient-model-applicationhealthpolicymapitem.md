@@ -1,7 +1,7 @@
 ---
 title: "ApplicationHealthPolicyMapItem"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ApplicationHealthPolicyMapItem"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -35,18 +35,18 @@ Defines an item in ApplicationHealthPolicyMap.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Key](#key) | string | Yes |
-| [Value](#value) | [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) | Yes |
+| [`Key`](#key) | string | Yes |
+| [`Value`](#value) | [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) | Yes |
 
 ____
-### Key
+### `Key`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The key of the application health policy map item. This is the name of the application.
 
 ____
-### Value
+### `Value`
 __Type__: [ApplicationHealthPolicy](sfclient-model-applicationhealthpolicy.md) <br/>
 __Required__: Yes<br/>
 <br/>

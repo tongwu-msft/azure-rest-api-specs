@@ -1,34 +1,20 @@
 ---
-title: "Query Operators Supported for the Table Service"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Query operators supported for the Table service (REST API) - Azure Storage
+description: Query operators supported for the Table service.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: de258a1e-4101-4443-88cb-f9d156f04246
-caps.latest.revision: 22
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Query Operators Supported for the Table Service
-The Microsoft® .NET Client Library supports data service queries by using [language-integrated queries (LINQ)](http://go.microsoft.com/fwlink/?LinkId=137420). The client library handles the details of mapping the LINQ statement to the appropriate URI for the Table service and of retrieving the specified resources as .NET objects.  
+
+# Query operators supported for the Table service
+
+The Microsoft® .NET Client Library supports data service queries by using [language-integrated queries (LINQ)](https://go.microsoft.com/fwlink/?LinkId=137420). The client library handles the details of mapping the LINQ statement to the appropriate URI for the Table service and of retrieving the specified resources as .NET objects.  
   
 ## LINQ Query Operators  
- The following tables note which LINQ query operators are supported for use with the Table service. For more information about LINQ query operators, see [LINQ: .NET Language-Integrated Query](http://go.microsoft.com/fwlink/?LinkId=137420).  
+ The following tables note which LINQ query operators are supported for use with the Table service. For more information about LINQ query operators, see [LINQ: .NET Language-Integrated Query](https://go.microsoft.com/fwlink/?LinkId=137420).  
   
 ### Supported Query Operators  
   

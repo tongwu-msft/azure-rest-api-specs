@@ -1,29 +1,14 @@
 ---
-title: "Addressing Queue Service Resources"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
-ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
-ms.topic: reference
-ms.assetid: 76b63549-2008-4443-865c-78c7d1472253
-caps.latest.revision: 25
+title: Addressing Queue Service Resources (REST API) - Azure Storage
+description: Learn about Azure Queue service resources - the storage account, queues, and messages.
 author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+
+ms.date: 09/09/2019
+ms.author: tamram
+ms.service: storage
+ms.topic: reference
 ---
+
 # Addressing Queue Service Resources
 The Queue service exposes the following resources via the REST API:  
   
@@ -31,7 +16,7 @@ The Queue service exposes the following resources via the REST API:
   
 -   **Queue.** A queue stores messages that may be retrieved by a client application or service.  
   
--   **Messages.** Messages are UTF-8 encoded text that can be the value of an XML element. A message can be 64 KB in size.  
+-   **Messages.** Messages are UTF-8 encoded text that can be the value of an XML element. A message can be 64 KiB in size.  
   
 ## Resource URI Syntax  
  Each resource has a corresponding base URI, which refers to the resource itself.  
@@ -72,7 +57,7 @@ https://myaccount.queue.core.windows.net/myqueue/messages/messageid?popreceipt=s
 ## Supported HTTP Operations  
  Each resource supports operations based on the HTTP verbs GET, PUT, HEAD, and DELETE. The verb, syntax, and supported HTTP version(s) for each operation appears on the reference page for each operation. For a complete list of operation reference pages, see [Queue Service REST API](Queue-Service-REST-API.md).  
   
-## See Also  
+## See also  
  [Naming Queues and Metadata](Naming-Queues-and-Metadata.md)   
  [Operations on Queues](Operations-on-Queues.md)   
  [Operations on Messages](Operations-on-Messages.md)   

@@ -1,7 +1,7 @@
 ---
 title: "StoppedChaosEvent"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "StoppedChaosEvent"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,27 +34,19 @@ Describes a Chaos event that gets generated when Chaos stops because either the 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [TimeStampUtc](#timestamputc) | string (date-time) | Yes |
-| [Reason](#reason) | string | No |
+| [`TimeStampUtc`](#timestamputc) | string (date-time) | Yes |
+| [`Reason`](#reason) | string | No |
 
 ____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stopped' for objects of type 'StoppedChaosEvent'.
-
-____
-### TimeStampUtc
+### `TimeStampUtc`
 __Type__: string (date-time) <br/>
 __Required__: Yes<br/>
 <br/>
-
+The UTC timestamp when this Chaos event was generated.
 
 ____
-### Reason
+### `Reason`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-
+Describes why Chaos stopped. Chaos can stop because of StopChaos API call or the timeToRun provided in ChaosParameters is over.

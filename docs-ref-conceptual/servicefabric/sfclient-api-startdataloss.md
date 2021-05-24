@@ -1,7 +1,7 @@
 ---
 title: "Start Data Loss"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "Start Data Loss"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -31,9 +31,10 @@ translation.priority.mt:
 This API will induce data loss for the specified partition. It will trigger a call to the OnDataLossAsync API of the partition.
 
 This API will induce data loss for the specified partition. It will trigger a call to the OnDataLoss API of the partition.
-Actual data loss will depend on the specified DataLossMode
-PartialDataLoss - Only a quorum of replicas are removed and OnDataLoss is triggered for the partition but actual data loss depends on the presence of in-flight replication.
-FullDataLoss - All replicas are removed hence all data is lost and OnDataLoss is triggered.
+Actual data loss will depend on the specified DataLossMode.
+
+- PartialDataLoss - Only a quorum of replicas are removed and OnDataLoss is triggered for the partition but actual data loss depends on the presence of in-flight replication.
+- FullDataLoss - All replicas are removed hence all data is lost and OnDataLoss is triggered.
 
 This API should only be called with a stateful service as the target.
 
@@ -54,62 +55,66 @@ Call the GetDataLossProgress API with the same OperationId to return information
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [serviceId](#serviceid) | string | Yes | Path |
-| [partitionId](#partitionid) | string (uuid) | Yes | Path |
-| [api-version](#api-version) | string | Yes | Query |
-| [OperationId](#operationid) | string (uuid) | Yes | Query |
-| [DataLossMode](#datalossmode) | string (enum) | Yes | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
+| [`serviceId`](#serviceid) | string | Yes | Path |
+| [`partitionId`](#partitionid) | string (uuid) | Yes | Path |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`OperationId`](#operationid) | string (uuid) | Yes | Query |
+| [`DataLossMode`](#datalossmode) | string (enum) | Yes | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
 
 ____
-### serviceId
+### `serviceId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The identity of the service. This is typically the full name of the service without the 'fabric:' URI scheme. Starting from version 6.0, hierarchical names are delimited with the "~" character. For example, if the service name is "fabric://myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
+The identity of the service. This ID is typically the full name of the service without the 'fabric:' URI scheme.
+Starting from version 6.0, hierarchical names are delimited with the "~" character.
+For example, if the service name is "fabric:/myapp/app1/svc1", the service identity would be "myapp~app1~svc1" in 6.0+ and "myapp/app1/svc1" in previous versions.
+
 
 ____
-### partitionId
+### `partitionId`
 __Type__: string (uuid) <br/>
 __Required__: Yes<br/>
 <br/>
 The identity of the partition.
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0 <br/>
+__Default__: `6.0` <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "6.0".
+The version of the API. This parameter is required and its value must be '6.0'.
+
+Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+
 
 ____
-### OperationId
+### `OperationId`
 __Type__: string (uuid) <br/>
 __Required__: Yes<br/>
 <br/>
 A GUID that identifies a call of this API.  This is passed into the corresponding GetProgress API
 
 ____
-### DataLossMode
+### `DataLossMode`
 __Type__: string (enum) <br/>
 __Required__: Yes<br/>
 <br/>
-This enum is passed to the StartDataLoss API to indicate what type of data loss to induce.
-- Invalid - Reserved.  Do not pass into API.
-- PartialDataLoss - PartialDataLoss option will cause a quorum of replicas to go down, triggering an OnDataLoss event in the system for the given partition.
-- FullDataLoss - FullDataLoss option will drop all the replicas which means that all the data will be lost.
-. Possible values include: 'Invalid', 'PartialDataLoss', 'FullDataLoss'
+This enum is passed to the StartDataLoss API to indicate what type of data loss to induce. Possible values include: 'Invalid', 'PartialDataLoss', 'FullDataLoss'
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

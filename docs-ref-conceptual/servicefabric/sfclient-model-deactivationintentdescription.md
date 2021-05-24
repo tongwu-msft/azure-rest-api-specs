@@ -1,7 +1,7 @@
 ---
 title: "DeactivationIntentDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "DeactivationIntentDescription"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,15 +34,22 @@ Describes the intent or reason for deactivating the node.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [DeactivationIntent](#deactivationintent) | string (enum) | No |
+| [`DeactivationIntent`](#deactivationintent) | string (enum) | No |
 
 ____
-### DeactivationIntent
+### `DeactivationIntent`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
 Describes the intent or reason for deactivating the node. The possible values are following.
-  - Pause - Indicates that the node should be paused. The value is 1.
-  - Restart - Indicates that the intent is for the node to be restarted after a short period of time. The value is 2.
-  - RemoveData - Indicates the intent is for the node to remove data. The value is 3.
+
+
+
+
+Possible values are: 
+
+  - `Pause` - Indicates that the node should be paused. The value is 1.
+  - `Restart` - Indicates that the intent is for the node to be restarted after a short period of time. The value is 2.
+  - `RemoveData` - Indicates the intent is for the node to remove data. The value is 3.
+
 

@@ -1,10 +1,9 @@
 ---
 ms.assetid: 632588a8-590f-4927-a4e4-36fd12e189f6
-ms.title: Recovery Services REST API reference
-ms.prod: Azure
+title: Recovery Services REST API reference
 ms.service: Recoveryservices
-author: markgalioto
-ms.author: markgal
+author: rayne-wiselman
+ms.author: raynew
 ms.manager: cfreeman
 service_description: To be added
 ---

@@ -1,7 +1,7 @@
 ---
 title: "ApplicationTypeManifest"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ApplicationTypeManifest"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,10 +34,10 @@ Contains the manifest describing an application type registered in a Service Fab
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Manifest](#manifest) | string | No |
+| [`Manifest`](#manifest) | string | No |
 
 ____
-### Manifest
+### `Manifest`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

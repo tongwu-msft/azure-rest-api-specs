@@ -1,7 +1,7 @@
 ---
 title: "ClusterHealthPolicies"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ClusterHealthPolicies"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,11 +34,11 @@ Health policies to evaluate cluster health.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ApplicationHealthPolicyMap](#applicationhealthpolicymap) | array of [ApplicationHealthPolicyMapItem](sfclient-model-applicationhealthpolicymapitem.md) | No |
-| [ClusterHealthPolicy](#clusterhealthpolicy) | [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) | No |
+| [`ApplicationHealthPolicyMap`](#applicationhealthpolicymap) | array of [ApplicationHealthPolicyMapItem](sfclient-model-applicationhealthpolicymapitem.md) | No |
+| [`ClusterHealthPolicy`](#clusterhealthpolicy) | [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) | No |
 
 ____
-### ApplicationHealthPolicyMap
+### `ApplicationHealthPolicyMap`
 __Type__: array of [ApplicationHealthPolicyMapItem](sfclient-model-applicationhealthpolicymapitem.md) <br/>
 __Required__: No<br/>
 <br/>
@@ -49,7 +49,7 @@ The map is empty by default.
 
 
 ____
-### ClusterHealthPolicy
+### `ClusterHealthPolicy`
 __Type__: [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) <br/>
 __Required__: No<br/>
 <br/>

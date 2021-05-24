@@ -1,7 +1,7 @@
 ---
 title: "ClusterConfigurationUpgradeDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ClusterConfigurationUpgradeDescription"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,92 +34,101 @@ Describes the parameters for a standalone cluster configuration upgrade.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ClusterConfig](#clusterconfig) | string | Yes |
-| [HealthCheckRetryTimeout](#healthcheckretrytimeout) | string (duration) | No |
-| [HealthCheckWaitDurationInSeconds](#healthcheckwaitdurationinseconds) | string (duration) | No |
-| [HealthCheckStableDurationInSeconds](#healthcheckstabledurationinseconds) | string (duration) | No |
-| [UpgradeDomainTimeoutInSeconds](#upgradedomaintimeoutinseconds) | string (duration) | No |
-| [UpgradeTimeoutInSeconds](#upgradetimeoutinseconds) | string (duration) | No |
-| [MaxPercentUnhealthyApplications](#maxpercentunhealthyapplications) | integer | No |
-| [MaxPercentUnhealthyNodes](#maxpercentunhealthynodes) | integer | No |
-| [MaxPercentDeltaUnhealthyNodes](#maxpercentdeltaunhealthynodes) | integer | No |
-| [MaxPercentUpgradeDomainDeltaUnhealthyNodes](#maxpercentupgradedomaindeltaunhealthynodes) | integer | No |
+| [`ClusterConfig`](#clusterconfig) | string | Yes |
+| [`HealthCheckRetryTimeout`](#healthcheckretrytimeout) | string (duration) | No |
+| [`HealthCheckWaitDurationInSeconds`](#healthcheckwaitdurationinseconds) | string (duration) | No |
+| [`HealthCheckStableDurationInSeconds`](#healthcheckstabledurationinseconds) | string (duration) | No |
+| [`UpgradeDomainTimeoutInSeconds`](#upgradedomaintimeoutinseconds) | string (duration) | No |
+| [`UpgradeTimeoutInSeconds`](#upgradetimeoutinseconds) | string (duration) | No |
+| [`MaxPercentUnhealthyApplications`](#maxpercentunhealthyapplications) | integer | No |
+| [`MaxPercentUnhealthyNodes`](#maxpercentunhealthynodes) | integer | No |
+| [`MaxPercentDeltaUnhealthyNodes`](#maxpercentdeltaunhealthynodes) | integer | No |
+| [`MaxPercentUpgradeDomainDeltaUnhealthyNodes`](#maxpercentupgradedomaindeltaunhealthynodes) | integer | No |
+| [`ApplicationHealthPolicies`](#applicationhealthpolicies) | [ApplicationHealthPolicies](sfclient-model-applicationhealthpolicies.md) | No |
 
 ____
-### ClusterConfig
+### `ClusterConfig`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The cluster configuration.
+The cluster configuration as a JSON string. For example, [this file](https://github.com/Azure-Samples/service-fabric-dotnet-standalone-cluster-configuration/blob/master/Samples/ClusterConfig.Unsecure.DevCluster.json) contains JSON describing the [nodes and other properties of the cluster](https://docs.microsoft.com/azure/service-fabric/service-fabric-cluster-manifest).
 
 ____
-### HealthCheckRetryTimeout
+### `HealthCheckRetryTimeout`
 __Type__: string (duration) <br/>
 __Required__: No<br/>
-__Default__: PT0H0M0S <br/>
+__Default__: `PT0H0M0S` <br/>
 <br/>
-The length of time between attempts to perform a health checks if the application or cluster is not healthy.
+The length of time between attempts to perform health checks if the application or cluster is not healthy.
 
 ____
-### HealthCheckWaitDurationInSeconds
+### `HealthCheckWaitDurationInSeconds`
 __Type__: string (duration) <br/>
 __Required__: No<br/>
-__Default__: PT0H0M0S <br/>
+__Default__: `PT0H0M0S` <br/>
 <br/>
 The length of time to wait after completing an upgrade domain before starting the health checks process.
 
 ____
-### HealthCheckStableDurationInSeconds
+### `HealthCheckStableDurationInSeconds`
 __Type__: string (duration) <br/>
 __Required__: No<br/>
-__Default__: PT0H0M0S <br/>
+__Default__: `PT0H0M0S` <br/>
 <br/>
-The length of time that the application or cluster must remain healthy.
+The length of time that the application or cluster must remain healthy before the upgrade proceeds to the next upgrade domain.
 
 ____
-### UpgradeDomainTimeoutInSeconds
+### `UpgradeDomainTimeoutInSeconds`
 __Type__: string (duration) <br/>
 __Required__: No<br/>
-__Default__: PT0H0M0S <br/>
+__Default__: `PT0H0M0S` <br/>
 <br/>
 The timeout for the upgrade domain.
 
 ____
-### UpgradeTimeoutInSeconds
+### `UpgradeTimeoutInSeconds`
 __Type__: string (duration) <br/>
 __Required__: No<br/>
-__Default__: PT0H0M0S <br/>
+__Default__: `PT0H0M0S` <br/>
 <br/>
 The upgrade timeout.
 
 ____
-### MaxPercentUnhealthyApplications
+### `MaxPercentUnhealthyApplications`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The maximum allowed percentage of unhealthy applications during the upgrade. Allowed values are integer values from zero to 100.
 
 ____
-### MaxPercentUnhealthyNodes
+### `MaxPercentUnhealthyNodes`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The maximum allowed percentage of unhealthy nodes during the upgrade. Allowed values are integer values from zero to 100.
 
 ____
-### MaxPercentDeltaUnhealthyNodes
+### `MaxPercentDeltaUnhealthyNodes`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The maximum allowed percentage of delta health degradation during the upgrade. Allowed values are integer values from zero to 100.
 
 ____
-### MaxPercentUpgradeDomainDeltaUnhealthyNodes
+### `MaxPercentUpgradeDomainDeltaUnhealthyNodes`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The maximum allowed percentage of upgrade domain delta health degradation during the upgrade. Allowed values are integer values from zero to 100.
+
+____
+### `ApplicationHealthPolicies`
+__Type__: [ApplicationHealthPolicies](sfclient-model-applicationhealthpolicies.md) <br/>
+__Required__: No<br/>
+<br/>
+Defines the application health policy map used to evaluate the health of an application or one of its children entities.
+

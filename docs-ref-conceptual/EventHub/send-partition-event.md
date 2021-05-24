@@ -1,8 +1,7 @@
 ---
 title: "Send partition event"
 ms.custom: ""
-ms.date: "2016-12-01"
-ms.prod: "azure"
+ms.date: 07/14/2020
 ms.reviewer: ""
 ms.service: "event-hubs"
 ms.suite: ""
@@ -10,9 +9,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 1d7318c6-39bf-448d-9ab8-1cbff64532b9
 caps.latest.revision: 6
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 ---
 # Send partition event
 Sends a new event to a specified partition in an Event Hub.  
@@ -24,7 +23,7 @@ Sends a new event to a specified partition in an Event Hub.
 |POST|`https://{servicebusNamespace}.servicebus.windows.net/{eventHubPath}/partitions/{partitionId}/messages`|  
   
 ### Request Headers  
- See [Common parameters and headers](event-hubs-runtime-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+ See [Common parameters and headers](event-hubs-runtime-rest.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ### Request Body  
  The body of the event message in plain text. For example:  
@@ -49,6 +48,9 @@ Sends a new event to a specified partition in an Event Hub.
   
 ## Examples  
  **Request**  
+
+> [!NOTE]
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.
   
 ```  
 POST https://your-namespace.servicebus.windows.net/your-event-hub/partitions/0/messages?timeout=60&api-version=2014-01 HTTP/1.1  

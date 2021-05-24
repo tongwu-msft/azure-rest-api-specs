@@ -2,10 +2,9 @@
 title: "Azure Cloud Services REST - Get Deployment | Microsoft Docs"
 ms.custom: 
   - "VMClassic"
-ms.date: "2016-02-01"
-ms.prod: "azure"
+ms.date: "02/01/2016"
 ms.reviewer: ""
-ms.service: "cloud-services"
+
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -464,7 +463,7 @@ The `Get Deployment` operation returns configuration information, status, and sy
   
 |Element name|Description|  
 |------------------|-----------------|  
-|Path|Specifies the relative path name to inspect to determine the availability status. If Protocol is set to TCP, this value must be NULL.<br /><br /> Example:<br /><br /> path<br /><br /> The probe will use https://example.com/path to perform the probe.|  
+|Path|Specifies the relative path name to inspect to determine the availability status. If Protocol is set to TCP, this value must be NULL.<br /><br /> Example:<br /><br /> path<br /><br /> The probe will use `https://example.com/path` to perform the probe.|  
 |Port|Specifies the port to use to inspect the availability status.|  
 |Protocol|Specifies the protocol to use to inspect the availability status.<br /><br /> Possible values are:<br /><br /> - `HTTP`<br /><br /> -                      `TCP`|  
   
@@ -542,9 +541,9 @@ The `Get Deployment` operation returns configuration information, status, and sy
 |------------------|-----------------|  
 |ResourceExtensionReference|Required. Specifies the properties of a resource extension that should be installed on the Virtual Machine.|  
 |ReferenceName|Required. Specifies the reference name of the resource extension.|  
-|Publisher|Required. Specifies the name of the publisher who created the resource extension. You can use [List Resource Extensions](http://msdn.microsoft.com/library/azure/b4d5b03b-9fff-4ddd-a144-3fae2d53f91c) to find the publisher name of a resource extension.|  
-|Name|Required. Specifies the name of the resource extension. You can use [List Resource Extensions](http://msdn.microsoft.com/library/b4d5b03b-9fff-4ddd-a144-3fae2d53f91c) to find the names of available resource extensions.|  
-|Version|Required. Specifies the version of the resource extension. You can use [List Resource Extension Versions](http://msdn.microsoft.com/library/azure/4f1e9218-b44e-407e-802d-a1549ac16e1c) to find the version of the resource extension.|  
+|Publisher|Required. Specifies the name of the publisher who created the resource extension. You can use [List Resource Extensions](https://msdn.microsoft.com/library/azure/b4d5b03b-9fff-4ddd-a144-3fae2d53f91c) to find the publisher name of a resource extension.|  
+|Name|Required. Specifies the name of the resource extension. You can use [List Resource Extensions](https://msdn.microsoft.com/library/b4d5b03b-9fff-4ddd-a144-3fae2d53f91c) to find the names of available resource extensions.|  
+|Version|Required. Specifies the version of the resource extension. You can use [List Resource Extension Versions](https://msdn.microsoft.com/library/azure/4f1e9218-b44e-407e-802d-a1549ac16e1c) to find the version of the resource extension.|  
 |[ResourceExtensionParameterValues](rest-get-deployment.md#bk_parametervalues)|Optional. Contains a collection of parameters that are passed to the resource extension when it is installed.|  
 |State|Optional. Specifies the state of the resource extension.<br /><br /> Possible values are:<br /><br /> -                      `Enable`<br /><br /> -                      `Disable`<br /><br /> The default value is `Enable`.|  
   

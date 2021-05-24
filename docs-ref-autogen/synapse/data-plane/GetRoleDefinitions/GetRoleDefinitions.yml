@@ -1,0 +1,140 @@
+### YamlMime:RESTOperation
+uid: synapse.data-plane.getroledefinitions.getroledefinitions
+name: Get Role Definitions
+service: Synapse
+groupName: Get Role Definitions
+apiVersion: 2020-02-01-preview
+summary: List roles.
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/rbac/roles?api-version=2020-02-01-preview
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Synapse client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success response.
+  types:
+  - uid: RolesListResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorContract
+requestHeader: []
+definitions:
+- name: RolesListResponse
+  description: A list of Synapse roles available.
+  kind: object
+  properties:
+  - name: value
+    description: List of Synapse roles.
+    types:
+    - uid: SynapseRole
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of results, if any remaining results exist.
+    types:
+    - uid: string
+- name: ErrorContract
+  description: Error details.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+- name: SynapseRole
+  description: Synapse role details
+  kind: object
+  properties:
+  - name: id
+    description: Role ID
+    types:
+    - uid: string
+  - name: name
+    description: Name of the Synapse role
+    types:
+    - uid: string
+  - name: isBuiltIn
+    description: Is a built-in role or not
+    types:
+    - uid: boolean
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: details
+    description: ''
+    types:
+    - uid: ErrorDetail
+      isArray: true
+- name: ErrorDetail
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Get access control information
+  request:
+    uri: GET exampleWorkspace.dev.azuresynapse.net/rbac/roles?api-version=2020-02-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "00000000-0000-0000-0000-000000000000",
+            "name": "Synapse role name 1",
+            "isBuiltIn": true
+          },
+          {
+            "id": "10000000-0000-0000-0000-000000000000",
+            "name": "Synapse role name 2",
+            "isBuiltIn": true
+          }
+        ]
+      }
+  - statusCode: default
+    body: >-
+      {
+        "error": {
+          "code": "Error code",
+          "message": "Error message"
+        }
+      }
+security: []
+errorCodes: []

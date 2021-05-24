@@ -1,7 +1,7 @@
 ---
 title: "BinaryPropertyValue"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "BinaryPropertyValue"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,18 +34,10 @@ Describes a Service Fabric property value of type Binary.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [Data](#data) | array of integer | Yes |
+| [`Data`](#data) | array of integer | Yes |
 
 ____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Binary' for objects of type 'BinaryPropertyValue'.
-
-____
-### Data
+### `Data`
 __Type__: array of integer <br/>
 __Required__: Yes<br/>
 <br/>

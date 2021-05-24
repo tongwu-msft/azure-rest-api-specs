@@ -1,79 +1,65 @@
 ---
-title: "Get Share Properties"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get Share Properties (REST API) - Azure Storage
+description: The Get Share Properties operation returns all user-defined metadata and system properties for the specified share or share snapshot. The data returned does not include the share's list of files.
+author: pemari-msft
+
+ms.date: 09/12/2020
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: bb47172e-3707-4fa1-b269-5846168bfc51
-caps.latest.revision: 9
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Share Properties
 The `Get Share Properties` request returns all user-defined metadata and system properties for the specified share or share snapshot. The data returned does not include the share's list of files.  
   
 ## Request  
- The `Get Share Properties` request may be constructed as follows. HTTPS is recommended.  
+The `Get Share Properties` request may be constructed as follows. HTTPS is recommended.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare?restype=share`|HTTP/1.1|  
-|`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare?restype=share&snapshot=<DateTime>`|HTTP/1.1|  
+|`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare?restype=share&sharesnapshot=<DateTime>`|HTTP/1.1|  
   
- Replace the path components shown in the request URI with your own, as follows:  
+Replace the path components shown in the request URI with your own, as follows:  
   
 |Path Component|Description|  
 |--------------------|-----------------|  
 |*myaccount*|The name of your storage account.|  
 |*myshare*|The name of your file share.|  
   
- For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
 ## URI Parameters  
- The following additional parameters can be specified in the request URI.  
+The following additional parameters can be specified in the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`snapshot`|Optional. Version 2017-04-17 and newer. The snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query to retrieve the properties|
-|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
+|`sharesnapshot`|Optional. Version 2017-04-17 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query to retrieve the properties|
+|`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|
   
 ## Request Headers  
- The following table describes required and optional request headers.  
+The following table describes required and optional request headers.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|  
   
 ## Request Body  
- None.  
+None.  
   
 ## Response  
- The response includes an HTTP status code and a set of response headers.  
+The response includes an HTTP status code and a set of response headers.  
   
 ## Status Code  
- A successful operation returns status code 200 (OK).  
+A successful operation returns status code 200 (OK).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ## Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?LinkId=73147).  
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?LinkId=73147).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -83,13 +69,25 @@ The `Get Share Properties` request returns all user-defined metadata and system 
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the File service used to execute the request.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
-|`x-ms-share-quota`|Returns the current share quota in GB for version 2015-02-21 and above.|  
-  
+|`x-ms-share-quota`|Version 2015-02-21 or newer. Returns the current share quota in GiB.|  
+|`x-ms-share-provisioned-iops`|Version 2019-07-07 or newer. This header is only returned for premium file shares (file shares within the FileStorage storage account type). Returns the number of IOPS provisioned for the premium share. 
+|`x-ms-share-provisioned-ingress-mbps`|Version 2019-07-07 or newer. This header is only returned for premium file shares (file shares within the FileStorage storage account type). Returns the ingress in MiB/s provisioned for the premium share.
+|`x-ms-share-provisioned-egress-mbps`|Version 2019-07-07 or newer. This header is only returned for premium file shares (file shares within the FileStorage storage account type). Returns the egress in MiB/s provisioned for the premium share.
+|`x-ms-share-next-allowed-quota-downgrade-time`|Version 2019-07-07 or newer. This header is only returned for premium file shares (file shares within the FileStorage storage account type). A DateTime value that specifies when the quota for the premium file share is permitted to be reduced. The date format follows RFC 1123.|
+|`x-ms-access-tier`|Version 2019-12-12 or newer. Returns the current access tier of the share. In general purpose version 2 (GPv2) storage accounts, `TransationOptimized` is the default tier of the share. In FileStorage storage account types, `Premium` is the default tier of the share. |  
+|`x-ms-access-tier-change-time`|Version 2019-12-12 or newer. Returns the date and time the access tier on the share was last modified.|  
+|`x-ms-access-tier-transition-state`|Version 2019-12-12 or newer. If the share is undergoing tier transition, this indicates the tier it is transitioning from.|
+|`x-ms-lease-duration:<fixed,infinite>`|Version 2020-02-10 and newer. Specifies whether the lease on a share is of infinite or fixed duration. |
+|`x-ms-lease-state: <available;leased;expired;breaking;broken>`|Version 2020-02-10 and newer. When a share is leased, specifies the lease state of the share.| 
+|`x-ms-lease-status: <locked;unlocked>`|Version 2020-02-10 and newer. When a share is leased, specifies the lease status of the share. |
+|`x-ms-enabled-protocols: <SMB | NFS>`|Returns the current share enabled protocols for version 2020-02-10 and above.<br /><br /><ul><li>`SMB`: The share can be accessed by SMBv3.0, SMBv2.1 and REST.</li><li>`NFS`: The share can be accessed by NFSv4.1.</li></ul>| 
+|`x-ms-root-squash: <NoRootSquash | RootSquash | AllSquash>`|Returns the current share root squashing behavior for version 2020-02-10 and above.<br /><br /><ul><li>`NoRootSquash`: Root squashing is off.</li><li>`RootSquash`: Requests from uid/gid 0 are mapped to the anonymous uid/gid.</li><li>`AllSquash`: All uids and gids are mapped to the anonymous user.</li></ul>|
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.| 
+
 ## Response Body  
- None.  
+None.  
   
-## Sample Response  
-  
+## Sample Response   
 ```  
 Response Status:  
 HTTP/1.1 200 OK  
@@ -100,16 +98,19 @@ x-ms-meta-name: some_metadata
 Date: <date>  
 ETag: "0x8CB171DBEAD6A6B"  
 Last-Modified: <date>  
-x-ms-version: 2015-02-21  
-x-ms-share-quota: 55  
+x-ms-share-quota: 1024
+x-ms-access-tier: Premium
+x-ms-version: 2020-02-10  
+x-ms-enabled-protocols: NFS
+x-ms-root-squash: RootSquash
 Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0  
 ```  
-  
+
 ## Authorization  
- Only the account owner may call this operation.  
+Only the account owner may call this operation.  
   
 ## Remarks  
- None.  
+None.  
   
-## See Also  
- [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)
+## See also  
+[Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

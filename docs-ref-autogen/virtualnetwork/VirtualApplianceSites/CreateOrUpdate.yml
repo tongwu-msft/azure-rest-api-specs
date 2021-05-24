@@ -1,0 +1,250 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetwork.virtualappliancesites.createorupdate
+name: Create Or Update
+service: Virtual Networks
+groupName: Virtual Appliance Sites
+apiVersion: 2020-11-01
+summary: Creates or updates the specified Network Virtual Appliance Site.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites/{siteName}?api-version=2020-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: networkVirtualApplianceName
+  in: path
+  isRequired: true
+  description: The name of the Network Virtual Appliance.
+  types:
+  - uid: string
+- name: siteName
+  in: path
+  isRequired: true
+  description: The name of the site.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns the resulting Network Virtual Appliance Site resource.
+  types:
+  - uid: VirtualApplianceSite
+- name: 201 Created
+  description: Request received successfully. The operation returns the resulting Network Virtual Appliance Site resource.
+  types:
+  - uid: VirtualApplianceSite
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    description: Name of the virtual appliance site.
+    types:
+    - uid: string
+  - name: properties.addressPrefix
+    in: body
+    description: Address Prefix.
+    types:
+    - uid: string
+  - name: properties.o365Policy
+    in: body
+    description: Office 365 Policy.
+    types:
+    - uid: Office365PolicyProperties
+  - name: id
+    in: body
+    description: Resource ID.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: Office365PolicyProperties
+  description: Network Virtual Appliance Sku Properties.
+  kind: object
+  properties:
+  - name: breakOutCategories
+    description: Office 365 breakout categories.
+    types:
+    - uid: BreakOutCategoryPolicies
+- name: VirtualApplianceSite
+  description: Virtual Appliance Site resource.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the virtual appliance site.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Site type.
+    types:
+    - uid: string
+  - name: properties.addressPrefix
+    description: Address Prefix.
+    types:
+    - uid: string
+  - name: properties.o365Policy
+    description: Office 365 Policy.
+    types:
+    - uid: Office365PolicyProperties
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: BreakOutCategoryPolicies
+  description: Network Virtual Appliance Sku Properties.
+  kind: object
+  properties:
+  - name: allow
+    description: Flag to control breakout of o365 allow category.
+    types:
+    - uid: boolean
+  - name: optimize
+    description: Flag to control breakout of o365 optimize category.
+    types:
+    - uid: boolean
+  - name: default
+    description: Flag to control breakout of o365 default category.
+    types:
+    - uid: boolean
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Create Network Virtual Appliance Site
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkVirtualAppliances/nva/virtualApplianceSites/site1?api-version=2020-11-01
+    body: >-
+      {
+        "properties": {
+          "addressPrefix": "192.168.1.0/24",
+          "o365Policy": {
+            "breakOutCategories": {
+              "allow": true,
+              "optimize": true,
+              "default": true
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "site1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkVirtualAppliances/nva/virtualApplianceSites/site1",
+        "etag": "W/\"72090554-7e3b-43f2-80ad-99a9020dcb11\"",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "addressPrefix": "192.168.1.0/24",
+          "o365Policy": {
+            "breakOutCategories": {
+              "allow": true,
+              "optimize": true,
+              "default": true
+            }
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "site1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkVirtualAppliances/nva/virtualApplianceSites/site1",
+        "etag": "W/\"72090554-7e3b-43f2-80ad-99a9020dcb11\"",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "addressPrefix": "192.168.1.0/24",
+          "o365Policy": {
+            "breakOutCategories": {
+              "allow": true,
+              "optimize": true,
+              "default": true
+            }
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

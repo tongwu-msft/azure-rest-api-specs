@@ -1,7 +1,7 @@
 ---
 title: "PutPropertyBatchOperation"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "PutPropertyBatchOperation"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -29,41 +29,35 @@ translation.priority.mt:
 ---
 # PutPropertyBatchOperation
 
-Puts the specified property under the specified name.  Note that if one PropertyBatchOperation in a PropertyBatch fails,  the entire batch fails and cannot be committed in a transactional manner.
+Puts the specified property under the specified name.
+Note that if one PropertyBatchOperation in a PropertyBatch fails,
+the entire batch fails and cannot be committed in a transactional manner.
 
 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [PropertyName](#propertyname) | string | Yes |
-| [Value](#value) | [PropertyValue](sfclient-model-propertyvalue.md) | Yes |
-| [CustomTypeId](#customtypeid) | string | No |
+| [`PropertyName`](#propertyname) | string | Yes |
+| [`Value`](#value) | [PropertyValue](sfclient-model-propertyvalue.md) | Yes |
+| [`CustomTypeId`](#customtypeid) | string | No |
 
 ____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Put' for objects of type 'PutPropertyBatchOperation'.
-
-____
-### PropertyName
+### `PropertyName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the Service Fabric property.
 
 ____
-### Value
+### `Value`
 __Type__: [PropertyValue](sfclient-model-propertyvalue.md) <br/>
 __Required__: Yes<br/>
 <br/>
 Describes a Service Fabric property value.
 
 ____
-### CustomTypeId
+### `CustomTypeId`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The property's custom type id. Using this property, the user is able to tag the type of the value of the property.
+The property's custom type ID. Using this property, the user is able to tag the type of the value of the property.

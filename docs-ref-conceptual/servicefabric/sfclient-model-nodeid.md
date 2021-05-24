@@ -1,7 +1,7 @@
 ---
 title: "NodeId"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "NodeId"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,10 +34,10 @@ An internal ID used by Service Fabric to uniquely identify a node. Node Id is de
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Id](#id) | string | No |
+| [`Id`](#id) | string | No |
 
 ____
-### Id
+### `Id`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

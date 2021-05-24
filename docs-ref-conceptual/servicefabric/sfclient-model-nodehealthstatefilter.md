@@ -1,7 +1,7 @@
 ---
 title: "NodeHealthStateFilter"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "NodeHealthStateFilter"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -37,11 +37,11 @@ Can be specified in the cluster health chunk query description.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [NodeNameFilter](#nodenamefilter) | string | No |
-| [HealthStateFilter](#healthstatefilter) | integer | No |
+| [`NodeNameFilter`](#nodenamefilter) | string | No |
+| [`HealthStateFilter`](#healthstatefilter) | integer | No |
 
 ____
-### NodeNameFilter
+### `NodeNameFilter`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -52,15 +52,15 @@ If not specified, all nodes that match the parent filters (if any) are taken int
 
 
 ____
-### HealthStateFilter
+### `HealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The filter for the health state of the nodes. It allows selecting nodes if they match the desired health states.
 The possible values are integer value of one of the following health states. Only nodes that match the filter are returned. All nodes are used to evaluate the cluster aggregated health state.
 If not specified, default value is None, unless the node name is specified. If the filter has default value and node name is specified, the matching node is returned.
-The state values are flag based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+The state values are flag-based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
 For example, if the provided value is 6, it matches nodes with HealthState value of OK (2) and Warning (4).
 
 - Default - Default value. Matches any HealthState. The value is zero.

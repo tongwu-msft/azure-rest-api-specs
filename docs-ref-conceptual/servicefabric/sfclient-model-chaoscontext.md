@@ -1,7 +1,7 @@
 ---
 title: "ChaosContext"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ChaosContext"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -37,11 +37,11 @@ This map is set by the starter of the Chaos run to optionally store the context 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Map](#map) | object | No |
+| [`Map`](#map) | map of string to string | No |
 
 ____
-### Map
-__Type__: object <br/>
+### `Map`
+__Type__: map of string to string <br/>
 __Required__: No<br/>
 <br/>
 Describes a map that contains a collection of ChaosContextMapItem's.

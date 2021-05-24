@@ -1,7 +1,7 @@
 ---
 title: "SafetyCheckWrapper"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "SafetyCheckWrapper"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,10 +34,10 @@ A wrapper for the safety check object. Safety checks are performed by service fa
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [SafetyCheck](#safetycheck) | [SafetyCheck](sfclient-model-safetycheck.md) | No |
+| [`SafetyCheck`](#safetycheck) | [SafetyCheck](sfclient-model-safetycheck.md) | No |
 
 ____
-### SafetyCheck
+### `SafetyCheck`
 __Type__: [SafetyCheck](sfclient-model-safetycheck.md) <br/>
 __Required__: No<br/>
 <br/>

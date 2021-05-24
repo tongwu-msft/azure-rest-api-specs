@@ -1,7 +1,7 @@
 ---
 title: "CreateComposeDeploymentDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "CreateComposeDeploymentDescription"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -35,26 +35,26 @@ Defines description for creating a Service Fabric compose deployment.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [DeploymentName](#deploymentname) | string | Yes |
-| [ComposeFileContent](#composefilecontent) | string | Yes |
-| [RegistryCredential](#registrycredential) | [RegistryCredential](sfclient-model-registrycredential.md) | No |
+| [`DeploymentName`](#deploymentname) | string | Yes |
+| [`ComposeFileContent`](#composefilecontent) | string | Yes |
+| [`RegistryCredential`](#registrycredential) | [RegistryCredential](sfclient-model-registrycredential.md) | No |
 
 ____
-### DeploymentName
+### `DeploymentName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the deployment.
 
 ____
-### ComposeFileContent
+### `ComposeFileContent`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The content of the compose file that describes the deployment to create.
 
 ____
-### RegistryCredential
+### `RegistryCredential`
 __Type__: [RegistryCredential](sfclient-model-registrycredential.md) <br/>
 __Required__: No<br/>
 <br/>

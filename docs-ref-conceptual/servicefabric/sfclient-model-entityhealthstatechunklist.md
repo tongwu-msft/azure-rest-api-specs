@@ -1,7 +1,7 @@
 ---
 title: "EntityHealthStateChunkList"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "EntityHealthStateChunkList"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,10 +34,10 @@ A base type for the list of health state chunks found in the cluster. It contain
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [TotalCount](#totalcount) | integer (int64) | No |
+| [`TotalCount`](#totalcount) | integer (int64) | No |
 
 ____
-### TotalCount
+### `TotalCount`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>

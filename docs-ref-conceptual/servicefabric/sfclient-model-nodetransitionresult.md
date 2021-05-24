@@ -1,7 +1,7 @@
 ---
 title: "NodeTransitionResult"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "NodeTransitionResult"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,18 +34,18 @@ Represents information about an operation in a terminal state (Completed or Faul
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ErrorCode](#errorcode) | integer (int32) | No |
-| [NodeResult](#noderesult) | [NodeResult](sfclient-model-noderesult.md) | No |
+| [`ErrorCode`](#errorcode) | integer (int32) | No |
+| [`NodeResult`](#noderesult) | [NodeResult](sfclient-model-noderesult.md) | No |
 
 ____
-### ErrorCode
+### `ErrorCode`
 __Type__: integer (int32) <br/>
 __Required__: No<br/>
 <br/>
 If OperationState is Completed, this is 0.  If OperationState is Faulted, this is an error code indicating the reason.
 
 ____
-### NodeResult
+### `NodeResult`
 __Type__: [NodeResult](sfclient-model-noderesult.md) <br/>
 __Required__: No<br/>
 <br/>

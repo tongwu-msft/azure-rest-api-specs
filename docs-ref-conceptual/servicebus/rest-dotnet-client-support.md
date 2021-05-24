@@ -1,8 +1,7 @@
 ---
 title: "REST vs. .NET Client Support"
 ms.custom: ""
-ms.date: "07/09/2015"
-ms.prod: "azure"
+ms.date: "07/08/2020"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -10,8 +9,8 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: ccd80576-5493-4eba-bbb6-3012b178ebb0
 caps.latest.revision: 10
-author: "sethmanheim"
-ms.author: "sethm"
+author: "spelluru"
+ms.author: "spelluru"
 manager: "timlt"
 translation.priority.mt: 
   - "de-de"
@@ -43,14 +42,19 @@ translation.priority.mt:
 |“2015-01”|  
   
 ## Features exposed using both the REST client and the .NET managed API  
- The table below details the features which are exposed using both the REST client and the .NET managed API. Note that not all features are available to REST clients.  
+ The table below details the features that are exposed using both the REST client and the .NET managed API. Note that not all features are available to REST clients.  
   
 |Feature|REST Client|.NET Client|  
 |-------------|-----------------|-----------------|  
-|Send to Queue/Topic|X|X|  
-|Receive from Queue/Subscription|X|X|  
-|Session Receivers||X|  
-|Filters|X|X|  
-|Message Enrichment||X|  
-|Custom Filter Definitions||X|  
-|Batching|X|X|
+|Send to queue/topic|X|X|  
+|Receive from queue/subscription|X|X|  
+|Support for partitioned entities|X|X|  
+|Support for express entities|X|X|  
+|Scheduled messages|X|X|  
+|Batching|send only|X|  
+|Session receivers||X|  
+|Deadlettering||X|  
+|Message deferral||X|  
+| Filters | X | X | 
+| Message enrichment | | X | 
+| Custom filter definitions | | X | 

@@ -1,7 +1,7 @@
 ---
 title: "ServiceType"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ServiceType"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -32,6 +32,7 @@ translation.priority.mt:
 | Name | Description |
 | --- | --- |
 | [Get Service Type Info List](sfclient-api-getservicetypeinfolist.md) | Gets the list containing the information about service types that are supported by a provisioned application type in a Service Fabric cluster.<br/> |
+| [Get Service Type Info By Name](sfclient-api-getservicetypeinfobyname.md) | Gets the information about a specific service type that is supported by a provisioned application type in a Service Fabric cluster.<br/> |
 | [Get Service Manifest](sfclient-api-getservicemanifest.md) | Gets the manifest describing a service type.<br/> |
 | [Get Deployed Service Type Info List](sfclient-api-getdeployedservicetypeinfolist.md) | Gets the list containing the information about service types from the applications deployed on a node in a Service Fabric cluster.<br/> |
 | [Get Deployed Service Type Info By Name](sfclient-api-getdeployedservicetypeinfobyname.md) | Gets the information about a specified service type of the application deployed on a node in a Service Fabric cluster.<br/> |

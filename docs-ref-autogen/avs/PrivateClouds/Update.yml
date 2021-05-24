@@ -1,0 +1,562 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.avs.privateclouds.update
+name: Update
+service: AVS
+groupName: Private Clouds
+apiVersion: 2020-03-20
+summary: Update a private cloud
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}?api-version=2020-03-20
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: privateCloudName
+  in: path
+  isRequired: true
+  description: Name of the private cloud
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: successful operation
+  types:
+  - uid: PrivateCloud
+- name: 201 Created
+  description: accepted operation
+  types:
+  - uid: PrivateCloud
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.managementCluster
+    in: body
+    description: The default cluster used for management
+    types:
+    - uid: ManagementCluster
+  - name: properties.internet
+    in: body
+    description: Connectivity to internet is enabled or disabled
+    types:
+    - uid: InternetEnum
+  - name: properties.identitySources
+    in: body
+    description: vCenter Single Sign On Identity Sources
+    types:
+    - uid: IdentitySource
+      isArray: true
+requestHeader: []
+definitions:
+- name: ManagementCluster
+  description: The properties of a default cluster
+  kind: object
+  properties:
+  - name: provisioningState
+    isReadyOnly: true
+    description: The state of the cluster provisioning
+    types:
+    - uid: ClusterProvisioningState
+  - name: clusterId
+    isReadyOnly: true
+    description: The identity
+    types:
+    - uid: integer
+  - name: hosts
+    isReadyOnly: true
+    description: The hosts
+    types:
+    - uid: string
+      isArray: true
+  - name: clusterSize
+    description: The cluster size
+    types:
+    - uid: integer
+- name: IdentitySource
+  description: vCenter Single Sign On Identity Source
+  kind: object
+  properties:
+  - name: name
+    description: The name of the identity source
+    types:
+    - uid: string
+  - name: alias
+    description: The domain's NetBIOS name
+    types:
+    - uid: string
+  - name: domain
+    description: The domain's dns name
+    types:
+    - uid: string
+  - name: baseUserDN
+    description: The base distinguished name for users
+    types:
+    - uid: string
+  - name: baseGroupDN
+    description: The base distinguished name for groups
+    types:
+    - uid: string
+  - name: primaryServer
+    description: Primary server URL
+    types:
+    - uid: string
+  - name: secondaryServer
+    description: Secondary server URL
+    types:
+    - uid: string
+  - name: ssl
+    description: Protect LDAP communication using SSL certificate (LDAPS)
+    types:
+    - uid: SslEnum
+  - name: username
+    description: The ID of an Active Directory user with a minimum of read-only access to Base DN for users and group
+    types:
+    - uid: string
+  - name: password
+    description: The password of the Active Directory user with a minimum of read-only access to Base DN for users and groups.
+    types:
+    - uid: string
+- name: PrivateCloud
+  description: A private cloud resource
+  kind: object
+  properties:
+  - name: sku
+    description: The private cloud SKU
+    types:
+    - uid: Sku
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state
+    types:
+    - uid: PrivateCloudProvisioningState
+  - name: properties.circuit
+    description: An ExpressRoute Circuit
+    types:
+    - uid: Circuit
+  - name: properties.endpoints
+    isReadyOnly: true
+    description: The endpoints
+    types:
+    - uid: Endpoints
+  - name: properties.networkBlock
+    description: The block of addresses should be unique across VNet in your subscription as well as on-premise. Make sure the CIDR format is conformed to (A.B.C.D/X) where A,B,C,D are between 0 and 255, and X is between 0 and 22
+    types:
+    - uid: string
+  - name: properties.managementNetwork
+    isReadyOnly: true
+    description: Network used to access vCenter Server and NSX-T Manager
+    types:
+    - uid: string
+  - name: properties.provisioningNetwork
+    isReadyOnly: true
+    description: Used for virtual machine cold migration, cloning, and snapshot migration
+    types:
+    - uid: string
+  - name: properties.vmotionNetwork
+    isReadyOnly: true
+    description: Used for live migration of virtual machines
+    types:
+    - uid: string
+  - name: properties.vcenterPassword
+    description: Optionally, set the vCenter admin password when the private cloud is created
+    types:
+    - uid: string
+  - name: properties.nsxtPassword
+    description: Optionally, set the NSX-T Manager password when the private cloud is created
+    types:
+    - uid: string
+  - name: properties.vcenterCertificateThumbprint
+    isReadyOnly: true
+    description: Thumbprint of the vCenter Server SSL certificate
+    types:
+    - uid: string
+  - name: properties.nsxtCertificateThumbprint
+    isReadyOnly: true
+    description: Thumbprint of the NSX-T Manager SSL certificate
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.managementCluster
+    description: The default cluster used for management
+    types:
+    - uid: ManagementCluster
+  - name: properties.internet
+    description: Connectivity to internet is enabled or disabled
+    types:
+    - uid: InternetEnum
+  - name: properties.identitySources
+    description: vCenter Single Sign On Identity Sources
+    types:
+    - uid: IdentitySource
+      isArray: true
+- name: CloudError
+  description: API error response
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nAn error returned by the API"
+    types:
+    - uid: ErrorResponse
+- name: PrivateCloudUpdate
+  description: An update to a private cloud resource
+  kind: object
+  properties:
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.managementCluster
+    description: The default cluster used for management
+    types:
+    - uid: ManagementCluster
+  - name: properties.internet
+    description: Connectivity to internet is enabled or disabled
+    types:
+    - uid: InternetEnum
+  - name: properties.identitySources
+    description: vCenter Single Sign On Identity Sources
+    types:
+    - uid: IdentitySource
+      isArray: true
+- name: ClusterProvisioningState
+  description: The state of the cluster provisioning
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+- name: SslEnum
+  description: Protect LDAP communication using SSL certificate (LDAPS)
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: Sku
+  description: The resource model definition representing SKU
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU.
+    types:
+    - uid: string
+- name: PrivateCloudProvisioningState
+  description: The provisioning state
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Building
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+- name: Circuit
+  description: An ExpressRoute Circuit
+  kind: object
+  properties:
+  - name: primarySubnet
+    isReadyOnly: true
+    description: CIDR of primary subnet
+    types:
+    - uid: string
+  - name: secondarySubnet
+    isReadyOnly: true
+    description: CIDR of secondary subnet
+    types:
+    - uid: string
+  - name: expressRouteID
+    isReadyOnly: true
+    description: Identifier of the ExpressRoute Circuit (Microsoft Colo only)
+    types:
+    - uid: string
+  - name: expressRoutePrivatePeeringID
+    isReadyOnly: true
+    description: ExpressRoute Circuit private peering identifier
+    types:
+    - uid: string
+- name: Endpoints
+  description: Endpoint addresses
+  kind: object
+  properties:
+  - name: nsxtManager
+    isReadyOnly: true
+    description: Endpoint for the NSX-T Data Center manager
+    types:
+    - uid: string
+  - name: vcsa
+    isReadyOnly: true
+    description: Endpoint for Virtual Center Server Appliance
+    types:
+    - uid: string
+  - name: hcxCloudManager
+    isReadyOnly: true
+    description: Endpoint for the HCX Cloud Manager
+    types:
+    - uid: string
+- name: InternetEnum
+  description: Connectivity to internet is enabled or disabled
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: PrivateClouds_Update
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1?api-version=2020-03-20
+    body: >-
+      {
+        "properties": {
+          "managementCluster": {
+            "clusterSize": 4
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1",
+        "location": "eastus2",
+        "name": "cloud1",
+        "sku": {
+          "name": "AV36"
+        },
+        "properties": {
+          "networkBlock": "192.168.48.0/22",
+          "circuit": {
+            "expressRouteID": "/subscriptions/{subscription-id}/resourceGroups/tnt13-41a90db2-9d5e-4bd5-a77a-5ce7b58213d6-eastus2/providers/Microsoft.Network/expressroutecircuits/tnt13-41a90db2-9d5e-4bd5-a77a-5ce7b58213d6-eastus2-xconnect",
+            "primarySubnet": "192.168.53.0/30",
+            "secondarySubnet": "192.168.53.4/30",
+            "expressRoutePrivatePeeringID": "/subscriptions/{subscription-id}/resourceGroups/tnt42-cust-p01-dmo01/providers/Microsoft.Network/expressroutecircuits/tnt42-cust-p01-dmo01-er/peerings/AzurePrivatePeering"
+          },
+          "managementCluster": {
+            "clusterId": 1,
+            "clusterSize": 4,
+            "hosts": [
+              "fakehost18.nyc1.kubernetes.center",
+              "fakehost19.nyc1.kubernetes.center",
+              "fakehost20.nyc1.kubernetes.center",
+              "fakehost21.nyc1.kubernetes.center"
+            ]
+          },
+          "endpoints": {
+            "nsxtManager": "https://192.168.50.3/",
+            "vcsa": "https://192.168.50.2/",
+            "hcxCloudManager": "https://192.168.50.4/"
+          },
+          "identitySources": [
+            {
+              "alias": "groupAlias",
+              "baseGroupDN": "ou=baseGroup",
+              "baseUserDN": "ou=baseUser",
+              "domain": "domain1",
+              "name": "group1",
+              "primaryServer": "ldaps://1.1.1.1:636/",
+              "secondaryServer": "ldaps://1.1.1.2:636/",
+              "ssl": "Enabled"
+            }
+          ],
+          "internet": "Disabled",
+          "provisioningState": "Succeeded"
+        },
+        "tags": {},
+        "type": "Microsoft.AVS/privateClouds"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1",
+        "location": "eastus2",
+        "name": "cloud1",
+        "sku": "AV36",
+        "properties": {
+          "networkBlock": "192.168.48.0/22",
+          "circuit": {
+            "expressRouteID": "/subscriptions/{subscription-id}/resourceGroups/tnt13-41a90db2-9d5e-4bd5-a77a-5ce7b58213d6-eastus2/providers/Microsoft.Network/expressroutecircuits/tnt13-41a90db2-9d5e-4bd5-a77a-5ce7b58213d6-eastus2-xconnect",
+            "primarySubnet": "192.168.53.0/30",
+            "secondarySubnet": "192.168.53.4/30",
+            "expressRoutePrivatePeeringID": "/subscriptions/{subscription-id}/resourceGroups/tnt42-cust-p01-dmo01/providers/Microsoft.Network/expressroutecircuits/tnt42-cust-p01-dmo01-er/peerings/AzurePrivatePeering"
+          },
+          "managementCluster": {
+            "clusterId": 1,
+            "clusterSize": 4,
+            "hosts": [
+              "fakehost18.nyc1.kubernetes.center",
+              "fakehost19.nyc1.kubernetes.center",
+              "fakehost20.nyc1.kubernetes.center",
+              "fakehost21.nyc1.kubernetes.center"
+            ]
+          },
+          "endpoints": {
+            "nsxtManager": "https://192.168.50.3/",
+            "vcsa": "https://192.168.50.2/"
+          },
+          "identitySources": [
+            {
+              "alias": "groupAlias",
+              "baseGroupDN": "ou=baseGroup",
+              "baseUserDN": "ou=baseUser",
+              "domain": "domain1",
+              "name": "group1",
+              "primaryServer": "ldaps://1.1.1.1:636/",
+              "secondaryServer": "ldaps://1.1.1.2:636/",
+              "ssl": "Enabled"
+            }
+          ],
+          "internet": "Disabled",
+          "provisioningState": "Updating"
+        },
+        "tags": {},
+        "type": "Microsoft.AVS/privateClouds"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

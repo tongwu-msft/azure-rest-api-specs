@@ -1,7 +1,7 @@
 ---
 title: "StatelessServiceTypeDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "StatelessServiceTypeDescription"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,58 +34,58 @@ Describes a stateless service type defined in the service manifest of a provisio
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [IsStateful](#isstateful) | boolean | No |
-| [ServiceTypeName](#servicetypename) | string | No |
-| [PlacementConstraints](#placementconstraints) | string | No |
-| [ServicePlacementPolicies](#serviceplacementpolicies) | array of [ServicePlacementPolicyDescription](sfclient-model-serviceplacementpolicydescription.md) | No |
-| [Extensions](#extensions) | array of [ServiceTypeExtensionDescription](sfclient-model-servicetypeextensiondescription.md) | No |
-| [UseImplicitHost](#useimplicithost) | boolean | No |
+| [`IsStateful`](#isstateful) | boolean | No |
+| [`ServiceTypeName`](#servicetypename) | string | No |
+| [`PlacementConstraints`](#placementconstraints) | string | No |
+| [`LoadMetrics`](#loadmetrics) | array of [ServiceLoadMetricDescription](sfclient-model-serviceloadmetricdescription.md) | No |
+| [`ServicePlacementPolicies`](#serviceplacementpolicies) | array of [ServicePlacementPolicyDescription](sfclient-model-serviceplacementpolicydescription.md) | No |
+| [`Extensions`](#extensions) | array of [ServiceTypeExtensionDescription](sfclient-model-servicetypeextensiondescription.md) | No |
+| [`UseImplicitHost`](#useimplicithost) | boolean | No |
 
 ____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateless' for objects of type 'StatelessServiceTypeDescription'.
-
-____
-### IsStateful
+### `IsStateful`
 __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>
 Indicates whether the service type is a stateful service type or a stateless service type. This property is true if the service type is a stateful service type, false otherwise.
 
 ____
-### ServiceTypeName
+### `ServiceTypeName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Name of the service type as specified in the service manifest.
 
 ____
-### PlacementConstraints
+### `PlacementConstraints`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The placement constraint to be used when instantiating this service in a Service Fabric cluster.
 
 ____
-### ServicePlacementPolicies
+### `LoadMetrics`
+__Type__: array of [ServiceLoadMetricDescription](sfclient-model-serviceloadmetricdescription.md) <br/>
+__Required__: No<br/>
+<br/>
+The service load metrics is given as an array of ServiceLoadMetricDescription objects.
+
+____
+### `ServicePlacementPolicies`
 __Type__: array of [ServicePlacementPolicyDescription](sfclient-model-serviceplacementpolicydescription.md) <br/>
 __Required__: No<br/>
 <br/>
 List of service placement policy descriptions.
 
 ____
-### Extensions
+### `Extensions`
 __Type__: array of [ServiceTypeExtensionDescription](sfclient-model-servicetypeextensiondescription.md) <br/>
 __Required__: No<br/>
 <br/>
 List of service type extensions.
 
 ____
-### UseImplicitHost
+### `UseImplicitHost`
 __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>

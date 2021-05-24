@@ -1,0 +1,128 @@
+### YamlMime:RESTOperation
+uid: synapse.data-plane.pipeline.createpipelinerun
+name: Create Pipeline Run
+service: Synapse
+groupName: Pipeline
+apiVersion: 2019-06-01-preview
+summary: Creates a run of a pipeline.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/pipelines/{pipelineName}/createRun?api-version=2019-06-01-preview
+- content: POST {endpoint}/pipelines/{pipelineName}/createRun?api-version=2019-06-01-preview&referencePipelineRunId={referencePipelineRunId}&isRecovery={isRecovery}&startActivityName={startActivityName}
+  isOptional: true
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
+  types:
+  - uid: string
+- name: pipelineName
+  in: path
+  isRequired: true
+  description: The pipeline name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9_][^<>*#.%&:\\+?/]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Synapse client API Version.
+  types:
+  - uid: string
+- name: referencePipelineRunId
+  in: query
+  description: The pipeline run identifier. If run ID is specified the parameters of the specified run will be used to create a new run.
+  types:
+  - uid: string
+- name: isRecovery
+  in: query
+  description: Recovery mode flag. If recovery mode is set to true, the specified referenced pipeline run and the new run will be grouped under the same groupId.
+  types:
+  - uid: boolean
+- name: startActivityName
+  in: query
+  description: In recovery mode, the rerun will start from this activity. If not specified, all activities will run.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Accepted.
+  types:
+  - uid: CreateRunResponse
+- name: Other Status Codes
+  description: An error response received from the Azure Synapse service.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: parameters
+    in: body
+    description: Parameters of the pipeline run. These parameters will be used only if the runId is not specified.
+    types:
+    - uid: ParameterValueSpecification
+requestHeader: []
+definitions:
+- name: CreateRunResponse
+  description: Response body with a run identifier.
+  kind: object
+  properties:
+  - name: runId
+    description: Identifier of a run.
+    types:
+    - uid: string
+- name: CloudError
+  description: The object that defines the structure of an Azure Synapse error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+examples:
+- name: Pipelines_CreateRun
+  request:
+    uri: POST exampleWorkspace.dev.azuresynapse.net/pipelines/examplePipeline/createRun?api-version=2019-06-01-preview&referencePipelineRunId=
+    body: >-
+      {
+        "OutputBlobNameList": [
+          "exampleoutput.csv"
+        ]
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Date
+      value: Sat, 16 Jun 2018 00:37:48 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1190"
+    - name: x-ms-request-id
+      value: 5c2b442b-d360-43ec-9268-f923f88f31fd
+    - name: x-ms-correlation-request-id
+      value: 5c2b442b-d360-43ec-9268-f923f88f31fd
+    body: >-
+      {
+        "runId": "2f7fdb90-5df1-4b8e-ac2f-064cfa58202b"
+      }
+security: []
+errorCodes: []

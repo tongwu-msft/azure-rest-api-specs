@@ -1,0 +1,134 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.2019-12-01.gateway.regeneratekey
+name: Regenerate Key
+service: API Management
+groupName: Gateway
+apiVersion: 2019-12-01
+summary: Regenerates specified gateway key invalidating any tokens created with it.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/regenerateKey?api-version=2019-12-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: gatewayId
+  in: path
+  isRequired: true
+  description: Gateway entity identifier. Must be unique in the current API Management service instance. Must not have value 'managed'
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  description: Key successfully regenerated
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: keyType
+    in: body
+    isRequired: true
+    description: The Key being regenerated.
+    types:
+    - uid: KeyType
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: error.message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: GatewayKeyRegenerationRequestContract
+  description: Gateway key regeneration request contract properties.
+  kind: object
+  properties:
+  - name: keyType
+    description: The Key being regenerated.
+    types:
+    - uid: KeyType
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+- name: KeyType
+  description: The Key to be used to generate gateway token.
+  kind: enum
+  properties:
+  - name: primary
+    types:
+    - uid: string
+  - name: secondary
+    types:
+    - uid: string
+examples:
+- name: ApiManagementGatewayRegeneratePrimaryKey
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/gateways/gwId/regenerateKey?api-version=2019-12-01
+    body: >-
+      {
+        "keyType": "primary"
+      }
+  responses:
+  - statusCode: "204"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

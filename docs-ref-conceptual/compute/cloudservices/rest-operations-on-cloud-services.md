@@ -2,10 +2,9 @@
 title: "Operations on Cloud Services | Microsoft Docs"
 ms.custom: 
   - "VMClassic"
-ms.date: "2015-08-18"
-ms.prod: "azure"
+ms.date: "08/18/2015"
 ms.reviewer: ""
-ms.service: "cloud-services"
+
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"

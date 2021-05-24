@@ -1,7 +1,7 @@
 ---
 title: "NodeTransitionProgress"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "NodeTransitionProgress"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -36,28 +36,32 @@ is Completed or Faulted.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [State](#state) | string (enum) | No |
-| [NodeTransitionResult](#nodetransitionresult) | [NodeTransitionResult](sfclient-model-nodetransitionresult.md) | No |
+| [`State`](#state) | string (enum) | No |
+| [`NodeTransitionResult`](#nodetransitionresult) | [NodeTransitionResult](sfclient-model-nodetransitionresult.md) | No |
 
 ____
-### State
+### `State`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-- Invalid - The operation state is invalid.
-- Running - The operation is in progress.
-- RollingBack -  The operation is rolling back internal system state because it encountered a fatal error or was cancelled by the user.  "RollingBack"
-   does not refer to user state.  For example, if CancelOperation is called on a command of type PartitionDataLoss,
-   a state of "RollingBack" does not mean service data is being restored (assuming the command has progressed far enough to cause data loss).
-   It means the system is rolling back/cleaning up internal system state associated with the command.
-- Completed - The operation has completed successfully and is no longer running.
-- Faulted - The operation has failed and is no longer running.
-- Cancelled - The operation was cancelled by the user using CancelOperation, and is no longer running.
-- ForceCancelled - The operation was cancelled by the user using CancelOperation, with the force parameter set to true.  It is no longer running.  Refer to CancelOperation for more details.
+
+
+The state of the operation.
+
+Possible values are: 
+
+  - `Invalid` - The operation state is invalid.
+  - `Running` - The operation is in progress.
+  - `RollingBack` - The operation is rolling back internal system state because it encountered a fatal error or was cancelled by the user.  "RollingBack"     does not refer to user state.  For example, if CancelOperation is called on a command of type PartitionDataLoss, state of "RollingBack" does not mean service data is being restored (assuming the command has progressed far enough to cause data loss). It means the system is rolling back/cleaning up internal system state associated with the command.
+  - `Completed` - The operation has completed successfully and is no longer running.
+  - `Faulted` - The operation has failed and is no longer running.
+  - `Cancelled` - The operation was cancelled by the user using CancelOperation, and is no longer running.
+  - `ForceCancelled` - The operation was cancelled by the user using CancelOperation, with the force parameter set to true.  It is no longer running.  Refer to CancelOperation for more details.
+
 
 
 ____
-### NodeTransitionResult
+### `NodeTransitionResult`
 __Type__: [NodeTransitionResult](sfclient-model-nodetransitionresult.md) <br/>
 __Required__: No<br/>
 <br/>

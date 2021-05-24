@@ -1,0 +1,225 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.internetanalyzer.experiments.listbyprofile
+name: List By Profile
+service: Internet Analyzer
+groupName: Experiments
+apiVersion: 2019-11-01
+summary: Gets a list of Experiments
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/NetworkExperimentProfiles/{profileName}/Experiments?api-version=2019-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_\-\(\)\.]*[^\.]$
+- name: profileName
+  in: path
+  isRequired: true
+  description: The Profile identifier associated with the Tenant and Partner
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_\-\(\)\.]*[^\.]$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: successful operation
+  types:
+  - uid: ExperimentList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ExperimentList
+  description: Defines a list of Experiments. It contains a list of Experiment objects and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of Experiments within a resource group.
+    types:
+    - uid: Experiment
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of Experiment objects if there are any.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates Front Door service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: Experiment
+  description: Defines the properties of an Experiment
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The name of the Experiment
+    types:
+    - uid: string
+  - name: properties.description
+    description: The description of the details or intents of the Experiment
+    types:
+    - uid: string
+  - name: properties.endpointA
+    description: The endpoint A of an experiment
+    types:
+    - uid: Endpoint
+  - name: properties.endpointB
+    description: The endpoint B of an experiment
+    types:
+    - uid: Endpoint
+  - name: properties.enabledState
+    description: The state of the Experiment
+    types:
+    - uid: state
+  - name: properties.resourceState
+    isReadyOnly: true
+    description: Resource status.
+    types:
+    - uid: NetworkExperimentResourceState
+  - name: properties.status
+    isReadyOnly: true
+    description: The description of Experiment status from the server side
+    types:
+    - uid: string
+  - name: properties.scriptFileUri
+    isReadyOnly: true
+    description: The uri to the Script used in the Experiment
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: Endpoint
+  description: Defines the endpoint properties
+  kind: object
+  properties:
+  - name: name
+    description: The name of the endpoint
+    types:
+    - uid: string
+  - name: endpoint
+    description: The endpoint URL
+    types:
+    - uid: string
+- name: state
+  description: The state of the Experiment
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: NetworkExperimentResourceState
+  description: Defines the server side resource status
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Enabling
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabling
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+examples:
+- name: Gets a list of Experiments
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments?api-version=2019-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "MyExperiment",
+            "id": "/subscriptions/subId/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile/Experiments",
+            "properties": {
+              "description": "this is my first experiment!",
+              "endpointA": {
+                "name": "endpoint A",
+                "endpoint": "endpointA.net"
+              },
+              "endpointB": {
+                "name": "endpoint B",
+                "endpoint": "endpointB.net"
+              },
+              "enabledState": "Enabled",
+              "resourceState": "Creating",
+              "status": "ongoing",
+              "scriptFileUri": "www.myScript.com"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -1,8 +1,7 @@
 ---
 title: "WebHDFS FileSystem APIs"
 ms.custom: ""
-ms.date: "2016-12-20"
-ms.prod: "azure"
+ms.date: 12/20/2016
 ms.reviewer: ""
 ms.service: "data-lake-store"
 ms.suite: ""

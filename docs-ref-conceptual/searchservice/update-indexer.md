@@ -1,53 +1,56 @@
 ---
-title: "Update Indexer (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2016-11-09"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: a4f55a3f-cf85-4fdb-822c-759310ca0bf1
-caps.latest.revision: 9
+title: Update Indexer (Azure Cognitive Search REST API)
+description: Modify an Azure Cognitive Search indexer used for crawling external data sources for searchable content.
+ms.date: 06/30/2020
+
+ms.service: cognitive-search
+ms.topic: language-reference
+ms.devlang: rest-api
+
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+ms.manager: nitinme
 ---
-# Update Indexer (Azure Search Service REST API)
-  You can update an existing indexer using an HTTP PUT request. You specify the name of the indexer to update on the request URI:  
+# Update Indexer (Azure Cognitive Search REST API)
 
-```  
-    PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
+You can update an existing indexer definition using an HTTP PUT request. Specify the name of the indexer to update on the request URI:  
+
+```http
+PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]  
     Content-Type: application/json  
     api-key: [admin key]  
 ```  
 
- The **api-version** is required. The current version is `2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for details.  
+Updating an indexer definition does not automatically run it, but depending on your modifications and the associated a data source, a reset and rerun might be required.
 
- The **api-key** must be an admin key (as opposed to a query key). Refer to the authentication section in [Azure Search Service REST](index.md) to learn more about keys. [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) explains how to get the service URL and key properties used in the request.  
+## URI Parameters
 
-## Request  
- The request body syntax is the same as for [Create Indexer &#40;Azure Search Service REST API&#41;](create-indexer.md).  
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| indexer name  | Required. The request URI specifies the name of the indexer to update. |
+| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|  
+
+ ## Request Headers 
+ The following table describes the required and optional request headers.  
+
+|Fields              |Description      |  
+|--------------------|-----------------|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Update requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
+
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).    
+
+## Request Body
+ The request body syntax is the same as for [Create Indexer](create-indexer.md).
+
+ When updating an existing indexer, the entire definition is replaced with the contents of the request body. In general, the best pattern to use for updates is to retrieve the indexer definition with a GET, modify it, and then update it with PUT.  
 
 ## Response  
  For a successful request: 201 Created if a new indexer was created, and 204 No Content if an existing indexer was updated.  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [HTTP status codes &#40;Azure Search&#41;](http-status-codes.md)   
- [Indexer operations &#40;Azure Search Service REST API&#41;](indexer-operations.md)   
- [Naming rules &#40;Azure Search&#41;](naming-rules.md)  
+ [Azure Cognitive Search REST APIs](index.md)   
+ [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
+ [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md)   
+ [Naming rules &#40;Azure Cognitive Search&#41;](naming-rules.md)  

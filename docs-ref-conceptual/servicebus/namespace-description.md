@@ -1,8 +1,7 @@
 ---
 title: "Namespace Description"
 ms.custom: ""
-ms.date: "2016-06-06"
-ms.prod: "azure"
+ms.date: 07/08/2020
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -10,9 +9,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 6ffabc1d-1062-4ed5-8ce8-4b9092af7d7c
 caps.latest.revision: 9
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"

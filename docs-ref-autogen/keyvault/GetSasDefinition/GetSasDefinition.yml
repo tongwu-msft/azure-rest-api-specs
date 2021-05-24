@@ -1,0 +1,215 @@
+### YamlMime:RESTOperation
+uid: keyvault.getsasdefinition.getsasdefinition
+name: Get Sas Definition
+service: Key Vault
+groupName: Get Sas Definition
+apiVersion: "7.2"
+summary: Gets information about a SAS definition for the specified storage account. This operation requires the storage/getsas permission.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {vaultBaseUrl}/storage/{storage-account-name}/sas/{sas-definition-name}?api-version=7.2
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: storage-account-name
+  in: path
+  isRequired: true
+  description: The name of the storage account.
+  types:
+  - uid: string
+  pattern: ^[0-9a-zA-Z]+$
+- name: sas-definition-name
+  in: path
+  isRequired: true
+  description: The name of the SAS definition.
+  types:
+  - uid: string
+  pattern: ^[0-9a-zA-Z]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The retrieved SAS definition.
+  types:
+  - uid: SasDefinitionBundle
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestHeader: []
+definitions:
+- name: SasDefinitionBundle
+  description: A SAS definition bundle consists of key vault SAS definition details plus its attributes.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The SAS definition id.
+    types:
+    - uid: string
+  - name: sid
+    isReadyOnly: true
+    description: Storage account SAS definition secret id.
+    types:
+    - uid: string
+  - name: templateUri
+    isReadyOnly: true
+    description: The SAS definition token template signed with an arbitrary key.  Tokens created according to the SAS definition will have the same properties as the template.
+    types:
+    - uid: string
+  - name: sasType
+    isReadyOnly: true
+    description: The type of SAS token the SAS definition will create.
+    types:
+    - uid: SasTokenType
+  - name: validityPeriod
+    isReadyOnly: true
+    description: The validity period of SAS tokens created according to the SAS definition.
+    types:
+    - uid: string
+  - name: attributes
+    isReadyOnly: true
+    description: The SAS definition attributes.
+    types:
+    - uid: SasDefinitionAttributes
+  - name: tags
+    isReadyOnly: true
+    description: Application specific metadata in the form of key-value pairs
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: SasTokenType
+  description: The type of SAS token the SAS definition will create.
+  kind: enum
+  properties:
+  - name: account
+    types:
+    - uid: string
+  - name: service
+    types:
+    - uid: string
+- name: SasDefinitionAttributes
+  description: The SAS definition management attributes.
+  kind: object
+  properties:
+  - name: enabled
+    description: the enabled state of the object.
+    types:
+    - uid: boolean
+  - name: created
+    isReadyOnly: true
+    description: Creation time in UTC.
+    types:
+    - uid: integer
+  - name: updated
+    isReadyOnly: true
+    description: Last updated time in UTC.
+    types:
+    - uid: integer
+  - name: recoverableDays
+    isReadyOnly: true
+    description: softDelete data retention days. Value should be >=7 and <=90 when softDelete enabled, otherwise 0.
+    types:
+    - uid: integer
+  - name: recoveryLevel
+    isReadyOnly: true
+    description: Reflects the deletion recovery level currently in effect for SAS definitions in the current vault. If it contains 'Purgeable' the SAS definition can be permanently deleted by a privileged user; otherwise, only the system can purge the SAS definition, at the end of the retention interval.
+    types:
+    - uid: DeletionRecoveryLevel
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: DeletionRecoveryLevel
+  description: Reflects the deletion recovery level currently in effect for storage accounts in the current vault. If it contains 'Purgeable' the storage account can be permanently deleted by a privileged user; otherwise, only the system can purge the storage account, at the end of the retention interval.
+  kind: enum
+  properties:
+  - name: Purgeable
+    description: Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.)
+    types:
+    - uid: string
+  - name: Recoverable+Purgeable
+    description: Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered
+    types:
+    - uid: string
+  - name: Recoverable
+    description: Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval(90 days) and while the subscription is still available. System wil permanently delete it after 90 days, if not recovered
+    types:
+    - uid: string
+  - name: Recoverable+ProtectedSubscription
+    description: Denotes a vault and subscription state in which deletion is recoverable within retention interval (90 days), immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself  cannot be permanently canceled. System wil permanently delete it after 90 days, if not recovered
+    types:
+    - uid: string
+  - name: CustomizedRecoverable+Purgeable
+    description: Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays < 90). This level guarantees the recoverability of the deleted entity during the retention interval, unless a Purge operation is requested, or the subscription is cancelled.
+    types:
+    - uid: string
+  - name: CustomizedRecoverable
+    description: Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the deleted entity during the retention interval and while the subscription is still available.
+    types:
+    - uid: string
+  - name: CustomizedRecoverable+ProtectedSubscription
+    description: Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7<= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled.
+    types:
+    - uid: string
+examples:
+- name: Get Storage Sas Definition
+  request:
+    uri: GET https://myvault.vault.azure.net//storage/getsas01/sas/getStrgSasDef01?api-version=7.2
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "https://myvault.vault.azure.net/storage/getsas01/sas/getStrgSasDef01",
+        "sid": "https://myvault.vault.azure.net/secrets/getsas01-getStrgSasDef01",
+        "templateUri": "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=XXFNfuMCHYrBx0bhemJ7PWn0xGfImMXT6LfbXWvtRUk%3D",
+        "sasType": "service",
+        "validityPeriod": "P15D",
+        "attributes": {
+          "enabled": true,
+          "created": 1490738438,
+          "updated": 1490738438,
+          "recoveryLevel": "Recoverable"
+        }
+      }
+security: []
+errorCodes: []

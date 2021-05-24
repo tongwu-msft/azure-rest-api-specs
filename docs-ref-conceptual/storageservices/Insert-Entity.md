@@ -1,30 +1,16 @@
 ---
-title: "Insert Entity"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+title: Insert Entity (REST API) - Azure Storage
+description: The Insert Entity operation inserts a new entity into a table.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 9ca046aa-e9b4-4eaf-a7c0-d6ccdbaf48b9
-caps.latest.revision: 56
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Insert Entity
+
 The `Insert Entity` operation inserts a new entity into a table.  
   
 ## Request  
@@ -34,7 +20,7 @@ The `Insert Entity` operation inserts a new entity into a table.
 |------------|-----------------|------------------|  
 |`POST`|`https://myaccount.table.core.windows.net/mytable`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Table service port as `127.0.0.1:10002`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -55,14 +41,14 @@ The `Insert Entity` operation inserts a new entity into a table.
   
 |Request header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Type`|Required. Specifies the content type of the payload. Possible values are `application/atom+xml` (versions prior to 2015-12-11 only) and `application/json`.<br /><br /> For more formation about valid content types, see [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md).|  
 |`Content-Length`|Required. The length of the request body.|  
 |`Accept`|Optional. Specifies the accepted content-type of the response payload. Possible values are:<br /><br /> -   `application/atom+xml` (versions prior to 2015-12-11 only)<br />-   `application/json;odata=nometadata`<br />-   `application/json;odata=minimalmetadata`<br />-   `application/json;odata=fullmetadata`<br /><br /> For more information, see [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md).|  
 |`Prefer`|Optional. Specifies whether the response should include the inserted entity in the payload. Possible values are `return-no-content` and `return-content`. For more information, see [Setting the Prefer Header to Manage Response Echo on Insert Operations](Setting-the-Prefer-Header-to-Manage-Response-Echo-on-Insert-Operations.md).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
  The `Insert Entity` operation sends the entity to be inserted as an OData entity, which is either a JSON or an Atom feed. For more information, see [Inserting and Updating Entities](Inserting-and-Updating-Entities.md).  
@@ -95,7 +81,7 @@ The `Insert Entity` operation inserts a new entity into a table.
   
 ```  
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
+<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom">  
   <title />  
   <updated>2013-09-18T23:46:19.3857256Z</updated>  
   <author>  
@@ -128,7 +114,7 @@ The `Insert Entity` operation inserts a new entity into a table.
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md) and [Table Service Error Codes](Table-Service-Error-Codes.md).  
   
 ### Response Headers  
- The response includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -138,6 +124,7 @@ The `Insert Entity` operation inserts a new entity into a table.
 |`ETag`|The ETag for the entity.|  
 |`Preference-Applied`|Indicates whether the `Prefer` request header was honored. If the response does not include this header, then the `Prefer` header was not honored. If this header is returned, its value will either be `return-content` or `return-no-content`.<br /><br /> For more information, see [Setting the Prefer Header to Manage Response Echo on Insert Operations](Setting-the-Prefer-Header-to-Manage-Response-Echo-on-Insert-Operations.md).|  
 |`Content-Type`|Indicates the content type of the payload. The value depends on the value specified for the `Accept` request header. Possible values are:<br /><br /> -   `application/atom+xml`<br />-   `application/json;odata=nometadata`<br />-   `application/json;odata=minimalmetadata`<br />-   `application/json;odata=fullmetadata`<br /><br /> For more information about content types, see [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md).|  
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
  If the request includes the `Prefer` header with the value `return-no-content`, no response body is returned. Otherwise, the response body is an OData entity set.  
@@ -219,7 +206,7 @@ The `Insert Entity` operation inserts a new entity into a table.
   
 ```  
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<entry xml:base="https://myaccount.table.core.windows.net/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:etag="W/"0x5B168C7B6E589D2"" xmlns="http://www.w3.org/2005/Atom">  
+<entry xml:base="https://myaccount.table.core.windows.net/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:etag="W/"0x5B168C7B6E589D2"" xmlns="https://www.w3.org/2005/Atom">  
   <id>https://myaccount.table.core.windows.net/mytable(PartitionKey='mypartitionkey',RowKey='myrowkey1')</id>  
   <title type="text"></title>  
   <updated>2008-09-18T23:46:19.3857256Z</updated>  
@@ -251,7 +238,7 @@ The `Insert Entity` operation inserts a new entity into a table.
 ## Remarks  
  When inserting an entity into a table, you must specify values for the `PartitionKey` and `RowKey` system properties. Together, these properties form the primary key and must be unique within the table.  
   
- Both the `PartitionKey` and `RowKey` values must be string values; each key value may be up to 64 KB in size. If you are using an integer value for the key value, you should convert the integer to a fixed-width string, because they are canonically sorted. For example, you should convert the value `1` to `0000001` to ensure proper sorting.  
+ Both the `PartitionKey` and `RowKey` values must be string values; each key value may be up to 64 KiB in size. If you are using an integer value for the key value, you should convert the integer to a fixed-width string, because they are canonically sorted. For example, you should convert the value `1` to `0000001` to ensure proper sorting.  
   
  To explicitly type a property, specify the appropriate OData data type by setting the `m:type` attribute within the property definition in the Atom feed. For more information about typing properties, see [Inserting and Updating Entities](Inserting-and-Updating-Entities.md).  
 
@@ -259,8 +246,8 @@ The `Insert Entity` operation inserts a new entity into a table.
   
  For information about performing batch insert operations, see [Performing Entity Group Transactions](Performing-Entity-Group-Transactions.md).  
   
-## See Also  
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
+## See also  
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md)   
  [Inserting and Updating Entities](Inserting-and-Updating-Entities.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   

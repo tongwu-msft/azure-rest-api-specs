@@ -1,0 +1,797 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.avs.operations.list
+name: List
+service: AVS
+groupName: Operations
+apiVersion: 2020-03-20
+summary: Lists all of the available operations
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.AVS/operations?api-version=2020-03-20
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request has succeeded
+  types:
+  - uid: OperationList
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: OperationList
+  description: Pageable list of operations
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of operations
+    types:
+    - uid: Operation
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URL to get the next page if any
+    types:
+    - uid: string
+- name: CloudError
+  description: API error response
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nAn error returned by the API"
+    types:
+    - uid: ErrorResponse
+- name: Operation
+  description: A REST API operation
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the operation being performed on this object
+    types:
+    - uid: string
+  - name: display
+    isReadyOnly: true
+    description: Contains the localized display information for this operation
+    types:
+    - uid: Display
+  - name: isDataAction
+    description: Gets or sets a value indicating whether the operation is a data action or not
+    types:
+    - uid: boolean
+  - name: origin
+    description: Origin of the operation
+    types:
+    - uid: string
+  - name: properties
+    description: Properties of the operation
+    types:
+    - uid: OperationProperties
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: Display
+  description: Contains the localized display information for this operation
+  kind: object
+  properties:
+  - name: provider
+    isReadyOnly: true
+    description: Localized friendly form of the resource provider name
+    types:
+    - uid: string
+  - name: resource
+    isReadyOnly: true
+    description: Localized friendly form of the resource type related to this operation
+    types:
+    - uid: string
+  - name: operation
+    isReadyOnly: true
+    description: Localized friendly name for the operation
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: Localized friendly description for the operation
+    types:
+    - uid: string
+- name: OperationProperties
+  description: Extra Operation properties
+  kind: object
+  properties:
+  - name: serviceSpecification
+    description: Service specifications of the operation
+    types:
+    - uid: ServiceSpecification
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: ServiceSpecification
+  description: Service specification payload
+  kind: object
+  properties:
+  - name: logSpecifications
+    description: Specifications of the Log for Azure Monitoring
+    types:
+    - uid: LogSpecification
+      isArray: true
+  - name: metricSpecifications
+    description: Specifications of the Metrics for Azure Monitoring
+    types:
+    - uid: MetricSpecification
+      isArray: true
+- name: LogSpecification
+  description: Specifications of the Log for Azure Monitoring
+  kind: object
+  properties:
+  - name: name
+    description: Name of the log
+    types:
+    - uid: string
+  - name: displayName
+    description: Localized friendly display name of the log
+    types:
+    - uid: string
+  - name: blobDuration
+    description: Blob duration of the log
+    types:
+    - uid: string
+- name: MetricSpecification
+  description: Specifications of the Metrics for Azure Monitoring
+  kind: object
+  properties:
+  - name: name
+    description: Name of the metric
+    types:
+    - uid: string
+  - name: displayName
+    description: Localized friendly display name of the metric
+    types:
+    - uid: string
+  - name: displayDescription
+    description: Localized friendly description of the metric
+    types:
+    - uid: string
+  - name: unit
+    description: Unit that makes sense for the metric
+    types:
+    - uid: string
+  - name: category
+    description: Name of the metric category that the metric belongs to. A metric can only belong to a single category.
+    types:
+    - uid: string
+  - name: aggregationType
+    description: 'Only provide one value for this field. Valid values: Average, Minimum, Maximum, Total, Count.'
+    types:
+    - uid: string
+  - name: supportedAggregationTypes
+    description: Supported aggregation types
+    types:
+    - uid: string
+      isArray: true
+  - name: supportedTimeGrainTypes
+    description: Supported time grain types
+    types:
+    - uid: string
+      isArray: true
+  - name: fillGapWithZero
+    description: Optional. If set to true, then zero will be returned for time duration where no metric is emitted/published.
+    types:
+    - uid: boolean
+  - name: dimensions
+    description: Dimensions of the metric
+    types:
+    - uid: MetricDimension
+      isArray: true
+  - name: enableRegionalMdmAccount
+    description: Whether or not the service is using regional MDM accounts.
+    types:
+    - uid: string
+  - name: sourceMdmAccount
+    description: The name of the MDM account.
+    types:
+    - uid: string
+  - name: sourceMdmNamespace
+    description: The name of the MDM namespace.
+    types:
+    - uid: string
+- name: MetricDimension
+  description: Specifications of the Dimension of metrics
+  kind: object
+  properties:
+  - name: name
+    description: Name of the dimension
+    types:
+    - uid: string
+  - name: displayName
+    description: Localized friendly display name of the dimension
+    types:
+    - uid: string
+  - name: internalName
+    description: Name of the dimension as it appears in MDM
+    types:
+    - uid: string
+  - name: toBeExportedForShoebox
+    description: A boolean flag indicating whether this dimension should be included for the shoebox export scenario
+    types:
+    - uid: boolean
+examples:
+- name: Operations_List
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.AVS/operations?api-version=2020-03-20
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "display": {
+              "description": "Lists operations available on Microsoft.AVS resource provider.",
+              "operation": "List available Microsoft.AVS operations",
+              "provider": "Microsoft.AVS",
+              "resource": "operations"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/operations/read",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Register Subscription for Microsoft.AVS resource provider.",
+              "operation": "Register Subscription for Microsoft.AVS",
+              "provider": "Microsoft.AVS",
+              "resource": ""
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/register/action",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Unregister Subscription for Microsoft.AVS resource provider.",
+              "operation": "Unregister Subscription for Microsoft.AVS",
+              "provider": "Microsoft.AVS",
+              "resource": ""
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/unregister/action",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Checks if the privateCloud Name is available",
+              "operation": "Check Name Availability",
+              "provider": "Microsoft.AVS",
+              "resource": "checkNameAvailability"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/checkNameAvailability/read",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Checks if the privateCloud Name is available",
+              "operation": "Check Name Availability",
+              "provider": "Microsoft.AVS",
+              "resource": "locations/checkNameAvailability"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/locations/checkNameAvailability/read",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Checks if quota is available for the subscription",
+              "operation": "Check Quota Availability",
+              "provider": "Microsoft.AVS",
+              "resource": "locations/checkQuotaAvailability"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/locations/checkQuotaAvailability/read",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Checks if trial is available for the subscription",
+              "operation": "Check Trial Availability",
+              "provider": "Microsoft.AVS",
+              "resource": "locations/checkTrialAvailability"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/locations/checkTrialAvailability/read",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Registers the Microsoft Microsoft.AVS resource provider and enables creation of Private Clouds.",
+              "operation": "Register Microsoft.AVS resource provider.",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/register/action",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Creates or updates a PrivateCloud resource.",
+              "operation": "Create or update a PrivateCloud.",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/write",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Gets the settings for the specified PrivateCloud.",
+              "operation": "Read PrivateCloud settings",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/read",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Delete a specific PrivateCloud.",
+              "operation": "Delete a PrivateCloud.",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/delete",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Reads privateClouds operationstatuses.",
+              "operation": "Read privateClouds operationstatuses",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds/operationstatuses"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/operationstatuses/read",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Gets the cluster settings for a PrivateCloud cluster.",
+              "operation": "Read Cluster settings.",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds/clusters"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/clusters/read",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Create or update a PrivateCloud cluster resource.",
+              "operation": "Create or update a PrivateCloud cluster.",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds/clusters"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/clusters/write",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Delete a specific PrivateCloud cluster.",
+              "operation": "Delete a PriveCloud cluster.",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds/clusters"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/clusters/delete",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Reads privateClouds/clusters operationstatuses.",
+              "operation": "Read privateClouds/clusters operationstatuses",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds/clusters/operationstatuses"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/clusters/operationstatuses/read",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Reads privateClouds/clusters operationresults.",
+              "operation": "Read privateClouds/clusters operationresults",
+              "provider": "Microsoft.AVS",
+              "resource": "privateclouds/clusters/operationresults"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateclouds/clusters/operationresults/read",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Reads privateClouds operationresults.",
+              "operation": "Read privateClouds operationresults",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds/operationresults"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/operationresults/read",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Gets the authorization settings for a PrivateCloud cluster.",
+              "operation": "Read Authorization settings.",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds/authorizations"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/authorizations/read",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Create or update a PrivateCloud authorization resource.",
+              "operation": "Create or update a PrivateCloud authorization.",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds/authorizations"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/authorizations/write",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Delete a specific PrivateCloud authorization.",
+              "operation": "Delete a PriveCloud authorization.",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds/authorizations"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/authorizations/delete",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Lists the AdminCredentials for privateClouds.",
+              "operation": "List privateClouds AdminCredentials",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds"
+            },
+            "isDataAction": true,
+            "name": "Microsoft.AVS/privateClouds/listAdminCredentials/action",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Gets the hcxEnterpriseSites for a PrivateCloud.",
+              "operation": "Read hcxEnterpriseSites",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds/hcxEnterpriseSites"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/hcxEnterpriseSites/read",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Create or update a hcxEnterpriseSites.",
+              "operation": "Create or update a hcxEnterpriseSites",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds/hcxEnterpriseSites"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/hcxEnterpriseSites/write",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Delete a specific hcxEnterpriseSites.",
+              "operation": "Delete a hcxEnterpriseSites",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds/hcxEnterpriseSites"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/hcxEnterpriseSites/delete",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Gets the hostInstances for a PrivateCloud.",
+              "operation": "Read hostInstances",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds/hostInstances"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/hostInstances/read",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Create or update a hostInstances.",
+              "operation": "Create or update a hostInstances",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds/hostInstances"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/hostInstances/write",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Delete a specific hostInstances.",
+              "operation": "Delete a hostInstances",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds/hostInstances"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/hostInstances/delete",
+            "origin": "user,system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Gets the available metrics for Private Cloud",
+              "operation": "Read Private Cloud metric definitions",
+              "provider": "Microsoft Azure Dedicated",
+              "resource": "privateClouds"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/providers/Microsoft.Insights/metricDefinitions/read",
+            "origin": "system",
+            "properties": {
+              "serviceSpecification": {
+                "metricSpecifications": [
+                  {
+                    "aggregationType": "Average",
+                    "displayDescription": "The total amount of disk used in SDDC",
+                    "displayName": "Datastore disk used",
+                    "enableRegionalMdmAccount": "true",
+                    "name": "UsedLatest",
+                    "sourceMdmAccount": "AVSShoebox2",
+                    "sourceMdmNamespace": "Vsphere.Datastore.Disk",
+                    "supportedTimeGrainTypes": [
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "unit": "Bytes"
+                  },
+                  {
+                    "aggregationType": "Average",
+                    "displayDescription": "The total capacity of disk in SDDC",
+                    "displayName": "Datastore disk total capacity",
+                    "enableRegionalMdmAccount": "true",
+                    "name": "CapacityLatest",
+                    "sourceMdmAccount": "AVSShoebox2",
+                    "sourceMdmNamespace": "Vsphere.Datastore.Disk",
+                    "supportedTimeGrainTypes": [
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "unit": "Bytes"
+                  },
+                  {
+                    "aggregationType": "Average",
+                    "displayDescription": "Total amount of machine memory in cluster that is available",
+                    "displayName": "Average Effective Memory",
+                    "enableRegionalMdmAccount": "true",
+                    "name": "EffectiveMemAverage",
+                    "sourceMdmAccount": "AVSShoebox2",
+                    "sourceMdmNamespace": "Vsphere.Cluster.ClusterServices",
+                    "supportedTimeGrainTypes": [
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "unit": "Bytes"
+                  },
+                  {
+                    "aggregationType": "Average",
+                    "displayDescription": "Total memory in cluster",
+                    "displayName": "Average Total Memory",
+                    "enableRegionalMdmAccount": "true",
+                    "name": "TotalMbAverage",
+                    "sourceMdmAccount": "AVSShoebox2",
+                    "sourceMdmNamespace": "Vsphere.Cluster.Mem",
+                    "supportedTimeGrainTypes": [
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "unit": "Bytes"
+                  },
+                  {
+                    "aggregationType": "Average",
+                    "displayDescription": "Host physical memory consumed by the virtualization infrastructure",
+                    "displayName": "Average Memory Overhead",
+                    "enableRegionalMdmAccount": "true",
+                    "name": "OverheadAverage",
+                    "sourceMdmAccount": "AVSShoebox2",
+                    "sourceMdmNamespace": "Vsphere.Cluster.Mem",
+                    "supportedTimeGrainTypes": [
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "unit": "Bytes"
+                  },
+                  {
+                    "aggregationType": "Average",
+                    "displayDescription": "Memory usage as percentage of total configured or available memory",
+                    "displayName": "Average Memory Usage",
+                    "enableRegionalMdmAccount": "true",
+                    "name": "UsageAverage",
+                    "sourceMdmAccount": "AVSShoebox2",
+                    "sourceMdmNamespace": "Vsphere.Cluster.Mem",
+                    "supportedTimeGrainTypes": [
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "unit": "Percent"
+                  },
+                  {
+                    "aggregationType": "Average",
+                    "displayDescription": "Total available CPU resources in cluster",
+                    "displayName": "Effective CPU available",
+                    "enableRegionalMdmAccount": "true",
+                    "name": "EffectiveCpuAverage",
+                    "sourceMdmAccount": "AVSShoebox2",
+                    "sourceMdmNamespace": "Vsphere.Cluster.ClusterServices",
+                    "supportedTimeGrainTypes": [
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "unit": "Percent"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "display": {
+              "description": "Gets the diagnostic setting for the resource",
+              "operation": "Read diagnostic setting",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/providers/Microsoft.Insights/diagnosticSettings/read",
+            "origin": "system",
+            "properties": {}
+          },
+          {
+            "display": {
+              "description": "Creates or updates the diagnostic setting for the resource",
+              "operation": "Write diagnostic setting",
+              "provider": "Microsoft.AVS",
+              "resource": "privateClouds"
+            },
+            "isDataAction": false,
+            "name": "Microsoft.AVS/privateClouds/providers/Microsoft.Insights/diagnosticSettings/write",
+            "origin": "system",
+            "properties": {}
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

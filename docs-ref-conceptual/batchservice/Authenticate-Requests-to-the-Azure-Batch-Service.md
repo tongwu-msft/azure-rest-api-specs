@@ -1,8 +1,7 @@
 ---
 title: "Authenticate Requests to the Azure Batch Service | Microsoft Docs"
 ms.custom: ""
-ms.date: "2017-02-01"
-ms.prod: "azure"
+ms.date: 02/01/2017
 ms.reviewer: ""
 ms.service: "batch"
 ms.suite: ""

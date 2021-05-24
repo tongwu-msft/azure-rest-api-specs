@@ -1,7 +1,7 @@
 ---
 title: "HealthEvent"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "HealthEvent"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -35,30 +35,31 @@ Represents health information reported on a health entity, such as cluster, appl
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [SourceId](#sourceid) | string | Yes |
-| [Property](#property) | string | Yes |
-| [HealthState](#healthstate) | string (enum) | Yes |
-| [TimeToLiveInMilliSeconds](#timetoliveinmilliseconds) | string (duration) | No |
-| [Description](#description) | string | No |
-| [SequenceNumber](#sequencenumber) | string | No |
-| [RemoveWhenExpired](#removewhenexpired) | boolean | No |
-| [IsExpired](#isexpired) | boolean | No |
-| [SourceUtcTimestamp](#sourceutctimestamp) | string (date-time) | No |
-| [LastModifiedUtcTimestamp](#lastmodifiedutctimestamp) | string (date-time) | No |
-| [LastOkTransitionAt](#lastoktransitionat) | string (date-time) | No |
-| [LastWarningTransitionAt](#lastwarningtransitionat) | string (date-time) | No |
-| [LastErrorTransitionAt](#lasterrortransitionat) | string (date-time) | No |
+| [`SourceId`](#sourceid) | string | Yes |
+| [`Property`](#property) | string | Yes |
+| [`HealthState`](#healthstate) | string (enum) | Yes |
+| [`TimeToLiveInMilliSeconds`](#timetoliveinmilliseconds) | string (duration) | No |
+| [`Description`](#description) | string | No |
+| [`SequenceNumber`](#sequencenumber) | string | No |
+| [`RemoveWhenExpired`](#removewhenexpired) | boolean | No |
+| [`HealthReportId`](#healthreportid) | string | No |
+| [`IsExpired`](#isexpired) | boolean | No |
+| [`SourceUtcTimestamp`](#sourceutctimestamp) | string (date-time) | No |
+| [`LastModifiedUtcTimestamp`](#lastmodifiedutctimestamp) | string (date-time) | No |
+| [`LastOkTransitionAt`](#lastoktransitionat) | string (date-time) | No |
+| [`LastWarningTransitionAt`](#lastwarningtransitionat) | string (date-time) | No |
+| [`LastErrorTransitionAt`](#lasterrortransitionat) | string (date-time) | No |
 
 ____
-### SourceId
+### `SourceId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
-The source name which identifies the client/watchdog/system component which generated the health information.
+The source name that identifies the client/watchdog/system component that generated the health information.
 
 
 ____
-### Property
+### `Property`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
@@ -73,25 +74,30 @@ Together with the SourceId, the property uniquely identifies the health informat
 
 
 ____
-### HealthState
+### `HealthState`
 __Type__: string (enum) <br/>
 __Required__: Yes<br/>
 <br/>
+
+
 The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
 
-  - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Ok - Indicates the health state is okay. The value is 1.
-  - Warning - Indicates the health state is at a warning level. The value is 2.
-  - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
-  - Unknown - Indicates an unknown health status. The value is 65535.
+Possible values are: 
+
+  - `Invalid` - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Ok` - Indicates the health state is okay. The value is 1.
+  - `Warning` - Indicates the health state is at a warning level. The value is 2.
+  - `Error` - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+  - `Unknown` - Indicates an unknown health status. The value is 65535.
+
 
 
 ____
-### TimeToLiveInMilliSeconds
+### `TimeToLiveInMilliSeconds`
 __Type__: string (duration) <br/>
 __Required__: No<br/>
 <br/>
-The duration for which this health report is valid. This field is using ISO8601 format for specifying the duration.
+The duration for which this health report is valid. This field uses ISO8601 format for specifying the duration.
 When clients report periodically, they should send reports with higher frequency than time to live.
 If clients report on transition, they can set the time to live to infinite.
 When time to live expires, the health event that contains the health information
@@ -101,7 +107,7 @@ If not specified, time to live defaults to infinite value.
 
 
 ____
-### Description
+### `Description`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -114,7 +120,7 @@ Note that when truncated, the description has less than 4096 characters from the
 
 
 ____
-### SequenceNumber
+### `SequenceNumber`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
@@ -124,41 +130,50 @@ If not specified, a sequence number is auto-generated by the health client when 
 
 
 ____
-### RemoveWhenExpired
+### `RemoveWhenExpired`
 __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>
 Value that indicates whether the report is removed from health store when it expires.
-If set to true, the report is remopved from the health store after it expires.
+If set to true, the report is removed from the health store after it expires.
 If set to false, the report is treated as an error when expired. The value of this property is false by default.
 When clients report periodically, they should set RemoveWhenExpired false (default).
-This way, is the reporter has issues (eg. deadlock) and can't report, the entity is evaluated at error when the health report expires.
+This way, if the reporter has issues (e.g. deadlock) and can't report, the entity is evaluated at error when the health report expires.
 This flags the entity as being in Error health state.
 
 
 ____
-### IsExpired
+### `HealthReportId`
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+A health report ID which identifies the health report and can be used to find more detailed information about a specific health event at
+aka.ms/sfhealthid
+
+
+____
+### `IsExpired`
 __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>
 Returns true if the health event is expired, otherwise false.
 
 ____
-### SourceUtcTimestamp
+### `SourceUtcTimestamp`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The date and time when the health report was sent by the source.
 
 ____
-### LastModifiedUtcTimestamp
+### `LastModifiedUtcTimestamp`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 The date and time when the health report was last modified by the health store.
 
 ____
-### LastOkTransitionAt
+### `LastOkTransitionAt`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
@@ -172,7 +187,7 @@ If the health state was never 'Ok', the value will be zero date-time.
 
 
 ____
-### LastWarningTransitionAt
+### `LastWarningTransitionAt`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
@@ -184,7 +199,7 @@ If the health state was never 'Warning', the value will be zero date-time.
 
 
 ____
-### LastErrorTransitionAt
+### `LastErrorTransitionAt`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>

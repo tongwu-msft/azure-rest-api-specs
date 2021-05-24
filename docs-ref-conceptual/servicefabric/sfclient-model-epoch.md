@@ -1,7 +1,7 @@
 ---
 title: "Epoch"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "Epoch"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -35,19 +35,19 @@ An Epoch is a configuration number for the partition as a whole. When the config
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ConfigurationVersion](#configurationversion) | string | No |
-| [DataLossVersion](#datalossversion) | string | No |
+| [`ConfigurationVersion`](#configurationversion) | string | No |
+| [`DataLossVersion`](#datalossversion) | string | No |
 
 ____
-### ConfigurationVersion
+### `ConfigurationVersion`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The current configuration number of this Epoch. The configuration number is an increasing value that is updated whenever the configuration of this replica set changes.
 
 ____
-### DataLossVersion
+### `DataLossVersion`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The current dataloss number of this Epoch. The data loss number property is an increasing value which is updated whenever data loss is suspected, as when loss of a quorum of replicas in the replica set that includes the Primary replica.
+The current data loss number of this Epoch. The data loss number property is an increasing value which is updated whenever data loss is suspected, as when loss of a quorum of replicas in the replica set that includes the Primary replica.

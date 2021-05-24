@@ -1,7 +1,7 @@
 ---
 title: "ServiceTypeHealthPolicy"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ServiceTypeHealthPolicy"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -35,15 +35,15 @@ Represents the health policy used to evaluate the health of services belonging t
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [MaxPercentUnhealthyPartitionsPerService](#maxpercentunhealthypartitionsperservice) | integer | No |
-| [MaxPercentUnhealthyReplicasPerPartition](#maxpercentunhealthyreplicasperpartition) | integer | No |
-| [MaxPercentUnhealthyServices](#maxpercentunhealthyservices) | integer | No |
+| [`MaxPercentUnhealthyPartitionsPerService`](#maxpercentunhealthypartitionsperservice) | integer | No |
+| [`MaxPercentUnhealthyReplicasPerPartition`](#maxpercentunhealthyreplicasperpartition) | integer | No |
+| [`MaxPercentUnhealthyServices`](#maxpercentunhealthyservices) | integer | No |
 
 ____
-### MaxPercentUnhealthyPartitionsPerService
+### `MaxPercentUnhealthyPartitionsPerService`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The maximum allowed percentage of unhealthy partitions per service. Allowed values are Byte values from zero to 100
 
@@ -54,10 +54,10 @@ The computation rounds up to tolerate one failure on small numbers of partitions
 
 
 ____
-### MaxPercentUnhealthyReplicasPerPartition
+### `MaxPercentUnhealthyReplicasPerPartition`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The maximum allowed percentage of unhealthy replicas per partition. Allowed values are Byte values from zero to 100.
 
@@ -68,12 +68,12 @@ The computation rounds up to tolerate one failure on small numbers of replicas. 
 
 
 ____
-### MaxPercentUnhealthyServices
+### `MaxPercentUnhealthyServices`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
-The maximum maximum allowed percentage of unhealthy services. Allowed values are Byte values from zero to 100.
+The maximum allowed percentage of unhealthy services. Allowed values are Byte values from zero to 100.
 
 The percentage represents the maximum tolerated percentage of services that can be unhealthy before the application is considered in error.
 If the percentage is respected but there is at least one unhealthy service, the health is evaluated as Warning.

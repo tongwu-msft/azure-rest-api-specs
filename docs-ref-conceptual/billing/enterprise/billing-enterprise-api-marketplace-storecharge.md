@@ -1,77 +1,71 @@
 ---
-title: Azure Billing Enterprise APIs - Marketplace Charges| Microsoft Docs
+title: Azure Billing Enterprise APIs - Marketplace Charges
 description: Learn about the Reporting APIs that enable Enterprise Azure customers to pull consumption data programmatically.
-services: ''
-documentationcenter: ''
-author: anandedwin
-manager: aedwin
-editor: ''
+author: banders
+ms.reviewer: prkumar
 tags: billing
-
-ms.assetid: 3e817b43-0696-400c-a02e-47b7817f9b77
-ms.service: billing
-ms.devlang: na
+ms.service: cost-management-billing
 ms.topic: article
-ms.tgt_pltfrm: na
-ms.workload: billing
-ms.date: 04/25/2017
-ms.author: aedwin
+ms.date: 06/22/2019
+ms.author: banders
 
 ---
 # Reporting APIs for Enterprise customers - Marketplace Store Charge
 
-The Marketplace Store Charge API returns the usage-based marketplace charges breakdown by day for the specified Billing Period or start and end dates (one time fees are not included).
+> [!Note]
+> Microsoft no longer updates the Enterprise Reporting APIs. Instead, you should use [Azure Consumption](/rest/api/consumption) APIs.
+> The Azure Billing - Marketplace Charges API is replaced by the [Azure Consumption - Charges API](/rest/api/consumption/charges).
 
-##Request 
-Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). If a billing period is not specified, then data for the current billing period is returned. Custom time ranges can be specified with the start and end date parameters that are in the format yyyy-MM-dd, the maximum supported time range is 36 months.  
+The Marketplace Store Charge API returns the usage-based marketplace charges breakdown by day for the specified Billing Period or start and end dates. Recurring Charges are returned as a part of the API response.
+
+## Request
+Common header properties that you must specify are shown in the [Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article. If a billing period isn't specified, then data for the current billing period is returned. You can specify custom time ranges. Start and end date parameters are in yyyy-MM-dd format. The maximum supported time range is 36 months.  
 
 |Method | Request URI|
 |-|-|
-|GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/marketplacecharges|
-|GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/billingPeriods/{billingPeriod}/marketplacecharges|
-|GET|https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/marketplacechargesbycustomdate?startTime=2017-01-01&endTime=2017-01-10|
+|GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/marketplacecharges|
+|GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/billingPeriods/{billingPeriod}/marketplacecharges|
+|GET|https://consumption.azure.com/v3/enrollments/{enrollmentNumber}/marketplacechargesbycustomdate?startTime=2017-01-01&endTime=2017-01-10|
 
-> [!Note]
-> To use the preview version of API, replace v2 with v1 in the above URL.
->
 
 ## Response
- 
-	
-		[
-			{
-				"id": "id",
-				"subscriptionGuid": "00000000-0000-0000-0000-000000000000",
-				"subscriptionName": "subName",
-				"meterId": "2core",
-				"usageStartDate": "2015-09-17T00:00:00Z",
-				"usageEndDate": "2015-09-17T23:59:59Z",
-				"offerName": "Virtual LoadMaster™ (VLM) for Azure",
-				"resourceGroup": "Res group",
-				"instanceId": "id",
-				"additionalInfo": "{\"ImageType\":null,\"ServiceType\":\"Medium\"}",
-				"tags": "",
-				"orderNumber": "order",
-				"unitOfMeasure": "",
-				"costCenter": "100",
-				"accountId": 100,
-				"accountName": "Account Name",
-				"accountOwnerId": "account@live.com",
-				"departmentId": 101,
-				"departmentName": "Department 1",
-				"publisherName": "Publisher 1",
-				"planName": "Plan name",
-				"consumedQuantity": 1.15,
-				"resourceRate": 0.1,
-				"extendedCost": 1.11
-			},
-			...
-		]
-	
+
+
+        [
+            {
+                "id": "id",
+                "subscriptionGuid": "00000000-0000-0000-0000-000000000000",
+                "subscriptionName": "subName",
+                "meterId": "2core",
+                "usageStartDate": "2015-09-17T00:00:00Z",
+                "usageEndDate": "2015-09-17T23:59:59Z",
+                "offerName": "Virtual LoadMaster&trade; (VLM) for Azure",
+                "resourceGroup": "Res group",
+                "instanceId": "id",
+                "additionalInfo": "{\"ImageType\":null,\"ServiceType\":\"Medium\"}",
+                "tags": "",
+                "orderNumber": "order",
+                "unitOfMeasure": "",
+                "costCenter": "100",
+                "accountId": 100,
+                "accountName": "Account Name",
+                "accountOwnerId": "account@live.com",
+                "departmentId": 101,
+                "departmentName": "Department 1",
+                "publisherName": "Publisher 1",
+                "planName": "Plan name",
+                "consumedQuantity": 1.15,
+                "resourceRate": 0.1,
+                "extendedCost": 1.11,
+                "isRecurringCharge": "False"
+            },
+            ...
+        ]
+
 
 **Response property definitions**
 
-|Property Name| Type| Description
+|Property Name| Type| Description|
 |-|-|-|
 |id|string|Unique Id for the marketplace charge item|
 |subscriptionGuid|Guid|The Subscription Guid|
@@ -97,13 +91,13 @@ Common header properties that need to be added are specified [here](https://docs
 |consumedQuantity|decimal|Consumed Quantity during this time period|
 |resourceRate|decimal|Unit price for the meter|
 |extendedCost|decimal|Estimated charge based on Consumed Quantity and Extended cost|
+|isRecurringCharge|string|Recurring charges indicator|
+
 <br/>
+
 ## See also
 
 * [Billing Periods API](billing-enterprise-api-billing-periods.md)
-
-* [Usage Detail API](billing-enterprise-api-usage-detail.md) 
-
+* [Usage Detail API](billing-enterprise-api-usage-detail.md)
 * [Balance and Summary API](billing-enterprise-api-balance-summary.md)
-
 * [Price Sheet API](billing-enterprise-api-pricesheet.md)

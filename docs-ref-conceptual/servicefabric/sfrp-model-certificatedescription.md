@@ -1,7 +1,6 @@
 ---
 title: "CertificateDescription"
-ms.date: "2017-05-16"
-ms.prod: "azure"
+ms.date: 06/04/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -10,9 +9,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric Resource Manager REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -55,4 +54,17 @@ ____
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The local certificate store location.
+
+  - AddressBook - The certificate store for other users.
+  - AuthRoot - The certificate store for third-party certificate authorities (CAs).
+  - CertificateAuthority - The certificate store for intermediate certificate authorities (CAs).
+  - Disallowed - The certificate store for revoked certificates.
+  - My - The certificate store for personal certificates.
+  - Root - The certificate store for trusted root certificate authorities (CAs).
+  - TrustedPeople - The certificate store for directly trusted people and resources.
+  - TrustedPublisher - The certificate store for directly trusted publishers.
+
+

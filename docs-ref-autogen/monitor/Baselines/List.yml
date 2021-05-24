@@ -1,0 +1,303 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.monitor.baselines.list
+name: List
+service: Monitor
+groupName: Baselines
+apiVersion: 2019-03-01
+summary: '**Lists the metric baseline values for a resource**.'
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{resourceUri}/providers/Microsoft.Insights/metricBaselines?api-version=2019-03-01
+- content: GET https://management.azure.com/{resourceUri}/providers/Microsoft.Insights/metricBaselines?metricnames={metricnames}&metricnamespace={metricnamespace}&timespan={timespan}&interval={interval}&aggregation={aggregation}&sensitivities={sensitivities}&$filter={$filter}&resultType={resultType}&api-version=2019-03-01
+  isOptional: true
+uriParameters:
+- name: resourceUri
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The identifier of the resource.
+  types:
+  - uid: string
+- name: metricnames
+  in: query
+  description: The names of the metrics (comma separated) to retrieve.
+  types:
+  - uid: string
+- name: metricnamespace
+  in: query
+  description: Metric namespace to query metric definitions for.
+  types:
+  - uid: string
+- name: timespan
+  in: query
+  description: The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'.
+  types:
+  - uid: string
+- name: interval
+  in: query
+  description: The interval (i.e. timegrain) of the query.
+  types:
+  - uid: string
+  format: duration
+- name: aggregation
+  in: query
+  description: The list of aggregation types (comma separated) to retrieve.
+  types:
+  - uid: string
+- name: sensitivities
+  in: query
+  description: The list of sensitivities (comma separated) to retrieve.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**.
+  types:
+  - uid: string
+- name: resultType
+  in: query
+  description: Allows retrieving only metadata of the baseline. On data request all information is retrieved.
+  types:
+  - uid: ResultType
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+- name: 200 OK
+  description: Successful request to get the list of metric baseline values.
+  types:
+  - uid: MetricBaselinesResponse
+requestHeader: []
+definitions:
+- name: ResultType
+  description: Allows retrieving only metadata of the baseline. On data request all information is retrieved.
+  kind: enum
+  properties:
+  - name: Data
+    types:
+    - uid: string
+  - name: Metadata
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: MetricBaselinesResponse
+  description: A list of metric baselines.
+  kind: object
+  properties:
+  - name: value
+    description: The list of metric baselines.
+    types:
+    - uid: SingleMetricBaseline
+      isArray: true
+- name: SingleMetricBaseline
+  description: The baseline results of a single metric.
+  kind: object
+  properties:
+  - name: id
+    description: The metric baseline Id.
+    types:
+    - uid: string
+  - name: type
+    description: The resource type of the metric baseline resource.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the metric for which the baselines were retrieved.
+    types:
+    - uid: string
+  - name: properties.timespan
+    description: The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested.
+    types:
+    - uid: string
+  - name: properties.interval
+    description: The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made.
+    types:
+    - uid: string
+  - name: properties.namespace
+    description: The namespace of the metrics been queried.
+    types:
+    - uid: string
+  - name: properties.baselines
+    description: The baseline for each time series that was queried.
+    types:
+    - uid: TimeSeriesBaseline
+      isArray: true
+- name: TimeSeriesBaseline
+  description: The baseline values for a single time series.
+  kind: object
+  properties:
+  - name: aggregation
+    description: The aggregation type of the metric.
+    types:
+    - uid: string
+  - name: dimensions
+    description: The dimensions of this time series.
+    types:
+    - uid: MetricSingleDimension
+      isArray: true
+  - name: timestamps
+    description: The list of timestamps of the baselines.
+    types:
+    - uid: string
+      isArray: true
+  - name: data
+    description: The baseline values for each sensitivity.
+    types:
+    - uid: SingleBaseline
+      isArray: true
+  - name: metadataValues
+    description: The baseline metadata values.
+    types:
+    - uid: BaselineMetadata
+      isArray: true
+- name: MetricSingleDimension
+  description: The metric dimension name and value.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the dimension.
+    types:
+    - uid: string
+  - name: value
+    description: Value of the dimension.
+    types:
+    - uid: string
+- name: SingleBaseline
+  description: The baseline values for a single sensitivity value.
+  kind: object
+  properties:
+  - name: sensitivity
+    description: the sensitivity of the baseline.
+    types:
+    - uid: BaselineSensitivity
+  - name: lowThresholds
+    description: The low thresholds of the baseline.
+    types:
+    - uid: number
+      isArray: true
+  - name: highThresholds
+    description: The high thresholds of the baseline.
+    types:
+    - uid: number
+      isArray: true
+- name: BaselineMetadata
+  description: Represents a baseline metadata value.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the baseline metadata.
+    types:
+    - uid: string
+  - name: value
+    description: Value of the baseline metadata.
+    types:
+    - uid: string
+- name: BaselineSensitivity
+  description: the sensitivity of the baseline.
+  kind: enum
+  properties:
+  - name: Low
+    types:
+    - uid: string
+  - name: Medium
+    types:
+    - uid: string
+  - name: High
+    types:
+    - uid: string
+examples:
+- name: Get metric baselines
+  request:
+    uri: GET https://management.azure.com/subscriptions/b368ca2f-e298-46b7-b0ab-012281956afa/resourceGroups/vms/providers/Microsoft.Compute/virtualMachines/vm1/providers/Microsoft.Insights/metricBaselines?timespan=2019-03-12T11:00:00.000Z/2019-03-12T12:00:00.000Z&interval=PT1H&aggregation=average&sensitivities=Low,Medium&api-version=2019-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/11aeb0ed-456b-4ca0-8df5-b9fbdc63d0d3/resourceGroups/SmartAnalytics-DEV-VM/providers/Microsoft.Compute/virtualMachines/DemoVM1/providers/microsoft.insights/metricBaselines/Percentage CPU",
+            "type": "microsoft.insights/metricBaselines",
+            "name": "Percentage CPU",
+            "properties": {
+              "interval": "PT1H",
+              "timespan": "2019-03-12T11:00:00.000Z/2019-03-12T12:00:00.000Z",
+              "namespace": "microsoft.compute/virtualmachines",
+              "baselines": [
+                {
+                  "aggregation": "average",
+                  "dimensions": [],
+                  "metadataValues": [
+                    {
+                      "name": "ErrorType",
+                      "value": "TooManyAnomalies"
+                    },
+                    {
+                      "name": "SeasonalityFrequency",
+                      "value": "288"
+                    }
+                  ],
+                  "timestamps": [
+                    "2019-03-12T11:00:00.000Z",
+                    "2019-03-12T12:00:00.000Z"
+                  ],
+                  "data": [
+                    {
+                      "sensitivity": "Low",
+                      "lowThresholds": [
+                        30,
+                        31.1
+                      ],
+                      "highThresholds": [
+                        90.3453,
+                        91.3453
+                      ]
+                    },
+                    {
+                      "sensitivity": "Medium",
+                      "lowThresholds": [
+                        50,
+                        51.1
+                      ],
+                      "highThresholds": [
+                        70.3453,
+                        71.3453
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

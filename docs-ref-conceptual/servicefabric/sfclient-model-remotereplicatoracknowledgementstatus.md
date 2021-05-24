@@ -1,7 +1,7 @@
 ---
 title: "RemoteReplicatorAcknowledgementStatus"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "RemoteReplicatorAcknowledgementStatus"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,18 +34,18 @@ Provides details about the remote replicators from the primary replicator's poin
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ReplicationStreamAcknowledgementDetail](#replicationstreamacknowledgementdetail) | [RemoteReplicatorAcknowledgementDetail](sfclient-model-remotereplicatoracknowledgementdetail.md) | No |
-| [CopyStreamAcknowledgementDetail](#copystreamacknowledgementdetail) | [RemoteReplicatorAcknowledgementDetail](sfclient-model-remotereplicatoracknowledgementdetail.md) | No |
+| [`ReplicationStreamAcknowledgementDetail`](#replicationstreamacknowledgementdetail) | [RemoteReplicatorAcknowledgementDetail](sfclient-model-remotereplicatoracknowledgementdetail.md) | No |
+| [`CopyStreamAcknowledgementDetail`](#copystreamacknowledgementdetail) | [RemoteReplicatorAcknowledgementDetail](sfclient-model-remotereplicatoracknowledgementdetail.md) | No |
 
 ____
-### ReplicationStreamAcknowledgementDetail
+### `ReplicationStreamAcknowledgementDetail`
 __Type__: [RemoteReplicatorAcknowledgementDetail](sfclient-model-remotereplicatoracknowledgementdetail.md) <br/>
 __Required__: No<br/>
 <br/>
 Details about the acknowledgements for operations that are part of the replication stream data.
 
 ____
-### CopyStreamAcknowledgementDetail
+### `CopyStreamAcknowledgementDetail`
 __Type__: [RemoteReplicatorAcknowledgementDetail](sfclient-model-remotereplicatoracknowledgementdetail.md) <br/>
 __Required__: No<br/>
 <br/>

@@ -1,8 +1,7 @@
 ---
 title: "Message Headers and Properties"
 ms.custom: ""
-ms.date: "07/02/2015"
-ms.prod: "azure"
+ms.date: "07/08/2020"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -10,9 +9,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: cc8dfa91-43e3-4e21-8425-ef471a95e922
 caps.latest.revision: 12
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -29,7 +28,13 @@ translation.priority.mt:
 This section describes message headers and properties.  
   
 ## Message headers  
- One HTTP header named `BrokerProperties` contains all the `BrokeredMessage` headers. The properties are JSON-formatted. This makes it easy to extend the `BrokeredMessage` properties. Also, it aligns to the web programming model by leveraging the web-friendly JSON format. This makes it easy to produce and consume message properties with less string parsing. The following is an example of `BrokeredMessage` headers:  
+When sending a message, you can specify the following message properties. If a single message is sent or received, then these properties are contained in the **BrokerProperties** HTTP header in a JSON-encoded format. If a batch of messages is sent, these properties are part of the JSON-encoded HTTP body. For more information, see [Send Message](send-message.md) and [Send Message Batch](send-message-batch.md).  
+  
+The following table lists the [Microsoft.ServiceBus.Messaging.BrokeredMessage](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage) properties. The properties can appear in any order. If a property is not specified, Service Bus uses the default value for that property. Broker properties other than the ones listed are ignored. The accepted properties are independent of the value of the specified **api-version**. The **api-version** specifier is not required in the HTTP request.    
+
+If the **SessionId** and **PartitionKey** properties are both set, they must be set to the same value.
+
+One HTTP header named `BrokerProperties` contains all the `BrokeredMessage` headers. The properties are JSON-formatted. This makes it easy to extend the `BrokeredMessage` properties. Also, it aligns to the web programming model by leveraging the web-friendly JSON format. This makes it easy to produce and consume message properties with less string parsing. The following is an example of `BrokeredMessage` headers:  
   
 ```  
 BrokerProperties:  { “SessionId”: “{27729E1-B37B-4D29-AA0A-E367906C206E}”, “MessageId”: “{701332E1-B37B-4D29-AA0A-E367906C206E}”, “TimeToLive” : 90, “CorrelationId”: “{701332F3-B37B-4D29-AA0A-E367906C206E}”, “SequenceNumber“ : 12345, “DeliveryCount“ : 2, “To“ : "http://contoso.com“, “ReplyTo“ : "http://fabrikam.com“,  "EnqueuedTimeUtc“ : " Sun, 06 Nov 1994 08:49:37 GMT“, "ScheduledEnqueueTimeUtc“ : " Sun, 06 Nov 1994 08:49:37 GMT“}  
@@ -55,10 +60,13 @@ BrokerProperties:  { “SessionId”: “{27729E1-B37B-4D29-AA0A-E367906C206E}�
 |ScheduledEnqueueTimeUtc|DateTime|BrokerProperties {ScheduledEnqueueTimeUtc}|get, set|Req, Res|  
 |ReplyToSessionId|string|BrokerProperties {ReplyToSessionId}|get, set|Req, Res|  
 |PartitionKey|string|BrokerProperties {PartitionKey}|get, set|Req, Res|  
-  
+
+In addition to these properties, you can specify custom properties. If a single message is sent or received, each custom property is placed in its own HTTP header. If a batch of messages is sent, custom properties are part of the JSON-encoded HTTP body. For more information, see [Send Message](send-message.md) and [Send Message Batch](send-message-batch.md).
+ 
+ 
  **Notes**  
   
--   `DateTime` headers are formatted as defined by RFC2616: [http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3](http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html). For example, “Sun, 06 Nov 1994 08:49:37 GMT”.  
+-   `DateTime` headers are formatted as defined by RFC2616: [https://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.3](https://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html). For example, “Sun, 06 Nov 1994 08:49:37 GMT”.  
   
 -   **BrokerProperties {TimeToLive}** is the number of seconds of the **TimeSpan (double)**.  
   

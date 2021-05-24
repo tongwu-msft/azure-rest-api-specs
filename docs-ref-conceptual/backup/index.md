@@ -1,6 +1,6 @@
 ---
 title: Recovery Services Backup REST API | Microsoft Docs
-author: 
+author: rayne-wiselman
 ms.author: raynew
 ms.date: 08/28/2017
 ms.topic: reference

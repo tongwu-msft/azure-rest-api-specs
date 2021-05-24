@@ -1,29 +1,14 @@
 ---
-title: "Addressing Table Service Resources"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
-ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
-ms.topic: reference
-ms.assetid: 238c4c0e-da32-416d-99ba-c02f24f00cfb
-caps.latest.revision: 36
+title: Addressing Table service resources (REST API) - Azure Storage
+description: Learn about Azure Table service resources - the storage account, tables, and entities.
 author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+
+ms.date: 09/09/2019
+ms.author: tamram
+ms.service: storage
+ms.topic: reference
 ---
+
 # Addressing Table Service Resources
 The Table service exposes the following resources via the REST API:  
   
@@ -58,14 +43,14 @@ https://myaccount.table.core.windows.net/Tables('MyTable')
 https://myaccount.table.core.windows.net/MyTable()  
 ```  
   
- The format for addressing data resources for queries conforms to that specified by the [OData Protocol Specification](http://www.odata.org/). You can use this syntax to filter entities based on criteria specified on the URI.  
+ The format for addressing data resources for queries conforms to that specified by the [OData Protocol Specification](https://www.odata.org/). You can use this syntax to filter entities based on criteria specified on the URI.  
   
  Note that all values for query parameters must be URL encoded before they are sent to the Azure storage services.  
   
 ## Supported HTTP Operations  
  Each resource supports operations based on the HTTP verbs GET, PUT, HEAD, and DELETE. The verb, syntax, and supported HTTP version(s) for each operation appears on the reference page for each operation. For a complete list of operation reference pages, see [Table Service REST API](Table-Service-REST-API.md).  
   
-## See Also  
+## See also  
  [Table Service REST API](Table-Service-REST-API.md)   
  [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md)   
  [Query Timeout and Pagination](Query-Timeout-and-Pagination.md)   

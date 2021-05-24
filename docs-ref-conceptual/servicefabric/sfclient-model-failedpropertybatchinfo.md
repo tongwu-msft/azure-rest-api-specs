@@ -1,7 +1,7 @@
 ---
 title: "FailedPropertyBatchInfo"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "FailedPropertyBatchInfo"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,26 +34,18 @@ Derived from PropertyBatchInfo. Represents the property batch failing. Contains 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [ErrorMessage](#errormessage) | string | No |
-| [OperationIndex](#operationindex) | integer | No |
+| [`ErrorMessage`](#errormessage) | string | No |
+| [`OperationIndex`](#operationindex) | integer | No |
 
 ____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Failed' for objects of type 'FailedPropertyBatchInfo'.
-
-____
-### ErrorMessage
+### `ErrorMessage`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The error message of the failed operation. Describes the exception thrown due to the first unsuccessful operation in the property batch.
 
 ____
-### OperationIndex
+### `OperationIndex`
 __Type__: integer <br/>
 __Required__: No<br/>
 <br/>

@@ -1,6 +1,6 @@
 ---
 ms.assetid: 6bd963de-3f81-4e9a-b4b1-dae4b1b30d23
-ms.title: Azure Logic Apps REST API | Microsoft Docs
+title: Azure Logic Apps REST API | Microsoft Docs
 ms.service: logic-apps
 author: MandiOhlinger
 ms.author: mandia
@@ -36,12 +36,12 @@ Azure Logic Apps scales up automatically to meet demand.
 
 | Resource Groups                                                                          | Description                                                    |
 |------------------------------------------------------------------------------------------|----------------------------------------------------------------|
-| [Workflow Run Actions](~/docs-ref-autogen/logic/workflowrunactions.json)                 | Lists workflow run actions.                                    |
-| [Workflow Runs](~/docs-ref-autogen/logic/workflowruns.json)                              | Provides operations for listing and canceling workflow runs.   |
-| [Workflow Trigger Histories](~/docs-ref-autogen/logic/workflowtriggerhistories.json)     | Lists workflow trigger histories.                              |
-| [Workflow Triggers](~/docs-ref-autogen/logic/workflowtriggers.json)                      | Provides operations for listing and running workflow triggers. |
-| [Workflow Versions](~/docs-ref-autogen/logic/workflowversions.json)                      | Lists workflow versions.                                       |
-| [Workflows](~/docs-ref-autogen/logic/workflows.json)	                                  | Provides operations for creating and managing workflows.       |
+| [Workflow Run Actions](xref:management.azure.com.logic.workflowrunactions)                 | Lists workflow run actions.                                    |
+| [Workflow Runs](xref:management.azure.com.logic.workflowruns)                              | Provides operations for listing and canceling workflow runs.   |
+| [Workflow Trigger Histories](xref:management.azure.com.logic.workflowtriggerhistories)     | Lists workflow trigger histories.                              |
+| [Workflow Triggers](xref:management.azure.com.logic.workflowtriggers)                      | Provides operations for listing and running workflow triggers. |
+| [Workflow Versions](xref:management.azure.com.logic.workflowversions)                      | Lists workflow versions.                                       |
+| [Workflows](xref:management.azure.com.logic.workflows)	                                  | Provides operations for creating and managing workflows.       |
 
 
 ## See Also

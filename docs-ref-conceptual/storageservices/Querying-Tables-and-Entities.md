@@ -1,30 +1,16 @@
 ---
-title: "Querying Tables and Entities"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Querying tables and entities (REST API) - Azure Storage
+description: Querying tables and entities.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 74e73539-b624-4f47-8603-112cbb6780db
-caps.latest.revision: 35
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Querying Tables and Entities
+
+# Querying tables and entities
+
 Querying tables and entities in the Table service requires careful construction of the request URI. The following sections describe query options and demonstrate some common scenarios.  
   
 ## Basic Query Syntax  
@@ -54,7 +40,7 @@ https://myaccount.table.core.windows.net/MyTable()
 >  The number of entities returned for a single request may be limited, if the query exceeds the maximum number of entities, exceeds the timeout interval, or crosses a partition boundary. For more information, see [Query Timeout and Pagination](Query-Timeout-and-Pagination.md).  
   
 ## Supported Query Options  
- The Table service supports the following query options, which conform to the [OData Protocol Specification](http://www.odata.org/). You can use these options to limit the set of tables, entities, or entity properties returned by a query.  
+ The Table service supports the following query options, which conform to the [OData Protocol Specification](https://www.odata.org/). You can use these options to limit the set of tables, entities, or entity properties returned by a query.  
   
 |System query option|Description|  
 |-------------------------|-----------------|  
@@ -91,7 +77,7 @@ https://myaccount.table.core.windows.net/MyTable()
 |`Not`|`not`|  
 |`Or`|`or`|  
   
- For more information about filter syntax, see the [OData Protocol Specification](http://www.odata.org/).  
+ For more information about filter syntax, see the [OData Protocol Specification](https://www.odata.org/).  
   
 ## Query String Encoding  
 The following characters must be encoded if they are to be used in a query string:  
@@ -141,7 +127,7 @@ https://myaccount.table.core.windows.net/Customers(PartitionKey='MyPartition',Ro
 ### Constructing Filter Strings  
  When constructing a filter string, keep these rules in mind:  
   
--   Use the logical operators defined by the [OData Protocol Specification](http://www.odata.org/) to compare a property to a value. Note that it is not possible to compare a property to a dynamic value; one side of the expression must be a constant.  
+-   Use the logical operators defined by the [OData Protocol Specification](https://www.odata.org/) to compare a property to a value. Note that it is not possible to compare a property to a dynamic value; one side of the expression must be a constant.  
   
 -   The property name, operator, and constant value must be separated by URL-encoded spaces. A space is URL-encoded as `%20`.  
   
@@ -198,7 +184,7 @@ https://myaccount.table.core.windows.net/Customers()?$filter=IsActive%20eq%20tru
 ```  
   
 #### Filtering on DateTime Properties  
- To filter on a `DateTime` value, specify the `datetime` keyword on the URI, followed by the date/time constant in single quotes. The date/time constant must be in combined UTC format, as described in [Formatting DateTime Property Values](Formatting-DateTime-Property-Values.md).  
+ To filter on a `DateTime` value, specify the `datetime` keyword on the URI, followed by the date/time constant in single quotes. The date/time constant must be in combined UTC format, as described in [Formatting DateTime values](formatting-datetime-values.md).  
   
  The following example returns entities where the `CustomerSince` property is equal to July 10, 2008:  
   

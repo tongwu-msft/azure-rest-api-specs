@@ -1,0 +1,786 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.streamanalytics.2017-04-01-preview.inputs.update
+name: Update
+service: Stream Analytics
+groupName: Inputs
+apiVersion: 2017-04-01-preview
+summary: Updates an existing input under an existing streaming job. This can be used to partially update (ie. update one or two properties) an input without affecting the rest the job or input definition.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/inputs/{inputName}?api-version=2017-04-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: jobName
+  in: path
+  isRequired: true
+  description: The name of the streaming job.
+  types:
+  - uid: string
+- name: inputName
+  in: path
+  isRequired: true
+  description: The name of the input.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
+  description: The input was successfully updated.
+  types:
+  - uid: Input
+requestBody:
+- name: default
+  parameters:
+  - name: properties
+    in: body
+    description: The properties that are associated with an input. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: StreamInputProperties
+    - uid: ReferenceInputProperties
+    typesTitle: InputProperties
+  - name: name
+    in: body
+    description: Resource name
+    types:
+    - uid: string
+requestHeader:
+- name: If-Match
+  in: header
+  description: The ETag of the input. Omit this value to always overwrite the current input. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes.
+  types:
+  - uid: string
+definitions:
+- name: Input
+  description: An input object, containing all information associated with the named input. All inputs are contained under a streaming job.
+  kind: object
+  properties:
+  - name: properties
+    description: The properties that are associated with an input. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: StreamInputProperties
+    - uid: ReferenceInputProperties
+    typesTitle: InputProperties
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: StreamInputProperties
+  description: The properties that are associated with an input containing stream data.
+  kind: object
+  properties:
+  - name: datasource
+    description: Describes an input data source that contains stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: BlobStreamInputDataSource
+    - uid: EventHubStreamInputDataSource
+    - uid: EventHubV2StreamInputDataSource
+    - uid: IoTHubStreamInputDataSource
+    typesTitle: StreamInputDataSource
+  - name: type
+    description: Indicates whether the input is a source of reference data or stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Stream
+    typesTitle: string
+  - name: serialization
+    description: Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: ParquetSerialization
+    - uid: CustomClrSerialization
+    - uid: CsvSerialization
+    - uid: JsonSerialization
+    - uid: AvroSerialization
+    typesTitle: Serialization
+  - name: diagnostics
+    isReadyOnly: true
+    description: Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention.
+    types:
+    - uid: Diagnostics
+  - name: etag
+    isReadyOnly: true
+    description: The current entity tag for the input. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
+    types:
+    - uid: string
+  - name: compression
+    description: Describes how input data is compressed
+    types:
+    - uid: Compression
+  - name: partitionKey
+    description: partitionKey Describes a key in the input data which is used for partitioning the input data
+    types:
+    - uid: string
+- name: ReferenceInputProperties
+  description: The properties that are associated with an input containing reference data.
+  kind: object
+  properties:
+  - name: datasource
+    description: Describes an input data source that contains reference data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: BlobReferenceInputDataSource
+    - uid: AzureSqlReferenceInputDataSource
+    typesTitle: ReferenceInputDataSource
+  - name: type
+    description: Indicates whether the input is a source of reference data or stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Reference
+    typesTitle: string
+  - name: serialization
+    description: Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: ParquetSerialization
+    - uid: CustomClrSerialization
+    - uid: CsvSerialization
+    - uid: JsonSerialization
+    - uid: AvroSerialization
+    typesTitle: Serialization
+  - name: diagnostics
+    isReadyOnly: true
+    description: Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention.
+    types:
+    - uid: Diagnostics
+  - name: etag
+    isReadyOnly: true
+    description: The current entity tag for the input. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
+    types:
+    - uid: string
+  - name: compression
+    description: Describes how input data is compressed
+    types:
+    - uid: Compression
+  - name: partitionKey
+    description: partitionKey Describes a key in the input data which is used for partitioning the input data
+    types:
+    - uid: string
+- name: Diagnostics
+  description: Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention.
+  kind: object
+  properties:
+  - name: conditions
+    isReadyOnly: true
+    description: A collection of zero or more conditions applicable to the resource, or to the job overall, that warrant customer attention.
+    types:
+    - uid: DiagnosticCondition
+      isArray: true
+- name: Compression
+  description: Describes how input data is compressed
+  kind: object
+  properties:
+  - name: type
+    description: ''
+    types:
+    - uid: string
+- name: BlobStreamInputDataSource
+  description: Describes a blob input data source that contains stream data.
+  kind: object
+  properties:
+  - name: properties.sourcePartitionCount
+    description: The partition count of the blob input data source. Range 1 - 256.
+    types:
+    - uid: integer
+  - name: type
+    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.Storage/Blob
+    typesTitle: string
+  - name: properties.storageAccounts
+    description: A list of one or more Azure Storage accounts. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: StorageAccount
+      isArray: true
+  - name: properties.container
+    description: The name of a container within the associated Storage account. This container contains either the blob(s) to be read from or written to. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.pathPattern
+    description: The blob path pattern. Not a regular expression. It represents a pattern against which blob names will be matched to determine whether or not they should be included as input or output to the job. See https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-input or https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for a more detailed explanation and example.
+    types:
+    - uid: string
+  - name: properties.dateFormat
+    description: The date format. Wherever {date} appears in pathPattern, the value of this property is used as the date format instead.
+    types:
+    - uid: string
+  - name: properties.timeFormat
+    description: The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead.
+    types:
+    - uid: string
+- name: EventHubStreamInputDataSource
+  description: Describes an Event Hub input data source that contains stream data.
+  kind: object
+  properties:
+  - name: properties.consumerGroupName
+    description: The name of an Event Hub Consumer Group that should be used to read events from the Event Hub. Specifying distinct consumer group names for multiple inputs allows each of those inputs to receive the same events from the Event Hub. If not specified, the input uses the Event Hub’s default consumer group.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.ServiceBus/EventHub
+    typesTitle: string
+  - name: properties.eventHubName
+    description: The name of the Event Hub. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: serviceBusNamespace
+    description: The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: sharedAccessPolicyName
+    description: The shared access policy name for the Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: sharedAccessPolicyKey
+    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: authenticationMode
+    description: Authentication Mode.
+    types:
+    - uid: AuthenticationMode
+- name: EventHubV2StreamInputDataSource
+  description: Describes an Event Hub input data source that contains stream data.
+  kind: object
+  properties:
+  - name: properties.consumerGroupName
+    description: The name of an Event Hub Consumer Group that should be used to read events from the Event Hub. Specifying distinct consumer group names for multiple inputs allows each of those inputs to receive the same events from the Event Hub. If not specified, the input uses the Event Hub’s default consumer group.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.EventHub/EventHub
+    typesTitle: string
+  - name: properties.eventHubName
+    description: The name of the Event Hub. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: serviceBusNamespace
+    description: The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: sharedAccessPolicyName
+    description: The shared access policy name for the Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: sharedAccessPolicyKey
+    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: authenticationMode
+    description: Authentication Mode.
+    types:
+    - uid: AuthenticationMode
+- name: IoTHubStreamInputDataSource
+  description: Describes an IoT Hub input data source that contains stream data.
+  kind: object
+  properties:
+  - name: properties.iotHubNamespace
+    description: The name or the URI of the IoT Hub. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.sharedAccessPolicyName
+    description: The shared access policy name for the IoT Hub. This policy must contain at least the Service connect permission. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.sharedAccessPolicyKey
+    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.consumerGroupName
+    description: The name of an IoT Hub Consumer Group that should be used to read events from the IoT Hub. If not specified, the input uses the Iot Hub’s default consumer group.
+    types:
+    - uid: string
+  - name: properties.endpoint
+    description: The IoT Hub endpoint to connect to (ie. messages/events, messages/operationsMonitoringEvents, etc.).
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.Devices/IotHubs
+    typesTitle: string
+- name: ParquetSerialization
+  description: Describes how data from an input is serialized or how data is serialized when written to an output in Parquet format.
+  kind: object
+  properties:
+  - name: type
+    description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Parquet
+    typesTitle: string
+- name: CustomClrSerialization
+  description: Describes how data from an input is serialized or how data is serialized when written to an output in custom format.
+  kind: object
+  properties:
+  - name: properties.serializationDllPath
+    description: The serialization library path.
+    types:
+    - uid: string
+  - name: properties.serializationClassName
+    description: The serialization class name.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: CustomClr
+    typesTitle: string
+- name: CsvSerialization
+  description: Describes how data from an input is serialized or how data is serialized when written to an output in CSV format.
+  kind: object
+  properties:
+  - name: properties.fieldDelimiter
+    description: Specifies the delimiter that will be used to separate comma-separated value (CSV) records. See https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-input or https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for a list of supported values. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.encoding
+    description: Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Encoding
+  - name: type
+    description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Csv
+    typesTitle: string
+- name: JsonSerialization
+  description: Describes how data from an input is serialized or how data is serialized when written to an output in JSON format.
+  kind: object
+  properties:
+  - name: properties.encoding
+    description: Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Encoding
+  - name: properties.format
+    description: This property only applies to JSON serialization of outputs only. It is not applicable to inputs. This property specifies the format of the JSON the output will be written in. The currently supported values are 'lineSeparated' indicating the output will be formatted by having each JSON object separated by a new line and 'array' indicating the output will be formatted as an array of JSON objects. Default value is 'lineSeparated' if left null.
+    types:
+    - uid: JsonOutputSerializationFormat
+  - name: type
+    description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Json
+    typesTitle: string
+- name: AvroSerialization
+  description: Describes how data from an input is serialized or how data is serialized when written to an output in Avro format.
+  kind: object
+  properties:
+  - name: type
+    description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Avro
+    typesTitle: string
+- name: DiagnosticCondition
+  description: Condition applicable to the resource, or to the job overall, that warrant customer attention.
+  kind: object
+  properties:
+  - name: since
+    isReadyOnly: true
+    description: The UTC timestamp of when the condition started. Customers should be able to find a corresponding event in the ops log around this time.
+    types:
+    - uid: string
+  - name: code
+    isReadyOnly: true
+    description: The opaque diagnostic code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The human-readable message describing the condition in detail. Localized in the Accept-Language of the client request.
+    types:
+    - uid: string
+- name: BlobReferenceInputDataSource
+  description: Describes a blob input data source that contains reference data.
+  kind: object
+  properties:
+  - name: type
+    description: Indicates the type of input data source containing reference data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.Storage/Blob
+    typesTitle: string
+  - name: properties.storageAccounts
+    description: A list of one or more Azure Storage accounts. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: StorageAccount
+      isArray: true
+  - name: properties.container
+    description: The name of a container within the associated Storage account. This container contains either the blob(s) to be read from or written to. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.pathPattern
+    description: The blob path pattern. Not a regular expression. It represents a pattern against which blob names will be matched to determine whether or not they should be included as input or output to the job. See https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-input or https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for a more detailed explanation and example.
+    types:
+    - uid: string
+  - name: properties.dateFormat
+    description: The date format. Wherever {date} appears in pathPattern, the value of this property is used as the date format instead.
+    types:
+    - uid: string
+  - name: properties.timeFormat
+    description: The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead.
+    types:
+    - uid: string
+- name: AzureSqlReferenceInputDataSource
+  description: Describes an Azure SQL database reference input data source.
+  kind: object
+  properties:
+  - name: properties
+    description: ''
+    types:
+    - uid: AzureSqlReferenceInputDataSourceProperties
+  - name: type
+    description: Indicates the type of input data source containing reference data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.Sql/Server/Database
+    typesTitle: string
+- name: StorageAccount
+  description: The properties that are associated with an Azure Storage account
+  kind: object
+  properties:
+  - name: accountName
+    description: The name of the Azure Storage account. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: accountKey
+    description: The account key for the Azure Storage account. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+- name: AuthenticationMode
+  description: Authentication Mode. Valid modes are `ConnectionString`, `Msi` and 'UserToken'.
+  kind: enum
+  properties:
+  - name: Msi
+    types:
+    - uid: string
+  - name: UserToken
+    types:
+    - uid: string
+  - name: ConnectionString
+    types:
+    - uid: string
+- name: EventSerializationType
+  description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
+  kind: enum
+  properties:
+  - name: Csv
+    types:
+    - uid: string
+  - name: Avro
+    types:
+    - uid: string
+  - name: Json
+    types:
+    - uid: string
+  - name: CustomClr
+    types:
+    - uid: string
+  - name: Parquet
+    types:
+    - uid: string
+- name: Encoding
+  description: Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output.
+  kind: enum
+  properties:
+  - name: UTF8
+    types:
+    - uid: string
+- name: JsonOutputSerializationFormat
+  description: Specifies the format of the JSON the output will be written in. The currently supported values are 'lineSeparated' indicating the output will be formatted by having each JSON object separated by a new line and 'array' indicating the output will be formatted as an array of JSON objects.
+  kind: enum
+  properties:
+  - name: LineSeparated
+    types:
+    - uid: string
+  - name: Array
+    types:
+    - uid: string
+- name: AzureSqlReferenceInputDataSourceProperties
+  kind: object
+  properties:
+  - name: server
+    description: This element is associated with the datasource element. This is the name of the server that contains the database that will be written to.
+    types:
+    - uid: string
+  - name: database
+    description: This element is associated with the datasource element. This is the name of the database that output will be written to.
+    types:
+    - uid: string
+  - name: user
+    description: This element is associated with the datasource element. This is the user name that will be used to connect to the SQL Database instance.
+    types:
+    - uid: string
+  - name: password
+    description: This element is associated with the datasource element. This is the password that will be used to connect to the SQL Database instance.
+    types:
+    - uid: string
+  - name: table
+    description: This element is associated with the datasource element. The name of the table in the Azure SQL database..
+    types:
+    - uid: string
+  - name: refreshType
+    description: This element is associated with the datasource element. This element is of enum type. It indicates what kind of data refresh option do we want to use:Static/RefreshPeriodicallyWithFull/RefreshPeriodicallyWithDelta
+    types:
+    - uid: string
+  - name: refreshRate
+    description: This element is associated with the datasource element. This indicates how frequently the data will be fetched from the database. It is of DateTime format.
+    types:
+    - uid: string
+  - name: fullSnapshotQuery
+    description: This element is associated with the datasource element. This query is used to fetch data from the sql database.
+    types:
+    - uid: string
+  - name: deltaSnapshotQuery
+    description: This element is associated with the datasource element. This query is used to fetch incremental changes from the SQL database. To use this option, we recommend using temporal tables in Azure SQL Database.
+    types:
+    - uid: string
+examples:
+- name: Update a reference blob input
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/inputs/input7225?api-version=2017-04-01-preview
+    body: >-
+      {
+        "properties": {
+          "type": "Reference",
+          "datasource": {
+            "type": "Microsoft.Storage/Blob",
+            "properties": {
+              "container": "differentContainer"
+            }
+          },
+          "serialization": {
+            "type": "Csv",
+            "properties": {
+              "fieldDelimiter": "|",
+              "encoding": "UTF8"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: ETag
+      value: a4ceb697-1c8f-40c8-b951-fb5ee4757437
+    body: >-
+      {
+        "id": "/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourceGroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/inputs/input7225",
+        "name": "input7225",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/inputs",
+        "properties": {
+          "type": "Reference",
+          "datasource": {
+            "type": "Microsoft.Storage/Blob",
+            "properties": {
+              "storageAccounts": [
+                {
+                  "accountName": "someAccountName"
+                }
+              ],
+              "container": "differentContainer",
+              "pathPattern": "{date}/{time}",
+              "dateFormat": "yyyy/MM/dd",
+              "timeFormat": "HH"
+            }
+          },
+          "serialization": {
+            "type": "Csv",
+            "properties": {
+              "fieldDelimiter": "|",
+              "encoding": "UTF8"
+            }
+          }
+        }
+      }
+- name: Update a stream blob input
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/inputs/input8899?api-version=2017-04-01-preview
+    body: >-
+      {
+        "properties": {
+          "type": "Stream",
+          "datasource": {
+            "type": "Microsoft.Storage/Blob",
+            "properties": {
+              "sourcePartitionCount": 32
+            }
+          },
+          "serialization": {
+            "type": "Csv",
+            "properties": {
+              "fieldDelimiter": "|",
+              "encoding": "UTF8"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: ETag
+      value: 3b35d57c-02f4-4b41-8e1d-af02a86c2fa1
+    body: >-
+      {
+        "id": "/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourceGroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/inputs/input8899",
+        "name": "input8899",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/inputs",
+        "properties": {
+          "type": "Stream",
+          "datasource": {
+            "type": "Microsoft.Storage/Blob",
+            "properties": {
+              "sourcePartitionCount": 32,
+              "storageAccounts": [
+                {
+                  "accountName": "someAccountName"
+                }
+              ],
+              "container": "state",
+              "pathPattern": "{date}/{time}",
+              "dateFormat": "yyyy/MM/dd",
+              "timeFormat": "HH"
+            }
+          },
+          "serialization": {
+            "type": "Csv",
+            "properties": {
+              "fieldDelimiter": "|",
+              "encoding": "UTF8"
+            }
+          }
+        }
+      }
+- name: Update a stream Event Hub input
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/inputs/input7425?api-version=2017-04-01-preview
+    body: >-
+      {
+        "properties": {
+          "type": "Stream",
+          "datasource": {
+            "type": "Microsoft.ServiceBus/EventHub",
+            "properties": {
+              "consumerGroupName": "differentConsumerGroupName"
+            }
+          },
+          "serialization": {
+            "type": "Avro"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: ETag
+      value: 7548f259-81b5-4ea7-b896-25c6717d98ba
+    body: >-
+      {
+        "id": "/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourceGroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/inputs/input7425",
+        "name": "input7425",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/inputs",
+        "properties": {
+          "type": "Stream",
+          "datasource": {
+            "type": "Microsoft.ServiceBus/EventHub",
+            "properties": {
+              "eventHubName": "sdkeventhub",
+              "consumerGroupName": "differentConsumerGroupName",
+              "serviceBusNamespace": "sdktest",
+              "sharedAccessPolicyName": "RootManageSharedAccessKey"
+            }
+          },
+          "serialization": {
+            "type": "Avro",
+            "properties": {}
+          }
+        }
+      }
+- name: Update a stream IoT Hub input
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/inputs/input7970?api-version=2017-04-01-preview
+    body: >-
+      {
+        "properties": {
+          "type": "Stream",
+          "datasource": {
+            "type": "Microsoft.Devices/IotHubs",
+            "properties": {
+              "endpoint": "messages/operationsMonitoringEvents"
+            }
+          },
+          "serialization": {
+            "type": "Csv",
+            "properties": {
+              "fieldDelimiter": "|",
+              "encoding": "UTF8"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: ETag
+      value: e2d847e0-c95b-48ef-9e14-1afc1f2270cb
+    body: >-
+      {
+        "id": "/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourceGroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/inputs/input7970",
+        "name": "input7970",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/inputs",
+        "properties": {
+          "type": "Stream",
+          "datasource": {
+            "type": "Microsoft.Devices/IotHubs",
+            "properties": {
+              "iotHubNamespace": "iothub",
+              "sharedAccessPolicyName": "owner",
+              "endpoint": "messages/operationsMonitoringEvents",
+              "consumerGroupName": "sdkconsumergroup"
+            }
+          },
+          "serialization": {
+            "type": "Csv",
+            "properties": {
+              "fieldDelimiter": "|",
+              "encoding": "UTF8"
+            }
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

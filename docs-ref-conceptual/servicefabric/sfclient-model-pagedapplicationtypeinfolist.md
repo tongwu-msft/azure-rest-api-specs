@@ -1,7 +1,7 @@
 ---
 title: "PagedApplicationTypeInfoList"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "PagedApplicationTypeInfoList"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,19 +34,19 @@ The list of application types that are provisioned or being provisioned in the c
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ContinuationToken](#continuationtoken) | string | No |
-| [Items](#items) | array of [ApplicationTypeInfo](sfclient-model-applicationtypeinfo.md) | No |
+| [`ContinuationToken`](#continuationtoken) | string | No |
+| [`Items`](#items) | array of [ApplicationTypeInfo](sfclient-model-applicationtypeinfo.md) | No |
 
 ____
-### ContinuationToken
+### `ContinuationToken`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The continuation token parameter is used to obtain next set of results. The continuation token is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results then the continuation token is not included in the response.
+The continuation token parameter is used to obtain next set of results. The continuation token is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results, then the continuation token is not included in the response.
 
 ____
-### Items
+### `Items`
 __Type__: array of [ApplicationTypeInfo](sfclient-model-applicationtypeinfo.md) <br/>
 __Required__: No<br/>
 <br/>
-
+List of application type information.

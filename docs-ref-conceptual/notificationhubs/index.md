@@ -1,21 +1,39 @@
 ---
-ms.assetid: 0f08effd-87f9-495b-8649-fedacc456aca
-ms.title: Notification Hubs REST API reference
-ms.prod: Azure
-ms.service: NotificationHubs
-author: davidmu1
-ms.author: davidmu
-ms.manager: timt
-service_description: To be added
+title: Azure Notification Hubs REST API reference
+ms.service: notification-hubs
+author: spelluru
+ms.author: spelluru
+ms.manager: timlt
+service_description: Azure Notification Hubs provide an easy-to-use and scaled-out push engine that allows you to send notifications to any platform (iOS, Android, Windows, Kindle, Baidu, etc.) from any backend (cloud or on-premises). 
 ---
 
-# Notification Hubs
+# Azure Notification Hubs REST API
 
-Provides operations to manage and create notification hubs and their associated namespaces.
+Azure Notification Hubs provide an easy-to-use and scaled-out push engine that allows you to send notifications to any platform (iOS, Android, Windows, Kindle, Baidu, etc.) from any backend (cloud or on-premises). For more information about the service, see [Azure Notification Hubs conceptual documentation](https://docs.microsoft.com/azure/notification-hubs/)
 
-## REST Operation Groups
+The REST APIs fall into the following categories:
 
-| Operation Group | Description |
-|-----------------|-------------|
-| [Namespaces](~/docs-ref-autogen/notificationhubs/namespaces.json) | Use these operations to create and manage namespaces. |
-| [Notification Hubs](~/docs-ref-autogen/notificationhubs/notificationhubs.json) | Use these operations to create and manage notification hubs. |
+- **Azure Resource Manager**: APIs that perform Resource Manager operations, and have `/providers/Microsoft.NotificationHubs/` as part of the request URI. 
+- **Notification Hubs service**: APIs that enable operations directly on the Notification Hubs service, and have `<namespaceName>.servicebus.windows.net/` in the request URI. 
+- **"Classic" or RDFE management**: APIs that provide programmatic access to much of the functionality available through the Azure portal. These APIs have `management.core.windows.net` in the URI. Notification Hubs does not have RDFE REST APIs at this time.
+
+## REST operation groups
+
+The Notification Hubs REST API provides operations for working with the following resources.
+
+### Azure Resource Manager
+
+[Resource Manager APIs](/rest/api/notificationhubs/namespaces/checkavailability) are management APIs that perform operations on Notification Hubs entities, such as notification hubs and namespaces. They are useful in scenarios that enable global authentication, rather than at the namespace or entity level.
+
+| Operation group               | Description                                                                             |
+|-------------------------------|-----------------------------------------------------------------------------------------|
+| [Namespaces](xref:management.azure.com.notificationhubs.namespaces)  | Operations for managing Notification Hubs namespaces. |
+| [Notification Hubs](xref:management.azure.com.notificationhubs.notificationhubs)  | Operations for managing notification hubs. |
+
+
+### Notification Hubs service
+Notification Hubs [service APIs](/rest/api/notificationhubs/notification-hubs-rest) access the Notification Hubs service directly, and perform various management operations at the entity level, rather than at the namespace level such as [sending notifications](/rest/api/notificationhubs/direct-send) and [creating registrations](/rest/api/notificationhubs/create-registration)
+
+## See also
+
+- [Azure Notification Hubs documentation](https://docs.microsoft.com/azure/notification-hubs)

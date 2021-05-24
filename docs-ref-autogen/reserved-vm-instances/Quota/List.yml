@@ -1,0 +1,354 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.reserved-vm-instances.quota.list
+name: List
+service: Reserved VM Instances
+groupName: Quota
+apiVersion: 2020-10-25
+summary: Gets a list of current quotas (service limits) and usage for all resources. The response from the list quota operation can be leveraged to request quota updates.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimits?api-version=2020-10-25
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID.
+  types:
+  - uid: string
+- name: providerId
+  in: path
+  isRequired: true
+  description: Azure resource provider ID.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Azure region.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
+  description: OK. Returns the paginated quota information.
+  types:
+  - uid: QuotaLimits
+- name: Other Status Codes
+  description: Error description in the response.
+  types:
+  - uid: ExceptionResponse
+requestHeader: []
+definitions:
+- name: QuotaLimits
+  description: Quota limits.
+  kind: object
+  properties:
+  - name: value
+    description: List of quotas (service limits).
+    types:
+    - uid: CurrentQuotaLimitBase
+      isArray: true
+  - name: nextLink
+    description: The URI for fetching the next page of quotas (service limits). When no more pages exist, the value is null.
+    types:
+    - uid: string
+- name: ExceptionResponse
+  description: The API error.
+  kind: object
+  properties:
+  - name: error
+    description: The API error details.
+    types:
+    - uid: ServiceError
+- name: CurrentQuotaLimitBase
+  description: Quota properties.
+  kind: object
+  properties:
+  - name: properties
+    description: Quota properties for the resource.
+    types:
+    - uid: QuotaProperties
+- name: ServiceError
+  description: The API error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message text.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The list of error details.
+    types:
+    - uid: ServiceErrorDetail
+      isArray: true
+- name: QuotaProperties
+  description: Quota properties for the resource.
+  kind: object
+  properties:
+  - name: limit
+    description: Quota properties.
+    types:
+    - uid: integer
+  - name: currentValue
+    isReadyOnly: true
+    description: Current usage value for the resource.
+    types:
+    - uid: integer
+  - name: unit
+    description: " The limit units, such as **count** and **bytes**. Use the unit field provided in the response of the GET quota operation."
+    types:
+    - uid: string
+  - name: name
+    description: Name of the resource provide by the resource provider. Use this property for quotaRequests resource operations.
+    types:
+    - uid: ResourceName
+  - name: resourceType
+    description: The name of the resource type.
+    types:
+    - uid: ResourceType
+  - name: quotaPeriod
+    isReadyOnly: true
+    description: The time period over which the quota usage values are summarized. For example, P1D (per one day), PT1M (per one minute), and PT1S (per one second). This parameter is optional because, for some resources such as compute, the time period is irrelevant.
+    types:
+    - uid: string
+  - name: properties
+    description: Additional properties for the specified resource provider.
+    types:
+    - uid: object
+- name: ServiceErrorDetail
+  description: The error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+- name: ResourceName
+  description: Resource name provided by the resource provider. Use this property for quotaRequest parameter.
+  kind: object
+  properties:
+  - name: value
+    description: Resource name.
+    types:
+    - uid: string
+  - name: localizedValue
+    isReadyOnly: true
+    description: Resource display localized name.
+    types:
+    - uid: string
+- name: ResourceType
+  description: The name of the resource type.
+  kind: enum
+  properties:
+  - name: standard
+    types:
+    - uid: string
+  - name: dedicated
+    types:
+    - uid: string
+  - name: lowPriority
+    types:
+    - uid: string
+  - name: shared
+    types:
+    - uid: string
+  - name: serviceSpecific
+    types:
+    - uid: string
+examples:
+- name: Quotas_listUsagesForCompute
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimits?api-version=2020-10-25
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "limit": 100,
+              "unit": "Count",
+              "currentValue": 0,
+              "name": {
+                "value": "standardFSv2Family",
+                "localizedValue": "Standard FSv2 Family vCPUs"
+              }
+            }
+          },
+          {
+            "properties": {
+              "limit": 0,
+              "unit": "Count",
+              "currentValue": 0,
+              "name": {
+                "value": "standardNDSFamily",
+                "localizedValue": "Standard NDS Family vCPUs"
+              }
+            }
+          },
+          {
+            "properties": {
+              "limit": 0,
+              "unit": "Count",
+              "currentValue": 0,
+              "name": {
+                "value": "standardNCSv2Family",
+                "localizedValue": "Standard NCSv2 Family vCPUs"
+              }
+            }
+          },
+          {
+            "properties": {
+              "limit": 0,
+              "unit": "Count",
+              "currentValue": 0,
+              "name": {
+                "value": "standardNCSv3Family",
+                "localizedValue": "Standard NCSv3 Family vCPUs"
+              }
+            }
+          },
+          {
+            "properties": {
+              "limit": 100,
+              "unit": "Count",
+              "currentValue": 0,
+              "name": {
+                "value": "standardLSv2Family",
+                "localizedValue": "Standard LSv2 Family vCPUs"
+              }
+            }
+          },
+          {
+            "properties": {
+              "limit": 6,
+              "unit": "Count",
+              "currentValue": 0,
+              "name": {
+                "value": "standardPBSFamily",
+                "localizedValue": "Standard PBS Family vCPUs"
+              }
+            }
+          },
+          {
+            "properties": {
+              "limit": 100,
+              "unit": "Count",
+              "currentValue": 0,
+              "name": {
+                "value": "standardEIv3Family",
+                "localizedValue": "Standard EIv3 Family vCPUs"
+              }
+            }
+          },
+          {
+            "properties": {
+              "limit": 100,
+              "unit": "Count",
+              "currentValue": 0,
+              "name": {
+                "value": "standardEISv3Family",
+                "localizedValue": "Standard EISv3 Family vCPUs"
+              }
+            }
+          },
+          {
+            "properties": {
+              "limit": 8,
+              "unit": "Count",
+              "currentValue": 0,
+              "name": {
+                "value": "standardDCSFamily",
+                "localizedValue": "Standard DCS Family vCPUs"
+              }
+            }
+          },
+          {
+            "properties": {
+              "limit": 0,
+              "unit": "Count",
+              "currentValue": 0,
+              "name": {
+                "value": "standardNVSv2Family",
+                "localizedValue": "Standard NVSv2 Family vCPUs"
+              }
+            }
+          },
+          {
+            "properties": {
+              "limit": 0,
+              "unit": "Count",
+              "currentValue": 0,
+              "name": {
+                "value": "standardMSv2Family",
+                "localizedValue": "Standard MSv2 Family vCPUs"
+              }
+            }
+          }
+        ],
+        "nextLink": ""
+      }
+- name: Quotas_listUsagesMachineLearningServices
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.MachineLearningServices/locations/eastus/serviceLimits?api-version=2020-10-25
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "currentValue": 15,
+              "limit": 20,
+              "name": {
+                "value": "standardDv2Family",
+                "localizedValue": "Standard Dv2 Family vCPUs"
+              },
+              "resourceType": "dedicated"
+            }
+          },
+          {
+            "properties": {
+              "currentValue": 49,
+              "limit": 600,
+              "name": {
+                "value": "totalLowPriorityCores",
+                "localizedValue": "Total Regional Low-priority vCPUs"
+              },
+              "resourceType": "lowPriority"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

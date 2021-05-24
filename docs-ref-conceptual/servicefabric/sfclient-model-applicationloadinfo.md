@@ -1,7 +1,7 @@
 ---
 title: "ApplicationLoadInfo"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ApplicationLoadInfo"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,24 +34,24 @@ Load Information about a Service Fabric application.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Id](#id) | string | No |
-| [MinimumNodes](#minimumnodes) | integer (int64) | No |
-| [MaximumNodes](#maximumnodes) | integer (int64) | No |
-| [NodeCount](#nodecount) | integer (int64) | No |
-| [ApplicationLoadMetricInformation](#applicationloadmetricinformation) | array of [ApplicationMetricDescription](sfclient-model-applicationmetricdescription.md) | No |
+| [`Id`](#id) | string | No |
+| [`MinimumNodes`](#minimumnodes) | integer (int64) | No |
+| [`MaximumNodes`](#maximumnodes) | integer (int64) | No |
+| [`NodeCount`](#nodecount) | integer (int64) | No |
+| [`ApplicationLoadMetricInformation`](#applicationloadmetricinformation) | array of [ApplicationLoadMetricInformation](sfclient-model-applicationloadmetricinformation.md) | No |
 
 ____
-### Id
+### `Id`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource. 
-
-Starting in version 6.0, hierarchical names are delimited with the "~" character. For example, if the application name is "fabric://myapp/app1", the application identity would be "myapp~app1" in 6.0+ and "myapp/app1" in previous versions.
+The identity of the application. This is an encoded representation of the application name. This is used in the REST APIs to identify the application resource.
+Starting in version 6.0, hierarchical names are delimited with the "\~" character. For example, if the application name is "fabric:/myapp/app1",
+the application identity would be "myapp\~app1" in 6.0+ and "myapp/app1" in previous versions.
 
 
 ____
-### MinimumNodes
+### `MinimumNodes`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
@@ -61,7 +61,7 @@ For applications that do not have application capacity defined this value will b
 
 
 ____
-### MaximumNodes
+### `MaximumNodes`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
@@ -71,7 +71,7 @@ For applications that do not have application capacity defined this value will b
 
 
 ____
-### NodeCount
+### `NodeCount`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
@@ -80,8 +80,8 @@ For applications that do not have application capacity defined this value will b
 
 
 ____
-### ApplicationLoadMetricInformation
-__Type__: array of [ApplicationMetricDescription](sfclient-model-applicationmetricdescription.md) <br/>
+### `ApplicationLoadMetricInformation`
+__Type__: array of [ApplicationLoadMetricInformation](sfclient-model-applicationloadmetricinformation.md) <br/>
 __Required__: No<br/>
 <br/>
-List of application capacity metric description.
+List of application load metric information.
