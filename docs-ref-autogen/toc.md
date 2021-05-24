@@ -5967,6 +5967,19 @@
 ### Resource Skus
 #### [Overview](compute/ResourceSkus.yml)
 #### [List](compute/ResourceSkus/List.yml)
+### Restore Point Collections
+#### [Overview](compute/RestorePointCollections.yml)
+#### [Create Or Update](compute/RestorePointCollections/CreateOrUpdate.yml)
+#### [Delete](compute/RestorePointCollections/Delete.yml)
+#### [Get](compute/RestorePointCollections/Get.yml)
+#### [List](compute/RestorePointCollections/List.yml)
+#### [List All](compute/RestorePointCollections/ListAll.yml)
+#### [Update](compute/RestorePointCollections/Update.yml)
+### Restore Points
+#### [Overview](compute/RestorePoints.yml)
+#### [Create](compute/RestorePoints/Create.yml)
+#### [Delete](compute/RestorePoints/Delete.yml)
+#### [Get](compute/RestorePoints/Get.yml)
 ### Snapshots
 #### [Overview](compute/Snapshots.yml)
 #### [Create Or Update](compute/Snapshots/CreateOrUpdate.yml)
