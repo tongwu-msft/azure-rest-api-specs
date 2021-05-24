@@ -1,0 +1,403 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.billing.2020-05-01.reservations.listbybillingaccount
+name: List By Billing Account
+service: Billing
+groupName: Reservations
+apiVersion: 2020-05-01
+summary: Lists the reservations for a billing account and the roll up counts of reservations group by provisioning states.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/reservations?api-version=2020-05-01
+- content: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/reservations?api-version=2020-05-01&$filter={$filter}&$orderby={$orderby}&refreshSummary={refreshSummary}&selectedState={selectedState}
+  isOptional: true
+uriParameters:
+- name: billingAccountName
+  in: path
+  isRequired: true
+  description: The ID that uniquely identifies a billing account.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API to be used with the client request. The current version is 2020-05-01.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'.
+  types:
+  - uid: string
+- name: $orderby
+  in: query
+  description: May be used to sort order by reservation properties.
+  types:
+  - uid: string
+- name: refreshSummary
+  in: query
+  description: To indicate whether to refresh the roll up counts of the reservations group by provisioning states
+  types:
+  - uid: string
+- name: selectedState
+  in: query
+  description: The selected provisioning state
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ReservationsListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ReservationsListResult
+  description: The list of reservations and summary of roll out count of reservations in each state.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of reservations.
+    types:
+    - uid: Reservation
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link (url) to the next page of results.
+    types:
+    - uid: string
+  - name: summary
+    description: The roll out count summary of the reservations
+    types:
+    - uid: ReservationSummary
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: Reservation
+  description: The definition of the reservation.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The id of the reservation.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the reservation.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the reservation.
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The location of the reservation.
+    types:
+    - uid: string
+  - name: sku
+    description: 'The sku information associated to this reservation '
+    types:
+    - uid: ReservationSkuProperty
+  - name: properties.appliedScopes
+    description: The array of applied scopes of a reservation. Will be null if the reservation is in Shared scope
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.appliedScopeType
+    isReadyOnly: true
+    description: The applied scope type of the reservation.
+    types:
+    - uid: string
+  - name: properties.reservedResourceType
+    isReadyOnly: true
+    description: The reserved source type of the reservation, e.g. virtual machine.
+    types:
+    - uid: string
+  - name: properties.quantity
+    isReadyOnly: true
+    description: The number of the reservation.
+    types:
+    - uid: number
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the reservation, e.g. Succeeded
+    types:
+    - uid: string
+  - name: properties.expiryDate
+    isReadyOnly: true
+    description: The expiry date of the reservation
+    types:
+    - uid: string
+  - name: properties.provisioningSubState
+    isReadyOnly: true
+    description: The provisioning state of the reservation, e.g. Succeeded
+    types:
+    - uid: string
+  - name: properties.displayName
+    isReadyOnly: true
+    description: The display name of the reservation
+    types:
+    - uid: string
+  - name: properties.displayProvisioningState
+    isReadyOnly: true
+    description: The provisioning state of the reservation for display, e.g. Succeeded
+    types:
+    - uid: string
+  - name: properties.userFriendlyRenewState
+    isReadyOnly: true
+    description: The renew state of the reservation for display, e.g. On
+    types:
+    - uid: string
+  - name: properties.userFriendlyAppliedScopeType
+    isReadyOnly: true
+    description: The applied scope type of the reservation for display, e.g. Shared
+    types:
+    - uid: string
+  - name: properties.effectiveDateTime
+    isReadyOnly: true
+    description: The effective date time of the reservation
+    types:
+    - uid: string
+  - name: properties.skuDescription
+    isReadyOnly: true
+    description: The sku description of the reservation
+    types:
+    - uid: string
+  - name: properties.term
+    isReadyOnly: true
+    description: The term of the reservation, e.g. P1Y
+    types:
+    - uid: string
+  - name: properties.renew
+    isReadyOnly: true
+    description: The renew state of the reservation
+    types:
+    - uid: boolean
+  - name: properties.renewSource
+    isReadyOnly: true
+    description: The renew source of the reservation
+    types:
+    - uid: string
+  - name: properties.utilization
+    isReadyOnly: true
+    description: Reservation utilization
+    types:
+    - uid: Utilization
+- name: ReservationSummary
+  description: The roll up count summary of reservations in each state
+  kind: object
+  properties:
+  - name: succeededCount
+    isReadyOnly: true
+    description: The number of reservation in Succeeded state
+    types:
+    - uid: number
+  - name: failedCount
+    isReadyOnly: true
+    description: The number of reservation in Failed state
+    types:
+    - uid: number
+  - name: expiringCount
+    isReadyOnly: true
+    description: The number of reservation in Expiring state
+    types:
+    - uid: number
+  - name: expiredCount
+    isReadyOnly: true
+    description: The number of reservation in Expired state
+    types:
+    - uid: number
+  - name: pendingCount
+    isReadyOnly: true
+    description: The number of reservation in Pending state
+    types:
+    - uid: number
+  - name: cancelledCount
+    isReadyOnly: true
+    description: The number of reservation in Cancelled state
+    types:
+    - uid: number
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The sub details of the error.
+    types:
+    - uid: ErrorSubDetails
+      isArray: true
+- name: ReservationSkuProperty
+  description: The property of reservation sku object.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The name of the reservation sku.
+    types:
+    - uid: string
+- name: Utilization
+  description: Reservation utilization
+  kind: object
+  properties:
+  - name: trend
+    isReadyOnly: true
+    description: The number of days trend for a reservation
+    types:
+    - uid: string
+  - name: aggregates
+    description: The array of aggregates of a reservation's utilization
+    types:
+    - uid: ReservationUtilizationAggregates
+      isArray: true
+- name: ErrorSubDetails
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+- name: ReservationUtilizationAggregates
+  description: The aggregate values of reservation utilization
+  kind: object
+  properties:
+  - name: grain
+    isReadyOnly: true
+    description: The grain of the aggregate
+    types:
+    - uid: number
+  - name: grainUnit
+    isReadyOnly: true
+    description: The grain unit of the aggregate
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: The aggregate value
+    types:
+    - uid: number
+  - name: valueUnit
+    isReadyOnly: true
+    description: The aggregate value unit
+    types:
+    - uid: string
+examples:
+- name: ReservationsListByBillingAccount
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/reservations?api-version=2020-05-01&$filter=properties/reservedResourceType eq 'VirtualMachines'&$orderby=properties/userFriendlyAppliedScopeType asc&selectedState=Succeeded
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/microsoft.capacity/reservationOrders/00000000-0000-0000-0000-000000000001/reservations/00000000-0000-0000-0000-000000000000",
+            "name": "00000000-0000-0000-0000-000000000001/00000000-0000-0000-0000-000000000000",
+            "type": "Microsoft.Capacity/reservationOrders/reservations",
+            "location": "westus",
+            "sku": {
+              "name": "Standard_D1"
+            },
+            "properties": {
+              "appliedScopes": null,
+              "appliedScopeType": "Shared",
+              "reservedResourceType": "VirtualMachines",
+              "quantity": 2,
+              "provisioningState": "Succeeded",
+              "expiryDate": "2023-07-21",
+              "provisioningSubState": null,
+              "displayName": "VM_RI_07-21-2020_12-06",
+              "displayProvisioningState": "Succeeded",
+              "userFriendlyRenewState": "Off",
+              "userFriendlyAppliedScopeType": "Shared",
+              "effectiveDateTime": "0001-01-01T00:00:00",
+              "skuDescription": null,
+              "term": null,
+              "renew": false,
+              "renewSource": null,
+              "utilization": {
+                "trend": "UP",
+                "aggregates": [
+                  {
+                    "grain": 1,
+                    "grainUnit": "days",
+                    "value": 0.05,
+                    "valueUnit": "percentage"
+                  },
+                  {
+                    "grain": 7,
+                    "grainUnit": "days",
+                    "value": 0.05,
+                    "valueUnit": "percentage"
+                  },
+                  {
+                    "grain": 30,
+                    "grainUnit": "days",
+                    "value": 0.05,
+                    "valueUnit": "percentage"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "summary": {
+          "succeededCount": 1,
+          "failedCount": 0,
+          "expiringCount": 0,
+          "expiredCount": 0,
+          "pendingCount": 0,
+          "cancelledCount": 0
+        },
+        "nextLink": null
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -1,0 +1,428 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.desktopvirtualization.sessionhosts.list
+name: List
+service: Desktop Virtualization
+groupName: Session Hosts
+apiVersion: 2021-01-14-preview
+summary: List sessionHosts.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts?api-version=2021-01-14-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: hostPoolName
+  in: path
+  isRequired: true
+  description: The name of the host pool within the specified resource group
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved session hosts in host pool.
+  types:
+  - uid: SessionHostList
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: SessionHostList
+  description: SessionHostList
+  kind: object
+  properties:
+  - name: value
+    description: List of SessionHost definitions.
+    types:
+    - uid: SessionHost
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to the next page of results.
+    types:
+    - uid: string
+- name: CloudError
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: CloudErrorProperties
+- name: SessionHost
+  description: Represents a SessionHost definition.
+  kind: object
+  properties:
+  - name: properties.objectId
+    isReadyOnly: true
+    description: ObjectId of SessionHost. (internal use)
+    types:
+    - uid: string
+  - name: properties.lastHeartBeat
+    description: Last heart beat from SessionHost.
+    types:
+    - uid: string
+  - name: properties.sessions
+    description: Number of sessions on SessionHost.
+    types:
+    - uid: integer
+  - name: properties.agentVersion
+    description: Version of agent on SessionHost.
+    types:
+    - uid: string
+  - name: properties.allowNewSession
+    description: Allow a new session.
+    types:
+    - uid: boolean
+  - name: properties.virtualMachineId
+    isReadyOnly: true
+    description: Virtual Machine Id of SessionHost's underlying virtual machine.
+    types:
+    - uid: string
+  - name: properties.resourceId
+    isReadyOnly: true
+    description: Resource Id of SessionHost's underlying virtual machine.
+    types:
+    - uid: string
+  - name: properties.assignedUser
+    description: User assigned to SessionHost.
+    types:
+    - uid: string
+  - name: properties.status
+    description: Status for a SessionHost.
+    types:
+    - uid: Status
+  - name: properties.statusTimestamp
+    isReadyOnly: true
+    description: The timestamp of the status.
+    types:
+    - uid: string
+  - name: properties.osVersion
+    description: The version of the OS on the session host.
+    types:
+    - uid: string
+  - name: properties.sxSStackVersion
+    description: The version of the side by side stack on the session host.
+    types:
+    - uid: string
+  - name: properties.updateState
+    description: Update state of a SessionHost.
+    types:
+    - uid: UpdateState
+  - name: properties.lastUpdateTime
+    isReadyOnly: true
+    description: The timestamp of the last update.
+    types:
+    - uid: string
+  - name: properties.updateErrorMessage
+    description: The error message.
+    types:
+    - uid: string
+  - name: properties.sessionHostHealthCheckResults
+    isReadyOnly: true
+    description: List of SessionHostHealthCheckReports
+    types:
+    - uid: SessionHostHealthCheckReport
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: CloudErrorProperties
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: Status
+  description: Status for a SessionHost.
+  kind: enum
+  properties:
+  - name: Available
+    description: Session Host has passed all the health checks and is available to handle connections.
+    types:
+    - uid: string
+  - name: Unavailable
+    description: Session Host is either turned off or has failed critical health checks which is causing service not to be able to route connections to this session host. Note this replaces previous 'NoHeartBeat' status.
+    types:
+    - uid: string
+  - name: Shutdown
+    description: Session Host is shutdown - RD Agent reported session host to be stopped or deallocated.
+    types:
+    - uid: string
+  - name: Disconnected
+    description: The Session Host is unavailable because it is currently disconnected.
+    types:
+    - uid: string
+  - name: Upgrading
+    description: 'Session Host is unavailable because currently an upgrade of RDAgent/side-by-side stack is in progress. Note: this state will be removed once the upgrade completes and the host is able to accept connections.'
+    types:
+    - uid: string
+  - name: UpgradeFailed
+    description: Session Host is unavailable because the critical component upgrade (agent, side-by-side stack, etc.) failed.
+    types:
+    - uid: string
+  - name: NoHeartbeat
+    description: The Session Host is not heart beating.
+    types:
+    - uid: string
+  - name: NotJoinedToDomain
+    description: SessionHost is not joined to domain.
+    types:
+    - uid: string
+  - name: DomainTrustRelationshipLost
+    description: SessionHost's domain trust relationship lost
+    types:
+    - uid: string
+  - name: SxSStackListenerNotReady
+    description: SxS stack installed on the SessionHost is not ready to receive connections.
+    types:
+    - uid: string
+  - name: FSLogixNotHealthy
+    description: FSLogix is in an unhealthy state on the session host.
+    types:
+    - uid: string
+  - name: NeedsAssistance
+    description: New status to inform admins that the health on their endpoint needs to be fixed. The connections might not fail, as these issues are not fatal.
+    types:
+    - uid: string
+- name: UpdateState
+  description: Update state of a SessionHost.
+  kind: enum
+  properties:
+  - name: Initial
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Started
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: SessionHostHealthCheckReport
+  description: The report for session host information.
+  kind: object
+  properties:
+  - name: healthCheckName
+    isReadyOnly: true
+    description: Represents the name of the health check operation performed.
+    types:
+    - uid: HealthCheckName
+  - name: healthCheckResult
+    isReadyOnly: true
+    description: Represents the Health state of the health check we performed.
+    types:
+    - uid: HealthCheckResult
+  - name: additionalFailureDetails
+    isReadyOnly: true
+    description: Additional detailed information on the failure.
+    types:
+    - uid: SessionHostHealthCheckFailureDetails
+- name: HealthCheckName
+  description: Represents the name of the health check operation performed.
+  kind: enum
+  properties:
+  - name: DomainJoinedCheck
+    description: Verifies the SessionHost is joined to a domain. If this check fails is classified as fatal as no connection can succeed if the SessionHost is not joined to the domain.
+    types:
+    - uid: string
+  - name: DomainTrustCheck
+    description: Verifies the SessionHost is not experiencing domain trust issues that will prevent authentication on SessionHost at connection time when session is created. If this check fails is classified as fatal as no connection can succeed if we cannot reach the domain for authentication on the SessionHost.
+    types:
+    - uid: string
+  - name: FSLogixHealthCheck
+    description: Verifies the FSLogix service is up and running to make sure users' profiles are loaded in the session. If this check fails is classified as fatal as even if the connection can succeed, user experience is bad as the user profile cannot be loaded and user will get a temporary profile in the session.
+    types:
+    - uid: string
+  - name: SxSStackListenerCheck
+    description: Verifies that the SxS stack is up and running so connections can succeed. If this check fails is classified as fatal as no connection can succeed if the SxS stack is not ready.
+    types:
+    - uid: string
+  - name: UrlsAccessibleCheck
+    description: 'Verifies that the required WVD service and Geneva URLs are reachable from the SessionHost. These URLs are: RdTokenUri, RdBrokerURI, RdDiagnosticsUri and storage blob URLs for agent monitoring (geneva). If this check fails, it is non fatal and the machine still can service connections, main issue may be that monitoring agent is unable to store warm path data (logs, operations ...).'
+    types:
+    - uid: string
+  - name: MonitoringAgentCheck
+    description: Verifies that the required Geneva agent is running. If this check fails, it is non fatal and the machine still can service connections, main issue may be that monitoring agent is missing or running (possibly) older version.
+    types:
+    - uid: string
+  - name: DomainReachable
+    description: Verifies the domain the SessionHost is joined to is still reachable. If this check fails is classified as fatal as no connection can succeed if the domain the SessionHost is joined is not reachable at the time of connection.
+    types:
+    - uid: string
+  - name: WebRTCRedirectorCheck
+    description: Verifies whether the WebRTCRedirector component is healthy. The WebRTCRedirector component is used to optimize video and audio performance in Microsoft Teams. This checks whether the component is still running, and whether there is a higher version available. If this check fails, it is non fatal and the machine still can service connections, main issue may be the WebRTCRedirector component has to be restarted or updated.
+    types:
+    - uid: string
+  - name: SupportedEncryptionCheck
+    description: Verifies the value of SecurityLayer registration key. If the value is 0 (SecurityLayer.RDP) this check fails with Error code = NativeMethodErrorCode.E_FAIL and is fatal. If the value is 1 (SecurityLayer.Negotiate) this check fails with Error code = NativeMethodErrorCode.ERROR_SUCCESS and is non fatal.
+    types:
+    - uid: string
+  - name: MetaDataServiceCheck
+    description: Verifies the metadata service is accessible and return compute properties.
+    types:
+    - uid: string
+  - name: AppAttachHealthCheck
+    description: Verifies that the AppAttachService is healthy (there were no issues during package staging). The AppAttachService is used to enable the staging/registration (and eventual deregistration/destaging) of MSIX apps that have been set up by the tenant admin. This checks whether the component had any failures during package staging. Failures in staging will prevent some MSIX apps from working properly for the end user. If this check fails, it is non fatal and the machine still can service connections, main issue may be certain apps will not work for end-users.
+    types:
+    - uid: string
+- name: HealthCheckResult
+  description: Represents the Health state of the health check we performed.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Health check result is not currently known.
+    types:
+    - uid: string
+  - name: HealthCheckSucceeded
+    description: Health check passed.
+    types:
+    - uid: string
+  - name: HealthCheckFailed
+    description: Health check failed.
+    types:
+    - uid: string
+  - name: SessionHostShutdown
+    description: We received a Shutdown notification.
+    types:
+    - uid: string
+- name: SessionHostHealthCheckFailureDetails
+  description: Contains details on the failure.
+  kind: object
+  properties:
+  - name: message
+    isReadyOnly: true
+    description: 'Failure message: hints on what is wrong and how to recover.'
+    types:
+    - uid: string
+  - name: errorCode
+    isReadyOnly: true
+    description: Error code corresponding for the failure.
+    types:
+    - uid: integer
+  - name: lastHealthCheckDateTime
+    isReadyOnly: true
+    description: The timestamp of the last update.
+    types:
+    - uid: string
+examples:
+- name: SessionHost_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1/sessionHosts?api-version=2021-01-14-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "sessionHost1.microsoft.com",
+            "id": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1/sessionHosts/sessionHost1.microsoft.com",
+            "type": "Microsoft.DesktopVirtualization/hostPools/sessionhosts",
+            "properties": {
+              "objectId": "7877fb31-4bde-49fd-9df3-c046e0ec5325",
+              "lastHeartBeat": "2008-09-22T14:01:54.9571247Z",
+              "sessions": 1,
+              "agentVersion": "1.0.0.1391",
+              "allowNewSession": true,
+              "assignedUser": "user1@microsoft.com",
+              "status": "Available",
+              "statusTimestamp": "2008-09-22T14:01:54.9571247Z",
+              "osVersion": "10.0.17763",
+              "sxSStackVersion": "rdp-sxs190816002",
+              "updateState": "Succeeded",
+              "lastUpdateTime": "2008-09-22T14:01:54.9571247Z",
+              "updateErrorMessage": "",
+              "virtualMachineId": "29491b54-c033-4dec-b09a-18bf0ebafaef",
+              "resourceId": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.Compute/virtualMachines/sessionHost1",
+              "sessionHostHealthCheckResults": [
+                {
+                  "healthCheckName": "DomainJoinedCheck",
+                  "healthCheckResult": "HealthCheckSucceeded",
+                  "additionalFailureDetails": {
+                    "message": "SessionHost healthy: is joined to domain ≤wvdarmtest1.net≥",
+                    "errorCode": 0,
+                    "lastHealthCheckDateTime": "2021-01-14T02:09:37.6236843Z"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "sessionHost2.microsoft.com",
+            "id": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1/sessionHosts/sessionHost2microsoft.com",
+            "type": "Microsoft.DesktopVirtualization/hostPools/sessionhosts",
+            "properties": {
+              "objectId": "7877fb31-4bde-49fd-9df3-c046e0ec5325",
+              "lastHeartBeat": "2008-09-22T14:01:54.9571247Z",
+              "sessions": 1,
+              "agentVersion": "1.0.0.1391",
+              "allowNewSession": true,
+              "assignedUser": "user2@microsoft.com",
+              "status": "Available",
+              "statusTimestamp": "2008-09-22T14:01:54.9571247Z",
+              "osVersion": "10.0.17763",
+              "sxSStackVersion": "rdp-sxs190816002",
+              "updateState": "Succeeded",
+              "lastUpdateTime": "2008-09-22T14:01:54.9571247Z",
+              "updateErrorMessage": "",
+              "virtualMachineId": "39491b54-c033-4dec-b09a-18bf0ebafaef",
+              "resourceId": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.Compute/virtualMachines/sessionHost2",
+              "sessionHostHealthCheckResults": [
+                {
+                  "healthCheckName": "DomainJoinedCheck",
+                  "healthCheckResult": "HealthCheckSucceeded",
+                  "additionalFailureDetails": {
+                    "message": "SessionHost healthy: is joined to domain ≤wvdarmtest1.net≥",
+                    "errorCode": 0,
+                    "lastHealthCheckDateTime": "2021-01-14T02:09:37.6236843Z"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+security: []
+errorCodes: []

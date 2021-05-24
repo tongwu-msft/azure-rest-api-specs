@@ -1,0 +1,245 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.billing.2020-05-01.billingsubscriptions.validatemove
+name: Validate Move
+service: Billing
+groupName: Billing Subscriptions
+apiVersion: 2020-05-01
+summary: Validates if a subscription's charges can be moved to a new invoice section. This operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{subscriptionId}/validateMoveEligibility?api-version=2020-05-01
+uriParameters:
+- name: billingAccountName
+  in: path
+  isRequired: true
+  description: The ID that uniquely identifies a billing account.
+  types:
+  - uid: string
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID that uniquely identifies an Azure subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API to be used with the client request. The current version is 2020-05-01.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ValidateSubscriptionTransferEligibilityResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: destinationInvoiceSectionId
+    in: body
+    isRequired: true
+    description: The destination invoice section id.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ValidateSubscriptionTransferEligibilityResult
+  description: Result of the transfer eligibility validation.
+  kind: object
+  properties:
+  - name: isMoveEligible
+    isReadyOnly: true
+    description: Specifies whether the subscription is eligible to be transferred.
+    types:
+    - uid: boolean
+  - name: errorDetails
+    description: Validation error details.
+    types:
+    - uid: ValidateSubscriptionTransferEligibilityError
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: TransferBillingSubscriptionRequestProperties
+  description: Request parameters to transfer billing subscription.
+  kind: object
+  properties:
+  - name: destinationInvoiceSectionId
+    description: The destination invoice section id.
+    types:
+    - uid: string
+- name: ValidateSubscriptionTransferEligibilityError
+  description: Error details of the transfer eligibility validation
+  kind: object
+  properties:
+  - name: code
+    description: Error code for the product transfer validation.
+    types:
+    - uid: subscriptionTransferValidationErrorCode
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed error message explaining the error.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The sub details of the error.
+    types:
+    - uid: ErrorSubDetails
+      isArray: true
+- name: subscriptionTransferValidationErrorCode
+  description: Error code for the product transfer validation.
+  kind: enum
+  properties:
+  - name: BillingAccountInactive
+    types:
+    - uid: string
+  - name: CrossBillingAccountNotAllowed
+    types:
+    - uid: string
+  - name: DestinationBillingProfileInactive
+    types:
+    - uid: string
+  - name: DestinationBillingProfileNotFound
+    types:
+    - uid: string
+  - name: DestinationBillingProfilePastDue
+    types:
+    - uid: string
+  - name: DestinationInvoiceSectionInactive
+    types:
+    - uid: string
+  - name: DestinationInvoiceSectionNotFound
+    types:
+    - uid: string
+  - name: InsufficientPermissionOnDestination
+    types:
+    - uid: string
+  - name: InsufficientPermissionOnSource
+    types:
+    - uid: string
+  - name: InvalidDestination
+    types:
+    - uid: string
+  - name: InvalidSource
+    types:
+    - uid: string
+  - name: MarketplaceNotEnabledOnDestination
+    types:
+    - uid: string
+  - name: NotAvailableForDestinationMarket
+    types:
+    - uid: string
+  - name: ProductInactive
+    types:
+    - uid: string
+  - name: ProductNotFound
+    types:
+    - uid: string
+  - name: ProductTypeNotSupported
+    types:
+    - uid: string
+  - name: SourceBillingProfilePastDue
+    types:
+    - uid: string
+  - name: SourceInvoiceSectionInactive
+    types:
+    - uid: string
+  - name: SubscriptionNotActive
+    types:
+    - uid: string
+  - name: SubscriptionTypeNotSupported
+    types:
+    - uid: string
+- name: ErrorSubDetails
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+examples:
+- name: SubscriptionMoveValidateSuccess
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{subscriptionId}/validateMoveEligibility?api-version=2020-05-01
+    body: >-
+      {
+        "destinationInvoiceSectionId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{newInvoiceSectionName}"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "isMoveEligible": true
+      }
+- name: SubscriptionMoveValidateFailure
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{subscriptionId}/validateMoveEligibility?api-version=2020-05-01
+    body: >-
+      {
+        "destinationInvoiceSectionId": "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{newInvoiceSectionName}"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "isMoveEligible": false,
+        "errorDetails": {
+          "code": "SubscriptionNotActive",
+          "message": "Invoice Sections can only be changed for active subscriptions."
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

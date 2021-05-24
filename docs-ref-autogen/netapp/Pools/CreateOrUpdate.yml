@@ -1,0 +1,241 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.netapp.pools.createorupdate
+name: Create Or Update
+service: Azure NetApp Files
+groupName: Pools
+apiVersion: 2020-12-01
+summary: "Create or Update the specified capacity pool within the resource group  \nCreate or Update a capacity pool"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}?api-version=2020-12-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the NetApp account
+  types:
+  - uid: string
+- name: poolName
+  in: path
+  isRequired: true
+  description: The name of the capacity pool
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,63}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - pool updated
+  types:
+  - uid: capacityPool
+- name: 201 Created
+  description: Pool created
+  types:
+  - uid: capacityPool
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+requestBody:
+- name: default
+  parameters:
+  - name: location
+    in: body
+    isRequired: true
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.size
+    in: body
+    isRequired: true
+    description: "size  \nProvisioned size of the pool (in bytes). Allowed values are in 4TiB chunks (value must be multiply of 4398046511104)."
+    types:
+    - uid: integer
+  - name: properties.serviceLevel
+    in: body
+    isRequired: true
+    description: "serviceLevel  \nThe service level of the file system"
+    types:
+    - uid: ServiceLevel
+  - name: properties.qosType
+    in: body
+    description: "qosType  \nThe qos type of the pool"
+    types:
+    - uid: qosType
+requestHeader: []
+definitions:
+- name: capacityPool
+  description: Capacity pool resource
+  kind: object
+  properties:
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.poolId
+    isReadyOnly: true
+    description: "poolId  \nUUID v4 used to identify the Pool"
+    types:
+    - uid: string
+  - name: properties.size
+    description: "size  \nProvisioned size of the pool (in bytes). Allowed values are in 4TiB chunks (value must be multiply of 4398046511104)."
+    types:
+    - uid: integer
+  - name: properties.serviceLevel
+    description: "serviceLevel  \nThe service level of the file system"
+    types:
+    - uid: ServiceLevel
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Azure lifecycle management
+    types:
+    - uid: string
+  - name: properties.totalThroughputMibps
+    isReadyOnly: true
+    description: Total throughput of pool in Mibps
+    types:
+    - uid: number
+  - name: properties.utilizedThroughputMibps
+    isReadyOnly: true
+    description: Utilized throughput of pool in Mibps
+    types:
+    - uid: number
+  - name: properties.qosType
+    description: "qosType  \nThe qos type of the pool"
+    types:
+    - uid: qosType
+- name: ServiceLevel
+  description: serviceLevel
+  kind: enum
+  properties:
+  - name: Standard
+    description: Standard service level
+    types:
+    - uid: string
+  - name: Premium
+    description: Premium service level
+    types:
+    - uid: string
+  - name: Ultra
+    description: Ultra service level
+    types:
+    - uid: string
+- name: qosType
+  description: qosType
+  kind: enum
+  properties:
+  - name: Auto
+    description: qos type Auto
+    types:
+    - uid: string
+  - name: Manual
+    description: qos type Manual
+    types:
+    - uid: string
+examples:
+- name: Pools_CreateOrUpdate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1?api-version=2020-12-01
+    body: >-
+      {
+        "location": "eastus",
+        "properties": {
+          "size": 4398046511104,
+          "serviceLevel": "Premium",
+          "qosType": "Auto"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1",
+        "name": "account1/pool1",
+        "type": "Microsoft.NetApp/netAppAccounts/capacityPools",
+        "location": "eastus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "poolId": "9760acf5-4638-11e7-9bdb-020073ca7778",
+          "serviceLevel": "Premium",
+          "size": 4398046511104,
+          "qosType": "Auto",
+          "totalThroughputMibps": 281.474
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1",
+        "name": "account1/pool1",
+        "type": "Microsoft.NetApp/netAppAccounts/capacityPools",
+        "location": "eastus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "poolId": "9760acf5-4638-11e7-9bdb-020073ca7778",
+          "serviceLevel": "Premium",
+          "size": 4398046511104,
+          "qosType": "Auto",
+          "totalThroughputMibps": 281.474
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

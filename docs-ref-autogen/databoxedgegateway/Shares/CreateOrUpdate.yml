@@ -1,0 +1,450 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.databoxedgegateway.shares.createorupdate
+name: Create Or Update
+service: Data Box Edge/Data Box Gateway
+groupName: Shares
+apiVersion: 2019-08-01
+summary: Creates a new share or updates an existing share on the device.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/shares/{name}?api-version=2019-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+- name: deviceName
+  in: path
+  isRequired: true
+  description: The device name.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: The share name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully created or updated the share.
+  types:
+  - uid: Share
+- name: 202 Accepted
+  description: Accepted the request to create or update the share.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.description
+    in: body
+    description: Description for the share.
+    types:
+    - uid: string
+  - name: properties.shareStatus
+    in: body
+    isRequired: true
+    description: Current status of the share.
+    types:
+    - uid: ShareStatus
+  - name: properties.monitoringStatus
+    in: body
+    isRequired: true
+    description: Current monitoring status of the share.
+    types:
+    - uid: MonitoringStatus
+  - name: properties.azureContainerInfo
+    in: body
+    description: Azure container mapping for the share.
+    types:
+    - uid: AzureContainerInfo
+  - name: properties.accessProtocol
+    in: body
+    isRequired: true
+    description: Access protocol to be used by the share.
+    types:
+    - uid: ShareAccessProtocol
+  - name: properties.userAccessRights
+    in: body
+    description: Mapping of users and corresponding access rights on the share (required for SMB protocol).
+    types:
+    - uid: UserAccessRight
+      isArray: true
+  - name: properties.clientAccessRights
+    in: body
+    description: List of IP addresses and corresponding access rights on the share(required for NFS protocol).
+    types:
+    - uid: ClientAccessRight
+      isArray: true
+  - name: properties.refreshDetails
+    in: body
+    description: Details of the refresh job on this share.
+    types:
+    - uid: RefreshDetails
+  - name: properties.dataPolicy
+    in: body
+    description: Data policy of the share.
+    types:
+    - uid: DataPolicy
+requestHeader: []
+definitions:
+- name: AzureContainerInfo
+  description: Azure container mapping of the endpoint.
+  kind: object
+  properties:
+  - name: storageAccountCredentialId
+    description: ID of the storage account credential used to access storage.
+    types:
+    - uid: string
+  - name: containerName
+    description: Container name (Based on the data format specified, this represents the name of Azure Files/Page blob/Block blob).
+    types:
+    - uid: string
+  - name: dataFormat
+    description: Storage format used for the file represented by the share.
+    types:
+    - uid: AzureContainerDataFormat
+- name: UserAccessRight
+  description: The mapping between a particular user and the access type on the SMB share.
+  kind: object
+  properties:
+  - name: userId
+    description: User ID (already existing in the device).
+    types:
+    - uid: string
+  - name: accessType
+    description: Type of access to be allowed for the user.
+    types:
+    - uid: ShareAccessType
+- name: ClientAccessRight
+  description: The mapping between a particular client IP and the type of access client has on the NFS share.
+  kind: object
+  properties:
+  - name: client
+    description: IP of the client.
+    types:
+    - uid: string
+  - name: accessPermission
+    description: Type of access to be allowed for the client.
+    types:
+    - uid: ClientPermissionType
+- name: RefreshDetails
+  description: Fields for tracking refresh job on the share or container.
+  kind: object
+  properties:
+  - name: inProgressRefreshJobId
+    description: If a refresh job is currently in progress on this share or container, this field indicates the ARM resource ID of that job. The field is empty if no job is in progress.
+    types:
+    - uid: string
+  - name: lastCompletedRefreshJobTimeInUTC
+    description: Indicates the completed time for the last refresh job on this particular share or container, if any.This could be a failed job or a successful job.
+    types:
+    - uid: string
+  - name: errorManifestFile
+    description: Indicates the relative path of the error xml for the last refresh job on this particular share or container, if any. This could be a failed job or a successful job.
+    types:
+    - uid: string
+  - name: lastJob
+    description: Indicates the id of the last refresh job on this particular share or container,if any. This could be a failed job or a successful job.
+    types:
+    - uid: string
+- name: MountPointMap
+  description: The share mount point.
+  kind: object
+  properties:
+  - name: shareId
+    description: ID of the share mounted to the role VM.
+    types:
+    - uid: string
+  - name: roleId
+    isReadyOnly: true
+    description: ID of the role to which share is mounted.
+    types:
+    - uid: string
+  - name: mountPoint
+    isReadyOnly: true
+    description: Mount point for the share.
+    types:
+    - uid: string
+  - name: roleType
+    isReadyOnly: true
+    description: Role type.
+    types:
+    - uid: RoleTypes
+- name: Share
+  description: Represents a share on the  Data Box Edge/Gateway device.
+  kind: object
+  properties:
+  - name: properties.description
+    description: Description for the share.
+    types:
+    - uid: string
+  - name: properties.shareStatus
+    description: Current status of the share.
+    types:
+    - uid: ShareStatus
+  - name: properties.monitoringStatus
+    description: Current monitoring status of the share.
+    types:
+    - uid: MonitoringStatus
+  - name: properties.azureContainerInfo
+    description: Azure container mapping for the share.
+    types:
+    - uid: AzureContainerInfo
+  - name: properties.accessProtocol
+    description: Access protocol to be used by the share.
+    types:
+    - uid: ShareAccessProtocol
+  - name: properties.userAccessRights
+    description: Mapping of users and corresponding access rights on the share (required for SMB protocol).
+    types:
+    - uid: UserAccessRight
+      isArray: true
+  - name: properties.clientAccessRights
+    description: List of IP addresses and corresponding access rights on the share(required for NFS protocol).
+    types:
+    - uid: ClientAccessRight
+      isArray: true
+  - name: properties.refreshDetails
+    description: Details of the refresh job on this share.
+    types:
+    - uid: RefreshDetails
+  - name: properties.shareMappings
+    isReadyOnly: true
+    description: Share mount point to the role.
+    types:
+    - uid: MountPointMap
+      isArray: true
+  - name: properties.dataPolicy
+    description: Data policy of the share.
+    types:
+    - uid: DataPolicy
+  - name: id
+    isReadyOnly: true
+    description: The path ID that uniquely identifies the object.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The object name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The hierarchical type of the object.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+- name: AzureContainerDataFormat
+  description: Storage format used for the file represented by the share.
+  kind: enum
+  properties:
+  - name: BlockBlob
+    types:
+    - uid: string
+  - name: PageBlob
+    types:
+    - uid: string
+  - name: AzureFile
+    types:
+    - uid: string
+- name: ShareAccessType
+  description: Type of access to be allowed for the user.
+  kind: enum
+  properties:
+  - name: Change
+    types:
+    - uid: string
+  - name: Read
+    types:
+    - uid: string
+  - name: Custom
+    types:
+    - uid: string
+- name: ClientPermissionType
+  description: Type of access to be allowed for the client.
+  kind: enum
+  properties:
+  - name: NoAccess
+    types:
+    - uid: string
+  - name: ReadOnly
+    types:
+    - uid: string
+  - name: ReadWrite
+    types:
+    - uid: string
+- name: RoleTypes
+  description: Role type.
+  kind: enum
+  properties:
+  - name: IOT
+    types:
+    - uid: string
+  - name: ASA
+    types:
+    - uid: string
+  - name: Functions
+    types:
+    - uid: string
+  - name: Cognitive
+    types:
+    - uid: string
+- name: ShareStatus
+  description: Current status of the share.
+  kind: enum
+  properties:
+  - name: Offline
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+  - name: OK
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: NeedsAttention
+    types:
+    - uid: string
+- name: MonitoringStatus
+  description: Current monitoring status of the share.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ShareAccessProtocol
+  description: Access protocol to be used by the share.
+  kind: enum
+  properties:
+  - name: SMB
+    types:
+    - uid: string
+  - name: NFS
+    types:
+    - uid: string
+- name: DataPolicy
+  description: Data policy of the share.
+  kind: enum
+  properties:
+  - name: Cloud
+    types:
+    - uid: string
+  - name: Local
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: SharePut
+  request:
+    uri: PUT https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/shares/smbshare?api-version=2019-08-01
+    body: >-
+      {
+        "properties": {
+          "description": "",
+          "shareStatus": "Online",
+          "monitoringStatus": "Enabled",
+          "azureContainerInfo": {
+            "storageAccountCredentialId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/storageAccountCredentials/sac1",
+            "containerName": "testContainerSMB",
+            "dataFormat": "BlockBlob"
+          },
+          "accessProtocol": "SMB",
+          "userAccessRights": [
+            {
+              "userId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/users/user2",
+              "accessType": "Change"
+            }
+          ],
+          "dataPolicy": "Cloud"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "description": "",
+          "shareStatus": "Online",
+          "monitoringStatus": "Disabled",
+          "azureContainerInfo": {
+            "storageAccountCredentialId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/storageAccountCredentials/sac1",
+            "containerName": "testContainerSMB",
+            "dataFormat": "BlockBlob"
+          },
+          "accessProtocol": "SMB",
+          "userAccessRights": [
+            {
+              "userId": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/users/user2",
+              "accessType": "Change"
+            }
+          ],
+          "clientAccessRights": [],
+          "refreshDetails": {},
+          "shareMappings": [],
+          "dataPolicy": "Cloud"
+        },
+        "id": "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/shares/smbshare",
+        "name": "smbshare",
+        "type": "dataBoxEdgeDevices/shares"
+      }
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
+errorCodes: []

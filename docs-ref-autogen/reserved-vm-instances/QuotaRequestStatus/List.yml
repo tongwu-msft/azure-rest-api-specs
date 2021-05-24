@@ -1,0 +1,344 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.reserved-vm-instances.quotarequeststatus.list
+name: List
+service: Reserved VM Instances
+groupName: Quota Request Status
+apiVersion: 2020-10-25
+summary: For the specified Azure region (location), subscription, and resource provider, get the history of the quota requests for the past year. To select specific quota requests, use the oData filter.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimitsRequests?api-version=2020-10-25
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimitsRequests?api-version=2020-10-25&$filter={$filter}&$top={$top}&$skiptoken={$skiptoken}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID.
+  types:
+  - uid: string
+- name: providerId
+  in: path
+  isRequired: true
+  description: Azure resource provider ID.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Azure region.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: "| Field                    | Supported operators  \n|---------------------|------------------------\n\r\n|requestSubmitTime | ge, le, eq, gt, lt\n"
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: Number of records to return.
+  types:
+  - uid: integer
+  format: int32
+- name: $skiptoken
+  in: query
+  description: Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element includes a skiptoken parameter that specifies a starting point to use for subsequent calls.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Ok. Returns details and status of the quota request.
+  types:
+  - uid: QuotaRequestDetailsList
+- name: Other Status Codes
+  description: Error description in the response.
+  types:
+  - uid: ExceptionResponse
+requestHeader: []
+definitions:
+- name: QuotaRequestDetailsList
+  description: Quota request details.
+  kind: object
+  properties:
+  - name: value
+    description: The quota requests.
+    types:
+    - uid: QuotaRequestDetails
+      isArray: true
+  - name: nextLink
+    description: The URI to fetch the next page of quota limits. When there are no more pages, this is null.
+    types:
+    - uid: string
+- name: ExceptionResponse
+  description: The API error.
+  kind: object
+  properties:
+  - name: error
+    description: The API error details.
+    types:
+    - uid: ServiceError
+- name: QuotaRequestDetails
+  description: Quota request details.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Quota request ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Quota request name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: The quota request status.
+    types:
+    - uid: QuotaRequestState
+  - name: properties.message
+    isReadyOnly: true
+    description: User friendly status message.
+    types:
+    - uid: string
+  - name: properties.requestSubmitTime
+    isReadyOnly: true
+    description: 'The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.'
+    types:
+    - uid: string
+  - name: properties.value
+    description: The quotaRequests.
+    types:
+    - uid: SubRequest
+      isArray: true
+- name: ServiceError
+  description: The API error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message text.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The list of error details.
+    types:
+    - uid: ServiceErrorDetail
+      isArray: true
+- name: QuotaRequestState
+  description: The quota request status.
+  kind: enum
+  properties:
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Invalid
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+- name: SubRequest
+  description: The sub-request submitted with the quota request.
+  kind: object
+  properties:
+  - name: limit
+    isReadyOnly: true
+    description: Quota (resource limit).
+    types:
+    - uid: integer
+  - name: name
+    description: The resource name.
+    types:
+    - uid: ResourceName
+  - name: resourceType
+    isReadyOnly: true
+    description: Resource type for which the quota check was made.
+    types:
+    - uid: string
+  - name: unit
+    description: " The limit units, such as **count** and **bytes**. Use the unit field provided in the response of the GET quota operation."
+    types:
+    - uid: string
+  - name: provisioningState
+    description: The quota request status.
+    types:
+    - uid: QuotaRequestState
+  - name: message
+    isReadyOnly: true
+    description: User-friendly status message.
+    types:
+    - uid: string
+  - name: subRequestId
+    isReadyOnly: true
+    description: Sub request ID for individual request.
+    types:
+    - uid: string
+- name: ServiceErrorDetail
+  description: The error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+- name: ResourceName
+  description: Resource name provided by the resource provider. Use this property for quotaRequest parameter.
+  kind: object
+  properties:
+  - name: value
+    description: Resource name.
+    types:
+    - uid: string
+  - name: localizedValue
+    isReadyOnly: true
+    description: Resource display localized name.
+    types:
+    - uid: string
+examples:
+- name: QuotaRequestHistory
+  request:
+    uri: GET https://management.azure.com/subscriptions/3f75fdf7-977e-44ad-990d-99f14f0f299f/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimitsRequests?api-version=2020-10-25
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nextLink": "https://management.azure.com/subscriptions/3f75fdf7-977e-44ad-990d-99f14f0f299f/providers/microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimitsRequests?api-version=2020-10-25&amp;$top=3",
+        "value": [
+          {
+            "id": "2B5C8515-37D8-4B6A-879B-CD641A2CF605",
+            "type": "Microsoft.Capacity/serviceLimitsRequests",
+            "name": "00000000-0000-0000-0000-000000000000/2B5C8515-37D8-4B6A-879B-CD641A2CF605",
+            "properties": {
+              "requestSubmitTime": "2019-08-19T19:23:17.904Z",
+              "message": "Request completed",
+              "provisioningState": "Success",
+              "value": [
+                {
+                  "limit": 200,
+                  "subRequestId": "AD07450A-DE86-4FD3-859B-107BEF218C4C",
+                  "name": {
+                    "value": "standardHCSFamily",
+                    "localizedValue": "Standard HCS Family vCPUs"
+                  },
+                  "message": "Request completed",
+                  "provisioningState": "Success"
+                },
+                {
+                  "limit": 50,
+                  "subRequestId": "AD07450A-DE86-4FD3-859B-107BEF218C4C",
+                  "name": {
+                    "value": "standardNCPromoFamily",
+                    "localizedValue": "Standard NC Promo Family vCPUs"
+                  },
+                  "message": "Request completed",
+                  "provisioningState": "Success"
+                }
+              ]
+            }
+          },
+          {
+            "id": "7E73A85C-83BB-4DE4-903F-076F1A2B91D6",
+            "type": "Microsoft.Capacity/serviceLimitsRequests",
+            "name": "00000000-0000-0000-0000-000000000000/7E73A85C-83BB-4DE4-903F-076F1A2B91D6",
+            "properties": {
+              "requestSubmitTime": "2019-08-18T19:23:17.904Z",
+              "message": "Request completed",
+              "provisioningState": "Succeeded",
+              "value": [
+                {
+                  "limit": 100,
+                  "subRequestId": "AD07450A-DE86-4FD3-859B-107BEF218C4C",
+                  "name": {
+                    "value": "standardNVSv3Family",
+                    "localizedValue": "Standard NVSv3 Family vCPUs"
+                  },
+                  "message": "Request completed",
+                  "provisioningState": "Success"
+                },
+                {
+                  "limit": 150,
+                  "subRequestId": "AD07450A-DE86-4FD3-859B-107BEF218C4C",
+                  "name": {
+                    "value": "standardNVPromoFamily",
+                    "localizedValue": "Standard NV Promo Family vCPUs"
+                  },
+                  "message": "Request completed",
+                  "provisioningState": "Succeeded"
+                }
+              ]
+            }
+          },
+          {
+            "id": "5E460077-AB53-4802-8997-A6940E0B7649",
+            "type": "Microsoft.Capacity/serviceLimitsRequests",
+            "name": "00000000-0000-0000-0000-000000000000/5E460077-AB53-4802-8997-A6940E0B7649",
+            "properties": {
+              "requestSubmitTime": "2019-08-17T19:23:17.904Z",
+              "message": "Request completed",
+              "provisioningState": "Succeeded",
+              "value": [
+                {
+                  "limit": 70,
+                  "subRequestId": "AD07450A-DE86-4FD3-859B-107BEF218C4C",
+                  "name": {
+                    "value": "standardNCPromoFamily",
+                    "localizedValue": "Standard NC Promo Family vCPUs"
+                  },
+                  "message": "Request completed",
+                  "provisioningState": "Succeeded"
+                },
+                {
+                  "limit": 52,
+                  "subRequestId": "AD07450A-DE86-4FD3-859B-107BEF218C4C",
+                  "name": {
+                    "value": "standardHBSFamily",
+                    "localizedValue": "Standard HBS Family vCPUs"
+                  },
+                  "message": "Request completed",
+                  "provisioningState": "Succeeded"
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
