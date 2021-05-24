@@ -1,0 +1,437 @@
+### YamlMime:RESTOperation
+uid: synapse.data-plane.sparksession.getsparksessions
+name: Get Spark Sessions
+service: Synapse
+groupName: Spark Session
+apiVersion: 2019-11-01-preview
+summary: List all spark sessions which are running under a particular spark pool.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions
+- content: GET {endpoint}/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/sessions?from={from}&size={size}&detailed={detailed}
+  isOptional: true
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
+  types:
+  - uid: string
+- name: livyApiVersion
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Valid api-version for the request.
+  types:
+  - uid: string
+- name: sparkPoolName
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Name of the spark pool.
+  types:
+  - uid: string
+- name: from
+  in: query
+  description: Optional param specifying which index the list should begin from.
+  types:
+  - uid: integer
+  format: int32
+- name: size
+  in: query
+  description: >-
+    Optional param specifying the size of the returned list.
+
+                By default it is 20 and that is the maximum.
+  types:
+  - uid: integer
+  format: int32
+- name: detailed
+  in: query
+  description: Optional query param specifying whether detailed response is returned beyond plain livy.
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: SparkSessionCollection
+requestHeader: []
+definitions:
+- name: SparkSessionCollection
+  kind: object
+  properties:
+  - name: from
+    description: ''
+    types:
+    - uid: integer
+  - name: total
+    description: ''
+    types:
+    - uid: integer
+  - name: sessions
+    description: ''
+    types:
+    - uid: SparkSession
+      isArray: true
+- name: SparkSession
+  kind: object
+  properties:
+  - name: livyInfo
+    description: ''
+    types:
+    - uid: SparkSessionState
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: workspaceName
+    description: ''
+    types:
+    - uid: string
+  - name: sparkPoolName
+    description: ''
+    types:
+    - uid: string
+  - name: submitterName
+    description: ''
+    types:
+    - uid: string
+  - name: submitterId
+    description: ''
+    types:
+    - uid: string
+  - name: artifactId
+    description: ''
+    types:
+    - uid: string
+  - name: jobType
+    description: ''
+    types:
+    - uid: SparkJobType
+  - name: result
+    description: ''
+    types:
+    - uid: SparkSessionResultType
+  - name: schedulerInfo
+    description: ''
+    types:
+    - uid: SparkScheduler
+  - name: pluginInfo
+    description: ''
+    types:
+    - uid: SparkServicePlugin
+  - name: errorInfo
+    description: ''
+    types:
+    - uid: SparkServiceError
+      isArray: true
+  - name: tags
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    description: ''
+    types:
+    - uid: integer
+  - name: appId
+    description: ''
+    types:
+    - uid: string
+  - name: appInfo
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: state
+    description: ''
+    types:
+    - uid: string
+  - name: log
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+- name: SparkSessionState
+  kind: object
+  properties:
+  - name: notStartedAt
+    description: ''
+    types:
+    - uid: string
+  - name: startingAt
+    description: ''
+    types:
+    - uid: string
+  - name: idleAt
+    description: ''
+    types:
+    - uid: string
+  - name: deadAt
+    description: ''
+    types:
+    - uid: string
+  - name: shuttingDownAt
+    description: ''
+    types:
+    - uid: string
+  - name: killedAt
+    description: ''
+    types:
+    - uid: string
+  - name: recoveringAt
+    description: ''
+    types:
+    - uid: string
+  - name: busyAt
+    description: ''
+    types:
+    - uid: string
+  - name: errorAt
+    description: ''
+    types:
+    - uid: string
+  - name: currentState
+    description: ''
+    types:
+    - uid: string
+  - name: jobCreationRequest
+    description: ''
+    types:
+    - uid: SparkRequest
+- name: SparkJobType
+  description: The job type.
+  kind: enum
+  properties:
+  - name: SparkBatch
+    types:
+    - uid: string
+  - name: SparkSession
+    types:
+    - uid: string
+- name: SparkSessionResultType
+  kind: enum
+  properties:
+  - name: Uncertain
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+- name: SparkScheduler
+  kind: object
+  properties:
+  - name: submittedAt
+    description: ''
+    types:
+    - uid: string
+  - name: scheduledAt
+    description: ''
+    types:
+    - uid: string
+  - name: endedAt
+    description: ''
+    types:
+    - uid: string
+  - name: cancellationRequestedAt
+    description: ''
+    types:
+    - uid: string
+  - name: currentState
+    description: ''
+    types:
+    - uid: SchedulerCurrentState
+- name: SparkServicePlugin
+  kind: object
+  properties:
+  - name: preparationStartedAt
+    description: ''
+    types:
+    - uid: string
+  - name: resourceAcquisitionStartedAt
+    description: ''
+    types:
+    - uid: string
+  - name: submissionStartedAt
+    description: ''
+    types:
+    - uid: string
+  - name: monitoringStartedAt
+    description: ''
+    types:
+    - uid: string
+  - name: cleanupStartedAt
+    description: ''
+    types:
+    - uid: string
+  - name: currentState
+    description: ''
+    types:
+    - uid: PluginCurrentState
+- name: SparkServiceError
+  kind: object
+  properties:
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: errorCode
+    description: ''
+    types:
+    - uid: string
+  - name: source
+    description: ''
+    types:
+    - uid: SparkErrorSource
+- name: SparkRequest
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: file
+    description: ''
+    types:
+    - uid: string
+  - name: className
+    description: ''
+    types:
+    - uid: string
+  - name: args
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: jars
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: pyFiles
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: files
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: archives
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: conf
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: driverMemory
+    description: ''
+    types:
+    - uid: string
+  - name: driverCores
+    description: ''
+    types:
+    - uid: integer
+  - name: executorMemory
+    description: ''
+    types:
+    - uid: string
+  - name: executorCores
+    description: ''
+    types:
+    - uid: integer
+  - name: numExecutors
+    description: ''
+    types:
+    - uid: integer
+- name: SchedulerCurrentState
+  kind: enum
+  properties:
+  - name: Queued
+    types:
+    - uid: string
+  - name: Scheduled
+    types:
+    - uid: string
+  - name: Ended
+    types:
+    - uid: string
+- name: PluginCurrentState
+  kind: enum
+  properties:
+  - name: Preparation
+    types:
+    - uid: string
+  - name: ResourceAcquisition
+    types:
+    - uid: string
+  - name: Queued
+    types:
+    - uid: string
+  - name: Submission
+    types:
+    - uid: string
+  - name: Monitoring
+    types:
+    - uid: string
+  - name: Cleanup
+    types:
+    - uid: string
+  - name: Ended
+    types:
+    - uid: string
+- name: SparkErrorSource
+  kind: enum
+  properties:
+  - name: System
+    types:
+    - uid: string
+  - name: User
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Dependency
+    types:
+    - uid: string
+examples:
+- name: List all spark session jobs
+  request:
+    uri: GET myWorkspace.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/mySparkPool/sessions?from=0&size=2&detailed=True
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "from": 0,
+        "total": 2,
+        "sessions": []
+      }
+security: []
+metadata:
+  description: Learn more about <Synapse> service - List all spark sessions which are running under a particular spark pool.
+errorCodes: []

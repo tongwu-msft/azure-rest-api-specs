@@ -1,0 +1,242 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datafactory.privateendpointconnection.createorupdate
+name: Create Or Update
+service: Data Factory
+groupName: Private Endpoint Connection
+apiVersion: 2018-06-01
+summary: Approves or rejects a private endpoint connection
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2018-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: factoryName
+  in: path
+  isRequired: true
+  description: The factory name.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$
+- name: privateEndpointConnectionName
+  in: path
+  isRequired: true
+  description: The private endpoint connection name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: PrivateEndpointConnectionResource
+- name: Other Status Codes
+  description: An error response received from PUT privateEndpointConnections operation.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties
+    in: body
+    description: Core resource properties
+    types:
+    - uid: PrivateLinkConnectionApprovalRequest
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the private endpoint connection entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update.
+  types:
+  - uid: string
+definitions:
+- name: PrivateLinkConnectionApprovalRequest
+  description: A request to approve or reject a private endpoint connection
+  kind: object
+  properties:
+  - name: privateLinkServiceConnectionState
+    description: The state of a private link connection
+    types:
+    - uid: PrivateLinkConnectionState
+- name: PrivateEndpointConnectionResource
+  description: Private Endpoint Connection ARM resource.
+  kind: object
+  properties:
+  - name: properties
+    description: Core resource properties
+    types:
+    - uid: RemotePrivateEndpointConnection
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Etag identifies change in the resource.
+    types:
+    - uid: string
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+- name: PrivateLinkConnectionApprovalRequestResource
+  description: Private Endpoint Connection Approval ARM resource.
+  kind: object
+  properties:
+  - name: properties
+    description: Core resource properties
+    types:
+    - uid: PrivateLinkConnectionApprovalRequest
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Etag identifies change in the resource.
+    types:
+    - uid: string
+- name: PrivateLinkConnectionState
+  description: The state of a private link connection
+  kind: object
+  properties:
+  - name: status
+    description: Status of a private link connection
+    types:
+    - uid: string
+  - name: description
+    description: Description of a private link connection
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: ActionsRequired for a private link connection
+    types:
+    - uid: string
+- name: RemotePrivateEndpointConnection
+  description: A remote private endpoint connection
+  kind: object
+  properties:
+  - name: provisioningState
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: privateEndpoint
+    description: PrivateEndpoint of a remote private endpoint connection
+    types:
+    - uid: ArmIdWrapper
+  - name: privateLinkServiceConnectionState
+    description: The state of a private link connection
+    types:
+    - uid: PrivateLinkConnectionState
+- name: ArmIdWrapper
+  description: A wrapper for an ARM resource id
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Approves or rejects a private endpoint connection for a factory.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/privateEndpointConnections/connection?api-version=2018-06-01
+    body: >-
+      {
+        "properties": {
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "Approved by admin.",
+            "actionsRequired": ""
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "exampleFactoryName",
+        "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName",
+        "type": "Microsoft.DataFactory/factories/privateEndpointConnections",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "privateEndpoint": {
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/privateEndpoints/myPrivateEndpoint"
+          },
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "Approved by admin.",
+            "actionsRequired": ""
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about <Data Factory> service - Approves or rejects a private endpoint connection
+errorCodes: []

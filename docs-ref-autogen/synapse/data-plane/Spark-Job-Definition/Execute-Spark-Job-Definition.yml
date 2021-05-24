@@ -1,0 +1,558 @@
+### YamlMime:RESTOperation
+uid: synapse.data-plane.sparkjobdefinition.executesparkjobdefinition
+name: Execute Spark Job Definition
+service: Synapse
+groupName: Spark Job Definition
+apiVersion: 2019-06-01-preview
+summary: Executes the spark job definition.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/sparkJobDefinitions/{sparkJobDefinitionName}/execute?api-version=2019-06-01-preview
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
+  types:
+  - uid: string
+- name: sparkJobDefinitionName
+  in: path
+  isRequired: true
+  description: The spark job definition name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Synapse client API Version.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Accepted.
+  types:
+  - uid: SparkBatchJob
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: SparkBatchJob
+- name: Other Status Codes
+  description: An error response received from the Azure Synapse service.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: SparkBatchJob
+  kind: object
+  properties:
+  - name: livyInfo
+    description: ''
+    types:
+    - uid: SparkBatchJobState
+  - name: name
+    description: The batch name.
+    types:
+    - uid: string
+  - name: workspaceName
+    description: The workspace name.
+    types:
+    - uid: string
+  - name: sparkPoolName
+    description: The Spark pool name.
+    types:
+    - uid: string
+  - name: submitterName
+    description: The submitter name.
+    types:
+    - uid: string
+  - name: submitterId
+    description: The submitter identifier.
+    types:
+    - uid: string
+  - name: artifactId
+    description: The artifact identifier.
+    types:
+    - uid: string
+  - name: jobType
+    description: The job type.
+    types:
+    - uid: SparkJobType
+  - name: result
+    description: The Spark batch job result.
+    types:
+    - uid: SparkBatchJobResultType
+  - name: schedulerInfo
+    description: The scheduler information.
+    types:
+    - uid: SparkScheduler
+  - name: pluginInfo
+    description: The plugin information.
+    types:
+    - uid: SparkServicePlugin
+  - name: errorInfo
+    description: The error information.
+    types:
+    - uid: SparkServiceError
+      isArray: true
+  - name: tags
+    description: The tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    description: The session Id.
+    types:
+    - uid: integer
+  - name: appId
+    description: The application id of this session
+    types:
+    - uid: string
+  - name: appInfo
+    description: The detailed application info.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: state
+    description: The batch state
+    types:
+    - uid: string
+  - name: log
+    description: The log lines.
+    types:
+    - uid: string
+      isArray: true
+- name: CloudError
+  description: The object that defines the structure of an Azure Synapse error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+- name: SparkBatchJobState
+  kind: object
+  properties:
+  - name: notStartedAt
+    description: the time that at which "not_started" livy state was first seen.
+    types:
+    - uid: string
+  - name: startingAt
+    description: the time that at which "starting" livy state was first seen.
+    types:
+    - uid: string
+  - name: runningAt
+    description: the time that at which "running" livy state was first seen.
+    types:
+    - uid: string
+  - name: deadAt
+    description: time that at which "dead" livy state was first seen.
+    types:
+    - uid: string
+  - name: successAt
+    description: the time that at which "success" livy state was first seen.
+    types:
+    - uid: string
+  - name: killedAt
+    description: the time that at which "killed" livy state was first seen.
+    types:
+    - uid: string
+  - name: recoveringAt
+    description: the time that at which "recovering" livy state was first seen.
+    types:
+    - uid: string
+  - name: currentState
+    description: the Spark job state.
+    types:
+    - uid: string
+  - name: jobCreationRequest
+    description: ''
+    types:
+    - uid: SparkRequest
+- name: SparkJobType
+  description: The job type.
+  kind: enum
+  properties:
+  - name: SparkBatch
+    types:
+    - uid: string
+  - name: SparkSession
+    types:
+    - uid: string
+- name: SparkBatchJobResultType
+  description: The Spark batch job result.
+  kind: enum
+  properties:
+  - name: Uncertain
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+- name: SparkScheduler
+  kind: object
+  properties:
+  - name: submittedAt
+    description: ''
+    types:
+    - uid: string
+  - name: scheduledAt
+    description: ''
+    types:
+    - uid: string
+  - name: endedAt
+    description: ''
+    types:
+    - uid: string
+  - name: cancellationRequestedAt
+    description: ''
+    types:
+    - uid: string
+  - name: currentState
+    description: ''
+    types:
+    - uid: SchedulerCurrentState
+- name: SparkServicePlugin
+  kind: object
+  properties:
+  - name: preparationStartedAt
+    description: ''
+    types:
+    - uid: string
+  - name: resourceAcquisitionStartedAt
+    description: ''
+    types:
+    - uid: string
+  - name: submissionStartedAt
+    description: ''
+    types:
+    - uid: string
+  - name: monitoringStartedAt
+    description: ''
+    types:
+    - uid: string
+  - name: cleanupStartedAt
+    description: ''
+    types:
+    - uid: string
+  - name: currentState
+    description: ''
+    types:
+    - uid: PluginCurrentState
+- name: SparkServiceError
+  kind: object
+  properties:
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: errorCode
+    description: ''
+    types:
+    - uid: string
+  - name: source
+    description: ''
+    types:
+    - uid: SparkErrorSource
+- name: SparkRequest
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: file
+    description: ''
+    types:
+    - uid: string
+  - name: className
+    description: ''
+    types:
+    - uid: string
+  - name: args
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: jars
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: pyFiles
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: files
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: archives
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: conf
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: driverMemory
+    description: ''
+    types:
+    - uid: string
+  - name: driverCores
+    description: ''
+    types:
+    - uid: integer
+  - name: executorMemory
+    description: ''
+    types:
+    - uid: string
+  - name: executorCores
+    description: ''
+    types:
+    - uid: integer
+  - name: numExecutors
+    description: ''
+    types:
+    - uid: integer
+- name: SchedulerCurrentState
+  kind: enum
+  properties:
+  - name: Queued
+    types:
+    - uid: string
+  - name: Scheduled
+    types:
+    - uid: string
+  - name: Ended
+    types:
+    - uid: string
+- name: PluginCurrentState
+  kind: enum
+  properties:
+  - name: Preparation
+    types:
+    - uid: string
+  - name: ResourceAcquisition
+    types:
+    - uid: string
+  - name: Queued
+    types:
+    - uid: string
+  - name: Submission
+    types:
+    - uid: string
+  - name: Monitoring
+    types:
+    - uid: string
+  - name: Cleanup
+    types:
+    - uid: string
+  - name: Ended
+    types:
+    - uid: string
+- name: SparkErrorSource
+  kind: enum
+  properties:
+  - name: System
+    types:
+    - uid: string
+  - name: User
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Dependency
+    types:
+    - uid: string
+examples:
+- name: SparkJobDefinitions_Execute
+  request:
+    uri: POST exampleWorkspace.dev.azuresynapse.net/sparkJobDefinitions/exampleSparkJobDefinition/execute?api-version=2019-06-01-preview
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Date
+      value: Sat, 13 Sep 2019 23:38:58 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1192"
+    - name: x-ms-request-id
+      value: e4c589b7-a9fe-4c28-981c-3855ec27d264
+    - name: x-ms-correlation-request-id
+      value: e4c589b7-a9fe-4c28-981c-3855ec27d264
+    - name: location
+      value: https://exampleWorkspaceName.dev.azuresynapse.net/operationResults/arcadiaSpark$$exampleBigDataPool$$batch$$1?api-version=2019-06-01-preview
+    body: >-
+      {
+        "livyInfo": {
+          "startingAt": "2019-09-13T23:38:08.9498718+00:00",
+          "runningAt": "2019-09-13T23:38:33.1197083+00:00",
+          "currentState": "running",
+          "jobCreationRequest": {
+            "name": "SampleBatchJob",
+            "file": "https://somestorage.blob.core.windows.net/main.jar",
+            "className": "SampleApp.SampleApp",
+            "conf": {},
+            "driverMemory": "2g",
+            "driverCores": 2,
+            "executorMemory": "2g",
+            "executorCores": 2,
+            "numExecutors": 2
+          }
+        },
+        "name": "SampleBatchJob",
+        "workspaceName": "exampleWorkspace",
+        "sparkPoolName": "c0",
+        "submitterName": "user@domain.com",
+        "submitterId": "12345678-1234-1234-1234-12345678abc",
+        "artifactId": "Livy",
+        "jobType": "SparkBatch",
+        "result": "Succeeded",
+        "schedulerInfo": {
+          "submittedAt": "2019-09-13T23:38:01.3002495+00:00",
+          "scheduledAt": "2019-09-13T23:38:03.6535682+00:00",
+          "currentState": "running"
+        },
+        "pluginInfo": {
+          "preparationStartedAt": "2019-09-13T23:38:03.7178558+00:00",
+          "resourceAcquisitionStartedAt": "2019-09-13T23:38:04.5467298+00:00",
+          "submissionStartedAt": "2019-09-13T23:38:05.4808501+00:00",
+          "currentState": "running"
+        },
+        "tags": {},
+        "id": 0,
+        "appId": "application_1568416412157_0002",
+        "appInfo": {
+          "driverLogUrl": "http://aa5a93c513fa426980a44e8124b9797b000eb919817:8042/node/containerlogs/container_1568416412157_0002_02_000001/trusted-service-user",
+          "sparkUiUrl": "http://aa5a93c513fa426980a44e8124b9797b004f5397319:8088/proxy/application_1568416412157_0002/"
+        },
+        "state": "running",
+        "log": [
+          "\tat org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:211)",
+          "\tat org.apache.spark.sql.DataFrameReader.json(DataFrameReader.scala:391)",
+          "\tat org.apache.spark.sql.DataFrameReader.json(DataFrameReader.scala:325)",
+          "\tat SampleApp.SampleApp$.main(SampleApp.scala:39)",
+          "\tat SampleApp.SampleApp.main(SampleApp.scala)",
+          "\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)",
+          "\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)",
+          "\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)",
+          "\tat java.lang.reflect.Method.invoke(Method.java:498)",
+          "\tat org.apache.spark.deploy.yarn.ApplicationMaster$$anon$2.run(ApplicationMaster.scala:684)"
+        ]
+      }
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Sat, 13 Sep 2019 23:38:58 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1192"
+    - name: x-ms-request-id
+      value: e4c589b7-a9fe-4c28-981c-3855ec27d264
+    - name: x-ms-correlation-request-id
+      value: e4c589b7-a9fe-4c28-981c-3855ec27d264
+    body: >-
+      {
+        "livyInfo": {
+          "startingAt": "2019-09-13T23:38:08.9498718+00:00",
+          "runningAt": "2019-09-13T23:38:33.1197083+00:00",
+          "successAt": "2019-09-13T23:38:57.2737498+00:00",
+          "currentState": "success",
+          "jobCreationRequest": {
+            "name": "SampleBatchJob",
+            "file": "https://somestorage.blob.core.windows.net/main.jar",
+            "className": "SampleApp.SampleApp",
+            "conf": {},
+            "driverMemory": "2g",
+            "driverCores": 2,
+            "executorMemory": "2g",
+            "executorCores": 2,
+            "numExecutors": 2
+          }
+        },
+        "name": "SampleBatchJob",
+        "workspaceName": "exampleWorkspace",
+        "sparkPoolName": "c0",
+        "submitterName": "user@domain.com",
+        "submitterId": "12345678-1234-1234-1234-12345678abc",
+        "artifactId": "Livy",
+        "jobType": "SparkBatch",
+        "result": "Succeeded",
+        "schedulerInfo": {
+          "submittedAt": "2019-09-13T23:38:01.3002495+00:00",
+          "scheduledAt": "2019-09-13T23:38:03.6535682+00:00",
+          "endedAt": "2019-09-13T23:38:57.5375224+00:00",
+          "currentState": "Ended"
+        },
+        "pluginInfo": {
+          "preparationStartedAt": "2019-09-13T23:38:03.7178558+00:00",
+          "resourceAcquisitionStartedAt": "2019-09-13T23:38:04.5467298+00:00",
+          "submissionStartedAt": "2019-09-13T23:38:05.4808501+00:00",
+          "monitoringStartedAt": "2019-09-13T23:38:09.0304334+00:00",
+          "cleanupStartedAt": "2019-09-13T23:38:57.3472897+00:00",
+          "currentState": "Ended"
+        },
+        "tags": {},
+        "id": 0,
+        "appId": "application_1568416412157_0002",
+        "appInfo": {
+          "driverLogUrl": "http://aa5a93c513fa426980a44e8124b9797b000eb919817:8042/node/containerlogs/container_1568416412157_0002_02_000001/trusted-service-user",
+          "sparkUiUrl": "http://aa5a93c513fa426980a44e8124b9797b004f5397319:8088/proxy/application_1568416412157_0002/"
+        },
+        "state": "success",
+        "log": [
+          "\tat org.apache.spark.sql.DataFrameReader.load(DataFrameReader.scala:211)",
+          "\tat org.apache.spark.sql.DataFrameReader.json(DataFrameReader.scala:391)",
+          "\tat org.apache.spark.sql.DataFrameReader.json(DataFrameReader.scala:325)",
+          "\tat SampleApp.SampleApp$.main(SampleApp.scala:39)",
+          "\tat SampleApp.SampleApp.main(SampleApp.scala)",
+          "\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)",
+          "\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)",
+          "\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)",
+          "\tat java.lang.reflect.Method.invoke(Method.java:498)",
+          "\tat org.apache.spark.deploy.yarn.ApplicationMaster$$anon$2.run(ApplicationMaster.scala:684)"
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about <Synapse> service - Executes the spark job definition.
+errorCodes: []

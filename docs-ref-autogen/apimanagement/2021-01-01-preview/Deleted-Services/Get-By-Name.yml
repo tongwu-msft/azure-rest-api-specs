@@ -1,0 +1,149 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.2021-01-01-preview.deletedservices.getbyname
+name: Get By Name
+service: API Management
+groupName: Deleted Services
+apiVersion: 2021-01-01-preview
+summary: Get soft-deleted Api Management Service by name.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/locations/{location}/deletedservices/{serviceName}?api-version=2021-01-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The location of the deleted API Management service.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Soft-deleted Api Management Service.
+  types:
+  - uid: DeletedServiceContract
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: DeletedServiceContract
+  description: Deleted API Management Service information.
+  kind: object
+  properties:
+  - name: location
+    isReadyOnly: true
+    description: API Management Service Master Location.
+    types:
+    - uid: string
+  - name: properties.serviceId
+    description: Fully-qualified API Management Service Resource ID
+    types:
+    - uid: string
+  - name: properties.scheduledPurgeDate
+    description: 'UTC Date and Time when the service will be automatically purged. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.'
+    types:
+    - uid: string
+  - name: properties.deletionDate
+    description: 'UTC Timestamp when the service was soft-deleted. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.'
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type for API Management resource.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: error.message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementGetDeletedServiceByName
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ApiManagement/locations/westus/deletedservices/apimService3?api-version=2021-01-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/providers/Microsoft.ApiManagement/locations/westus/deletedservices/apimService3",
+        "name": "apimService3",
+        "type": "Microsoft.ApiManagement/deletedservices",
+        "location": "West US",
+        "properties": {
+          "serviceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService3",
+          "scheduledPurgeDate": "2017-05-27T15:33:55.5426123Z",
+          "deletionDate": "2017-05-27T15:33:55.5426123Z"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about <API Management> service - Get soft-deleted Api Management Service by name.
+errorCodes: []

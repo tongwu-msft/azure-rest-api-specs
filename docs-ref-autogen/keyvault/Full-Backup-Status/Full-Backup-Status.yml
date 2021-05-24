@@ -1,0 +1,123 @@
+### YamlMime:RESTOperation
+uid: keyvault.fullbackupstatus.fullbackupstatus
+name: Full Backup Status
+service: Key Vault
+groupName: Full Backup Status
+apiVersion: "7.2"
+summary: Returns the status of full backup operation
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {vaultBaseUrl}/backup/{jobId}/pending?api-version=7.2
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: jobId
+  in: path
+  isRequired: true
+  description: The id returned as part of the backup request
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Returns the full backup status
+  types:
+  - uid: FullBackupOperation
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestHeader: []
+definitions:
+- name: FullBackupOperation
+  description: Full backup operation
+  kind: object
+  properties:
+  - name: status
+    description: Status of the backup operation.
+    types:
+    - uid: string
+  - name: statusDetails
+    description: The status details of backup operation.
+    types:
+    - uid: string
+  - name: error
+    description: Error encountered, if any, during the full backup operation.
+    types:
+    - uid: Error
+  - name: startTime
+    description: The start time of the backup operation in UTC
+    types:
+    - uid: integer
+  - name: endTime
+    description: The end time of the backup operation in UTC
+    types:
+    - uid: integer
+  - name: jobId
+    description: Identifier for the full backup operation.
+    types:
+    - uid: string
+  - name: azureStorageBlobContainerUri
+    description: The Azure blob storage container Uri which contains the full backup
+    types:
+    - uid: string
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+examples:
+- name: Full backup status
+  request:
+    uri: GET https://myvault.vault.azure.net//backup/45aacd568ab049a2803861e8dd3ae21f/pending?api-version=7.2
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "InProgress",
+        "statusDetails": "Full backup is in progress",
+        "azureStorageBlobContainerUri": "https://myaccount.blob.core.windows.net/sascontainer/.fullbackup-pool-61e8dd3ae21f-1579243113",
+        "jobId": "45aacd568ab049a2803861e8dd3ae21f",
+        "startTime": 1490790000,
+        "endTime": 0
+      }
+security: []
+metadata:
+  description: Learn more about <Key Vault> service - Returns the status of full backup operation
+errorCodes: []

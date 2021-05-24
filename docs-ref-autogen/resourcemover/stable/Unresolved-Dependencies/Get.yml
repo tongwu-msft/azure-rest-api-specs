@@ -1,0 +1,190 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resourcemover.stable.unresolveddependencies.get
+name: Get
+service: Resource Mover
+groupName: Unresolved Dependencies
+apiVersion: 2021-01-01
+summary: Gets a list of unresolved dependencies.
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/unresolvedDependencies?api-version=2021-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/unresolvedDependencies?dependencyLevel={dependencyLevel}&$orderby={$orderby}&api-version=2021-01-01&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The Resource Group Name.
+  types:
+  - uid: string
+- name: moveCollectionName
+  in: path
+  isRequired: true
+  description: The Move Collection Name.
+  types:
+  - uid: string
+- name: dependencyLevel
+  in: query
+  description: Defines the dependency level.
+  types:
+  - uid: DependencyLevel
+- name: $orderby
+  in: query
+  description: OData order by query option. For example, you can use $orderby=Count desc.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation. For example, $apply=filter(count eq 2).
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: UnresolvedDependencyCollection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: DependencyLevel
+  description: Defines the dependency level.
+  kind: enum
+  properties:
+  - name: Direct
+    types:
+    - uid: string
+  - name: Descendant
+    types:
+    - uid: string
+- name: UnresolvedDependencyCollection
+  description: Unresolved dependency collection.
+  kind: object
+  properties:
+  - name: value
+    description: Gets or sets the list of unresolved dependencies.
+    types:
+    - uid: UnresolvedDependency
+      isArray: true
+  - name: nextLink
+    description: Gets or sets the value of  next link.
+    types:
+    - uid: string
+  - name: summaryCollection
+    isReadyOnly: true
+    description: Gets or sets the list of summary items and the field on which summary is done.
+    types:
+    - uid: SummaryCollection
+  - name: totalCount
+    isReadyOnly: true
+    description: Gets the total count.
+    types:
+    - uid: integer
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: UnresolvedDependency
+  description: Unresolved dependency.
+  kind: object
+  properties:
+  - name: count
+    description: Gets or sets the count.
+    types:
+    - uid: integer
+  - name: id
+    description: Gets or sets the arm id of the dependency.
+    types:
+    - uid: string
+- name: SummaryCollection
+  description: Summary Collection.
+  kind: object
+  properties:
+  - name: fieldName
+    description: Gets or sets the field name on which summary is done.
+    types:
+    - uid: string
+  - name: summary
+    description: Gets or sets the list of summary items.
+    types:
+    - uid: Summary
+      isArray: true
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: Summary
+  description: Summary item.
+  kind: object
+  properties:
+  - name: count
+    description: Gets the count.
+    types:
+    - uid: integer
+  - name: item
+    description: Gets the item.
+    types:
+    - uid: string
+examples:
+- name: UnresolvedDependencies_Get
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Migrate/moveCollections/movecollection1/unresolvedDependencies?api-version=2021-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "count": 1,
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/nic1"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about <Resource Mover> service - Gets a list of unresolved dependencies.
+errorCodes: []

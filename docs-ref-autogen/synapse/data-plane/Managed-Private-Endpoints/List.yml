@@ -1,0 +1,163 @@
+### YamlMime:RESTOperation
+uid: synapse.data-plane.managedprivateendpoints.list
+name: List
+service: Synapse
+groupName: Managed Private Endpoints
+apiVersion: 2019-06-01-preview
+summary: List Managed Private Endpoints
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/managedVirtualNetworks/{managedVirtualNetworkName}/managedPrivateEndpoints?api-version=2019-06-01-preview
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
+  types:
+  - uid: string
+- name: managedVirtualNetworkName
+  in: path
+  isRequired: true
+  description: Managed virtual network name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Synapse client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: ''
+  types:
+  - uid: ManagedPrivateEndpointListResponse
+requestHeader: []
+definitions:
+- name: ManagedPrivateEndpointListResponse
+  description: A list of managed private endpoints
+  kind: object
+  properties:
+  - name: value
+    description: List of managed private endpoints
+    types:
+    - uid: ManagedPrivateEndpoint
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link to the next page of results, if any remaining results exist.
+    types:
+    - uid: string
+- name: ManagedPrivateEndpoint
+  description: Managed private endpoint
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+  - name: properties
+    description: Managed private endpoint properties
+    types:
+    - uid: ManagedPrivateEndpointProperties
+- name: ManagedPrivateEndpointProperties
+  description: Properties of a managed private endpoint
+  kind: object
+  properties:
+  - name: privateLinkResourceId
+    description: The ARM resource ID of the resource to which the managed private endpoint is created
+    types:
+    - uid: string
+  - name: groupId
+    description: The groupId to which the managed private endpoint is created
+    types:
+    - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: The managed private endpoint provisioning state
+    types:
+    - uid: string
+  - name: connectionState
+    description: The managed private endpoint connection state
+    types:
+    - uid: ManagedPrivateEndpointConnectionState
+  - name: isReserved
+    isReadyOnly: true
+    description: Denotes whether the managed private endpoint is reserved
+    types:
+    - uid: boolean
+- name: ManagedPrivateEndpointConnectionState
+  description: The connection state of a managed private endpoint
+  kind: object
+  properties:
+  - name: status
+    isReadyOnly: true
+    description: The approval status
+    types:
+    - uid: string
+  - name: description
+    description: The managed private endpoint description
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: The actions required on the managed private endpoint
+    types:
+    - uid: string
+examples:
+- name: List managed private endpoints
+  request:
+    uri: GET exampleWorkspace.dev.azuresynapse.net/managedVirtualNetworks/default/managedPrivateEndpoints?api-version=2019-06-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "type": "Microsoft.Synapse/workspaces/managedVirtualNetworks/managedPrivateEndpoints",
+            "name": "myPrivateEndpoint1",
+            "properties": {
+              "privateLinkResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.Storage/accounts/myStorageAccount1",
+              "groupId": "blob",
+              "provisioningState": "Succeeded",
+              "connectionState": {
+                "status": "Approved",
+                "description": "",
+                "actionsRequired": ""
+              }
+            }
+          },
+          {
+            "type": "Microsoft.Synapse/workspaces/managedVirtualNetworks/managedPrivateEndpoints",
+            "name": "myPrivateEndpoint2",
+            "properties": {
+              "privateLinkResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.Storage/accounts/myStorageAccount2",
+              "groupId": "blob",
+              "provisioningState": "Succeeded",
+              "connectionState": {
+                "status": "Pending",
+                "description": "",
+                "actionsRequired": ""
+              }
+            }
+          }
+        ],
+        "nextLink": ""
+      }
+security: []
+metadata:
+  description: Learn more about <Synapse> service - List Managed Private Endpoints
+errorCodes: []

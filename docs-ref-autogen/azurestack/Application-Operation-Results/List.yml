@@ -1,0 +1,138 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurestack.applicationoperationresults.list
+name: List
+service: Azure Stack Admin
+groupName: Application Operation Results
+apiVersion: 2016-05-01
+summary: Returns a list of all application operation results at a location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/applicationOperationResults?api-version=2016-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/applicationOperationResults?api-version=2016-05-01&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Location of the resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter parameter.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ApplicationOperationResultList
+requestHeader: []
+definitions:
+- name: ApplicationOperationResultList
+  description: Pageable list of application operation results.
+  kind: object
+  properties:
+  - name: value
+    description: List of application operation results.
+    types:
+    - uid: ApplicationOperationResult
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: ApplicationOperationResult
+  description: Application operation result description.
+  kind: object
+  properties:
+  - name: properties.instances
+    description: List of operation result instances.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.provisioningState
+    description: Success or failure of operation.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: The region where the resource is located.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: Returns a list of all application operation results at a location.
+  request:
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/applicationOperationResults?api-version=2016-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "properties": {
+              "provisioningState": "Failed"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about <Azure Stack Admin> service - Returns a list of all application operation results at a location.
+errorCodes: []

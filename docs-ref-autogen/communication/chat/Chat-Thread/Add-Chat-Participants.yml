@@ -1,0 +1,203 @@
+### YamlMime:RESTOperation
+uid: communication.chat.chatthread.addchatparticipants
+name: Add Chat Participants
+service: Communication
+groupName: Chat Thread
+apiVersion: 2021-03-07
+summary: Adds thread participants to a thread. If participants already exist, no change occurs.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/chat/threads/{chatThreadId}/participants/:add?api-version=2021-03-07
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The endpoint of the Azure Communication resource.
+  types:
+  - uid: string
+- name: chatThreadId
+  in: path
+  isRequired: true
+  description: Id of the thread to add participants to.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: The participants were successfully added.
+  types:
+  - uid: AddChatParticipantsResult
+- name: 401 Unauthorized
+  description: Unauthorized.
+  types:
+  - uid: CommunicationErrorResponse
+- name: 403 Forbidden
+  description: Forbidden.
+  types:
+  - uid: CommunicationErrorResponse
+- name: Other Status Codes
+  description: Too many requests.
+  types:
+  - uid: CommunicationErrorResponse
+- name: Other Status Codes
+  description: Service unavailable.
+  types:
+  - uid: CommunicationErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: participants
+    in: body
+    isRequired: true
+    description: Participants to add to a chat thread.
+    types:
+    - uid: ChatParticipant
+      isArray: true
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: An ACS (Azure Communication Services) user access token.
+  types:
+  - uid: string
+definitions:
+- name: ChatParticipant
+  description: A participant of the chat thread.
+  kind: object
+  properties:
+  - name: communicationIdentifier
+    description: ''
+    types:
+    - uid: CommunicationIdentifierModel
+  - name: displayName
+    description: Display name for the chat participant.
+    types:
+    - uid: string
+  - name: shareHistoryTime
+    description: 'Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.'
+    types:
+    - uid: string
+- name: AddChatParticipantsResult
+  description: Result of the add chat participants operation.
+  kind: object
+  properties:
+  - name: invalidParticipants
+    isReadyOnly: true
+    description: The participants that failed to be added to the chat thread.
+    types:
+    - uid: CommunicationError
+      isArray: true
+- name: AddChatParticipantsRequest
+  description: Participants to be added to the thread.
+  kind: object
+  properties:
+  - name: participants
+    description: Participants to add to a chat thread.
+    types:
+    - uid: ChatParticipant
+      isArray: true
+examples:
+- name: Add participants
+  request:
+    uri: POST https://contoso.westus.communications.azure.com/chat/threads/19:f2167429acf6482880c6b7790a9086c1@thread.v2/participants/:add?api-version=2021-03-07
+    body: >-
+      {
+        "participants": [
+          {
+            "communicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a"
+              }
+            },
+            "displayName": "Alex",
+            "shareHistoryTime": "2020-06-06T05:55:41Z"
+          },
+          {
+            "communicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10b"
+              }
+            },
+            "displayName": "Peter",
+            "shareHistoryTime": "2020-06-06T05:55:41Z"
+          },
+          {
+            "communicationIdentifier": {
+              "rawId": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
+              "communicationUser": {
+                "id": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c"
+              }
+            },
+            "displayName": "Rama",
+            "shareHistoryTime": "2020-06-06T05:55:41Z"
+          }
+        ]
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "invalidParticipants": [
+          {
+            "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10c",
+            "code": "403",
+            "message": "Permissions check failed"
+          },
+          {
+            "target": "8:acs:8540c0de-899f-5cce-acb5-3ec493af3800_0e59221d-0c1d-46ae-9544-c963ce56c10a",
+            "code": "404",
+            "message": "Not found"
+          }
+        ]
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "Unauthorized",
+          "message": "Request is not authorized."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "Forbidden",
+          "message": "User is not allowed to perform specified action."
+        }
+      }
+  - statusCode: "429"
+    body: >-
+      {
+        "error": {
+          "code": "TooManyRequests",
+          "message": "Rate limit exceeded."
+        }
+      }
+  - statusCode: "503"
+    body: >-
+      {
+        "error": {
+          "code": "ServiceUnavailable",
+          "message": "The server is currently unable to handle the request."
+        }
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: An ACS (Azure Communication Services) user access token.
+  in: header
+metadata:
+  description: Learn more about <Communication> service - Adds thread participants to a thread. If participants already exist, no change occurs.
+errorCodes: []

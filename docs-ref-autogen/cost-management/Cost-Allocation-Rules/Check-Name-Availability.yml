@@ -1,0 +1,142 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cost-management.costallocationrules.checknameavailability
+name: Check Name Availability
+service: Cost Management
+groupName: Cost Allocation Rules
+apiVersion: 2020-03-01-preview
+summary: Checks availability and correctness of a name for a cost allocation rule
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/costAllocationRules/checkNameAvailability?api-version=2020-03-01-preview
+uriParameters:
+- name: billingAccountId
+  in: path
+  isRequired: true
+  description: BillingAccount ID
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request (e.g. '2020-06-01').
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Response of cost allocation rule name availability.
+  types:
+  - uid: CostAllocationRuleCheckNameAvailabilityResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    description: Rule name
+    types:
+    - uid: string
+  - name: type
+    in: body
+    description: Resource type. This is expected to be Microsoft.CostManagement/costAllocationRules
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CostAllocationRuleCheckNameAvailabilityResponse
+  description: The cost allocation rule check name availability response
+  kind: object
+  properties:
+  - name: nameAvailable
+    description: Whether this rule name is available
+    types:
+    - uid: boolean
+  - name: reason
+    description: The reason this name is not available
+    types:
+    - uid: Reason
+  - name: message
+    description: Error message if the name is not available
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: "Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header."
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: CostAllocationRuleCheckNameAvailabilityRequest
+  description: The cost allocation rule check name availability request
+  kind: object
+  properties:
+  - name: name
+    description: Rule name
+    types:
+    - uid: string
+  - name: type
+    description: Resource type. This is expected to be Microsoft.CostManagement/costAllocationRules
+    types:
+    - uid: string
+- name: Reason
+  description: The reason this name is not available.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AlreadyExists
+    types:
+    - uid: string
+  - name: Valid
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: CostAllocationRuleCheckNameAvailability
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/100/providers/Microsoft.CostManagement/costAllocationRules/checkNameAvailability?api-version=2020-03-01-preview
+    body: >-
+      {
+        "name": "testRule",
+        "type": "Microsoft.CostManagement/costAllocationRules"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": false,
+        "reason": "AlreadyExists",
+        "message": "A cost allocation rule with name testRule is already present for the billing account 100. Please specify a differnt name."
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about <Cost Management> service - Checks availability and correctness of a name for a cost allocation rule
+errorCodes: []

@@ -1,0 +1,231 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.marketplaceordering.marketplaceagreements.create
+name: Create
+service: Marketplace Ordering
+groupName: Marketplace Agreements
+apiVersion: 2015-06-01
+summary: Save marketplace terms.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.MarketplaceOrdering/offerTypes/virtualmachine/publishers/{publisherId}/offers/{offerId}/plans/{planId}/agreements/current?api-version=2015-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: offerType
+  in: path
+  isRequired: true
+  description: Offer Type, currently only virtualmachine type is supported.
+  types:
+  - uid: OfferType
+- name: publisherId
+  in: path
+  isRequired: true
+  description: Publisher identifier string of image being deployed.
+  types:
+  - uid: string
+- name: offerId
+  in: path
+  isRequired: true
+  description: Offer identifier string of image being deployed.
+  types:
+  - uid: string
+- name: planId
+  in: path
+  isRequired: true
+  description: Plan identifier string of image being deployed.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request was successfully processed and the terms were accepted or acceptance revoked as per the request body.
+  types:
+  - uid: AgreementTerms
+- name: Other Status Codes
+  description: Microsoft.MarketplaceOrdering error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.publisher
+    in: body
+    description: Publisher identifier string of image being deployed.
+    types:
+    - uid: string
+  - name: properties.product
+    in: body
+    description: Offer identifier string of image being deployed.
+    types:
+    - uid: string
+  - name: properties.plan
+    in: body
+    description: Plan identifier string of image being deployed.
+    types:
+    - uid: string
+  - name: properties.licenseTextLink
+    in: body
+    description: Link to HTML with Microsoft and Publisher terms.
+    types:
+    - uid: string
+  - name: properties.privacyPolicyLink
+    in: body
+    description: Link to the privacy policy of the publisher.
+    types:
+    - uid: string
+  - name: properties.retrieveDatetime
+    in: body
+    description: Date and time in UTC of when the terms were accepted. This is empty if Accepted is false.
+    types:
+    - uid: string
+  - name: properties.signature
+    in: body
+    description: Terms signature.
+    types:
+    - uid: string
+  - name: properties.accepted
+    in: body
+    description: If any version of the terms have been accepted, otherwise false.
+    types:
+    - uid: boolean
+requestHeader: []
+definitions:
+- name: OfferType
+  description: Offer Type, currently only virtualmachine type is supported.
+  kind: enum
+  properties:
+  - name: virtualmachine
+    types:
+    - uid: string
+- name: AgreementTerms
+  description: Terms properties for provided Publisher/Offer/Plan tuple
+  kind: object
+  properties:
+  - name: properties.publisher
+    description: Publisher identifier string of image being deployed.
+    types:
+    - uid: string
+  - name: properties.product
+    description: Offer identifier string of image being deployed.
+    types:
+    - uid: string
+  - name: properties.plan
+    description: Plan identifier string of image being deployed.
+    types:
+    - uid: string
+  - name: properties.licenseTextLink
+    description: Link to HTML with Microsoft and Publisher terms.
+    types:
+    - uid: string
+  - name: properties.privacyPolicyLink
+    description: Link to the privacy policy of the publisher.
+    types:
+    - uid: string
+  - name: properties.retrieveDatetime
+    description: Date and time in UTC of when the terms were accepted. This is empty if Accepted is false.
+    types:
+    - uid: string
+  - name: properties.signature
+    description: Terms signature.
+    types:
+    - uid: string
+  - name: properties.accepted
+    description: If any version of the terms have been accepted, otherwise false.
+    types:
+    - uid: boolean
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates Microsoft.MarketplaceOrdering service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: Error
+- name: Error
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: SetMarketplaceTerms
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/providers/Microsoft.MarketplaceOrdering/offerTypes/virtualmachine/publishers/pubid/offers/offid/plans/planid/agreements/current?api-version=2015-06-01
+    body: >-
+      {
+        "properties": {
+          "publisher": "pubid",
+          "product": "offid",
+          "plan": "planid",
+          "licenseTextLink": "test.licenseLink",
+          "privacyPolicyLink": "test.privacyPolicyLink",
+          "retrieveDatetime": "2017-08-15T11:33:07.12132Z",
+          "signature": "ASDFSDAFWEFASDGWERLWER",
+          "accepted": false
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "id",
+        "name": "planid",
+        "type": "Microsoft.MarketplaceOrdering/offertypes",
+        "properties": {
+          "publisher": "pubid",
+          "product": "offid",
+          "plan": "planid",
+          "licenseTextLink": "test.licenseLink",
+          "privacyPolicyLink": "test.privacyPolicyLink",
+          "retrieveDatetime": "2017-08-15T11:33:07.12132Z",
+          "signature": "ASDFSDAFWEFASDGWERLWER",
+          "accepted": true
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about <Marketplace Ordering> service - Save marketplace terms.
+errorCodes: []

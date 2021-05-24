@@ -1,0 +1,226 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.authorization.roleassignmentapprovalsteps.list
+name: List
+service: Authorization
+groupName: Role Assignment Approval Steps
+apiVersion: 2021-01-01-preview
+summary: Get role assignment approval.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Authorization/roleAssignmentApprovals/{approvalId}/stages?api-version=2021-01-01-preview
+uriParameters:
+- name: approvalId
+  in: path
+  isRequired: true
+  description: The id of the role assignment approval.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Describe the result of a successful operation.
+  types:
+  - uid: RoleAssignmentApprovalStepListResult
+- name: Other Status Codes
+  description: Unexpected error
+  types:
+  - uid: ErrorDefinition
+requestHeader: []
+definitions:
+- name: RoleAssignmentApprovalStepListResult
+  description: List of role assignment approval stage list.
+  kind: object
+  properties:
+  - name: value
+    description: Role Assignment Approval Step list.
+    types:
+    - uid: RoleAssignmentApprovalStep
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+- name: ErrorDefinition
+  description: Error
+  kind: object
+  properties:
+  - name: error
+    description: "Error  \nError of the list gateway status."
+    types:
+    - uid: ErrorDefinitionProperties
+- name: RoleAssignmentApprovalStep
+  description: Role assignment approval stage properties.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The role assignment approval stage id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The role assignment approval stage name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: The display name for the approval stage.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: This read-only field specifies the status of an approval.
+    types:
+    - uid: RoleAssignmentApprovalStepStatus
+  - name: properties.assignedToMe
+    isReadyOnly: true
+    description: Indicates whether the stage is assigned to me for review
+    types:
+    - uid: boolean
+  - name: properties.reviewedDateTime
+    isReadyOnly: true
+    description: Date Time when a decision was taken.
+    types:
+    - uid: string
+  - name: properties.reviewResult
+    description: The decision on the approval stage. This value is initially set to NotReviewed. Approvers can take action of Approve/Deny
+    types:
+    - uid: RoleAssignmentApprovalStepReviewResult
+  - name: properties.justification
+    description: Justification provided by approvers for their action
+    types:
+    - uid: string
+  - name: properties.reviewedBy.principalId
+    isReadyOnly: true
+    description: The identity id
+    types:
+    - uid: string
+  - name: properties.reviewedBy.principalType
+    isReadyOnly: true
+    description: 'The identity type : user/servicePrincipal'
+    types:
+    - uid: RoleAssignmentApprovalActorIdentityType
+  - name: properties.reviewedBy.principalName
+    isReadyOnly: true
+    description: The identity display name
+    types:
+    - uid: string
+  - name: properties.reviewedBy.userPrincipalName
+    isReadyOnly: true
+    description: The user principal name(if valid)
+    types:
+    - uid: string
+- name: ErrorDefinitionProperties
+  description: Error
+  kind: object
+  properties:
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: code
+    description: Error code of list gateway.
+    types:
+    - uid: string
+- name: RoleAssignmentApprovalStepStatus
+  description: This read-only field specifies the status of an approval.
+  kind: enum
+  properties:
+  - name: NotStarted
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+  - name: Expired
+    types:
+    - uid: string
+  - name: Initializing
+    types:
+    - uid: string
+  - name: Escalating
+    types:
+    - uid: string
+  - name: Completing
+    types:
+    - uid: string
+  - name: Escalated
+    types:
+    - uid: string
+- name: RoleAssignmentApprovalStepReviewResult
+  description: The decision on the approval stage. This value is initially set to NotReviewed. Approvers can take action of Approve/Deny
+  kind: enum
+  properties:
+  - name: Approve
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+  - name: NotReviewed
+    types:
+    - uid: string
+- name: RoleAssignmentApprovalActorIdentityType
+  description: 'The identity type : user/servicePrincipal'
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: servicePrincipal
+    types:
+    - uid: string
+examples:
+- name: GetAccessReviews
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Authorization/roleAssignmentApprovals/488a6d0e-0a63-4946-86e3-1f5bbc934661/stages?api-version=2021-01-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/providers/Microsoft.Authorization/roleAssignmentApprovals/488a6d0e-0a63-4946-86e3-1f5bbc934661/stages/4135f961-be78-4005-8101-c72a5af307a2",
+            "type": "Microsoft.Authorization/roleAssignmentApprovals/stages",
+            "name": "4135f961-be78-4005-8101-c72a5af307a2",
+            "properties": {
+              "displayName": "Vice President Approval Step",
+              "assignedToMe": true,
+              "status": "InProgress",
+              "reviewedBy": null,
+              "reviewedDateTime": null,
+              "reviewResult": "NotReviewed",
+              "justification": ""
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about <Authorization> service - Get role assignment approval.
+errorCodes: []

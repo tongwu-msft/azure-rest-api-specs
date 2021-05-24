@@ -1,0 +1,172 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurestack.storagesubsystems.list
+name: List
+service: Azure Stack Admin
+groupName: Storage Sub Systems
+apiVersion: 2018-10-01
+summary: Returns a list of all storage subsystems for a location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/scaleUnits/{scaleUnit}/storageSubSystems?api-version=2018-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/scaleUnits/{scaleUnit}/storageSubSystems?api-version=2018-10-01&$filter={$filter}&$top={$top}&$skip={$skip}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Location of the resource.
+  types:
+  - uid: string
+- name: scaleUnit
+  in: path
+  isRequired: true
+  description: Name of the scale units.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter parameter.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: OData top parameter.
+  types:
+  - uid: string
+- name: $skip
+  in: query
+  description: OData skip parameter.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: StorageSubSystemList
+- name: 404 Not Found
+  description: NOT FOUND
+requestHeader: []
+definitions:
+- name: StorageSubSystemList
+  description: Pageable list of storage systems.
+  kind: object
+  properties:
+  - name: value
+    description: List of storage systems.
+    types:
+    - uid: StorageSubSystem
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: StorageSubSystem
+  description: Representation of a storage system resource.
+  kind: object
+  properties:
+  - name: properties.totalCapacityGB
+    description: Total capacity in GB of the subsystem.
+    types:
+    - uid: integer
+  - name: properties.remainingCapacityGB
+    description: Remaining capacity in GB of the subsystem.
+    types:
+    - uid: integer
+  - name: properties.healthStatus
+    description: Health status of the subsystem.
+    types:
+    - uid: string
+  - name: properties.operationalStatus
+    description: Operational status of the subsystem.
+    types:
+    - uid: string
+  - name: properties.rebalanceStatus
+    description: Rebalance status of the subsystem.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: The region where the resource is located.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: Returns a list of all storage subsystems for a location.
+  request:
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/scaleUnits/S-Cluster/storageSubSystems?api-version=2018-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/36e98cad-c8a5-4580-bef7-af878a237908/resourceGroups/System.local/providers/Microsoft.Fabric.Admin/fabricLocations/local/scaleUnits/S-Cluster/storageSubSystems/S-Cluster.azurestack.local",
+            "name": "S-Cluster.azurestack.local",
+            "type": "Microsoft.Fabric.Admin/fabricLocations/scaleUnits/storageSubSystems",
+            "location": "local",
+            "tags": {},
+            "properties": {
+              "totalCapacityGB": 30797,
+              "remainingCapacityGB": 30451,
+              "healthStatus": "Healthy",
+              "operationalStatus": "OK",
+              "rebalanceStatus": ""
+            }
+          }
+        ]
+      }
+  - statusCode: "404"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about <Azure Stack Admin> service - Returns a list of all storage subsystems for a location.
+errorCodes: []

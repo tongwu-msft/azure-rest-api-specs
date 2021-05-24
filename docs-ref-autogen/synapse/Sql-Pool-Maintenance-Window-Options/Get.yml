@@ -1,0 +1,179 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.synapse.sqlpoolmaintenancewindowoptions.get
+name: Get
+service: Synapse
+groupName: Sql Pool Maintenance Window Options
+apiVersion: 2021-03-01
+summary: Get list of SQL pool's available maintenance windows.
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/maintenanceWindowOptions/current?api-version=2021-03-01&maintenanceWindowOptionsName={maintenanceWindowOptionsName}
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace
+  types:
+  - uid: string
+- name: sqlPoolName
+  in: path
+  isRequired: true
+  description: SQL pool name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: maintenanceWindowOptionsName
+  in: query
+  isRequired: true
+  description: Maintenance window options name.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of maintenance windows options.
+  types:
+  - uid: MaintenanceWindowOptions
+- name: Other Status Codes
+  description: '*** Error Responses: ***'
+requestHeader: []
+definitions:
+- name: MaintenanceWindowOptions
+  description: Maintenance window options.
+  kind: object
+  properties:
+  - name: properties.isEnabled
+    description: Whether maintenance windows are enabled for the database.
+    types:
+    - uid: boolean
+  - name: properties.maintenanceWindowCycles
+    description: Available maintenance cycles e.g. {Saturday, 0, 48*60}, {Wednesday, 0, 24*60}.
+    types:
+    - uid: MaintenanceWindowTimeRange
+      isArray: true
+  - name: properties.minDurationInMinutes
+    description: Minimum duration of maintenance window.
+    types:
+    - uid: integer
+  - name: properties.defaultDurationInMinutes
+    description: Default duration for maintenance window.
+    types:
+    - uid: integer
+  - name: properties.minCycles
+    description: Minimum number of maintenance windows cycles to be set on the database.
+    types:
+    - uid: integer
+  - name: properties.timeGranularityInMinutes
+    description: Time granularity in minutes for maintenance windows.
+    types:
+    - uid: integer
+  - name: properties.allowMultipleMaintenanceWindowsPerCycle
+    description: Whether we allow multiple maintenance windows per cycle.
+    types:
+    - uid: boolean
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: MaintenanceWindowTimeRange
+  description: Maintenance window time range.
+  kind: object
+  properties:
+  - name: dayOfWeek
+    description: Day of maintenance window.
+    types:
+    - uid: DayOfWeek
+  - name: startTime
+    description: Start time minutes offset from 12am.
+    types:
+    - uid: string
+  - name: duration
+    description: Duration of maintenance window in minutes.
+    types:
+    - uid: string
+- name: DayOfWeek
+  description: Day of maintenance window.
+  kind: enum
+  properties:
+  - name: Sunday
+    types:
+    - uid: string
+  - name: Monday
+    types:
+    - uid: string
+  - name: Tuesday
+    types:
+    - uid: string
+  - name: Wednesday
+    types:
+    - uid: string
+  - name: Thursday
+    types:
+    - uid: string
+  - name: Friday
+    types:
+    - uid: string
+  - name: Saturday
+    types:
+    - uid: string
+examples:
+- name: Get list of transparent data encryption configurations of a SQL Analytics pool
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/samplerg/providers/Microsoft.Synapse/workspaces/testworkspace/sqlPools/testsp/maintenanceWindowOptions/current?api-version=2021-03-01&maintenanceWindowOptionsName=current
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "isEnabled": true,
+          "maintenanceWindowCycles": [
+            {
+              "dayOfWeek": "Saturday",
+              "startTime": "00:00:00",
+              "duration": "PT60M"
+            }
+          ],
+          "minDurationInMinutes": 60,
+          "defaultDurationInMinutes": 120,
+          "minCycles": 2,
+          "timeGranularityInMinutes": 5,
+          "allowMultipleMaintenanceWindowsPerCycle": true
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/samplerg/providers/Microsoft.Synapse/workspaces/testworkspace/sqlPools/testsp/maintenanceWindowOptions/current",
+        "name": "current",
+        "type": "Microsoft.Synapse/workspaces/sqlPools/maintenanceWindowOptions"
+      }
+security: []
+metadata:
+  description: Learn more about <Synapse> service - Get list of SQL pool's available maintenance windows.
+errorCodes: []

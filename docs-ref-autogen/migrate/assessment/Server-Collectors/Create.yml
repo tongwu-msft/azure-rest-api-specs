@@ -1,0 +1,282 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.migrate.assessment.servercollectors.create
+name: Create
+service: Azure Migrate
+groupName: Server Collectors
+apiVersion: 2019-10-01
+summary: Create or Update Server collector
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/servercollectors/{serverCollectorName}?api-version=2019-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription Id in which project was created.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Azure Resource Group that project is part of.
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: Name of the Azure Migrate project.
+  types:
+  - uid: string
+- name: serverCollectorName
+  in: path
+  isRequired: true
+  description: Unique name of a Server collector within a project.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Standard request header. Used by service to identify API version used by client.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: OK. Existing Server collector.
+  types:
+  - uid: ServerCollector
+- name: 201 Created
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: Created. New Server collector was created.
+  types:
+  - uid: ServerCollector
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: eTag
+    in: body
+    description: ''
+    types:
+    - uid: string
+  - name: properties
+    in: body
+    description: ''
+    types:
+    - uid: CollectorProperties
+requestHeader: []
+definitions:
+- name: CollectorProperties
+  kind: object
+  properties:
+  - name: discoverySiteId
+    description: The ARM id of the discovery service site.
+    types:
+    - uid: string
+  - name: createdTimestamp
+    isReadyOnly: true
+    description: Time when this collector was created. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: updatedTimestamp
+    isReadyOnly: true
+    description: Time when this collector was updated. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: agentProperties
+    description: ''
+    types:
+    - uid: CollectorAgentProperties
+- name: ServerCollector
+  kind: object
+  properties:
+  - name: eTag
+    description: ''
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: properties
+    description: ''
+    types:
+    - uid: CollectorProperties
+- name: CloudError
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Azure Migrate service.
+    types:
+    - uid: CloudErrorBody
+- name: CollectorAgentProperties
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: version
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: lastHeartbeatUtc
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: spnDetails
+    description: ''
+    types:
+    - uid: CollectorBodyAgentSpnProperties
+- name: CloudErrorBody
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: CollectorBodyAgentSpnProperties
+  kind: object
+  properties:
+  - name: authority
+    description: AAD Authority URL which was used to request the token for the service principal.
+    types:
+    - uid: string
+  - name: applicationId
+    description: Application/client Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services.
+    types:
+    - uid: string
+  - name: audience
+    description: Intended audience for the service principal.
+    types:
+    - uid: string
+  - name: objectId
+    description: Object Id of the service principal with which the on-premise management/data plane components would communicate with our Azure services.
+    types:
+    - uid: string
+  - name: tenantId
+    description: Tenant Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services.
+    types:
+    - uid: string
+examples:
+- name: ServerCollectors_Create
+  request:
+    uri: PUT https://management.azure.com/subscriptions/4bd2aa0f-2bd2-4d67-91a8-5a4533d58600/resourceGroups/pajindtest/providers/Microsoft.Migrate/assessmentProjects/app11141project/servercollectors/app23df4collector?api-version=2019-10-01
+    body: >-
+      {
+        "eTag": "\"00000606-0000-0d00-0000-605999bf0000\"",
+        "properties": {
+          "agentProperties": {
+            "spnDetails": {
+              "authority": "https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47",
+              "applicationId": "ad9f701a-cc08-4421-b51f-b5762d58e9ba",
+              "audience": "https://72f988bf-86f1-41af-91ab-2d7cd011db47/app23df4authandaccessaadapp",
+              "objectId": "b4975e42-9248-4a36-b99f-37eca377ea00",
+              "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+            }
+          },
+          "discoverySiteId": "/subscriptions/4bd2aa0f-2bd2-4d67-91a8-5a4533d58600/resourceGroups/pajindTest/providers/Microsoft.OffAzure/ServerSites/app21141site"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/4bd2aa0f-2bd2-4d67-91a8-5a4533d58600/resourceGroups/pajindtest/providers/Microsoft.Migrate/assessmentprojects/app11141project/servercollectors/app23df4collector",
+        "name": "app23df4collector",
+        "eTag": "\"00000606-0000-0d00-0000-605999bf0000\"",
+        "type": "Microsoft.Migrate/assessmentprojects/servercollectors",
+        "properties": {
+          "agentProperties": {
+            "id": "dc984f5a-58a3-4f84-818c-a19febefa66a",
+            "version": "1.0.8.393",
+            "lastHeartbeatUtc": "2020-09-17T03:51:30.2069337Z",
+            "spnDetails": {
+              "authority": "https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47",
+              "applicationId": "ad9f701a-cc08-4421-b51f-b5762d58e9ba",
+              "audience": "https://72f988bf-86f1-41af-91ab-2d7cd011db47/app23df4authandaccessaadapp",
+              "objectId": "b4975e42-9248-4a36-b99f-37eca377ea00",
+              "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+            }
+          },
+          "discoverySiteId": "/subscriptions/4bd2aa0f-2bd2-4d67-91a8-5a4533d58600/resourceGroups/pajindTest/providers/Microsoft.OffAzure/ServerSites/app21141site",
+          "createdTimestamp": "2020-09-11T07:15:52.4361521Z",
+          "updatedTimestamp": "2021-03-23T07:33:19.697297Z"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/4bd2aa0f-2bd2-4d67-91a8-5a4533d58600/resourceGroups/pajindtest/providers/Microsoft.Migrate/assessmentprojects/app11141project/servercollectors/app23df4collector",
+        "name": "app23df4collector",
+        "eTag": "\"00000606-0000-0d00-0000-605999bf0000\"",
+        "type": "Microsoft.Migrate/assessmentprojects/servercollectors",
+        "properties": {
+          "agentProperties": {
+            "id": "dc984f5a-58a3-4f84-818c-a19febefa66a",
+            "version": "1.0.8.393",
+            "lastHeartbeatUtc": "2020-09-17T03:51:30.2069337Z",
+            "spnDetails": {
+              "authority": "https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47",
+              "applicationId": "ad9f701a-cc08-4421-b51f-b5762d58e9ba",
+              "audience": "https://72f988bf-86f1-41af-91ab-2d7cd011db47/app23df4authandaccessaadapp",
+              "objectId": "b4975e42-9248-4a36-b99f-37eca377ea00",
+              "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+            }
+          },
+          "discoverySiteId": "/subscriptions/4bd2aa0f-2bd2-4d67-91a8-5a4533d58600/resourceGroups/pajindTest/providers/Microsoft.OffAzure/ServerSites/app21141site",
+          "createdTimestamp": "2020-09-11T07:15:52.4361521Z",
+          "updatedTimestamp": "2021-03-23T07:33:19.697297Z"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about <Azure Migrate> service - Create or Update Server collector
+errorCodes: []

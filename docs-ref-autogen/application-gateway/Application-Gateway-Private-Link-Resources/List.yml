@@ -1,0 +1,164 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.application-gateway.applicationgatewayprivatelinkresources.list
+name: List
+service: Application Gateway
+groupName: Application Gateway Private Link Resources
+apiVersion: 2020-11-01
+summary: Lists all private link resources on an application gateway.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/privateLinkResources?api-version=2020-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: applicationGatewayName
+  in: path
+  isRequired: true
+  description: The name of the application gateway.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. The operation returns a list of private link resources on application gateway.
+  types:
+  - uid: ApplicationGatewayPrivateLinkResourceListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ApplicationGatewayPrivateLinkResourceListResult
+  description: Response for ListApplicationGatewayPrivateLinkResources API service call. Gets all private link resources for an application gateway.
+  kind: object
+  properties:
+  - name: value
+    description: List of private link resources of an application gateway.
+    types:
+    - uid: ApplicationGatewayPrivateLinkResource
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: ApplicationGatewayPrivateLinkResource
+  description: PrivateLink Resource of an application gateway.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the private link resource that is unique within an Application Gateway.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+  - name: properties.groupId
+    isReadyOnly: true
+    description: Group identifier of private link resource.
+    types:
+    - uid: string
+  - name: properties.requiredMembers
+    isReadyOnly: true
+    description: Required member names of private link resource.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.requiredZoneNames
+    description: Required DNS zone names of the the private link resource.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Lists all private link resources on application gateway
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/privateLinkResources?api-version=2020-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "privateLink1",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/privateLinkResources/privateLink1",
+            "type": "Microsoft.Network/applicationGateways/privateLinkResources",
+            "properties": {
+              "groupId": "privateLink1",
+              "requiredMembers": [
+                "privateLink1"
+              ],
+              "requiredZoneNames": []
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about <Application Gateway> service - Lists all private link resources on an application gateway.
+errorCodes: []

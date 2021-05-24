@@ -1,0 +1,210 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.migrate.projects.databaseinstances.getdatabaseinstance
+name: Get Database Instance
+service: Azure Migrate
+groupName: Database Instances
+apiVersion: 2018-09-01-preview
+summary: Gets a database instance in the migrate project.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{migrateProjectName}/databaseInstances/{databaseInstanceName}?api-version=2018-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription Id in which migrate project was created.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Azure Resource Group that migrate project is part of.
+  types:
+  - uid: string
+- name: migrateProjectName
+  in: path
+  isRequired: true
+  description: Name of the Azure Migrate project.
+  types:
+  - uid: string
+- name: databaseInstanceName
+  in: path
+  isRequired: true
+  description: Unique name of a database instance in Azure migration hub.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Standard request header. Used by service to identify API version used by client.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: DatabaseInstance
+requestHeader:
+- name: Accept-Language
+  in: header
+  description: Standard request header. Used by service to respond to client in appropriate language.
+  types:
+  - uid: string
+definitions:
+- name: DatabaseInstance
+  description: DatabaseInstance REST resource.
+  kind: object
+  properties:
+  - name: id
+    description: Gets or sets the relative URL to get to this REST resource.
+    types:
+    - uid: string
+  - name: name
+    description: Gets or sets the name of this REST resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Gets the type of this REST resource.
+    types:
+    - uid: string
+  - name: properties
+    description: Gets or sets the properties of the machine.
+    types:
+    - uid: DatabaseInstanceProperties
+- name: DatabaseInstanceProperties
+  description: Properties of the database instance resource.
+  kind: object
+  properties:
+  - name: discoveryData
+    description: Gets or sets the assessment details of the database instance published by various sources.
+    types:
+    - uid: DatabaseInstanceDiscoveryDetails
+      isArray: true
+  - name: summary
+    description: Gets or sets the database instances summary per solution. The key of dictionary is the solution name and value is the corresponding database instance summary object.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: DatabaseInstanceSummary
+  - name: lastUpdatedTime
+    description: Gets or sets the time of the last modification of the database.
+    types:
+    - uid: string
+- name: DatabaseInstanceDiscoveryDetails
+  description: Discovery properties that can be shared by various publishers.
+  kind: object
+  properties:
+  - name: lastUpdatedTime
+    description: Gets or sets the time of the last modification of the database instance details.
+    types:
+    - uid: string
+  - name: instanceId
+    description: Gets or sets the database instance Id.
+    types:
+    - uid: string
+  - name: enqueueTime
+    description: Gets or sets the time the message was enqueued.
+    types:
+    - uid: string
+  - name: solutionName
+    description: Gets or sets the name of the solution that sent the data.
+    types:
+    - uid: string
+  - name: instanceName
+    description: Gets or sets the database instance name.
+    types:
+    - uid: string
+  - name: instanceVersion
+    description: Gets or sets the database instance version.
+    types:
+    - uid: string
+  - name: instanceType
+    description: Gets or sets the database instance type.
+    types:
+    - uid: string
+  - name: hostName
+    description: Gets or sets the host name of the database server.
+    types:
+    - uid: string
+  - name: ipAddress
+    description: Gets or sets the IP addresses of the database server. IP addresses could be IP V4 or IP V6.
+    types:
+    - uid: string
+  - name: portNumber
+    description: Gets or sets the port number of the database server.
+    types:
+    - uid: integer
+  - name: extendedInfo
+    description: Gets or sets the extended properties of the database server.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: DatabaseInstanceSummary
+  description: Class representing the database instance summary object.
+  kind: object
+  properties:
+  - name: databasesAssessedCount
+    description: Gets or sets the count of databases assessed.
+    types:
+    - uid: integer
+  - name: migrationReadyCount
+    description: Gets or sets the count of databases ready for migration.
+    types:
+    - uid: integer
+examples:
+- name: DatabaseInstances_Get
+  request:
+    uri: GET https://management.azure.com/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/migrateProjects/project01/databaseInstances/myinstance?api-version=2018-09-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.Migrate/MigrateProjects/project01/DatabaseInstances/myinstance",
+        "name": "myinstance",
+        "type": "Microsoft.Migrate/MigrateProjects/DatabaseInstances",
+        "properties": {
+          "discoveryData": [
+            {
+              "lastUpdatedTime": null,
+              "instanceId": "abc",
+              "enqueueTime": "5/4/2019 6:45:51 AM",
+              "solutionName": "serversolution",
+              "instanceName": "sql2002",
+              "instanceVersion": "2.0.0.0",
+              "instanceType": "SQL",
+              "hostName": null,
+              "ipAddress": null,
+              "portNumber": 0,
+              "extendedInfo": null
+            }
+          ],
+          "summary": {
+            "dbsolution": {
+              "databasesAssessedCount": 0,
+              "migrationReadyCount": 0
+            }
+          },
+          "lastUpdatedTime": "2019-05-04T06:45:53.2530098Z"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about <Azure Migrate> service - Gets a database instance in the migrate project.
+errorCodes: []

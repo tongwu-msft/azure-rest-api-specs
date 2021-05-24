@@ -1,0 +1,147 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cost-management.generatereservationdetailsreport.bybillingaccountid
+name: By Billing Account Id
+service: Cost Management
+groupName: Generate Reservation Details Report
+apiVersion: 2019-11-01
+summary: Generates the reservations details report for provided date range asynchronously based on enrollment id.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/generateReservationDetailsReport?startDate={startDate}&endDate={endDate}&api-version=2019-11-01
+uriParameters:
+- name: billingAccountId
+  in: path
+  isRequired: true
+  description: Enrollment ID (Legacy BillingAccount ID)
+  types:
+  - uid: string
+- name: startDate
+  in: query
+  isRequired: true
+  description: Start Date
+  types:
+  - uid: string
+- name: endDate
+  in: query
+  isRequired: true
+  description: End Date
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. The current version is 2019-11-01.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request processing completed.
+  types:
+  - uid: OperationStatus
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  - name: Retry-After
+    value: integer
+  description: Accepted. Request will be processed. Use the location header to check the status.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: OperationStatus
+  description: The status of the long running operation.
+  kind: object
+  properties:
+  - name: status
+    description: The status of the long running operation.
+    types:
+    - uid: Status
+  - name: properties.reportUrl
+    description: The URL to download the generated report.
+    types:
+    - uid: string
+  - name: properties.validUntil
+    description: The time at which report URL becomes invalid.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: "Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header."
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: Status
+  description: The status of the long running operation.
+  kind: object
+  properties:
+  - name: status
+    description: The status of the long running operation.
+    types:
+    - uid: OperationStatusType
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: OperationStatusType
+  description: The status of the long running operation.
+  kind: enum
+  properties:
+  - name: Running
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: ReservationDetails
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/9845612/providers/Microsoft.CostManagement/generateReservationDetailsReport?startDate=2020-01-01&endDate=2020-01-30&api-version=2019-11-01
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/providers/Microsoft.Billing/billingAccounts/9845612/providers/Microsoft.CostManagement/reservationDetailsOperationResults/cf9f95c9-af6b-41dd-a622-e6f4fc60c3ee?api-version=2019-11-01
+    - name: Retry-After
+      value: "60"
+  - statusCode: "200"
+    body: >-
+      {
+        "status": "Completed",
+        "properties": {
+          "reportUrl": "https://storage.blob.core.windows.net/details/20200911/00000000-0000-0000-0000-000000000000?sv=2016-05-31&sr=b&sig=jep8HT2aphfUkyERRZa5LRfd9RPzjXbzB%2F9TNiQ",
+          "validUntil": "2020-09-12T02:56:55.5021869Z"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Generates the reservations details report for provided date range asynchronously based on enrollment id.
+errorCodes: []

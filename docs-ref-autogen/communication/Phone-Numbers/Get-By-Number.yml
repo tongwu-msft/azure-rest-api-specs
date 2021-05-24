@@ -1,0 +1,213 @@
+### YamlMime:RESTOperation
+uid: communication.phonenumbers.getbynumber
+name: Get By Number
+service: Communication
+groupName: Phone Numbers
+apiVersion: 2021-03-07
+summary: Gets the details of the given purchased phone number.
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/phoneNumbers/{phoneNumber}?api-version=2021-03-07
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The communication resource, for example https://resourcename.communication.azure.com.
+  types:
+  - uid: string
+- name: phoneNumber
+  in: path
+  isRequired: true
+  description: The purchased phone number whose details are to be fetched in E.164 format, e.g. +11234567890.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: PurchasedPhoneNumber
+- name: Other Status Codes
+  description: Failure
+  types:
+  - uid: CommunicationErrorResponse
+requestHeader: []
+definitions:
+- name: PurchasedPhoneNumber
+  description: Represents a purchased phone number.
+  kind: object
+  properties:
+  - name: id
+    description: The id of the phone number, e.g. 11234567890.
+    types:
+    - uid: string
+  - name: phoneNumber
+    description: String of the E.164 format of the phone number, e.g. +11234567890.
+    types:
+    - uid: string
+  - name: countryCode
+    description: The ISO 3166-2 code of the phone number's country, e.g. US.
+    types:
+    - uid: string
+  - name: phoneNumberType
+    description: The phone number's type, e.g. Geographic, TollFree.
+    types:
+    - uid: PhoneNumberType
+  - name: capabilities
+    description: Capabilities of a phone number.
+    types:
+    - uid: PhoneNumberCapabilities
+  - name: assignmentType
+    description: The assignment type of the phone number. A phone number can be assigned to a person, or to an application.
+    types:
+    - uid: PhoneNumberAssignmentType
+  - name: purchaseDate
+    description: The date and time that the phone number was purchased.
+    types:
+    - uid: string
+  - name: cost
+    description: The incurred cost for a single phone number.
+    types:
+    - uid: PhoneNumberCost
+- name: CommunicationErrorResponse
+  description: The Communication Services error.
+  kind: object
+  properties:
+  - name: error
+    description: The Communication Services error.
+    types:
+    - uid: CommunicationError
+- name: PhoneNumberType
+  description: The type of phone numbers to search for, e.g. geographic, or tollFree.
+  kind: enum
+  properties:
+  - name: geographic
+    types:
+    - uid: string
+  - name: tollFree
+    types:
+    - uid: string
+- name: PhoneNumberCapabilities
+  description: Capabilities of a phone number.
+  kind: object
+  properties:
+  - name: calling
+    description: Capability value for calling.
+    types:
+    - uid: PhoneNumberCapabilityType
+  - name: sms
+    description: Capability value for SMS.
+    types:
+    - uid: PhoneNumberCapabilityType
+- name: PhoneNumberAssignmentType
+  description: The assignment type of the phone numbers to search for. A phone number can be assigned to a person, or to an application.
+  kind: enum
+  properties:
+  - name: person
+    types:
+    - uid: string
+  - name: application
+    types:
+    - uid: string
+- name: PhoneNumberCost
+  description: The incurred cost for a single phone number.
+  kind: object
+  properties:
+  - name: amount
+    description: The cost amount.
+    types:
+    - uid: number
+  - name: currencyCode
+    description: The ISO 4217 currency code for the cost amount, e.g. USD.
+    types:
+    - uid: string
+  - name: billingFrequency
+    description: The frequency with which the cost gets billed.
+    types:
+    - uid: BillingFrequency
+- name: CommunicationError
+  description: The Communication Services error.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Further details about specific errors that led to this error.
+    types:
+    - uid: CommunicationError
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: The inner error if any.
+    types:
+    - uid: CommunicationError
+- name: PhoneNumberCapabilityType
+  description: Capability value for calling.
+  kind: enum
+  properties:
+  - name: none
+    types:
+    - uid: string
+  - name: inbound
+    types:
+    - uid: string
+  - name: outbound
+    types:
+    - uid: string
+  - name: inbound+outbound
+    types:
+    - uid: string
+- name: BillingFrequency
+  description: The frequency with which the cost gets billed.
+  kind: enum
+  properties:
+  - name: monthly
+    types:
+    - uid: string
+examples:
+- name: Fetch purchased phone number
+  request:
+    uri: GET https://resourcename.communication.azure.com//phoneNumbers/+11234567890?api-version=2021-03-07
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "11234567890",
+        "phoneNumber": "+11234567890",
+        "countryCode": "US",
+        "assignmentType": "user",
+        "phoneNumberType": "geographic",
+        "capabilities": {
+          "calling": "inbound+outbound",
+          "sms": "inbound"
+        },
+        "purchaseDate": "2020-11-19T16:31:49.048Z",
+        "cost": {
+          "amount": 0.8,
+          "currencyCode": "USD",
+          "billingFrequency": "monthly"
+        }
+      }
+security: []
+metadata:
+  description: Learn more about <Communication> service - Gets the details of the given purchased phone number.
+errorCodes: []

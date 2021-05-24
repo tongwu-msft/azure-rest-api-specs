@@ -1,0 +1,240 @@
+### YamlMime:RESTOperation
+uid: synapse.data-plane.trigger.gettriggersbyworkspace
+name: Get Triggers By Workspace
+service: Synapse
+groupName: Trigger
+apiVersion: 2019-06-01-preview
+summary: Lists triggers.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/triggers?api-version=2019-06-01-preview
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Synapse client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: TriggerListResponse
+- name: Other Status Codes
+  description: An error response received from the Azure Synapse service.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: TriggerListResponse
+  description: A list of trigger resources.
+  kind: object
+  properties:
+  - name: value
+    description: List of triggers.
+    types:
+    - uid: TriggerResource
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of results, if any remaining results exist.
+    types:
+    - uid: string
+- name: CloudError
+  description: The object that defines the structure of an Azure Synapse error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+- name: TriggerResource
+  description: Trigger resource type.
+  kind: object
+  properties:
+  - name: properties
+    description: Properties of the trigger.
+    types:
+    - uid: MultiplePipelineTrigger
+    typesTitle: Trigger
+  - name: etag
+    isReadyOnly: true
+    description: Resource Etag.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: MultiplePipelineTrigger
+  description: Base class for all triggers that support one to many model for trigger to pipeline.
+  kind: object
+  properties:
+  - name: pipelines
+    description: Pipelines that need to be started.
+    types:
+    - uid: TriggerPipelineReference
+      isArray: true
+  - name: type
+    description: Trigger type.
+    types:
+    - uid: MultiplePipelineTrigger
+    typesTitle: string
+  - name: description
+    description: Trigger description.
+    types:
+    - uid: string
+  - name: runtimeState
+    isReadyOnly: true
+    description: Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the Trigger.
+    types:
+    - uid: TriggerRuntimeState
+  - name: annotations
+    description: List of tags that can be used for describing the trigger.
+    types:
+    - uid: object
+      isArray: true
+- name: TriggerPipelineReference
+  description: Pipeline that needs to be triggered with the given parameters.
+  kind: object
+  properties:
+  - name: pipelineReference
+    description: Pipeline reference.
+    types:
+    - uid: PipelineReference
+  - name: parameters
+    description: Pipeline parameters.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: TriggerRuntimeState
+  description: Enumerates possible state of Triggers.
+  kind: enum
+  properties:
+  - name: Started
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: PipelineReference
+  description: Pipeline reference type.
+  kind: object
+  properties:
+  - name: type
+    description: Pipeline reference type.
+    types:
+    - uid: PipelineReferenceType
+  - name: referenceName
+    description: Reference pipeline name.
+    types:
+    - uid: string
+  - name: name
+    description: Reference name.
+    types:
+    - uid: string
+- name: PipelineReferenceType
+  description: Pipeline reference type.
+  kind: enum
+  properties:
+  - name: PipelineReference
+    types:
+    - uid: string
+examples:
+- name: Triggers_ListByWorkspace
+  request:
+    uri: GET exampleWorkspace.dev.azuresynapse.net/triggers?api-version=2019-06-01-preview
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Sat, 16 Jun 2018 00:40:20 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-reads
+      value: "14986"
+    - name: x-ms-request-id
+      value: e474f8f8-b34f-4536-b059-ca740e6b44c3
+    - name: x-ms-correlation-request-id
+      value: e474f8f8-b34f-4536-b059-ca740e6b44c3
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.Synapse/workspaces/exampleWorkspaceName/triggers/exampleTrigger",
+            "name": "exampleTrigger",
+            "type": "Microsoft.Synapse/workspaces/triggers",
+            "properties": {
+              "type": "ScheduleTrigger",
+              "typeProperties": {
+                "recurrence": {
+                  "frequency": "Minute",
+                  "interval": 4,
+                  "startTime": "2018-06-16T00:39:14.905167Z",
+                  "endTime": "2018-06-16T00:55:14.905167Z",
+                  "timeZone": "UTC"
+                }
+              },
+              "pipelines": [
+                {
+                  "pipelineReference": {
+                    "referenceName": "examplePipeline",
+                    "type": "PipelineReference"
+                  },
+                  "parameters": {
+                    "OutputBlobNameList": [
+                      "exampleoutput.csv"
+                    ]
+                  }
+                }
+              ],
+              "description": "Example description",
+              "runtimeState": "Started"
+            },
+            "etag": "0a008ed4-0000-0000-0000-5b245c740000"
+          }
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about <Synapse> service - Lists triggers.
+errorCodes: []
