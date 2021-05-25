@@ -561,7 +561,7 @@ For more information about using each feature, see [Enable semantic ranking and 
 
 The "(preview)" designation indicates that validation testing across all features (semantic ranking, captions, answers, and spell check) is either ongoing or pending. We encourage the use of all of the language variants in the following table, but recommend additional testing of preview languages to ensure the results are valid for your content. Languages with a green check and no preview designation have been validated using equivalent data sets, with measurable gain in relevance.
 
-| Language | queryLanguage | Semantic caption | Semantic answer | Speller |
+| Language | queryLanguage | Semantic ranker and captions | Semantic answer | Speller |
 |----------|---------------|------------------|-----------------|---------|
 | English [EN] | EN, EN-US (default), EN-GB, EN-IN, EN-CA, EN-AU | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: (EN, EN-US) |
 | Spanish [ES] | ES, ES-ES (default), ES-MX | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: (ES, ES-ES) |
