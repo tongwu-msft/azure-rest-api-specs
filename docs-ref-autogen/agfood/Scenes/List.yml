@@ -1,0 +1,424 @@
+### YamlMime:RESTOperation
+uid: agfood.scenes.list
+name: List
+service: AgFood Platform
+groupName: Scenes
+apiVersion: 2021-03-31-preview
+summary: Returns a paginated list of scene resources.
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/scenes?provider={provider}&farmerId={farmerId}&boundaryId={boundaryId}&api-version=2021-03-31-preview
+- content: GET {Endpoint}/scenes?provider={provider}&farmerId={farmerId}&boundaryId={boundaryId}&source={source}&startDateTime={startDateTime}&endDateTime={endDateTime}&maxCloudCoveragePercentage={maxCloudCoveragePercentage}&maxDarkPixelCoveragePercentage={maxDarkPixelCoveragePercentage}&imageNames={imageNames}&imageResolutions={imageResolutions}&imageFormats={imageFormats}&$maxPageSize={$maxPageSize}&$skipToken={$skipToken}&api-version=2021-03-31-preview
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The endpoint of your FarmBeats resource (protocol and hostname, for example: https://{resourceName}.farmbeats.azure.net).'
+  types:
+  - uid: string
+- name: provider
+  in: query
+  isRequired: true
+  description: Provider name of scene data.
+  types:
+  - uid: string
+- name: farmerId
+  in: query
+  isRequired: true
+  description: FarmerId.
+  types:
+  - uid: string
+- name: boundaryId
+  in: query
+  isRequired: true
+  description: BoundaryId.
+  types:
+  - uid: string
+- name: source
+  in: query
+  description: Source name of scene data, default value Sentinel_2_L2A (Sentinel 2 L2A).
+  types:
+  - uid: string
+- name: startDateTime
+  in: query
+  description: 'Scene start UTC datetime (inclusive), sample format: yyyy-MM-ddThh:mm:ssZ.'
+  types:
+  - uid: string
+  format: date-time
+- name: endDateTime
+  in: query
+  description: 'Scene end UTC datetime (inclusive), sample format: yyyy-MM-dThh:mm:ssZ.'
+  types:
+  - uid: string
+  format: date-time
+- name: maxCloudCoveragePercentage
+  in: query
+  description: Filter scenes with cloud coverage percentage less than max value. Range [0 to 100.0].
+  types:
+  - uid: number
+  format: double
+- name: maxDarkPixelCoveragePercentage
+  in: query
+  description: Filter scenes with dark pixel coverage percentage less than max value. Range [0 to 100.0].
+  types:
+  - uid: number
+  format: double
+- name: imageNames
+  in: query
+  description: List of image names to be filtered.
+  types:
+  - uid: array
+- name: imageResolutions
+  in: query
+  description: List of image resolutions in meters to be filtered.
+  types:
+  - uid: array
+- name: imageFormats
+  in: query
+  description: List of image formats to be filtered.
+  types:
+  - uid: array
+- name: $maxPageSize
+  in: query
+  description: >-
+    Maximum number of items needed (inclusive).
+
+    Minimum = 10, Maximum = 1000, Default value = 50.
+  types:
+  - uid: integer
+  format: int32
+- name: $skipToken
+  in: query
+  description: Skip token for getting next set of results.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The requested API version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: SceneListResponse
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  types:
+  - uid: string
+definitions:
+- name: SceneListResponse
+  description: Paged response contains list of requested objects and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of requested objects.
+    types:
+    - uid: Scene
+      isArray: true
+  - name: $skipToken
+    description: Token used in retrieving the next page. If null, there are no additional pages.
+    types:
+    - uid: string
+  - name: nextLink
+    description: Continuation link (absolute URI) to the next page of results in the list.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: >-
+    An error response from the Azure AgPlatform service.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
+  kind: object
+  properties:
+  - name: error
+    description: An error from the Azure AgPlatform service.
+    types:
+    - uid: Error
+  - name: traceId
+    description: Unique trace ID.
+    types:
+    - uid: string
+- name: Scene
+  description: Schema of scene resource.
+  kind: object
+  properties:
+  - name: sceneDateTime
+    description: 'Date-time of the scene, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    types:
+    - uid: string
+  - name: provider
+    description: Data provider of the scene.
+    types:
+    - uid: string
+  - name: source
+    description: Data source of the scene.
+    types:
+    - uid: string
+  - name: imageFiles
+    description: Collection of image files.
+    types:
+    - uid: ImageFile
+      isArray: true
+  - name: imageFormat
+    description: Supported image formats for scene resource.
+    types:
+    - uid: ImageFormat
+  - name: cloudCoverPercentage
+    description: Cloud cover percentage of the scene.
+    types:
+    - uid: number
+  - name: darkPixelPercentage
+    description: Dark pixel percentage of the scene.
+    types:
+    - uid: number
+  - name: ndviMedianValue
+    description: Median of NDVI of the scene.
+    types:
+    - uid: number
+  - name: boundaryId
+    description: Boundary ID which belongs to the scene.
+    types:
+    - uid: string
+  - name: farmerId
+    description: Farmer ID which belongs to the scene.
+    types:
+    - uid: string
+  - name: id
+    description: Unique scene resource ID.
+    types:
+    - uid: string
+  - name: eTag
+    isReadyOnly: true
+    description: The ETag value to implement optimistic concurrency.
+    types:
+    - uid: string
+- name: Error
+  description: An error from the Azure AgPlatform service.
+  kind: object
+  properties:
+  - name: code
+    description: Server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+- name: ImageFile
+  description: Schema of image file resource.
+  kind: object
+  properties:
+  - name: fileLink
+    description: Link of the image file.
+    types:
+    - uid: string
+  - name: name
+    description: Name of the image file.
+    types:
+    - uid: string
+  - name: imageFormat
+    description: Supported image formats for scene resource.
+    types:
+    - uid: ImageFormat
+  - name: resolution
+    description: Resolution of image file in meters.
+    types:
+    - uid: number
+- name: ImageFormat
+  description: Supported image formats for scene resource.
+  kind: enum
+  properties:
+  - name: TIF
+    types:
+    - uid: string
+- name: InnerError
+  description: >-
+    Inner error containing list of errors.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+  kind: object
+  properties:
+  - name: code
+    description: >-
+      Specific error code than was provided by the
+
+      containing error.
+    types:
+    - uid: string
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+examples:
+- name: Scenes_List
+  request:
+    uri: GET {Endpoint}/scenes?provider=Microsoft&farmerId=FARMER123&boundaryId=BOUNDARY123&api-version=2021-03-31-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "400e200f-ccc4-0cea-c120-3fdc6a41f99f",
+            "sceneDateTime": "2019-01-27T00:00:00Z",
+            "boundaryId": "BOUNDARY123",
+            "farmerId": "FARMER123",
+            "provider": "Microsoft",
+            "source": "Sentinel_2_L2A",
+            "cloudCoverPercentage": 67.2,
+            "darkPixelPercentage": 2.4,
+            "imageFormat": "TIF",
+            "imageFiles": [
+              {
+                "name": "B08",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b08_10.tif"
+              },
+              {
+                "name": "B03",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b03_10.tif"
+              },
+              {
+                "name": "B11",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b11_10.tif"
+              },
+              {
+                "name": "SNW",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/snw_10.tif"
+              },
+              {
+                "name": "B05",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b05_10.tif"
+              },
+              {
+                "name": "B06",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b06_10.tif"
+              },
+              {
+                "name": "dataMask",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/datamask_10.tif"
+              },
+              {
+                "name": "B07",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b07_10.tif"
+              },
+              {
+                "name": "CLP",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/clp_10.tif"
+              },
+              {
+                "name": "NDVI",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/ndvi_10.tif"
+              },
+              {
+                "name": "SCL",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/scl_10.tif"
+              },
+              {
+                "name": "B09",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b09_10.tif"
+              },
+              {
+                "name": "B01",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b01_10.tif"
+              },
+              {
+                "name": "NDWI",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/ndwi_10.tif"
+              },
+              {
+                "name": "AOT",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/aot_10.tif"
+              },
+              {
+                "name": "CLD",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/cld_10.tif"
+              },
+              {
+                "name": "CLM",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/clm_10.tif"
+              },
+              {
+                "name": "B02",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b02_10.tif"
+              },
+              {
+                "name": "B04",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b04_10.tif"
+              },
+              {
+                "name": "B8A",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b8a_10.tif"
+              },
+              {
+                "name": "EVI",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/evi_10.tif"
+              },
+              {
+                "name": "B12",
+                "resolution": 10,
+                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b12_10.tif"
+              }
+            ]
+          }
+        ],
+        "$skipToken": "string",
+        "nextLink": "https://{{resourceName}}.farmbeats.azure.net/scenes?provider=Microsoft&farmerId=FARMER123&boundaryId=BOUNDARY123&api-version=2020-10-16-preview&$skipToken=%5b%7b%22token%22%3a%22%2bRID%3a%7ehK8eAKzdo1PTnwcAAAAAAA%3d%3d%23RT%3a1%23TRC%3a10%23ISV%3a2%23IEO%3a65551%23FPC%3aAdOfBwAAAAAA7Z8HAAAAAAA%3d%22%2c%22range%22%3a%7b%22min%22%3a%22%22%2c%22max%22%3a%22FF%22%7d%7d%5d"
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  in: header
+errorCodes: []

@@ -1,0 +1,201 @@
+### YamlMime:RESTOperation
+uid: agfood.attachments.get
+name: Get
+service: AgFood Platform
+groupName: Attachments
+apiVersion: 2021-03-31-preview
+summary: Gets a specified attachment resource under a particular farmer.
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/farmers/{farmerId}/attachments/{attachmentId}?api-version=2021-03-31-preview
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The endpoint of your FarmBeats resource (protocol and hostname, for example: https://{resourceName}.farmbeats.azure.net).'
+  types:
+  - uid: string
+- name: farmerId
+  in: path
+  isRequired: true
+  description: ID of the associated farmer.
+  types:
+  - uid: string
+- name: attachmentId
+  in: path
+  isRequired: true
+  description: ID of the attachment.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The requested API version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: Attachment
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  types:
+  - uid: string
+definitions:
+- name: Attachment
+  description: Schema of attachment resource.
+  kind: object
+  properties:
+  - name: farmerId
+    isReadyOnly: true
+    description: Farmer id for this attachment.
+    types:
+    - uid: string
+  - name: resourceId
+    description: Associated Resource id for this attachment.
+    types:
+    - uid: string
+  - name: resourceType
+    description: >-
+      Associated Resource type for this attachment
+
+      i.e. Farmer, Farm, Field, SeasonalField, Boundary, FarmOperationApplicationData, HarvestData, TillageData, PlantingData.
+    types:
+    - uid: string
+  - name: originalFileName
+    isReadyOnly: true
+    description: Original File Name for this attachment.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Unique id.
+    types:
+    - uid: string
+  - name: status
+    description: Status of the resource.
+    types:
+    - uid: string
+  - name: createdDateTime
+    isReadyOnly: true
+    description: Date when resource was created.
+    types:
+    - uid: string
+  - name: modifiedDateTime
+    isReadyOnly: true
+    description: Date when resource was last modified.
+    types:
+    - uid: string
+  - name: name
+    description: Name to identify resource.
+    types:
+    - uid: string
+  - name: description
+    description: Textual description of resource.
+    types:
+    - uid: string
+  - name: eTag
+    isReadyOnly: true
+    description: The ETag value to implement optimistic concurrency.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: >-
+    An error response from the Azure AgPlatform service.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
+  kind: object
+  properties:
+  - name: error
+    description: An error from the Azure AgPlatform service.
+    types:
+    - uid: Error
+  - name: traceId
+    description: Unique trace ID.
+    types:
+    - uid: string
+- name: Error
+  description: An error from the Azure AgPlatform service.
+  kind: object
+  properties:
+  - name: code
+    description: Server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+- name: InnerError
+  description: >-
+    Inner error containing list of errors.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+  kind: object
+  properties:
+  - name: code
+    description: >-
+      Specific error code than was provided by the
+
+      containing error.
+    types:
+    - uid: string
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+examples:
+- name: Attachments_Get
+  request:
+    uri: GET {Endpoint}/farmers/FARMER123/attachments/ATTACHMENT123?api-version=2021-03-31-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "ATTACHMENT123",
+        "farmerId": "FARMER123",
+        "resourceId": "FARMER123",
+        "resourceType": "farmer",
+        "originalFileName": "attachment-file",
+        "name": "John Smith's Field",
+        "status": "Active",
+        "description": "Some description",
+        "createdDateTime": "2021-04-21T06:49:30Z",
+        "modifiedDateTime": "2021-04-21T06:49:30Z",
+        "eTag": "0f8fad5b-d9cb-469f-a165-70867728950e"
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  in: header
+errorCodes: []
