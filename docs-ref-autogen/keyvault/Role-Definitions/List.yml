@@ -1,0 +1,213 @@
+### YamlMime:RESTOperation
+uid: keyvault.roledefinitions.list
+name: List
+service: Key Vault
+groupName: Role Definitions
+apiVersion: "7.2"
+summary: Get all role definitions that are applicable at scope and above.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {vaultBaseUrl}/{scope}/providers/Microsoft.Authorization/roleDefinitions?api-version=7.2
+- content: GET {vaultBaseUrl}/{scope}/providers/Microsoft.Authorization/roleDefinitions?$filter={$filter}&api-version=7.2
+  isOptional: true
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: scope
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The scope of the role definition.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Returns an array of role definitions.
+  types:
+  - uid: RoleDefinitionListResult
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestHeader: []
+definitions:
+- name: RoleDefinitionListResult
+  description: Role definition list operation result.
+  kind: object
+  properties:
+  - name: value
+    description: Role definition list.
+    types:
+    - uid: RoleDefinition
+      isArray: true
+  - name: nextLink
+    description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: RoleDefinition
+  description: Role definition.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The role definition ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The role definition name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The role definition type.
+    types:
+    - uid: RoleDefinitionType
+  - name: properties.roleName
+    description: The role name.
+    types:
+    - uid: string
+  - name: properties.description
+    description: The role definition description.
+    types:
+    - uid: string
+  - name: properties.type
+    description: The role type.
+    types:
+    - uid: RoleType
+  - name: properties.permissions
+    description: Role definition permissions.
+    types:
+    - uid: Permission
+      isArray: true
+  - name: properties.assignableScopes
+    description: Role definition assignable scopes.
+    types:
+    - uid: string
+      isArray: true
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: RoleDefinitionType
+  description: The role definition type.
+  kind: enum
+  properties:
+  - name: Microsoft.Authorization/roleDefinitions
+    types:
+    - uid: string
+- name: RoleType
+  description: The role type.
+  kind: enum
+  properties:
+  - name: AKVBuiltInRole
+    description: Built in role.
+    types:
+    - uid: string
+  - name: CustomRole
+    description: Custom role.
+    types:
+    - uid: string
+- name: Permission
+  description: Role definition permissions.
+  kind: object
+  properties:
+  - name: actions
+    description: Action permissions that are granted.
+    types:
+    - uid: string
+      isArray: true
+  - name: notActions
+    description: Action permissions that are excluded but not denied. They may be granted by other role definitions assigned to a principal.
+    types:
+    - uid: string
+      isArray: true
+  - name: dataActions
+    description: Data action permissions that are granted.
+    types:
+    - uid: string
+      isArray: true
+  - name: notDataActions
+    description: Data action permissions that are excluded but not denied. They may be granted by other role definitions assigned to a principal.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: ListRoleDefinitions
+  request:
+    uri: GET https://myvault.vault.azure.net//keys/providers/Microsoft.Authorization/roleDefinitions?api-version=7.2
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "roleName": "Role name",
+              "type": "roletype",
+              "description": "Role description",
+              "assignableScopes": [
+                "/keys"
+              ],
+              "permissions": [
+                {
+                  "actions": [
+                    "get"
+                  ],
+                  "notActions": []
+                }
+              ]
+            },
+            "id": "/keys/providers/Microsoft.Authorization/roleDefinitions/roleDefinitionId",
+            "type": "Microsoft.Authorization/roleDefinitions",
+            "name": "roleDefinitionId"
+          }
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about Key Vault service - Get all role definitions that are applicable at scope and above.
+errorCodes: []

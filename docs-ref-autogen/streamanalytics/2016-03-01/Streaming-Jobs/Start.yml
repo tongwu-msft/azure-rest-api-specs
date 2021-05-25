@@ -1,0 +1,127 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.streamanalytics.2016-03-01.streamingjobs.start
+name: Start
+service: Stream Analytics
+groupName: Streaming Jobs
+apiVersion: 2016-03-01
+summary: Starts a streaming job. Once a job is started it will start processing input events and produce output.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/start?api-version=2016-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: GUID which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: jobName
+  in: path
+  isRequired: true
+  description: The name of the streaming job.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The streaming job was successfully started.
+- name: 202 Accepted
+  description: The start streaming job request was successfully initiated.
+requestBody:
+- name: default
+  parameters:
+  - name: outputStartMode
+    in: body
+    description: Value may be JobStartTime, CustomTime, or LastOutputEventTime to indicate whether the starting point of the output event stream should start whenever the job is started, start at a custom user time stamp specified via the outputStartTime property, or start from the last event output time.
+    types:
+    - uid: OutputStartMode
+  - name: outputStartTime
+    in: body
+    description: Value is either an ISO-8601 formatted time stamp that indicates the starting point of the output event stream, or null to indicate that the output event stream will start whenever the streaming job is started. This property must have a value if outputStartMode is set to CustomTime.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: StartStreamingJobParameters
+  description: Parameters supplied to the Start Streaming Job operation.
+  kind: object
+  properties:
+  - name: outputStartMode
+    description: Value may be JobStartTime, CustomTime, or LastOutputEventTime to indicate whether the starting point of the output event stream should start whenever the job is started, start at a custom user time stamp specified via the outputStartTime property, or start from the last event output time.
+    types:
+    - uid: OutputStartMode
+  - name: outputStartTime
+    description: Value is either an ISO-8601 formatted time stamp that indicates the starting point of the output event stream, or null to indicate that the output event stream will start whenever the streaming job is started. This property must have a value if outputStartMode is set to CustomTime.
+    types:
+    - uid: string
+- name: OutputStartMode
+  description: Value may be JobStartTime, CustomTime, or LastOutputEventTime to indicate whether the starting point of the output event stream should start whenever the job is started, start at a custom user time stamp specified via the outputStartTime property, or start from the last event output time.
+  kind: enum
+  properties:
+  - name: JobStartTime
+    types:
+    - uid: string
+  - name: CustomTime
+    types:
+    - uid: string
+  - name: LastOutputEventTime
+    types:
+    - uid: string
+examples:
+- name: Start a streaming job with CustomTime output start mode
+  request:
+    uri: POST https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg6936/providers/Microsoft.StreamAnalytics/streamingjobs/sj59/start?api-version=2016-03-01
+    body: >-
+      {
+        "outputStartMode": "CustomTime",
+        "outputStartTime": "2012-12-12T12:12:12Z"
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+- name: Start a streaming job with JobStartTime output start mode
+  request:
+    uri: POST https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg6936/providers/Microsoft.StreamAnalytics/streamingjobs/sj59/start?api-version=2016-03-01
+    body: >-
+      {
+        "outputStartMode": "JobStartTime"
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+- name: Start a streaming job with LastOutputEventTime output start mode
+  request:
+    uri: POST https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg6936/providers/Microsoft.StreamAnalytics/streamingjobs/sj59/start?api-version=2016-03-01
+    body: >-
+      {
+        "outputStartMode": "LastOutputEventTime"
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Starts a streaming job. Once a job is started it will start processing input events and produce output.
+errorCodes: []

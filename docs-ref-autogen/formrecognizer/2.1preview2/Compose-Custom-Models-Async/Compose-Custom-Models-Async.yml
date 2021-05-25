@@ -1,0 +1,110 @@
+### YamlMime:RESTOperation
+uid: formrecognizer.2.1preview2.composecustommodelsasync.composecustommodelsasync
+name: Compose Custom Models Async
+service: Cognitive Services - Form Recognizer
+groupName: Compose Custom Models Async
+apiVersion: 2.1-preview.2
+summary: "Compose trained with labels models into one composed model.  \nCompose request would include list of models ids.\nIt would validate what all models either trained with labels model or composed model.\nIt would validate limit of models put together."
+consumes: []
+produces:
+- application/json
+- text/json
+paths:
+- content: POST {endpoint}/formrecognizer/v2.1-preview.2/custom/models/compose
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  headers:
+  - name: Location
+    value: string
+  description: Request is queued successfully.
+- name: Other Status Codes
+  description: Response entity accompanying non-successful responses containing additional details about the error.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: modelIds
+    in: body
+    isRequired: true
+    description: List of model ids to compose.
+    types:
+    - uid: string
+      isArray: true
+  - name: modelName
+    in: body
+    description: 'Optional user defined model name (max length: 1024).'
+    types:
+    - uid: string
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: ErrorInformation
+- name: ComposeRequest
+  description: Request contract for compose operation.
+  kind: object
+  properties:
+  - name: modelIds
+    description: List of model ids to compose.
+    types:
+    - uid: string
+      isArray: true
+  - name: modelName
+    description: 'Optional user defined model name (max length: 1024).'
+    types:
+    - uid: string
+- name: ErrorInformation
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Compose custom models
+  request:
+    uri: POST {endpoint}/formrecognizer/v2.1-preview.2/custom/models/compose
+    body: >-
+      {
+        "modelIds": [
+          "4afb20d6-3ed0-4cde-ba40-dbd6207268dd",
+          "6f841356-aa32-42c9-a739-2182c47b79c9"
+        ]
+      }
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: Location
+      value: '{endpoint}/formrecognizer/v2.1-preview.2/custom/models/{modelId}'
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+metadata:
+  description: "Compose trained with labels models into one composed model.  \nCompose request would include list of models ids."
+errorCodes: []

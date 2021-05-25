@@ -1,0 +1,396 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices-textanalytics.3.1preview4.keyphrases.keyphrases
+name: Key Phrases
+service: Cognitive Services - Text Analytics
+groupName: Key Phrases
+apiVersion: v3.1-preview.4
+summary: The API returns a list of strings denoting the key phrases in the input text. See the <a href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of enabled languages.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST {Endpoint}/text/analytics/v3.1-preview.4/keyPhrases
+- content: POST {Endpoint}/text/analytics/v3.1-preview.4/keyPhrases?model-version={model-version}&showStats={showStats}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: model-version
+  in: query
+  description: '(Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version. '
+  types:
+  - uid: string
+- name: showStats
+  in: query
+  description: (Optional) if set to true, response will contain request and document level statistics.
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: A successful response results in 0 or more key phrases identified in each valid document
+  types:
+  - uid: KeyPhraseResult
+- name: 400 Bad Request
+  description: Bad Request.
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: Internal error response
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: documents
+    in: body
+    isRequired: true
+    description: The set of documents to process as part of this batch.
+    types:
+    - uid: MultiLanguageInput
+      isArray: true
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: MultiLanguageInput
+  description: Contains an input document to be analyzed by the service.
+  kind: object
+  properties:
+  - name: id
+    description: A unique, non-empty document identifier.
+    types:
+    - uid: string
+  - name: text
+    description: The input text to process.
+    types:
+    - uid: string
+  - name: language
+    description: (Optional) This is the 2 letter ISO 639-1 representation of a language. For example, use "en" for English; "es" for Spanish etc. If not set, use "en" for English as default.
+    types:
+    - uid: string
+- name: KeyPhraseResult
+  kind: object
+  properties:
+  - name: documents
+    description: Response by document
+    types:
+    - uid: DocumentKeyPhrases
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: DocumentError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: Document Error.
+    types:
+    - uid: TextAnalyticsError
+- name: MultiLanguageBatchInput
+  description: Contains a set of input documents to be analyzed by the service.
+  kind: object
+  properties:
+  - name: documents
+    description: The set of documents to process as part of this batch.
+    types:
+    - uid: MultiLanguageInput
+      isArray: true
+- name: DocumentKeyPhrases
+  kind: object
+  properties:
+  - name: id
+    description: Unique, non-empty document identifier.
+    types:
+    - uid: string
+  - name: keyPhrases
+    description: A list of representative words or phrases. The number of key phrases returned is proportional to the number of words in the input document.
+    types:
+    - uid: string
+      isArray: true
+  - name: warnings
+    description: Warnings encountered while processing document.
+    types:
+    - uid: TextAnalyticsWarning
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the document payload.
+    types:
+    - uid: DocumentStatistics
+- name: DocumentError
+  kind: object
+  properties:
+  - name: id
+    description: Document Id.
+    types:
+    - uid: string
+  - name: error
+    description: Document Error.
+    types:
+    - uid: TextAnalyticsError
+- name: RequestStatistics
+  description: if showStats=true was specified in the request this field will contain information about the request payload.
+  kind: object
+  properties:
+  - name: documentsCount
+    description: Number of documents submitted in the request.
+    types:
+    - uid: integer
+  - name: validDocumentsCount
+    description: Number of valid documents. This excludes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: erroneousDocumentsCount
+    description: Number of invalid documents. This includes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: transactionsCount
+    description: Number of transactions for the request.
+    types:
+    - uid: integer
+- name: TextAnalyticsError
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: ErrorCodeValue
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: Inner error contains more specific information.
+    types:
+    - uid: InnerError
+  - name: details
+    description: Details about specific errors that led to this reported error.
+    types:
+    - uid: TextAnalyticsError
+      isArray: true
+- name: TextAnalyticsWarning
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: WarningCodeValue
+  - name: message
+    description: Warning message.
+    types:
+    - uid: string
+  - name: targetRef
+    description: A JSON pointer reference indicating the target object.
+    types:
+    - uid: string
+- name: DocumentStatistics
+  description: if showStats=true was specified in the request this field will contain information about the document payload.
+  kind: object
+  properties:
+  - name: charactersCount
+    description: Number of text elements recognized in the document.
+    types:
+    - uid: integer
+  - name: transactionsCount
+    description: Number of transactions for the document.
+    types:
+    - uid: integer
+- name: ErrorCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidArgument
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: ServiceUnavailable
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+- name: InnerError
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: InnerErrorCodeValue
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: Inner error contains more specific information.
+    types:
+    - uid: InnerError
+- name: WarningCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: LongWordsInDocument
+    types:
+    - uid: string
+  - name: DocumentTruncated
+    types:
+    - uid: string
+- name: InnerErrorCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: InvalidParameterValue
+    types:
+    - uid: string
+  - name: InvalidRequestBodyFormat
+    types:
+    - uid: string
+  - name: EmptyRequest
+    types:
+    - uid: string
+  - name: MissingInputRecords
+    types:
+    - uid: string
+  - name: InvalidDocument
+    types:
+    - uid: string
+  - name: ModelVersionIncorrect
+    types:
+    - uid: string
+  - name: InvalidDocumentBatch
+    types:
+    - uid: string
+  - name: UnsupportedLanguageCode
+    types:
+    - uid: string
+  - name: InvalidCountryHint
+    types:
+    - uid: string
+examples:
+- name: Successful Key Phrase request
+  request:
+    uri: POST {Endpoint}/text/analytics/v3.1-preview.4/keyPhrases
+    body: >-
+      {
+        "documents": [
+          {
+            "id": "1",
+            "language": "en",
+            "text": "Microsoft was founded by Bill Gates and Paul Allen."
+          },
+          {
+            "id": "2",
+            "language": "en",
+            "text": "Text Analytics is one of the Azure Cognitive Services."
+          },
+          {
+            "id": "3",
+            "language": "en",
+            "text": "My cat might need to see a veterinarian."
+          }
+        ]
+      }
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "documents": [
+          {
+            "id": "1",
+            "keyPhrases": [
+              "Bill Gates",
+              "Paul Allen",
+              "Microsoft"
+            ],
+            "warnings": []
+          },
+          {
+            "id": "2",
+            "keyPhrases": [
+              "Azure Cognitive Services",
+              "Text Analytics"
+            ],
+            "warnings": []
+          },
+          {
+            "id": "3",
+            "keyPhrases": [
+              "cat",
+              "veterinarian"
+            ],
+            "warnings": []
+          }
+        ],
+        "errors": [],
+        "modelVersion": "2019-10-01"
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "InvalidRequest",
+          "message": "Invalid Request.",
+          "innererror": {
+            "code": "MissingInputRecords",
+            "message": "Missing input records."
+          }
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "InternalServerError",
+          "message": "Internal Server Error"
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+metadata:
+  description: The API returns a list of strings denoting the key phrases in the input text. See the <a href="https://aka.
+errorCodes: []

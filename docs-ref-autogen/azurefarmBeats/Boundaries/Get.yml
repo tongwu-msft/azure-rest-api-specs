@@ -1,0 +1,327 @@
+### YamlMime:RESTOperation
+uid: azurefarmbeats.boundaries.get
+name: Get
+service: Azure FarmBeats
+groupName: Boundaries
+apiVersion: 2021-03-31-preview
+summary: Gets a specified boundary resource under a particular farmer.
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/farmers/{farmerId}/boundaries/{boundaryId}?api-version=2021-03-31-preview
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The endpoint of your FarmBeats resource (protocol and hostname, for example: https://{resourceName}.farmbeats.azure.net).'
+  types:
+  - uid: string
+- name: farmerId
+  in: path
+  isRequired: true
+  description: ID of the associated farmer.
+  types:
+  - uid: string
+- name: boundaryId
+  in: path
+  isRequired: true
+  description: ID of the boundary.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The requested API version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: Boundary
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  types:
+  - uid: string
+definitions:
+- name: Boundary
+  description: Schema of boundary resource.
+  kind: object
+  properties:
+  - name: farmerId
+    isReadyOnly: true
+    description: Farmer ID.
+    types:
+    - uid: string
+  - name: parentId
+    description: ID of the parent(field or seasonalField) it belongs to.
+    types:
+    - uid: string
+  - name: geometry
+    description: GeoJSON abstract class.
+    types:
+    - uid: MultiPolygon
+    - uid: Point
+    - uid: Polygon
+    typesTitle: GeoJsonObject
+  - name: isPrimary
+    description: Is the boundary primary.
+    types:
+    - uid: boolean
+  - name: acreage
+    isReadyOnly: true
+    description: Boundary area in acres.
+    types:
+    - uid: number
+  - name: parentType
+    isReadyOnly: true
+    description: Type of the parent it belongs to.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Unique resource ID.
+    types:
+    - uid: string
+  - name: eTag
+    isReadyOnly: true
+    description: The ETag value to implement optimistic concurrency.
+    types:
+    - uid: string
+  - name: status
+    description: Status of the resource.
+    types:
+    - uid: string
+  - name: createdDateTime
+    isReadyOnly: true
+    description: 'Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    types:
+    - uid: string
+  - name: modifiedDateTime
+    isReadyOnly: true
+    description: 'Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    types:
+    - uid: string
+  - name: name
+    description: Name to identify resource.
+    types:
+    - uid: string
+  - name: description
+    description: Textual description of the resource.
+    types:
+    - uid: string
+  - name: properties
+    description: >-
+      A collection of key value pairs that belongs to the resource.
+
+      Each pair must not have a key greater than 50 characters
+
+      and must not have a value greater than 150 characters.
+
+      Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: ErrorResponse
+  description: >-
+    An error response from the Azure AgPlatform service.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
+  kind: object
+  properties:
+  - name: error
+    description: An error from the Azure AgPlatform service.
+    types:
+    - uid: Error
+  - name: traceId
+    description: Unique trace ID.
+    types:
+    - uid: string
+- name: Error
+  description: An error from the Azure AgPlatform service.
+  kind: object
+  properties:
+  - name: code
+    description: Server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+- name: MultiPolygon
+  description: MultiPolygon geometry.
+  kind: object
+  properties:
+  - name: type
+    description: GeoJSON object type.
+    types:
+    - uid: MultiPolygon
+    typesTitle: string
+  - name: coordinates
+    description: >-
+      Gets or sets Coordinates of GeoJSON Object.
+
+      It must be an array of polygons, each polygon contains list of linear rings.
+
+      For Polygons with more than one of these rings, the first MUST be the exterior ring,
+
+      and any others MUST be interior rings.
+    types:
+    - uid: array
+      isArray: true
+- name: Point
+  description: Point geometry.
+  kind: object
+  properties:
+  - name: type
+    description: GeoJSON object type.
+    types:
+    - uid: Point
+    typesTitle: string
+  - name: coordinates
+    description: >-
+      Gets or sets the coordinate of this point.
+
+      It must be an array of 2 or 3 elements for a 2D or 3D system.
+    types:
+    - uid: number
+      isArray: true
+- name: Polygon
+  description: Polygon geometry.
+  kind: object
+  properties:
+  - name: type
+    description: GeoJSON object type.
+    types:
+    - uid: Polygon
+    typesTitle: string
+  - name: coordinates
+    description: >-
+      Gets or sets type of the GeoJSON Object.
+
+      It must be an array of linear ring coordinate arrays.
+
+      For Polygons with more than one of these rings, the first MUST be the exterior ring,
+
+      and any others MUST be interior rings.
+    types:
+    - uid: array
+      isArray: true
+- name: InnerError
+  description: >-
+    Inner error containing list of errors.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+  kind: object
+  properties:
+  - name: code
+    description: >-
+      Specific error code than was provided by the
+
+      containing error.
+    types:
+    - uid: string
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+- name: GeoJsonObjectType
+  description: GeoJSON object type.
+  kind: enum
+  properties:
+  - name: Point
+    types:
+    - uid: string
+  - name: Polygon
+    types:
+    - uid: string
+  - name: MultiPolygon
+    types:
+    - uid: string
+examples:
+- name: Boundaries_Get
+  request:
+    uri: GET {Endpoint}/farmers/FARMER123/boundaries/BOUNDARY123?api-version=2021-03-31-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "parentId": "FIELD123",
+        "isPrimary": false,
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                73.704571723937988,
+                20.545385304358106
+              ],
+              [
+                73.704571723937988,
+                20.545385304358106
+              ],
+              [
+                73.704485893249512,
+                20.542411534243367
+              ],
+              [
+                73.70877742767334,
+                20.541688176010233
+              ],
+              [
+                73.710236549377441,
+                20.545083911372505
+              ],
+              [
+                73.706631660461426,
+                20.546992723579137
+              ],
+              [
+                73.704571723937988,
+                20.545385304358106
+              ]
+            ]
+          ]
+        },
+        "name": "John Smith's Boundary",
+        "description": "Some description"
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  in: header
+metadata:
+  description: Learn more about Azure FarmBeats service - Gets a specified boundary resource under a particular farmer.
+errorCodes: []
