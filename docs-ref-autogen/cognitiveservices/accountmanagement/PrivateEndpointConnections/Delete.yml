@@ -3,14 +3,14 @@ uid: management.azure.com.cognitiveservices.accountmanagement.privateendpointcon
 name: Delete
 service: Cognitive Services
 groupName: Private Endpoint Connections
-apiVersion: 2017-04-18
+apiVersion: 2021-04-30
 summary: Deletes the specified private endpoint connection associated with the Cognitive Services account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2017-04-18
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2021-04-30
 uriParameters:
 - name: subscriptionId
   in: path
@@ -47,40 +47,76 @@ uriParameters:
 responses:
 - name: 200 OK
   description: OK -- Delete the private endpoint connection successfully.
+- name: 202 Accepted
+  description: Accepted -- the operation was successfully started and will complete asynchronously.
 - name: 204 No Content
   description: No Content -- The private endpoint connection does not exist.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: Error
-  description: Cognitive Services error object.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: The error body.
+    description: The error object.
     types:
-    - uid: ErrorBody
-- name: ErrorBody
-  description: Cognitive Services error body.
+    - uid: ErrorDetail
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
-    description: error code
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: error message
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: DeletePrivateEndpointConnection
   request:
-    uri: DELETE https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.CognitiveServices/accounts/sto2527/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2017-04-18
+    uri: DELETE https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.CognitiveServices/accounts/sto2527/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2021-04-30
   responses:
   - statusCode: "200"
+  - statusCode: "202"
   - statusCode: "204"
 security: []
 errorCodes: []

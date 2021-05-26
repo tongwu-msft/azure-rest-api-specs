@@ -1,21 +1,27 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.cognitiveservices.accountmanagement.accounts.regeneratekey
-name: Regenerate Key
+uid: management.azure.com.cognitiveservices.accountmanagement.deletedaccounts.purge
+name: Purge
 service: Cognitive Services
-groupName: Accounts
+groupName: Deleted Accounts
 apiVersion: 2021-04-30
-summary: Regenerates the specified account key for the specified Cognitive Services account.
+summary: 'Deletes a Cognitive Services account from the resource group. '
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/regenerateKey?api-version=2021-04-30
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/resourceGroups/{resourceGroupName}/deletedAccounts/{accountName}?api-version=2021-04-30
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
   description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Resource location.
   types:
   - uid: string
 - name: resourceGroupName
@@ -40,36 +46,17 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: ''
-  types:
-  - uid: ApiKeys
+  description: A 200 (OK) should be returned if the object exists and was deleted successfully;
+- name: 202 Accepted
+  description: HTTP 202 (Accepted) if the operation was successfully started and will complete asynchronously.
+- name: 204 No Content
+  description: a 204 (NoContent) should be used if the resource does not exist and the request is well formed.
 - name: Other Status Codes
   description: Error response describing why the operation failed
   types:
   - uid: ErrorResponse
-requestBody:
-- name: default
-  parameters:
-  - name: keyName
-    in: body
-    isRequired: true
-    description: key name to generate (Key1|Key2)
-    types:
-    - uid: KeyName
 requestHeader: []
 definitions:
-- name: ApiKeys
-  description: The access keys for the cognitive services account.
-  kind: object
-  properties:
-  - name: key1
-    description: Gets the value of key 1.
-    types:
-    - uid: string
-  - name: key2
-    description: Gets the value of key 2.
-    types:
-    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -78,14 +65,6 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: RegenerateKeyParameters
-  description: Regenerate key parameters.
-  kind: object
-  properties:
-  - name: keyName
-    description: key name to generate (Key1|Key2)
-    types:
-    - uid: KeyName
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -117,16 +96,6 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: KeyName
-  description: key name to generate (Key1|Key2)
-  kind: enum
-  properties:
-  - name: Key1
-    types:
-    - uid: string
-  - name: Key2
-    types:
-    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -142,19 +111,12 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Regenerate Keys
+- name: Delete Account
   request:
-    uri: POST https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.CognitiveServices/accounts/myAccount/regenerateKey?api-version=2021-04-30
-    body: >-
-      {
-        "keyName": "Key2"
-      }
+    uri: DELETE https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.CognitiveServices/locations/westus/resourceGroups/myResourceGroup/deletedAccounts/PropTest01?api-version=2021-04-30
   responses:
   - statusCode: "200"
-    body: >-
-      {
-        "key1": "KEY1",
-        "key2": "KEY2"
-      }
+  - statusCode: "202"
+  - statusCode: "204"
 security: []
 errorCodes: []

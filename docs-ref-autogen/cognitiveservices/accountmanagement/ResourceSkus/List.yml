@@ -3,14 +3,14 @@ uid: management.azure.com.cognitiveservices.accountmanagement.resourceskus.list
 name: List
 service: Cognitive Services
 groupName: Resource Skus
-apiVersion: 2017-04-18
+apiVersion: 2021-04-30
 summary: Gets the list of Microsoft.CognitiveServices SKUs available for your Subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/skus?api-version=2017-04-18
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/skus?api-version=2021-04-30
 uriParameters:
 - name: subscriptionId
   in: path
@@ -28,14 +28,14 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: ResourceSkusResult
+  - uid: ResourceSkuListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: ResourceSkusResult
+- name: ResourceSkuListResult
   description: The Get Skus operation response.
   kind: object
   properties:
@@ -48,87 +48,110 @@ definitions:
     description: The uri to fetch the next page of Skus.
     types:
     - uid: string
-- name: Error
-  description: Cognitive Services error object.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: The error body.
+    description: The error object.
     types:
-    - uid: ErrorBody
+    - uid: ErrorDetail
 - name: ResourceSku
   description: Describes an available Cognitive Services SKU.
   kind: object
   properties:
   - name: resourceType
-    isReadyOnly: true
     description: The type of resource the SKU applies to.
     types:
     - uid: string
   - name: name
-    isReadyOnly: true
     description: The name of SKU.
     types:
     - uid: string
   - name: tier
-    isReadyOnly: true
     description: Specifies the tier of Cognitive Services account.
     types:
     - uid: string
   - name: kind
-    isReadyOnly: true
     description: The Kind of resources that are supported in this SKU.
     types:
     - uid: string
   - name: locations
-    isReadyOnly: true
     description: The set of locations that the SKU is available.
     types:
     - uid: string
       isArray: true
   - name: restrictions
-    isReadyOnly: true
     description: The restrictions because of which SKU cannot be used. This is empty if there are no restrictions.
     types:
     - uid: ResourceSkuRestrictions
       isArray: true
-- name: ErrorBody
-  description: Cognitive Services error body.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
-    description: error code
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: error message
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: ResourceSkuRestrictions
   description: Describes restrictions of a SKU.
   kind: object
   properties:
   - name: type
-    isReadyOnly: true
     description: The type of restrictions.
     types:
     - uid: ResourceSkuRestrictionsType
   - name: values
-    isReadyOnly: true
     description: The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted.
     types:
     - uid: string
       isArray: true
   - name: restrictionInfo
-    isReadyOnly: true
     description: The information about the restriction where the SKU cannot be used.
     types:
     - uid: ResourceSkuRestrictionInfo
   - name: reasonCode
-    isReadyOnly: true
     description: The reason for restriction.
     types:
     - uid: ResourceSkuRestrictionsReasonCode
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 - name: ResourceSkuRestrictionsType
   description: The type of restrictions.
   kind: enum
@@ -143,13 +166,11 @@ definitions:
   kind: object
   properties:
   - name: locations
-    isReadyOnly: true
     description: Locations where the SKU is restricted
     types:
     - uid: string
       isArray: true
   - name: zones
-    isReadyOnly: true
     description: List of availability zones where the SKU is restricted.
     types:
     - uid: string
@@ -167,7 +188,7 @@ definitions:
 examples:
 - name: Regenerate Keys
   request:
-    uri: GET https://management.azure.com/subscriptions/f1c637e4-72ec-4f89-8d2b-0f933c036002/providers/Microsoft.CognitiveServices/skus?api-version=2017-04-18
+    uri: GET https://management.azure.com/subscriptions/f1c637e4-72ec-4f89-8d2b-0f933c036002/providers/Microsoft.CognitiveServices/skus?api-version=2021-04-30
   responses:
   - statusCode: "200"
     body: >-

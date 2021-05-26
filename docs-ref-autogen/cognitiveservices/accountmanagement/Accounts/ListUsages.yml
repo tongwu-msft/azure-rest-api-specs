@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.cognitiveservices.accountmanagement.accounts.getusages
-name: Get Usages
+uid: management.azure.com.cognitiveservices.accountmanagement.accounts.listusages
+name: List Usages
 service: Cognitive Services
 groupName: Accounts
-apiVersion: 2017-04-18
+apiVersion: 2021-04-30
 summary: Get usages for the requested Cognitive Services account
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/usages?api-version=2017-04-18
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/usages?api-version=2017-04-18&$filter={$filter}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/usages?api-version=2021-04-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/usages?api-version=2021-04-30&$filter={$filter}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -49,62 +49,55 @@ responses:
 - name: 200 OK
   description: The usages for Cognitive Services account were retrieved successfully.
   types:
-  - uid: UsagesResult
+  - uid: UsageListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed. If the resource does not exist, 404 (NotFound) will be returned.
   types:
-  - uid: Error
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: UsagesResult
+- name: UsageListResult
   description: The response to a list usage request.
   kind: object
   properties:
   - name: value
-    isReadyOnly: true
     description: The list of usages for Cognitive Service account.
     types:
     - uid: Usage
       isArray: true
-- name: Error
-  description: Cognitive Services error object.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: The error body.
+    description: The error object.
     types:
-    - uid: ErrorBody
+    - uid: ErrorDetail
 - name: Usage
   description: The usage data for a usage request.
   kind: object
   properties:
   - name: unit
-    isReadyOnly: true
     description: The unit of the metric.
     types:
     - uid: UnitType
   - name: name
-    isReadyOnly: true
     description: The name information for the metric.
     types:
     - uid: MetricName
   - name: quotaPeriod
-    isReadyOnly: true
     description: The quota period used to summarize the usage values.
     types:
     - uid: string
   - name: limit
-    isReadyOnly: true
     description: Maximum value for this metric.
     types:
     - uid: number
   - name: currentValue
-    isReadyOnly: true
     description: Current value for this metric.
     types:
     - uid: number
   - name: nextResetTime
-    isReadyOnly: true
     description: Next reset time for current quota.
     types:
     - uid: string
@@ -112,18 +105,37 @@ definitions:
     description: Cognitive Services account quota usage status.
     types:
     - uid: QuotaUsageStatus
-- name: ErrorBody
-  description: Cognitive Services error body.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
-    description: error code
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: error message
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: UnitType
   description: The unit of the metric.
   kind: enum
@@ -154,12 +166,10 @@ definitions:
   kind: object
   properties:
   - name: value
-    isReadyOnly: true
     description: The name of the metric.
     types:
     - uid: string
   - name: localizedValue
-    isReadyOnly: true
     description: The friendly name of the metric.
     types:
     - uid: string
@@ -179,10 +189,24 @@ definitions:
   - name: Unknown
     types:
     - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: Get Usages
   request:
-    uri: GET https://management.azure.com/subscriptions/5a4f5c2e-6983-4ccb-bd34-2196d5b5bbd3/resourceGroups/myResourceGroup/providers/Microsoft.CognitiveServices/accounts/TestUsage02/usages?api-version=2017-04-18
+    uri: GET https://management.azure.com/subscriptions/5a4f5c2e-6983-4ccb-bd34-2196d5b5bbd3/resourceGroups/myResourceGroup/providers/Microsoft.CognitiveServices/accounts/TestUsage02/usages?api-version=2021-04-30
   responses:
   - statusCode: "200"
     body: >-
