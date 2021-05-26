@@ -1,0 +1,394 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.authorization.roleeligibilityscheduleinstances.listforscope
+name: List For Scope
+service: Authorization
+groupName: Role Eligibility Schedule Instances
+apiVersion: 2020-10-01-preview
+summary: Gets role eligibility schedule instances of a role eligibility schedule.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleInstances?api-version=2020-10-01-preview
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleInstances?$filter={$filter}&api-version=2020-10-01-preview
+  isOptional: true
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The scope of the role eligibility schedule.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation. Use $filter=atScope() to return all role assignment schedules at or above the scope. Use $filter=principalId eq {id} to return all role assignment schedules at, above or below the scope for the specified principal. Use $filter=assignedTo('{userId}') to return all role eligibility schedules for the user. Use $filter=asTarget() to return all role eligibility schedules created for the current user.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Returns array of role eligibility schedule instances.
+  types:
+  - uid: RoleEligibilityScheduleInstanceListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: RoleEligibilityScheduleInstanceListResult
+  description: Role eligibility schedule instance list operation result.
+  kind: object
+  properties:
+  - name: value
+    description: Role eligibility schedule instance list.
+    types:
+    - uid: RoleEligibilityScheduleInstance
+      isArray: true
+  - name: nextLink
+    description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the service.
+    types:
+    - uid: CloudErrorBody
+- name: RoleEligibilityScheduleInstance
+  description: Information about current or upcoming role eligibility schedule instance
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The role eligibility schedule instance ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The role eligibility schedule instance name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The role eligibility schedule instance type.
+    types:
+    - uid: string
+  - name: properties.scope
+    description: The role eligibility schedule scope.
+    types:
+    - uid: string
+  - name: properties.roleDefinitionId
+    description: The role definition ID.
+    types:
+    - uid: string
+  - name: properties.principalId
+    description: The principal ID.
+    types:
+    - uid: string
+  - name: properties.principalType
+    description: The principal type of the assigned principal ID.
+    types:
+    - uid: PrincipalType
+  - name: properties.roleEligibilityScheduleId
+    description: Id of the master role eligibility schedule
+    types:
+    - uid: string
+  - name: properties.status
+    description: The status of the role eligibility schedule instance
+    types:
+    - uid: Status
+  - name: properties.startDateTime
+    description: The startDateTime of the role eligibility schedule instance
+    types:
+    - uid: string
+  - name: properties.endDateTime
+    description: The endDateTime of the role eligibility schedule instance
+    types:
+    - uid: string
+  - name: properties.memberType
+    description: Membership type of the role eligibility schedule
+    types:
+    - uid: MemberType
+  - name: properties.condition
+    description: "The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container'"
+    types:
+    - uid: string
+  - name: properties.conditionVersion
+    description: Version of the condition. Currently accepted value is '2.0'
+    types:
+    - uid: string
+  - name: properties.createdOn
+    description: DateTime when role eligibility schedule was created
+    types:
+    - uid: string
+  - name: properties.expandedProperties
+    description: Additional properties of principal, scope and role definition
+    types:
+    - uid: ExpandedProperties
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: PrincipalType
+  description: The principal type of the assigned principal ID.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Group
+    types:
+    - uid: string
+  - name: ServicePrincipal
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+  - name: DirectoryRoleTemplate
+    types:
+    - uid: string
+  - name: ForeignGroup
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: MSI
+    types:
+    - uid: string
+  - name: DirectoryObjectOrGroup
+    types:
+    - uid: string
+  - name: Everyone
+    types:
+    - uid: string
+  - name: Device
+    types:
+    - uid: string
+- name: Status
+  description: The status of the role eligibility schedule instance
+  kind: enum
+  properties:
+  - name: Accepted
+    types:
+    - uid: string
+  - name: PendingEvaluation
+    types:
+    - uid: string
+  - name: Granted
+    types:
+    - uid: string
+  - name: Denied
+    types:
+    - uid: string
+  - name: PendingProvisioning
+    types:
+    - uid: string
+  - name: Provisioned
+    types:
+    - uid: string
+  - name: PendingRevocation
+    types:
+    - uid: string
+  - name: Revoked
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: PendingApprovalProvisioning
+    types:
+    - uid: string
+  - name: PendingApproval
+    types:
+    - uid: string
+  - name: FailedAsResourceIsLocked
+    types:
+    - uid: string
+  - name: PendingAdminDecision
+    types:
+    - uid: string
+  - name: AdminApproved
+    types:
+    - uid: string
+  - name: AdminDenied
+    types:
+    - uid: string
+  - name: TimedOut
+    types:
+    - uid: string
+  - name: ProvisioningStarted
+    types:
+    - uid: string
+  - name: Invalid
+    types:
+    - uid: string
+  - name: PendingScheduleCreation
+    types:
+    - uid: string
+  - name: ScheduleCreated
+    types:
+    - uid: string
+  - name: PendingExternalProvisioning
+    types:
+    - uid: string
+- name: MemberType
+  description: Membership type of the role eligibility schedule
+  kind: enum
+  properties:
+  - name: Inherited
+    types:
+    - uid: string
+  - name: Direct
+    types:
+    - uid: string
+  - name: Group
+    types:
+    - uid: string
+- name: ExpandedProperties
+  kind: object
+  properties:
+  - name: scope
+    description: Details of the resource scope
+    types:
+    - uid: Scope
+  - name: roleDefinition
+    description: Details of role definition
+    types:
+    - uid: RoleDefinition
+  - name: principal
+    description: Details of the principal
+    types:
+    - uid: Principal
+- name: Scope
+  description: Details of the resource scope
+  kind: object
+  properties:
+  - name: id
+    description: Scope id of the resource
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the resource
+    types:
+    - uid: string
+  - name: type
+    description: Type of the resource
+    types:
+    - uid: string
+- name: RoleDefinition
+  description: Details of role definition
+  kind: object
+  properties:
+  - name: id
+    description: Id of the role definition
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the role definition
+    types:
+    - uid: string
+  - name: type
+    description: Type of the role definition
+    types:
+    - uid: string
+- name: Principal
+  description: Details of the principal
+  kind: object
+  properties:
+  - name: id
+    description: Id of the principal
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the principal
+    types:
+    - uid: string
+  - name: email
+    description: Email id of the principal
+    types:
+    - uid: string
+  - name: type
+    description: Type of the principal
+    types:
+    - uid: string
+examples:
+- name: GetRoleEligibilityScheduleInstancesByScope
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/roleEligibilityScheduleInstances?$filter=assignedTo('a3bb8764-cb92-4276-9d2a-ca1e895e55ea')&api-version=2020-10-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "scope": "/providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f",
+              "roleDefinitionId": "/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
+              "principalId": "a3bb8764-cb92-4276-9d2a-ca1e895e55ea",
+              "principalType": "User",
+              "status": "Provisioned",
+              "roleEligibilityScheduleId": "/providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/RoleEligibilitySchedules/b1477448-2cc6-4ceb-93b4-54a202a89413",
+              "startDateTime": "2020-09-10T00:32:36.86Z",
+              "endDateTime": "2021-09-10T00:31:41.477Z",
+              "memberType": "Direct",
+              "createdOn": "2020-09-10T00:32:36.86Z",
+              "condition": "@Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container'",
+              "conditionVersion": "1.0",
+              "expandedProperties": {
+                "scope": {
+                  "id": "/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f",
+                  "displayName": "Pay-As-You-Go",
+                  "type": "subscription"
+                },
+                "roleDefinition": {
+                  "id": "/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/roleDefinitions/c8d4ff99-41c3-41a8-9f60-21dfdad59608",
+                  "displayName": "Contributor",
+                  "type": "BuiltInRole"
+                },
+                "principal": {
+                  "id": "a3bb8764-cb92-4276-9d2a-ca1e895e55ea",
+                  "displayName": "User Account",
+                  "email": "user@my-tenant.com",
+                  "type": "User"
+                }
+              }
+            },
+            "name": "21e4b59a-0499-4fe0-a3c3-43a3055b773a",
+            "id": "/providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/RoleEligibilityScheduleInstances/21e4b59a-0499-4fe0-a3c3-43a3055b773a",
+            "type": "Microsoft.Authorization/RoleEligibilityScheduleInstances"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -1,0 +1,286 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.migrate.discovery.sites.patchsite
+name: Patch Site
+service: Azure Migrate
+groupName: Sites
+apiVersion: 2020-01-01
+summary: Method to update an existing site.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzure/VMwareSites/{siteName}?api-version=2020-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: siteName
+  in: path
+  isRequired: true
+  description: Site name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: VMwareSite
+- name: 201 Created
+  description: Created
+  types:
+  - uid: VMwareSite
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    description: Name of the VMware site.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: eTag
+    in: body
+    description: eTag for concurrency control.
+    types:
+    - uid: string
+  - name: location
+    in: body
+    description: Azure location in which Sites is created.
+    types:
+    - uid: string
+  - name: properties
+    in: body
+    description: Nested properties of VMWare site.
+    types:
+    - uid: SiteProperties
+requestHeader: []
+definitions:
+- name: SiteProperties
+  description: Class for site properties.
+  kind: object
+  properties:
+  - name: servicePrincipalIdentityDetails
+    description: Service principal identity details used by agent for communication to the service.
+    types:
+    - uid: SiteSpnProperties
+  - name: agentDetails
+    description: On-premises agent details.
+    types:
+    - uid: SiteAgentProperties
+  - name: serviceEndpoint
+    isReadyOnly: true
+    description: Service endpoint.
+    types:
+    - uid: string
+  - name: discoverySolutionId
+    description: ARM ID of migration hub solution for SDS.
+    types:
+    - uid: string
+  - name: applianceName
+    description: Appliance Name.
+    types:
+    - uid: string
+- name: VMwareSite
+  description: Site REST Resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    description: Name of the VMware site.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource. Type = Microsoft.OffAzure/VMWareSites.
+    types:
+    - uid: string
+  - name: tags
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: eTag
+    description: eTag for concurrency control.
+    types:
+    - uid: string
+  - name: location
+    description: Azure location in which Sites is created.
+    types:
+    - uid: string
+  - name: properties
+    description: Nested properties of VMWare site.
+    types:
+    - uid: SiteProperties
+- name: SiteSpnProperties
+  description: Class for site properties.
+  kind: object
+  properties:
+  - name: tenantId
+    description: Tenant Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services.
+    types:
+    - uid: string
+  - name: applicationId
+    description: Application/client Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services.
+    types:
+    - uid: string
+  - name: objectId
+    description: Object Id of the service principal with which the on-premise management/data plane components would communicate with our Azure services.
+    types:
+    - uid: string
+  - name: audience
+    description: Intended audience for the service principal.
+    types:
+    - uid: string
+  - name: aadAuthority
+    description: AAD Authority URL which was used to request the token for the service principal.
+    types:
+    - uid: string
+  - name: rawCertData
+    description: Raw certificate data for building certificate expiry flows.
+    types:
+    - uid: string
+- name: SiteAgentProperties
+  description: Class for site agent properties.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: ID of the agent.
+    types:
+    - uid: string
+  - name: version
+    isReadyOnly: true
+    description: Version of the agent.
+    types:
+    - uid: string
+  - name: lastHeartBeatUtc
+    isReadyOnly: true
+    description: Last heartbeat time of the agent in UTC.
+    types:
+    - uid: string
+  - name: keyVaultUri
+    description: Key vault URI.
+    types:
+    - uid: string
+  - name: keyVaultId
+    description: Key vault ARM Id.
+    types:
+    - uid: string
+examples:
+- name: Patch VMware site
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.OffAzure/VMwareSites/pajind_site1?api-version=2020-01-01
+    body: >-
+      {
+        "name": "pajind_site1",
+        "eTag": null,
+        "location": "",
+        "properties": {
+          "servicePrincipalIdentityDetails": {
+            "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "applicationId": "e9f013df-2a2a-4871-b766-e79867f30348",
+            "objectId": "2cd492bc-7ef3-4ee0-b301-59a88108b47b",
+            "audience": "https://72f988bf-86f1-41af-91ab-2d7cd011db47/MaheshSite17ac9agentauthaadapp",
+            "aadAuthority": "https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "rawCertData": "string"
+          },
+          "agentDetails": {
+            "keyVaultUri": "https://keyVaultUri",
+            "keyVaultId": "string"
+          },
+          "discoverySolutionId": "string",
+          "applianceName": "string"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.OffAzure/VMwareSites/pajind_site1",
+        "name": "pajind_site1",
+        "type": "Microsoft.OffAzure/vmwaresites",
+        "eTag": null,
+        "location": "",
+        "properties": {
+          "servicePrincipalIdentityDetails": {
+            "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "applicationId": "e9f013df-2a2a-4871-b766-e79867f30348",
+            "objectId": "2cd492bc-7ef3-4ee0-b301-59a88108b47b",
+            "audience": "https://72f988bf-86f1-41af-91ab-2d7cd011db47/MaheshSite17ac9agentauthaadapp",
+            "aadAuthority": "https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "rawCertData": "string"
+          },
+          "agentDetails": {
+            "id": "6cf06006-b736-5081-9a10-41aa2f87bd84-agent",
+            "version": null,
+            "lastHeartBeatUtc": null,
+            "keyVaultUri": "https://keyVaultUri",
+            "keyVaultId": "string"
+          },
+          "serviceEndpoint": "https://localhost",
+          "discoverySolutionId": "string",
+          "applianceName": "string"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/75dd7e42-4fd1-4512-af04-83ad9864335b/resourceGroups/myResourceGroup/providers/Microsoft.OffAzure/VMwareSites/pajind_site1",
+        "name": "pajind_site1",
+        "type": "Microsoft.OffAzure/vmwaresites",
+        "eTag": null,
+        "location": "",
+        "properties": {
+          "servicePrincipalIdentityDetails": {
+            "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "applicationId": "e9f013df-2a2a-4871-b766-e79867f30348",
+            "objectId": "2cd492bc-7ef3-4ee0-b301-59a88108b47b",
+            "audience": "https://72f988bf-86f1-41af-91ab-2d7cd011db47/MaheshSite17ac9agentauthaadapp",
+            "aadAuthority": "https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47",
+            "rawCertData": "string"
+          },
+          "agentDetails": {
+            "id": "6cf06006-b736-5081-9a10-41aa2f87bd84-agent",
+            "version": null,
+            "lastHeartBeatUtc": null,
+            "keyVaultUri": "https://keyVaultUri",
+            "keyVaultId": "string"
+          },
+          "serviceEndpoint": "https://localhost",
+          "discoverySolutionId": "string",
+          "applianceName": "string"
+        }
+      }
+security: []
+errorCodes: []

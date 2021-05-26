@@ -1,0 +1,140 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.synapse.sqlserver.workspacemanagedsqlserverusages.list
+name: List
+service: Synapse
+groupName: Workspace Managed Sql Server Usages
+apiVersion: 2021-03-01
+summary: "Get list of usages metric for the server.  \nGet list of server usages metric for workspace managed sql server."
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlUsages?api-version=2021-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ServerUsageListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found.
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
+     * 409 UnsupportedWorkspaceType - Unsupported operation for the workspace type.
+
+     * 500 InternalServerError - Something went wrong.
+requestHeader: []
+definitions:
+- name: ServerUsageListResult
+  description: Represents the response to a list server metrics request.
+  kind: object
+  properties:
+  - name: value
+    description: The list of server metrics for the server.
+    types:
+    - uid: ServerUsage
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: ServerUsage
+  description: Represents server metrics.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the server usage metric.
+    types:
+    - uid: string
+  - name: resourceName
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: displayName
+    isReadyOnly: true
+    description: The metric display name.
+    types:
+    - uid: string
+  - name: currentValue
+    isReadyOnly: true
+    description: The current value of the metric.
+    types:
+    - uid: number
+  - name: limit
+    isReadyOnly: true
+    description: The current limit of the metric.
+    types:
+    - uid: number
+  - name: unit
+    isReadyOnly: true
+    description: The units of the metric.
+    types:
+    - uid: string
+  - name: nextResetTime
+    isReadyOnly: true
+    description: The next reset time for the metric (ISO8601 format).
+    types:
+    - uid: string
+examples:
+- name: List usages metric for the workspace managed sql server
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/wsg-7398/providers/Microsoft.Synapse/workspaces/testWorkspace/sqlUsages?api-version=2021-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "server_dtu_quota",
+            "resourceName": "testWorkspace",
+            "displayName": "Database Throughput Unit Quota",
+            "currentValue": 0,
+            "limit": 45000,
+            "unit": "DTUs",
+            "nextResetTime": null
+          },
+          {
+            "name": "server_dtu_quota_current",
+            "resourceName": "testWorkspace",
+            "displayName": "Database Throughput Unit Quota",
+            "currentValue": 0,
+            "limit": 45000,
+            "unit": "DTUs",
+            "nextResetTime": null
+          }
+        ]
+      }
+security: []
+errorCodes: []

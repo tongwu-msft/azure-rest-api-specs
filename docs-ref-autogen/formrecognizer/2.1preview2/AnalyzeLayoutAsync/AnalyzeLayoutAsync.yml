@@ -1,0 +1,137 @@
+### YamlMime:RESTOperation
+uid: formrecognizer.2.1preview2.analyzelayoutasync.analyzelayoutasync
+name: Analyze Layout Async
+service: Cognitive Services - Form Recognizer
+groupName: Analyze Layout Async
+apiVersion: 2.1-preview.2
+summary: "Analyze Layout  \nExtract text and layout information from a given document. The input document must be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png', 'image/tiff' or 'image/bmp'. Alternatively, use 'application/json' type to specify the location (Uri or local path) of the document to be analyzed."
+consumes:
+- application/pdf
+- application/json
+- image/jpeg
+- image/png
+- image/tiff
+- image/bmp
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/formrecognizer/v2.1-preview.2/layout/analyze
+- content: POST {endpoint}/formrecognizer/v2.1-preview.2/layout/analyze?language={language}&Pages={Pages}
+  isOptional: true
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: language
+  in: query
+  description: The BCP-47 language code of the text in the document. Currently, only English ('en'), Dutch (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt'), simplified Chinese ('zh-Hans') and Spanish ('es') are supported (print – nine languages and handwritten – English only). Layout supports auto language identification and multi language documents, so only provide a language code if you would like to force the documented to be processed as that specific language.
+  types:
+  - uid: Language
+- name: Pages
+  in: query
+  description: Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a comma or space.
+  types:
+  - uid: array
+responses:
+- name: 202 Accepted
+  headers:
+  - name: Operation-Location
+    value: string
+  description: Request is queued successfully.
+- name: Other Status Codes
+  description: Response entity accompanying non-successful responses containing additional details about the error.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: source
+    in: body
+    description: File source path.
+    types:
+    - uid: string
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: Language
+  description: Language code
+  kind: enum
+  properties:
+  - name: en
+    types:
+    - uid: string
+  - name: es
+    types:
+    - uid: string
+  - name: de
+    types:
+    - uid: string
+  - name: fr
+    types:
+    - uid: string
+  - name: it
+    types:
+    - uid: string
+  - name: nl
+    types:
+    - uid: string
+  - name: pt
+    types:
+    - uid: string
+  - name: ja
+    types:
+    - uid: string
+  - name: zh-Hans
+    types:
+    - uid: string
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: ErrorInformation
+- name: SourcePath
+  description: Uri or local path to source data.
+  kind: object
+  properties:
+  - name: source
+    description: File source path.
+    types:
+    - uid: string
+- name: ErrorInformation
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Analyze layout
+  request:
+    uri: POST {endpoint}/formrecognizer/v2.1-preview.2/layout/analyze?language=en
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Operation-Location
+      value: '{endpoint}/formrecognizer/v2.1-preview.2/layout/analyzeResults/{resultId}'
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+errorCodes: []

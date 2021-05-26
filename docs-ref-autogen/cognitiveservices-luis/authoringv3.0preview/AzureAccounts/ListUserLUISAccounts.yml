@@ -1,0 +1,95 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices-luis.authoringv3.0preview.azureaccounts.listuserluisaccounts
+name: List User LUIS Accounts
+service: Cognitive Services - LUIS
+groupName: Azure Accounts
+apiVersion: 3.0-preview
+summary: "user - Get LUIS Azure accounts  \nGets the LUIS Azure accounts for the user using his ARM token."
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/luis/authoring/v3.0-preview/azureaccounts
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A list of Azure account information objects.
+  types:
+  - uid: AzureAccountInfoObject
+    isArray: true
+- name: Other Status Codes
+  description: Error Response.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+- name: Authorization
+  in: header
+  isRequired: true
+  description: The bearer authorization header to use; containing the user's ARM token used to validate Azure accounts information.
+  types:
+  - uid: string
+- name: ArmToken
+  in: header
+  description: The custom arm token header to use; containing the user's ARM token used to validate azure accounts information.
+  types:
+  - uid: string
+definitions:
+- name: AzureAccountInfoObject
+  description: Defines the Azure account information object.
+  kind: object
+  properties:
+  - name: azureSubscriptionId
+    description: The id for the Azure subscription.
+    types:
+    - uid: string
+  - name: resourceGroup
+    description: The Azure resource group name.
+    types:
+    - uid: string
+  - name: accountName
+    description: The Azure account name.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response when invoking an operation on the API.
+  kind: object
+  properties:
+  - name: errorType
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: Successful Get azure accounts request
+  request:
+    uri: GET {Endpoint}/luis/authoring/v3.0-preview/azureaccounts
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: "00000000000000000000000000000000"
+    - name: Authorization
+      value: Bearer {ARM Token}
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "azureSubscriptionId": "{azure_subscription_id}",
+          "resourceGroup": "{resource_group_name}",
+          "accountName": "{account_name}"
+        }
+      ]
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+errorCodes: []

@@ -1,0 +1,253 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.migrate.assessment.groups.updatemachines
+name: Update Machines
+service: Azure Migrate
+groupName: Groups
+apiVersion: 2019-10-01
+summary: "Update machines in group.  \nUpdate machines in group by adding or removing machines."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}/updateMachines?api-version=2019-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription Id in which project was created.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Azure Resource Group that project is part of.
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: Name of the Azure Migrate project.
+  types:
+  - uid: string
+- name: groupName
+  in: path
+  isRequired: true
+  description: Unique name of a group within a project.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Standard request header. Used by service to identify API version used by client.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: OK. Existing group updated.
+  types:
+  - uid: Group
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: eTag
+    in: body
+    description: For optimistic concurrency control.
+    types:
+    - uid: string
+  - name: properties
+    in: body
+    description: Properties of the group.
+    types:
+    - uid: GroupBodyProperties
+requestHeader: []
+definitions:
+- name: GroupBodyProperties
+  description: Body properties of group update.
+  kind: object
+  properties:
+  - name: operationType
+    description: Whether to add or remove the machines.
+    types:
+    - uid: GroupUpdateOperation
+  - name: machines
+    description: List of machine names that are part of this group.
+    types:
+    - uid: string
+      isArray: true
+- name: Group
+  description: A group created in a Migration project.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Path reference to this group. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the group.
+    types:
+    - uid: string
+  - name: eTag
+    description: For optimistic concurrency control.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the object = [Microsoft.Migrate/assessmentProjects/groups].
+    types:
+    - uid: string
+  - name: properties
+    description: Properties of the group.
+    types:
+    - uid: GroupProperties
+- name: CloudError
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Azure Migrate service.
+    types:
+    - uid: CloudErrorBody
+- name: UpdateGroupBody
+  description: Properties of group update.
+  kind: object
+  properties:
+  - name: eTag
+    description: For optimistic concurrency control.
+    types:
+    - uid: string
+  - name: properties
+    description: Properties of the group.
+    types:
+    - uid: GroupBodyProperties
+- name: GroupUpdateOperation
+  description: Whether to add or remove the machines.
+  kind: enum
+  properties:
+  - name: Add
+    types:
+    - uid: string
+  - name: Remove
+    types:
+    - uid: string
+- name: GroupProperties
+  description: Properties of group resource.
+  kind: object
+  properties:
+  - name: groupStatus
+    isReadyOnly: true
+    description: Whether the group has been created and is valid.
+    types:
+    - uid: GroupStatus
+  - name: machineCount
+    isReadyOnly: true
+    description: Number of machines part of this group.
+    types:
+    - uid: integer
+  - name: assessments
+    isReadyOnly: true
+    description: List of References to Assessments created on this group.
+    types:
+    - uid: string
+      isArray: true
+  - name: areAssessmentsRunning
+    isReadyOnly: true
+    description: If the assessments are in running state.
+    types:
+    - uid: boolean
+  - name: createdTimestamp
+    isReadyOnly: true
+    description: Time when this group was created. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: updatedTimestamp
+    isReadyOnly: true
+    description: Time when this group was last updated. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: groupType
+    description: The type of group.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: GroupStatus
+  description: Whether the group has been created and is valid.
+  kind: enum
+  properties:
+  - name: Created
+    types:
+    - uid: string
+  - name: Updated
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+  - name: Invalid
+    types:
+    - uid: string
+examples:
+- name: Groups_UpdateMachines
+  request:
+    uri: POST https://management.azure.com/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourceGroups/abgoyal-westEurope/providers/Microsoft.Migrate/assessmentProjects/abgoyalWEselfhostb72bproject/groups/Group2/updateMachines?api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourceGroups/abgoyal-westeurope/providers/Microsoft.Migrate/assessmentprojects/abgoyalWEselfhostb72bproject/groups/Test1",
+        "name": "Group2",
+        "eTag": "\"1e000c2c-0000-0d00-0000-5cdaa4190000\"",
+        "type": "Microsoft.Migrate/assessmentprojects/groups",
+        "properties": {
+          "groupStatus": "Completed",
+          "machineCount": 26,
+          "assessments": [
+            "/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourceGroups/abgoyal-westeurope/providers/Microsoft.Migrate/assessmentprojects/abgoyalWEselfhostb72bproject/groups/Test1/assessments/assessment_5_9_2019_16_22_14"
+          ],
+          "areAssessmentsRunning": false,
+          "createdTimestamp": "2019-05-09T10:52:07.7368474Z",
+          "updatedTimestamp": "2019-05-10T14:07:41.752989Z"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []
