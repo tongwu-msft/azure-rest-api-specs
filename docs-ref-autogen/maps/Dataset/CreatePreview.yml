@@ -1,19 +1,25 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.dataset.createpreview
+uid: maps.dataset.createpreview
 name: Create Preview
 service: Maps Creator
 groupName: Dataset
 apiVersion: "1.0"
-summary: "**Dataset Create API**\n\n**Applies to:** S1 pricing tier.\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API \nand SDK. The Dataset APIs are part of Creator. This API allows the caller to create a dataset from data that \nwas uploaded to the Azure Maps Data Service.\n\nYou can use this API in a scenario like uploading a DWG zip package for a building, converting the zip package using \nthe Azure Maps Conversion Service, creating a dataset from the converted zip package. The created dataset can be \nused to create tilesets using the Azure Maps Tileset Service and can be queried via the Azure Maps WFS Service.\n\n## Submit Create Request\n\nTo create your dataset, you will use a `POST` request where the `conversionId` query parameter is an id that represents \nthe converted DWG zip package, the `type` parameter will describe the data type to use for the dataset, the `datasetId`\nparameter will describe if the provided data should be appended to a current dataset and, optionally, the \n`description` query parameter will contain a description (if description is not provided a default description will be \ngiven).\n\nThe Create API is a \n[long-running request](https://aka.ms/am-creator-lrt)."
+summary: "**Dataset Create API**\n\n**Applies to**: see pricing [tiers](https://azure.microsoft.com/en-us/pricing/details/azure-maps/).\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API \nand SDK. The Dataset APIs are part of Creator. This API allows the caller to create a dataset from data that \nwas uploaded to the Azure Maps Data Service.\n\nYou can use this API in a scenario like uploading a DWG zip package for a building, converting the zip package using \nthe Azure Maps Conversion Service, creating a dataset from the converted zip package. The created dataset can be \nused to create tilesets using the Azure Maps Tileset Service and can be queried via the Azure Maps WFS Service.\n\n## Submit Create Request\n\nTo create your dataset, you will use a `POST` request where the `conversionId` query parameter is an id that represents \nthe converted DWG zip package, the `type` parameter will describe the data type to use for the dataset, the `datasetId`\nparameter will describe if the provided data should be appended to a current dataset and, optionally, the \n`description` query parameter will contain a description (if description is not provided a default description will be \ngiven).\n\nThe Create API is a \n[long-running request](https://aka.ms/am-creator-lrt)."
 consumes: []
 produces:
 - application/json
 - application/xml
 paths:
-- content: POST https://atlas.microsoft.com/dataset/create?api-version=1.0&type=facility
-- content: POST https://atlas.microsoft.com/dataset/create?subscription-key={subscription-key}&api-version=1.0&conversionId={conversionId}&udid={udid}&type=facility&datasetId={datasetId}&description={description}
+- content: POST https://{geography}.atlas.microsoft.com/dataset/create?api-version=1.0&type=facility
+- content: POST https://{geography}.atlas.microsoft.com/dataset/create?subscription-key={subscription-key}&api-version=1.0&conversionId={conversionId}&udid={udid}&type=facility&datasetId={datasetId}&description={description}
   isOptional: true
 uriParameters:
+- name: geography
+  in: path
+  isRequired: true
+  description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
+  types:
+  - uid: string
 - name: subscription-key
   in: query
   description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
@@ -186,12 +192,12 @@ definitions:
 examples:
 - name: Create dataset from a converted CAD file provided by conversionId
   request:
-    uri: POST https://atlas.microsoft.com/dataset/create?subscription-key=[subscription-key]&api-version=1.0&conversionId=[conversionId]&type=facility
+    uri: POST https://us.atlas.microsoft.com/dataset/create?subscription-key=[subscription-key]&api-version=1.0&conversionId=[conversionId]&type=facility
   responses:
   - statusCode: "201"
     headers:
     - name: Location
-      value: https://atlas.microsoft.com/dataset/{datasetId}?api-version=1.0
+      value: https://us.atlas.microsoft.com/dataset/{datasetId}?api-version=1.0
     - name: Access-Control-Expose-Headers
       value: Location
     body: >-
@@ -199,12 +205,12 @@ examples:
         "operationId": "{operationId}",
         "status": "Succeeded",
         "created": "2020-01-02 1:02:03 AM +00:00",
-        "resourceLocation": "https://atlas.microsoft.com/dataset/{datasetId}?api-version=1.0"
+        "resourceLocation": "https://us.atlas.microsoft.com/dataset/{datasetId}?api-version=1.0"
       }
   - statusCode: "202"
     headers:
     - name: Location
-      value: https://atlas.microsoft.com/dataset/operations/{operationId}?api-version=1.0
+      value: https://us.atlas.microsoft.com/dataset/operations/{operationId}?api-version=1.0
     - name: Access-Control-Expose-Headers
       value: Location
   - statusCode: "400"

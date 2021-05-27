@@ -1,18 +1,24 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.conversion.convertpreview
+uid: maps.conversion.convertpreview
 name: Convert Preview
 service: Maps Creator
 groupName: Conversion
 apiVersion: "1.0"
-summary: "**Conversion Create API**\n\n**Applies to:** S1 pricing tier.<br>\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API and \nSDK. The Conversion API is part of Creator.<br>\n\nThe Conversion API lets the caller import a set of DWG design files as a zipped [Drawing Package](https://aka.ms/am-drawing-package) into Azure Maps. The [Drawing Package](https://aka.ms/am-drawing-package) should first be \nuploaded using the [Azure Maps Data Service](https://docs.microsoft.com/rest/api/maps/data). Once uploaded, use the \n`udid` returned by the [Data Upload API](https://docs.microsoft.com/rest/api/maps/data/uploadpreview) to call \nthis Conversion API.\n\n## Convert DWG package\n\nThe Conversion API performs a \n[long-running request](https://aka.ms/am-creator-lrt).\n\n## Debug DWG package issues\n\n\nDuring the Conversion process, if there are any issues with the DWG package [errors and warnings](https://aka.ms/am-conversion-errors) are provided in the response along with a *diagnostic package* to visualize \nand diagnose these issues. In case any issues are encountered with your DWG package, the Conversion operation status process as detailed \n[here](https://aka.ms/am-creator-lrt) returns the location of the *diagnostic\npackage* that can be downloaded by the caller to help them visualize and diagnose these issues. The *diagnostic package* location\ncan be found in the properties section of the conversion operation status response and looks like the following:\n\n```json\n{\n    \"properties\": {\n        \"diagnosticPackageLocation\": \"https://atlas.microsoft.com/mapdata/{DiagnosticPackageId}?api-version=1.0\"                \n    }            \n}\n```\n\nThe *diagnostic package* can be downloaded by executing a `HTTP GET` request on the `diagnosticPackageLocation`.\nFor more details on how to use the tool to visualize and diagnose all the errors and warnings see [Drawing Error Visualizer](https://aka.ms/am-drawing-errors-visualizer). <br>\n\nA conversion operation will be marked as *success* if there are zero or more warnings but will be marked as *failed* if any errors are encountered. "
+summary: "**Conversion Create API**\n\n**Applies to**: see pricing [tiers](https://azure.microsoft.com/en-us/pricing/details/azure-maps/).<br>\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API and \nSDK. [This](https://docs.microsoft.com/en-us/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.<br>\n\nThe Conversion API lets the caller import a set of DWG design files as a zipped [Drawing Package](https://aka.ms/am-drawing-package) into Azure Maps. The [Drawing Package](https://aka.ms/am-drawing-package) should first be \nuploaded using the [Azure Maps Data Service](https://docs.microsoft.com/rest/api/maps/data). Once uploaded, use the \n`udid` returned by the [Data Upload API](https://docs.microsoft.com/rest/api/maps/data/uploadpreview) to call \nthis Conversion API.\n\n## Convert DWG package\n\nThe Conversion API performs a \n[long-running request](https://aka.ms/am-creator-lrt).\n\n## Debug DWG package issues\n\n\nDuring the Conversion process, if there are any issues with the DWG package [errors and warnings](https://aka.ms/am-conversion-errors) are provided in the response along with a *diagnostic package* to visualize \nand diagnose these issues. In case any issues are encountered with your DWG package, the Conversion operation status process as detailed \n[here](https://aka.ms/am-creator-lrt) returns the location of the *diagnostic\npackage* that can be downloaded by the caller to help them visualize and diagnose these issues. The *diagnostic package* location\ncan be found in the properties section of the conversion operation status response and looks like the following:\n\n```json\n{\n    \"properties\": {\n        \"diagnosticPackageLocation\": \"https://us.atlas.microsoft.com/mapdata/{DiagnosticPackageId}?api-version=1.0\"                \n    }            \n}\n```\n\nThe *diagnostic package* can be downloaded by executing a `HTTP GET` request on the `diagnosticPackageLocation`.\nFor more details on how to use the tool to visualize and diagnose all the errors and warnings see [Drawing Error Visualizer](https://aka.ms/am-drawing-errors-visualizer). <br>\n\nA conversion operation will be marked as *success* if there are zero or more warnings but will be marked as *failed* if any errors are encountered. "
 consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://atlas.microsoft.com/conversion/convert?api-version=1.0&udid={udid}&inputType=DWG
-- content: POST https://atlas.microsoft.com/conversion/convert?subscription-key={subscription-key}&api-version=1.0&udid={udid}&inputType=DWG&description={description}
+- content: POST https://{geography}.atlas.microsoft.com/conversion/convert?api-version=1.0&udid={udid}&inputType=DWG
+- content: POST https://{geography}.atlas.microsoft.com/conversion/convert?subscription-key={subscription-key}&api-version=1.0&udid={udid}&inputType=DWG&description={description}
   isOptional: true
 uriParameters:
+- name: geography
+  in: path
+  isRequired: true
+  description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
+  types:
+  - uid: string
 - name: subscription-key
   in: query
   description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
@@ -181,12 +187,12 @@ definitions:
 examples:
 - name: Convert previously uploaded DWG Package
   request:
-    uri: POST https://atlas.microsoft.com/conversion/convert?subscription-key=[subscription-key]&api-version=1.0&udid=25084fb7-307a-4720-8f91-7952a0b91012&inputType=DWG
+    uri: POST https://us.atlas.microsoft.com/conversion/convert?subscription-key=[subscription-key]&api-version=1.0&udid=25084fb7-307a-4720-8f91-7952a0b91012&inputType=DWG
   responses:
   - statusCode: "201"
     headers:
     - name: Location
-      value: https://atlas.microsoft.com/conversion/{conversionId}?api-version=1.0
+      value: https://us.atlas.microsoft.com/conversion/{conversionId}?api-version=1.0
     - name: Access-Control-Expose-Headers
       value: Location
     body: >-
@@ -194,12 +200,12 @@ examples:
         "operationId": "{operationId}",
         "status": "Succeeded",
         "created": "2020-01-02 1:02:03 AM +00:00",
-        "resourceLocation": "https://atlas.microsoft.com/conversion/{conversionId}?api-version=1.0"
+        "resourceLocation": "https://us.atlas.microsoft.com/conversion/{conversionId}?api-version=1.0"
       }
   - statusCode: "202"
     headers:
     - name: Location
-      value: https://atlas.microsoft.com/conversion/operations/{operationId}?api-version=1.0
+      value: https://us.atlas.microsoft.com/conversion/operations/{operationId}?api-version=1.0
     - name: Access-Control-Expose-Headers
       value: Location
   - statusCode: "400"

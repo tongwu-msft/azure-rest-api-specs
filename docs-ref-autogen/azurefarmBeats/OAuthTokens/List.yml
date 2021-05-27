@@ -1,0 +1,236 @@
+### YamlMime:RESTOperation
+uid: azurefarmbeats.oauthtokens.list
+name: List
+service: Azure FarmBeats
+groupName: O Auth Tokens
+apiVersion: 2021-03-31-preview
+summary: Returns a list of OAuthToken documents.
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/oauth/tokens?api-version=2021-03-31-preview
+- content: GET {Endpoint}/oauth/tokens?authProviderIds={authProviderIds}&farmerIds={farmerIds}&isValid={isValid}&minCreatedDateTime={minCreatedDateTime}&maxCreatedDateTime={maxCreatedDateTime}&minLastModifiedDateTime={minLastModifiedDateTime}&maxLastModifiedDateTime={maxLastModifiedDateTime}&$maxPageSize={$maxPageSize}&$skipToken={$skipToken}&api-version=2021-03-31-preview
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The endpoint of your FarmBeats resource (protocol and hostname, for example: https://{resourceName}.farmbeats.azure.net).'
+  types:
+  - uid: string
+- name: authProviderIds
+  in: query
+  description: Name of AuthProvider.
+  types:
+  - uid: array
+- name: farmerIds
+  in: query
+  description: List of farmers.
+  types:
+  - uid: array
+- name: isValid
+  in: query
+  description: If the token object is valid.
+  types:
+  - uid: boolean
+- name: minCreatedDateTime
+  in: query
+  description: Minimum creation date of resource (inclusive).
+  types:
+  - uid: string
+  format: date-time
+- name: maxCreatedDateTime
+  in: query
+  description: Maximum creation date of resource (inclusive).
+  types:
+  - uid: string
+  format: date-time
+- name: minLastModifiedDateTime
+  in: query
+  description: Minimum last modified date of resource (inclusive).
+  types:
+  - uid: string
+  format: date-time
+- name: maxLastModifiedDateTime
+  in: query
+  description: Maximum last modified date of resource (inclusive).
+  types:
+  - uid: string
+  format: date-time
+- name: $maxPageSize
+  in: query
+  description: >-
+    Maximum number of items needed (inclusive).
+
+    Minimum = 10, Maximum = 1000, Default value = 50.
+  types:
+  - uid: integer
+  format: int32
+- name: $skipToken
+  in: query
+  description: Skip token for getting next set of results.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The requested API version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: OAuthTokenListResponse
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  types:
+  - uid: string
+definitions:
+- name: OAuthTokenListResponse
+  description: Paged response contains list of requested objects and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of requested objects.
+    types:
+    - uid: OAuthToken
+      isArray: true
+  - name: $skipToken
+    description: Token used in retrieving the next page. If null, there are no additional pages.
+    types:
+    - uid: string
+  - name: nextLink
+    description: Continuation link (absolute URI) to the next page of results in the list.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: >-
+    An error response from the Azure AgPlatform service.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
+  kind: object
+  properties:
+  - name: error
+    description: An error from the Azure AgPlatform service.
+    types:
+    - uid: Error
+  - name: traceId
+    description: Unique trace ID.
+    types:
+    - uid: string
+- name: OAuthToken
+  description: Schema of OAuth token resource.
+  kind: object
+  properties:
+  - name: farmerId
+    description: Farmer ID for this OAuth config.
+    types:
+    - uid: string
+  - name: authProviderId
+    description: ID of the OAuth provider resource containing app information.
+    types:
+    - uid: string
+  - name: isValid
+    description: 'An optional flag indicating whether the token is a valid or expired (Default value: true).'
+    types:
+    - uid: boolean
+  - name: eTag
+    isReadyOnly: true
+    description: The ETag value to implement optimistic concurrency.
+    types:
+    - uid: string
+  - name: createdDateTime
+    isReadyOnly: true
+    description: 'Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    types:
+    - uid: string
+  - name: modifiedDateTime
+    isReadyOnly: true
+    description: 'Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    types:
+    - uid: string
+- name: Error
+  description: An error from the Azure AgPlatform service.
+  kind: object
+  properties:
+  - name: code
+    description: Server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+- name: InnerError
+  description: >-
+    Inner error containing list of errors.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+  kind: object
+  properties:
+  - name: code
+    description: >-
+      Specific error code than was provided by the
+
+      containing error.
+    types:
+    - uid: string
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+examples:
+- name: OAuthTokens_List
+  request:
+    uri: GET {Endpoint}/oauth/tokens?api-version=2021-03-31-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "farmerId": "FARMER123",
+            "authProviderId": "JOHNDEERE",
+            "isValid": true,
+            "eTag": "0f8fad5b-d9cb-469f-a165-70867728950e",
+            "createdDateTime": "2021-04-22T18:49:25Z",
+            "modifiedDateTime": "2021-04-22T18:49:25Z"
+          }
+        ],
+        "$skipToken": "string",
+        "nextLink": "https://{{resourceName}}.farmbeats.azure.net/farmers/{{farmerId}}/seasonalFields/{{seasonalFieldId}}?api-version={{apiVersion}}&$skipToken=%5b%7b%22token%22%3a%22%2bRID%3a%7e23TRC%3a10%23ISA%3d%22%2c%22range%22%3a%7b%22min%22%3a%22%22%2c%22max%22%3a%22FF%22%7d%7d%5d"
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  in: header
+errorCodes: []
