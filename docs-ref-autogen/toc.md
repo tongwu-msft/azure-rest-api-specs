@@ -4400,12 +4400,12 @@
 #### [Overview](cognitiveservices/accountmanagement/Accounts.yml)
 #### [Create](cognitiveservices/accountmanagement/Accounts/Create.yml)
 #### [Delete](cognitiveservices/accountmanagement/Accounts/Delete.yml)
-#### [Get Properties](cognitiveservices/accountmanagement/Accounts/GetProperties.yml)
-#### [Get Usages](cognitiveservices/accountmanagement/Accounts/GetUsages.yml)
+#### [Get](cognitiveservices/accountmanagement/Accounts/Get.yml)
 #### [List](cognitiveservices/accountmanagement/Accounts/List.yml)
 #### [List By Resource Group](cognitiveservices/accountmanagement/Accounts/ListByResourceGroup.yml)
 #### [List Keys](cognitiveservices/accountmanagement/Accounts/ListKeys.yml)
 #### [List Skus](cognitiveservices/accountmanagement/Accounts/ListSkus.yml)
+#### [List Usages](cognitiveservices/accountmanagement/Accounts/ListUsages.yml)
 #### [Regenerate Key](cognitiveservices/accountmanagement/Accounts/RegenerateKey.yml)
 #### [Update](cognitiveservices/accountmanagement/Accounts/Update.yml)
 ### Check Domain Availability
@@ -4414,6 +4414,11 @@
 ### Check Sku Availability
 #### [Overview](cognitiveservices/accountmanagement/CheckSkuAvailability.yml)
 #### [Check Sku Availability](cognitiveservices/accountmanagement/CheckSkuAvailability/CheckSkuAvailability.yml)
+### Deleted Accounts
+#### [Overview](cognitiveservices/accountmanagement/DeletedAccounts.yml)
+#### [Get](cognitiveservices/accountmanagement/DeletedAccounts/Get.yml)
+#### [List](cognitiveservices/accountmanagement/DeletedAccounts/List.yml)
+#### [Purge](cognitiveservices/accountmanagement/DeletedAccounts/Purge.yml)
 ### Operations
 #### [Overview](cognitiveservices/accountmanagement/Operations.yml)
 #### [List](cognitiveservices/accountmanagement/Operations/List.yml)

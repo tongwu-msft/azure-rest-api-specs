@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.cognitiveservices.accountmanagement.accounts.update
-name: Update
+uid: management.azure.com.cognitiveservices.accountmanagement.deletedaccounts.list
+name: List
 service: Cognitive Services
-groupName: Accounts
+groupName: Deleted Accounts
 apiVersion: 2021-04-30
-summary: Updates a Cognitive Services account
+summary: Returns all the resources of a particular type belonging to a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}?api-version=2021-04-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/deletedAccounts?api-version=2021-04-30
 uriParameters:
 - name: subscriptionId
   in: path
@@ -18,20 +18,6 @@ uriParameters:
   description: The ID of the target subscription.
   types:
   - uid: string
-- name: resourceGroupName
-  in: path
-  isRequired: true
-  description: The name of the resource group. The name is case insensitive.
-  types:
-  - uid: string
-  pattern: ^[-\w\._\(\)]+$
-- name: accountName
-  in: path
-  isRequired: true
-  description: The name of Cognitive Services account.
-  types:
-  - uid: string
-  pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]*$
 - name: api-version
   in: query
   isRequired: true
@@ -40,37 +26,59 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: 'The resource provider should return 200 (OK) to indicate that the operation completed successfully. '
+  description: "The resource provider should return 200 (OK) to indicate that the operation completed successfully. For other errors (e.g. internal errors) use the appropriate HTTP error code.\nThe nextLink field is expected to point to the URL the client should use to fetch the next page (per server side paging). This matches the OData guidelines for paged responses. If a resource provider does not support paging, it should return the same body but leave nextLink empty for future compatibility.\nFor a detailed explanation of each field in the response body, please refer to the request body description in the PUT resource section. "
   types:
-  - uid: Account
-- name: 202 Accepted
-  description: HTTP 202 (Accepted) if the operation was successfully started and will complete asynchronously.
-  types:
-  - uid: Account
+  - uid: AccountListResult
 - name: Other Status Codes
-  description: Error response describing why the operation failed. If the resource group *or* resource does not exist, 404 (NotFound) should be returned.
+  description: Error response describing why the operation failed
   types:
   - uid: ErrorResponse
-requestBody:
-- name: default
-  parameters:
+requestHeader: []
+definitions:
+- name: AccountListResult
+  description: The list of cognitive services accounts operation response.
+  kind: object
+  properties:
+  - name: nextLink
+    description: The link used to get the next page of accounts.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: Gets the list of Cognitive Services accounts and their properties.
+    types:
+    - uid: Account
+      isArray: true
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: Account
+  description: Cognitive Services account is an Azure resource representing the provisioned account, it's type, location and SKU.
+  kind: object
+  properties:
   - name: kind
-    in: body
     description: The Kind of the resource.
     types:
     - uid: string
   - name: sku
-    in: body
     description: The resource model definition representing SKU
     types:
     - uid: Sku
   - name: identity
-    in: body
     description: Identity for the resource.
     types:
     - uid: Identity
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
   - name: tags
-    in: body
     description: Resource tags.
     types:
     - uid: object
@@ -79,17 +87,64 @@ requestBody:
       - uid: string
       - uid: string
   - name: location
-    in: body
     description: The geo-location where the resource lives
     types:
     - uid: string
   - name: properties
-    in: body
     description: Properties of Cognitive Services account.
     types:
     - uid: AccountProperties
-requestHeader: []
-definitions:
+  - name: etag
+    isReadyOnly: true
+    description: Resource Etag.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: Sku
   description: The resource model definition representing SKU
   kind: object
@@ -279,71 +334,20 @@ definitions:
     description: ''
     types:
     - uid: boolean
-- name: Account
-  description: Cognitive Services account is an Azure resource representing the provisioned account, it's type, location and SKU.
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
   kind: object
   properties:
-  - name: kind
-    description: The Kind of the resource.
-    types:
-    - uid: string
-  - name: sku
-    description: The resource model definition representing SKU
-    types:
-    - uid: Sku
-  - name: identity
-    description: Identity for the resource.
-    types:
-    - uid: Identity
-  - name: systemData
-    isReadyOnly: true
-    description: Metadata pertaining to creation and last modification of the resource.
-    types:
-    - uid: systemData
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: location
-    description: The geo-location where the resource lives
-    types:
-    - uid: string
-  - name: properties
-    description: Properties of Cognitive Services account.
-    types:
-    - uid: AccountProperties
-  - name: etag
-    isReadyOnly: true
-    description: Resource Etag.
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the resource
-    types:
-    - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    description: The additional info type.
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error response
-  kind: object
-  properties:
-  - name: error
-    description: The error object.
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
     types:
-    - uid: ErrorDetail
+    - uid: object
 - name: SkuTier
   description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
   kind: enum
@@ -628,37 +632,6 @@ definitions:
     types:
     - uid: ThrottlingRule
       isArray: true
-- name: ErrorDetail
-  description: The error detail.
-  kind: object
-  properties:
-  - name: code
-    isReadyOnly: true
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: The error message.
-    types:
-    - uid: string
-  - name: target
-    isReadyOnly: true
-    description: The error target.
-    types:
-    - uid: string
-  - name: details
-    isReadyOnly: true
-    description: The error details.
-    types:
-    - uid: ErrorDetail
-      isArray: true
-  - name: additionalInfo
-    isReadyOnly: true
-    description: The error additional info.
-    types:
-    - uid: ErrorAdditionalInfo
-      isArray: true
 - name: NetworkRuleAction
   description: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated.
   kind: enum
@@ -773,20 +746,6 @@ definitions:
     types:
     - uid: RequestMatchPattern
       isArray: true
-- name: ErrorAdditionalInfo
-  description: The resource management error additional info.
-  kind: object
-  properties:
-  - name: type
-    isReadyOnly: true
-    description: The additional info type.
-    types:
-    - uid: string
-  - name: info
-    isReadyOnly: true
-    description: The additional info.
-    types:
-    - uid: object
 - name: PrivateEndpoint
   description: The Private Endpoint resource.
   kind: object
@@ -853,50 +812,78 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Update Account
+- name: List Deleted Accounts by Subscription
   request:
-    uri: PATCH https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/bvttest/providers/Microsoft.CognitiveServices/accounts/bingSearch?api-version=2021-04-30
-    body: >-
-      {
-        "location": "global",
-        "sku": {
-          "name": "S2"
-        }
-      }
+    uri: GET https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.CognitiveServices/deletedAccounts?api-version=2021-04-30
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/bvttest/providers/Microsoft.CognitiveServices/accounts/bingSearch",
-        "name": "bingSearch",
-        "type": "Microsoft.CognitiveServices/accounts",
-        "location": "global",
-        "sku": {
-          "name": "S2"
-        },
-        "kind": "Bing.Search",
-        "etag": "W/\"datetime'2017-04-10T07%3A46%3A21.5618831Z'\"",
-        "properties": {
-          "endpoint": "https://api.cognitive.microsoft.com/bing/v5.0",
-          "provisioningState": "Succeeded"
-        }
-      }
-  - statusCode: "202"
-    body: >-
-      {
-        "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/bvttest/providers/Microsoft.CognitiveServices/accounts/bingSearch",
-        "name": "bingSearch",
-        "type": "Microsoft.CognitiveServices/accounts",
-        "location": "global",
-        "sku": {
-          "name": "S2"
-        },
-        "kind": "Bing.Search",
-        "etag": "W/\"datetime'2017-04-10T07%3A46%3A21.5618831Z'\"",
-        "properties": {
-          "endpoint": "https://api.cognitive.microsoft.com/bing/v5.0",
-          "provisioningState": "Succeeded"
-        }
+        "value": [
+          {
+            "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/bvttest/providers/Microsoft.CognitiveServices/accounts/bingSearch",
+            "name": "bingSearch",
+            "type": "Microsoft.CognitiveServices/accounts",
+            "location": "global",
+            "sku": {
+              "name": "S1"
+            },
+            "kind": "Bing.Search",
+            "etag": "W/\"datetime'2017-03-27T11%3A19%3A08.762494Z'\"",
+            "properties": {
+              "endpoint": "https://api.cognitive.microsoft.com/bing/v5.0",
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/bvttest/providers/Microsoft.CognitiveServices/accounts/CrisProd",
+            "name": "CrisProd",
+            "type": "Microsoft.CognitiveServices/accounts",
+            "location": "westus",
+            "sku": {
+              "name": "S0"
+            },
+            "kind": "CRIS",
+            "tags": {
+              "can't delete it successfully": "v-yunjin"
+            },
+            "etag": "W/\"datetime'2017-03-31T08%3A57%3A07.4499566Z'\"",
+            "properties": {
+              "endpoint": "https://westus.api.cognitive.microsoft.com/sts/v1.0",
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/bvttest/providers/Microsoft.CognitiveServices/accounts/rayrptest0308",
+            "name": "rayrptest0308",
+            "type": "Microsoft.CognitiveServices/accounts",
+            "location": "westus",
+            "sku": {
+              "name": "S0"
+            },
+            "kind": "Face",
+            "etag": "W/\"datetime'2017-03-27T11%3A15%3A23.5232645Z'\"",
+            "properties": {
+              "endpoint": "https://westus.api.cognitive.microsoft.com/face/v1.0",
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/bvttest/providers/Microsoft.CognitiveServices/accounts/raytest02",
+            "name": "raytest02",
+            "type": "Microsoft.CognitiveServices/accounts",
+            "location": "westus",
+            "sku": {
+              "name": "S0"
+            },
+            "kind": "Emotion",
+            "etag": "W/\"datetime'2017-04-04T02%3A07%3A07.3957572Z'\"",
+            "properties": {
+              "endpoint": "https://westus.api.cognitive.microsoft.com/emotion/v1.0",
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
       }
 security: []
 errorCodes: []
