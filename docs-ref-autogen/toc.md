@@ -11773,6 +11773,9 @@
 #### [Get](backup/2018-12-20/BackupResourceStorageConfigs/Get.yml)
 #### [Update](backup/2018-12-20/BackupResourceStorageConfigs/Update.yml)
 #### [patch](backup/2018-12-20/BackupResourceStorageConfigs/patch.yml)
+### Backup Usage Summaries CRR
+#### [Overview](backup/2018-12-20/BackupUsageSummariesCRR.yml)
+#### [List](backup/2018-12-20/BackupUsageSummariesCRR/List.yml)
 ### Cross Region Restore
 #### [Overview](backup/2018-12-20/CrossRegionRestore.yml)
 #### [Trigger](backup/2018-12-20/CrossRegionRestore/Trigger.yml)
