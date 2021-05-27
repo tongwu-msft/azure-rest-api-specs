@@ -8521,10 +8521,13 @@
 #### [Overview](hdinsight/Extensions.yml)
 #### [Create](hdinsight/Extensions/Create.yml)
 #### [Delete](hdinsight/Extensions/Delete.yml)
+#### [Disable Azure Monitor](hdinsight/Extensions/DisableAzureMonitor.yml)
 #### [Disable Monitoring](hdinsight/Extensions/DisableMonitoring.yml)
+#### [Enable Azure Monitor](hdinsight/Extensions/EnableAzureMonitor.yml)
 #### [Enable Monitoring](hdinsight/Extensions/EnableMonitoring.yml)
 #### [Get](hdinsight/Extensions/Get.yml)
 #### [Get Azure Async Operation Status](hdinsight/Extensions/GetAzureAsyncOperationStatus.yml)
+#### [Get Azure Monitor Status](hdinsight/Extensions/GetAzureMonitorStatus.yml)
 #### [Get Monitoring Status](hdinsight/Extensions/GetMonitoringStatus.yml)
 ### Locations
 #### [Overview](hdinsight/Locations.yml)
