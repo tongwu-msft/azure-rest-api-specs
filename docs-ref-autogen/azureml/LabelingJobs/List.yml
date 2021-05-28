@@ -71,15 +71,15 @@ definitions:
   description: A paginated list of LabelingJob entities.
   kind: object
   properties:
+  - name: nextLink
+    description: ''
+    types:
+    - uid: string
   - name: value
     description: An array of objects of type LabelingJob.
     types:
     - uid: LabelingJobResource
       isArray: true
-  - name: nextLink
-    description: ''
-    types:
-    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -157,15 +157,19 @@ definitions:
   description: Labeling job definition
   kind: object
   properties:
-  - name: provisioningState
+  - name: createdTimeUtc
     isReadyOnly: true
-    description: ''
+    description: Created time of the job in UTC timezone.
     types:
-    - uid: JobProvisioningState
-  - name: jobType
-    description: Specifies the type of job. This field should always be set to "Labeling".
+    - uid: string
+  - name: datasetConfiguration
+    description: Configuration of dataset used in the job.
     types:
-    - uid: JobType
+    - uid: LabelingDatasetConfiguration
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
   - name: interactionEndpoints
     isReadyOnly: true
     description: >-
@@ -178,6 +182,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: JobEndpoint
+  - name: jobInstructions
+    description: Labeling instructions of the job.
+    types:
+    - uid: LabelingJobInstructions
+  - name: jobType
+    description: Specifies the type of job. This field should always be set to "Labeling".
+    types:
+    - uid: JobType
   - name: labelCategories
     description: Label categories of the job.
     types:
@@ -186,64 +198,52 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: LabelCategory
-  - name: jobInstructions
-    description: Labeling instructions of the job.
-    types:
-    - uid: LabelingJobInstructions
-  - name: datasetConfiguration
-    description: Configuration of dataset used in the job.
-    types:
-    - uid: LabelingDatasetConfiguration
-  - name: mlAssistConfiguration
-    description: Configuration of MLAssist feature in the job.
-    types:
-    - uid: MLAssistConfiguration
   - name: labelingJobMediaProperties
     description: Media type specific properties in the job.
     types:
     - uid: LabelingJobImageProperties
     - uid: LabelingJobTextProperties
     typesTitle: LabelingJobMediaProperties
-  - name: projectId
-    isReadyOnly: true
-    description: Internal id of the job(Previously called project).
+  - name: mlAssistConfiguration
+    description: Configuration of MLAssist feature in the job.
     types:
-    - uid: string
-  - name: status
-    isReadyOnly: true
-    description: Status of the job.
-    types:
-    - uid: JobStatus
+    - uid: MLAssistConfiguration
   - name: progressMetrics
     isReadyOnly: true
     description: Progress metrics of the job.
     types:
     - uid: ProgressMetrics
-  - name: statusMessages
+  - name: projectId
     isReadyOnly: true
-    description: Status messages of the job.
-    types:
-    - uid: StatusMessage
-      isArray: true
-  - name: createdTimeUtc
-    isReadyOnly: true
-    description: Created time of the job in UTC timezone.
+    description: Internal id of the job(Previously called project).
     types:
     - uid: string
-  - name: description
-    description: The asset description text.
-    types:
-    - uid: string
-  - name: tags
-    description: Tag dictionary. Tags can be added, removed, and updated.
+  - name: properties
+    description: The asset property dictionary.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-  - name: properties
-    description: The asset property dictionary.
+  - name: provisioningState
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: JobProvisioningState
+  - name: status
+    isReadyOnly: true
+    description: Status of the job.
+    types:
+    - uid: JobStatus
+  - name: statusMessages
+    isReadyOnly: true
+    description: Status messages of the job.
+    types:
+    - uid: StatusMessage
+      isArray: true
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
     types:
     - uid: object
       isDictionary: true
@@ -278,19 +278,52 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: JobProvisioningState
-  kind: enum
+- name: LabelingDatasetConfiguration
+  description: Labeling dataset configuration definition
+  kind: object
   properties:
-  - name: Succeeded
+  - name: assetName
+    description: Name of the data asset to perform labeling.
     types:
     - uid: string
-  - name: Failed
+  - name: datasetVersion
+    description: AML dataset version.
     types:
     - uid: string
-  - name: Canceled
+  - name: incrementalDatasetRefreshEnabled
+    description: Indicates whether to enable incremental dataset refresh.
+    types:
+    - uid: boolean
+- name: JobEndpoint
+  description: Job endpoint definition
+  kind: object
+  properties:
+  - name: endpoint
+    description: Url for endpoint.
     types:
     - uid: string
-  - name: InProgress
+  - name: jobEndpointType
+    description: Endpoint type.
+    types:
+    - uid: string
+  - name: port
+    description: Port for endpoint.
+    types:
+    - uid: integer
+  - name: properties
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: LabelingJobInstructions
+  description: Instructions for labeling job
+  kind: object
+  properties:
+  - name: uri
+    description: The link to a page with detailed labeling instructions for labelers.
     types:
     - uid: string
 - name: JobType
@@ -306,38 +339,10 @@ definitions:
   - name: Labeling
     types:
     - uid: string
-- name: JobEndpoint
-  description: Job endpoint definition
-  kind: object
-  properties:
-  - name: jobEndpointType
-    description: Endpoint type.
-    types:
-    - uid: string
-  - name: port
-    description: Port for endpoint.
-    types:
-    - uid: integer
-  - name: endpoint
-    description: Url for endpoint.
-    types:
-    - uid: string
-  - name: properties
-    description: ''
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: LabelCategory
   description: Label category definition
   kind: object
   properties:
-  - name: displayName
-    description: Display name of the label category.
-    types:
-    - uid: string
   - name: allowMultiSelect
     description: Indicates whether it is allowed to select multiple classes in this category.
     types:
@@ -350,28 +355,8 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: LabelClass
-- name: LabelingJobInstructions
-  description: Instructions for labeling job
-  kind: object
-  properties:
-  - name: uri
-    description: The link to a page with detailed labeling instructions for labelers.
-    types:
-    - uid: string
-- name: LabelingDatasetConfiguration
-  description: Labeling dataset configuration definition
-  kind: object
-  properties:
-  - name: assetName
-    description: Name of the data asset to perform labeling.
-    types:
-    - uid: string
-  - name: incrementalDatasetRefreshEnabled
-    description: Indicates whether to enable incremental dataset refresh.
-    types:
-    - uid: boolean
-  - name: datasetVersion
-    description: AML dataset version.
+  - name: displayName
+    description: Display name of the label category.
     types:
     - uid: string
 - name: MLAssistConfiguration
@@ -382,14 +367,53 @@ definitions:
     description: AML compute binding used in inferencing.
     types:
     - uid: ComputeConfiguration
-  - name: trainingComputeBinding
-    description: AML compute binding used in training.
-    types:
-    - uid: ComputeConfiguration
   - name: mlAssistEnabled
     description: Indicates whether MLAssist feature is enabled.
     types:
     - uid: boolean
+  - name: trainingComputeBinding
+    description: AML compute binding used in training.
+    types:
+    - uid: ComputeConfiguration
+- name: ProgressMetrics
+  description: Progress metrics definition
+  kind: object
+  properties:
+  - name: completedDatapointCount
+    isReadyOnly: true
+    description: The completed datapoint count.
+    types:
+    - uid: integer
+  - name: incrementalDatasetLastRefreshTime
+    isReadyOnly: true
+    description: The time of last successful incremental dataset refresh in UTC.
+    types:
+    - uid: string
+  - name: skippedDatapointCount
+    isReadyOnly: true
+    description: The skipped datapoint count.
+    types:
+    - uid: integer
+  - name: totalDatapointCount
+    isReadyOnly: true
+    description: The total datapoint count.
+    types:
+    - uid: integer
+- name: JobProvisioningState
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
 - name: JobStatus
   description: The status of a job.
   kind: enum
@@ -436,52 +460,28 @@ definitions:
   - name: Unknown
     types:
     - uid: string
-- name: ProgressMetrics
-  description: Progress metrics definition
-  kind: object
-  properties:
-  - name: totalDatapointCount
-    isReadyOnly: true
-    description: The total datapoint count.
-    types:
-    - uid: integer
-  - name: completedDatapointCount
-    isReadyOnly: true
-    description: The completed datapoint count.
-    types:
-    - uid: integer
-  - name: skippedDatapointCount
-    isReadyOnly: true
-    description: The skipped datapoint count.
-    types:
-    - uid: integer
-  - name: incrementalDatasetLastRefreshTime
-    isReadyOnly: true
-    description: The time of last successful incremental dataset refresh in UTC.
-    types:
-    - uid: string
 - name: StatusMessage
   description: Active message associated with project
   kind: object
   properties:
-  - name: level
-    isReadyOnly: true
-    description: Severity level of message.
-    types:
-    - uid: StatusMessageLevel
   - name: code
     isReadyOnly: true
     description: Service-defined message code.
     types:
     - uid: string
-  - name: message
-    isReadyOnly: true
-    description: A human-readable representation of the message code.
-    types:
-    - uid: string
   - name: createdTimeUtc
     isReadyOnly: true
     description: Time in UTC at which the message was created.
+    types:
+    - uid: string
+  - name: level
+    isReadyOnly: true
+    description: Severity level of message.
+    types:
+    - uid: StatusMessageLevel
+  - name: message
+    isReadyOnly: true
+    description: A human-readable representation of the message code.
     types:
     - uid: string
 - name: createdByType
@@ -516,38 +516,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: LabelClass
-- name: ComputeConfiguration
-  description: Configuration for compute binding.
-  kind: object
-  properties:
-  - name: target
-    description: ARM resource ID of the compute resource.
-    types:
-    - uid: string
-  - name: instanceCount
-    description: Number of instances or nodes.
-    types:
-    - uid: integer
-  - name: isLocal
-    description: Set to true for jobs running on local compute.
-    types:
-    - uid: boolean
-  - name: location
-    description: Location for virtual cluster run.
-    types:
-    - uid: string
-  - name: instanceType
-    description: SKU type to run on.
-    types:
-    - uid: string
-  - name: properties
-    description: Additional properties.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: LabelingJobImageProperties
   description: Properties of a labeling job for image data
   kind: object
@@ -574,6 +542,38 @@ definitions:
     types:
     - uid: Text
     typesTitle: string
+- name: ComputeConfiguration
+  description: Configuration for compute binding.
+  kind: object
+  properties:
+  - name: instanceCount
+    description: Number of instances or nodes.
+    types:
+    - uid: integer
+  - name: instanceType
+    description: SKU type to run on.
+    types:
+    - uid: string
+  - name: isLocal
+    description: Set to true for jobs running on local compute.
+    types:
+    - uid: boolean
+  - name: location
+    description: Location for virtual cluster run.
+    types:
+    - uid: string
+  - name: properties
+    description: Additional properties.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: ARM resource ID of the compute resource.
+    types:
+    - uid: string
 - name: StatusMessageLevel
   kind: enum
   properties:

@@ -81,6 +81,23 @@ definitions:
     <see href="https://repo2docker.readthedocs.io/en/latest/specification.html" />
   kind: object
   properties:
+  - name: condaFile
+    description: >-
+      Standard configuration file used by Conda that lets you install any kind of package, including Python, R, and C/C++ packages.
+
+      <see href="https://repo2docker.readthedocs.io/en/latest/config_files.html#environment-yml-install-a-conda-environment" />
+    types:
+    - uid: string
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: docker
+    description: Configuration settings for Docker.
+    types:
+    - uid: DockerBuild
+    - uid: DockerImage
+    typesTitle: DockerSpecification
   - name: environmentSpecificationType
     isReadyOnly: true
     description: >-
@@ -89,19 +106,6 @@ definitions:
       <see href="https://docs.microsoft.com/en-us/azure/machine-learning/resource-curated-environments" />
     types:
     - uid: EnvironmentSpecificationType
-  - name: docker
-    description: Configuration settings for Docker.
-    types:
-    - uid: DockerImage
-    - uid: DockerBuild
-    typesTitle: DockerSpecification
-  - name: condaFile
-    description: >-
-      Standard configuration file used by Conda that lets you install any kind of package, including Python, R, and C/C++ packages.
-
-      <see href="https://repo2docker.readthedocs.io/en/latest/config_files.html#environment-yml-install-a-conda-environment" />
-    types:
-    - uid: string
   - name: inferenceContainerProperties
     description: Defines configuration specific to inference.
     types:
@@ -110,20 +114,16 @@ definitions:
     description: If the name version are system generated (anonymous registration).
     types:
     - uid: boolean
-  - name: description
-    description: The asset description text.
-    types:
-    - uid: string
-  - name: tags
-    description: Tag dictionary. Tags can be added, removed, and updated.
+  - name: properties
+    description: The asset property dictionary.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-  - name: properties
-    description: The asset property dictionary.
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
     types:
     - uid: object
       isDictionary: true
@@ -266,6 +266,35 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: DockerBuild
+  description: Class to represent configuration settings for Docker Build
+  kind: object
+  properties:
+  - name: context
+    description: >-
+      Path to a snapshot of the Docker Context. This property is only valid if Dockerfile is specified.
+
+      The path is relative to the asset path which must contain a single Blob URI value.
+
+      <seealso href="https://docs.docker.com/engine/context/working-with-contexts/" />
+    types:
+    - uid: string
+  - name: dockerfile
+    description: >-
+      Docker command line instructions to assemble an image.
+
+      <seealso href="https://repo2docker.readthedocs.io/en/latest/config_files.html#dockerfile-advanced-environments" />
+    types:
+    - uid: string
+  - name: dockerSpecificationType
+    description: Docker specification must be either Build or Image
+    types:
+    - uid: Build
+    typesTitle: string
+  - name: platform
+    description: The platform information of the docker image.
+    types:
+    - uid: DockerImagePlatform
 - name: DockerImage
   description: Class to represent configuration settings for Docker Build
   kind: object
@@ -281,35 +310,6 @@ definitions:
     description: Docker specification must be either Build or Image
     types:
     - uid: Image
-    typesTitle: string
-  - name: platform
-    description: The platform information of the docker image.
-    types:
-    - uid: DockerImagePlatform
-- name: DockerBuild
-  description: Class to represent configuration settings for Docker Build
-  kind: object
-  properties:
-  - name: dockerfile
-    description: >-
-      Docker command line instructions to assemble an image.
-
-      <seealso href="https://repo2docker.readthedocs.io/en/latest/config_files.html#dockerfile-advanced-environments" />
-    types:
-    - uid: string
-  - name: context
-    description: >-
-      Path to a snapshot of the Docker Context. This property is only valid if Dockerfile is specified.
-
-      The path is relative to the asset path which must contain a single Blob URI value.
-
-      <seealso href="https://docs.docker.com/engine/context/working-with-contexts/" />
-    types:
-    - uid: string
-  - name: dockerSpecificationType
-    description: Docker specification must be either Build or Image
-    types:
-    - uid: Build
     typesTitle: string
   - name: platform
     description: The platform information of the docker image.

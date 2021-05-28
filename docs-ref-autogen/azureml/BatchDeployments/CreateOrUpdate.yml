@@ -67,16 +67,16 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: kind
-    in: body
-    description: ''
-    types:
-    - uid: string
   - name: identity
     in: body
     description: Service identity associated with a resource.
     types:
     - uid: ResourceIdentity
+  - name: kind
+    in: body
+    description: ''
+    types:
+    - uid: string
   - name: properties
     in: body
     isRequired: true
@@ -104,10 +104,6 @@ definitions:
   description: Service identity associated with a resource.
   kind: object
   properties:
-  - name: type
-    description: Defines values for a ResourceIdentity's type.
-    types:
-    - uid: ResourceIdentityAssignment
   - name: principalId
     isReadyOnly: true
     description: Client ID that is used when authenticating.
@@ -118,6 +114,10 @@ definitions:
     description: AAD Tenant where this identity lives.
     types:
     - uid: string
+  - name: type
+    description: Defines values for a ResourceIdentity's type.
+    types:
+    - uid: ResourceIdentityAssignment
   - name: userAssignedIdentities
     description: Dictionary of the user assigned identities, key is ARM resource ID of the UAI.
     types:
@@ -130,10 +130,30 @@ definitions:
   description: Batch inference settings per deployment.
   kind: object
   properties:
+  - name: codeConfiguration
+    description: Code configuration for the endpoint deployment.
+    types:
+    - uid: CodeConfiguration
   - name: compute
     description: Configuration for compute binding.
     types:
     - uid: ComputeConfiguration
+  - name: description
+    description: Description of the endpoint deployment.
+    types:
+    - uid: string
+  - name: environmentId
+    description: ARM resource ID of the environment specification for the endpoint deployment.
+    types:
+    - uid: string
+  - name: environmentVariables
+    description: Environment variables configuration for the deployment.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: errorThreshold
     description: >-
       Error threshold, if the error count for the entire input goes above this value,
@@ -147,15 +167,10 @@ definitions:
       If set to -1 (the lower bound), all failures during batch inference will be ignored.
     types:
     - uid: integer
-  - name: retrySettings
-    description: Retry Settings for the batch inference operation.
+  - name: loggingLevel
+    description: Logging level for batch inference operation.
     types:
-    - uid: BatchRetrySettings
-  - name: partitionKeys
-    description: Partition keys list used for Named partitioning.
-    types:
-    - uid: string
-      isArray: true
+    - uid: BatchLoggingLevel
   - name: miniBatchSize
     description: >-
       Size of the mini-batch passed to each batch invocation.
@@ -165,18 +180,22 @@ definitions:
       For TabularDataset, this is the size of the records in bytes, per mini-batch.
     types:
     - uid: integer
-  - name: loggingLevel
-    description: Logging level for batch inference operation.
+  - name: model
+    description: Reference to the model asset for the endpoint deployment.
     types:
-    - uid: BatchLoggingLevel
+    - uid: DataPathAssetReference
+    - uid: IdAssetReference
+    - uid: OutputPathAssetReference
+    typesTitle: AssetReferenceBase
   - name: outputConfiguration
     description: Output configuration for the batch inference operation.
     types:
     - uid: BatchOutputConfiguration
-  - name: description
-    description: Description of the endpoint deployment.
+  - name: partitionKeys
+    description: Partition keys list used for Named partitioning.
     types:
     - uid: string
+      isArray: true
   - name: properties
     description: Property dictionary. Properties can be added, but not removed or altered.
     types:
@@ -185,29 +204,10 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-  - name: model
-    description: Reference to the model asset for the endpoint deployment.
+  - name: retrySettings
+    description: Retry Settings for the batch inference operation.
     types:
-    - uid: IdAssetReference
-    - uid: DataPathAssetReference
-    - uid: OutputPathAssetReference
-    typesTitle: AssetReferenceBase
-  - name: codeConfiguration
-    description: Code configuration for the endpoint deployment.
-    types:
-    - uid: CodeConfiguration
-  - name: environmentId
-    description: ARM resource ID of the environment specification for the endpoint deployment.
-    types:
-    - uid: string
-  - name: environmentVariables
-    description: Environment variables configuration for the deployment.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
+    - uid: BatchRetrySettings
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -247,14 +247,14 @@ definitions:
 - name: BatchDeploymentTrackedResource
   kind: object
   properties:
-  - name: kind
-    description: ''
-    types:
-    - uid: string
   - name: identity
     description: Service identity associated with a resource.
     types:
     - uid: ResourceIdentity
+  - name: kind
+    description: ''
+    types:
+    - uid: string
   - name: properties
     description: Additional attributes of the entity.
     types:
@@ -311,36 +311,44 @@ definitions:
   description: User assigned identities associated with a resource.
   kind: object
   properties:
+  - name: clientId
+    description: Aka application ID, a unique identifier generated by Azure AD that is tied to an application and service principal during its initial provisioning.
+    types:
+    - uid: string
   - name: principalId
     description: The object ID of the service principal object for your managed identity that is used to grant role-based access to an Azure resource.
     types:
     - uid: string
-  - name: clientId
-    description: Aka application ID, a unique identifier generated by Azure AD that is tied to an application and service principal during its initial provisioning.
+- name: CodeConfiguration
+  description: Configuration for a scoring code asset.
+  kind: object
+  properties:
+  - name: codeId
+    description: ARM resource ID of the code asset.
+    types:
+    - uid: string
+  - name: scoringScript
+    description: The script to execute on startup. eg. "score.py"
     types:
     - uid: string
 - name: ComputeConfiguration
   description: Configuration for compute binding.
   kind: object
   properties:
-  - name: target
-    description: ARM resource ID of the compute resource.
-    types:
-    - uid: string
   - name: instanceCount
     description: Number of instances or nodes.
     types:
     - uid: integer
+  - name: instanceType
+    description: SKU type to run on.
+    types:
+    - uid: string
   - name: isLocal
     description: Set to true for jobs running on local compute.
     types:
     - uid: boolean
   - name: location
     description: Location for virtual cluster run.
-    types:
-    - uid: string
-  - name: instanceType
-    description: SKU type to run on.
     types:
     - uid: string
   - name: properties
@@ -351,16 +359,8 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
-- name: BatchRetrySettings
-  description: Retry settings for a batch inference operation.
-  kind: object
-  properties:
-  - name: maxRetries
-    description: Maximum retry count for a mini-batch
-    types:
-    - uid: integer
-  - name: timeout
-    description: Invocation timeout for a mini-batch, in ISO 8601 format.
+  - name: target
+    description: ARM resource ID of the compute resource.
     types:
     - uid: string
 - name: BatchLoggingLevel
@@ -385,24 +385,24 @@ definitions:
   description: Batch inference output configuration.
   kind: object
   properties:
-  - name: outputAction
-    description: Indicates how the output will be organized.
-    types:
-    - uid: BatchOutputAction
   - name: appendRowFileName
     description: Customized output file name for append_row output action.
     types:
     - uid: string
-- name: CodeConfiguration
-  description: Configuration for a scoring code asset.
+  - name: outputAction
+    description: Indicates how the output will be organized.
+    types:
+    - uid: BatchOutputAction
+- name: BatchRetrySettings
+  description: Retry settings for a batch inference operation.
   kind: object
   properties:
-  - name: codeId
-    description: ARM resource ID of the code asset.
+  - name: maxRetries
+    description: Maximum retry count for a mini-batch
     types:
-    - uid: string
-  - name: scoringScript
-    description: The script to execute on startup. eg. "score.py"
+    - uid: integer
+  - name: timeout
+    description: Invocation timeout for a mini-batch, in ISO 8601 format.
     types:
     - uid: string
 - name: createdByType
@@ -452,16 +452,23 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: BatchOutputAction
-  description: Enum to determine how batch inferencing will handle output
-  kind: enum
+- name: DataPathAssetReference
+  description: Reference to an asset via its path in a datastore.
+  kind: object
   properties:
-  - name: SummaryOnly
+  - name: datastoreId
+    description: ARM resource ID of the datastore where the asset is located.
     types:
     - uid: string
-  - name: AppendRow
+  - name: path
+    description: The path of the file/directory in the datastore.
     types:
     - uid: string
+  - name: referenceType
+    description: Specifies the type of asset reference.
+    types:
+    - uid: DataPath
+    typesTitle: string
 - name: IdAssetReference
   description: Reference to an asset via its ARM resource ID.
   kind: object
@@ -475,33 +482,16 @@ definitions:
     types:
     - uid: Id
     typesTitle: string
-- name: DataPathAssetReference
-  description: Reference to an asset via its path in a datastore.
-  kind: object
-  properties:
-  - name: path
-    description: The path of the file/directory in the datastore.
-    types:
-    - uid: string
-  - name: datastoreId
-    description: ARM resource ID of the datastore where the asset is located.
-    types:
-    - uid: string
-  - name: referenceType
-    description: Specifies the type of asset reference.
-    types:
-    - uid: DataPath
-    typesTitle: string
 - name: OutputPathAssetReference
   description: Reference to an asset via its path in a job output.
   kind: object
   properties:
-  - name: path
-    description: The path of the file/directory in the job output.
-    types:
-    - uid: string
   - name: jobId
     description: ARM resource ID of the job.
+    types:
+    - uid: string
+  - name: path
+    description: The path of the file/directory in the job output.
     types:
     - uid: string
   - name: referenceType
@@ -509,6 +499,16 @@ definitions:
     types:
     - uid: OutputPath
     typesTitle: string
+- name: BatchOutputAction
+  description: Enum to determine how batch inferencing will handle output
+  kind: enum
+  properties:
+  - name: SummaryOnly
+    types:
+    - uid: string
+  - name: AppendRow
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
