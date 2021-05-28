@@ -15,7 +15,7 @@ service_description: Build applications with event-based architecture
 Azure Event Grid enables you to easily build applications with event-based architectures. You can publish topics to Event Grid, and subscribe to topics through Event Grid. When subscribing, you provide an endpoint to respond to the event. 
 
 > [!NOTE]
-> See [Track asynchronous Azure operations](https://docs.microsoft.com/azure/azure-resource-manager/management/async-operations) to learn how to track the status of asynchronous operations through values returned in the response. 
+> See [Track asynchronous Azure operations](/azure/azure-resource-manager/management/async-operations) to learn how to track the status of asynchronous operations through values returned in the response. 
 
 ## REST Operation Groups 
 
@@ -40,5 +40,5 @@ Azure Event Grid enables you to easily build applications with event-based archi
 
 ## See also
 
-- For more information, see [An introduction to Azure Event Grid](https://docs.microsoft.com/azure/event-grid/overview).
-- To get started with Event Grid, see [Create and route custom events with Azure Event Grid](https://docs.microsoft.com/azure/event-grid/custom-event-quickstart).
+- For more information, see [An introduction to Azure Event Grid](/azure/event-grid/overview).
+- To get started with Event Grid, see [Create and route custom events with Azure Event Grid](/azure/event-grid/custom-event-quickstart).
