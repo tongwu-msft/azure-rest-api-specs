@@ -21,22 +21,22 @@ Azure Event Grid enables you to easily build applications with event-based archi
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-| [Domain Topics](xref:management.azure.com.eventgrid.version2020-04-01-preview.domaintopics) | Returns information about Event Grid domain topics. |
-| [Domains](xref:management.azure.com.eventgrid.version2020-04-01-preview.domains) | Provides operations for working with Event Grid domains. |
-| [Event Channels](xref:management.azure.com.eventgrid.version2020-04-01-preview.eventchannels) | Provides operations for working with event channels. |
-| [Event Subscriptions](xref:management.azure.com.eventgrid.version2020-04-01-preview.eventsubscriptions) | Provides operations for working with event subscriptions. |
-| [Extension Topics](xref:management.azure.com.eventgrid.version2020-04-01-preview.extensiontopics) | Provides operations for indicating which events to route to an endpoint. |
-| [Operations](xref:management.azure.com.eventgrid.version2020-04-01-preview.operations) | Shows operations from the Event Grid resource provider. |
-| [Partner Namespaces](xref:management.azure.com.eventgrid.version2020-04-01-preview.partnernamespaces) | Provides operations for working with partner namespaces. |
-| [Partner Registrations](xref:management.azure.com.eventgrid.version2020-04-01-preview.partnerregistrations) | Provides operations for working with partner registrations. |
-| [Partner Topic Event Subscriptions](xref:management.azure.com.eventgrid.version2020-04-01-preview.partnertopiceventsubscriptions) | Provides operations for working with partner topic event subscriptions. |
-| [Partner Topics](xref:management.azure.com.eventgrid.version2020-04-01-preview.partnertopics) | Provides operations for working with partner topics. |
-| [Private Endpoint Connections](xref:management.azure.com.eventgrid.version2020-04-01-preview.privateendpointconnections) | Provides operations for working with private endpoint connections. |
-| [Private Link Resources](xref:management.azure.com.eventgrid.version2020-04-01-preview.privatelinkresources) | Provides operations for working with private link resources. |
-| [System Topic Event Subscriptions](xref:management.azure.com.eventgrid.version2020-04-01-preview.systemtopiceventsubscriptions) | Provides operations for working with system topic event subscriptions. |
-| [System Topics](xref:management.azure.com.eventgrid.version2020-04-01-preview.systemtopics) | Provides operations for working with system topics. |
-| [Topic Types](xref:management.azure.com.eventgrid.version2020-04-01-preview.topictypes) | Returns information about topic and event types. |
-| [Topics](xref:management.azure.com.eventgrid.version2020-04-01-preview.topics) | Provides operations for working publisher topics. |
+| [Domain Topics](xref:management.azure.com.eventgrid.version2020-10-15-preview/domaintopics) | Returns information about Event Grid domain topics. |
+| [Domains](xref:management.azure.com.eventgrid.version2020-10-15-preview.domains) | Provides operations for working with Event Grid domains. |
+| [Event Channels](xref:management.azure.com.eventgrid.version2020-10-15-preview.eventchannels) | Provides operations for working with event channels. |
+| [Event Subscriptions](xref:management.azure.com.eventgrid.version2020-10-15-preview.eventsubscriptions) | Provides operations for working with event subscriptions. |
+| [Extension Topics](xref:management.azure.com.eventgrid.version2020-10-15-preview.extensiontopics) | Provides operations for indicating which events to route to an endpoint. |
+| [Operations](xref:management.azure.com.eventgrid.version2020-10-15-preview.operations) | Shows operations from the Event Grid resource provider. |
+| [Partner Namespaces](xref:management.azure.com.eventgrid.version2020-10-15-preview.partnernamespaces) | Provides operations for working with partner namespaces. |
+| [Partner Registrations](xref:management.azure.com.eventgrid.version2020-10-15-preview.partnerregistrations) | Provides operations for working with partner registrations. |
+| [Partner Topic Event Subscriptions](xref:management.azure.com.eventgrid.version2020-10-15-preview.partnertopiceventsubscriptions) | Provides operations for working with partner topic event subscriptions. |
+| [Partner Topics](xref:management.azure.com.eventgrid.version2020-10-15-preview.partnertopics) | Provides operations for working with partner topics. |
+| [Private Endpoint Connections](xref:management.azure.com.eventgrid.version2020-10-15-preview.privateendpointconnections) | Provides operations for working with private endpoint connections. |
+| [Private Link Resources](xref:management.azure.com.eventgrid.version2020-10-15-preview.privatelinkresources) | Provides operations for working with private link resources. |
+| [System Topic Event Subscriptions](xref:management.azure.com.eventgrid.version2020-10-15-preview.systemtopiceventsubscriptions) | Provides operations for working with system topic event subscriptions. |
+| [System Topics](xref:management.azure.com.eventgrid.version2020-10-15-preview.systemtopics) | Provides operations for working with system topics. |
+| [Topic Types](xref:management.azure.com.eventgrid.version2020-10-15-preview.topictypes) | Returns information about topic and event types. |
+| [Topics](xref:management.azure.com.eventgrid.version2020-10-15-preview.topics) | Provides operations for working publisher topics. |
 
 ## See also
 
