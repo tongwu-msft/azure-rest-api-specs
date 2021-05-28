@@ -1,0 +1,870 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cognitiveservices.accountmanagement.accounts.listbyresourcegroup
+name: List By Resource Group
+service: Cognitive Services
+groupName: Accounts
+apiVersion: 2021-04-30
+summary: Returns all the resources of a particular type belonging to a resource group
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts?api-version=2021-04-30
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: "The resource provider should return 200 (OK) to indicate that the operation completed successfully. For other errors (e.g. internal errors) use the appropriate HTTP error code.\nThe nextLink field is expected to point to the URL the client should use to fetch the next page (per server side paging). This matches the OData guidelines for paged responses here. If a resource provider does not support paging, it should return the same body (JSON object with \"value\" property) but omit nextLink entirely (or set to null, *not* empty string) for future compatibility.\nThe nextLink should be implemented using following query parameters:\n· skipToken: opaque token that allows the resource provider to skip resources already enumerated. This value is defined and returned by the RP after first request via nextLink.\n· top: the optional client query parameter which defines the maximum number of records to be returned by the server.\nImplementation details:\n· NextLink may include all the query parameters (specifically OData $filter) used by the client in the first query. \n· Server may return less records than requested with nextLink. Returning zero records with NextLink is an acceptable response. \nClients must fetch records until the nextLink is not returned back / null. Clients should never rely on number of returned records to determinate if pagination is completed."
+  types:
+  - uid: AccountListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed. If the resource group does not exist, 404 (NotFound) will be returned.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: AccountListResult
+  description: The list of cognitive services accounts operation response.
+  kind: object
+  properties:
+  - name: nextLink
+    description: The link used to get the next page of accounts.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: Gets the list of Cognitive Services accounts and their properties.
+    types:
+    - uid: Account
+      isArray: true
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: Account
+  description: Cognitive Services account is an Azure resource representing the provisioned account, it's type, location and SKU.
+  kind: object
+  properties:
+  - name: kind
+    description: The Kind of the resource.
+    types:
+    - uid: string
+  - name: sku
+    description: The resource model definition representing SKU
+    types:
+    - uid: Sku
+  - name: identity
+    description: Identity for the resource.
+    types:
+    - uid: Identity
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: properties
+    description: Properties of Cognitive Services account.
+    types:
+    - uid: AccountProperties
+  - name: etag
+    isReadyOnly: true
+    description: Resource Etag.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: Sku
+  description: The resource model definition representing SKU
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU. Ex - P3. It is typically a letter+number code
+    types:
+    - uid: string
+  - name: tier
+    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+    types:
+    - uid: SkuTier
+  - name: size
+    description: 'The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. '
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    types:
+    - uid: integer
+- name: Identity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: type
+    description: The identity type.
+    types:
+    - uid: ResourceIdentityType
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: userAssignedIdentities
+    description: "The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: AccountProperties
+  description: Properties of Cognitive Services account.
+  kind: object
+  properties:
+  - name: provisioningState
+    isReadyOnly: true
+    description: Gets the status of the cognitive services account at the time the operation was called.
+    types:
+    - uid: ProvisioningState
+  - name: endpoint
+    isReadyOnly: true
+    description: Endpoint of the created account.
+    types:
+    - uid: string
+  - name: internalId
+    isReadyOnly: true
+    description: The internal identifier (deprecated, do not use this property).
+    types:
+    - uid: string
+  - name: capabilities
+    isReadyOnly: true
+    description: Gets the capabilities of the cognitive services account. Each item indicates the capability of a specific feature. The values are read-only and for reference only.
+    types:
+    - uid: SkuCapability
+      isArray: true
+  - name: isMigrated
+    isReadyOnly: true
+    description: If the resource is migrated from an existing key.
+    types:
+    - uid: boolean
+  - name: migrationToken
+    description: Resource migration token.
+    types:
+    - uid: string
+  - name: skuChangeInfo
+    isReadyOnly: true
+    description: Sku change info of account.
+    types:
+    - uid: SkuChangeInfo
+  - name: customSubDomainName
+    description: Optional subdomain name used for token-based authentication.
+    types:
+    - uid: string
+  - name: networkAcls
+    description: A collection of rules governing the accessibility from specific network locations.
+    types:
+    - uid: NetworkRuleSet
+  - name: encryption
+    description: The encryption properties for this resource.
+    types:
+    - uid: Encryption
+  - name: userOwnedStorage
+    description: The storage accounts for this resource.
+    types:
+    - uid: UserOwnedStorage
+      isArray: true
+  - name: privateEndpointConnections
+    isReadyOnly: true
+    description: The private endpoint connection associated with the Cognitive Services account.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
+  - name: publicNetworkAccess
+    description: Whether or not public endpoint access is allowed for this account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+    types:
+    - uid: PublicNetworkAccess
+  - name: apiProperties
+    description: The api properties for special APIs.
+    types:
+    - uid: ApiProperties
+  - name: dateCreated
+    isReadyOnly: true
+    description: Gets the date of cognitive services account creation.
+    types:
+    - uid: string
+  - name: callRateLimit
+    isReadyOnly: true
+    description: The call rate limit Cognitive Services account.
+    types:
+    - uid: CallRateLimit
+  - name: quotaLimit
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: QuotaLimit
+  - name: restrictOutboundNetworkAccess
+    description: ''
+    types:
+    - uid: boolean
+  - name: allowedFqdnList
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: disableLocalAuth
+    description: ''
+    types:
+    - uid: boolean
+  - name: endpoints
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: restore
+    description: ''
+    types:
+    - uid: boolean
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: SkuTier
+  description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+  kind: enum
+  properties:
+  - name: Free
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+  - name: Enterprise
+    types:
+    - uid: string
+- name: ResourceIdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentity
+  description: User-assigned managed identity.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: Azure Active Directory principal ID associated with this Identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: Client App Id associated with this identity.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Gets the status of the cognitive services account at the time the operation was called.
+  kind: enum
+  properties:
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Moving
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: ResolvingDNS
+    types:
+    - uid: string
+- name: SkuCapability
+  description: SkuCapability indicates the capability of a certain feature.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SkuCapability.
+    types:
+    - uid: string
+  - name: value
+    description: The value of the SkuCapability.
+    types:
+    - uid: string
+- name: SkuChangeInfo
+  description: Sku change info of account.
+  kind: object
+  properties:
+  - name: countOfDowngrades
+    description: Gets the count of downgrades.
+    types:
+    - uid: number
+  - name: countOfUpgradesAfterDowngrades
+    description: Gets the count of upgrades after downgrades.
+    types:
+    - uid: number
+  - name: lastChangeDate
+    description: Gets the last change date.
+    types:
+    - uid: string
+- name: NetworkRuleSet
+  description: A set of rules governing the network accessibility.
+  kind: object
+  properties:
+  - name: defaultAction
+    description: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated.
+    types:
+    - uid: NetworkRuleAction
+  - name: ipRules
+    description: The list of IP address rules.
+    types:
+    - uid: IpRule
+      isArray: true
+  - name: virtualNetworkRules
+    description: The list of virtual network rules.
+    types:
+    - uid: VirtualNetworkRule
+      isArray: true
+- name: Encryption
+  description: Properties to configure Encryption
+  kind: object
+  properties:
+  - name: keyVaultProperties
+    description: Properties of KeyVault
+    types:
+    - uid: KeyVaultProperties
+  - name: keySource
+    description: Enumerates the possible value of keySource for Encryption
+    types:
+    - uid: keySource
+- name: UserOwnedStorage
+  description: The user owned storage for Cognitive Services account.
+  kind: object
+  properties:
+  - name: resourceId
+    description: Full resource id of a Microsoft.Storage resource.
+    types:
+    - uid: string
+  - name: identityClientId
+    description: ''
+    types:
+    - uid: string
+- name: PrivateEndpointConnection
+  description: The Private Endpoint Connection resource.
+  kind: object
+  properties:
+  - name: properties
+    description: Resource properties.
+    types:
+    - uid: PrivateEndpointConnectionProperties
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+  - name: location
+    description: The location of the private endpoint connection
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Resource Etag.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: PublicNetworkAccess
+  description: Whether or not public endpoint access is allowed for this account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ApiProperties
+  description: The api properties for special APIs.
+  kind: object
+  properties:
+  - name: qnaRuntimeEndpoint
+    description: (QnAMaker Only) The runtime endpoint of QnAMaker.
+    types:
+    - uid: string
+  - name: qnaAzureSearchEndpointKey
+    description: (QnAMaker Only) The Azure Search endpoint key of QnAMaker.
+    types:
+    - uid: string
+  - name: qnaAzureSearchEndpointId
+    description: (QnAMaker Only) The Azure Search endpoint id of QnAMaker.
+    types:
+    - uid: string
+  - name: statisticsEnabled
+    description: (Bing Search Only) The flag to enable statistics of Bing Search.
+    types:
+    - uid: boolean
+  - name: eventHubConnectionString
+    description: (Personalization Only) The flag to enable statistics of Bing Search.
+    types:
+    - uid: string
+  - name: storageAccountConnectionString
+    description: (Personalization Only) The storage account connection string.
+    types:
+    - uid: string
+  - name: aadClientId
+    description: (Metrics Advisor Only) The Azure AD Client Id (Application Id).
+    types:
+    - uid: string
+  - name: aadTenantId
+    description: (Metrics Advisor Only) The Azure AD Tenant Id.
+    types:
+    - uid: string
+  - name: superUser
+    description: (Metrics Advisor Only) The super user of Metrics Advisor.
+    types:
+    - uid: string
+  - name: websiteName
+    description: (Metrics Advisor Only) The website name of Metrics Advisor.
+    types:
+    - uid: string
+- name: CallRateLimit
+  description: The call rate limit Cognitive Services account.
+  kind: object
+  properties:
+  - name: count
+    description: The count value of Call Rate Limit.
+    types:
+    - uid: number
+  - name: renewalPeriod
+    description: The renewal period in seconds of Call Rate Limit.
+    types:
+    - uid: number
+  - name: rules
+    description: ''
+    types:
+    - uid: ThrottlingRule
+      isArray: true
+- name: QuotaLimit
+  kind: object
+  properties:
+  - name: count
+    description: ''
+    types:
+    - uid: number
+  - name: renewalPeriod
+    description: ''
+    types:
+    - uid: number
+  - name: rules
+    description: ''
+    types:
+    - uid: ThrottlingRule
+      isArray: true
+- name: NetworkRuleAction
+  description: The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated.
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+- name: IpRule
+  description: A rule governing the accessibility from a specific ip address or ip range.
+  kind: object
+  properties:
+  - name: value
+    description: An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78).
+    types:
+    - uid: string
+- name: VirtualNetworkRule
+  description: A rule governing the accessibility from a specific virtual network.
+  kind: object
+  properties:
+  - name: id
+    description: Full resource id of a vnet subnet, such as '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
+    types:
+    - uid: string
+  - name: state
+    description: Gets the state of virtual network rule.
+    types:
+    - uid: string
+  - name: ignoreMissingVnetServiceEndpoint
+    description: Ignore missing vnet service endpoint or not.
+    types:
+    - uid: boolean
+- name: KeyVaultProperties
+  description: Properties to configure keyVault Properties
+  kind: object
+  properties:
+  - name: keyName
+    description: Name of the Key from KeyVault
+    types:
+    - uid: string
+  - name: keyVersion
+    description: Version of the Key from KeyVault
+    types:
+    - uid: string
+  - name: keyVaultUri
+    description: Uri of KeyVault
+    types:
+    - uid: string
+  - name: identityClientId
+    description: ''
+    types:
+    - uid: string
+- name: keySource
+  description: Enumerates the possible value of keySource for Encryption
+  kind: enum
+  properties:
+  - name: Microsoft.CognitiveServices
+    types:
+    - uid: string
+  - name: Microsoft.KeyVault
+    types:
+    - uid: string
+- name: PrivateEndpointConnectionProperties
+  description: Properties of the PrivateEndpointConnectProperties.
+  kind: object
+  properties:
+  - name: privateEndpoint
+    description: The resource of private end point.
+    types:
+    - uid: PrivateEndpoint
+  - name: privateLinkServiceConnectionState
+    description: A collection of information about the state of the connection between service consumer and provider.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private endpoint connection resource.
+    types:
+    - uid: PrivateEndpointConnectionProvisioningState
+  - name: groupIds
+    description: The private link resource group ids.
+    types:
+    - uid: string
+      isArray: true
+- name: ThrottlingRule
+  kind: object
+  properties:
+  - name: key
+    description: ''
+    types:
+    - uid: string
+  - name: renewalPeriod
+    description: ''
+    types:
+    - uid: number
+  - name: count
+    description: ''
+    types:
+    - uid: number
+  - name: minCount
+    description: ''
+    types:
+    - uid: number
+  - name: dynamicThrottlingEnabled
+    description: ''
+    types:
+    - uid: boolean
+  - name: matchPatterns
+    description: ''
+    types:
+    - uid: RequestMatchPattern
+      isArray: true
+- name: PrivateEndpoint
+  description: The Private Endpoint resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ARM identifier for Private Endpoint
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: A collection of information about the state of the connection between service consumer and provider.
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+    types:
+    - uid: PrivateEndpointServiceConnectionStatus
+  - name: description
+    description: The reason for approval/rejection of the connection.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
+    types:
+    - uid: string
+- name: PrivateEndpointConnectionProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: RequestMatchPattern
+  kind: object
+  properties:
+  - name: path
+    description: ''
+    types:
+    - uid: string
+  - name: method
+    description: ''
+    types:
+    - uid: string
+- name: PrivateEndpointServiceConnectionStatus
+  description: The private endpoint connection status.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+examples:
+- name: List Accounts by Resource Group
+  request:
+    uri: GET https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.CognitiveServices/accounts?api-version=2021-04-30
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.CognitiveServices/accounts/myAccount",
+            "name": "myAccount",
+            "type": "Microsoft.CognitiveServices/accounts",
+            "location": "westus",
+            "sku": {
+              "name": "F0"
+            },
+            "kind": "Emotion",
+            "tags": {
+              "Owner": "felixwa",
+              "ExpiredDate": "2017/09/01"
+            },
+            "etag": "W/\"datetime'2017-04-10T04%3A42%3A19.7067387Z'\"",
+            "properties": {
+              "endpoint": "https://westus.api.cognitive.microsoft.com/emotion/v1.0",
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/myResourceGroup/providers/Microsoft.CognitiveServices/accounts/TestPropertyWU2",
+            "name": "TestPropertyWU2",
+            "type": "Microsoft.CognitiveServices/accounts",
+            "location": "westus",
+            "sku": {
+              "name": "S0"
+            },
+            "kind": "Face",
+            "tags": {},
+            "etag": "W/\"datetime'2017-04-07T04%3A32%3A38.9187216Z'\"",
+            "properties": {
+              "endpoint": "https://westus.api.cognitive.microsoft.com/face/v1.0",
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about Cognitive Services service - Returns all the resources of a particular type belonging to a resource group
+errorCodes: []

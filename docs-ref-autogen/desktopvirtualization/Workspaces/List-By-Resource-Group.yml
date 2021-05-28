@@ -1,0 +1,288 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.desktopvirtualization.workspaces.listbyresourcegroup
+name: List By Resource Group
+service: Desktop Virtualization
+groupName: Workspaces
+apiVersion: 2021-01-14-preview
+summary: List workspaces.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces?api-version=2021-01-14-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved workspaces in resource group.
+  types:
+  - uid: WorkspaceList
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: WorkspaceList
+  description: WorkspaceList
+  kind: object
+  properties:
+  - name: value
+    description: List of Workspace definitions.
+    types:
+    - uid: Workspace
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to the next page of results.
+    types:
+    - uid: string
+- name: CloudError
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: CloudErrorProperties
+- name: Workspace
+  description: Represents a Workspace definition.
+  kind: object
+  properties:
+  - name: properties.objectId
+    isReadyOnly: true
+    description: ObjectId of Workspace. (internal use)
+    types:
+    - uid: string
+  - name: properties.description
+    description: Description of Workspace.
+    types:
+    - uid: string
+  - name: properties.friendlyName
+    description: Friendly name of Workspace.
+    types:
+    - uid: string
+  - name: properties.applicationGroupReferences
+    description: List of applicationGroup resource Ids.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.cloudPcResource
+    isReadyOnly: true
+    description: Is cloud pc resource.
+    types:
+    - uid: boolean
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: managedBy
+    description: The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource.
+    types:
+    - uid: string
+  - name: kind
+    description: Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource provider must validate and persist this value.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: 'The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. '
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: identity
+    description: ''
+    types:
+    - uid: Identity
+  - name: sku
+    description: ''
+    types:
+    - uid: Sku
+  - name: plan
+    description: ''
+    types:
+    - uid: Plan
+- name: CloudErrorProperties
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: Identity
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type.
+    types:
+    - uid: ResourceIdentityType
+- name: Sku
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU. Ex - P3. It is typically a letter+number code
+    types:
+    - uid: string
+  - name: tier
+    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+    types:
+    - uid: SkuTier
+  - name: size
+    description: 'The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. '
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    types:
+    - uid: integer
+- name: Plan
+  kind: object
+  properties:
+  - name: name
+    description: A user defined name of the 3rd Party Artifact that is being procured.
+    types:
+    - uid: string
+  - name: publisher
+    description: The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic
+    types:
+    - uid: string
+  - name: product
+    description: 'The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at the time of Data Market onboarding. '
+    types:
+    - uid: string
+  - name: promotionCode
+    description: A publisher provided promotion code as provisioned in Data Market for the said product/artifact.
+    types:
+    - uid: string
+  - name: version
+    description: The version of the desired product/artifact.
+    types:
+    - uid: string
+- name: ResourceIdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+- name: SkuTier
+  description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+  kind: enum
+  properties:
+  - name: Free
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+examples:
+- name: Workspace_ListByResourceGroup
+  request:
+    uri: GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/workspaces?api-version=2021-01-14-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "workspace1",
+            "id": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/workspaces/workspace1",
+            "type": "Microsoft.DesktopVirtualization/workspaces",
+            "location": "centralus",
+            "tags": {
+              "key1": "value1",
+              "key2": "value2"
+            },
+            "properties": {
+              "objectId": "7877fb31-4bde-49fd-9df3-c046e0ec5325",
+              "description": "des1",
+              "friendlyName": "friendly",
+              "cloudPcResource": false
+            }
+          },
+          {
+            "name": "workspace2",
+            "id": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/workspaces/workspace2",
+            "type": "Microsoft.DesktopVirtualization/workspaces",
+            "location": "centralus",
+            "tags": {
+              "key1": "value1",
+              "key2": "value2"
+            },
+            "properties": {
+              "objectId": "7877fb31-4bde-49fd-9df3-c046e0ec5325",
+              "description": "des1",
+              "friendlyName": "friendly",
+              "cloudPcResource": false
+            }
+          }
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about Desktop Virtualization service - List workspaces.
+errorCodes: []

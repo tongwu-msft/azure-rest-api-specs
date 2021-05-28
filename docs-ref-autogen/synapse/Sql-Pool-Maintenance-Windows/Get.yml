@@ -1,0 +1,223 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.synapse.sqlpoolmaintenancewindows.get
+name: Get
+service: Synapse
+groupName: Sql Pool Maintenance Windows
+apiVersion: 2021-03-01
+summary: Get a SQL pool's Maintenance Windows.
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/maintenancewindows/current?api-version=2021-03-01&maintenanceWindowName={maintenanceWindowName}
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace
+  types:
+  - uid: string
+- name: sqlPoolName
+  in: path
+  isRequired: true
+  description: SQL pool name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: maintenanceWindowName
+  in: query
+  isRequired: true
+  description: Maintenance window name.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: MaintenanceWindows
+- name: Other Status Codes
+  description: ''
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: MaintenanceWindows
+  description: Maintenance windows.
+  kind: object
+  properties:
+  - name: properties.timeRanges
+    description: Maintenance window time range.
+    types:
+    - uid: MaintenanceWindowTimeRange
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: MaintenanceWindowTimeRange
+  description: Maintenance window time range.
+  kind: object
+  properties:
+  - name: dayOfWeek
+    description: Day of maintenance window.
+    types:
+    - uid: DayOfWeek
+  - name: startTime
+    description: Start time minutes offset from 12am.
+    types:
+    - uid: string
+  - name: duration
+    description: Duration of maintenance window in minutes.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: DayOfWeek
+  description: Day of maintenance window.
+  kind: enum
+  properties:
+  - name: Sunday
+    types:
+    - uid: string
+  - name: Monday
+    types:
+    - uid: string
+  - name: Tuesday
+    types:
+    - uid: string
+  - name: Wednesday
+    types:
+    - uid: string
+  - name: Thursday
+    types:
+    - uid: string
+  - name: Friday
+    types:
+    - uid: string
+  - name: Saturday
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: object
+  description: Array of results.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+examples:
+- name: Gets maintenance window settings for a selected SQL Analytics pool.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/samplerg/providers/Microsoft.Synapse/workspaces/testworkspace/sqlPools/testsp/maintenancewindows/current?api-version=2021-03-01&maintenanceWindowName=current
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "timeRanges": [
+            {
+              "dayOfWeek": "Saturday",
+              "startTime": "00:00:00",
+              "duration": "PT60M"
+            }
+          ]
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/samplerg/providers/Microsoft.Synapse/workspaces/testworkspace/sqlPools/testsp/maintenancewindows/current",
+        "name": "current",
+        "type": "Microsoft.Synapse/workspaces/sqlPools/maintenancewindows"
+      }
+security: []
+metadata:
+  description: Learn more about Synapse service - Get a SQL pool's Maintenance Windows.
+errorCodes: []

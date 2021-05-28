@@ -1,0 +1,185 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.purview.accounts.checknameavailability
+name: Check Name Availability
+service: Purview
+groupName: Accounts
+apiVersion: 2020-12-01-preview
+summary: "Checks the account name availability.  \nChecks if account name is available."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Purview/checkNameAvailability?api-version=2020-12-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version to use.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: CheckNameAvailabilityResult
+- name: Other Status Codes
+  description: An error response received from the provider.
+  types:
+  - uid: ErrorResponseModel
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    description: Resource name to verify for availability
+    types:
+    - uid: string
+  - name: type
+    in: body
+    description: Fully qualified resource type which includes provider namespace
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CheckNameAvailabilityResult
+  description: The response payload for CheckNameAvailability API
+  kind: object
+  properties:
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+  - name: nameAvailable
+    description: Indicates if name is valid and available.
+    types:
+    - uid: boolean
+  - name: reason
+    description: The reason the name is not available.
+    types:
+    - uid: reason
+- name: ErrorResponseModel
+  description: Default error response model
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Gets or sets the error.
+    types:
+    - uid: Error
+- name: CheckNameAvailabilityRequest
+  description: The request payload for CheckNameAvailability API
+  kind: object
+  properties:
+  - name: name
+    description: Resource name to verify for availability
+    types:
+    - uid: string
+  - name: type
+    description: Fully qualified resource type which includes provider namespace
+    types:
+    - uid: string
+- name: reason
+  description: The reason the name is not available.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AlreadyExists
+    types:
+    - uid: string
+- name: Error
+  description: Gets or sets the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Gets or sets the code.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Gets or sets the details.
+    types:
+    - uid: ErrorModel
+      isArray: true
+  - name: message
+    isReadyOnly: true
+    description: Gets or sets the messages.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Gets or sets the target.
+    types:
+    - uid: string
+- name: ErrorModel
+  description: Default error model
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Gets or sets the code.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Gets or sets the details.
+    types:
+    - uid: ErrorModel
+      isArray: true
+  - name: message
+    isReadyOnly: true
+    description: Gets or sets the messages.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Gets or sets the target.
+    types:
+    - uid: string
+examples:
+- name: Accounts_CheckNameAvailability
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Purview/checkNameAvailability?api-version=2020-12-01-preview
+    body: >-
+      {
+        "name": "account1",
+        "type": "Microsoft.Purview/accounts"
+      }
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Wed, 13 Sep 2017 18:04:32 GMT
+    - name: x-ms-request-id
+      value: d5496da4-9c52-402f-b067-83cc9ddea888
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-tenant-reads
+      value: "14999"
+    - name: x-ms-correlation-request-id
+      value: 25c78f97-0b0a-4fe9-ad39-883a482265cd
+    body: >-
+      {
+        "nameAvailable": true
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: "Learn more about Purview service - Checks the account name availability.  \nChecks if account name is available."
+errorCodes: []
