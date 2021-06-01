@@ -1,0 +1,148 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.hdinsight.extensions.enableazuremonitor
+name: Enable Azure Monitor
+service: HDInsight
+groupName: Extensions
+apiVersion: 2018-06-01-preview
+summary: Enables the Azure Monitor on the HDInsight cluster.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/extensions/azureMonitor?api-version=2018-06-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: The name of the cluster.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The HDInsight client API Version.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+- name: 200 OK
+  description: Ok response definition.
+- name: 202 Accepted
+  description: Accepted response definition.
+requestBody:
+- name: default
+  parameters:
+  - name: workspaceId
+    in: body
+    description: The Log Analytics workspace ID.
+    types:
+    - uid: string
+  - name: primaryKey
+    in: body
+    description: The Log Analytics workspace key.
+    types:
+    - uid: string
+  - name: selectedConfigurations
+    in: body
+    description: The selected configurations.
+    types:
+    - uid: AzureMonitorSelectedConfigurations
+requestHeader: []
+definitions:
+- name: AzureMonitorSelectedConfigurations
+  description: The selected configurations for azure monitor.
+  kind: object
+  properties:
+  - name: configurationVersion
+    description: The configuration version.
+    types:
+    - uid: string
+  - name: globalConfigurations
+    description: The global configurations of selected configurations.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tableList
+    description: The table list.
+    types:
+    - uid: AzureMonitorTableConfiguration
+      isArray: true
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: AzureMonitorRequest
+  description: The azure monitor parameters.
+  kind: object
+  properties:
+  - name: workspaceId
+    description: The Log Analytics workspace ID.
+    types:
+    - uid: string
+  - name: primaryKey
+    description: The Log Analytics workspace key.
+    types:
+    - uid: string
+  - name: selectedConfigurations
+    description: The selected configurations.
+    types:
+    - uid: AzureMonitorSelectedConfigurations
+- name: AzureMonitorTableConfiguration
+  description: The table configuration for the Log Analytics integration.
+  kind: object
+  properties:
+  - name: name
+    description: The name.
+    types:
+    - uid: string
+examples:
+- name: Enable cluster monitoring
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1/extensions/azureMonitor?api-version=2018-06-01-preview
+    body: >-
+      {
+        "workspaceId": "a2090ead-8c9f-4fba-b70e-533e3e003163",
+        "primaryKey": "**********"
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about HDInsight service - Enables the Azure Monitor on the HDInsight cluster.
+errorCodes: []

@@ -1,0 +1,390 @@
+### YamlMime:RESTOperation
+uid: mixedreality.2021-01-01.remoterendering.createconversion
+name: Create Conversion
+service: Mixed Reality
+groupName: Remote Rendering
+apiVersion: 2021-01-01
+summary: Creates a conversion using an asset stored in an Azure Blob Storage account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT {endpoint}/accounts/{account_id}/conversions/{conversion_id}?api-version=2021-01-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The endpoint to use e.g. https://remoterendering.eastus.mixedreality.azure.com. A list can be found at https://docs.microsoft.com/azure/remote-rendering/reference/regions.
+  types:
+  - uid: string
+- name: account_id
+  in: path
+  isRequired: true
+  description: The Azure Remote Rendering account ID.
+  types:
+  - uid: string
+  format: uuid
+- name: conversion_id
+  in: path
+  isRequired: true
+  description: An ID uniquely identifying the conversion for the given account. The ID is case sensitive, can contain any combination of alphanumeric characters including hyphens and underscores, and cannot contain more than 256 characters.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: MS-CV
+    value: string
+  description: OK. Indicates that there was already a conversion with the same settings present. This is expected when a conversion creation is retried.
+  types:
+  - uid: conversion
+- name: 201 Created
+  headers:
+  - name: MS-CV
+    value: string
+  description: Created. A new conversion was created.
+  types:
+  - uid: conversion
+- name: 400 Bad Request
+  headers:
+  - name: MS-CV
+    value: string
+  description: Bad Request. Returned error object describes which issues occurred.
+  types:
+  - uid: error_response
+- name: 401 Unauthorized
+  headers:
+  - name: MS-CV
+    value: string
+  - name: WWW-Authenticate
+    value: string
+  description: Unauthorized. Missing or invalid authorization.
+- name: 403 Forbidden
+  headers:
+  - name: MS-CV
+    value: string
+  description: Forbidden. Authorization insufficient for given resource.
+- name: Other Status Codes
+  headers:
+  - name: MS-CV
+    value: string
+  description: Conflict. A conversion already exists. An error object describes which issues occurred.
+  types:
+  - uid: error_response
+- name: Other Status Codes
+  headers:
+  - name: MS-CV
+    value: string
+  - name: Retry-After
+    value: integer
+  description: Too Many Requests. The rate limit has been exceeded. Retry the request after the duration given in the Retry-After header.
+- name: 500 Internal Server Error
+  description: Internal Error. Server has encountered an internal error. Retrying the request may produce successful results.
+  types:
+  - uid: error_response
+requestBody:
+- name: default
+  parameters:
+  - name: settings
+    in: body
+    isRequired: true
+    description: Conversion settings describe the origin of input files and destination of output files.
+    types:
+    - uid: conversion_settings
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: A bearer token returned by the Mixed Reality Secure Token Service. See https://docs.microsoft.com/azure/remote-rendering/how-tos/tokens for details.
+  types:
+  - uid: string
+definitions:
+- name: conversion_settings
+  description: Conversion settings describe the origin of input files and destination of output files.
+  kind: object
+  properties:
+  - name: inputLocation
+    description: Conversion input settings describe the origin of conversion input.
+    types:
+    - uid: conversion_input_settings
+  - name: outputLocation
+    description: Conversion output settings describe the destination of conversion output.
+    types:
+    - uid: conversion_output_settings
+- name: conversion
+  description: The properties of the conversion.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the conversion supplied when the conversion was created.
+    types:
+    - uid: string
+  - name: settings
+    description: Conversion settings describe the origin of input files and destination of output files.
+    types:
+    - uid: conversion_settings
+  - name: output
+    isReadyOnly: true
+    description: Information about the output of a successful conversion. Only present when the status of the conversion is 'Succeeded'.
+    types:
+    - uid: Output
+  - name: error
+    description: The error object containing details about the conversion failure.
+    types:
+    - uid: error
+  - name: status
+    description: The status of the conversion. Terminal states are 'Cancelled', 'Failed', and 'Succeeded'.
+    types:
+    - uid: conversion_status
+  - name: creationTime
+    description: The time when the conversion was created. Date and time in ISO 8601 format.
+    types:
+    - uid: string
+- name: error_response
+  description: The error response containing details of why the request failed.
+  kind: object
+  properties:
+  - name: error
+    description: The error object containing details of why the request failed.
+    types:
+    - uid: error
+- name: create_conversion_settings
+  description: Request to start a conversion
+  kind: object
+  properties:
+  - name: settings
+    description: Conversion settings describe the origin of input files and destination of output files.
+    types:
+    - uid: conversion_settings
+- name: conversion_input_settings
+  description: Conversion input settings describe the origin of conversion input.
+  kind: object
+  properties:
+  - name: storageContainerUri
+    description: The URI of the Azure blob storage container containing the input model.
+    types:
+    - uid: string
+  - name: storageContainerReadListSas
+    description: An Azure blob storage container shared access signature giving read and list access to the storage container. Optional. If not provided, the Azure Remote Rendering account needs to be linked with the storage account containing the blob container. See https://docs.microsoft.com/azure/remote-rendering/how-tos/create-an-account#link-storage-accounts for details. For security purposes this field will never be filled out in responses bodies.
+    types:
+    - uid: string
+  - name: blobPrefix
+    description: Only Blobs starting with this prefix will be downloaded to perform the conversion. Optional. If not provided, all Blobs from the container will be downloaded.
+    types:
+    - uid: string
+  - name: relativeInputAssetPath
+    description: The relative path starting at blobPrefix (or at the container root if blobPrefix is not provided) to the input model. Must point to a file with a supported file format ending. See https://docs.microsoft.com/azure/remote-rendering/how-tos/conversion/model-conversion for details.
+    types:
+    - uid: string
+- name: conversion_output_settings
+  description: Conversion output settings describe the destination of conversion output.
+  kind: object
+  properties:
+  - name: storageContainerUri
+    description: The URI of the Azure blob storage container where the result of the conversion should be written to.
+    types:
+    - uid: string
+  - name: storageContainerWriteSas
+    description: An Azure blob storage container shared access signature giving write access to the storage container. Optional. If not provided, the Azure Remote Rendering account needs to be linked with the storage account containing the blob container. See https://docs.microsoft.com/azure/remote-rendering/how-tos/create-an-account#link-storage-accounts for details. For security purposes this field will never be filled out in responses bodies.
+    types:
+    - uid: string
+  - name: blobPrefix
+    description: A prefix which gets prepended in front of all files produced by the conversion process. Will be treated as a virtual folder. Optional. If not provided, output files will be stored at the container root.
+    types:
+    - uid: string
+  - name: outputAssetFilename
+    description: The file name of the output asset. Must end in '.arrAsset'. Optional. If not provided, file name will the same name as the input asset, with '.arrAsset' extension
+    types:
+    - uid: string
+- name: Output
+  description: Information about the output of a successful conversion. Only present when the status of the conversion is 'Succeeded'.
+  kind: object
+  properties:
+  - name: outputAssetUri
+    isReadyOnly: true
+    description: URI of the asset generated by the conversion process.
+    types:
+    - uid: string
+- name: error
+  description: The error object containing details of why the request failed.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: error
+      isArray: true
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error (e.g., the name of the property in error).
+    types:
+    - uid: string
+  - name: innerError
+    isReadyOnly: true
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: error
+- name: conversion_status
+  description: The status of the conversion. Terminal states are 'Cancelled', 'Failed', and 'Succeeded'.
+  kind: enum
+  properties:
+  - name: NotStarted
+    description: The conversion was created but hasn't started.
+    types:
+    - uid: string
+  - name: Running
+    description: The conversion is running.
+    types:
+    - uid: string
+  - name: Cancelled
+    description: The conversion was cancelled. This is a terminal state.
+    types:
+    - uid: string
+  - name: Failed
+    description: The conversion has failed. Check the 'error' field for more details. This is a terminal state.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: The conversion has succeeded. Check the 'output' field for output asset location. This is a terminal state.
+    types:
+    - uid: string
+examples:
+- name: Create a conversion
+  request:
+    uri: PUT https://remoterendering.eastus.mixedreality.azure.com/accounts/30ea64bd-100f-4bf0-adc9-29fa45d4880c/conversions/contoso-conversion-fbc3646c-0b97-4553-81ca-6fae2bfb754e?api-version=2021-01-01
+    body: >-
+      {
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://contosostorage01.blob.core.windows.net/arrInput",
+            "blobPrefix": "models/",
+            "relativeInputAssetPath": "house.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://contosostorage01.blob.core.windows.net/arrOutput",
+            "blobPrefix": "conversionOutput/fbc3646c-0b97-4553-81ca-6fae2bfb754e",
+            "outputAssetFilename": "convertedHouse.arrAsset"
+          }
+        }
+      }
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: MS-CV
+      value: dKEFmka2kkSlDmp/af+sOw
+    body: >-
+      {
+        "id": "contoso-conversion-fbc3646c-0b97-4553-81ca-6fae2bfb754e",
+        "creationTime": "2021-01-01T11:11:11.111Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://contosostorage01.blob.core.windows.net/arrInput",
+            "blobPrefix": "models/",
+            "relativeInputAssetPath": "house.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://contosostorage01.blob.core.windows.net/arrOutput",
+            "blobPrefix": "conversionOutput/fbc3646c-0b97-4553-81ca-6fae2bfb754e",
+            "outputAssetFilename": "convertedHouse.arrAsset"
+          }
+        },
+        "status": "NotStarted",
+        "error": null
+      }
+  - statusCode: "200"
+    headers:
+    - name: MS-CV
+      value: dKEFmka2kkSlDmp/af+sOw
+    body: >-
+      {
+        "id": "contoso-conversion-fbc3646c-0b97-4553-81ca-6fae2bfb754e",
+        "creationTime": "2021-01-01T11:11:11.111Z",
+        "settings": {
+          "inputLocation": {
+            "storageContainerUri": "https://contosostorage01.blob.core.windows.net/arrInput",
+            "blobPrefix": "models/",
+            "relativeInputAssetPath": "house.fbx"
+          },
+          "outputLocation": {
+            "storageContainerUri": "https://contosostorage01.blob.core.windows.net/arrOutput",
+            "blobPrefix": "conversionOutput/fbc3646c-0b97-4553-81ca-6fae2bfb754e",
+            "outputAssetFilename": "convertedHouse.arrAsset"
+          }
+        },
+        "status": "NotStarted",
+        "error": null
+      }
+  - statusCode: "400"
+    headers:
+    - name: MS-CV
+      value: dKEFmka2kkSlDmp/af+sOw
+    body: >-
+      {
+        "error": {
+          "code": "BadRequest",
+          "message": "The request was malformed."
+        }
+      }
+  - statusCode: "409"
+    headers:
+    - name: MS-CV
+      value: dKEFmka2kkSlDmp/af+sOw
+    body: >-
+      {
+        "error": {
+          "code": "Conflict",
+          "message": "A resource already exists under the given ID."
+        }
+      }
+  - statusCode: "401"
+    headers:
+    - name: WWW-Authenticate
+      value: Bearer error="invalid_token"
+    - name: MS-CV
+      value: dKEFmka2kkSlDmp/af+sOw
+  - statusCode: "403"
+    headers:
+    - name: MS-CV
+      value: dKEFmka2kkSlDmp/af+sOw
+  - statusCode: "429"
+    headers:
+    - name: Retry-After
+      value: "15"
+    - name: MS-CV
+      value: dKEFmka2kkSlDmp/af+sOw
+  - statusCode: "500"
+    headers:
+    - name: MS-CV
+      value: dKEFmka2kkSlDmp/af+sOw
+    body: >-
+      {
+        "error": {
+          "code": "InternalServerError",
+          "message": "An internal server error occurred."
+        }
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: A bearer token returned by the Mixed Reality Secure Token Service. See https://docs.microsoft.com/azure/remote-rendering/how-tos/tokens for details.
+  in: header
+metadata:
+  description: Learn more about Mixed Reality service - Creates a conversion using an asset stored in an Azure Blob Storage account.
+errorCodes: []

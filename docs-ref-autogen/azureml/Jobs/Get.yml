@@ -167,35 +167,6 @@ definitions:
   description: Command job definition.
   kind: object
   properties:
-  - name: compute
-    description: Compute binding for the job.
-    types:
-    - uid: ComputeConfiguration
-  - name: priority
-    description: >-
-      Job priority for scheduling policy. Only applies to AMLCompute.
-
-      Private preview feature and only available to users on the allow list.
-    types:
-    - uid: integer
-  - name: experimentName
-    description: The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment.
-    types:
-    - uid: string
-  - name: output
-    isReadyOnly: true
-    description: Location of the job output logs and artifacts.
-    types:
-    - uid: JobOutput
-  - name: status
-    isReadyOnly: true
-    description: Status of the job.
-    types:
-    - uid: JobStatus
-  - name: timeout
-    description: The max run duration in ISO 8601 format, after which the job will be cancelled. Only supports duration with precision as low as Seconds.
-    types:
-    - uid: string
   - name: codeId
     description: ARM resource ID of the code asset.
     types:
@@ -204,33 +175,21 @@ definitions:
     description: The command to execute on startup of the job. eg. "python train.py"
     types:
     - uid: string
+  - name: compute
+    description: Compute binding for the job.
+    types:
+    - uid: ComputeConfiguration
+  - name: distribution
+    description: Distribution configuration of the job. If set, this should be one of Mpi, Tensorflow, PyTorch, or null.
+    types:
+    - uid: Mpi
+    - uid: PyTorch
+    - uid: TensorFlow
+    typesTitle: DistributionConfiguration
   - name: environmentId
     description: The ARM resource ID of the Environment specification for the job.
     types:
     - uid: string
-  - name: inputDataBindings
-    description: Mapping of input data bindings used in the job.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: InputDataBinding
-  - name: outputDataBindings
-    description: Mapping of output data bindings used in the job.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: OutputDataBinding
-  - name: distribution
-    description: Distribution configuration of the job. If set, this should be one of Mpi, Tensorflow, PyTorch, or null.
-    types:
-    - uid: TensorFlow
-    - uid: Mpi
-    - uid: PyTorch
-    typesTitle: DistributionConfiguration
   - name: environmentVariables
     description: Environment variables included in the job.
     types:
@@ -239,6 +198,10 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: experimentName
+    description: The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment.
+    types:
+    - uid: string
   - name: identity
     description: >-
       Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, or null.
@@ -248,21 +211,52 @@ definitions:
     - uid: AmlToken
     - uid: ManagedIdentity
     typesTitle: IdentityConfiguration
+  - name: inputDataBindings
+    description: Mapping of input data bindings used in the job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: InputDataBinding
+  - name: output
+    isReadyOnly: true
+    description: Location of the job output logs and artifacts.
+    types:
+    - uid: JobOutput
+  - name: outputDataBindings
+    description: Mapping of output data bindings used in the job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: OutputDataBinding
   - name: parameters
     isReadyOnly: true
     description: Input parameters.
     types:
     - {}
-  - name: jobType
-    description: Specifies the type of job.
+  - name: priority
+    description: >-
+      Job priority for scheduling policy. Only applies to AMLCompute.
+
+      Private preview feature and only available to users on the allow list.
     types:
-    - uid: Command
-    typesTitle: string
-  - name: provisioningState
+    - uid: integer
+  - name: status
     isReadyOnly: true
-    description: ''
+    description: Status of the job.
     types:
-    - uid: JobProvisioningState
+    - uid: JobStatus
+  - name: timeout
+    description: The max run duration in ISO 8601 format, after which the job will be cancelled. Only supports duration with precision as low as Seconds.
+    types:
+    - uid: string
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
   - name: interactionEndpoints
     isReadyOnly: true
     description: >-
@@ -275,20 +269,26 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: JobEndpoint
-  - name: description
-    description: The asset description text.
+  - name: jobType
+    description: Specifies the type of job.
     types:
-    - uid: string
-  - name: tags
-    description: Tag dictionary. Tags can be added, removed, and updated.
+    - uid: Command
+    typesTitle: string
+  - name: properties
+    description: The asset property dictionary.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-  - name: properties
-    description: The asset property dictionary.
+  - name: provisioningState
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: JobProvisioningState
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
     types:
     - uid: object
       isDictionary: true
@@ -299,55 +299,14 @@ definitions:
   description: Sweep job definition.
   kind: object
   properties:
-  - name: compute
-    description: Compute binding for the job.
-    types:
-    - uid: ComputeConfiguration
-  - name: priority
-    description: >-
-      Job priority for scheduling policy. Only applies to AMLCompute.
-
-      Private preview feature and only available to users on the allow list.
-    types:
-    - uid: integer
-  - name: experimentName
-    description: The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment.
-    types:
-    - uid: string
-  - name: output
-    isReadyOnly: true
-    description: Location of the job output logs and artifacts.
-    types:
-    - uid: JobOutput
-  - name: status
-    isReadyOnly: true
-    description: The status of a job.
-    types:
-    - uid: JobStatus
-  - name: searchSpace
-    description: A dictionary containing each parameter and its distribution. The dictionary key is the name of the parameter
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
   - name: algorithm
     description: Type of the hyperparameter sampling algorithms
     types:
     - uid: SamplingAlgorithm
-  - name: maxTotalTrials
-    description: ''
+  - name: compute
+    description: Compute binding for the job.
     types:
-    - uid: integer
-  - name: maxConcurrentTrials
-    description: ''
-    types:
-    - uid: integer
-  - name: timeout
-    description: The total timeout in ISO 8601 format. Only supports duration with precision as low as Minutes.
-    types:
-    - uid: string
+    - uid: ComputeConfiguration
   - name: earlyTermination
     description: Early termination policies enable canceling poor-performing runs before they complete
     types:
@@ -355,14 +314,10 @@ definitions:
     - uid: MedianStoppingPolicy
     - uid: TruncationSelectionPolicy
     typesTitle: EarlyTerminationPolicy
-  - name: objective
-    description: ''
+  - name: experimentName
+    description: The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment.
     types:
-    - uid: Objective
-  - name: trial
-    description: Trial component definition.
-    types:
-    - uid: TrialComponent
+    - uid: string
   - name: identity
     description: >-
       Identity configuration. If set, this should be one of AmlToken, ManagedIdentity or null.
@@ -372,16 +327,55 @@ definitions:
     - uid: AmlToken
     - uid: ManagedIdentity
     typesTitle: IdentityConfiguration
-  - name: jobType
-    description: Specifies the type of job.
-    types:
-    - uid: Sweep
-    typesTitle: string
-  - name: provisioningState
-    isReadyOnly: true
+  - name: maxConcurrentTrials
     description: ''
     types:
-    - uid: JobProvisioningState
+    - uid: integer
+  - name: maxTotalTrials
+    description: ''
+    types:
+    - uid: integer
+  - name: objective
+    description: ''
+    types:
+    - uid: Objective
+  - name: output
+    isReadyOnly: true
+    description: Location of the job output logs and artifacts.
+    types:
+    - uid: JobOutput
+  - name: priority
+    description: >-
+      Job priority for scheduling policy. Only applies to AMLCompute.
+
+      Private preview feature and only available to users on the allow list.
+    types:
+    - uid: integer
+  - name: searchSpace
+    description: A dictionary containing each parameter and its distribution. The dictionary key is the name of the parameter
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: status
+    isReadyOnly: true
+    description: The status of a job.
+    types:
+    - uid: JobStatus
+  - name: timeout
+    description: The total timeout in ISO 8601 format. Only supports duration with precision as low as Minutes.
+    types:
+    - uid: string
+  - name: trial
+    description: Trial component definition.
+    types:
+    - uid: TrialComponent
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
   - name: interactionEndpoints
     isReadyOnly: true
     description: >-
@@ -394,20 +388,26 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: JobEndpoint
-  - name: description
-    description: The asset description text.
+  - name: jobType
+    description: Specifies the type of job.
     types:
-    - uid: string
-  - name: tags
-    description: Tag dictionary. Tags can be added, removed, and updated.
+    - uid: Sweep
+    typesTitle: string
+  - name: properties
+    description: The asset property dictionary.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-  - name: properties
-    description: The asset property dictionary.
+  - name: provisioningState
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: JobProvisioningState
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
     types:
     - uid: object
       isDictionary: true
@@ -434,24 +434,20 @@ definitions:
   description: Configuration for compute binding.
   kind: object
   properties:
-  - name: target
-    description: ARM resource ID of the compute resource.
-    types:
-    - uid: string
   - name: instanceCount
     description: Number of instances or nodes.
     types:
     - uid: integer
+  - name: instanceType
+    description: SKU type to run on.
+    types:
+    - uid: string
   - name: isLocal
     description: Set to true for jobs running on local compute.
     types:
     - uid: boolean
   - name: location
     description: Location for virtual cluster run.
-    types:
-    - uid: string
-  - name: instanceType
-    description: SKU type to run on.
     types:
     - uid: string
   - name: properties
@@ -462,6 +458,25 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: target
+    description: ARM resource ID of the compute resource.
+    types:
+    - uid: string
+- name: InputDataBinding
+  kind: object
+  properties:
+  - name: dataId
+    description: ARM resource ID of the registered dataVersion.
+    types:
+    - uid: string
+  - name: mode
+    description: Mechanism for accessing the data artifact.
+    types:
+    - uid: DataBindingMode
+  - name: pathOnCompute
+    description: Location of data inside the container process.
+    types:
+    - uid: string
 - name: JobOutput
   description: Job output definition container information on where to find job output/logs.
   kind: object
@@ -474,6 +489,25 @@ definitions:
   - name: path
     isReadyOnly: true
     description: Path within the datastore to the job logs and artifacts.
+    types:
+    - uid: string
+- name: OutputDataBinding
+  kind: object
+  properties:
+  - name: datastoreId
+    description: ARM resource ID of the datastore where the data output will be stored.
+    types:
+    - uid: string
+  - name: mode
+    description: Mechanism for data movement to datastore.
+    types:
+    - uid: DataBindingMode
+  - name: pathOnCompute
+    description: Location of data inside the container process.
+    types:
+    - uid: string
+  - name: pathOnDatastore
+    description: Path within the datastore to the data.
     types:
     - uid: string
 - name: JobStatus
@@ -522,40 +556,30 @@ definitions:
   - name: Unknown
     types:
     - uid: string
-- name: InputDataBinding
+- name: JobEndpoint
+  description: Job endpoint definition
   kind: object
   properties:
-  - name: dataId
-    description: ARM resource ID of the registered dataVersion.
+  - name: endpoint
+    description: Url for endpoint.
     types:
     - uid: string
-  - name: pathOnCompute
-    description: Location of data inside the container process.
+  - name: jobEndpointType
+    description: Endpoint type.
     types:
     - uid: string
-  - name: mode
-    description: Mechanism for accessing the data artifact.
+  - name: port
+    description: Port for endpoint.
     types:
-    - uid: DataBindingMode
-- name: OutputDataBinding
-  kind: object
-  properties:
-  - name: datastoreId
-    description: ARM resource ID of the datastore where the data output will be stored.
+    - uid: integer
+  - name: properties
+    description: ''
     types:
-    - uid: string
-  - name: pathOnDatastore
-    description: Path within the datastore to the data.
-    types:
-    - uid: string
-  - name: pathOnCompute
-    description: Location of data inside the container process.
-    types:
-    - uid: string
-  - name: mode
-    description: Mechanism for data movement to datastore.
-    types:
-    - uid: DataBindingMode
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: JobType
   description: Enum to determine the type of job.
   kind: enum
@@ -584,30 +608,6 @@ definitions:
   - name: InProgress
     types:
     - uid: string
-- name: JobEndpoint
-  description: Job endpoint definition
-  kind: object
-  properties:
-  - name: jobEndpointType
-    description: Endpoint type.
-    types:
-    - uid: string
-  - name: port
-    description: Port for endpoint.
-    types:
-    - uid: integer
-  - name: endpoint
-    description: Url for endpoint.
-    types:
-    - uid: string
-  - name: properties
-    description: ''
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
 - name: SamplingAlgorithm
   kind: enum
   properties:
@@ -623,25 +623,18 @@ definitions:
 - name: Objective
   kind: object
   properties:
-  - name: primaryMetric
-    description: ''
-    types:
-    - uid: string
   - name: goal
     description: Defines supported metric goals for hyperparameter tuning
     types:
     - uid: Goal
+  - name: primaryMetric
+    description: ''
+    types:
+    - uid: string
 - name: TrialComponent
   description: Trial component definition.
   kind: object
   properties:
-  - name: timeout
-    description: >-
-      The max run duration in ISO 8601 format, after which the trial component will be cancelled.
-
-      Only supports duration with precision as low as Seconds.
-    types:
-    - uid: string
   - name: codeId
     description: ARM resource ID of the code asset.
     types:
@@ -650,10 +643,25 @@ definitions:
     description: The command to execute on startup of the job. eg. "python train.py"
     types:
     - uid: string
+  - name: distribution
+    description: Distribution configuration of the job. If set, this should be one of Mpi, Tensorflow, PyTorch, or null.
+    types:
+    - uid: Mpi
+    - uid: PyTorch
+    - uid: TensorFlow
+    typesTitle: DistributionConfiguration
   - name: environmentId
     description: The ARM resource ID of the Environment specification for the job.
     types:
     - uid: string
+  - name: environmentVariables
+    description: Environment variables included in the job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: inputDataBindings
     description: Mapping of input data bindings used in the job.
     types:
@@ -670,51 +678,13 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: OutputDataBinding
-  - name: environmentVariables
-    description: Environment variables included in the job.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: distribution
-    description: Distribution configuration of the job. If set, this should be one of Mpi, Tensorflow, PyTorch, or null.
-    types:
-    - uid: TensorFlow
-    - uid: Mpi
-    - uid: PyTorch
-    typesTitle: DistributionConfiguration
-- name: DataBindingMode
-  description: Describes how the data should be attached to the container.
-  kind: enum
-  properties:
-  - name: Mount
+  - name: timeout
+    description: >-
+      The max run duration in ISO 8601 format, after which the trial component will be cancelled.
+
+      Only supports duration with precision as low as Seconds.
     types:
     - uid: string
-  - name: Download
-    types:
-    - uid: string
-  - name: Upload
-    types:
-    - uid: string
-- name: TensorFlow
-  description: TensorFlow distribution configuration.
-  kind: object
-  properties:
-  - name: workerCount
-    description: Number of workers. Overwrites the node count in compute binding.
-    types:
-    - uid: integer
-  - name: parameterServerCount
-    description: ''
-    types:
-    - uid: integer
-  - name: distributionType
-    description: Specifies the type of distribution framework.
-    types:
-    - uid: TensorFlow
-    typesTitle: string
 - name: Mpi
   description: MPI distribution configuration.
   kind: object
@@ -740,6 +710,23 @@ definitions:
     description: Specifies the type of distribution framework.
     types:
     - uid: PyTorch
+    typesTitle: string
+- name: TensorFlow
+  description: TensorFlow distribution configuration.
+  kind: object
+  properties:
+  - name: parameterServerCount
+    description: ''
+    types:
+    - uid: integer
+  - name: workerCount
+    description: Number of workers. Overwrites the node count in compute binding.
+    types:
+    - uid: integer
+  - name: distributionType
+    description: Specifies the type of distribution framework.
+    types:
+    - uid: TensorFlow
     typesTitle: string
 - name: AmlToken
   description: AML Token identity configuration.
@@ -771,48 +758,61 @@ definitions:
     types:
     - uid: Managed
     typesTitle: string
+- name: DataBindingMode
+  description: Describes how the data should be attached to the container.
+  kind: enum
+  properties:
+  - name: Mount
+    types:
+    - uid: string
+  - name: Download
+    types:
+    - uid: string
+  - name: Upload
+    types:
+    - uid: string
 - name: BanditPolicy
   description: Defines an early termination policy based on slack criteria, and a frequency and delay interval for evaluation
   kind: object
   properties:
-  - name: slackFactor
-    description: ''
-    types:
-    - uid: number
   - name: slackAmount
     description: ''
     types:
     - uid: number
+  - name: slackFactor
+    description: ''
+    types:
+    - uid: number
+  - name: delayEvaluation
+    description: ''
+    types:
+    - uid: integer
+  - name: evaluationInterval
+    description: ''
+    types:
+    - uid: integer
   - name: policyType
     description: Name of policy configuration
     types:
     - uid: Bandit
     typesTitle: string
-  - name: evaluationInterval
-    description: ''
-    types:
-    - uid: integer
-  - name: delayEvaluation
-    description: ''
-    types:
-    - uid: integer
 - name: MedianStoppingPolicy
   description: Defines an early termination policy based on running averages of the primary metric of all runs
   kind: object
   properties:
+  - name: delayEvaluation
+    description: ''
+    types:
+    - uid: integer
+  - name: evaluationInterval
+    description: ''
+    types:
+    - uid: integer
   - name: policyType
     description: Name of policy configuration
     types:
     - uid: MedianStopping
     typesTitle: string
-  - name: evaluationInterval
-    description: ''
-    types:
-    - uid: integer
-  - name: delayEvaluation
-    description: ''
-    types:
-    - uid: integer
 - name: TruncationSelectionPolicy
   description: Defines an early termination policy that cancels a given percentage of runs at each evaluation interval.
   kind: object
@@ -821,19 +821,19 @@ definitions:
     description: ''
     types:
     - uid: integer
+  - name: delayEvaluation
+    description: ''
+    types:
+    - uid: integer
+  - name: evaluationInterval
+    description: ''
+    types:
+    - uid: integer
   - name: policyType
     description: Name of policy configuration
     types:
     - uid: TruncationSelection
     typesTitle: string
-  - name: evaluationInterval
-    description: ''
-    types:
-    - uid: integer
-  - name: delayEvaluation
-    description: ''
-    types:
-    - uid: integer
 - name: Goal
   description: Defines supported metric goals for hyperparameter tuning
   kind: enum
@@ -1043,4 +1043,6 @@ examples:
         }
       }
 security: []
+metadata:
+  description: Learn more about Machine Learning service - Gets a Job by name/id.
 errorCodes: []

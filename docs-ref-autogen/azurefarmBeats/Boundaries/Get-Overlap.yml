@@ -1,0 +1,166 @@
+### YamlMime:RESTOperation
+uid: azurefarmbeats.boundaries.getoverlap
+name: Get Overlap
+service: Azure FarmBeats
+groupName: Boundaries
+apiVersion: 2021-03-31-preview
+summary: Returns overlapping acreage between two boundary Ids.
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/farmers/{farmerId}/boundaries/{boundaryId}/overlap?otherFarmerId={otherFarmerId}&otherBoundaryId={otherBoundaryId}&api-version=2021-03-31-preview
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The endpoint of your FarmBeats resource (protocol and hostname, for example: https://{resourceName}.farmbeats.azure.net).'
+  types:
+  - uid: string
+- name: farmerId
+  in: path
+  isRequired: true
+  description: ID of the farmer.
+  types:
+  - uid: string
+- name: boundaryId
+  in: path
+  isRequired: true
+  description: ID of the boundary.
+  types:
+  - uid: string
+- name: otherFarmerId
+  in: query
+  isRequired: true
+  description: FarmerId of the other field.
+  types:
+  - uid: string
+- name: otherBoundaryId
+  in: query
+  isRequired: true
+  description: ID of the other boundary.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The requested API version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: BoundaryOverlapResponse
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  types:
+  - uid: string
+definitions:
+- name: BoundaryOverlapResponse
+  description: Schema of boundary overlap response.
+  kind: object
+  properties:
+  - name: boundaryAcreage
+    description: Acreage of Main boundary.
+    types:
+    - uid: number
+  - name: otherBoundaryAcreage
+    description: Acreage of other boundary.
+    types:
+    - uid: number
+  - name: intersectingAcreage
+    description: Acreage of intersecting boundary.
+    types:
+    - uid: number
+- name: ErrorResponse
+  description: >-
+    An error response from the Azure AgPlatform service.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
+  kind: object
+  properties:
+  - name: error
+    description: An error from the Azure AgPlatform service.
+    types:
+    - uid: Error
+  - name: traceId
+    description: Unique trace ID.
+    types:
+    - uid: string
+- name: Error
+  description: An error from the Azure AgPlatform service.
+  kind: object
+  properties:
+  - name: code
+    description: Server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+- name: InnerError
+  description: >-
+    Inner error containing list of errors.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+  kind: object
+  properties:
+  - name: code
+    description: >-
+      Specific error code than was provided by the
+
+      containing error.
+    types:
+    - uid: string
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+examples:
+- name: Boundaries_GetOverlap
+  request:
+    uri: GET {Endpoint}/farmers/FARMER123/boundaries/BOUNDARY123/overlap?otherFarmerId=FARMER456&otherBoundaryId=BOUNDARY56&api-version=2021-03-31-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "boundaryAcreage": 35,
+        "otherBoundaryAcreage": 25,
+        "intersectingAcreage": 10
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  in: header
+metadata:
+  description: Learn more about Azure FarmBeats service - Returns overlapping acreage between two boundary Ids.
+errorCodes: []

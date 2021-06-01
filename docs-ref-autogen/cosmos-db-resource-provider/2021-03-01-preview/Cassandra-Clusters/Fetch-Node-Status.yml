@@ -1,0 +1,218 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmos-db-resource-provider.2021-03-01-preview.cassandraclusters.fetchnodestatus
+name: Fetch Node Status
+service: Cosmos DB Resource Provider
+groupName: Cassandra Clusters
+apiVersion: 2021-03-01-preview
+summary: Request the status of all nodes in the cluster (as returned by 'nodetool status').
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/fetchNodeStatus?api-version=2021-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: clusterName
+  in: path
+  isRequired: true
+  description: Managed Cassandra cluster name.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Accepted. The node status will be returned asynchronously.
+- name: 200 OK
+  description: Successfully fetched the status of all nodes in the cluster.
+  types:
+  - uid: ClusterNodeStatus
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ClusterNodeStatus
+  description: The status of all nodes in the cluster (as returned by 'nodetool status').
+  kind: object
+  properties:
+  - name: nodes
+    description: Information about nodes in the cluster (corresponds to what is returned from nodetool info).
+    types:
+    - uid: Nodes
+      isArray: true
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Error Response.
+    types:
+    - uid: ErrorResponse
+- name: Nodes
+  description: Information about nodes in the cluster (corresponds to what is returned from nodetool info).
+  kind: object
+  properties:
+  - name: datacenter
+    description: The Cassandra data center this node resides in.
+    types:
+    - uid: string
+  - name: status
+    description: Indicates whether the node is functioning or not.
+    types:
+    - uid: NodeStatus
+  - name: state
+    description: The state of the node in relation to the cluster.
+    types:
+    - uid: NodeState
+  - name: address
+    description: The node's URL.
+    types:
+    - uid: string
+  - name: load
+    description: The amount of file system data in the data directory (e.g., 47.66 KB), excluding all content in the snapshots subdirectories. Because all SSTable data files are included, any data that is not cleaned up (such as TTL-expired cell or tombstoned data) is counted.
+    types:
+    - uid: string
+  - name: tokens
+    description: List of tokens.
+    types:
+    - uid: string
+      isArray: true
+  - name: owns
+    description: The percentage of the data owned by the node per datacenter times the replication factor (e.g., 33.3, or null if the data is not available). For example, a node can own 33% of the ring, but shows 100% if the replication factor is 3. For non-system keyspaces, the endpoint percentage ownership information is shown.
+    types:
+    - uid: number
+  - name: hostId
+    description: The network ID of the node.
+    types:
+    - uid: string
+  - name: rack
+    description: The rack this node is part of.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: NodeStatus
+  description: Indicates whether the node is functioning or not.
+  kind: enum
+  properties:
+  - name: Up
+    types:
+    - uid: string
+  - name: Down
+    types:
+    - uid: string
+- name: NodeState
+  description: The state of the node in relation to the cluster.
+  kind: enum
+  properties:
+  - name: Normal
+    types:
+    - uid: string
+  - name: Leaving
+    types:
+    - uid: string
+  - name: Joining
+    types:
+    - uid: string
+  - name: Moving
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
+examples:
+- name: CosmosDBManagedCassandraClusterFetchNodeStatus
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/cassandra-prod-rg/providers/Microsoft.DocumentDB/cassandraClusters/cassandra-prod/fetchNodeStatus?api-version=2021-03-01-preview
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+    body: >-
+      {
+        "nodes": [
+          {
+            "datacenter": "dc1",
+            "status": "Up",
+            "state": "Normal",
+            "address": "10.0.1.12",
+            "load": "512.3 MB",
+            "tokens": [
+              "12",
+              "15"
+            ],
+            "owns": 33.3,
+            "hostId": "aaa1b7c1-6049-4a08-ad3e-3697a0e30e10",
+            "rack": "rack1"
+          },
+          {
+            "datacenter": "dc1",
+            "status": "Up",
+            "state": "Normal",
+            "address": "10.0.1.13",
+            "load": "512.1 MB",
+            "tokens": [
+              "12",
+              "15"
+            ],
+            "owns": 33.3,
+            "hostId": "1848c369-4306-4874-afdf-5c1e95b8732e",
+            "rack": "rack1"
+          },
+          {
+            "datacenter": "dc1",
+            "status": "Up",
+            "state": "Normal",
+            "address": "10.0.1.14",
+            "load": "512.5 MB",
+            "tokens": [
+              "12",
+              "15"
+            ],
+            "owns": 33.3,
+            "hostId": "49578bf1-728f-438d-b1c1-d8dd644b6f7f",
+            "rack": "rack1"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+metadata:
+  description: Learn more about Cosmos DB Resource Provider service - Request the status of all nodes in the cluster (as returned by 'nodetool status').
+errorCodes: []
