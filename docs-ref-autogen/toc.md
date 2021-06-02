@@ -5569,6 +5569,58 @@
 #### [Get Slot Prediction GET](cognitiveservices-luis/runtimev3.0/Prediction/Get-Slot-Prediction-GET.yml)
 #### [Get Version Prediction](cognitiveservices-luis/runtimev3.0/Prediction/Get-Version-Prediction.yml)
 #### [Get Version Prediction GET](cognitiveservices-luis/runtimev3.0/Prediction/Get-Version-Prediction-GET.yml)
+# Cognitive Services - Personalizer
+## [Overview](../docs-ref-conceptual/personalizer/index.md)
+## 1.0
+### Events
+#### [Overview](personalizer/1.0/Events.yml)
+#### [Activate](personalizer/1.0/Events/Activate.yml)
+#### [Reward](personalizer/1.0/Events/Reward.yml)
+### Rank
+#### [Overview](personalizer/1.0/Rank.yml)
+#### [Rank](personalizer/1.0/Rank/Rank.yml)
+## 1.1 Preview 1
+### Evaluation
+#### [Overview](personalizer/1.1preview1/Evaluation.yml)
+#### [Apply](personalizer/1.1preview1/Evaluation/Apply.yml)
+### Evaluations
+#### [Overview](personalizer/1.1preview1/Evaluations.yml)
+#### [Create](personalizer/1.1preview1/Evaluations/Create.yml)
+#### [Delete](personalizer/1.1preview1/Evaluations/Delete.yml)
+#### [Get](personalizer/1.1preview1/Evaluations/Get.yml)
+#### [List](personalizer/1.1preview1/Evaluations/List.yml)
+### Events
+#### [Overview](personalizer/1.1preview1/Events.yml)
+#### [Activate](personalizer/1.1preview1/Events/Activate.yml)
+#### [Reward](personalizer/1.1preview1/Events/Reward.yml)
+### Log
+#### [Overview](personalizer/1.1preview1/Log.yml)
+#### [Delete](personalizer/1.1preview1/Log/Delete.yml)
+#### [Get Properties](personalizer/1.1preview1/Log/Get-Properties.yml)
+### Model
+#### [Overview](personalizer/1.1preview1/Model.yml)
+#### [Get](personalizer/1.1preview1/Model/Get.yml)
+#### [Get Properties](personalizer/1.1preview1/Model/Get-Properties.yml)
+#### [Reset](personalizer/1.1preview1/Model/Reset.yml)
+### Multi Slot
+#### [Overview](personalizer/1.1preview1/Multi-Slot.yml)
+#### [Rank](personalizer/1.1preview1/Multi-Slot/Rank.yml)
+### Multi Slot Events
+#### [Overview](personalizer/1.1preview1/Multi-Slot-Events.yml)
+#### [Activate](personalizer/1.1preview1/Multi-Slot-Events/Activate.yml)
+#### [Reward](personalizer/1.1preview1/Multi-Slot-Events/Reward.yml)
+### Policy
+#### [Overview](personalizer/1.1preview1/Policy.yml)
+#### [Get](personalizer/1.1preview1/Policy/Get.yml)
+#### [Reset](personalizer/1.1preview1/Policy/Reset.yml)
+#### [Update](personalizer/1.1preview1/Policy/Update.yml)
+### Rank
+#### [Overview](personalizer/1.1preview1/Rank.yml)
+#### [Rank](personalizer/1.1preview1/Rank/Rank.yml)
+### Service Configuration
+#### [Overview](personalizer/1.1preview1/Service-Configuration.yml)
+#### [Get](personalizer/1.1preview1/Service-Configuration/Get.yml)
+#### [Update](personalizer/1.1preview1/Service-Configuration/Update.yml)
 # Cognitive Services - QnA Maker
 ## [Overview](../docs-ref-conceptual/cognitiveservices-qnamaker/index.md)
 ## QnA Maker 4.0
