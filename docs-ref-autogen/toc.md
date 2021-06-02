@@ -5899,7 +5899,9 @@
 ### Disk Restore Point
 #### [Overview](compute/Disk-Restore-Point.yml)
 #### [Get](compute/Disk-Restore-Point/Get.yml)
+#### [Grant Access](compute/Disk-Restore-Point/Grant-Access.yml)
 #### [List By Restore Point](compute/Disk-Restore-Point/List-By-Restore-Point.yml)
+#### [Revoke Access](compute/Disk-Restore-Point/Revoke-Access.yml)
 ### Disks
 #### [Overview](compute/Disks.yml)
 #### [Create Or Update](compute/Disks/Create-Or-Update.yml)
