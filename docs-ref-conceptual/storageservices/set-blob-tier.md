@@ -3,7 +3,7 @@ title: Set Blob Tier (REST API) - Azure Storage
 description: The Set Blob Tier operation sets the access tier on a blob.
 author: pemari-msft
 
-ms.date: 09/20/2019
+ms.date: 06/02/2021
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -41,7 +41,7 @@ The following table describes required and optional request headers.
 |`x-ms-access-tier`|Required. Indicates the tier to be set on the blob. For a list of allowed premium page blob tiers, see [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd). For blob storage or general purpose v2 account, valid values are `Hot`/`Cool`/`Archive`. For detailed information about standard blob account blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
-|`x-ms-rehydrate-priority`|Optional. Indicates the priority with which to rehydrate an archived blob. Supported on version 2019-02-02 and newer for Block blobs. Valid values are `High`/`Standard`. The priority can be set on a blob only once. This header will be ignored on subsequent requests to the same blob. Default priority without this header is `Standard`.<br /><br /> Starting with REST version 2020-06-12, user can update the rehydrate priority previously set. Priority can be changed from `Standard` to `High` by invoking set blob tier with this header set to `High` and setting rehydrate tier same as previously set. We do not allow priority to be lowered from `High` to `Standard`. |
+|`x-ms-rehydrate-priority`|Optional. Indicates the priority with which to rehydrate an archived blob. Supported on version 2019-02-02 and newer for block blobs. Valid values are `High`/`Standard`. The priority can be set on a blob only once for versions prior to 2020-06-12; this header will be ignored on subsequent requests. The default priority setting is `Standard`.<br /><br /> Beginning with version 2020-06-12, the rehydration priority can be updated after it was previously set. The priority setting can be changed from `Standard` to `High` by calling **Set Blob Tier** with this header set to `High` and setting `x-ms-access-tier` to the same value as previously set. The priority setting cannot be lowered from `High` to `Standard`. |
 
  This operation also supports the use of conditional headers to tier the blob only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
 
