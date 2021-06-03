@@ -94,7 +94,7 @@ The format of the response body is as follows.
         <AccessTier>TransactionOptimized</AccessTier>
         <AccessTierChangeTime>Mon, 24 Aug 2020 03:56:10 GMT</AccessTierChangeTime>
         <AccessTierTransitionState>pending-from-cool</AccessTierTransitionState>
-        <EnabledProtocols>SMB</Kind>
+        <EnabledProtocols>SMB</EnabledProtocols>
       </Properties>  
       <Metadata>  
         <metadata-name>value</metadata-name>  
