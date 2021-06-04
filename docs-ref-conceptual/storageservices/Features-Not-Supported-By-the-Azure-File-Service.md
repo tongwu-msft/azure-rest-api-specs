@@ -1,12 +1,12 @@
 ---
 title: Features not supported in Azure Files (REST API) - Azure Storage
 description: Azure Files supports a subset of the SMB 3.0 and 2.1 protocols. The majority of applications do not use the SMB features that are not supported by Azure Files, so most applications will work as designed when using files stored in Azure Files. However, some applications may not work properly with Azure Files if they rely on these unsupported features. 
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/23/2019
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Features not supported in Azure Files

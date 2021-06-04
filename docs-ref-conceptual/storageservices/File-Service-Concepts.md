@@ -1,12 +1,12 @@
 ---
 title: Azure Files concepts (REST API) - Azure Storage
 description: This topic outlines concepts about the Azure Files REST API. 
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/23/2019
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Azure Files concepts
