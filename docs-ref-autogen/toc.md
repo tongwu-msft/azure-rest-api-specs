@@ -2717,6 +2717,25 @@
 ### [Delete](azurefarmBeats/Crops/Delete.yml)
 ### [Get](azurefarmBeats/Crops/Get.yml)
 ### [List](azurefarmBeats/Crops/List.yml)
+## Extensions
+### [Overview](azurefarmBeats/Extensions.yml)
+### [Create](azurefarmBeats/Extensions/Create.yml)
+### [Delete](azurefarmBeats/Extensions/Delete.yml)
+### [Get](azurefarmBeats/Extensions/Get.yml)
+### [List By Farm Beats](azurefarmBeats/Extensions/List-By-Farm-Beats.yml)
+### [Update](azurefarmBeats/Extensions/Update.yml)
+## Farm Beats Extensions
+### [Overview](azurefarmBeats/Farm-Beats-Extensions.yml)
+### [Get](azurefarmBeats/Farm-Beats-Extensions/Get.yml)
+### [List](azurefarmBeats/Farm-Beats-Extensions/List.yml)
+## Farm Beats Models
+### [Overview](azurefarmBeats/Farm-Beats-Models.yml)
+### [Create Or Update](azurefarmBeats/Farm-Beats-Models/Create-Or-Update.yml)
+### [Delete](azurefarmBeats/Farm-Beats-Models/Delete.yml)
+### [Get](azurefarmBeats/Farm-Beats-Models/Get.yml)
+### [List By Resource Group](azurefarmBeats/Farm-Beats-Models/List-By-Resource-Group.yml)
+### [List By Subscription](azurefarmBeats/Farm-Beats-Models/List-By-Subscription.yml)
+### [Update](azurefarmBeats/Farm-Beats-Models/Update.yml)
 ## Farm Operations
 ### [Overview](azurefarmBeats/Farm-Operations.yml)
 ### [Create Data Ingestion Job](azurefarmBeats/Farm-Operations/Create-Data-Ingestion-Job.yml)
@@ -2758,6 +2777,9 @@
 ### [Overview](azurefarmBeats/Image-Processing.yml)
 ### [Create Rasterize Job](azurefarmBeats/Image-Processing/Create-Rasterize-Job.yml)
 ### [Get Rasterize Job](azurefarmBeats/Image-Processing/Get-Rasterize-Job.yml)
+## Locations
+### [Overview](azurefarmBeats/Locations.yml)
+### [Check Name Availability](azurefarmBeats/Locations/Check-Name-Availability.yml)
 ## O Auth Providers
 ### [Overview](azurefarmBeats/O-Auth-Providers.yml)
 ### [Create Or Update](azurefarmBeats/O-Auth-Providers/Create-Or-Update.yml)
@@ -2770,6 +2792,9 @@
 ### [Get Cascade Delete Job Details](azurefarmBeats/O-Auth-Tokens/Get-Cascade-Delete-Job-Details.yml)
 ### [Get O Auth Connection Link](azurefarmBeats/O-Auth-Tokens/Get-O-Auth-Connection-Link.yml)
 ### [List](azurefarmBeats/O-Auth-Tokens/List.yml)
+## Operations
+### [Overview](azurefarmBeats/Operations.yml)
+### [List](azurefarmBeats/Operations/List.yml)
 ## Planting Data
 ### [Overview](azurefarmBeats/Planting-Data.yml)
 ### [Create Or Update](azurefarmBeats/Planting-Data/Create-Or-Update.yml)
