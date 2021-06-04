@@ -1,82 +1,62 @@
 ---
-title: File service REST API (REST API) - Azure Storage
-description: The Server Message Block (SMB) protocol is the preferred file share protocol used on-premises today. The Microsoft Azure File service enables customers to leverage the availability and scalability of Azure’s Cloud Infrastructure as a Service (IaaS) SMB without having to rewrite SMB client applications.
-author: pemari-msft
+title: Azure Files REST API
+description: Azure Files provides access to your cloud file shares via the SMB, NFS, and FileREST file system protocols. The Azure Files FileREST protocol enables software vendors and regular Azure users to easily and efficiently write applications and services that talk to Azure file shares.
+author: wmgries
 
-ms.date: 09/23/2019
+ms.date: 06/03/2021
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
-# File service REST API
+# Azure Files REST API
+Azure Files provides hosted cloud file shares that you can access ("mount") using industry standard file system protocols such as SMB and NFS. When you mount a file share on your computer using SMB or NFS, your operating system redirects local file system API requests, such as those that you might make using .NET's System.IO interfaces or Python's open/read/write methods. This means that applications, and importantly users of these applications, don't need to do anything special (or even know) their data is on a remote file share instead of local storage.
 
-The Server Message Block (SMB) protocol is the preferred file share protocol used on-premises today. The Microsoft Azure File service enables customers to leverage the availability and scalability of Azure’s Cloud Infrastructure as a Service (IaaS) SMB without having to rewrite SMB client applications.  
-  
- The Azure File service also offers a compelling alternative to traditional Direct Attached Storage (DAS) and Storage Area Network (SAN) solutions, which are often complex and expensive to install, configure, and operate. Pricing for the new Azure File service is consistent with existing Azure Storage services and is charged in units of storage capacity and transactions. See the [Azure Storage Pricing page](https://www.windowsazure.com/pricing/details/) for details.  
-  
- Files stored in Azure File service shares are accessible via the SMB protocol, and also via REST APIs, at the endpoint `http|https://<account>.file.core.windows.net`. HTTPS is recommended.  
-  
- While the Azure File service REST APIs are similar to the Azure Blob service REST APIs, there are minor differences related to how the service models the underlying file system. These differences are noted in the operations table below.  
-  
-## File service REST operations  
+Azure Files also provides a REST API, often called the FileREST API, which provides another method of accessing data stored in Azure file shares. Unlike SMB and NFS, which enable transparent access to remote file shares using native file system APIs, the FileREST protocol provides a different method of accessing file share data. To use the FileREST API, you create HTTPS requests against the FileREST HTTPS endpoints. You could write code to create HTTPS requests yourself, but the expected way that you consume the FileREST API is via the Azure SDKs, which provide idiomatic language APIs for popular languages such as C#, Java, Python, JavaScript, Go, and others.
 
- The Azure File service offers the following four resources: the storage account, shares, directories, and files. Shares provide a way to organize sets of files and also can be mounted as an SMB file share that is hosted in the cloud.  
-  
- The File service REST API provides a way to work with share, directory, and file resources via HTTP/HTTPS operations. File service operations are available only in version 2014-02-14 of the storage services or later.  
-  
- The File service REST API includes the operations listed in the table below.  
-  
-|Operation|Resource Type|REST Verb|Description|Differences with corresponding Blob service operation|  
-|---------------|-------------------|---------------|-----------------|-----------------------------------------------------------|  
-|[List Shares](List-Shares.md)|Storage account|GET|Lists all the file shares in a storage account|None|  
-|[Get File Service Properties](Get-File-Service-Properties.md)|Storage account|GET|Gets the File service properties for the storage account|None|  
-|[Set File Service Properties](Set-File-Service-Properties.md)|Storage account|PUT|Sets the File service properties for the storage account|None|  
-|[Preflight File Request](Preflight-File-Request.md)|Storage account|OPTIONS|Queries the Cross-Origin Resource Sharing (CORS) rules for the File service prior to sending the actual request.|None|  
-|[Create Share](Create-Share.md)|Share|PUT|Creates a new share in a storage account.|Request header|  
-|[Snapshot Share](snapshot-share.md)|Share|PUT|Creates a new share snapshot for an existing share in a storage account.|Request header|  
-|[Get Share ACL](Get-Share-ACL.md)|Share|GET/HEAD|Returns information about stored access policies specified on the share.|Response body|  
-|[Set Share ACL](Set-Share-ACL.md)|Share|PUT|Sets a stored access policy for use with shared access signatures.|Request body|  
-|[Get Share Properties](Get-Share-Properties.md)|Share|GET/HEAD|Returns all user-defined metadata and system properties of a share.|None|  
-|[Set Share Properties](Set-Share-Properties.md)|Share|PUT|Sets system properties for a share.|N/A|  
-|[Get Share Metadata](Get-Share-Metadata.md)|Share|GET/HEAD|Returns only user-defined metadata of a share.|None|  
-|[Set Share Metadata](Set-Share-Metadata.md)|Share|PUT|Sets user-defined metadata of a share.|None|  
-|[Get Share Stats](Get-Share-Stats.md)|Share|GET|Retrieves statistics related to the share.|N/A|  
-|[Delete Share](Delete-Share.md)|Share|DELETE|Deletes the share and any files and directories that it contains.|None|  
-|[List Directories and Files](List-Directories-and-Files.md)|Directory|GET|Lists files and directories within the share or specified directory.|Query String Params, Response Body|  
-|[Create Directory](Create-Directory.md)|Directory|PUT|Creates a directory in the share or parent directory.|New|  
-|[Get Directory Properties](Get-Directory-Properties.md)|Directory|GET/HEAD|Returns system defined properties of a directory. This operation allows users to check for directory existence.|New|  
-|[Get Directory Metadata](Get-Directory-Metadata.md)|Directory|GET/HEAD|Retrieves all user-defined metadata on the directory.|New|  
-|[Set Directory Metadata](Set-Directory-Metadata.md)|Directory|PUT|Sets user-defined metadata of an existing directory.|New|  
-|[Delete Directory](Delete-Directory.md)|Directory|DELETE|Deletes the directory. Only supported for empty directories.|New|  
-|[Create File](Create-File.md)|File|PUT|Creates a new file or replaces an existing file within a directory or share.|Name<br /><br /> Request Headers|  
-|[Get File](Get-File.md)|File|GET|Reads or downloads a file from the File service, including its user-defined metadata and system properties.|Name, Response Headers|  
-|[Set File Properties](Set-File-Properties.md)|File|PUT|Sets system properties defined for an existing file.|Name,<br /><br /> Request & Response Headers|  
-|[Get File Properties](Get-File-Properties.md)|File|HEAD|Returns all system properties and user-defined metadata on the file.|Name, Response Headers|  
-|[Get File Metadata](Get-File-Metadata.md)|File|GET/HEAD|Retrieves all user-defined metadata on the file.|Name only|  
-|[Set File Metadata](Set-File-Metadata.md)|File|PUT|Sets user-defined metadata of an existing file.|Name only|  
-|[Delete File](Delete-File2.md)|File|DELETE|Deletes the file permanently.|Name only|  
-|[Copy File](Copy-File.md)|File|PUT|Copies a source blob or file to a destination file in this storage account.|Name, Param, Response Headers|  
-|[Abort Copy File](Abort-Copy-File.md)|File|PUT|Aborts a pending [Copy File](Copy-File.md) operation, and leaves a destination file with zero length and full metadata.|Name, Param, Response Headers|  
-|[Put Range](Put-Range.md)|File|PUT|Puts a range of data into a file, or clears a range in the file.|Name,<br /><br /> Query String Param, Response Header & Body|  
-|[List Ranges](List-Ranges.md)|File|GET|Returns a list of active ranges for the file. Active ranges are those ranges that have been populated with data using Put Range API.|Name,<br /><br /> Query String Param, Response Body|  
-  
-## In this section
-  
- This section contains the following topics.  
-  
-- [Features Not Supported By the Azure File Service](Features-Not-Supported-By-the-Azure-File-Service.md)  
-  
-- [File Service Concepts](File-Service-Concepts.md)  
-  
-- [Operations on the Account (File Service)](Operations-on-the-Account--File-Service-.md)  
-  
-- [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)  
-  
-- [Operations on Directories](Operations-on-Directories.md)  
-  
-- [Operations on Files](Operations-on-Files.md)  
-  
+Because the FileREST API was designed specifically for Azure Files, it enables you to access features of Azure Files that are not accessible over SMB or NFS and do certain operations, such as copy, more efficiently than via SMB/NFS. The stateless nature of HTTPS makes the FileREST API is particularly useful for use in cloud services or applications that need to access many Azure file shares, such as value-added services or applications that can be attached to the Azure file share to add some capability. These might include antivirus, backup, data management, or replication products. As an example, Azure File Sync and Azure Backup are notable first party value-added services that extensively use the FileREST API to add additional value on-top of a customer-owned Azure file share.
+
+As a general rule, you should consider using the FileREST API if you are building value-added services or applications, especially if you are providing such value-added services to your customers. If you are constructing a line of business application, particularly one that end-users will use against a mounted Azure file share, you can use either SMB/NFS or FileREST, however, you may find that using SMB/NFS provide an easier path since they enable you to use native file system APIs. If you have an existing application that was written native file system APIs, you absolutely do not need to rewrite it to take advantage of Azure Files; the key value proposition of Azure Files is exposing native file system APIs through use of SMB or NFS.
+
+To learn more about Azure Files, including deployment, networking, and identity configuration, see:
+
+- [What is Azure Files?](/azure/storage/files/storage-files-introduction)
+- [Planning for an Azure Files deployment](/azure/storage/files/storage-files-planning)
+- [Create an Azure file share](/azure/storage/files/storage-how-to-create-file-share)
+
+## API concepts
+Azure APIs are divided between control plane APIs, which are used to control the management of Azure resources, and data plane APIs, which provide an API for the business of the service. Therefore, SMB, NFS, and the FileREST API are the data plane APIs, since they provide an interface to the business of Azure Files, which is storing data in a file system format.
+
+### Control plane
+In Azure, the control plane is provided through the Azure Resource Manager, sometimes abbreviated as ARM, which provides a common way of exposing Azure resources to be managed by the customer. The top level unit of management, or *tracked resource* in Azure Files, and other storage services such as Blob storage, is the storage account. The storage account is managed by the storage resource provider, which has the namespace Microsoft.Storage. The storage resource provider also exposes management of child resources, or *proxy resources*, that enable the management of the storage services bundled in the storage account. For Azure Files, there are two relevant *proxy resources*:
+
+1. The `FileService` resource, which provides Azure Files specific settings that apply to all of the file shares in the storage account. The `FileService` resource is a child of the storage account tracked resource, and a storage account only ever has one `FileService` resource, called `default`.
+
+2. The `FileShare` resource, which represents a file share (or a snapshot of a file share). The `FileShare` resource is a child of the `FileService` resource, and may contain an infinite number of file shares. Although a `FileService` can contain an infinite number of `FileShare` resources, using a very large number is not a good idea as everything within a storage account shares a defined pool of IO, bandwidth, and other limits. See [Azure Files scalability and performance targets](/azure/storage/files/storage-files-scale-targets) for more information.
+
+To learn how to call the control plane APIs, see:
+
+- [Storage account](/rest/api/storagerp)
+- [FileService](/rest/api/storagerp/file-services)
+- [FileShare](/rest/api/storagerp/file-shares)
+
+For legacy reasons, operations on the `FileService` and `FileShare` objects may also be done through the data plane. This is an artifact of Azure Files predating Azure Resource Manager, and while these APIs are fully supported, you should prefer using the storage resource provider APIs to manage Azure Files for several reasons:
+
+1. Operations exposed through Azure Resource Manager use Azure AD for authentication and authorization, enabling you to manage Azure Files with role based access control (RBAC). You can authorize your application or service to programmatically call these APIs with an Azure AD service principal.
+
+2. Azure Resource Manager APIs can be called imperatively, using the REST API directly or through an SDK, or declaratively, by declaring what resources need to be deployed using Azure templates. For resources that need to be repeatedly created together, service deployments, etc., using templates can considerably simplify the work required.
+
+Although using the storage resource provider to manage storage resources is preferred, in cases requiring high scale, such as a workload that creates or modifies thousands of file shares within the same storage account, using the FileREST data plane management APIs will be most performant.
+
+### Data plane
+Azure Files provides a hierarchical file system for unstructured data ("files"). The FileREST API models the two important objects in the file system space: Files and Directories. To learn how to call the FileREST APIs, see:
+
+- [Operations on the Account (File Service)](Operations-on-the-Account--File-Service-.md) (prefer control plane APIs)
+- [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md) (prefer control plane APIs)
+- [Operations on Directories](Operations-on-Directories.md)
+- [Operations on Files](Operations-on-Files.md)
+
 ## See also
-  
- [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)
+- [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)
+- [Features Not Supported By the Azure File Service](Features-Not-Supported-By-the-Azure-File-Service.md)
+- [File Service Concepts](File-Service-Concepts.md)
