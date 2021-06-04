@@ -79,7 +79,7 @@ A path name is composed of one or more path name components (directory or file n
   
 ## Metadata Names  
 
-Metadata for a share or file resource is stored as name-value pairs associated with the resource. Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).  
+Metadata for a share or file resource is stored as name-value pairs associated with the resource. Metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).  
   
 Note that metadata names preserve the case with which they were created, but are case-insensitive when set or read. If two or more metadata headers with the same name are submitted for a resource, the Azure File service returns status code 400 (Bad Request).  
   

@@ -48,7 +48,7 @@ The following additional parameters may be specified on the request URI.
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|    
   
 ### Request Body  
-To create a security descriptor, the request body is a JSON document that describes permission in the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language). SDDL must have an owner, group, and [discretionary access control list (DACL)](https://docs.microsoft.com/windows/win32/secauthz/access-control-lists). The provided SDDL string format of the security descriptor should not have domain relative identifier (like 'DU', 'DA', 'DD' etc.) in it.
+To create a security descriptor, the request body is a JSON document that describes permission in the [Security Descriptor Definition Language (SDDL)](/windows/win32/secauthz/security-descriptor-definition-language). SDDL must have an owner, group, and [discretionary access control list (DACL)](/windows/win32/secauthz/access-control-lists). The provided SDDL string format of the security descriptor should not have domain relative identifier (like 'DU', 'DA', 'DD' etc.) in it.
 
 ```
 {

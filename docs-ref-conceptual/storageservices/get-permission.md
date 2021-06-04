@@ -11,7 +11,7 @@ ms.author: wgries
 
 # Get Permission
 
-The `Get Permission` operation gets the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language) for a given security descriptor. This API is available starting in version 2019-02-02.
+The `Get Permission` operation gets the [Security Descriptor Definition Language (SDDL)](/windows/win32/secauthz/security-descriptor-definition-language) for a given security descriptor. This API is available starting in version 2019-02-02.
   
 ## Request  
 The `Get Permission` request may be constructed as follows. HTTPS is recommended.  
@@ -69,7 +69,7 @@ The response for this operation includes the following headers. The response may
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.| 
   
 ### Response body  
-The response body is a JSON document that describes permission in the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language).
+The response body is a JSON document that describes permission in the [Security Descriptor Definition Language (SDDL)](/windows/win32/secauthz/security-descriptor-definition-language).
 
 ```
 {
