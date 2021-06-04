@@ -1,10 +1,10 @@
 ---
-ms.assetid: 
 title: Azure Compute REST APIs
 ms.service: virtual-machines
 author: mimckitt
 ms.author: mimckitt
-service_description: To be added..
+description: The Azure Compute APIs give you programmatic access to virtual machines and their supporting resources.
+
 ---
 
 
