@@ -25,7 +25,8 @@ The `Lease Share` request may be constructed as follows. HTTPS is recommended. R
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|`PUT`|`https://myaccount.file.core.windows.net/myshare?comp=lease&restype=share`|HTTP/1.1|  
+|`PUT`|`https://myaccount.file.core.windows.net/myshare?comp=lease&restype=share`|HTTP/1.1|
+|`PUT`|`https://myaccount.file.core.windows.net/myshare?comp=lease&sharesnapshot=<DateTime>&restype=share`|HTTP/1.1|  
   
 ### URI parameters  
 The following additional parameters may be specified on the request URI.  
