@@ -1,12 +1,12 @@
 ---
 title: List Shares (REST API) - Azure Storage
 description: The List Shares operation returns a list of the shares and share snapshots under the specified account.
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/12/2020
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # List Shares

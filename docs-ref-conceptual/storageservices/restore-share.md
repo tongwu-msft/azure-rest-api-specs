@@ -1,12 +1,12 @@
 ---
 title: Restore Share (REST API) - Azure Storage.
 description: The Restore Share operation allows for a previously-deleted share to be undeleted.
-author: seanmcc
+author: wmgries
 
 ms.date: 06/22/2020
 ms.service: storage
 ms.topic: reference
-ms.author: seanmcc
+ms.author: wgries
 ---
 
 # Restore Share

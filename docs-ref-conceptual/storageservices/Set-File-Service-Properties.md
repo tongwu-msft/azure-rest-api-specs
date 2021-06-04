@@ -1,12 +1,12 @@
 ---
 title: Set File Service Properties (REST API) - Azure Storage
 description: The Set File Service Properties operation sets properties for a storage account’s File service endpoint.
-author: pemari-msft
+author: wmgries
 
 ms.date: 10/06/2020
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Set File Service Properties

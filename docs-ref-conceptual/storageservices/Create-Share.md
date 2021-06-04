@@ -1,12 +1,12 @@
 ---
 title: Create Share (REST API) - Azure Storage
 description: The Create Share operation creates a new share under the specified account. If the share with the same name already exists, the operation fails. 
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/12/2020
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Create Share

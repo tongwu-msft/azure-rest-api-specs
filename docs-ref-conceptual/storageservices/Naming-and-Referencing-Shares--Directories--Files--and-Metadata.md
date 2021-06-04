@@ -1,12 +1,12 @@
 ---
 title: Naming and Referencing Shares, Directories, Files, and Metadata - Azure Storage
 description: A storage account can contain zero or more Azure File shares. A share contains properties, metadata, and zero or more files or directories. A directory contains properties and zero or more files or directories. A file is any single entity comprised of binary data, properties, and metadata.
-author: tamram
+author: wmgries
 
 ms.date: 08/26/2019
 ms.service: storage
 ms.topic: reference
-ms.author: tamram
+ms.author: wgries
 ---
 
 # Naming and Referencing Shares, Directories, Files, and Metadata

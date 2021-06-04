@@ -1,12 +1,11 @@
 ---
 title: Get Share ACL (REST API) - Azure Storage
 description: The Get Share ACL operation returns information about stored access policies specified on the share.
-author: pemari-msft
-
+author: wmgries
 ms.date: 09/20/2019
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Get Share ACL

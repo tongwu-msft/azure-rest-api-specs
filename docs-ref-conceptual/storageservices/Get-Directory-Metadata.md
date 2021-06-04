@@ -1,12 +1,12 @@
 ---
 title: Get Directory Metadata (REST API) - Azure Storage
 description: The Get Directory Metadata operation returns all user-defined metadata for the specified directory. This operation is supported in version 2015-02-21 and later. 
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/20/2019
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Get Directory Metadata

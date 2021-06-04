@@ -1,12 +1,12 @@
 ﻿---
 title: Set File Properties (REST API) - Azure Storage
 description: The Set File Properties operation sets system properties for the file.
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/20/2019
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Set File Properties

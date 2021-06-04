@@ -1,12 +1,12 @@
 ---
 title: Get Permission (REST API) - Azure Storage
 description: The Get Permission operation gets the Security Descriptor Definition Language (SDDL) for a given security descriptor. This API is available starting in version 2019-02-02.
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/20/2019
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Get Permission

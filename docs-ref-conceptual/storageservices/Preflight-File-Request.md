@@ -1,12 +1,12 @@
 ---
 title: Preflight File Request (REST API) - Azure Storage
 description: The Preflight File Request operation queries the Cross-Origin Resource Sharing (CORS) rules for the File service prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make.
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/20/2019
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Preflight File Request

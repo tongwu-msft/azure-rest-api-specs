@@ -1,12 +1,12 @@
 ---
 title: List Ranges (REST API) - Azure Storage
 description: The List Ranges operation returns the list of valid ranges for a file.
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/20/2020
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # List Ranges

@@ -1,10 +1,10 @@
 ---
 title: Abort Copy File (REST API) - Azure Storage
 description: The Abort Copy File operation aborts a pending Copy File operation, and leaves a destination file with zero length and full metadata.
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/09/2019
-ms.author: pemari
+ms.author: wgries
 ms.service: storage
 ms.topic: reference
 ---

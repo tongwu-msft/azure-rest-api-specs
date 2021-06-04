@@ -1,12 +1,12 @@
 ---
 title: Get File Service Properties (REST API) - Azure Storage
 description: The Get File Service Properties operation gets properties for a storage account’s File service endpoint.
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/12/2020
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Get File Service Properties

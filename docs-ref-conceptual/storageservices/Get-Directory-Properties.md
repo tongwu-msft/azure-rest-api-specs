@@ -1,12 +1,12 @@
 ---
 title: Get Directory Properties (REST API) - Azure Storage
 description: The Get Directory Properties operation returns all system properties for the specified directory, and can also be used to check the existence of a directory. The data returned does not include the files in the directory or any subdirectories.
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/23/2019
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Get Directory Properties

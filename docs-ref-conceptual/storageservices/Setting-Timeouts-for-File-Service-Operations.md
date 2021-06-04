@@ -1,12 +1,12 @@
 ---
 title: Setting timeouts for File service operations (REST API) - Azure Storage
 description: A call to a File service API can include a server timeout interval, specified in the `timeout` parameter of the request URI. If the server timeout interval elapses before the service has finished processing the request, the service returns an error. 
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/30/2019
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Setting timeouts for File service operations

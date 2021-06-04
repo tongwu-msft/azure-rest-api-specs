@@ -1,12 +1,12 @@
 ---
 title: List Handles (REST API) - Azure Storage
 description: The List Handles operation returns a list of open handles on a directory or a file. It can (optionally) recursively enumerate opened handles on directories and files.
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/20/2019
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # List Handles

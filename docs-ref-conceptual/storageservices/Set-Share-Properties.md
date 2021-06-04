@@ -1,12 +1,12 @@
 ---
 title: Set Share Properties (REST API) - Azure Storage
 description: The Set Share Properties operation sets properties on the share.
-author: pemari-msft
+author: wmgries
 
 ms.date: 10/06/2020
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Set Share Properties

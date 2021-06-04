@@ -1,12 +1,12 @@
 ---
 title: Lease File (REST API) - Azure Storage
 description: The Lease File operation creates and manages a lock on a file for write and delete operations.
-author: pemari-msft
+author: wmgries
 
 ms.date: 07/06/2020
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Lease File

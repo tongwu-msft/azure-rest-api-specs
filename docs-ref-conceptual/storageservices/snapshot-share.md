@@ -1,12 +1,12 @@
 ---
 title: Snapshot Share (REST API) - Azure Storage
 description: The Snapshot Share operation creates a read-only snapshot of a share.
-author: pemari-msft
+author: wmgries
 
 ms.date: 08/15/2019
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Snapshot Share

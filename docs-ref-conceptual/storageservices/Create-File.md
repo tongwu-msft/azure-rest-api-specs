@@ -1,12 +1,12 @@
 ---
 title: Create File (REST API) - Azure Storage
 description: The Create File operation creates a new file or replaces a file. Note that calling Create File only initializes the file. To add content to a file, call the Put Range operation. 
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/12/2020
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Create File

@@ -1,12 +1,12 @@
 ---
 title: Get Share Properties (REST API) - Azure Storage
 description: The Get Share Properties operation returns all user-defined metadata and system properties for the specified share or share snapshot. The data returned does not include the share's list of files.
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/12/2020
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Get Share Properties

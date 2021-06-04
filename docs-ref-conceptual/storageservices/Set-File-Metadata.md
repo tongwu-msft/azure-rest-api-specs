@@ -1,12 +1,12 @@
 ---
 title: Set File Metadata (REST API) - Azure Storage
 description: The Set File Metadata operation sets one or more user-defined name-value pairs for the specified file.
-author: pemari-msft
+author: wmgries
 
 ms.date: 09/20/2019
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Set File Metadata
