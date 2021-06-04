@@ -10,15 +10,16 @@ ms.author: wgries
 ---
 
 # Lease Share
-The `Lease Share` operation establishes and manages a lock on an Azure file share. The lock duration can be 15 to 60 seconds, or can be infinite. The `Lease Share` operation can be called in one of five modes:  
-- `Acquire`: to request a new lease.  
-- `Renew`: to renew an existing lease.   
+The `Lease Share` operation establishes and manages a lock on an Azure file share or a share snapshot. The lock duration can be 15 to 60 seconds, or can be infinite. The `Lease Share` operation can be called in one of five modes:  
+
+- `Acquire`: to request a new lease.
+- `Renew`: to renew an existing lease.
 - `Change`: to change the ID of an existing lease.  
 - `Release`: to free the lease if it is no longer needed so that another client may immediately acquire a lease against the file share.  
 - `Break`, to end the lease but ensure that another client cannot acquire a new lease until the current lease period has expired.  
   
 > [!NOTE]
->  The `Lease Share` operation is available in version 2020-02-10 and newer.
+> The `Lease Share` operation is available in version 2020-02-10 and newer.
   
 ## Request  
 The `Lease Share` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  

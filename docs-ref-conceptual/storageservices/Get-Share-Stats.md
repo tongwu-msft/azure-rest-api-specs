@@ -10,25 +10,24 @@ ms.author: wgries
 ---
 
 # Get Share Stats
-
 The `Get Share Stats` request retrieves statistics related to the share.  
   
 ## Request  
- The `Get Share Stats` request may be constructed as follows. HTTPS is recommended. Replace `myaccount` and `myshare` with the name of your storage account and share, respectively.  
+The `Get Share Stats` request may be constructed as follows. HTTPS is recommended. Replace `myaccount` and `myshare` with the name of your storage account and share, respectively.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |GET|`https://myaccount.file.core.windows.net/myshare?restype=share&comp=stats`|HTTP/1.1|  
   
 ### URI Parameters  
- The following additional parameters can be specified in the request URI.  
+The following additional parameters can be specified in the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
 |`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request Headers  
- The following table describes required and optional request headers.  
+The following table describes required and optional request headers.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
@@ -36,20 +35,21 @@ The `Get Share Stats` request retrieves statistics related to the share.
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
+|`x-ms-lease-id:<ID>`|Optional. Version 2020-02-10 and newer. If the header is specified, the operation will be performed only if the file share's lease is currently active and the lease ID specified in the request matches the that of the file share. Otherwise, the operation fails with status code 412 (Precondition Failed).|
   
 ### Request Body  
- None.  
+None.  
   
 ## Response  
- The response includes and HTTP status code, a set of response headers, and a response body.  
+The response includes and HTTP status code, a set of response headers, and a response body.  
   
 ### Status Code  
- A successful operation returns status code 200 (OK).  
+A successful operation returns status code 200 (OK).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?LinkId=73147).  
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?LinkId=73147).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -61,9 +61,9 @@ The `Get Share Stats` request retrieves statistics related to the share.
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
- The format of the response body is as follows:  
+The format of the response body is as follows:  
   
-```  
+```XML
 <?xml version="1.0" encoding="utf-8"?>  
 <ShareStats>  
    <ShareUsageBytes>8189134192</ShareUsageBytes>  
@@ -75,11 +75,12 @@ The `Get Share Stats` request retrieves statistics related to the share.
 |`ShareUsageBytes`|The approximate size of the data stored on the share. Note that this value may not include all recently created or recently resized files. |  
 
 ## Authorization  
- Only the account owner may call this operation.  
+Only the account owner may call this operation.  
   
 ## Remarks  
- Statistics for a share snapshot cannot be retrieved. If an attempt is made to retrieve share snapshot statistics, then the service returns status code 400 (InvalidQueryParameterValue).  
- Note that beginning with version 2018-11-09 the `ShareUsage` response element was replaced with `ShareUsageBytes`. `ShareUsage` is the approximate size of the data stored on the share, rounded up to the nearest GiB.
+Statistics for a share snapshot cannot be retrieved. If an attempt is made to retrieve share snapshot statistics, then the service returns status code 400 (InvalidQueryParameterValue).  
+
+Note that beginning with version 2018-11-09 the `ShareUsage` response element was replaced with `ShareUsageBytes`. `ShareUsage` is the approximate size of the data stored on the share, rounded up to the nearest GiB.
   
 ## See also  
- [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)
+[Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

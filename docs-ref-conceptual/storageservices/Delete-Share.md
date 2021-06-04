@@ -10,11 +10,10 @@ ms.author: wgries
 ---
 
 # Delete Share
-
 The `Delete Share` operation marks the specified share or share snapshot for deletion. The share or share snapshot and any files contained within it are later deleted during garbage collection.  
   
 ## Request  
- The `Delete Share` request may be constructed as follows. HTTPS is recommended.  
+The `Delete Share` request may be constructed as follows. HTTPS is recommended.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
@@ -28,10 +27,10 @@ The `Delete Share` operation marks the specified share or share snapshot for del
 |*myaccount*|The name of your storage account.|  
 |*myshare*|The name of your file share.|  
   
- For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
 ## URI Parameters  
- The following additional parameters can be specified in the request URI.  
+The following additional parameters can be specified in the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
@@ -46,12 +45,12 @@ The `Delete Share` operation marks the specified share or share snapshot for del
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-delete-snapshots: {include}`| Optional if the share has associated snapshots. Specify the following option <br /> -   `include`: Delete the base share and all of its snapshots.|
+|`x-ms-delete-snapshots: { include, includeLeased }`| Optional if the share has associated snapshots. Specify one of following options:<br /><ul><li>`include`: Delete the base share and all of its snapshots.</li><li>`includeLeased`: Delete the base share and all of its snapshots, even if one or more of the snapshots have active share leases.</li></ul> |
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
-|`x-ms-lease-id:<ID>`|Required if the destination file share has an active lease. Available for versions 2020-02-10 and newer. If the request does not include the lease ID or it is not valid, the operation fails with status code 412 (Precondition Failed).<br /><br /> If this header is specified and the destination file share does not currently have an active lease, the operation will also fail with status code 412 (Precondition Failed).|
+|`x-ms-lease-id: <ID>`|Required if the destination file share has an active lease. Available for versions 2020-02-10 and newer. If the request does not include the lease ID or it is not valid, the operation fails with status code 412 (Precondition Failed).<br /><br /> If this header is specified and the destination file share does not currently have an active lease, the operation will also fail with status code 412 (Precondition Failed).|
   
 ## Request Body  
- None.  
+None.  
   
 ## Sample Request  
   
@@ -65,15 +64,15 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ= 
 ```  
   
 ## Response  
- The response includes an HTTP status code and a set of response headers.  
+The response includes an HTTP status code and a set of response headers.  
   
 ## Status Code  
- A successful operation returns status code 202 (Accepted).  
+A successful operation returns status code 202 (Accepted).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ## Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?LinkId=73147).  
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?LinkId=73147).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -83,17 +82,17 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ= 
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ## Response Body  
- None.  
+None.  
   
 ## Authorization  
- Only the account owner may call this operation.  
+Only the account owner may call this operation.  
   
 ## Remarks  
- When a share is deleted, a share with the same name cannot be recreated for at least 30 seconds. While the share is being deleted, attempts to recreate a share of the same name will fail with status code 409 (Conflict), with the service returning additional error information indicating that the share is being deleted. All other operations, including operations on any files under the share, will fail with status code 404 (Not Found) while the share is being deleted.  
+When a share is deleted, a share with the same name cannot be recreated for at least 30 seconds. While the share is being deleted, attempts to recreate a share of the same name will fail with status code 409 (Conflict), with the service returning additional error information indicating that the share is being deleted. All other operations, including operations on any files under the share, will fail with status code 404 (Not Found) while the share is being deleted.  
 
- Deleting a share that has snapshots is currently not allowed. The share snapshots can be individually deleted or can be deleted together with the share using the `x-ms-delete-snapshots=include` header as stated above.
+Deleting a share that has snapshots is currently not allowed. The share snapshots can be individually deleted or can be deleted together with the share using the `x-ms-delete-snapshots=include` header as stated above.
 
- This header `x-ms-delete-snapshots` should be specified only for a request against the base share resource. If this header is specified on a request to delete an individual snapshot, the file service returns status code 400 (InvalidQueryParameterValue). If this header is not specified on the delete request and the share has associated snapshots, the file service returns status code 409 (ShareHasSnapshots).
+This header `x-ms-delete-snapshots` should be specified only for a request against the base share resource. If this header is specified on a request to delete an individual snapshot, the file service returns status code 400 (InvalidQueryParameterValue). If this header is not specified on the delete request and the share has associated snapshots, the file service returns status code 409 (ShareHasSnapshots).
   
 ## See also  
- [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)
+[Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

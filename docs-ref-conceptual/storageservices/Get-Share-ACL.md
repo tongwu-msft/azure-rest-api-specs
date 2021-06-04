@@ -9,46 +9,46 @@ ms.author: wgries
 ---
 
 # Get Share ACL
-
 The `Get Share ACL` operation returns information about stored access policies specified on the share. For more information, see [Define a stored access policy](define-stored-access-policy.md).  
   
 ## Request  
- The `Get Share ACL` request may be constructed as follows. HTTPS is recommended. Replace `myaccount` with the name of your storage account:  
+The `Get Share ACL` request may be constructed as follows. HTTPS is recommended. Replace `myaccount` with the name of your storage account:  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
 |GET/HEAD|`https://myaccount.file.core.windows.net/myshare?restype=share&comp=acl`|HTTP/1.1|  
   
 ### URI Parameters  
- The following additional parameters may be specified on the request URI.  
+The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|
   
 ### Request Headers  
- The following table describes required and optional request headers.  
+The following table describes required and optional request headers.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date or x-ms-date`|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).| 
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
+|`x-ms-lease-id:<ID>`|Optional. Version 2020-02-10 and newer. If the header is specified, the operation will be performed only if the file share's lease is currently active and the lease ID specified in the request matches the that of the file share. Otherwise, the operation fails with status code 412 (Precondition Failed).|
   
 ### Request Body  
- None.  
+None.  
   
 ## Response  
- The response includes an HTTP status code, a set of response headers, and a response body.  
+The response includes an HTTP status code, a set of response headers, and a response body.  
   
 ### Status Code  
- A successful operation returns status code **200 (OK)**.  
+A successful operation returns status code **200 (OK)**.  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -60,7 +60,7 @@ The `Get Share ACL` operation returns information about stored access policies s
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
- If a share-level access policy has been specified for the share, `Get Share ACL` returns the signed identifier and access policy in the response body.  
+If a share-level access policy has been specified for the share, `Get Share ACL` returns the signed identifier and access policy in the response body.  
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -106,7 +106,7 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 ```  
   
 ## Authorization  
- Only the account owner may call this operation.  
+Only the account owner may call this operation.  
   
 ## Remarks  
- The Access policy of the share applies to all of its share snapshots also. An access policy cannot be set or retrieved for a share snapshot. If an attempt is made to retrieve an access policy, then the service returns status code 400 (InvalidQueryParameterValue). 
+The Access policy of the share applies to all of its share snapshots also. An access policy cannot be set or retrieved for a share snapshot. If an attempt is made to retrieve an access policy, then the service returns status code 400 (InvalidQueryParameterValue).
