@@ -1,6 +1,6 @@
 ---
 title: Get File Service Properties (REST API) - Azure Storage
-description: The Get File Service Properties operation gets properties for a storage account’s File service endpoint.
+description: The Get File Service Properties operation gets properties for a storage account's File service endpoint.
 author: wmgries
 
 ms.date: 09/12/2020
@@ -10,24 +10,24 @@ ms.author: wgries
 ---
 
 # Get File Service Properties
-The `Get File Service Properties` operation gets properties for a storage account's File service endpoint. 
+The `Get File Service Properties` operation gets properties for a storage account's File service endpoint.
   
-## Request  
+## Request
 The `Get File Service Properties` request may be specified as follows. HTTPS is recommended. Replace `<account-name>` with the name of your storage account:  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |GET|`https://<account-name>.file.core.windows.net/?restype=service&comp=properties`|HTTP/1.1|  
   
 Note that the URI must always include the forward slash (/) to separate the host name from the path and query portions of the URI. In the case of this operation, the path portion of the URI is empty.  
   
-### URI Parameters  
-|URI Parameter|Description|  
+### URI parameters
+|URI parameter|Description|  
 |-------------------|-----------------|  
 |*restype=service&comp=properties*|Required. The combination of both query strings is required to set the storage service properties.|  
 |*timeout*|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
-### Request Headers  
+### Request headers
 The following table describes required and optional request headers.  
   
 |Request header|Description|  
@@ -37,25 +37,25 @@ The following table describes required and optional request headers.
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later. To retrieve metrics properties for the File service, you must specify version 2015-04-05 or later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
   
-### Request Body  
+### Request body
 None.  
   
-## Response  
+## Response
 The response includes an HTTP status code, a set of response headers, and a response body.  
   
-### Status Code  
+### Status code
 A successful operation returns status code 200 (OK).  
   
-### Response Headers  
+### Response headers
 The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
-|Response Header|Description|  
+|Response header|Description|  
 |---------------------|-----------------|  
 |`x-ms-request-id`|A value that uniquely identifies a request made against the service.|  
 |`x-ms-version`|Specifies the version of the operation used for the response. For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
-### Response Body  
+### Response body
 The format of the response body for version 2020-02-10 is as follows:  
   
 ```xml
@@ -98,8 +98,7 @@ The format of the response body for version 2020-02-10 is as follows:
 </StorageServiceProperties>  
 ```  
 
-  
- The following table describes the elements of the response body:  
+The following table describes the elements of the response body:  
   
 |Name|Description|  
 |-|-|  
@@ -121,10 +120,10 @@ The format of the response body for version 2020-02-10 is as follows:
 |`SMB`|Groups the settings for SMB.|
 |`Multichannel`|Contains the settings for SMB Multichannel. This setting has one property: enabled/disabled.|
   
-### Authorization  
+### Authorization
 Only the storage account owner may call this operation.  
   
-### Sample Request and Response  
+### Sample request and response
 The following sample URI makes a request to get the File service properties for a storage account named *myaccount*:  
   
 |Method|URL|Protocol|
@@ -133,7 +132,7 @@ The following sample URI makes a request to get the File service properties for 
   
 The request is sent with the following headers:  
   
-```  
+```
 x-ms-version: 2020-02-10  
 x-ms-date: <date>  
 Authorization: SharedKey  
@@ -198,4 +197,4 @@ The response includes the following XML body:
 ## Remarks
 For detailed information about CORS rules and evaluation logic, see [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
   
-For additional information about Storage Analytics, see [Storage Analytics](Storage-Analytics.md).  
+For additional information about Storage Analytics, see [Storage Analytics](Storage-Analytics.md).

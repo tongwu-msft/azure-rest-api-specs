@@ -1,5 +1,5 @@
 ---
-title: List Directories and Files (REST API) - Azure Storage
+title: List Directories and Files (FileREST API) - Azure Files
 description: The List Directories and Files operation returns a list of files or directories under the specified share or directory. It lists the contents only for a single level of the directory hierarchy.
 author: wmgries
 
@@ -80,7 +80,7 @@ Note that the `Marker`, `ShareSnapshot` and `MaxResults` elements are present on
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
-<EnumerationResults ServiceEndpoint="https://myaccount.file.core.windows.net/” ShareName="myshare" ShareSnapshot="date-time" DirectoryPath="directory-path">  
+<EnumerationResults ServiceEndpoint="https://myaccount.file.core.windows.net/" ShareName="myshare" ShareSnapshot="date-time" DirectoryPath="directory-path">  
   <Prefix>string-value</Prefix>  
   <Marker>string-value</Marker>  
   <MaxResults>int-value</MaxResults>
@@ -105,7 +105,7 @@ Note that the `Content-Length` element is returned in the listing. However, this
 Only the account owner may call this operation.  
   
 ## Remarks
-The value returned in the `Content-Length` element corresponds to the value of the file’s `x-ms-content-length` header.  
+The value returned in the `Content-Length` element corresponds to the value of the file's `x-ms-content-length` header.  
   
 Note that each `Directory` element returned counts toward the maximum result, just as each `File` element does. Files and directories are listed intermingled in lexically sorted order in the response body.  
   

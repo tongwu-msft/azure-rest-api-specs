@@ -1,5 +1,5 @@
 ---
-title: Get Share Properties (REST API) - Azure Storage
+title: Get Share Properties (FileREST API) - Azure Files
 description: The Get Share Properties operation returns all user-defined metadata and system properties for the specified share or share snapshot. The data returned does not include the share's list of files.
 author: wmgries
 
@@ -12,24 +12,24 @@ ms.author: wgries
 # Get Share Properties
 The `Get Share Properties` request returns all user-defined metadata and system properties for the specified share or share snapshot. The data returned does not include the share's list of files.  
   
-## Request  
+## Request
 The `Get Share Properties` request may be constructed as follows. HTTPS is recommended.  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare?restype=share`|HTTP/1.1|  
 |`GET/HEAD`|`https://myaccount.file.core.windows.net/myshare?restype=share&sharesnapshot=<DateTime>`|HTTP/1.1|  
   
 Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
 |*myaccount*|The name of your storage account.|  
 |*myshare*|The name of your file share.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-## URI Parameters  
+## URI parameters
 The following additional parameters can be specified in the request URI.  
   
 |Parameter|Description|  
@@ -37,10 +37,10 @@ The following additional parameters can be specified in the request URI.
 |`sharesnapshot`|Optional. Version 2017-04-17 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query to retrieve the properties|
 |`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|
   
-## Request Headers  
+## Request headers
 The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -48,18 +48,18 @@ The following table describes required and optional request headers.
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
 |`x-ms-lease-id:<ID>`|Optional. Version 2020-02-10 and newer. If the header is specified, the operation will be performed only if the file share's lease is currently active and the lease ID specified in the request matches the that of the file share. Otherwise, the operation fails with status code 412 (Precondition Failed).|
   
-## Request Body  
+## Request body
 None.  
   
-## Response  
+## Response
 The response includes an HTTP status code and a set of response headers.  
   
-## Status Code  
+## Status code
 A successful operation returns status code 200 (OK).  
   
 For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
-## Response Headers  
+## Response headers
 The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?LinkId=73147).  
   
 |Response header|Description|  
@@ -85,11 +85,12 @@ The response for this operation includes the following headers. The response may
 |`x-ms-root-squash: <NoRootSquash | RootSquash | AllSquash>`|Returns the current share root squashing behavior for version 2020-02-10 and above.<br /><br /><ul><li>`NoRootSquash`: Root squashing is off.</li><li>`RootSquash`: Requests from uid/gid 0 are mapped to the anonymous uid/gid.</li><li>`AllSquash`: All uids and gids are mapped to the anonymous user.</li></ul>|
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.| 
 
-## Response Body  
+## Response body
 None.  
   
-## Sample Response   
-```  
+## Sample Response
+
+```
 Response Status:  
 HTTP/1.1 200 OK  
   
@@ -107,11 +108,11 @@ x-ms-root-squash: RootSquash
 Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0  
 ```  
 
-## Authorization  
+## Authorization
 Only the account owner may call this operation.  
   
-## Remarks  
+## Remarks
 None.  
   
-## See also  
+## See also
 [Operations on Shares (File Service)](Operations-on-Shares--File-Service-.md)

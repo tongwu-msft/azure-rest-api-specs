@@ -1,5 +1,5 @@
 ---
-title: Get File Properties (REST API) - Azure Storage
+title: Get File Properties (FileREST API) - Azure Files
 description: The Get File Properties operation returns all user-defined metadata, standard HTTP properties, and system properties for the file. It does not return the content of the file.
 author: wmgries
 
@@ -10,40 +10,39 @@ ms.author: wgries
 ---
 
 # Get File Properties
-
 The `Get File Properties` operation returns all user-defined metadata, standard HTTP properties, and system properties for the file. It does not return the content of the file.
   
-## Request  
- The `Get File Properties` request may be constructed as follows. HTTPS is recommended.  
+## Request
+The `Get File Properties` request may be constructed as follows. HTTPS is recommended.  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`HEAD`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`|HTTP/1.1|  
 |`HEAD`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?sharesnapshot=<DateTime>`|HTTP/1.1|  
 
 Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
 |*myaccount*|The name of your storage account.|  
 |*myshare*|The name of your file share.|  
 |*mydirectorypath*|Optional. The path to the parent directory.|  
 |*myfile*|The name of the file.|  
   
- For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
 ### URI parameters  
- The following additional parameters may be specified on the request URI.  
+The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
 |`sharesnapshot`|Optional. Version 2017-04-17 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query for the file properties.|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md)|  
   
-### Request Headers  
- The following table describes required and optional request headers.  
+### Request headers
+The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |Authorization|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -51,21 +50,21 @@ Replace the path components shown in the request URI with your own, as follows:
 |`x-ms-lease-id:<ID>`|Optional. Version 2019-02-02 and newer. If the header is specified, the operation will be performed only if the file's lease is currently active and the lease ID specified in the request matches the that of the file. Otherwise, the operation fails with status code 412 (Precondition Failed).|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
   
-### Request Body  
- None.  
+### Request body
+None.  
   
-## Response  
- The response includes an HTTP status code and a set of response headers.  
+## Response
+The response includes an HTTP status code and a set of response headers.  
   
-### Status Code  
- A successful operation returns status code 200 (OK).  
+### Status code
+A successful operation returns status code 200 (OK).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
-### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
+### Response headers
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
-|Response Header|Description|  
+|Response header|Description|  
 |---------------------|-----------------|  
 |`Last-Modified`|Returns the date and time the file was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). Any operation that modifies the file or its properties updates the last modified time.|  
 |`x-ms-meta-name:value`|A set of name-value pairs associated with this file as user-defined metadata.|  
@@ -100,12 +99,12 @@ Replace the path components shown in the request URI with your own, as follows:
 |`x-ms-lease-status:<locked;unlocked>`|Version 2019-02-02 and newer. When a file is leased, specifies the lease status of the file. |
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
 
-### Response Body  
- None.  
+### Response body
+None.  
+
+### Sample response  
   
-### Sample Response  
-  
-```  
+```
 Response Status:  
 HTTP/1.1 200 OK  
   
@@ -131,10 +130,8 @@ x-ms-lease-status: locked
   
 ```  
   
-## Authorization  
- Only the account owner may call this operation.  
+## Authorization
+Only the account owner may call this operation.
   
-## Remarks  
-  
-## See also  
- [Operations on Files](Operations-on-Files.md)
+## See also
+[Operations on Files](Operations-on-Files.md)

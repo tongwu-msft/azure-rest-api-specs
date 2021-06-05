@@ -1,5 +1,5 @@
 ---
-title: Get File Metadata (REST API) - Azure Storage
+title: Get File Metadata (FileREST API) - Azure Files
 description: The Get File Metadata operation returns all user-defined metadata for the specified file.
 author: wmgries
 
@@ -10,40 +10,39 @@ ms.author: wgries
 ---
 
 # Get File Metadata
-
 The `Get File Metadata` operation returns all user-defined metadata for the specified file.  
   
-## Request  
- The `Get File Metadata` request is constructed as follows. HTTPS is recommended.  
+## Request
+The `Get File Metadata` request is constructed as follows. HTTPS is recommended.  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`GET`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?comp=metadata`|HTTP/1.1|  
 |`GET`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile?comp=metadata&sharesnapshot=<DateTime>`|HTTP/1.1|  
   
- Replace the path components shown in the request URI with your own, as follows:  
+Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
 |*myaccount*|The name of your storage account.|  
 |*myshare*|The name of your file share.|  
 |*mydirectorypath*|Optional. The path to the directory.|  
 |*myfile*|The name of the file.|  
   
- For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-## URI Parameters  
- The following additional parameters can be specified in the request URI.  
+## URI parameters
+The following additional parameters can be specified in the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
 |`sharesnapshot`|Optional. Version 2017-04-17 and newer. The sharesnapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query for the file metadata. |  
 |`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
-## Request Headers  
- The following table describes required and optional request headers.  
+## Request headers
+The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -51,19 +50,19 @@ The `Get File Metadata` operation returns all user-defined metadata for the spec
 |`x-ms-lease-id:<ID>`|Optional. Version 2019-02-02 and newer. If the header is specified, the operation will be performed only if the file's lease is currently active and the lease ID specified in the request matches the that of the file. Otherwise, the operation fails with status code 412 (Precondition Failed).|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
   
-## Request Body  
- None.  
+## Request body
+None.  
   
-## Response  
- The response includes an HTTP status code and a set of response headers.  
+## Response
+The response includes an HTTP status code and a set of response headers.  
   
-## Status Code  
- A successful operation returns status code 202 (Accepted).  
+## Status code
+A successful operation returns status code 202 (Accepted).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
-## Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?LinkId=73147).  
+## Response headers
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?LinkId=73147).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -76,12 +75,12 @@ The `Get File Metadata` operation returns all user-defined metadata for the spec
 |`Date` or `x-ms-date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
   
-## Response Body  
- None.  
+## Response body
+None.  
   
-## Sample Response  
+## Sample response
   
-```  
+```
 Response Status:  
 HTTP/1.1 200 OK  
   
@@ -96,8 +95,8 @@ x-ms-version: 2015-02-21
 Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0  
 ```  
   
-## Authorization  
- Only the account owner may call this operation.  
+## Authorization
+Only the account owner may call this operation.  
   
-## See also  
- [Operations on Files](Operations-on-Files.md)
+## See also
+[Operations on Files](Operations-on-Files.md)

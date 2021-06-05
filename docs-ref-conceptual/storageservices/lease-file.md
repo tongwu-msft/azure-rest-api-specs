@@ -1,5 +1,5 @@
 ---
-title: Lease File (REST API) - Azure Storage
+title: Lease File (FileREST API) - Azure Files
 description: The Lease File operation creates and manages a lock on a file for write and delete operations.
 author: wmgries
 
@@ -10,46 +10,42 @@ ms.author: wgries
 ---
 
 # Lease File
-
 The `Lease File` operation creates and manages a lock on a file for write and delete operations. `Lease File` is supported for versions 2019-02-02 and newer.
   
- The `Lease File` operation can be called in one of four modes:  
+The `Lease File` operation can be called in one of four modes:
   
-- `Acquire`, to request a new lease.  
-
+- `Acquire`, to request a new lease.
 - `Change`, to change the ID of an existing lease.  
-  
 - `Release`, to free the lease if it is no longer needed so that another client may immediately acquire a lease against the file.  
+- `Break`, to forcibly end the lease but ensure that another client cannot acquire a new lease until the current lease period has expired.
   
-- `Break`, to forcibly end the lease but ensure that another client cannot acquire a new lease until the current lease period has expired.  
-  
-## Request  
+## Request
  The `Lease File` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-|PUT Method Request URI|HTTP Version|  
-|----------------------------|------------------|  
-|`https://myaccount.file.core.windows.net/myshare/mydirectory/myfile?comp=lease`|HTTP/1.1|  
+|Method | Request URI|HTTP Version|  
+|-|----------------------------|------------------|  
+|`Put`|`https://myaccount.file.core.windows.net/myshare/mydirectory/myfile?comp=lease`|HTTP/1.1|  
 
- Replace the path components shown in the request URI with your own, as follows:  
+Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
 |*myaccount*|The name of your storage account.|  
 |*myshare*|The name of your file share.|  
 |*mydirectorypath*|Optional. The path to the directory.|  
 |*myfile*|The name of the file.|  
   
-### URI Parameters  
- The following additional parameters may be specified on the request URI.  
+### URI parameters
+The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
-### Request Headers  
- The following table describes required and optional request headers.  
+### Request headers
+The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -60,14 +56,13 @@ The `Lease File` operation creates and manages a lock on a file for write and de
 |`x-ms-proposed-lease-id: <ID>`|Optional for `acquire`, required for `change`. Proposed lease ID, in a GUID string format. The File service returns `400 (Invalid request)` if the proposed lease ID is not in the correct format. See [Guid Constructor (String)](https://msdn.microsoft.com/library/96ff78dc.aspx) for a list of valid GUID string formats.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
   
-### Request Body  
- None.  
+### Request body
+None.  
   
-### Sample Request  
- The following sample request shows how to acquire a lease:  
+### Sample request
+The following sample request shows how to acquire a lease:  
   
 ```  
-  
 Request Syntax:  
 PUT https://myaccount.file.core.windows.net/myshare/mydirectory/myfile?comp=lease HTTP/1.1  
   
@@ -78,27 +73,23 @@ x-ms-lease-duration: -1
 x-ms-proposed-lease-id: 1f812371-a41d-49e6-b123-f4b542e851c5  
 x-ms-date: <date>  
 Authorization: SharedKey testaccount1:esSKMOYdK4o+nGTuTyeOLBI+xqnqi6aBmiW4XI699+o=  
-  
 ```  
   
-## Response  
- The response includes an HTTP status code and a set of response headers.  
+## Response
+The response includes an HTTP status code and a set of response headers.  
   
-### Status Code  
- The success status codes returned for lease operations are the following:  
+### Status code
+The success status codes returned for lease operations are the following:  
   
 - `Acquire`: A successful operation returns status code 201 (Created).  
-  
 - `Change`: A successful operation returns status code 200 (OK).  
-  
 - `Release`: A successful operation returns status code 200 (OK).  
-  
 - `Break`: A successful operation returns status code 202 (Accepted).  
+
+For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
-  
-### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
+### Response headers
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Syntax|Description|  
 |------------|-----------------|  
@@ -110,13 +101,13 @@ Authorization: SharedKey testaccount1:esSKMOYdK4o+nGTuTyeOLBI+xqnqi6aBmiW4XI699+
 |`x-ms-version`|Indicates the version of the File service used to execute the request.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
-|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.| 
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
   
-### Response Body  
- None.  
+### Response body
+None.  
   
-### Sample Response  
- The following is a sample response for a request to acquire a lease:  
+### Sample response
+The following is a sample response for a request to acquire a lease:  
   
 ```  
 Response Status:  
@@ -128,75 +119,60 @@ x-ms-request-id: cc6b209a-b593-4be1-a38a-dde7c106f402
 x-ms-version: 2019-07-07
 x-ms-lease-id: 1f812371-a41d-49e6-b123-f4b542e851c5  
 Date: <date>  
-  
 ```  
   
-## Authorization  
- This operation can be called by the account owner and by any client with a shared access signature that has permission to write to this file or its share.  
+## Authorization
+This operation can be called by the account owner and by any client with a shared access signature that has permission to write to this file or its share.  
   
-## Remarks  
- A lease on a file provides exclusive write and delete access to the file. To write to a file with an active lease, a client must include the active lease ID with the write request. The lease is granted for an infinite duration.  
+## Remarks
+A lease on a file provides exclusive write and delete access to the file. To write to a file with an active lease, a client must include the active lease ID with the write request. The lease is granted for an infinite duration.  
   
- When a client acquires a lease, a lease ID is returned. The File service will generate a lease ID if one is not specified in the acquire request. The client may use this lease ID to change its lease ID or release the lease.  
+When a client acquires a lease, a lease ID is returned. The File service will generate a lease ID if one is not specified in the acquire request. The client may use this lease ID to change its lease ID or release the lease.  
   
- When a lease is active, the lease ID must be included in the request for any of the following operations:  
+When a lease is active, the lease ID must be included in the request for any of the following operations:  
   
 - [Create File](Create-File.md)  
-  
 - [Set File Metadata](Set-File-Metadata.md)  
-  
 - [Set File Properties](Set-File-Properties.md)  
-  
 - [Delete File](Delete-File2.md)  
-  
 - [Put Range](Put-Range.md)  
+- [Copy File](Copy-File.md) (lease ID needed for destination file)
   
-- [Copy File](Copy-File.md) (lease ID needed for destination file)  
+If the lease ID is not included, these operations will fail on a leased file with `412 – Precondition failed`.
   
- If the lease ID is not included, these operations will fail on a leased file with `412 – Precondition failed`.  
-  
- The following operations succeed on a leased file without including the lease ID:  
+The following operations succeed on a leased file without including the lease ID:
   
 - [Get File](Get-File.md)  
-  
 - [Get File Metadata](Get-File-Metadata.md)  
-  
-- [Get File Properties](Get-File-Properties.md)  
-  
+- [Get File Properties](Get-File-Properties.md)
 - [List Ranges](List-Ranges.md)  
-  
 - [List Directories and Files](List-Directories-and-Files.md)  
-  
 - [Copy File](Copy-File.md) (No lease ID needed for source file.)  
-  
 - [Lease File (REST API)](Lease-File.md) (No lease ID needed for `x-ms-lease-action: break`.)  
   
- It's not necessary to include the lease ID for GET operations on a file that has an active lease. However, all GET operations support a conditional lease parameter, where the operation only proceeds if the lease ID included with the request is valid.  
+It's not necessary to include the lease ID for GET operations on a file that has an active lease. However, all GET operations support a conditional lease parameter, where the operation only proceeds if the lease ID included with the request is valid.  
   
- All share operations are permitted on a share that includes files with an active lease, including [Delete Share](Delete-Share.md). Therefore a share may be deleted even if files within it have active leases.
+All share operations are permitted on a share that includes files with an active lease, including [Delete Share](Delete-Share.md). Therefore a share may be deleted even if files within it have active leases.
   
- The following diagram shows the three states of a lease, and the commands or events that cause lease state changes.  
+The following diagram shows the three states of a lease, and the commands or events that cause lease state changes.  
   
- ![File lease states and state change triggers](media/fileleasestates.png "FileLeaseStates")  
+![File lease states and state change triggers](media/fileleasestates.png "FileLeaseStates")  
   
- **Lease States**  
+**Lease States**  
   
- A lease can be in 3 states, based on whether the lease is locked or unlocked, and whether the lease is renewable in that state. The lease actions above cause state transitions.  
+A lease can be in 3 states, based on whether the lease is locked or unlocked, and whether the lease is renewable in that state. The lease actions above cause state transitions.  
   
-- `Available`, the lease is unlocked and can be acquired. Allowed action: `acquire`.  
-  
+- `Available`, the lease is unlocked and can be acquired. Allowed action: `acquire`.
 - `Leased`, the lease is locked. Allowed actions: `acquire` (same lease ID only), `change`, `release`, and `break`.  
+- `Broken`, lease has been broken. Allowed actions: `acquire`, `release`, and `break`.
   
-- `Broken`, lease has been broken. Allowed actions: `acquire`, `release`, and `break`.  
+Note that a lease cannot be granted for a file in a share snapshot, since snapshots are read-only. Requesting a lease against a file in a share snapshot results in status code 400 (Bad Request).  
   
- Note that a lease cannot be granted for a file in a share snapshot, since snapshots are read-only. Requesting a lease against a file in a share snapshot results in status code 400 (Bad Request).  
+The file's `Last-Modified-Time` property is not updated by calls to `Lease File`.  
   
- The file's `Last-Modified-Time` property is not updated by calls to `Lease File`.  
+The following tables show outcomes of actions on files with leases in various lease states. Letters (A), (B), and (C) represent lease IDs, and (X) represents a lease ID generated by the File service.  
   
- The following tables show outcomes of actions on files with leases in various lease states. Letters (A), (B), and (C) represent lease IDs, and (X) represents a lease ID generated by the File service.  
-  
-### Outcomes of use attempts on files by lease state  
-  
+### Outcomes of use attempts on files by lease state
 |Action|Available|Leased (A)|Broken (A)|
 |-|--------------------|------------------|-------------------|  
 |Write using (A)|Fails (412)|Leased (A), write succeeds|Fails (412)|  
@@ -207,7 +183,6 @@ Date: <date>
 |Read, no lease specified|Available, read succeeds|Leased (A), read succeeds|Broken (A), read succeeds|  
   
 ### Outcomes of lease operations on files by lease state  
-  
 |Action|Available|Leased (A)|Broken (A)|  
 |-|--------------------|------------------|-------------------|  
 |`Acquire`, no proposed lease ID|Leased (X)|Fails (409)|Leased (X)|  
@@ -221,7 +196,7 @@ Date: <date>
 |`Release` (B)|Fails (409)|Fails (409)|Fails (409)|  
   
 ## See also
-  
- [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
- [Status and Error Codes](Status-and-Error-Codes2.md)   
- [File Service Error Codes](File-Service-Error-Codes.md)   
+
+- [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)
+- [Status and Error Codes](Status-and-Error-Codes2.md)
+- [File Service Error Codes](File-Service-Error-Codes.md)

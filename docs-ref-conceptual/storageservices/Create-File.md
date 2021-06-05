@@ -1,5 +1,5 @@
 ---
-title: Create File (REST API) - Azure Storage
+title: Create File (FileREST API) - Azure Files
 description: The Create File operation creates a new file or replaces a file. Note that calling Create File only initializes the file. To add content to a file, call the Put Range operation. 
 author: wmgries
 
@@ -10,39 +10,37 @@ ms.author: wgries
 ---
 
 # Create File
-
 The `Create File` operation creates a new file or replaces a file. Note that calling `Create File` only initializes the file. To add content to a file, call the `Put Range` operation.  
   
-## Request  
- The `Create File` request may be constructed as follows. HTTPS is recommended.  
+## Request
+The `Create File` request may be constructed as follows. HTTPS is recommended.  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`PUT`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`|HTTP/1.1|  
   
- Replace the path components shown in the request URI with your own, as follows:  
+Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
 |*myaccount*|The name of your storage account.|  
 |*myshare*|The name of your file share.|  
 |*mydirectorypath*|Optional. The path to the directory where the file is to be created. If the directory path is omitted, the file will be created within the specified share.<br /><br /> If specified, the directory must already exist within the share before the file can be created.|  
 |*myfile*|The name of the file to create.|  
   
- For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
 ### URI parameters
-  
- The following additional parameters may be specified on the request URI.  
+The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
-### Request Headers  
+### Request headers
  The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -65,12 +63,12 @@ The `Create File` operation creates a new file or replaces a file. Note that cal
 | `x-ms-lease-id:<ID>`| Required if the file has an active lease. Available for versions 2019-02-02 and later.|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
   
-### Request Body  
+### Request body
 None.  
   
-### Sample Request  
+### Sample request  
   
-```  
+```
 Request Syntax:  
 PUT https://myaccount.file.core.windows.net/myshare/myfile HTTP/1.1  
   
@@ -83,16 +81,16 @@ Authorization: SharedKey myaccount:YhuFJjN4fAR8/AmBrqBz7MG2uFinQ4rkh4dscbj598g=
   
 ```  
   
-## Response  
- The response includes an HTTP status code and a set of response headers.  
+## Response
+The response includes an HTTP status code and a set of response headers.  
   
-### Status Code  
- A successful operation returns status code 201 (Created).  
+### Status code
+A successful operation returns status code 201 (Created).  
   
 For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
-### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
+### Response headers
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -111,8 +109,8 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 | `x-ms-file-parent-id` | The parent file ID of the file. |
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
   
-### Response body  
- None.  
+### Response body
+None.  
   
 ### Sample response  
   
@@ -129,8 +127,8 @@ x-ms-version: 2014-02-14
 Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0  
 ```  
   
-## Authorization  
- Only the account owner may call this operation.  
+## Authorization
+Only the account owner may call this operation.  
 
 #### File system attributes
 | Attribute | Win32 file attribute | Definition |
@@ -145,20 +143,20 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 | NotContentIndexed | FILE_ATTRIBUTE_NOT_CONTENT_INDEXED | The file is not to be indexed by the content indexing service. |
 | NoScrubData | FILE_ATTRIBUTE_NO_SCRUB_DATA | The user data stream not to be read by the background data integrity scanner. This file system attribute is presented primarily to provide compatibility with Windows. |
   
-## Remarks  
- To create a new file, first initialize the file by calling `Create File` and specify its maximum size, up to 4 TiB. When performing this operation, do not include content in the request body. Once the file has been created, call `Put Range` to add content to the file or to modify it.  
+## Remarks
+To create a new file, first initialize the file by calling `Create File` and specify its maximum size, up to 4 TiB. When performing this operation, do not include content in the request body. Once the file has been created, call `Put Range` to add content to the file or to modify it.  
   
- You can change the size of the file by calling `Set File Properties`.  
+You can change the size of the file by calling `Set File Properties`.  
   
- If the share or parent directory does not exist, then the operation fails with status code 412 (Precondition Failed).  
+If the share or parent directory does not exist, then the operation fails with status code 412 (Precondition Failed).  
   
- Note that the file properties `cache-control`, `content-type`, `content-md5`, `content-encoding` and `content-language` are discrete from the file system properties available to SMB clients. SMB clients are not able to read, write or modify these property values.  
- 
- If the existing file has an active lease, the client must specify a valid lease ID on the request in order to create the file. If the client does not specify a lease ID, or specifies an invalid lease ID, the File service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the file does not have an active lease, the File service also returns status code 412 (Precondition Failed). If the client specifies a lease ID on a file that does not yet exist, the File service will return status code 412 (Precondition Failed) for requests made against version 2019-02-02 and newer. 
+Note that the file properties `cache-control`, `content-type`, `content-md5`, `content-encoding` and `content-language` are discrete from the file system properties available to SMB clients. SMB clients are not able to read, write or modify these property values.  
+
+If the existing file has an active lease, the client must specify a valid lease ID on the request in order to create the file. If the client does not specify a lease ID, or specifies an invalid lease ID, the File service returns status code 412 (Precondition Failed). If the client specifies a lease ID but the file does not have an active lease, the File service also returns status code 412 (Precondition Failed). If the client specifies a lease ID on a file that does not yet exist, the File service will return status code 412 (Precondition Failed) for requests made against version 2019-02-02 and newer. 
 
 If an existing file with an active lease is overwritten by a Create File operation, the lease persists on the updated file until it is released. 
 
 `Create File` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
 
-## See also  
- [Operations on Files](Operations-on-Files.md)
+## See also
+[Operations on Files](Operations-on-Files.md)

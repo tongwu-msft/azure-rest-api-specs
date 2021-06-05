@@ -1,5 +1,5 @@
 ---
-title: Snapshot Share (REST API) - Azure Storage
+title: Snapshot Share (FileREST API) - Azure Files
 description: The Snapshot Share operation creates a read-only snapshot of a share.
 author: wmgries
 
@@ -10,36 +10,35 @@ ms.author: wgries
 ---
 
 # Snapshot Share
-
 Beginning with version 2017-04-17, the Snapshot Share operation creates a read-only snapshot of a share.  
   
-## Request  
- The `Snapshot Share` request may be constructed as follows. HTTPS is recommended.  
+## Request
+The `Snapshot Share` request may be constructed as follows. HTTPS is recommended.  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`PUT`|`https://myaccount.file.core.windows.net/myshare?restype=share&comp=snapshot`|HTTP/1.1|  
   
- Replace the path components shown in the request URI with your own, as follows:  
+Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|
 |--------------------|-----------------|  
 |*myaccount*|The name of your storage account.|  
 |*myshare*|The name of your file share.|  
   
- For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
- The following additional parameters may be specified on the request URI.  
+### URI parameters
+The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
-### Request Headers  
- The following table describes required and optional request headers.  
+### Request headers
+The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -47,12 +46,12 @@ Beginning with version 2017-04-17, the Snapshot Share operation creates a read-o
 |`x-ms-meta-name:value`|Optional. <br /> Specifies a user-defined name-value pair associated with the share snapshot. If no name-value pairs are specified, the operation copies the base share metadata to the snapshot.<br /> If one or more name-value pairs are specified, the share snapshot is created with the specified metadata. In this case metadata is not copied from the base share.  <br />Metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).<br />|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|  
   
-### Request Body  
- None.  
+### Request body
+None.
   
-### Sample Request  
+### Sample request
   
-```  
+```
 Request Syntax:  
 PUT https://myaccount.file.core.windows.net/myshare?restype=share&comp=snapshot HTTP/1.1
 
@@ -61,20 +60,18 @@ x-ms-version: 2017-04-17
 x-ms-date: Mon, 10 May 2017 22:50:32 GMT
 x-ms-meta-Name: StorageSample
 Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=
- 
-  
 ```  
   
-## Response  
- The response includes an HTTP status code and a set of response headers.  
+## Response
+The response includes an HTTP status code and a set of response headers.  
   
-### Status Code  
- A successful operation returns status code 201 (Created).  
+### Status code
+A successful operation returns status code 201 (Created).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
-### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
+### Response headers
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -86,12 +83,12 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=
 |`x-ms-snapshot`|This header is a DateTime value that uniquely identifies the share snapshot. The value of this header may be used in subsequent requests to access the share snapshot. This value is opaque.|
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
   
-### Response Body  
- None.  
+### Response body
+None.
   
-### Sample Response  
+### Sample response  
   
-```  
+```
 Response Status:
 HTTP/1.1 201 Created
 
@@ -105,10 +102,10 @@ x-ms-snapshot: 2017-05-10T17:52:33.9551861Z
 Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 ```  
   
-## Authorization  
- Only the account owner may call this operation.  
+## Authorization
+Only the account owner may call this operation.  
   
-## Remarks  
+## Remarks
 Share snapshots provide read-only versions of shares. Once created, a share snapshot cannot be modified.  A share snapshot provides a convenient way to create a consistent backup of all files on a share.  
 
 Each time you call the **Snapshot Share** operation, a new share snapshot is created, with a unique **DateTime** value that identifies the share snapshot relative to its base share. You can use this **DateTime** value to perform further operations on the share snapshot and its contents. You should treat this **DateTime** value as opaque.

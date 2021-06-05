@@ -1,5 +1,5 @@
 ---
-title: Delete Directory (REST API) - Azure Storage
+title: Delete Directory (FileREST API) - Azure Files
 description: The Delete Directory operation removes the specified empty directory. Note that the directory must be empty before it can be deleted. 
 author: wmgries
 
@@ -10,50 +10,49 @@ ms.author: wgries
 ---
 
 # Delete Directory
-
 The `Delete Directory` operation removes the specified empty directory. Note that the directory must be empty before it can be deleted.  
   
 ## Request  
- The `Delete Directory` request may be constructed as follows. HTTPS is recommended.  
+The `Delete Directory` request may be constructed as follows. HTTPS is recommended.  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`DELETE`|`https://myaccount.file.core.windows.net/myshare/myparentdirectorypath/mydirectory?restype=directory`|HTTP/1.1|  
   
  Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
 |*myaccount*|The name of your storage account.|  
 |*myshare*|The name of your file share.|  
 |*myparentdirectorypath*|Optional. The path to the parent directory.|  
 |*mydirectory*|The name of the directory.|  
   
- For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI parameters  
+### URI parameters
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
 |`timeout`|Optional. The timeout parameter is expressed in seconds.  For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
-### Request Headers  
- The following table describes required and optional request headers.  
+### Request headers
+The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
   
-### Request Body  
- None.  
+### Request body
+None.  
   
-### Sample Request  
+### Sample request  
   
-```  
+```
 Request Syntax:  
 DELETE https://myaccount.file.core.windows.net/myshare/myparentdirectorypath/mydirectory?restype=directory HTTP/1.1  
   
@@ -63,16 +62,16 @@ x-ms-date: Mon, 27 Jan 2014 22:50:32 GMT
 Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=  
 ```  
   
-## Response  
- The response includes an HTTP status code and a set of response headers.  
+## Response
+The response includes an HTTP status code and a set of response headers.  
   
-### Status Code  
- A successful operation returns status code 202 (Accepted).  
+### Status code
+A successful operation returns status code 202 (Accepted).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
-### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?LinkId=73147).  
+### Response headers
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?LinkId=73147).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -81,12 +80,12 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
   
-### Response Body  
- None.  
+### Response body
+None.  
   
-### Sample Response  
+### Sample response  
   
-```  
+```
 Response Status:  
 HTTP/1.1 202 Accepted  
   
@@ -98,15 +97,15 @@ x-ms-version: 2014-02-14
 Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0  
 ```  
   
-## Authorization  
- Only the account owner may call this operation.  
+## Authorization
+Only the account owner may call this operation.  
   
-## Remarks  
- Attempting to delete directories that are not empty will fail with status code 409 (DirectoryNotEmpty).  
+## Remarks
+Attempting to delete directories that are not empty will fail with status code 409 (DirectoryNotEmpty).  
   
- Once a client has received status code 202 (Accepted), then the directory has been removed from the system and is eligible to be recreated. Subsequent calls to [Get Directory Properties](Get-Directory-Properties.md) will result in 404 (Not Found).  
+Once a client has received status code 202 (Accepted), then the directory has been removed from the system and is eligible to be recreated. Subsequent calls to [Get Directory Properties](Get-Directory-Properties.md) will result in 404 (Not Found).  
 
- `Delete Directory` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
- 
-## See also  
- [Operations on Directories](Operations-on-Directories.md)
+`Delete Directory` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
+
+## See also
+[Operations on Directories](Operations-on-Directories.md)
