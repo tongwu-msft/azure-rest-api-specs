@@ -30,10 +30,10 @@ Replace the path components shown in the request URI with your own, as follows:
   
 |Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
-|*mydirectorypath*|Optional. The path to the directory where the file is to be created. If the directory path is omitted, the file will be created within the specified share.<br /><br /> If specified, the directory must already exist within the share before the file can be created.|  
-|*myfile*|The name of the file to create.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
+|`mydirectorypath`|Optional. The path to the directory where the file is to be created. If the directory path is omitted, the file will be created within the specified share.<br /><br /> If specified, the directory must already exist within the share before the file can be created.|  
+|`myfile`|The name of the file to create.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
@@ -45,7 +45,7 @@ The following additional parameters may be specified on the request URI.
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
 ### Request headers
- The following table describes required and optional request headers.  
+The following table describes required and optional request headers.  
   
 |Request header|Description|  
 |--------------------|-----------------|  

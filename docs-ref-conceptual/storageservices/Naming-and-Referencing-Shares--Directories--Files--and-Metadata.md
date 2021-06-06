@@ -3,7 +3,7 @@ title: Naming and referencing shares, directories, files, and metadata - Azure F
 description: A storage account can contain zero or more Azure File shares. A share contains properties, metadata, and zero or more files or directories. A directory contains properties and zero or more files or directories. A file is any single entity comprised of binary data, properties, and metadata.
 author: wmgries
 
-ms.date: 08/26/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -68,7 +68,7 @@ Each resource has a corresponding base URI, which refers to the resource itself.
   
 `https://myaccount.file.core.windows.net`  
   
- For a share, the base URI includes the name of the account and the name of the share:  
+For a share, the base URI includes the name of the account and the name of the share:  
   
 `https://myaccount.file.core.windows.net/myshare`
   

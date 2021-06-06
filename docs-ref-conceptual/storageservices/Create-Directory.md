@@ -3,7 +3,7 @@ title: Create Directory (FileREST API) - Azure Files
 description: The Create Directory operation creates a new directory under the specified share or parent directory. The directory resource includes the properties for that directory. It does not include a list of the files or subdirectories contained by the directory.
 author: wmgries
 
-ms.date: 06/06/2021
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -30,10 +30,10 @@ Replace the path components shown in the request URI with your own, as follows:
   
 |Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
-|*myparentdirectorypath*|Optional. The path to the parent directory where *mydirectory* is to be created. If the parent directory path is omitted, the directory will be created within the specified share.<br /><br /> If specified, the parent directory must already exist within the share before *mydirectory* can be created.|  
-|*mydirectory*|The name of the directory to create.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
+|`myparentdirectorypath`|Optional. The path to the parent directory where *mydirectory* is to be created. If the parent directory path is omitted, the directory will be created within the specified share.<br /><br /> If specified, the parent directory must already exist within the share before *mydirectory* can be created.|  
+|`mydirectory`|The name of the directory to create.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   

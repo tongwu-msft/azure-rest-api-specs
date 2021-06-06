@@ -3,7 +3,7 @@ title: Put Range from URL (FileREST API) - Azure Files
 description: The Put Range from URL operation creates a new range to be committed as part of a file where the contents are read from a URL.
 author: wmgries
 
-ms.date: 10/06/2020
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries

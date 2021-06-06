@@ -3,7 +3,7 @@ title: Create Share (FileREST API) - Azure Files
 description: The Create Share operation creates a new Azure file share under the specified account. If the share with the same name already exists, the operation fails. 
 author: wmgries
 
-ms.date: 09/12/2020
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -30,10 +30,10 @@ The `Create Share` request may be constructed as follows. HTTPS is recommended.
   
 Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share. Note that it may include only lower-case characters.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share. Note that it may include only lower-case characters.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   

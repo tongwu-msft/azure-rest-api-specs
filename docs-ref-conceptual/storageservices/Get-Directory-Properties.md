@@ -31,10 +31,10 @@ Replace the path components shown in the request URI with your own, as follows:
   
 |Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
-|*myparentdirectorypath*|Optional. The path to the parent directory.|  
-|*mydirectory*|The name of the directory.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
+|`myparentdirectorypath`|Optional. The path to the parent directory.|  
+|`mydirectory`|The name of the directory.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
@@ -49,7 +49,7 @@ The following additional parameters may be specified on the request URI.
 ### Request headers
 The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  

@@ -3,7 +3,7 @@ title: Specifying the range header for FileREST operations (FileREST API) - Azur
 description: Some FileREST GET operations support the use of the standard HTTP `Range` header. Many HTTP clients, including the .NET client library, limit the size of the `Range` header to a 32-bit integer, and thus its value is limited to a maximum of 4 GiB. Since files can be larger than 4 GiB in size, Azure Files accepts a custom range header `x-ms-range` for any operation that takes an HTTP `Range` header.
 author: wmgries
 
-ms.date: 09/30/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries

@@ -3,7 +3,7 @@ title: Lease File (FileREST API) - Azure Files
 description: The Lease File operation creates and manages a lock on a file for write and delete operations.
 author: wmgries
 
-ms.date: 07/06/2020
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -37,10 +37,10 @@ Replace the path components shown in the request URI with your own, as follows:
   
 |Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
-|*mydirectorypath*|Optional. The path to the directory.|  
-|*myfile*|The name of the file.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
+|`mydirectorypath`|Optional. The path to the directory.|  
+|`myfile`|The name of the file.|  
   
 ### URI parameters
 The following additional parameters may be specified on the request URI.  

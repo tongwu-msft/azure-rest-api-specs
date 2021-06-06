@@ -26,19 +26,19 @@ The `Delete File` request is constructed as follows. HTTPS is recommended.
 |------------|-----------------|------------------|  
 |`DELETE`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`|HTTP/1.1|  
   
- Replace the path components shown in the request URI with your own, as follows:  
+Replace the path components shown in the request URI with your own, as follows:  
   
 |Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
-|*myparentdirectorypath*|Optional. The path to the parent directory.|  
-|*myfile*|The name of the file.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
+|`myparentdirectorypath`|Optional. The path to the parent directory.|  
+|`myfile`|The name of the file.|  
   
- For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
 ## URI parameters
- The following additional parameters can be specified in the request URI.  
+The following additional parameters can be specified in the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  

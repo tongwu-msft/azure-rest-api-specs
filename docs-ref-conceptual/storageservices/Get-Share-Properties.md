@@ -3,7 +3,7 @@ title: Get Share Properties (FileREST API) - Azure Files
 description: The Get Share Properties operation returns properties for the specified share or share snapshot.
 author: wmgries
 
-ms.date: 09/12/2020
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -31,8 +31,8 @@ Replace the path components shown in the request URI with your own, as follows:
   
 |Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   

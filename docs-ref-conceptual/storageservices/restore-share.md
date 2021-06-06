@@ -32,8 +32,8 @@ Replace the path components shown in the request URI with your own, as follows:
   
 |Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*restoredShareName*|The name to use for the restored share. If a share already exists with this name, the operation will fail.|  
+|`myaccount`|The name of your storage account.|  
+|`restoredShareName`|The name to use for the restored share. If a share already exists with this name, the operation will fail.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   

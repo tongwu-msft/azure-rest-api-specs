@@ -3,7 +3,7 @@ title: Set Share ACL (FileREST API) - Azure Files
 description: The Set Share ACL operation sets stored access policies for the share that may be used with Shared Access Signatures.
 author: wmgries
 
-ms.date: 09/20/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -26,7 +26,7 @@ The **Set Share ACL** request may be constructed as follows. HTTPS is recommende
 |------------|-----------------|------------------|  
 |PUT|`https://myaccount.file.core.windows.net/myshare?restype=share&comp=acl`|HTTP/1.1|  
   
-### URI Parameters
+### URI parameters
 The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  

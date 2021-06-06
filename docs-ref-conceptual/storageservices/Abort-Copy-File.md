@@ -32,10 +32,10 @@ Replace the path components shown in the request URI with your own, as follows:
   
 |Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
-|*mydirectorypath*|Optional. The path to the parent directory.|  
-|*myfile*|The name of the file.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
+|`mydirectorypath`|Optional. The path to the parent directory.|  
+|`myfile`|The name of the file.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
@@ -46,7 +46,7 @@ The following additional parameters may be specified on the request URI.
 |---------------|-----------------|  
 |`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see Setting Timeouts for File Service Operations.|  
   
-### Request headers  
+### Request headers
 The following table describes required and optional request headers.  
   
 |Request header|Description|  

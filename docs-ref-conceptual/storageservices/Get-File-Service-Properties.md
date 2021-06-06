@@ -3,7 +3,7 @@ title: Get File Service Properties (FileREST API) - Azure Files
 description: Get properties for the FileService resource using the FileREST API. 
 author: wmgries
 
-ms.date: 05/05/2021
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries

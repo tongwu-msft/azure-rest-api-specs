@@ -3,7 +3,7 @@ title: Get Share Stats (FileREST API) - Azure Files
 description: The Get Share Stats operation retrieves statistics related to the share.
 author: wmgries
 
-ms.date: 09/20/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries

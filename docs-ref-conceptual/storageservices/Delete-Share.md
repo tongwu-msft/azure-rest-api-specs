@@ -31,8 +31,8 @@ The `Delete Share` request may be constructed as follows. HTTPS is recommended.
   
 |Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   

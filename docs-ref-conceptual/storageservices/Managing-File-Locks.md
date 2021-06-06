@@ -3,7 +3,7 @@ title: Managing file locks (FileREST API) - Azure Files
 description: Azure Files provides access to cloud file shares through the SMB, NFS, and the FileREST protocols. SMB file shares can be concurrently accessed with SMB and FileREST, meaning the developers that access the Azure file share using the FileREST protocol must consideration file locking interactions between SMB and FileREST. 
 author: wmgries
 
-ms.date: 09/30/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries

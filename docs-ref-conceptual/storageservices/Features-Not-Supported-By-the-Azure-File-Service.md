@@ -1,15 +1,15 @@
 ---
-title: Features not supported in Azure Files - Azure Files
+title: SMB features not supported in Azure Files - Azure Files
 description: Azure Files supports a subset of SMB 3.1.1, 3.0 and 2.1 features. Some applications may not work properly with Azure Files if they rely on unsupported features.
 author: wmgries
 
-ms.date: 09/23/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
 ---
 
-# Features not supported in Azure Files
+# SMB features not supported in Azure Files
 Azure Files supports a subset of SMB 3.1.1, 3.0 and 2.1 features. Some applications may not work properly with Azure Files if they rely on unsupported features. Azure Files does not support the following features:
   
 - [SMB Direct](https://technet.microsoft.com/library/jj134210.aspx)  

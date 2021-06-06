@@ -3,7 +3,7 @@ title: List Shares (FileREST API) - Azure Files
 description: The List Shares operation returns a list of the shares and share snapshots under the specified account.
 author: wmgries
 
-ms.date: 09/12/2020
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -30,7 +30,7 @@ Replace the path components shown in the request URI with your own, as follows:
   
 |Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
+|`myaccount`|The name of your storage account.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   

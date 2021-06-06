@@ -30,10 +30,10 @@ Replace the path components shown in the request URI with your own, as follows:
   
 |Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
-|*mydirectorypath*|Optional. The path to the directory.|  
-|*myfile*|The name of the file.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
+|`mydirectorypath`|Optional. The path to the directory.|
+|`myfile`|The name of the file.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
@@ -44,7 +44,7 @@ The following additional parameters may be specified on the request URI.
 |---------------|-----------------|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
-### Request headers  
+### Request headers
 The following table describes required and optional request headers.  
   
 |Request header|Description|  
@@ -69,7 +69,7 @@ A successful operation returns status code 200 (OK).
   
 For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
-### Response headers  
+### Response headers
 The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
@@ -114,7 +114,7 @@ The response body contains the content of the file.
   
 ### Sample response  
   
-```  
+```
 Response Status:  
 HTTP/1.1 200 OK  
   
@@ -136,8 +136,7 @@ x-ms-copy-progress: 11/11
 x-ms-copy-completion-time: <date>  
 x-ms-lease-duration: infinite   
 x-ms-lease-state: leased 
-x-ms-lease-status: locked   
-  
+x-ms-lease-status: locked
 ```  
   
 ## Authorization

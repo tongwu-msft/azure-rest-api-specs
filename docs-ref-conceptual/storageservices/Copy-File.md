@@ -28,18 +28,18 @@ Beginning with version 2013-08-15, you may specify a shared access signature for
   
 |Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
-|PUT|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`|HTTP/1.1|  
+|`PUT`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`|HTTP/1.1|  
   
 Replace the path components shown in the request URI with your own, as follows:  
   
 |Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
-|*mydirectorypath*|Optional. The path to the parent directory.|  
-|*myfile*|The name of the file.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
+|`mydirectorypath`|Optional. The path to the parent directory.|  
+|`myfile`|The name of the file.|  
   
- For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
 ### URI parameters
 The following additional parameters may be specified on the request URI.  

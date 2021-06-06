@@ -3,7 +3,7 @@ title: Setting timeouts for FileREST operations (FileREST API) - Azure Files
 description: A call to a FileREST API can include a server timeout interval, specified in the `timeout` parameter of the request URI. If the server timeout interval elapses before the service has finished processing the request, the service returns an error. 
 author: wmgries
 
-ms.date: 09/30/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries

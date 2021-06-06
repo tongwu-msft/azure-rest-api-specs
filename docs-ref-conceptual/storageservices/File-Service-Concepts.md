@@ -3,7 +3,7 @@ title: Azure Files concepts (FileREST API) - Azure Files
 description: This topic outlines concepts about the Azure Files REST API. 
 author: wmgries
 
-ms.date: 09/23/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries

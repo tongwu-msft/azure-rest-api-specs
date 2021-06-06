@@ -3,7 +3,7 @@ title: Create Permission (FileREST API) - Azure Files
 description: The Create Permission operation creates a permission (a security descriptor) at the share level. The created security descriptor can be used for the files/directories in the share. 
 author: wmgries
 
-ms.date: 09/23/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -30,8 +30,8 @@ Replace the path components shown in the request URI with your own, as follows:
   
 |Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share. It may include only lower-case characters.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share. It may include only lower-case characters.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   

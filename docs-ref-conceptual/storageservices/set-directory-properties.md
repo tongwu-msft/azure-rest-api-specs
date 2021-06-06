@@ -1,5 +1,5 @@
 ---
-title: Set Directory Properties (REST API) - Azure Storage
+title: Set Directory Properties (FilesREST API) - Azure Files
 description: The Set Directory Properties operation sets system properties for the directory.
 author: wmgries
 
@@ -19,7 +19,7 @@ The `Set Directory Properties` operation sets system properties for the director
 | SMB | ![Yes](./media/yes-icon.png) |
 | NFS | ![No](./media/no-icon.png) |
   
-## Request  
+## Request
 The `Set Directory Properties` request may be constructed as follows. HTTPS is recommended.  
   
 |Method|Request URI|HTTP version|  
@@ -30,10 +30,10 @@ Replace the path components shown in the request URI with your own, as follows:
   
 |Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
-|*mydirectorypath*|Optional. The path to the parent directory.|  
-|*mydirectory*|The name of the file.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
+|`mydirectorypath`|Optional. The path to the parent directory.|  
+|`mydirectory`|The name of the file.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
@@ -57,7 +57,7 @@ The following table describes required and optional request headers.
 | `x-ms-file-attributes` | Required. Version 2019-02-02 and newer. The file system attributes to be set on the file. See the list of [available attributes](#file-system-attributes). A value of `preserve` may be passed to keep an existing value unchanged. |
 | `x-ms-file-creation-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) creation time property for a file. A value of `now` may be used to indicate the time of the request. A value of `preserve` may be passed to keep an existing value unchanged. |
 | `x-ms-file-last-write-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) last write property for a file. A value of `now` may be used to indicate the time of the request. A value of `preserve` may be passed to keep an existing value unchanged. |
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).| 
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
   
 ### Request body
 None.

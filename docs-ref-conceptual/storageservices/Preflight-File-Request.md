@@ -3,7 +3,7 @@ title: Preflight File Request (FileREST API) - Azure Files
 description: The Preflight File Request operation queries the Cross-Origin Resource Sharing (CORS) rules for Azure Files prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make.
 author: wmgries
 
-ms.date: 09/20/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries

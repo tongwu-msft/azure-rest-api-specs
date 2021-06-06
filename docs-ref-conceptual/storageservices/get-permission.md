@@ -3,7 +3,7 @@ title: Get Permission (FileREST API) - Azure Files
 description: The Get Permission operation gets the Security Descriptor Definition Language (SDDL) for a given security descriptor. This API is available starting in version 2019-02-02.
 author: wmgries
 
-ms.date: 09/20/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -30,8 +30,8 @@ Replace the path components shown in the request URI with your own, as follows:
   
 |Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share. Note that it may include only lower-case characters.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share. Note that it may include only lower-case characters.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
