@@ -10,8 +10,15 @@ ms.author: wgries
 ---
 
 # Get Share Stats
-The `Get Share Stats` request retrieves statistics related to the share.  
-  
+The `Get Share Stats` request retrieves statistics related to the share. While this API is fully supported, this is a legacy management API. We recommend using [File Shares - Get](/rest/api/storagerp/file-shares/get) provided by the storage resource provider (Microsoft.Storage) instead. To learn more about programmatically interacting with `FileShare` resources using the storage resource provider, see [Operations on FileShares](Operations-on-Shares--File-Service-.md).
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![Yes](./media/yes-icon.png) |
+
 ## Request
 The `Get Share Stats` request may be constructed as follows. HTTPS is recommended. Replace `myaccount` and `myshare` with the name of your storage account and share, respectively.  
   

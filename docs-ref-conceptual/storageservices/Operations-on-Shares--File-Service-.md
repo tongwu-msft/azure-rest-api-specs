@@ -49,4 +49,4 @@ To learn more about Azure Files' API surface area, see [Azure Files REST API](./
 ## See also
 
 - [File Service REST API](File-Service-REST-API.md)
-- [Operations on the FileService](./Operations-on-Account--File-Service-.md)
+- [Operations on the FileService](Operations-on-the-Account--File-Service-.md)
