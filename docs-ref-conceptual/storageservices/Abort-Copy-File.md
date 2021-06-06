@@ -3,7 +3,7 @@ title: Abort Copy File (FileREST API) - Azure Files
 description: The Abort Copy File operation aborts a pending Copy File operation, and leaves a destination file with zero length and full metadata.
 author: wmgries
 
-ms.date: 09/09/2019
+ms.date: 06/06/2021
 ms.author: wgries
 ms.service: storage
 ms.topic: reference

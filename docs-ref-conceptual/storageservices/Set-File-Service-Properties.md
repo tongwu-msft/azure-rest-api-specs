@@ -3,7 +3,7 @@ title: Set File Service Properties (FileREST API) - Azure Files
 description: Set properties for the FileService resource using the FileREST API.
 author: wmgries
 
-ms.date: 06/05/2021
+ms.date: 06/06/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -97,25 +97,29 @@ It is not necessary to specify every root element on the request. If you omit a 
   
 The following table describes the elements of the request body:  
   
-|Element name|Description|  
+| Name | Description |  
 |------------------|-----------------|
-|`HourMetrics`|Optional for version 2015-04-05 or later; not applicable for earlier versions. Groups the Storage Analytics `HourMetrics` settings. The `HourMetrics` settings provide a summary of request statistics grouped by API in hourly aggregates.|  
-|`MinuteMetrics`|Optional for version 2015-04-05 or later; not applicable for earlier versions. Groups the Azure Analytics `MinuteMetrics` settings. The `MinuteMetrics` settings provide request statistics for each minute.|  
-|`Version`|Required  if metrics are enabled. The version of Storage Analytics to configure. Use "1.0" for this value.|  
-|`Enabled`|Required. Indicates whether metrics are enabled for the File service.|  
-|`IncludeAPIs`|Required only if metrics are enabled. Indicates whether metrics should generate summary statistics for called API operations.|  
-|`RetentionPolicy/Enabled`|Required. Indicates whether a retention policy is enabled for the File service. If false, metrics data is retained, and the user is responsible for deleting it.|  
-|`RetentionPolicy/Days`|Required only if a retention policy is enabled. Indicates the number of days that metrics data should be retained. All data older than this value will be deleted. The minimum value you can specify is `1`; the largest value is `365` (one year). Metrics data is deleted on a best-effort basis after the retention period expires.|  
-|`Cors`|Optional. The `Cors` element is supported for version 2015-02-21 or later. Groups all CORS rules. Omitting this element group will not overwrite existing CORS settings.|  
-|`CorsRule`|Optional. Specifies a CORS rule for the File service. You can include up to five `CorsRule` elements in the request. If no `CorsRule` elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the File service.|  
-|`AllowedOrigins`|Required if `CorsRule` element is present. A comma-separated list of origin domains that will be allowed via CORS, or "*" to allow all domains. Limited to 64 origin domains. Each allowed origin can have up to 256 characters.|  
-|`ExposedHeaders`|Required if `CorsRule` element is present. A comma-separated list of response headers to expose to CORS clients. Limited to 64 defined headers and two prefixed headers. Each header can be up to 256 characters.|  
-|`MaxAgeInSeconds`|Required if `CorsRule` element is present. The number of seconds that the client/browser should cache a preflight response.|  
-|`AllowedHeaders`|Required if `CorsRule` element exists. A comma-separated list of headers allowed to be part of the cross-origin request. Limited to 64 defined headers and 2 prefixed headers. Each header can be up to 256 characters.|  
-|`AllowedMethods`|Required if `CorsRule` element exists. A comma-separated list of HTTP methods that are allowed to be executed by the origin. For Azure Storage, permitted methods are DELETE, GET, HEAD, MERGE, POST, OPTIONS or PUT.|  
-|`ProtocolSettings`|Optional. Groups the settings for file system protocols.|
-|`SMB`|Groups the settings for SMB.|
-|`Multichannel`|Contains the settings for SMB multichannel. SMB multichannel contains the `Enabled` boolean property which toggles the state of SMB multichannel. |
+| `HourMetrics` | Optional for version 2015-04-05 or later; not applicable for earlier versions. Groups the Storage Analytics `HourMetrics` settings. The `HourMetrics` settings provide a summary of request statistics grouped by API in hourly aggregates. |
+| `MinuteMetrics` | Optional for version 2015-04-05 or later; not applicable for earlier versions. Groups the Azure Analytics `MinuteMetrics` settings. The `MinuteMetrics` settings provide request statistics for each minute. |
+| `Version` | Required if metrics are enabled. The version of Storage Analytics to configure. Use "1.0" for this value. |
+| `Enabled` | Required. Indicates whether metrics are enabled for the File service. |
+| `IncludeAPIs` | Required only if metrics are enabled. Indicates whether metrics should generate summary statistics for called API operations. |
+| `RetentionPolicy/Enabled` | Required. Indicates whether a retention policy is enabled for the File service. If false, metrics data is retained, and the user is responsible for deleting it. |
+| `RetentionPolicy/Days` | Required only if a retention policy is enabled. Indicates the number of days that metrics data should be retained. All data older than this value will be deleted. The minimum value you can specify is `1`; the largest value is `365` (one year). Metrics data is deleted on a best-effort basis after the retention period expires. |
+| `Cors` | Optional. The `Cors` element is supported for version 2015-02-21 or later. Groups all CORS rules. Omitting this element group will not overwrite existing CORS settings. |
+| `CorsRule` | Optional. Specifies a CORS rule for the File service. You can include up to five `CorsRule` elements in the request. If no `CorsRule` elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the File service. |
+| `AllowedOrigins` | Required if `CorsRule` element is present. A comma-separated list of origin domains that will be allowed via CORS, or "*" to allow all domains. Limited to 64 origin domains. Each allowed origin can have up to 256 characters. |
+| `ExposedHeaders` | Required if `CorsRule` element is present. A comma-separated list of response headers to expose to CORS clients. Limited to 64 defined headers and two prefixed headers. Each header can be up to 256 characters. |
+| `MaxAgeInSeconds` | Required if `CorsRule` element is present. The number of seconds that the client/browser should cache a preflight response. |
+| `AllowedHeaders` | Required if `CorsRule` element exists. A comma-separated list of headers allowed to be part of the cross-origin request. Limited to 64 defined headers and 2 prefixed headers. Each header can be up to 256 characters. |
+| `AllowedMethods` | Required if `CorsRule` element exists. A comma-separated list of HTTP methods that are allowed to be executed by the origin. For Azure Files, permitted methods are DELETE, GET, HEAD, MERGE, POST, OPTIONS or PUT. |
+| `ProtocolSettings` | Optional. Groups the settings for file system protocols. |
+| `SMB` | Optional. Groups the settings for SMB. |
+| `Multichannel` | Optional. Contains the settings for SMB multichannel. SMB multichannel contains the `Enabled` boolean property which toggles the state of SMB multichannel. |
+| `Version` | Optional. Comma separated list of allowed SMB versions. Allowed values: `SMB2.1`, `SMB3.0`, `SMB3.1.1`. |
+| `AuthenticationMethods` | Optional. Comma separated list of allowed authentication methods. Allowed values: `NTLMv2`, `Kerberos`. |
+| `KerberosTicketEncryption` | Optional. Comma separated list of allowed Kerberos ticket encryption algorithms. Allowed values: `RC4-HMAC`, `AES-256`. |
+| `ChannelEncryption` | Optional. Comma separated list of allowed SMB channel encryption protocols. Allowed values: `AES-CCM-128`, `AES-GCM-128`, `AES-GCM-256`. |
   
 ## Response
 The response includes an HTTP status code and a set of response headers.  
@@ -210,6 +214,10 @@ The request is sent with the following XML body:
             <Multichannel>
                 <Enabled>true</Enabled>
             </Multichannel>
+            <Versions>SMB3.1.1</Versions>
+            <AuthenticationMethods>Kerberos</AuthenticationMethods>
+            <KerberosTicketEncryption>AES-256</KerberosTicketEncryption>
+            <ChannelEncryption>AES-GCM-256</ChannelEncryption>
         </SMB>
     </ProtocolSettings>
 </StorageServiceProperties>  
