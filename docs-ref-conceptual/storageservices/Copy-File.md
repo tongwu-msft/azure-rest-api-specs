@@ -3,7 +3,7 @@ title: Copy File (FileREST API) - Azure Files
 description: The Copy File operation copies a blob or file to a destination file within the storage account.  
 author: wmgries
 
-ms.date: 07/06/2020
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -12,20 +12,27 @@ ms.author: wgries
 # Copy File
 The `Copy File` operation copies a blob or file to a destination file within the storage account.  
   
-Available in version 2015-02-21 and newer.  
+Available in version 2015-02-21 and newer.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
- The `Copy File` request may be constructed as follows. HTTPS is recommended.  
+The `Copy File` request may be constructed as follows. HTTPS is recommended.  
   
- Beginning with version 2013-08-15, you may specify a shared access signature for the destination file if it is in the same account as the source file. Beginning with version 2015-04-05, you may also specify a shared access signature for the destination file if it is in a different storage account.  
+Beginning with version 2013-08-15, you may specify a shared access signature for the destination file if it is in the same account as the source file. Beginning with version 2015-04-05, you may also specify a shared access signature for the destination file if it is in a different storage account.  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |PUT|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`|HTTP/1.1|  
   
- Replace the path components shown in the request URI with your own, as follows:  
+Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
 |*myaccount*|The name of your storage account.|  
 |*myshare*|The name of your file share.|  
@@ -34,14 +41,14 @@ Available in version 2015-02-21 and newer.
   
  For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI parameters  
+### URI parameters
 The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
 |`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see Setting Timeouts for File Service Operations.|  
   
-### Request headers  
+### Request headers
 The following table describes required and optional request headers.  
   
 |Request header|Description|  
@@ -92,7 +99,7 @@ None
   
 ### Sample response  
   
-```  
+```
 Response Status:  
 HTTP/1.1 202 Accepted  
   
@@ -120,7 +127,7 @@ The following table describes how the destination and source objects for a Copy 
 |Source file in same account|Yes|Yes|N/A|  
 |Source file in another account|No|Yes|N/A|  
 |Source blob in the same account or another account|No|Yes|Yes|  
- 
+
 #### File system attributes
 | Attribute | Win32 file attribute | Definition |
 |-----------|----------------------|------------|

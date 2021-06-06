@@ -3,14 +3,21 @@ title: Delete File (FileREST API) - Azure Files
 description: The Delete File operation immediately removes the file from the storage account.   
 author: wmgries
 
-ms.date: 09/23/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
 ---
 
 # Delete File
-The `Delete File` operation immediately removes the file from the storage account.  
+The `Delete File` operation immediately removes the file from the storage account.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
 The `Delete File` request is constructed as follows. HTTPS is recommended.  

@@ -3,7 +3,7 @@ title: Delete Directory (FileREST API) - Azure Files
 description: The Delete Directory operation removes the specified empty directory. Note that the directory must be empty before it can be deleted. 
 author: wmgries
 
-ms.date: 09/23/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -11,8 +11,15 @@ ms.author: wgries
 
 # Delete Directory
 The `Delete Directory` operation removes the specified empty directory. Note that the directory must be empty before it can be deleted.  
-  
-## Request  
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
+
+## Request
 The `Delete Directory` request may be constructed as follows. HTTPS is recommended.  
   
 |Method|Request URI|HTTP version|  

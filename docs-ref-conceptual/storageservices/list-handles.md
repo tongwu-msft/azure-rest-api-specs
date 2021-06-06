@@ -3,7 +3,7 @@ title: List Handles (FileREST API) - Azure Files
 description: The List Handles operation returns a list of open handles on a directory or a file. It can (optionally) recursively enumerate opened handles on directories and files.
 author: wmgries
 
-ms.date: 09/20/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -11,6 +11,13 @@ ms.author: wgries
 
 # List Handles
 The `List Handles` operation returns a list of open handles on a directory or a file. It can (optionally) recursively enumerate opened handles on directories and files. This API is available beginning in version 2018-11-09.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
 The `List Handles` request may be constructed as follows. HTTPS is recommended.  

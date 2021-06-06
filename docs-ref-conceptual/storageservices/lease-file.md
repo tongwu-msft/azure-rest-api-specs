@@ -18,11 +18,18 @@ The `Lease File` operation can be called in one of four modes:
 - `Change`, to change the ID of an existing lease.  
 - `Release`, to free the lease if it is no longer needed so that another client may immediately acquire a lease against the file.  
 - `Break`, to forcibly end the lease but ensure that another client cannot acquire a new lease until the current lease period has expired.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
- The `Lease File` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
+The `Lease File` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-|Method | Request URI|HTTP Version|  
+|Method | Request URI|HTTP version|  
 |-|----------------------------|------------------|  
 |`Put`|`https://myaccount.file.core.windows.net/myshare/mydirectory/myfile?comp=lease`|HTTP/1.1|  
 

@@ -3,14 +3,21 @@ title: Get File (FileREST API) - Azure Files
 description: The Get File operation reads or downloads a file from the system, including its metadata and properties.
 author: wmgries
 
-ms.date: 09/20/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
 ---
 
 # Get File
-The `Get File` operation reads or downloads a file from the system, including its metadata and properties.  
+The `Get File` operation reads or downloads a file from the system, including its metadata and properties.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
 The `Get File` request may be constructed as follows. HTTPS is recommended.  
@@ -134,7 +141,7 @@ x-ms-lease-status: locked
 ```  
   
 ## Authorization
- Only the account owner may call this operation.  
+Only the account owner may call this operation.  
   
 ## Remarks
 Calling `Get File` over a range that does not yet have content or that has been cleared returns zeros for those bytes.  
@@ -143,5 +150,5 @@ If you call `Get File` with no range specified, the service returns the range of
   
 A `Get File` operation is allowed 2 minutes per MiB to complete. Operations that take longer than 2 minutes per MiB on average will time out.  
   
-## See also  
+## See also
 [Operations on Files](Operations-on-Files.md)

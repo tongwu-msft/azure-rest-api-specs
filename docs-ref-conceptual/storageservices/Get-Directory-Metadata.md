@@ -3,14 +3,21 @@ title: Get Directory Metadata (FileREST API) - Azure Files
 description: The Get Directory Metadata operation returns all user-defined metadata for the specified directory. This operation is supported in version 2015-02-21 and later. 
 author: wmgries
 
-ms.date: 09/20/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
 ---
 
 # Get Directory Metadata
-The `Get Directory Metadata` operation returns all user-defined metadata for the specified directory. This operation is supported in version 2015-02-21 and later.  
+The `Get Directory Metadata` operation returns all user-defined metadata for the specified directory. This operation is supported in version 2015-02-21 and later.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
 |Method|Request URI|HTTP Version|  
@@ -29,7 +36,7 @@ Replace the path components shown in the request URI with your own, as follows:
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI parameters  
+### URI parameters
 The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -40,7 +47,7 @@ The following additional parameters may be specified on the request URI.
 ### Request headers
 The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -76,7 +83,6 @@ None.
 ### Sample response  
   
 ```
-  
 Response Status:  
 HTTP/1.1 200 OK  
   

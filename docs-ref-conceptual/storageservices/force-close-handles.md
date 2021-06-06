@@ -3,7 +3,7 @@ title: Force Close Handles (FileREST API) - Azure Files
 description: The Force Close Handles operation closes a handle or handles opened on a directory or a file at the service. It supports closing a single handle specified by handle ID on a file or directory or closing all handles opened on that resource. It optionally supports recursively closing handles on subresources when the resource is a directory.
 author: wmgries
 
-ms.date: 09/23/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -15,6 +15,13 @@ The `Force Close Handles` operation closes a handle or handles opened on a direc
 This API is intended to be used alongside [List Handles](List-Handles.md) to force close handles that block operations, such as renaming a directory. These handles may have leaked or been lost track of by SMB clients. The API has client-side impact on the handle being closed, including user visible errors due to failed attempts to read or write files. This API is not intended for use as a replacement or alternative for SMB close.
 
 This API is available beginning in version 2018-11-09.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
 The `Force Close Handles` request may be constructed as follows. HTTPS is recommended.  

@@ -3,14 +3,21 @@ title: Create Directory (FileREST API) - Azure Files
 description: The Create Directory operation creates a new directory under the specified share or parent directory. The directory resource includes the properties for that directory. It does not include a list of the files or subdirectories contained by the directory.
 author: wmgries
 
-ms.date: 09/23/2019
+ms.date: 06/06/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
 ---
 
 # Create Directory
-The `Create Directory` operation creates a new directory under the specified share or parent directory. The directory resource includes the properties for that directory. It does not include a list of the files or subdirectories contained by the directory.  
+The `Create Directory` operation creates a new directory under the specified share or parent directory. The directory resource includes the properties for that directory. It does not include a list of the files or subdirectories contained by the directory.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
 The `Create Directory` request may be constructed as follows. HTTPS is recommended.  
@@ -19,7 +26,7 @@ The `Create Directory` request may be constructed as follows. HTTPS is recommend
 |------------|-----------------|------------------|  
 |`PUT`|`https://myaccount.file.core.windows.net/myshare/myparentdirectorypath/mydirectory?restype=directory`|HTTP/1.1|  
   
- Replace the path components shown in the request URI with your own, as follows:  
+Replace the path components shown in the request URI with your own, as follows:  
   
 |Path component|Description|  
 |--------------------|-----------------|  
@@ -79,7 +86,7 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 ### Response headers
 The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
-|Response Header|Description|  
+|Response header|Description|  
 |---------------------|-----------------|  
 |`ETag`|The ETag contains a value which represents the version of the directory, in quotes.|  
 |`Last-Modified`|Returns the date and time the directory was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). Any operation that modifies the directory or its properties updates the last modified time. Operations on files do not affect the last modified time of the directory.|  
@@ -101,7 +108,7 @@ None.
   
 ### Sample response  
   
-```  
+```
 Response Status:  
 HTTP/1.1 201 Created  
   
@@ -139,5 +146,5 @@ It is not possible to create a directory hierarchy with a single `Create Directo
 
 `Create Directory` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
 
-## See also  
+## See also
 [Operations on Directories](Operations-on-Directories.md)

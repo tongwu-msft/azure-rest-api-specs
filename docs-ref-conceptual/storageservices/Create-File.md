@@ -3,14 +3,21 @@ title: Create File (FileREST API) - Azure Files
 description: The Create File operation creates a new file or replaces a file. Note that calling Create File only initializes the file. To add content to a file, call the Put Range operation. 
 author: wmgries
 
-ms.date: 09/12/2020
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
 ---
 
 # Create File
-The `Create File` operation creates a new file or replaces a file. Note that calling `Create File` only initializes the file. To add content to a file, call the `Put Range` operation.  
+The `Create File` operation creates a new file or replaces a file. Note that calling `Create File` only initializes the file. To add content to a file, call the `Put Range` operation. 
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
 The `Create File` request may be constructed as follows. HTTPS is recommended.  

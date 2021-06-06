@@ -24,7 +24,7 @@ Unless you have a specific reason, you should use the control plane API (the sto
 
 To learn more about Azure Files' API surface area, see [Azure Files REST API](./File-Service-REST-API.md).
 
-## In this section
+## Management APIs
 This section contains the following topics.
 
 | Action | Control plane API (Microsoft.Storage) | Data plane API (FileREST) | Available on SMB file shares | Available on NFS file shares |

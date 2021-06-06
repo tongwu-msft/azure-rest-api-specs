@@ -3,14 +3,21 @@ title: List Ranges (FileREST API) - Azure Files
 description: The List Ranges operation returns the list of valid ranges for a file.
 author: wmgries
 
-ms.date: 09/20/2020
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
 ---
 
 # List Ranges
-The `List Ranges` operation returns the list of valid ranges for a file.  
+The `List Ranges` operation returns the list of valid ranges for a file.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
 The `List Ranges` request may be constructed as follows. HTTPS is recommended.

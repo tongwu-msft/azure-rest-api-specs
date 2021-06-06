@@ -10,7 +10,14 @@ ms.author: wgries
 ---
 
 # Put Range from URL
-The `Put Range from URL` operation creates a new range to be committed as part of a file where the contents are read from a URL. This API is available starting in version `2019-02-02`.  
+The `Put Range from URL` operation creates a new range to be committed as part of a file where the contents are read from a URL. This API is available starting in version `2019-02-02`.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
 The `Put Range from URL` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  

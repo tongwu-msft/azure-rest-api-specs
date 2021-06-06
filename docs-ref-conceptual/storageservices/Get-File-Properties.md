@@ -3,7 +3,7 @@ title: Get File Properties (FileREST API) - Azure Files
 description: The Get File Properties operation returns all user-defined metadata, standard HTTP properties, and system properties for the file. It does not return the content of the file.
 author: wmgries
 
-ms.date: 09/23/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -11,7 +11,14 @@ ms.author: wgries
 
 # Get File Properties
 The `Get File Properties` operation returns all user-defined metadata, standard HTTP properties, and system properties for the file. It does not return the content of the file.
-  
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
+
 ## Request
 The `Get File Properties` request may be constructed as follows. HTTPS is recommended.  
   

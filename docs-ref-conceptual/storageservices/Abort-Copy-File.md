@@ -10,7 +10,14 @@ ms.topic: reference
 ---
 
 # Abort Copy File
-The **Abort Copy File** operation aborts a pending **Copy File** operation, and leaves a destination file with zero length and full metadata. Version 2015-02-21 and newer.  
+The **Abort Copy File** operation aborts a pending **Copy File** operation, and leaves a destination file with zero length and full metadata. Version 2015-02-21 and newer.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
 The `Abort Copy File` request may be constructed as follows. HTTPS is recommended.  

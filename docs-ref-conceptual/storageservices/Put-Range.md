@@ -1,16 +1,23 @@
 ---
-title: Put Range (REST API) - Azure Storage
+title: Put Range (FileREST API) - Azure Files
 description: The Put Range operation writes a range of bytes to a file.
 author: wmgries
 
-ms.date: 10/06/2020
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
 ---
 
 # Put Range
-The `Put Range` operation writes a range of bytes to a file.  
+The `Put Range` operation writes a range of bytes to a file.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
 The `Put Range` request may be constructed as follows. HTTPS is recommended.  

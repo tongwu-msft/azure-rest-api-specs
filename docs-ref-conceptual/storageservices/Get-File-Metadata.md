@@ -3,14 +3,21 @@ title: Get File Metadata (FileREST API) - Azure Files
 description: The Get File Metadata operation returns all user-defined metadata for the specified file.
 author: wmgries
 
-ms.date: 09/23/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
 ---
 
 # Get File Metadata
-The `Get File Metadata` operation returns all user-defined metadata for the specified file.  
+The `Get File Metadata` operation returns all user-defined metadata for the specified file.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
 The `Get File Metadata` request is constructed as follows. HTTPS is recommended.  
