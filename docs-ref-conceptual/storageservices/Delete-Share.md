@@ -1,16 +1,23 @@
 ---
 title: Delete Share (FileREST API) - Azure Files
-description: The Delete Share operation marks the specified share or share snapshot for deletion. The share or share snapshot and any files contained within it are later deleted during garbage collection. 
+description: The Delete Share operation deletes the specified share or share snapshot.
 author: wmgries
 
-ms.date: 09/23/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
 ---
 
 # Delete Share
-The `Delete Share` operation marks the specified share or share snapshot for deletion. The share or share snapshot and any files contained within it are later deleted during garbage collection.  
+The `Delete Share` operation deletes the specified share or share snapshot. While this API is fully supported, this is a legacy management API. We recommend using [File Shares - Delete](/rest/api/storagerp/file-shares/delete) provided by the storage resource provider (Microsoft.Storage) instead. To learn more about programmatically interacting with `FileShare` resources using the storage resource provider, see [Operations on FileShares](Operations-on-Shares--File-Service-.md).
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![Yes](./media/yes-icon.png) |
   
 ## Request
 The `Delete Share` request may be constructed as follows. HTTPS is recommended.  

@@ -11,6 +11,13 @@ ms.author: wgries
 
 # Create Permission
 The `Create Permission` operation creates a permission (a security descriptor) at the share level. The created security descriptor can be used for the files/directories in the share. This API is available starting in version 2019-02-02.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
 The `Create Permission` request may be constructed as follows. HTTPS is recommended.  
@@ -21,7 +28,7 @@ The `Create Permission` request may be constructed as follows. HTTPS is recommen
   
 Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
 |*myaccount*|The name of your storage account.|  
 |*myshare*|The name of your file share. It may include only lower-case characters.|  

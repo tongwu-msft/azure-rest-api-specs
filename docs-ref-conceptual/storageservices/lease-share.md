@@ -1,5 +1,5 @@
 ---
-title: Lease Share (REST API) - Azure Storage
+title: Lease Share (FileREST API) - Azure Files
 description: The Lease Share operation creates and manages a lease on an Azure file share.
 author: wmgries
 
@@ -10,7 +10,9 @@ ms.author: wgries
 ---
 
 # Lease Share
-The `Lease Share` operation establishes and manages a lock on an Azure file share or a share snapshot. The lock duration can be 15 to 60 seconds, or can be infinite. The `Lease Share` operation can be called in one of five modes:  
+The `Lease Share` operation establishes and manages a lock on an Azure file share or a share snapshot. While this API is fully supported, this is a legacy management API. We recommend using [File Shares - Lease](/rest/api/storagerp/file-shares/lease) provided by the storage resource provider (Microsoft.Storage) instead. To learn more about programmatically interacting with `FileShare` resources using the storage resource provider, see [Operations on FileShares](Operations-on-Shares--File-Service-.md).
+
+The lock duration can be 15 to 60 seconds, or can be infinite. The `Lease Share` operation can be called in one of five modes:  
 
 - `Acquire`: to request a new lease.
 - `Renew`: to renew an existing lease.
@@ -20,7 +22,14 @@ The `Lease Share` operation establishes and manages a lock on an Azure file shar
   
 > [!NOTE]
 > The `Lease Share` operation is available in version 2020-02-10 and newer.
-  
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![Yes](./media/yes-icon.png) |
+
 ## Request  
 The `Lease Share` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   

@@ -1,6 +1,6 @@
 ---
 title: Create Share (FileREST API) - Azure Files
-description: The Create Share operation creates a new share under the specified account. If the share with the same name already exists, the operation fails. 
+description: The Create Share operation creates a new Azure file share under the specified account. If the share with the same name already exists, the operation fails. 
 author: wmgries
 
 ms.date: 09/12/2020
@@ -10,11 +10,18 @@ ms.author: wgries
 ---
 
 # Create Share
-The `Create Share` operation creates a new share under the specified account. If the share with the same name already exists, the operation fails.  
+The `Create Share` operation creates a new Azure file share under the specified account. While this API is fully supported, this is a legacy management API. We recommend using [File Shares - Create](/rest/api/storagerp/file-shares/create) provided by the storage resource provider (Microsoft.Storage) instead. To learn more about programmatically interacting with `FileShare` resources using the storage resource provider, see [Operations on FileShares](Operations-on-Shares--File-Service-.md).
   
-The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.  
-  
-## Request  
+If the share with the same name already exists, the operation fails. The share resource includes metadata and properties for that share. It does not include a list of the files contained by the share.  
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![Yes](./media/yes-icon.png) |
+
+## Request
 The `Create Share` request may be constructed as follows. HTTPS is recommended.  
   
 |Method|Request URI|HTTP version|  
@@ -30,14 +37,14 @@ Replace the path components shown in the request URI with your own, as follows:
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI parameters  
+### URI parameters
 The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
 |`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
-### Request Headers  
+### Request headers
 The following table describes required and optional request headers.  
   
 |Request header|Description|  
@@ -72,12 +79,12 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=
 ## Response
 The response includes an HTTP status code and a set of response headers.  
   
-### Status code  
+### Status code
 A successful operation returns status code 201 (Created).  
   
 For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
-### Response headers  
+### Response headers
 The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  

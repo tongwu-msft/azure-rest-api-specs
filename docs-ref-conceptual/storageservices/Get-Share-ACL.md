@@ -9,7 +9,14 @@ ms.author: wgries
 ---
 
 # Get Share ACL
-The `Get Share ACL` operation returns information about stored access policies specified on the share. For more information, see [Define a stored access policy](define-stored-access-policy.md).  
+The `Get Share ACL` operation returns information about stored access policies specified on the share. For more information, see [Define a stored access policy](define-stored-access-policy.md).
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
 The `Get Share ACL` request may be constructed as follows. HTTPS is recommended. Replace `myaccount` with the name of your storage account:  

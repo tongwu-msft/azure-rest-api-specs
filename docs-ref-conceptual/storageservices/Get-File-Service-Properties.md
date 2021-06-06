@@ -1,16 +1,23 @@
 ---
-title: Get File Service Properties (REST API) - Azure Storage
-description: The Get File Service Properties operation gets properties for a storage account's File service endpoint.
+title: Get File Service Properties (FileREST API) - Azure Files
+description: Get properties for the FileService resource using the FileREST API. 
 author: wmgries
 
-ms.date: 09/12/2020
+ms.date: 05/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
 ---
 
 # Get File Service Properties
-The `Get File Service Properties` operation gets properties for a storage account's File service endpoint.
+The `Get File Service Properties` operation gets properties for the `FileService` resource using the FileREST API. While this API is fully supported, this is a legacy management API. We recommend using [File Services - Get Service Properties](/rest/api/storagerp/file-services/get-service-properties) provided by the storage resource provider (Microsoft.Storage) instead. To learn more about programmatically interacting with the `FileService` resource using the storage resource provider, see [Operations on the FileService](Operations-on-the-Account--File-Service-.md).
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![Yes](./media/yes-icon.png) |
   
 ## Request
 The `Get File Service Properties` request may be specified as follows. HTTPS is recommended. Replace `<account-name>` with the name of your storage account:  

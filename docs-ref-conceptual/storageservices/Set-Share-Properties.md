@@ -1,17 +1,24 @@
 ---
 title: Set Share Properties (FileREST API) - Azure Files
-description: The Set Share Properties operation sets properties on the share.
+description: The Set Share Properties operation sets properties on the Azure file share.
 author: wmgries
 
-ms.date: 10/06/2020
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
 ---
 
 # Set Share Properties
-The `Set Share Properties` operation sets service-defined properties for the specified share.  
-  
+The `Set Share Properties` operation sets properties for the specified Azure file share. While this API is fully supported, this is a legacy management API. We recommend using [File Shares - Update](/rest/api/storagerp/file-shares/update) provided by the storage resource provider (Microsoft.Storage) instead. To learn more about programmatically interacting with `FileShare` resources using the storage resource provider, see [Operations on FileShares](Operations-on-Shares--File-Service-.md).
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![Yes](./media/yes-icon.png) |
+
 ## Request
 The `Set Share Properties` request may be constructed as follows. HTTPS is recommended.  
   

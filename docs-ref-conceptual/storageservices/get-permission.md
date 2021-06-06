@@ -11,8 +11,15 @@ ms.author: wgries
 
 # Get Permission
 The `Get Permission` operation gets the [Security Descriptor Definition Language (SDDL)](/windows/win32/secauthz/security-descriptor-definition-language) for a given security descriptor. This API is available starting in version 2019-02-02.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
-## Request  
+## Request
 The `Get Permission` request may be constructed as follows. HTTPS is recommended.  
   
 |Method|Request URI|HTTP version|  

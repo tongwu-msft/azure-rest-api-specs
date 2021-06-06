@@ -1,6 +1,6 @@
 ---
-title: Set File Service Properties (REST API) - Azure Storage
-description: The Set File Service Properties operation sets properties for a storage account's File service endpoint.
+title: Set File Service Properties (FileREST API) - Azure Files
+description: Set properties for the FileService resource using the FileREST API.
 author: wmgries
 
 ms.date: 10/06/2020
@@ -10,7 +10,14 @@ ms.author: wgries
 ---
 
 # Set File Service Properties
-The `Set File Service Properties` operation sets properties for a storage account's File service endpoint.
+The `Set File Service Properties` operation sets properties for the `FileService` resource using the FileREST API. While this API is fully supported, this is a legacy management API. We recommend using [File Services - Set Service Properties](/rest/api/storagerp/file-services/set-service-properties) provided by the storage resource provider (Microsoft.Storage) instead. To learn more about programmatically interacting with the `FileService` resource using the storage resource provider, see [Operations on the FileService](Operations-on-the-Account--File-Service-.md).
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![Yes](./media/yes-icon.png) |
   
 ## Request
 The `Set File Service Properties` request may be specified as follows. HTTPS is recommended. Replace `<account-name>` with the name of your storage account:  

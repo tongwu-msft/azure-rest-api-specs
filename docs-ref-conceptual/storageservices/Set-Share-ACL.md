@@ -11,7 +11,14 @@ ms.author: wgries
 
 # Set Share ACL
 The **Set Share ACL** operation sets a stored access policy for use with shared access signatures. For more information about setting access policies, See [Grant limited access to Azure Storage resources using shared access signatures (SAS)](/azure/storage/common/storage-sas-overview).  
-  
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
+
 ## Request
 The **Set Share ACL** request may be constructed as follows. HTTPS is recommended. Replace `myaccount` with the name of your storage account:  
   

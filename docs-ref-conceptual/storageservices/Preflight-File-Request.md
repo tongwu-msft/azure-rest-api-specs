@@ -1,6 +1,6 @@
 ---
 title: Preflight File Request (FileREST API) - Azure Files
-description: The Preflight File Request operation queries the Cross-Origin Resource Sharing (CORS) rules for the File service prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make.
+description: The Preflight File Request operation queries the Cross-Origin Resource Sharing (CORS) rules for Azure Files prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make.
 author: wmgries
 
 ms.date: 09/20/2019
@@ -10,9 +10,16 @@ ms.author: wgries
 ---
 
 # Preflight File Request
-The `Preflight File Request` operation queries the Cross-Origin Resource Sharing (CORS) rules for the File service prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make. If CORS is enabled for the File service, then the File service evaluates the preflight request against the CORS rules that the account owner has configured via [Set File Service Properties](Set-File-Service-Properties.md), and accepts or rejects the request.  
+The `Preflight File Request` operation queries the Cross-Origin Resource Sharing (CORS) rules for Azure Files prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make. If CORS is enabled for Azure Files, then Azure Files evaluates the preflight request against the CORS rules that the account owner has configured via [Set File Service Properties](Set-File-Service-Properties.md), and accepts or rejects the request.  
   
-For more information about CORS and the preflight request, see [the CORS specification](https://www.w3.org/TR/cors/) and [Cross-Origin Resource Sharing (CORS) support for Azure Storage](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).  
+For more information about CORS and the preflight request, see [the CORS specification](https://www.w3.org/TR/cors/) and [Cross-Origin Resource Sharing (CORS) support for Azure Storage](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md).
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![Yes](./media/yes-icon.png) |
   
 ## Request
 The `Preflight File Request` may be specified as follows. Replace `<account-name>` with the name of your storage account. Replace `<file-resource>` with the share, directory, or file resource that is to be the target of the actual request:  

@@ -1,6 +1,6 @@
 ---
 title: Get Share Metadata (FileREST API) - Azure Files
-description: The Get Share Metadata operation returns all user-defined metadata for the share or share snapshot.
+description: The Get Share Metadata operation returns all user-defined metadata for the Azure file share or share snapshot.
 author: wmgries
 
 ms.date: 09/20/2019
@@ -10,7 +10,14 @@ ms.author: wgries
 ---
 
 # Get Share Files
-The `Get Share Metadata` operation returns all user-defined metadata for the share or share snapshot.  
+The `Get Share Metadata` operation returns all user-defined metadata for the Azure file share or share snapshot. While this API is fully supported, this is a legacy management API. We recommend using [File Shares - Get](/rest/api/storagerp/file-shares/get) provided by the storage resource provider (Microsoft.Storage) instead. To learn more about programmatically interacting with `FileShare` resources using the storage resource provider, see [Operations on FileShares](Operations-on-Shares--File-Service-.md).
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![Yes](./media/yes-icon.png) |
   
 ## Request
 The `Get Share Metadata` request is constructed as follows. HTTPS is recommended.  

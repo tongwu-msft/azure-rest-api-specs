@@ -1,5 +1,5 @@
 ---
-title: List Shares (REST API) - Azure Storage
+title: List Shares (FileREST API) - Azure Files
 description: The List Shares operation returns a list of the shares and share snapshots under the specified account.
 author: wmgries
 
@@ -10,7 +10,14 @@ ms.author: wgries
 ---
 
 # List Shares
-The `List Shares` operation returns a list of the shares and share snapshots under the specified account.  
+The `List Shares` operation returns a list of the shares and share snapshots under the specified account. While this API is fully supported, this is a legacy management API. We recommend using [File Shares - List](/rest/api/storagerp/file-shares/list) provided by the storage resource provider (Microsoft.Storage) instead. To learn more about programmatically interacting with `FileShare` resources using the storage resource provider, see [Operations on FileShares](Operations-on-Shares--File-Service-.md).
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![Yes](./media/yes-icon.png) |
   
 ## Request
 The `List Shares` request may be constructed as follows. HTTPS is recommended.  

@@ -10,7 +10,14 @@ ms.author: wgries
 ---
 
 # Set Share Metadata
-The `Set Share Metadata` operation sets one or more user-defined name-value pairs for the specified share.  
+The `Set Share Metadata` operation sets one or more user-defined name-value pairs for the specified share. While this API is fully supported, this is a legacy management API. We recommend using [File Shares - Update](/rest/api/storagerp/file-shares/update) provided by the storage resource provider (Microsoft.Storage) instead. To learn more about programmatically interacting with `FileShare` resources using the storage resource provider, see [Operations on FileShares](Operations-on-Shares--File-Service-.md).
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![Yes](./media/yes-icon.png) |
   
 ## Request
 The `Set Share Metadata` request is constructed as follows. HTTPS is recommended.  
