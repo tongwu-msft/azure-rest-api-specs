@@ -95,6 +95,10 @@ The format of the response body for version 2020-02-10 is as follows:
             <AllowedHeaders>comma-seperated-list-of-request-headers</AllowedHeaders>  
         </CorsRule>  
     </Cors>
+    <ShareDeleteRetentionPolicy>
+        <Enabled>true|false</Enabled>
+        <Days>integer-value</Days>
+    </ShareDeleteRetentionPolicy>
     <ProtocolSettings>
         <SMB>
             <Multichannel>
@@ -127,6 +131,9 @@ The following table describes the elements of the response body:
 | `MaxAgeInSeconds` | The number of seconds that the client/browser should cache a preflight response. |
 | `AllowedHeaders` | A comma-separated list of headers allowed to be part of the cross-origin request. |
 | `AllowedMethods` | A comma-separated list of HTTP methods that are allowed to be executed by the origin. For Azure Files, permitted methods are DELETE, GET, HEAD, MERGE, POST, OPTIONS or PUT. |
+| `ShareDeleteRetentionPolicy` | The soft-delete properties for the Azure file shares in this storage account. |
+| `Days` | Indicates the number of days that the Azure file share should be retained (soft-deleted). The minimum specified value can be 1 and the maximum value can be 365. |
+| `Enabled` | Whether or not the storage account has soft-delete enabled for Azure Files. |
 | `ProtocolSettings` | Groups the settings for file system protocols. |
 | `SMB` | Groups the settings for SMB. |
 | `Multichannel` | Contains the settings for SMB Multichannel. This setting has one property: enabled/disabled. |
@@ -199,6 +206,10 @@ The response includes the following XML body:
             <AllowedHeaders>x-ms-meta-target*,x-ms-meta-customheader</AllowedHeaders>  
         </CorsRule>  
     </Cors>
+    <ShareDeleteRetentionPolicy>
+        <Enabled>true</Enabled>
+        <Days>7</Days>
+    </ShareDeleteRetentionPolicy>
     <ProtocolSettings>
         <SMB>
             <Multichannel>

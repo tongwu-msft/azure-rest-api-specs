@@ -76,7 +76,11 @@ The format of the request body for version 2020-02-10 is as follows:
             <ExposedHeaders>comma-seperated-list-of-response-headers</ExposedHeaders>  
             <AllowedHeaders>comma-seperated-list-of-request-headers</AllowedHeaders>  
         </CorsRule>  
-    </Cors>
+    </Cors>    
+    <ShareDeleteRetentionPolicy>
+        <Enabled>true|false</Enabled>
+        <Days>integer-value</Days>
+    </ShareDeleteRetentionPolicy>
     <ProtocolSettings>
         <SMB>
             <Multichannel>
@@ -117,6 +121,9 @@ The following table describes the elements of the request body:
 | `MaxAgeInSeconds` | Required if `CorsRule` element is present. The number of seconds that the client/browser should cache a preflight response. |
 | `AllowedHeaders` | Required if `CorsRule` element exists. A comma-separated list of headers allowed to be part of the cross-origin request. Limited to 64 defined headers and 2 prefixed headers. Each header can be up to 256 characters. |
 | `AllowedMethods` | Required if `CorsRule` element exists. A comma-separated list of HTTP methods that are allowed to be executed by the origin. For Azure Files, permitted methods are DELETE, GET, HEAD, MERGE, POST, OPTIONS or PUT. |
+| `ShareDeleteRetentionPolicy` | Optional. The soft-delete properties for the Azure file shares in this storage account. |
+| `Days` | Optional. Indicates the number of days that the Azure file share should be retained (soft-deleted). The minimum specified value can be 1 and the maximum value can be 365. |
+| `Enabled` | Optional. Whether or not the storage account has soft-delete enabled for Azure Files. |
 | `ProtocolSettings` | Optional. Groups the settings for file system protocols. |
 | `SMB` | Optional. Groups the settings for SMB. |
 | `Multichannel` | Optional. Contains the settings for SMB multichannel. SMB multichannel contains the `Enabled` boolean property which toggles the state of SMB multichannel. |
@@ -213,6 +220,10 @@ The request is sent with the following XML body:
             <AllowedHeaders>x-ms-meta-target*,x-ms-meta-customheader</AllowedHeaders>  
         </CorsRule>  
     </Cors>
+    <ShareDeleteRetentionPolicy>
+        <Enabled>true</Enabled>
+        <Days>7</Days>
+    </ShareDeleteRetentionPolicy>
     <ProtocolSettings>
         <SMB>
             <Multichannel>
