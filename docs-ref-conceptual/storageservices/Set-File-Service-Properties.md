@@ -82,6 +82,10 @@ The format of the request body for version 2020-02-10 is as follows:
             <Multichannel>
                 <Enabled>true|false</Enabled>
             </Multichannel>
+            <Versions>comma-separated-list-of-smb-versions</Versions>
+            <AuthenticationMethods>comma-separated-list-of-auth-methods</AuthenticationMethod>
+            <KerberosTicketEncryption>csv-of-kerb-encryption-algorithms</KerberosTicketEncryption>
+            <ChannelEncryption>csv-of-smb-encryption-algorithms</ChannelEncryption>
         </SMB>
     </ProtocolSettings>
 </StorageServiceProperties>  
@@ -119,7 +123,7 @@ The following table describes the elements of the request body:
 | `Version` | Optional. Comma separated list of allowed SMB versions. Allowed values: `SMB2.1`, `SMB3.0`, `SMB3.1.1`. |
 | `AuthenticationMethods` | Optional. Comma separated list of allowed authentication methods. Allowed values: `NTLMv2`, `Kerberos`. |
 | `KerberosTicketEncryption` | Optional. Comma separated list of allowed Kerberos ticket encryption algorithms. Allowed values: `RC4-HMAC`, `AES-256`. |
-| `ChannelEncryption` | Optional. Comma separated list of allowed SMB channel encryption protocols. Allowed values: `AES-CCM-128`, `AES-GCM-128`, `AES-GCM-256`. |
+| `ChannelEncryption` | Optional. Comma separated list of allowed SMB channel encryption protocols. Allowed values: `AES-128-CCM`, `AES-128-GCM`, `AES-256-GCM`. |
   
 ## Response
 The response includes an HTTP status code and a set of response headers.  
@@ -217,7 +221,7 @@ The request is sent with the following XML body:
             <Versions>SMB3.1.1</Versions>
             <AuthenticationMethods>Kerberos</AuthenticationMethods>
             <KerberosTicketEncryption>AES-256</KerberosTicketEncryption>
-            <ChannelEncryption>AES-GCM-256</ChannelEncryption>
+            <ChannelEncryption>AES-256-GCM</ChannelEncryption>
         </SMB>
     </ProtocolSettings>
 </StorageServiceProperties>  

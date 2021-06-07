@@ -133,7 +133,7 @@ The following table describes the elements of the response body:
 | `Version` | Comma separated list of allowed SMB versions. Possible values: `SMB2.1`, `SMB3.0`, `SMB3.1.1`. Default if not specified is all versions are enabled, however, SMB 2.1 is only accessible available if the storage account's "require secure transit" property is disabled, as SMB 2.1 does not support encryption. |
 | `AuthenticationMethods` | Comma separated list of allowed authentication methods. Possible values: `NTLMv2`, `Kerberos`. Default if not specified is all authentication methods are allowed. |
 | `KerberosTicketEncryption` | Comma separated list of allowed Kerberos ticket encryption algorithms. Possible values: `RC4-HMAC`, `AES-256`. Default if not specified is all Kerberos ticket encryption algorithms are supported. |
-| `ChannelEncryption` | Comma separated list of allowed SMB channel encryption protocols. Possible values: `AES-CCM-128`, `AES-GCM-128`, `AES-GCM-256`. Default if not specified is all channel encryption values are supported. If the storage account's "require secure transit" property is disabled, unencrypted SMB access is also allowed. |
+| `ChannelEncryption` | Comma separated list of allowed SMB channel encryption protocols. Possible values: `AES-128-CCM`, `AES-128-GCM`, `AES-256-GCM`. Default if not specified is all channel encryption values are supported. If the storage account's "require secure transit" property is disabled, unencrypted SMB access is also allowed. |
   
 ### Authorization
 Only the storage account owner may call this operation.  
@@ -207,7 +207,7 @@ The response includes the following XML body:
             <Versions>SMB3.1.1</Versions>
             <AuthenticationMethods>Kerberos</AuthenticationMethods>
             <KerberosTicketEncryption>AES-256</KerberosTicketEncryption>
-            <ChannelEncryption>AES-GCM-256</ChannelEncryption>
+            <ChannelEncryption>AES-256-GCM</ChannelEncryption>
         </SMB>
     </ProtocolSettings>
 </StorageServiceProperties>  
