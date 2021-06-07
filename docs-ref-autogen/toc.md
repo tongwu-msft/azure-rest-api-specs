@@ -57,6 +57,7 @@
 ### [List Cluster Admin Credentials](aks/Managed-Clusters/List-Cluster-Admin-Credentials.yml)
 ### [List Cluster Monitoring User Credentials](aks/Managed-Clusters/List-Cluster-Monitoring-User-Credentials.yml)
 ### [List Cluster User Credentials](aks/Managed-Clusters/List-Cluster-User-Credentials.yml)
+### [List Outbound Network Dependencies Endpoints](aks/Managed-Clusters/List-Outbound-Network-Dependencies-Endpoints.yml)
 ### [Reset AAD Profile](aks/Managed-Clusters/Reset-AAD-Profile.yml)
 ### [Reset Service Principal Profile](aks/Managed-Clusters/Reset-Service-Principal-Profile.yml)
 ### [Rotate Cluster Certificates](aks/Managed-Clusters/Rotate-Cluster-Certificates.yml)
