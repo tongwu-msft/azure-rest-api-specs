@@ -57,6 +57,7 @@
 ### [List Cluster Admin Credentials](aks/Managed-Clusters/List-Cluster-Admin-Credentials.yml)
 ### [List Cluster Monitoring User Credentials](aks/Managed-Clusters/List-Cluster-Monitoring-User-Credentials.yml)
 ### [List Cluster User Credentials](aks/Managed-Clusters/List-Cluster-User-Credentials.yml)
+### [List Outbound Network Dependencies Endpoints](aks/Managed-Clusters/List-Outbound-Network-Dependencies-Endpoints.yml)
 ### [Reset AAD Profile](aks/Managed-Clusters/Reset-AAD-Profile.yml)
 ### [Reset Service Principal Profile](aks/Managed-Clusters/Reset-Service-Principal-Profile.yml)
 ### [Rotate Cluster Certificates](aks/Managed-Clusters/Rotate-Cluster-Certificates.yml)
@@ -3814,6 +3815,45 @@
 ## Operations
 ### [Overview](stackhci/Operations.yml)
 ### [List](stackhci/Operations/List.yml)
+# Azure Video Analyzer
+## [Overview](../docs-ref-conceptual/videoanalyzer/index.md)
+## Access Policies
+### [Overview](videoanalyzer/Access-Policies.yml)
+### [Create Or Update](videoanalyzer/Access-Policies/Create-Or-Update.yml)
+### [Delete](videoanalyzer/Access-Policies/Delete.yml)
+### [Get](videoanalyzer/Access-Policies/Get.yml)
+### [List](videoanalyzer/Access-Policies/List.yml)
+### [Update](videoanalyzer/Access-Policies/Update.yml)
+## Edge Modules
+### [Overview](videoanalyzer/Edge-Modules.yml)
+### [Create Or Update](videoanalyzer/Edge-Modules/Create-Or-Update.yml)
+### [Delete](videoanalyzer/Edge-Modules/Delete.yml)
+### [Get](videoanalyzer/Edge-Modules/Get.yml)
+### [List](videoanalyzer/Edge-Modules/List.yml)
+### [List Provisioning Token](videoanalyzer/Edge-Modules/List-Provisioning-Token.yml)
+## Locations
+### [Overview](videoanalyzer/Locations.yml)
+### [Check Name Availability](videoanalyzer/Locations/Check-Name-Availability.yml)
+## Operations
+### [Overview](videoanalyzer/Operations.yml)
+### [List](videoanalyzer/Operations/List.yml)
+## Video Analyzers
+### [Overview](videoanalyzer/Video-Analyzers.yml)
+### [Create Or Update](videoanalyzer/Video-Analyzers/Create-Or-Update.yml)
+### [Delete](videoanalyzer/Video-Analyzers/Delete.yml)
+### [Get](videoanalyzer/Video-Analyzers/Get.yml)
+### [List](videoanalyzer/Video-Analyzers/List.yml)
+### [List By Subscription](videoanalyzer/Video-Analyzers/List-By-Subscription.yml)
+### [Sync Storage Keys](videoanalyzer/Video-Analyzers/Sync-Storage-Keys.yml)
+### [Update](videoanalyzer/Video-Analyzers/Update.yml)
+## Videos
+### [Overview](videoanalyzer/Videos.yml)
+### [Create Or Update](videoanalyzer/Videos/Create-Or-Update.yml)
+### [Delete](videoanalyzer/Videos/Delete.yml)
+### [Get](videoanalyzer/Videos/Get.yml)
+### [List](videoanalyzer/Videos/List.yml)
+### [List Streaming Token](videoanalyzer/Videos/List-Streaming-Token.yml)
+### [Update](videoanalyzer/Videos/Update.yml)
 # Azure Web PubSub Service
 ## [Overview](../docs-ref-conceptual/webpubsub/index.md)
 ## Health Api
