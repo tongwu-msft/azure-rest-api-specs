@@ -15,7 +15,7 @@ The purpose of Append Blob Seal is to allow users and applications to seal appen
 
 This operation can be performed by the account owner and by anyone with a Shared Access Signature that has write permissions to access the blob.
 
-### Request
+## Request
 
  The `Append Blob Seal` request may be constructed as follows. HTTPS is recommended. Replace `myaccount` with the name of your storage account:  
   
@@ -39,7 +39,7 @@ No additional URI parameters.
 
 None.
 
-### Response
+## Response
 
 The response includes an HTTP status code and a list of response headers.
 
@@ -53,7 +53,7 @@ The response includes an HTTP status code and a list of response headers.
 
 ### Remarks
 
-If an append blob has a lease, a lease id will be needed to seal the blob.
+If an append blob has a lease, a lease ID will be needed to seal the blob.
 
 After a blob is sealed, properties, blob index tags, and metadata can still be updated. Soft deleting a sealed blob will preserve the sealed state. Sealed blobs can be overwritten.  
 
@@ -70,3 +70,6 @@ Calling AppendBlock on a blob that is already sealed will return error code list
 | BlobIsSealed | Conflict (409) | The specified blob is sealed and its contents cannot be modified unless the blob is recreated after a delete. |
 
 Calling append blob seal on an already sealed append blob results in a status code 200 success but no-op.
+
+## See also
+ [Blob Service Error Codes](Blob-Service-Error-Codes.md) 
