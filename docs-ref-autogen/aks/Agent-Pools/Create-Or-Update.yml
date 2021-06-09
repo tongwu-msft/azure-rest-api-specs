@@ -3,14 +3,14 @@ uid: management.azure.com.aks.agentpools.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Agent Pools
-apiVersion: 2021-03-01
+apiVersion: 2021-05-01
 summary: Creates or updates an agent pool in the specified managed cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2021-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2021-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -61,7 +61,7 @@ requestBody:
   parameters:
   - name: properties.count
     in: body
-    description: Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive) for user pools and in the range of 1 to 100 (inclusive) for system pools. The default value is 1.
+    description: Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1.
     types:
     - uid: integer
   - name: properties.vmSize
@@ -219,6 +219,11 @@ requestBody:
     description: Whether to enable EncryptionAtHost
     types:
     - uid: boolean
+  - name: properties.enableUltraSSD
+    in: body
+    description: Whether to enable UltraSSD
+    types:
+    - uid: boolean
   - name: properties.enableFIPS
     in: body
     description: Whether to use FIPS enabled OS
@@ -336,7 +341,7 @@ definitions:
     types:
     - uid: string
   - name: properties.count
-    description: Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 100 (inclusive) for user pools and in the range of 1 to 100 (inclusive) for system pools. The default value is 1.
+    description: Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1.
     types:
     - uid: integer
   - name: properties.vmSize
@@ -478,6 +483,10 @@ definitions:
     - uid: LinuxOSConfig
   - name: properties.enableEncryptionAtHost
     description: Whether to enable EncryptionAtHost
+    types:
+    - uid: boolean
+  - name: properties.enableUltraSSD
+    description: Whether to enable UltraSSD
     types:
     - uid: boolean
   - name: properties.enableFIPS
@@ -745,7 +754,7 @@ definitions:
 examples:
 - name: Create/Update Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
     body: >-
       {
         "properties": {
@@ -825,7 +834,7 @@ examples:
       }
 - name: Update Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
     body: >-
       {
         "properties": {
@@ -892,7 +901,7 @@ examples:
       }
 - name: Create Spot Agent Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
     body: >-
       {
         "properties": {
@@ -970,7 +979,7 @@ examples:
       }
 - name: Create Agent Pool with PPG
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
     body: >-
       {
         "properties": {
@@ -1016,7 +1025,7 @@ examples:
       }
 - name: Create Agent Pool with OSSKU
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
     body: >-
       {
         "properties": {
@@ -1135,7 +1144,7 @@ examples:
       }
 - name: Create Agent Pool with GPUMIG
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
     body: >-
       {
         "properties": {
@@ -1254,7 +1263,7 @@ examples:
       }
 - name: Create Agent Pool with Ephemeral OS Disk
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
     body: >-
       {
         "properties": {
@@ -1304,7 +1313,7 @@ examples:
       }
 - name: Create Agent Pool with KubeletConfig and LinuxOSConfig
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
     body: >-
       {
         "properties": {
@@ -1420,7 +1429,7 @@ examples:
       }
 - name: Create Agent Pool with EncryptionAtHost enabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
     body: >-
       {
         "properties": {
@@ -1464,9 +1473,55 @@ examples:
           "enableEncryptionAtHost": true
         }
       }
+- name: Create Agent Pool with UltraSSD enabled
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
+    body: >-
+      {
+        "properties": {
+          "orchestratorVersion": "",
+          "count": 3,
+          "vmSize": "Standard_DS2_v2",
+          "osType": "Linux",
+          "enableUltraSSD": true
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "orchestratorVersion": "1.17.13",
+          "count": 3,
+          "vmSize": "Standard_DS2_v2",
+          "maxPods": 110,
+          "osType": "Linux",
+          "enableUltraSSD": true
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Creating",
+          "orchestratorVersion": "1.17.13",
+          "count": 3,
+          "vmSize": "Standard_DS2_v2",
+          "maxPods": 110,
+          "osType": "Linux",
+          "enableUltraSSD": true
+        }
+      }
 - name: Create Agent Pool with FIPS enabled OS
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
     body: >-
       {
         "properties": {

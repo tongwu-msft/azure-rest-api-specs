@@ -136,6 +136,8 @@ For version 2019-12-12 and above, `List Blobs` returns the `IsCurrentVersion` el
 
 For version 2019-12-12 and above, `List Blobs` returns the `TagCount` element for blobs with any tags. The `Tags` element appears only when this operation includes the `include={tags}` parameter. These elements do not appear if there are no tags on the blob.
 
+For version 2019-12-12 and above, `List Blobs` returns the `Sealed` element for Append Blobs. The `Sealed` element appears only when the Append blob has been sealed. These elements do not appear if the Append Blob is not sealed.
+
 For version 2020-02-10 and above, `List Blobs` returns the `LastAccessTime` element. The elements shows when the blob's data was last accessed according to the storage account's last access time tracking policy. The element will not be returned if the storage account does not have a last access time tracking policy, or the policy is disabled. For information about setting account's last access time tracking policy, see [Blob Service API](https://docs.microsoft.com/rest/api/storagerp/blobservices/setserviceproperties). The `LastAccessTime` element does not track the last time when the blob's metadata is accessed.
 
 For version 2020-08-04 and above, for Hierarchical Namespace enabled accounts, `List Blobs` returns the `DeletionId` element for deleted blobs. `DeletionId` is an unsigned 64 bit identifier that uniquely identifies a soft deleted path to distinguish it from other deleted blobs with the same path.
