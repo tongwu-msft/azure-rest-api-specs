@@ -19489,6 +19489,7 @@
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-append-blobs.md)
 ##### [Append Block](../docs-ref-conceptual/storageservices/append-block.md)
 ##### [Append Block From URL](../docs-ref-conceptual/storageservices/append-block-from-url.md)
+##### [Seal Append Blob](../docs-ref-conceptual/storageservices/append-blob-seal.md)
 #### Operations on blobs in hierarchical namespaces
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-blobs-hierarchical-namespace.md)
 ##### [Set Blob Expiry](../docs-ref-conceptual/storageservices/set-blob-expiry.md)
