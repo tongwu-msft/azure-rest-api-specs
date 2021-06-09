@@ -127,10 +127,10 @@ The following table describes the elements of the request body:
 | `ProtocolSettings` | Optional. Groups the settings for file system protocols. |
 | `SMB` | Optional. Groups the settings for SMB. |
 | `Multichannel` | Optional. Contains the settings for SMB multichannel. SMB multichannel contains the `Enabled` boolean property which toggles the state of SMB multichannel. |
-| `Version` | Optional. Comma separated list of allowed SMB versions. Allowed values: `SMB2.1`, `SMB3.0`, `SMB3.1.1`. |
-| `AuthenticationMethods` | Optional. Comma separated list of allowed authentication methods. Allowed values: `NTLMv2`, `Kerberos`. |
-| `KerberosTicketEncryption` | Optional. Comma separated list of allowed Kerberos ticket encryption algorithms. Allowed values: `RC4-HMAC`, `AES-256`. |
-| `ChannelEncryption` | Optional. Comma separated list of allowed SMB channel encryption protocols. Allowed values: `AES-128-CCM`, `AES-128-GCM`, `AES-256-GCM`. |
+| `Version` | Optional, starting in `2020-04-08`. Comma separated list of allowed SMB versions. Allowed values: `SMB2.1`, `SMB3.0`, `SMB3.1.1`. |
+| `AuthenticationMethods` | Optional, starting in `2020-04-08`. Comma separated list of allowed authentication methods. Allowed values: `NTLMv2`, `Kerberos`. |
+| `KerberosTicketEncryption` | Optional, starting in `2020-04-08`. Comma separated list of allowed Kerberos ticket encryption algorithms. Allowed values: `RC4-HMAC`, `AES-256`. |
+| `ChannelEncryption` | Optional, starting in `2020-04-08`. Comma separated list of allowed SMB channel encryption protocols. Allowed values: `AES-128-CCM`, `AES-128-GCM`, `AES-256-GCM`. |
   
 ## Response
 The response includes an HTTP status code and a set of response headers.  
