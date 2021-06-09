@@ -60,7 +60,7 @@ The following table describes required and optional request headers.
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
   
 ### Request body
-None.  
+The data representing the range to be uploaded.
   
 ### Sample request: update byte range  
   
