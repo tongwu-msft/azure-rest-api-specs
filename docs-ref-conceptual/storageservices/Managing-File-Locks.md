@@ -175,7 +175,7 @@ Depending on the FileREST operation called, it may be necessary for a request to
   
 Breaking the oplock may require flushing cached SMB client changes, which may cause delays in operation response time, or may cause the operation to fail with status code 408 (Request Timeout) and error code `ClientCacheFlushDelay`.  
   
-Following are some scenarios where oplocks are broken:  
+The following examples are some scenarios where oplocks are broken:  
   
 **An opblock break and SMB client flush are required, and the REST client experiences a delay:**  
   
