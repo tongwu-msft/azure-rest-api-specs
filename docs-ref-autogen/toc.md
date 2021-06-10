@@ -7669,12 +7669,6 @@
 ### [List By Resource Group](databricks/Workspaces/List-By-Resource-Group.yml)
 ### [List By Subscription](databricks/Workspaces/List-By-Subscription.yml)
 ### [Update](databricks/Workspaces/Update.yml)
-## v Net Peering
-### [Overview](databricks/v-Net-Peering.yml)
-### [Create Or Update](databricks/v-Net-Peering/Create-Or-Update.yml)
-### [Delete](databricks/v-Net-Peering/Delete.yml)
-### [Get](databricks/v-Net-Peering/Get.yml)
-### [List By Workspace](databricks/v-Net-Peering/List-By-Workspace.yml)
 # Deployment Manager
 ## [Overview](../docs-ref-conceptual/deploymentmanager/index.md)
 ## Artifact Sources
@@ -19489,6 +19483,7 @@
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-append-blobs.md)
 ##### [Append Block](../docs-ref-conceptual/storageservices/append-block.md)
 ##### [Append Block From URL](../docs-ref-conceptual/storageservices/append-block-from-url.md)
+##### [Seal Append Blob](../docs-ref-conceptual/storageservices/append-blob-seal.md)
 #### Operations on blobs in hierarchical namespaces
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-blobs-hierarchical-namespace.md)
 ##### [Set Blob Expiry](../docs-ref-conceptual/storageservices/set-blob-expiry.md)

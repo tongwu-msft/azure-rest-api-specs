@@ -120,6 +120,7 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 |`x-ms-or-{policy-id}_{rule-id}`|Version 2019-12-12 or newer, returned only for block blobs. `policy-id` is a guid value representing the identifier of an object replication policy on the storage account. `rule-id` is a guid value which represents the identifier of a policy rule on the blob container. If the account is  `ObjectReplication` enabled, the value of this header represents the replication status of blob with the given policy and rule identifiers, either `complete` or `failed`. |  
 |`x-ms-or-policy-id`|Version 2019-12-12 or newer, returned only for block blobs. If the account is `ObjectReplication` enabled, the value of this header represents the policy that governs the replication. |  
 |`x-ms-last-access-time`|Version 2020-02-10 or newer. Indicates the last time when the blob's data was accessed based on the storage account's last access time tracking policy. The header will not be returned if the storage account does not have a last access time tracking policy, or the policy is disabled. For information about setting the storage account's last access time tracking policy, see [Blob Service API](https://docs.microsoft.com/rest/api/storagerp/blobservices/setserviceproperties).|  
+|`x-ms-blob-sealed`|Version 2019-12-12 or newer, returned only for append blobs. If the append blob has been sealed the value would be true, see [Seal Append Blobs](append-blob-seal.md)|
 
 ### Response Body  
  None.  
