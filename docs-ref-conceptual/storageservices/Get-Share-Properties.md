@@ -95,7 +95,7 @@ The response for this operation includes the following headers. The response may
 ## Response body
 None.  
   
-## Sample Response
+## Sample response
 
 ```
 Response Status:  

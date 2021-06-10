@@ -27,9 +27,9 @@ To learn more about Azure Files, including deployment, networking, and identity 
 ## Control plane
 In Azure, the control plane is provided through the Azure Resource Manager, sometimes abbreviated as ARM, which provides a common way of exposing Azure resources to be managed by the customer. The top-level unit of management, or *tracked resource* in Azure Files, and other storage services such as Blob storage, is the storage account. The storage account is managed by the storage resource provider, which has the namespace Microsoft.Storage. The storage resource provider also exposes management of child resources, or *proxy resources*, that enable the management of the storage services bundled in the storage account. For Azure Files, there are two relevant *proxy resources*:
 
-1. The `FileService` resource, which provides Azure Files specific settings that apply to all of the file shares in the storage account. The `FileService` resource is a child of the storage account tracked resource, and a storage account only ever has one `FileService` resource, called `default`.
+- The `FileService` resource, which provides Azure Files specific settings that apply to all of the file shares in the storage account. The `FileService` resource is a child of the storage account tracked resource, and a storage account only ever has one `FileService` resource, called `default`.
 
-2. The `FileShare` resource, which represents a file share (or a snapshot of a file share). The `FileShare` resource is a child of the `FileService` resource, and may contain an infinite number of file shares. Although a `FileService` can contain an infinite number of `FileShare` resources, using a very large number is not a good idea as everything within a storage account shares a defined pool of IO, bandwidth, and other limits. For more information, see [Azure Files scalability and performance targets](/azure/storage/files/storage-files-scale-targets).
+- The `FileShare` resource, which represents a file share (or a snapshot of a file share). The `FileShare` resource is a child of the `FileService` resource, and may contain an infinite number of file shares. Although a `FileService` can contain an infinite number of `FileShare` resources, using a very large number is not a good idea as everything within a storage account shares a defined pool of IO, bandwidth, and other limits. For more information, see [Azure Files scalability and performance targets](/azure/storage/files/storage-files-scale-targets).
 
 To learn how to call the control plane APIs, see:
 
@@ -39,9 +39,9 @@ To learn how to call the control plane APIs, see:
 
 For legacy reasons, operations on the `FileService` and `FileShare` objects may also be done through the data plane. This is an artifact of Azure Files predating Azure Resource Manager, and while these APIs are fully supported, you should prefer using the storage resource provider APIs to manage Azure Files for several reasons:
 
-1. Operations exposed through Azure Resource Manager use Azure AD for authentication and authorization, enabling you to manage Azure Files with role-based access control (RBAC). You can authorize your application or service to programmatically call these APIs with an Azure AD service principal.
+- Operations exposed through Azure Resource Manager use Azure AD for authentication and authorization, enabling you to manage Azure Files with role-based access control (RBAC). You can authorize your application or service to programmatically call these APIs with an Azure AD service principal.
 
-2. Azure Resource Manager APIs can be called imperatively, using the REST API directly or through an SDK, or declaratively, by declaring what resources need to be deployed using Azure templates. For resources that need to be repeatedly created together, service deployments, etc., using templates can considerably simplify the work required.
+- Azure Resource Manager APIs can be called imperatively, using the REST API directly or through an SDK, or declaratively, by declaring what resources need to be deployed using Azure templates. For resources that need to be repeatedly created together, service deployments, etc., using templates can considerably simplify the work required.
 
 Although using the storage resource provider to manage storage resources is preferred, in cases requiring high scale, such as a workload that creates or modifies thousands of file shares within the same storage account, using the FileREST data plane management APIs will be most performant.
 

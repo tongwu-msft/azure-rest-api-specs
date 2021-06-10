@@ -62,7 +62,7 @@ The following table describes required and optional request headers.
 ### Request body
 The data representing the range to be uploaded.
   
-### Sample request: update byte range  
+### Sample request: Update byte range  
   
 ```
 Request Syntax:  
@@ -77,7 +77,7 @@ Authorization: SharedKey myaccount:4KdWDiTdA9HmIF9+WF/8WfYOpUrFhieGIT7f0av+GEI=
 Content-Length: 65536  
 ```  
   
-### Sample request: clear byte range  
+### Sample request: Clear byte range  
   
 ```
 Request Syntax:  

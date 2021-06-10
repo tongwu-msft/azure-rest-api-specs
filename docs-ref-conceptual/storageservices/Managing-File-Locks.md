@@ -16,7 +16,7 @@ Azure Files provides access to cloud file shares using through three different p
 - Network File System (NFS)
 - FileREST (HTTPS)  
 
-This topic describes how to mange file locking interactions between SMB and FileREST. NFS file shares have different locking semantics and support a subset of the FileREST APIs, so this topic is not applicable for NFS file shares.
+This topic describes how to manage file locking interactions between SMB and FileREST. NFS file shares have different locking semantics and support a subset of the FileREST APIs, so this topic is not applicable for NFS file shares.
   
 ## SMB file locking
 SMB clients that mount file shares can leverage file system locking mechanisms to manage access to shared files. These include:  
