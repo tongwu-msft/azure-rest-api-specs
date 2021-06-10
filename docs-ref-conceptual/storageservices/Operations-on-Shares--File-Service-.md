@@ -22,6 +22,8 @@ Unless you have a specific reason, you should use the control plane API (the sto
 - You have a legacy application or service that is already using these APIs.
 - You have very high scale requirements; the control API provided by the storage resource provider has much lower scale guarantees than the FileREST API.
 
+New parameters and actions on the `FileService` may not be added to the data plane REST SDKs, even if they are exposed in FileREST. Use the control plane SDKs to access parameters and actions.
+
 To learn more about Azure Files' API surface area, see [Azure Files REST API](./File-Service-REST-API.md).
 
 ## Management APIs
