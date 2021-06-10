@@ -1,48 +1,38 @@
 ---
-title: Operations on files (REST API) - Azure Storage
-description: Operations on files.
-author: pemari-msft
+title: Operations on files (FileREST API) - Azure Files
+description: Azure Files FileREST API operations on files.
+author: wmgries
 
-ms.date: 09/30/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Operations on files
+Azure Files provides the following FileREST operations on files.  
+  
+## Data APIs
 
-The File Service REST API provides the following operations on files.  
+| API | Available on SMB file shares | Available on NFS file shares |
+|-|:-:|:-:|
+| [Create File](Create-File.md) | ![Yes](./media/yes-icon.png) | ![No](./media/no-icon.png) |
+| [Get File](Get-File.md) | ![Yes](./media/yes-icon.png) | ![No](./media/no-icon.png) |
+| [Get File Properties](Get-File-Properties.md) | ![Yes](./media/yes-icon.png) | ![No](./media/no-icon.png) |
+| [Set File Properties](Set-File-Properties.md) | ![Yes](./media/yes-icon.png) | ![No](./media/no-icon.png) |
+| [Put Range](Put-Range.md) | ![Yes](./media/yes-icon.png) | ![No](./media/no-icon.png) |
+| [Put Range from URL](put-range-from-url.md) | ![Yes](./media/yes-icon.png) | ![No](./media/no-icon.png) |
+| [List Ranges](List-Ranges.md) | ![Yes](./media/yes-icon.png) | ![No](./media/no-icon.png) |
+| [Get File Metadata](Get-File-Metadata.md) | ![Yes](./media/yes-icon.png) | ![No](./media/no-icon.png) |
+| [Set File Metadata](Set-File-Metadata.md) | ![Yes](./media/yes-icon.png) | ![No](./media/no-icon.png) |
+| [Delete File](Delete-File2.md) | ![Yes](./media/yes-icon.png) | ![No](./media/no-icon.png) |
+| [Copy File](Copy-File.md) | ![Yes](./media/yes-icon.png) | ![No](./media/no-icon.png) |
+| [Abort Copy File](Abort-Copy-File.md) | ![Yes](./media/yes-icon.png) | ![No](./media/no-icon.png) |
+| [List Handles](List-Handles.md) | ![Yes](./media/yes-icon.png) | ![No](./media/no-icon.png) |
+| [Force Close Handles](Force-Close-Handles.md) | ![Yes](./media/yes-icon.png) | ![No](./media/no-icon.png) |
+| [Lease File](lease-file.md) | ![Yes](./media/yes-icon.png) | ![No](./media/no-icon.png) |
   
-## In this Section  
- This section contains the following topics.  
-  
--   [Create File](Create-File.md)  
-  
--   [Get File](Get-File.md)  
-  
--   [Get File Properties](Get-File-Properties.md)  
-  
--   [Set File Properties](Set-File-Properties.md)  
-  
--   [Put Range](Put-Range.md)  
-  
--   [List Ranges](List-Ranges.md)  
-  
--   [Get File Metadata](Get-File-Metadata.md)  
-  
--   [Set File Metadata](Set-File-Metadata.md)  
-  
--   [Delete File](Delete-File2.md)  
-  
--   [Copy File](Copy-File.md)  
-  
--   [Abort Copy File](Abort-Copy-File.md)  
+## See also
 
--   [List Handles](List-Handles.md)
-
--   [Force Close Handles](Force-Close-Handles.md)
-
--   [Lease File](lease-file.md)
-  
-## See Also  
- [File Service REST API](File-Service-REST-API.md)
+- [File Service REST API](File-Service-REST-API.md)
+- [Operations on directories](Operations-on-Directories.md)

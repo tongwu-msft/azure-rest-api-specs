@@ -1,20 +1,25 @@
 ---
-title: Put Range (REST API) - Azure Storage
+title: Put Range (FileREST API) - Azure Files
 description: The Put Range operation writes a range of bytes to a file.
-author: pemari-msft
+author: wmgries
 
-ms.date: 10/06/2020
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Put Range
+The `Put Range` operation writes a range of bytes to a file.
 
-The `Put Range` operation writes a range of bytes to a file.  
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
-## Request  
-
+## Request
 The `Put Range` request may be constructed as follows. HTTPS is recommended.  
   
 |Method|Request URI|HTTP Version|  
@@ -23,28 +28,26 @@ The `Put Range` request may be constructed as follows. HTTPS is recommended.
   
 Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
-|*mydirectorypath*|Optional. The path to the parent directory.|  
-|*myfile*|The name of the file.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
+|`mydirectorypath`|Optional. The path to the parent directory.|  
+|`myfile`|The name of the file.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
-
+### URI parameters
 The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
-### Request Headers  
-
+### Request headers
 The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -56,13 +59,12 @@ The following table describes required and optional request headers.
 |`x-ms-lease-id:<ID>`|Required if the file has an active lease. Available for versions 2019-02-02 and later. |
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
   
-### Request Body  
-
-None.  
+### Request body
+The data representing the range to be uploaded.
   
-### Sample Request: Update Byte Range  
+### Sample request: Update byte range  
   
-```  
+```
 Request Syntax:  
 PUT https://myaccount.file.core.windows.net/myshare/myfile?comp=range HTTP/1.1  
   
@@ -75,9 +77,9 @@ Authorization: SharedKey myaccount:4KdWDiTdA9HmIF9+WF/8WfYOpUrFhieGIT7f0av+GEI=
 Content-Length: 65536  
 ```  
   
-### Sample Request: Clear Byte Range  
+### Sample request: Clear byte range  
   
-```  
+```
 Request Syntax:  
 PUT https://myaccount.file.core.windows.net/myshare/myfile?comp=range HTTP/1.1  
   
@@ -89,21 +91,18 @@ x-ms-version: 2014-02-14
 Authorization: SharedKey myaccount:4KdWDiTdA9HmIF9+WF/8WfYOpUrFhieGIT7f0av+GEI=  
 ```  
   
-## Response  
-
+## Response
 The response includes an HTTP status code and a set of response headers.  
 
-### Status Code  
-
+### Status code
 A successful operation returns status code 201 (Created).  
 
 For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
 
-### Response Headers  
-
+### Response headers
 The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
 
-|Response Header|Description|  
+|Response header|Description|  
 |---------------------|-----------------|  
 |`ETag`|The ETag contains a value which represents the version of the file, in quotes.|  
 |`Last-Modified`|Returns the date and time the directory was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). Any operation that modifies the share or its properties or metadata updates the last modified time. Operations on files do not affect the last modified time of the share.|  
@@ -112,15 +111,14 @@ The response for this operation includes the following headers. The response may
 |`x-ms-version`|Indicates the version of the File service used to execute the request.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2017-04-17 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|
-|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.| 
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
 
-### Response Body  
-
+### Response body
 None.  
 
-### Sample Response  
+### Sample response  
 
-```  
+```
 Response Status:  
 HTTP/1.1 201 Created  
 
@@ -135,12 +133,10 @@ Content-Length: 0
 Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0  
 ```  
 
-## Authorization  
-
+## Authorization
 Only the account owner may call this operation.  
 
 ## Remarks
-
 The `Put Range` operation writes a range of byte to a file. This operation can only be called on an existing file. It cannot be called to create a new file. Calling `Put Range` with a file name that does not currently exist returns status code 404 (Not Found).  
 
 To create a new file, call [Create File](Create-File.md). A file may be up to 4 TiB in size.  
@@ -149,28 +145,28 @@ A `Put Range` operation is permitted 10 minutes per MiB to complete. If the oper
 
 If the file has an active lease, the client must specify a valid lease ID on the request in order to write a range.  
 
-**Range Update Operations**  
+**Range update operations**  
 
 Calling `Put Range` with the `Update` option performs an in-place write on the specified file. Any content in the specified range is overwritten with the update. Each range submitted with `Put Range` for an update operation may be up to 4 MiB in size. If you attempt to upload a range that is larger than 4 MiB, the service returns status code 413 (Request Entity Too Large).  
 
-**Range Clear Operations**  
+**Range clear operations**  
 
 Calling `Put Range` with the `Clear` option releases the space in storage as long as the specified range is 512-byte aligned. Ranges that have been cleared are no longer tracked as part of the file and will not be returned in the [List Range](List-Ranges.md) response. If the specified range is not 512-byte aligned, the operation will write zeros to the start or end of the range that is not 512-byte aligned and free the rest of the range inside that is 512-byte aligned.  
 
 Any ranges that have not been cleared will be returned in the [List Ranges](List-Ranges.md) response. For an example, see **Sample Unaligned Clear Range** below.  
 
-**File Lease**
+**File Lease**  
 You can call [Lease File](lease-file.md) to obtain an exclusive write lock to the file against other writes for an infinite duration. 
 
-**SMB Client Byte Range Locks**  
+**SMB client byte range locks**  
 
 While the SMB protocol allows byte range locks to manage read and write access to regions of a file, the `Put Range` operation does not leverage this capability for the specified `x-ms-range` value. Instead, `Put Range` requires write access to the entire file. This also means that `Put Range` will fail if an SMB client has a lock on any range within the file. For more details, see [Managing File Locks](Managing-File-Locks.md).  
 
-**SMB Client Directory Change Notifications**  
+**SMB client directory change notifications**  
 
-The SMB protocol supports the [FindFirstChangeNotification](https://msdn.microsoft.com/library/windows/desktop/aa364417.aspx) API function that allows applications to detect when changes occur in the file system. It can detect when a file or directory is added, changed, deleted, and when a file’s size, attributes, or security descriptors change. SMB clients using this API will not receive notifications when a file or directory change happens via the File service REST API. However, changes caused by other SMB clients will propagate notifications.  
+The SMB protocol supports the [FindFirstChangeNotification](/windows/win32/api/fileapi/nf-fileapi-findfirstchangenotificationa) API function that allows applications to detect when changes occur in the file system. It can detect when a file or directory is added, changed, deleted, and when a file's size, attributes, or security descriptors change. SMB clients using this API will not receive notifications when a file or directory change happens via the File service REST API. However, changes caused by other SMB clients will propagate notifications.  
 
-**Sample Unaligned Clear Range**  
+**Sample unaligned clear range**  
 
 Suppose a file is created with [Create File](Create-File.md) and a single range is written with `Put Range`, as follows:  
 
@@ -234,6 +230,5 @@ Note that zeros have been written to the unaligned space from 768-1024 and 2048-
 
 `Put Range` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue).
 
-## See Also  
-
+## See also
 - [Operations on Files](Operations-on-Files.md)

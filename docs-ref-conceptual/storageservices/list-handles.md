@@ -1,39 +1,44 @@
 ---
-title: List Handles (REST API) - Azure Storage
+title: List Handles (FileREST API) - Azure Files
 description: The List Handles operation returns a list of open handles on a directory or a file. It can (optionally) recursively enumerate opened handles on directories and files.
-author: pemari-msft
+author: wmgries
 
-ms.date: 09/20/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # List Handles
-
 The `List Handles` operation returns a list of open handles on a directory or a file. It can (optionally) recursively enumerate opened handles on directories and files. This API is available beginning in version 2018-11-09.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
-## Request  
- The `List Handles` request may be constructed as follows. HTTPS is recommended.  
+## Request
+The `List Handles` request may be constructed as follows. HTTPS is recommended.  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`GET`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfileordirectory?comp=listhandles`|HTTP/1.1|  
 
-
- Replace the path components shown in the request URI with your own, as follows:  
+Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
-|*mydirectorypath*|Optional. The path to the directory.|
-|*myfileordirectory*|The name of the file or directory.|
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
+|`mydirectorypath`|Optional. The path to the directory.|
+|`myfileordirectory`|The name of the file or directory.|
   
- For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
- The following additional parameters may be specified on the URI.  
+### URI parameters
+The following additional parameters may be specified on the URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
@@ -42,10 +47,10 @@ The `List Handles` operation returns a list of open handles on a directory or a 
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|
 |`sharesnapshot`|Optional. The share snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query for the list of handles.|
   
-### Request Headers  
- The following table describes required and optional request headers.  
+### Request headers
+The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -53,19 +58,19 @@ The `List Handles` operation returns a list of open handles on a directory or a 
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md).|
 |`x-ms-recursive`|Optional. A boolean value that specifies if the operation should also apply to the files and subdirectories of the directory specified in the URI.|
   
-### Request Body  
- None.  
+### Request body
+None.
   
-##  <a name="response"></a> Response  
- The response includes an HTTP status code, a set of response headers, and a response body in XML format.  
+## Response
+The response includes an HTTP status code, a set of response headers, and a response body in XML format.  
   
-### Status Code  
- A successful operation returns status code 200 (OK).  
+### Status code
+A successful operation returns status code 200 (OK).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
-### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
+### Response headers  
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -75,10 +80,10 @@ The `List Handles` operation returns a list of open handles on a directory or a 
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
   
-### Response Body  
- The format of the XML response is as follows.  
+### Response body
+The format of the XML response is as follows.  
   
- Note that the `Marker`, `ShareSnapshot` and `MaxResults` elements are present only if they were specified on the request URI. The `NextMarker` element has a value only if the list results are not complete.  
+Note that the `Marker`, `ShareSnapshot` and `MaxResults` elements are present only if they were specified on the request URI. The `NextMarker` element has a value only if the list results are not complete.  
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -102,7 +107,6 @@ The `List Handles` operation returns a list of open handles on a directory or a 
   
 The following table describes fields of the response body:
 
-
 |Field  |Description  |Purpose  |
 |---------|---------|---------|
 |`HandleId`     |XSMB service handle ID, UINT64.         |Used to identify handle.         |
@@ -115,12 +119,13 @@ The following table describes fields of the response body:
 |`SessionId`     |SMB session ID that specifies the context in which the file handle was opened, UINT64.         |`SessionId` is included in event viewer logs when sessions are forcibly disconnected. It allows you to associate a specific batch of leaked handles with a specific network incident.         |
 |`NextMarker`    |A string describing the next handle to be listed. It is returned when more handles need to be listed in order to complete the request.| The string is used in subsequent requests to list remaining handles. Absence of `NextMarker` indicates that all relevant handles were listed.|
 
-##  <a name="authorization"></a> Authorization  
- Only the account owner may call this operation.  
+## Authorization
+Only the account owner may call this operation.  
   
-## Remarks  
+## Remarks
 The HandleId is a service-side handle ID which is distinct from the client handle ID. Mapping between the two is possible at the client.
   
-## See also  
- [Operations on Files](Operations-on-Files.md)
- [Operations on Directories](Operations-on-Directories.md)
+## See also
+
+- [Operations on Files](Operations-on-Files.md)
+- [Operations on Directories](Operations-on-Directories.md)

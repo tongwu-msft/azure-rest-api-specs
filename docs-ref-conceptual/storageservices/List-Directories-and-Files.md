@@ -1,38 +1,44 @@
 ---
-title: List Directories and Files (REST API) - Azure Storage
+title: List Directories and Files (FileREST API) - Azure Files
 description: The List Directories and Files operation returns a list of files or directories under the specified share or directory. It lists the contents only for a single level of the directory hierarchy.
-author: pemari-msft
+author: wmgries
 
-ms.date: 09/20/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # List Directories and Files
+The `List Directories and Files` operation returns a list of files or directories under the specified share or directory. It lists the contents only for a single level of the directory hierarchy.
 
-The `List Directories and Files` operation returns a list of files or directories under the specified share or directory. It lists the contents only for a single level of the directory hierarchy.  
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
-## Request  
- The `List Directories and Files` request may be constructed as follows. HTTPS is recommended.  
+## Request
+The `List Directories and Files` request may be constructed as follows. HTTPS is recommended.  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`GET`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath?restype=directory&comp=list`|HTTP/1.1|  
 |`GET`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath?restype=directory&sharesnapshot=<DateTime>&comp=list`|HTTP/1.1|  
 
- Replace the path components shown in the request URI with your own, as follows:  
+Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
-|*mydirectorypath*|The path to the directory.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
+|`mydirectorypath`|The path to the directory.|  
   
- For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters  
- The following additional parameters may be specified on the URI.  
+### URI parameters
+The following additional parameters may be specified on the URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
@@ -42,29 +48,29 @@ The `List Directories and Files` operation returns a list of files or directorie
 |`maxresults`|Optional. Specifies the maximum number of files and/or directories to return. If the request does not specify `maxresults` or specifies a value greater than 5,000, the server will return up to 5,000 items.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request).|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
-### Request Headers  
- The following table describes required and optional request headers.  
+### Request headers
+The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).| 
 
-### Request Body  
- None.  
+### Request body
+None.  
   
-##  <a name="response"></a> Response  
- The response includes an HTTP status code, a set of response headers, and a response body in XML format.  
+## Response
+The response includes an HTTP status code, a set of response headers, and a response body in XML format.  
   
-### Status Code  
- A successful operation returns status code 200 (OK).  
+### Status code
+A successful operation returns status code 200 (OK).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
-### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
+### Response headers
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -74,17 +80,17 @@ The `List Directories and Files` operation returns a list of files or directorie
 |`Date` or `x-ms-date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
-### Response Body  
- The format of the XML response is as follows.  
+### Response body
+The format of the XML response is as follows.  
   
- Note that the `Marker`, `ShareSnapshot` and `MaxResults` elements are present only if they were specified on the request URI. The `NextMarker` element has a value only if the list results are not complete.  
+Note that the `Marker`, `ShareSnapshot` and `MaxResults` elements are present only if they were specified on the request URI. The `NextMarker` element has a value only if the list results are not complete.  
   
 ```xml  
 <?xml version="1.0" encoding="utf-8"?>  
-<EnumerationResults ServiceEndpoint="https://myaccount.file.core.windows.net/” ShareName="myshare" ShareSnapshot="date-time" DirectoryPath="directory-path">  
+<EnumerationResults ServiceEndpoint="https://myaccount.file.core.windows.net/" ShareName="myshare" ShareSnapshot="date-time" DirectoryPath="directory-path">  
+  <Prefix>string-value</Prefix>  
   <Marker>string-value</Marker>  
   <MaxResults>int-value</MaxResults>
-  <Prefix>prefix-value</Prefix>  
   <Entries>  
     <File>  
       <Name>file-name</Name>  
@@ -100,17 +106,17 @@ The `List Directories and Files` operation returns a list of files or directorie
 </EnumerationResults>  
 ```  
   
- Note that the `Content-Length` element is returned in the listing. However, this value may not be up-to-date since an SMB client may have modified the file locally. The value of `Content-Length` may not reflect that fact until the handle is closed or the op-lock is broken. To retrieve current property values, call [Get File Properties](Get-File-Properties.md).  
+Note that the `Content-Length` element is returned in the listing. However, this value may not be up-to-date since an SMB client may have modified the file locally. The value of `Content-Length` may not reflect that fact until the handle is closed or the op-lock is broken. To retrieve current property values, call [Get File Properties](Get-File-Properties.md).  
   
-##  <a name="authorization"></a> Authorization  
- Only the account owner may call this operation.  
+## Authorization
+Only the account owner may call this operation.  
   
-## Remarks  
- The value returned in the `Content-Length` element corresponds to the value of the file’s `x-ms-content-length` header.  
+## Remarks
+The value returned in the `Content-Length` element corresponds to the value of the file's `x-ms-content-length` header.  
   
- Note that each `Directory` element returned counts toward the maximum result, just as each `File` element does. Files and directories are listed intermingled in lexically sorted order in the response body.  
+Note that each `Directory` element returned counts toward the maximum result, just as each `File` element does. Files and directories are listed intermingled in lexically sorted order in the response body.  
   
- Listing is limited to a single level of the directory hierarchy. In order to list multiple levels, you can make multiple calls in an iterative manner by using the `Directory` value returned from one result in a subsequent call to `List Directories and Files`.  
+Listing is limited to a single level of the directory hierarchy. In order to list multiple levels, you can make multiple calls in an iterative manner by using the `Directory` value returned from one result in a subsequent call to `List Directories and Files`.  
   
 ## See also  
- [Operations on Directories](Operations-on-Directories.md)
+[Operations on Directories](Operations-on-Directories.md)
