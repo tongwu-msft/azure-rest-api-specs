@@ -19483,7 +19483,7 @@
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-append-blobs.md)
 ##### [Append Block](../docs-ref-conceptual/storageservices/append-block.md)
 ##### [Append Block From URL](../docs-ref-conceptual/storageservices/append-block-from-url.md)
-##### [Seal Append Blob](../docs-ref-conceptual/storageservices/append-blob-seal.md)
+##### [Append Blob Seal](../docs-ref-conceptual/storageservices/append-blob-seal.md)
 #### Operations on blobs in hierarchical namespaces
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-blobs-hierarchical-namespace.md)
 ##### [Set Blob Expiry](../docs-ref-conceptual/storageservices/set-blob-expiry.md)
@@ -19567,14 +19567,14 @@
 #### [Setting Timeouts for File Service Operations](../docs-ref-conceptual/storageservices/setting-timeouts-for-file-service-operations.md)
 #### [Specifying the Range Header for File Service Operations](../docs-ref-conceptual/storageservices/specifying-the-range-header-for-file-service-operations.md)
 #### [Features Not Supported By the Azure File Service](../docs-ref-conceptual/storageservices/features-not-supported-by-the-azure-file-service.md)
-### Operations on the Account (File Service)
+### Operations on the FileService
 #### [Overview](../docs-ref-conceptual/storageservices/operations-on-the-account--file-service-.md)
-#### [List Shares](../docs-ref-conceptual/storageservices/list-shares.md)
 #### [Get File Service Properties](../docs-ref-conceptual/storageservices/get-file-service-properties.md)
 #### [Set File Service Properties](../docs-ref-conceptual/storageservices/set-file-service-properties.md)
 #### [Preflight File Request](../docs-ref-conceptual/storageservices/preflight-file-request.md)
-### Operations on Shares (File Service)
+### Operations on FileShares
 #### [Overview](../docs-ref-conceptual/storageservices/operations-on-shares--file-service-.md)
+#### [List Shares](../docs-ref-conceptual/storageservices/list-shares.md)
 #### [Create Share](../docs-ref-conceptual/storageservices/create-share.md)
 #### [Snapshot Share](../docs-ref-conceptual/storageservices/snapshot-share.md)
 #### [Get Share Properties](../docs-ref-conceptual/storageservices/get-share-properties.md)
