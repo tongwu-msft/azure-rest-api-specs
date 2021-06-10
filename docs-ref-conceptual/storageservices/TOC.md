@@ -113,7 +113,7 @@
 ### [Operations on Append Blobs](operations-on-append-blobs.md)
 #### [Append Block](append-block.md)
 #### [Append Block From URL](append-block-from-url.md)
-#### [Seal Append Blob](append-blob-seal.md)
+#### [Append Blob Seal](append-blob-seal.md)
 ### [Operations on blobs in hierarchical namespaces](operations-on-blobs-hierarchical-namespace.md)
 #### [Set Blob Expiry](set-blob-expiry.md)
 # [Data Lake Storage Gen2 REST API](data-lake-storage-gen2.md)
