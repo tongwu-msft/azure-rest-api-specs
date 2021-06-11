@@ -12696,8 +12696,7 @@
 ## [Overview](../docs-ref-conceptual/searchmanagement/index.md)
 ## [API versions](../docs-ref-conceptual/searchmanagement/management-api-versions.md)
 ## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
-## Reference (Preview)
-### [Overview](../docs-ref-conceptual/searchmanagement/index-preview.md)
+## [Preview APIs](../docs-ref-conceptual/searchmanagement/index-preview.md)
 ## Reference
 ### Admin Keys
 #### [Overview](searchmanagement/Admin-Keys.yml)
