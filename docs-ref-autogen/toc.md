@@ -5660,8 +5660,6 @@
 #### [Reward](personalizer/1.1preview1/Events/Reward.yml)
 ### Log
 #### [Overview](personalizer/1.1preview1/Log.yml)
-#### [Delete](personalizer/1.1preview1/Log/Delete.yml)
-#### [Get Properties](personalizer/1.1preview1/Log/Get-Properties.yml)
 ### Model
 #### [Overview](personalizer/1.1preview1/Model.yml)
 #### [Get](personalizer/1.1preview1/Model/Get.yml)
