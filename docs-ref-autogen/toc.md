@@ -5660,8 +5660,6 @@
 #### [Reward](personalizer/1.1preview1/Events/Reward.yml)
 ### Log
 #### [Overview](personalizer/1.1preview1/Log.yml)
-#### [Delete](personalizer/1.1preview1/Log/Delete.yml)
-#### [Get Properties](personalizer/1.1preview1/Log/Get-Properties.yml)
 ### Model
 #### [Overview](personalizer/1.1preview1/Model.yml)
 #### [Get](personalizer/1.1preview1/Model/Get.yml)
@@ -12696,8 +12694,7 @@
 ## [Overview](../docs-ref-conceptual/searchmanagement/index.md)
 ## [API versions](../docs-ref-conceptual/searchmanagement/management-api-versions.md)
 ## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
-## Reference (Preview)
-### [Overview](../docs-ref-conceptual/searchmanagement/index-preview.md)
+## [Preview APIs](../docs-ref-conceptual/searchmanagement/index-preview.md)
 ## Reference
 ### Admin Keys
 #### [Overview](searchmanagement/Admin-Keys.yml)
