@@ -3326,13 +3326,6 @@
 ### [Update](netapp/Volumes/Update.yml)
 # Azure Resource Graph
 ## [Overview](../docs-ref-conceptual/azure-resourcegraph/index.md)
-## Resource Graph(2019-04-01)
-### Operations
-#### [Overview](azureresourcegraph/resourcegraph(2019-04-01)/Operations.yml)
-#### [List](azureresourcegraph/resourcegraph(2019-04-01)/Operations/List.yml)
-### Resources
-#### [Overview](azureresourcegraph/resourcegraph(2019-04-01)/Resources.yml)
-#### [Resources](azureresourcegraph/resourcegraph(2019-04-01)/Resources/Resources.yml)
 ## Resource Graph(2020-04-01-preview)
 ### Graph Query
 #### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/Graph-Query.yml)
@@ -3347,6 +3340,13 @@
 ### Resources
 #### [Overview](azureresourcegraph/resourcegraph(2020-04-01-preview)/Resources.yml)
 #### [Resources](azureresourcegraph/resourcegraph(2020-04-01-preview)/Resources/Resources.yml)
+## Resource Graph(2021-03-01)
+### Operations
+#### [Overview](azureresourcegraph/resourcegraph(2021-03-01)/Operations.yml)
+#### [List](azureresourcegraph/resourcegraph(2021-03-01)/Operations/List.yml)
+### Resources
+#### [Overview](azureresourcegraph/resourcegraph(2021-03-01)/Resources.yml)
+#### [Resources](azureresourcegraph/resourcegraph(2021-03-01)/Resources/Resources.yml)
 # Azure Spring Cloud
 ## [Overview](../docs-ref-conceptual/azurespringcloud/index.md)
 ## Apps
@@ -5660,6 +5660,8 @@
 #### [Reward](personalizer/1.1preview1/Events/Reward.yml)
 ### Log
 #### [Overview](personalizer/1.1preview1/Log.yml)
+#### [Delete](personalizer/1.1preview1/Log/Delete.yml)
+#### [Get Properties](personalizer/1.1preview1/Log/Get-Properties.yml)
 ### Model
 #### [Overview](personalizer/1.1preview1/Model.yml)
 #### [Get](personalizer/1.1preview1/Model/Get.yml)

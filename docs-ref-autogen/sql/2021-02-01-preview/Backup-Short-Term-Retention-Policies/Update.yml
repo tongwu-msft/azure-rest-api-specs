@@ -61,6 +61,8 @@ responses:
 
      * 400 InvalidBackupRetentionPeriod - The retention days of {0} is not a valid configuration. Valid backup retention in days must be between {1} and {2}
 
+     * 400 InvalidDiffBackupIntervalHours - The differential backup interval hours of {0} is not a valid configuration. Valid differential backup interval must be {1} hours.
+
      * 400 FeatureDisabledOnSelectedEdition - User attempted to use a feature which is disabled on current database edition.
 
      * 404 SubscriptionDoesNotHaveServer - The requested server was not found
@@ -94,6 +96,11 @@ requestBody:
     description: The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
     types:
     - uid: integer
+  - name: properties.diffBackupIntervalInHours
+    in: body
+    description: The differential backup interval in hours. This is how many interval hours between each differential backup will be supported. This is only applicable to live databases but not dropped databases.
+    types:
+    - uid: DiffBackupIntervalInHours
 requestHeader: []
 definitions:
 - name: ShortTermRetentionPolicyName
@@ -111,6 +118,10 @@ definitions:
     description: The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
     types:
     - uid: integer
+  - name: properties.diffBackupIntervalInHours
+    description: The differential backup interval in hours. This is how many interval hours between each differential backup will be supported. This is only applicable to live databases but not dropped databases.
+    types:
+    - uid: DiffBackupIntervalInHours
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -126,6 +137,16 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: DiffBackupIntervalInHours
+  description: The differential backup interval in hours. This is how many interval hours between each differential backup will be supported. This is only applicable to live databases but not dropped databases.
+  kind: enum
+  properties:
+  - name: "12"
+    types:
+    - uid: string
+  - name: "24"
+    types:
+    - uid: string
 examples:
 - name: Update the short term retention policy for the database.
   request:
@@ -133,7 +154,8 @@ examples:
     body: >-
       {
         "properties": {
-          "retentionDays": 14
+          "retentionDays": 7,
+          "diffBackupIntervalInHours": 24
         }
       }
   responses:
@@ -144,7 +166,8 @@ examples:
         "name": "default",
         "type": "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies",
         "properties": {
-          "retentionDays": 14
+          "retentionDays": 7,
+          "diffBackupIntervalInHours": 24
         }
       }
   - statusCode: "202"
