@@ -62,6 +62,13 @@ requestBody:
     description: The value of the shared access key that grants the Time Series Insights service read access to the event hub. This property is not shown in event source responses.
     types:
     - uid: string
+  - name: kind
+    in: body
+    isRequired: true
+    description: The kind of the event source.
+    types:
+    - uid: Microsoft.EventHub
+    typesTitle: string
   - name: tags
     in: body
     description: Key-value pairs of additional properties for the event source.
@@ -89,6 +96,13 @@ requestBody:
     description: The value of the shared access key that grants the Time Series Insights service read access to the iot hub. This property is not shown in event source responses.
     types:
     - uid: string
+  - name: kind
+    in: body
+    isRequired: true
+    description: The kind of the event source.
+    types:
+    - uid: Microsoft.IoTHub
+    typesTitle: string
   - name: tags
     in: body
     description: Key-value pairs of additional properties for the event source.
@@ -119,7 +133,6 @@ definitions:
     types:
     - uid: string
   - name: kind
-    isReadyOnly: true
     description: The kind of the event source.
     types:
     - uid: Microsoft.EventHub
@@ -149,7 +162,6 @@ definitions:
     types:
     - uid: string
   - name: kind
-    isReadyOnly: true
     description: The kind of the event source.
     types:
     - uid: Microsoft.IoTHub
@@ -250,6 +262,14 @@ definitions:
     description: The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used.
     types:
     - uid: string
+  - name: ingressStartAt.type
+    description: The type of the ingressStartAt, It can be "EarliestAvailable", "EventSourceCreationTime", "CustomEnqueuedTime".
+    types:
+    - uid: IngressStartAtType
+  - name: ingressStartAt.time
+    description: ISO8601 UTC datetime with seconds precision (milliseconds are optional), specifying the date and time that will be the starting point for Events to be consumed.
+    types:
+    - uid: string
   - name: provisioningState
     isReadyOnly: true
     description: Provisioning state of the resource.
@@ -316,6 +336,14 @@ definitions:
     description: The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used.
     types:
     - uid: string
+  - name: ingressStartAt.type
+    description: The type of the ingressStartAt, It can be "EarliestAvailable", "EventSourceCreationTime", "CustomEnqueuedTime".
+    types:
+    - uid: IngressStartAtType
+  - name: ingressStartAt.time
+    description: ISO8601 UTC datetime with seconds precision (milliseconds are optional), specifying the date and time that will be the starting point for Events to be consumed.
+    types:
+    - uid: string
   - name: provisioningState
     isReadyOnly: true
     description: Provisioning state of the resource.
@@ -360,6 +388,19 @@ definitions:
   properties:
   - name: propertyName
     description: 'The event property that will be contain the offset information to calculate the local timestamp. When the LocalTimestampFormat is Iana, the property name will contain the name of the column which contains IANA Timezone Name (eg: Americas/Los Angeles). When LocalTimestampFormat is Timespan, it contains the name of property which contains values representing the offset (eg: P1D or 1.00:00:00)'
+    types:
+    - uid: string
+- name: IngressStartAtType
+  description: The type of the ingressStartAt, It can be "EarliestAvailable", "EventSourceCreationTime", "CustomEnqueuedTime".
+  kind: enum
+  properties:
+  - name: EarliestAvailable
+    types:
+    - uid: string
+  - name: EventSourceCreationTime
+    types:
+    - uid: string
+  - name: CustomEnqueuedTime
     types:
     - uid: string
 - name: ProvisioningState
@@ -414,7 +455,10 @@ examples:
           "keyName": "managementKey",
           "provisioningState": "Succeeded",
           "creationTime": "2017-04-18T19:20:33.2288820Z",
-          "timestampPropertyName": "someOtherTimestampProperty"
+          "timestampPropertyName": "someOtherTimestampProperty",
+          "ingressStartAt": {
+            "type": "EarliestAvailable"
+          }
         }
       }
 security:
