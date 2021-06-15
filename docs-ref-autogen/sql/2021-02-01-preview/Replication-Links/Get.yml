@@ -10,7 +10,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{replicationLinkName}?api-version=2021-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}?api-version=2021-02-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,16 +27,16 @@ uriParameters:
 - name: serverName
   in: path
   isRequired: true
-  description: The name of the server containing the replication link.
+  description: The name of the server.
   types:
   - uid: string
 - name: databaseName
   in: path
   isRequired: true
-  description: The name of the database containing the replication link.
+  description: The name of the database.
   types:
   - uid: string
-- name: replicationLinkName
+- name: linkId
   in: path
   isRequired: true
   description: The name of the replication link.
@@ -87,12 +87,12 @@ definitions:
     isReadyOnly: true
     description: Local replication role.
     types:
-    - uid: string
+    - uid: ReplicationRole
   - name: properties.partnerRole
     isReadyOnly: true
     description: Partner replication role.
     types:
-    - uid: string
+    - uid: ReplicationRole
   - name: properties.replicationMode
     isReadyOnly: true
     description: Replication mode.
@@ -112,7 +112,7 @@ definitions:
     isReadyOnly: true
     description: Replication state (PENDING, SEEDING, CATCHUP, SUSPENDED).
     types:
-    - uid: string
+    - uid: ReplicationState
   - name: properties.isTerminationAllowed
     isReadyOnly: true
     description: Whether the user is currently allowed to terminate the link.
@@ -122,7 +122,7 @@ definitions:
     isReadyOnly: true
     description: Link type (GEO, NAMED).
     types:
-    - uid: string
+    - uid: ReplicationLinkType
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -136,6 +136,51 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Resource type.
+    types:
+    - uid: string
+- name: ReplicationRole
+  description: Local replication role.
+  kind: enum
+  properties:
+  - name: Primary
+    types:
+    - uid: string
+  - name: Secondary
+    types:
+    - uid: string
+  - name: NonReadableSecondary
+    types:
+    - uid: string
+  - name: Source
+    types:
+    - uid: string
+  - name: Copy
+    types:
+    - uid: string
+- name: ReplicationState
+  description: Replication state (PENDING, SEEDING, CATCHUP, SUSPENDED).
+  kind: enum
+  properties:
+  - name: PENDING
+    types:
+    - uid: string
+  - name: SEEDING
+    types:
+    - uid: string
+  - name: CATCH_UP
+    types:
+    - uid: string
+  - name: SUSPENDED
+    types:
+    - uid: string
+- name: ReplicationLinkType
+  description: Link type (GEO, NAMED).
+  kind: enum
+  properties:
+  - name: GEO
+    types:
+    - uid: string
+  - name: NAMED
     types:
     - uid: string
 examples:

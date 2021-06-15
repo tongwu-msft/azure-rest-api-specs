@@ -1,64 +1,69 @@
 ---
-title: Create Directory (REST API) - Azure Storage
+title: Create Directory (FileREST API) - Azure Files
 description: The Create Directory operation creates a new directory under the specified share or parent directory. The directory resource includes the properties for that directory. It does not include a list of the files or subdirectories contained by the directory.
-author: pemari-msft
+author: wmgries
 
-ms.date: 09/23/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Create Directory
+The `Create Directory` operation creates a new directory under the specified share or parent directory. The directory resource includes the properties for that directory. It does not include a list of the files or subdirectories contained by the directory.
 
-The `Create Directory` operation creates a new directory under the specified share or parent directory. The directory resource includes the properties for that directory. It does not include a list of the files or subdirectories contained by the directory.  
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
-## Request  
- The `Create Directory` request may be constructed as follows. HTTPS is recommended.  
+## Request
+The `Create Directory` request may be constructed as follows. HTTPS is recommended.  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`PUT`|`https://myaccount.file.core.windows.net/myshare/myparentdirectorypath/mydirectory?restype=directory`|HTTP/1.1|  
   
- Replace the path components shown in the request URI with your own, as follows:  
+Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
-|*myparentdirectorypath*|Optional. The path to the parent directory where *mydirectory* is to be created. If the parent directory path is omitted, the directory will be created within the specified share.<br /><br /> If specified, the parent directory must already exist within the share before *mydirectory* can be created.|  
-|*mydirectory*|The name of the directory to create.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
+|`myparentdirectorypath`|Optional. The path to the parent directory where *mydirectory* is to be created. If the parent directory path is omitted, the directory will be created within the specified share.<br /><br /> If specified, the parent directory must already exist within the share before *mydirectory* can be created.|  
+|`mydirectory`|The name of the directory to create.|  
   
- For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
 ### URI parameters
-  
- The following additional parameters may be specified on the request URI.  
+  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
-### Request Body  
- None.  
+### Request body
+None.  
   
-### Request Headers  
- The following table describes required and optional request headers.  
+### Request headers
+The following table describes required and optional request headers.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-meta-name:value`|Optional. Version 2015-02-21 and newer. A name-value pair to associate with the directory as metadata.<br /><br /> Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|
-| `x-ms-file-permission` | Required if `x-ms-file-permission-key` is not specified. Version 2019-02-02 and newer. This permission is the security descriptor for the directory specified in the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language). This header can be used if the permissions size is over 8 KiB, otherwise the `x-ms-file-permission-key` may be used. If specified, it must have an owner, group, and [discretionary access control list (DACL)](https://docs.microsoft.com/windows/win32/secauthz/access-control-lists). A value of `inherit` may be passed to inherit from the parent directory.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
+|`x-ms-meta-name:value`|Optional. Version 2015-02-21 and newer. A name-value pair to associate with the directory as metadata.<br /><br /> Metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).|
+| `x-ms-file-permission` | Required if `x-ms-file-permission-key` is not specified. Version 2019-02-02 and newer. This permission is the security descriptor for the directory specified in the [Security Descriptor Definition Language (SDDL)](/windows/win32/secauthz/security-descriptor-definition-language). This header can be used if the permissions size is over 8 KiB, otherwise the `x-ms-file-permission-key` may be used. If specified, it must have an owner, group, and [discretionary access control list (DACL)](/windows/win32/secauthz/access-control-lists). A value of `inherit` may be passed to inherit from the parent directory.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
 | `x-ms-file-permission-key` | Required if `x-ms-file-permission` is not specified. Version 2019-02-02 and newer. The key of the permission to be set for the directory. This can be created using the `Create-Permission` API.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
 | `x-ms-file-attributes` | Required. Version 2019-02-02 and newer. The file system attributes to be set on the directory. See the list of [available attributes](#file-system-attributes). |
 | `x-ms-file-creation-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) creation time property for the directory. A value of `now` may be used to indicate the time of the request. |
 | `x-ms-file-last-write-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) last write property for the directory. A value of `now` may be used to indicate the time of the request. |
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
   
-### Sample Request  
+### Sample request  
   
 ```  
 PUT https://myaccount.file.core.windows.net/myshare/myparentdirectorypath/mydirectory? restype=directory HTTP/1.1  
@@ -70,18 +75,18 @@ x-ms-meta-Category: Images
 Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=  
 ```  
   
-## Response  
- The response includes an HTTP status code and a set of response headers.  
+## Response
+The response includes an HTTP status code and a set of response headers.  
   
-### Status Code  
- A successful operation returns status code 201 (Created).
+### Status code
+A successful operation returns status code 201 (Created).
   
 For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
-### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
+### Response headers
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
-|Response Header|Description|  
+|Response header|Description|  
 |---------------------|-----------------|  
 |`ETag`|The ETag contains a value which represents the version of the directory, in quotes.|  
 |`Last-Modified`|Returns the date and time the directory was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). Any operation that modifies the directory or its properties updates the last modified time. Operations on files do not affect the last modified time of the directory.|  
@@ -98,12 +103,12 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 | `x-ms-file-parent-id` | The parent file ID of the directory. |
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
-### Response Body  
- None.  
+### Response body
+None.  
   
-### Sample Response  
+### Sample response  
   
-```  
+```
 Response Status:  
 HTTP/1.1 201 Created  
   
@@ -116,8 +121,8 @@ x-ms-version: 2014-02-14
 Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0  
 ```  
   
-## Authorization  
- Only the account owner may call this operation.  
+## Authorization
+Only the account owner may call this operation.  
 
 #### File system attributes
 | Attribute | Win32 file attribute | Definition |
@@ -132,14 +137,14 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
 | NotContentIndexed | FILE_ATTRIBUTE_NOT_CONTENT_INDEXED | The directory is not to be indexed by the content indexing service. |
 | NoScrubData | FILE_ATTRIBUTE_NO_SCRUB_DATA | The user data stream not to be read by the background data integrity scanner. This file system attribute is presented primarily to provide compatibility with Windows. |
   
-## Remarks  
- If a directory by the same name is being deleted when `Create Directory` is called, the server will return status code 409 (Conflict), with additional error information indicating that the directory is being deleted.  
+## Remarks
+If a directory by the same name is being deleted when `Create Directory` is called, the server will return status code 409 (Conflict), with additional error information indicating that the directory is being deleted.  
   
- If a directory or file with the same name already exists, the operation fails with status code 409 (Conflict). If the parent directory does not exist, then the operation fails with status code 412 (Precondition Failed).  
+If a directory or file with the same name already exists, the operation fails with status code 409 (Conflict). If the parent directory does not exist, then the operation fails with status code 412 (Precondition Failed).  
   
- It is not possible to create a directory hierarchy with a single `Create Directory` operation. The directory will only be created if its immediate parent already exists, as specified in the path. If the parent directory does not exist, then the operation fails with status code 412 (Precondition Failed).  
+It is not possible to create a directory hierarchy with a single `Create Directory` operation. The directory will only be created if its immediate parent already exists, as specified in the path. If the parent directory does not exist, then the operation fails with status code 412 (Precondition Failed).  
 
- `Create Directory` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
+`Create Directory` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
 
-## See also  
- [Operations on Directories](Operations-on-Directories.md)
+## See also
+[Operations on Directories](Operations-on-Directories.md)

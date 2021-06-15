@@ -1,50 +1,53 @@
 ﻿---
-title: Get File (REST API) - Azure Storage
+title: Get File (FileREST API) - Azure Files
 description: The Get File operation reads or downloads a file from the system, including its metadata and properties.
-author: pemari-msft
+author: wmgries
 
-ms.date: 09/20/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Get File
+The `Get File` operation reads or downloads a file from the system, including its metadata and properties.
 
-The `Get File` operation reads or downloads a file from the system, including its metadata and properties.  
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
 ## Request
-
- The `Get File` request may be constructed as follows. HTTPS is recommended.  
+The `Get File` request may be constructed as follows. HTTPS is recommended.  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`GET`|`https://myaccount.file.core.windows.net/myshare/mydirectorypath/myfile`|HTTP/1.1|  
   
- Replace the path components shown in the request URI with your own, as follows:  
+Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share.|  
-|*mydirectorypath*|Optional. The path to the directory.|  
-|*myfile*|The name of the file.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share.|  
+|`mydirectorypath`|Optional. The path to the directory.|
+|`myfile`|The name of the file.|  
   
- For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
+For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
-### URI Parameters
-
- The following additional parameters may be specified on the request URI.  
+### URI parameters
+The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
-### Request Headers  
-
- The following table describes required and optional request headers.  
+### Request headers
+The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
@@ -55,21 +58,21 @@ The `Get File` operation reads or downloads a file from the system, including it
 |`x-ms-lease-id:<ID>`|Optional. Version 2019-02-02 and newer. If the header is specified, the operation will be performed only if the file's lease is currently active and the lease ID specified in the request matches the that of the file. Otherwise, the operation fails with status code 412 (Precondition Failed).|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
 
-### Request Body  
- None.  
+### Request body
+None.  
   
-## Response  
- The response includes an HTTP status code, a set of response headers, and the response body, which contains the contents of the file.  
+## Response
+The response includes an HTTP status code, a set of response headers, and the response body, which contains the contents of the file.  
   
-### Status Code  
+### Status code
 A successful operation returns status code 200 (OK).  
   
 For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
-### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
+### Response headers
+The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
-|Response Header|Description|  
+|Response header|Description|  
 |---------------------|-----------------|  
 |`Last-Modified`|Returns the date and time the file was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md). Any operation that modifies the file or its properties updates the last modified time.|  
 |`x-ms-meta-name:value`|A set of name-value pairs associated with this file as user-defined metadata.|  
@@ -92,7 +95,7 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 |`x-ms-copy-progress: <bytes copied/bytes total>`|Version 2015-02-21 and newer. Contains the number of bytes copied and the total bytes in the source in the last attempted **Copy File** operation where this file was the destination file. Can show between 0 and `Content-Length` bytes copied. This header does not appear if this file has never been the destination in a **Copy File** operation, or if this file has been modified after a concluded **Copy File** operation using **Set File Properties** or **Create File**.|  
 |`x-ms-copy-source: url`|Version 2015-02-21 and newer. URL up to 2KB in length that specifies the source file used in the last attempted **Copy File** operation where this file was the destination file. This header does not appear if this file has never been the destination in a **Copy File** operation or if this file has been modified after a concluded **Copy File** operation using **Set File Properties** or **Create File**.|  
 |`x-ms-copy-status: <pending &#124; success &#124; aborted &#124; failed>`|Version 2015-02-21 and newer. State of the copy operation identified by `x-ms-copy-id`, with these values:<br /><br /> -   *success:* Copy completed successfully.<br />-   *pending:* Copy is in progress. Check `x-ms-copy-status-description` if intermittent, non-fatal errors impede copy progress but don't cause failure.<br />-   *aborted:* Copy was ended by **Abort Copy File**.<br />-   *failed:* Copy failed. See `x-ms-copy-status-description` for failure details.<br /><br /> This header does not appear if this file has never been the destination in a **Copy File** operation, or if this file has been modified after a completed **Copy File** operation using **Set File Properties** or **Create File**.|  
-|`x-ms-content-md5`|Starting from version 2016-05-31, if the file has a MD5 hash, and if request contains range header (Range or x-ms-range), this response header is returned with the value of the whole file’s MD5 value. This value may or may not be equal to the value returned in Content-MD5 header, with the latter calculated from the requested range.|
+|`x-ms-content-md5`|Starting from version 2016-05-31, if the file has a MD5 hash, and if request contains range header (Range or x-ms-range), this response header is returned with the value of the whole file's MD5 value. This value may or may not be equal to the value returned in Content-MD5 header, with the latter calculated from the requested range.|
 |`x-ms-server-encrypted: true/false`|Version 2017-04-17 or newer. The value of this header is set to `true` if the file data and application metadata are completely encrypted using the specified algorithm. Otherwise, the value is set to `false` (when the file is unencrypted, or if only parts of the file/application metadata are encrypted).|  
 | `x-ms-file-permission-key` | The key of the permission of the file. |
 | `x-ms-file-attributes` | The file system attributes on the file. See the list of [available attributes](#authorization). |
@@ -106,12 +109,12 @@ For information about status codes, see [Status and Error Codes](Status-and-Erro
 |`x-ms-lease-status:<locked;unlocked>`|Version 2019-02-02 and newer. When a file is leased, specifies the lease status of the file. |
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
   
-### Response Body  
- The response body contains the content of the file.  
+### Response body
+The response body contains the content of the file.  
   
-### Sample Response  
+### Sample response  
   
-```  
+```
 Response Status:  
 HTTP/1.1 200 OK  
   
@@ -133,19 +136,18 @@ x-ms-copy-progress: 11/11
 x-ms-copy-completion-time: <date>  
 x-ms-lease-duration: infinite   
 x-ms-lease-state: leased 
-x-ms-lease-status: locked   
-  
+x-ms-lease-status: locked
 ```  
   
-## Authorization  
- Only the account owner may call this operation.  
+## Authorization
+Only the account owner may call this operation.  
   
-## Remarks  
- Calling `Get File` over a range that does not yet have content or that has been cleared returns zeros for those bytes.  
+## Remarks
+Calling `Get File` over a range that does not yet have content or that has been cleared returns zeros for those bytes.  
   
- If you call `Get File` with no range specified, the service returns the range of bytes up to the value specified for the `x-ms-content-length` header. For any ranges lacking content, the service returns zeros for those bytes.  
+If you call `Get File` with no range specified, the service returns the range of bytes up to the value specified for the `x-ms-content-length` header. For any ranges lacking content, the service returns zeros for those bytes.  
   
- A `Get File` operation is allowed 2 minutes per MiB to complete. Operations that take longer than 2 minutes per MiB on average will time out.  
+A `Get File` operation is allowed 2 minutes per MiB to complete. Operations that take longer than 2 minutes per MiB on average will time out.  
   
-## See also  
- [Operations on Files](Operations-on-Files.md)
+## See also
+[Operations on Files](Operations-on-Files.md)
