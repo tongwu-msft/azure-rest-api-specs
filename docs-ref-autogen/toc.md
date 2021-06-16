@@ -3877,49 +3877,6 @@
 ### [Send To Group](webpubsub/Web-Pub-Sub/Send-To-Group.yml)
 ### [Send To User](webpubsub/Web-Pub-Sub/Send-To-User.yml)
 ### [User Exists](webpubsub/Web-Pub-Sub/User-Exists.yml)
-# Batch AI
-## [Overview](../docs-ref-conceptual/BatchAI/index.md)
-## Clusters
-### [Overview](batchai/Clusters.yml)
-### [Create](batchai/Clusters/Create.yml)
-### [Delete](batchai/Clusters/Delete.yml)
-### [Get](batchai/Clusters/Get.yml)
-### [List By Workspace](batchai/Clusters/List-By-Workspace.yml)
-### [List Remote Login Information](batchai/Clusters/List-Remote-Login-Information.yml)
-### [Update](batchai/Clusters/Update.yml)
-## Experiments
-### [Overview](batchai/Experiments.yml)
-### [Create](batchai/Experiments/Create.yml)
-### [Delete](batchai/Experiments/Delete.yml)
-### [Get](batchai/Experiments/Get.yml)
-### [List By Workspace](batchai/Experiments/List-By-Workspace.yml)
-## File Servers
-### [Overview](batchai/File-Servers.yml)
-### [Create](batchai/File-Servers/Create.yml)
-### [List By Workspace](batchai/File-Servers/List-By-Workspace.yml)
-## Jobs
-### [Overview](batchai/Jobs.yml)
-### [Create](batchai/Jobs/Create.yml)
-### [Delete](batchai/Jobs/Delete.yml)
-### [Get](batchai/Jobs/Get.yml)
-### [List By Experiment](batchai/Jobs/List-By-Experiment.yml)
-### [List Output Files](batchai/Jobs/List-Output-Files.yml)
-### [List Remote Login Information](batchai/Jobs/List-Remote-Login-Information.yml)
-### [Terminate](batchai/Jobs/Terminate.yml)
-## Operations
-### [Overview](batchai/Operations.yml)
-### [List](batchai/Operations/List.yml)
-## Usages
-### [Overview](batchai/Usages.yml)
-### [List](batchai/Usages/List.yml)
-## Workspaces
-### [Overview](batchai/Workspaces.yml)
-### [Create](batchai/Workspaces/Create.yml)
-### [Delete](batchai/Workspaces/Delete.yml)
-### [Get](batchai/Workspaces/Get.yml)
-### [List](batchai/Workspaces/List.yml)
-### [List By Resource Group](batchai/Workspaces/List-By-Resource-Group.yml)
-### [Update](batchai/Workspaces/Update.yml)
 # Batch Management
 ## [Overview](../docs-ref-conceptual/BatchManagement/index.md)
 ## Application
@@ -12698,42 +12655,80 @@
 ## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
 ## [Preview APIs](../docs-ref-conceptual/searchmanagement/index-preview.md)
 ## Reference
-### Admin Keys
-#### [Overview](searchmanagement/Admin-Keys.yml)
-#### [Get](searchmanagement/Admin-Keys/Get.yml)
-#### [Regenerate](searchmanagement/Admin-Keys/Regenerate.yml)
-### Operations
-#### [Overview](searchmanagement/Operations.yml)
-#### [List](searchmanagement/Operations/List.yml)
-### Private Endpoint Connections
-#### [Overview](searchmanagement/Private-Endpoint-Connections.yml)
-#### [Delete](searchmanagement/Private-Endpoint-Connections/Delete.yml)
-#### [Get](searchmanagement/Private-Endpoint-Connections/Get.yml)
-#### [List By Service](searchmanagement/Private-Endpoint-Connections/List-By-Service.yml)
-#### [Update](searchmanagement/Private-Endpoint-Connections/Update.yml)
-### Private Link Resources
-#### [Overview](searchmanagement/Private-Link-Resources.yml)
-#### [List Supported](searchmanagement/Private-Link-Resources/List-Supported.yml)
-### Query Keys
-#### [Overview](searchmanagement/Query-Keys.yml)
-#### [Create](searchmanagement/Query-Keys/Create.yml)
-#### [Delete](searchmanagement/Query-Keys/Delete.yml)
-#### [List By Search Service](searchmanagement/Query-Keys/List-By-Search-Service.yml)
-### Services
-#### [Overview](searchmanagement/Services.yml)
-#### [Check Name Availability](searchmanagement/Services/Check-Name-Availability.yml)
-#### [Create Or Update](searchmanagement/Services/Create-Or-Update.yml)
-#### [Delete](searchmanagement/Services/Delete.yml)
-#### [Get](searchmanagement/Services/Get.yml)
-#### [List By Resource Group](searchmanagement/Services/List-By-Resource-Group.yml)
-#### [List By Subscription](searchmanagement/Services/List-By-Subscription.yml)
-#### [Update](searchmanagement/Services/Update.yml)
-### Shared Private Link Resources
-#### [Overview](searchmanagement/Shared-Private-Link-Resources.yml)
-#### [Create Or Update](searchmanagement/Shared-Private-Link-Resources/Create-Or-Update.yml)
-#### [Delete](searchmanagement/Shared-Private-Link-Resources/Delete.yml)
-#### [Get](searchmanagement/Shared-Private-Link-Resources/Get.yml)
-#### [List By Service](searchmanagement/Shared-Private-Link-Resources/List-By-Service.yml)
+### 2020-08-01
+#### Admin Keys
+##### [Overview](searchmanagement/2020-08-01/Admin-Keys.yml)
+##### [Get](searchmanagement/2020-08-01/Admin-Keys/Get.yml)
+##### [Regenerate](searchmanagement/2020-08-01/Admin-Keys/Regenerate.yml)
+#### Operations
+##### [Overview](searchmanagement/2020-08-01/Operations.yml)
+##### [List](searchmanagement/2020-08-01/Operations/List.yml)
+#### Private Endpoint Connections
+##### [Overview](searchmanagement/2020-08-01/Private-Endpoint-Connections.yml)
+##### [Delete](searchmanagement/2020-08-01/Private-Endpoint-Connections/Delete.yml)
+##### [Get](searchmanagement/2020-08-01/Private-Endpoint-Connections/Get.yml)
+##### [List By Service](searchmanagement/2020-08-01/Private-Endpoint-Connections/List-By-Service.yml)
+##### [Update](searchmanagement/2020-08-01/Private-Endpoint-Connections/Update.yml)
+#### Private Link Resources
+##### [Overview](searchmanagement/2020-08-01/Private-Link-Resources.yml)
+##### [List Supported](searchmanagement/2020-08-01/Private-Link-Resources/List-Supported.yml)
+#### Query Keys
+##### [Overview](searchmanagement/2020-08-01/Query-Keys.yml)
+##### [Create](searchmanagement/2020-08-01/Query-Keys/Create.yml)
+##### [Delete](searchmanagement/2020-08-01/Query-Keys/Delete.yml)
+##### [List By Search Service](searchmanagement/2020-08-01/Query-Keys/List-By-Search-Service.yml)
+#### Services
+##### [Overview](searchmanagement/2020-08-01/Services.yml)
+##### [Check Name Availability](searchmanagement/2020-08-01/Services/Check-Name-Availability.yml)
+##### [Create Or Update](searchmanagement/2020-08-01/Services/Create-Or-Update.yml)
+##### [Delete](searchmanagement/2020-08-01/Services/Delete.yml)
+##### [Get](searchmanagement/2020-08-01/Services/Get.yml)
+##### [List By Resource Group](searchmanagement/2020-08-01/Services/List-By-Resource-Group.yml)
+##### [List By Subscription](searchmanagement/2020-08-01/Services/List-By-Subscription.yml)
+##### [Update](searchmanagement/2020-08-01/Services/Update.yml)
+#### Shared Private Link Resources
+##### [Overview](searchmanagement/2020-08-01/Shared-Private-Link-Resources.yml)
+##### [Create Or Update](searchmanagement/2020-08-01/Shared-Private-Link-Resources/Create-Or-Update.yml)
+##### [Delete](searchmanagement/2020-08-01/Shared-Private-Link-Resources/Delete.yml)
+##### [Get](searchmanagement/2020-08-01/Shared-Private-Link-Resources/Get.yml)
+##### [List By Service](searchmanagement/2020-08-01/Shared-Private-Link-Resources/List-By-Service.yml)
+### 2021-04-01-preview
+#### Admin Keys
+##### [Overview](searchmanagement/2021-04-01-preview/Admin-Keys.yml)
+##### [Get](searchmanagement/2021-04-01-preview/Admin-Keys/Get.yml)
+##### [Regenerate](searchmanagement/2021-04-01-preview/Admin-Keys/Regenerate.yml)
+#### Operations
+##### [Overview](searchmanagement/2021-04-01-preview/Operations.yml)
+##### [List](searchmanagement/2021-04-01-preview/Operations/List.yml)
+#### Private Endpoint Connections
+##### [Overview](searchmanagement/2021-04-01-preview/Private-Endpoint-Connections.yml)
+##### [Delete](searchmanagement/2021-04-01-preview/Private-Endpoint-Connections/Delete.yml)
+##### [Get](searchmanagement/2021-04-01-preview/Private-Endpoint-Connections/Get.yml)
+##### [List By Service](searchmanagement/2021-04-01-preview/Private-Endpoint-Connections/List-By-Service.yml)
+##### [Update](searchmanagement/2021-04-01-preview/Private-Endpoint-Connections/Update.yml)
+#### Private Link Resources
+##### [Overview](searchmanagement/2021-04-01-preview/Private-Link-Resources.yml)
+##### [List Supported](searchmanagement/2021-04-01-preview/Private-Link-Resources/List-Supported.yml)
+#### Query Keys
+##### [Overview](searchmanagement/2021-04-01-preview/Query-Keys.yml)
+##### [Create](searchmanagement/2021-04-01-preview/Query-Keys/Create.yml)
+##### [Delete](searchmanagement/2021-04-01-preview/Query-Keys/Delete.yml)
+##### [List By Search Service](searchmanagement/2021-04-01-preview/Query-Keys/List-By-Search-Service.yml)
+#### Services
+##### [Overview](searchmanagement/2021-04-01-preview/Services.yml)
+##### [Check Name Availability](searchmanagement/2021-04-01-preview/Services/Check-Name-Availability.yml)
+##### [Create Or Update](searchmanagement/2021-04-01-preview/Services/Create-Or-Update.yml)
+##### [Delete](searchmanagement/2021-04-01-preview/Services/Delete.yml)
+##### [Get](searchmanagement/2021-04-01-preview/Services/Get.yml)
+##### [List By Resource Group](searchmanagement/2021-04-01-preview/Services/List-By-Resource-Group.yml)
+##### [List By Subscription](searchmanagement/2021-04-01-preview/Services/List-By-Subscription.yml)
+##### [Update](searchmanagement/2021-04-01-preview/Services/Update.yml)
+#### Shared Private Link Resources
+##### [Overview](searchmanagement/2021-04-01-preview/Shared-Private-Link-Resources.yml)
+##### [Create Or Update](searchmanagement/2021-04-01-preview/Shared-Private-Link-Resources/Create-Or-Update.yml)
+##### [Delete](searchmanagement/2021-04-01-preview/Shared-Private-Link-Resources/Delete.yml)
+##### [Get](searchmanagement/2021-04-01-preview/Shared-Private-Link-Resources/Get.yml)
+##### [List By Service](searchmanagement/2021-04-01-preview/Shared-Private-Link-Resources/List-By-Service.yml)
 # Search Service
 ## [Overview](../docs-ref-conceptual/searchservice/index.md)
 ## [Data types](../docs-ref-conceptual/searchservice/supported-data-types.md)
