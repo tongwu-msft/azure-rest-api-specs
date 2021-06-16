@@ -18,25 +18,25 @@ Preview versions are released to test new functionality, gather feedback, and di
 > [!Important]
 > Preview APIs are provided without a service level agreement, and are not recommended for production workloads. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/).
 
-The following describes in detail a list of features, bug fixes and general improvements for the most recent preview management REST APIs.
+The following describes in detail a list of features, bug fixes, and general improvements for the most recent preview management REST APIs.
 
 ## 2021-04-01-Preview
 
-`2021-04-01-Preview` includes all the features, bug fixes and improvements from `2020-08-01-Preview`. Features, bug fixes and improvements exclusive to `2021-04-01-Preview` are listed below.
+`2021-04-01-Preview` includes all the features, bug fixes, and improvements from `2020-08-01-Preview`. Features, bug fixes, and improvements exclusive to `2021-04-01-Preview` are listed below.
 
-+ Support for *UserAssigned* identity type. In addition to enabling a *SystemAssigned* identity, customers can now assign an identity they own/manage. A service can now have either a *SystemAssigned* identity, or a *UserAssigned* identity or both. (*SystemAssigned, UserAssigned*)
++ Support for *UserAssigned* identity type for the search service. In addition to enabling a *SystemAssigned* identity, customers can now assign an identity they own and manage. A service can now have either a *SystemAssigned* identity, or a *UserAssigned* identity or both. (*SystemAssigned, UserAssigned*)
 
-+ Customers can configure using `authOptions` how applications should authentication against the data plane. Azure Active Directory (AAD) based authentication is now supported.
++ Customers can now configure how client requests are authenticated. In addition to the original key-based authentication, the preview API adds support for Azure Active Directory (Azure AD) role-based authentication. The ability use to Azure AD roles must be specified when the service is created or updated.
 
-+ Customer can enable semantic search capabilities on their service.
++ [Semantic search (preview)](https://docs.microsoft.com/azure/search/semantic-search-overview) is a premium feature that runs on Standard tier services. In this preview API, you can enable or disable semantic search at the service level to prohibit any query that invokes semantic ranking.
 
 + Customers can enforce new search services to require encryption of data plane resources via Customer Managed Keys (CMK). Existing search services that don't meet this requirement will be marked as non-compliant.
 
-+ Customers can restrict scenarios that require data exfiltration out of their search service.
++ Customers can disable scenarios that push data stored in Azure Cognitive Search indexes to external data stores.
 
 ## 2020-08-01-Preview
 
-`2020-08-01-Preview` includes all the features, bug fixes and improvements from the Generally available API version `2020-08-01`. Features, bug fixes and improvements exclusive to `2020-08-01-Preview` are listed below.
+`2020-08-01-Preview` includes all the features, bug fixes, and improvements from the Generally available API version `2020-08-01`. Features, bug fixes, and improvements exclusive to `2020-08-01-Preview` are listed below.
 
 + Support for created `sharedPrivateLinkResources` to 2 new resource types. 2 new `groupId` values are supported: `mysqlServer` (Azure database for MySQL) and `sites` (Azure Functions/app services)
 
