@@ -25,7 +25,7 @@ ms.manager: nitinme
 
 + `api-version=2021-04-01-Preview`: [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2021-04-01-preview)
 
-  This preview API has all of the features of API version `2020-08-01-Preview` and in addition adds support for new identity types, new authentication types to the search data plane and supports other new properties for a search service. For details, refer to the [Preview APIs](index-preview.md) section.
+  This preview API has all of the features of API version `2020-08-01-Preview`, plus support for new service identity types, new authentication types, and service properties that enforce or prohibit specific functionality. For details, refer to the [Preview APIs](index-preview.md) section.
 
 + `api-version=2020-08-01-Preview`: [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2020-08-01-preview).
 
