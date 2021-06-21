@@ -10,8 +10,8 @@ consumes:
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{resourceUri}/providers/microsoft.insights/metrics?api-version=2018-01-01
-- content: GET https://management.azure.com/{resourceUri}/providers/microsoft.insights/metrics?timespan={timespan}&interval={interval}&metricnames={metricnames}&aggregation={aggregation}&top={top}&orderby={orderby}&$filter={$filter}&resultType={resultType}&api-version=2018-01-01&metricnamespace={metricnamespace}
+- content: GET https://management.azure.com/{resourceUri}/providers/Microsoft.Insights/metrics?api-version=2018-01-01
+- content: GET https://management.azure.com/{resourceUri}/providers/Microsoft.Insights/metrics?timespan={timespan}&interval={interval}&metricnames={metricnames}&aggregation={aggregation}&top={top}&orderby={orderby}&$filter={$filter}&resultType={resultType}&api-version=2018-01-01&metricnamespace={metricnamespace}
   isOptional: true
 uriParameters:
 - name: resourceUri
@@ -170,8 +170,12 @@ definitions:
     description: "'Success' or the error details on query failures for this metric."
     types:
     - uid: string
+  - name: errorMessage
+    description: Error message encountered querying this specific metric.
+    types:
+    - uid: string
   - name: unit
-    description: the unit of the metric.
+    description: The unit of the metric.
     types:
     - uid: MetricUnit
   - name: timeseries
@@ -192,7 +196,7 @@ definitions:
     types:
     - uid: string
 - name: MetricUnit
-  description: the unit of the metric.
+  description: The unit of the metric.
   kind: enum
   properties:
   - name: Count
@@ -291,7 +295,7 @@ definitions:
 examples:
 - name: Get Metric for data
   request:
-    uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/microsoft.insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&aggregation=Average,count&top=3&orderby=Average asc&$filter=BlobType eq '*'&api-version=2018-01-01&metricnamespace=Microsoft.Storage/storageAccounts/blobServices
+    uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/Microsoft.Insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&aggregation=Average,count&top=3&orderby=Average asc&$filter=BlobType eq '*'&api-version=2018-01-01&metricnamespace=Microsoft.Storage/storageAccounts/blobServices
   responses:
   - statusCode: "200"
     body: >-
@@ -378,7 +382,7 @@ examples:
       }
 - name: Get Metric for metadata
   request:
-    uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/microsoft.insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&aggregation=Average,count&top=3&orderby=Average asc&$filter=BlobType eq '*'&api-version=2018-01-01&metricnamespace=Microsoft.Storage/storageAccounts/blobServices
+    uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/Microsoft.Insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&aggregation=Average,count&top=3&orderby=Average asc&$filter=BlobType eq '*'&api-version=2018-01-01&metricnamespace=Microsoft.Storage/storageAccounts/blobServices
   responses:
   - statusCode: "200"
     body: >-
@@ -422,6 +426,55 @@ examples:
             ]
           }
         ]
+      }
+- name: Get Metric with error
+  request:
+    uri: GET https://management.azure.com/subscriptions/ac41e21f-afd6-4a79-8070-f01eba278f97/resourceGroups/todking/providers/Microsoft.DocumentDb/databaseAccounts/tk-cosmos-mongo/providers/Microsoft.Insights/metrics?timespan=2021-06-07T21:51:00Z/2021-06-08T01:51:00Z&interval=FULL&metricnames=MongoRequestsCount,MongoRequests&aggregation=average&api-version=2018-01-01&metricnamespace=microsoft.documentdb/databaseaccounts
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "cost": 239,
+        "timespan": "2021-06-07T21:51:00Z/2021-06-08T01:51:00Z",
+        "interval": "PT4H",
+        "value": [
+          {
+            "id": "/subscriptions/ac41e21f-afd6-4a79-8070-f01eba278f97/resourceGroups/todking/providers/Microsoft.DocumentDb/databaseAccounts/tk-cosmos-mongo/providers/Microsoft.Insights/metrics/MongoRequestsCount",
+            "type": "Microsoft.Insights/metrics",
+            "name": {
+              "value": "MongoRequestsCount",
+              "localizedValue": "(deprecated) Mongo Request Rate"
+            },
+            "unit": "CountPerSecond",
+            "timeseries": [],
+            "errorMessage": "Sampling type is not found. Metric:CosmosDBCustomer,AzureMonitor,MongoRequests, SamplingType:NullableAverage.",
+            "errorCode": "InvalidSamplingType"
+          },
+          {
+            "id": "/subscriptions/ac41e21f-afd6-4a79-8070-f01eba278f97/resourceGroups/todking/providers/Microsoft.DocumentDb/databaseAccounts/tk-cosmos-mongo/providers/Microsoft.Insights/metrics/MongoRequests",
+            "type": "Microsoft.Insights/metrics",
+            "name": {
+              "value": "MongoRequests",
+              "localizedValue": "Mongo Requests"
+            },
+            "displayDescription": "Number of Mongo Requests Made",
+            "unit": "Count",
+            "timeseries": [
+              {
+                "metadatavalues": [],
+                "data": [
+                  {
+                    "timeStamp": "2021-06-07T21:51:00Z",
+                    "average": 0
+                  }
+                ]
+              }
+            ],
+            "errorCode": "Success"
+          }
+        ],
+        "namespace": "microsoft.documentdb/databaseaccounts",
+        "resourceregion": "westus2"
       }
 security:
 - name: azure_auth
