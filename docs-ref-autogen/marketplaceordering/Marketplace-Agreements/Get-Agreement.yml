@@ -46,49 +46,41 @@ responses:
 - name: 200 OK
   description: Terms returned successfully
   types:
-  - uid: AgreementTerms
+  - uid: OldAgreementTerms
 - name: Other Status Codes
   description: Microsoft.MarketplaceOrdering error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: AgreementTerms
+- name: OldAgreementTerms
   description: Terms properties for provided Publisher/Offer/Plan tuple
   kind: object
   properties:
+  - name: properties.id
+    description: A unique identifier of the agreement.
+    types:
+    - uid: string
   - name: properties.publisher
     description: Publisher identifier string of image being deployed.
     types:
     - uid: string
-  - name: properties.product
+  - name: properties.offer
     description: Offer identifier string of image being deployed.
     types:
     - uid: string
-  - name: properties.plan
-    description: Plan identifier string of image being deployed.
+  - name: properties.signDate
+    description: Date and time in UTC of when the terms were accepted. This is empty if state is cancelled.
     types:
     - uid: string
-  - name: properties.licenseTextLink
-    description: Link to HTML with Microsoft and Publisher terms.
+  - name: properties.cancelDate
+    description: Date and time in UTC of when the terms were cancelled. This is empty if state is active.
     types:
     - uid: string
-  - name: properties.privacyPolicyLink
-    description: Link to the privacy policy of the publisher.
+  - name: properties.state
+    description: Whether the agreement is active or cancelled
     types:
-    - uid: string
-  - name: properties.retrieveDatetime
-    description: Date and time in UTC of when the terms were accepted. This is empty if Accepted is false.
-    types:
-    - uid: string
-  - name: properties.signature
-    description: Terms signature.
-    types:
-    - uid: string
-  - name: properties.accepted
-    description: If any version of the terms have been accepted, otherwise false.
-    types:
-    - uid: boolean
+    - uid: state
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -108,20 +100,30 @@ definitions:
   description: Error response indicates Microsoft.MarketplaceOrdering service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
-  - name: error
+  - name: Error
     description: The details of the error.
     types:
     - uid: Error
+- name: state
+  description: Whether the agreement is active or cancelled
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
 - name: Error
   description: The details of the error.
   kind: object
   properties:
-  - name: code
+  - name: Code
     isReadyOnly: true
     description: Error code.
     types:
     - uid: string
-  - name: message
+  - name: Message
     isReadyOnly: true
     description: Error message indicating why the operation failed.
     types:
@@ -138,14 +140,12 @@ examples:
         "name": "planid",
         "type": "Microsoft.MarketplaceOrdering/offertypes",
         "properties": {
+          "id": "11111111-1111-1111-1111-111111111111",
           "publisher": "pubid",
-          "product": "offid",
-          "plan": "planid",
-          "licenseTextLink": "test.licenseLink",
-          "privacyPolicyLink": "test.privacyPolicyLink",
-          "retrieveDatetime": "2017-08-15T11:33:07.12132Z",
-          "signature": "ASDFSDAFWEFASDGWERLWER",
-          "accepted": true
+          "offer": "offid",
+          "signDate": "2017-08-15T11:33:07.12132Z",
+          "cancelDate": "2017-08-16T11:33:07.12132Z",
+          "state": "Canceled"
         }
       }
 security:
