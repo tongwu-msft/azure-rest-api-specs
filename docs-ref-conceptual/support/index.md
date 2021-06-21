@@ -52,7 +52,7 @@ Apart from support in [REST API](https://github.com/Azure/azure-rest-api-specs/t
 * Azure SDK for Java: [Support](https://search.maven.org/artifact/com.microsoft.azure.support.v2020_04_01/azure-mgmt-support/1.0.0/jar) | [Documentation](/java/api/overview/azure/supportability/management?view=azure-java-stable)
 * Azure SDK for .NET: [NuGet package](https://www.nuget.org/packages/Microsoft.Azure.Management.Support/1.0.1) | [Documentation](/dotnet/api/overview/azure/supportability?view=azure-dotnet)
 * Azure SDK for Python: [Support](https://pypi.org/project/azure-mgmt-support/) | [Documentation](/python/api/overview/azure/support)
-* Azure SDK for JavaScript: [Support](https://www.npmjs.com/package/@azure/arm-support/v/1.0.0) | [Documentation](https://review.docs.microsoft.com/javascript/api/@azure/arm-support/?view=azure-node-latest&branch=updateMapping0330)
+* Azure SDK for JavaScript: [Support](https://www.npmjs.com/package/@azure/arm-support/v/1.0.0) | [Documentation](/javascript/api/@azure/arm-support/?view=azure-node-latest)
 * Azure SDK for Go: [Support](https://github.com/Azure/azure-sdk-for-go/tree/master/services/support/mgmt/2020-04-01/support)
 * Ruby: [Support](https://rubygems.org/gems/azure_mgmt_support/versions/0.17.0)
 
