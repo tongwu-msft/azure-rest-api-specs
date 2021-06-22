@@ -20,7 +20,6 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 | Operation Group | Description |
 |-----------------|-------------|
 |[Backup Short Term Retention Policies](/rest/api/sql/2021-02-01-preview/backupshorttermretentionpolicies)| Create, get, update, list a database's short term retention policy.|
-|[Blob Auditing](/rest/api/sql/2021-02-01-preview/blob%20auditing)| Create, get, update, list an extended server or database's blob auditing policy.|
 |[Data Warehouse User Activities](/rest/api/sql/2021-02-01-preview/datawarehouseuseractivities)| Get and list the user activities of a data warehouse which includes running and suspended queries.|
 |[Database Advisors](/rest/api/sql/2021-02-01-preview/databaseadvisors)| Get and list database advisors|
 |[Database Automatic Tuning](/rest/api/sql/2021-02-01-preview/databaseautomatictuning)| Get and update a database's automatic tuning.|
@@ -102,7 +101,8 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 |[Server Automatic Tuning](/rest/api/sql/2021-02-01-preview/serverautomatictuning)| Get or update automatic tuning options on server.|
 |[Server Azure AD Administrators](/rest/api/sql/2021-02-01-preview/serverazureadadministrators)| Create, get, list, update, delete Azure Active Directory administrators in a server.|
 |[Server Azure AD Only Authentications](/rest/api/sql/2021-02-01-preview/serverazureadonlyauthentications)| Create, get, list, update, delete server Active Directory only authentication property.|
-|[Server Dev Ops Audit](/rest/api/sql/2021-02-01-preview/serverdevopsaudit)| Create, get, list, update DevOps audit settings of a server.|
+|[Server Blob Auditing Policies](/rest/api/sql/2021-02-01-preview/server-blob-auditing-policies)| Create, get, update, list an extended server or database's blob auditing policy.|
+|[Server Devops audit setting](/rest/api/sql/2021-02-01-preview/server-devops-audit-settings)| Create, get, list, update DevOps audit settings of a server.|
 |[Server Dns Aliases](/rest/api/sql/2021-02-01-preview/serverdnsaliases)| Create, get, list, acquire or delete a server DNS alias.|
 |[Server Keys](/rest/api/sql/2021-02-01-preview/serverkeys)| Create, get, list, update, delete server keys.|
 |[Server Operations](/rest/api/sql/2021-02-01-preview/serveroperations)| Get a list of operations performed on the server.|

@@ -28,14 +28,30 @@ responses:
 - name: 200 OK
   description: Terms returned successfully
   types:
-  - uid: AgreementTerms
-    isArray: true
+  - uid: AgreementTermsList
 - name: Other Status Codes
   description: Microsoft.MarketplaceOrdering error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: AgreementTermsList
+  description: Represents the list of AgreementTerms objects
+  kind: object
+  properties:
+  - name: value
+    description: The value of the array.
+    types:
+    - uid: AgreementTerms
+      isArray: true
+- name: ErrorResponse
+  description: Error response indicates Microsoft.MarketplaceOrdering service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: Error
+    description: The details of the error.
+    types:
+    - uid: Error
 - name: AgreementTerms
   description: Terms properties for provided Publisher/Offer/Plan tuple
   kind: object
@@ -87,24 +103,16 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error response indicates Microsoft.MarketplaceOrdering service is not able to process the incoming request. The reason is provided in the error message.
-  kind: object
-  properties:
-  - name: error
-    description: The details of the error.
-    types:
-    - uid: Error
 - name: Error
   description: The details of the error.
   kind: object
   properties:
-  - name: code
+  - name: Code
     isReadyOnly: true
     description: Error code.
     types:
     - uid: string
-  - name: message
+  - name: Message
     isReadyOnly: true
     description: Error message indicating why the operation failed.
     types:
@@ -116,23 +124,25 @@ examples:
   responses:
   - statusCode: "200"
     body: >-
-      [
-        {
-          "id": "id",
-          "name": "planid",
-          "type": "Microsoft.MarketplaceOrdering/offertypes",
-          "properties": {
-            "publisher": "pubid",
-            "product": "offid",
-            "plan": "planid",
-            "licenseTextLink": "test.licenseLink",
-            "privacyPolicyLink": "test.privacyPolicyLink",
-            "retrieveDatetime": "2017-08-15T11:33:07.12132Z",
-            "signature": "ASDFSDAFWEFASDGWERLWER",
-            "accepted": true
+      {
+        "value": [
+          {
+            "id": "id",
+            "name": "planid",
+            "type": "Microsoft.MarketplaceOrdering/offertypes",
+            "properties": {
+              "publisher": "pubid",
+              "product": "offid",
+              "plan": "planid",
+              "licenseTextLink": "test.licenseLink",
+              "privacyPolicyLink": "test.privacyPolicyLink",
+              "retrieveDatetime": "2017-08-15T11:33:07.12132Z",
+              "signature": "ASDFSDAFWEFASDGWERLWER",
+              "accepted": true
+            }
           }
-        }
-      ]
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2
