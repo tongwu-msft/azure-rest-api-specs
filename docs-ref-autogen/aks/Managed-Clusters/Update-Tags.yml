@@ -4,7 +4,7 @@ name: Update Tags
 service: AKS
 groupName: Managed Clusters
 apiVersion: 2021-05-01
-summary: "Updates tags on a managed cluster.  \nUpdates a managed cluster with the specified tags."
+summary: Updates tags on a managed cluster.
 consumes:
 - application/json
 produces:
@@ -105,12 +105,12 @@ definitions:
     - uid: ManagedClusterIdentity
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The current deployment or provisioning state, which only appears in the response.
+    description: The current provisioning state.
     types:
     - uid: string
   - name: properties.powerState
     isReadyOnly: true
-    description: Represents the Power State of the cluster
+    description: The Power State of the cluster.
     types:
     - uid: PowerState
   - name: properties.maxAgentPools
@@ -119,43 +119,43 @@ definitions:
     types:
     - uid: integer
   - name: properties.kubernetesVersion
-    description: Version of Kubernetes specified when creating the managed cluster.
+    description: "The version of Kubernetes the Managed Cluster is running.  \nWhen you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x -> 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details."
     types:
     - uid: string
   - name: properties.dnsPrefix
-    description: DNS prefix specified when creating the managed cluster.
+    description: "The DNS prefix of the Managed Cluster.  \nThis cannot be updated once the Managed Cluster has been created."
     types:
     - uid: string
   - name: properties.fqdnSubdomain
-    description: FQDN subdomain specified when creating private cluster with custom private dns zone.
+    description: "The FQDN subdomain of the private cluster with custom private dns zone.  \nThis cannot be updated once the Managed Cluster has been created."
     types:
     - uid: string
   - name: properties.fqdn
     isReadyOnly: true
-    description: FQDN for the master pool.
+    description: The FQDN of the master pool.
     types:
     - uid: string
   - name: properties.privateFQDN
     isReadyOnly: true
-    description: FQDN of private cluster.
+    description: The FQDN of private cluster.
     types:
     - uid: string
   - name: properties.azurePortalFQDN
     isReadyOnly: true
-    description: FQDN for the master pool which used by proxy config.
+    description: "The special FQDN used by the Azure Portal to access the Managed Cluster. This FQDN is for use only by the Azure Portal and should not be used by other clients.  \nThe Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn't handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly."
     types:
     - uid: string
   - name: properties.agentPoolProfiles
-    description: Properties of the agent pool.
+    description: The agent pool properties.
     types:
     - uid: ManagedClusterAgentPoolProfile
       isArray: true
   - name: properties.linuxProfile
-    description: Profile for Linux VMs in the container service cluster.
+    description: The profile for Linux VMs in the Managed Cluster.
     types:
     - uid: ContainerServiceLinuxProfile
   - name: properties.windowsProfile
-    description: Profile for Windows VMs in the container service cluster.
+    description: The profile for Windows VMs in the Managed Cluster.
     types:
     - uid: ManagedClusterWindowsProfile
   - name: properties.servicePrincipalProfile
@@ -163,7 +163,7 @@ definitions:
     types:
     - uid: ManagedClusterServicePrincipalProfile
   - name: properties.addonProfiles
-    description: Profile of managed cluster add-on.
+    description: The profile of managed cluster add-on.
     types:
     - uid: object
       isDictionary: true
@@ -171,11 +171,11 @@ definitions:
       - uid: string
       - uid: ManagedClusterAddonProfile
   - name: properties.podIdentityProfile
-    description: Profile of managed cluster pod identity.
+    description: "The pod identity profile of the Managed Cluster.  \nSee [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on AAD pod identity integration."
     types:
     - uid: ManagedClusterPodIdentityProfile
   - name: properties.nodeResourceGroup
-    description: Name of the resource group containing agent pool nodes.
+    description: The name of the resource group containing agent pool nodes.
     types:
     - uid: string
   - name: properties.enableRBAC
@@ -187,15 +187,15 @@ definitions:
     types:
     - uid: boolean
   - name: properties.networkProfile
-    description: Profile of network configuration.
+    description: The network configuration profile.
     types:
     - uid: ContainerServiceNetworkProfile
   - name: properties.aadProfile
-    description: Profile of Azure Active Directory configuration.
+    description: "AADProfile specifies attributes for Azure Active Directory integration.  \nThe Azure Active Directory configuration."
     types:
     - uid: ManagedClusterAADProfile
   - name: properties.autoUpgradeProfile
-    description: Profile of auto upgrade configuration.
+    description: The auto upgrade configuration.
     types:
     - uid: ManagedClusterAutoUpgradeProfile
   - name: properties.autoScalerProfile
@@ -203,11 +203,11 @@ definitions:
     types:
     - uid: AutoScalerProfile
   - name: properties.apiServerAccessProfile
-    description: Access profile for managed cluster API server.
+    description: The access profile for managed cluster API server.
     types:
     - uid: ManagedClusterAPIServerAccessProfile
   - name: properties.diskEncryptionSetID
-    description: ResourceId of the disk encryption set to use for enabling encryption at rest.
+    description: "The Resource ID of the disk encryption set to use for enabling encryption at rest.  \nThis is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}'"
     types:
     - uid: string
   - name: properties.identityProfile
@@ -220,7 +220,7 @@ definitions:
     - uid: PrivateLinkResource
       isArray: true
   - name: properties.disableLocalAccounts
-    description: If set to true, getting static credential will be disabled for this cluster. Expected to only be used for AAD clusters.
+    description: "If local accounts should be disabled on the Managed Cluster.  \nIf set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see [disable local accounts](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts-preview)."
     types:
     - uid: boolean
   - name: properties.httpProxyConfig
@@ -248,14 +248,15 @@ definitions:
       - uid: string
       - uid: string
 - name: ManagedClusterSKU
+  description: The SKU of a Managed Cluster.
   kind: object
   properties:
   - name: name
-    description: Name of a managed cluster SKU.
+    description: The name of a managed cluster SKU.
     types:
     - uid: ManagedClusterSKUName
   - name: tier
-    description: Tier of a managed cluster SKU.
+    description: "The tier of a managed cluster SKU.  \nIf not specified, the default is 'Free'. See [uptime SLA](https://docs.microsoft.com/azure/aks/uptime-sla) for more details."
     types:
     - uid: ManagedClusterSKUTier
 - name: ExtendedLocation
@@ -285,11 +286,11 @@ definitions:
     types:
     - uid: string
   - name: type
-    description: The type of identity used for the managed cluster. Type 'SystemAssigned' will use an implicitly created identity in master components and an auto-created user assigned identity in MC_ resource group in agent nodes. Type 'None' will not use MSI for the managed cluster, service principal will be used instead.
+    description: "The type of identity used for the managed cluster.  \nFor more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity)."
     types:
     - uid: ResourceIdentityType
   - name: userAssignedIdentities
-    description: "The user identity associated with the managed cluster. This identity will be used in control plane and only one user assigned identity is allowed. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    description: "The user identity associated with the managed cluster. This identity will be used in control plane. Only one user assigned identity is allowed.  \nThe keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
     types:
     - uid: UserAssignedIdentities
 - name: PowerState
@@ -309,47 +310,47 @@ definitions:
     types:
     - uid: integer
   - name: vmSize
-    description: Size of agent VMs.
+    description: "The size of the agent pool VMs.  \nVM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions"
     types:
     - uid: string
   - name: osDiskSizeGB
-    description: OS Disk Size in GB to be used to specify the disk size for every machine in this master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.
+    description: OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.
     types:
     - uid: integer
   - name: osDiskType
-    description: OS disk type to be used for machines in a given agent pool. Allowed values are 'Ephemeral' and 'Managed'. If unspecified, defaults to 'Ephemeral' when the VM supports ephemeral OS and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation.
+    description: "The OS disk type to be used for machines in the agent pool.  \nThe default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os)."
     types:
     - uid: OSDiskType
   - name: kubeletDiskType
-    description: KubeletDiskType determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage. Currently allows one value, OS, resulting in Kubelet using the OS disk for data.
+    description: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
     types:
     - uid: KubeletDiskType
   - name: vnetSubnetID
-    description: VNet SubnetID specifies the VNet's subnet identifier for nodes and maybe pods
+    description: "The ID of the subnet which agent pool nodes and optionally pods will join on startup.  \nIf this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}"
     types:
     - uid: string
   - name: podSubnetID
-    description: Pod SubnetID specifies the VNet's subnet identifier for pods.
+    description: "The ID of the subnet which pods will join when launched.  \nIf omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}"
     types:
     - uid: string
   - name: maxPods
-    description: Maximum number of pods that can run on a node.
+    description: The maximum number of pods that can run on a node.
     types:
     - uid: integer
   - name: osType
-    description: OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
+    description: The operating system type. The default is Linux.
     types:
     - uid: OSType
   - name: osSKU
-    description: OsSKU to be used to specify os sku. Choose from Ubuntu(default) and CBLMariner for Linux OSType. Not applicable to Windows OSType.
+    description: Specifies an OS SKU. This value must not be specified if OSType is Windows.
     types:
     - uid: OSSKU
   - name: maxCount
-    description: Maximum number of nodes for auto-scaling
+    description: The maximum number of nodes for auto-scaling
     types:
     - uid: integer
   - name: minCount
-    description: Minimum number of nodes for auto-scaling
+    description: The minimum number of nodes for auto-scaling
     types:
     - uid: integer
   - name: enableAutoScaling
@@ -357,20 +358,20 @@ definitions:
     types:
     - uid: boolean
   - name: type
-    description: AgentPoolType represents types of an agent pool
+    description: The type of Agent Pool.
     types:
     - uid: AgentPoolType
   - name: mode
-    description: AgentPoolMode represents mode of an agent pool
+    description: "The mode of an agent pool.  \nA cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools"
     types:
     - uid: AgentPoolMode
   - name: orchestratorVersion
-    description: Version of orchestrator specified when creating the managed cluster.
+    description: "The version of Kubernetes running on the Agent Pool.  \nAs a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool)."
     types:
     - uid: string
   - name: nodeImageVersion
     isReadyOnly: true
-    description: Version of node image
+    description: The version of node image
     types:
     - uid: string
   - name: upgradeSettings
@@ -379,7 +380,7 @@ definitions:
     - uid: AgentPoolUpgradeSettings
   - name: provisioningState
     isReadyOnly: true
-    description: The current deployment or provisioning state, which only appears in the response.
+    description: The current deployment or provisioning state.
     types:
     - uid: string
   - name: powerState
@@ -388,32 +389,32 @@ definitions:
     types:
     - uid: PowerState
   - name: availabilityZones
-    description: Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
+    description: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.
     types:
     - uid: string
       isArray: true
   - name: enableNodePublicIP
-    description: Enable public IP for nodes
+    description: "Whether each node is allocated its own public IP.  \nSome scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false."
     types:
     - uid: boolean
   - name: nodePublicIPPrefixID
-    description: Public IP Prefix ID. VM nodes use IPs assigned from this Public IP Prefix.
+    description: "The public IP prefix ID which VM nodes should use IPs from.  \nThis is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}"
     types:
     - uid: string
   - name: scaleSetPriority
-    description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
+    description: The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.
     types:
     - uid: ScaleSetPriority
   - name: scaleSetEvictionPolicy
-    description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale set. Default to Delete.
+    description: "The Virtual Machine Scale Set eviction policy to use.  \nThis cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'."
     types:
     - uid: ScaleSetEvictionPolicy
   - name: spotMaxPrice
-    description: SpotMaxPrice to be used to specify the maximum price you are willing to pay in US Dollars. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand.
+    description: "The max price (in US Dollars) you are willing to pay for spot instances. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand.  \nPossible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)"
     types:
     - uid: number
   - name: tags
-    description: Agent pool tags to be persisted on the agent pool virtual machine scale set.
+    description: The tags to be persisted on the agent pool virtual machine scale set.
     types:
     - uid: object
       isDictionary: true
@@ -421,7 +422,7 @@ definitions:
       - uid: string
       - uid: string
   - name: nodeLabels
-    description: Agent pool node labels to be persisted across all nodes in agent pool.
+    description: The node labels to be persisted across all nodes in agent pool.
     types:
     - uid: object
       isDictionary: true
@@ -429,7 +430,7 @@ definitions:
       - uid: string
       - uid: string
   - name: nodeTaints
-    description: Taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
+    description: The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
     types:
     - uid: string
       isArray: true
@@ -438,15 +439,15 @@ definitions:
     types:
     - uid: string
   - name: kubeletConfig
-    description: KubeletConfig specifies the configuration of kubelet on agent nodes.
+    description: "Kubelet configurations of agent nodes.  \nThe Kubelet configuration on the agent pool nodes."
     types:
     - uid: KubeletConfig
   - name: linuxOSConfig
-    description: LinuxOSConfig specifies the OS configuration of linux agent nodes.
+    description: "OS configurations of Linux agent nodes.  \nThe OS configuration of Linux agent nodes."
     types:
     - uid: LinuxOSConfig
   - name: enableEncryptionAtHost
-    description: Whether to enable EncryptionAtHost
+    description: "Whether to enable host based OS and data drive encryption.  \nThis is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption"
     types:
     - uid: boolean
   - name: enableUltraSSD
@@ -454,15 +455,15 @@ definitions:
     types:
     - uid: boolean
   - name: enableFIPS
-    description: Whether to use FIPS enabled OS
+    description: "Whether to use a FIPS-enabled OS.  \nSee [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details."
     types:
     - uid: boolean
   - name: gpuInstanceProfile
-    description: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU. Supported values are MIG1g, MIG2g, MIG3g, MIG4g and MIG7g.
+    description: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
     types:
     - uid: 'GPUInstanceProfile '
   - name: name
-    description: Unique name of the agent pool profile in the context of the subscription and resource group.
+    description: "Unique name of the agent pool profile in the context of the subscription and resource group.  \nWindows agent pool names must be 6 characters or less."
     types:
     - uid: string
 - name: ContainerServiceLinuxProfile
@@ -474,15 +475,15 @@ definitions:
     types:
     - uid: string
   - name: ssh
-    description: SSH configuration for Linux-based VMs running on Azure.
+    description: The SSH configuration for Linux-based VMs running on Azure.
     types:
     - uid: ContainerServiceSshConfiguration
 - name: ManagedClusterWindowsProfile
-  description: Profile for Windows VMs in the container service cluster.
+  description: Profile for Windows VMs in the managed cluster.
   kind: object
   properties:
   - name: adminUsername
-    description: Specifies the name of the administrator account. <br><br> **restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length:** 1 character <br><br> **Max-length:** 20 characters
+    description: Specifies the name of the administrator account. <br><br> **Restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length:** 1 character <br><br> **Max-length:** 20 characters
     types:
     - uid: string
   - name: adminPassword
@@ -490,11 +491,11 @@ definitions:
     types:
     - uid: string
   - name: licenseType
-    description: The licenseType to use for Windows VMs. Windows_Server is used to enable Azure Hybrid User Benefits for Windows VMs.
+    description: The license type to use for Windows VMs. See [Azure Hybrid User Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more details.
     types:
     - uid: licenseType
   - name: enableCSIProxy
-    description: Whether to enable CSI proxy.
+    description: "Whether to enable CSI proxy.  \nFor more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy)."
     types:
     - uid: boolean
 - name: ManagedClusterServicePrincipalProfile
@@ -531,6 +532,7 @@ definitions:
     types:
     - uid: Identity
 - name: ManagedClusterPodIdentityProfile
+  description: The pod identity profile of the Managed Cluster.
   kind: object
   properties:
   - name: enabled
@@ -538,16 +540,16 @@ definitions:
     types:
     - uid: boolean
   - name: allowNetworkPluginKubenet
-    description: Customer consent for enabling AAD pod identity addon in cluster using Kubenet network plugin.
+    description: "Whether pod identity is allowed to run on clusters with Kubenet networking.  \nRunning in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information."
     types:
     - uid: boolean
   - name: userAssignedIdentities
-    description: User assigned pod identity settings.
+    description: The pod identities to use in the cluster.
     types:
     - uid: ManagedClusterPodIdentity
       isArray: true
   - name: userAssignedIdentityExceptions
-    description: User assigned pod identity exception settings.
+    description: The pod identity exceptions to allow.
     types:
     - uid: ManagedClusterPodIdentityException
       isArray: true
@@ -556,15 +558,15 @@ definitions:
   kind: object
   properties:
   - name: networkPlugin
-    description: Network plugin used for building Kubernetes network.
+    description: Network plugin used for building the Kubernetes network.
     types:
     - uid: NetworkPlugin
   - name: networkPolicy
-    description: Network policy used for building Kubernetes network.
+    description: Network policy used for building the Kubernetes network.
     types:
     - uid: NetworkPolicy
   - name: networkMode
-    description: Network mode used for building Kubernetes network.
+    description: "The network mode Azure CNI is configured with.  \nThis cannot be specified if networkPlugin is anything other than 'azure'."
     types:
     - uid: networkMode
   - name: podCidr
@@ -584,11 +586,11 @@ definitions:
     types:
     - uid: string
   - name: outboundType
-    description: The outbound (egress) routing method.
+    description: "The outbound (egress) routing method.  \nThis can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype)."
     types:
     - uid: outboundType
   - name: loadBalancerSku
-    description: The load balancer sku for the managed cluster.
+    description: "The load balancer sku for the managed cluster.  \nThe default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs."
     types:
     - uid: loadBalancerSku
   - name: loadBalancerProfile
@@ -608,7 +610,7 @@ definitions:
     types:
     - uid: boolean
   - name: adminGroupObjectIDs
-    description: AAD group object IDs that will have admin role of the cluster.
+    description: The list of AAD group object IDs that will have admin role of the cluster.
     types:
     - uid: string
       isArray: true
@@ -633,7 +635,7 @@ definitions:
   kind: object
   properties:
   - name: upgradeChannel
-    description: upgrade channel for auto upgrade.
+    description: "The upgrade channel for auto upgrade. The default is 'none'.  \nFor more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel)."
     types:
     - uid: upgradeChannel
 - name: AutoScalerProfile
@@ -641,71 +643,71 @@ definitions:
   kind: object
   properties:
   - name: balance-similar-node-groups
-    description: ''
+    description: "Detects similar node pools and balances the number of nodes between them.  \nValid values are 'true' and 'false'"
     types:
     - uid: string
   - name: expander
-    description: ''
+    description: "The expander to use when scaling up  \nIf not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information."
     types:
     - uid: expander
   - name: max-empty-bulk-delete
-    description: ''
+    description: "The maximum number of empty nodes that can be deleted at the same time. This must be a positive integer.  \nThe default is 10."
     types:
     - uid: string
   - name: max-graceful-termination-sec
-    description: ''
+    description: "The maximum number of seconds the cluster autoscaler waits for pod termination when trying to scale down a node.  \nThe default is 600."
     types:
     - uid: string
   - name: max-node-provision-time
-    description: ''
+    description: "The maximum time the autoscaler waits for a node to be provisioned.  \nThe default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported."
     types:
     - uid: string
   - name: max-total-unready-percentage
-    description: ''
+    description: "The maximum percentage of unready nodes in the cluster. After this percentage is exceeded, cluster autoscaler halts operations.  \nThe default is 45. The maximum is 100 and the minimum is 0."
     types:
     - uid: string
   - name: new-pod-scale-up-delay
-    description: ''
+    description: "Ignore unscheduled pods before they're a certain age.  \nFor scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc)."
     types:
     - uid: string
   - name: ok-total-unready-count
-    description: ''
+    description: "The number of allowed unready nodes, irrespective of max-total-unready-percentage.  \nThis must be an integer. The default is 3."
     types:
     - uid: string
   - name: scan-interval
-    description: ''
+    description: "How often cluster is reevaluated for scale up or down.  \nThe default is '10'. Values must be an integer number of seconds."
     types:
     - uid: string
   - name: scale-down-delay-after-add
-    description: ''
+    description: "How long after scale up that scale down evaluation resumes  \nThe default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported."
     types:
     - uid: string
   - name: scale-down-delay-after-delete
-    description: ''
+    description: "How long after node deletion that scale down evaluation resumes.  \nThe default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported."
     types:
     - uid: string
   - name: scale-down-delay-after-failure
-    description: ''
+    description: "How long after scale down failure that scale down evaluation resumes.  \nThe default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported."
     types:
     - uid: string
   - name: scale-down-unneeded-time
-    description: ''
+    description: "How long a node should be unneeded before it is eligible for scale down.  \nThe default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported."
     types:
     - uid: string
   - name: scale-down-unready-time
-    description: ''
+    description: "How long an unready node should be unneeded before it is eligible for scale down  \nThe default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported."
     types:
     - uid: string
   - name: scale-down-utilization-threshold
-    description: ''
+    description: "Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down.  \nThe default is '0.5'."
     types:
     - uid: string
   - name: skip-nodes-with-local-storage
-    description: ''
+    description: "If cluster autoscaler will skip deleting nodes with pods with local storage, for example, EmptyDir or HostPath.  \nThe default is true."
     types:
     - uid: string
   - name: skip-nodes-with-system-pods
-    description: ''
+    description: "If cluster autoscaler will skip deleting nodes with pods from kube-system (except for DaemonSet or mirror pods)  \nThe default is true."
     types:
     - uid: string
 - name: ManagedClusterAPIServerAccessProfile
@@ -713,16 +715,16 @@ definitions:
   kind: object
   properties:
   - name: authorizedIPRanges
-    description: Authorized IP Ranges to kubernetes API server.
+    description: "The IP ranges authorized to access the Kubernetes API server.  \nIP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges)."
     types:
     - uid: string
       isArray: true
   - name: enablePrivateCluster
-    description: Whether to create the cluster as a private cluster or not.
+    description: "Whether to create the cluster as a private cluster or not.  \nFor more details, see [Creating a private AKS cluster](https://docs.microsoft.com/azure/aks/private-clusters)."
     types:
     - uid: boolean
   - name: privateDNSZone
-    description: 'Private dns zone mode for private cluster. '
+    description: "The private DNS zone mode for the cluster.  \nThe default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'."
     types:
     - uid: string
   - name: enablePrivateClusterPublicFQDN
@@ -750,7 +752,7 @@ definitions:
     types:
     - uid: string
   - name: requiredMembers
-    description: RequiredMembers of the resource
+    description: The RequiredMembers of the resource
     types:
     - uid: string
       isArray: true
@@ -760,19 +762,19 @@ definitions:
     types:
     - uid: string
 - name: ManagedClusterHTTPProxyConfig
-  description: Configurations for provisioning the cluster with HTTP proxy servers.
+  description: Cluster HTTP proxy configuration.
   kind: object
   properties:
   - name: httpProxy
-    description: HTTP proxy server endpoint to use.
+    description: The HTTP proxy server endpoint to use.
     types:
     - uid: string
   - name: httpsProxy
-    description: HTTPS proxy server endpoint to use.
+    description: The HTTPS proxy server endpoint to use.
     types:
     - uid: string
   - name: noProxy
-    description: Endpoints that should not go through proxy.
+    description: The endpoints that should not go through proxy.
     types:
     - uid: string
       isArray: true
@@ -802,20 +804,22 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 - name: ManagedClusterSKUName
-  description: Name of a managed cluster SKU.
+  description: The name of a managed cluster SKU.
   kind: enum
   properties:
   - name: Basic
     types:
     - uid: string
 - name: ManagedClusterSKUTier
-  description: Tier of a managed cluster SKU.
+  description: The tier of a managed cluster SKU.
   kind: enum
   properties:
   - name: Paid
+    description: Guarantees 99.95% availability of the Kubernetes API server endpoint for clusters that use Availability Zones and 99.9% of availability for clusters that don't use Availability Zones.
     types:
     - uid: string
   - name: Free
+    description: No guaranteed SLA, no additional charges. Free tier clusters have an SLO of 99.5%.
     types:
     - uid: string
 - name: ExtendedLocationTypes
@@ -826,20 +830,23 @@ definitions:
     types:
     - uid: string
 - name: ResourceIdentityType
-  description: The type of identity used for the managed cluster. Type 'SystemAssigned' will use an implicitly created identity in master components and an auto-created user assigned identity in MC_ resource group in agent nodes. Type 'None' will not use MSI for the managed cluster, service principal will be used instead.
+  description: The type of identity used for the managed cluster.
   kind: enum
   properties:
   - name: SystemAssigned
+    description: Use an implicitly created system assigned managed identity to manage cluster resources. Master components in the control plane such as kube-controller-manager will use the system assigned managed identity to manipulate Azure resources.
     types:
     - uid: string
   - name: UserAssigned
+    description: Use a user-specified identity to manage cluster resources. Master components in the control plane such as kube-controller-manager will use the specified user assigned managed identity to manipulate Azure resources.
     types:
     - uid: string
   - name: None
+    description: Do not use a managed identity for the Managed Cluster, service principal will be used instead.
     types:
     - uid: string
 - name: UserAssignedIdentities
-  description: "The user identity associated with the managed cluster. This identity will be used in control plane and only one user assigned identity is allowed. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  description: The user identity associated with the managed cluster. This identity will be used in control plane. Only one user assigned identity is allowed.
   kind: object
   properties:
   - name: ''
@@ -851,43 +858,51 @@ definitions:
   kind: enum
   properties:
   - name: Running
+    description: The cluster is running.
     types:
     - uid: string
   - name: Stopped
+    description: The cluster is stopped.
     types:
     - uid: string
 - name: OSDiskType
-  description: OSDiskType represents the type of an OS disk on an agent pool.
+  description: The OS disk type to be used for machines in the agent pool.
   kind: enum
   properties:
   - name: Managed
+    description: Azure replicates the operating system disk for a virtual machine to Azure storage to avoid data loss should the VM need to be relocated to another host. Since containers aren't designed to have local state persisted, this behavior offers limited value while providing some drawbacks, including slower node provisioning and higher read/write latency.
     types:
     - uid: string
   - name: Ephemeral
+    description: Ephemeral OS disks are stored only on the host machine, just like a temporary disk. This provides lower read/write latency, along with faster node scaling and cluster upgrades.
     types:
     - uid: string
 - name: KubeletDiskType
-  description: "KubeletDiskType determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage. Allowed values: 'OS', 'Temporary' (preview)."
+  description: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
   kind: enum
   properties:
   - name: OS
+    description: Kubelet will use the OS disk for its data.
     types:
     - uid: string
   - name: Temporary
+    description: Kubelet will use the temporary disk for its data.
     types:
     - uid: string
 - name: OSType
-  description: OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
+  description: The operating system type. The default is Linux.
   kind: enum
   properties:
   - name: Linux
+    description: Use Linux.
     types:
     - uid: string
   - name: Windows
+    description: Use Windows.
     types:
     - uid: string
 - name: OSSKU
-  description: OsSKU to be used to specify os sku. Choose from Ubuntu(default) and CBLMariner for Linux OSType. Not applicable to Windows OSType.
+  description: Specifies an OS SKU. This value must not be specified if OSType is Windows.
   kind: enum
   properties:
   - name: Ubuntu
@@ -897,23 +912,27 @@ definitions:
     types:
     - uid: string
 - name: AgentPoolType
-  description: AgentPoolType represents types of an agent pool.
+  description: The type of Agent Pool.
   kind: enum
   properties:
   - name: VirtualMachineScaleSets
+    description: Create an Agent Pool backed by a Virtual Machine Scale Set.
     types:
     - uid: string
   - name: AvailabilitySet
+    description: Use of this is strongly discouraged.
     types:
     - uid: string
 - name: AgentPoolMode
-  description: AgentPoolMode represents mode of an agent pool.
+  description: The mode of an agent pool.
   kind: enum
   properties:
   - name: System
+    description: System agent pools are primarily for hosting critical system pods such as CoreDNS and metrics-server. System agent pools osType must be Linux. System agent pools VM SKU must have at least 2vCPUs and 4GB of memory.
     types:
     - uid: string
   - name: User
+    description: User agent pools are primarily for hosting your application pods.
     types:
     - uid: string
 - name: AgentPoolUpgradeSettings
@@ -921,27 +940,31 @@ definitions:
   kind: object
   properties:
   - name: maxSurge
-    description: Count or percentage of additional nodes to be added during upgrade. If empty uses AKS default
+    description: "The maximum number or percentage of nodes that are surged during upgrade.  \nThis can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 1. For more information, including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade"
     types:
     - uid: string
 - name: ScaleSetPriority
-  description: ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
+  description: The Virtual Machine Scale Set priority.
   kind: enum
   properties:
   - name: Spot
+    description: Spot priority VMs will be used. There is no SLA for spot nodes. See [spot on AKS](https://docs.microsoft.com/azure/aks/spot-node-pool) for more information.
     types:
     - uid: string
   - name: Regular
+    description: Regular VMs will be used.
     types:
     - uid: string
 - name: ScaleSetEvictionPolicy
-  description: ScaleSetEvictionPolicy to be used to specify eviction policy for Spot virtual machine scale set. Default to Delete.
+  description: The Virtual Machine Scale Set eviction policy.
   kind: enum
   properties:
   - name: Delete
+    description: Nodes in the underlying Scale Set of the node pool are deleted when they're evicted.
     types:
     - uid: string
   - name: Deallocate
+    description: Nodes in the underlying Scale Set of the node pool are set to the stopped-deallocated state upon eviction. Nodes in the stopped-deallocated state count against your compute quota and can cause issues with cluster scaling or upgrading.
     types:
     - uid: string
 - name: KubeletConfig
@@ -949,31 +972,31 @@ definitions:
   kind: object
   properties:
   - name: cpuManagerPolicy
-    description: CPU Manager policy to use.
+    description: "The CPU Manager policy to use.  \nThe default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'."
     types:
     - uid: string
   - name: cpuCfsQuota
-    description: Enable CPU CFS quota enforcement for containers that specify CPU limits.
+    description: "If CPU CFS quota enforcement is enabled for containers that specify CPU limits.  \nThe default is true."
     types:
     - uid: boolean
   - name: cpuCfsQuotaPeriod
-    description: Sets CPU CFS quota period value.
+    description: "The CPU CFS quota period value.  \nThe default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'."
     types:
     - uid: string
   - name: imageGcHighThreshold
-    description: The percent of disk usage after which image garbage collection is always run.
+    description: "The percent of disk usage after which image garbage collection is always run.  \nTo disable image garbage collection, set to 100. The default is 85%"
     types:
     - uid: integer
   - name: imageGcLowThreshold
-    description: The percent of disk usage before which image garbage collection is never run.
+    description: "The percent of disk usage before which image garbage collection is never run.  \nThis cannot be set higher than imageGcHighThreshold. The default is 80%"
     types:
     - uid: integer
   - name: topologyManagerPolicy
-    description: Topology Manager policy to use.
+    description: "The Topology Manager policy to use.  \nFor more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'."
     types:
     - uid: string
   - name: allowedUnsafeSysctls
-    description: Allowlist of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
+    description: Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
     types:
     - uid: string
       isArray: true
@@ -1002,19 +1025,19 @@ definitions:
     types:
     - uid: SysctlConfig
   - name: transparentHugePageEnabled
-    description: Transparent Huge Page enabled configuration.
+    description: "Whether transparent hugepages are enabled.  \nValid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge)."
     types:
     - uid: string
   - name: transparentHugePageDefrag
-    description: Transparent Huge Page defrag configuration.
+    description: "Whether the kernel should make aggressive use of memory compaction to make more hugepages available.  \nValid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge)."
     types:
     - uid: string
   - name: swapFileSizeMB
-    description: SwapFileSizeMB specifies size in MB of a swap file will be created on each node.
+    description: The size in MB of a swap file that will be created on each node.
     types:
     - uid: integer
 - name: 'GPUInstanceProfile '
-  description: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU. Supported values are MIG1g, MIG2g, MIG3g, MIG4g and MIG7g.
+  description: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
   kind: enum
   properties:
   - name: MIG1g
@@ -1037,18 +1060,20 @@ definitions:
   kind: object
   properties:
   - name: publicKeys
-    description: The list of SSH public keys used to authenticate with Linux-based VMs. Only expect one key specified.
+    description: The list of SSH public keys used to authenticate with Linux-based VMs. A maximum of 1 key may be specified.
     types:
     - uid: ContainerServiceSshPublicKey
       isArray: true
 - name: licenseType
-  description: The licenseType to use for Windows VMs. Windows_Server is used to enable Azure Hybrid User Benefits for Windows VMs.
+  description: The license type to use for Windows VMs. See [Azure Hybrid User Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more details.
   kind: enum
   properties:
   - name: None
+    description: No additional licensing is applied.
     types:
     - uid: string
   - name: Windows_Server
+    description: Enables Azure Hybrid User Benefits for Windows VMs.
     types:
     - uid: string
 - name: Identity
@@ -1056,34 +1081,35 @@ definitions:
   kind: object
   properties:
   - name: resourceId
-    description: The resource id of the user assigned identity.
+    description: The resource ID of the user assigned identity.
     types:
     - uid: string
   - name: clientId
-    description: The client id of the user assigned identity.
+    description: The client ID of the user assigned identity.
     types:
     - uid: string
   - name: objectId
-    description: The object id of the user assigned identity.
+    description: The object ID of the user assigned identity.
     types:
     - uid: string
 - name: ManagedClusterPodIdentity
+  description: Details about the pod identity assigned to the Managed Cluster.
   kind: object
   properties:
   - name: name
-    description: Name of the pod identity.
+    description: The name of the pod identity.
     types:
     - uid: string
   - name: namespace
-    description: Namespace of the pod identity.
+    description: The namespace of the pod identity.
     types:
     - uid: string
   - name: bindingSelector
-    description: Binding selector to use for the AzureIdentityBinding resource.
+    description: The binding selector to use for the AzureIdentityBinding resource.
     types:
     - uid: string
   - name: identity
-    description: Information of the user assigned identity.
+    description: The user assigned identity details.
     types:
     - uid: UserAssignedIdentity
   - name: provisioningState
@@ -1097,18 +1123,19 @@ definitions:
     types:
     - uid: ProvisioningInfo
 - name: ManagedClusterPodIdentityException
+  description: A pod identity exception, which allows pods with certain labels to access the Azure Instance Metadata Service (IMDS) endpoint without being intercepted by the node-managed identity (NMI) server.
   kind: object
   properties:
   - name: name
-    description: Name of the pod identity exception.
+    description: The name of the pod identity exception.
     types:
     - uid: string
   - name: namespace
-    description: Namespace of the pod identity exception.
+    description: The namespace of the pod identity exception.
     types:
     - uid: string
   - name: podLabels
-    description: Pod labels to match.
+    description: The pod labels to match.
     types:
     - uid: object
       isDictionary: true
@@ -1116,33 +1143,39 @@ definitions:
       - uid: string
       - uid: string
 - name: NetworkPlugin
-  description: Network plugin used for building Kubernetes network.
+  description: Network plugin used for building the Kubernetes network.
   kind: enum
   properties:
   - name: azure
+    description: Use the Azure CNI network plugin. See [Azure CNI (advanced) networking](https://docs.microsoft.com/azure/aks/concepts-network#azure-cni-advanced-networking) for more information.
     types:
     - uid: string
   - name: kubenet
+    description: Use the Kubenet network plugin. See [Kubenet (basic) networking](https://docs.microsoft.com/azure/aks/concepts-network#kubenet-basic-networking) for more information.
     types:
     - uid: string
 - name: NetworkPolicy
-  description: Network policy used for building Kubernetes network.
+  description: Network policy used for building the Kubernetes network.
   kind: enum
   properties:
   - name: calico
+    description: Use Calico network policies. See [differences between Azure and Calico policies](https://docs.microsoft.com/azure/aks/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities) for more information.
     types:
     - uid: string
   - name: azure
+    description: Use Azure network policies. See [differences between Azure and Calico policies](https://docs.microsoft.com/azure/aks/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities) for more information.
     types:
     - uid: string
 - name: networkMode
-  description: Network mode used for building Kubernetes network.
+  description: The network mode Azure CNI is configured with.
   kind: enum
   properties:
   - name: transparent
+    description: No bridge is created. Intra-VM Pod to Pod communication is through IP routes created by Azure CNI. See [Transparent Mode](https://docs.microsoft.com/azure/aks/faq#transparent-mode) for more information.
     types:
     - uid: string
   - name: bridge
+    description: This is no longer supported
     types:
     - uid: string
 - name: outboundType
@@ -1150,9 +1183,11 @@ definitions:
   kind: enum
   properties:
   - name: loadBalancer
+    description: The load balancer is used for egress through an AKS assigned public IP. This supports Kubernetes services of type 'loadBalancer'. For more information see [outbound type loadbalancer](https://docs.microsoft.com/azure/aks/egress-outboundtype#outbound-type-of-loadbalancer).
     types:
     - uid: string
   - name: userDefinedRouting
+    description: Egress paths must be defined by the user. This is an advanced scenario and requires proper network configuration. For more information see [outbound type userDefinedRouting](https://docs.microsoft.com/azure/aks/egress-outboundtype#outbound-type-of-userdefinedrouting).
     types:
     - uid: string
 - name: loadBalancerSku
@@ -1160,9 +1195,11 @@ definitions:
   kind: enum
   properties:
   - name: standard
+    description: Use a a standard Load Balancer. This is the recommended Load Balancer SKU. For more information about on working with the load balancer in the managed cluster, see the [standard Load Balancer](https://docs.microsoft.com/azure/aks/load-balancer-standard) article.
     types:
     - uid: string
   - name: basic
+    description: Use a basic Load Balancer with limited functionality.
     types:
     - uid: string
 - name: ManagedClusterLoadBalancerProfile
@@ -1187,45 +1224,55 @@ definitions:
     - uid: ResourceReference
       isArray: true
   - name: allocatedOutboundPorts
-    description: Desired number of allocated SNAT ports per VM. Allowed values must be in the range of 0 to 64000 (inclusive). The default value is 0 which results in Azure dynamically allocating ports.
+    description: The desired number of allocated SNAT ports per VM. Allowed values are in the range of 0 to 64000 (inclusive). The default value is 0 which results in Azure dynamically allocating ports.
     types:
     - uid: integer
   - name: idleTimeoutInMinutes
-    description: Desired outbound flow idle timeout in minutes. Allowed values must be in the range of 4 to 120 (inclusive). The default value is 30 minutes.
+    description: Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 30 minutes.
     types:
     - uid: integer
 - name: upgradeChannel
-  description: upgrade channel for auto upgrade.
+  description: The upgrade channel for auto upgrade. The default is 'none'.
   kind: enum
   properties:
   - name: rapid
+    description: Automatically upgrade the cluster to the latest supported patch release on the latest supported minor version. In cases where the cluster is at a version of Kubernetes that is at an N-2 minor version where N is the latest supported minor version, the cluster first upgrades to the latest supported patch version on N-1 minor version. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster first is upgraded to 1.18.6, then is upgraded to 1.19.1.
     types:
     - uid: string
   - name: stable
+    description: Automatically upgrade the cluster to the latest supported patch release on minor version N-1, where N is the latest supported minor version. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster is upgraded to 1.18.6.
     types:
     - uid: string
   - name: patch
+    description: Automatically upgrade the cluster to the latest supported patch version when it becomes available while keeping the minor version the same. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster is upgraded to 1.17.9.
     types:
     - uid: string
   - name: node-image
+    description: Automatically upgrade the node image to the latest version available. Microsoft provides patches and new images for image nodes frequently (usually weekly), but your running nodes won't get the new images unless you do a node image upgrade. Turning on the node-image channel will automatically update your node images whenever a new version is available.
     types:
     - uid: string
   - name: none
+    description: Disables auto-upgrades and keeps the cluster at its current version of Kubernetes.
     types:
     - uid: string
 - name: expander
+  description: The expander to use when scaling up
   kind: enum
   properties:
   - name: least-waste
+    description: Selects the node group that will have the least idle CPU (if tied, unused memory) after scale-up. This is useful when you have different classes of nodes, for example, high CPU or high memory nodes, and only want to expand those when there are pending pods that need a lot of those resources.
     types:
     - uid: string
   - name: most-pods
+    description: Selects the node group that would be able to schedule the most pods when scaling up. This is useful when you are using nodeSelector to make sure certain pods land on certain nodes. Note that this won't cause the autoscaler to select bigger nodes vs. smaller, as it can add multiple smaller nodes at once.
     types:
     - uid: string
   - name: priority
+    description: Selects the node group that has the highest priority assigned by the user. It's configuration is described in more details [here](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/expander/priority/readme.md).
     types:
     - uid: string
   - name: random
+    description: Used when you don't have a particular need for the node groups to scale differently.
     types:
     - uid: string
 - name: SysctlConfig
@@ -1353,18 +1400,19 @@ definitions:
     types:
     - uid: string
 - name: UserAssignedIdentity
+  description: Details about a user assigned identity.
   kind: object
   properties:
   - name: resourceId
-    description: The resource id of the user assigned identity.
+    description: The resource ID of the user assigned identity.
     types:
     - uid: string
   - name: clientId
-    description: The client id of the user assigned identity.
+    description: The client ID of the user assigned identity.
     types:
     - uid: string
   - name: objectId
-    description: The object id of the user assigned identity.
+    description: The object ID of the user assigned identity.
     types:
     - uid: string
 - name: ManagedClusterPodIdentityProvisioningState
@@ -1395,7 +1443,7 @@ definitions:
   kind: object
   properties:
   - name: count
-    description: 'Desired number of outbound IP created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
+    description: 'The desired number of outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. '
     types:
     - uid: integer
 - name: OutboundIPPrefixes
@@ -1498,5 +1546,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Learn more about AKS service - Updates tags on a managed cluster.  \nUpdates a managed cluster with the specified tags."
+  description: Learn more about AKS service - Updates tags on a managed cluster.
 errorCodes: []
