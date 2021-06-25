@@ -2840,90 +2840,6 @@
 ### [List](azurefarmBeats/Weather/List.yml)
 # Azure Front Door Standard/Premium (Preview) and CDN
 ## [Overview](../docs-ref-conceptual/cdn/index.md)
-## Azure Front Door Standard/Premium (Preview)
-### AFD Custom Domains
-#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/AFD-Custom-Domains.yml)
-#### [Create](cdn/azurefrontdoorstandard/premium(preview)/AFD-Custom-Domains/Create.yml)
-#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/AFD-Custom-Domains/Delete.yml)
-#### [Get](cdn/azurefrontdoorstandard/premium(preview)/AFD-Custom-Domains/Get.yml)
-#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/AFD-Custom-Domains/List-By-Profile.yml)
-#### [Refresh Validation Token](cdn/azurefrontdoorstandard/premium(preview)/AFD-Custom-Domains/Refresh-Validation-Token.yml)
-#### [Update](cdn/azurefrontdoorstandard/premium(preview)/AFD-Custom-Domains/Update.yml)
-### AFD Endpoints
-#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/AFD-Endpoints.yml)
-#### [Create](cdn/azurefrontdoorstandard/premium(preview)/AFD-Endpoints/Create.yml)
-#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/AFD-Endpoints/Delete.yml)
-#### [Get](cdn/azurefrontdoorstandard/premium(preview)/AFD-Endpoints/Get.yml)
-#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/AFD-Endpoints/List-By-Profile.yml)
-#### [List Resource Usage](cdn/azurefrontdoorstandard/premium(preview)/AFD-Endpoints/List-Resource-Usage.yml)
-#### [Purge Content](cdn/azurefrontdoorstandard/premium(preview)/AFD-Endpoints/Purge-Content.yml)
-#### [Update](cdn/azurefrontdoorstandard/premium(preview)/AFD-Endpoints/Update.yml)
-#### [Validate Custom Domain](cdn/azurefrontdoorstandard/premium(preview)/AFD-Endpoints/Validate-Custom-Domain.yml)
-### AFD Origin Groups
-#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/AFD-Origin-Groups.yml)
-#### [Create](cdn/azurefrontdoorstandard/premium(preview)/AFD-Origin-Groups/Create.yml)
-#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/AFD-Origin-Groups/Delete.yml)
-#### [Get](cdn/azurefrontdoorstandard/premium(preview)/AFD-Origin-Groups/Get.yml)
-#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/AFD-Origin-Groups/List-By-Profile.yml)
-#### [List Resource Usage](cdn/azurefrontdoorstandard/premium(preview)/AFD-Origin-Groups/List-Resource-Usage.yml)
-#### [Update](cdn/azurefrontdoorstandard/premium(preview)/AFD-Origin-Groups/Update.yml)
-### AFD Origins
-#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/AFD-Origins.yml)
-#### [Create](cdn/azurefrontdoorstandard/premium(preview)/AFD-Origins/Create.yml)
-#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/AFD-Origins/Delete.yml)
-#### [Get](cdn/azurefrontdoorstandard/premium(preview)/AFD-Origins/Get.yml)
-#### [List By Origin Group](cdn/azurefrontdoorstandard/premium(preview)/AFD-Origins/List-By-Origin-Group.yml)
-#### [Update](cdn/azurefrontdoorstandard/premium(preview)/AFD-Origins/Update.yml)
-### AFD Profiles
-#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/AFD-Profiles.yml)
-#### [Check Host Name Availability](cdn/azurefrontdoorstandard/premium(preview)/AFD-Profiles/Check-Host-Name-Availability.yml)
-#### [List Resource Usage](cdn/azurefrontdoorstandard/premium(preview)/AFD-Profiles/List-Resource-Usage.yml)
-### Log Analytics
-#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/Log-Analytics.yml)
-#### [Get Log Analytics Locations](cdn/azurefrontdoorstandard/premium(preview)/Log-Analytics/Get-Log-Analytics-Locations.yml)
-#### [Get Log Analytics Metrics](cdn/azurefrontdoorstandard/premium(preview)/Log-Analytics/Get-Log-Analytics-Metrics.yml)
-#### [Get Log Analytics Rankings](cdn/azurefrontdoorstandard/premium(preview)/Log-Analytics/Get-Log-Analytics-Rankings.yml)
-#### [Get Log Analytics Resources](cdn/azurefrontdoorstandard/premium(preview)/Log-Analytics/Get-Log-Analytics-Resources.yml)
-#### [Get Waf Log Analytics Metrics](cdn/azurefrontdoorstandard/premium(preview)/Log-Analytics/Get-Waf-Log-Analytics-Metrics.yml)
-#### [Get Waf Log Analytics Rankings](cdn/azurefrontdoorstandard/premium(preview)/Log-Analytics/Get-Waf-Log-Analytics-Rankings.yml)
-### Routes
-#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/Routes.yml)
-#### [Create](cdn/azurefrontdoorstandard/premium(preview)/Routes/Create.yml)
-#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/Routes/Delete.yml)
-#### [Get](cdn/azurefrontdoorstandard/premium(preview)/Routes/Get.yml)
-#### [List By Endpoint](cdn/azurefrontdoorstandard/premium(preview)/Routes/List-By-Endpoint.yml)
-#### [Update](cdn/azurefrontdoorstandard/premium(preview)/Routes/Update.yml)
-### Rule Sets
-#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/Rule-Sets.yml)
-#### [Create](cdn/azurefrontdoorstandard/premium(preview)/Rule-Sets/Create.yml)
-#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/Rule-Sets/Delete.yml)
-#### [Get](cdn/azurefrontdoorstandard/premium(preview)/Rule-Sets/Get.yml)
-#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/Rule-Sets/List-By-Profile.yml)
-#### [List Resource Usage](cdn/azurefrontdoorstandard/premium(preview)/Rule-Sets/List-Resource-Usage.yml)
-### Rules
-#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/Rules.yml)
-#### [Create](cdn/azurefrontdoorstandard/premium(preview)/Rules/Create.yml)
-#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/Rules/Delete.yml)
-#### [Get](cdn/azurefrontdoorstandard/premium(preview)/Rules/Get.yml)
-#### [List By Rule Set](cdn/azurefrontdoorstandard/premium(preview)/Rules/List-By-Rule-Set.yml)
-#### [Update](cdn/azurefrontdoorstandard/premium(preview)/Rules/Update.yml)
-### Secrets
-#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/Secrets.yml)
-#### [Create](cdn/azurefrontdoorstandard/premium(preview)/Secrets/Create.yml)
-#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/Secrets/Delete.yml)
-#### [Get](cdn/azurefrontdoorstandard/premium(preview)/Secrets/Get.yml)
-#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/Secrets/List-By-Profile.yml)
-#### [Update](cdn/azurefrontdoorstandard/premium(preview)/Secrets/Update.yml)
-### Security Policies
-#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/Security-Policies.yml)
-#### [Create](cdn/azurefrontdoorstandard/premium(preview)/Security-Policies/Create.yml)
-#### [Delete](cdn/azurefrontdoorstandard/premium(preview)/Security-Policies/Delete.yml)
-#### [Get](cdn/azurefrontdoorstandard/premium(preview)/Security-Policies/Get.yml)
-#### [List By Profile](cdn/azurefrontdoorstandard/premium(preview)/Security-Policies/List-By-Profile.yml)
-#### [Patch](cdn/azurefrontdoorstandard/premium(preview)/Security-Policies/Patch.yml)
-### Validate
-#### [Overview](cdn/azurefrontdoorstandard/premium(preview)/Validate.yml)
-#### [Secret](cdn/azurefrontdoorstandard/premium(preview)/Validate/Secret.yml)
 ## CDN
 ### Check Name Availability
 #### [Overview](cdn/cdn/Check-Name-Availability.yml)
@@ -5796,6 +5712,14 @@
 ## [Common Headers](../docs-ref-conceptual/communication/headers.md)
 ## [Error Codes](../docs-ref-conceptual/communication/errorcodes.md)
 ## Reference
+### Call Connections
+#### [Overview](communication/Call-Connections.yml)
+#### [Add Participant](communication/Call-Connections/Add-Participant.yml)
+#### [Cancel All Media Operations](communication/Call-Connections/Cancel-All-Media-Operations.yml)
+#### [Create Call](communication/Call-Connections/Create-Call.yml)
+#### [Hangup Call](communication/Call-Connections/Hangup-Call.yml)
+#### [Play Audio](communication/Call-Connections/Play-Audio.yml)
+#### [Remove Participant](communication/Call-Connections/Remove-Participant.yml)
 ### Communication Identity
 #### [Overview](communication/Communication-Identity.yml)
 #### [Create](communication/Communication-Identity/Create.yml)
@@ -5828,6 +5752,17 @@
 #### [Release Phone Number](communication/Phone-Numbers/Release-Phone-Number.yml)
 #### [Search Available Phone Numbers](communication/Phone-Numbers/Search-Available-Phone-Numbers.yml)
 #### [Update Capabilities](communication/Phone-Numbers/Update-Capabilities.yml)
+### Server Calls
+#### [Overview](communication/Server-Calls.yml)
+#### [Add Participant](communication/Server-Calls/Add-Participant.yml)
+#### [Get Recording Properties](communication/Server-Calls/Get-Recording-Properties.yml)
+#### [Join Call](communication/Server-Calls/Join-Call.yml)
+#### [Pause Recording](communication/Server-Calls/Pause-Recording.yml)
+#### [Play Audio](communication/Server-Calls/Play-Audio.yml)
+#### [Remove Participant](communication/Server-Calls/Remove-Participant.yml)
+#### [Resume Recording](communication/Server-Calls/Resume-Recording.yml)
+#### [Start Recording](communication/Server-Calls/Start-Recording.yml)
+#### [Stop Recording](communication/Server-Calls/Stop-Recording.yml)
 ### Sms
 #### [Overview](communication/Sms.yml)
 #### [Send](communication/Sms/Send.yml)
@@ -20065,35 +20000,14 @@
 ### [Get Azure Async Header Result](synapse/Operations%202/Get-Azure-Async-Header-Result.yml)
 ### [Get Location Header Result](synapse/Operations%202/Get-Location-Header-Result.yml)
 ### [List](synapse/Operations%202/List.yml)
-## Private Endpoint Connections
-### [Overview](synapse/Private-Endpoint-Connections.yml)
-### [Create](synapse/Private-Endpoint-Connections/Create.yml)
-### [Delete](synapse/Private-Endpoint-Connections/Delete.yml)
-### [Get](synapse/Private-Endpoint-Connections/Get.yml)
-### [List](synapse/Private-Endpoint-Connections/List.yml)
-## Private Endpoint Connections Private Link Hub
-### [Overview](synapse/Private-Endpoint-Connections-Private-Link-Hub.yml)
-### [List](synapse/Private-Endpoint-Connections-Private-Link-Hub/List.yml)
 ## Private Link Hub Private Link Resources
 ### [Overview](synapse/Private-Link-Hub-Private-Link-Resources.yml)
 ### [Get](synapse/Private-Link-Hub-Private-Link-Resources/Get.yml)
 ### [List](synapse/Private-Link-Hub-Private-Link-Resources/List.yml)
-## Private Link Hubs
-### [Overview](synapse/Private-Link-Hubs.yml)
-### [Create Or Update](synapse/Private-Link-Hubs/Create-Or-Update.yml)
-### [Delete](synapse/Private-Link-Hubs/Delete.yml)
-### [Get](synapse/Private-Link-Hubs/Get.yml)
-### [List](synapse/Private-Link-Hubs/List.yml)
-### [List By Resource Group](synapse/Private-Link-Hubs/List-By-Resource-Group.yml)
-### [Update](synapse/Private-Link-Hubs/Update.yml)
 ## Private Link Resources
 ### [Overview](synapse/Private-Link-Resources.yml)
 ### [Get](synapse/Private-Link-Resources/Get.yml)
 ### [List](synapse/Private-Link-Resources/List.yml)
-## Restorable Dropped Sql Pools
-### [Overview](synapse/Restorable-Dropped-Sql-Pools.yml)
-### [Get](synapse/Restorable-Dropped-Sql-Pools/Get.yml)
-### [List By Workspace](synapse/Restorable-Dropped-Sql-Pools/List-By-Workspace.yml)
 ## Sql Pool Blob Auditing Policies
 ### [Overview](synapse/Sql-Pool-Blob-Auditing-Policies.yml)
 ### [Create Or Update](synapse/Sql-Pool-Blob-Auditing-Policies/Create-Or-Update.yml)
@@ -20216,28 +20130,6 @@
 ### [Rename](synapse/Sql-Pools/Rename.yml)
 ### [Resume](synapse/Sql-Pools/Resume.yml)
 ### [Update](synapse/Sql-Pools/Update.yml)
-## Workspace Aad Admins
-### [Overview](synapse/Workspace-Aad-Admins.yml)
-### [Create Or Update](synapse/Workspace-Aad-Admins/Create-Or-Update.yml)
-### [Delete](synapse/Workspace-Aad-Admins/Delete.yml)
-### [Get](synapse/Workspace-Aad-Admins/Get.yml)
-## Workspace Managed Identity Sql Control Settings
-### [Overview](synapse/Workspace-Managed-Identity-Sql-Control-Settings.yml)
-### [Create Or Update](synapse/Workspace-Managed-Identity-Sql-Control-Settings/Create-Or-Update.yml)
-### [Get](synapse/Workspace-Managed-Identity-Sql-Control-Settings/Get.yml)
-## Workspace Sql Aad Admins
-### [Overview](synapse/Workspace-Sql-Aad-Admins.yml)
-### [Create Or Update](synapse/Workspace-Sql-Aad-Admins/Create-Or-Update.yml)
-### [Delete](synapse/Workspace-Sql-Aad-Admins/Delete.yml)
-### [Get](synapse/Workspace-Sql-Aad-Admins/Get.yml)
-## Workspaces
-### [Overview](synapse/Workspaces.yml)
-### [Create Or Update](synapse/Workspaces/Create-Or-Update.yml)
-### [Delete](synapse/Workspaces/Delete.yml)
-### [Get](synapse/Workspaces/Get.yml)
-### [List](synapse/Workspaces/List.yml)
-### [List By Resource Group](synapse/Workspaces/List-By-Resource-Group.yml)
-### [Update](synapse/Workspaces/Update.yml)
 ## Data-plane
 ### Big Data Pools
 #### [Overview](synapse/data-plane/Big-Data-Pools.yml)
@@ -20381,9 +20273,6 @@
 #### [Cancel Trigger Instance](synapse/data-plane/Trigger-Run/Cancel-Trigger-Instance.yml)
 #### [Query Trigger Runs By Workspace](synapse/data-plane/Trigger-Run/Query-Trigger-Runs-By-Workspace.yml)
 #### [Rerun Trigger Instance](synapse/data-plane/Trigger-Run/Rerun-Trigger-Instance.yml)
-### Workspace
-#### [Overview](synapse/data-plane/Workspace.yml)
-#### [Get](synapse/data-plane/Workspace/Get.yml)
 ### Workspace Git Repo Management
 #### [Overview](synapse/data-plane/Workspace-Git-Repo-Management.yml)
 #### [get Git Hub Access Token](synapse/data-plane/Workspace-Git-Repo-Management/get-Git-Hub-Access-Token.yml)
