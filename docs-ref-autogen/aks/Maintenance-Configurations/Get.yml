@@ -4,7 +4,7 @@ name: Get
 service: AKS
 groupName: Maintenance Configurations
 apiVersion: 2021-05-01
-summary: "Gets the maintenance configuration.  \nGets the details of maintenance configurations by managed cluster and resource group."
+summary: Gets the specified maintenance configuration of a managed cluster.
 consumes:
 - application/json
 produces:
@@ -55,16 +55,16 @@ responses:
 requestHeader: []
 definitions:
 - name: MaintenanceConfiguration
-  description: maintenance configuration.
+  description: Planned maintenance configuration, used to configure when updates can be deployed to a Managed Cluster.
   kind: object
   properties:
   - name: systemData
     isReadyOnly: true
-    description: The system meta data relating to this resource.
+    description: The system metadata relating to this resource.
     types:
     - uid: SystemData
   - name: properties.timeInWeek
-    description: Weekday time slots allowed to upgrade.
+    description: "Time slots during the week when planned maintenance is allowed to proceed.  \nIf two array entries specify the same day of the week, the applied configuration is the union of times in both entries."
     types:
     - uid: TimeInWeek
       isArray: true
@@ -109,7 +109,7 @@ definitions:
     types:
     - uid: createdByType
   - name: createdAt
-    description: The timestamp of resource creation (UTC).
+    description: The UTC timestamp of resource creation.
     types:
     - uid: string
   - name: lastModifiedBy
@@ -129,16 +129,16 @@ definitions:
   kind: object
   properties:
   - name: day
-    description: A day in a week.
+    description: The day of the week.
     types:
     - uid: WeekDay
   - name: hourSlots
-    description: hour slots in a day.
+    description: "A list of hours in the day used to identify a time range.  \nEach integer hour represents a time range beginning at 0m after the hour ending at the next hour (non-inclusive). 0 corresponds to 00:00 UTC, 23 corresponds to 23:00 UTC. Specifying [0, 1] means the 00:00 - 02:00 UTC time range."
     types:
     - uid: integer
       isArray: true
 - name: TimeSpan
-  description: The time span with start and end properties.
+  description: A time range.
   kind: object
   properties:
   - name: start
@@ -257,5 +257,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Gets the maintenance configuration.  \nGets the details of maintenance configurations by managed cluster and resource group."
+  description: Learn more about AKS service - Gets the specified maintenance configuration of a managed cluster.
 errorCodes: []

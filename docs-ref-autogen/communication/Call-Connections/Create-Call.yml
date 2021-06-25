@@ -1,0 +1,281 @@
+### YamlMime:RESTOperation
+uid: communication.callconnections.createcall
+name: Create Call
+service: Communication
+groupName: Call Connections
+apiVersion: 2021-06-15-preview
+summary: Create a new call.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/calling/callConnections?api-version=2021-06-15-preview
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The endpoint of the Azure Communication resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Returns the create call response.
+  types:
+  - uid: CreateCallResult
+- name: 400 Bad Request
+  description: BadRequest
+  types:
+  - uid: CommunicationErrorResponse
+- name: 401 Unauthorized
+  description: Unauthorized
+  types:
+  - uid: CommunicationErrorResponse
+- name: 403 Forbidden
+  description: Forbidden
+  types:
+  - uid: CommunicationErrorResponse
+- name: 500 Internal Server Error
+  description: InternalServerError
+  types:
+  - uid: CommunicationErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: alternateCallerId
+    in: body
+    description: The alternate identity of the source of the call if dialing out to a pstn number
+    types:
+    - uid: PhoneNumberIdentifierModel
+  - name: targets
+    in: body
+    isRequired: true
+    description: The targets of the call.
+    types:
+    - uid: CommunicationIdentifierModel
+      isArray: true
+  - name: source
+    in: body
+    isRequired: true
+    description: The source of the call.
+    types:
+    - uid: CommunicationIdentifierModel
+  - name: subject
+    in: body
+    description: The subject.
+    types:
+    - uid: string
+  - name: callbackUri
+    in: body
+    isRequired: true
+    description: The callback URI.
+    types:
+    - uid: string
+  - name: requestedMediaTypes
+    in: body
+    description: The requested modalities.
+    types:
+    - uid: string
+      isArray: true
+  - name: requestedCallEvents
+    in: body
+    description: The requested call events to subscribe to.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: PhoneNumberIdentifierModel
+  description: A phone number.
+  kind: object
+  properties:
+  - name: value
+    description: The phone number in E.164 format.
+    types:
+    - uid: string
+- name: CommunicationIdentifierModel
+  description: 'Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.'
+  kind: object
+  properties:
+  - name: rawId
+    description: Raw Id of the identifier. Optional in requests, required in responses.
+    types:
+    - uid: string
+  - name: communicationUser
+    description: The communication user.
+    types:
+    - uid: CommunicationUserIdentifierModel
+  - name: phoneNumber
+    description: The phone number.
+    types:
+    - uid: PhoneNumberIdentifierModel
+  - name: microsoftTeamsUser
+    description: The Microsoft Teams user.
+    types:
+    - uid: MicrosoftTeamsUserIdentifierModel
+- name: CreateCallResult
+  description: The response payload of the create call operation.
+  kind: object
+  properties:
+  - name: callConnectionId
+    description: The call connection id.
+    types:
+    - uid: string
+- name: CreateCallRequest
+  description: The request payload for create call.
+  kind: object
+  properties:
+  - name: alternateCallerId
+    description: The alternate identity of the source of the call if dialing out to a pstn number
+    types:
+    - uid: PhoneNumberIdentifierModel
+  - name: targets
+    description: The targets of the call.
+    types:
+    - uid: CommunicationIdentifierModel
+      isArray: true
+  - name: source
+    description: The source of the call.
+    types:
+    - uid: CommunicationIdentifierModel
+  - name: subject
+    description: The subject.
+    types:
+    - uid: string
+  - name: callbackUri
+    description: The callback URI.
+    types:
+    - uid: string
+  - name: requestedMediaTypes
+    description: The requested modalities.
+    types:
+    - uid: string
+      isArray: true
+  - name: requestedCallEvents
+    description: The requested call events to subscribe to.
+    types:
+    - uid: string
+      isArray: true
+- name: CommunicationUserIdentifierModel
+  description: A user that got created with an Azure Communication Services resource.
+  kind: object
+  properties:
+  - name: id
+    description: The Id of the communication user.
+    types:
+    - uid: string
+- name: MicrosoftTeamsUserIdentifierModel
+  description: A Microsoft Teams user.
+  kind: object
+  properties:
+  - name: userId
+    description: The Id of the Microsoft Teams user. If not anonymous, this is the AAD object Id of the user.
+    types:
+    - uid: string
+  - name: isAnonymous
+    description: True if the Microsoft Teams user is anonymous. By default false if missing.
+    types:
+    - uid: boolean
+  - name: cloud
+    description: The cloud that the Microsoft Teams user belongs to. By default 'public' if missing.
+    types:
+    - uid: CommunicationCloudEnvironmentModel
+- name: CommunicationCloudEnvironmentModel
+  description: The cloud that the identifier belongs to.
+  kind: enum
+  properties:
+  - name: public
+    types:
+    - uid: string
+  - name: dod
+    types:
+    - uid: string
+  - name: gcch
+    types:
+    - uid: string
+examples:
+- name: Create a new call.
+  request:
+    uri: POST https://contoso.communications.azure.com/calling/callConnections?api-version=2021-06-15-preview
+    body: >-
+      {
+        "source": {
+          "communicationUser": {
+            "id": "8:acs:b9614373-fd0b-480c-8fd2-cb58b70eab9f_da7be3a9-8788-42a6-85c6-56b2cf784fce"
+          }
+        },
+        "targets": [
+          {
+            "communicationUser": {
+              "id": "8:acs:b9614373-fd0b-480c-8fd2-cb58b70eab9f_0f50d091-5bd3-448b-884d-44be7037d9b9"
+            }
+          },
+          {
+            "phoneNumber": {
+              "value": "+14250123456"
+            }
+          }
+        ],
+        "alternateCallerId": {
+          "value": "+18440123456"
+        },
+        "subject": "Reminder call",
+        "callbackUri": "https://app.contoso.com/callback",
+        "requestedMediaTypes": [
+          "audio",
+          "video"
+        ],
+        "requestedCallEvents": [
+          "dtmfReceived",
+          "participantsUpdated"
+        ]
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "callConnectionId": "18dea47f-b081-4107-9a5c-4300819d2c6c"
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400",
+          "message": "The request contains invalid data."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401",
+          "message": "Request is not authorized."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403",
+          "message": "User is not allowed to perform specified action."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500",
+          "message": "Internal server error."
+        }
+      }
+security: []
+metadata:
+  description: Learn more about Communication service - Create a new call.
+errorCodes: []
