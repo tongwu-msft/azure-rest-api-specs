@@ -78,8 +78,6 @@ Alternatives include the following SDKs, which are independently updated on sepa
 Visit these links for user guidance and more information about service administration:
 
 + [Azure Cognitive Search documentation](/documentation/services/search/)
-+ [Search Service REST API reference](../docs-ref-conceptual/searchservice/index.md)
-+ [Service administration using the portal](/azure/search/search-manage)
 + [PowerShell administration](/azure/search/search-manage-powershell)
 + [Monitoring Azure Cognitive Search](/azure/search/search-monitor-usage)
 + [Deployment strategies and best practices](/azure/search/search-performance-optimization)
