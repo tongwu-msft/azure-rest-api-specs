@@ -43,7 +43,7 @@ This preview API has all of the features of the previous preview API, and adds t
 
 + Customers can now configure how client requests are authenticated. In addition to the original key-based authentication, the preview API adds support for Azure Active Directory (Azure AD) role-based authentication. The ability use to Azure AD roles must be specified when the service is created or updated.
 
-+ [Semantic search (preview)](https://docs.microsoft.com/azure/search/semantic-search-overview) is a premium feature that runs on Standard tier services. In this preview API, you can enable or disable semantic search at the service level to prohibit any query that invokes semantic ranking.
++ [Semantic search (preview)](/azure/search/semantic-search-overview) is a premium feature that runs on Standard tier services. In this preview API, you can enable or disable semantic search at the service level to prohibit any query that invokes semantic ranking.
 
 + Customers can enforce new search services to require encryption of data plane resources via Customer Managed Keys (CMK). Existing search services that don't meet this requirement will be marked as non-compliant.
 
@@ -83,7 +83,7 @@ This is the initial release of the Management REST API. It provided APIs for ser
 
 ## See also
 
-+ [Create a search service](https://docs.microsoft.com/azure/search/search-create-service-portal)
-+ [Service administration using the portal](https://docs.microsoft.com/azure/search/search-manage)
-+ [PowerShell administration](https://docs.microsoft.com/azure/search/search-manage-powershell)
-+ [Monitoring Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-monitor-usage)
++ [Create a search service](/azure/search/search-create-service-portal)
++ [Service administration using the portal](/azure/search/search-manage)
++ [PowerShell administration](/azure/search/search-manage-powershell)
++ [Monitoring Azure Cognitive Search](/azure/search/search-monitor-usage)
