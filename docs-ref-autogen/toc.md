@@ -12587,8 +12587,6 @@
 # Search Management
 ## [Overview](../docs-ref-conceptual/searchmanagement/index.md)
 ## [API versions](../docs-ref-conceptual/searchmanagement/management-api-versions.md)
-## [How to use the Management REST API](../docs-ref-conceptual/searchmanagement/search-howto-management-rest-api.md)
-## [Preview APIs](../docs-ref-conceptual/searchmanagement/index-preview.md)
 ## Reference
 ### 2020-08-01
 #### Admin Keys
