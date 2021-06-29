@@ -19,7 +19,7 @@ The Management REST API of Azure Cognitive Search provides programmatic access t
 
 + Create or delete a search service
 + Create, regenerate, or retrieve `api-keys` (query or admin keys)
-+ Add or remove replicas and partitions (adust capacity)
++ Add or remove replicas and partitions (adjust capacity)
 + Configure a search service to use a private endpoint
 
 For all other tasks, such as creating and querying an index, use the [Search Service REST API](/rest/api/searchservice/) instead.

@@ -41,23 +41,23 @@ Preview versions are released to test new functionality, gather feedback, and di
 
 ### 2021-04-01-Preview
 
-This preview API has all of the features of the previous preview API, and adds the following functionality.
+This preview API has all of the features of the previous preview API, and adds the following functionality:
 
-+ Support for *UserAssigned* identity type for the search service. In addition to enabling a *SystemAssigned* identity, customers can now assign an identity they own and manage. A service can now have either a *SystemAssigned* identity, or a *UserAssigned* identity or both. (*SystemAssigned, UserAssigned*)
++ Support for *UserAssigned* identity type for the search service. In addition to enabling a *SystemAssigned* identity, you can now assign an identity that you manage in Azure Active Directory. A service can now have either a *SystemAssigned* identity, or a *UserAssigned* identity, or both (*SystemAssigned, UserAssigned*).
 
-+ Customers can now configure how client requests are authenticated. In addition to the original key-based authentication, the preview API adds support for Azure Active Directory (Azure AD) role-based authentication. The ability use to Azure AD roles must be specified when the service is created or updated.
++ You can now configure how client requests are authenticated. In addition to the original key-based authentication, the preview API adds support for Azure Active Directory (Azure AD) role-based authentication. The ability use to Azure AD roles in this capacity must be specified when the service is created or updated.
 
 + [Semantic search (preview)](/azure/search/semantic-search-overview) is a premium feature that runs on Standard tier services. In this preview API, you can enable or disable semantic search at the service level to prohibit any query that invokes semantic ranking.
 
-+ Customers can enforce new search services to require encryption of data plane resources via Customer Managed Keys (CMK). Existing search services that don't meet this requirement will be marked as non-compliant.
++ Enforce new search services to require encryption of data plane resources via [Customer Managed Keys (CMK)](/azure/search/search-security-manage-encryption-keys). Existing search services that don't meet this requirement will be marked as non-compliant.
 
-+ Customers can disable scenarios that push data stored in Azure Cognitive Search indexes to external data stores.
++ Disable scenarios that push data stored in Azure Cognitive Search indexes to external data stores.
 
 <a name="2020-08-01-Preview"></a>
 
 ### 2020-08-01-Preview
 
-This preview API is equivalent to the generally available version `2020-08-01`, and adds the following .
+This preview API is equivalent to the generally available version `2020-08-01`, and and adds the following functionality:
 
 + Added `sharedPrivateLinkResources` support for two new resource types. New `groupId` values include `mysqlServer` (Azure database for MySQL) and `sites` (Azure Functions/app services).
 
@@ -77,7 +77,7 @@ This generally available version added support for [Private Endpoint Connections
 
 ### 2019-10-01-Preview
 
-This the first preview version. There were no preview features introduced in this list. This preview is functionally equivalent to 2020-03-13. It remains available. Any script or code that calls that version will work, but we recommend customers to update to using a more recent API version (either a Generally available or preview API version) to get the same results.
+This is the first preview version. There were no preview features introduced in this list. This preview is functionally equivalent to 2020-03-13. It remains available. Any script or code that calls that version will work, but we recommend customers to update to using a more recent API version (either a Generally available or preview API version) to get the same results.
 
 <a name="2015-08-19"></a>
 
