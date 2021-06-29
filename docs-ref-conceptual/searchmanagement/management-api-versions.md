@@ -56,7 +56,7 @@ This preview API has all of the features of the previous preview API, and adds t
   + [Power query connectors](/azure/search/search-how-to-index-power-query-data-sources)
   + [Debug sessions](/azure/search/cognitive-search-debug-session)
   + [Enrichment cache](/azure/search/search-howto-incremental-index)
-  + [Knowledge stores](/azure/search/knowledge-store-concept-intro), and[Skillsets](/azure/search/cognitive-search-working-with-skillsets) generally. If you set `properties.disabledDataExfiltrationOptions` to "All", you cannot use skillsets in your indexing pipelines.
+  + [Knowledge stores](/azure/search/knowledge-store-concept-intro), and [Skillsets](/azure/search/cognitive-search-working-with-skillsets) generally because they support custom skills that integrate with external code.
 
 <a name="2020-08-01-Preview"></a>
 
