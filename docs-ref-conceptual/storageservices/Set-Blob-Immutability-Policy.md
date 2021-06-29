@@ -72,8 +72,8 @@ Setting the block blob's immutability policy on a blob storage or general purpos
   * Setting immutability policy on a snapshot or a version is allowed starting REST version 2020-06-12.
   * When immutability policy in unlocked mode, user can update the retention until date. When immutability policy in locked mode, user can only extend the retention until date. Immutability policy mode can be set from unlocked to locked, but not the reverse.
   * When there is immutability policy on a blob, and there is also default immutability policy on container or account, the blob immutability policy will take over the control and make effect.
-  * For blob level immutability policy, PutBlockList/PutBlob/CopyBlob operations are allowed, becuase these operations will generate a new version.
-  * When immutability policy in unlocked mode, user can delete immutability policy by below API:
+  * For blob level immutability policy, `PutBlockList/PutBlob/CopyBlob` operations are allowed, becuase these operations will generate a new version.
+  * When immutability policy in unlocked mode, user can delete immutability policy with below API:
 
 |Method|Request URI|HTTP Version|
 |------------|-----------------|------------------|
