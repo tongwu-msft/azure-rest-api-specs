@@ -238,6 +238,21 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
   
 -   `Metadata`  
   
+ **Immutability Policy in the Response**  
+  
+ The `ImmutabilityPolicyUntilDate`, `ImmutabilityPolicyMode` element are present only if the `include=immutabilitypolicy` parameter was specified on the URI.
+ <Properties> 
+    <ImmutabilityPolicyUntilDate>date-time-value</ImmutabilityPolicyUntilDate>   
+    <ImmutabilityPolicyMode>unlocked | locked </ImmutabilityPolicyMode>  
+  </Properties> 
+ 
+ **Legal Hold in the Response**  
+  
+ The `LegalHold` element is present only if the `include=legalhold` parameter was specified on the URI. 
+  <Properties> 
+    <LegalHold>true | false </LegalHold>  
+  </Properties> 
+ 
  **Returning Result Sets Using a Marker Value**  
   
  If you specify a value for the `maxresults` parameter and the number of blobs to return exceeds this value, or exceeds the default value for `maxresults`, the response body will contain a `NextMarker` element that indicates the next blob to return on a subsequent request. To return the next set of items, specify the value of `NextMarker` as the marker parameter on the URI for the subsequent request.  
