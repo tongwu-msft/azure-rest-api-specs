@@ -45,7 +45,7 @@ This preview API has all of the features of the previous preview API, and adds t
 
 + Support for *UserAssigned* identity type for the search service. In addition to enabling a *SystemAssigned* identity, you can now assign an identity that you manage in Azure Active Directory. Identities are used for [outbound access to external data sources](/azure/search/search-howto-managed-identities-data-sources) during indexer-based indexing. The identity is specified in the data source connection as a substitute for database credentials or keys. A service can now have either a *SystemAssigned* identity, or a *UserAssigned* identity, or both (*SystemAssigned, UserAssigned*). 
 
-+ You can now configure how client requests are authenticated. In addition to the original key-based authentication, the preview API adds support for Azure Active Directory (Azure AD) role-based authentication]. The ability use to Azure AD roles in this capacity must be specified when the service is created or updated using `properties.authOptions`.
++ You can now configure how client requests are authenticated. In addition to the original key-based authentication, the preview API adds support for Azure Active Directory (Azure AD) role-based authentication. The ability use to Azure AD roles in this capacity must be specified when the service is created or updated using `properties.authOptions`.
 
 + [Semantic search (preview)](/azure/search/semantic-search-overview) is a premium feature that runs on Standard tier services. In this preview API, you can enable or disable semantic search at the service level to prohibit any query that invokes semantic ranking. You can also enable this feature on search services on the free tier for a small number of free queries.
 
