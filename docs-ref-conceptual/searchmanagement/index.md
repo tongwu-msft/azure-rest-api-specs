@@ -46,13 +46,15 @@ You can also use the Azure portal.
 
 ## Authentication and access control
 
-Administration rights are conveyed through roles in Azure Active Directory (AD). In Azure Cognitive Search, supported roles include Owner, Contributor, and Reader. For more information, see [Role-based authorization](/azure/search/search-security-rbac).
+Administration rights are conveyed through roles in Azure Active Directory (AD). A best practice is to assign roles to groups rather than individual users. The subscription owner or global administrator manages these assignments. For more information, see [Assign Azure AD roles to groups](azure/active-directory/roles/groups-assign-role).
+
+For search service management, supported roles include Owner, Contributor, and Reader. For the full list, see [Role-based authorization](/azure/search/search-security-rbac).
 
 ## Management APIs in other SDKs
 
 The REST APIs are foundational to Azure Cognitive Search, and any changes to the programming model are reflected in the REST APIs first.
 
-Alternatives include the following SDKs, which are independently updated on separate release schedules:
+Alternatives include the following Azure SDKs, which are independently updated on separate release schedules:
 
 + [.NET](/dotnet/api/overview/azure/search/management)
 + [Python](/python/api/overview/azure/search/management?view=azure-python)
