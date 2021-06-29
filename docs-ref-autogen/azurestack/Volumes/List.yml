@@ -1,0 +1,199 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurestack.volumes.list
+name: List
+service: Azure Stack Admin
+groupName: Volumes
+apiVersion: 2019-05-01
+summary: Returns a list of all storage volumes at a location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/scaleUnits/{scaleUnit}/storageSubSystems/{storageSubSystem}/volumes?api-version=2019-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Fabric.Admin/fabricLocations/{location}/scaleUnits/{scaleUnit}/storageSubSystems/{storageSubSystem}/volumes?api-version=2019-05-01&$filter={$filter}&$top={$top}&$skip={$skip}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Location of the resource.
+  types:
+  - uid: string
+- name: scaleUnit
+  in: path
+  isRequired: true
+  description: Name of the scale units.
+  types:
+  - uid: string
+- name: storageSubSystem
+  in: path
+  isRequired: true
+  description: Name of the storage system.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter parameter.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: OData top parameter.
+  types:
+  - uid: string
+- name: $skip
+  in: query
+  description: OData skip parameter.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: VolumeList
+- name: 404 Not Found
+  description: NOT FOUND
+requestHeader: []
+definitions:
+- name: VolumeList
+  description: Pageable list of storage volumes.
+  kind: object
+  properties:
+  - name: value
+    description: List of storage volumes.
+    types:
+    - uid: Volume
+      isArray: true
+  - name: nextLink
+    description: URI to the next page.
+    types:
+    - uid: string
+- name: Volume
+  description: Representation of a volume resource.
+  kind: object
+  properties:
+  - name: properties.totalCapacityGB
+    isReadyOnly: true
+    description: Total capacity in GB of the volume.
+    types:
+    - uid: integer
+  - name: properties.remainingCapacityGB
+    isReadyOnly: true
+    description: Remaining capacity in GB of the volume.
+    types:
+    - uid: integer
+  - name: properties.healthStatus
+    isReadyOnly: true
+    description: Health status of the volume.
+    types:
+    - uid: string
+  - name: properties.operationalStatus
+    isReadyOnly: true
+    description: Operational status of the volume.
+    types:
+    - uid: string
+  - name: properties.repairStatus
+    isReadyOnly: true
+    description: Repair status of the volume. Empty if no repair job running, something like 'Running, 90%' when repairing.
+    types:
+    - uid: string
+  - name: properties.description
+    isReadyOnly: true
+    description: Detailed description for HealthStatus/OperationalStatus. Empty if HealthStatus/OperationalStatus is Healthy/Ok.
+    types:
+    - uid: string
+  - name: properties.action
+    isReadyOnly: true
+    description: Detailed recommended action for HealthStatus/OperationalStatus. Empty if HealthStatus/OperationalStatus is Healthy/Ok.
+    types:
+    - uid: string
+  - name: properties.volumeLabel
+    isReadyOnly: true
+    description: Volume label.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: URI of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of resource.
+    types:
+    - uid: string
+  - name: location
+    description: The region where the resource is located.
+    types:
+    - uid: string
+  - name: tags
+    description: List of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+examples:
+- name: Returns a list of all storage volumes at a location.
+  request:
+    uri: GET https://management.azure.com/subscriptions/72526b2b-4b61-4700-8f0c-7bb7ae9b6a2d/resourceGroups/System.redmond/providers/Microsoft.Fabric.Admin/fabricLocations/redmond/scaleUnits/s-cluster/storageSubSystems/s-cluster.v.masd.stbtest.microsoft.com/volumes?api-version=2019-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/72526b2b-4b61-4700-8f0c-7bb7ae9b6a2d/resourceGroups/System.redmond/providers/Microsoft.Fabric.Admin/fabricLocations/redmond/scaleUnits/s-cluster/storageSubSystems/s-cluster.v.masd.stbtest.microsoft.com/volumes/48f356d4-362d-49cb-a021-fafffbe0e8ad",
+            "name": "redmond/s-cluster/s-cluster.v.masd.stbtest.microsoft.com/48f356d4-362d-49cb-a021-fafffbe0e8ad",
+            "type": "Microsoft.Fabric.Admin/fabricLocations/scaleUnits/storageSubSystems/volumes",
+            "location": "redmond",
+            "tags": {},
+            "properties": {
+              "totalCapacityGB": 1375,
+              "remainingCapacityGB": 1317,
+              "healthStatus": "Healthy",
+              "operationalStatus": "OK",
+              "repairStatus": "",
+              "description": "",
+              "action": "",
+              "volumeLabel": "ObjStore_1"
+            }
+          }
+        ]
+      }
+  - statusCode: "404"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Authorization uses an Azure Active Directory OAuth2 flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

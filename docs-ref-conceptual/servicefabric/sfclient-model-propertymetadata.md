@@ -1,7 +1,7 @@
 ---
 title: "PropertyMetadata"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "PropertyMetadata"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,59 +34,64 @@ The metadata associated with a property, including the property's name.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [TypeId](#typeid) | string (enum) | No |
-| [CustomTypeId](#customtypeid) | string | No |
-| [Parent](#parent) | string | No |
-| [SizeInBytes](#sizeinbytes) | integer | No |
-| [LastModifiedUtcTimestamp](#lastmodifiedutctimestamp) | string (date-time) | No |
-| [SequenceNumber](#sequencenumber) | string (int64) | No |
+| [`TypeId`](#typeid) | string (enum) | No |
+| [`CustomTypeId`](#customtypeid) | string | No |
+| [`Parent`](#parent) | string | No |
+| [`SizeInBytes`](#sizeinbytes) | integer | No |
+| [`LastModifiedUtcTimestamp`](#lastmodifiedutctimestamp) | string (date-time) | No |
+| [`SequenceNumber`](#sequencenumber) | string | No |
 
 ____
-### TypeId
+### `TypeId`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The kind of property, determined by the type of data. Following are the possible values.
 
-- Invalid - Indicates the property is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-- Binary - The data inside the property is a binary blob. The value is 1.
-- Int64 - The data inside the property is an int64. The value is 2.
-- Double - The data inside the property is a double. The value is 3.
-- String - The data inside the property is a wstring. The value is 4.
-- Guid - The data inside the property is a guid. The value is 5.
+Possible values are: 
+
+  - `Invalid` - Indicates the property is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Binary` - The data inside the property is a binary blob. The value is 1.
+  - `Int64` - The data inside the property is an int64. The value is 2.
+  - `Double` - The data inside the property is a double. The value is 3.
+  - `String` - The data inside the property is a string. The value is 4.
+  - `Guid` - The data inside the property is a guid. The value is 5.
+
 
 
 ____
-### CustomTypeId
+### `CustomTypeId`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The property's custom type id.
+The property's custom type ID.
 
 ____
-### Parent
+### `Parent`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The name of the parent Service Fabric Name for the property. It could be thought of as the namespace/table under which the property exists.
+The name of the parent Service Fabric Name for the property. It could be thought of as the name-space/table under which the property exists.
 
 ____
-### SizeInBytes
+### `SizeInBytes`
 __Type__: integer <br/>
 __Required__: No<br/>
 <br/>
 The length of the serialized property value.
 
 ____
-### LastModifiedUtcTimestamp
+### `LastModifiedUtcTimestamp`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>
 Represents when the Property was last modified. Only write operations will cause this field to be updated.
 
 ____
-### SequenceNumber
-__Type__: string (int64) <br/>
+### `SequenceNumber`
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The version of the property. Every time a property is modified, its sequence number is increased.

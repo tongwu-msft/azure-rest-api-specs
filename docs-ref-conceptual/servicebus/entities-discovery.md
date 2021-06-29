@@ -1,8 +1,7 @@
 ---
 title: "Entities Discovery"
 ms.custom: ""
-ms.date: "05/14/2015"
-ms.prod: "azure"
+ms.date: "07/08/2020"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -10,9 +9,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: a484d1f4-f35b-44ea-9039-e219b75d1559
 caps.latest.revision: 8
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -58,10 +57,10 @@ Discovers messaging entities.
 > [!NOTE]
 >  In order for the HTTP GET request be interpreted as a “Discovery” operation, the name addressed by the URL must not be occupied. If the name is taken, the HTTP GET request is interpreted as a “Get” operation.  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/dd179382.aspx).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response Header|Description|  
 |---------------------|-----------------|  

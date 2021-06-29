@@ -1,7 +1,7 @@
 ---
 title: "ApplicationDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ApplicationDescription"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,42 +34,43 @@ Describes a Service Fabric application.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Name](#name) | string | Yes |
-| [TypeName](#typename) | string | Yes |
-| [TypeVersion](#typeversion) | string | Yes |
-| [ParameterList](#parameterlist) | array of [ApplicationParameter](sfclient-model-applicationparameter.md) | No |
-| [ApplicationCapacity](#applicationcapacity) | [ApplicationCapacityDescription](sfclient-model-applicationcapacitydescription.md) | No |
+| [`Name`](#name) | string | Yes |
+| [`TypeName`](#typename) | string | Yes |
+| [`TypeVersion`](#typeversion) | string | Yes |
+| [`ParameterList`](#parameterlist) | array of [ApplicationParameter](sfclient-model-applicationparameter.md) | No |
+| [`ApplicationCapacity`](#applicationcapacity) | [ApplicationCapacityDescription](sfclient-model-applicationcapacitydescription.md) | No |
+| [`ManagedApplicationIdentity`](#managedapplicationidentity) | [ManagedApplicationIdentityDescription](sfclient-model-managedapplicationidentitydescription.md) | No |
 
 ____
-### Name
+### `Name`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the application, including the 'fabric:' URI scheme.
 
 ____
-### TypeName
+### `TypeName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The application type name as defined in the application manifest.
 
 ____
-### TypeVersion
+### `TypeVersion`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The version of the application type as defined in the application manifest.
 
 ____
-### ParameterList
+### `ParameterList`
 __Type__: array of [ApplicationParameter](sfclient-model-applicationparameter.md) <br/>
 __Required__: No<br/>
 <br/>
 List of application parameters with overridden values from their default values specified in the application manifest.
 
 ____
-### ApplicationCapacity
+### `ApplicationCapacity`
 __Type__: [ApplicationCapacityDescription](sfclient-model-applicationcapacitydescription.md) <br/>
 __Required__: No<br/>
 <br/>
@@ -78,3 +79,10 @@ Describes capacity information for services of this application. This descriptio
 - Limiting the total number of nodes that services of this application can run on
 - Limiting the custom capacity metrics to limit the total consumption of this metric by the services of this application
 
+
+____
+### `ManagedApplicationIdentity`
+__Type__: [ManagedApplicationIdentityDescription](sfclient-model-managedapplicationidentitydescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Managed application identity description.

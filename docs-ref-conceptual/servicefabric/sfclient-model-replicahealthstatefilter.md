@@ -1,7 +1,7 @@
 ---
 title: "ReplicaHealthStateFilter"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ReplicaHealthStateFilter"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -37,30 +37,30 @@ One filter can match zero, one or multiple replicas, depending on its properties
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ReplicaOrInstanceIdFilter](#replicaorinstanceidfilter) | string | No |
-| [HealthStateFilter](#healthstatefilter) | integer | No |
+| [`ReplicaOrInstanceIdFilter`](#replicaorinstanceidfilter) | string | No |
+| [`HealthStateFilter`](#healthstatefilter) | integer | No |
 
 ____
-### ReplicaOrInstanceIdFilter
+### `ReplicaOrInstanceIdFilter`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-Id of the stateful service replica or stateles service instance that matches the filter. The filter is applied only to the specified replica, if it exists.
+Id of the stateful service replica or stateless service instance that matches the filter. The filter is applied only to the specified replica, if it exists.
 If the replica doesn't exist, no replica is returned in the cluster health chunk based on this filter.
 If the replica exists, it is included in the cluster health chunk if it respects the other filter properties.
 If not specified, all replicas that match the parent filters (if any) are taken into consideration and matched against the other filter members, like health state filter.
 
 
 ____
-### HealthStateFilter
+### `HealthStateFilter`
 __Type__: integer <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
+__Default__: `0` <br/>
 <br/>
 The filter for the health state of the replicas. It allows selecting replicas if they match the desired health states.
 The possible values are integer value of one of the following health states. Only replicas that match the filter are returned. All replicas are used to evaluate the parent partition aggregated health state.
-If not specified, default value is None, unless the replica id is specified. If the filter has default value and replica id is specified, the matching replica is returned.
-The state values are flag based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+If not specified, default value is None, unless the replica ID is specified. If the filter has default value and replica ID is specified, the matching replica is returned.
+The state values are flag-based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
 For example, if the provided value is 6, it matches replicas with HealthState value of OK (2) and Warning (4).
 
 - Default - Default value. Matches any HealthState. The value is zero.

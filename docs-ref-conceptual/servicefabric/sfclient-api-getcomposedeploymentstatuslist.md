@@ -1,7 +1,7 @@
 ---
 title: "Get Compose Deployment Status List"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "Get Compose Deployment Status List"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Get Compose Deployment Status List
 Gets the list of compose deployments created in the Service Fabric cluster.
 
-Gets the status about the compose deployments that were created or in the process of being created in the Service Fabric cluster. The response includes the name, status and other details about the compose deployments. If the list of deployments do not fit in a page, one page of results is returned as well as a continuation token which can be used to get the next page.
+Gets the status about the compose deployments that were created or in the process of being created in the Service Fabric cluster. The response includes the name, status, and other details about the compose deployments. If the list of deployments do not fit in a page, one page of results is returned as well as a continuation token, which can be used to get the next page.
 
 ## Request
 | Method | Request URI |
@@ -41,44 +41,44 @@ Gets the status about the compose deployments that were created or in the proces
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [api-version](#api-version) | string | Yes | Query |
-| [ContinuationToken](#continuationtoken) | string | No | Query |
-| [MaxResults](#maxresults) | integer (int64) | No | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`ContinuationToken`](#continuationtoken) | string | No | Query |
+| [`MaxResults`](#maxresults) | integer (int64) | No | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0-preview <br/>
+__Default__: `6.0-preview` <br/>
 <br/>
-The version of the API. This is a required parameter and its value must be "6.0-preview".
+The version of the API. This parameter is required and its value must be '"6.0-preview'.
 
 ____
-### ContinuationToken
+### `ContinuationToken`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The continuation token parameter is used to obtain next set of results. A continuation token with a non empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
+The continuation token parameter is used to obtain next set of results. A continuation token with a non-empty value is included in the response of the API when the results from the system do not fit in a single response. When this value is passed to the next API call, the API returns next set of results. If there are no further results, then the continuation token does not contain a value. The value of this parameter should not be URL encoded.
 
 ____
-### MaxResults
+### `MaxResults`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 0 <br/>
-__InclusiveMinimum__: 0 <br/>
+__Default__: `0` <br/>
+__InclusiveMinimum__: `0` <br/>
 <br/>
-The maximum number of results to be returned as part of the paged queries. This parameter defines the upper bound on the number of results returned. The results returned can be less than the specified maximum results if they do not fit in the message as per the max message size restrictions defined in the configuration. If this parameter is zero or not specified, the paged queries includes as much results as possible that fit in the return message.
+The maximum number of results to be returned as part of the paged queries. This parameter defines the upper bound on the number of results returned. The results returned can be less than the specified maximum results if they do not fit in the message as per the max message size restrictions defined in the configuration. If this parameter is zero or not specified, the paged query includes as many results as possible that fit in the return message.
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ## Responses
 

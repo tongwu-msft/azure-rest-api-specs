@@ -1,8 +1,7 @@
 ---
 title: "Common parameters and headers: queues"
 ms.custom: ""
-ms.date: "2016-11-11"
-ms.prod: "azure"
+ms.date: 07/08/2020
 ms.reviewer: ""
 ms.service: "service-bus-messaging"
 ms.suite: ""
@@ -10,8 +9,8 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 78095adf-a6a3-456d-8a52-63b5d059b28c
 caps.latest.revision: 1
-author: "sethmanheim"
-ms.author: "sethm"
+author: "spelluru"
+ms.author: "femila"
 manager: "timlt"
 translation.priority.mt: 
   - "de-de"
@@ -38,7 +37,7 @@ The following information is common to all tasks that you might do related to Se
   
 -   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](/rest/api/resources).  
   
--   Replace {resourceGroupName} with the resource group name within your subscriptionId. For more information, see [Manage resource groups](/azure/azure-resource-manager/resource-group-portal#manage-resource-groups).  
+-   Replace {resourceGroupName} with the resource group name within your subscriptionId. For more information, see [Manage resource groups](/azure/azure-resource-manager/manage-resource-groups-portal).  
   
 -   Replace {namespaceName} with the name of the namespace you created on the portal.  
   

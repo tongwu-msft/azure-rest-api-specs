@@ -1,7 +1,7 @@
 ---
 title: "Service Package"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "Service Package"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -33,8 +33,8 @@ translation.priority.mt:
 | --- | --- |
 | [Get Deployed Service Package Info List](sfclient-api-getdeployedservicepackageinfolist.md) | Gets the list of service packages deployed on a Service Fabric node.<br/> |
 | [Get Deployed Service Package Info List By Name](sfclient-api-getdeployedservicepackageinfolistbyname.md) | Gets the list of service packages deployed on a Service Fabric node matching exactly the specified name.<br/> |
-| [Get Deployed Service Package Health](sfclient-api-getdeployedservicepackagehealth.md) | Gets the information about health of an service package for a specific application deployed for a Service Fabric node and application.<br/> |
+| [Get Deployed Service Package Health](sfclient-api-getdeployedservicepackagehealth.md) | Gets the information about health of a service package for a specific application deployed for a Service Fabric node and application.<br/> |
 | [Get Deployed Service Package Health Using Policy](sfclient-api-getdeployedservicepackagehealthusingpolicy.md) | Gets the information about health of service package for a specific application deployed on a Service Fabric node using the specified policy.<br/> |
 | [Report Deployed Service Package Health](sfclient-api-reportdeployedservicepackagehealth.md) | Sends a health report on the Service Fabric deployed service package.<br/> |
-| [Deployed Service Package To Node](sfclient-api-deployedservicepackagetonode.md) | Downloads packages associated with specified service manifest to image cache on specified node.<br/> |
+| [Deploy Service Package To Node](sfclient-api-deployservicepackagetonode.md) | Downloads all of the code packages associated with specified service manifest on the specified node.<br/> |
 

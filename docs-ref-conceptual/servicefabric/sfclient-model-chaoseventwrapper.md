@@ -1,7 +1,7 @@
 ---
 title: "ChaosEventWrapper"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ChaosEventWrapper"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,10 +34,10 @@ Wrapper object for Chaos event.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ChaosEvent](#chaosevent) | [ChaosEvent](sfclient-model-chaosevent.md) | No |
+| [`ChaosEvent`](#chaosevent) | [ChaosEvent](sfclient-model-chaosevent.md) | No |
 
 ____
-### ChaosEvent
+### `ChaosEvent`
 __Type__: [ChaosEvent](sfclient-model-chaosevent.md) <br/>
 __Required__: No<br/>
 <br/>

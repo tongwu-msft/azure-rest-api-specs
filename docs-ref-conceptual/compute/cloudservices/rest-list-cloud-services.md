@@ -3,9 +3,8 @@ title: "Azure Cloud Services REST - List Cloud Services | Microsoft Docs"
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"
-ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "cloud-services"
+
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -109,7 +108,7 @@ The `List Cloud Services` operation lists the cloud services that are available 
 |Name|Specifies the name of an extended cloud service property. Each extended property must have both a defined name and value. You can define a maximum of 50 extended properties.<br /><br /> The `Name` element is only available using version 2012-03-01 or higher.|  
 |Value|Represents the value of an extended cloud service property. The extended property value can be up to 255 characters long.<br /><br /> The `Value` element is only available using version 2012-03-01 or higher.|  
 |ReverseDnsFqdn|Optional. Specifies the DNS address to which the IP address of the cloud service resolves when queried using a reverse DNS query.<br /><br /> The `ReverseDnsFqdn` element is only available using version 2014-06-01 or higher.|  
-|DefaultWinRMCertificateThumbprint|Specifies the default certificate for a secure connection with WinRM. If a certificate thumbprint is not specified for WinRM when a Virtual Machine is deployed in a cloud service, a certificate is automatically created and the thumbprint is listed as the value of this element. For more information about defining WinRM, see [Create Virtual Machine Deployment](http://msdn.microsoft.com/library/azure/jj157194.aspx) or [Add Role](http://msdn.microsoft.com/library/azure/jj157186.aspx).|  
+|DefaultWinRMCertificateThumbprint|Specifies the default certificate for a secure connection with WinRM. If a certificate thumbprint is not specified for WinRM when a Virtual Machine is deployed in a cloud service, a certificate is automatically created and the thumbprint is listed as the value of this element. For more information about defining WinRM, see [Create Virtual Machine Deployment](https://msdn.microsoft.com/library/azure/jj157194.aspx) or [Add Role](https://msdn.microsoft.com/library/azure/jj157186.aspx).|  
 |[ComputeCapabilities](rest-list-cloud-services.md#bk_computecapabilities)|Specifies the roles sizes that are available for deployments in the cloud service. The available role sizes are defined by the resources that are supported by the cloud service. For example, deployments of web roles and worker roles may have different sizes available than deployments of Virtual Machines.<br /><br /> The `ComputeCapabilities` element is only available using version 2014-05-01 or higher.|  
   
 ##  <a name="bk_computecapabilities"></a> ComputeCapabilities  
@@ -124,4 +123,4 @@ The `List Cloud Services` operation lists the cloud services that are available 
 ## Remarks  
  If the `x-ms-version` is older than 2012-03-01, cloud services that contain virtual machine deployments will not be returned.  
   
- You can see the cloud services that exist in your subscription by looking in the Cloud Services section of the Management Portal. You can also get a list of cloud services by using the [Get-AzureService](/powershell/module/azure/get-azureservice?view=azuresmps-4.0.0) cmdlet.
+ You can see the cloud services that exist in your subscription by looking in the Cloud Services section of the Management Portal. You can also get a list of cloud services by using the [Get-AzureService](/powershell/module/servicemanagement/azure/get-azureservice) cmdlet.

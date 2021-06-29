@@ -1,7 +1,7 @@
 ---
 title: "HealthEvaluationWrapper"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "HealthEvaluationWrapper"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,10 +34,10 @@ Wrapper object for health evaluation.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [HealthEvaluation](#healthevaluation) | [HealthEvaluation](sfclient-model-healthevaluation.md) | No |
+| [`HealthEvaluation`](#healthevaluation) | [HealthEvaluation](sfclient-model-healthevaluation.md) | No |
 
 ____
-### HealthEvaluation
+### `HealthEvaluation`
 __Type__: [HealthEvaluation](sfclient-model-healthevaluation.md) <br/>
 __Required__: No<br/>
 <br/>

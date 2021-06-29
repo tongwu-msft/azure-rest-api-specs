@@ -1,30 +1,16 @@
 ---
-title: "Incremental Copy Blob"
-ms.custom: na
-ms.date: 2016-12-13
-ms.prod: azure
-ms.reviewer: na
+title: Get Page Ranges (REST API) - Azure Storage
+description: The Get Page Ranges operation returns the list of valid page ranges for a page blob or snapshot of a page blob.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 
-caps.latest.revision: 28
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Page Ranges
+
 The Get Page Ranges operation returns the list of valid page ranges for a page blob or snapshot of a page blob.  
   
 ## Request  
@@ -32,9 +18,9 @@ The Get Page Ranges operation returns the list of valid page ranges for a page b
   
 |GET Method Request URI|HTTP Version|  
 |----------------------------|------------------|  
-|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist`<br/><br/>`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist&snapshot=<DateTime>`<br/><br/>`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=p agelist&snapshot=<DateTime>&prevsnapshot=<DateTime>`|HTTP/1.1|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist`<br/><br/>`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist&snapshot=<DateTime>`<br/><br/>`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=pagelist&snapshot=<DateTime>&prevsnapshot=<DateTime>`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as 127.0.0.1:10000, followed by the emulated storage account name:  
   
 |GET Method Request URI|HTTP Version|  
@@ -58,14 +44,14 @@ The Get Page Ranges operation returns the list of valid page ranges for a page b
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`Range`|Optional. Specifies the range of bytes over which to list ranges, inclusively. If omitted, then all ranges for the blob are returned.|  
-|`x-ms-range`|Optional. Specifies the range of bytes over which to list ranges, inclusively.
-If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. See [Specifying the Range Header for Blob Service Operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Range`|Optional. Specifies the range of bytes over which to list ranges, inclusively. If omitted, then all ranges for the blob are returned.|
+|`x-ms-range`|Optional. Specifies the range of bytes over which to list ranges, inclusively. If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. See [Specifying the Range Header for Blob Service Operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.| 
 |`x-ms-lease-id:<ID>`|Optional. If this header is specified, the operation will be performed only if both of the following conditions are met: <br/><br/>-  The blob's lease is currently active.<br/><br/>-  The lease ID specified in the request matches that of the blob.<br/><br/>If this header is specified and both of these conditions are not met, the request will fail and the operation will fail with status code 412 (Precondition Failed).|
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging and Azure Logging: Using Logs to Track Storage Requests](About-Storage-Analytics-Logging.md).|
+|`x-ms-previous-snapshot-url`|Optional in version 2019-07-07 and newer. The `previous-snapshot-url` specifies that the response will contain only pages that were changed between target blob and snapshot located at the specified URI. Changed pages include both updated and cleared pages. The target blob may be a snapshot, as long as the snapshot specified by this header is the older of the two.<br/><br/>Note that incremental snapshots are currently supported only for blobs created on or after January 1, 2016 and that this header should only be used in Managed Disk scenarios. Otherwise, use the `prevsnapshot` parameter.|
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging and Azure Logging: Using Logs to Track Storage Requests](About-Storage-Analytics-Logging.md).|
 
  This operation also supports the use of conditional headers to get page ranges only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
 
@@ -81,7 +67,7 @@ If both `Range` and `x-ms-range` are specified, the service uses the value of `x
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Syntax|Description|  
 |------------|-----------------|  
@@ -91,6 +77,7 @@ If both `Range` and `x-ms-range` are specified, the service uses the value of `x
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and later.<br /><br /> This header is also returned for anonymous requests without a version specified if the container was marked for public access using the 2009-09-19 version of the Blob service.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
  The response body includes a list of non-overlapping valid page ranges, sorted by increasing address page range. The format of the response body is as follows.  
@@ -140,19 +127,21 @@ If both `Range` and `x-ms-range` are specified, the service uses the value of `x
 ## Remarks  
  The start and end byte offsets for each page range are inclusive.  
   
- In a highly fragmented page blob with a large number of writes, a `Get Page Ranges` request can fail due to an internal server timeout. Applications retrieving ranges of a page blob with a large number of write operations should retrieve a subset of page ranges at a time. For more information, see [Getting the Page Ranges of a Large Page Blob in Segments](http://blogs.msdn.com/b/windowsazurestorage/archive/2012/03/26/getting-the-page-ranges-of-a-large-page-blob-in-segments.aspx).  
+ In a highly fragmented page blob with a large number of writes, a `Get Page Ranges` request can fail due to an internal server timeout. Applications retrieving ranges of a page blob with a large number of write operations should retrieve a subset of page ranges at a time. For more information, see [Getting the Page Ranges of a Large Page Blob in Segments](https://blogs.msdn.com/b/windowsazurestorage/archive/2012/03/26/getting-the-page-ranges-of-a-large-page-blob-in-segments.aspx).  
   
  Beginning with version 2015-07-08, you can call `Get Page Ranges` with the `prevsnapshot` parameter to return the pages that differ between the base blob and a snapshot, or between two snapshots of the blob. Using these page differences, you can save an incremental snapshot of a page blob. Incremental snapshots are a cost-effective way to back up virtual machine disks if you wish to implement your own backup solution.  
   
  Calling `Get Page Ranges` with the `prevsnapshot` parameter returns pages that have been updated or cleared since the snapshot specified by `prevsnapshot` was taken. You can then copy the pages returned to a backup page blob in another storage account, using [Put Page](Put-Page.md).  
   
+ Beginning with version 2019-07-07, the `x-ms-previous-snapshot-url` header can be used to specify snapshots in Managed Disk accounts for incremental snapshots. If not using Managed Disks, the `prevsnapshot` query parameter should be used. 
+ 
  Certain operations on a blob will cause `Get Page Ranges` to fail when called to return an incremental snapshot. `Get Pages Ranges` will fail with error code 409 (Conflict) if it is called on a blob that was the target of a [Put Blob](Put-Blob.md) or [Copy Blob](Copy-Blob.md) request after the snapshot specified by `prevsnapshot` was taken. If the target of the `Get Page Ranges` operation is itself a snapshot, then the call will succeed as long as the snapshot specified by `prevsnapshot` is older, and no `Put Blob` or `Copy Blob` operation was called in the interval between the two snapshots.  
   
 > [!NOTE]
->  Incremental snapshots are currently supported only for blobs created on or after January 1, 2016. Attempting to use this feature on an older blob will result in the `BlobOverwritten` error, which is HTTP error code 409 (Conlfict).  
+>  Incremental snapshots are currently supported only for blobs created on or after January 1, 2016. Attempting to use this feature on an older blob will result in the `BlobOverwritten` error, which is HTTP error code 409 (Conflict).  
   
-## See Also  
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
+## See also  
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)   
- [Getting the Page Ranges of a Large Page Blob in Segments](http://blogs.msdn.com/b/windowsazurestorage/archive/2012/03/26/getting-the-page-ranges-of-a-large-page-blob-in-segments.aspx)
+ [Getting the Page Ranges of a Large Page Blob in Segments](https://blogs.msdn.com/b/windowsazurestorage/archive/2012/03/26/getting-the-page-ranges-of-a-large-page-blob-in-segments.aspx)

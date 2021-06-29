@@ -1,8 +1,7 @@
 ---
 title: "API Management REST"
 ms.custom: na
-ms.date: 2016-04-22
-ms.prod: azure
+ms.date: 04/22/2016
 ms.reviewer: na
 ms.service: api-management
 ms.suite: na
@@ -25,52 +24,36 @@ translation.priority.mt:
   - zh-tw
 ---
 # API Management REST
+
 Azure API Management provides a REST API for performing operations on selected entities, such as users, groups, products, and subscriptions. This reference provides a guide for working with the API Management REST API, as well as specific reference information for each available operation, grouped by entity.  
 
 >[!IMPORTANT]
->This section describes how to access the API Management REST API using a different authentication mechanism than Azure Resource provider. For more information, see the following [Prerequisites](#Prerequisites) section.
+>This section describes how to access the API Management REST API using a different authentication mechanism than Azure Resource provider. For more information, see the following Prerequisites section.
   
  For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
   
 ## In this topic  
   
--   [Prerequisites](../ApiManagementREST/API-Management-REST.md#Prerequisites)  
+- [Enable access to the REST API](../ApiManagementREST/API-Management-REST.md#EnableRESTAPI)  
   
-    -   [Enable access to the REST API](../ApiManagementREST/API-Management-REST.md#EnableRESTAPI)  
+- [Default media type](../ApiManagementREST/API-Management-REST.md#DefaultMediaType)  
   
-    -   [Default media type](../ApiManagementREST/API-Management-REST.md#DefaultMediaType)  
+- [Authentication](../ApiManagementREST/API-Management-REST.md#Authentication)  
   
-    -   [Authentication](../ApiManagementREST/API-Management-REST.md#Authentication)  
+- [Base URL](../ApiManagementREST/API-Management-REST.md#BaseURL)  
   
-    -   [Base URL](../ApiManagementREST/API-Management-REST.md#BaseURL)  
-  
-    -   [Version Query Parameter](../ApiManagementREST/API-Management-REST.md#VersionQueryParameter)  
-  
--   [API Management REST API version history](../ApiManagementREST/API-Management-REST.md#VersionHistory)  
-  
--   [API Management REST API entities](../ApiManagementREST/API-Management-REST.md#Entities)  
-  
-##  <a name="Prerequisites"></a> Prerequisites  
- To successfully make calls to the API Management REST API, the following prerequisites must be met.  
-  
--   [Enable access to the REST API](../ApiManagementREST/API-Management-REST.md#EnableRESTAPI)  
-  
--   [Default media type](../ApiManagementREST/API-Management-REST.md#DefaultMediaType)  
-  
--   [Authentication](../ApiManagementREST/API-Management-REST.md#Authentication)  
-  
--   [Base URL](../ApiManagementREST/API-Management-REST.md#BaseURL)  
-  
--   [Version Query Parameter](../ApiManagementREST/API-Management-REST.md#VersionQueryParameter)  
+- [Version Query Parameter](../ApiManagementREST/API-Management-REST.md#VersionQueryParameter)
   
 ###  <a name="EnableRESTAPI"></a> Enable access to the REST API  
- Access to the API Management REST API must be granted before calls can be successfully made. To enable access, sign into the [Azure Classic Portal](https://manage.windowsazure.com/), navigate to your API Management service instance, and click **Manage** to open the publisher portal.  
-  
- ![API Management Console](../ApiManagementREST/media/APIManagementConsole.jpg "APIManagementConsole")  
-  
- Click **Security** in the **API Management** section of the left navigation menu, select the **API Management REST API** tab, and ensure that the **Enable API Management REST API** checkbox is checked.  
-  
- ![API Management System Settings](../ApiManagementREST/media/APIManagementSystemSettings.jpg "APIManagementSystemSettings")  
+ Access to the API Management REST API must be granted before calls can be successfully made.
+
+1. Sign into the [Azure Portal](https://portal.azure.com/) and navigate to your API Management service instance.
+
+2. Click on **Management API** from the menu.  
+    ![API Management Enable REST menu](../ApiManagementREST/media/apim-management-api-enable-menu.png)  
+
+3. Select the **Enable API Management REST API** checkbox.  
+     ![API Management Enable REST checkbox](../ApiManagementREST/media/apim-management-api-enable-checkbox.png)  
   
 > [!IMPORTANT]
 >  If the **Enable API Management REST API** checkbox is not checked, calls made to the REST API for that service instance will fail.  
@@ -104,46 +87,8 @@ Authorization: SharedAccessSignature uid=53dd860e1b72ff0467030003&ex=2014-08-04T
 > [!NOTE]
 >  During the preview period for API Management, `-preview` is appended to the version query parameter, for example `2014-02-14-preview`.  
   
- If this query parameter is not passed in the query string of a request, the server will return a status code of `400 Bad Request`. For a list of supported versions, see the following [API Management REST API version history](../ApiManagementREST/API-Management-REST.md#VersionHistory) section.  
+ If this query parameter is not passed in the query string of a request, the server will return a status code of `400 Bad Request`. For a list of supported versions, see the following [API Management REST API version history](../ApiManagementREST/API-Management-REST.md) section.  
   
-##  <a name="VersionHistory"></a> API Management REST API version history  
- The following table shows the API Management REST API versions, and the major modifications that were made to each version. Each version is identified by a date, which is used as the value for the [Version Query Parameter](../ApiManagementREST/API-Management-REST.md#VersionQueryParameter) when making an HTTP request.  
-  
-|Version|Description|  
-|-------------|-----------------|  
-|`2017-03-01`|Added support for Service Fabric backend in the backend entity.|  
-|`2014-02-14-preview`|Initial public release of the API Management REST API.| 
-  
-## In this section  
-  
-###  <a name="Entities"></a> API Management REST API entities  
-  
--   [API](../ApiManagementREST/Azure-API-Management-REST-API-API-entity.md)  
-  
--   [Authorization server](../ApiManagementREST/Azure-API-Management-REST-API-Authorization-Server-entity.md)  
-  
--   [Backend](../ApiManagementREST/Azure-API-Management-REST-API-Backend-entity.md)  
-  
--   [Certificate](../ApiManagementREST/Azure-API-Management-REST-API-Certificate-entity.md)  
-  
--   [Group](../ApiManagementREST/Azure-API-Management-REST-API-Group-entity.md)  
-  
--   [Logger](../ApiManagementREST/Azure-API-Management-REST-API-Logger-entity.md)  
-  
--   [Product](../ApiManagementREST/Azure-API-Management-REST-API-Product-Entity.md)  
-  
--   [Property](../ApiManagementREST/Azure-API-Management-REST-API-Property-Entity.md)  
-  
--   [Report](../ApiManagementREST/Azure-API-Management-REST-API-Report-entity.md)  
-  
--   [Subscription](../ApiManagementREST/Azure-API-Management-REST-API-Subscription-entity.md)  
-  
--   [Tenant](../ApiManagementREST/Azure-API-Management-REST-API-Tenant-entity.md)  
-  
--   [User](../ApiManagementREST/Azure-API-Management-REST-API-User-entity.md)  
-  
-### Additional topics in this section  
-  
--   [REST API contract reference](../ApiManagementREST/Azure-API-Management-REST-API-contract-reference.md)  
-  
--   [Authentication](../ApiManagementREST/Azure-API-Management-REST-API-Authentication.md)
+## Next steps
+
++ Learn more about the [authentication](../ApiManagementREST/Azure-API-Management-REST-API-Authentication.md)

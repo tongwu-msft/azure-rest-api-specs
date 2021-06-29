@@ -1,7 +1,7 @@
 ---
 title: "NodeLoadInfo"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "NodeLoadInfo"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,18 +34,18 @@ Information about load on a Service Fabric node. It holds a summary of all metri
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [NodeName](#nodename) | string | No |
-| [NodeLoadMetricInformation](#nodeloadmetricinformation) | array of [NodeLoadMetricInformation](sfclient-model-nodeloadmetricinformation.md) | No |
+| [`NodeName`](#nodename) | string | No |
+| [`NodeLoadMetricInformation`](#nodeloadmetricinformation) | array of [NodeLoadMetricInformation](sfclient-model-nodeloadmetricinformation.md) | No |
 
 ____
-### NodeName
+### `NodeName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Name of the node for which the load information is provided by this object.
 
 ____
-### NodeLoadMetricInformation
+### `NodeLoadMetricInformation`
 __Type__: array of [NodeLoadMetricInformation](sfclient-model-nodeloadmetricinformation.md) <br/>
 __Required__: No<br/>
 <br/>

@@ -1,7 +1,7 @@
 ---
 title: "PropertyBatchOperation"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "PropertyBatchOperation"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -30,10 +30,11 @@ translation.priority.mt:
 # PropertyBatchOperation
 
 Represents the base type for property operations that can be put into a batch and submitted.
-# Inheritance
+## Inheritance
 
-The type 'PropertyBatchOperation' is a base type of the polymorphic type model with property 'Kind' as the discriminator.
-Depending upon the value of the property the serialized contents on the wire will be one of the derived types listed below.
+'PropertyBatchOperation' is the base type of the polymorphic type model. The 'Kind' property is the discriminator for the derived types. 
+The value of the 'Kind' property determines the serialized content on the wire (one of the following derived types). 
+The following table lists the value of the `Kind` property and corresponding derived type it represents.
 ## Derived Types
 
 | Kind | Derived Type |

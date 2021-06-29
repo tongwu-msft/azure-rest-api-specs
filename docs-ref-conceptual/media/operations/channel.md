@@ -1,8 +1,7 @@
 ---
 title: "Channel"
 ms.custom: ""
-ms.date: "2017-01-09"
-ms.prod: "azure"
+ms.date: "03/14/2018"
 ms.reviewer: ""
 ms.service: "media-services"
 ms.suite: ""
@@ -12,7 +11,7 @@ ms.assetid: 79aedfcd-4420-4023-bf47-05ef0006ddeb
 caps.latest.revision: 19
 author: "Juliako"
 ms.author: "juliako"
-manager: "erikre"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -41,16 +40,11 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
     > [!NOTE]
     >  Be aware that there is a billing impact for live encoding and you should remember that leaving a live encoding channel in the "Running" state will incur billing charges.  It is recommended that you immediately stop your running channels after your live streaming event is complete to avoid extra hourly charges. For more information, see [Working with Channels that are Enabled to Perform Live Encoding with Azure Media Services](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
- For more information on Live Streaming and managing channels, see [Delivering Live Streaming with Azure Media Services](https://azure.microsoft.com/en-us/documentation/articles/media-services-live-streaming-workflow/).  
+ For more information on Live Streaming and managing channels, see [Delivering Live Streaming with Azure Media Services](https://azure.microsoft.com/documentation/articles/media-services-live-streaming-workflow/).  
   
 > [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+
  This topic gives an overview of the `Channel` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
 -   [Create Channels](#create_channels)  
@@ -99,7 +93,7 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
-|`KeyFrameInterval`|Edm.Time|This value is ignored if `EncoderType` is set to `Standard`.<br /><br /> When using an on-premises live encoder to generate multi-bitrate stream, the keyf rame interval specifies GOP duration (as used by that external encoder). Once this incoming stream is received by the Channel, you can then deliver your live stream to client playback applications in any of the following formats: Smooth Streaming, DASH and HLS. When doing live streaming, HLS is always packaged dynamically. By default, Media Services automatically calculates HLS segment packaging ratio (fragments per segment) based on the key frame interval, also referred to as Group of Pictures – GOP, that is received from the live encoder.|  
+|`KeyFrameInterval`|Edm.Time|This value is ignored if `EncoderType` is set to `Standard`.<br /><br /> When using an on-premises live encoder to generate multi-bitrate stream, the key frame interval specifies GOP duration (as used by that external encoder). Once this incoming stream is received by the Channel, you can then deliver your live stream to client playback applications in any of the following formats: Smooth Streaming, DASH and HLS. When doing live streaming, HLS is always packaged dynamically. By default, Media Services automatically calculates HLS segment packaging ratio (fragments per segment) based on the key frame interval, also referred to as Group of Pictures – GOP, that is received from the live encoder.|  
 |`StreamingProtocol`<br /><br /> Read-only.|Edm.String|After you set the encoder type, you can set an ingest protocol.<br /><br /> If the `Encoder Type` is set to `None`, valid options are:<br /><br /> -   Multi-bitrate Fragmented MP4 (Smooth Streaming)<br />-   Multi-bitrate RTMP<br /><br /> When your `Encoder Type` is set to `None`, it is valid, but undesirable, for a single bitrate RTMP or Smooth Streaming live stream to be sent. The channel does not do any processing with the stream, so it will pass through, but the client applications will get a single bitrate stream.<br /><br /> If the `Encoder Type` is set to `Standard`, valid options are:<br /><br /> 1.  Single bitrate Fragmented MP4 (Smooth Streaming)<br />2.  Single bitrate RTMP<br />3.  RTP (MPEG-TS): MPEG-2 Transport Stream over RTP.|  
 |`AccessControl`|ChannelInputAccessControl ComplexType|Channel input access control settings.|  
 |`Endpoints`<br /><br /> Read-only.|[ChannelEndpoint ComplexType](#ChannelEndpoint)|Channel input endpoints.<br /><br /> A Channel provides input endpoints (ingest URLs) that you then use to ingest your live stream. The channel receives live input streams and makes the output streams available for streaming through one or more streaming endpoints.|  
@@ -116,14 +110,14 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
-|`IP`|[IPAccessControl](#IPAccessControl)|IP addresses that are allowed to connect to channel input endpoints.|  
+|`IP`|[IPAccessControl](#IPAccessControl)|IP addresses that are allowed to connect to channel input endpoints.<br/>IP addresses have to be in one of the following formats: IpV4 address with 4 numbers, CIDR address range.|  
   
 ###  <a name="ChannelPreviewAccessControl"></a> ChannelPreviewAccessControl ComplexType  
  For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
-|`IP`|[IPAccessControl](#IPAccessControl)|IP addresses that are allowed to connect to channel input endpoints.|  
+|`IP`|[IPAccessControl](#IPAccessControl)|IP addresses that are allowed to connect to channel input endpoints.<br/>IP addresses have to be in one of the following formats: IpV4 address with 4 numbers, CIDR address range|  
   
 ###  <a name="IPAccessControl"></a> IPAccessControl  
  For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
@@ -174,17 +168,16 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
 |`SystemPreset`|Edm.String|Specifies the encoder preset to be used for this Channel. Currently, the only allowed value is `Default720p` (default).<br /><br /> For more details see [SystemPreset](#SystemPreset)|  
   
 ####  <a name="SystemPreset"></a> SystemPreset  
- `Default720p` specifies to encode the video to the following 7 layers.  
+ `Default720p` specifies to encode the video to the following 6 layers.  
   
 |BitRate|Width|Height|MaxFPS|Profile|Output Stream Name|  
 |-------------|-----------|------------|------------|-------------|------------------------|  
 |3500|1280|720|30|High|Video_1280x720_3500kbps|  
-|2200|960|540|30|Main|Video_960x540_2200kbps|  
-|1350|704|396|30|Main|Video_704x396_1350kbps|  
-|850|512|288|30|Main|Video_512x288_850kbps|  
-|550|384|216|30|Main|Video_384x216_550kbps|  
-|350|340|192|30|Baseline|Video_340x192_350kbps|  
-|200|340|192|30|Baseline|Video_340x192_200kbps|  
+|2200|960|540|30|High|Video_960x540_2200kbps|  
+|1350|704|396|30|High|Video_704x396_1350kbps|  
+|850|512|288|30|High|Video_512x288_850kbps|  
+|550|384|216|30|High|Video_384x216_550kbps|   
+|200|340|192|30|High|Video_340x192_200kbps|  
   
  Audio is encoded to stereo AAC-LC at 64 kbps, sampling rate of 44.1 kHz.  
   
@@ -221,7 +214,7 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
 |Name|Type|Description|  
 |----------|----------|-----------------|  
 |`InsertSlateOnAdMarker`|Edm.Bool|When set to True, this setting configures the live encoder to insert a slate image during an ad break. The default value is true.|  
-|`DefaultSlateAssetId`|Edm.String|`Optional`. Specifies the Asset Id of the Media Services Asset which contains the slate image. Default is null.<br /><br /> Before creating the Channel, the slate image, of 1920x1080 maximum resolution, in JPEG format, and at most 3 Mbytes in size, should be uploaded as a dedicated asset (no other files should be in this asset). The file name should have a *.jpg extension, and this AssetFile should be marked as the primary file for that asset. This Asset cannot be storage encr2ypted.<br /><br /> If the default slate Asset Id is not specified, and insert slate on ad marker is set to true, a default Azure Media Services image will be used to mask the input stream.|  
+|`DefaultSlateAssetId`|Edm.String|`Optional`. Specifies the Asset ID of the Media Services Asset which contains the slate image. Default is null.<br /><br /> Before creating the Channel, the slate image, of 1920x1080 maximum resolution, in JPEG format, and at most 3 Mbytes in size, should be uploaded as a dedicated asset (no other files should be in this asset). The file name should have a *.jpg extension, and this AssetFile should be marked as the primary file for that asset. This Asset cannot be storage encrypted.<br /><br /> If the default slate Asset ID is not specified, and insert slate on ad marker is set to true, a default Azure Media Services image will be used to mask the input stream.|  
   
  For more detailed information about this type and its properties, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
@@ -230,14 +223,11 @@ In Azure Media Services (AMS), the Channel entity represents a pipeline for proc
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels|HTTP/1.1|  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -249,9 +239,9 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -291,7 +281,7 @@ Authorization: Bearer <token value>
    {  
       "SystemPreset":"Default720p",  
       "IgnoreCea708ClosedCaptions": false,  
-      "AdMarkerSource": "Api"  
+      "AdMarkerSource": "Api",
       "VideoStream":  
       {  
          "Index":1,  
@@ -390,20 +380,17 @@ Authorization: Bearer <token value>
   
  If successful, a **202 Accepted** status code is returned along with a representation of the created entity in the response body.  
   
- The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="start_channels"></a> Start Channels  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channelid*’)/Start|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channelid*’)/Start|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -415,29 +402,26 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
 ```  
   
- If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="stop_channels"></a> Stop Channels  
  A channel can be stopped only when it is in the **Running** state, and all programs on the channel have been stopped.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channelid*’)/Stop|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channelid*’)/Stop|HTTP/1.1|  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -449,29 +433,26 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
 ```  
   
- If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="list_channels"></a> List Channels  
  Channels can be retrieved using a GET HTTP request.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|Get all Channels:<br /><br /> https://media.windows.net/api/Channels<br /><br /> Get a specified Channel.<br /><br /> https://media.windows.net/api/Channels('*channelid*')|HTTP/1.1|  
+|GET|Get all Channels:<br /><br /> https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels<br /><br /> Get a specified Channel.<br /><br /> https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels('*channelid*')|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -483,9 +464,9 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -498,14 +479,11 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channelid*’)/Reset|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channelid*’)/Reset|HTTP/1.1|  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -517,29 +495,26 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
 ```  
   
- If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="update_channels"></a> Update Channels  
  Updates properties on an existing Channel. The Channel must be in the **Stopped** state.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/en-us/library/dd541276.aspx).|https://media.windows.net/api/Channels(‘*channelid*’)|HTTP/1.1|  
+|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](https://msdn.microsoft.com/library/dd541276.aspx).|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channelid*’)|HTTP/1.1|  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -551,9 +526,9 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -565,14 +540,14 @@ Authorization: Bearer <token value>
 "Encoding":{"IgnoreCea708ClosedCaptions": true}  
 ```  
   
- If the update completes synchronously, it returns a **204 No Content** status code; otherwise it returns a **202 Accepted** status code. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If the update completes synchronously, it returns a **204 No Content** status code; otherwise it returns a **202 Accepted** status code. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="StartAdvertisement"></a> Start Advertisement  
  The live encoder can be signaled to start an advertisement or commercial break using a POST HTTP request and specifying property values of the in the [StartAdvertisement Entity](#StartAdvertisementEntity) entity in the body of the request.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channeled*’)/StartAdvertisement|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channeled*’)/StartAdvertisement|HTTP/1.1|  
   
  For more information, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
@@ -585,14 +560,11 @@ Authorization: Bearer <token value>
 |----------|----------|-----------------|  
 |`duration`|Edm.Duration|The duration, in seconds, of the commercial break. This has to be a non-zero positive value in order to start the commercial break. When a commercial break is in progress, and the duration is set to zero with the CueId matching the on-going commercial break, then that break is canceled.|  
 |`cueId`|Edm.Int|Unique ID for the commercial break, to be used by downstream application to take appropriate action(s). Needs to be a positive integer.|  
-|`showSlate`|Edm.Bool|`Optional`. Indicates to the live encoder within the Channel that it needs to switch to the default slate image during the commercial break (and mask the incoming video feed). Default is false.<br /><br /> The image used will be the one specified via the default slate asset Id property at the time of the channel creation.|  
+|`showSlate`|Edm.Bool|`Optional`. Indicates to the live encoder within the Channel that it needs to switch to the default slate image during the commercial break (and mask the incoming video feed). Default is false.<br /><br /> The image used will be the one specified via the default slate asset ID property at the time of the channel creation.|  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -604,9 +576,9 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -630,7 +602,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channeled*’)/EndAdvertisement|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channeled*’)/EndAdvertisement|HTTP/1.1|  
   
  This call should only be invoked when there is an on-going advertisement.  
   
@@ -638,10 +610,7 @@ Authorization: Bearer <token value>
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -653,9 +622,9 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -664,13 +633,13 @@ Authorization: Bearer <token value>
  If successful, a **202 Accepted** status code is returned.  
   
 ##  <a name="ShowSlate"></a> Show Slate  
- Indicates to the live encoder within the Channel that it needs to switch to the default slate image during the commercial break (and mask the incoming video feed). Default is false. The image used will be the one specified via the default slate asset Id property at the time of the channel creation.  
+ Indicates to the live encoder within the Channel that it needs to switch to the default slate image during the commercial break (and mask the incoming video feed). Default is false. The image used will be the one specified via the default slate asset ID property at the time of the channel creation.  
   
  Use properties of [ShowSlate Entity](#ShowSlateEntity) in the body of the HTTP request.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channeled*’)/ShowSlate|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channeled*’)/ShowSlate|HTTP/1.1|  
   
  For more information, see [Overview of Channels that are enabled for Live Encoding](https://azure.microsoft.com/documentation/articles/media-services-manage-live-encoder-enabled-channels/).  
   
@@ -680,16 +649,13 @@ Authorization: Bearer <token value>
 |Name|Type|Description|  
 |----------|----------|-----------------|  
 |`duration`|Edm.Duration|The duration, in seconds, of the slate. This has to be a non-zero positive value in order to start the slate. If there is an on-going slate, and duration of zero is specified, then that on-going slate will be terminated.|  
-|`assetId`|Edm.String|Specifies the Asset Id of the Media Services Asset which contains the slate image.<br /><br /> Before creating the Channel, the slate image, of 1920x1080 resolution, in JPEG format, and at most 3 Mbytes in size, should be uploaded as a dedicated Asset (no other files should be in this Asset).<br /><br /> The encoder can be signaled to switch to any arbitrary slate image (and not just the one specified via the DefaultSlateAssetId property at time of creating the Channel).|  
+|`assetId`|Edm.String|Specifies the Asset ID of the Media Services Asset which contains the slate image.<br /><br /> Before creating the Channel, the slate image, of 1920x1080 resolution, in JPEG format, and at most 3 Mbytes in size, should be uploaded as a dedicated Asset (no other files should be in this Asset).<br /><br /> The encoder can be signaled to switch to any arbitrary slate image (and not just the one specified via the DefaultSlateAssetId property at time of creating the Channel).|  
   
  If the `DefaultSlateAssetId` property is specified, and `AssetId` is not specified, then the `DefaultSlateAssetId` image will be used to mask the input stream.  For more information, see [Slate](#slate).  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -701,9 +667,9 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -726,7 +692,7 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Channels(‘*channelid*’)/HideSlate|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channelid*’)/HideSlate|HTTP/1.1|  
   
  This call should only be invoked when there is an on-going slate.  
   
@@ -734,10 +700,7 @@ Authorization: Bearer <token value>
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -749,29 +712,26 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
 ```  
   
- If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="delete_channels"></a> Delete Channels  
  Delete a channel.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://media.windows.net/api/Channels(‘*channelid*’)|HTTP/1.1|  
+|DELETE|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels(‘*channelid*’)|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -783,16 +743,16 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
 ```  
   
- If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Channel. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ## See Also  
- [Delivering Live Streaming with Azure Media Services](https://azure.microsoft.com/en-us/documentation/articles/media-services-live-streaming-workflow/)   
+ [Delivering Live Streaming with Azure Media Services](https://azure.microsoft.com/documentation/articles/media-services-live-streaming-workflow/)   
  [Program](../operations/program.md)

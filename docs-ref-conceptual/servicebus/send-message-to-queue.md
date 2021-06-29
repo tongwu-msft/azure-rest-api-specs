@@ -1,8 +1,7 @@
 ---
 title: "Send Message"
 ms.custom: ""
-ms.date: "2016-09-06"
-ms.prod: "azure"
+ms.date: 07/08/2020
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -10,9 +9,8 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: c582a561-4719-4526-98a8-70d2daa4fc78
 caps.latest.revision: 7
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -32,17 +30,17 @@ Sends a message to a Service Bus queue or topic.
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|http{s}://{serviceNamespace}.servicebus.windows.net/{queuePath&#124;topicPath}/messages|HTTP/1.1|  
+|POST|`http{s}://{serviceNamespace}.servicebus.windows.net/{queuePath&#124;topicPath}/messages|HTTP/1.1`|  
   
 ### Request Headers  
  The following table describes required and optional request headers. In addition to the listed properties, the header can contain custom properties. See the example.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization|Specifies one of the following:<br /><br /> -   A WRAPv0.9.7.2 token containing a SimpleWebToken acquired from ACS. Set to **WRAP access_token=”{swt}”**.<br />-   A SAS token.|  
-|Content-Type|Set to **application/atom+xml;type=entry;charset=utf-8**.|  
-|**BrokerProperties**|JSON-encoded set of [BrokeredMessage](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage) properties.|  
-|x-ms-retrypolicy|(Optional) Set to `NoRetry` to disable automatic retry on send operations in the case of transient errors.|  
+|`Authorization`| Specify one of the following token values:<ul><li> Azure Active Directory (Azure AD) JSON Web Token (JWT) token. <br/>Example: `Authorization: Bearer <Azure AD JWT token>`. <br/>For information on generating an Azure AD token, see [Authenticate from an application](get-azure-active-directory-token.md).</li><li>A SAS token. <br/>Example: `Authorization: SharedAccessSignature sr=<NAMESPACE NAME>.servicebus.windows.net&sig=<SHARED ACCESS KEY>&se=<TOKEN EXPIRY INSTANT>&skn=<SHARED KEY NAME>`. <br/>For information on generating a SAS token, see [Generate a Shared Access Signature token](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas#generate-a-shared-access-signature-token) and [Generate SAS token](https://docs.microsoft.com/rest/api/eventhub/generate-sas-token).</li></ul> |  
+|`Content-Type`|Set to `application/atom+xml;type=entry;charset=utf-8`.|  
+|`BrokerProperties`|JSON-encoded set of [`BrokeredMessage`](/dotnet/api/microsoft.servicebus.messaging.brokeredmessage) properties.|  
+|`x-ms-retrypolicy`|(Optional) Set to `NoRetry` to disable automatic retry on send operations when transient errors occur.|  
   
 ### Request Body  
  The request body is the message payload.  
@@ -83,7 +81,7 @@ string body = message.GetBody<string>(new DataContractSerializer(typeof(string))
 |410|Specified queue or topic does not exist.|  
 |500|Internal error.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/windowsazure/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/windowsazure/dd179382.aspx).  
   
 ### Response Headers  
  **Content-type** as passed in.  
@@ -94,16 +92,15 @@ string body = message.GetBody<string>(new DataContractSerializer(typeof(string))
 ## Example  
  The following HTTP request sends a message to a queue or topic. The message has the following properties:  
   
- Label: “M1”  
-  
- TimeToLive: 10 seconds  
-  
- State: Active  
-  
- Message body: “This is a message.”  
-  
- In addition to the **BrokeredProperties**, the message carries the following custom properties: *Priority* = “High” and *Customer* = “12345,ABC”.  
-  
+ ```
+Label: "M1"  
+TimeToLive: 10 seconds  
+State: Active  
+Message body: "This is a message."  
+```
+
+In addition to the `BrokeredProperties`, the message carries the following custom properties: `Priority=High` and `Customer="12345,ABC"`.    
+
 ```  
 POST https://your-namespace.servicebus.windows.net/HttpClientSampleQueue/messages?timeout=60 HTTP/1.1  
 Authorization: SharedAccessSignature sr=your-namespace&sig=Fg8yUyR4MOmXfHfj55f5hY4jGb8x2Yc%2b3%2fULKZYxKZk%3d&se=1404256819&skn=RootManageSharedAccessKey  
@@ -131,4 +128,4 @@ Date: Tue, 01 Jul 2014 23:00:22 GMT
 ```  
   
 ## See Also  
- [Service Bus HTTP Client sample](http://code.msdn.microsoft.com/windowsazure/Service-Bus-HTTP-client-fe7da74a)
+ [Service Bus HTTP Client sample](https://code.msdn.microsoft.com/Service-Bus-HTTP-client-fe7da74a)

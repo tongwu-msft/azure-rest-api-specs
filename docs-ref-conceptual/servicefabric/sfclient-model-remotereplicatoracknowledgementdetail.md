@@ -1,7 +1,7 @@
 ---
 title: "RemoteReplicatorAcknowledgementDetail"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "RemoteReplicatorAcknowledgementDetail"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,34 +34,34 @@ Provides various statistics of the acknowledgements that are being received from
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [AverageReceiveDuration](#averagereceiveduration) | string | No |
-| [AverageApplyDuration](#averageapplyduration) | string | No |
-| [NotReceivedCount](#notreceivedcount) | string | No |
-| [ReceivedAndNotAppliedCount](#receivedandnotappliedcount) | string | No |
+| [`AverageReceiveDuration`](#averagereceiveduration) | string | No |
+| [`AverageApplyDuration`](#averageapplyduration) | string | No |
+| [`NotReceivedCount`](#notreceivedcount) | string | No |
+| [`ReceivedAndNotAppliedCount`](#receivedandnotappliedcount) | string | No |
 
 ____
-### AverageReceiveDuration
+### `AverageReceiveDuration`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Represents the average duration it takes for the remote replicator to receive an operation.
 
 ____
-### AverageApplyDuration
+### `AverageApplyDuration`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Represents the average duration it takes for the remote replicator to apply an operation. This usually entails writing the operation to disk.
 
 ____
-### NotReceivedCount
+### `NotReceivedCount`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Represents the number of operations not yet received by a remote replicator.
 
 ____
-### ReceivedAndNotAppliedCount
+### `ReceivedAndNotAppliedCount`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

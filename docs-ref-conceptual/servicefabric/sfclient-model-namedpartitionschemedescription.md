@@ -1,7 +1,7 @@
 ---
 title: "NamedPartitionSchemeDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "NamedPartitionSchemeDescription"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,26 +34,18 @@ Describes the named partition scheme of the service.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [PartitionScheme](#partitionscheme) | string | Yes |
-| [Count](#count) | integer | Yes |
-| [Names](#names) | array of string | Yes |
+| [`Count`](#count) | integer | Yes |
+| [`Names`](#names) | array of string | Yes |
 
 ____
-### PartitionScheme
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Named' for objects of type 'NamedPartitionSchemeDescription'.
-
-____
-### Count
+### `Count`
 __Type__: integer <br/>
 __Required__: Yes<br/>
 <br/>
 The number of partitions.
 
 ____
-### Names
+### `Names`
 __Type__: array of string <br/>
 __Required__: Yes<br/>
 <br/>

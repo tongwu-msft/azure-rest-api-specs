@@ -1,7 +1,7 @@
 ---
 title: "ResumeApplicationUpgradeDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ResumeApplicationUpgradeDescription"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,10 +34,10 @@ Describes the parameters for resuming an unmonitored manual Service Fabric appli
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [UpgradeDomainName](#upgradedomainname) | string | Yes |
+| [`UpgradeDomainName`](#upgradedomainname) | string | Yes |
 
 ____
-### UpgradeDomainName
+### `UpgradeDomainName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>

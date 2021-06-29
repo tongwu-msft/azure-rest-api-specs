@@ -1,7 +1,7 @@
 ---
 title: "Disable Node"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "Disable Node"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -30,7 +30,7 @@ translation.priority.mt:
 # Disable Node
 Deactivate a Service Fabric cluster node with the specified deactivation intent.
 
-Deactivate a Service Fabric cluster node with the specified deactivation intent. Once the deactivation is in progress, the deactivation intent can be increased, but not decreased (for example, a node which is was deactivated with the Pause intent can be deactivated further with Restart, but not the other way around. Nodes may be reactivated using the Activate a node operation any time after they are deactivated. If the deactivation is not complete this will cancel the deactivation. A node which goes down and comes back up while deactivated will still need to be reactivated before services will be placed on that node.
+Deactivate a Service Fabric cluster node with the specified deactivation intent. Once the deactivation is in progress, the deactivation intent can be increased, but not decreased (for example, a node that is deactivated with the Pause intent can be deactivated further with Restart, but not the other way around. Nodes may be reactivated using the Activate a node operation any time after they are deactivated. If the deactivation is not complete, this will cancel the deactivation. A node that goes down and comes back up while deactivated will still need to be reactivated before services will be placed on that node.
 
 ## Request
 | Method | Request URI |
@@ -41,38 +41,43 @@ Deactivate a Service Fabric cluster node with the specified deactivation intent.
 ## Parameters
 | Name | Type | Required | Location |
 | --- | --- | --- | --- |
-| [nodeName](#nodename) | string | Yes | Path |
-| [api-version](#api-version) | string | Yes | Query |
-| [timeout](#timeout) | integer (int64) | No | Query |
-| [DeactivationIntentDescription](#deactivationintentdescription) | [DeactivationIntentDescription](sfclient-model-deactivationintentdescription.md) | Yes | Body |
+| [`nodeName`](#nodename) | string | Yes | Path |
+| [`api-version`](#api-version) | string | Yes | Query |
+| [`timeout`](#timeout) | integer (int64) | No | Query |
+| [`DeactivationIntentDescription`](#deactivationintentdescription) | [DeactivationIntentDescription](sfclient-model-deactivationintentdescription.md) | Yes | Body |
 
 ____
-### nodeName
+### `nodeName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the node.
 
 ____
-### api-version
+### `api-version`
 __Type__: string <br/>
 __Required__: Yes<br/>
-__Default__: 6.0 <br/>
+__Default__: `6.0` <br/>
 <br/>
-The version of the API. This is a required parameter and it's value must be "6.0".
+The version of the API. This parameter is required and its value must be '6.0'.
+
+Service Fabric REST API version is based on the runtime version in which the API was introduced or was changed. Service Fabric runtime supports more than one version of the API. This is the latest supported version of the API. If a lower API version is passed, the returned response may be different from the one documented in this specification.
+
+Additionally the runtime accept any version that is higher than the latest supported version up to the current version of the runtime. So if the latest API version is 6.0, but if the runtime is 6.1, in order to make it easier to write the clients, the runtime will accept version 6.1 for that API. However the behavior of the API will be as per the documented 6.0 version.
+
 
 ____
-### timeout
+### `timeout`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__Default__: 60 <br/>
-__InclusiveMaximum__: 4294967295 <br/>
-__InclusiveMinimum__: 1 <br/>
+__Default__: `60` <br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `1` <br/>
 <br/>
-The server timeout for performing the operation in seconds. This specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
+The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds.
 
 ____
-### DeactivationIntentDescription
+### `DeactivationIntentDescription`
 __Type__: [DeactivationIntentDescription](sfclient-model-deactivationintentdescription.md) <br/>
 __Required__: Yes<br/>
 <br/>

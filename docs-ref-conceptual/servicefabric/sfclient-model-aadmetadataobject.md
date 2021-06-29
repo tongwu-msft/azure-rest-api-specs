@@ -1,7 +1,7 @@
 ---
 title: "AadMetadataObject"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "AadMetadataObject"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,18 +34,18 @@ Azure Active Directory metadata object used for secured connection to cluster.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [type](#type) | string | No |
-| [metadata](#metadata) | [AadMetadata](sfclient-model-aadmetadata.md) | No |
+| [`type`](#type) | string | No |
+| [`metadata`](#metadata) | [AadMetadata](sfclient-model-aadmetadata.md) | No |
 
 ____
-### type
+### `type`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The client authentication method.
 
 ____
-### metadata
+### `metadata`
 __Type__: [AadMetadata](sfclient-model-aadmetadata.md) <br/>
 __Required__: No<br/>
 <br/>

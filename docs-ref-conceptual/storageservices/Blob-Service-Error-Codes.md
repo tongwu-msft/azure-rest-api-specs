@@ -1,36 +1,24 @@
 ---
-title: "Blob Service Error Codes"
-ms.custom: na
-ms.date: 2017-04-27
-ms.prod: azure
-ms.reviewer: na
+title: Blob service error codes (REST API) - Azure Storage
+description: Error codes for Blob service operations.
+author: pemari-msft
+
+ms.date: 10/20/2020
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: a3c7e7f9-91c3-4550-8825-2e96a83fd99e
-caps.latest.revision: 29
-author: robinsh
-manager: timlt
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Blob Service Error Codes
+
+# Blob service error codes
+
 The error codes listed in the following table may be returned by an operation against the Blob service.  
   
 |Error code|HTTP status code|User message|  
 |----------------|----------------------|------------------|  
 |AppendPositionConditionNotMet|Precondition Failed (412)|The append position condition specified was not met.|  
-|BlobAlreadyExists|Conflict (409)|The specified blob already exists.|  
+|BlobAlreadyExists|Conflict (409)|The specified blob already exists.|
+|BlobImmutableDueToLegalHold|Conflict (409)|This operation is not permitted as the blob is immutable due to one or more legal holds.|
+|BlobImmutableDueToPolicy|Conflict (409)|This operation is not permitted as the blob is immutable due to a policy.|
 |BlobNotFound|Not Found (404)|The specified blob does not exist.|  
 |BlobOverwritten|Conflict (409)|The blob has been recreated since the previous snapshot was taken.|  
 |BlobTierInadequateForContentLength|Conflict (409)|The specified blob tier size limit cannot be less than content length.|  
@@ -41,15 +29,18 @@ The error codes listed in the following table may be returned by an operation ag
 |CannotVerifyCopySource|Internal Server Error (500)|Could not verify the copy source within the specified time. Examine the HTTP status code and message for more information about the failure.|  
 |ContainerAlreadyExists|Conflict (409)|The specified container already exists.|  
 |ContainerBeingDeleted|Conflict (409)|The specified container is being deleted.|  
-|ContainerDisabled|Conflict (409)|The specified container has been disabled by the administrator.|  
+|ContainerDisabled|Conflict (409)|The specified container has been disabled by the administrator.|
+|ContainerHasLegalHold|Conflict (409)|The requested operation is not allowed as the container has one or more legal holds.|
+|ContainerImmutabilityPolicyLocked|Conflict (409)|The requested operation is not allowed as the container has a locked immutability policy.|
 |ContainerNotFound|Not Found (404)|The specified container does not exist.|  
 |ContentLengthLargerThanTierLimit|Conflict (409)|The blob's content length cannot exceed its tier limit.|  
 |CopyAcrossAccountsNotSupported|Bad Request (400)|The copy source account and destination account must be the same.|  
 |CopyIdMismatch|Conflict (409)|The specified copy ID did not match the copy ID for the pending copy operation.|  
+|DirectorySasNotSupportedVersion|Conflict (409)|Directory SAS is not supported in this version.|  
 |FeatureVersionMismatch|Conflict (409)|The operation for AppendBlob requires at least version 2015-02-21.|  
 |FeatureVersionMismatch|Conflict (409)|The type of blob in the container is unrecognized by this version.|  
 |IncrementalCopyBlobMismatch|Conflict (409)|The specified source blob is different than the copy source of the existing incremental copy blob.|
-|IncrementalCopyOfEralierVersionSnapshotNotAllowed|Conflict (409)|The specified snapshot is earlier than the last snapshot copied into the incremental copy blob.|
+|IncrementalCopyOfEarlierVersionSnapshotNotAllowed|Conflict (409)|The specified snapshot is earlier than the last snapshot copied into the incremental copy blob.|
 |IncrementalCopySourceMustBeSnapshot|Conflict (409)|The source for incremental copy request must be a snapshot.|
 |InfiniteLeaseDurationRequired|Precondition Failed (412)|The lease ID matched, but the specified lease must be an infinite-duration lease.|  
 |InvalidBlobOrBlock|Bad Request (400)|The specified blob or block content is invalid.|  
@@ -82,10 +73,12 @@ The error codes listed in the following table may be returned by an operation ag
 |PreviousSnapshotCannotBeNewer|Bad Request (400)|The `prevsnapshot` query parameter value cannot be newer than snapshot query parameter value.|  
 |PreviousSnapshotNotFound|Conflict (409)|The previous snapshot is not found.|  
 |PreviousSnapshotOperationNotSupported|Conflict (409)|Differential [Get Page Ranges](Get-Page-Ranges.md) is not supported on the previous snapshot.|  
+|QueryParameterSddInvalid|Forbidden (403)|Invalid sdd parameter.|  
+|QueryParameterSasMandatory|Forbidden (403)|The sdd parameter is mandatory in case of directory SAS. Cannot be empty.|  
 |SequenceNumberConditionNotMet|Precondition Failed (412)|The sequence number condition specified was not met.|  
 |SequenceNumberIncrementTooLarge|Conflict (409)|The sequence number increment cannot be performed because it would result in overflow of the sequence number.|  
 |SnapshotCountExceeded|Conflict (409)|The snapshot count against this blob has been exceeded.|  
-|SnaphotOperationRateExceeded|Conflict (409)|The rate of snapshot operations against this blob has been exceeded.|  
+|SnapshotOperationRateExceeded|Conflict (409)|The rate of snapshot operations against this blob has been exceeded.|  
 |SnapshotsPresent|Conflict (409)|This operation is not permitted while the blob has snapshots.|  
 |SourceConditionNotMet|Precondition Failed (412)|The source condition specified using HTTP conditional header(s) is not met.|  
 |SystemInUse|Conflict (409)|This blob is in use by the system.|  
@@ -96,10 +89,11 @@ The error codes listed in the following table may be returned by an operation ag
 |BlobArchived|Conflict (409)|This operation is not permitted on an archived blob.|  
 |BlobNotArchived|Conflict (409)|This blob is currently not in the archived state.|  
 
-## See Also  
+## See also
+
  [Common REST API Error Codes](Common-REST-API-Error-Codes.md)   
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)   
  [Table Service Error Codes](Table-Service-Error-Codes.md)   
  [Troubleshooting API Operations](Troubleshooting-API-Operations.md)   
- [HttpStatusCode Enumeration](http://go.microsoft.com/fwlink/?LinkId=152845)   
+ [HttpStatusCode Enumeration](https://go.microsoft.com/fwlink/?LinkId=152845)   
  [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)

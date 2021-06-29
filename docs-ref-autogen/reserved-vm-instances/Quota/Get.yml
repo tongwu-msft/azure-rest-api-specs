@@ -1,0 +1,200 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.reserved-vm-instances.quota.get
+name: Get
+service: Reserved VM Instances
+groupName: Quota
+apiVersion: 2020-10-25
+summary: Get the current quota (service limit) and usage of a resource. You can use the response from the GET operation to submit quota update request.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/resourceProviders/{providerId}/locations/{location}/serviceLimits/{resourceName}?api-version=2020-10-25
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID.
+  types:
+  - uid: string
+- name: providerId
+  in: path
+  isRequired: true
+  description: Azure resource provider ID.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Azure region.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The resource name for a resource provider, such as SKU name for Microsoft.Compute, Sku or TotalLowPriorityCores for Microsoft.MachineLearningServices
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
+  description: OK. Returns the paginated quota information.
+  types:
+  - uid: CurrentQuotaLimitBase
+- name: Other Status Codes
+  description: Error description in the response.
+  types:
+  - uid: ExceptionResponse
+requestHeader: []
+definitions:
+- name: CurrentQuotaLimitBase
+  description: Quota properties.
+  kind: object
+  properties:
+  - name: properties
+    description: Quota properties for the resource.
+    types:
+    - uid: QuotaProperties
+- name: ExceptionResponse
+  description: The API error.
+  kind: object
+  properties:
+  - name: error
+    description: The API error details.
+    types:
+    - uid: ServiceError
+- name: QuotaProperties
+  description: Quota properties for the resource.
+  kind: object
+  properties:
+  - name: limit
+    description: Quota properties.
+    types:
+    - uid: integer
+  - name: currentValue
+    isReadyOnly: true
+    description: Current usage value for the resource.
+    types:
+    - uid: integer
+  - name: unit
+    description: " The limit units, such as **count** and **bytes**. Use the unit field provided in the response of the GET quota operation."
+    types:
+    - uid: string
+  - name: name
+    description: Name of the resource provide by the resource provider. Use this property for quotaRequests resource operations.
+    types:
+    - uid: ResourceName
+  - name: resourceType
+    description: The name of the resource type.
+    types:
+    - uid: ResourceType
+  - name: quotaPeriod
+    isReadyOnly: true
+    description: The time period over which the quota usage values are summarized. For example, P1D (per one day), PT1M (per one minute), and PT1S (per one second). This parameter is optional because, for some resources such as compute, the time period is irrelevant.
+    types:
+    - uid: string
+  - name: properties
+    description: Additional properties for the specified resource provider.
+    types:
+    - uid: object
+- name: ServiceError
+  description: The API error details.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message text.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The list of error details.
+    types:
+    - uid: ServiceErrorDetail
+      isArray: true
+- name: ResourceName
+  description: Resource name provided by the resource provider. Use this property for quotaRequest parameter.
+  kind: object
+  properties:
+  - name: value
+    description: Resource name.
+    types:
+    - uid: string
+  - name: localizedValue
+    isReadyOnly: true
+    description: Resource display localized name.
+    types:
+    - uid: string
+- name: ResourceType
+  description: The name of the resource type.
+  kind: enum
+  properties:
+  - name: standard
+    types:
+    - uid: string
+  - name: dedicated
+    types:
+    - uid: string
+  - name: lowPriority
+    types:
+    - uid: string
+  - name: shared
+    types:
+    - uid: string
+  - name: serviceSpecific
+    types:
+    - uid: string
+- name: ServiceErrorDetail
+  description: The error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+examples:
+- name: Quotas_Request_ForCompute
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimits/standardNDSFamily?api-version=2020-10-25
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "limit": 10,
+          "unit": "Count",
+          "currentValue": 0,
+          "name": {
+            "value": "standardNDSFamily",
+            "localizedValue": "Standard NDS Family vCPUs"
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -1,33 +1,19 @@
 ---
-title: "Preflight Table Request"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Preflight Table Request (REST API) - Azure Storage
+description: The Preflight Table Request operation queries the Cross-Origin Resource Sharing (CORS) rules for the Table service prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: d79ffc40-da9a-4bde-b442-27787b083544
-caps.latest.revision: 5
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Preflight Table Request
+
 The `Preflight Table Request` operation queries the Cross-Origin Resource Sharing (CORS) rules for the Table service prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make. If CORS is enabled for the Table service, then the Table service evaluates the preflight request against the CORS rules that the account owner has configured via [Set Table Service Properties](Set-Table-Service-Properties.md), and accepts or rejects the request.  
   
- For more information about CORS and the preflight request, see [the CORS specification](http://www.w3.org/TR/cors/) and [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md)  
+ For more information about CORS and the preflight request, see [the CORS specification](https://www.w3.org/TR/cors/) and [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md)  
   
 ## Request  
  The `Preflight Table Request` may be specified as follows. Replace `<account-name>` with the name of your storage account. Replace `<table-resource>` with the name of the table resource that is to be the target of the actual request:  
@@ -62,9 +48,9 @@ The `Preflight Table Request` operation queries the Cross-Origin Resource Sharin
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
- See [the CORS specification](http://www.w3.org/TR/cors/) for details about preflight request headers.  
+ See [the CORS specification](https://www.w3.org/TR/cors/) for details about preflight request headers.  
   
 |Response Header|Description|  
 |---------------------|-----------------|  
@@ -78,10 +64,11 @@ The `Preflight Table Request` operation queries the Cross-Origin Resource Sharin
  None.  
   
 ## Authorization  
- The `Preflight Table Request` operation authenticates any request that includes proper authentication headers or includes a shared access signature (SAS).  
-  
- Anonymous non-authenticated requests will also be processed regardless of whether the resource exists, since OPTIONS preflight requests are evaluated against the account service settings.  
-  
+The `Preflight Table Request` operation always executes anonymously. It does not require authorization, and ignores credentials if they are provided.  
+
+> [!NOTE]
+> If you have enabled Azure Storage analytics and are logging metrics, note that a call to the `Preflight Table Request` operation is logged as **AnonymousSuccess**. For this reason, if you view metrics in the Azure portal, you will see **AnonymousSuccess** logged for `Preflight Table Request`. This metric does not indicate that your private data has been compromised, but only that the `Preflight Table Request` operation succeeded with a status code of 200 (OK).  
+    
 ## Sample Request and Response  
  The following example sends a preflight request for the origin www.contoso.com, with the request method set to `PUT` and the request headers set to `content-type` and `accept`.  
   

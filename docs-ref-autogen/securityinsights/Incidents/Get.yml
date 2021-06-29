@@ -1,0 +1,419 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securityinsights.incidents.get
+name: Get
+service: Sentinel
+groupName: Incidents
+apiVersion: 2020-01-01
+summary: Gets an incident.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}?api-version=2020-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+- name: incidentId
+  in: path
+  isRequired: true
+  description: Incident ID
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK, Operation successfully completed
+  types:
+  - uid: Incident
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: Incident
+  description: Represents an incident in Azure Security Insights.
+  kind: object
+  properties:
+  - name: properties.additionalData
+    isReadyOnly: true
+    description: Additional data on the incident
+    types:
+    - uid: IncidentAdditionalData
+  - name: properties.classification
+    description: The reason the incident was closed
+    types:
+    - uid: IncidentClassification
+  - name: properties.classificationComment
+    description: Describes the reason the incident was closed
+    types:
+    - uid: string
+  - name: properties.classificationReason
+    description: The classification reason the incident was closed with
+    types:
+    - uid: IncidentClassificationReason
+  - name: properties.createdTimeUtc
+    isReadyOnly: true
+    description: The time the incident was created
+    types:
+    - uid: string
+  - name: properties.description
+    description: The description of the incident
+    types:
+    - uid: string
+  - name: properties.firstActivityTimeUtc
+    description: The time of the first activity in the incident
+    types:
+    - uid: string
+  - name: properties.incidentUrl
+    isReadyOnly: true
+    description: The deep-link url to the incident in Azure portal
+    types:
+    - uid: string
+  - name: properties.incidentNumber
+    isReadyOnly: true
+    description: A sequential number
+    types:
+    - uid: integer
+  - name: properties.labels
+    description: List of labels relevant to this incident
+    types:
+    - uid: IncidentLabel
+      isArray: true
+  - name: properties.lastActivityTimeUtc
+    description: The time of the last activity in the incident
+    types:
+    - uid: string
+  - name: properties.lastModifiedTimeUtc
+    isReadyOnly: true
+    description: The last time the incident was updated
+    types:
+    - uid: string
+  - name: properties.owner
+    description: Describes a user that the incident is assigned to
+    types:
+    - uid: IncidentOwnerInfo
+  - name: properties.relatedAnalyticRuleIds
+    isReadyOnly: true
+    description: List of resource ids of Analytic rules related to the incident
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.severity
+    description: The severity of the incident
+    types:
+    - uid: IncidentSeverity
+  - name: properties.status
+    description: The status of the incident
+    types:
+    - uid: IncidentStatus
+  - name: properties.title
+    description: The title of the incident
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Azure resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Azure resource type
+    types:
+    - uid: string
+  - name: etag
+    description: Etag of the azure resource
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response for a resource management request.
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nThe error object of the CloudError response"
+    types:
+    - uid: ErrorResponse
+- name: IncidentAdditionalData
+  description: Incident additional data property bag.
+  kind: object
+  properties:
+  - name: alertsCount
+    isReadyOnly: true
+    description: The number of alerts in the incident
+    types:
+    - uid: integer
+  - name: bookmarksCount
+    isReadyOnly: true
+    description: The number of bookmarks in the incident
+    types:
+    - uid: integer
+  - name: commentsCount
+    isReadyOnly: true
+    description: The number of comments in the incident
+    types:
+    - uid: integer
+  - name: alertProductNames
+    isReadyOnly: true
+    description: List of product names of alerts in the incident
+    types:
+    - uid: string
+      isArray: true
+  - name: tactics
+    isReadyOnly: true
+    description: The tactics associated with incident
+    types:
+    - uid: string
+      isArray: true
+- name: IncidentClassification
+  description: The reason the incident was closed
+  kind: enum
+  properties:
+  - name: Undetermined
+    description: Incident classification was undetermined
+    types:
+    - uid: string
+  - name: TruePositive
+    description: Incident was true positive
+    types:
+    - uid: string
+  - name: BenignPositive
+    description: Incident was benign positive
+    types:
+    - uid: string
+  - name: FalsePositive
+    description: Incident was false positive
+    types:
+    - uid: string
+- name: IncidentClassificationReason
+  description: The classification reason the incident was closed with
+  kind: enum
+  properties:
+  - name: SuspiciousActivity
+    description: Classification reason was suspicious activity
+    types:
+    - uid: string
+  - name: SuspiciousButExpected
+    description: Classification reason was suspicious but expected
+    types:
+    - uid: string
+  - name: IncorrectAlertLogic
+    description: Classification reason was incorrect alert logic
+    types:
+    - uid: string
+  - name: InaccurateData
+    description: Classification reason was inaccurate data
+    types:
+    - uid: string
+- name: IncidentLabel
+  description: Represents an incident label
+  kind: object
+  properties:
+  - name: labelName
+    description: The name of the label
+    types:
+    - uid: string
+  - name: labelType
+    isReadyOnly: true
+    description: The type of the label
+    types:
+    - uid: IncidentLabelType
+- name: IncidentOwnerInfo
+  description: Information on the user an incident is assigned to
+  kind: object
+  properties:
+  - name: email
+    description: The email of the user the incident is assigned to.
+    types:
+    - uid: string
+  - name: assignedTo
+    description: The name of the user the incident is assigned to.
+    types:
+    - uid: string
+  - name: objectId
+    description: The object id of the user the incident is assigned to.
+    types:
+    - uid: string
+  - name: userPrincipalName
+    description: The user principal name of the user the incident is assigned to.
+    types:
+    - uid: string
+- name: IncidentSeverity
+  description: The severity of the incident
+  kind: enum
+  properties:
+  - name: High
+    description: High severity
+    types:
+    - uid: string
+  - name: Medium
+    description: Medium severity
+    types:
+    - uid: string
+  - name: Low
+    description: Low severity
+    types:
+    - uid: string
+  - name: Informational
+    description: Informational severity
+    types:
+    - uid: string
+- name: IncidentStatus
+  description: The status of the incident
+  kind: enum
+  properties:
+  - name: New
+    description: An active incident which isn't being handled currently
+    types:
+    - uid: string
+  - name: Active
+    description: An active incident which is being handled
+    types:
+    - uid: string
+  - name: Closed
+    description: A non-active incident
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: IncidentLabelType
+  description: The type of the label
+  kind: enum
+  properties:
+  - name: User
+    description: Label manually created by a user
+    types:
+    - uid: string
+  - name: System
+    description: Label automatically created by the system
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Get an incident.
+  request:
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/incidents/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2020-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/incidents/73e01a99-5cd7-4139-a149-9f2736ff2ab5",
+        "name": "73e01a99-5cd7-4139-a149-9f2736ff2ab5",
+        "type": "Microsoft.SecurityInsights/incidents",
+        "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
+        "properties": {
+          "lastModifiedTimeUtc": "2019-01-01T13:15:30Z",
+          "createdTimeUtc": "2019-01-01T13:15:30Z",
+          "lastActivityTimeUtc": "2019-01-01T13:05:30Z",
+          "firstActivityTimeUtc": "2019-01-01T13:00:30Z",
+          "description": "This is a demo incident",
+          "title": "My incident",
+          "owner": {
+            "objectId": "2046feea-040d-4a46-9e2b-91c2941bfa70",
+            "email": "john.doe@contoso.com",
+            "userPrincipalName": "john@contoso.com",
+            "assignedTo": "john doe"
+          },
+          "severity": "High",
+          "classification": "FalsePositive",
+          "classificationComment": "Not a malicious activity",
+          "classificationReason": "InaccurateData",
+          "status": "Closed",
+          "incidentUrl": "https://portal.azure.com/#asset/Microsoft_Azure_Security_Insights/Incident/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/incidents/73e01a99-5cd7-4139-a149-9f2736ff2ab5",
+          "incidentNumber": 3177,
+          "labels": [],
+          "relatedAnalyticRuleIds": [
+            "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/fab3d2d4-747f-46a7-8ef0-9c0be8112bf7"
+          ],
+          "additionalData": {
+            "alertsCount": 0,
+            "bookmarksCount": 0,
+            "commentsCount": 3,
+            "alertProductNames": [],
+            "tactics": [
+              "InitialAccess",
+              "Persistence"
+            ]
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

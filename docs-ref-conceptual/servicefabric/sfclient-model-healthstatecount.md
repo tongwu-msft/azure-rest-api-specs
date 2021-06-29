@@ -1,7 +1,7 @@
 ---
 title: "HealthStateCount"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "HealthStateCount"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -35,30 +35,30 @@ Represents information about how many health entities are in Ok, Warning and Err
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [OkCount](#okcount) | integer (int64) | No |
-| [WarningCount](#warningcount) | integer (int64) | No |
-| [ErrorCount](#errorcount) | integer (int64) | No |
+| [`OkCount`](#okcount) | integer (int64) | No |
+| [`WarningCount`](#warningcount) | integer (int64) | No |
+| [`ErrorCount`](#errorcount) | integer (int64) | No |
 
 ____
-### OkCount
+### `OkCount`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__InclusiveMinimum__: 0 <br/>
+__InclusiveMinimum__: `0` <br/>
 <br/>
 The number of health entities with aggregated health state Ok.
 
 ____
-### WarningCount
+### `WarningCount`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__InclusiveMinimum__: 0 <br/>
+__InclusiveMinimum__: `0` <br/>
 <br/>
 The number of health entities with aggregated health state Warning.
 
 ____
-### ErrorCount
+### `ErrorCount`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
-__InclusiveMinimum__: 0 <br/>
+__InclusiveMinimum__: `0` <br/>
 <br/>
 The number of health entities with aggregated health state Error.

@@ -1,7 +1,7 @@
 ---
 title: "DoublePropertyValue"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "DoublePropertyValue"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,18 +34,10 @@ Describes a Service Fabric property value of type Double.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [Data](#data) | number (double) | Yes |
+| [`Data`](#data) | number (double) | Yes |
 
 ____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Double' for objects of type 'DoublePropertyValue'.
-
-____
-### Data
+### `Data`
 __Type__: number (double) <br/>
 __Required__: Yes<br/>
 <br/>

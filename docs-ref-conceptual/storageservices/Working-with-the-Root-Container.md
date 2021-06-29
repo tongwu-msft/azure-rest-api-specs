@@ -1,30 +1,16 @@
 ---
-title: "Working with the Root Container"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Working with the root container (REST API) - Azure Storage
+description: A root container serves as a default container for your storage account. A storage account may have one root container. The root container must be explicitly created and must be named `$root`.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 6ec9ec4e-1758-4515-92b4-a85d4f27cf05
-caps.latest.revision: 15
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Working with the Root Container
+
+# Working with the root container
+
 A root container serves as a default container for your storage account. A storage account may have one root container. The root container must be explicitly created and must be named `$root`.  
   
  A blob stored in the root container may be addressed without referencing the root container name, so that a blob can be addressed at the top level of the storage account hierarchy. For example, you can reference a blob that resides in the root container in the following manner:  
@@ -124,13 +110,13 @@ GET https://myaccount.blob.core.windows.net/$root/myphoto?comp=metadata
 > [!NOTE]
 >  Be careful to avoid including a trailing forward slash (/) when referencing a blob under the root container. For example, a URL such as the following now results in status code 400 (Bad Request):  
 >   
->  https://myaccount.blob.core.windows.net/myblob/  
+>  `https://myaccount.blob.core.windows.net/myblob/`  
 >   
 >  In the above example, the Blob service reads the container name as `myblob` and expects to see a blob name after the trailing slash. The request is malformed due to the missing blob name.  
 >   
 >  The following URL is valid for an operation on a blob in the root container:  
 >   
->  https://myaccount.blob.core.windows.net/myblob  
+>  `https://myaccount.blob.core.windows.net/myblob`  
   
 ### PUT Operations  
  To create a container named `mycontainer`:  

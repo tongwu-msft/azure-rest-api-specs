@@ -1,7 +1,7 @@
 ---
 title: "ServiceFromTemplateDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ServiceFromTemplateDescription"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -35,53 +35,59 @@ Defines description for creating a Service Fabric service from a template define
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ApplicationName](#applicationname) | string | Yes |
-| [ServiceName](#servicename) | string | Yes |
-| [ServiceTypeName](#servicetypename) | string | Yes |
-| [InitializationData](#initializationdata) | array of integer | No |
-| [ServicePackageActivationMode](#servicepackageactivationmode) | string (enum) | No |
-| [ServiceDnsName](#servicednsname) | string | No |
+| [`ApplicationName`](#applicationname) | string | Yes |
+| [`ServiceName`](#servicename) | string | Yes |
+| [`ServiceTypeName`](#servicetypename) | string | Yes |
+| [`InitializationData`](#initializationdata) | array of integer | No |
+| [`ServicePackageActivationMode`](#servicepackageactivationmode) | string (enum) | No |
+| [`ServiceDnsName`](#servicednsname) | string | No |
 
 ____
-### ApplicationName
+### `ApplicationName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the application, including the 'fabric:' URI scheme.
 
 ____
-### ServiceName
+### `ServiceName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The full name of the service with 'fabric:' URI scheme.
 
 ____
-### ServiceTypeName
+### `ServiceTypeName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 Name of the service type as specified in the service manifest.
 
 ____
-### InitializationData
+### `InitializationData`
 __Type__: array of integer <br/>
 __Required__: No<br/>
 <br/>
 The initialization data for the newly created service instance.
 
 ____
-### ServicePackageActivationMode
+### `ServicePackageActivationMode`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
 The activation mode of service package to be used for a service.
 
-The activation mode of service package to be used for a service.
+The activation mode of service package to be used for a Service Fabric service. This is specified at the time of creating the Service.
+
+Possible values are: 
+
+  - `SharedProcess` - This is the default activation mode. With this activation mode, replicas or instances from different partition(s) of service, on a given node, will share same activation of service package on a node. The value is zero.
+  - `ExclusiveProcess` - With this activation mode, each replica or instance of service, on a given node, will have its own dedicated activation of service package on a node. The value is 1.
+
 
 
 ____
-### ServiceDnsName
+### `ServiceDnsName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

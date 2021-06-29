@@ -1,0 +1,220 @@
+### YamlMime:RESTOperation
+uid: synapse.data-plane.sqlpools.get
+name: Get
+service: Synapse
+groupName: Sql Pools
+apiVersion: 2019-06-01-preview
+summary: Get Sql Pool
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/sqlPools/{sqlPoolName}?api-version=2019-06-01-preview
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
+  types:
+  - uid: string
+- name: sqlPoolName
+  in: path
+  isRequired: true
+  description: The Sql Pool name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Synapse client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success response.
+  types:
+  - uid: SqlPool
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorContract
+requestHeader: []
+definitions:
+- name: SqlPool
+  description: SQL pool
+  kind: object
+  properties:
+  - name: sku
+    description: "Sku  \nSQL pool SKU"
+    types:
+    - uid: Sku
+  - name: properties.maxSizeBytes
+    description: Maximum size in bytes
+    types:
+    - uid: integer
+  - name: properties.collation
+    description: Collation mode
+    types:
+    - uid: string
+  - name: properties.sourceDatabaseId
+    description: Source database to create from
+    types:
+    - uid: string
+  - name: properties.recoverableDatabaseId
+    description: Backup database to restore from
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: Resource state
+    types:
+    - uid: string
+  - name: properties.status
+    description: Resource status
+    types:
+    - uid: string
+  - name: properties.restorePointInTime
+    description: Snapshot time to restore
+    types:
+    - uid: string
+  - name: properties.createMode
+    description: What is this?
+    types:
+    - uid: string
+  - name: properties.creationDate
+    description: Date the SQL pool was created
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorContract
+  description: Error details.
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nThe error details."
+    types:
+    - uid: ErrorResponse
+- name: Sku
+  description: Sku
+  kind: object
+  properties:
+  - name: tier
+    description: The service tier
+    types:
+    - uid: string
+  - name: name
+    description: The SKU name
+    types:
+    - uid: string
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    types:
+    - uid: integer
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: List Sql Pools
+  request:
+    uri: GET exampleWorkspace.dev.azuresynapse.net/sqlPools/SqlPool1?api-version=2019-06-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "status": "Online",
+          "maxSizeBytes": 263882790666240,
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "restorePointInTime": "2019-06-23T10:47:12.837Z",
+          "creationDate": "2020-06-23T10:47:12.837Z",
+          "provisioningState": "Succeeded"
+        },
+        "sku": {
+          "name": "DW100c",
+          "capacity": 0
+        },
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Synapse/workspaces/exampleWorkspace/sqlPools/SqlPool1",
+        "name": "SqlPool1",
+        "type": "Microsoft.Synapse/workspaces/sqlPools",
+        "location": "southeastasia",
+        "tags": {}
+      }
+  - statusCode: default
+    body: >-
+      {
+        "error": {
+          "code": "Error code",
+          "message": "Error message"
+        }
+      }
+security: []
+errorCodes: []

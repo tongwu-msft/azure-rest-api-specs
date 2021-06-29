@@ -3,9 +3,8 @@ title: "Azure Cloud Services REST - List Deployment Events | Microsoft Docs"
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"
-ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "cloud-services"
+
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -70,7 +69,7 @@ The `List Deployment Events` operation lists the events that impacted a deployme
  The format of the response body is as follows:  
   
 ```xml  
-<DeploymentEventCollection xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">  
+<DeploymentEventCollection xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="https://www.w3.org/2001/XMLSchema-instance">  
   <RebootEvents>  
     <RebootEvent>  
       <RoleName>KenazDemo-A4</RoleName>  

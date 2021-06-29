@@ -1,0 +1,126 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.recoveryservices.privatelinkresources.get
+name: Get
+service: Recovery Services
+groupName: Private Link Resources
+apiVersion: 2016-06-01
+summary: Returns a specified private link resource that need to be created for Backup and SiteRecovery
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateLinkResources/{privateLinkResourceName}?api-version=2016-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the recovery services vault is present.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the recovery services vault.
+  types:
+  - uid: string
+- name: privateLinkResourceName
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PrivateLinkResource
+requestHeader: []
+definitions:
+- name: PrivateLinkResource
+  description: Information of the private link resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified identifier of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: e.g. Microsoft.RecoveryServices/vaults/privateLinkResources
+    types:
+    - uid: string
+  - name: properties.groupId
+    isReadyOnly: true
+    description: e.g. f9ad6492-33d4-4690-9999-6bfd52a0d081 (Backup) or f9ad6492-33d4-4690-9999-6bfd52a0d082 (SiteRecovery)
+    types:
+    - uid: string
+  - name: properties.requiredMembers
+    isReadyOnly: true
+    description: '[backup-ecs1, backup-prot1, backup-prot1b, backup-prot1c, backup-id1]'
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.requiredZoneNames
+    isReadyOnly: true
+    description: The private link resource Private link DNS zone name.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: Get PrivateLinkResource
+  request:
+    uri: GET https://management.azure.com/subscriptions/6c48fa17-39c7-45f1-90ac-47a587128ace/resourceGroups/petesting/providers/Microsoft.RecoveryServices/vaults/pemsi-ecy-rsv2/privateLinkResources/backupResource?api-version=2016-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/6c48fa17-39c7-45f1-90ac-47a587128ace/resourceGroups/petesting/providers/Microsoft.RecoveryServices/Vaults/pemsi-ecy-rsv2/privateLinkResources/backupResource",
+        "name": "backupResource",
+        "type": "Microsoft.RecoveryServices/Vaults/privateLinkResources",
+        "properties": {
+          "groupId": "AzureBackup",
+          "requiredMembers": [
+            "backup-fab1",
+            "backup-rec2",
+            "backup-prot1",
+            "backup-ecs1",
+            "backup-tel1",
+            "backup-wbcm1",
+            "backup-fc1",
+            "backup-id1"
+          ],
+          "requiredZoneNames": [
+            "privatelink.ecy.backup.windowsazure.com",
+            "privatelink.queue.core.windows.net",
+            "privatelink.blob.core.windows.net"
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
+errorCodes: []

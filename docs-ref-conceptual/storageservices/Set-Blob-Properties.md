@@ -1,45 +1,31 @@
----
-title: "Set Blob Properties"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+﻿---
+title: Set Blob Properties (REST API) - Azure Storage
+description: The Set Blob Properties operation sets system properties on the blob.
+author: pemari-msft
+
+ms.date: 07/06/2020
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 6e063a14-8ed5-4401-bd3b-ec3de4f7d74c
-caps.latest.revision: 24
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Set Blob Properties
+
 The `Set Blob Properties` operation sets system properties on the blob.  
   
 ## Request  
  The `Set Blob Properties` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=properties`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=properties`|HTTP/1.1|  
   
 ### Emulated Storage Service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`http://127.0.0.1:10000/ devstoreaccount1/mycontainer/myblob?comp=properties`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`http://127.0.0.1:10000/ devstoreaccount1/mycontainer/myblob?comp=properties`|HTTP/1.1|  
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
@@ -55,16 +41,16 @@ The `Set Blob Properties` operation sets system properties on the blob.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-blob-cache-control`|Optional. Modifies the cache control string for the blob.<br /><br /> If this property is not specified on the request, then the property will be cleared for the blob. Subsequent calls to [Get Blob Properties](Get-Blob-Properties.md) will not return this property, unless it is explicitly set on the blob again.|  
 |`x-ms-blob-content-type`|Optional. Sets the blob’s content type.<br /><br /> If this property is not specified on the request, then the property will be cleared for the blob. Subsequent calls to [Get Blob Properties](Get-Blob-Properties.md) will not return this property, unless it is explicitly set on the blob again.|  
 |`x-ms-blob-content-md5`|Optional. Sets the blob's MD5 hash.<br /><br /> If this property is not specified on the request, then the property will be cleared for the blob. Subsequent calls to [Get Blob Properties](Get-Blob-Properties.md) will not return this property, unless it is explicitly set on the blob again.|  
 |`x-ms-blob-content-encoding`|Optional. Sets the blob's content encoding.<br /><br /> If this property is not specified on the request, then the property will be cleared for the blob. Subsequent calls to [Get Blob Properties](Get-Blob-Properties.md) will not return this property, unless it is explicitly set on the blob again.|  
 |`x-ms-blob-content-language`|Optional. Sets the blob's content language.<br /><br /> If this property is not specified on the request, then the property will be cleared for the blob. Subsequent calls to [Get Blob Properties](Get-Blob-Properties.md) will not return this property, unless it is explicitly set on the blob again.|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
 |`x-ms-blob-content-disposition`|Optional. Sets the blob’s `Content-Disposition` header. Available for versions 2013-08-15 and later.<br /><br /> The `Content-Disposition` response header field conveys additional information about how to process the response payload, and also can be used to attach additional metadata. For example, if set to `attachment`, it indicates that the user-agent should not display the response, but instead show a **Save As** dialog with a filename other than the blob name specified.<br /><br /> The response from the [Get Blob](Get-Blob.md) and [Get Blob Properties](Get-Blob-Properties.md) operations includes the `content-disposition` header.|  
 |`Origin`|Optional. Specifies the origin from which the request is issued. The presence of this header results in cross-origin resource sharing headers on the response. See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for details.|  
   
@@ -79,6 +65,16 @@ The `Set Blob Properties` operation sets system properties on the blob.
 |`x-ms-sequence-number-action: {max, update, increment}`|Optional, but required if the `x-ms-blob-sequence-number` header is set for the request. This property applies to page blobs only.<br /><br /> This property indicates how the service should modify the blob's sequence number. Specify one of the following options for this property:<br /><br /> -   `max`: Sets the sequence number to be the higher of the value included with the request and the value currently stored for the blob.<br />-   `update`: Sets the sequence number to the value included with the request.<br />-   `increment`: Increments the value of the sequence number by 1. If specifying this option, do not include the `x-ms-blob-sequence-number header`; doing so will return status code 400 (Bad Request).|  
 |`x-ms-blob-sequence-number: <num>`|Optional, but required if the `x-ms-sequence-number-action` property is set to `max` or `update`. This property applies to page blobs only.<br /><br /> This property sets the blob's sequence number. The sequence number is a user-controlled property that you can use to track requests and manage concurrency issues. For more information, see the [Put Page](Put-Page.md) operation.<br /><br /> Use this property together with the `x-ms-sequence-number-action` to update the blob's sequence number, either to the specified value or to the higher of the values specified with the request or currently stored with the blob. This header should not be specified if `x-ms-sequence-number-action` is set to `increment`; in this case the service automatically increments the sequence number by one.<br /><br /> To set the sequence number to a value of your choosing, this property must be specified on the request together with `x-ms-sequence-number-action`.|  
   
+### Request Headers (Customer-provided encryption keys)
+  
+Beginning with version 2019-02-02, the following headers may be specified on the request to encrypt a blob with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional. If a blob has previously been encrypted with a customer-provided key, then these headers must be included on the request to complete the write operation successfully.
+
+|Request header|Description|  
+|--------------------|-----------------|  
+|`x-ms-encryption-key`|Required. The Base64-encoded AES-256 encryption key.|  
+|`x-ms-encryption-key-sha256`|Required. The Base64-encoded SHA256 hash of the encryption key.|  
+|`x-ms-encryption-algorithm: AES256`|Required. Specifies the algorithm to use for encryption. The value of this header must be `AES256`.|  
+
 ### Request Body  
  None.  
   
@@ -91,7 +87,7 @@ The `Set Blob Properties` operation sets system properties on the blob.
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Syntax|Description|  
 |------------|-----------------|  
@@ -104,6 +100,7 @@ The `Set Blob Properties` operation sets system properties on the blob.
 |`Access-Control-Allow-Origin`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule. This header returns the value of the origin request header in case of a match.|  
 |`Access-Control-Expose-Headers`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule. Returns the list of response headers that are to be exposed to the client or issuer of the request.|  
 |`Access-Control-Allow-Credentials`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule that does not allow all origins. This header will be set to true.|  
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
  None.  
@@ -122,7 +119,7 @@ The `Set Blob Properties` operation sets system properties on the blob.
   
 -   A page blob's size is modified only if the request specifies a value for the `x-ms-content-length` header.  
 
--   To change a page blob's size in a premium storage account, the new size must not exeed the content length allowed by the existing tier. Call [Set Blob Tier](set-blob-tier.md) before resizing the blob. For a list of tiers and allowed content length, see [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features).  
+-   To change a page blob's size in a premium storage account, the new size must not exceed the content length allowed by the existing tier. Call [Set Blob Tier](set-blob-tier.md) before resizing the blob. For a list of tiers and allowed content length, see [High-performance Premium Storage and managed disks for VMs](/azure/virtual-machines/windows/disks-types#premium-ssd).  
   
 -   If a request sets only `x-ms-blob-sequence-number` and/or `x-ms-content-length`, and no other properties, then none of the blob's other properties are modified.  
   
@@ -140,8 +137,9 @@ The `Set Blob Properties` operation sets system properties on the blob.
   
     -   `x-ms-blob-content-disposition`  
   
- Note that for a shared access signature, you can override certain properties stored for the blob by specifying query parameters as part of the shared access signature. These properties include the `cache-control`, `content-type`, `content-encoding`, `content-language`, and `content-disposition` properties. For more information, see [Constructing a Service SAS](Constructing-a-Service-SAS.md).  
+> [!NOTE]
+> Note that for a shared access signature, you can override certain properties stored for the blob by specifying query parameters as part of the shared access signature. These properties include the `cache-control`, `content-type`, `content-encoding`, `content-language`, and `content-disposition` properties. For more information, see [Create a service SAS](create-service-sas.md).  
   
 ## See Also  
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)

@@ -1,7 +1,7 @@
 ---
 title: "Chaos"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "Chaos"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -31,7 +31,10 @@ translation.priority.mt:
 
 | Name | Description |
 | --- | --- |
+| [Get Chaos](sfclient-api-getchaos.md) | Get the status of Chaos.<br/> |
 | [Start Chaos](sfclient-api-startchaos.md) | Starts Chaos in the cluster.<br/> |
-| [Stop Chaos](sfclient-api-stopchaos.md) | Stops Chaos in the cluster if it is already running, otherwise it does nothing.<br/> |
-| [Get Chaos Report](sfclient-api-getchaosreport.md) | Gets the next segment of the Chaos report based on the passed-in continuation token or the passed-in time-range.<br/> |
+| [Stop Chaos](sfclient-api-stopchaos.md) | Stops Chaos if it is running in the cluster and put the Chaos Schedule in a stopped state.<br/> |
+| [Get Chaos Events](sfclient-api-getchaosevents.md) | Gets the next segment of the Chaos events based on the continuation token or the time range.<br/> |
+| [Get Chaos Schedule](sfclient-api-getchaosschedule.md) | Get the Chaos Schedule defining when and how to run Chaos.<br/> |
+| [Post Chaos Schedule](sfclient-api-postchaosschedule.md) | Set the schedule used by Chaos.<br/> |
 

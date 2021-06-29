@@ -1,7 +1,7 @@
 ---
 title: "RepairTaskUpdateHealthPolicyDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "RepairTaskUpdateHealthPolicyDescription"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -37,34 +37,34 @@ This type supports the Service Fabric platform; it is not meant to be used direc
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [TaskId](#taskid) | string | Yes |
-| [Version](#version) | string (int64) | No |
-| [PerformPreparingHealthCheck](#performpreparinghealthcheck) | boolean | No |
-| [PerformRestoringHealthCheck](#performrestoringhealthcheck) | boolean | No |
+| [`TaskId`](#taskid) | string | Yes |
+| [`Version`](#version) | string | No |
+| [`PerformPreparingHealthCheck`](#performpreparinghealthcheck) | boolean | No |
+| [`PerformRestoringHealthCheck`](#performrestoringhealthcheck) | boolean | No |
 
 ____
-### TaskId
+### `TaskId`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The ID of the repair task to be updated.
 
 ____
-### Version
-__Type__: string (int64) <br/>
+### `Version`
+__Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The current version number of the repair task. If non-zero, then the request will only succeed if this value matches the actual current value of the repair task. If zero, then no version check is performed.
 
 ____
-### PerformPreparingHealthCheck
+### `PerformPreparingHealthCheck`
 __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>
 A boolean indicating if health check is to be performed in the Preparing stage of the repair task. If not specified the existing value should not be altered. Otherwise, specify the desired new value.
 
 ____
-### PerformRestoringHealthCheck
+### `PerformRestoringHealthCheck`
 __Type__: boolean <br/>
 __Required__: No<br/>
 <br/>

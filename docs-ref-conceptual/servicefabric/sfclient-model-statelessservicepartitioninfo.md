@@ -1,7 +1,7 @@
 ---
 title: "StatelessServicePartitionInfo"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "StatelessServicePartitionInfo"
+ms.date: "01/28/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,58 +34,82 @@ Information about a partition of a stateless Service Fabric service.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServiceKind](#servicekind) | string | Yes |
-| [HealthState](#healthstate) | string (enum) | No |
-| [PartitionStatus](#partitionstatus) | string (enum) | No |
-| [PartitionInformation](#partitioninformation) | [PartitionInformation](sfclient-model-partitioninformation.md) | No |
-| [InstanceCount](#instancecount) | integer (int64) | No |
+| [`HealthState`](#healthstate) | string (enum) | No |
+| [`PartitionStatus`](#partitionstatus) | string (enum) | No |
+| [`PartitionInformation`](#partitioninformation) | [PartitionInformation](sfclient-model-partitioninformation.md) | No |
+| [`InstanceCount`](#instancecount) | integer (int64) | No |
+| [`MinInstanceCount`](#mininstancecount) | integer | No |
+| [`MinInstancePercentage`](#mininstancepercentage) | integer | No |
 
 ____
-### ServiceKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Stateless' for objects of type 'StatelessServicePartitionInfo'.
-
-____
-### HealthState
+### `HealthState`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
+
+
 The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc.
 
-  - Invalid - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Ok - Indicates the health state is okay. The value is 1.
-  - Warning - Indicates the health state is at a warning level. The value is 2.
-  - Error - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
-  - Unknown - Indicates an unknown health status. The value is 65535.
+Possible values are: 
+
+  - `Invalid` - Indicates an invalid health state. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Ok` - Indicates the health state is okay. The value is 1.
+  - `Warning` - Indicates the health state is at a warning level. The value is 2.
+  - `Error` - Indicates the health state is at an error level. Error health state should be investigated, as they can impact the correct functionality of the cluster. The value is 3.
+  - `Unknown` - Indicates an unknown health status. The value is 65535.
+
 
 
 ____
-### PartitionStatus
+### `PartitionStatus`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
-The status of the service fabric service partition. Possible values are following.
 
-  - Invalid - Indicates the partition status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
-  - Ready - Indicates that the partition is ready. This means that for a stateless service partition there is atleast one instance that is up and for a stateful service partition the number of ready replicas is greater than or equal to the MinReplicaSetSize. The value is 1.
-  - NotReady - Indicates that the partition is not ready. This status is returned when none of the other states apply. The value is 2.
-  - InQuorumLoss  - Indicates that the partition is in quorum loss. This means that number of replicas that are up and participating in a replica set is less than MinReplicaSetSize for this partition. The value is 3.
-  - Reconfiguring - Indicates that the partition is undergoing reconfiguration of its replica sets. This can happen due to failover, upgrade, load balancing or addition or removal of replicas from the replica set. The value is 4.
-  - Deleting - Indicates that the partition is being deleted. The value is 5.
+
+The status of the service fabric service partition.
+
+Possible values are: 
+
+  - `Invalid` - Indicates the partition status is invalid. All Service Fabric enumerations have the invalid type. The value is zero.
+  - `Ready` - Indicates that the partition is ready. This means that for a stateless service partition there is at least one instance that is up and for a stateful service partition the number of ready replicas is greater than or equal to the MinReplicaSetSize. The value is 1.
+  - `NotReady` - Indicates that the partition is not ready. This status is returned when none of the other states apply. The value is 2.
+  - `InQuorumLoss` - Indicates that the partition is in quorum loss. This means that number of replicas that are up and participating in a replica set is less than MinReplicaSetSize for this partition. The value is 3.
+  - `Reconfiguring` - Indicates that the partition is undergoing reconfiguration of its replica sets. This can happen due to failover, upgrade, load balancing or addition or removal of replicas from the replica set. The value is 4.
+  - `Deleting` - Indicates that the partition is being deleted. The value is 5.
+
 
 
 ____
-### PartitionInformation
+### `PartitionInformation`
 __Type__: [PartitionInformation](sfclient-model-partitioninformation.md) <br/>
 __Required__: No<br/>
 <br/>
 Information about the partition identity, partitioning scheme and keys supported by it.
 
 ____
-### InstanceCount
+### `InstanceCount`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
 Number of instances of this partition.
+
+____
+### `MinInstanceCount`
+__Type__: integer <br/>
+__Required__: No<br/>
+<br/>
+MinInstanceCount is the minimum number of instances that must be up to meet the EnsureAvailability safety check during operations like upgrade or deactivate node.
+The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 * InstanceCount) ).
+Note, if InstanceCount is set to -1, during MinInstanceCount computation -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service.
+
+
+____
+### `MinInstancePercentage`
+__Type__: integer <br/>
+__Required__: No<br/>
+<br/>
+MinInstancePercentage is the minimum percentage of InstanceCount that must be up to meet the EnsureAvailability safety check during operations like upgrade or deactivate node.
+The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 * InstanceCount) ).
+Note, if InstanceCount is set to -1, during MinInstancePercentage computation, -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service.
+

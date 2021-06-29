@@ -1,37 +1,23 @@
 ---
-title: "Get Table ACL"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get Table ACL (REST API) - Azure Storage
+description: The Get Table ACL operation returns details about any stored access policies specified on the table that may be used with Shared Access Signatures.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 4131c1c3-8605-4bcb-9e85-e1a8ac7f17c6
-caps.latest.revision: 15
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Table ACL
-The `Get Table ACL` operation returns details about any stored access policies specified on the table that may be used with Shared Access Signatures. For more information, see [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md).  
+
+The `Get Table ACL` operation returns details about any stored access policies specified on the table that may be used with Shared Access Signatures. For more information, see [Define a stored access policy](define-stored-access-policy.md).  
   
 > [!NOTE]
 >  The `Get Table ACL` operation is available in version 2012-02-12 and later.  
   
 > [!NOTE]
->  An *access control list* (ACL) is a list of *access control entries* (ACE). Each ACE in an ACL identifies a *trustee* and specifies the *access rights* allowed, denied, or audited for that trustee. For more information, see [Access Control Lists](http://go.microsoft.com/fwlink/?LinkId=294100).  
+>  An *access control list* (ACL) is a list of *access control entries* (ACE). Each ACE in an ACL identifies a *trustee* and specifies the *access rights* allowed, denied, or audited for that trustee. For more information, see [Access Control Lists](https://go.microsoft.com/fwlink/?LinkId=294100).  
   
 ## Request  
  The `Get Table ACL` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -40,7 +26,7 @@ The `Get Table ACL` operation returns details about any stored access policies s
 |------------|-----------------|------------------|  
 |`GET/HEAD`|`https://myaccount.table.core.windows.net/mytable?comp=acl`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Table service port as `127.0.0.1:10002`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -61,10 +47,10 @@ The `Get Table ACL` operation returns details about any stored access policies s
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
  None.  
@@ -78,13 +64,14 @@ The `Get Table ACL` operation returns details about any stored access policies s
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the Table service used to execute the request. This header is returned for requests made against version 2009-09-19 and later.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
  If a stored access policy has been specified for the table, `Get Table ACL` returns the signed identifier and access policy in the response body.  
@@ -135,9 +122,9 @@ Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  Only the account owner may read data in a particular storage account unless the account owner has made resources in the table available via a Shared Access Signature.  
   
-## See Also  
- [Delegating Access with a Shared Access Signature](Delegating-Access-with-a-Shared-Access-Signature.md)   
- [Establishing a Stored Access Policy](Establishing-a-Stored-Access-Policy.md)   
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
+## See also  
+ [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md)   
+ [Define a stored access policy](define-stored-access-policy.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Set Table ACL](Set-Table-ACL.md)

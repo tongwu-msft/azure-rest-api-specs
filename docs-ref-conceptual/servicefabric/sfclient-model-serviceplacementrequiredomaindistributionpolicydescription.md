@@ -1,7 +1,7 @@
 ---
 title: "ServicePlacementRequireDomainDistributionPolicyDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ServicePlacementRequireDomainDistributionPolicyDescription"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -37,18 +37,10 @@ While this is not common it can expose the service to an increased risk of concu
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Type](#type) | string | Yes |
-| [DomainName](#domainname) | string | No |
+| [`DomainName`](#domainname) | string | No |
 
 ____
-### Type
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'RequireDomainDistribution' for objects of type 'ServicePlacementRequireDomainDistributionPolicyDescription'.
-
-____
-### DomainName
+### `DomainName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

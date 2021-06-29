@@ -1,33 +1,19 @@
 ---
-title: "Preflight Blob Request"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Preflight Blob Request (REST API) - Azure Storage
+description: The Preflight Blob Request operation queries the Cross-Origin Resource Sharing (CORS) rules for the Blob service prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 931a6d96-f789-4ca1-819c-10270e569040
-caps.latest.revision: 8
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Preflight Blob Request
+
 The `Preflight Blob Request` operation queries the Cross-Origin Resource Sharing (CORS) rules for the Blob service prior to sending the actual request. A web browser or another user agent sends a preflight request that includes the origin domain, method, and headers for the actual request that the agent wishes to make. If CORS is enabled for the Blob service, then the Blob service evaluates the preflight request against the CORS rules that the account owner has configured via [Set Blob Service Properties](Set-Blob-Service-Properties.md), and accepts or rejects the request.  
   
- For more information about CORS and the preflight request, see [the CORS specification](http://www.w3.org/TR/cors/) and [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md)  
+ For more information about CORS and the preflight request, see [the CORS specification](https://www.w3.org/TR/cors/) and [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md)  
   
 ## Request  
  The `Preflight Blob Request` may be specified as follows. Replace `<account-name>` with the name of your storage account. Replace `<blob-resource>` with the container or blob resource that is to be the target of the actual request:  
@@ -62,9 +48,9 @@ The `Preflight Blob Request` operation queries the Cross-Origin Resource Sharing
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
- See [the CORS specification](http://www.w3.org/TR/cors/) for details about preflight request headers.  
+ See [the CORS specification](https://www.w3.org/TR/cors/) for details about preflight request headers.  
   
 |Response Header|Description|  
 |---------------------|-----------------|  
@@ -78,9 +64,10 @@ The `Preflight Blob Request` operation queries the Cross-Origin Resource Sharing
  None.  
   
 ## Authorization  
- The `Preflight Blob Request` operation authenticates any request that includes proper authentication headers or includes a shared access signature (SAS).  
-  
- Anonymous non-authenticated requests will also be processed regardless of whether the resource exists, since OPTIONS preflight requests are evaluated against the account service settings.  
+The `Preflight Blob Request` operation always executes anonymously. It does not require authorization, and ignores credentials if they are provided. 
+
+> [!NOTE]
+> If you have enabled Azure Storage analytics and are logging metrics, note that a call to the `Preflight Blob Request` operation is logged as **AnonymousSuccess**. For this reason, if you view metrics in the Azure portal, you will see **AnonymousSuccess** logged for `Preflight Blob Request`. This metric does not indicate that your private data has been compromised, but only that the `Preflight Blob Request` operation succeeded with a status code of 200 (OK). 
   
 ## Sample Request and Response  
  The following example sends a preflight request for the origin www.contoso.com, with the request method set to `PUT` and the request headers set to `content-type` and `accept`.  

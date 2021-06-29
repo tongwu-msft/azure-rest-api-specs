@@ -1,8 +1,7 @@
 ---
 title: "REST API Functions"
 ms.custom: ""
-ms.date: "2016-07-14"
-ms.prod: "azure"
+ms.date: "03/14/2018"
 ms.reviewer: ""
 ms.service: "media-services"
 ms.suite: ""
@@ -67,13 +66,8 @@ The following functions support the Microsoft Azure Media Services entities by p
  `Reset`. Takes the following parameter: *channel* of `Microsoft.Cloud.Media.Vod.Rest.Data.Models.Channel` type.  
   
 > [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+
  The rest of the topic shows a few examples of how to call functions using REST.  
   
 ##  <a name="canceljob"></a> CancelJob  
@@ -81,48 +75,42 @@ The following functions support the Microsoft Azure Media Services entities by p
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/CancelJob?jobid='*URL-encodedvalue*'|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/CancelJob?jobid='*URL-encodedvalue*'|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://media.windows.net/API/CancelJob?jobid='nb%3ajid%3aUUID%3a9e9533ba-2b9b-fa4c-a33d-73eebd49039b' HTTP/1.1  
+GET https://<accountname>.restv2.<location>.media.azure.net/api/CancelJob?jobid='nb%3ajid%3aUUID%3a9e9533ba-2b9b-fa4c-a33d-73eebd49039b' HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
-x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1336908753&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=kolAgnFfbQIeRv4lWxKSFa4USyjWXRm15Kd%2bNd5g8eA%3d  
+x-ms-version: 2.19  
+Authorization: Bearer <token value>  
 Host: media.windows.net  
 ```  
   
 ##  <a name="createfileinfos"></a> CreateFileInfos  
- A File entity is created using the CreateFileInfos function and passing in the Asset Id that is associated with the media file you uploaded into blob storage. For more information, see [Upload a file to blob storage](http://msdn.microsoft.com/en-us/efeb5012-9a00-4d02-9712-5fe4b2043257).  
+ A File entity is created using the CreateFileInfos function and passing in the Asset Id that is associated with the media file you uploaded into blob storage. For more information, see [Upload a file to blob storage](https://msdn.microsoft.com/efeb5012-9a00-4d02-9712-5fe4b2043257).  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/api/CreateFileInfos?assetid='*URL-encodedvalue*'|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/CreateFileInfos?assetid='*URL-encodedvalue*'|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://media.windows.net/api/CreateFileInfos?assetid='nb%3Acid%3AUUID%3Ac80d312d-7cb1-44aa-bb23-2c35d10c44bd' HTTP/1.1  
+GET https://<accountname>.restv2.<location>.media.azure.net/api/CreateFileInfos?assetid='nb%3Acid%3AUUID%3Ac80d312d-7cb1-44aa-bb23-2c35d10c44bd' HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
-x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1336547485&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=ISzXspEIbgWifYYXqiPK1vo3%2bDHnTsX85umNxRjD3kQ%3d  
+x-ms-version: 2.19  
+Authorization: Bearer <token value>  
 Host: media.windows.net  
 Content-Length: 0  
   
@@ -133,23 +121,20 @@ Content-Length: 0
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/GetProtectionKeyId?contentKeyType=*value*|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/GetProtectionKeyId?contentKeyType=*value*|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://media.windows.net/API/GetProtectionKeyId?contentKeyType=1 HTTP/1.1  
+GET https://<accountname>.restv2.<location>.media.azure.net/api/GetProtectionKeyId?contentKeyType=1 HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
-x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1335862109&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=ErOpftkPKjzX3bdYcEUZTK9yAwKIDc20y0kxEBZLvCk%3d  
+x-ms-version: 2.19  
+Authorization: Bearer <token value>  
 Host: media.windows.net  
   
 ```  
@@ -159,23 +144,20 @@ Host: media.windows.net
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/GetProtectionKey?ProtectionKeyId='*value*'|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/GetProtectionKey?ProtectionKeyId='*value*'|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://media.windows.net/API/GetProtectionKey?ProtectionKeyId='B2FE17BEF56FFCB9A3FC4267D0F2AFE25CD2DE22' HTTP/1.1  
+GET https://<accountname>.restv2.<location>.media.azure.net/api/GetProtectionKey?ProtectionKeyId='B2FE17BEF56FFCB9A3FC4267D0F2AFE25CD2DE22' HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
-x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1335935139&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=s2dI0Ulkutx%2b5pTL0QGRnPQEv1Ogwz%2ff2SHRWK8bmyw%3d  
+x-ms-version: 2.19  
+Authorization: Bearer <token value>  
 Host: media.windows.net  
   
 ```  
@@ -185,23 +167,20 @@ Host: media.windows.net
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/RebindContentKey?id='*contentkeyid*'&x509Certificate='*URL-encodedvalue*'|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/RebindContentKey?id='*contentkeyid*'&x509Certificate='*URL-encodedvalue*'|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://media.windows.net/API/RebindContentKey?id='nb%3akid%3aUUID%3a2eeba14e-613e-4af7-a926-413372cca8d5'&x509Certificate='' HTTP/1.1  
+GET https://<accountname>.restv2.<location>.media.azure.net/api/RebindContentKey?id='nb%3akid%3aUUID%3a2eeba14e-613e-4af7-a926-413372cca8d5'&x509Certificate='' HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
-x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1337251388&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=LdLXZO6LQ5vhvWfc%2bkL%2fYz%2fc3ZPf2v30h0LCCn2Kdis%3d  
+x-ms-version: 2.19  
+Authorization: Bearer <token value>  
 Host: media.windows.net  
 ```  
   

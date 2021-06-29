@@ -1,0 +1,152 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.cloudservicesupdatedomain.getupdatedomain
+name: Get Update Domain
+service: Compute
+groupName: Cloud Services Update Domain
+apiVersion: 2021-03-01
+summary: Gets the specified update domain of a cloud service. Use nextLink property in the response to get the next page of update domains. Do this till nextLink is null to fetch all the update domains.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}?api-version=2021-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group.
+  types:
+  - uid: string
+- name: cloudServiceName
+  in: path
+  isRequired: true
+  description: Name of the cloud service.
+  types:
+  - uid: string
+- name: updateDomain
+  in: path
+  isRequired: true
+  description: 'Specifies an integer value that identifies the update domain. Update domains are identified with a zero-based index: the first update domain has an ID of 0, the second has an ID of 1, and so on.'
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: CloudError
+- name: 200 OK
+  description: OK
+  types:
+  - uid: UpdateDomain
+requestHeader: []
+definitions:
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
+- name: UpdateDomain
+  description: Defines an update domain for the cloud service.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name
+    types:
+    - uid: string
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
+examples:
+- name: Get Cloud Service Update Domain
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/updateDomains/1?api-version=2021-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "1",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/updateDomains/1"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

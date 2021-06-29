@@ -1,0 +1,388 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.blueprints.publishedblueprints.delete
+name: Delete
+service: Blueprints
+groupName: Published Blueprints
+apiVersion: 2018-11-01-preview
+summary: Delete a published version of a blueprint definition.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/{resourceScope}/providers/Microsoft.Blueprint/blueprints/{blueprintName}/versions/{versionId}?api-version=2018-11-01-preview
+uriParameters:
+- name: resourceScope
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: "The scope of the resource. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format: '/subscriptions/{subscriptionId}')."
+  types:
+  - uid: string
+- name: blueprintName
+  in: path
+  isRequired: true
+  description: Name of the blueprint definition.
+  types:
+  - uid: string
+- name: versionId
+  in: path
+  isRequired: true
+  description: Version of the published blueprint definition.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- published version of blueprint definition deleted.
+  types:
+  - uid: PublishedBlueprint
+- name: 204 No Content
+  description: No Content
+- name: Other Status Codes
+  description: Blueprints error response.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: PublishedBlueprint
+  description: Represents a published blueprint.
+  kind: object
+  properties:
+  - name: properties.blueprintName
+    description: Name of the published blueprint definition.
+    types:
+    - uid: string
+  - name: properties.changeNotes
+    description: Version-specific change notes.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: String Id used to locate any resource on Azure.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of this resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of this resource.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: Status of the blueprint. This field is readonly.
+    types:
+    - uid: BlueprintStatus
+  - name: properties.targetScope
+    description: The scope where this blueprint definition can be assigned.
+    types:
+    - uid: BlueprintTargetScope
+  - name: properties.parameters
+    description: Parameters required by this blueprint definition.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterDefinition
+  - name: properties.resourceGroups
+    description: Resource group placeholders defined by this blueprint definition.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ResourceGroupDefinition
+  - name: displayName
+    description: One-liner string explain this resource.
+    types:
+    - uid: string
+  - name: description
+    description: Multi-line explain this resource.
+    types:
+    - uid: string
+- name: CloudError
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nCommon error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.)"
+    types:
+    - uid: ErrorResponse
+- name: BlueprintStatus
+  description: The status of the blueprint. This field is readonly.
+  kind: object
+  properties:
+  - name: timeCreated
+    isReadyOnly: true
+    description: Creation time of this blueprint definition.
+    types:
+    - uid: string
+  - name: lastModified
+    isReadyOnly: true
+    description: Last modified time of this blueprint definition.
+    types:
+    - uid: string
+- name: BlueprintTargetScope
+  description: The scope where this blueprint definition can be assigned.
+  kind: enum
+  properties:
+  - name: subscription
+    description: The blueprint targets a subscription during blueprint assignment.
+    types:
+    - uid: string
+  - name: managementGroup
+    description: The blueprint targets a management group during blueprint assignment. This is reserved for future use.
+    types:
+    - uid: string
+- name: ParameterDefinition
+  description: Represent a parameter with constrains and metadata.
+  kind: object
+  properties:
+  - name: type
+    description: Allowed data types for Resource Manager template parameters.
+    types:
+    - uid: TemplateParameterType
+  - name: defaultValue
+    description: Default Value for this parameter.
+    types:
+    - {}
+  - name: allowedValues
+    description: Array of allowed values for this parameter.
+    types:
+    - uid: AllowedValues
+      isArray: true
+  - name: metadata.displayName
+    description: DisplayName of this parameter/resourceGroup.
+    types:
+    - uid: string
+  - name: metadata.description
+    description: Description of this parameter/resourceGroup.
+    types:
+    - uid: string
+  - name: metadata.strongType
+    description: StrongType for UI to render rich experience during blueprint assignment. Supported strong types are resourceType, principalId and location.
+    types:
+    - uid: string
+- name: ResourceGroupDefinition
+  description: Represents an Azure resource group in a blueprint definition.
+  kind: object
+  properties:
+  - name: name
+    description: Name of this resourceGroup. Leave empty if the resource group name will be specified during the blueprint assignment.
+    types:
+    - uid: string
+  - name: location
+    description: Location of this resourceGroup. Leave empty if the resource group location will be specified during the blueprint assignment.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Artifacts which need to be deployed before this resource group.
+    types:
+    - uid: string
+      isArray: true
+  - name: tags
+    description: Tags to be assigned to this resource group.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: metadata.displayName
+    description: DisplayName of this parameter/resourceGroup.
+    types:
+    - uid: string
+  - name: metadata.description
+    description: Description of this parameter/resourceGroup.
+    types:
+    - uid: string
+  - name: metadata.strongType
+    description: StrongType for UI to render rich experience during blueprint assignment. Supported strong types are resourceType, principalId and location.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: TemplateParameterType
+  description: Allowed data types for Resource Manager template parameters.
+  kind: enum
+  properties:
+  - name: string
+    types:
+    - uid: string
+  - name: array
+    types:
+    - uid: string
+  - name: bool
+    types:
+    - uid: string
+  - name: int
+    types:
+    - uid: string
+  - name: object
+    types:
+    - uid: string
+  - name: secureObject
+    types:
+    - uid: string
+  - name: secureString
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: PublishedSubscriptionBlueprint
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/versions/v2?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "description": "blueprint contains all artifact kinds {'template', 'rbac', 'policy'}",
+          "blueprintName": "simpleBlueprint",
+          "parameters": {
+            "storageAccountType": {
+              "type": "string",
+              "metadata": {
+                "displayName": "storage account type.",
+                "description": null
+              }
+            },
+            "costCenter": {
+              "type": "string",
+              "metadata": {
+                "displayName": "force cost center tag for all resources under given subscription.",
+                "description": null
+              }
+            },
+            "owners": {
+              "type": "array",
+              "metadata": {
+                "displayName": "assign owners to subscription along with blueprint assignment.",
+                "description": null
+              }
+            }
+          },
+          "resourceGroups": {
+            "storageRG": {
+              "metadata": {
+                "displayName": "storage resource group",
+                "description": "Contains storageAccounts that collect all shoebox logs."
+              }
+            }
+          },
+          "targetScope": "subscription"
+        },
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprints/simpleBlueprint",
+        "type": "Microsoft.Blueprint/blueprints/versions",
+        "name": "v2"
+      }
+  - statusCode: "204"
+- name: PublishedManagementGroupBlueprint
+  request:
+    uri: DELETE https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/versions/v2?api-version=2018-11-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "description": "blueprint contains all artifact kinds {'template', 'rbac', 'policy'}",
+          "blueprintName": "simpleBlueprint",
+          "parameters": {
+            "storageAccountType": {
+              "type": "string",
+              "metadata": {
+                "displayName": "storage account type.",
+                "description": null
+              }
+            },
+            "costCenter": {
+              "type": "string",
+              "metadata": {
+                "displayName": "force cost center tag for all resources under given subscription.",
+                "description": null
+              }
+            },
+            "owners": {
+              "type": "array",
+              "metadata": {
+                "displayName": "assign owners to subscription along with blueprint assignment.",
+                "description": null
+              }
+            }
+          },
+          "resourceGroups": {
+            "storageRG": {
+              "metadata": {
+                "displayName": "storage resource group",
+                "description": "Contains storageAccounts that collect all shoebox logs."
+              }
+            }
+          },
+          "targetScope": "subscription"
+        },
+        "id": "/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint",
+        "type": "Microsoft.Blueprint/blueprints/versions",
+        "name": "v2"
+      }
+  - statusCode: "204"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

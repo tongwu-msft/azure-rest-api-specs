@@ -1,30 +1,16 @@
 ---
-title: "Get Blob Service Stats"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Get Blob Service Stats (REST API) - Azure Storage
+description: The Get Blob Service Stats operation retrieves statistics related to replication for the Blob service. It is only available on the secondary location endpoint when read-access geo-redundant replication is enabled for the storage account.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: d620f436-a721-467f-aae4-0dab65be2174
-caps.latest.revision: 10
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Get Blob Service Stats
+
 The `Get Blob Service Stats` operation retrieves statistics related to replication for the Blob service. It is only available on the secondary location endpoint when read-access geo-redundant replication is enabled for the storage account.  
   
 ## Request  
@@ -36,7 +22,7 @@ The `Get Blob Service Stats` operation retrieves statistics related to replicati
   
  Note that the URI must always include the forward slash (/) to separate the host name from the path and query portions of the URI. In the case of this operation, the path portion of the URI is empty.  
   
-### URI Parameters  
+### URI parameters  
  The following additional parameters may be specified on the request URI.  
   
 |Parameter|Description|  
@@ -48,10 +34,10 @@ The `Get Blob Service Stats` operation retrieves statistics related to replicati
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](http://msdn.microsoft.com/library/windowsazure/dd179428.aspx).|  
-|`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](http://msdn.microsoft.com/library/windowsazure/dd179428.aspx).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the File, Blob, Queue, and Table services in Azure](http://msdn.microsoft.com/library/windowsazure/dd894041).|  
-|`x-ms-client-request-id`|Optional. Client generated opaque value with 1KB character limit that is recorded in the analytics logs when [Storage Analytics Logging](http://msdn.microsoft.com/library/windowsazure/hh343262.aspx) is enabled. The use of this header is highly recommended for correlating client side activities with requests received by the server. For more information see [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-client-request-id`|Optional. Client generated opaque value with 1KB character limit that is recorded in the analytics logs when [Storage Analytics Logging](/azure/storage/common/storage-analytics-logging) is enabled. The use of this header is highly recommended for correlating client side activities with requests received by the server. For more information see [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
  None.  
@@ -62,17 +48,15 @@ The `Get Blob Service Stats` operation retrieves statistics related to replicati
 ### Status Code  
  A successful operation returns status code 200 (OK). When called on secondary location endpoint which is not enabled for secondary read, it will return Http status code of 403 with `InsufficientAccountPermissions` error.  
   
- For information about status codes, see [Service Management Status and Error Codes](http://msdn.microsoft.com/library/windowsazure/ee460801.aspx).  
-  
 ### Response Headers  
- The response for this operation includes the following headers. The response also includes additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response also includes additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
-|||  
-|-|-|  
 |Response Header|Description|  
-|`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](http://msdn.microsoft.com/library/windowsazure/dd573365).|  
-|`x-ms-version`|Specifies the version of the operation used for the response. For more information, see [Versioning for the Blob, Queue, and Table services in Azure](http://msdn.microsoft.com/library/windowsazure/dd894041.aspx).|  
+|-|-|  
+|`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
+|`x-ms-version`|Specifies the version of the operation used for the response. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
  The format of the response body is as follows:  
@@ -89,9 +73,8 @@ The `Get Blob Service Stats` operation retrieves statistics related to replicati
   
  The following table describes the elements of the response body:  
   
-|||  
-|-|-|  
 |Response Header|Description|  
+|-|-|  
 |`Status`|The status of the secondary location. Possible values are:<br /><br /> -   `live`: Indicates that the secondary location is active and operational.<br />-   `bootstrap`: Indicates initial synchronization from the primary location to the secondary location is in progress. This typically occurs when replication is first enabled.<br />-   unavailable: Indicates that the secondary location is temporarily unavailable.|  
 |`LastSyncTime`|A GMT date/time value, to the second. All primary writes preceding this value are guaranteed to be available for read operations at the secondary. Primary writes after this point in time may or may not be available for reads.<br /><br /> The value may be empty if `LastSyncTime` is not available. This can happen if the replication status is `bootstrap` or `unavailable`.<br /><br /> Although geo-replication is continuously enabled, the `LastSyncTime` result may reflect a cached value from the service that is refreshed every few minutes.|  
   
@@ -101,7 +84,7 @@ The `Get Blob Service Stats` operation retrieves statistics related to replicati
 ## Remarks  
  With geo-redundant replication, Azure Storage maintains your data durable in two locations. In both locations, Azure Storage constantly maintains multiple healthy replicas of your data.  
   
- The location where you read, create, update, or delete data is the *primary* storage account location. The primary location exists in the region you choose at the time you create an account via the Azure Management Azure classic portal, for example, **North Central US**. The location to which your data is replicated is the *secondary* location. The secondary location is automatically determined based on the location of the primary; it is in a second data center that resides in the same region as the primary location. Read-only access is available from the secondary location, if *read-access geo-redundant replication* is enabled for your storage account. For more details about read-access geo-redundant replication, see the [Azure Storage Team Blog](http://blogs.msdn.com/b/windowsazurestorage/archive/2013/12/04/introducing-read-access-geo-replicated-storage-ra-grs-for-windows-azure-storage.aspx).  
+ The location where you read, create, update, or delete data is the *primary* storage account location. The primary location exists in the region you choose at the time you create an account via the Azure Management Azure classic portal, for example, **North Central US**. The location to which your data is replicated is the *secondary* location. The secondary location resides in a region that is automatically geographically paired with the primary region. Read-only access is available from the secondary location, if *read-access geo-redundant replication* is enabled for your storage account. For more details about read-access geo-redundant replication, see the [Azure Storage Team Blog](https://azure.microsoft.com/blog/announcing-public-preview-of-read-access-geo-redundant-storage/).  
   
  To construct a request for a read operation against the secondary endpoint, append `-secondary` as a suffix to the account name in the URI that you use to read from Blob storage. For example, a secondary URI for the [Get Blob](Get-Blob.md) operation will be similar to `https://myaccount-secondary.blob.core.windows.net/mycontainer/myblob`.  
   
@@ -143,5 +126,5 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 </StorageServiceStats>  
 ```  
   
-## See Also  
+## See also  
  [Operations on the Account (Blob Service)](Operations-on-the-Account--Blob-Service-.md)

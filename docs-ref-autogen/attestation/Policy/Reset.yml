@@ -1,0 +1,109 @@
+### YamlMime:RESTOperation
+uid: attestation.policy.reset
+name: Reset
+service: Azure Attestation
+groupName: Policy
+apiVersion: 2020-10-01
+summary: Resets the attestation policy for the specified tenant and reverts to the default policy.
+consumes:
+- text/plain
+produces:
+- application/json
+paths:
+- content: POST {instanceUrl}/policies/{attestationType}:reset?api-version=2020-10-01
+uriParameters:
+- name: instanceUrl
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The attestation instance base URI, for example https://mytenant.attest.azure.net.
+  types:
+  - uid: string
+- name: attestationType
+  in: path
+  isRequired: true
+  description: Specifies the trusted execution environment to be used to validate the evidence
+  types:
+  - uid: AttestationType
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version. Current version is 2010-10-01
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success - Returns a JWT signed by the metadata signing key that contains the hash of the supplied policy to be set.
+  types:
+  - uid: PolicyResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: PolicyJws
+    in: body
+    description: JSON Web Signature with an empty policy document
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: AttestationType
+  description: Specifies the trusted execution environment to be used to validate the evidence
+  kind: enum
+  properties:
+  - name: SgxEnclave
+    description: Intel Software Guard eXtensions
+    types:
+    - uid: string
+  - name: OpenEnclave
+    description: OpenEnclave extensions to SGX
+    types:
+    - uid: string
+  - name: Tpm
+    description: Edge TPM Virtualization Based Security
+    types:
+    - uid: string
+- name: PolicyResponse
+  description: The response to an attestation policy operation
+  kind: object
+  properties:
+  - name: token
+    description: An RFC7519 JSON Web Token structure whose body is an PolicyResult object.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from Attestation.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Attestation.
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: An error response from Attestation.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for displaying in a user interface.
+    types:
+    - uid: string
+examples:
+- name: Reset Policy
+  request:
+    uri: POST https://instance.attest.azure.net/policies/SgxEnclave:reset?api-version=2020-10-01
+    body: "\"eyJhbGciOiJub25lIn0..\""
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "token": "eyJhbGciOiAiUlMyNTYiLCAiamt1IjogImh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9jZXJ0cyIsICJraWQiOiAieWtJd00rcnRNcnhFZkZJVHY2TGZjVG03eWszUkxXRXBkN1lsZmJyTk1JST0iLCAidHlwIjogIkpXVCJ9.eyJhYXMtcG9saWN5SGFzaCI6ICJ2MG9QNG9KWkVKWnh4SXhFNmJiVVAxa1JSbWVfZXgtUHV4NlF0c1U4STdNIiwgImV4cCI6IDE1NzM4NjI5NzQsICJpYXQiOiAxNTczODU5Mzc0LCAiaXNzIjogImh0dHA6Ly9sb2NhbGhvc3Q6ODA4MCIsICJuYmYiOiAxNTczODU5Mzc0fQ.FTMpKwZHJa5l9_Mdxl60FtSDOr9kLRDYw3UAofMXJ-eOEvm4FdNM69YHR6Oy_i1uUEnVDAnMHhR0APTXgKqoR7gDxxfJG_RgiQqsTmQ-ucmXNL2Ck--sH3bz9OfIocPYSN0FBWiq6fgG6iX_oMX1hs-ENsF7B3jSp1nVL8NWtWk"
+      }
+security: []
+errorCodes: []

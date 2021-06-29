@@ -1,7 +1,7 @@
 ---
 title: "Compose Deployment"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "Compose Deployment"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -37,4 +37,5 @@ translation.priority.mt:
 | [Get Compose Deployment Upgrade Progress](sfclient-api-getcomposedeploymentupgradeprogress.md) | Gets details for the latest upgrade performed on this Service Fabric compose deployment.<br/> |
 | [Remove Compose Deployment](sfclient-api-removecomposedeployment.md) | Deletes an existing Service Fabric compose deployment from cluster.<br/> |
 | [Start Compose Deployment Upgrade](sfclient-api-startcomposedeploymentupgrade.md) | Starts upgrading a compose deployment in the Service Fabric cluster.<br/> |
+| [Start Rollback Compose Deployment Upgrade](sfclient-api-startrollbackcomposedeploymentupgrade.md) | Starts rolling back a compose deployment upgrade in the Service Fabric cluster.<br/> |
 

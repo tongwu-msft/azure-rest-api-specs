@@ -1,8 +1,7 @@
 ---
 title: "MonitoringConfiguration"
 ms.custom: ""
-ms.date: "2016-07-14"
-ms.prod: "azure"
+ms.date: "03/14/2018"
 ms.reviewer: ""
 ms.service: "media-services"
 ms.suite: ""
@@ -32,13 +31,8 @@ This topic gives an overview of the Azure Media Services telemetry/monitoring RE
 -   Create a monitoring configuration settings for the services you want to monitor. No more than one monitoring configuration settings is allowed. For details, see [Monitoring configuration operations](#MonitoringConfiguration) section.  
    
 > [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+
 ##  <a name="job_entity_properties"></a> MonitoringConfiguration Entity Properties  
   
 |Property|Type|Description|  
@@ -58,9 +52,6 @@ This topic gives an overview of the Azure Media Services telemetry/monitoring RE
   
 ##  <a name="MonitoringConfiguration"></a> Monitoring configuration operations  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ### Get  monitoring configurations  
@@ -69,7 +60,7 @@ This topic gives an overview of the Azure Media Services telemetry/monitoring RE
   
 ```  
 GET https://wamsbnp1clus001rest-hs.cloudapp.net/api/MonitoringConfigurations HTTP/1.1  
-x-ms-version: 2.13  
+x-ms-version: 2.19 
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Accept: application/json; odata=verbose  
@@ -101,7 +92,7 @@ Date: Wed, 02 Dec 2015 05:10:42 GMT
   
 ```  
 POST https://wamsbnp1clus001rest-hs.cloudapp.net/api/MonitoringConfigurations HTTP/1.1  
-x-ms-version: 2.13  
+x-ms-version: 2.19 
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
 Accept: application/json; odata=verbose  

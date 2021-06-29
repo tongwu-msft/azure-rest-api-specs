@@ -1,0 +1,104 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datamigration.services.delete
+name: Delete
+service: Data Migration
+groupName: Services
+apiVersion: 2018-04-19
+summary: "Delete DMS Service Instance  \nThe services resource is the top-level resource that represents the Database Migration Service. The DELETE method deletes a service. Any running tasks will be canceled."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}?api-version=2018-04-19
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}?deleteRunningTasks={deleteRunningTasks}&api-version=2018-04-19
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Identifier of the subscription
+  types:
+  - uid: string
+- name: groupName
+  in: path
+  isRequired: true
+  description: Name of the resource group
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: Name of the service
+  types:
+  - uid: string
+- name: deleteRunningTasks
+  in: query
+  description: Delete the resource even if it contains running tasks
+  types:
+  - uid: boolean
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Service resource deleted
+- name: 202 Accepted
+  description: Deletion accepted
+- name: 204 No Content
+  description: Service not found
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ApiError
+requestHeader: []
+definitions:
+- name: ApiError
+  description: Error information.
+  kind: object
+  properties:
+  - name: error
+    description: Error information in OData format
+    types:
+    - uid: ODataError
+- name: ODataError
+  description: Error information in OData format.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError'
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The human-readable description of the error
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Inner errors that caused this error
+    types:
+    - uid: ODataError
+      isArray: true
+examples:
+- name: Services_CreateOrUpdate
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService?api-version=2018-04-19
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+  - statusCode: "204"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

@@ -1,5 +1,21 @@
-# [Data Access](time-series-insights-reference-data-access.md)
-## [Query](time-series-insights-reference-query.md)
-### [API](time-series-insights-reference-QueryAPI.md)
-### [Syntax](time-series-insights-reference-Query-Syntax.md)
-## [Reference Data API](time-series-insights-reference-reference-data-api.md)
+# [Data Access (Gen2)](reference-data-access-overview.md)
+
+## [Environments APIs](reference-environments-apis.md)
+
+## [Model APIs](reference-model-apis.md)
+
+## [Query APIs](reference-query-apis.md)
+
+## [Time Series expression syntax](reference-time-series-expression-syntax.md)
+
+## [API limits](reference-api-limits.md)
+
+# [Data Access (Gen1)](gen1.md)
+
+## [Query](gen1-query.md)
+
+## [API](gen1-query-api.md)
+
+## [Syntax](gen1-query-syntax.md)
+
+## [Reference Data API](gen1-reference-data-api.md)

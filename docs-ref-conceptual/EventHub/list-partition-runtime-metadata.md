@@ -1,8 +1,7 @@
 ---
 title: "List partition runtime metadata"
 ms.custom: ""
-ms.date: "2017-05-05"
-ms.prod: "azure"
+ms.date: 07/14/2020
 ms.reviewer: ""
 ms.service: "event-hubs"
 ms.suite: ""
@@ -10,15 +9,15 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: d4e4359c-08f7-45db-93d0-1949272a54f4
 caps.latest.revision: 8
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 
 ---
 
 # List partition runtime metadata
 
-Returns the metadata for all partitions on an Event Hub. See [PartitionDescription Properties](/dotnet/api/microsoft.servicebus.messaging.partitiondescription#properties_).  
+Returns the metadata for all partitions on an Event Hub. See [Partition Description Properties](/dotnet/api/microsoft.servicebus.messaging.partitiondescription).  
   
 ## Request  
   
@@ -28,7 +27,7 @@ Returns the metadata for all partitions on an Event Hub. See [PartitionDescripti
   
 ### Request Headers  
 
-See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
 
@@ -36,13 +35,13 @@ The response includes an HTTP status code, a set of response headers, and a resp
   
 |Element name|Required|Type|Version|Description|  
 |------------------|--------------|----------|-------------|-----------------|  
-|SizeInBytes|Yes, read-only|int|2014-01|The approximate size, in bytes, of the Event Hubs partition.|  
-|BeginSequenceNumber|Yes, read-only|string|2014-01|The beginning sequence number.|  
-|EndSequenceNumber|Yes, read-only|string|2014-01|The end sequence number.|  
-|IncomingBytesPerSecond|Yes, read-only|string|2014-01|The approximate incoming rate of events (in bytes per second) for the partition in this consumer group.|  
-|OutgoingBytesPerSecond|Yes, read-only|string|2014-01|The approximate outgoing rate (in bytes per second) for the partition in this consumer group.|  
-|LastEnqueuedOffset|Yes, read-only|string|2015-01|The offset of the last enqueued event.|  
-|LastEnqueuedTimeUtc|Yes, read-only|string|2015-01|The time in UTC at which the last event was enqueued.|  
+|`SizeInBytes`|Yes, read-only|int|2014-01|The approximate size, in bytes, of the Event Hubs partition.|  
+|`BeginSequenceNumber`|Yes, read-only|string|2014-01|The beginning sequence number.|  
+|`EndSequenceNumber`|Yes, read-only|string|2014-01|The end sequence number.|  
+|`IncomingBytesPerSecond`|Yes, read-only|string|2014-01|The approximate incoming rate of events (in bytes per second) for the partition in this consumer group.|  
+|`OutgoingBytesPerSecond`|Yes, read-only|string|2014-01|The approximate outgoing rate (in bytes per second) for the partition in this consumer group.|  
+|`LastEnqueuedOffset`|Yes, read-only|string|2015-01|The offset of the last enqueued event.|  
+|`LastEnqueuedTimeUtc`|Yes, read-only|string|2015-01|The time in UTC at which the last event was enqueued.|  
   
 ### Response Codes  
   
@@ -59,6 +58,10 @@ If the request is successful, the response body contains the description of all 
 ## Examples  
 
 **Request**  
+
+> [!NOTE]
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.
+
   
 ```  
 GET https://your-namespace.servicebus.windows.net/your-event-hub//consumergroups/$Default/partitions/0?timeout=60&api-version=2015-01 HTTP/1.1  

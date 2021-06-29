@@ -1,8 +1,7 @@
 ---
 title: "Service Bus Runtime REST"
 ms.custom: ""
-ms.date: "05/15/2015"
-ms.prod: "azure"
+ms.date: "07/08/2020"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -10,9 +9,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 81854468-1309-416e-8aea-afda0e265289
 caps.latest.revision: 7
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -29,17 +28,17 @@ translation.priority.mt:
 This section describes the Service Bus REST run-time APIs.  
   
 ## In This Section  
- [Introduction](introduction.md)  
- An introduction to the Service Bus REST run-time APIs.  
-  
- [Send Message](send-message.md)  
- Enqueues a message into the specified queue or topic.  
-  
+ [Message properties](introduction.md)  
+ Describes the properties that can be set on messages. 
+ 
+ [Send Message](send-message-to-queue.md)  
+ Sends a message to a Service Bus queue or topic. 
+ 
  [Send Message Batch](send-message-batch.md)  
- Enqueues a batch of messages into the specified queue or topic.  
+ Sends a batch of messages to a Service Bus queue or topic. 
   
  [Receive and Delete Message (Destructive Read)](receive-and-delete-message-destructive-read.md)  
- Reads and deletes a message from a queue or subscription as an atomic operation.  
+ Receives a message from a queue or subscription, and removes the message from that queue or subscription in one atomic operation.
   
  [Peek-Lock Message (Non-Destructive Read)](peek-lock-message-non-destructive-read.md)  
  Retrieves and locks a message for processing as an atomic operation.  
@@ -52,9 +51,7 @@ This section describes the Service Bus REST run-time APIs.
   
  [Renew-Lock for a Message](renew-lock-for-a-message.md)  
  Renews the lock of an already locked message for continuing processing (long running operations).  
-  
- [Request a Token from ACS](request-a-token-from-acs.md)  
- Request a new SWT token from Microsoft Azure Active Directory Access Control (also known as Access Control Service or ACS).  
+ 
   
 ## Related Sections  
    

@@ -1,31 +1,17 @@
 ---
-title: "Set Share ACL"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Set Share ACL (REST API) - Azure Storage
+description: The Set Share ACL operation sets stored access policies for the share that may be used with Shared Access Signatures.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 032f3a38-db93-4673-ac7e-0434311e1240
-caps.latest.revision: 8
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Set Share ACL
-**Set Share ACL** sets a stored access policy for use with shared access signatures. For more information, see [Use a Stored Access Policy](https://msdn.microsoft.com/en-us/library/azure/ee393341.aspx).  
+
+The **Set Share ACL** operation sets a stored access policy for use with shared access signatures. For more information about setting access policies, See [Grant limited access to Azure Storage resources using shared access signatures (SAS)](/azure/storage/common/storage-sas-overview).  
   
 ## Request  
  The **Set Share ACL** request may be constructed as follows. HTTPS is recommended. Replace `myaccount` with the name of your storage account:  
@@ -39,16 +25,17 @@ translation.priority.mt:
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](https://msdn.microsoft.com/en-us/library/azure/dd179431.aspx).|  
+|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|
   
 ### Request Headers  
  The following table describes required and optional request headers.  
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
-|`Date or x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd179428.aspx).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](https://msdn.microsoft.com/en-us/library/azure/dd894041.aspx).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. This operation is available only in versions 2015-02-21 and later.<br /><br /> For more information, see [Versioning for the Azure Storage Services](versioning-for-the-azure-storage-services.md).|
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).| 
   
 ### Request Body  
  To specify a stored access policy, provide a unique identifier and access policy in the request body for the **Set Share ACL** operation.  
@@ -114,18 +101,17 @@ Request Body:
 ### Status Code  
  A successful operation returns status code 200 (OK).  
   
- For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/en-us/library/azure/dd179382.aspx).  
-  
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response Header|Description|  
 |---------------------|-----------------|  
-|`ETag`|Returns the date and time the container was last modified. The date format follows RFC 1123. For more information, see [Representation of Date/Time Values in Headers](https://msdn.microsoft.com/en-us/library/azure/dd135714.aspx).|  
+|`ETag`|Returns the date and time the container was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md).|  
 |`Last-Modified`|Any operation that modifies the share or its properties or metadata updates the last modified time, including setting the file’s permissions. Operations on files do not affect the last modified time of the share.|  
-|`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](https://msdn.microsoft.com/en-us/library/azure/dd573365.aspx).|  
+|`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the File service used to execute the request.|  
-|`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
+|`Date` or `x-ms-date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Sample Response  
   
@@ -152,9 +138,9 @@ Server: Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0
   
  **Establishing Share-Level Access Policies**  
   
- A stored access policy can specify the start time, expiry time, and permissions for the shared access signatures with which it is associated. Depending on how you want to control access to your share or file resource, you can specify all of these parameters within the stored access policy, and omit them from the URL for the shared access signature. Doing so permits you to modify the associated signature's behavior at any time, as well as to revoke it. Or you can specify one or more of the access policy parameters within the stored access policy, and the others on the URL. Finally, you can specify all of the parameters on the URL. In this case, you can use the stored access policy to revoke the signature, but not to modify its behavior. See specifying a [Use a Stored Access Policy](https://msdn.microsoft.com/en-us/library/azure/ee393341.aspx) for more information about establishing access policies.  
+ A stored access policy can specify the start time, expiry time, and permissions for the shared access signatures with which it is associated. Depending on how you want to control access to your share or file resource, you can specify all of these parameters within the stored access policy, and omit them from the URL for the shared access signature. Doing so permits you to modify the associated signature's behavior at any time, as well as to revoke it. Or you can specify one or more of the access policy parameters within the stored access policy, and the others on the URL. Finally, you can specify all of the parameters on the URL. In this case, you can use the stored access policy to revoke the signature, but not to modify its behavior. See [Grant limited access to Azure Storage resources using shared access signatures (SAS)](/azure/storage/common/storage-sas-overview) for more information about setting access policies.  
   
- Together the shared access signature and the stored access policy must include all fields required to authenticate the signature. If any required fields are missing, the request will fail. Likewise, if a field is specified both in the shared access signature URL and in the stored access policy, the request will fail with status code 400 (Bad Request). See [Creating a Shared Access Signature](https://msdn.microsoft.com/en-us/library/azure/hh508996.aspx) for more information about the fields that comprise a shared access signature.  
+ Together the shared access signature and the stored access policy must include all fields required to authorize the signature. If any required fields are missing, the request will fail. Likewise, if a field is specified both in the shared access signature URL and in the stored access policy, the request will fail with status code 400 (Bad Request). See [Using a Shared Access Signature](/azure/storage/common/storage-dotnet-shared-access-signature-part-1) for more information about the fields that comprise a shared access signature.
   
  At most five separate access policies can be set for a given share at any time. If more than five access policies are passed in the request body, then the service returns status code 400 (Bad Request).  
   

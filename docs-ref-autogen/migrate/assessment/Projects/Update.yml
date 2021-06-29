@@ -1,0 +1,373 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.migrate.assessment.projects.update
+name: Update
+service: Azure Migrate
+groupName: Projects
+apiVersion: 2019-10-01
+summary: "Update project.  \nUpdate a project with specified name. Supports partial updates, for example only tags can be provided."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}?api-version=2019-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription Id in which project was created.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Azure Resource Group that project is part of.
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: Name of the Azure Migrate project.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Standard request header. Used by service to identify API version used by client.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: OK. Existing project updated.
+  types:
+  - uid: Project
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: eTag
+    in: body
+    description: For optimistic concurrency control.
+    types:
+    - uid: string
+  - name: location
+    in: body
+    description: Azure location in which project is created.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Tags provided by Azure Tagging service.
+    types:
+    - uid: object
+  - name: properties
+    in: body
+    description: Properties of the project.
+    types:
+    - uid: ProjectProperties
+requestHeader: []
+definitions:
+- name: ProjectProperties
+  description: Properties of a project.
+  kind: object
+  properties:
+  - name: createdTimestamp
+    isReadyOnly: true
+    description: Time when this project was created. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: updatedTimestamp
+    isReadyOnly: true
+    description: Time when this project was last updated. Date-Time represented in ISO-8601 format.
+    types:
+    - uid: string
+  - name: serviceEndpoint
+    isReadyOnly: true
+    description: Endpoint at which the collector agent can call agent REST API.
+    types:
+    - uid: string
+  - name: assessmentSolutionId
+    description: Assessment solution ARM id tracked by Microsoft.Migrate/migrateProjects.
+    types:
+    - uid: string
+  - name: projectStatus
+    description: Assessment project status.
+    types:
+    - uid: ProjectStatus
+  - name: customerWorkspaceId
+    description: The ARM id of service map workspace created by customer.
+    types:
+    - uid: string
+  - name: customerWorkspaceLocation
+    description: Location of service map workspace created by customer.
+    types:
+    - uid: string
+  - name: numberOfGroups
+    isReadyOnly: true
+    description: Number of groups created in the project.
+    types:
+    - uid: integer
+  - name: numberOfMachines
+    isReadyOnly: true
+    description: Number of machines in the project.
+    types:
+    - uid: integer
+  - name: numberOfAssessments
+    isReadyOnly: true
+    description: Number of assessments created in the project.
+    types:
+    - uid: integer
+  - name: lastAssessmentTimestamp
+    isReadyOnly: true
+    description: Time when last assessment was created. Date-Time represented in ISO-8601 format. This value will be null until assessment is created.
+    types:
+    - uid: string
+  - name: publicNetworkAccess
+    description: This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.
+    types:
+    - uid: string
+  - name: privateEndpointConnections
+    isReadyOnly: true
+    description: The list of private endpoint connections to the project.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
+  - name: customerStorageAccountArmId
+    description: The ARM id of the storage account used for interactions when public access is disabled.
+    types:
+    - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the project.
+    types:
+    - uid: ProvisioningState
+- name: Project
+  description: Azure Migrate Project.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Path reference to this project /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the project.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the object = [Microsoft.Migrate/assessmentProjects].
+    types:
+    - uid: string
+  - name: eTag
+    description: For optimistic concurrency control.
+    types:
+    - uid: string
+  - name: location
+    description: Azure location in which project is created.
+    types:
+    - uid: string
+  - name: tags
+    description: Tags provided by Azure Tagging service.
+    types:
+    - uid: object
+  - name: properties
+    description: Properties of the project.
+    types:
+    - uid: ProjectProperties
+- name: CloudError
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Azure Migrate service.
+    types:
+    - uid: CloudErrorBody
+- name: ProjectStatus
+  description: Assessment project status.
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Inactive
+    types:
+    - uid: string
+- name: PrivateEndpointConnection
+  description: A private endpoint connection for a project.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the private endpoint endpoint connection.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the object = [Microsoft.Migrate/assessmentProjects/privateEndpointConnections].
+    types:
+    - uid: string
+  - name: eTag
+    description: For optimistic concurrency control.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Path reference to this private endpoint endpoint connection. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateEndpointConnections/{privateEndpointConnectionName}
+    types:
+    - uid: string
+  - name: properties
+    description: Properties of the private endpoint endpoint connection.
+    types:
+    - uid: PrivateEndpointConnectionProperties
+- name: ProvisioningState
+  description: Provisioning state of the project.
+  kind: enum
+  properties:
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Moving
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: PrivateEndpointConnectionProperties
+  description: Private endpoint connection properties.
+  kind: object
+  properties:
+  - name: provisioningState
+    isReadyOnly: true
+    description: Indicates whether there is an ongoing operation on the private endpoint.
+    types:
+    - uid: Accepted
+    - uid: InProgress
+    - uid: Succeeded
+    - uid: Failed
+    typesTitle: enum
+  - name: privateEndpoint
+    isReadyOnly: true
+    description: ARM id for the private endpoint resource corresponding to the connection.
+    types:
+    - uid: ResourceId
+  - name: privateLinkServiceConnectionState
+    description: State of the private endpoint connection.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+- name: ResourceId
+  description: ARM id for a resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: State of a private endpoint connection.
+  kind: object
+  properties:
+  - name: status
+    description: Connection status of the private endpoint connection.
+    types:
+    - uid: Approved
+    - uid: Pending
+    - uid: Rejected
+    - uid: Disconnected
+    typesTitle: enum
+  - name: description
+    description: Description of the private endpoint connection.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: Actions required on the private endpoint connection.
+    types:
+    - uid: string
+examples:
+- name: Projects_Update
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourcegroups/abgoyal-westEurope/providers/Microsoft.Migrate/assessmentProjects/abGoyalProject2?api-version=2019-10-01
+    body: >-
+      {
+        "properties": {
+          "assessmentSolutionId": "/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourcegroups/abgoyal-westeurope/providers/microsoft.migrate/migrateprojects/abgoyalweselfhost/Solutions/Servers-Assessment-ServerAssessment",
+          "projectStatus": "Active",
+          "customerWorkspaceId": null,
+          "customerWorkspaceLocation": null
+        },
+        "eTag": "",
+        "location": "West Europe",
+        "tags": {}
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "numberOfGroups": 0,
+          "numberOfMachines": 0,
+          "numberOfAssessments": 0,
+          "lastAssessmentTimestamp": null,
+          "createdTimestamp": "2019-08-26T05:56:58.7521828Z",
+          "updatedTimestamp": "2019-08-26T05:56:58.7990948Z",
+          "serviceEndpoint": "https://localhost/",
+          "assessmentSolutionId": "/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourceGroups/abgoyal-westEurope/providers/Microsoft.Migrate/assessmentprojects/abGoyalProject2",
+          "projectStatus": "Active",
+          "customerWorkspaceId": null,
+          "customerWorkspaceLocation": null
+        },
+        "id": "/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourceGroups/abgoyal-westeurope/providers/Microsoft.Migrate/assessmentprojects/abGoyalProject2",
+        "name": "abGoyalProject2",
+        "type": "Microsoft.Migrate/assessmentprojects",
+        "eTag": "",
+        "location": "West Europe",
+        "tags": {}
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

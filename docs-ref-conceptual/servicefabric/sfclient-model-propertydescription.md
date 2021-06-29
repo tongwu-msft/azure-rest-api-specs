@@ -1,7 +1,7 @@
 ---
 title: "PropertyDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "PropertyDescription"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,26 +34,26 @@ Description of a Service Fabric property.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [PropertyName](#propertyname) | string | Yes |
-| [CustomTypeId](#customtypeid) | string | No |
-| [Value](#value) | [PropertyValue](sfclient-model-propertyvalue.md) | Yes |
+| [`PropertyName`](#propertyname) | string | Yes |
+| [`CustomTypeId`](#customtypeid) | string | No |
+| [`Value`](#value) | [PropertyValue](sfclient-model-propertyvalue.md) | Yes |
 
 ____
-### PropertyName
+### `PropertyName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the Service Fabric property.
 
 ____
-### CustomTypeId
+### `CustomTypeId`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
-The property's custom type id. Using this property, the user is able to tag the type of the value of the property.
+The property's custom type ID. Using this property, the user is able to tag the type of the value of the property.
 
 ____
-### Value
+### `Value`
 __Type__: [PropertyValue](sfclient-model-propertyvalue.md) <br/>
 __Required__: Yes<br/>
 <br/>

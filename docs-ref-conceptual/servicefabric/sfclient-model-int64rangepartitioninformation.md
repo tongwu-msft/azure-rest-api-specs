@@ -1,7 +1,7 @@
 ---
 title: "Int64RangePartitionInformation"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "Int64RangePartitionInformation"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,34 +34,26 @@ Describes the partition information for the integer range that is based on parti
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServicePartitionKind](#servicepartitionkind) | string | Yes |
-| [Id](#id) | string (uuid) | No |
-| [LowKey](#lowkey) | string | No |
-| [HighKey](#highkey) | string | No |
+| [`Id`](#id) | string (uuid) | No |
+| [`LowKey`](#lowkey) | string | No |
+| [`HighKey`](#highkey) | string | No |
 
 ____
-### ServicePartitionKind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'Int64Range' for objects of type 'Int64RangePartitionInformation'.
-
-____
-### Id
+### `Id`
 __Type__: string (uuid) <br/>
 __Required__: No<br/>
 <br/>
-An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition id is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the ids of its partitions would be different.
+An internal ID used by Service Fabric to uniquely identify a partition. This is a randomly generated GUID when the service was created. The partition ID is unique and does not change for the lifetime of the service. If the same service was deleted and recreated the IDs of its partitions would be different.
 
 ____
-### LowKey
+### `LowKey`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 Specifies the minimum key value handled by this partition.
 
 ____
-### HighKey
+### `HighKey`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

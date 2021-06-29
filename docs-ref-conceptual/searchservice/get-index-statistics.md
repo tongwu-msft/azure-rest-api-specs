@@ -1,67 +1,54 @@
 ---
-title: "Get Index Statistics (Azure Search Service REST API)"
-ms.custom: ""
-ms.date: "2016-11-09"
-ms.prod: "azure"
-ms.reviewer: ""
-ms.service: "search"
-ms.suite: ""
-ms.tgt_pltfrm: ""
-ms.topic: "language-reference"
-applies_to:
-  - "Azure"
-ms.assetid: f664dab2-6568-4e64-aab1-47138d8e5dbb
-caps.latest.revision: 27
+title: "Get Index Statistics (Azure Cognitive Search REST API)"
+description: Return documents counts, index counts, and resource usage metrics for an Azure Cognitive Search service.
+ms.date: 06/30/2020
+
+ms.service: cognitive-search
+ms.topic: language-reference
+ms.devlang: rest-api
+
 author: "Brjohnstmsft"
 ms.author: "brjohnst"
-manager: "jhubbard"
-translation.priority.mt:
-  - "de-de"
-  - "es-es"
-  - "fr-fr"
-  - "it-it"
-  - "ja-jp"
-  - "ko-kr"
-  - "pt-br"
-  - "ru-ru"
-  - "zh-cn"
-  - "zh-tw"
+ms.manager: nitinme
 ---
-# Get Index Statistics (Azure Search Service REST API)
-  The **Get Index Statistics** operation returns from Azure Search a document count for the current index, plus storage usage. You can also get this information from the portal.  
+# Get Index Statistics (Azure Cognitive Search REST API)
+The **Get Index Statistics** operation returns from Azure Cognitive Search a document count for the current index, plus storage usage. You can also get this information from the portal.  
 
-```  
-GET https://[service name].search.windows.net/indexes/[index name]/stats?api-version=[api-version]  
-api-key: [admin key]  
-
-```  
  > [!NOTE] 
- > Statistics on document count and storage size are collected every few minutes, not in real time. Therefore, the statistics returned by this API may not reflect changes caused by recent indexing operations.
+ > Statistics on document count and storage size are collected every few minutes, not in real time. Therefore, the statistics returned by this API may not reflect changes caused by recent indexing operations. 
 
+```http  
+GET https://[service name].search.windows.net/indexes/[index name]/stats?api-version=[api-version]  
+  Content-Type: application/json  
+  api-key: [admin key]   
+```  
 
-## Request  
- HTTPS is required for all services requests. The **Get Index Statistics** request can be constructed using the GET method.  
+ ## URI Parameters
 
- The `[index name]` in the request URI tells the service to return index statistics for the specified index.  
+| Parameter	  | Description  | 
+|-------------|--------------|
+| service name | Required. Set this to the unique, user-defined name of your search service. |
+| index name  | Required. The request URI specifies the name of the index for which statistics should be returned. |
+| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
 
- The `api-version` parameter is required. The current version is `api-version=2016-09-01`. See [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796) for a list of available versions.  
+## Request Headers 
 
-### Request Headers  
- The following table describes the required and optional request headers.  
+The following table describes the required and optional request headers.  
 
-|Request Header|Description|  
+|Fields              |Description      |  
 |--------------------|-----------------|  
-|*api-key:*|The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Get Index Statistics** request must include an `api-key` set to an admin key (as opposed to a query key).|  
+|Content-Type|Required. Set this to `application/json`|  
+|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Get requests for system information must include an api-key field set to your admin key (as opposed to a query key).|  
 
- You will also need the service name to construct the request URL. You can get the service name and `api-key` from your service dashboard in the Azure Preview Portal. See [Create an Azure Search service in the portal](https://azure.microsoft.com/documentation/articles/search-create-service-portal/) for page navigation help.  
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys). 
 
-### Request Body  
+## Request Body  
  None.  
 
 ## Response  
- Status Code: "200 OK" is returned for a successful response.The response body is in the following format:  
+ Status Code: "200 OK" is returned for a successful response. The response body is in the following format:  
 
-```  
+```json
 {  
   "documentCount": number,  
   "storageSize": number (size of the index in bytes)  
@@ -69,5 +56,5 @@ api-key: [admin key]
 ```  
 
 ## See also  
- [Azure Search Service REST](index.md)   
- [API versions in Azure Search](https://go.microsoft.com/fwlink/?linkid=834796)
+ [Azure Cognitive Search REST APIs](index.md)   
+ [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)

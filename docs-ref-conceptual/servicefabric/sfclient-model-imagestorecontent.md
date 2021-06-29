@@ -1,7 +1,7 @@
 ---
 title: "ImageStoreContent"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ImageStoreContent"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,19 +34,19 @@ Information about the image store content.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [StoreFiles](#storefiles) | array of [FileInfo](sfclient-model-fileinfo.md) | No |
-| [StoreFolders](#storefolders) | array of [FolderInfo](sfclient-model-folderinfo.md) | No |
+| [`StoreFiles`](#storefiles) | array of [FileInfo](sfclient-model-fileinfo.md) | No |
+| [`StoreFolders`](#storefolders) | array of [FolderInfo](sfclient-model-folderinfo.md) | No |
 
 ____
-### StoreFiles
+### `StoreFiles`
 __Type__: array of [FileInfo](sfclient-model-fileinfo.md) <br/>
 __Required__: No<br/>
 <br/>
 The list of image store file info objects represents files found under the given image store relative path.
 
 ____
-### StoreFolders
+### `StoreFolders`
 __Type__: array of [FolderInfo](sfclient-model-folderinfo.md) <br/>
 __Required__: No<br/>
 <br/>
-The list of image store folder info objectes represents subfolders found under the given image store relative path.
+The list of image store folder info objects represents subfolders found under the given image store relative path.

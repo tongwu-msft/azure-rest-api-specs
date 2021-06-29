@@ -1,7 +1,7 @@
 ---
 title: "DeployServicePackageToNodeDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "DeployServicePackageToNodeDescription"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -35,42 +35,42 @@ Defines description for downloading packages associated with a service manifest 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ServiceManifestName](#servicemanifestname) | string | Yes |
-| [ApplicationTypeName](#applicationtypename) | string | Yes |
-| [ApplicationTypeVersion](#applicationtypeversion) | string | Yes |
-| [NodeName](#nodename) | string | Yes |
-| [PackageSharingPolicy](#packagesharingpolicy) | array of [PackageSharingPolicyInfo](sfclient-model-packagesharingpolicyinfo.md) | No |
+| [`ServiceManifestName`](#servicemanifestname) | string | Yes |
+| [`ApplicationTypeName`](#applicationtypename) | string | Yes |
+| [`ApplicationTypeVersion`](#applicationtypeversion) | string | Yes |
+| [`NodeName`](#nodename) | string | Yes |
+| [`PackageSharingPolicy`](#packagesharingpolicy) | array of [PackageSharingPolicyInfo](sfclient-model-packagesharingpolicyinfo.md) | No |
 
 ____
-### ServiceManifestName
+### `ServiceManifestName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of service manifest whose packages need to be downloaded.
 
 ____
-### ApplicationTypeName
+### `ApplicationTypeName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The application type name as defined in the application manifest.
 
 ____
-### ApplicationTypeVersion
+### `ApplicationTypeVersion`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The version of the application type as defined in the application manifest.
 
 ____
-### NodeName
+### `NodeName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of a Service Fabric node.
 
 ____
-### PackageSharingPolicy
+### `PackageSharingPolicy`
 __Type__: array of [PackageSharingPolicyInfo](sfclient-model-packagesharingpolicyinfo.md) <br/>
 __Required__: No<br/>
 <br/>

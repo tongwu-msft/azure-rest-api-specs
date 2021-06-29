@@ -1,10 +1,10 @@
 ---
-title: Azure Container Instances REST API reference | Microsoft Docs
-author: mmacy
-ms.author: marsma
-ms.date: 09/12/2017
-ms.topic:
-ms.service: Azure
+title: Azure Container Instances REST API reference
+author: dlepow
+ms.author: danlep
+ms.date: 07/01/2020
+ms.topic: reference
+ms.service: container-instances
 ms.devlang: rest-api
 ---
 
@@ -18,11 +18,13 @@ The Container Instances REST API provides operations for working with the follow
 
 | Operation group | Description                                                        |
 |-----------------|--------------------------------------------------------------------|
-|[Container Groups](~/docs-ref-autogen/container-instances/containergroups.json)| Create, read, update, and delete [container groups](/azure/container-instances/container-instances-container-groups), the top-level resource in Azure Container Instances. |
-|[Container Logs](~/docs-ref-autogen/container-instances/containerlogs.json)| Retrieve container logs. |
+|[Containers](xref:management.azure.com.container-instances.containers)| Operations for working with containers in a container group. For example, execute a command in a running container, or list its logs. |
+|[Container Groups](xref:management.azure.com.container-instances.containergroups)| Create, read, update, and delete [container groups](/azure/container-instances/container-instances-container-groups), the top-level resource in Azure Container Instances. |
+|[Location](xref:management.azure.com.container-instances.location)| List cached images, resource capabilities, and usage for Azure Container Instances by region.|
+|[Operations](xref:management.azure.com.container-instances.operations)| Get information about the available REST API operations in Azure Container Instances. |
 
 ## See also
 
 [Azure Container Registry](/azure/container-registry/) - Store and manage container images across all types of Azure deployments.
 
-[Azure Container Service](/azure/container-service/) - Scale and orchestrate containers using Kubernetes, DC/OS or Docker Swarm.
+[Azure Kubernetes Service (AKS)](/azure/aks/) - Easily deploy and manage containerized applications in a hosted Kubernetes environment.

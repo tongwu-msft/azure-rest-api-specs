@@ -1,8 +1,7 @@
 ---
 title: "AssetFile"
 ms.custom: ""
-ms.date: "2016-07-14"
-ms.prod: "azure"
+ms.date: "03/14/2018"
 ms.reviewer: ""
 ms.service: "media-services"
 ms.suite: ""
@@ -41,19 +40,14 @@ The `AssetFile` entity represents an actual video or audio file that is stored i
 -   [Delete an AssetFile](../operations/assetfile.md#delete_a_file)  
   
 > [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
   
 ##  <a name="file_entity_properties"></a> AssetFile Entity Properties  
   
 |Property|Type|Description|  
 |--------------|----------|-----------------|  
 |`Id`<br /><br /> Read-only. Set by Media Services at creation time.|Edm.String|Unique identifier.|  
-|`Name`<br /><br /> Required.|Edm.String|Friendly name for your AssetFile. The default value is the filename you used during your file upload. Maximum length is 260. **Note:**  Media Services uses the value of the `Name` property when building URLs for the streaming content (for example, http://{AMSAccount}.origin.mediaservices.windows.net/{GUID}/{IAssetFile.Name}/streamingParameters.) For this reason, percent-encoding is not allowed. The value of the Name property cannot have any of the following [percent-encoding-reserved characters](http://en.wikipedia.org/wiki/Percent-encoding#Percent-encoding_reserved_characters): !*'();:@&=+$,/?%#[]". Also, there can only be one ‘.’ for the file name extension.|  
+|`Name`<br /><br /> Required.|Edm.String|Friendly name for your AssetFile. The default value is the filename you used during your file upload. Maximum length is 260. **Note:**  Media Services uses the value of the `Name` property when building URLs for the streaming content (for example, http://{AMSAccount}.origin.mediaservices.windows.net/{GUID}/{IAssetFile.Name}/streamingParameters.) For this reason, percent-encoding is not allowed. The value of the Name property cannot have any of the following [percent-encoding-reserved characters](https://en.wikipedia.org/wiki/Percent-encoding#Percent-encoding_reserved_characters): !*'();:@&=+$,/?%#[]". Also, there can only be one ‘.’ for the file name extension.|  
 |`ContentFileSize`<br /><br /> Optional.|Edm.Int64|AssetFile size (in bytes) of the content.|  
 |`ParentAssetId`<br /><br /> Required. Cannot be updated after the entity has been created.|Edm.String|Asset Id of the Asset that this file is associated with.|  
 |`EncryptionVersion`<br /><br /> Optional.|Edm.String|Current supported version for both StorageEncryption and CommonEncryption is "1.0"|  
@@ -75,31 +69,28 @@ The `AssetFile` entity represents an actual video or audio file that is stored i
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/Files|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Files|HTTP/1.1|  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/Files('*fileid*')|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Files('*fileid*')|HTTP/1.1|  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|https://media.windows.net/API/Assets('*assetid*')/Files|HTTP/1.1|  
+|GET|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Assets('*assetid*')/Files|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-GET https://media.windows.net/API/Files('nb:cid:UUID:d0214595-fff0-164e-9c67-d576eba09605') HTTP/1.1  
+GET https://<accountname>.restv2.<location>.media.azure.net/api/Files('nb:cid:UUID:d0214595-fff0-164e-9c67-d576eba09605') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
-x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1337178759&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=cKlWvRDsu0bQwDkc1A4sMM5OQOGBEk8OWcuaj9zDkp0%3d  
+x-ms-version: 2.19  
+Authorization: Bearer <token value>  
 Host: media.windows.net  
 ```  
   
@@ -108,24 +99,20 @@ Host: media.windows.net
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|MERGE|https://media.windows.net/API/Files('*fileid*')|HTTP/1.1|  
+|MERGE|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Files('*fileid*')|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
 ```  
-MERGE https://media.windows.net/API/Files('nb:cid:UUID:2710e174-3165-a34c-96ad-618714b0d504') HTTP/1.1  
+MERGE https://<accountname>.restv2.<location>.media.azure.net/api/Files('nb:cid:UUID:2710e174-3165-a34c-96ad-618714b0d504') HTTP/1.1  
 Content-Type: application/json;odata=verbose  
 Accept: application/json;odata=verbose  
 DataServiceVersion: 3.0  
 MaxDataServiceVersion: 3.0  
-x-ms-version: 2.11  
-Authorization: Bearer http%3a%2f%2fschemas.xmlsoap.org%2fws%2f2005%2f05%2fidentity%2fclaims%2fnameidentifier=youraccountname&urn%3aSubscriptionId=2f84471d-b1ae-4e75-aa09-010f0fc0cf5b&http%3a%2f%2fschemas.microsoft.com%2faccesscontrolservice%2f2010%2f07%2fclaims%2fidentityprovider=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&Audience=urn%3aWindowsAzureMediaServices&ExpiresOn=1337085302&Issuer=https%3a%2f%2fwamsprodglobal001acs.accesscontrol.windows.net%2f&HMACSHA256=JFb4PJuWttPAft4dq9HaGl8Zw6hDN6mADhG3NaRi8Co%3d  
-Host: media.windows.net  
+x-ms-version: 2.19  
+Authorization: Bearer <token value>  
 Content-Length: 27  
 Expect: 100-continue  
   
@@ -145,4 +132,4 @@ Expect: 100-continue
  [MediaProcessor](../operations/mediaprocessor.md)   
  [Task](../operations/task.md)   
  [TaskTemplate](../operations/tasktemplate.md)   
- [Quotas and Limitations](http://msdn.microsoft.com/en-us/82f7e538-6bdf-4883-aa50-24574cc4996e)
+ [Quotas and Limitations](https://msdn.microsoft.com/82f7e538-6bdf-4883-aa50-24574cc4996e)

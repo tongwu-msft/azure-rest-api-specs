@@ -1,7 +1,7 @@
 ---
 title: "NodeHealthStateChunkList"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "NodeHealthStateChunkList"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -35,11 +35,11 @@ The list of node health state chunks in the cluster that respect the input filte
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [TotalCount](#totalcount) | integer (int64) | No |
-| [Items](#items) | array of [NodeHealthStateChunk](sfclient-model-nodehealthstatechunk.md) | No |
+| [`TotalCount`](#totalcount) | integer (int64) | No |
+| [`Items`](#items) | array of [NodeHealthStateChunk](sfclient-model-nodehealthstatechunk.md) | No |
 
 ____
-### TotalCount
+### `TotalCount`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
@@ -47,7 +47,7 @@ Total number of entity health state objects that match the specified filters fro
 
 
 ____
-### Items
+### `Items`
 __Type__: array of [NodeHealthStateChunk](sfclient-model-nodehealthstatechunk.md) <br/>
 __Required__: No<br/>
 <br/>

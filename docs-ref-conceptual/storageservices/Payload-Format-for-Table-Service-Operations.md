@@ -1,30 +1,16 @@
 ﻿---
-title: "Payload Format for Table Service Operations"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Payload format for Table service operations (REST API) - Azure Storage
+description: Payload format for Table service operations.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 9f1dce4a-d528-40ec-a5a4-fd93f9ee4c5e
-caps.latest.revision: 18
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Payload Format for Table Service Operations
+
+# Payload format for Table service operations
+
 The Table service REST API supports ATOM and JSON as OData payload formats.  While the ATOM protocol is supported for all versions of the Azure storage services,  the JSON protocol is supported only for version 2013-08-15 and newer.  
   
 -   JSON is the recommended payload format. JSON is supported for version 2013-08-15 and newer. You must use JSON with version 2015-12-11 and later.  
@@ -65,7 +51,7 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
   
 -   `odata.metadata`: The metadata URL for a collection, entity, primitive value, or service document.  
   
--   `odata.id`: The entity id which is generally the URL to the resource.  
+-   `odata.id`: The entity ID, which is generally the URL to the resource.  
   
 -   `odata.editlink`: The link used to edit/update the entry, if the entity is updatable and the odata.id does not represent a URL that can be used to edit the entity.  
   
@@ -79,9 +65,8 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
   
  The information included in each level is summarized in the following table:  
   
-|||||  
-|-|-|-|-|  
 |`Annotations`|`odata=fullmetadata`|`odata=minimalmetadata`|`odata=nometadata`|  
+|-|-|-|-|  
 |`odata.metadata`|Yes|Yes|No|  
 |`odata.id`|Yes|No|No|  
 |`odata.editlink`|Yes|No|No|  
@@ -99,9 +84,8 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
   
 -   The type of the property cannot be determined through the type detection heuristics summarized in the table below.  
   
-||||  
-|-|-|-|  
 |Edm type|odata.type annotation required|JSON Type|  
+|-|-|-|  
 |`Edm.Binary`|Yes|String|  
 |`Edm.Boolean`|No|Literals|  
 |`Edm.DateTime`|Yes|String|  
@@ -113,7 +97,9 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
 |n/a|No|Null|  
  
  The Table service does not persist `null` values for properties. When writing an entity, a `null` value may be specified with or without an odata.type annotation, and any property with a `null` value is handled as if the request did not contain that property. `Null` property values are never returned when querying entities.  
- 
+  
+ For Edm.Double, the values `NaN`, `Infinity` and `-Infinity` are represented in JSON using type `String`, and an odata.type annotation is required. The Table service does not support a negative version of `NaN`, and in JSON format it does not distinguish between positive and negative zero (it treats `-0.0` as `0.0`).  
+  
  The following JSON entity provides an example for each of the eight different property types:  
   
 ```  
@@ -135,7 +121,7 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
 }  
 ```  
   
- Since `PartitionKey` and `RowKey` are system properties, meaning that all table rows must define these properties, their type annotation does not appear in the entity. These properties are predefined as type `Edm.String`. However, the other properties arecustom properties and therefore contain type information corresponding to one of the supported primitive types in the table above.  
+ Since `PartitionKey` and `RowKey` are system properties, meaning that all table rows must define these properties, their type annotation does not appear in the entity. These properties are predefined as type `Edm.String`. However, the other properties are custom properties and therefore contain type information corresponding to one of the supported primitive types in the table above.  
   
 ### Examples:  
  The following sample OData entry demonstrates the JSON format sent as a request to insert an entity into Azure Table storage (see [Insert Entity](Insert-Entity.md) for details on the insert operation):  
@@ -210,16 +196,16 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
 }  
 ```  
   
- To learn more about OData JSON format see the [OData JSON Format Version 4.0](http://go.microsoft.com/fwlink/?LinkId=301473) specification, in conjunction with the [\[MS-ODATAJSON\]: OData Protocol JSON Format Standards Support Document](http://msdn.microsoft.com/library/dn260768.aspx).  
+ To learn more about OData JSON format see the [OData JSON Format Version 4.0](https://go.microsoft.com/fwlink/?LinkId=301473) specification, in conjunction with the [\[MS-ODATAJSON\]: OData Protocol JSON Format Standards Support Document](https://msdn.microsoft.com/library/dn260768.aspx).  
   
 ## Atom Format (application/atom+xml)  (Versions earlier than 2015-12-11 only)  
- [Atom](http://tools.ietf.org/html/rfc4287) is an XML-based document format that describes collections of related information referred to as *feeds*. Feeds are composed of a number of items, known as *entries*. [AtomPub](http://tools.ietf.org/html/rfc5023) defines additional format constructs for entries and feeds so that the resources they represent may be easily categorized, grouped, edited, and discovered. However, since Atom does not define how structured data is encoded with feeds, [OData](http://www.odata.org/) defines a set of conventions for representing structured data in an Atom feed in order to enable transfers of structured content by services based on OData.  
+ [Atom](http://tools.ietf.org/html/rfc4287) is an XML-based document format that describes collections of related information referred to as *feeds*. Feeds are composed of a number of items, known as *entries*. [AtomPub](http://tools.ietf.org/html/rfc5023) defines additional format constructs for entries and feeds so that the resources they represent may be easily categorized, grouped, edited, and discovered. However, since Atom does not define how structured data is encoded with feeds, [OData](https://www.odata.org/) defines a set of conventions for representing structured data in an Atom feed in order to enable transfers of structured content by services based on OData.  
   
  For example, the following sample OData entry demonstrates the Atom format sent through a request to insert an entity into Azure Table storage using the REST API (see [Insert Entity](Insert-Entity.md) for details on the insert operation):  
   
 ```  
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
+<entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom">  
   <title />  
   <author>  
     <name />  
@@ -246,7 +232,7 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
   
 ```  
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<feed xml:base="https://myaccount.table.core.windows.net/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">  
+<feed xml:base="https://myaccount.table.core.windows.net/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom">  
   <title type="text">Customers</title>  
   <id>https://myaccount.table.core.windows.net/Customers</id>  
   <link rel="self" title="Customers" href="Customers" />  
@@ -270,11 +256,13 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
 ```  
   
 ### Property Types in an Atom Feed  
- Property data types are defined by the [OData Protocol Specification](http://www.odata.org/). Not all data types defined by the specification are supported by the Table service. For information about the supported data types and how they map to common language runtime (CLR) types, see [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md).  
+ Property data types are defined by the [OData Protocol Specification](https://www.odata.org/). Not all data types defined by the specification are supported by the Table service. For information about the supported data types and how they map to common language runtime (CLR) types, see [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md).  
   
  A property may be specified with or without an explicit data type. If the type is omitted, the property is automatically created as data type `Edm.String`.  
   
  If a property is created with an explicit type, a query that returns the entity includes that type within the Atom feed, so that you can determine the type of an existing property if necessary. Knowing a property's type is important when you are constructing a query that filters on that property. For more information, see [Querying Tables and Entities](Querying-Tables-and-Entities.md).  
+  
+ For `Double` properties, the values `NaN`, `INF`, and `-INF` are used in Atom to indicate not a number, positive infinity, and negative infinity, respectively. The forms `Infinity` and `-Infinity` are also accepted. The Table service does not support a negative version of `NaN`. In Atom format, it distinguishes between positive and negative zero.  
   
 ## See Also  
  [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md)   

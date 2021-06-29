@@ -1,7 +1,7 @@
 ---
 title: "WaitForInbuildReplicaSafetyCheck"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "WaitForInbuildReplicaSafetyCheck"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -29,23 +29,15 @@ translation.priority.mt:
 ---
 # WaitForInbuildReplicaSafetyCheck
 
-Safety check that waits for the replica build operation to finish. This indiciates that there is a replica that is going through the copy or is providing data for building another replica. Bring the node down will abort this copy operation which are typoically expensive involving data movements.
+Safety check that waits for the replica build operation to finish. This indicates that there is a replica that is going through the copy or is providing data for building another replica. Bring the node down will abort this copy operation which are typically expensive involving data movements.
 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [PartitionId](#partitionid) | string (uuid) | No |
+| [`PartitionId`](#partitionid) | string (uuid) | No |
 
 ____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'WaitForInbuildReplica' for objects of type 'WaitForInbuildReplicaSafetyCheck'.
-
-____
-### PartitionId
+### `PartitionId`
 __Type__: string (uuid) <br/>
 __Required__: No<br/>
 <br/>

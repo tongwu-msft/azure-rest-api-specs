@@ -1,8 +1,7 @@
 ---
 title: "Send event with publisher ID"
 ms.custom: ""
-ms.date: "2016-12-01"
-ms.prod: "azure"
+ms.date: 07/14/2020
 ms.reviewer: ""
 ms.service: "event-hubs"
 ms.suite: ""
@@ -10,9 +9,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: dcbcc335-0682-4373-a848-e5aacf7d8618
 caps.latest.revision: 7
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 ---
 # Send event with publisher ID
 Sends a new event to an Event Hub with a specified publisher ID.  
@@ -24,7 +23,7 @@ Sends a new event to an Event Hub with a specified publisher ID.
 |POST|`https://{servicebusNamespace}.servicebus.windows.net/{eventHubPath}/publishers/{publisherId}/messages`|  
   
 ### Request Headers  
- See [Common parameters and headers](event-hubs-runtime-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+ See [Common parameters and headers](event-hubs-runtime-rest.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ### Request Body  
  The body of the event message in plain text. For example:  
@@ -49,6 +48,9 @@ Sends a new event to an Event Hub with a specified publisher ID.
   
 ## Examples  
  **Request**  
+
+> [!NOTE]
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.
   
 ```  
 POST https://your-namespace.servicebus.windows.net/your-event-hub/publisher/dev-01/messages?timeout=60&api-version=2014-01 HTTP/1.1  

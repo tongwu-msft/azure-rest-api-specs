@@ -1,0 +1,187 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.monitor.vmhealth.operations.list
+name: List
+service: Monitor
+groupName: Operations
+apiVersion: 2020-01-13-preview
+summary: Get a list of all available REST API operations.
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.WorkloadMonitor/operations?api-version=2020-01-13-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The list of available REST API operations.
+  types:
+  - uid: OperationList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: OperationList
+  description: List of available REST API operations
+  kind: object
+  properties:
+  - name: value
+    description: Array of available REST API operations.
+    types:
+    - uid: Operation
+      isArray: true
+  - name: nextLink
+    description: Link to next page if the list is too long.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: Error info.
+    types:
+    - uid: Error
+- name: Operation
+  description: Operation supported by the resource provider.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the operation being performed on this particular object.
+    types:
+    - uid: string
+  - name: display
+    description: The localized display information for this particular operation or action.
+    types:
+    - uid: Display
+  - name: origin
+    description: The intended executor of the operation.
+    types:
+    - uid: string
+- name: Error
+  description: Error info.
+  kind: object
+  properties:
+  - name: code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: ErrorDetails
+      isArray: true
+- name: Display
+  description: The localized display information for this particular operation or action.
+  kind: object
+  properties:
+  - name: provider
+    description: Operation resource provider name.
+    types:
+    - uid: string
+  - name: resource
+    description: Resource on which the operation is performed.
+    types:
+    - uid: string
+  - name: operation
+    description: Human-readable, friendly name for the operation.
+    types:
+    - uid: string
+  - name: description
+    description: Operation description.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Error details
+  kind: object
+  properties:
+  - name: code
+    description: Error code identifying the specific error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable error message.
+    types:
+    - uid: string
+examples:
+- name: OperationList_Get
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.WorkloadMonitor/operations?api-version=2020-01-13-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.WorkloadMonitor/operations/read",
+            "display": {
+              "provider": "Microsoft.WorkloadMonitor",
+              "resource": "Operations",
+              "operation": "Get operations",
+              "description": "Gets a list of the supported operations"
+            },
+            "origin": "user, system"
+          },
+          {
+            "name": "Microsoft.WorkloadMonitor/monitors/read",
+            "display": {
+              "provider": "Microsoft.WorkloadMonitor",
+              "resource": "Monitors",
+              "operation": "Get monitors",
+              "description": "Gets monitors and their current health state"
+            },
+            "origin": "user, system"
+          },
+          {
+            "name": "Microsoft.WorkloadMonitor/monitors/history/read",
+            "display": {
+              "provider": "Microsoft.WorkloadMonitor",
+              "resource": "Monitors",
+              "operation": "Get monitor history",
+              "description": "Gets the history of health changes of a specific monitor"
+            },
+            "origin": "user, system"
+          },
+          {
+            "name": "Microsoft.WorkloadMonitor/register/action",
+            "display": {
+              "provider": "Microsoft.WorkloadMonitor",
+              "resource": "WorkloadMonitor Register Subscription",
+              "operation": "Register Subscription for VMHealth",
+              "description": "Registers subscription with Microsoft.WorkloadMonitor resource provider"
+            },
+            "origin": "user, system"
+          },
+          {
+            "name": "Microsoft.WorkloadMonitor/unregister/action",
+            "display": {
+              "provider": "Microsoft.WorkloadMonitor",
+              "resource": "WorkloadMonitor Register Subscription",
+              "operation": "Unregister Subscription for VMHealth",
+              "description": "Unregisters subscription with Microsoft.WorkloadMonitor resource provider"
+            },
+            "origin": "user, system"
+          }
+        ],
+        "nextLink": null
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

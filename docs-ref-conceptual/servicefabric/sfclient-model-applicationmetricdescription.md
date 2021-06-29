@@ -1,7 +1,7 @@
 ---
 title: "ApplicationMetricDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ApplicationMetricDescription"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -35,20 +35,20 @@ Describes capacity information for a custom resource balancing metric. This can 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Name](#name) | string | No |
-| [MaximumCapacity](#maximumcapacity) | integer (int64) | No |
-| [ReservationCapacity](#reservationcapacity) | integer (int64) | No |
-| [TotalApplicationCapacity](#totalapplicationcapacity) | integer (int64) | No |
+| [`Name`](#name) | string | No |
+| [`MaximumCapacity`](#maximumcapacity) | integer (int64) | No |
+| [`ReservationCapacity`](#reservationcapacity) | integer (int64) | No |
+| [`TotalApplicationCapacity`](#totalapplicationcapacity) | integer (int64) | No |
 
 ____
-### Name
+### `Name`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of the metric.
 
 ____
-### MaximumCapacity
+### `MaximumCapacity`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
@@ -60,7 +60,7 @@ When updating existing application with application capacity, the product of Max
 
 
 ____
-### ReservationCapacity
+### `ReservationCapacity`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
@@ -72,7 +72,7 @@ When setting application capacity or when updating application capacity; this va
 
 
 ____
-### TotalApplicationCapacity
+### `TotalApplicationCapacity`
 __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>

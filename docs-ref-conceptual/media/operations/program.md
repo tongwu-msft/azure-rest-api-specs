@@ -1,8 +1,7 @@
 ---
 title: "Program"
 ms.custom: ""
-ms.date: "2016-07-14"
-ms.prod: "azure"
+ms.date: "03/14/2018"
 ms.reviewer: ""
 ms.service: "media-services"
 ms.suite: ""
@@ -30,14 +29,6 @@ A Program enables you to control the publishing and storage of segments in a liv
   
  You can specify the number of hours you want to retain the recorded content for the program by setting the `ArchiveWindowLength` property (up to 25 hours). Clients can seek through the archived content for the specified number of hours. If the program runs longer than the specified ArchiveWindowLength, the older content is removed. For more information, see the `ArchiveWindowLength` documentation below.  
   
-> [!IMPORTANT]
->  When working with the Media Services REST API, the following considerations apply:  
->   
->  -   When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. For more information, see [Setup for Media Services REST API Development](http://msdn.microsoft.com/en-us/42ae6204-93bc-4797-bf40-1c68512cfb73).  
-> -   After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
->   
->      For more information, see [Connecting to Media Services with the Media Services REST API](http://msdn.microsoft.com/en-us/426d52db-1ac1-4ede-85be-da8ff5a7973f).  
-  
  This topic gives an overview of the `Program` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
 -   [Create Programs](#create_programs)  
@@ -51,6 +42,10 @@ A Program enables you to control the publishing and storage of segments in a liv
 -   [Update Programs](#update_programs)  
   
 -   [Delete Programs](#delete_programs)  
+
+> [!IMPORTANT]
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+
   
 ##  <a name="program_properties"></a> Program Entity Properties  
  The Program entity contains the following properties.  
@@ -74,14 +69,11 @@ A Program enables you to control the publishing and storage of segments in a liv
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|POST|https://media.windows.net/api/Programs|HTTP/1.1|  
+|POST|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Programs|HTTP/1.1|  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -93,9 +85,9 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -122,14 +114,11 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|Start|https://media.windows.net/api/Programs(‘*ProgramId*’)/Start|HTTP/1.1|  
+|Start|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Programs(‘*ProgramId*’)/Start|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -141,29 +130,26 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
 ```  
   
- If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Program. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Program. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="stop_programs"></a> Stop Programs  
  Stop a Program. A Program can be stopped only when it is in the **Running** state. This is an asynchronous operation.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|Stop|https://media.windows.net/api/Programs(‘*ProgramId*’)/Stop|HTTP/1.1|  
+|Stop|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Programs(‘*ProgramId*’)/Stop|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -175,29 +161,26 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
 ```  
   
- If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Program. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If successful, a **202 Accepted** status code is returned. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Program. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="list_programs"></a> List Programs  
  Programs are retrieved using a GET HTTP request.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|GET|Get all Programs in the Media Services account:<br /><br /> https://media.windows.net/api/Programs<br /><br /> Get a specified Program in the Media Services account:<br /><br /> https://media.windows.net/api/Programs(‘*ProgramId*’)<br /><br /> Get all Programs associated with a specified Channel:<br /><br /> https://media.windows.net/api/Channels('*channelid*')/Programs|HTTP/1.1|  
+|GET|Get all Programs in the Media Services account:<br /><br /> https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Programs<br /><br /> Get a specified Program in the Media Services account:<br /><br /> https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Programs(‘*ProgramId*’)<br /><br /> Get all Programs associated with a specified Channel:<br /><br /> https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Channels('*channelid*')/Programs|HTTP/1.1|  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -209,9 +192,9 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -224,14 +207,11 @@ Authorization: Bearer <token value>
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](http://msdn.microsoft.com/library/dd541276.aspx).|https://media.windows.net/api/Programs(‘*ProgramId*’)|HTTP/1.1|  
+|PATCH/PUT/MERGE<br /><br /> For more information about these operations, see [PATCH/PUT/MERGE](https://msdn.microsoft.com/library/dd541276.aspx).|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Programs(‘*ProgramId*’)|HTTP/1.1|  
   
 ### Sample Request  
   
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab.  
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -243,9 +223,9 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   
@@ -257,21 +237,18 @@ Authorization: Bearer <token value>
 {"ArchiveWindowLength":"PT3H"}  
 ```  
   
- If the update completes synchronously, it returns a **204 No Content** status code; otherwise it returns a **202 Accepted** status code. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Program. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](http://msdn.microsoft.com/en-us/3f8c9717-b557-47b8-bbef-18f867e98019).  
+ If the update completes synchronously, it returns a **204 No Content** status code; otherwise it returns a **202 Accepted** status code. The **202 Accepted** status code indicates an asynchronous operation, in which case the operation-id header value is also provided for use in polling and tracking the status of long-running operations, such as starting or stopping a Program. Pass the operation-id header value into the Operation Entity to retrieve the status. For more information, see [Manually Polling Long-Running Operations](https://msdn.microsoft.com/3f8c9717-b557-47b8-bbef-18f867e98019).  
   
 ##  <a name="delete_programs"></a> Delete Programs  
  Delete a Program. A Program can be deleted only when it is in the **Stopped** state.  
   
 |Method|Request URI|HTTP Version|  
 |------------|-----------------|------------------|  
-|DELETE|https://media.windows.net/api/Programs(‘*ProgramId*’)|HTTP/1.1|  
+|DELETE|https://&lt;accountname&gt;.restv2.&lt;location&gt;.media.azure.net/api/Programs(‘*ProgramId*’)|HTTP/1.1|  
   
 ### Sample Request  
-  
-> [!IMPORTANT]
->  After successfully connecting to https://media.windows.net, you will receive a 301 redirect specifying another Media Services URI. You must make subsequent calls to the new URI.  
-  
- You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. Make sure to use valid redirected host URI and authorization bearer token values.  
+
+ You can try out the following example in the [Fiddler](http://www.telerik.com/download/fiddler)’s Composer tab. 
   
  To get the latest `x-ms-version:`, see [Media Services REST](../operations/azure-media-services-rest-api-reference.md).  
   
@@ -283,9 +260,9 @@ DataServiceVersion: 3.0;NetFx
 MaxDataServiceVersion: 3.0;NetFx  
 Accept: application/json;odata=minimalmetadata  
 Accept-Charset: UTF-8  
-x-ms-version: 2.11  
+x-ms-version: 2.19  
 Content-Type: application/json;odata=minimalmetadata  
-Host: <redirected host URI>  
+Host: <host URI>  
 User-Agent: Microsoft ADO.NET Data Services  
 Authorization: Bearer <token value>  
   

@@ -1,7 +1,7 @@
 ---
 title: "DeployedServicePackageHealthStateChunkList"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "DeployedServicePackageHealthStateChunkList"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -35,10 +35,10 @@ The list of deployed service package health state chunks that respect the input 
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Items](#items) | array of [DeployedServicePackageHealthStateChunk](sfclient-model-deployedservicepackagehealthstatechunk.md) | No |
+| [`Items`](#items) | array of [DeployedServicePackageHealthStateChunk](sfclient-model-deployedservicepackagehealthstatechunk.md) | No |
 
 ____
-### Items
+### `Items`
 __Type__: array of [DeployedServicePackageHealthStateChunk](sfclient-model-deployedservicepackagehealthstatechunk.md) <br/>
 __Required__: No<br/>
 <br/>

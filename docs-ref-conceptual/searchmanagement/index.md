@@ -1,34 +1,32 @@
 ---
-ms.assetid: 771a0ae3-24b4-4e7b-b591-7630019ed1f6
-ms.title: Search Management
-ms.prod: azure
-ms.service: search
+title: Management REST APIs in Azure Cognitive Search | Microsoft Docs
+description: API reference for provisioning an Azure Cognitive Search service for public or private access. You can also manage API keys and configure capacity.
+ms.service: cognitive-search
+ms.topic: "language-reference"
+
+ms.date: 09/01/2020
 author: HeidiSteen
 ms.author: heidist
-ms.manager: jhubbard
-service_description: To be added
+ms.manager: nitinme
 ---
 
 # Search Management
 
-Azure Search provides a REST API used with [Azure Resource Manager](http://msdn.microsoft.com/library/azure/dn790568.aspx) to provision and administer a search service in your Azure subscription. To manage your search service programmatically, specify the ARM endpoint `https://management.azure.com` with a search management operation:
+Azure Cognitive Search provides a REST API used with [Azure Resource Manager](https://docs.microsoft.com/rest/api/resources/) to provision and administer a search service in an Azure subscription.
 
-~~~~
-GET  https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/[resourceGroupName]/providers/Microsoft.Search/searchServices/[serviceName]?api-version=2015-08-19
-~~~~
+## Other SDKs
 
-You can use [.NET](https://aka.ms/search-mgmt-sdk) or [PowerShell](https://azure.microsoft.com/documentation/articles/search-manage-powershell/) for search management, or write code that includes an HTTP client.
+The REST APIs are foundational to Azure Cognitive Search. Any changes to the programming model are reflected in the REST APIs first.
 
-## REST Operation Groups
+Alternatives include the following SDKs, which are independently updated on separate release schedules:
 
-| Operation Group | Description |
-|-----------------|-------------|
-| [Admin Keys](../../docs-ref-autogen/searchmanagement/AdminKeys.json)  | Create or refresh admin api-keys providing read-write access to a service. |
-| [Query Keys](../../docs-ref-autogen/searchmanagement/QueryKeys.json)  | Create, delete, or list query api-keys providing read-only access to a service from a calling application. |
-| [Services](../../docs-ref-autogen/searchmanagement/Services.json)  | Create, update, delete, or list search services in your Azure subscription, or check that a candidate search service name is available for use. |
++ [.NET](https://docs.microsoft.com/dotnet/api/overview/azure/search/management)
++ [Python](https://docs.microsoft.com/python/api/overview/azure/search/management?view=azure-python)
++ [Node.js (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.nodejs.md)
++ [TypeScript (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.typescript.md)
 
-## See Also
+## Next steps
 
-- [How to use the search management API](search-howto-management-rest-api.md)
-- [Azure Search documentation](https://azure.microsoft.com/documentation/services/search/)
-- [Search Service REST](~/docs-ref-conceptual/searchservice/index.md)   
++ [How to use the search management API](search-howto-management-rest-api.md)
++ [Azure Cognitive Search documentation](https://azure.microsoft.com/documentation/services/search/)
++ [Search Service REST](~/docs-ref-conceptual/searchservice/index.md)

@@ -1,7 +1,7 @@
 ---
 title: "ServiceTypeExtensionDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ServiceTypeExtensionDescription"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,18 +34,18 @@ Describes extension of a service type defined in the service manifest.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Key](#key) | string | No |
-| [Value](#value) | string | No |
+| [`Key`](#key) | string | No |
+| [`Value`](#value) | string | No |
 
 ____
-### Key
+### `Key`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of the extension.
 
 ____
-### Value
+### `Value`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>

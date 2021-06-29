@@ -1,38 +1,27 @@
 ---
-title: "Common REST API Error Codes"
-ms.custom: na
-ms.date: 2017-04-27
-ms.prod: azure
-ms.reviewer: na
+title: Common REST API error codes - Azure Storage
+description: Error codes that are returned by all of the Azure Storage services - Blob, Queue, Table, and File.
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 1f47db15-ccb7-4ed8-81dd-a202d825327a
-caps.latest.revision: 34
-author: robinsh
-manager: timlt
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Common REST API Error Codes
+
+# Common REST API error codes
+
 The error codes listed in the following table may be returned by an operation on any of the storage services.  
   
 |Error code|HTTP status code|User message|  
 |----------------|----------------------|------------------|  
+|NoAuthenticationInformation|Unauthorized (401)|Server failed to authenticate the request. Please refer to the information in the www-authenticate header.|  
+|InvalidAuthenticationInfo|Unauthorized (401)|Server failed to authenticate the request. Please refer to the information in the www-authenticate header.|  
 |AccountAlreadyExists|Conflict (409)|The specified account already exists.|  
 |AccountBeingCreated|Conflict (409)|The specified account is in the process of being created.|  
 |AccountIsDisabled|Forbidden (403)|The specified account is disabled.|  
-|AuthenticationFailed|Forbidden (403)|Server failed to authenticate the request. Make sure the value of the `Authorization` header is formed correctly including the signature.|  
+|AccountProtectedFromDeletion|Conflict (409)|Account `<accountName>` Containers `<containerName>` have `<have legal hold\locked immutability policy>`.|  
+|AuthenticationFailed|Forbidden (403)|Server failed to authenticate the request. Make sure the value of the `Authorization` header is formed correctly including the signature.| 
 |ConditionHeadersNotSupported|BadRequest (400)|Condition headers are not supported.|  
 |ConditionNotMet|Not Modified (304)|The condition specified in the conditional header(s) was not met for a read operation.|  
 |ConditionNotMet|Precondition Failed (412)|The condition specified in the conditional header(s) was not met for a write operation.|  
@@ -49,7 +38,7 @@ The error codes listed in the following table may be returned by an operation on
 |InvalidMetadata|Bad Request (400)|The specified metadata is invalid. It includes characters that are not permitted.|  
 |InvalidQueryParameterValue|Bad Request (400)|An invalid value was specified for one of the query parameters in the request URI.|  
 |InvalidRange|Requested Range Not Satisfiable (416)|The range specified is invalid for the current size of the resource.|  
-|InvalidResourceName|Bad Request (400)|The specifed resource name contains invalid characters.|  
+|InvalidResourceName|Bad Request (400)|The specified resource name contains invalid characters.|  
 |InvalidUri|Bad Request (400)|The requested URI does not represent any resource on the server.|  
 |InvalidXmlDocument|Bad Request (400)|The specified XML is not syntactically valid.|  
 |InvalidXmlNodeValue|Bad Request (400)|The value provided for one of the XML nodes in the request body was not in the correct format.|  
@@ -77,11 +66,11 @@ The error codes listed in the following table may be returned by an operation on
 |UnsupportedQueryParameter|Bad Request (400)|One of the query parameters specified in the request URI is not supported.|  
 |UnsupportedHttpVerb|Method Not Allowed (405)|The resource doesn't support the specified HTTP verb.|  
   
-## See Also  
+## See also  
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Queue Service Error Codes](Queue-Service-Error-Codes.md)   
  [Table Service Error Codes](Table-Service-Error-Codes.md)   
  [File Service Error Codes](File-Service-Error-Codes.md)   
  [Troubleshooting API Operations](Troubleshooting-API-Operations.md)   
- [HttpStatusCode Enumeration](http://go.microsoft.com/fwlink/?LinkId=152845)   
+ [HttpStatusCode Enumeration](https://go.microsoft.com/fwlink/?LinkId=152845)   
  [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)

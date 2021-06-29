@@ -1,0 +1,115 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.streamanalytics.2017-04-01-preview.transformations.get
+name: Get
+service: Stream Analytics
+groupName: Transformations
+apiVersion: 2017-04-01-preview
+summary: Gets details about the specified transformation.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/transformations/{transformationName}?api-version=2017-04-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: jobName
+  in: path
+  isRequired: true
+  description: The name of the streaming job.
+  types:
+  - uid: string
+- name: transformationName
+  in: path
+  isRequired: true
+  description: The name of the transformation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: ETag
+    value: string
+  description: Successfully retrieved the specified transformation.
+  types:
+  - uid: Transformation
+requestHeader: []
+definitions:
+- name: Transformation
+  description: A transformation object, containing all information associated with the named transformation. All transformations are contained under a streaming job.
+  kind: object
+  properties:
+  - name: properties.streamingUnits
+    description: Specifies the number of streaming units that the streaming job uses.
+    types:
+    - uid: integer
+  - name: properties.query
+    description: 'Specifies the query that will be run in the streaming job. You can learn more about the Stream Analytics Query Language (SAQL) here: https://msdn.microsoft.com/library/azure/dn834998 . Required on PUT (CreateOrReplace) requests.'
+    types:
+    - uid: string
+  - name: properties.etag
+    isReadyOnly: true
+    description: The current entity tag for the transformation. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+examples:
+- name: Get a transformation
+  request:
+    uri: GET https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/transformations/transformation952?api-version=2017-04-01-preview
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: ETag
+      value: be3cfaa2-3d02-4624-92d7-a26766306c8b
+    body: >-
+      {
+        "id": "/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourceGroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName/transformations/transformation952",
+        "name": "transformation952",
+        "type": "Microsoft.StreamAnalytics/streamingjobs/transformations",
+        "properties": {
+          "streamingUnits": 6,
+          "query": "Select Id, Name from inputtest"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

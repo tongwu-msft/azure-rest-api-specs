@@ -1,0 +1,127 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurerekusto.clusters.listfollowerdatabases
+name: List Follower Databases
+service: Azure Kusto
+groupName: Clusters
+apiVersion: 2021-01-01
+summary: Returns a list of databases that are owned by this cluster and were followed by another cluster.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/listFollowerDatabases?api-version=2021-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group containing the Kusto cluster.
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: The name of the Kusto cluster.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of followed databases.
+  types:
+  - uid: FollowerDatabaseListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: FollowerDatabaseListResult
+  description: The list Kusto database principals operation response.
+  kind: object
+  properties:
+  - name: value
+    description: The list of follower database result.
+    types:
+    - uid: FollowerDatabaseDefinition
+      isArray: true
+- name: CloudError
+  description: An error response from Kusto.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Kusto.
+    types:
+    - uid: CloudErrorBody
+- name: FollowerDatabaseDefinition
+  description: A class representing follower database request.
+  kind: object
+  properties:
+  - name: clusterResourceId
+    description: Resource id of the cluster that follows a database owned by this cluster.
+    types:
+    - uid: string
+  - name: attachedDatabaseConfigurationName
+    description: Resource name of the attached database configuration in the follower cluster.
+    types:
+    - uid: string
+  - name: databaseName
+    isReadyOnly: true
+    description: The database name owned by this cluster that was followed. * in case following all databases.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from Kusto.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for displaying in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: KustoClusterListFollowerDatabases
+  request:
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoclusterrptest4/listFollowerDatabases?api-version=2021-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "attachedDatabaseConfigurationName": "attachedDbConfiguration",
+            "clusterResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/follower1",
+            "databaseName": "*"
+          },
+          {
+            "attachedDatabaseConfigurationName": "attachedDbConfiguration2",
+            "clusterResourceId": "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/follower4",
+            "databaseName": "db1"
+          }
+        ]
+      }
+security: []
+errorCodes: []

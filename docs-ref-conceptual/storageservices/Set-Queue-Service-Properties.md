@@ -1,30 +1,16 @@
 ---
-title: "Set Queue Service Properties"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Set Queue Service Properties (REST API) - Azure Storage
+description: The Set Queue Service Properties operation sets properties for a storage account’s Queue service endpoint.
+author: pemari-msft
+
+ms.date: 09/20/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: 3ed99e96-b502-4543-9692-3c48343eeb2d
-caps.latest.revision: 15
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Set Queue Service Properties
+
 The `Set Queue Service Properties` operation sets properties for a storage account’s Queue service endpoint, including properties for [Storage Analytics](Storage-Analytics.md) and CORS (Cross-Origin Resource Sharing) rules. See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for more information on CORS rules.  
   
 ## Request  
@@ -48,10 +34,10 @@ The `Set Queue Service Properties` operation sets properties for a storage accou
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, storage account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`Authorization`|Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
  For version 2012-02-12 and earlier, the format of the request body is as follows:  
@@ -168,15 +154,14 @@ The `Set Queue Service Properties` operation sets properties for a storage accou
 ### Status Code  
  A successful operation returns status code 202 (Accepted).  
   
- For information about status codes, see [Service Management Status and Error Codes](https://msdn.microsoft.com/library/azure/ee460801.aspx).  
-  
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response Header|Description|  
 |---------------------|-----------------|  
 |`x-ms-request-id`|A value that uniquely identifies a request made against the service.|  
 |`x-ms-version`|Specifies the version of the operation used for the response. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
  None.  
@@ -189,7 +174,7 @@ The `Set Queue Service Properties` operation sets properties for a storage accou
   
 -   A maximum of five rules can be stored.  
   
--   The maximum size of all CORS rules settings on the request, excluding XML tags, should not exceed 2 KB.  
+-   The maximum size of all CORS rules settings on the request, excluding XML tags, should not exceed 2 KiB.  
   
 -   The length of an allowed header, exposed header, or allowed origin should not exceed 256 characters.  
   
@@ -288,6 +273,6 @@ x-ms-version: 2013-08-15
 ```  
   
 ## See Also  
- [Improved HTTP Headers for Resume on Download and a Change in If-Match Conditions](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/09/15/windows-azure-blobs-improved-http-headers-for-resume-on-download-and-a-change-in-if-match-conditions.aspx)   
+ [Improved HTTP Headers for Resume on Download and a Change in If-Match Conditions](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/09/15/windows-azure-blobs-improved-http-headers-for-resume-on-download-and-a-change-in-if-match-conditions.aspx)   
  [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md)   
- [CORS HTTP specification](http://www.w3.org/TR/cors/)
+ [CORS HTTP specification](https://www.w3.org/TR/cors/)

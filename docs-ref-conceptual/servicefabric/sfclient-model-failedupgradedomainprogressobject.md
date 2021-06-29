@@ -1,7 +1,7 @@
 ---
 title: "FailedUpgradeDomainProgressObject"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "FailedUpgradeDomainProgressObject"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,18 +34,18 @@ The detailed upgrade progress for nodes in the current upgrade domain at the poi
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [DomainName](#domainname) | string | No |
-| [NodeUpgradeProgressList](#nodeupgradeprogresslist) | array of [NodeUpgradeProgressInfo](sfclient-model-nodeupgradeprogressinfo.md) | No |
+| [`DomainName`](#domainname) | string | No |
+| [`NodeUpgradeProgressList`](#nodeupgradeprogresslist) | array of [NodeUpgradeProgressInfo](sfclient-model-nodeupgradeprogressinfo.md) | No |
 
 ____
-### DomainName
+### `DomainName`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of the upgrade domain
 
 ____
-### NodeUpgradeProgressList
+### `NodeUpgradeProgressList`
 __Type__: array of [NodeUpgradeProgressInfo](sfclient-model-nodeupgradeprogressinfo.md) <br/>
 __Required__: No<br/>
 <br/>

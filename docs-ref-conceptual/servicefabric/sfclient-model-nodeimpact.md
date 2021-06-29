@@ -1,7 +1,7 @@
 ---
 title: "NodeImpact"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "NodeImpact"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -37,19 +37,22 @@ This type supports the Service Fabric platform; it is not meant to be used direc
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [NodeName](#nodename) | string | Yes |
-| [ImpactLevel](#impactlevel) | string (enum) | No |
+| [`NodeName`](#nodename) | string | Yes |
+| [`ImpactLevel`](#impactlevel) | string (enum) | No |
 
 ____
-### NodeName
+### `NodeName`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The name of the impacted node.
 
 ____
-### ImpactLevel
+### `ImpactLevel`
 __Type__: string (enum) <br/>
 __Required__: No<br/>
 <br/>
 The level of impact expected.
+
+
+

@@ -1,45 +1,31 @@
----
-title: "Put Page"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+﻿---
+title: Put Page (REST API) - Azure Storage
+description: The Put Page operation writes a range of pages to a page blob.
+author: pemari-msft
+
+ms.date: 07/06/2020
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: ba36957a-ffd0-4080-8325-0fbb85d56330
-caps.latest.revision: 29
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Put Page
+
 The `Put Page` operation writes a range of pages to a page blob.  
   
 ## Request  
  The `Put Page` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=page`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=page`|HTTP/1.1|  
   
 ### Emulated Storage Service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
   
-||PUT Method Request URI|HTTP Version|  
-|-|----------------------------|------------------|  
-||`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=page`|HTTP/1.1|  
+|PUT Method Request URI|HTTP Version|  
+|----------------------------|------------------|  
+|`http://127.0.0.1:10000/devstoreaccount1/mycontainer/myblob?comp=page`|HTTP/1.1|  
   
  For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
   
@@ -55,14 +41,16 @@ The `Put Page` operation writes a range of pages to a page blob.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`x-ms-version`|Required for all authenticated requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`Range`|Either `Range` or `x-ms-range` is required.<br /><br /> Specifies the range of bytes to be written as a page. Both the start and end of the range must be specified. This header is defined by the [HTTP/1.1 protocol specification](http://www.w3.org/Protocols/rfc2616/rfc2616.html).<br /><br /> For a page update operation, the page range can be up to 4 MB in size. For a page clear operation, the page range can be up to the value of the blob's full size.<br /><br /> Given that pages must be aligned with 512-byte boundaries, the start offset must be a modulus of 512 and the end offset must be a modulus of 512 – 1. Examples of valid byte ranges are 0-511, 512-1023, etc.<br /><br /> The Blob service accepts only a single byte range for the `Range` header, and the byte range must be specified in the following format: `bytes=startByte-endByte`.<br /><br /> If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. See [Specifying the Range Header for Blob Service Operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|  
-|`x-ms-range`|Either `Range` or `x-ms-range` is required.<br /><br /> Specifies the range of bytes to be written as a page. Both the start and end of the range must be specified. This header is defined by the [HTTP/1.1 protocol specification](http://www.w3.org/Protocols/rfc2616/rfc2616.html).<br /><br /> For a page update operation, the page range can be up to 4 MB in size. For a page clear operation, the page range can be up to the value of the blob's full size.<br /><br /> Given that pages must be aligned with 512-byte boundaries, the start offset must be a modulus of 512 and the end offset must be a modulus of 512 – 1. Examples of valid byte ranges are 0-511, 512-1023, etc.<br /><br /> The Blob service accepts only a single byte range for the `x-ms-range` header, and the byte range must be specified in the following format: `bytes=startByte-endByte`.<br /><br /> If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. See [Specifying the Range Header for Blob Service Operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`Range`|Either `Range` or `x-ms-range` is required.<br /><br /> Specifies the range of bytes to be written as a page. Both the start and end of the range must be specified. This header is defined by the [HTTP/1.1 protocol specification](https://www.w3.org/Protocols/rfc2616/rfc2616.html).<br /><br /> For a page update operation, the page range can be up to 4 MiB in size. For a page clear operation, the page range can be up to the value of the blob's full size.<br /><br /> Given that pages must be aligned with 512-byte boundaries, the start offset must be a modulus of 512 and the end offset must be a modulus of 512 – 1. Examples of valid byte ranges are 0-511, 512-1023, etc.<br /><br /> The Blob service accepts only a single byte range for the `Range` header, and the byte range must be specified in the following format: `bytes=startByte-endByte`.<br /><br /> If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. See [Specifying the Range Header for Blob Service Operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|  
+|`x-ms-range`|Either `Range` or `x-ms-range` is required.<br /><br /> Specifies the range of bytes to be written as a page. Both the start and end of the range must be specified. This header is defined by the [HTTP/1.1 protocol specification](https://www.w3.org/Protocols/rfc2616/rfc2616.html).<br /><br /> For a page update operation, the page range can be up to 4 MiB in size. For a page clear operation, the page range can be up to the value of the blob's full size.<br /><br /> Given that pages must be aligned with 512-byte boundaries, the start offset must be a modulus of 512 and the end offset must be a modulus of 512 – 1. Examples of valid byte ranges are 0-511, 512-1023, etc.<br /><br /> The Blob service accepts only a single byte range for the `x-ms-range` header, and the byte range must be specified in the following format: `bytes=startByte-endByte`.<br /><br /> If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. See [Specifying the Range Header for Blob Service Operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|  
 |`Content-Length`|Required. Specifies the number of bytes being transmitted in the request body. When the `x-ms-page-write` header is set to `clear`, the value of this header must be set to zero.|  
-|`Content-MD5`|Optional. An MD5 hash of the page content. This hash is used to verify the integrity of the page during transport. When this header is specified, the storage service compares the hash of the content that has arrived with the header value that was sent. If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> The `Content-MD5` header is not permitted when the `x-ms-page-write` header is set to `clear`. If it is included with the request, the Blob service returns status code 400 (Bad Request).|  
+|`Content-MD5`|Optional. An MD5 hash of the page content. This hash is used to verify the integrity of the page during transport. When this header is specified, the storage service compares the hash of the content that has arrived with this header value.<br /><br /> Note that this MD5 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).|  
+|`x-ms-content-crc64`|Optional. A CRC64 hash of the page content. This hash is used to verify the integrity of the page during transport. When this header is specified, the storage service compares the hash of the content that has arrived with this header value.<br /><br /> Note that this CRC64 hash is not stored with the blob.<br /><br /> If the two hashes do not match, the operation will fail with error code 400 (Bad Request).<br /><br /> If both Content-MD5 and x-ms-content-crc64 headers are present, the request will fail with a 400 (Bad Request).<br /><br />This header is supported in versions 2019-02-02 or later.|  
 |`x-ms-page-write:  {update &#124; clear}`|Required. You may specify one of the following options:<br /><br /> -   `Update`: Writes the bytes specified by the request body into the specified range. The `Range` and `Content-Length` headers must match to perform the update.<br />-   `Clear`: Clears the specified range and releases the space used in storage for that range.  To clear a range, set the `Content-Length` header to zero, and the `Range` header to a value that indicates the range to clear, up to maximum blob size.|  
+|`x-ms-encryption-scope`|Optional. Indicates the encryption scope to use to encrypt the request contents. This header is supported in versions 2019-02-02 or later.|  
 |`x-ms-lease-id:<ID>`|Required if the blob has an active lease. To perform this operation on a blob with an active lease, specify the valid lease ID for this header.|  
 |`x-ms-if-sequence-number-le: <num>`|Optional. If the blob’s sequence number is less than or equal to the specified value, the request proceeds; otherwise it fails with the SequenceNumberConditionNotMet error (HTTP status code 412 – Precondition Failed).|  
 |`x-ms-if-sequence-number-lt: <num>`|Optional. If the blob’s sequence number is less than the specified value, the request proceeds; otherwise it fails with SequenceNumberConditionNotMet error (HTTP status code 412 – Precondition Failed).|  
@@ -71,9 +59,19 @@ The `Put Page` operation writes a range of pages to a page blob.
 |`If-Unmodified-Since`|Optional. A `DateTime` value. Specify this conditional header to write the page only if the blob has not been modified since the specified date/time. If the blob has been modified, the Blob service returns status code 412 (Precondition Failed).|  
 |`If-Match`|Optional. An ETag value. Specify an ETag value for this conditional header to write the page only if the blob's ETag value matches the value specified. If the values do not match, the Blob service returns status code 412 (Precondition Failed).|  
 |`If-None-Match`|Optional. An ETag value.<br /><br /> Specify an ETag value for this conditional header to write the page only if the blob's ETag value does not match the value specified. If the values are identical, the Blob service returns status code 412 (Precondition Failed).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
  This operation also supports the use of conditional headers to execute the operation only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
+  
+### Request Headers (Customer-provided encryption keys)
+  
+Beginning with version 2019-02-02, the following headers may be specified on the request to encrypt a blob encrypted with a customer-provided key. Encryption with a customer-provided key (and the corresponding set of headers) is optional.
+  
+|Request header|Description|  
+|--------------------|-----------------|  
+|`x-ms-encryption-key`|Required. The Base64-encoded AES-256 encryption key.|  
+|`x-ms-encryption-key-sha256`|Required. The Base64-encoded SHA256 hash of the encryption key.|  
+|`x-ms-encryption-algorithm: AES256`|Required. Specifies the algorithm to use for encryption. The value of this header must be `AES256`.|  
   
 ### Request Body  
  The request body contains the content of the page.  
@@ -120,18 +118,22 @@ Authorization: SharedKey myaccount:4KdWDiTdA9HmIF9+WF/8WfYOpUrFhieGIT7f0av+GEI=
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Syntax|Description|  
 |------------|-----------------|  
 |`ETag`|The ETag for the blob. If the request version is 2011-08-18 or newer, the ETag value will be in quotes. The ETag can be used to perform a conditional `Put Page` operation by specifying its value for the `If-Match` or `If-None-Match` request header.|  
 |`Last-Modified`|The date and time that the blob was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md).<br /><br /> Any write operation on the blob, including updates to the blob’s metadata or properties, changes the last modified time of the blob.|  
-|`Content-MD5`|This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value as may have been specified in the request headers.|  
+|`Content-MD5`|This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. For versions 2019-02-02 or later, This header is only returned when the request has this header.|  
+|`x-ms-content-crc64`|For versions 2019-02-02 or later, this header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. <br /><br />This header is returned when `Content-MD5` header is not present in the request.|  
 |`x-ms-blob-sequence-number`|The current sequence number for the page blob.|  
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and later.|  
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
 |`x-ms-request-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the contents of the request are successfully encrypted using the specified algorithm, and `false` otherwise.|  
+|`x-ms-encryption-key-sha256`|Version 2019-02-02 or newer. This header is returned if the request used a customer-provided key for encryption, so the client can ensure the contents of the request are successfully encrypted using the provided key.|  
+|`x-ms-encryption-scope`|Version 2019-02-02 or newer. This header is returned if the request used an encryption scope, so the client can ensure the contents of the request are successfully encrypted using the encryption scope.|  
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
  None.  
@@ -143,8 +145,7 @@ Response Status:
 HTTP/1.1 201 Created  
   
 Response Headers:  
-Transfer-Encoding: chunked  
-Content-MD5: sQqNsWTgdUEFt6mb5y4/5Q==  
+x-ms-content-crc64: 77uWZTolTHU  
 Date: Sun, 25 Sep 2011 22:33:35 GMT  
 ETag: "0x8CB171BA9E94B0B"  
 Last-Modified: Sun, 25 Sep 2011 12:13:31 GMT  
@@ -161,7 +162,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 ## Remarks  
  The `Put Page` operation writes a range of pages to a page blob. This operation can only be called on an existing page blob. It cannot be called to create a new page blob, nor can it be called on a block blob. Calling `Put Page` with a blob name that does not currently exist returns the BlobNotFound error (HTTP status code 404 – Not Found).  
   
- To create a new page blob, call [Put Blob](Put-Blob.md) and specify the type of blob to create as a page blob. A page blob may be up to 8 TB in size.  
+ To create a new page blob, call [Put Blob](Put-Blob.md) and specify the type of blob to create as a page blob. A page blob may be up to 8 TiB in size.  
   
  If the blob has an active lease, the client must specify a valid lease ID on the request in order to write a page.  
   
@@ -172,7 +173,7 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 > [!IMPORTANT]
 >  If the server times out or your connection is closed during a `Put Page`, the page may or may not have been updated. Therefore, you should continue to retry the update until you receive a response indicating success.  
   
- Each range of pages submitted with `Put Page` for an update operation may be up to 4 MB in size. The start and end range of the page must be aligned with 512-byte boundaries. If you attempt to upload a range of pages that is larger than 4MB, the service returns status code 413 (Request Entity Too Large).  
+ Each range of pages submitted with `Put Page` for an update operation may be up to 4 MiB in size. The start and end range of the page must be aligned with 512-byte boundaries. If you attempt to upload a range of pages that is larger than 4MB, the service returns status code 413 (Request Entity Too Large).  
   
  **Page Clear Operations**  
   
@@ -225,6 +226,6 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 7.  Reading page 0 returns the expected value of "Y".  
   
 ## See Also  
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)

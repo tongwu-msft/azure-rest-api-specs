@@ -1,0 +1,178 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagerp.queue.create
+name: Create
+service: Storage Resource Provider
+groupName: Queue
+apiVersion: 2021-01-01
+summary: Creates a new queue with the specified queue name, under the specified account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/queueServices/default/queues/{queueName}?api-version=2021-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+  types:
+  - uid: string
+- name: queueName
+  in: path
+  isRequired: true
+  description: A queue name must be unique within a storage account and must be between 3 and 63 characters.The name must comprise of lowercase alphanumeric and dash(-) characters only, it should begin and end with an alphanumeric character and it cannot have two consecutive dash(-) characters.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9]([a-z0-9]|(-(?!-))){1,61}[a-z0-9]$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- Creates a queue with the given queue name successfully.
+  types:
+  - uid: StorageQueue
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.metadata
+    in: body
+    description: A name-value pair that represents queue metadata.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: StorageQueue
+  kind: object
+  properties:
+  - name: properties.metadata
+    description: A name-value pair that represents queue metadata.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.approximateMessageCount
+    isReadyOnly: true
+    description: Integer indicating an approximate number of messages in the queue. This number is not lower than the actual number of messages in the queue, but could be higher.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Storage service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Storage service.
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: An error response from the Storage service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: QueueOperationPut
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/queueServices/default/queues/queue6185?api-version=2021-01-01
+    body: '{}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/queueServices/default/queues/queue6185",
+        "name": "queue6185",
+        "type": "Microsoft.Storage/storageAccounts/queueServices/queues"
+      }
+- name: QueueOperationPutWithMetadata
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/queueServices/default/queues/queue6185?api-version=2021-01-01
+    body: >-
+      {
+        "properties": {
+          "metadata": {
+            "sample1": "meta1",
+            "sample2": "meta2"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res3376/providers/Microsoft.Storage/storageAccounts/sto328/queueServices/default/queues/queue6185",
+        "name": "queue6185",
+        "type": "Microsoft.Storage/storageAccounts/queueServices/queues",
+        "properties": {
+          "metadata": {
+            "sample1": "meta1",
+            "sample2": "meta2"
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

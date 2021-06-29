@@ -1,0 +1,83 @@
+### YamlMime:RESTOperation
+uid: attestation.metadataconfiguration.get
+name: Get
+service: Azure Attestation
+groupName: Metadata Configuration
+apiVersion: 2020-10-01
+summary: "Retrieves the OpenID Configuration data for the Azure Attestation Service  \nRetrieves metadata about the attestation signing keys in use by the attestation service"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {instanceUrl}/.well-known/openid-configuration
+uriParameters:
+- name: instanceUrl
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The attestation instance base URI, for example https://mytenant.attest.azure.net.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: object
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: CloudError
+  description: An error response from Attestation.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Attestation.
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: An error response from Attestation.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for displaying in a user interface.
+    types:
+    - uid: string
+examples:
+- name: Get OpenID Metadata
+  request:
+    uri: GET https://instance.attest.azure.net/.well-known/openid-configuration
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "response_types_supported": [
+          "token",
+          "none"
+        ],
+        "id_token_signing_alg_values_supported": [
+          "RS256"
+        ],
+        "revocation_endpoint": "https://mytest.attest.azure.net/revoke",
+        "jwks_uri": "https://mytest.attest.azure.net/certs",
+        "claims_supported": [
+          "is-debuggable",
+          "sgx-mrsigner",
+          "sgx-mrenclave",
+          "product-id",
+          "svn",
+          "tee",
+          "device_id",
+          "component_0_id",
+          "expected_components"
+        ]
+      }
+security: []
+errorCodes: []

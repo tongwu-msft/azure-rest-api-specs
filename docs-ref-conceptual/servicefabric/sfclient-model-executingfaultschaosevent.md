@@ -1,7 +1,7 @@
 ---
 title: "ExecutingFaultsChaosEvent"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ExecutingFaultsChaosEvent"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,27 +34,19 @@ Describes a Chaos event that gets generated when Chaos has decided on the faults
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Kind](#kind) | string | Yes |
-| [TimeStampUtc](#timestamputc) | string (date-time) | Yes |
-| [Faults](#faults) | array of string | No |
+| [`TimeStampUtc`](#timestamputc) | string (date-time) | Yes |
+| [`Faults`](#faults) | array of string | No |
 
 ____
-### Kind
-__Type__: string <br/>
-__Required__: Yes <br/>
-<br/>
-A discriminator property. Its value must be 'ExecutingFaults' for objects of type 'ExecutingFaultsChaosEvent'.
-
-____
-### TimeStampUtc
+### `TimeStampUtc`
 __Type__: string (date-time) <br/>
 __Required__: Yes<br/>
 <br/>
-
+The UTC timestamp when this Chaos event was generated.
 
 ____
-### Faults
+### `Faults`
 __Type__: array of string <br/>
 __Required__: No<br/>
 <br/>
-
+List of string description of the faults that Chaos decided to execute in an iteration.

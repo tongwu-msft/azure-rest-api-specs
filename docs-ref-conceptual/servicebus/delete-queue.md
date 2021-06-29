@@ -1,8 +1,7 @@
 ---
 title: "Delete Queue"
 ms.custom: ""
-ms.date: "05/14/2015"
-ms.prod: "azure"
+ms.date: "07/08/2020"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -10,9 +9,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: da017387-6fed-41ad-a662-262051e28f10
 caps.latest.revision: 9
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -62,7 +61,7 @@ Deletes an existing queue. This operation removes all associated state, includin
 |404|The specified queue does not exist.|  
 |500|Internal error.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/dd179382.aspx).  
   
 ### Response Headers  
  None.  

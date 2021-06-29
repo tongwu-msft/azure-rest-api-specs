@@ -1,0 +1,146 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.healthcareapis.services.checknameavailability
+name: Check Name Availability
+service: Healthcare Apis
+groupName: Services
+apiVersion: 2019-09-16
+summary: Check if a service instance name is available.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.HealthcareApis/checkNameAvailability?api-version=2019-09-16
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: This is a synchronous operation. The body contains a JSON-serialized response that specifies whether the service name is available. If the name is not available, the body contains the reason.
+  types:
+  - uid: ServicesNameAvailabilityInfo
+- name: Other Status Codes
+  description: DefaultErrorResponse
+  types:
+  - uid: ErrorDetails
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    isRequired: true
+    description: The name of the service instance to check.
+    types:
+    - uid: string
+  - name: type
+    in: body
+    isRequired: true
+    description: The fully qualified resource type which includes provider namespace.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ServicesNameAvailabilityInfo
+  description: The properties indicating whether a given service name is available.
+  kind: object
+  properties:
+  - name: nameAvailable
+    isReadyOnly: true
+    description: The value which indicates whether the provided name is available.
+    types:
+    - uid: boolean
+  - name: reason
+    isReadyOnly: true
+    description: The reason for unavailability.
+    types:
+    - uid: ServiceNameUnavailabilityReason
+  - name: message
+    description: The detailed reason message.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: error
+    description: Object containing error details.
+    types:
+    - uid: ErrorDetailsInternal
+- name: CheckNameAvailabilityParameters
+  description: Input values.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the service instance to check.
+    types:
+    - uid: string
+  - name: type
+    description: The fully qualified resource type which includes provider namespace.
+    types:
+    - uid: string
+- name: ServiceNameUnavailabilityReason
+  description: The reason for unavailability.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AlreadyExists
+    types:
+    - uid: string
+- name: ErrorDetailsInternal
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+examples:
+- name: Check name availability
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/providers/Microsoft.HealthcareApis/checkNameAvailability?api-version=2019-09-16
+    body: >-
+      {
+        "type": "Microsoft.HealthcareApis/services",
+        "name": "serviceName"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": false,
+        "reason": "AlreadyExists",
+        "message": "Service name is not available."
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+errorCodes: []

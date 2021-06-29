@@ -1,14 +1,28 @@
 ---
-ms.assetid: f21ddf47-4cbe-42e0-b6e8-670efa4f671d
-ms.title: Azure Storage Import-Export REST API
-ms.service: storage
-author: robinsh
-ms.author: robinsh
-ms.manager: timlt
-service_description: To be added
+title: Azure Storage Import-Export REST API Reference
+description: TBD
+author: TBD
+ms.author: TBD
+ms.manager: TBD
+ms.date: TBD
+ms.topic: reference
+ms.service: azure-import-export
+ms.devlang: rest-api
 ---
-
 
 # Azure Storage Import-Export REST API Reference
 
-This API helps you manage import/export jobs to transfer data to or from Blob storage.
+This API helps you manage Azure Import/Export jobs to transfer data to or from Blob storage. For more information, see [Azure Import/Export service documentation](https://docs.microsoft.com/en-us/azure/storage/common/storage-import-export-service).
+
+## REST Operation Groups
+
+| Operation Group | Description |
+| --- | --- |
+| [Bit Locker Keys](xref:management.azure.com.storageimportexport.bitlockerkeys) | Provides operation return the list of Bitlocker Keys for all drives in the specified job. |
+| [Jobs](xref:management.azure.com.storageimportexport.jobs) | Provides operations to create and manage Azure Import/Export jobs. |
+| [Locations](xref:management.azure.com.storageimportexport.locations) | Provides operation to return single or list of the details about a location to which you can ship the disks associated with an import or export job. A location is an Azure region. |
+| [Operations](xref:management.azure.com.storageimportexport.operations) | Provides operation to return the list of operations supported by the Azure Import/Export resource provider. |
+
+## See Also
+
+- [Azure Import/Export Service documentation](https://docs.microsoft.com/en-us/azure/storage/common/storage-import-export-service)

@@ -1,7 +1,7 @@
 ---
 title: "ResolvedServicePartition"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ResolvedServicePartition"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,34 +34,34 @@ Information about a service partition and its associated endpoints.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Name](#name) | string | Yes |
-| [PartitionInformation](#partitioninformation) | [PartitionInformation](sfclient-model-partitioninformation.md) | Yes |
-| [Endpoints](#endpoints) | array of [ResolvedServiceEndpoint](sfclient-model-resolvedserviceendpoint.md) | Yes |
-| [Version](#version) | string | Yes |
+| [`Name`](#name) | string | Yes |
+| [`PartitionInformation`](#partitioninformation) | [PartitionInformation](sfclient-model-partitioninformation.md) | Yes |
+| [`Endpoints`](#endpoints) | array of [ResolvedServiceEndpoint](sfclient-model-resolvedserviceendpoint.md) | Yes |
+| [`Version`](#version) | string | Yes |
 
 ____
-### Name
+### `Name`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>
 The full name of the service with 'fabric:' URI scheme.
 
 ____
-### PartitionInformation
+### `PartitionInformation`
 __Type__: [PartitionInformation](sfclient-model-partitioninformation.md) <br/>
 __Required__: Yes<br/>
 <br/>
 A representation of the resolved partition.
 
 ____
-### Endpoints
+### `Endpoints`
 __Type__: array of [ResolvedServiceEndpoint](sfclient-model-resolvedserviceendpoint.md) <br/>
 __Required__: Yes<br/>
 <br/>
 List of resolved service endpoints of a service partition.
 
 ____
-### Version
+### `Version`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>

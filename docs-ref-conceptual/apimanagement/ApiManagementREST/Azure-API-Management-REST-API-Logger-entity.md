@@ -1,7 +1,7 @@
 ---
 title: "Azure API Management REST API Logger entity"
 ms.custom: na
-ms.date: 2016-05-09
+ms.date: 05/09/2016
 ms.reviewer: na
 ms.suite: na
 ms.tgt_pltfrm: na
@@ -22,7 +22,14 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Azure API Management REST API Logger entity
+
+# Azure API Management REST API Logger entity (deprecated)
+
+> [!WARNING]
+> This page is deprecated.
+>
+> Please refer to the [documentation on accessing the Azure API Management REST API through Azure Resource Manager](https://docs.microsoft.com/rest/api/apimanagement/) instead.
+
 The Logger entity in API Management represents an event sink that you can use to log API Management events. Currently the Logger entity supports logging API Management events to [Azure Event Hubs](https://azure.microsoft.com/services/event-hubs/).  
   
  This topic describes how to manage loggers by using the API Management REST API.  
@@ -51,7 +58,8 @@ The Logger entity in API Management represents an event sink that you can use to
 ##  <a name="Prerequisites"></a> Prerequisites  
   
 > [!IMPORTANT]
->  Before making any calls into the API Management REST API, please review the [Prerequisites](../ApiManagementREST/API-Management-REST.md#Prerequisites) section of the [API Management REST](../ApiManagementREST/API-Management-REST.md) guide. This specifies the necessary authentication, version parameters, supported media types, and other information required in order to successfully call the API Management REST API.  
+>
+> Before making any calls into the API Management REST API, please review the [API Management REST](../ApiManagementREST/API-Management-REST.md) guide. This specifies the necessary authentication, version parameters, supported media types, and other information required in order to successfully call the API Management REST API. 
   
 ##  <a name="List"></a> List loggers  
  This operation returns a collection of loggers in the specified service instance.  

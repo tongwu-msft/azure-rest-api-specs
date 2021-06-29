@@ -1,0 +1,98 @@
+---
+title: "Delete a Database - Azure Cosmos DB REST API"
+description: Delete a database REST API syntax. Request and response headers, body, status codes and examples.
+ms.date: "04/20/2021"
+ms.service: "cosmos-db"
+ms.topic: "reference"
+ms.assetid: f45e012d-eacd-44e5-9cdf-53c75fd3fc53
+caps.latest.revision: 7
+author: "SnehaGunda"
+ms.author: "sngun"
+manager: "kfile"
+translation.priority.mt: 
+  - "de-de"
+  - "es-es"
+  - "fr-fr"
+  - "it-it"
+  - "ja-jp"
+  - "ko-kr"
+  - "pt-br"
+  - "ru-ru"
+  - "zh-cn"
+  - "zh-tw"
+---
+# Delete Database
+The `Delete Database` operation deletes an existing database in the database account.  
+
+> [!NOTE]
+> These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md).
+
+## Request  
+  
+|Method|Request URI|Description|  
+|------------|-----------------|-----------------|  
+|DELETE|`https://{databaseaccount}.documents.azure.com/dbs/{db-id}`|The {databaseaccount} is the name of the Azure Cosmos DB account created under your subscription. The {db-id} value is the user generated name/ID of the database, not the system generated ID (rid).|  
+  
+### Headers  
+See [Common Azure Cosmos DB REST request headers](common-cosmosdb-rest-request-headers.md) for headers that are used by all Cosmos DB requests.  
+  
+### Body  
+None.  
+  
+## Response  
+  
+### Headers  
+See [Common Azure Cosmos DB REST response headers](common-cosmosdb-rest-response-headers.md) for headers that are returned by all Cosmos DB responses.  
+  
+### Status codes  
+The following table lists common status codes returned by this operation. For a full list of status codes, see [HTTP Status Codes](https://msdn.microsoft.com/library/azure/dn783364.aspx).  
+  
+|HTTP status code|Description|  
+|----------------------|-----------------|  
+|204 No Content|The delete operation was successful.|  
+|404 Not Found|The database is not found.|  
+  
+### Body  
+ None.  
+  
+## Example  
+  
+```  
+DELETE https://contosomarketing.documents.azure.com/dbs/volcanodb2 HTTP/1.1  
+x-ms-date: Tue, 08 Dec 2015 19:43:19 GMT  
+authorization: type%3dmaster%26ver%3d1.0%26sig%3dA7Gg2gVKimd4r4WcuYh518tQsbTlgSZKSLx65e%2f%2f4Cw%3d  
+Cache-Control: no-cache  
+User-Agent: contoso/1.0  
+x-ms-version: 2015-08-06  
+Accept: application/json  
+Host: contosomarketing.documents.azure.com  
+Content-Length: 0  
+Connection: Keep-Alive  
+  
+```  
+  
+```  
+HTTP/1.1 204 No Content  
+Content-Length: 0  
+Content-Type: application/json  
+Content-Location: https://contosomarketing.documents.azure.com/dbs/volcanodb2  
+x-ms-resource-quota: databases=100;  
+x-ms-resource-usage: databases=14;  
+x-ms-session-token: 861  
+x-ms-request-charge: 4.95  
+x-ms-activity-id: b3c53c99-0d3c-433c-b77f-1e05217a1d81
+Date: Tue, 08 Dec 2015 19:43:20 GMT  
+  
+```  
+
+## Remarks
+Performing a DELETE on a database deletes the database resource and its child resources, that is, collections, documents, attachments, stored procedures, triggers, user-defined functions, users, and permissions within the database.  
+
+## See Also  
+* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB SQL API SDKs](/azure/cosmos-db/sql-api-sdk-dotnet)    
+* [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
+  
+  
+

@@ -1,8 +1,7 @@
 ---
 title: "Create Subscription"
 ms.custom: ""
-ms.date: "05/15/2015"
-ms.prod: "azure"
+ms.date: "07/08/2020"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -10,9 +9,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: 7fbbf52f-67f1-4cae-95b3-1c6e1234fd7f
 caps.latest.revision: 9
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -88,7 +87,7 @@ Creates a new subscription. Once created, the subscription resource manifest is 
 |409|The specified subscription already exists (or the specified path is already occupied).|  
 |500|Internal error.|  
   
- For information about status codes, see [Status and Error Codes](http://msdn.microsoft.com/library/dd179382.aspx).  
+ For information about status codes, see [Status and Error Codes](https://msdn.microsoft.com/library/dd179382.aspx).  
   
 ### Response Headers  
  None.  

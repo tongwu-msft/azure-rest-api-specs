@@ -1,7 +1,7 @@
 ---
 title: "ApplicationTypeImageStorePath"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ApplicationTypeImageStorePath"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,10 +34,10 @@ Path description for the application package in the image store specified during
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ApplicationTypeBuildPath](#applicationtypebuildpath) | string | Yes |
+| [`ApplicationTypeBuildPath`](#applicationtypebuildpath) | string | Yes |
 
 ____
-### ApplicationTypeBuildPath
+### `ApplicationTypeBuildPath`
 __Type__: string <br/>
 __Required__: Yes<br/>
 <br/>

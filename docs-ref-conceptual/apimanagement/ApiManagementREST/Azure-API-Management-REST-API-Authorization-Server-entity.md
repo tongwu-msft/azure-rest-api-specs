@@ -1,8 +1,7 @@
 ---
 title: "Azure API Management REST API Authorization Server entity"
 ms.custom: na
-ms.date: 2016-05-09
-ms.prod: azure
+ms.date: 05/09/2016
 ms.reviewer: na
 ms.service: api-management
 ms.suite: na
@@ -24,7 +23,13 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Azure API Management REST API Authorization Server entity
+# Azure API Management REST API Authorization Server entity (deprecated)
+
+> [!WARNING]
+> This page is deprecated.
+>
+> Please refer to the [documentation on accessing the Azure API Management REST API through Azure Resource Manager](https://docs.microsoft.com/rest/api/apimanagement/) instead.
+
 This topic describes how to manage OAuth2 authorization servers using the API Management REST API.  
   
  For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
@@ -48,7 +53,8 @@ This topic describes how to manage OAuth2 authorization servers using the API Ma
 ##  <a name="Prerequisites"></a> Prerequisites  
   
 > [!IMPORTANT]
->  Before making any calls into the API Management REST API, please review the [Prerequisites](../ApiManagementREST/API-Management-REST.md#Prerequisites) section of the [API Management REST](../ApiManagementREST/API-Management-REST.md) guide. This specifies the necessary authentication, version parameters, supported media types, and other information required in order to successfully call the API Management REST API.  
+>
+> Before making any calls into the API Management REST API, please review the [API Management REST](../ApiManagementREST/API-Management-REST.md) guide. This specifies the necessary authentication, version parameters, supported media types, and other information required in order to successfully call the API Management REST API. 
   
 ##  <a name="List"></a> Get a list of authorization servers  
  This operation returns a collection of authorization servers defined within a service instance.  

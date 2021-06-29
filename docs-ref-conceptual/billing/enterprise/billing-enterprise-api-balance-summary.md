@@ -1,78 +1,73 @@
 ---
-title: Azure Billing Enterprise APIs - Balance and Summary| Microsoft Docs
+title: Azure Billing Enterprise APIs - Balance and Summary
 description: Learn about Azure Billing Usage and RateCard APIs, which are used to provide insights into Azure resource consumption and trends.
-services: ''
-documentationcenter: ''
-author: anandedwin
-manager: aedwin
-editor: ''
+author: bandersmsft
+ms.reviewer: prkumar
 tags: billing
-
-ms.assetid: 3e817b43-0696-400c-a02e-47b7817f9b77
-ms.service: billing
-ms.devlang: na
+ms.service: cost-management-billing
 ms.topic: article
-ms.tgt_pltfrm: na
-ms.workload: billing
-ms.date: 04/25/2017
-ms.author: aedwin
+ms.date: 06/22/2020
+ms.author: banders
 
 ---
 # Reporting APIs for Enterprise customers - Balance and Summary
 
+> [!Note]
+> Microsoft no longer updates the Enterprise Reporting APIs. Instead, you should use [Azure Consumption](/rest/api/consumption) APIs.
+> The Azure Billing - Balance and Summary API is replaced by the [Azure Consumption - Balances API](/rest/api/consumption/balances).
+
 The Balance and Summary API offers a monthly summary of information on balances, new purchases, Azure Marketplace service charges, adjustments, and overage charges.
 
 
-##Request 
-Common header properties that need to be added are specified [here](https://docs.microsoft.com/azure/billing/billing-enterprise-api). If a billing period is not specified, then data for the current billing period is returned.
+## Request
+Common header properties that need to be added are specified in the [Overview of Reporting APIs for Enterprise customers](https://docs.microsoft.com/azure/billing/billing-enterprise-api) article. If a billing period isn't specified, then data for the current billing period is returned.
 
 |Method | Request URI|
 |-|-|
-|GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/balancesummary|
-|GET| https://consumption.azure.com/v2/enrollments/{enrollmentNumber}/billingPeriods/{billingPeriod}/balancesummary|
+|GET| https:\//consumption.azure.com/v3/enrollments/{enrollmentNumber}/balancesummary|
+|GET| https:\//consumption.azure.com/v3/enrollments/{enrollmentNumber}/billingPeriods/{billingPeriod}/balancesummary|
 
 > [!Note]
-> To use the preview version of API, replace v2 with v1 in the above URL.
->
+> To use the previous version of the API, replace v3 with v2 in the URLs above. Some fields aren't available if you use v2.
 
 ## Response
 
-		{
-		    "id": "enrollments/100/billingperiods/201507/balancesummaries",
-      		"billingPeriodId": 201507,
-      		"currencyCode": "USD",
-      		"beginningBalance": 0,
-      		"endingBalance": 1.1,
-      		"newPurchases": 1,
-      		"adjustments": 1.1,
-      		"utilized": 1.1,
-      		"serviceOverage": 1,
-      		"chargesBilledSeparately": 1,
-      		"totalOverage": 1,
-      		"totalUsage": 1.1,
-      		"azureMarketplaceServiceCharges": 1,
-      		"newPurchasesDetails": [
-        		{
-          		"name": "",
-          		"value": 1
-        		}
-      		],
-      		"adjustmentDetails": [
-        		{
-          		"name": "Promo Credit",
-          		"value": 1.1
-        		},
-        		{
-          		"name": "SIE Credit",
-          		"value": 1.0
-        		}
-      		]
-		}
+        {
+            "id": "enrollments/100/billingperiods/201507/balancesummaries",
+              "billingPeriodId": 201507,
+              "currencyCode": "USD",
+              "beginningBalance": 0,
+              "endingBalance": 1.1,
+              "newPurchases": 1,
+              "adjustments": 1.1,
+              "utilized": 1.1,
+              "serviceOverage": 1,
+              "chargesBilledSeparately": 1,
+              "totalOverage": 1,
+              "totalUsage": 1.1,
+              "azureMarketplaceServiceCharges": 1,
+              "newPurchasesDetails": [
+                {
+                  "name": "",
+                  "value": 1
+                }
+              ],
+              "adjustmentDetails": [
+                {
+                  "name": "Promo Credit",
+                  "value": 1.1
+                },
+                {
+                  "name": "SIE Credit",
+                  "value": 1.0
+                }
+              ]
+        }
 
 
 **Response property definitions**
 
-|Property Name| Type| Description
+|Property Name| Type| Description|
 |-|-|-|
 |id|string|The unique Id for a specific billing period and enrollment|
 |billingPeriodId|string |The billing period Id|
@@ -92,12 +87,10 @@ Common header properties that need to be added are specified [here](https://docs
 
 
 <br/>
+
 ## See also
 
 * [Billing Periods API](billing-enterprise-api-billing-periods.md)
-
-* [Usage Detail API](billing-enterprise-api-usage-detail.md) 
-
-* [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md) 
-
+* [Usage Detail API](billing-enterprise-api-usage-detail.md)
+* [Marketplace Store Charge API](billing-enterprise-api-marketplace-storecharge.md)
 * [Price Sheet API](billing-enterprise-api-pricesheet.md)

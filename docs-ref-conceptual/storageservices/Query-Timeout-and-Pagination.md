@@ -1,30 +1,16 @@
 ---
-title: "Query Timeout and Pagination"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Query timeout and pagination (REST API) - Azure Storage
+description: Query timeout and pagination.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: d962e4c0-709a-4f04-a296-32a49d82c799
-caps.latest.revision: 37
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Query Timeout and Pagination
+
+# Query timeout and pagination
+
 The Table service supports the following two types of query operations:  
   
 -   The [Query Tables](Query-Tables.md) operation returns the list of tables within the specified storage account. The list of tables may be filtered according to criteria specified on the request.  
@@ -54,7 +40,7 @@ The Table service supports the following two types of query operations:
 >   
 >  See [Querying Tables and Entities](Querying-Tables-and-Entities.md) for more details.  
   
- If you are handling continuation tokens manually using the Microsoft .NET Client Library, first cast the result of the query operation to a [QueryOperationResponse](http://go.microsoft.com/fwlink/?LinkId=155325) object. You can then access the continuation token headers in the [Headers](http://go.microsoft.com/fwlink/?LinkId=155326) property of the `QueryOperationResponse` object.  
+ If you are handling continuation tokens manually using the Microsoft .NET Client Library, first cast the result of the query operation to a [QueryOperationResponse](https://go.microsoft.com/fwlink/?LinkId=155325) object. You can then access the continuation token headers in the [Headers](https://go.microsoft.com/fwlink/?LinkId=155326) property of the `QueryOperationResponse` object.  
   
  After you have retrieved the continuation tokens, use their values to construct a query to return the next page of results. A query request URI may take these parameters, which correspond to the continuation token headers returned with the response:  
   

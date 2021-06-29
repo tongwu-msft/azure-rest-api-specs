@@ -1,7 +1,7 @@
 ---
 title: "Application"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "Application"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,7 +34,7 @@ translation.priority.mt:
 | [Create Application](sfclient-api-createapplication.md) | Creates a Service Fabric application.<br/> |
 | [Delete Application](sfclient-api-deleteapplication.md) | Deletes an existing Service Fabric application.<br/> |
 | [Get Application Load Info](sfclient-api-getapplicationloadinfo.md) | Gets load information about a Service Fabric application.<br/> |
-| [Get Application Info List](sfclient-api-getapplicationinfolist.md) | Gets the list of applications created in the Service Fabric cluster that match filters specified as the parameter.<br/> |
+| [Get Application Info List](sfclient-api-getapplicationinfolist.md) | Gets the list of applications created in the Service Fabric cluster that match the specified filters.<br/> |
 | [Get Application Info](sfclient-api-getapplicationinfo.md) | Gets information about a Service Fabric application.<br/> |
 | [Get Application Health](sfclient-api-getapplicationhealth.md) | Gets the health of the service fabric application.<br/> |
 | [Get Application Health Using Policy](sfclient-api-getapplicationhealthusingpolicy.md) | Gets the health of a Service Fabric application using the specified policy.<br/> |

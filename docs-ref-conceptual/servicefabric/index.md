@@ -1,8 +1,8 @@
 ---
 title: "Service Fabric REST APIs"
-ms.date: "2017-04-23"
-ms.prod: "azure"
+ms.date: 4/12/2021
 ms.service: "service-fabric"
+description: "Service fabric Rest API index"
 ms.topic: "reference"
 applies_to: 
   - "Azure"
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "jeffj6123"
+ms.author: "jejarry"
+manager: "rajak"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -31,28 +31,40 @@ service_description: To be added
 
 # Service Fabric REST APIs
 
-[Service Fabric](http://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. Service Fabric also addresses the significant challenges in developing and managing cloud applications. Developers and administrators can avoid complex infrastructure problems and focus on implementing mission-critical, demanding workloads that are scalable, reliable, and manageable. Service Fabric represents the next-generation middleware platform for building and managing these enterprise-class, tier-1, cloud-scale applications.
+[Service Fabric](https://aka.ms/ServiceFabric) is a distributed systems platform that makes it easy to package, deploy, and manage scalable and reliable microservices. 
 
-The REST APIs fall into two main categories:
+[Azure Service Fabric Mesh](https://aka.ms/sfmesh) is a fully managed service, which enables developers to build and deploy microservices applications without managing any infrastructure.
 
-  - **Service Fabric Resource Manager**: APIs that perform resource manager operations are typically located at `management.azure.com` and include some form of the following in the request URI: `/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric`. 
+Following are the main REST APIs categories:
+
+- **Service Fabric Mesh Resource Manager APIs** allow managing microservices applications deployed in Azure Service Fabric Mesh environment through `management.azure.com`. 
+
+- **Service Fabric Resource Manager APIs** allow managing Service Fabric cluster in Azure through `management.azure.com`.
   
-  - **Service Fabric Client**: APIs that manage applications, services, and elements of the cluster itself are located directly at your cluster address, e.g., `mycluster.westus.cloudapp.azure.com`.  
+- **Service Fabric Client APIs** allow managing microservices applications in a Service Fabric cluster through its  management endpoint. For example, `mycluster.westus.cloudapp.azure.com`.
+
+## [Service Fabric Mesh Resource Manager APIs](sfmeshrp-index.md)
+[Service Fabric Mesh Resource Manager APIs](sfmeshrp-index.md) allows you to create and manage microservices applications in Azure without worrying about the infrastructure powering it.
+
+The **latest** version of [Service Fabric Mesh Resource Manager APIs](sfmeshrp-index.md) is `2018-07-01-preview`.
 
 ## [Service Fabric Resource Manager APIs](sfrp-index.md)
+ [Service Fabric Resource Manager APIs](sfrp-index.md) allows you to create and manage Service Fabric clusters in Azure. A Service Fabric cluster is a network-connected set of virtual or physical machines into which your microservices are deployed and managed.
 
- [Service Fabric Resource Manager APIs](sfrp-index.md) allows you to create and manage Service Fabric cluster in Azure. A Service Fabric cluster is a network-connected set of virtual or physical machines into which your microservices are deployed and managed.  Once a cluster is created you can manage and deploy applications, services and containers in the cluster using Service Fabric Client APIs. 
+ The **latest** version of [Service Fabric Resource Manager APIs](sfrp-index.md) is `2018-02-01`. 
+ 
+ Following are some of the other supported versions.
 
- This is a current stable version of the Service Fabric Resource Manager APIs.
+ * [Service Fabric Resource Manager APIs (2017-07-01-preview)](sfrp-2017-07-01-preview-index.md) -
+  This preview version of the Service Fabric Resource Manager APIs allow managing microservices applications in Service Fabric clusters hosted in Azure via `management.azure.com`.
 
 ## [Service Fabric Client APIs](sfclient-index.md)
+Service Fabric Client APIs allow managing microservices applications in a Service Fabric cluster through its  management endpoint. These APIs are provided by Service Fabric runtime. These APIs are supported on Service Fabric clusters operating in any environment (in Azure, on premises, or in another cloud).
 
-Once a cluster is created you can deploy and manage your applications, services, and containers using the [Service Fabric Client APIs](sfclient-index.md). These APIs are provided by Service Fabric itself and are always available anywhere Service Fabric runs, whether that's in Azure, on-premises, or another cloud. This APIs is the primary way of interacting with your Service Fabric cluster to deploy, upgrade, delete, and query your applications and services. 
+ The **latest** version of [Service Fabric Client APIs](sfclient-index.md) is `8.0`.
 
-This is a current version of the Service Fabric Client APIs. These APIs work with Service Fabric runtime version 6.0 and above.
+Following are some of the other supported versions.
 
-## [Service Fabric Client APIs (v5.6)](sfclient-v56-index.md)
+* [Service Fabric Client APIs (v7.1)](v72/sfclient-v72-index.md)
+* [Service Fabric Client APIs (v7.0)](v71/sfclient-v71-index.md)
 
-Once a cluster is created you can deploy and manage your applications, services, and containers using the [Service Fabric Client APIs (v5.6)](sfclient-v56-index.md). These APIs are provided by Service Fabric itself and are always available anywhere Service Fabric runs, whether that's in Azure, on-premises, or another cloud. This API is the primary way of interacting with your Service Fabric cluster to deploy, upgrade, delete, and query your applications and services. 
-
-This is a previous version of the Service Fabric Client APIs. These API work with Service Fabric runtime version 5.6 and 5.7. 

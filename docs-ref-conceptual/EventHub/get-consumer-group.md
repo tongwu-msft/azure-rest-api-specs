@@ -1,8 +1,7 @@
 ---
 title: "Get consumer group"
 ms.custom: ""
-ms.date: "2017-05-05"
-ms.prod: "azure"
+ms.date: 07/14/2020
 ms.reviewer: ""
 ms.service: "event-hubs"
 ms.suite: ""
@@ -10,15 +9,15 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: b742bccf-b585-43e8-8fb2-a0648db7f482
 caps.latest.revision: 7
-author: "sethmanheim"
-ms.author: "sethm"
-manager: "timlt"
+author: "spelluru"
+ms.author: "spelluru"
+manager: "femila"
 
 ---
 
 # Get consumer group
 
-Retrieves all metadata associated with the specified consumer group. See [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription#properties_).  
+Retrieves all metadata associated with the specified consumer group. See [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription#properties).  
   
 ## Request  
   
@@ -28,7 +27,7 @@ Retrieves all metadata associated with the specified consumer group. See [Consum
   
 ### Request Headers  
 
-See [Common parameters and headers](event-hubs-management-rest.md#bk_common) for headers and parameters that are used by all requests related to Event Hubs.  
+See [Common parameters and headers](event-hubs-management-rest.md) for headers and parameters that are used by all requests related to Event Hubs.  
   
 ## Response  
 
@@ -36,8 +35,8 @@ The response includes an HTTP status code, a set of response headers, and a resp
   
 |Element name|Required|Type|Version|Description|  
 |------------------|--------------|----------|-------------|-----------------|  
-|CreatedAt|Yes, read-only|string|2014-01|The exact time the consumer group was created.|  
-|UpdatedAt|Yes, read-only|string|2014-01|The exact time the consumer group was updated.|  
+|`CreatedAt`|Yes, read-only|string|2014-01|The exact time the consumer group was created.|  
+|`UpdatedAt`|Yes, read-only|string|2014-01|The exact time the consumer group was updated.|  
   
 ### Response Codes  
   
@@ -54,6 +53,9 @@ If the request is successful, the response body contains the description of the 
 ## Examples  
 
 **Request**  
+> [!NOTE]
+> You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.
+
   
 ```  
 GET https://your-namespace.servicebus.windows.net/your-event-hub/consumergroups/$default?timeout=60&api-version=2014-01 HTTP/1.1  

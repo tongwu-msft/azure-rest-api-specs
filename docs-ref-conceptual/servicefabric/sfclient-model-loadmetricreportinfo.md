@@ -1,7 +1,7 @@
 ---
 title: "LoadMetricReportInfo"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "LoadMetricReportInfo"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,26 +34,34 @@ Information about load reported by replica.
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Name](#name) | string | No |
-| [Value](#value) | integer (int32) | No |
-| [LastReportedUtc](#lastreportedutc) | string (date-time) | No |
+| [`Name`](#name) | string | No |
+| [`Value`](#value) | integer (int32) | No |
+| [`CurrentValue`](#currentvalue) | string (double) | No |
+| [`LastReportedUtc`](#lastreportedutc) | string (date-time) | No |
 
 ____
-### Name
+### `Name`
 __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The name of the metric.
 
 ____
-### Value
+### `Value`
 __Type__: integer (int32) <br/>
 __Required__: No<br/>
 <br/>
-The value of the load for the metric..
+The value of the load for the metric. In future releases of Service Fabric this parameter will be deprecated in favor of CurrentValue.
 
 ____
-### LastReportedUtc
+### `CurrentValue`
+__Type__: string (double) <br/>
+__Required__: No<br/>
+<br/>
+The double value of the load for the metric.
+
+____
+### `LastReportedUtc`
 __Type__: string (date-time) <br/>
 __Required__: No<br/>
 <br/>

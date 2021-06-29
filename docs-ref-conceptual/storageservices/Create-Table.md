@@ -1,31 +1,17 @@
 ---
-title: "Create Table"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Create Table (REST API) - Azure Storage
+description: The Create Table operation creates a new table in a storage account. 
+author: pemari-msft
+
+ms.date: 09/23/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-ms.assetid: e7b7c22f-39d1-46b1-9f3a-0ccaeabde95a
-caps.latest.revision: 50
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
+
 # Create Table
-The `Create Table` operation creates a new table in the storage account.  
+
+The `Create Table` operation creates a new table in a storage account.  
   
 ## Request  
  The `Create Table` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
@@ -34,7 +20,7 @@ The `Create Table` operation creates a new table in the storage account.
 |------------|-----------------|------------------|  
 |`POST`|`https://myaccount.table.core.windows.net/Tables`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
+### Emulated storage service URI  
  When making a request against the emulated storage service, specify the emulator hostname and Table service port as `127.0.0.1:10002`, followed by the emulated storage account name:  
   
 |Method|Request URI|HTTP Version|  
@@ -43,7 +29,7 @@ The `Create Table` operation creates a new table in the storage account.
   
  The Table service in the storage emulator differs from the Windows® Azure™ Table service in several ways. For more information, see [Differences Between the Storage Emulator and Azure Storage Services](/azure/storage/storage-use-emulator#differences-between-the-storage-emulator-and-azure-storage).  
   
-### URI Parameters  
+### URI parameters  
  None.  
   
 ### Request Headers  
@@ -51,14 +37,14 @@ The `Create Table` operation creates a new table in the storage account.
   
 |Request header|Description|  
 |--------------------|-----------------|  
-|`Authorization`|Required. Specifies the authentication scheme, account name, and signature. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
-|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md).|  
+|`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
+|`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Type`|Required. Specifies the content type of the payload. Possible values are:<br /><br /> -   `application/atom+xml` (versions prior to 2015-12-11 only)<br />-   `application/json`<br /><br /> For more information, see [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md).|  
 |`Accept`|Optional. Specifies the accepted content-type of the response payload. Possible values are:<br /><br /> -   `application/atom+xml` (versions prior to 2015-12-11 only)<br />-   `application/json;odata=nometadata`<br />-   `application/json;odata=minimalmetadata`<br />-   `application/json;odata=fullmetadata`<br /><br /> For more information, see [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md).|  
 |`Prefer`|Optional. Specifies whether the response should include the inserted entity in the payload. Possible values are `return-no-content` and `return-content`.<br /><br /> For more information about this header, see [Setting the Prefer Header to Manage Response Echo on Insert Operations](Setting-the-Prefer-Header-to-Manage-Response-Echo-on-Insert-Operations.md).|  
 |`Content-Length`|Required. The length of the request body.|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
 ### Request Body  
  The request body specifies the name of the table to be created. Note that table names must conform to the naming restrictions described in [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md).  
@@ -86,7 +72,7 @@ The `Create Table` operation creates a new table in the storage account.
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>     
   <entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"   
     xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"  
-    xmlns="http://www.w3.org/2005/Atom">   
+    xmlns="https://www.w3.org/2005/Atom">   
     <title />   
     <updated>2009-03-18T11:48:34.9840639-07:00</updated>   
     <author>  
@@ -110,7 +96,7 @@ The `Create Table` operation creates a new table in the storage account.
  For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md) and [Table Service Error Codes](Table-Service-Error-Codes.md).  
   
 ### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](http://go.microsoft.com/fwlink/?linkid=150478).  
+ The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
@@ -119,6 +105,7 @@ The `Create Table` operation creates a new table in the storage account.
 |`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
 |`Preference-Applied`|Indicates whether the `Prefer` request header was honored. If the response does not include this header, then the `Prefer` header was not honored. If this header is returned, its value will either be `return-content` or `return-no-content`.<br /><br /> For more information, see [Setting the Prefer Header to Manage Response Echo on Insert Operations](Setting-the-Prefer-Header-to-Manage-Response-Echo-on-Insert-Operations.md).|  
 |`Content-Type`|Indicates the content type of the payload. The value depends on the value specified for the `Accept` request header. Possible values are:<br /><br /> -   `application/atom+xml`<br />-   `application/json;odata=nometadata`<br />-   `application/json;odata=minimalmetadata`<br />-   `application/json;odata=fullmetadata`<br /><br /> For more information about content types, see [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md).|  
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
 ### Response Body  
  If the request includes the `Prefer` header with the value `return-no-content`, no response body is returned. Otherwise, the response body is an OData entity set.  
@@ -176,7 +163,7 @@ The `Create Table` operation creates a new table in the storage account.
   
 ```  
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>  
-<entry xml:base="https://myaccount.table.core.windows.net/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"> <id>https://myaccount.table.core.windows.net/Tables('mytable')</id>  
+<entry xml:base="https://myaccount.table.core.windows.net/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="https://www.w3.org/2005/Atom"> <id>https://myaccount.table.core.windows.net/Tables('mytable')</id>  
   <title type="text"></title>  
   <updated>2013-10-24T17:18:54.7062347Z</updated>  
   <author>  
@@ -198,8 +185,8 @@ The `Create Table` operation creates a new table in the storage account.
 ## Remarks  
  None.  
   
-## See Also  
- [Authentication for the Azure Storage Services](Authentication-for-the-Azure-Storage-Services.md)   
+## See also  
+ [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Table Service Error Codes](Table-Service-Error-Codes.md)

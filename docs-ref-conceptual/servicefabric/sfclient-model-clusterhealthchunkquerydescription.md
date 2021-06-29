@@ -1,7 +1,7 @@
 ---
 title: "ClusterHealthChunkQueryDescription"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "ClusterHealthChunkQueryDescription"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,13 +34,13 @@ The cluster health chunk query description, which can specify the health policie
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [NodeFilters](#nodefilters) | array of [NodeHealthStateFilter](sfclient-model-nodehealthstatefilter.md) | No |
-| [ApplicationFilters](#applicationfilters) | array of [ApplicationHealthStateFilter](sfclient-model-applicationhealthstatefilter.md) | No |
-| [ClusterHealthPolicy](#clusterhealthpolicy) | [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) | No |
-| [ApplicationHealthPolicies](#applicationhealthpolicies) | [ApplicationHealthPolicies](sfclient-model-applicationhealthpolicies.md) | No |
+| [`NodeFilters`](#nodefilters) | array of [NodeHealthStateFilter](sfclient-model-nodehealthstatefilter.md) | No |
+| [`ApplicationFilters`](#applicationfilters) | array of [ApplicationHealthStateFilter](sfclient-model-applicationhealthstatefilter.md) | No |
+| [`ClusterHealthPolicy`](#clusterhealthpolicy) | [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) | No |
+| [`ApplicationHealthPolicies`](#applicationhealthpolicies) | [ApplicationHealthPolicies](sfclient-model-applicationhealthpolicies.md) | No |
 
 ____
-### NodeFilters
+### `NodeFilters`
 __Type__: array of [NodeHealthStateFilter](sfclient-model-nodehealthstatefilter.md) <br/>
 __Required__: No<br/>
 <br/>
@@ -51,7 +51,7 @@ For example, it can specify a filter to return all nodes with health state Error
 
 
 ____
-### ApplicationFilters
+### `ApplicationFilters`
 __Type__: array of [ApplicationHealthStateFilter](sfclient-model-applicationhealthstatefilter.md) <br/>
 __Required__: No<br/>
 <br/>
@@ -62,7 +62,7 @@ For example, it can specify a filter to return all applications with health stat
 
 
 ____
-### ClusterHealthPolicy
+### `ClusterHealthPolicy`
 __Type__: [ClusterHealthPolicy](sfclient-model-clusterhealthpolicy.md) <br/>
 __Required__: No<br/>
 <br/>
@@ -70,7 +70,7 @@ Defines a health policy used to evaluate the health of the cluster or of a clust
 
 
 ____
-### ApplicationHealthPolicies
+### `ApplicationHealthPolicies`
 __Type__: [ApplicationHealthPolicies](sfclient-model-applicationhealthpolicies.md) <br/>
 __Required__: No<br/>
 <br/>

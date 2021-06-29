@@ -1,8 +1,7 @@
 ---
 title: "OData filters in Azure Batch | Microsoft Docs"
 ms.custom: ""
-ms.date: "09/19/2017"
-ms.prod: "azure"
+ms.date: "08/27/2018"
 ms.reviewer: ""
 ms.service: "batch"
 ms.suite: ""
@@ -17,19 +16,21 @@ manager: "daryls"
 # OData Filters in Azure Batch
 OData filters are used to limit the amount of data returned from a query issued to the Batch service by filtering the results based on some criteria. Filter conditions can be combined using the "AND" and "OR" operators. Not every API supports filter queries, and each supported API allows filtering on a unique set of properties, as listed below.
 
-## List node agent skus
+## List supported images
 [Reference](/rest/api/batchservice/account)
 
 |Property|Operations allowed|Type|
 |--------------|------------------------|----------|
 |osType|eq, ne|String|
+|verificationType|eq, ne|String|
+|nodeAgentSKUId|eq, ne|String|
 
 ## List certificates
 [Reference](/rest/api/batchservice/certificate/list)
 
 |Property|Operations allowed|Type|
 |--------------|------------------------|----------|
-|state|eq|String|
+|state|eq, ne|String|
 |stateTransitionTime|eq, ne, ge, gt, le, lt|DateTime|
 
 
@@ -38,14 +39,22 @@ OData filters are used to limit the amount of data returned from a query issued 
 
 |Property|Operations allowed|Type|
 |--------------|------------------------|----------|
-|state|eq|String|
+|state|eq, ne|String|
 |stateTransitionTime|eq, ne, ge, gt, le, lt|DateTime|
 |lastBootTime|eq, ne, ge, gt, le, lt|DateTime|
 |allocationTime|eq, ne, ge, gt, le, lt|DateTime|
 |startTaskInfo/state|eq|String|
+|startTaskInfo/result|eq, ne|String|
 |startTaskInfo/exitCode|eq, ne, ge, gt, le, lt|Int|
 |startTaskInfo/startTime|eq, ne, ge, gt, le, lt|DateTime|
 |startTaskInfo/endTime|eq, ne, ge, gt, le, lt|DateTime|
+
+## List pool node counts
+[Reference](/rest/api/batchservice/account/listpoolnodecounts)
+
+|Property|Operations allowed|Type|
+|--------------|------------------------|----------|
+|poolId|eq|String|
 
 ## List task files
 [Reference](/rest/api/batchservice/file/listfromtask)
@@ -66,7 +75,7 @@ OData filters are used to limit the amount of data returned from a query issued 
 
 |Property|Operations allowed|Type|
 |--------------|------------------------|----------|
-|state|eq|String|
+|state|eq, ne|String|
 |stateTransitionTime|eq, ne, ge, gt, le, lt|DateTime|
 |creationTime|eq, ne, ge, gt, le, lt|DateTime|
 |lastModified|eq, ne, ge, gt, le, lt|DateTime|
@@ -80,7 +89,7 @@ OData filters are used to limit the amount of data returned from a query issued 
 |Property|Operations allowed|Type|
 |--------------|------------------------|----------|
 |id|startswith, eq, ne, ge, gt, le, lt|String|
-|state|eq|String|
+|state|eq, ne|String|
 |stateTransitionTime|eq, ne, ge, gt, le, lt|DateTime|
 |creationTime|eq, ne, ge, gt, le, lt|DateTime|
 |lastModified|eq, ne, ge, gt, le, lt|DateTime|
@@ -94,7 +103,7 @@ OData filters are used to limit the amount of data returned from a query issued 
 |Property|Operations allowed|Type|
 |--------------|------------------------|----------|
 |id|startswith, eq, ne, ge, gt, le, lt|String|
-|state|eq|String|
+|state|eq, ne|String|
 |stateTransitionTime|eq, ne, ge, gt, le, lt|DateTime|
 |creationTime|eq, ne, ge, gt, le, lt|DateTime|
 |lastModified|eq, ne, ge, gt, le, lt|DateTime|
@@ -109,7 +118,7 @@ OData filters are used to limit the amount of data returned from a query issued 
 |Property|Operations allowed|Type|
 |--------------|------------------------|----------|
 |id|startswith, eq, ne, ge, gt, le, lt|String|
-|state|eq|String|
+|state|eq, ne|String|
 |stateTransitionTime|eq, ne, ge, gt, le, lt|DateTime|
 |allocationState|eq|String|
 |allocationStateTransitionTime|eq, ne, ge, gt, le, lt|DateTime|
@@ -126,14 +135,16 @@ OData filters are used to limit the amount of data returned from a query issued 
 |--------------|------------------------|----------|
 |poolId|eq, ne|String|
 |nodeId|eq, ne|String|
-|jobPreparationTaskExecutionInfo/state|eq|String|
+|jobPreparationTaskExecutionInfo/state|eq, ne|String|
 |jobPreparationTaskExecutionInfo/startTime|eq, ne, ge, gt, le, lt|DateTime|
 |jobPreparationTaskExecutionInfo/endTime|eq, ne, ge, gt, le, lt|DateTime|
 |jobPreparationTaskExecutionInfo/exitCode|eq, ne, ge, gt, le, lt|Int|
-|jobReleaseTaskExecutionInfo/state|eq|String|
-|jobReleaseTaskExecutionInfo /startTime|eq, ne, ge, gt, le, lt|DateTime|
-|jobReleaseTaskExecutionInfo /endTime|eq, ne, ge, gt, le, lt|DateTime|
-|jobReleaseTaskExecutionInfo /exitCode|eq, ne, ge, gt, le, lt|Int|
+|jobPreparationTaskExecutionInfo/result|eq, ne|String|
+|jobReleaseTaskExecutionInfo/state|eq, ne|String|
+|jobReleaseTaskExecutionInfo/startTime|eq, ne, ge, gt, le, lt|DateTime|
+|jobReleaseTaskExecutionInfo/endTime|eq, ne, ge, gt, le, lt|DateTime|
+|jobReleaseTaskExecutionInfo/exitCode|eq, ne, ge, gt, le, lt|Int|
+|jobReleaseTaskExecutionInfo/result|eq, ne|String|
 
 ## List tasks
 [Reference](/rest/api/batchservice/task/list)
@@ -141,13 +152,14 @@ OData filters are used to limit the amount of data returned from a query issued 
 |Property|Operations allowed|Type|
 |--------------|------------------------|----------|
 |id|startswith, eq, ge, gt, le, lt, ne|String|
-|state|eq|String|
+|state|eq, ne|String|
 |stateTransitionTime|eq, ne, ge, gt, le, lt|DateTime|
 |creationTime|eq, ne, ge, gt, le, lt|DateTime|
 |lastModifiedTime|eq, ne, ge, gt, le, lt|DateTime|
 |executionInfo/startTime|eq, ne, ge, gt, le, lt|DateTime|
 |executionInfo/endTime|eq, ne, ge, gt, le, lt|DateTime|
 |executionInfo/exitCode|eq, ne, ge, gt, le, lt|Int|
+|executionInfo/result|eq, ne|String|
 
 ## List account usage metrics
 [Reference](/rest/api/batchservice/pool/listusagemetrics)

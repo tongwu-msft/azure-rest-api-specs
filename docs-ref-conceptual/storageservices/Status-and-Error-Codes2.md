@@ -1,32 +1,17 @@
 ---
-title: "Status and Error Codes"
-ms.custom: na
-ms.date: 2016-06-29
-ms.prod: azure
-ms.reviewer: na
+title: Status and error codes (REST API) - Azure Storage
+description: Status and error codes for Azure Storage REST API operations.
+author: pemari-msft
+
+ms.date: 09/30/2019
 ms.service: storage
-ms.suite: na
-ms.tgt_pltfrm: na
 ms.topic: reference
-H1: Status and Error Codes
-ms.assetid: 4421ac96-38eb-4ea3-8104-f9975c3bf153
-caps.latest.revision: 31
-author: tamram
-manager: carolz
-translation.priority.mt: 
-  - de-de
-  - es-es
-  - fr-fr
-  - it-it
-  - ja-jp
-  - ko-kr
-  - pt-br
-  - ru-ru
-  - zh-cn
-  - zh-tw
+ms.author: pemari
 ---
-# Status and Error Codes
-REST API operations for Azure storage services return standard HTTP status codes, as defined in the [HTTP/1.1 Status Code Definitions](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).  
+
+# Status and error codes
+
+REST API operations for Azure storage services return standard HTTP status codes, as defined in the [HTTP/1.1 Status Code Definitions](https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).  
   
  API operations may also return additional error information that is defined by the storage service. This additional error information is returned in the response body.  
   
@@ -40,6 +25,12 @@ REST API operations for Azure storage services return standard HTTP status codes
 </Error>  
 ```  
   
+ For version 2017-07-29 and later, failed API operations also return the storage error code string in a response header.
+ 
+|Response Header|Description|  
+|---------------------|-----------------|  
+|`x-ms-error-code`|A value that indicates the storage service error code string.|  
+
  A given error response may also include additional error information to provide the developer with more information about the error. For example, the following error response indicates that a query parameter specified on the request URI was invalid, and provides additional information about the invalid parameter's name and value and the reason for the error.  
   
 ```  
@@ -66,7 +57,7 @@ REST API operations for Azure storage services return standard HTTP status codes
 -   [File Service Error Codes](File-Service-Error-Codes.md)  
   
 ## Error Responses for the Table Service  
- Error responses for the Table service include the storage services error code and message elements, as shown above, but are also compliant with the error format described in section 19 of the [OData specification](http://go.microsoft.com/fwlink/?LinkId=301473). Additional error information may be included in the response in addition to the storage services error code and message, but the error response will always comply with the OData spec.  
+ Error responses for the Table service include the storage services error code and message elements, as shown above, but are also compliant with the error format described in section 19 of the [OData specification](https://go.microsoft.com/fwlink/?LinkId=301473). Additional error information may be included in the response in addition to the storage services error code and message, but the error response will always comply with the OData spec.  
   
  Batch error responses are similar to standard Table service error responses and are described in detail in [Performing Entity Group Transactions](Performing-Entity-Group-Transactions.md).  
   
@@ -95,5 +86,5 @@ Time:2014-06-04T16:18:20.7088013Z</message>
   
 ## See Also  
  [Troubleshooting API Operations](Troubleshooting-API-Operations.md)   
- [HttpStatusCode Enumeration](http://go.microsoft.com/fwlink/?LinkId=152845)   
+ [HttpStatusCode Enumeration](https://go.microsoft.com/fwlink/?LinkId=152845)   
  [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)

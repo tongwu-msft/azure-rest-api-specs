@@ -3,9 +3,8 @@ title: "Azure Cloud Services REST - Delete Role Instances | Microsoft Docs"
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"
-ms.prod: "azure"
 ms.reviewer: ""
-ms.service: "cloud-services"
+
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
@@ -43,7 +42,7 @@ The `Delete Role Instances` operation deletes multiple role instances from a dep
   
 ```  
   
-<RoleInstances xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">  
+<RoleInstances xmlns="http://schemas.microsoft.com/windowsazure" xmlns:i="https://www.w3.org/2001/XMLSchema-instance">  
   <Name>name-of-role-instance</Name>  
 </RoleInstances>  
   

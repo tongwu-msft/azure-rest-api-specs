@@ -1,7 +1,7 @@
 ---
 title: "DeployedApplicationHealthStateChunkList"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "DeployedApplicationHealthStateChunkList"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -35,10 +35,10 @@ The list of deployed application health state chunks that respect the input filt
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [Items](#items) | array of [DeployedApplicationHealthStateChunk](sfclient-model-deployedapplicationhealthstatechunk.md) | No |
+| [`Items`](#items) | array of [DeployedApplicationHealthStateChunk](sfclient-model-deployedapplicationhealthstatechunk.md) | No |
 
 ____
-### Items
+### `Items`
 __Type__: array of [DeployedApplicationHealthStateChunk](sfclient-model-deployedapplicationhealthstatechunk.md) <br/>
 __Required__: No<br/>
 <br/>

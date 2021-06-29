@@ -1,0 +1,1547 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.media.jobs.list
+name: List
+service: Media Services
+groupName: Jobs
+apiVersion: 2020-05-01
+summary: "List Jobs  \nLists all of the Jobs for the Transform."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs?api-version=2020-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}/jobs?api-version=2020-05-01&$filter={$filter}&$orderby={$orderby}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Media Services account name.
+  types:
+  - uid: string
+- name: transformName
+  in: path
+  isRequired: true
+  description: The Transform name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API to be used with the client request.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: Restricts the set of items returned.
+  types:
+  - uid: string
+- name: $orderby
+  in: query
+  description: Specifies the key by which the result collection should be ordered.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: JobCollection
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ApiError
+requestHeader: []
+definitions:
+- name: JobCollection
+  description: A collection of Job items.
+  kind: object
+  properties:
+  - name: value
+    description: A collection of Job items.
+    types:
+    - uid: Job
+      isArray: true
+  - name: '@odata.nextLink'
+    description: A link to the next page of the collection (when the collection contains too many results to return in one response).
+    types:
+    - uid: string
+- name: ApiError
+  description: The API error.
+  kind: object
+  properties:
+  - name: error
+    description: The error properties.
+    types:
+    - uid: ODataError
+- name: Job
+  description: A Job resource type. The progress and state can be obtained by polling a Job or subscribing to events using EventGrid.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata relating to this resource.
+    types:
+    - uid: systemData
+  - name: properties.created
+    isReadyOnly: true
+    description: The UTC date and time when the customer has created the Job, in 'YYYY-MM-DDThh:mm:ssZ' format.
+    types:
+    - uid: string
+  - name: properties.state
+    isReadyOnly: true
+    description: The current state of the job.
+    types:
+    - uid: JobState
+  - name: properties.description
+    description: Optional customer supplied description of the Job.
+    types:
+    - uid: string
+  - name: properties.input
+    description: The inputs for the Job.
+    types:
+    - uid: JobInputClip
+    - uid: JobInputs
+    - uid: JobInputSequence
+    - uid: JobInputAsset
+    - uid: JobInputHttp
+    typesTitle: JobInput
+  - name: properties.lastModified
+    isReadyOnly: true
+    description: The UTC date and time when the customer has last updated the Job, in 'YYYY-MM-DDThh:mm:ssZ' format.
+    types:
+    - uid: string
+  - name: properties.outputs
+    description: The outputs for the Job.
+    types:
+    - uid: JobOutputAsset
+      isArray: true
+    typesTitle: JobOutput[]
+  - name: properties.priority
+    description: Priority with which the job should be processed. Higher priority jobs are processed before lower priority jobs. If not set, the default is normal.
+    types:
+    - uid: Priority
+  - name: properties.correlationData
+    description: Customer provided key, value pairs that will be returned in Job and JobOutput state events.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.startTime
+    isReadyOnly: true
+    description: The UTC date and time at which this Job began processing.
+    types:
+    - uid: string
+  - name: properties.endTime
+    isReadyOnly: true
+    description: The UTC date and time at which this Job finished processing.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ODataError
+  description: Information about an error.
+  kind: object
+  properties:
+  - name: code
+    description: A language-independent error name.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error (for example, the name of the property in error).
+    types:
+    - uid: string
+  - name: details
+    description: The error details.
+    types:
+    - uid: ODataError
+      isArray: true
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: JobState
+  description: Describes the state of the JobOutput.
+  kind: enum
+  properties:
+  - name: Canceled
+    description: The job was canceled. This is a final state for the job.
+    types:
+    - uid: string
+  - name: Canceling
+    description: The job is in the process of being canceled. This is a transient state for the job.
+    types:
+    - uid: string
+  - name: Error
+    description: The job has encountered an error. This is a final state for the job.
+    types:
+    - uid: string
+  - name: Finished
+    description: The job is finished. This is a final state for the job.
+    types:
+    - uid: string
+  - name: Processing
+    description: The job is processing. This is a transient state for the job.
+    types:
+    - uid: string
+  - name: Queued
+    description: The job is in a queued state, waiting for resources to become available. This is a transient state.
+    types:
+    - uid: string
+  - name: Scheduled
+    description: The job is being scheduled to run on an available resource. This is a transient state, between queued and processing states.
+    types:
+    - uid: string
+- name: Priority
+  description: Sets the relative priority of the TransformOutputs within a Transform. This sets the priority that the service uses for processing TransformOutputs. The default priority is Normal.
+  kind: enum
+  properties:
+  - name: Low
+    description: Used for TransformOutputs that can be generated after Normal and High priority TransformOutputs.
+    types:
+    - uid: string
+  - name: Normal
+    description: Used for TransformOutputs that can be generated at Normal priority.
+    types:
+    - uid: string
+  - name: High
+    description: Used for TransformOutputs that should take precedence over others.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: JobInputClip
+  description: Represents input files for a Job.
+  kind: object
+  properties:
+  - name: files
+    description: List of files. Required for JobInputHttp. Maximum of 4000 characters each.
+    types:
+    - uid: string
+      isArray: true
+  - name: start
+    description: Defines a point on the timeline of the input media at which processing will start. Defaults to the beginning of the input media.
+    types:
+    - uid: AbsoluteClipTime
+    - uid: UtcClipTime
+    typesTitle: ClipTime
+  - name: end
+    description: Defines a point on the timeline of the input media at which processing will end. Defaults to the end of the input media.
+    types:
+    - uid: AbsoluteClipTime
+    - uid: UtcClipTime
+    typesTitle: ClipTime
+  - name: label
+    description: A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
+    types:
+    - uid: string
+  - name: inputDefinitions
+    description: Defines a list of InputDefinitions. For each InputDefinition, it defines a list of track selections and related metadata.
+    types:
+    - uid: FromAllInputFile
+      isArray: true
+    - uid: FromEachInputFile
+      isArray: true
+    - uid: InputFile
+      isArray: true
+    typesTitle: InputDefinition[]
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.JobInputClip'
+    typesTitle: string
+- name: JobInputs
+  description: Describes a list of inputs to a Job.
+  kind: object
+  properties:
+  - name: inputs
+    description: List of inputs to a Job.
+    types:
+    - uid: JobInputClip
+      isArray: true
+    - uid: JobInputs
+      isArray: true
+    - uid: JobInputSequence
+      isArray: true
+    - uid: JobInputAsset
+      isArray: true
+    - uid: JobInputHttp
+      isArray: true
+    typesTitle: JobInput[]
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.JobInputs'
+    typesTitle: string
+- name: JobInputSequence
+  description: A Sequence contains an ordered list of Clips where each clip is a JobInput.  The Sequence will be treated as a single input.
+  kind: object
+  properties:
+  - name: inputs
+    description: JobInputs that make up the timeline.
+    types:
+    - uid: JobInputAsset
+      isArray: true
+    - uid: JobInputHttp
+      isArray: true
+    typesTitle: JobInputClip[]
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.JobInputSequence'
+    typesTitle: string
+- name: JobInputAsset
+  description: Represents an Asset for input into a Job.
+  kind: object
+  properties:
+  - name: assetName
+    description: The name of the input Asset.
+    types:
+    - uid: string
+  - name: files
+    description: List of files. Required for JobInputHttp. Maximum of 4000 characters each.
+    types:
+    - uid: string
+      isArray: true
+  - name: start
+    description: Defines a point on the timeline of the input media at which processing will start. Defaults to the beginning of the input media.
+    types:
+    - uid: AbsoluteClipTime
+    - uid: UtcClipTime
+    typesTitle: ClipTime
+  - name: end
+    description: Defines a point on the timeline of the input media at which processing will end. Defaults to the end of the input media.
+    types:
+    - uid: AbsoluteClipTime
+    - uid: UtcClipTime
+    typesTitle: ClipTime
+  - name: label
+    description: A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
+    types:
+    - uid: string
+  - name: inputDefinitions
+    description: Defines a list of InputDefinitions. For each InputDefinition, it defines a list of track selections and related metadata.
+    types:
+    - uid: FromAllInputFile
+      isArray: true
+    - uid: FromEachInputFile
+      isArray: true
+    - uid: InputFile
+      isArray: true
+    typesTitle: InputDefinition[]
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.JobInputAsset'
+    typesTitle: string
+- name: JobInputHttp
+  description: Represents HTTPS job input.
+  kind: object
+  properties:
+  - name: baseUri
+    description: Base URI for HTTPS job input. It will be concatenated with provided file names. If no base uri is given, then the provided file list is assumed to be fully qualified uris. Maximum length of 4000 characters.
+    types:
+    - uid: string
+  - name: files
+    description: List of files. Required for JobInputHttp. Maximum of 4000 characters each.
+    types:
+    - uid: string
+      isArray: true
+  - name: start
+    description: Defines a point on the timeline of the input media at which processing will start. Defaults to the beginning of the input media.
+    types:
+    - uid: AbsoluteClipTime
+    - uid: UtcClipTime
+    typesTitle: ClipTime
+  - name: end
+    description: Defines a point on the timeline of the input media at which processing will end. Defaults to the end of the input media.
+    types:
+    - uid: AbsoluteClipTime
+    - uid: UtcClipTime
+    typesTitle: ClipTime
+  - name: label
+    description: A label that is assigned to a JobInputClip, that is used to satisfy a reference used in the Transform. For example, a Transform can be authored so as to take an image file with the label 'xyz' and apply it as an overlay onto the input video before it is encoded. When submitting a Job, exactly one of the JobInputs should be the image file, and it should have the label 'xyz'.
+    types:
+    - uid: string
+  - name: inputDefinitions
+    description: Defines a list of InputDefinitions. For each InputDefinition, it defines a list of track selections and related metadata.
+    types:
+    - uid: FromAllInputFile
+      isArray: true
+    - uid: FromEachInputFile
+      isArray: true
+    - uid: InputFile
+      isArray: true
+    typesTitle: InputDefinition[]
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.JobInputHttp'
+    typesTitle: string
+- name: JobOutputAsset
+  description: Represents an Asset used as a JobOutput.
+  kind: object
+  properties:
+  - name: assetName
+    description: The name of the output Asset.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.JobOutputAsset'
+    typesTitle: string
+  - name: error
+    isReadyOnly: true
+    description: If the JobOutput is in the Error state, it contains the details of the error.
+    types:
+    - uid: JobError
+  - name: state
+    isReadyOnly: true
+    description: Describes the state of the JobOutput.
+    types:
+    - uid: JobState
+  - name: progress
+    isReadyOnly: true
+    description: If the JobOutput is in a Processing state, this contains the Job completion percentage. The value is an estimate and not intended to be used to predict Job completion times. To determine if the JobOutput is complete, use the State property.
+    types:
+    - uid: integer
+  - name: label
+    description: A label that is assigned to a JobOutput in order to help uniquely identify it. This is useful when your Transform has more than one TransformOutput, whereby your Job has more than one JobOutput. In such cases, when you submit the Job, you will add two or more JobOutputs, in the same order as TransformOutputs in the Transform. Subsequently, when you retrieve the Job, either through events or on a GET request, you can use the label to easily identify the JobOutput. If a label is not provided, a default value of '{presetName}_{outputIndex}' will be used, where the preset name is the name of the preset in the corresponding TransformOutput and the output index is the relative index of the this JobOutput within the Job. Note that this index is the same as the relative index of the corresponding TransformOutput within its Transform.
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: The UTC date and time at which this Job Output began processing.
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: The UTC date and time at which this Job Output finished processing.
+    types:
+    - uid: string
+- name: JobError
+  description: Details of JobOutput errors.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code describing the error.
+    types:
+    - uid: JobErrorCode
+  - name: message
+    isReadyOnly: true
+    description: A human-readable language-dependent representation of the error.
+    types:
+    - uid: string
+  - name: category
+    isReadyOnly: true
+    description: Helps with categorization of errors.
+    types:
+    - uid: JobErrorCategory
+  - name: retry
+    isReadyOnly: true
+    description: Indicates that it may be possible to retry the Job. If retry is unsuccessful, please contact Azure support via Azure Portal.
+    types:
+    - uid: JobRetry
+  - name: details
+    isReadyOnly: true
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: JobErrorDetail
+      isArray: true
+- name: AbsoluteClipTime
+  description: Specifies the clip time as an absolute time position in the media file.  The absolute time can point to a different position depending on whether the media file starts from a timestamp of zero or not.
+  kind: object
+  properties:
+  - name: time
+    description: The time position on the timeline of the input media. It is usually specified as an ISO8601 period. e.g PT30S for 30 seconds.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.AbsoluteClipTime'
+    typesTitle: string
+- name: UtcClipTime
+  description: Specifies the clip time as a Utc time position in the media file.  The Utc time can point to a different position depending on whether the media file starts from a timestamp of zero or not.
+  kind: object
+  properties:
+  - name: time
+    description: The time position on the timeline of the input media based on Utc time.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.UtcClipTime'
+    typesTitle: string
+- name: FromAllInputFile
+  description: An InputDefinition that looks across all of the files provided to select tracks specified by the IncludedTracks property. Generally used with the AudioTrackByAttribute and VideoTrackByAttribute to allow selection of a single track across a set of input files.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.FromAllInputFile'
+    typesTitle: string
+  - name: includedTracks
+    description: The list of TrackDescriptors which define the metadata and selection of tracks in the input.
+    types:
+    - uid: AudioTrackDescriptor
+      isArray: true
+    - uid: VideoTrackDescriptor
+      isArray: true
+    - uid: SelectVideoTrackByAttribute
+      isArray: true
+    - uid: SelectVideoTrackById
+      isArray: true
+    - uid: SelectAudioTrackByAttribute
+      isArray: true
+    - uid: SelectAudioTrackById
+      isArray: true
+    typesTitle: TrackDescriptor[]
+- name: FromEachInputFile
+  description: An InputDefinition that looks at each input file provided to select tracks specified by the IncludedTracks property. Generally used with the AudioTrackByAttribute and VideoTrackByAttribute to select tracks from each file given.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.FromEachInputFile'
+    typesTitle: string
+  - name: includedTracks
+    description: The list of TrackDescriptors which define the metadata and selection of tracks in the input.
+    types:
+    - uid: AudioTrackDescriptor
+      isArray: true
+    - uid: VideoTrackDescriptor
+      isArray: true
+    - uid: SelectVideoTrackByAttribute
+      isArray: true
+    - uid: SelectVideoTrackById
+      isArray: true
+    - uid: SelectAudioTrackByAttribute
+      isArray: true
+    - uid: SelectAudioTrackById
+      isArray: true
+    typesTitle: TrackDescriptor[]
+- name: InputFile
+  description: An InputDefinition for a single file.  TrackSelections are scoped to the file specified.
+  kind: object
+  properties:
+  - name: filename
+    description: Name of the file that this input definition applies to.
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.InputFile'
+    typesTitle: string
+  - name: includedTracks
+    description: The list of TrackDescriptors which define the metadata and selection of tracks in the input.
+    types:
+    - uid: AudioTrackDescriptor
+      isArray: true
+    - uid: VideoTrackDescriptor
+      isArray: true
+    - uid: SelectVideoTrackByAttribute
+      isArray: true
+    - uid: SelectVideoTrackById
+      isArray: true
+    - uid: SelectAudioTrackByAttribute
+      isArray: true
+    - uid: SelectAudioTrackById
+      isArray: true
+    typesTitle: TrackDescriptor[]
+- name: JobErrorCode
+  description: Error code describing the error.
+  kind: enum
+  properties:
+  - name: ServiceError
+    description: Fatal service error, please contact support.
+    types:
+    - uid: string
+  - name: ServiceTransientError
+    description: Transient error, please retry, if retry is unsuccessful, please contact support.
+    types:
+    - uid: string
+  - name: DownloadNotAccessible
+    description: While trying to download the input files, the files were not accessible, please check the availability of the source.
+    types:
+    - uid: string
+  - name: DownloadTransientError
+    description: While trying to download the input files, there was an issue during transfer (storage service, network errors), see details and check your source.
+    types:
+    - uid: string
+  - name: UploadNotAccessible
+    description: While trying to upload the output files, the destination was not reachable, please check the availability of the destination.
+    types:
+    - uid: string
+  - name: UploadTransientError
+    description: While trying to upload the output files, there was an issue during transfer (storage service, network errors), see details and check your destination.
+    types:
+    - uid: string
+  - name: ConfigurationUnsupported
+    description: There was a problem with the combination of input files and the configuration settings applied, fix the configuration settings and retry with the same input, or change input to match the configuration.
+    types:
+    - uid: string
+  - name: ContentMalformed
+    description: 'There was a problem with the input content (for example: zero byte files, or corrupt/non-decodable files), check the input files.'
+    types:
+    - uid: string
+  - name: ContentUnsupported
+    description: There was a problem with the format of the input (not valid media file, or an unsupported file/codec), check the validity of the input files.
+    types:
+    - uid: string
+- name: JobErrorCategory
+  description: Helps with categorization of errors.
+  kind: enum
+  properties:
+  - name: Service
+    description: The error is service related.
+    types:
+    - uid: string
+  - name: Download
+    description: The error is download related.
+    types:
+    - uid: string
+  - name: Upload
+    description: The error is upload related.
+    types:
+    - uid: string
+  - name: Configuration
+    description: The error is configuration related.
+    types:
+    - uid: string
+  - name: Content
+    description: The error is related to data in the input files.
+    types:
+    - uid: string
+- name: JobRetry
+  description: Indicates that it may be possible to retry the Job. If retry is unsuccessful, please contact Azure support via Azure Portal.
+  kind: enum
+  properties:
+  - name: DoNotRetry
+    description: Issue needs to be investigated and then the job resubmitted with corrections or retried once the underlying issue has been corrected.
+    types:
+    - uid: string
+  - name: MayRetry
+    description: Issue may be resolved after waiting for a period of time and resubmitting the same Job.
+    types:
+    - uid: string
+- name: JobErrorDetail
+  description: Details of JobOutput errors.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Code describing the error detail.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+- name: AudioTrackDescriptor
+  description: A TrackSelection to select audio tracks.
+  kind: object
+  properties:
+  - name: channelMapping
+    description: Optional designation for single channel audio tracks.  Can be used to combine the tracks into stereo or multi-channel audio tracks.
+    types:
+    - uid: ChannelMapping
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.AudioTrackDescriptor'
+    typesTitle: string
+- name: VideoTrackDescriptor
+  description: A TrackSelection to select video tracks.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.VideoTrackDescriptor'
+    typesTitle: string
+- name: SelectVideoTrackByAttribute
+  description: Select video tracks from the input by specifying an attribute and an attribute filter.
+  kind: object
+  properties:
+  - name: attribute
+    description: The TrackAttribute to filter the tracks by.
+    types:
+    - uid: TrackAttribute
+  - name: filter
+    description: The type of AttributeFilter to apply to the TrackAttribute in order to select the tracks.
+    types:
+    - uid: AttributeFilter
+  - name: filterValue
+    description: "The value to filter the tracks by.  Only used when AttributeFilter.ValueEquals is specified for the Filter property. For TrackAttribute.Bitrate, this should be an integer value in bits per second (e.g: '1500000').  The TrackAttribute.Language is not supported for video tracks."
+    types:
+    - uid: string
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.SelectVideoTrackByAttribute'
+    typesTitle: string
+- name: SelectVideoTrackById
+  description: Select video tracks from the input by specifying a track identifier.
+  kind: object
+  properties:
+  - name: trackId
+    description: Track identifier to select
+    types:
+    - uid: integer
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.SelectVideoTrackById'
+    typesTitle: string
+- name: SelectAudioTrackByAttribute
+  description: Select audio tracks from the input by specifying an attribute and an attribute filter.
+  kind: object
+  properties:
+  - name: attribute
+    description: The TrackAttribute to filter the tracks by.
+    types:
+    - uid: TrackAttribute
+  - name: filter
+    description: The type of AttributeFilter to apply to the TrackAttribute in order to select the tracks.
+    types:
+    - uid: AttributeFilter
+  - name: filterValue
+    description: The value to filter the tracks by.  Only used when AttributeFilter.ValueEquals is specified for the Filter property.
+    types:
+    - uid: string
+  - name: channelMapping
+    description: Optional designation for single channel audio tracks.  Can be used to combine the tracks into stereo or multi-channel audio tracks.
+    types:
+    - uid: ChannelMapping
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.SelectAudioTrackByAttribute'
+    typesTitle: string
+- name: SelectAudioTrackById
+  description: Select audio tracks from the input by specifying a track identifier.
+  kind: object
+  properties:
+  - name: trackId
+    description: Track identifier to select
+    types:
+    - uid: integer
+  - name: channelMapping
+    description: Optional designation for single channel audio tracks.  Can be used to combine the tracks into stereo or multi-channel audio tracks.
+    types:
+    - uid: ChannelMapping
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.SelectAudioTrackById'
+    typesTitle: string
+- name: ChannelMapping
+  description: Optional designation for single channel audio tracks.  Can be used to combine the tracks into stereo or multi-channel audio tracks.
+  kind: enum
+  properties:
+  - name: FrontLeft
+    description: The Front Left Channel.
+    types:
+    - uid: string
+  - name: FrontRight
+    description: The Front Right Channel.
+    types:
+    - uid: string
+  - name: Center
+    description: The Center Channel.
+    types:
+    - uid: string
+  - name: LowFrequencyEffects
+    description: Low Frequency Effects Channel.  Sometimes referred to as the Subwoofer.
+    types:
+    - uid: string
+  - name: BackLeft
+    description: The Back Left Channel.  Sometimes referred to as the Left Surround Channel.
+    types:
+    - uid: string
+  - name: BackRight
+    description: The Back Right Channel.  Sometimes referred to as the Right Surround Channel.
+    types:
+    - uid: string
+  - name: StereoLeft
+    description: The Left Stereo channel.  Sometimes referred to as Down Mix Left.
+    types:
+    - uid: string
+  - name: StereoRight
+    description: The Right Stereo channel.  Sometimes referred to as Down Mix Right.
+    types:
+    - uid: string
+- name: TrackAttribute
+  description: The TrackAttribute to filter the tracks by.
+  kind: enum
+  properties:
+  - name: Bitrate
+    description: The bitrate of the track.
+    types:
+    - uid: string
+  - name: Language
+    description: The language of the track.
+    types:
+    - uid: string
+- name: AttributeFilter
+  description: The type of AttributeFilter to apply to the TrackAttribute in order to select the tracks.
+  kind: enum
+  properties:
+  - name: All
+    description: All tracks will be included.
+    types:
+    - uid: string
+  - name: Top
+    description: The first track will be included when the attribute is sorted in descending order.  Generally used to select the largest bitrate.
+    types:
+    - uid: string
+  - name: Bottom
+    description: The first track will be included when the attribute is sorted in ascending order.  Generally used to select the smallest bitrate.
+    types:
+    - uid: string
+  - name: ValueEquals
+    description: Any tracks that have an attribute equal to the value given will be included.
+    types:
+    - uid: string
+examples:
+- name: Lists all of the Jobs for the Transform.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2020-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "job1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job1",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Queued",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "inputDefinitions": [],
+                    "assetName": "job1-InputAsset"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Queued",
+                  "progress": 0,
+                  "label": "example-custom-label",
+                  "assetName": "job1-OutputAsset"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {}
+            },
+            "systemData": {
+              "createdBy": "contoso@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "0001-01-01T00:00:00Z",
+              "lastModifiedBy": "contoso@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "0001-01-01T00:00:00Z"
+            }
+          },
+          {
+            "name": "job2",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Processing",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "inputDefinitions": [],
+                    "assetName": "job2-InputAsset"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Processing",
+                  "progress": 50,
+                  "label": "example-custom-label",
+                  "startTime": "2021-01-26T13:25:48.3299535Z",
+                  "assetName": "job2-OutputAsset"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {},
+              "startTime": "2021-01-26T13:25:48.3299535Z"
+            },
+            "systemData": {
+              "createdBy": "contoso@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "0001-01-01T00:00:00Z",
+              "lastModifiedBy": "contoso@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "0001-01-01T00:00:00Z"
+            }
+          },
+          {
+            "name": "job3",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Finished",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "inputDefinitions": [],
+                    "assetName": "job3-InputAsset"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Finished",
+                  "progress": 100,
+                  "label": "example-custom-label",
+                  "startTime": "2021-01-26T13:25:48.3299535Z",
+                  "endTime": "2021-01-26T13:35:48.3299535Z",
+                  "assetName": "job3-OutputAsset"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {},
+              "startTime": "2021-01-26T13:25:48.3299535Z",
+              "endTime": "2021-01-26T13:35:48.3299535Z"
+            },
+            "systemData": {
+              "createdBy": "contoso@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "0001-01-01T00:00:00Z",
+              "lastModifiedBy": "contoso@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "0001-01-01T00:00:00Z"
+            }
+          }
+        ]
+      }
+- name: Lists Jobs for the Transform filter by name.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2020-05-01&$filter=name eq 'job1' or name eq 'job2'&$orderby=name
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "job1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job1",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Queued",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "inputDefinitions": [],
+                    "assetName": "job1-InputAsset"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Queued",
+                  "progress": 0,
+                  "label": "example-custom-label",
+                  "assetName": "job1-OutputAsset"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {}
+            },
+            "systemData": {
+              "createdBy": "contoso@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "0001-01-01T00:00:00Z",
+              "lastModifiedBy": "contoso@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "0001-01-01T00:00:00Z"
+            }
+          },
+          {
+            "name": "job2",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Processing",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "inputDefinitions": [],
+                    "assetName": "job2-InputAsset"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Processing",
+                  "progress": 50,
+                  "label": "example-custom-label",
+                  "startTime": "2021-01-26T13:25:48.981468Z",
+                  "assetName": "job2-OutputAsset"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {},
+              "startTime": "2021-01-26T13:25:48.981468Z"
+            },
+            "systemData": {
+              "createdBy": "contoso@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "0001-01-01T00:00:00Z",
+              "lastModifiedBy": "contoso@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "0001-01-01T00:00:00Z"
+            }
+          }
+        ]
+      }
+- name: Lists Jobs for the Transform filter by state equal.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2020-05-01&$filter=properties/state eq Microsoft.Media.JobState'Processing'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "job2",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Processing",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "inputDefinitions": [],
+                    "assetName": "job2-InputAsset"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Processing",
+                  "progress": 50,
+                  "label": "example-custom-label",
+                  "startTime": "2021-01-26T13:25:49.0964684Z",
+                  "assetName": "job2-OutputAsset"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {},
+              "startTime": "2021-01-26T13:25:49.0964684Z"
+            },
+            "systemData": {
+              "createdBy": "contoso@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "0001-01-01T00:00:00Z",
+              "lastModifiedBy": "contoso@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "0001-01-01T00:00:00Z"
+            }
+          },
+          {
+            "name": "job3",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Processing",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "inputDefinitions": [],
+                    "assetName": "job3-InputAsset"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Processing",
+                  "progress": 50,
+                  "label": "example-custom-label",
+                  "startTime": "2021-01-26T13:25:49.0964684Z",
+                  "assetName": "job3-OutputAsset"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {},
+              "startTime": "2021-01-26T13:25:49.0964684Z"
+            },
+            "systemData": {
+              "createdBy": "contoso@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "0001-01-01T00:00:00Z",
+              "lastModifiedBy": "contoso@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "0001-01-01T00:00:00Z"
+            }
+          }
+        ]
+      }
+- name: Lists Jobs for the Transform filter by state not equal.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2020-05-01&$filter=properties/state ne Microsoft.Media.JobState'processing'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "job1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job1",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Queued",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "inputDefinitions": [],
+                    "assetName": "job1-InputAsset"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Queued",
+                  "progress": 0,
+                  "label": "example-custom-label",
+                  "assetName": "job1-OutputAsset"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {}
+            },
+            "systemData": {
+              "createdBy": "contoso@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "0001-01-01T00:00:00Z",
+              "lastModifiedBy": "contoso@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "0001-01-01T00:00:00Z"
+            }
+          },
+          {
+            "name": "job4",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job4",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Finished",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "inputDefinitions": [],
+                    "assetName": "job4-InputAsset"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Finished",
+                  "progress": 100,
+                  "label": "example-custom-label",
+                  "startTime": "2021-01-26T13:25:49.2384669Z",
+                  "endTime": "2021-01-26T13:35:49.2384669Z",
+                  "assetName": "job4-OutputAsset"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {},
+              "startTime": "2021-01-26T13:25:49.2384669Z",
+              "endTime": "2021-01-26T13:35:49.2384669Z"
+            },
+            "systemData": {
+              "createdBy": "contoso@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "0001-01-01T00:00:00Z",
+              "lastModifiedBy": "contoso@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "0001-01-01T00:00:00Z"
+            }
+          }
+        ]
+      }
+- name: Lists Jobs for the Transform filter by name and state.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2020-05-01&$filter=name eq 'job3' and properties/state eq Microsoft.Media.JobState'finished'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "job3",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "0001-01-01T00:00:00Z",
+              "state": "Finished",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "inputDefinitions": [],
+                    "assetName": "job3-InputAsset"
+                  }
+                ]
+              },
+              "lastModified": "0001-01-01T00:00:00Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Finished",
+                  "progress": 100,
+                  "label": "example-custom-label",
+                  "startTime": "2021-01-26T13:25:49.3314672Z",
+                  "endTime": "2021-01-26T13:35:49.3314672Z",
+                  "assetName": "job3-OutputAsset"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {},
+              "startTime": "2021-01-26T13:25:49.3314672Z",
+              "endTime": "2021-01-26T13:35:49.3314672Z"
+            },
+            "systemData": {
+              "createdBy": "contoso@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "0001-01-01T00:00:00Z",
+              "lastModifiedBy": "contoso@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "0001-01-01T00:00:00Z"
+            }
+          }
+        ]
+      }
+- name: Lists Jobs for the Transform filter by created.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2020-05-01&$filter=properties/created ge 2021-01-26T13:35:59.4284656Z and properties/created le 2021-01-26T13:36:09.4284656Z&$orderby=properties/created
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "job2",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "2021-01-26T13:35:59.4284656Z",
+              "state": "Processing",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "inputDefinitions": [],
+                    "assetName": "job2-InputAsset"
+                  }
+                ]
+              },
+              "lastModified": "2021-01-26T13:35:59.4284656Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Processing",
+                  "progress": 50,
+                  "label": "example-custom-label",
+                  "startTime": "2021-01-26T13:25:49.4284656Z",
+                  "assetName": "job2-OutputAsset"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {},
+              "startTime": "2021-01-26T13:25:49.4284656Z"
+            },
+            "systemData": {
+              "createdBy": "contoso@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "2021-01-26T13:35:59.4284656Z",
+              "lastModifiedBy": "contoso@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-01-26T13:35:59.4284656Z"
+            }
+          },
+          {
+            "name": "job3",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "2021-01-26T13:36:09.4284656Z",
+              "state": "Finished",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "inputDefinitions": [],
+                    "assetName": "job3-InputAsset"
+                  }
+                ]
+              },
+              "lastModified": "2021-01-26T13:36:09.4284656Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Finished",
+                  "progress": 100,
+                  "label": "example-custom-label",
+                  "startTime": "2021-01-26T13:25:49.4294655Z",
+                  "endTime": "2021-01-26T13:35:49.4294655Z",
+                  "assetName": "job3-OutputAsset"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {},
+              "startTime": "2021-01-26T13:25:49.4294655Z",
+              "endTime": "2021-01-26T13:35:49.4294655Z"
+            },
+            "systemData": {
+              "createdBy": "contoso@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "2021-01-26T13:36:09.4284656Z",
+              "lastModifiedBy": "contoso@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-01-26T13:36:09.4284656Z"
+            }
+          }
+        ]
+      }
+- name: Lists Jobs for the Transform filter by lastmodified.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs?api-version=2020-05-01&$filter=properties/lastmodified ge 2021-01-26T13:35:59.5194661Z and properties/lastmodified le 2021-01-26T13:36:09.5194661Z&$orderby=properties/lastmodified desc
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "job3",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job3",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "2021-01-26T13:36:09.5194661Z",
+              "state": "Finished",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "inputDefinitions": [],
+                    "assetName": "job3-InputAsset"
+                  }
+                ]
+              },
+              "lastModified": "2021-01-26T13:36:09.5194661Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Finished",
+                  "progress": 100,
+                  "label": "example-custom-label",
+                  "startTime": "2021-01-26T13:25:49.5194661Z",
+                  "endTime": "2021-01-26T13:35:49.5194661Z",
+                  "assetName": "job3-OutputAsset"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {},
+              "startTime": "2021-01-26T13:25:49.5194661Z",
+              "endTime": "2021-01-26T13:35:49.5194661Z"
+            },
+            "systemData": {
+              "createdBy": "contoso@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "2021-01-26T13:36:09.5194661Z",
+              "lastModifiedBy": "contoso@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-01-26T13:36:09.5194661Z"
+            }
+          },
+          {
+            "name": "job2",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/exampleTransform/jobs/job2",
+            "type": "Microsoft.Media/mediaservices/transforms/jobs",
+            "properties": {
+              "created": "2021-01-26T13:35:59.5194661Z",
+              "state": "Processing",
+              "input": {
+                "@odata.type": "#Microsoft.Media.JobInputs",
+                "inputs": [
+                  {
+                    "@odata.type": "#Microsoft.Media.JobInputAsset",
+                    "files": [],
+                    "inputDefinitions": [],
+                    "assetName": "job2-InputAsset"
+                  }
+                ]
+              },
+              "lastModified": "2021-01-26T13:35:59.5194661Z",
+              "outputs": [
+                {
+                  "@odata.type": "#Microsoft.Media.JobOutputAsset",
+                  "state": "Processing",
+                  "progress": 50,
+                  "label": "example-custom-label",
+                  "startTime": "2021-01-26T13:25:49.5194661Z",
+                  "assetName": "job2-OutputAsset"
+                }
+              ],
+              "priority": "Low",
+              "correlationData": {},
+              "startTime": "2021-01-26T13:25:49.5194661Z"
+            },
+            "systemData": {
+              "createdBy": "contoso@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "2021-01-26T13:35:59.5194661Z",
+              "lastModifiedBy": "contoso@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-01-26T13:35:59.5194661Z"
+            }
+          }
+        ]
+      }
+security: []
+errorCodes: []

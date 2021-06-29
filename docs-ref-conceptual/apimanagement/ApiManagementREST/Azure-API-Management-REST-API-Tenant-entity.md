@@ -1,8 +1,7 @@
 ---
 title: "Azure API Management REST API Tenant entity"
 ms.custom: na
-ms.date: 2016-09-22
-ms.prod: azure
+ms.date: 09/22/2016
 ms.reviewer: na
 ms.service: api-management
 ms.suite: na
@@ -24,7 +23,14 @@ translation.priority.mt:
   - zh-cn
   - zh-tw
 ---
-# Azure API Management REST API Tenant entity
+
+# Azure API Management REST API Tenant entity (deprecated)
+
+> [!WARNING]
+> This page is deprecated.
+>
+> Please refer to the [documentation on accessing the Azure API Management REST API through Azure Resource Manager](https://docs.microsoft.com/rest/api/apimanagement/) instead.
+
 This topic describes how to manage properties and configuration that apply to the entire API Management service instance using the API Management REST API.  
   
  For more information about working with the REST API, see the [API Management .NET REST API Sample](https://github.com/Azure/api-management-samples/tree/master/restApiDemo) and the [Getting Started with Azure API Management REST API](https://azure.microsoft.com/documentation/videos/getting-started-with-azure-api-management-rest-api/) video.  
@@ -66,7 +72,8 @@ This topic describes how to manage properties and configuration that apply to th
 ##  <a name="Prerequisites"></a> Prerequisites  
   
 > [!IMPORTANT]
->  Before making any calls into the API Management REST API, please review the [Prerequisites](../ApiManagementREST/API-Management-REST.md#Prerequisites) section of the [API Management REST](../ApiManagementREST/API-Management-REST.md) guide. This specifies the necessary authentication, version parameters, supported media types, and other information required in order to successfully call the API Management REST API.  
+>
+> Before making any calls into the API Management REST API, please review the [API Management REST](../ApiManagementREST/API-Management-REST.md) guide. This specifies the necessary authentication, version parameters, supported media types, and other information required in order to successfully call the API Management REST API. 
   
 ##  <a name="GetPolicy"></a> Get global policy configuration for a tenant  
  This operation returns the global policy configuration for the specified tenant.  

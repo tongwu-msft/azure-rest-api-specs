@@ -1,7 +1,7 @@
 ---
 title: "InvokeDataLossResult"
-ms.date: "2017-10-02"
-ms.prod: "azure"
+description: "InvokeDataLossResult"
+ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -12,9 +12,9 @@ dev_langs:
   - "rest-api"
 helpviewer_keywords: 
   - "Service Fabric REST API Reference"
-author: "rwike77"
-ms.author: "ryanwi"
-manager: "timlt"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"
@@ -34,18 +34,18 @@ Represents information about an operation in a terminal state (Completed or Faul
 ## Properties
 | Name | Type | Required |
 | --- | --- | --- |
-| [ErrorCode](#errorcode) | integer (int32) | No |
-| [SelectedPartition](#selectedpartition) | [SelectedPartition](sfclient-model-selectedpartition.md) | No |
+| [`ErrorCode`](#errorcode) | integer (int32) | No |
+| [`SelectedPartition`](#selectedpartition) | [SelectedPartition](sfclient-model-selectedpartition.md) | No |
 
 ____
-### ErrorCode
+### `ErrorCode`
 __Type__: integer (int32) <br/>
 __Required__: No<br/>
 <br/>
 If OperationState is Completed, this is 0.  If OperationState is Faulted, this is an error code indicating the reason.
 
 ____
-### SelectedPartition
+### `SelectedPartition`
 __Type__: [SelectedPartition](sfclient-model-selectedpartition.md) <br/>
 __Required__: No<br/>
 <br/>
