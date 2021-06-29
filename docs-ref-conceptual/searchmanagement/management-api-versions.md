@@ -1,9 +1,11 @@
 ---
-title: API versions of Management REST API 
+title: API versions of Management REST APIs 
 titleSuffix: Azure Cognitive Search
 description: Lists the generally available and preview versions of the management REST APIs for Azure Cognitive Search.
+
 ms.service: cognitive-search
 ms.topic: "language-reference"
+ms.devlang: rest-api
 
 ms.date: 06/29/2021
 author: HeidiSteen
@@ -11,25 +13,27 @@ ms.author: heidist
 ms.manager: nitinme
 ---
 
-# Versions of Management REST API (Azure Cognitive Search)
+# API versions of Management REST APIs
+
+This article lists the current and past versions of the Management REST APIs for Azure Cognitive Search.
 
 ## Stable versions
 
-| Version | Specification | API updates |
+| API version | Specification | API updates |
 |---------|---------------|-----------------|
-| `api-version=2020-08-01` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2020-08-01) |  [Release note](#2020-08-01) |
-| `api-version=2020-03-13` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2020-03-13) | [Release note](#2020-03-13) |
-| `api-version=2015-08-19` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-08-19) |  [Release note](#2015-08-19) |
+| `2020-08-01` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2020-08-01) |  [Release note](#2020-08-01) |
+| `2020-03-13` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2020-03-13) | [Release note](#2020-03-13) |
+| `2015-08-19` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-08-19) |  [Release note](#2015-08-19) |
 
 ## Preview versions
 
 Preview versions are released to test new functionality, gather feedback, and discover and fix issues. Preview APIs are provided without a service level agreement, and are not recommended for production workloads. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/).
 
-| Version | Specification | API updates |
+| API version | Specification | API updates |
 |---------|---------------|-----------------|
-| `api-version=2021-04-01-Preview` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2021-04-01-preview) | [Release note](#2021-04-01-Preview) |
-| `api-version=2020-08-01-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2020-08-01-preview) | [Release note](#2020-08-01-Preview) |
-| `api-version=2019-10-01-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview) | [Release note](#2019-10-01-Preview) |  
+| `2021-04-01-Preview` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2021-04-01-preview) | [Release note](#2021-04-01-Preview) |
+| `2020-08-01-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2020-08-01-preview) | [Release note](#2020-08-01-Preview) |
+| `2019-10-01-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview) | [Release note](#2019-10-01-Preview) |  
 
 ## Release notes
 
@@ -37,23 +41,28 @@ Preview versions are released to test new functionality, gather feedback, and di
 
 ### 2021-04-01-Preview
 
-This preview API has all of the features of the previous preview API, and adds the following functionality.
+This preview API has all of the features of the previous preview API, and adds the following functionality:
 
-+ Support for *UserAssigned* identity type for the search service. In addition to enabling a *SystemAssigned* identity, customers can now assign an identity they own and manage. A service can now have either a *SystemAssigned* identity, or a *UserAssigned* identity or both. (*SystemAssigned, UserAssigned*)
++ Support for *UserAssigned* identity type for the search service. In addition to enabling a *SystemAssigned* identity, you can now assign an identity that you manage in Azure Active Directory. A service can now have either a *SystemAssigned* identity, or a *UserAssigned* identity, or both (*SystemAssigned, UserAssigned*).
 
-+ Customers can now configure how client requests are authenticated. In addition to the original key-based authentication, the preview API adds support for Azure Active Directory (Azure AD) role-based authentication. The ability use to Azure AD roles must be specified when the service is created or updated.
++ You can now configure how client requests are authenticated. In addition to the original key-based authentication, the preview API adds support for Azure Active Directory (Azure AD) role-based authentication. The ability use to Azure AD roles in this capacity must be specified when the service is created or updated using `properties.authOptions`.
 
-+ [Semantic search (preview)](/azure/search/semantic-search-overview) is a premium feature that runs on Standard tier services. In this preview API, you can enable or disable semantic search at the service level to prohibit any query that invokes semantic ranking.
++ [Semantic search (preview)](/azure/search/semantic-search-overview) is a premium feature that runs on Standard tier services. In this preview API, you can enable or disable semantic search at the service level to prohibit any query that invokes semantic ranking. You can also enable this feature on search services on the free tier for a small number of free queries.
 
-+ Customers can enforce new search services to require encryption of data plane resources via Customer Managed Keys (CMK). Existing search services that don't meet this requirement will be marked as non-compliant.
++ Enforce new search services to require encryption of data plane resources via [Customer Managed Keys (CMK)](/azure/search/search-security-manage-encryption-keys). Existing search services that don't meet this requirement will be marked as non-compliant.
 
-+ Customers can disable scenarios that push data stored in Azure Cognitive Search indexes to external data stores.
++ Disable scenarios that push data stored in Azure Cognitive Search indexes to external data stores. Currently, you can set `properties.disabledDataExfiltrationOptions` to "All" or null (default). Disabling all scenarios turns off the following capabilities"
+
+  + [Power query connectors](/azure/search/search-how-to-index-power-query-data-sources)
+  + [Debug sessions](/azure/search/cognitive-search-debug-session)
+  + [Enrichment cache](/azure/search/search-howto-incremental-index)
+  + [Knowledge Store](/azure/search/knowledge-store-concept-intro), and also [Skillsets](/azure/search/cognitive-search-working-with-skillsets) generally.
 
 <a name="2020-08-01-Preview"></a>
 
 ### 2020-08-01-Preview
 
-This preview API is equivalent to the generally available version `2020-08-01`, and adds the following .
+This preview API is equivalent to the generally available version `2020-08-01`, and and adds the following functionality:
 
 + Added `sharedPrivateLinkResources` support for two new resource types. New `groupId` values include `mysqlServer` (Azure database for MySQL) and `sites` (Azure Functions/app services).
 
@@ -73,7 +82,7 @@ This generally available version added support for [Private Endpoint Connections
 
 ### 2019-10-01-Preview
 
-This the first preview version. There were no preview features introduced in this list. This preview is functionally equivalent to 2020-03-13. It remains available. Any script or code that calls that version will work, but we recommend customers to update to using a more recent API version (either a Generally available or preview API version) to get the same results.
+This is the first preview version. There were no preview features introduced in this list. This preview is functionally equivalent to 2020-03-13. It remains available. Any script or code that calls that version will work, but we recommend customers to update to using a more recent API version (either a Generally available or preview API version) to get the same results.
 
 <a name="2015-08-19"></a>
 
