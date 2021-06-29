@@ -80,8 +80,8 @@ The `Copy Blob` operation copies a blob to a destination within the storage acco
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
 |`x-ms-access-tier`|Version 2017-04-17 and newer. For page blobs on a premium account only. Specifies the tier to be set on the target blob. Check [High-performance Premium Storage and managed disks for VMs](/azure/storage/storage-premium-storage#features) for a full list of supported tiers. |  
 |`x-ms-immutability-policy-until-date`|Version 2020-06-12 and newer. Specifies the retention until date to be set on the blob. Follow RFC1123 format.|  
-|`x-ms-immutability-policy-mode`|Version 2020-06-12 and newer. Specifies the immutability policy mode to be set on the blob.|  
-|`x-ms-legal-hold`|Version 2020-06-12 and newer. Specifies the legal hold to be set on the blob.|  
+|`x-ms-immutability-policy-mode`|Version 2020-06-12 and newer. Specifies the immutability policy mode to be set on the blob, valid value `unlocked/locked`.|  
+|`x-ms-legal-hold`|Version 2020-06-12 and newer. Specifies the legal hold to be set on the blob, valid value `true/false`.|  
 
 ### Request Body  
  None.  
