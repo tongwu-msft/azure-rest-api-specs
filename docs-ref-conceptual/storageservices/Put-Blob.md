@@ -84,8 +84,8 @@ The `Put Blob` operation creates a new block, page, or append blob, or updates t
 |`Origin`|Optional. Specifies the origin from which the request is issued. The presence of this header results in cross-origin resource sharing headers on the response. See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for details.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](http://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
 |`x-ms-immutability-policy-until-date`|Version 2020-06-12 and newer. Specifies the retention until date to be set on the blob. Follow RFC1123 format.|  
-|`x-ms-immutability-policy-mode`|Version 2020-06-12 and newer. Specifies the immutability policy mode to be set on the blob.|  
-|`x-ms-legal-hold`|Version 2020-06-12 and newer. Specifies the legal hold to be set on the blob.|  
+|`x-ms-immutability-policy-mode`|Version 2020-06-12 and newer. Specifies the immutability policy mode to be set on the blob, valid value `unlocked/locked`.|  
+|`x-ms-legal-hold`|Version 2020-06-12 and newer. Specifies the legal hold to be set on the blob, valid value `true/false`.|  
 
  This operation also supports the use of conditional headers to write the blob only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
   
