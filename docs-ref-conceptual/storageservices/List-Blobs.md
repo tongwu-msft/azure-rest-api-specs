@@ -241,17 +241,21 @@ The `List Blobs` operation enumerates the list of blobs under the specified cont
  **Immutability Policy in the Response**  
   
  The `ImmutabilityPolicyUntilDate`, `ImmutabilityPolicyMode` element are present only if the `include=immutabilitypolicy` parameter was specified on the URI.
+ ```  
  <Properties> 
     <ImmutabilityPolicyUntilDate>date-time-value</ImmutabilityPolicyUntilDate>   
     <ImmutabilityPolicyMode>unlocked | locked </ImmutabilityPolicyMode>  
   </Properties> 
+ ```  
  
  **Legal Hold in the Response**  
   
  The `LegalHold` element is present only if the `include=legalhold` parameter was specified on the URI. 
+ ```  
   <Properties> 
     <LegalHold>true | false </LegalHold>  
   </Properties> 
+ ```  
  
  **Returning Result Sets Using a Marker Value**  
   
