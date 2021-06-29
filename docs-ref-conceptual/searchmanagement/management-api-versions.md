@@ -15,21 +15,21 @@ ms.manager: nitinme
 
 ## Stable versions
 
-| Version | Specification | API updates |
+| API version | Specification | API updates |
 |---------|---------------|-----------------|
-| `api-version=2020-08-01` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2020-08-01) |  [Release note](#2020-08-01) |
-| `api-version=2020-03-13` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2020-03-13) | [Release note](#2020-03-13) |
-| `api-version=2015-08-19` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-08-19) |  [Release note](#2015-08-19) |
+| `2020-08-01` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2020-08-01) |  [Release note](#2020-08-01) |
+| `2020-03-13` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2020-03-13) | [Release note](#2020-03-13) |
+| `2015-08-19` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/stable/2015-08-19) |  [Release note](#2015-08-19) |
 
 ## Preview versions
 
 Preview versions are released to test new functionality, gather feedback, and discover and fix issues. Preview APIs are provided without a service level agreement, and are not recommended for production workloads. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/).
 
-| Version | Specification | API updates |
+| API version | Specification | API updates |
 |---------|---------------|-----------------|
-| `api-version=2021-04-01-Preview` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2021-04-01-preview) | [Release note](#2021-04-01-Preview) |
-| `api-version=2020-08-01-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2020-08-01-preview) | [Release note](#2020-08-01-Preview) |
-| `api-version=2019-10-01-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview) | [Release note](#2019-10-01-Preview) |  
+| `2021-04-01-Preview` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2021-04-01-preview) | [Release note](#2021-04-01-Preview) |
+| `2020-08-01-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2020-08-01-preview) | [Release note](#2020-08-01-Preview) |
+| `2019-10-01-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/resource-manager/Microsoft.Search/preview/2019-10-01-preview) | [Release note](#2019-10-01-Preview) |  
 
 ## Release notes
 
