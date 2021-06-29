@@ -119,7 +119,10 @@ The `Get Blob` operation reads or downloads a blob from the system, including it
 |`x-ms-blob-committed-block-count`|The number of committed blocks present in the blob. This header is returned only for append blobs.|  
 |`x-ms-server-encrypted: true/false`|Version 2015-12-11 or newer. The value of this header is set to `true` if the blob data and application metadata are completely encrypted using the specified algorithm. Otherwise, the value is set to `false` (when the blob is unencrypted, or if only parts of the blob/application metadata are encrypted).| 
 |`x-ms-blob-content-md5`|Starting from version 2016-05-31, if the blob has a MD5 hash, and if request contains range header (Range or x-ms-range), this response header is returned with the value of the whole blob’s MD5 value. This value may or may not be equal to the value returned in Content-MD5 header, with the latter calculated from the requested range.|
-  
+|`x-ms-immutability-policy-until-date`|Version 2020-06-12 or newer. The value of this header is with RFC1123 format. This header is returned when there is immutability policy on blob.| 
+|`x-ms-immutability-policy-mode: unlocked/locked`|Version 2020-06-12 or newer. This header is returned when there is immutability policy on blob.| 
+|`x-ms-legal-hold: true/false`|Version 2020-06-12 or newer. The value of this header is set to `true` if the blob contains legal hold and value is true. Otherwise, the value is set to `false`. This header is returned only when there is legal hold set on blob.| 
+
 ### Response Body  
  The response body contains the content of the blob.  
   
