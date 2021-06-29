@@ -58,13 +58,13 @@ The response for this operation includes the headers below. The response may als
 |`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|
 |`x-ms-version`|Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and newer.|
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
-|`x-ms-legal-hold`|Indicates the legal hold to be set on the blob. valid values are `true`/`false`.|
+|`x-ms-legal-hold`|Indicates the legal hold set on the blob. valid values are `true`/`false`.|
 
 ## Authorization
 This operation can only be called by the storage account owner and by anyone with a Shared Access Signature that has permission to legal hold, the `i` SAS permission.
 
 ## Remarks
-Setting the block blob's legal hold on a blob storage or general purpose v2 account have the following restrictions:
+Setting the blob's legal hold on a blob storage or general purpose v2 account have the following restrictions:
   * Setting legal hold on a snapshot or a version is allowed starting REST version 2020-06-12.
   * When legal hold is set to true, user can't modify or delete the blob except some special operations, `PutBlockList/PutBlob/CopyBlob`, because these operations will generate a new version.
 
