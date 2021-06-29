@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: communication.servercalls.joincall
-name: Join Call
+uid: communication.callautomation.callconnections.addparticipant
+name: Add Participant
 service: Communication
-groupName: Server Calls
+groupName: Call Connections
 apiVersion: 2021-06-15-preview
-summary: Join a call.
+summary: Add a participant to the call.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {endpoint}/calling/serverCalls/{serverCallId}/:join?api-version=2021-06-15-preview
+- content: POST {endpoint}/calling/callConnections/{callConnectionId}/participants?api-version=2021-06-15-preview
 uriParameters:
 - name: endpoint
   in: path
@@ -19,10 +19,10 @@ uriParameters:
   description: The endpoint of the Azure Communication resource.
   types:
   - uid: string
-- name: serverCallId
+- name: callConnectionId
   in: path
   isRequired: true
-  description: The server call id.
+  description: The call connection id.
   types:
   - uid: string
 - name: api-version
@@ -33,9 +33,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 202 Accepted
-  description: Returns the join call response.
+  description: Returns the add participant response.
   types:
-  - uid: JoinCallResult
+  - uid: AddParticipantResult
 - name: 400 Bad Request
   description: BadRequest
   types:
@@ -48,6 +48,10 @@ responses:
   description: Forbidden
   types:
   - uid: CommunicationErrorResponse
+- name: 404 Not Found
+  description: NotFound
+  types:
+  - uid: CommunicationErrorResponse
 - name: 500 Internal Server Error
   description: InternalServerError
   types:
@@ -55,37 +59,36 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: source
+  - name: alternateCallerId
     in: body
-    isRequired: true
-    description: The source of the call.
+    description: The alternate identity of source participant.
+    types:
+    - uid: PhoneNumberIdentifierModel
+  - name: participant
+    in: body
+    description: The participant to be added to the call.
     types:
     - uid: CommunicationIdentifierModel
-  - name: subject
+  - name: operationContext
     in: body
-    description: The subject.
+    description: The operation context.
     types:
     - uid: string
   - name: callbackUri
     in: body
-    isRequired: true
     description: The callback URI.
     types:
     - uid: string
-  - name: requestedMediaTypes
-    in: body
-    description: The requested modalities.
-    types:
-    - uid: string
-      isArray: true
-  - name: requestedCallEvents
-    in: body
-    description: The requested call events to subscribe to.
-    types:
-    - uid: string
-      isArray: true
 requestHeader: []
 definitions:
+- name: PhoneNumberIdentifierModel
+  description: A phone number.
+  kind: object
+  properties:
+  - name: value
+    description: The phone number in E.164 format.
+    types:
+    - uid: string
 - name: CommunicationIdentifierModel
   description: 'Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.'
   kind: object
@@ -106,54 +109,40 @@ definitions:
     description: The Microsoft Teams user.
     types:
     - uid: MicrosoftTeamsUserIdentifierModel
-- name: JoinCallResult
-  description: The response payload of the join call operation.
+- name: AddParticipantResult
+  description: The add participant result
   kind: object
   properties:
-  - name: callConnectionId
-    description: The call connection id.
+  - name: participantId
+    description: The id of the added participant.
     types:
     - uid: string
-- name: JoinCallRequest
-  description: The request payload for join call.
+- name: AddParticipantRequest
+  description: The add participant request.
   kind: object
   properties:
-  - name: source
-    description: The source of the call.
+  - name: alternateCallerId
+    description: The alternate identity of source participant.
+    types:
+    - uid: PhoneNumberIdentifierModel
+  - name: participant
+    description: The participant to be added to the call.
     types:
     - uid: CommunicationIdentifierModel
-  - name: subject
-    description: The subject.
+  - name: operationContext
+    description: The operation context.
     types:
     - uid: string
   - name: callbackUri
     description: The callback URI.
     types:
     - uid: string
-  - name: requestedMediaTypes
-    description: The requested modalities.
-    types:
-    - uid: string
-      isArray: true
-  - name: requestedCallEvents
-    description: The requested call events to subscribe to.
-    types:
-    - uid: string
-      isArray: true
 - name: CommunicationUserIdentifierModel
   description: A user that got created with an Azure Communication Services resource.
   kind: object
   properties:
   - name: id
     description: The Id of the communication user.
-    types:
-    - uid: string
-- name: PhoneNumberIdentifierModel
-  description: A phone number.
-  kind: object
-  properties:
-  - name: value
-    description: The phone number in E.164 format.
     types:
     - uid: string
 - name: MicrosoftTeamsUserIdentifierModel
@@ -186,30 +175,24 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Join a call.
+- name: Add a participant to the call.
   request:
-    uri: POST https://contoso.communications.azure.com/calling/serverCalls/aHR0cHM6Ly9jb252ZXJzYXRpb251cmwvdGVzdA/:join?api-version=2021-06-15-preview
+    uri: POST https://contoso.communications.azure.com/calling/callConnections/18dea47f-b081-4107-9a5c-4300819d2c6c/participants?api-version=2021-06-15-preview
     body: >-
       {
-        "source": {
+        "participant": {
           "communicationUser": {
-            "id": "8:acs:b9614373-fd0b-480c-8fd2-cb58b70eab9f_f51123c4-004b-494d-98cf-802d4b824fc4"
+            "id": "8:acs:b9614373-fd0b-480c-8fd2-cb58b70eab9f_387c0153-3b4d-4779-9ee3-a6e2440df075"
           }
         },
-        "subject": "Incident meeting",
-        "callbackUri": "https://app.contoso.com/callback",
-        "requestedMediaTypes": [
-          "audio"
-        ],
-        "requestedCallEvents": [
-          "participantsUpdated"
-        ]
+        "operationContext": "5161f20a-7225-4a74-a529-efaf8e7b351d",
+        "callbackUri": "https://app.contoso.com/callback"
       }
   responses:
   - statusCode: "202"
     body: >-
       {
-        "callConnectionId": "b9614373-fd0b-480c-8fd2-cb58b70eab9f"
+        "participantId": "c736e607-5b39-42a7-a6bb-bb43029e5bac"
       }
   - statusCode: "400"
     body: >-
@@ -235,6 +218,14 @@ examples:
           "message": "User is not allowed to perform specified action."
         }
       }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404",
+          "message": "Resource not found on the server."
+        }
+      }
   - statusCode: "500"
     body: >-
       {
@@ -245,5 +236,5 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Communication service - Join a call.
+  description: Learn more about Communication service - Add a participant to the call.
 errorCodes: []

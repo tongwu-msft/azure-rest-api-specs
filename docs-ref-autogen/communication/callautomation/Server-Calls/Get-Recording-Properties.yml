@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: communication.callconnections.hangupcall
-name: Hangup Call
+uid: communication.callautomation.servercalls.getrecordingproperties
+name: Get Recording Properties
 service: Communication
-groupName: Call Connections
+groupName: Server Calls
 apiVersion: 2021-06-15-preview
-summary: Hangup the call.
+summary: Get call recording properties.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {endpoint}/calling/callConnections/{callConnectionId}/:hangup?api-version=2021-06-15-preview
+- content: GET {endpoint}/calling/serverCalls/{serverCallId}/recordings/{recordingId}?api-version=2021-06-15-preview
 uriParameters:
 - name: endpoint
   in: path
@@ -19,10 +19,16 @@ uriParameters:
   description: The endpoint of the Azure Communication resource.
   types:
   - uid: string
-- name: callConnectionId
+- name: serverCallId
   in: path
   isRequired: true
-  description: The call connection id.
+  description: The server call id.
+  types:
+  - uid: string
+- name: recordingId
+  in: path
+  isRequired: true
+  description: The recording id.
   types:
   - uid: string
 - name: api-version
@@ -32,8 +38,10 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 202 Accepted
-  description: Returns the hangup call response.
+- name: 200 OK
+  description: Returns the recording state.
+  types:
+  - uid: CallRecordingProperties
 - name: 400 Bad Request
   description: BadRequest
   types:
@@ -55,13 +63,35 @@ responses:
   types:
   - uid: CommunicationErrorResponse
 requestHeader: []
-definitions: []
+definitions:
+- name: CallRecordingProperties
+  description: The response payload of get call recording properties operation.
+  kind: object
+  properties:
+  - name: recordingState
+    description: The state of the recording
+    types:
+    - uid: CallRecordingState
+- name: CallRecordingState
+  description: The state of the recording
+  kind: enum
+  properties:
+  - name: active
+    types:
+    - uid: string
+  - name: inactive
+    types:
+    - uid: string
 examples:
-- name: Hangup the call.
+- name: Get call recording properties.
   request:
-    uri: POST https://contoso.communications.azure.com/calling/callConnections/18dea47f-b081-4107-9a5c-4300819d2c6c/:hangup?api-version=2021-06-15-preview
+    uri: GET https://contoso.communications.azure.com/calling/serverCalls/aHR0cHM6Ly9jb252ZXJzYXRpb251cmwvdGVzdA/recordings/eyJQbGF0Zm9ybUVuZHBvaW50SWQiOiI3ZjQyNmI1OC03NTRmLTQ2M2UtYWRkMS0wNWFhNGNiYjliMzQiLCJSZXNvdXJjZVNwZWNpZmljSWQiOiJmNjMzODYwMS00MmE1LTRkMGUtODI3My01NjIwM2JhNzAzODYifQ?api-version=2021-06-15-preview
   responses:
-  - statusCode: "202"
+  - statusCode: "200"
+    body: >-
+      {
+        "recordingState": "active"
+      }
   - statusCode: "400"
     body: >-
       {
@@ -104,5 +134,5 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Communication service - Hangup the call.
+  description: Learn more about Communication service - Get call recording properties.
 errorCodes: []
