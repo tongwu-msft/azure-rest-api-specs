@@ -11,7 +11,7 @@ ms.author: lawe
 
 # Set Blob Immutability Policy
 
-The `Set Blob Immutability Policy` operation sets the immutability policy on a blob. The operation is allowed on a block blob in a blob storage. This operation does not update the blob's ETag.
+The `Set Blob Immutability Policy` operation sets the immutability policy on a blob. This operation does not update the blob's ETag.
 
 ## Request
 The `Set Blob Immutability Policy` request may be constructed as follows. HTTPS is recommended. Replace myaccount with the name of your storage account and myblob with the blob name for which the immutability policy is to be changed.
