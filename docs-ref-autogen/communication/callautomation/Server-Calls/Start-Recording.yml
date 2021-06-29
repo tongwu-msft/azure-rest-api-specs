@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: communication.servercalls.pauserecording
-name: Pause Recording
+uid: communication.callautomation.servercalls.startrecording
+name: Start Recording
 service: Communication
 groupName: Server Calls
 apiVersion: 2021-06-15-preview
-summary: Pause recording the call.
+summary: Start recording of the call.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {endpoint}/calling/serverCalls/{serverCallId}/recordings/{recordingId}/:pause?api-version=2021-06-15-preview
+- content: POST {endpoint}/calling/serverCalls/{serverCallId}/recordings?api-version=2021-06-15-preview
 uriParameters:
 - name: endpoint
   in: path
@@ -25,12 +25,6 @@ uriParameters:
   description: The server call id.
   types:
   - uid: string
-- name: recordingId
-  in: path
-  isRequired: true
-  description: The recording id.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -39,7 +33,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Returns the pause call recording response.
+  description: Returns the start call recording response.
+  types:
+  - uid: StartCallRecordingResult
 - name: 400 Bad Request
   description: BadRequest
   types:
@@ -60,14 +56,46 @@ responses:
   description: InternalServerError
   types:
   - uid: CommunicationErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: recordingStateCallbackUri
+    in: body
+    description: The uri to send notifications to.
+    types:
+    - uid: string
 requestHeader: []
-definitions: []
+definitions:
+- name: StartCallRecordingResult
+  description: The response payload of start call recording operation.
+  kind: object
+  properties:
+  - name: recordingId
+    description: The recording id of the started recording
+    types:
+    - uid: string
+- name: StartCallRecordingRequest
+  description: The request payload start call recording operation.
+  kind: object
+  properties:
+  - name: recordingStateCallbackUri
+    description: The uri to send notifications to.
+    types:
+    - uid: string
 examples:
-- name: Pause recording the call.
+- name: Start recording of the call.
   request:
-    uri: POST https://contoso.communications.azure.com/calling/serverCalls/aHR0cHM6Ly9jb252ZXJzYXRpb251cmwvdGVzdA/recordings/eyJQbGF0Zm9ybUVuZHBvaW50SWQiOiI3ZjQyNmI1OC03NTRmLTQ2M2UtYWRkMS0wNWFhNGNiYjliMzQiLCJSZXNvdXJjZVNwZWNpZmljSWQiOiJmNjMzODYwMS00MmE1LTRkMGUtODI3My01NjIwM2JhNzAzODYifQ/:pause?api-version=2021-06-15-preview
+    uri: POST https://contoso.communications.azure.com/calling/serverCalls/aHR0cHM6Ly9jb252ZXJzYXRpb251cmwvdGVzdA/recordings?api-version=2021-06-15-preview
+    body: >-
+      {
+        "recordingStateCallbackUri": "https://app.contoso.com/callback"
+      }
   responses:
   - statusCode: "200"
+    body: >-
+      {
+        "recordingId": "eyJQbGF0Zm9ybUVuZHBvaW50SWQiOiI3ZjQyNmI1OC03NTRmLTQ2M2UtYWRkMS0wNWFhNGNiYjliMzQiLCJSZXNvdXJjZVNwZWNpZmljSWQiOiJmNjMzODYwMS00MmE1LTRkMGUtODI3My01NjIwM2JhNzAzODYifQ"
+      }
   - statusCode: "400"
     body: >-
       {
@@ -110,5 +138,5 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Communication service - Pause recording the call.
+  description: Learn more about Communication service - Start recording of the call.
 errorCodes: []

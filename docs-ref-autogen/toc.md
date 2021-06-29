@@ -5712,14 +5712,6 @@
 ## [Common Headers](../docs-ref-conceptual/communication/headers.md)
 ## [Error Codes](../docs-ref-conceptual/communication/errorcodes.md)
 ## Reference
-### Call Connections
-#### [Overview](communication/Call-Connections.yml)
-#### [Add Participant](communication/Call-Connections/Add-Participant.yml)
-#### [Cancel All Media Operations](communication/Call-Connections/Cancel-All-Media-Operations.yml)
-#### [Create Call](communication/Call-Connections/Create-Call.yml)
-#### [Hangup Call](communication/Call-Connections/Hangup-Call.yml)
-#### [Play Audio](communication/Call-Connections/Play-Audio.yml)
-#### [Remove Participant](communication/Call-Connections/Remove-Participant.yml)
 ### Communication Identity
 #### [Overview](communication/Communication-Identity.yml)
 #### [Create](communication/Communication-Identity/Create.yml)
@@ -5752,20 +5744,29 @@
 #### [Release Phone Number](communication/Phone-Numbers/Release-Phone-Number.yml)
 #### [Search Available Phone Numbers](communication/Phone-Numbers/Search-Available-Phone-Numbers.yml)
 #### [Update Capabilities](communication/Phone-Numbers/Update-Capabilities.yml)
-### Server Calls
-#### [Overview](communication/Server-Calls.yml)
-#### [Add Participant](communication/Server-Calls/Add-Participant.yml)
-#### [Get Recording Properties](communication/Server-Calls/Get-Recording-Properties.yml)
-#### [Join Call](communication/Server-Calls/Join-Call.yml)
-#### [Pause Recording](communication/Server-Calls/Pause-Recording.yml)
-#### [Play Audio](communication/Server-Calls/Play-Audio.yml)
-#### [Remove Participant](communication/Server-Calls/Remove-Participant.yml)
-#### [Resume Recording](communication/Server-Calls/Resume-Recording.yml)
-#### [Start Recording](communication/Server-Calls/Start-Recording.yml)
-#### [Stop Recording](communication/Server-Calls/Stop-Recording.yml)
 ### Sms
 #### [Overview](communication/Sms.yml)
 #### [Send](communication/Sms/Send.yml)
+### Call Automation
+#### Call Connections
+##### [Overview](communication/callautomation/Call-Connections.yml)
+##### [Add Participant](communication/callautomation/Call-Connections/Add-Participant.yml)
+##### [Cancel All Media Operations](communication/callautomation/Call-Connections/Cancel-All-Media-Operations.yml)
+##### [Create Call](communication/callautomation/Call-Connections/Create-Call.yml)
+##### [Hangup Call](communication/callautomation/Call-Connections/Hangup-Call.yml)
+##### [Play Audio](communication/callautomation/Call-Connections/Play-Audio.yml)
+##### [Remove Participant](communication/callautomation/Call-Connections/Remove-Participant.yml)
+#### Server Calls
+##### [Overview](communication/callautomation/Server-Calls.yml)
+##### [Add Participant](communication/callautomation/Server-Calls/Add-Participant.yml)
+##### [Get Recording Properties](communication/callautomation/Server-Calls/Get-Recording-Properties.yml)
+##### [Join Call](communication/callautomation/Server-Calls/Join-Call.yml)
+##### [Pause Recording](communication/callautomation/Server-Calls/Pause-Recording.yml)
+##### [Play Audio](communication/callautomation/Server-Calls/Play-Audio.yml)
+##### [Remove Participant](communication/callautomation/Server-Calls/Remove-Participant.yml)
+##### [Resume Recording](communication/callautomation/Server-Calls/Resume-Recording.yml)
+##### [Start Recording](communication/callautomation/Server-Calls/Start-Recording.yml)
+##### [Stop Recording](communication/callautomation/Server-Calls/Stop-Recording.yml)
 ### Chat
 #### Chat
 ##### [Overview](communication/chat/Chat.yml)
