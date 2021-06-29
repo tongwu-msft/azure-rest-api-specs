@@ -46,7 +46,7 @@ You can also use the Azure portal.
 
 ## Authentication and access control
 
-Administration rights are conveyed through roles in Azure Active Directory (AD). A best practice is to assign roles to groups rather than individual users. The subscription owner or global administrator manages these assignments. For more information, see [Assign Azure AD roles to groups](azure/active-directory/roles/groups-assign-role).
+Administration rights are conveyed through roles in Azure Active Directory (AD). A best practice is to assign roles to groups rather than individual users. The subscription owner or global administrator manages these assignments. For more information, see [Assign Azure AD roles to groups](/azure/active-directory/roles/groups-assign-role).
 
 For search service management, supported roles include Owner, Contributor, and Reader. For the full list, see [Role-based authorization](/azure/search/search-security-rbac).
 
