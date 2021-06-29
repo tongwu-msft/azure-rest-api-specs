@@ -1,22 +1,28 @@
 ### YamlMime:RESTOperation
-uid: communication.callconnections.createcall
-name: Create Call
+uid: communication.callautomation.servercalls.joincall
+name: Join Call
 service: Communication
-groupName: Call Connections
+groupName: Server Calls
 apiVersion: 2021-06-15-preview
-summary: Create a new call.
+summary: Join a call.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {endpoint}/calling/callConnections?api-version=2021-06-15-preview
+- content: POST {endpoint}/calling/serverCalls/{serverCallId}/:join?api-version=2021-06-15-preview
 uriParameters:
 - name: endpoint
   in: path
   isRequired: true
   skipUrlEncoding: true
   description: The endpoint of the Azure Communication resource.
+  types:
+  - uid: string
+- name: serverCallId
+  in: path
+  isRequired: true
+  description: The server call id.
   types:
   - uid: string
 - name: api-version
@@ -26,10 +32,10 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 201 Created
-  description: Returns the create call response.
+- name: 202 Accepted
+  description: Returns the join call response.
   types:
-  - uid: CreateCallResult
+  - uid: JoinCallResult
 - name: 400 Bad Request
   description: BadRequest
   types:
@@ -49,18 +55,6 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: alternateCallerId
-    in: body
-    description: The alternate identity of the source of the call if dialing out to a pstn number
-    types:
-    - uid: PhoneNumberIdentifierModel
-  - name: targets
-    in: body
-    isRequired: true
-    description: The targets of the call.
-    types:
-    - uid: CommunicationIdentifierModel
-      isArray: true
   - name: source
     in: body
     isRequired: true
@@ -92,14 +86,6 @@ requestBody:
       isArray: true
 requestHeader: []
 definitions:
-- name: PhoneNumberIdentifierModel
-  description: A phone number.
-  kind: object
-  properties:
-  - name: value
-    description: The phone number in E.164 format.
-    types:
-    - uid: string
 - name: CommunicationIdentifierModel
   description: 'Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.'
   kind: object
@@ -120,27 +106,18 @@ definitions:
     description: The Microsoft Teams user.
     types:
     - uid: MicrosoftTeamsUserIdentifierModel
-- name: CreateCallResult
-  description: The response payload of the create call operation.
+- name: JoinCallResult
+  description: The response payload of the join call operation.
   kind: object
   properties:
   - name: callConnectionId
     description: The call connection id.
     types:
     - uid: string
-- name: CreateCallRequest
-  description: The request payload for create call.
+- name: JoinCallRequest
+  description: The request payload for join call.
   kind: object
   properties:
-  - name: alternateCallerId
-    description: The alternate identity of the source of the call if dialing out to a pstn number
-    types:
-    - uid: PhoneNumberIdentifierModel
-  - name: targets
-    description: The targets of the call.
-    types:
-    - uid: CommunicationIdentifierModel
-      isArray: true
   - name: source
     description: The source of the call.
     types:
@@ -169,6 +146,14 @@ definitions:
   properties:
   - name: id
     description: The Id of the communication user.
+    types:
+    - uid: string
+- name: PhoneNumberIdentifierModel
+  description: A phone number.
+  kind: object
+  properties:
+  - name: value
+    description: The phone number in E.164 format.
     types:
     - uid: string
 - name: MicrosoftTeamsUserIdentifierModel
@@ -201,47 +186,30 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Create a new call.
+- name: Join a call.
   request:
-    uri: POST https://contoso.communications.azure.com/calling/callConnections?api-version=2021-06-15-preview
+    uri: POST https://contoso.communications.azure.com/calling/serverCalls/aHR0cHM6Ly9jb252ZXJzYXRpb251cmwvdGVzdA/:join?api-version=2021-06-15-preview
     body: >-
       {
         "source": {
           "communicationUser": {
-            "id": "8:acs:b9614373-fd0b-480c-8fd2-cb58b70eab9f_da7be3a9-8788-42a6-85c6-56b2cf784fce"
+            "id": "8:acs:b9614373-fd0b-480c-8fd2-cb58b70eab9f_f51123c4-004b-494d-98cf-802d4b824fc4"
           }
         },
-        "targets": [
-          {
-            "communicationUser": {
-              "id": "8:acs:b9614373-fd0b-480c-8fd2-cb58b70eab9f_0f50d091-5bd3-448b-884d-44be7037d9b9"
-            }
-          },
-          {
-            "phoneNumber": {
-              "value": "+14250123456"
-            }
-          }
-        ],
-        "alternateCallerId": {
-          "value": "+18440123456"
-        },
-        "subject": "Reminder call",
+        "subject": "Incident meeting",
         "callbackUri": "https://app.contoso.com/callback",
         "requestedMediaTypes": [
-          "audio",
-          "video"
+          "audio"
         ],
         "requestedCallEvents": [
-          "dtmfReceived",
           "participantsUpdated"
         ]
       }
   responses:
-  - statusCode: "201"
+  - statusCode: "202"
     body: >-
       {
-        "callConnectionId": "18dea47f-b081-4107-9a5c-4300819d2c6c"
+        "callConnectionId": "b9614373-fd0b-480c-8fd2-cb58b70eab9f"
       }
   - statusCode: "400"
     body: >-
@@ -277,5 +245,5 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Communication service - Create a new call.
+  description: Learn more about Communication service - Join a call.
 errorCodes: []
