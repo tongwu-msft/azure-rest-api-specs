@@ -1,8 +1,11 @@
 ---
-title: Management REST APIs in Azure Cognitive Search | Microsoft Docs
-description: API reference for provisioning an Azure Cognitive Search service for public or private access. You can also manage API keys and configure capacity.
+title: Management REST APIs in Azure Cognitive Search
+titleSuffix: Azure Cognitive Search
+description: REST API reference for provisioning an Azure Cognitive Search service for public or private access. You can also manage API keys and configure capacity.
+
 ms.service: cognitive-search
 ms.topic: "language-reference"
+ms.devlang: rest-api
 
 ms.date: 06/29/2021
 author: HeidiSteen
@@ -25,7 +28,7 @@ To fully administer your service programmatically, you will need two APIs: the M
 
 ## Connect to the management endpoint
 
-To connect to the management endpoint, start with the Resource Manager endpoint `https://management.azure.com`. An HTTP request includes the Resource Manager endpoint, subscription ID, provider (`Microsoft.Search`), and the API version.
+When setting up the connection, start with the Resource Manager endpoint `https://management.azure.com`. An HTTP request includes the Resource Manager endpoint, subscription ID, provider (`Microsoft.Search`), and the API version. Operations are specified in the body of the request.
 
 A fully specified endpoint has the following components:
 
@@ -43,7 +46,7 @@ You can also use the Azure portal.
 
 ## Authentication and access control
 
-Rights to administer a search service are conveyed through roles in Azure Active Directory (AD). In Azure Cognitive Search, supported roles include Owner, Contributor, and Reader. For more information, see [Role-based authorization in Cognitive Search](/azure/search/search-security-rbac).
+Administration rights are conveyed through roles in Azure Active Directory (AD). In Azure Cognitive Search, supported roles include Owner, Contributor, and Reader. For more information, see [Role-based authorization](/azure/search/search-security-rbac).
 
 ## Management APIs in other SDKs
 

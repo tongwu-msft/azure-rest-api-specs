@@ -1,9 +1,11 @@
 ---
-title: API versions of Management REST API 
+title: API versions of Management REST APIs 
 titleSuffix: Azure Cognitive Search
 description: Lists the generally available and preview versions of the management REST APIs for Azure Cognitive Search.
+
 ms.service: cognitive-search
 ms.topic: "language-reference"
+ms.devlang: rest-api
 
 ms.date: 06/29/2021
 author: HeidiSteen
@@ -11,7 +13,9 @@ ms.author: heidist
 ms.manager: nitinme
 ---
 
-# Versions of Management REST API (Azure Cognitive Search)
+# API versions of Management REST APIs
+
+This article lists the current and past versions of the Management REST APIs for Azure Cognitive Search.
 
 ## Stable versions
 
