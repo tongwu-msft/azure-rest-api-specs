@@ -45,13 +45,18 @@ This preview API has all of the features of the previous preview API, and adds t
 
 + Support for *UserAssigned* identity type for the search service. In addition to enabling a *SystemAssigned* identity, you can now assign an identity that you manage in Azure Active Directory. A service can now have either a *SystemAssigned* identity, or a *UserAssigned* identity, or both (*SystemAssigned, UserAssigned*).
 
-+ You can now configure how client requests are authenticated. In addition to the original key-based authentication, the preview API adds support for Azure Active Directory (Azure AD) role-based authentication. The ability use to Azure AD roles in this capacity must be specified when the service is created or updated.
++ You can now configure how client requests are authenticated. In addition to the original key-based authentication, the preview API adds support for Azure Active Directory (Azure AD) role-based authentication. The ability use to Azure AD roles in this capacity must be specified when the service is created or updated using `properties.authOptions`.
 
-+ [Semantic search (preview)](/azure/search/semantic-search-overview) is a premium feature that runs on Standard tier services. In this preview API, you can enable or disable semantic search at the service level to prohibit any query that invokes semantic ranking.
++ [Semantic search (preview)](/azure/search/semantic-search-overview) is a premium feature that runs on Standard tier services. In this preview API, you can enable or disable semantic search at the service level to prohibit any query that invokes semantic ranking. You can also enable this feature on search services on the free tier for a small number of free queries.
 
 + Enforce new search services to require encryption of data plane resources via [Customer Managed Keys (CMK)](/azure/search/search-security-manage-encryption-keys). Existing search services that don't meet this requirement will be marked as non-compliant.
 
-+ Disable scenarios that push data stored in Azure Cognitive Search indexes to external data stores.
++ Disable scenarios that push data stored in Azure Cognitive Search indexes to external data stores. Currently, you can set `properties.disabledDataExfiltrationOptions` to "All" or null (default). Disabling all scenarios turns off the following capabilities"
+
+  + [Power query connectors](/azure/search/search-how-to-index-power-query-data-sources)
+  + [Debug sessions](/azure/search/cognitive-search-debug-session)
+  + [Enrichment cache](/azure/search/search-howto-incremental-index)
+  + [Knowledge Store](/azure/search/knowledge-store-concept-intro), and also [Skillsets](/azure/search/cognitive-search-working-with-skillsets) generally.
 
 <a name="2020-08-01-Preview"></a>
 
