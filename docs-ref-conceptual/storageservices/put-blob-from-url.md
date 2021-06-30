@@ -51,6 +51,7 @@ The size of the source blob can be up to a maximum length of 256 Mib.
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Length`|Required. Specifies the number of bytes being transmitted in the request body. The value of this header must be set to zero. When the length is not zero, the operation will fail with the status code 400 (Bad Request).|  
 |`x-ms-copy-source:name`|Required. Specifies the URL of the source blob. The value may be a URL of up to 2 KiB in length that specifies a blob. The value should be URL-encoded as it would appear in a request URI. The source blob must either be public or must be authorized via a shared access signature. If the source blob is public, no authorization is required to perform the operation. If the size of the source blob is greater than 256 MiB, the request will fail with 409 (Conflict). Here are some examples of source object URLs:<br /><br /> -   `https://myaccount.blob.core.windows.net/mycontainer/myblob`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`<br />-   `https://myaccount.blob.core.windows.net/mycontainer/myblob?versionid=<DateTime>`|
+|`x-ms-copy-source-authorization: <scheme> <signature>`|Optional. Specifies the authorization scheme and signature for copy source. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).<br /> Only scheme bearer is supported for Azure Active Directory.<br />This header is supported in versions 2020-10-02 and later|
 |`x-ms-blob-type: BlockBlob`|Required. Specifies the type of blob to create. Must be `BlockBlob`. When the blob type is not `BlockBlob`, the operation will fail with status code 400 (Bad Request).|
 |`Content-Type`|Optional. The MIME content type of the blob. The default type is `application/octet-stream`.|
 |`Content-Encoding`|Optional. Specifies which content encodings have been applied to the blob. This value is returned to the client when the [Get Blob](Get-Blob.md) operation is performed on the blob resource. The client can use this value when returned to decode the blob content.|  
@@ -176,6 +177,8 @@ x-ms-version-id: <DateTime>
 
 The `Put Blob from URL` operation is supported beginning with the `2020-04-08` version.
 
+ In version 2020-10-02 and newer, Azure Active Directory authorization is supported for the source of the copy operation.
+ 
 The source blob may be of any type, including a block blob, append blob, or page blob.  The destination blob, however, must be a block blob.
 
 The following table describes the maximum block and blob sizes permitted by service version.
