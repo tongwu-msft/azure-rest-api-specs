@@ -1,0 +1,165 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.migrate.assessment.privatelinkresource.get
+name: Get
+service: Azure Migrate
+groupName: Private Link Resource
+apiVersion: 2019-10-01
+summary: "Get a specific private Link Resource.  \nGet information related to a specific private Link Resource in the project. Returns a json object of type 'privateLinkResources' as specified in the models section."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentprojects/{projectName}/privateLinkResources/{privateLinkResourceName}?api-version=2019-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription Id in which project was created.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Azure Resource Group that project is part of.
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: Name of the Azure Migrate project.
+  types:
+  - uid: string
+- name: privateLinkResourceName
+  in: path
+  isRequired: true
+  description: Unique name of a private link resource within a project.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Standard request header. Used by service to identify API version used by client.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: x-ms-request-id
+    value: string
+  description: OK
+  types:
+  - uid: PrivateLinkResource
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: PrivateLinkResource
+  description: A private link resource for a project for which a private endpoint can be created.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the private link resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the object = [Microsoft.Migrate/assessmentProjects/privateLinkResources].
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Path reference to this private link resource. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateLinkResources/{privateLinkResourceName}
+    types:
+    - uid: string
+  - name: properties
+    isReadyOnly: true
+    description: Properties of the private link resource.
+    types:
+    - uid: PrivateLinkResourceProperties
+- name: CloudError
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the Azure Migrate service.
+    types:
+    - uid: CloudErrorBody
+- name: PrivateLinkResourceProperties
+  description: Properties of a private link resource.
+  kind: object
+  properties:
+  - name: requiredMembers
+    isReadyOnly: true
+    description: The private link resource required member names.
+    types:
+    - uid: string
+      isArray: true
+  - name: requiredZoneNames
+    isReadyOnly: true
+    description: Required DNS zone names of the the private link resource.
+    types:
+    - uid: string
+      isArray: true
+  - name: groupId
+    isReadyOnly: true
+    description: The private link resource group id.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the Azure Migrate service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: PrivateLinkResources_Get
+  request:
+    uri: GET https://management.azure.com/subscriptions/4bd2aa0f-2bd2-4d67-91a8-5a4533d58600/resourceGroups/madhavicus/providers/Microsoft.Migrate/assessmentprojects/custestpece80project/privateLinkResources/Default?api-version=2019-10-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "Default",
+        "type": "Microsoft.Migrate/assessmentprojects/privateLinkResources",
+        "id": "/subscriptions/4bd2aa0f-2bd2-4d67-91a8-5a4533d58600/resourceGroups/madhavicus/providers/Microsoft.Migrate/assessmentprojects/custestpece80project/privateLinkResources/Default",
+        "properties": {
+          "requiredMembers": [
+            "CollectorAgent"
+          ],
+          "requiredZoneNames": [
+            "privatelink.prod.migration.windowsazure.com"
+          ],
+          "groupId": "Default"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: "Get a specific private Link Resource.  \nGet information related to a specific private Link Resource in the project."
+errorCodes: []

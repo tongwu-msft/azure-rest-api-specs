@@ -1,0 +1,894 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagecache.caches.listbyresourcegroup
+name: List By Resource Group
+service: Storagecache
+groupName: Caches
+apiVersion: 2021-03-01
+summary: Returns all Caches the user has access to under a resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches?api-version=2021-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Target resource group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A list of Cache objects. Note that entity references might replace complete Cache objects, as described in http://docs.oasis-open.org/odata/odata-json-format/v4.01/cs01/odata-json-format-v4.01-cs01.html#sec_EntityReference
+  types:
+  - uid: CachesListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: CachesListResult
+  description: Result of the request to list Caches. It contains a list of Caches and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: nextLink
+    description: URL to get the next set of Cache list results, if there are any.
+    types:
+    - uid: string
+  - name: value
+    description: List of Caches.
+    types:
+    - uid: Cache
+      isArray: true
+- name: CloudError
+  description: An error response.
+  kind: object
+  properties:
+  - name: error
+    description: The body of the error.
+    types:
+    - uid: CloudErrorBody
+- name: Cache
+  description: 'A Cache instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md'
+  kind: object
+  properties:
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID of the Cache.
+    types:
+    - uid: string
+  - name: location
+    description: Region name string.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of Cache.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the Cache; Microsoft.StorageCache/Cache
+    types:
+    - uid: string
+  - name: identity
+    description: The identity of the cache, if configured.
+    types:
+    - uid: CacheIdentity
+  - name: systemData
+    isReadyOnly: true
+    description: The system meta data relating to this resource.
+    types:
+    - uid: systemData
+  - name: sku
+    description: SKU for the Cache.
+    types:
+    - uid: Sku
+  - name: properties.cacheSizeGB
+    description: The size of this Cache, in GB.
+    types:
+    - uid: integer
+  - name: properties.health
+    isReadyOnly: true
+    description: Health of the Cache.
+    types:
+    - uid: CacheHealth
+  - name: properties.mountAddresses
+    isReadyOnly: true
+    description: Array of IP addresses that can be used by clients mounting this Cache.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.provisioningState
+    description: ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
+    types:
+    - uid: ProvisioningStateType
+  - name: properties.subnet
+    description: Subnet used for the Cache.
+    types:
+    - uid: string
+  - name: properties.upgradeStatus
+    description: Upgrade status of the Cache.
+    types:
+    - uid: CacheUpgradeStatus
+  - name: properties.networkSettings
+    description: Specifies network settings of the cache.
+    types:
+    - uid: CacheNetworkSettings
+  - name: properties.encryptionSettings
+    description: Specifies encryption settings of the cache.
+    types:
+    - uid: CacheEncryptionSettings
+  - name: properties.securitySettings
+    description: Specifies security settings of the cache.
+    types:
+    - uid: CacheSecuritySettings
+  - name: properties.directoryServicesSettings
+    description: Specifies Directory Services settings of the cache.
+    types:
+    - uid: CacheDirectorySettings
+- name: CloudErrorBody
+  description: An error response.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+- name: CacheIdentity
+  description: Cache identity properties.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the cache.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id associated with the cache.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the cache
+    types:
+    - uid: CacheIdentityType
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: Sku
+  description: SKU for the Cache.
+  kind: object
+  properties:
+  - name: name
+    description: SKU name for this Cache.
+    types:
+    - uid: string
+- name: CacheHealth
+  description: An indication of Cache health. Gives more information about health than just that related to provisioning.
+  kind: object
+  properties:
+  - name: state
+    description: List of Cache health states.
+    types:
+    - uid: HealthStateType
+  - name: statusDescription
+    description: Describes explanation of state.
+    types:
+    - uid: string
+  - name: conditions
+    isReadyOnly: true
+    description: Outstanding conditions that need to be investigated and resolved.
+    types:
+    - uid: Condition
+      isArray: true
+- name: ProvisioningStateType
+  description: ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+- name: CacheUpgradeStatus
+  description: Properties describing the software upgrade state of the Cache.
+  kind: object
+  properties:
+  - name: currentFirmwareVersion
+    isReadyOnly: true
+    description: Version string of the firmware currently installed on this Cache.
+    types:
+    - uid: string
+  - name: firmwareUpdateStatus
+    isReadyOnly: true
+    description: True if there is a firmware update ready to install on this Cache. The firmware will automatically be installed after firmwareUpdateDeadline if not triggered earlier via the upgrade operation.
+    types:
+    - uid: FirmwareStatusType
+  - name: firmwareUpdateDeadline
+    isReadyOnly: true
+    description: Time at which the pending firmware update will automatically be installed on the Cache.
+    types:
+    - uid: string
+  - name: lastFirmwareUpdate
+    isReadyOnly: true
+    description: Time of the last successful firmware update.
+    types:
+    - uid: string
+  - name: pendingFirmwareVersion
+    isReadyOnly: true
+    description: When firmwareUpdateAvailable is true, this field holds the version string for the update.
+    types:
+    - uid: string
+- name: CacheNetworkSettings
+  description: Cache network settings.
+  kind: object
+  properties:
+  - name: mtu
+    description: The IPv4 maximum transmission unit configured for the subnet.
+    types:
+    - uid: integer
+  - name: utilityAddresses
+    isReadyOnly: true
+    description: Array of additional IP addresses used by this Cache.
+    types:
+    - uid: string
+      isArray: true
+  - name: dnsServers
+    description: DNS servers for the cache to use.  It will be set from the network configuration if no value is provided.
+    types:
+    - uid: string
+      isArray: true
+  - name: dnsSearchDomain
+    description: DNS search domain
+    types:
+    - uid: string
+  - name: ntpServer
+    description: NTP server IP Address or FQDN for the cache to use. The default is time.windows.com.
+    types:
+    - uid: string
+- name: CacheEncryptionSettings
+  description: Cache encryption settings.
+  kind: object
+  properties:
+  - name: keyEncryptionKey
+    description: Specifies the location of the key encryption key in Key Vault.
+    types:
+    - uid: KeyVaultKeyReference
+- name: CacheSecuritySettings
+  description: Cache security settings.
+  kind: object
+  properties:
+  - name: accessPolicies
+    description: NFS access policies defined for this cache.
+    types:
+    - uid: NfsAccessPolicy
+      isArray: true
+- name: CacheDirectorySettings
+  description: Cache Directory Services settings.
+  kind: object
+  properties:
+  - name: activeDirectory
+    description: Specifies settings for joining the HPC Cache to an Active Directory domain.
+    types:
+    - uid: CacheActiveDirectorySettings
+  - name: usernameDownload
+    description: Specifies settings for Extended Groups. Extended Groups allows users to be members of more than 16 groups.
+    types:
+    - uid: CacheUsernameDownloadSettings
+- name: CacheIdentityType
+  description: The type of identity used for the cache
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: HealthStateType
+  description: List of Cache health states.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Healthy
+    types:
+    - uid: string
+  - name: Degraded
+    types:
+    - uid: string
+  - name: Down
+    types:
+    - uid: string
+  - name: Transitioning
+    types:
+    - uid: string
+  - name: Stopping
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
+  - name: Upgrading
+    types:
+    - uid: string
+  - name: Flushing
+    types:
+    - uid: string
+- name: Condition
+  description: Outstanding conditions that will need to be resolved.
+  kind: object
+  properties:
+  - name: timestamp
+    isReadyOnly: true
+    description: The time when the condition was raised.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The issue requiring attention.
+    types:
+    - uid: string
+- name: FirmwareStatusType
+  description: True if there is a firmware update ready to install on this Cache. The firmware will automatically be installed after firmwareUpdateDeadline if not triggered earlier via the upgrade operation.
+  kind: enum
+  properties:
+  - name: available
+    types:
+    - uid: string
+  - name: unavailable
+    types:
+    - uid: string
+- name: KeyVaultKeyReference
+  description: Describes a reference to Key Vault Key.
+  kind: object
+  properties:
+  - name: keyUrl
+    description: The URL referencing a key encryption key in Key Vault.
+    types:
+    - uid: string
+  - name: sourceVault
+    description: Describes a resource Id to source Key Vault.
+    types:
+    - uid: SourceVault
+- name: NfsAccessPolicy
+  description: A set of rules describing access policies applied to NFSv3 clients of the cache.
+  kind: object
+  properties:
+  - name: name
+    description: Name identifying this policy. Access Policy names are not case sensitive.
+    types:
+    - uid: string
+  - name: accessRules
+    description: The set of rules describing client accesses allowed under this policy.
+    types:
+    - uid: NfsAccessRule
+      isArray: true
+- name: CacheActiveDirectorySettings
+  description: Active Directory settings used to join a cache to a domain.
+  kind: object
+  properties:
+  - name: primaryDnsIpAddress
+    description: Primary DNS IP address used to resolve the Active Directory domain controller's fully qualified domain name.
+    types:
+    - uid: string
+  - name: secondaryDnsIpAddress
+    description: Secondary DNS IP address used to resolve the Active Directory domain controller's fully qualified domain name.
+    types:
+    - uid: string
+  - name: domainName
+    description: The fully qualified domain name of the Active Directory domain controller.
+    types:
+    - uid: string
+  - name: domainNetBiosName
+    description: The Active Directory domain's NetBIOS name.
+    types:
+    - uid: string
+  - name: cacheNetBiosName
+    description: The NetBIOS name to assign to the HPC Cache when it joins the Active Directory domain as a server. Length must 1-15 characters from the class [-0-9a-zA-Z].
+    types:
+    - uid: string
+  - name: domainJoined
+    isReadyOnly: true
+    description: True if the HPC Cache is joined to the Active Directory domain.
+    types:
+    - uid: DomainJoinedType
+  - name: credentials
+    description: Active Directory admin credentials used to join the HPC Cache to a domain.
+    types:
+    - uid: Credentials
+- name: CacheUsernameDownloadSettings
+  description: Settings for Extended Groups username and group download.
+  kind: object
+  properties:
+  - name: extendedGroups
+    description: Whether or not Extended Groups is enabled.
+    types:
+    - uid: boolean
+  - name: usernameSource
+    description: This setting determines how the cache gets username and group names for clients.
+    types:
+    - uid: UsernameSource
+  - name: groupFileURI
+    description: The URI of the file containing group information (in /etc/group file format). This field must be populated when 'usernameSource' is set to 'File'.
+    types:
+    - uid: string
+  - name: userFileURI
+    description: The URI of the file containing user information (in /etc/passwd file format). This field must be populated when 'usernameSource' is set to 'File'.
+    types:
+    - uid: string
+  - name: ldapServer
+    description: The fully qualified domain name or IP address of the LDAP server to use.
+    types:
+    - uid: string
+  - name: ldapBaseDN
+    description: The base distinguished name for the LDAP domain.
+    types:
+    - uid: string
+  - name: encryptLdapConnection
+    description: Whether or not the LDAP connection should be encrypted.
+    types:
+    - uid: boolean
+  - name: requireValidCertificate
+    description: Determines if the certificates must be validated by a certificate authority. When true, caCertificateURI must be provided.
+    types:
+    - uid: boolean
+  - name: autoDownloadCertificate
+    description: Determines if the certificate should be automatically downloaded. This applies to 'caCertificateURI' only if 'requireValidCertificate' is true.
+    types:
+    - uid: boolean
+  - name: caCertificateURI
+    description: The URI of the CA certificate to validate the LDAP secure connection. This field must be populated when 'requireValidCertificate' is set to true.
+    types:
+    - uid: string
+  - name: usernameDownloaded
+    isReadyOnly: true
+    description: Indicates whether or not the HPC Cache has performed the username download successfully.
+    types:
+    - uid: UsernameDownloadedType
+  - name: credentials
+    description: When present, these are the credentials for the secure LDAP connection.
+    types:
+    - uid: Credentials
+- name: SourceVault
+  description: Describes a resource Id to source Key Vault.
+  kind: object
+  properties:
+  - name: id
+    description: Resource Id.
+    types:
+    - uid: string
+- name: NfsAccessRule
+  description: Rule to place restrictions on portions of the cache namespace being presented to clients.
+  kind: object
+  properties:
+  - name: scope
+    description: Scope for this rule. The scope and filter determine which clients match the rule.
+    types:
+    - uid: NfsAccessRuleScope
+  - name: filter
+    description: Filter applied to the scope for this rule. The filter's format depends on its scope. 'default' scope matches all clients and has no filter value. 'network' scope takes a filter in CIDR format (for example, 10.99.1.0/24). 'host' takes an IP address or fully qualified domain name as filter. If a client does not match any filter rule and there is no default rule, access is denied.
+    types:
+    - uid: string
+  - name: access
+    description: Access allowed by this rule.
+    types:
+    - uid: NfsAccessRuleAccess
+  - name: suid
+    description: Allow SUID semantics.
+    types:
+    - uid: boolean
+  - name: submountAccess
+    description: For the default policy, allow access to subdirectories under the root export. If this is set to no, clients can only mount the path '/'. If set to yes, clients can mount a deeper path, like '/a/b'.
+    types:
+    - uid: boolean
+  - name: rootSquash
+    description: Map root accesses to anonymousUID and anonymousGID.
+    types:
+    - uid: boolean
+  - name: anonymousUID
+    description: UID value that replaces 0 when rootSquash is true. 65534 will be used if not provided.
+    types:
+    - uid: string
+  - name: anonymousGID
+    description: GID value that replaces 0 when rootSquash is true. This will use the value of anonymousUID if not provided.
+    types:
+    - uid: string
+- name: DomainJoinedType
+  description: True if the HPC Cache is joined to the Active Directory domain.
+  kind: enum
+  properties:
+  - name: Yes
+    types:
+    - uid: string
+  - name: No
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+- name: Credentials
+  description: Active Directory admin credentials used to join the HPC Cache to a domain.
+  kind: object
+  properties:
+  - name: username
+    description: Username of the Active Directory domain administrator. This value is stored encrypted and not returned on response.
+    types:
+    - uid: string
+  - name: password
+    description: Plain text password of the Active Directory domain administrator. This value is stored encrypted and not returned on response.
+    types:
+    - uid: string
+- name: UsernameSource
+  description: This setting determines how the cache gets username and group names for clients.
+  kind: enum
+  properties:
+  - name: AD
+    types:
+    - uid: string
+  - name: LDAP
+    types:
+    - uid: string
+  - name: File
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: UsernameDownloadedType
+  description: Indicates whether or not the HPC Cache has performed the username download successfully.
+  kind: enum
+  properties:
+  - name: Yes
+    types:
+    - uid: string
+  - name: No
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+- name: NfsAccessRuleScope
+  description: Scope for this rule. The scope and filter determine which clients match the rule.
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
+  - name: network
+    types:
+    - uid: string
+  - name: host
+    types:
+    - uid: string
+- name: NfsAccessRuleAccess
+  description: Access allowed by this rule.
+  kind: enum
+  properties:
+  - name: no
+    types:
+    - uid: string
+  - name: ro
+    types:
+    - uid: string
+  - name: rw
+    types:
+    - uid: string
+examples:
+- name: Caches_ListByResourceGroup
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches?api-version=2021-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "tags": {
+              "Dept": "Contoso"
+            },
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.StorageCache/caches/sc1",
+            "location": "westus",
+            "name": "sc1",
+            "type": "Microsoft.StorageCache/Cache",
+            "systemData": {
+              "createdBy": "user1",
+              "createdByType": "User",
+              "createdAt": "2020-01-01T17:18:19.1234567Z",
+              "lastModifiedBy": "user2",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
+            },
+            "properties": {
+              "cacheSizeGB": 3072,
+              "health": {
+                "state": "Transitioning",
+                "statusDescription": "Cache is being created.",
+                "conditions": [
+                  {
+                    "timestamp": "2021-04-21T18:25:43.511Z",
+                    "message": "Cannot contact DNS server"
+                  }
+                ]
+              },
+              "mountAddresses": [
+                "192.168.1.1",
+                "192.168.1.2"
+              ],
+              "provisioningState": "Succeeded",
+              "subnet": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
+              "upgradeStatus": {
+                "currentFirmwareVersion": "V5.1.12",
+                "firmwareUpdateStatus": "available",
+                "firmwareUpdateDeadline": "2019-04-21T18:25:43.511Z",
+                "lastFirmwareUpdate": "2019-01-21T18:25:43.511Z",
+                "pendingFirmwareVersion": "V5.1.15"
+              },
+              "networkSettings": {
+                "mtu": 1500,
+                "dnsServers": [
+                  "10.1.22.33",
+                  "10.1.12.33"
+                ],
+                "dnsSearchDomain": "contoso.com",
+                "ntpServer": "time.contoso.com"
+              },
+              "securitySettings": {
+                "accessPolicies": [
+                  {
+                    "name": "default",
+                    "accessRules": [
+                      {
+                        "scope": "default",
+                        "access": "rw",
+                        "suid": false,
+                        "submountAccess": true,
+                        "rootSquash": false
+                      }
+                    ]
+                  }
+                ]
+              },
+              "encryptionSettings": {
+                "keyEncryptionKey": {
+                  "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
+                  "sourceVault": {
+                    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.KeyVault/vaults/keyvault-cmk"
+                  }
+                }
+              },
+              "directoryServicesSettings": {
+                "activeDirectory": {
+                  "primaryDnsIpAddress": "192.0.2.10",
+                  "secondaryDnsIpAddress": "192.0.2.11",
+                  "domainName": "contosoAd.contoso.local",
+                  "domainNetBiosName": "contosoAd",
+                  "cacheNetBiosName": "contosoSmb",
+                  "domainJoined": "Yes"
+                },
+                "usernameDownload": {
+                  "extendedGroups": true,
+                  "usernameSource": "LDAP",
+                  "groupFileURI": "",
+                  "userFileURI": "",
+                  "ldapServer": "192.0.2.12",
+                  "ldapBaseDN": "dc=contosoad,dc=contoso,dc=local",
+                  "encryptLdapConnection": false,
+                  "requireValidCertificate": false,
+                  "autoDownloadCertificate": false,
+                  "caCertificateURI": "",
+                  "usernameDownloaded": "Yes"
+                }
+              }
+            },
+            "sku": {
+              "name": "Standard_2G"
+            }
+          },
+          {
+            "tags": {
+              "Dept": "Contoso"
+            },
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.StorageCache/caches/sc2",
+            "location": "westus",
+            "name": "sc2",
+            "type": "Microsoft.StorageCache/Cache",
+            "systemData": {
+              "createdBy": "user1",
+              "createdByType": "User",
+              "createdAt": "2020-01-01T17:18:19.1234567Z",
+              "lastModifiedBy": "user2",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
+            },
+            "properties": {
+              "cacheSizeGB": 3072,
+              "health": {
+                "state": "Transitioning",
+                "statusDescription": "Cache is being created.",
+                "conditions": [
+                  {
+                    "timestamp": "2021-04-21T18:25:43.511Z",
+                    "message": "Cannot contact DNS server"
+                  }
+                ]
+              },
+              "mountAddresses": [
+                "192.168.1.1",
+                "192.168.1.2"
+              ],
+              "provisioningState": "Updating",
+              "subnet": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub2",
+              "upgradeStatus": {
+                "currentFirmwareVersion": "V5.1.12",
+                "firmwareUpdateStatus": "available",
+                "firmwareUpdateDeadline": "2019-04-21T18:25:43.511Z",
+                "lastFirmwareUpdate": "2019-01-21T18:25:43.511Z",
+                "pendingFirmwareVersion": "V5.1.15"
+              },
+              "networkSettings": {
+                "mtu": 1500,
+                "dnsServers": [
+                  "10.1.22.33",
+                  "10.1.12.33"
+                ],
+                "dnsSearchDomain": "contoso.com",
+                "ntpServer": "time.contoso.com"
+              },
+              "securitySettings": {
+                "accessPolicies": [
+                  {
+                    "name": "default",
+                    "accessRules": [
+                      {
+                        "scope": "default",
+                        "access": "rw",
+                        "suid": false,
+                        "submountAccess": true,
+                        "rootSquash": false
+                      }
+                    ]
+                  }
+                ]
+              },
+              "encryptionSettings": {
+                "keyEncryptionKey": {
+                  "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
+                  "sourceVault": {
+                    "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.KeyVault/vaults/keyvault-cmk"
+                  }
+                }
+              },
+              "directoryServicesSettings": {
+                "activeDirectory": {
+                  "primaryDnsIpAddress": "192.0.2.10",
+                  "secondaryDnsIpAddress": "192.0.2.11",
+                  "domainName": "contosoAd.contoso.local",
+                  "domainNetBiosName": "contosoAd",
+                  "cacheNetBiosName": "contosoSmb",
+                  "domainJoined": "Yes"
+                },
+                "usernameDownload": {
+                  "extendedGroups": true,
+                  "usernameSource": "AD",
+                  "groupFileURI": "",
+                  "userFileURI": "",
+                  "ldapServer": "",
+                  "ldapBaseDN": "",
+                  "encryptLdapConnection": false,
+                  "requireValidCertificate": false,
+                  "autoDownloadCertificate": false,
+                  "caCertificateURI": "",
+                  "usernameDownloaded": "Yes"
+                }
+              }
+            },
+            "sku": {
+              "name": "Standard_2G"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Storagecache service - Returns all Caches the user has access to under a resource group.
+errorCodes: []

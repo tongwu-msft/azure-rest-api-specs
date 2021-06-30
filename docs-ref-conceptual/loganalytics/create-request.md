@@ -80,13 +80,13 @@ You can batch multiple messages of the same type into a single request body.
 	[
 	  {
 	    "key1": "value1",
-	    "key2": "value2"
+	    "key2": "value2",
 	    "key3": "value3",
 	    "key4": "value4"
 	  },
 	  {
 	    "key1": "value5",
-	    "key2": "value6"
+	    "key2": "value6",
 	    "key3": "value7",
 	    "key4": "value8"
 	  }

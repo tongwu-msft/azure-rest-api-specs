@@ -1,0 +1,279 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.videoanalyzer.videos.get
+name: Get
+service: Azure Video Analyzer
+groupName: Videos
+apiVersion: 2021-05-01-preview
+summary: "Retrieves a video resource.  \nRetrieves an existing video resource within an account with a given name."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/videos/{videoName}?api-version=2021-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Video Analyzer account name.
+  types:
+  - uid: string
+- name: videoName
+  in: path
+  isRequired: true
+  description: The name of the video to retrieve.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: VideoEntity
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: VideoEntity
+  description: The representation of a single video in a Video Analyzer account.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata relating to this resource.
+    types:
+    - uid: systemData
+  - name: properties.title
+    description: Optional video title provided by the user. Value can be up to 256 characters long.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Optional video description provided by the user. Value can be up to 2048 characters long.
+    types:
+    - uid: string
+  - name: properties.type
+    isReadyOnly: true
+    description: Type of the video archive. Different archive formats provide different capabilities.
+    types:
+    - uid: VideoType
+  - name: properties.flags
+    isReadyOnly: true
+    description: Video flags contain information about the available video actions and its dynamic properties based on the current video state.
+    types:
+    - uid: VideoFlags
+  - name: properties.streaming
+    isReadyOnly: true
+    description: Video streaming holds information about video streaming URLs.
+    types:
+    - uid: VideoStreaming
+  - name: properties.mediaInfo
+    isReadyOnly: true
+    description: Contains information about the video and audio content.
+    types:
+    - uid: VideoMediaInfo
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: VideoType
+  description: Type of the video archive. Different archive formats provide different capabilities.
+  kind: enum
+  properties:
+  - name: Archive
+    description: Archive is flexible format that represents a video stream associated with wall-clock time. The video archive can either be continuous or discontinuous. An archive is discontinuous when there are gaps in the recording due to various reasons, such as the live pipeline being stopped, camera being disconnected or due to the use of event based recordings through the use of a signal gate. Finally, there is no limit to the archive duration and new video data can be appended to the existing archive at any time, as long as the same video codec and codec parameters are being used.
+    types:
+    - uid: string
+- name: VideoFlags
+  description: Video flags contain information about the available video actions and its dynamic properties based on the current video state.
+  kind: object
+  properties:
+  - name: canStream
+    description: Value indicating whether or not the video can be streamed. Only "archive" type videos can be streamed.
+    types:
+    - uid: boolean
+  - name: hasData
+    description: Value indicating whether or not there has ever been data recorded or uploaded into the video. Newly created videos have this value set to false.
+    types:
+    - uid: boolean
+  - name: isRecording
+    description: Value indicating whether or not the video is currently being referenced be an active live pipeline. The fact that is being referenced, doesn't necessarily indicate that data is being received. For example, video recording may be gated on events or camera may not be accessible at the time.
+    types:
+    - uid: boolean
+- name: VideoStreaming
+  description: Video streaming holds information about video streaming URLs.
+  kind: object
+  properties:
+  - name: archiveBaseUrl
+    description: >-
+      Video streaming base URL for the video archive. When present, archived video can be played through the Azure Video Analyzer player. Alternatively, this URL can be used with compatible DASH or HLS players by appending the following to the base URL:
+
+        - HLSv4:     /manifest(format=m3u8-aapl).m3u8
+        - HLS CMAF:  /manifest(format=m3u8-cmaf)
+        - DASH CMAF: /manifest(format=mpd-time-cmaf)
+
+      Moreover, an ongoing video recording can be played in "live mode" with latencies which are approximately double of the chosen video segment length.
+    types:
+    - uid: string
+- name: VideoMediaInfo
+  description: Contains information about the video and audio content.
+  kind: object
+  properties:
+  - name: segmentLength
+    isReadyOnly: true
+    description: Video segment length indicates the length of individual video files (segments) which are persisted to storage. Smaller segments provide lower archive playback latency but generate larger volume of storage transactions. Larger segments reduce the amount of storage transactions while increasing the archive playback latency. Value must be specified in ISO8601 duration format (i.e. "PT30S" equals 30 seconds) and can vary between 30 seconds to 5 minutes, in 30 seconds increments.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Gets a video entity.
+  request:
+    uri: GET https://management.azure.com/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/videos/video1?api-version=2021-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "video1",
+        "id": "/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/videos/video1",
+        "type": "Microsoft.Media/videoAnalyzers/videos",
+        "properties": {
+          "title": "Sample Title 1",
+          "description": "Sample Description 1",
+          "type": "Archive",
+          "flags": {
+            "canStream": false,
+            "hasData": false,
+            "isRecording": false
+          }
+        },
+        "systemData": {}
+      }
+security: []
+metadata:
+  description: "Retrieves a video resource.  \nRetrieves an existing video resource within an account with a given name."
+errorCodes: []

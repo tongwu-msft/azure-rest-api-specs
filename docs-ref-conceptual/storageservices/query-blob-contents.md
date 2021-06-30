@@ -79,6 +79,7 @@ The `Query Blob Contents` API applies a simple Structured Query Language (SQL) s
       <JsonTextConfiguration>
         <RecordSeparator>String</RecordSeparator>
       </JsonTextConfiguration>
+      <ParquetTextConfiguration></ParquetTextConfiguration>
       <ArrowConfiguration>
         <Schema>
             <Field>
@@ -123,7 +124,7 @@ The following table describes the elements of the request body:
 |**RecordSeparator**|Optional. The string used to separate records. |
 |**OutputSerialization**| Optional. The serialization format of the filtered contents of the blob returned in the response. If not specified, the delimited text configuration will be used.|
 |**Format**|Required if **OutputSerialization** is specified. Groups the settings regarding the format of the response returned.|
-|**Type**|Required if **OutputSerialization** is specified. The format type; valid values are `delimited`, `csv`, `json`, or `arrow`.|
+|**Type**|Required if **OutputSerialization** is specified. The format type; valid values are `delimited`, `csv`, `json`, `arrow`, or `parquet`.|
 |**DelimitedTextConfiguration**|Optional. Groups the settings used for formatting the response if the response should be delimited text formatted.|
 |**ColumnSeparator**|Optional. The string used to separate columns.|
 |**FieldQuote**|Optional. The string used to quote a specific field.| 
@@ -131,6 +132,7 @@ The following table describes the elements of the request body:
 |**EscapeChar**|Optional. The string used as an escape character.|
 |**HasHeaders**|Optional. Boolean representing whether the data has headers.|
 |**JsonTextConfiguration**|Optional. Groups the settings used for formatting the response if the response should be JSON formatted.|
+|**ParquetTextConfiguration**|Optional. Groups the settings used for interpreting the blob data if the blob data is Parquet format.|
 |**RecordSeparator**|Optional. The string used to separate records. |
 |**ArrowConfiguration**|Optional. Groups the settings used for formatting the response if the response should be Arrow formatted.|
 |**Schema** |Required if **ArrowConfiguration** is specified. Groups the settings regarding the schema of the Arrow response returned.|

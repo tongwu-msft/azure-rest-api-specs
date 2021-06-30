@@ -1,0 +1,234 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.mysql.singleserver.serverparameters.listupdateconfigurations
+name: List Update Configurations
+service: MySQL
+groupName: Server Parameters
+apiVersion: 2017-12-01
+summary: Update a list of configurations in a given server.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMySQL/servers/{serverName}/updateConfigurations?api-version=2017-12-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ConfigurationListResult
+- name: 202 Accepted
+  description: Accepted
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: value
+    in: body
+    description: The list of server configurations.
+    types:
+    - uid: Configuration
+      isArray: true
+requestHeader: []
+definitions:
+- name: Configuration
+  description: Represents a Configuration.
+  kind: object
+  properties:
+  - name: properties.value
+    description: Value of the configuration.
+    types:
+    - uid: string
+  - name: properties.description
+    isReadyOnly: true
+    description: Description of the configuration.
+    types:
+    - uid: string
+  - name: properties.defaultValue
+    isReadyOnly: true
+    description: Default value of the configuration.
+    types:
+    - uid: string
+  - name: properties.dataType
+    isReadyOnly: true
+    description: Data type of the configuration.
+    types:
+    - uid: string
+  - name: properties.allowedValues
+    isReadyOnly: true
+    description: Allowed values of the configuration.
+    types:
+    - uid: string
+  - name: properties.source
+    description: Source of the configuration.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ConfigurationListResult
+  description: A list of server configurations.
+  kind: object
+  properties:
+  - name: value
+    description: The list of server configurations.
+    types:
+    - uid: Configuration
+      isArray: true
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nCommon error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.)"
+    types:
+    - uid: ErrorResponse
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: ConfigurationList
+  request:
+    uri: POST https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBForMySQL/servers/mysqltestsvc1/updateConfigurations?api-version=2017-12-01
+    body: >-
+      [
+        {
+          "name": "event_scheduler",
+          "properties": {
+            "value": "OFF"
+          }
+        },
+        {
+          "name": "div_precision_increment",
+          "properties": {
+            "value": "4"
+          }
+        }
+      ]
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "value": "OFF",
+              "description": "Indicates the status of the Event Scheduler.",
+              "defaultValue": "OFF",
+              "dataType": "Enumeration",
+              "allowedValues": "ON,OFF,DISABLED",
+              "source": "system-default"
+            },
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/servers/mysqltestsvc1/configurations/event_scheduler",
+            "name": "event_scheduler",
+            "type": "Microsoft.DBforMySQL/servers/configurations"
+          },
+          {
+            "properties": {
+              "value": "4",
+              "description": "Number of digits by which to increase the scale of the result of division operations.",
+              "defaultValue": "4",
+              "dataType": "Integer",
+              "allowedValues": "0-30",
+              "source": "system-default"
+            },
+            "id": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/servers/mysqltestsvc1/configurations/div_precision_increment",
+            "name": "div_precision_increment",
+            "type": "Microsoft.DBforMySQL/servers/configurations"
+          }
+        ]
+      }
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about MySQL service - Update a list of configurations in a given server.
+errorCodes: []

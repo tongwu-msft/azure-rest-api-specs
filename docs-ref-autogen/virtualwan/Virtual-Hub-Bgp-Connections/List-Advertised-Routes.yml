@@ -1,0 +1,185 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.virtualhubbgpconnections.listadvertisedroutes
+name: List Advertised Routes
+service: Virtual WAN
+groupName: Virtual Hub Bgp Connections
+apiVersion: 2020-11-01
+summary: Retrieves a list of routes the virtual hub bgp connection is advertising to the specified peer.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{hubName}/bgpConnections/{connectionName}/advertisedRoutes?api-version=2020-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: hubName
+  in: path
+  isRequired: true
+  description: The name of the virtual hub.
+  types:
+  - uid: string
+- name: connectionName
+  in: path
+  isRequired: true
+  description: The name of the virtual hub bgp connection.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: List of learned BGP routes.
+  types:
+  - uid: PeerRouteList
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: PeerRouteList
+  description: List of virtual router peer routes.
+  kind: object
+  properties:
+  - name: value
+    description: List of peer routes.
+    types:
+    - uid: PeerRoute
+      isArray: true
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: PeerRoute
+  description: Peer routing details.
+  kind: object
+  properties:
+  - name: localAddress
+    isReadyOnly: true
+    description: The peer's local address.
+    types:
+    - uid: string
+  - name: network
+    isReadyOnly: true
+    description: The route's network prefix.
+    types:
+    - uid: string
+  - name: nextHop
+    isReadyOnly: true
+    description: The route's next hop.
+    types:
+    - uid: string
+  - name: sourcePeer
+    isReadyOnly: true
+    description: The peer this route was learned from.
+    types:
+    - uid: string
+  - name: origin
+    isReadyOnly: true
+    description: The source this route was learned from.
+    types:
+    - uid: string
+  - name: asPath
+    isReadyOnly: true
+    description: The route's AS path sequence.
+    types:
+    - uid: string
+  - name: weight
+    isReadyOnly: true
+    description: The route's weight.
+    types:
+    - uid: integer
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: VirtualRouterPeerListAdvertisedRoutes
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualRouter1/bgpConnections/peer1/advertisedRoutes?api-version=2020-11-01
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "localAddress": "10.85.3.4",
+            "network": "10.45.0.0/16",
+            "nextHop": "10.85.3.4",
+            "sourcePeer": "10.85.3.4",
+            "origin": "Igp",
+            "asPath": "65515",
+            "weight": 0
+          },
+          {
+            "localAddress": "10.85.3.4",
+            "network": "10.85.0.0/16",
+            "nextHop": "10.85.3.4",
+            "sourcePeer": "10.85.3.4",
+            "origin": "Igp",
+            "asPath": "65515",
+            "weight": 0
+          },
+          {
+            "localAddress": "10.85.3.4",
+            "network": "10.100.0.0/16",
+            "nextHop": "10.85.3.4",
+            "sourcePeer": "10.85.3.4",
+            "origin": "Igp",
+            "asPath": "65515",
+            "weight": 0
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Virtual WAN service - Retrieves a list of routes the virtual hub bgp connection is advertising to the specified peer.
+errorCodes: []

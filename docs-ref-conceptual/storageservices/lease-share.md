@@ -1,31 +1,42 @@
 ---
-title: Lease Share (REST API) - Azure Storage
+title: Lease Share (FileREST API) - Azure Files
 description: The Lease Share operation creates and manages a lease on an Azure file share.
 author: wmgries
 
-ms.date: 04/30/2021
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
 ---
 
 # Lease Share
-The `Lease Share` operation establishes and manages a lock on an Azure file share. The lock duration can be 15 to 60 seconds, or can be infinite. The `Lease Share` operation can be called in one of five modes:  
-- `Acquire`: to request a new lease.  
-- `Renew`: to renew an existing lease.   
+The `Lease Share` operation establishes and manages a lock on an Azure file share or a share snapshot. While this API is fully supported, this is a legacy management API. We recommend using [File Shares - Lease](/rest/api/storagerp/file-shares/lease) provided by the storage resource provider (Microsoft.Storage) instead. To learn more about programmatically interacting with `FileShare` resources using the storage resource provider, see [Operations on FileShares](Operations-on-Shares--File-Service-.md).
+
+The lock duration can be 15 to 60 seconds, or can be infinite. The `Lease Share` operation can be called in one of five modes:  
+
+- `Acquire`: to request a new lease.
+- `Renew`: to renew an existing lease.
 - `Change`: to change the ID of an existing lease.  
 - `Release`: to free the lease if it is no longer needed so that another client may immediately acquire a lease against the file share.  
 - `Break`, to end the lease but ensure that another client cannot acquire a new lease until the current lease period has expired.  
   
 > [!NOTE]
->  The `Lease Share` operation is available in version 2020-02-10 and newer.
-  
-## Request  
+> The `Lease Share` operation is available in version 2020-02-10 and newer.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![Yes](./media/yes-icon.png) |
+
+## Request
 The `Lease Share` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
-|`PUT`|`https://myaccount.file.core.windows.net/myshare?comp=lease&restype=share`|HTTP/1.1|  
+|`PUT`|`https://myaccount.file.core.windows.net/myshare?comp=lease&restype=share`|HTTP/1.1|
+|`PUT`|`https://myaccount.file.core.windows.net/myshare?comp=lease&sharesnapshot=<DateTime>&restype=share`|HTTP/1.1|  
   
 ### URI parameters  
 The following additional parameters may be specified on the request URI.  
@@ -34,29 +45,29 @@ The following additional parameters may be specified on the request URI.
 |---------------|-----------------|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md).|  
   
-### Request Headers  
+### Request headers
 The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-lease-id: <ID>`|Required to renew, change, or release the lease.<br /><br /> The value of `x-ms-lease-id` can be specified in any valid GUID string format. See [Guid Constructor (String)](https://docs.microsoft.com/dotnet/api/system.guid.-ctor?view=netcore-3.1#System_Guid__ctor_System_String_) for a list of valid GUID string formats.|  
+|`x-ms-lease-id: <ID>`|Required to renew, change, or release the lease.<br /><br /> The value of `x-ms-lease-id` can be specified in any valid GUID string format. See [Guid Constructor (String)](/dotnet/api/system.guid.-ctor#System_Guid__ctor_System_String_) for a list of valid GUID string formats.|  
 |`x-ms-lease-action: <action>`| `acquire`: Requests a new lease. If the file share does not have an active lease, Azure Files creates a lease on the file share and returns a new lease ID. If the file share has an active lease, you can only request a new lease using the active lease ID, but you can specify a new `x-ms-lease duration`, including negative one (-1) for a lease that never expires.<br /><br />`renew`: Renews the lease. The lease can be renewed if the lease ID specified on the request matches that associated with the file share. Note that the lease may be renewed even if it has expired as long as the file share has not been leased again since the expiration of that lease. When you renew a lease, the lease duration clock resets.<br /><br />`change`: Change the lease ID of an active lease. A `change` must include the current lease ID in x-ms-lease-id and a new lease ID in x-ms-proposed-lease-id.<br /><br />`release`: Release the lease. The lease may be released if the lease ID specified on the request matches that associated with the file share. Releasing the lease allows another client to immediately acquire the lease for the file share as soon as the release is complete.<br /><br />`break`: Break the lease, if the file share has an active lease. Once a lease is broken, it cannot be renewed. Any authorized request can break the lease; the request is not required to specify a matching lease ID. When a lease is broken, the lease break period is allowed to elapse, during which time no lease operation except `break` and `release` can be performed on the file share. When a lease is successfully broken, the response indicates the interval in seconds until a new lease can be acquired.<br /><br />A lease that has been broken can also be released. A client can immediately acquire a file share lease that has been released.|  
 |`x-ms-lease-break-period: N`|Optional. For a `break` operation, proposed duration the lease should continue before it is broken, in seconds, between 0 and 60. This break period is only used if it is shorter than the time remaining on the lease. If longer, the time remaining on the lease is used. A new lease will not be available before the break period has expired, but the lease may be held for longer than the break period. If this header does not appear with a `break` operation, a fixed-duration lease breaks after the remaining lease period elapses, and an infinite lease breaks immediately.|  
 |`x-ms-lease-duration: -1` |Required for `acquire`. Specifies the duration of the lease, in seconds, or negative one (-1) for a lease that never expires.  A non-infinite lease can be between 15 and 60 seconds. A lease duration cannot be changed using `renew` or `change`.|  
-|`x-ms-proposed-lease-id: <ID>`|Optional for `acquire`, required for `change`. Proposed lease ID, in a GUID string format. The Blob service returns `400 (Invalid request)` if the proposed lease ID is not in the correct format. See [Guid Constructor (String)](https://docs.microsoft.com/dotnet/api/system.guid.-ctor?view=netcore-3.1#System_Guid__ctor_System_String_) for a list of valid GUID string formats.|  
+|`x-ms-proposed-lease-id: <ID>`|Optional for `acquire`, required for `change`. Proposed lease ID, in a GUID string format. The Blob service returns `400 (Invalid request)` if the proposed lease ID is not in the correct format. See [Guid Constructor (String)](/dotnet/api/system.guid.-ctor#System_Guid__ctor_System_String_) for a list of valid GUID string formats.|  
 |`Origin`|Optional. Specifies the origin from which the request is issued. The presence of this header results in cross-origin resource sharing headers on the response. See [CORS Support for the Storage Services](Cross-Origin-Resource-Sharing--CORS--Support-for-the-Azure-Storage-Services.md) for details.|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
-### Request body  
+### Request body
 None.  
   
-### Sample request  
+### Sample request
 The following sample request shows how to acquire a lease:  
   
-```    
+```
 Request Syntax:  
 PUT https://myaccount.file.core.windows.net/myshare?restype=share&comp=lease HTTP/1.1  
   
@@ -69,10 +80,10 @@ x-ms-date: Thu, 26 Jan 2012 23:30:18 GMT
 Authorization: SharedKey testaccount1:esSKMOYdK4o+nGTuTyeOLBI+xqnqi6aBmiW4XI699+o=  
 ```  
   
-## Response  
+## Response
 The response includes an HTTP status code and a set of response headers.  
   
-### Status code  
+### Status code
 The success status codes returned for lease operations are the following:   
 - `Acquire`: A successful operation returns status code 201 (Created).  
 - `Renew`: A successful operation returns status code 200 (OK).   
@@ -82,7 +93,7 @@ The success status codes returned for lease operations are the following:
   
 For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
   
-### Response Headers  
+### Response headers
 The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Syntax|Description|  
@@ -99,13 +110,13 @@ The response for this operation includes the following headers. The response may
 |`Access-Control-Allow-Credentials`|Returned if the request includes an `Origin` header and CORS is enabled with a matching rule that does not allow all origins. This header will be set to true.|  
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
   
-### Response body  
+### Response body
 None.  
   
-### Sample response  
+### Sample response
 The following is a sample response for a request to acquire a lease:  
   
-```  
+```
 Response Status:  
 HTTP/1.1 201 Created  
   
@@ -115,13 +126,12 @@ x-ms-request-id: cc6b209a-b593-4be1-a38a-dde7c106f402
 x-ms-version: 2020-02-10  
 x-ms-lease-id: 1f812371-a41d-49e6-b123-f4b542e851c5  
 Date: Thu, 26 Jan 2012 23:30:18 GMT  
-  
 ```  
   
-## Authorization  
+## Authorization
 Only the account owner may call this operation.  
   
-## Remarks  
+## Remarks
 A lease on a file share provides exclusive delete access to the file share. Get file share operations will succeed on a leased file share without including the lease ID; set file share operations will require the file share lease ID. If the lease ID is not included on set file share operations, the operation fails with 412 (Precondition failed). The lease is granted for the duration specified when the lease is acquired, which can be between 15 seconds and one minute, or an infinite duration.  
   
 When a client acquires a lease, a lease ID is returned. Azure Files will generate a lease ID if one is not specified in the acquire request. The client may use this lease ID to renew the lease, change its lease ID, or release the lease. The following diagram shows the five states of a lease, and the commands or events that cause lease state changes.  
@@ -175,4 +185,4 @@ perations, no lease specified|Available, operation succeeds|Leased (A), operatio
 |`Renew` (B) |Fails (409)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|  
 |`Release` (A)|Fails (409)|Available|Available|Available|Available|  
 |`Release` (B)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|Fails (409)|  
-|Duration expires|Available|Expired (A)|Broken (A)|Broken (A)|Expired (A)|  
+|Duration expires|Available|Expired (A)|Broken (A)|Broken (A)|Expired (A)|

@@ -1,0 +1,375 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.videoanalyzer.accesspolicies.get
+name: Get
+service: Azure Video Analyzer
+groupName: Access Policies
+apiVersion: 2021-05-01-preview
+summary: "Retrieves an access policy resource.  \nRetrieves an existing access policy resource from an account by name."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/videoAnalyzers/{accountName}/accessPolicies/{accessPolicyName}?api-version=2021-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Azure Video Analyzer account name.
+  types:
+  - uid: string
+- name: accessPolicyName
+  in: path
+  isRequired: true
+  description: The name of the access policy to retrieve.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: AccessPolicyEntity
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: AccessPolicyEntity
+  description: Policy that determines how a video can be accessed.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata relating to this resource.
+    types:
+    - uid: systemData
+  - name: properties.role
+    description: Defines the access level granted by this policy.
+    types:
+    - uid: AccessPolicyRole
+  - name: properties.authentication
+    description: Authentication method to be used when validating client API access.
+    types:
+    - uid: JwtAuthentication
+    typesTitle: AuthenticationBase
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: AccessPolicyRole
+  description: Defines the access level granted by this policy.
+  kind: enum
+  properties:
+  - name: Reader
+    description: Reader role allows for read-only operations to be performed through the client APIs.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: JwtAuthentication
+  description: Properties for access validation based on JSON Web Tokens (JWT).
+  kind: object
+  properties:
+  - name: issuers
+    description: List of expected token issuers. Token issuer is valid if it matches at least one of the given values.
+    types:
+    - uid: string
+      isArray: true
+  - name: audiences
+    description: List of expected token audiences. Token audience is valid if it matches at least one of the given values.
+    types:
+    - uid: string
+      isArray: true
+  - name: claims
+    description: List of additional token claims to be validated. Token must contains all claims and respective values for it to be valid.
+    types:
+    - uid: TokenClaim
+      isArray: true
+  - name: keys
+    description: List of keys which can be used to validate access tokens. Having multiple keys allow for seamless key rotation of the token signing key. Token signature must match exactly one key.
+    types:
+    - uid: RsaTokenKey
+      isArray: true
+    - uid: EccTokenKey
+      isArray: true
+    typesTitle: TokenKey[]
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.JwtAuthentication'
+    typesTitle: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: TokenClaim
+  description: Properties for expected token claims.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the claim which must be present on the token.
+    types:
+    - uid: string
+  - name: value
+    description: Expected value of the claim to be present on the token.
+    types:
+    - uid: string
+- name: RsaTokenKey
+  description: Required validation properties for tokens generated with RSA algorithm.
+  kind: object
+  properties:
+  - name: alg
+    description: 'RSA algorithm to be used: RS256, RS384 or RS512.'
+    types:
+    - uid: AccessPolicyRsaAlgo
+  - name: n
+    description: RSA public key modulus.
+    types:
+    - uid: string
+  - name: e
+    description: RSA public key exponent.
+    types:
+    - uid: string
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.RsaTokenKey'
+    typesTitle: string
+  - name: kid
+    description: JWT token key id. Validation keys are looked up based on the key id present on the JWT token header.
+    types:
+    - uid: string
+- name: EccTokenKey
+  description: Required validation properties for tokens generated with Elliptical Curve algorithm.
+  kind: object
+  properties:
+  - name: alg
+    description: 'Elliptical curve algorithm to be used: ES256, ES384 or ES512.'
+    types:
+    - uid: AccessPolicyEccAlgo
+  - name: x
+    description: X coordinate.
+    types:
+    - uid: string
+  - name: y
+    description: Y coordinate.
+    types:
+    - uid: string
+  - name: '@type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.VideoAnalyzer.EccTokenKey'
+    typesTitle: string
+  - name: kid
+    description: JWT token key id. Validation keys are looked up based on the key id present on the JWT token header.
+    types:
+    - uid: string
+- name: AccessPolicyRsaAlgo
+  description: 'RSA algorithm to be used: RS256, RS384 or RS512.'
+  kind: enum
+  properties:
+  - name: RS256
+    description: RS256
+    types:
+    - uid: string
+  - name: RS384
+    description: RS384
+    types:
+    - uid: string
+  - name: RS512
+    description: RS512
+    types:
+    - uid: string
+- name: AccessPolicyEccAlgo
+  description: 'Elliptical curve algorithm to be used: ES256, ES384 or ES512.'
+  kind: enum
+  properties:
+  - name: ES256
+    description: ES265
+    types:
+    - uid: string
+  - name: ES384
+    description: ES384
+    types:
+    - uid: string
+  - name: ES512
+    description: ES512
+    types:
+    - uid: string
+examples:
+- name: Gets an access policy entity.
+  request:
+    uri: GET https://management.azure.com/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/accessPolicies/accessPolicyName1?api-version=2021-05-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "accessPolicyName1",
+        "id": "/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/accesspolicies/accessPolicyName1",
+        "type": "Microsoft.Media/videoAnalyzers/accesspolicies",
+        "properties": {
+          "role": "Reader",
+          "authentication": {
+            "@type": "#Microsoft.VideoAnalyzer.JwtAuthentication",
+            "issuers": [
+              "issuer1",
+              "issuer2"
+            ],
+            "audiences": [
+              "audience"
+            ],
+            "claims": [
+              {
+                "name": "claimname1",
+                "value": "claimvalue1"
+              },
+              {
+                "name": "claimname2",
+                "value": "claimvalue2"
+              }
+            ],
+            "keys": [
+              {
+                "@type": "#Microsoft.VideoAnalyzer.RsaTokenKey",
+                "kid": "123",
+                "alg": "RS256",
+                "n": "YmFzZTY0IQ==",
+                "e": "ZLFzZTY0IQ=="
+              },
+              {
+                "@type": "#Microsoft.VideoAnalyzer.EccTokenKey",
+                "kid": "124",
+                "alg": "ES256",
+                "x": "XX==",
+                "y": "YY=="
+              }
+            ]
+          }
+        },
+        "systemData": {}
+      }
+security: []
+metadata:
+  description: "Retrieves an access policy resource.  \nRetrieves an existing access policy resource from an account by name."
+errorCodes: []

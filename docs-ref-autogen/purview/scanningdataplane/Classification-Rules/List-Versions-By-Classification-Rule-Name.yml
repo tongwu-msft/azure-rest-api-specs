@@ -1,0 +1,244 @@
+### YamlMime:RESTOperation
+uid: purview.scanningdataplane.classificationrules.listversionsbyclassificationrulename
+name: List Versions By Classification Rule Name
+service: Purview
+groupName: Classification Rules
+apiVersion: 2018-12-01-preview
+summary: Lists the rule versions of a classification rule
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/classificationrules/{classificationRuleName}/versions?api-version=2018-12-01-preview
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The scanning endpoint of your purview account. Example: https://{accountName}.scan.purview.azure.com'
+  types:
+  - uid: string
+- name: classificationRuleName
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version to use.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: ClassificationRuleList
+- name: Other Status Codes
+  description: An error response received from the Scanning Service
+  types:
+  - uid: ErrorResponseModel
+requestHeader: []
+definitions:
+- name: ClassificationRuleList
+  kind: object
+  properties:
+  - name: value
+    description: ''
+    types:
+    - uid: SystemClassificationRule
+      isArray: true
+    - uid: CustomClassificationRule
+      isArray: true
+    typesTitle: ClassificationRule[]
+  - name: nextLink
+    description: ''
+    types:
+    - uid: string
+  - name: count
+    description: ''
+    types:
+    - uid: integer
+- name: ErrorResponseModel
+  kind: object
+  properties:
+  - name: error
+    description: ''
+    types:
+    - uid: Error
+- name: Error
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: details
+    description: ''
+    types:
+    - uid: ErrorModel
+      isArray: true
+- name: SystemClassificationRule
+  kind: object
+  properties:
+  - name: properties
+    description: ''
+    types:
+    - uid: Properties
+  - name: kind
+    description: ''
+    types:
+    - uid: System
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: CustomClassificationRule
+  kind: object
+  properties:
+  - name: properties
+    description: ''
+    types:
+    - uid: Properties
+  - name: kind
+    description: ''
+    types:
+    - uid: Custom
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: ErrorModel
+  kind: object
+  properties:
+  - name: code
+    description: ''
+    types:
+    - uid: string
+  - name: message
+    description: ''
+    types:
+    - uid: string
+  - name: target
+    description: ''
+    types:
+    - uid: string
+  - name: details
+    description: ''
+    types:
+    - uid: ErrorModel
+      isArray: true
+- name: Properties
+  kind: object
+  properties:
+  - name: baseUrl
+    description: ''
+    types:
+    - uid: string
+  - name: description
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: ClassificationRules_ListVersionsByClassificationRuleName
+  request:
+    uri: GET {Endpoint}/classificationrules/ClassificationRule1/versions?api-version=2018-12-01-preview
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: x-ms-request-id
+      value: 8e58266a-de42-40d5-b3c4-c6a7e159cfba
+    body: >-
+      {
+        "count": 2,
+        "nextLink": null,
+        "value": [
+          {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/SampleResourceGroup/providers/Microsoft.DataCatalog/DataCatalogs/Catalog1/ClassificationRules/ClassificationRule1",
+            "name": "ClassificationRule1",
+            "kind": "Custom",
+            "properties": {
+              "minimumPercentageMatch": 80,
+              "classificationAction": "Keep",
+              "description": "second one",
+              "version": 2,
+              "classificationName": "CUSTOM.TEST.TWO",
+              "ruleStatus": "Enabled",
+              "createdAt": "2019-12-09T06:43:30.8478469Z",
+              "lastModifiedAt": "2019-12-09T07:04:53.2807344Z",
+              "dataPatterns": [
+                {
+                  "kind": "Regex",
+                  "pattern": "^data1$"
+                },
+                {
+                  "kind": "Regex",
+                  "pattern": "^data2$"
+                }
+              ],
+              "columnPatterns": [
+                {
+                  "kind": "Regex",
+                  "pattern": "^column1$"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/12345678-1234-1234-12345678abc/resourceGroups/SampleResourceGroup/providers/Microsoft.DataCatalog/DataCatalogs/Catalog1/ClassificationRules/ClassificationRule1",
+            "name": "ClassificationRule2",
+            "kind": "Custom",
+            "properties": {
+              "minimumPercentageMatch": 80,
+              "classificationAction": "Keep",
+              "description": "second one",
+              "version": 1,
+              "classificationName": "CUSTOM.TEST.TWO",
+              "ruleStatus": "Enabled",
+              "createdAt": "2019-12-09T06:43:30.8478469Z",
+              "lastModifiedAt": "2019-12-09T07:04:53.2807344Z",
+              "dataPatterns": [
+                {
+                  "kind": "Regex",
+                  "pattern": "^data1$"
+                },
+                {
+                  "kind": "Regex",
+                  "pattern": "^data2$"
+                }
+              ],
+              "columnPatterns": [
+                {
+                  "kind": "Regex",
+                  "pattern": "^column1$"
+                }
+              ]
+            }
+          }
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about Purview service - Lists the rule versions of a classification rule
+errorCodes: []

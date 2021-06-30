@@ -1,0 +1,132 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2020-08-01-preview.operationshealth.listbylocation
+name: List By Location
+service: SQL Database
+groupName: Operations Health
+apiVersion: 2020-08-01-preview
+summary: Gets a service operation health status.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/operationsHealth?api-version=2020-08-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: locationName
+  in: path
+  isRequired: true
+  description: The name of the region where the resource is located.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved operations health for a location.
+  types:
+  - uid: OperationsHealthListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidLocation - An invalid location was specified.
+
+     * 400 SubscriptionNotFound - The requested subscription was not found.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+requestHeader: []
+definitions:
+- name: OperationsHealthListResult
+  description: A list of service health statuses in a location.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: OperationsHealth
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: OperationsHealth
+  description: Operations health status in a location.
+  kind: object
+  properties:
+  - name: properties.name
+    isReadyOnly: true
+    description: Operation name for the service
+    types:
+    - uid: string
+  - name: properties.health
+    isReadyOnly: true
+    description: Operation health status of the service.
+    types:
+    - uid: string
+  - name: properties.description
+    isReadyOnly: true
+    description: Health status description.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: Get management operations health in the given location.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/locations/WestUS/operationsHealth?api-version=2020-08-01-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "name": "Microsoft.Sql/managedServers/write",
+              "health": "Healthy",
+              "description": "Everything's good."
+            },
+            "id": "/subscriptions/6c04259d-9b66-46b0-b07f-8939deb762e4/providers/Microsoft.Sql/locations/InProcess/operationsHealth",
+            "name": "OperationsHealth",
+            "type": "Microsoft.Sql/locations/listByOperationsHealth"
+          },
+          {
+            "properties": {
+              "name": "Microsoft.Sql/servers/write",
+              "health": "Degraded",
+              "description": "Prolonged deployment times expected."
+            },
+            "id": "/subscriptions/6c04259d-9b66-46b0-b07f-8939deb762e4/providers/Microsoft.Sql/locations/InProcess/operationsHealth",
+            "name": "OperationsHealth",
+            "type": "Microsoft.Sql/locations/listByOperationsHealth"
+          }
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about SQL Database service - Gets a service operation health status.
+errorCodes: []

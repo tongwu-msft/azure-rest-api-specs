@@ -1,0 +1,358 @@
+### YamlMime:RESTOperation
+uid: synapse.data-plane.notebook.getnotebook
+name: Get Notebook
+service: Synapse
+groupName: Notebook
+apiVersion: 2019-06-01-preview
+summary: Gets a Note Book.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/notebooks/{notebookName}?api-version=2019-06-01-preview
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
+  types:
+  - uid: string
+- name: notebookName
+  in: path
+  isRequired: true
+  description: The notebook name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Synapse client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: NotebookResource
+- name: Other Status Codes
+  description: Not modified.
+- name: Other Status Codes
+  description: An error response received from the Azure Synapse service.
+  types:
+  - uid: CloudError
+requestHeader:
+- name: If-None-Match
+  in: header
+  description: ETag of the Notebook entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned.
+  types:
+  - uid: string
+definitions:
+- name: NotebookResource
+  description: Notebook resource type.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Resource Etag.
+    types:
+    - uid: string
+  - name: properties
+    description: Properties of Notebook.
+    types:
+    - uid: Notebook
+- name: CloudError
+  description: The object that defines the structure of an Azure Synapse error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+- name: Notebook
+  description: Notebook.
+  kind: object
+  properties:
+  - name: description
+    description: The description of the notebook.
+    types:
+    - uid: string
+  - name: bigDataPool
+    description: Big data pool reference.
+    types:
+    - uid: BigDataPoolReference
+  - name: sessionProperties
+    description: Session properties.
+    types:
+    - uid: NotebookSessionProperties
+  - name: metadata
+    description: Notebook root-level metadata.
+    types:
+    - uid: NotebookMetadata
+  - name: nbformat
+    description: Notebook format (major number). Incremented between backwards incompatible changes to the notebook format.
+    types:
+    - uid: integer
+  - name: nbformat_minor
+    description: Notebook format (minor number). Incremented for backward compatible changes to the notebook format.
+    types:
+    - uid: integer
+  - name: cells
+    description: Array of cells of the current notebook.
+    types:
+    - uid: NotebookCell
+      isArray: true
+- name: BigDataPoolReference
+  description: Big data pool reference.
+  kind: object
+  properties:
+  - name: type
+    description: Big data pool reference type.
+    types:
+    - uid: BigDataPoolReferenceType
+  - name: referenceName
+    description: Reference big data pool name.
+    types:
+    - uid: string
+- name: NotebookSessionProperties
+  description: Session properties.
+  kind: object
+  properties:
+  - name: driverMemory
+    description: Amount of memory to use for the driver process.
+    types:
+    - uid: string
+  - name: driverCores
+    description: Number of cores to use for the driver.
+    types:
+    - uid: integer
+  - name: executorMemory
+    description: Amount of memory to use per executor process.
+    types:
+    - uid: string
+  - name: executorCores
+    description: Number of cores to use for each executor.
+    types:
+    - uid: integer
+  - name: numExecutors
+    description: Number of executors to launch for this session.
+    types:
+    - uid: integer
+- name: NotebookMetadata
+  description: Notebook root-level metadata.
+  kind: object
+  properties:
+  - name: kernelspec
+    description: Kernel information.
+    types:
+    - uid: NotebookKernelSpec
+  - name: language_info
+    description: Language info.
+    types:
+    - uid: NotebookLanguageInfo
+- name: NotebookCell
+  description: Notebook cell.
+  kind: object
+  properties:
+  - name: cell_type
+    description: String identifying the type of cell.
+    types:
+    - uid: string
+  - name: metadata
+    description: Cell-level metadata.
+    types:
+    - uid: object
+  - name: source
+    description: Contents of the cell, represented as an array of lines.
+    types:
+    - uid: string
+      isArray: true
+  - name: attachments
+    description: Attachments associated with the cell.
+    types:
+    - uid: object
+  - name: outputs
+    description: Cell-level output items.
+    types:
+    - uid: NotebookCellOutputItem
+      isArray: true
+- name: BigDataPoolReferenceType
+  description: Big data pool reference type.
+  kind: enum
+  properties:
+  - name: BigDataPoolReference
+    types:
+    - uid: string
+- name: NotebookKernelSpec
+  description: Kernel information.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the kernel specification.
+    types:
+    - uid: string
+  - name: display_name
+    description: Name to display in UI.
+    types:
+    - uid: string
+- name: NotebookLanguageInfo
+  description: Language info.
+  kind: object
+  properties:
+  - name: name
+    description: The programming language which this kernel runs.
+    types:
+    - uid: string
+  - name: codemirror_mode
+    description: The codemirror mode to use for code in this language.
+    types:
+    - uid: string
+- name: NotebookCellOutputItem
+  description: An item of the notebook cell execution output.
+  kind: object
+  properties:
+  - name: name
+    description: For output_type=stream, determines the name of stream (stdout / stderr).
+    types:
+    - uid: string
+  - name: execution_count
+    description: Execution sequence number.
+    types:
+    - uid: integer
+  - name: output_type
+    description: Execution, display, or stream outputs.
+    types:
+    - uid: CellOutputType
+  - name: text
+    description: For output_type=stream, the stream's text output, represented as a string or an array of strings.
+    types:
+    - {}
+  - name: data
+    description: Output data. Use MIME type as key, and content as value.
+    types:
+    - uid: object
+  - name: metadata
+    description: Metadata for the output item.
+    types:
+    - uid: object
+- name: CellOutputType
+  description: Execution, display, or stream outputs.
+  kind: enum
+  properties:
+  - name: execute_result
+    types:
+    - uid: string
+  - name: display_data
+    types:
+    - uid: string
+  - name: stream
+    types:
+    - uid: string
+  - name: error
+    types:
+    - uid: string
+examples:
+- name: Notebooks_Get
+  request:
+    uri: GET exampleWorkspace.dev.azuresynapse.net/notebooks/exampleNotebook?api-version=2019-06-01-preview
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Sat, 16 Jun 2018 00:37:41 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1192"
+    - name: x-ms-request-id
+      value: e4c589b7-a9fe-4c28-981c-3855ec27d264
+    - name: x-ms-correlation-request-id
+      value: e4c589b7-a9fe-4c28-981c-3855ec27d264
+    body: >-
+      {
+        "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.Synapse/workspaces/exampleWorkspaceName/notebooks/exampleNotebook",
+        "name": "exampleNotebook",
+        "type": "Microsoft.Synapse/workspaces/Notebooks",
+        "properties": {
+          "description": "A sample Notebook",
+          "nbformat": 4,
+          "nbformat_minor": 2,
+          "bigDataPool": {
+            "referenceName": "exampleBigDataPoolName",
+            "type": "BigDataPoolReference"
+          },
+          "sessionProperties": {
+            "driverMemory": "28g",
+            "driverCores": 4,
+            "executorMemory": "28g",
+            "executorCores": 4,
+            "numExecutors": 1
+          },
+          "metadata": {
+            "language_info": {
+              "name": "python"
+            },
+            "kernelspec": {
+              "name": "exampleName",
+              "display_name": "exampleDisplayName"
+            }
+          },
+          "cells": [
+            {
+              "cell_type": "code",
+              "metadata": {},
+              "source": [
+                "def my_function():\n",
+                " print(\"Hello from a function\")\n",
+                "\n",
+                "my_function()"
+              ],
+              "attachments": {},
+              "outputs": [
+                {
+                  "execution_count": 3,
+                  "output_type": "execute_result",
+                  "data": {
+                    "text/plain": "Hello from a function"
+                  },
+                  "metadata": {}
+                }
+              ]
+            }
+          ]
+        },
+        "etag": "1500504f-0000-0200-0000-5cbe090f0000"
+      }
+  - statusCode: "304"
+security: []
+metadata:
+  description: Learn more about Synapse service - Gets a Note Book.
+errorCodes: []
