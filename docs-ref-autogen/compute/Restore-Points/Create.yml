@@ -54,7 +54,7 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: excludeDisks
+  - name: properties.excludeDisks
     in: body
     description: List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included.
     types:
@@ -62,6 +62,14 @@ requestBody:
       isArray: true
 requestHeader: []
 definitions:
+- name: ApiEntityReference
+  description: The API entity reference.
+  kind: object
+  properties:
+  - name: id
+    description: The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
+    types:
+    - uid: string
 - name: RestorePointSourceMetadata
   description: Describes the properties of the Virtual Machine for which the restore point was created. The properties provided are a subset and the snapshot of the overall Virtual Machine properties captured at the time of the restore point creation.
   kind: object
@@ -94,6 +102,10 @@ definitions:
     description: Gets the security profile.
     types:
     - uid: SecurityProfile
+  - name: location
+    description: Location of the VM from which the restore point was created.
+    types:
+    - uid: string
 - name: RestorePointProvisioningDetails
   description: Restore Point Provisioning details.
   kind: object
@@ -114,43 +126,35 @@ definitions:
     description: Gets the status message of the Create restore point operation.
     types:
     - uid: string
-- name: ApiEntityReference
-  description: The API entity reference.
-  kind: object
-  properties:
-  - name: id
-    description: The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
-    types:
-    - uid: string
 - name: RestorePoint
   description: Restore Point details.
   kind: object
   properties:
-  - name: sourceMetadata
-    isReadyOnly: true
-    description: Gets the details of the VM captured at the time of the restore point creation.
-    types:
-    - uid: RestorePointSourceMetadata
-  - name: provisioningState
-    isReadyOnly: true
-    description: Gets the provisioning state of the restore point.
-    types:
-    - uid: string
-  - name: consistencyMode
-    isReadyOnly: true
-    description: Gets the consistency mode for the restore point. Please refer to https://aka.ms/RestorePoints for more details.
-    types:
-    - uid: ConsistencyModeTypes
-  - name: provisioningDetails
-    isReadyOnly: true
-    description: Gets the provisioning details set by the server during Create restore point operation.
-    types:
-    - uid: RestorePointProvisioningDetails
-  - name: excludeDisks
+  - name: properties.excludeDisks
     description: List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included.
     types:
     - uid: ApiEntityReference
       isArray: true
+  - name: properties.sourceMetadata
+    isReadyOnly: true
+    description: Gets the details of the VM captured at the time of the restore point creation.
+    types:
+    - uid: RestorePointSourceMetadata
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Gets the provisioning state of the restore point.
+    types:
+    - uid: string
+  - name: properties.consistencyMode
+    isReadyOnly: true
+    description: Gets the consistency mode for the restore point. Please refer to https://aka.ms/RestorePoints for more details.
+    types:
+    - uid: ConsistencyModeTypes
+  - name: properties.provisioningDetails
+    isReadyOnly: true
+    description: Gets the provisioning details set by the server during Create restore point operation.
+    types:
+    - uid: RestorePointProvisioningDetails
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -1282,11 +1286,13 @@ examples:
     uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/rpcName/restorePoints/rpName?api-version=2021-03-01
     body: >-
       {
-        "excludeDisks": [
-          {
-            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vm8768_disk2_fe6ffde4f69b491ca33fb984d5bcd89f"
-          }
-        ]
+        "properties": {
+          "excludeDisks": [
+            {
+              "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123"
+            }
+          ]
+        }
       }
   responses:
   - statusCode: "201"
@@ -1294,69 +1300,72 @@ examples:
       {
         "name": "rpName",
         "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/rpcName/restorePoints/rpName",
-        "sourceMetadata": {
-          "vmId": "76d6541e-80bd-4dc1-932b-3cae4cfb80e7",
-          "hardwareProfile": {
-            "vmSize": "Standard_B1s"
-          },
-          "storageProfile": {
-            "osDisk": {
-              "osType": "Windows",
-              "name": "testingexcludedisk_OsDisk_1_74cdaedcea50483d9833c96adefa100f",
-              "caching": "ReadWrite",
-              "managedDisk": {
-                "storageAccountType": "Standard_LRS",
-                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/testingexcludedisk_OsDisk_1_74cdaedcea50483d9833c96adefa100f"
-              },
-              "diskRestorePoint": {
-                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/rpcName/restorePoints/rpName/diskRestorePoints/testingexcludedisk_OsDisk_1_74cdaedcea50483d9833c96adefa100f_22b4bdfe-6c54-4f72-84d8-85d8860f0c57"
-              }
+        "properties": {
+          "excludeDisks": [
+            {
+              "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123"
+            }
+          ],
+          "sourceMetadata": {
+            "vmId": "76d6541e-80bd-4dc1-932b-3cae4cfb80e7",
+            "hardwareProfile": {
+              "vmSize": "Standard_B1s"
             },
-            "dataDisks": [
-              {
-                "lun": 1,
-                "name": "testingexcludedisk_DataDisk_1",
-                "caching": "None",
+            "storageProfile": {
+              "osDisk": {
+                "osType": "Windows",
+                "name": "osDisk123",
+                "caching": "ReadWrite",
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS",
-                  "id": "/subscriptions/{subscription-id}/resourceGroups/userdata/providers/Microsoft.Compute/disks/testingexcludedisk_DataDisk_1"
+                  "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/osDisk123"
                 },
                 "diskRestorePoint": {
-                  "id": "/subscriptions/{subscription-id}/resourceGroups/userdata/providers/Microsoft.Compute/restorePointCollections/mynewrpc/restorePoints/restorepointtwo/diskRestorePoints/testingexcludedisk_DataDisk_1_68785190-1acb-4d5e-a8ae-705b45f3dca5"
+                  "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/rpcName/restorePoints/rpName/diskRestorePoints/osDisk123_22b4bdfe-6c54-4f72-84d8-85d8860f0c57"
                 }
-              }
-            ]
-          },
-          "osProfile": {
-            "computerName": "computerName",
-            "adminUsername": "admin",
-            "windowsConfiguration": {
-              "provisionVMAgent": true,
-              "enableAutomaticUpdates": true
+              },
+              "dataDisks": [
+                {
+                  "lun": 1,
+                  "name": "dataDisk123",
+                  "caching": "None",
+                  "managedDisk": {
+                    "storageAccountType": "Standard_LRS",
+                    "id": "/subscriptions/{subscription-id}/resourceGroups/userdata/providers/Microsoft.Compute/disks/dataDisk123"
+                  },
+                  "diskRestorePoint": {
+                    "id": "/subscriptions/{subscription-id}/resourceGroups/userdata/providers/Microsoft.Compute/restorePointCollections/mynewrpc/restorePoints/restorepointtwo/diskRestorePoints/dataDisk123_68785190-1acb-4d5e-a8ae-705b45f3dca5"
+                  }
+                }
+              ]
             },
-            "secrets": [],
-            "allowExtensionOperations": true,
-            "requireGuestProvisionSignal": true
+            "osProfile": {
+              "computerName": "computerName",
+              "adminUsername": "admin",
+              "windowsConfiguration": {
+                "provisionVMAgent": true,
+                "enableAutomaticUpdates": true
+              },
+              "secrets": [],
+              "allowExtensionOperations": true,
+              "requireGuestProvisionSignal": true
+            },
+            "diagnosticsProfile": {
+              "bootDiagnostics": {
+                "enabled": true
+              }
+            },
+            "location": "westus"
           },
-          "diagnosticsProfile": {
-            "bootDiagnostics": {
-              "enabled": true
-            }
+          "provisioningState": "Succeeded",
+          "consistencyMode": "ApplicationConsistent",
+          "provisioningDetails": {
+            "creationTime": "2021-01-27T20:35:05.8401519+00:00",
+            "totalUsedSizeInBytes": 10835349504,
+            "statusCode": 0,
+            "statusMessage": "{\"jobMessage\":\"\",\"messageStr\":\"1/27/2021 8:35:56 PM , snapshotCreator=guestExtension, hostStatusCodePreSnapshot=200, Plugin enable Succeeded (command: Snapshot) Snapshot command completed \",\"snapshotConsistency\":2}"
           }
-        },
-        "provisioningState": "Succeeded",
-        "consistencyMode": "ApplicationConsistent",
-        "provisioningDetails": {
-          "creationTime": "2021-01-27T20:35:05.8401519+00:00",
-          "totalUsedSizeInBytes": 10835349504,
-          "statusCode": 0,
-          "statusMessage": "{\"jobMessage\":\"\",\"messageStr\":\"1/27/2021 8:35:56 PM , snapshotCreator=guestExtension, hostStatusCodePreSnapshot=200, Plugin enable Succeeded (command: Snapshot) Snapshot command completed \",\"snapshotConsistency\":2}"
-        },
-        "excludeDisks": [
-          {
-            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vm8768_disk2_fe6ffde4f69b491ca33fb984d5bcd89f"
-          }
-        ]
+        }
       }
 security:
 - name: azure_auth
