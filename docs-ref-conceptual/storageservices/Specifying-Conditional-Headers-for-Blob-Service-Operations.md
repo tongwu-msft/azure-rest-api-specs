@@ -161,7 +161,8 @@ Several Blob service operations support the use of conditional headers. You can 
 |[Set Container Metadata](Set-Container-Metadata.md)|Write|**If-Modified-Since**|  
 |[Set Blob Tags](Set-Blob-Tags.md)<br /><br /> (version 2019-12-12 and later)|Write|**x-ms-if-tags**|  
 |[Set Blob Tier](set-blob-tier.md)|Read or Write|**x-ms-if-tags**|  
-|[Snapshot Blob](Snapshot-Blob.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|  
+|[Snapshot Blob](Snapshot-Blob.md)|Read|**If-Modified-Since**<br /><br /> **If-Unmodified-Since**<br /><br /> **If-Match**<br /><br /> **If-None-Match**<br /><br /> **x-ms-if-tags**|
+|[Set Blob Immutability Policy](Set-Blob-Immutability-Policy.md)|Write|**If-Unmodified-Since**|
   
  The following Blob service data operations do not currently support conditional headers:  
   
