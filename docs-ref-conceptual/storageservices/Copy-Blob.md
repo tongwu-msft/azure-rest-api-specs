@@ -72,8 +72,8 @@ The following additional parameters may be specified on the request URI.
 |`x-ms-rehydrate-priority`|Optional. Indicates the priority with which to rehydrate an archived blob. Supported on version 2019-02-02 and newer for Block blobs. Valid values are `High`/`Standard`. The priority can be set on a blob only once. This header will be ignored on subsequent requests to the same blob. Default priority without this header is `Standard`.|  
 |`x-ms-seal-blob`|Optional. Supported on version 2019-12-12 or newer. Valid for Append Blobs only. Will seal the destination blob after the copy operation is finished.|
 |`x-ms-immutability-policy-until-date`|Version 2020-06-12 and newer. Specifies the retention until date to be set on the blob. Follow RFC1123 format.|  
-|`x-ms-immutability-policy-mode`|Version 2020-06-12 and newer. Specifies the immutability policy mode to be set on the blob, valid value `unlocked/locked`.|  
-|`x-ms-legal-hold`|Version 2020-06-12 and newer. Specifies the legal hold to be set on the blob, valid value `true/false`.|  
+|`x-ms-immutability-policy-mode`|Version 2020-06-12 and newer. Specifies the immutability policy mode to be set on the blob, valid values are `unlocked/locked`.|  
+|`x-ms-legal-hold`|Version 2020-06-12 and newer. Specifies the legal hold to be set on the blob, valid values are `true/false`.|  
 
 This operation supports the `x-ms-if-tags` and `x-ms-source-if-tags` conditional headers to succeed only if the specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md). 
 
