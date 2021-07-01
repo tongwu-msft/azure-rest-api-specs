@@ -11,7 +11,7 @@ ms.author: lawe
 
 # Set Blob Immutability Policy
 
-The `Set Blob Immutability Policy` operation sets the immutability policy on a blob. This operation does not update the blob's ETag.
+The `Set Blob Immutability Policy` operation sets the immutability policy on a blob. This operation does not update the blob's ETag.  This API is available starting in version `2020-06-12`.
 
 ## Request
 The `Set Blob Immutability Policy` request may be constructed as follows. HTTPS is recommended. Replace myaccount with the name of your storage account and myblob with the blob name for which the immutability policy is to be changed.
@@ -36,7 +36,7 @@ The following table describes required and optional request headers.
 |------------|-----------------|
 |`Authorization`|Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
-|`x-ms-immutability-policy-until-date`|Required. Indicates the retention until date to be set on the blob. For blob storage or general purpose v2 account, valid values are with RFC1123 format, past time is not valid.|
+|`x-ms-immutability-policy-until-date`|Required. Indicates the retention until date to be set on the blob. For blob storage or general purpose v2 account, valid values are with RFC1123 format.  Past times are not valid.|
 |`x-ms-immutability-policy-mode`|Optional. If not specified, default value is `Unlocked`. Indicates the immutable policy mode to be set on the blob. For blob storage or general purpose v2 account, valid values are `Unlocked`/`Locked`.|
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
