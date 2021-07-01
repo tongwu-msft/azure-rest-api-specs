@@ -124,6 +124,9 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 |`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
 |`x-ms-last-access-time`|Version 2020-02-10 or newer. Indicates the last time when the blob's data was accessed based on the storage account's last access time tracking policy. The header will not be returned if the storage account does not have a last access time tracking policy, or the policy is disabled. For information about setting the storage account's last access time tracking policy, see [Blob Service API](https://docs.microsoft.com/rest/api/storagerp/blobservices/setserviceproperties).|  
 |`x-ms-blob-sealed`|Version 2019-12-12 or newer, returned only for append blobs. If the append blob has been sealed the value would be true, see [Seal Append Blobs](append-blob-seal.md)|
+|`x-ms-immutability-policy-until-date`|Version 2020-06-12 or newer.  The immutability policy until date, returned if an immutability policy is set on the blob.  The value of this header is RFC1123 format.| 
+|`x-ms-immutability-policy-mode: unlocked/locked`|Version 2020-06-12 or newer. The immutability policy mode, returned if an immutability policy is set on the blob.| 
+|`x-ms-legal-hold: true/false`|Version 2020-06-12 or newer. The value of this header is set to `true` if the blob contains legal hold and value is true. Otherwise, the value is set to `false`. This header is returned only when there is legal hold set on blob.| 
   
 ### Response Body  
  The response body contains the content of the blob.  
