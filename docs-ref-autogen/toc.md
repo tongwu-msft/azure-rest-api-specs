@@ -9028,21 +9028,6 @@
 ##### [Get Service Statistics](iothub/service/Statistics/Get-Service-Statistics.yml)
 # IoT Hub Device Provisioning Service
 ## [Overview](../docs-ref-conceptual/iot-dps/index.md)
-## Create Or Update Enrollment Group
-### [Overview](iot-dps/Create-Or-Update-Enrollment-Group.yml)
-### [Create Or Update Enrollment Group](iot-dps/Create-Or-Update-Enrollment-Group/Create-Or-Update-Enrollment-Group.yml)
-## Create Or Update Individual Enrollment
-### [Overview](iot-dps/Create-Or-Update-Individual-Enrollment.yml)
-### [Create Or Update Individual Enrollment](iot-dps/Create-Or-Update-Individual-Enrollment/Create-Or-Update-Individual-Enrollment.yml)
-## Delete Device Registration State
-### [Overview](iot-dps/Delete-Device-Registration-State.yml)
-### [Delete Device Registration State](iot-dps/Delete-Device-Registration-State/Delete-Device-Registration-State.yml)
-## Delete Enrollment Group
-### [Overview](iot-dps/Delete-Enrollment-Group.yml)
-### [Delete Enrollment Group](iot-dps/Delete-Enrollment-Group/Delete-Enrollment-Group.yml)
-## Delete Individual Enrollment
-### [Overview](iot-dps/Delete-Individual-Enrollment.yml)
-### [Delete Individual Enrollment](iot-dps/Delete-Individual-Enrollment/Delete-Individual-Enrollment.yml)
 ## Dps Certificate
 ### [Overview](iot-dps/Dps-Certificate.yml)
 ### [Create Or Update](iot-dps/Dps-Certificate/Create-Or-Update.yml)
@@ -9051,21 +9036,6 @@
 ### [Get](iot-dps/Dps-Certificate/Get.yml)
 ### [List](iot-dps/Dps-Certificate/List.yml)
 ### [Verify Certificate](iot-dps/Dps-Certificate/Verify-Certificate.yml)
-## Get Device Registration State
-### [Overview](iot-dps/Get-Device-Registration-State.yml)
-### [Get Device Registration State](iot-dps/Get-Device-Registration-State/Get-Device-Registration-State.yml)
-## Get Enrollment Group
-### [Overview](iot-dps/Get-Enrollment-Group.yml)
-### [Get Enrollment Group](iot-dps/Get-Enrollment-Group/Get-Enrollment-Group.yml)
-## Get Enrollment Group Attestation Mechanism
-### [Overview](iot-dps/Get-Enrollment-Group-Attestation-Mechanism.yml)
-### [Get Enrollment Group Attestation Mechanism](iot-dps/Get-Enrollment-Group-Attestation-Mechanism/Get-Enrollment-Group-Attestation-Mechanism.yml)
-## Get Individual Enrollment
-### [Overview](iot-dps/Get-Individual-Enrollment.yml)
-### [Get Individual Enrollment](iot-dps/Get-Individual-Enrollment/Get-Individual-Enrollment.yml)
-## Get Individual Enrollment Attestation Mechanism
-### [Overview](iot-dps/Get-Individual-Enrollment-Attestation-Mechanism.yml)
-### [Get Individual Enrollment Attestation Mechanism](iot-dps/Get-Individual-Enrollment-Attestation-Mechanism/Get-Individual-Enrollment-Attestation-Mechanism.yml)
 ## Iot Dps Resource
 ### [Overview](iot-dps/Iot-Dps-Resource.yml)
 ### [Check Provisioning Service Name Availability](iot-dps/Iot-Dps-Resource/Check-Provisioning-Service-Name-Availability.yml)
@@ -9082,26 +9052,34 @@
 ## Operations
 ### [Overview](iot-dps/Operations.yml)
 ### [List](iot-dps/Operations/List.yml)
-## Query Device Registration States
-### [Overview](iot-dps/Query-Device-Registration-States.yml)
-### [Query Device Registration States](iot-dps/Query-Device-Registration-States/Query-Device-Registration-States.yml)
-## Query Enrollment Groups
-### [Overview](iot-dps/Query-Enrollment-Groups.yml)
-### [Query Enrollment Groups](iot-dps/Query-Enrollment-Groups/Query-Enrollment-Groups.yml)
-## Query Individual Enrollments
-### [Overview](iot-dps/Query-Individual-Enrollments.yml)
-### [Query Individual Enrollments](iot-dps/Query-Individual-Enrollments/Query-Individual-Enrollments.yml)
-## Run Bulk Enrollment Group Operation
-### [Overview](iot-dps/Run-Bulk-Enrollment-Group-Operation.yml)
-### [Run Bulk Enrollment Group Operation](iot-dps/Run-Bulk-Enrollment-Group-Operation/Run-Bulk-Enrollment-Group-Operation.yml)
-## Run Bulk Individual Enrollment Operation
-### [Overview](iot-dps/Run-Bulk-Individual-Enrollment-Operation.yml)
-### [Run Bulk Individual Enrollment Operation](iot-dps/Run-Bulk-Individual-Enrollment-Operation/Run-Bulk-Individual-Enrollment-Operation.yml)
-## Runtime Registration
-### [Overview](iot-dps/Runtime-Registration.yml)
-### [Device Registration Status Lookup](iot-dps/Runtime-Registration/Device-Registration-Status-Lookup.yml)
-### [Operation Status Lookup](iot-dps/Runtime-Registration/Operation-Status-Lookup.yml)
-### [Register Device](iot-dps/Runtime-Registration/Register-Device.yml)
+## Device
+### Runtime Registration
+#### [Overview](iot-dps/device/Runtime-Registration.yml)
+#### [Device Registration Status Lookup](iot-dps/device/Runtime-Registration/Device-Registration-Status-Lookup.yml)
+#### [Operation Status Lookup](iot-dps/device/Runtime-Registration/Operation-Status-Lookup.yml)
+#### [Register Device](iot-dps/device/Runtime-Registration/Register-Device.yml)
+## Service
+### Device Registration State
+#### [Overview](iot-dps/service/Device-Registration-State.yml)
+#### [Delete](iot-dps/service/Device-Registration-State/Delete.yml)
+#### [Get](iot-dps/service/Device-Registration-State/Get.yml)
+#### [Query](iot-dps/service/Device-Registration-State/Query.yml)
+### Enrollment Group
+#### [Overview](iot-dps/service/Enrollment-Group.yml)
+#### [Create Or Update](iot-dps/service/Enrollment-Group/Create-Or-Update.yml)
+#### [Delete](iot-dps/service/Enrollment-Group/Delete.yml)
+#### [Get](iot-dps/service/Enrollment-Group/Get.yml)
+#### [Get Attestation Mechanism](iot-dps/service/Enrollment-Group/Get-Attestation-Mechanism.yml)
+#### [Query](iot-dps/service/Enrollment-Group/Query.yml)
+#### [Run Bulk Operation](iot-dps/service/Enrollment-Group/Run-Bulk-Operation.yml)
+### Individual Enrollment
+#### [Overview](iot-dps/service/Individual-Enrollment.yml)
+#### [Create Or Update](iot-dps/service/Individual-Enrollment/Create-Or-Update.yml)
+#### [Delete](iot-dps/service/Individual-Enrollment/Delete.yml)
+#### [Get](iot-dps/service/Individual-Enrollment/Get.yml)
+#### [Get Attestation Mechanism](iot-dps/service/Individual-Enrollment/Get-Attestation-Mechanism.yml)
+#### [Query](iot-dps/service/Individual-Enrollment/Query.yml)
+#### [Run Bulk Operation](iot-dps/service/Individual-Enrollment/Run-Bulk-Operation.yml)
 # Key Vault
 ## [Overview](../docs-ref-conceptual/keyvault/index.md)
 ## Backup Certificate
@@ -9868,10 +9846,6 @@
 ### [Delete](azureml/Model-Versions/Delete.yml)
 ### [Get](azureml/Model-Versions/Get.yml)
 ### [List](azureml/Model-Versions/List.yml)
-## Notebooks
-### [Overview](azureml/Notebooks.yml)
-### [List Keys](azureml/Notebooks/List-Keys.yml)
-### [Prepare](azureml/Notebooks/Prepare.yml)
 ## Online Deployments
 ### [Overview](azureml/Online-Deployments.yml)
 ### [Create Or Update](azureml/Online-Deployments/Create-Or-Update.yml)
@@ -9927,7 +9901,9 @@
 ### [List By Subscription](azureml/Workspaces/List-By-Subscription.yml)
 ### [List Keys](azureml/Workspaces/List-Keys.yml)
 ### [List Notebook Access Token](azureml/Workspaces/List-Notebook-Access-Token.yml)
+### [List Notebook Keys](azureml/Workspaces/List-Notebook-Keys.yml)
 ### [List Storage Account Keys](azureml/Workspaces/List-Storage-Account-Keys.yml)
+### [Prepare Notebook](azureml/Workspaces/Prepare-Notebook.yml)
 ### [Resync Keys](azureml/Workspaces/Resync-Keys.yml)
 ### [Update](azureml/Workspaces/Update.yml)
 # Maintenance
