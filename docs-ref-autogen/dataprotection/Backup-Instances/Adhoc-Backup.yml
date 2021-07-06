@@ -1,0 +1,205 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.dataprotection.backupinstances.adhocbackup
+name: Adhoc Backup
+service: Data Protection
+groupName: Backup Instances
+apiVersion: 2021-01-01
+summary: 'Trigger adhoc backup '
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupInstances/{backupInstanceName}/backup?api-version=2021-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the backup vault is present.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the backup vault.
+  types:
+  - uid: string
+- name: backupInstanceName
+  in: path
+  isRequired: true
+  description: The name of the backup instance
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Contains additional information like job Id
+  types:
+  - uid: OperationJobExtendedInfo
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  - name: Azure-AsyncOperation
+    value: string
+  - name: Retry-After
+    value: integer
+  description: The operation will be completed asynchronously.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: backupRuleOptions
+    in: body
+    isRequired: true
+    description: "AdHocBackupRuleOptions  \nName for the Rule of the Policy which needs to be applied for this backup"
+    types:
+    - uid: AdHocBackupRuleOptions
+requestHeader: []
+definitions:
+- name: AdHocBackupRuleOptions
+  description: AdHocBackupRuleOptions
+  kind: object
+  properties:
+  - name: ruleName
+    description: ''
+    types:
+    - uid: string
+  - name: triggerOption
+    description: "AdhocBackupTriggerOption  \nAdhoc backup trigger option"
+    types:
+    - uid: AdhocBackupTriggerOption
+- name: OperationJobExtendedInfo
+  description: OperationJobExtendedInfo
+  kind: object
+  properties:
+  - name: jobId
+    description: Arm Id of the job created for this operation.
+    types:
+    - uid: string
+  - name: objectType
+    description: This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types.
+    types:
+    - uid: string
+- name: CloudError
+  description: CloudError
+  kind: object
+  properties:
+  - name: error
+    description: The resource management error response.
+    types:
+    - uid: Error
+- name: TriggerBackupRequest
+  description: TriggerBackupRequest
+  kind: object
+  properties:
+  - name: backupRuleOptions
+    description: "AdHocBackupRuleOptions  \nName for the Rule of the Policy which needs to be applied for this backup"
+    types:
+    - uid: AdHocBackupRuleOptions
+- name: AdhocBackupTriggerOption
+  description: AdhocBackupTriggerOption
+  kind: object
+  properties:
+  - name: retentionTagOverride
+    description: ''
+    types:
+    - uid: string
+- name: Error
+  description: The resource management error response.
+  kind: object
+  properties:
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: Error
+      isArray: true
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+examples:
+- name: Trigger Adhoc Backup
+  request:
+    uri: POST https://management.azure.com/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/000pikumar/providers/Microsoft.DataProtection/backupVaults/PratikPrivatePreviewVault1/backupInstances/testInstance1/backup?api-version=2021-01-01
+    body: >-
+      {
+        "backupRuleOptions": {
+          "ruleName": "BackupWeekly",
+          "triggerOption": {
+            "retentionTagOverride": "yearly"
+          }
+        }
+      }
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/000pikumar/providers/Microsoft.DataProtection/backupInstances/harshitbi1/operationResults/ZTA4YjQ0ZGYtYmNkNS00YTk1LWFjZTMtOTc1MjNmZWIxYWZlO2Y1ODg1MzA3LWJkNjItNDQ2OC05ZjZlLTJkMGM2NjNiNmJmNg==?api-version=2021-01-01
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/providers/Microsoft.DataProtection/locations/westus/operationStatus/ZTA4YjQ0ZGYtYmNkNS00YTk1LWFjZTMtOTc1MjNmZWIxYWZlO2Y1ODg1MzA3LWJkNjItNDQ2OC05ZjZlLTJkMGM2NjNiNmJmNg==?api-version=2021-01-01
+    - name: Retry-After
+      value: "60"
+  - statusCode: "200"
+    body: >-
+      {
+        "jobId": "c60cb49-63e8-4b21-b9bd-26277b3fdfae"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
+metadata:
+  description: 'Learn more about Data Protection service - Trigger adhoc backup '
+errorCodes: []

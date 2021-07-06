@@ -1,0 +1,636 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.dataprotection.backuppolicies.list
+name: List
+service: Data Protection
+groupName: Backup Policies
+apiVersion: 2021-01-01
+summary: Returns list of backup policies belonging to a backup vault
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataProtection/backupVaults/{vaultName}/backupPolicies?api-version=2021-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription Id.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group where the backup vault is present.
+  types:
+  - uid: string
+- name: vaultName
+  in: path
+  isRequired: true
+  description: The name of the backup vault.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: BaseBackupPolicyResourceList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: BaseBackupPolicyResourceList
+  description: BaseBackupPolicyResourceList
+  kind: object
+  properties:
+  - name: value
+    description: List of resources.
+    types:
+    - uid: BaseBackupPolicyResource
+      isArray: true
+  - name: nextLink
+    description: The uri to fetch the next page of resources. Call ListNext() fetches next page of resources.
+    types:
+    - uid: string
+- name: CloudError
+  description: CloudError
+  kind: object
+  properties:
+  - name: error
+    description: The resource management error response.
+    types:
+    - uid: Error
+- name: BaseBackupPolicyResource
+  description: BaseBackupPolicyResource
+  kind: object
+  properties:
+  - name: properties
+    description: "BaseBackupPolicy  \nBaseBackupPolicyResource properties"
+    types:
+    - uid: BackupPolicy
+    typesTitle: BaseBackupPolicy
+  - name: id
+    isReadyOnly: true
+    description: Resource Id represents the complete path to the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name associated with the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+- name: Error
+  description: The resource management error response.
+  kind: object
+  properties:
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: Error
+      isArray: true
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+- name: BackupPolicy
+  description: BackupPolicy
+  kind: object
+  properties:
+  - name: policyRules
+    description: Policy rule dictionary that contains rules for each backuptype i.e Full/Incremental/Logs etc
+    types:
+    - uid: AzureBackupRule
+      isArray: true
+    - uid: AzureRetentionRule
+      isArray: true
+    typesTitle: BasePolicyRule[]
+  - name: datasourceTypes
+    description: Type of datasource for the backup management
+    types:
+    - uid: string
+      isArray: true
+  - name: objectType
+    description: ''
+    types:
+    - uid: BackupPolicy
+    typesTitle: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: AzureBackupRule
+  description: AzureBackupRule
+  kind: object
+  properties:
+  - name: backupParameters
+    description: "BackupParameters  \nBackupParameters base"
+    types:
+    - uid: AzureBackupParams
+    typesTitle: BackupParameters
+  - name: dataStore
+    description: "DataStoreInfoBase  \nDataStoreInfo base"
+    types:
+    - uid: DataStoreInfoBase
+  - name: trigger
+    description: "TriggerContext  \nTrigger context"
+    types:
+    - uid: AdhocBasedTriggerContext
+    - uid: ScheduleBasedTriggerContext
+    typesTitle: TriggerContext
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: objectType
+    description: ''
+    types:
+    - uid: AzureBackupRule
+    typesTitle: string
+- name: AzureRetentionRule
+  description: AzureRetentionRule
+  kind: object
+  properties:
+  - name: isDefault
+    description: ''
+    types:
+    - uid: boolean
+  - name: lifecycles
+    description: "SourceLifeCycle  \nSource LifeCycle"
+    types:
+    - uid: SourceLifeCycle
+      isArray: true
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: objectType
+    description: ''
+    types:
+    - uid: AzureRetentionRule
+    typesTitle: string
+- name: DataStoreInfoBase
+  description: DataStoreInfoBase
+  kind: object
+  properties:
+  - name: dataStoreType
+    description: type of datastore; Operational/Vault/Archive
+    types:
+    - uid: DataStoreTypes
+  - name: objectType
+    description: Type of Datasource object, used to initialize the right inherited type
+    types:
+    - uid: string
+- name: SourceLifeCycle
+  description: SourceLifeCycle
+  kind: object
+  properties:
+  - name: deleteAfter
+    description: "DeleteOption  \nDelete Option"
+    types:
+    - uid: AbsoluteDeleteOption
+    typesTitle: DeleteOption
+  - name: sourceDataStore
+    description: "DataStoreInfoBase  \nDataStoreInfo base"
+    types:
+    - uid: DataStoreInfoBase
+  - name: targetDataStoreCopySettings
+    description: "TargetCopySetting  \nTarget copy settings"
+    types:
+    - uid: TargetCopySetting
+      isArray: true
+- name: AzureBackupParams
+  description: AzureBackupParams
+  kind: object
+  properties:
+  - name: backupType
+    description: BackupType ; Full/Incremental etc
+    types:
+    - uid: string
+  - name: objectType
+    description: Type of the specific object - used for deserializing
+    types:
+    - uid: AzureBackupParams
+    typesTitle: string
+- name: DataStoreTypes
+  description: type of datastore; Operational/Vault/Archive
+  kind: enum
+  properties:
+  - name: OperationalStore
+    types:
+    - uid: string
+  - name: VaultStore
+    types:
+    - uid: string
+  - name: ArchiveStore
+    types:
+    - uid: string
+- name: AdhocBasedTriggerContext
+  description: AdhocBasedTriggerContext
+  kind: object
+  properties:
+  - name: taggingCriteria
+    description: "AdhocBasedTaggingCriteria  \nTagging Criteria containing retention tag for adhoc backup."
+    types:
+    - uid: AdhocBasedTaggingCriteria
+  - name: objectType
+    description: Type of the specific object - used for deserializing
+    types:
+    - uid: AdhocBasedTriggerContext
+    typesTitle: string
+- name: ScheduleBasedTriggerContext
+  description: ScheduleBasedTriggerContext
+  kind: object
+  properties:
+  - name: schedule
+    description: "BackupSchedule  \nSchedule for this backup"
+    types:
+    - uid: BackupSchedule
+  - name: taggingCriteria
+    description: List of tags that can be applicable for given schedule.
+    types:
+    - uid: TaggingCriteria
+      isArray: true
+  - name: objectType
+    description: Type of the specific object - used for deserializing
+    types:
+    - uid: ScheduleBasedTriggerContext
+    typesTitle: string
+- name: TargetCopySetting
+  description: TargetCopySetting
+  kind: object
+  properties:
+  - name: copyAfter
+    description: "CopyOption  \nIt can be CustomCopyOption or ImmediateCopyOption."
+    types:
+    - uid: CopyOnExpiryOption
+    - uid: CustomCopyOption
+    - uid: ImmediateCopyOption
+    typesTitle: CopyOption
+  - name: dataStore
+    description: "DataStoreInfoBase  \nInfo of target datastore"
+    types:
+    - uid: DataStoreInfoBase
+- name: AdhocBasedTaggingCriteria
+  description: AdhocBasedTaggingCriteria
+  kind: object
+  properties:
+  - name: tagInfo
+    description: "RetentionTag  \nRetention tag information"
+    types:
+    - uid: RetentionTag
+- name: BackupSchedule
+  description: BackupSchedule
+  kind: object
+  properties:
+  - name: repeatingTimeIntervals
+    description: ISO 8601 repeating time interval format
+    types:
+    - uid: string
+      isArray: true
+- name: TaggingCriteria
+  description: TaggingCriteria
+  kind: object
+  properties:
+  - name: criteria
+    description: Criteria which decides whether the tag can be applied to a triggered backup.
+    types:
+    - uid: ScheduleBasedBackupCriteria
+      isArray: true
+    typesTitle: BackupCriteria[]
+  - name: isDefault
+    description: Specifies if tag is default.
+    types:
+    - uid: boolean
+  - name: taggingPriority
+    description: Retention Tag priority.
+    types:
+    - uid: integer
+  - name: tagInfo
+    description: "RetentionTag  \nRetention tag information"
+    types:
+    - uid: RetentionTag
+- name: AbsoluteDeleteOption
+  description: AbsoluteDeleteOption
+  kind: object
+  properties:
+  - name: duration
+    description: Duration of deletion after given timespan
+    types:
+    - uid: string
+  - name: objectType
+    description: Type of the specific object - used for deserializing
+    types:
+    - uid: AbsoluteDeleteOption
+    typesTitle: string
+- name: RetentionTag
+  description: RetentionTag
+  kind: object
+  properties:
+  - name: eTag
+    isReadyOnly: true
+    description: Retention Tag version.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Retention Tag version.
+    types:
+    - uid: string
+  - name: tagName
+    description: Retention Tag Name to relate it to retention rule.
+    types:
+    - uid: string
+- name: CopyOnExpiryOption
+  description: CopyOnExpiryOption
+  kind: object
+  properties:
+  - name: objectType
+    description: Type of the specific object - used for deserializing
+    types:
+    - uid: CopyOnExpiryOption
+    typesTitle: string
+- name: CustomCopyOption
+  description: CustomCopyOption
+  kind: object
+  properties:
+  - name: duration
+    description: Data copied after given timespan
+    types:
+    - uid: string
+  - name: objectType
+    description: Type of the specific object - used for deserializing
+    types:
+    - uid: CustomCopyOption
+    typesTitle: string
+- name: ImmediateCopyOption
+  description: ImmediateCopyOption
+  kind: object
+  properties:
+  - name: objectType
+    description: Type of the specific object - used for deserializing
+    types:
+    - uid: ImmediateCopyOption
+    typesTitle: string
+- name: ScheduleBasedBackupCriteria
+  description: ScheduleBasedBackupCriteria
+  kind: object
+  properties:
+  - name: absoluteCriteria
+    description: >-
+      it contains absolute values like "AllBackup" / "FirstOfDay" / "FirstOfWeek" / "FirstOfMonth"
+
+      and should be part of AbsoluteMarker enum
+    types:
+    - uid: string
+      isArray: true
+  - name: daysOfMonth
+    description: This is day of the month from 1 to 28 other wise last of month
+    types:
+    - uid: Day
+      isArray: true
+  - name: daysOfTheWeek
+    description: It should be Sunday/Monday/T..../Saturday
+    types:
+    - uid: string
+      isArray: true
+  - name: monthsOfYear
+    description: It should be January/February/....../December
+    types:
+    - uid: string
+      isArray: true
+  - name: scheduleTimes
+    description: List of schedule times for backup
+    types:
+    - uid: string
+      isArray: true
+  - name: weeksOfTheMonth
+    description: It should be First/Second/Third/Fourth/Last
+    types:
+    - uid: string
+      isArray: true
+  - name: objectType
+    description: Type of the specific object - used for deserializing
+    types:
+    - uid: ScheduleBasedBackupCriteria
+    typesTitle: string
+- name: Day
+  description: Day
+  kind: object
+  properties:
+  - name: date
+    description: Date of the month
+    types:
+    - uid: integer
+  - name: isLast
+    description: Whether Date is last date of month
+    types:
+    - uid: boolean
+examples:
+- name: List BackupPolicy
+  request:
+    uri: GET https://management.azure.com/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/000pikumar/providers/Microsoft.DataProtection/backupVaults/PrivatePreviewVault/backupPolicies?api-version=2021-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/000pikumar/providers/Microsoft.DataProtection/backupVaults/PrivatePreviewVault/backupPolicies/OSSDBPolicy",
+            "name": "OSSDBPolicy",
+            "type": "Microsoft.DataProtection/backupVaults/backupPolicies",
+            "properties": {
+              "policyRules": [
+                {
+                  "backupParameters": {
+                    "backupType": "Full",
+                    "objectType": "AzureBackupParams"
+                  },
+                  "trigger": {
+                    "schedule": {
+                      "repeatingTimeIntervals": [
+                        "R/2019-11-20T08:00:00-08:00/P1W"
+                      ]
+                    },
+                    "taggingCriteria": [
+                      {
+                        "tagInfo": {
+                          "tagName": "Default",
+                          "id": "Default_"
+                        },
+                        "taggingPriority": 99,
+                        "isDefault": true
+                      },
+                      {
+                        "tagInfo": {
+                          "tagName": "Weekly",
+                          "id": "Weekly_"
+                        },
+                        "taggingPriority": 20,
+                        "isDefault": false,
+                        "criteria": [
+                          {
+                            "scheduleTimes": [
+                              "2019-03-01T13:00:00Z"
+                            ],
+                            "daysOfTheWeek": [
+                              "Sunday"
+                            ],
+                            "objectType": "ScheduleBasedBackupCriteria"
+                          }
+                        ]
+                      }
+                    ],
+                    "objectType": "ScheduleBasedTriggerContext"
+                  },
+                  "dataStore": {
+                    "dataStoreType": "VaultStore",
+                    "objectType": "DataStoreInfoBase"
+                  },
+                  "name": "BackupWeekly",
+                  "objectType": "AzureBackupRule"
+                },
+                {
+                  "lifecycles": [
+                    {
+                      "sourceDataStore": {
+                        "dataStoreType": "VaultStore",
+                        "objectType": "DataStoreInfoBase"
+                      },
+                      "deleteAfter": {
+                        "objectType": "AbsoluteDeleteOption",
+                        "duration": "P1W"
+                      }
+                    }
+                  ],
+                  "isDefault": true,
+                  "name": "Default",
+                  "objectType": "AzureRetentionRule"
+                },
+                {
+                  "lifecycles": [
+                    {
+                      "sourceDataStore": {
+                        "dataStoreType": "VaultStore",
+                        "objectType": "DataStoreInfoBase"
+                      },
+                      "deleteAfter": {
+                        "objectType": "AbsoluteDeleteOption",
+                        "duration": "P12W"
+                      }
+                    }
+                  ],
+                  "isDefault": false,
+                  "name": "Weekly",
+                  "objectType": "AzureRetentionRule"
+                }
+              ],
+              "datasourceTypes": [
+                "OssDB"
+              ],
+              "objectType": "BackupPolicy"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account.
+metadata:
+  description: Learn more about Data Protection service - Returns list of backup policies belonging to a backup vault
+errorCodes: []
