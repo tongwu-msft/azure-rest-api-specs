@@ -7396,6 +7396,66 @@
 ## Usages
 ### [Overview](datamigration/Usages.yml)
 ### [List](datamigration/Usages/List.yml)
+# Data Protection
+## [Overview](../docs-ref-conceptual/dataprotection/index.md)
+## Backup Instances
+### [Overview](dataprotection/Backup-Instances.yml)
+### [Adhoc Backup](dataprotection/Backup-Instances/Adhoc-Backup.yml)
+### [Create Or Update](dataprotection/Backup-Instances/Create-Or-Update.yml)
+### [Delete](dataprotection/Backup-Instances/Delete.yml)
+### [Get](dataprotection/Backup-Instances/Get.yml)
+### [List](dataprotection/Backup-Instances/List.yml)
+### [Trigger Rehydrate](dataprotection/Backup-Instances/Trigger-Rehydrate.yml)
+### [Trigger Restore](dataprotection/Backup-Instances/Trigger-Restore.yml)
+### [Validate For Backup](dataprotection/Backup-Instances/Validate-For-Backup.yml)
+### [Validate For Restore](dataprotection/Backup-Instances/Validate-For-Restore.yml)
+## Backup Policies
+### [Overview](dataprotection/Backup-Policies.yml)
+### [Create Or Update](dataprotection/Backup-Policies/Create-Or-Update.yml)
+### [Delete](dataprotection/Backup-Policies/Delete.yml)
+### [Get](dataprotection/Backup-Policies/Get.yml)
+### [List](dataprotection/Backup-Policies/List.yml)
+## Backup Vault Operation Results
+### [Overview](dataprotection/Backup-Vault-Operation-Results.yml)
+### [Get](dataprotection/Backup-Vault-Operation-Results/Get.yml)
+## Backup Vaults
+### [Overview](dataprotection/Backup-Vaults.yml)
+### [Check Name Availability](dataprotection/Backup-Vaults/Check-Name-Availability.yml)
+### [Create Or Update](dataprotection/Backup-Vaults/Create-Or-Update.yml)
+### [Delete](dataprotection/Backup-Vaults/Delete.yml)
+### [Get](dataprotection/Backup-Vaults/Get.yml)
+### [Get In Resource Group](dataprotection/Backup-Vaults/Get-In-Resource-Group.yml)
+### [Get In Subscription](dataprotection/Backup-Vaults/Get-In-Subscription.yml)
+### [Update](dataprotection/Backup-Vaults/Update.yml)
+## Data Protection
+### [Overview](dataprotection/Data-Protection.yml)
+### [Check Feature Support](dataprotection/Data-Protection/Check-Feature-Support.yml)
+## Data Protection Operations
+### [Overview](dataprotection/Data-Protection-Operations.yml)
+### [List](dataprotection/Data-Protection-Operations/List.yml)
+## Export Jobs
+### [Overview](dataprotection/Export-Jobs.yml)
+### [Trigger](dataprotection/Export-Jobs/Trigger.yml)
+## Export Jobs Operation Result
+### [Overview](dataprotection/Export-Jobs-Operation-Result.yml)
+### [Get](dataprotection/Export-Jobs-Operation-Result/Get.yml)
+## Jobs
+### [Overview](dataprotection/Jobs.yml)
+### [Get](dataprotection/Jobs/Get.yml)
+### [List](dataprotection/Jobs/List.yml)
+## Operation Result
+### [Overview](dataprotection/Operation-Result.yml)
+### [Get](dataprotection/Operation-Result/Get.yml)
+## Operation Status
+### [Overview](dataprotection/Operation-Status.yml)
+### [Get](dataprotection/Operation-Status/Get.yml)
+## Recovery Points
+### [Overview](dataprotection/Recovery-Points.yml)
+### [Get](dataprotection/Recovery-Points/Get.yml)
+### [List](dataprotection/Recovery-Points/List.yml)
+## Restorable Time Ranges
+### [Overview](dataprotection/Restorable-Time-Ranges.yml)
+### [Find](dataprotection/Restorable-Time-Ranges/Find.yml)
 # Data Share
 ## [Overview](../docs-ref-conceptual/datashare/index.md)
 ## 2019-11-01
