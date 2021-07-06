@@ -13,14 +13,15 @@ ms.author: seanmcc
 
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
- The current version of the Azure storage services is 2020-04-08, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
+ The current version of the Azure storage services is 2020-10-02, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
 
-## Version 2020-04-08
+## Version 2020-10-02
   
-The 2020-04-08 service version includes the following features:
-
-- The ability to acquire, break, change, renew, and release a lease on a File Share.  For more information, see [Lease Share](lease-share.md).
-- The ability to list deleted blobs and restore deleted blobs on storage accounts with hierarchical namespace enabled.  For more information, see [List Blobs](List-Blobs.md) and [Undelete Blob](Undelete-Blob.md).
+The 2020-10-02 service version includes the following features:
+- The ability to delete root blobs with versions.  For more information, see [Delete Blob](Delete-Blob.md).
+- Added ability to utilize OAuth for source authorization on synchronous copies.  For more information, see [Put Blob from URL](put-blob-from-url.md), [Copy Blob](Copy-Blob.md), [Put Block from URL](put-block-from-url.md), [Put Page from URL](put-page-from-url.md), [Append Block from URL](append-block-from-url.md), and [Put Range from URL](put-range-from-url.md).
+- File-Id is now returned unconditionally in the response body for [List Directories and Files](List-Directories-and-Files.md).
+- Directory-Id is now returned in the response body for [List Directories and Files](List-Directories-and-Files.md).
 
 ## Specifying service versions in requests  
 
