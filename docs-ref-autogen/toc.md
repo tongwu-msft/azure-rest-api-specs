@@ -12956,34 +12956,6 @@
 ### [Update](securitycenter/Workspace-Settings/Update.yml)
 # Sentinel
 ## [Overview](../docs-ref-conceptual/securityinsights/index.md)
-## Actions
-### [Overview](securityinsights/Actions.yml)
-### [Create Or Update](securityinsights/Actions/Create-Or-Update.yml)
-### [Delete](securityinsights/Actions/Delete.yml)
-### [Get](securityinsights/Actions/Get.yml)
-### [List By Alert Rule](securityinsights/Actions/List-By-Alert-Rule.yml)
-## Alert Rule Templates
-### [Overview](securityinsights/Alert-Rule-Templates.yml)
-### [Get](securityinsights/Alert-Rule-Templates/Get.yml)
-### [List](securityinsights/Alert-Rule-Templates/List.yml)
-## Alert Rules
-### [Overview](securityinsights/Alert-Rules.yml)
-### [Create Or Update](securityinsights/Alert-Rules/Create-Or-Update.yml)
-### [Delete](securityinsights/Alert-Rules/Delete.yml)
-### [Get](securityinsights/Alert-Rules/Get.yml)
-### [List](securityinsights/Alert-Rules/List.yml)
-## Bookmarks
-### [Overview](securityinsights/Bookmarks.yml)
-### [Create Or Update](securityinsights/Bookmarks/Create-Or-Update.yml)
-### [Delete](securityinsights/Bookmarks/Delete.yml)
-### [Get](securityinsights/Bookmarks/Get.yml)
-### [List](securityinsights/Bookmarks/List.yml)
-## Data Connectors
-### [Overview](securityinsights/Data-Connectors.yml)
-### [Create Or Update](securityinsights/Data-Connectors/Create-Or-Update.yml)
-### [Delete](securityinsights/Data-Connectors/Delete.yml)
-### [Get](securityinsights/Data-Connectors/Get.yml)
-### [List](securityinsights/Data-Connectors/List.yml)
 ## Incident Comments
 ### [Overview](securityinsights/Incident-Comments.yml)
 ### [Create Comment](securityinsights/Incident-Comments/Create-Comment.yml)
