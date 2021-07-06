@@ -7396,6 +7396,66 @@
 ## Usages
 ### [Overview](datamigration/Usages.yml)
 ### [List](datamigration/Usages/List.yml)
+# Data Protection
+## [Overview](../docs-ref-conceptual/dataprotection/index.md)
+## Backup Instances
+### [Overview](dataprotection/Backup-Instances.yml)
+### [Adhoc Backup](dataprotection/Backup-Instances/Adhoc-Backup.yml)
+### [Create Or Update](dataprotection/Backup-Instances/Create-Or-Update.yml)
+### [Delete](dataprotection/Backup-Instances/Delete.yml)
+### [Get](dataprotection/Backup-Instances/Get.yml)
+### [List](dataprotection/Backup-Instances/List.yml)
+### [Trigger Rehydrate](dataprotection/Backup-Instances/Trigger-Rehydrate.yml)
+### [Trigger Restore](dataprotection/Backup-Instances/Trigger-Restore.yml)
+### [Validate For Backup](dataprotection/Backup-Instances/Validate-For-Backup.yml)
+### [Validate For Restore](dataprotection/Backup-Instances/Validate-For-Restore.yml)
+## Backup Policies
+### [Overview](dataprotection/Backup-Policies.yml)
+### [Create Or Update](dataprotection/Backup-Policies/Create-Or-Update.yml)
+### [Delete](dataprotection/Backup-Policies/Delete.yml)
+### [Get](dataprotection/Backup-Policies/Get.yml)
+### [List](dataprotection/Backup-Policies/List.yml)
+## Backup Vault Operation Results
+### [Overview](dataprotection/Backup-Vault-Operation-Results.yml)
+### [Get](dataprotection/Backup-Vault-Operation-Results/Get.yml)
+## Backup Vaults
+### [Overview](dataprotection/Backup-Vaults.yml)
+### [Check Name Availability](dataprotection/Backup-Vaults/Check-Name-Availability.yml)
+### [Create Or Update](dataprotection/Backup-Vaults/Create-Or-Update.yml)
+### [Delete](dataprotection/Backup-Vaults/Delete.yml)
+### [Get](dataprotection/Backup-Vaults/Get.yml)
+### [Get In Resource Group](dataprotection/Backup-Vaults/Get-In-Resource-Group.yml)
+### [Get In Subscription](dataprotection/Backup-Vaults/Get-In-Subscription.yml)
+### [Update](dataprotection/Backup-Vaults/Update.yml)
+## Data Protection
+### [Overview](dataprotection/Data-Protection.yml)
+### [Check Feature Support](dataprotection/Data-Protection/Check-Feature-Support.yml)
+## Data Protection Operations
+### [Overview](dataprotection/Data-Protection-Operations.yml)
+### [List](dataprotection/Data-Protection-Operations/List.yml)
+## Export Jobs
+### [Overview](dataprotection/Export-Jobs.yml)
+### [Trigger](dataprotection/Export-Jobs/Trigger.yml)
+## Export Jobs Operation Result
+### [Overview](dataprotection/Export-Jobs-Operation-Result.yml)
+### [Get](dataprotection/Export-Jobs-Operation-Result/Get.yml)
+## Jobs
+### [Overview](dataprotection/Jobs.yml)
+### [Get](dataprotection/Jobs/Get.yml)
+### [List](dataprotection/Jobs/List.yml)
+## Operation Result
+### [Overview](dataprotection/Operation-Result.yml)
+### [Get](dataprotection/Operation-Result/Get.yml)
+## Operation Status
+### [Overview](dataprotection/Operation-Status.yml)
+### [Get](dataprotection/Operation-Status/Get.yml)
+## Recovery Points
+### [Overview](dataprotection/Recovery-Points.yml)
+### [Get](dataprotection/Recovery-Points/Get.yml)
+### [List](dataprotection/Recovery-Points/List.yml)
+## Restorable Time Ranges
+### [Overview](dataprotection/Restorable-Time-Ranges.yml)
+### [Find](dataprotection/Restorable-Time-Ranges/Find.yml)
 # Data Share
 ## [Overview](../docs-ref-conceptual/datashare/index.md)
 ## 2019-11-01
@@ -9028,21 +9088,6 @@
 ##### [Get Service Statistics](iothub/service/Statistics/Get-Service-Statistics.yml)
 # IoT Hub Device Provisioning Service
 ## [Overview](../docs-ref-conceptual/iot-dps/index.md)
-## Create Or Update Enrollment Group
-### [Overview](iot-dps/Create-Or-Update-Enrollment-Group.yml)
-### [Create Or Update Enrollment Group](iot-dps/Create-Or-Update-Enrollment-Group/Create-Or-Update-Enrollment-Group.yml)
-## Create Or Update Individual Enrollment
-### [Overview](iot-dps/Create-Or-Update-Individual-Enrollment.yml)
-### [Create Or Update Individual Enrollment](iot-dps/Create-Or-Update-Individual-Enrollment/Create-Or-Update-Individual-Enrollment.yml)
-## Delete Device Registration State
-### [Overview](iot-dps/Delete-Device-Registration-State.yml)
-### [Delete Device Registration State](iot-dps/Delete-Device-Registration-State/Delete-Device-Registration-State.yml)
-## Delete Enrollment Group
-### [Overview](iot-dps/Delete-Enrollment-Group.yml)
-### [Delete Enrollment Group](iot-dps/Delete-Enrollment-Group/Delete-Enrollment-Group.yml)
-## Delete Individual Enrollment
-### [Overview](iot-dps/Delete-Individual-Enrollment.yml)
-### [Delete Individual Enrollment](iot-dps/Delete-Individual-Enrollment/Delete-Individual-Enrollment.yml)
 ## Dps Certificate
 ### [Overview](iot-dps/Dps-Certificate.yml)
 ### [Create Or Update](iot-dps/Dps-Certificate/Create-Or-Update.yml)
@@ -9051,21 +9096,6 @@
 ### [Get](iot-dps/Dps-Certificate/Get.yml)
 ### [List](iot-dps/Dps-Certificate/List.yml)
 ### [Verify Certificate](iot-dps/Dps-Certificate/Verify-Certificate.yml)
-## Get Device Registration State
-### [Overview](iot-dps/Get-Device-Registration-State.yml)
-### [Get Device Registration State](iot-dps/Get-Device-Registration-State/Get-Device-Registration-State.yml)
-## Get Enrollment Group
-### [Overview](iot-dps/Get-Enrollment-Group.yml)
-### [Get Enrollment Group](iot-dps/Get-Enrollment-Group/Get-Enrollment-Group.yml)
-## Get Enrollment Group Attestation Mechanism
-### [Overview](iot-dps/Get-Enrollment-Group-Attestation-Mechanism.yml)
-### [Get Enrollment Group Attestation Mechanism](iot-dps/Get-Enrollment-Group-Attestation-Mechanism/Get-Enrollment-Group-Attestation-Mechanism.yml)
-## Get Individual Enrollment
-### [Overview](iot-dps/Get-Individual-Enrollment.yml)
-### [Get Individual Enrollment](iot-dps/Get-Individual-Enrollment/Get-Individual-Enrollment.yml)
-## Get Individual Enrollment Attestation Mechanism
-### [Overview](iot-dps/Get-Individual-Enrollment-Attestation-Mechanism.yml)
-### [Get Individual Enrollment Attestation Mechanism](iot-dps/Get-Individual-Enrollment-Attestation-Mechanism/Get-Individual-Enrollment-Attestation-Mechanism.yml)
 ## Iot Dps Resource
 ### [Overview](iot-dps/Iot-Dps-Resource.yml)
 ### [Check Provisioning Service Name Availability](iot-dps/Iot-Dps-Resource/Check-Provisioning-Service-Name-Availability.yml)
@@ -9082,26 +9112,34 @@
 ## Operations
 ### [Overview](iot-dps/Operations.yml)
 ### [List](iot-dps/Operations/List.yml)
-## Query Device Registration States
-### [Overview](iot-dps/Query-Device-Registration-States.yml)
-### [Query Device Registration States](iot-dps/Query-Device-Registration-States/Query-Device-Registration-States.yml)
-## Query Enrollment Groups
-### [Overview](iot-dps/Query-Enrollment-Groups.yml)
-### [Query Enrollment Groups](iot-dps/Query-Enrollment-Groups/Query-Enrollment-Groups.yml)
-## Query Individual Enrollments
-### [Overview](iot-dps/Query-Individual-Enrollments.yml)
-### [Query Individual Enrollments](iot-dps/Query-Individual-Enrollments/Query-Individual-Enrollments.yml)
-## Run Bulk Enrollment Group Operation
-### [Overview](iot-dps/Run-Bulk-Enrollment-Group-Operation.yml)
-### [Run Bulk Enrollment Group Operation](iot-dps/Run-Bulk-Enrollment-Group-Operation/Run-Bulk-Enrollment-Group-Operation.yml)
-## Run Bulk Individual Enrollment Operation
-### [Overview](iot-dps/Run-Bulk-Individual-Enrollment-Operation.yml)
-### [Run Bulk Individual Enrollment Operation](iot-dps/Run-Bulk-Individual-Enrollment-Operation/Run-Bulk-Individual-Enrollment-Operation.yml)
-## Runtime Registration
-### [Overview](iot-dps/Runtime-Registration.yml)
-### [Device Registration Status Lookup](iot-dps/Runtime-Registration/Device-Registration-Status-Lookup.yml)
-### [Operation Status Lookup](iot-dps/Runtime-Registration/Operation-Status-Lookup.yml)
-### [Register Device](iot-dps/Runtime-Registration/Register-Device.yml)
+## Device
+### Runtime Registration
+#### [Overview](iot-dps/device/Runtime-Registration.yml)
+#### [Device Registration Status Lookup](iot-dps/device/Runtime-Registration/Device-Registration-Status-Lookup.yml)
+#### [Operation Status Lookup](iot-dps/device/Runtime-Registration/Operation-Status-Lookup.yml)
+#### [Register Device](iot-dps/device/Runtime-Registration/Register-Device.yml)
+## Service
+### Device Registration State
+#### [Overview](iot-dps/service/Device-Registration-State.yml)
+#### [Delete](iot-dps/service/Device-Registration-State/Delete.yml)
+#### [Get](iot-dps/service/Device-Registration-State/Get.yml)
+#### [Query](iot-dps/service/Device-Registration-State/Query.yml)
+### Enrollment Group
+#### [Overview](iot-dps/service/Enrollment-Group.yml)
+#### [Create Or Update](iot-dps/service/Enrollment-Group/Create-Or-Update.yml)
+#### [Delete](iot-dps/service/Enrollment-Group/Delete.yml)
+#### [Get](iot-dps/service/Enrollment-Group/Get.yml)
+#### [Get Attestation Mechanism](iot-dps/service/Enrollment-Group/Get-Attestation-Mechanism.yml)
+#### [Query](iot-dps/service/Enrollment-Group/Query.yml)
+#### [Run Bulk Operation](iot-dps/service/Enrollment-Group/Run-Bulk-Operation.yml)
+### Individual Enrollment
+#### [Overview](iot-dps/service/Individual-Enrollment.yml)
+#### [Create Or Update](iot-dps/service/Individual-Enrollment/Create-Or-Update.yml)
+#### [Delete](iot-dps/service/Individual-Enrollment/Delete.yml)
+#### [Get](iot-dps/service/Individual-Enrollment/Get.yml)
+#### [Get Attestation Mechanism](iot-dps/service/Individual-Enrollment/Get-Attestation-Mechanism.yml)
+#### [Query](iot-dps/service/Individual-Enrollment/Query.yml)
+#### [Run Bulk Operation](iot-dps/service/Individual-Enrollment/Run-Bulk-Operation.yml)
 # Key Vault
 ## [Overview](../docs-ref-conceptual/keyvault/index.md)
 ## Backup Certificate
@@ -9868,10 +9906,6 @@
 ### [Delete](azureml/Model-Versions/Delete.yml)
 ### [Get](azureml/Model-Versions/Get.yml)
 ### [List](azureml/Model-Versions/List.yml)
-## Notebooks
-### [Overview](azureml/Notebooks.yml)
-### [List Keys](azureml/Notebooks/List-Keys.yml)
-### [Prepare](azureml/Notebooks/Prepare.yml)
 ## Online Deployments
 ### [Overview](azureml/Online-Deployments.yml)
 ### [Create Or Update](azureml/Online-Deployments/Create-Or-Update.yml)
@@ -9927,7 +9961,9 @@
 ### [List By Subscription](azureml/Workspaces/List-By-Subscription.yml)
 ### [List Keys](azureml/Workspaces/List-Keys.yml)
 ### [List Notebook Access Token](azureml/Workspaces/List-Notebook-Access-Token.yml)
+### [List Notebook Keys](azureml/Workspaces/List-Notebook-Keys.yml)
 ### [List Storage Account Keys](azureml/Workspaces/List-Storage-Account-Keys.yml)
+### [Prepare Notebook](azureml/Workspaces/Prepare-Notebook.yml)
 ### [Resync Keys](azureml/Workspaces/Resync-Keys.yml)
 ### [Update](azureml/Workspaces/Update.yml)
 # Maintenance
@@ -12980,34 +13016,6 @@
 ### [Update](securitycenter/Workspace-Settings/Update.yml)
 # Sentinel
 ## [Overview](../docs-ref-conceptual/securityinsights/index.md)
-## Actions
-### [Overview](securityinsights/Actions.yml)
-### [Create Or Update](securityinsights/Actions/Create-Or-Update.yml)
-### [Delete](securityinsights/Actions/Delete.yml)
-### [Get](securityinsights/Actions/Get.yml)
-### [List By Alert Rule](securityinsights/Actions/List-By-Alert-Rule.yml)
-## Alert Rule Templates
-### [Overview](securityinsights/Alert-Rule-Templates.yml)
-### [Get](securityinsights/Alert-Rule-Templates/Get.yml)
-### [List](securityinsights/Alert-Rule-Templates/List.yml)
-## Alert Rules
-### [Overview](securityinsights/Alert-Rules.yml)
-### [Create Or Update](securityinsights/Alert-Rules/Create-Or-Update.yml)
-### [Delete](securityinsights/Alert-Rules/Delete.yml)
-### [Get](securityinsights/Alert-Rules/Get.yml)
-### [List](securityinsights/Alert-Rules/List.yml)
-## Bookmarks
-### [Overview](securityinsights/Bookmarks.yml)
-### [Create Or Update](securityinsights/Bookmarks/Create-Or-Update.yml)
-### [Delete](securityinsights/Bookmarks/Delete.yml)
-### [Get](securityinsights/Bookmarks/Get.yml)
-### [List](securityinsights/Bookmarks/List.yml)
-## Data Connectors
-### [Overview](securityinsights/Data-Connectors.yml)
-### [Create Or Update](securityinsights/Data-Connectors/Create-Or-Update.yml)
-### [Delete](securityinsights/Data-Connectors/Delete.yml)
-### [Get](securityinsights/Data-Connectors/Get.yml)
-### [List](securityinsights/Data-Connectors/List.yml)
 ## Incident Comments
 ### [Overview](securityinsights/Incident-Comments.yml)
 ### [Create Comment](securityinsights/Incident-Comments/Create-Comment.yml)

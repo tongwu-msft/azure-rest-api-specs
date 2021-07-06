@@ -83,11 +83,6 @@ requestBody:
     description: The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used.
     types:
     - uid: string
-  - name: properties.localTimestamp
-    in: body
-    description: An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events.
-    types:
-    - uid: LocalTimestamp
 - name: IoTHubEventSourceUpdateParameters
   description: Parameters supplied to the Update Event Source operation to update an IoTHub event source.
   parameters:
@@ -117,11 +112,6 @@ requestBody:
     description: The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used.
     types:
     - uid: string
-  - name: properties.localTimestamp
-    in: body
-    description: An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events.
-    types:
-    - uid: LocalTimestamp
 requestHeader: []
 definitions:
 - name: EventHubEventSourceUpdateParameters
@@ -149,10 +139,6 @@ definitions:
     description: The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used.
     types:
     - uid: string
-  - name: properties.localTimestamp
-    description: An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events.
-    types:
-    - uid: LocalTimestamp
 - name: IoTHubEventSourceUpdateParameters
   description: Parameters supplied to the Update Event Source operation to update an IoTHub event source.
   kind: object
@@ -178,10 +164,6 @@ definitions:
     description: The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used.
     types:
     - uid: string
-  - name: properties.localTimestamp
-    description: An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events.
-    types:
-    - uid: LocalTimestamp
 - name: CloudError
   description: Contains information about an API error.
   kind: object
@@ -190,18 +172,6 @@ definitions:
     description: Describes a particular API error with an error code and a message.
     types:
     - uid: CloudErrorBody
-- name: LocalTimestamp
-  description: An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events.
-  kind: object
-  properties:
-  - name: format
-    description: An enum that represents the format of the local timestamp property that needs to be set.
-    types:
-    - uid: LocalTimestampFormat
-  - name: timeZoneOffset
-    description: An object that represents the offset information for the local timestamp format specified. Should not be specified for LocalTimestampFormat - Embedded.
-    types:
-    - uid: TimeZoneOffset
 - name: EventHubEventSourceResource
   description: An event source that receives its data from an Azure EventHub.
   kind: object
@@ -262,6 +232,10 @@ definitions:
     description: The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used.
     types:
     - uid: string
+  - name: localTimestamp
+    description: An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events.
+    types:
+    - uid: LocalTimestamp
   - name: ingressStartAt.type
     description: The type of the ingressStartAt, It can be "EarliestAvailable", "EventSourceCreationTime", "CustomEnqueuedTime".
     types:
@@ -336,6 +310,10 @@ definitions:
     description: The event property that will be used as the event source's timestamp. If a value isn't specified for timestampPropertyName, or if null or empty-string is specified, the event creation time will be used.
     types:
     - uid: string
+  - name: localTimestamp
+    description: An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events.
+    types:
+    - uid: LocalTimestamp
   - name: ingressStartAt.type
     description: The type of the ingressStartAt, It can be "EarliestAvailable", "EventSourceCreationTime", "CustomEnqueuedTime".
     types:
@@ -375,21 +353,18 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: LocalTimestampFormat
-  description: An enum that represents the format of the local timestamp property that needs to be set.
-  kind: enum
-  properties:
-  - name: Embedded
-    types:
-    - uid: string
-- name: TimeZoneOffset
-  description: An object that represents the offset information for the local timestamp format specified. Should not be specified for LocalTimestampFormat - Embedded.
+- name: LocalTimestamp
+  description: An object that represents the local timestamp property. It contains the format of local timestamp that needs to be used and the corresponding timezone offset information. If a value isn't specified for localTimestamp, or if null, then the local timestamp will not be ingressed with the events.
   kind: object
   properties:
-  - name: propertyName
-    description: 'The event property that will be contain the offset information to calculate the local timestamp. When the LocalTimestampFormat is Iana, the property name will contain the name of the column which contains IANA Timezone Name (eg: Americas/Los Angeles). When LocalTimestampFormat is Timespan, it contains the name of property which contains values representing the offset (eg: P1D or 1.00:00:00)'
+  - name: format
+    description: An enum that represents the format of the local timestamp property that needs to be set.
     types:
-    - uid: string
+    - uid: LocalTimestampFormat
+  - name: timeZoneOffset
+    description: An object that represents the offset information for the local timestamp format specified. Should not be specified for LocalTimestampFormat - Embedded.
+    types:
+    - uid: TimeZoneOffset
 - name: IngressStartAtType
   description: The type of the ingressStartAt, It can be "EarliestAvailable", "EventSourceCreationTime", "CustomEnqueuedTime".
   kind: enum
@@ -425,6 +400,21 @@ definitions:
   - name: Deleting
     types:
     - uid: string
+- name: LocalTimestampFormat
+  description: An enum that represents the format of the local timestamp property that needs to be set.
+  kind: enum
+  properties:
+  - name: Embedded
+    types:
+    - uid: string
+- name: TimeZoneOffset
+  description: An object that represents the offset information for the local timestamp format specified. Should not be specified for LocalTimestampFormat - Embedded.
+  kind: object
+  properties:
+  - name: propertyName
+    description: 'The event property that will be contain the offset information to calculate the local timestamp. When the LocalTimestampFormat is Iana, the property name will contain the name of the column which contains IANA Timezone Name (eg: Americas/Los Angeles). When LocalTimestampFormat is Timespan, it contains the name of property which contains values representing the offset (eg: P1D or 1.00:00:00)'
+    types:
+    - uid: string
 examples:
 - name: UpdateEventSource
   request:
@@ -456,6 +446,12 @@ examples:
           "provisioningState": "Succeeded",
           "creationTime": "2017-04-18T19:20:33.2288820Z",
           "timestampPropertyName": "someOtherTimestampProperty",
+          "localTimestamp": {
+            "format": "TimeSpan",
+            "timeZoneOffset": {
+              "propertyName": "someEventPropertyName"
+            }
+          },
           "ingressStartAt": {
             "type": "EarliestAvailable"
           }
