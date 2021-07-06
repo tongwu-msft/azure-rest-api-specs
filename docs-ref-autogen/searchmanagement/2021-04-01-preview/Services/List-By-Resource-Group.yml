@@ -122,7 +122,7 @@ definitions:
     types:
     - uid: NetworkRuleSet
   - name: properties.disabledDataExfiltrationOptions
-    description: A list of data exfiltration scenarios that are explicitly disallowed for the search service.
+    description: A list of data exfiltration scenarios that are explicitly disallowed for the search service. Currently, the only supported value is 'All' to disable all possible data export scenarios with more fine grained controls planned for the future.
     types:
     - uid: string
       isArray: true
@@ -139,7 +139,7 @@ definitions:
     types:
     - uid: DataPlaneAuthOptions
   - name: properties.semanticSearch
-    description: Defines the SKU type for the semantic search feature enabled for the search service.
+    description: Sets options that control the availability of semantic search. This configuration is only possible for certain Azure Cognitive Search SKUs in certain locations.
     types:
     - uid: SearchSemanticSearch
   - name: properties.privateEndpointConnections
@@ -216,17 +216,17 @@ definitions:
     types:
     - uid: SkuName
 - name: Identity
-  description: Identity for the resource.
+  description: Details about the search service identity. A null value indicates that the search service has no identity assigned.
   kind: object
   properties:
   - name: principalId
     isReadyOnly: true
-    description: The principal ID of resource identity.
+    description: The principal ID of the system-assigned identity of the search service.
     types:
     - uid: string
   - name: tenantId
     isReadyOnly: true
-    description: The tenant ID of resource.
+    description: The tenant ID of the system-assigned identity of the search service.
     types:
     - uid: string
   - name: type
@@ -246,9 +246,11 @@ definitions:
   kind: enum
   properties:
   - name: default
+    description: The limit on number of indexes is determined by the default limits for the SKU.
     types:
     - uid: string
   - name: highDensity
+    description: Only application for standard3 SKU, where the search service can have up to 1000 indexes.
     types:
     - uid: string
 - name: PublicNetworkAccess
@@ -256,9 +258,11 @@ definitions:
   kind: enum
   properties:
   - name: enabled
+    description: The search service is accessible from traffic originating from the public internet.
     types:
     - uid: string
   - name: disabled
+    description: The search service is not accessible from traffic originating from the public internet. Access is only permitted over approved private endpoint connections.
     types:
     - uid: string
 - name: SearchServiceStatus
@@ -266,24 +270,31 @@ definitions:
   kind: enum
   properties:
   - name: running
+    description: The search service is running and no provisioning operations are underway.
     types:
     - uid: string
   - name: provisioning
+    description: The search service is being provisioned or scaled up or down.
     types:
     - uid: string
   - name: deleting
+    description: The search service is being deleted.
     types:
     - uid: string
   - name: degraded
+    description: The search service is degraded because underlying search units are not healthy.
     types:
     - uid: string
   - name: disabled
+    description: The search service is disabled and all API requests will be rejected.
     types:
     - uid: string
   - name: error
+    description: The search service is in error state, indicating either a failure to provision or to be deleted.
     types:
     - uid: string
   - name: stopped
+    description: The search service is in a subscription that's disabled.
     types:
     - uid: string
 - name: ProvisioningState
@@ -291,12 +302,15 @@ definitions:
   kind: enum
   properties:
   - name: succeeded
+    description: The last provisioning operation has completed successfully.
     types:
     - uid: string
   - name: provisioning
+    description: The search service is being provisioned or scaled up or down.
     types:
     - uid: string
   - name: failed
+    description: The last provisioning operation has failed.
     types:
     - uid: string
 - name: NetworkRuleSet
@@ -334,11 +348,11 @@ definitions:
     types:
     - uid: ApiKeyOnly
   - name: aadOrApiKey
-    description: Indicates that either the API key or an access token from AAD can be used for authentication.
+    description: Indicates that either the API key or an access token from Azure Active Directory can be used for authentication.
     types:
     - uid: DataPlaneAadOrApiKeyAuthOption
 - name: SearchSemanticSearch
-  description: Defines the SKU type for the semantic search feature enabled for the search service.
+  description: Sets options that control the availability of semantic search. This configuration is only possible for certain Azure Cognitive Search SKUs in certain locations.
   kind: enum
   properties:
   - name: disabled
@@ -346,11 +360,11 @@ definitions:
     types:
     - uid: string
   - name: free
-    description: Indicates that semantic search is to be used within the limits of the free tier. This would cap the volume of semantic search requests and is offered at no extra charge.
+    description: Enables semantic search on a search service and indicates that it is to be used within the limits of the free tier. This would cap the volume of semantic search requests and is offered at no extra charge.
     types:
     - uid: string
   - name: standard
-    description: Indicates that semantic search is to be billed at the standard tier, with higher throughput and volume of semantic search queries.
+    description: Enables semantic search on a search service as a billable feature, with higher throughput and volume of semantic search queries.
     types:
     - uid: string
 - name: PrivateEndpointConnection
@@ -404,24 +418,31 @@ definitions:
   kind: enum
   properties:
   - name: free
+    description: Free tier, with no SLA guarantees and a subset of features offered to paid tiers.
     types:
     - uid: string
   - name: basic
+    description: Paid tier dedicated service with up to 3 replicas.
     types:
     - uid: string
   - name: standard
+    description: Paid tier dedicated service with up to 12 partitions and 12 replicas.
     types:
     - uid: string
   - name: standard2
+    description: Similar to 'standard', but with more capacity per search unit.
     types:
     - uid: string
   - name: standard3
+    description: " The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity')."
     types:
     - uid: string
   - name: storage_optimized_l1
+    description: Paid tier dedicated service that supports 1TB per partition, up to 12 partitions.
     types:
     - uid: string
   - name: storage_optimized_l2
+    description: Paid tier dedicated service that supports 2TB per partition, up to 12 partitions.
     types:
     - uid: string
 - name: IdentityType
@@ -429,19 +450,23 @@ definitions:
   kind: enum
   properties:
   - name: None
+    description: Indicates that any identity associated with the search service needs to be removed.
     types:
     - uid: string
   - name: SystemAssigned
+    description: Indicates that system-assigned identity for the search service will be enabled.
     types:
     - uid: string
   - name: UserAssigned
+    description: Indicates that one or more user assigned identities will be assigned to the search service.
     types:
     - uid: string
   - name: SystemAssigned, UserAssigned
+    description: Indicates that system-assigned identity for the search service will be enabled along with the assignment of one or more user assigned identities.
     types:
     - uid: string
 - name: UserAssignedManagedIdentity
-  description: The details of the user assigned managed identity used by the Video Analyzer resource.
+  description: The details of the user assigned managed identity assigned to the search service.
   kind: object
   properties:
   - name: principalId
@@ -503,7 +528,7 @@ definitions:
   kind: object
   properties: []
 - name: DataPlaneAadOrApiKeyAuthOption
-  description: Indicates that either the API key or an access token from AAD can be used for authentication.
+  description: Indicates that either the API key or an access token from Azure Active Directory can be used for authentication.
   kind: object
   properties:
   - name: aadAuthFailureMode
@@ -591,15 +616,19 @@ definitions:
   kind: enum
   properties:
   - name: Pending
+    description: The shared private link resource has been created and is pending approval.
     types:
     - uid: string
   - name: Approved
+    description: The shared private link resource is approved and is ready for use.
     types:
     - uid: string
   - name: Rejected
+    description: The shared private link resource has been rejected and cannot be used.
     types:
     - uid: string
   - name: Disconnected
+    description: The shared private link resource has been removed from the service.
     types:
     - uid: string
 - name: SharedPrivateLinkResourceProvisioningState
@@ -607,18 +636,23 @@ definitions:
   kind: enum
   properties:
   - name: Updating
+    description: The shared private link resource is in the process of being created along with other resources for it to be fully functional.
     types:
     - uid: string
   - name: Deleting
+    description: The shared private link resource is in the process of being deleted.
     types:
     - uid: string
   - name: Failed
+    description: The shared private link resource has failed to be provisioned or deleted.
     types:
     - uid: string
   - name: Succeeded
+    description: The shared private link resource has finished provisioning and is ready for approval.
     types:
     - uid: string
   - name: Incomplete
+    description: Provisioning request for the shared private link resource has been accepted but the process of creation has not commenced yet.
     types:
     - uid: string
 - name: PrivateLinkServiceConnectionStatus
@@ -626,15 +660,19 @@ definitions:
   kind: enum
   properties:
   - name: Pending
+    description: The private endpoint connection has been created and is pending approval.
     types:
     - uid: string
   - name: Approved
+    description: The private endpoint connection is approved and is ready for use.
     types:
     - uid: string
   - name: Rejected
+    description: The private endpoint connection has been rejected and cannot be used.
     types:
     - uid: string
   - name: Disconnected
+    description: The private endpoint connection has been removed from the service.
     types:
     - uid: string
 examples:

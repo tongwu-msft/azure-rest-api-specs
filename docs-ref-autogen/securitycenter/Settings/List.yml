@@ -3,14 +3,14 @@ uid: management.azure.com.securitycenter.settings.list
 name: List
 service: Security Center
 groupName: Settings
-apiVersion: 2019-01-01
+apiVersion: 2021-06-01
 summary: Settings about different configurations in security center
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/settings?api-version=2019-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/settings?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,6 +44,8 @@ definitions:
     description: The settings list.
     types:
     - uid: DataExportSettings
+      isArray: true
+    - uid: AlertSyncSettings
       isArray: true
     typesTitle: Setting[]
   - name: nextLink
@@ -132,13 +134,41 @@ definitions:
   kind: object
   properties:
   - name: properties.enabled
-    description: Is the data export setting is enabled
+    description: Is the data export setting enabled
     types:
     - uid: boolean
   - name: kind
-    description: the kind of the settings string (DataExportSettings)
+    description: the kind of the settings string
     types:
     - uid: DataExportSettings
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: AlertSyncSettings
+  description: Represents an alert sync setting
+  kind: object
+  properties:
+  - name: properties.enabled
+    description: Is the alert sync setting enabled
+    types:
+    - uid: boolean
+  - name: kind
+    description: the kind of the settings string
+    types:
+    - uid: AlertSyncSettings
     typesTitle: string
   - name: id
     isReadyOnly: true
@@ -158,7 +188,7 @@ definitions:
 examples:
 - name: Get settings of subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/settings?api-version=2019-01-01
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/settings?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -177,6 +207,15 @@ examples:
             "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/settings/WDATP",
             "name": "WDATP",
             "kind": "DataExportSettings",
+            "type": "Microsoft.Security/settings",
+            "properties": {
+              "enabled": false
+            }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/settings/Sentinel",
+            "name": "Sentinel",
+            "kind": "AlertSyncSettings",
             "type": "Microsoft.Security/settings",
             "properties": {
               "enabled": false
