@@ -13,11 +13,11 @@ ms.author: seanmcc
 
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
- The current version of the Azure storage services is 2020-04-08, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
+ The current version of the Azure storage services is 2020-08-04, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
 
-## Version 2020-04-08
+## Version 2020-08-04
   
-The 2020-04-08 service version includes the following features:
+The 2020-08-04 service version includes the following features:
 
 - The ability to acquire, break, change, renew, and release a lease on a File Share.  For more information, see [Lease Share](lease-share.md).
 - The ability to list deleted blobs and restore deleted blobs on storage accounts with hierarchical namespace enabled.  For more information, see [List Blobs](List-Blobs.md) and [Undelete Blob](Undelete-Blob.md).
