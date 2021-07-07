@@ -58,6 +58,10 @@ responses:
   description: The output was successfully created or replaced.
   types:
   - uid: Output
+- name: Other Status Codes
+  description: Error.
+  types:
+  - uid: Error
 requestBody:
 - name: default
   parameters:
@@ -65,6 +69,7 @@ requestBody:
     in: body
     description: Describes the data source that output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
+    - uid: RawOutputDatasource
     - uid: BlobOutputDataSource
     - uid: AzureTableOutputDataSource
     - uid: EventHubOutputDataSource
@@ -132,6 +137,7 @@ definitions:
   - name: properties.datasource
     description: Describes the data source that output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
+    - uid: RawOutputDatasource
     - uid: BlobOutputDataSource
     - uid: AzureTableOutputDataSource
     - uid: EventHubOutputDataSource
@@ -186,6 +192,27 @@ definitions:
     description: Resource type
     types:
     - uid: string
+- name: Error
+  description: Common error representation.
+  kind: object
+  properties:
+  - name: error
+    description: Error definition properties.
+    types:
+    - uid: Error
+- name: RawOutputDatasource
+  description: Describes a raw output data source. This data source type is only applicable/usable when using the query testing API. You cannot create a job with this data source type or add an output of this data source type to an existing job.
+  kind: object
+  properties:
+  - name: properties.payloadUri
+    description: The SAS URL to a blob where the output should be written. If this property is not set, output data will be written into a temporary storage, and a SAS URL to that temporary storage will be included in the result.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Raw
+    typesTitle: string
 - name: BlobOutputDataSource
   description: Describes a blob output data source.
   kind: object

@@ -19829,7 +19829,12 @@
 #### [Update](streamanalytics/2017-04-01-preview/Streaming-Jobs/Update.yml)
 ### Subscriptions
 #### [Overview](streamanalytics/2017-04-01-preview/Subscriptions.yml)
+#### [Compile Query](streamanalytics/2017-04-01-preview/Subscriptions/Compile-Query.yml)
 #### [List Quotas](streamanalytics/2017-04-01-preview/Subscriptions/List-Quotas.yml)
+#### [Sample Input](streamanalytics/2017-04-01-preview/Subscriptions/Sample-Input.yml)
+#### [Test Input](streamanalytics/2017-04-01-preview/Subscriptions/Test-Input.yml)
+#### [Test Output](streamanalytics/2017-04-01-preview/Subscriptions/Test-Output.yml)
+#### [Test Query](streamanalytics/2017-04-01-preview/Subscriptions/Test-Query.yml)
 ### Transformations
 #### [Overview](streamanalytics/2017-04-01-preview/Transformations.yml)
 #### [Create Or Replace](streamanalytics/2017-04-01-preview/Transformations/Create-Or-Replace.yml)
