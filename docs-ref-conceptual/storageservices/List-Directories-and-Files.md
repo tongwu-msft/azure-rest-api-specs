@@ -46,7 +46,7 @@ The following additional parameters may be specified on the URI.
 | `sharesnapshot` | Optional. Version 2017-04-17 and newer. The share snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query for the list of files and directories. |
 | `marker` | Optional. A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items.<br /><br /> The marker value is opaque to the client. |
 | `maxresults` | Optional. Specifies the maximum number of files and/or directories to return. If the request does not specify `maxresults` or specifies a value greater than 5,000, the server will return up to 5,000 items.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request). |
-| `include={Timestamps, ETag, Attributes, PermissionKey}` | Optionally available starting in version 2020-04-08. Specifies one or more properites to include in the response:<br /><ul><li>Timestamps</li><li>ETag</li><li>Attributes (Win32 file attributes)</li><li>PermissionKey</li></ul><br /><br />To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma (`%82`).<br /><br />The header in `x-ms-file-extended-info` is implicitly assumed to be true when this parameter is specified.  |
+| `include={Timestamps, ETag, Attributes, PermissionKey}` | Optionally available starting in version 2020-04-08. Specifies one or more properites to include in the response:<br /><ul><li>Timestamps</li><li>ETag</li><li>Attributes (Win32 file attributes)</li><li>PermissionKey</li></ul><br /><br />To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma (`%82`).<br /><br />The header `x-ms-file-extended-info` is implicitly assumed to be true when this parameter is specified.  |
 | `timeout` | Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md). |
   
 ### Request headers
@@ -58,7 +58,7 @@ The following table describes required and optional request headers.
 | `Date` or `x-ms-date` | Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md). |  
 | `x-ms-version` | Required for all authorized requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md). |
 | `x-ms-client-request-id` | Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage). |
-| `x-ms-file-extended-info: {true}` | Optional. Version 2020-04-08 and newer. This header is implicitly assumed to be true if `include` query parameter is not empty. If true, the `Content-Length` property will be up to date. `FileId` will be returned in response only if this header is true. |
+| `x-ms-file-extended-info: {true}` | Optional. Version 2020-04-08 and newer. This header is implicitly assumed to be true if `include` query parameter is not empty. If true, the `Content-Length` property will be up to date. In versions 2020-04-08, 2020-06-12 and 2020-08-04, `FileId` will be returned for files and directories only if this header is true. In versions 2020-10-02 and newer, `FileId` will always be returned for files and directories. |
 
 ### Request body
 None.  
@@ -101,6 +101,8 @@ Note that the `Marker`, `ShareSnapshot` and `MaxResults` elements are present on
       <Properties>  
         <Content-Length>size-in-bytes</Content-Length>
         <CreationTime>datetime</CreationTime>
+        <LastAccessTime>datetime</LastAccessTime>
+        <LastWriteTime>datetime</LastWriteTime>
         <ChangeTime>datetime</ChangeTime>
         <Last-Modified>datetime</Last-Modified>
         <Etag>etag</Etag>
@@ -113,6 +115,8 @@ Note that the `Marker`, `ShareSnapshot` and `MaxResults` elements are present on
       <Name>directory-name</Name>  
       <Properties>
         <CreationTime>datetime</CreationTime>
+        <LastAccessTime>datetime</LastAccessTime>
+        <LastWriteTime>datetime</LastWriteTime>
         <ChangeTime>datetime</ChangeTime>
         <Last-Modified>datetime</Last-Modified>
         <Etag>etag</Etag>
@@ -125,7 +129,7 @@ Note that the `Marker`, `ShareSnapshot` and `MaxResults` elements are present on
 </EnumerationResults>  
 ```  
   
-Note that the `Content-Length` element is returned in the listing. However, this value may not be up-to-date since an SMB client may have modified the file locally. The value of `Content-Length` may not reflect that fact until the handle is closed or the op-lock is broken. To retrieve current property values, call [Get File Properties](Get-File-Properties.md).
+Note that the `Content-Length` element is returned in the listing. However, this value may not be up-to-date since an SMB client may have modified the file locally. The value of `Content-Length` may not reflect that fact until the handle is closed or the op-lock is broken. To retrieve current property values, use `x-ms-file-extended-info: true` or call [Get File Properties](Get-File-Properties.md).
 
 In versions 2020-04-08, 2020-06-12 and 2020-08-04, `FileId` will be returned for files and directories if the header `x-ms-file-extended-info` is true. In versions 2020-10-02 and newer, `FileId` will always be returned for files and directories.
 
