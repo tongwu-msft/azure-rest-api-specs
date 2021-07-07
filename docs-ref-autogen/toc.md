@@ -5518,9 +5518,6 @@
 #### [Overview](personalizer/1.0/Rank.yml)
 #### [Rank](personalizer/1.0/Rank/Rank.yml)
 ## 1.1 Preview 1
-### Evaluation
-#### [Overview](personalizer/1.1preview1/Evaluation.yml)
-#### [Apply](personalizer/1.1preview1/Evaluation/Apply.yml)
 ### Evaluations
 #### [Overview](personalizer/1.1preview1/Evaluations.yml)
 #### [Create](personalizer/1.1preview1/Evaluations/Create.yml)
@@ -5557,6 +5554,7 @@
 #### [Rank](personalizer/1.1preview1/Rank/Rank.yml)
 ### Service Configuration
 #### [Overview](personalizer/1.1preview1/Service-Configuration.yml)
+#### [Apply From Evaluation](personalizer/1.1preview1/Service-Configuration/Apply-From-Evaluation.yml)
 #### [Get](personalizer/1.1preview1/Service-Configuration/Get.yml)
 #### [Update](personalizer/1.1preview1/Service-Configuration/Update.yml)
 # Cognitive Services - QnA Maker
