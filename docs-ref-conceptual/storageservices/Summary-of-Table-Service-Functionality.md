@@ -20,8 +20,8 @@ The Table service REST API is compliant with the [OData Protocol Specification](
 ##  <a name="TableServiceExtensions"></a> Table Service Extensions  
  The Table service extends the functionality of OData in the following ways.  
   
-### Shared Key and Shared Key Lite Authorization  
- The Table service requires that each request be . Both Shared Key and Shared Key Lite authorization are supported. Shared Key authorization is more secure and is recommended for requests made against the Table service using the REST API.  
+### Shared Key, Shared Key Lite and Azure Active Directory Authorization  
+ The Table service requires that each request be authorized. Shared Key, Shared Key Lite and Azure Active Directory (Azure AD) authorization are supported. Azure AD authorization is more secure and is recommended for requests made against the Table service using the REST API.  
   
  For more information about authorizing requests, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).  
   
