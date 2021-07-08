@@ -3,7 +3,7 @@ title: Authorize with Azure Active Directory (REST API) - Azure Storage
 description: Azure Storage provides integration with Azure Active Directory (Azure AD) for identity-based authorization of requests to the Blob and Queue services. With Azure AD, you can use role-based access control (RBAC) to grant access to your Azure Storage resources to users, groups, or applications.
 author: tamram
 
-ms.date: 08/02/2019
+ms.date: 07/08/2021
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -75,9 +75,9 @@ Welcome to Azure Storage!!
 
 ## Bearer Challenge
 
-Bearer challenge is part of the OAuth protocol [RFC 6750](https://www.rfc-editor.org/rfc/rfc6750.txt) and is used for authority discovery. For anonymous requests, or requests with an invalid OAuth bearer token, the server will return status code 401 (Unauthorized) with identity provider and resource information. Refer to [link](https://docs.microsoft.com/azure/storage/common/storage-auth-aad-app?toc=/azure/storage/blobs/toc.json#well-known-values-for-authentication-with-azure-ad) for how to use these values during authentication with Azure AD.
+Bearer challenge is part of the OAuth protocol [RFC 6750](https://www.rfc-editor.org/rfc/rfc6750.txt) and is used for authority discovery. For anonymous requests, or requests with an invalid OAuth bearer token, the server will return status code 401 (Unauthorized) with identity provider and resource information. Refer to [link](/azure/storage/common/storage-auth-aad-app?toc=/azure/storage/blobs/toc.json#well-known-values-for-authentication-with-azure-ad) for how to use these values during authentication with Azure AD.
 
-> Azure Storage Blob and Queue services return a bearer challenge for version 2019-12-12 and newer. Azure Data Lake Storage Gen2 returns a bearer challenge for version 2017-11-09 and newer. 
+> Azure Storage Blob and Queue services return a bearer challenge for version 2019-12-12 and newer. Azure Data Lake Storage Gen2 returns a bearer challenge for version 2017-11-09 and newer.
 
 The following is an example of a bearer challenge response when the client request does not include the bearer token in the anonymous download blob request:
 
@@ -124,7 +124,7 @@ For more information about how built-in roles are defined for Azure Storage, see
 
 You can also define custom roles for use with Blob storage and Azure Queues. For more information, see [Create custom roles for Azure Role-Based Access Control](/azure/role-based-access-control/custom-roles). 
 
-## Permissions for calling blob and queue data operations
+## Permissions for calling data operations
 
 The following tables describe the permissions necessary for an Azure AD user, group, or service principal to call specific Azure Storage operations. To enable a client to call a particular operation, ensure that the client's assigned RBAC role offers sufficient permissions for that operation.
 
