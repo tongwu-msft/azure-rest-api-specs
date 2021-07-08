@@ -75,9 +75,9 @@ Welcome to Azure Storage!!
 
 ## Bearer Challenge
 
-Bearer challenge is part of the OAuth protocol [RFC 6750](https://www.rfc-editor.org/rfc/rfc6750.txt) and is used for authority discovery. For anonymous requests, or requests with an invalid OAuth bearer token, the server will return status code 401 (Unauthorized) with identity provider and resource information. Refer to [link](https://docs.microsoft.com/azure/storage/common/storage-auth-aad-app?toc=/azure/storage/blobs/toc.json#well-known-values-for-authentication-with-azure-ad) for how to use these values during authentication with Azure AD.
+Bearer challenge is part of the OAuth protocol [RFC 6750](https://www.rfc-editor.org/rfc/rfc6750.txt) and is used for authority discovery. For anonymous requests, or requests with an invalid OAuth bearer token, the server will return status code 401 (Unauthorized) with identity provider and resource information. Refer to [link](/azure/storage/common/storage-auth-aad-app?toc=/azure/storage/blobs/toc.json#well-known-values-for-authentication-with-azure-ad) for how to use these values during authentication with Azure AD.
 
-> Azure Storage Blob and Queue services return a bearer challenge for version 2019-12-12 and newer. Azure Data Lake Storage Gen2 returns a bearer challenge for version 2017-11-09 and newer. 
+> Azure Storage Blob and Queue services return a bearer challenge for version 2019-12-12 and newer. Azure Data Lake Storage Gen2 returns a bearer challenge for version 2017-11-09 and newer.
 
 The following is an example of a bearer challenge response when the client request does not include the bearer token in the anonymous download blob request:
 
