@@ -5,7 +5,6 @@ author: tamram
 
 ms.date: 07/08/2021
 ms.author: tamram
-ms.reviewer: cbrooks
 ms.service: storage
 ms.topic: reference
 ---
