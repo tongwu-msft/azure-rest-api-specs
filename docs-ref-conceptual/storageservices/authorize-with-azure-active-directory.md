@@ -197,7 +197,7 @@ The following tables describe the permissions necessary for an Azure AD user, gr
 | [Get Table Service Properties](get-table-service-properties.md) | Microsoft.Storage/storageAccounts/tableServices/read |
 | [Preflight Table Request](preflight-table-request.md) | Anonymous |
 | [Get Table Service Stats](get-table-service-stats.md) | Microsoft.Storage/storageAccounts/tableServices/read |
-| [Performing Entity Group Transactions](performing-entity-group-transactions.md) | Sub-operation authorizes seprately |
+| [Performing Entity Group Transactions](performing-entity-group-transactions.md) | Sub-operation authorizes separately |
 | [Query Tables](query-tables.md) | Microsoft.Storage/storageAccounts/tableServices/tables/read (scoped storage account) |
 | [Create Table](create-table.md) | Microsoft.Storage/storageAccounts/tableServices/tables/write |
 | [Delete Table](delete-table.md) | Microsoft.Storage/storageAccounts/tableServices/tables/delete |
