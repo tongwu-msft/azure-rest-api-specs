@@ -20173,9 +20173,6 @@
 #### [Overview](synapse/data-plane/Big-Data-Pools.yml)
 #### [Get](synapse/data-plane/Big-Data-Pools/Get.yml)
 #### [List](synapse/data-plane/Big-Data-Pools/List.yml)
-### Create Role Assignment
-#### [Overview](synapse/data-plane/Create-Role-Assignment.yml)
-#### [Create Role Assignment](synapse/data-plane/Create-Role-Assignment/Create-Role-Assignment.yml)
 ### Data Flow
 #### [Overview](synapse/data-plane/Data-Flow.yml)
 #### [Create Or Update Data Flow](synapse/data-plane/Data-Flow/Create-Or-Update-Data-Flow.yml)
@@ -20197,18 +20194,6 @@
 #### [Get Dataset](synapse/data-plane/Dataset/Get-Dataset.yml)
 #### [Get Datasets By Workspace](synapse/data-plane/Dataset/Get-Datasets-By-Workspace.yml)
 #### [Rename Dataset](synapse/data-plane/Dataset/Rename-Dataset.yml)
-### Delete Role Assignment By Id
-#### [Overview](synapse/data-plane/Delete-Role-Assignment-By-Id.yml)
-#### [Delete Role Assignment By Id](synapse/data-plane/Delete-Role-Assignment-By-Id/Delete-Role-Assignment-By-Id.yml)
-### Get Caller Role Assignments
-#### [Overview](synapse/data-plane/Get-Caller-Role-Assignments.yml)
-#### [Get Caller Role Assignments](synapse/data-plane/Get-Caller-Role-Assignments/Get-Caller-Role-Assignments.yml)
-### Get Role Assignment By Id
-#### [Overview](synapse/data-plane/Get-Role-Assignment-By-Id.yml)
-#### [Get Role Assignment By Id](synapse/data-plane/Get-Role-Assignment-By-Id/Get-Role-Assignment-By-Id.yml)
-### Get Role Assignments
-#### [Overview](synapse/data-plane/Get-Role-Assignments.yml)
-#### [Get Role Assignments](synapse/data-plane/Get-Role-Assignments/Get-Role-Assignments.yml)
 ### Get Role Definition By Id
 #### [Overview](synapse/data-plane/Get-Role-Definition-By-Id.yml)
 #### [Get Role Definition By Id](synapse/data-plane/Get-Role-Definition-By-Id/Get-Role-Definition-By-Id.yml)
@@ -20219,6 +20204,15 @@
 #### [Overview](synapse/data-plane/Integration-Runtimes.yml)
 #### [Get](synapse/data-plane/Integration-Runtimes/Get.yml)
 #### [List](synapse/data-plane/Integration-Runtimes/List.yml)
+### Library
+#### [Overview](synapse/data-plane/Library.yml)
+#### [Append](synapse/data-plane/Library/Append.yml)
+#### [Create](synapse/data-plane/Library/Create.yml)
+#### [Delete](synapse/data-plane/Library/Delete.yml)
+#### [Flush](synapse/data-plane/Library/Flush.yml)
+#### [Get](synapse/data-plane/Library/Get.yml)
+#### [Get Operation Result](synapse/data-plane/Library/Get-Operation-Result.yml)
+#### [List](synapse/data-plane/Library/List.yml)
 ### Linked Service
 #### [Overview](synapse/data-plane/Linked-Service.yml)
 #### [Create Or Update Linked Service](synapse/data-plane/Linked-Service/Create-Or-Update-Linked-Service.yml)
@@ -20244,6 +20238,15 @@
 #### [Get Notebook Summary By Work Space](synapse/data-plane/Notebook/Get-Notebook-Summary-By-Work-Space.yml)
 #### [Get Notebooks By Workspace](synapse/data-plane/Notebook/Get-Notebooks-By-Workspace.yml)
 #### [Rename Notebook](synapse/data-plane/Notebook/Rename-Notebook.yml)
+### Notebook Operation Result
+#### [Overview](synapse/data-plane/Notebook-Operation-Result.yml)
+#### [Get](synapse/data-plane/Notebook-Operation-Result/Get.yml)
+### Operation Result
+#### [Overview](synapse/data-plane/Operation-Result.yml)
+#### [Get](synapse/data-plane/Operation-Result/Get.yml)
+### Operation Status
+#### [Overview](synapse/data-plane/Operation-Status.yml)
+#### [Get](synapse/data-plane/Operation-Status/Get.yml)
 ### Pipeline
 #### [Overview](synapse/data-plane/Pipeline.yml)
 #### [Create Or Update Pipeline](synapse/data-plane/Pipeline/Create-Or-Update-Pipeline.yml)
@@ -20258,6 +20261,20 @@
 #### [Get Pipeline Run](synapse/data-plane/Pipeline-Run/Get-Pipeline-Run.yml)
 #### [Query Activity Runs](synapse/data-plane/Pipeline-Run/Query-Activity-Runs.yml)
 #### [Query Pipeline Runs By Workspace](synapse/data-plane/Pipeline-Run/Query-Pipeline-Runs-By-Workspace.yml)
+### Role Assignments
+#### [Overview](synapse/data-plane/Role-Assignments.yml)
+#### [Create Role Assignment](synapse/data-plane/Role-Assignments/Create-Role-Assignment.yml)
+#### [Delete Role Assignment By Id](synapse/data-plane/Role-Assignments/Delete-Role-Assignment-By-Id.yml)
+#### [Get Role Assignment By Id](synapse/data-plane/Role-Assignments/Get-Role-Assignment-By-Id.yml)
+#### [List Role Assignments](synapse/data-plane/Role-Assignments/List-Role-Assignments.yml)
+### Role Assignments2
+#### [Overview](synapse/data-plane/Role%20Assignments2.yml)
+#### [Check Principal Access](synapse/data-plane/Role%20Assignments2/Check-Principal-Access.yml)
+### Role Definitions
+#### [Overview](synapse/data-plane/Role-Definitions.yml)
+#### [Get Role Definition By Id](synapse/data-plane/Role-Definitions/Get-Role-Definition-By-Id.yml)
+#### [List Role Definitions](synapse/data-plane/Role-Definitions/List-Role-Definitions.yml)
+#### [List Scopes](synapse/data-plane/Role-Definitions/List-Scopes.yml)
 ### Spark Batch
 #### [Overview](synapse/data-plane/Spark-Batch.yml)
 #### [Cancel Spark Batch Job](synapse/data-plane/Spark-Batch/Cancel-Spark-Batch-Job.yml)

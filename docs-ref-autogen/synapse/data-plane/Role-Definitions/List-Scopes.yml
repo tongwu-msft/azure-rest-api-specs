@@ -1,15 +1,16 @@
 ### YamlMime:RESTOperation
-uid: synapse.data-plane.getcallerroleassignments.getcallerroleassignments
-name: Get Caller Role Assignments
+uid: synapse.data-plane.roledefinitions.listscopes
+name: List Scopes
 service: Synapse
-groupName: Get Caller Role Assignments
-apiVersion: 2020-02-01-preview
-summary: List role assignments of the caller.
+groupName: Role Definitions
+apiVersion: 2020-12-01
+summary: List rbac scopes.
 consumes: []
 produces:
 - application/json
+- text/json
 paths:
-- content: POST {endpoint}/rbac/getMyAssignedRoles?api-version=2020-02-01-preview
+- content: GET {endpoint}/rbacScopes?api-version=2020-12-01
 uriParameters:
 - name: endpoint
   in: path
@@ -41,54 +42,65 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: The error details.
+    description: "Error Response  \nThe error details."
     types:
     - uid: ErrorResponse
 - name: ErrorResponse
+  description: Error Response
   kind: object
   properties:
   - name: code
-    description: ''
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: ''
+    isReadyOnly: true
+    description: The error details.
     types:
-    - uid: ErrorDetail
+    - uid: ErrorResponse
       isArray: true
-- name: ErrorDetail
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
   kind: object
   properties:
-  - name: code
-    description: ''
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
-  - name: message
-    description: ''
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
     types:
-    - uid: string
-  - name: target
-    description: ''
-    types:
-    - uid: string
+    - uid: object
 examples:
-- name: Get caller role assignments
+- name: List rbac scopes
   request:
-    uri: POST exampleWorkspace.dev.azuresynapse.net/rbac/getMyAssignedRoles?api-version=2020-02-01-preview
+    uri: GET exampleWorkspace.dev.azuresynapse.net/rbacScopes?api-version=2020-12-01
   responses:
   - statusCode: "200"
     body: >-
       [
-        "00000000-0000-0000-0000-000000000000",
-        "10000000-0000-0000-0000-000000000000"
+        "scope 1",
+        "scope 2",
+        "scope 3"
       ]
   - statusCode: default
     body: >-
@@ -100,5 +112,5 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Synapse service - List role assignments of the caller.
+  description: Learn more about Synapse service - List rbac scopes.
 errorCodes: []

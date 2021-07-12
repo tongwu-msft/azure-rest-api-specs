@@ -1,15 +1,16 @@
 ### YamlMime:RESTOperation
-uid: synapse.data-plane.getroleassignmentbyid.getroleassignmentbyid
+uid: synapse.data-plane.roleassignments.getroleassignmentbyid
 name: Get Role Assignment By Id
 service: Synapse
-groupName: Get Role Assignment By Id
-apiVersion: 2020-02-01-preview
+groupName: Role Assignments
+apiVersion: 2020-12-01
 summary: Get role assignment by role assignment Id.
 consumes: []
 produces:
 - application/json
+- text/json
 paths:
-- content: GET {endpoint}/rbac/roleAssignments/{roleAssignmentId}?api-version=2020-02-01-preview
+- content: GET {endpoint}/roleAssignments/{roleAssignmentId}?api-version=2020-12-01
 uriParameters:
 - name: endpoint
   in: path
@@ -49,7 +50,7 @@ definitions:
     description: Role Assignment ID
     types:
     - uid: string
-  - name: roleId
+  - name: roleDefinitionId
     description: Role ID of the Synapse Built-In Role
     types:
     - uid: string
@@ -57,60 +58,80 @@ definitions:
     description: Object ID of the AAD principal or security-group
     types:
     - uid: string
+  - name: scope
+    description: Scope at the role assignment is created
+    types:
+    - uid: string
+  - name: principalType
+    description: 'Type of the principal Id: User, Group or ServicePrincipal'
+    types:
+    - uid: string
 - name: ErrorContract
   description: Error details.
   kind: object
   properties:
   - name: error
-    description: The error details.
+    description: "Error Response  \nThe error details."
     types:
     - uid: ErrorResponse
 - name: ErrorResponse
+  description: Error Response
   kind: object
   properties:
   - name: code
-    description: ''
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: ''
+    isReadyOnly: true
+    description: The error details.
     types:
-    - uid: ErrorDetail
+    - uid: ErrorResponse
       isArray: true
-- name: ErrorDetail
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
   kind: object
   properties:
-  - name: code
-    description: ''
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
-  - name: message
-    description: ''
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
     types:
-    - uid: string
-  - name: target
-    description: ''
-    types:
-    - uid: string
+    - uid: object
 examples:
 - name: Get role assignment information
   request:
-    uri: GET exampleWorkspace.dev.azuresynapse.net/rbac/roleAssignments/00000000-0000-0000-0000-000000000000-00000000-0000-0000-0000-000000000000?api-version=2020-02-01-preview
+    uri: GET exampleWorkspace.dev.azuresynapse.net/roleAssignments/00000000-0000-0000-0000-000000000000?api-version=2020-12-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "00000000-0000-0000-0000-000000000000-00000000-0000-0000-0000-000000000000",
-        "roleId": "00000000-0000-0000-0000-000000000000",
-        "principalId": "00000000-0000-0000-0000-000000000000"
+        "id": "00000000-0000-0000-0000-000000000000",
+        "roleDefinitionId": "00000000-0000-0000-0000-000000000000",
+        "principalId": "00000000-0000-0000-0000-000000000000",
+        "scope": "workspaces/exampleWorkspace",
+        "principalType": "User || Group || ServicePrincipal"
       }
   - statusCode: default
     body: >-

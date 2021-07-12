@@ -1,22 +1,30 @@
 ### YamlMime:RESTOperation
-uid: synapse.data-plane.createroleassignment.createroleassignment
+uid: synapse.data-plane.roleassignments.createroleassignment
 name: Create Role Assignment
 service: Synapse
-groupName: Create Role Assignment
-apiVersion: 2020-02-01-preview
+groupName: Role Assignments
+apiVersion: 2020-12-01
 summary: Create role assignment.
 consumes:
 - application/json
+- text/json
 produces:
 - application/json
+- text/json
 paths:
-- content: POST {endpoint}/rbac/roleAssignments?api-version=2020-02-01-preview
+- content: PUT {endpoint}/roleAssignments/{roleAssignmentId}?api-version=2020-12-01
 uriParameters:
 - name: endpoint
   in: path
   isRequired: true
   skipUrlEncoding: true
   description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
+  types:
+  - uid: string
+- name: roleAssignmentId
+  in: path
+  isRequired: true
+  description: The ID of the role assignment.
   types:
   - uid: string
 - name: api-version
@@ -49,6 +57,17 @@ requestBody:
     description: Object ID of the AAD principal or security-group
     types:
     - uid: string
+  - name: scope
+    in: body
+    isRequired: true
+    description: Scope at which the role assignment is created
+    types:
+    - uid: string
+  - name: principalType
+    in: body
+    description: 'Type of the principal Id: User, Group or ServicePrincipal'
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: RoleAssignmentDetails
@@ -59,7 +78,7 @@ definitions:
     description: Role Assignment ID
     types:
     - uid: string
-  - name: roleId
+  - name: roleDefinitionId
     description: Role ID of the Synapse Built-In Role
     types:
     - uid: string
@@ -67,15 +86,23 @@ definitions:
     description: Object ID of the AAD principal or security-group
     types:
     - uid: string
+  - name: scope
+    description: Scope at the role assignment is created
+    types:
+    - uid: string
+  - name: principalType
+    description: 'Type of the principal Id: User, Group or ServicePrincipal'
+    types:
+    - uid: string
 - name: ErrorContract
   description: Error details.
   kind: object
   properties:
   - name: error
-    description: The error details.
+    description: "Error Response  \nThe error details."
     types:
     - uid: ErrorResponse
-- name: RoleAssignmentOptions
+- name: RoleAssignmentRequest
   description: Role Assignment request details
   kind: object
   properties:
@@ -87,57 +114,79 @@ definitions:
     description: Object ID of the AAD principal or security-group
     types:
     - uid: string
+  - name: scope
+    description: Scope at which the role assignment is created
+    types:
+    - uid: string
+  - name: principalType
+    description: 'Type of the principal Id: User, Group or ServicePrincipal'
+    types:
+    - uid: string
 - name: ErrorResponse
+  description: Error Response
   kind: object
   properties:
   - name: code
-    description: ''
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: ''
+    isReadyOnly: true
+    description: The error details.
     types:
-    - uid: ErrorDetail
+    - uid: ErrorResponse
       isArray: true
-- name: ErrorDetail
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
   kind: object
   properties:
-  - name: code
-    description: ''
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
-  - name: message
-    description: ''
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
     types:
-    - uid: string
-  - name: target
-    description: ''
-    types:
-    - uid: string
+    - uid: object
 examples:
 - name: Create role assignment
   request:
-    uri: POST exampleWorkspace.dev.azuresynapse.net/rbac/roleAssignments?api-version=2020-02-01-preview
+    uri: PUT exampleWorkspace.dev.azuresynapse.net/roleAssignments/00000000-0000-0000-0000-000000000000?api-version=2020-12-01
     body: >-
       {
         "roleId": "00000000-0000-0000-0000-000000000000",
-        "principalId": "00000000-0000-0000-0000-000000000000"
+        "principalId": "00000000-0000-0000-0000-000000000000",
+        "scope": "workspaces/exampleWorkspace",
+        "principalType": "User || Group || ServicePrincipal"
       }
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "00000000-0000-0000-0000-000000000000-00000000-0000-0000-0000-000000000000",
-        "roleId": "00000000-0000-0000-0000-000000000000",
-        "principalId": "00000000-0000-0000-0000-000000000000"
+        "id": "00000000-0000-0000-0000-000000000000",
+        "roleDefinitionId": "00000000-0000-0000-0000-000000000000",
+        "principalId": "00000000-0000-0000-0000-000000000000",
+        "scope": "workspaces/exampleWorkspace",
+        "principalType": "User || Group || ServicePrincipal"
       }
   - statusCode: default
     body: >-

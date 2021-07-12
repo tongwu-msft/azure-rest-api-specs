@@ -1,15 +1,18 @@
 ### YamlMime:RESTOperation
-uid: synapse.data-plane.deleteroleassignmentbyid.deleteroleassignmentbyid
+uid: synapse.data-plane.roleassignments.deleteroleassignmentbyid
 name: Delete Role Assignment By Id
 service: Synapse
-groupName: Delete Role Assignment By Id
-apiVersion: 2020-02-01-preview
+groupName: Role Assignments
+apiVersion: 2020-12-01
 summary: Delete role assignment by role assignment Id.
 consumes: []
 produces:
 - application/json
+- text/json
 paths:
-- content: DELETE {endpoint}/rbac/roleAssignments/{roleAssignmentId}?api-version=2020-02-01-preview
+- content: DELETE {endpoint}/roleAssignments/{roleAssignmentId}?api-version=2020-12-01
+- content: DELETE {endpoint}/roleAssignments/{roleAssignmentId}?api-version=2020-12-01&scope={scope}
+  isOptional: true
 uriParameters:
 - name: endpoint
   in: path
@@ -30,6 +33,11 @@ uriParameters:
   description: The Synapse client API Version.
   types:
   - uid: string
+- name: scope
+  in: query
+  description: Scope of the Synapse Built-in Role.
+  types:
+  - uid: string
 responses:
 - name: 200 OK
   description: Success response.
@@ -46,48 +54,58 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: The error details.
+    description: "Error Response  \nThe error details."
     types:
     - uid: ErrorResponse
 - name: ErrorResponse
+  description: Error Response
   kind: object
   properties:
   - name: code
-    description: ''
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: ''
+    isReadyOnly: true
+    description: The error details.
     types:
-    - uid: ErrorDetail
+    - uid: ErrorResponse
       isArray: true
-- name: ErrorDetail
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
   kind: object
   properties:
-  - name: code
-    description: ''
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
-  - name: message
-    description: ''
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
     types:
-    - uid: string
-  - name: target
-    description: ''
-    types:
-    - uid: string
+    - uid: object
 examples:
 - name: Delete role assignment
   request:
-    uri: DELETE exampleWorkspace.dev.azuresynapse.net/rbac/roleAssignments/00000000-0000-0000-0000-000000000000-00000000-0000-0000-0000-000000000000?api-version=2020-02-01-preview
+    uri: DELETE exampleWorkspace.dev.azuresynapse.net/roleAssignments/00000000-0000-0000-0000-000000000000?api-version=2020-12-01
   responses:
   - statusCode: "200"
   - statusCode: "204"
