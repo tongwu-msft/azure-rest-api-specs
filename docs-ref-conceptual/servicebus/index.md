@@ -22,7 +22,7 @@ The REST APIs fall into the following categories:
    - United States government: `namespaceName.servicebus.usgovcloudapi.net`
 
 > [!IMPORTANT]
-> If you are using **"Classic" or RDFE management APIs**, they are [**obsolete and retired**](https://techcommunity.microsoft.com/t5/Service-Bus-blog/Deprecating-Service-Management-support-for-Azure-Service-Bus/ba-p/370909/) and should no longer be used.
+> If you are using **"Classic" or RDFE management APIs**, they are [**obsolete and retired**](https://docs.microsoft.com/en-us/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
 
 
 ## REST operation groups
