@@ -9460,6 +9460,19 @@
 ## wrap Key
 ### [Overview](keyvault/wrap-Key.yml)
 ### [wrap Key](keyvault/wrap-Key/wrap-Key.yml)
+# Kubernetes Connect Service
+## [Overview](../docs-ref-conceptual/kubernetesconnect/index.md)
+## Connected Cluster
+### [Overview](kubernetesconnect/Connected-Cluster.yml)
+### [Create](kubernetesconnect/Connected-Cluster/Create.yml)
+### [Delete](kubernetesconnect/Connected-Cluster/Delete.yml)
+### [Get](kubernetesconnect/Connected-Cluster/Get.yml)
+### [List By Resource Group](kubernetesconnect/Connected-Cluster/List-By-Resource-Group.yml)
+### [List By Subscription](kubernetesconnect/Connected-Cluster/List-By-Subscription.yml)
+### [Update](kubernetesconnect/Connected-Cluster/Update.yml)
+## Operations
+### [Overview](kubernetesconnect/Operations.yml)
+### [Get](kubernetesconnect/Operations/Get.yml)
 # Lab Services
 ## [Overview](../docs-ref-conceptual/labservices/index.md)
 ## Environment Settings
