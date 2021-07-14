@@ -17,6 +17,9 @@ manager: "femila"
 
 # Create Event Hub
 
+> [!IMPORTANT]
+> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+
 Creates a new Event Hub. When creating an Event Hub, you can specify the following properties. If a property is not specified, Event Hubs uses the default value for this property. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription#properties).  
   
 ## Properties  
