@@ -17,6 +17,9 @@ manager: "femila"
 
 # Update Event Hub
 
+> [!IMPORTANT]
+> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+
 Updates an event hub. When updating an event hub, you can only change the properties listed here. An attempt to change any other properties results in an error. Properties that can be changed but aren't specified are set to their default values.  
   
 ## Properties  
