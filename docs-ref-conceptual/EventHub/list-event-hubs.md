@@ -17,6 +17,9 @@ manager: "femila"
 
 # List Event Hubs
 
+> [!IMPORTANT]
+> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+
 Retrieves all metadata associated with all Event Hubs within a specified Service Bus namespace. See [EventHubDescription Properties](/dotnet/api/microsoft.servicebus.messaging.eventhubdescription).  
   
 ## Request  
