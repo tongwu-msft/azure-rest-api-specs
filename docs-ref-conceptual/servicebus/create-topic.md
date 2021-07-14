@@ -25,6 +25,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Topic
+
+> [!IMPORTANT]
+> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+
 Creates a new topic. Once created, this topic’s resource manifest is immutable. This operation is idempotent. Repeating the create call after a queue with same name has been created successfully, results in a “409 conflict” error message.  
   
  Please note the following:  
