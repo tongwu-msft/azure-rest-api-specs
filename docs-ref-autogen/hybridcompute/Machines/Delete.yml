@@ -3,28 +3,28 @@ uid: management.azure.com.hybridcompute.machines.delete
 name: Delete
 service: Hybrid Compute
 groupName: Machines
-apiVersion: 2020-08-02
+apiVersion: 2021-05-20
 summary: The operation to remove a hybrid machine identity in Azure.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{name}?api-version=2020-08-02
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}?api-version=2021-05-20
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
-- name: name
+- name: machineName
   in: path
   isRequired: true
   description: The name of the hybrid machine.
@@ -33,7 +33,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -48,38 +48,62 @@ responses:
 requestHeader: []
 definitions:
 - name: ErrorResponse
-  description: Error response.
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: "Error details.  \nThe error details."
+    description: The error object.
     types:
     - uid: ErrorDetail
 - name: ErrorDetail
-  description: Error details.
+  description: The error detail.
   kind: object
   properties:
   - name: code
-    description: The error's code.
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: A human readable error message.
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: Indicates which property in the request is responsible for the error.
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: Additional error details.
+    isReadyOnly: true
+    description: The error details.
     types:
     - uid: ErrorDetail
       isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: Delete a Machine
   request:
-    uri: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine?api-version=2020-08-02
+    uri: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine?api-version=2021-05-20
   responses:
   - statusCode: "200"
   - statusCode: "204"

@@ -3,7 +3,7 @@ title: Hybrid Compute REST API
 description: Operation groups for the Hybrid Compute REST API
 author: MGoedtel
 ms.author: magoedte
-ms.date: 08/17/2020
+ms.date: 07/14/2021
 ms.topic: reference
 ms.service: billing
 ms.devlang: rest-api
@@ -22,6 +22,10 @@ The Hybrid Compute REST API provides operations for working with the following r
 | [Machine Extensions](xref:management.azure.com.hybridcompute.machineextensions) | Operations to manage extensions on Azure Arc enabled servers |
 | [Machines](xref:management.azure.com.hybridcompute.machines) | Operations to manage Azure Arc enabled servers |
 | [Operations](xref:management.azure.com.hybridcompute.operations) | Lists available operations |
+| [Private Endpoint Connections](xref:management.azure.com.hybridcompute.privateendpointconnections) | Operations to manage connections between a Private Link Scope and Private Endpoint |
+| [Private Link Resources](xref:management.azure.com.hybridcompute.privatelinkresources) | Operations to manage Azure Arc resources associated with a Private Link Scope |
+| [Private Link Scopes](xref:management.azure.com.hybridcompute.privatelinkscopes) | Operations to manage Azure Arc Private Link Scopes |
+| [Upgrade Extensions](xref:management.azure.com.hybridcompute.upgradeextensions) | Operations to upgrade extensions on Azure Arc enabled servers |
 
 ## See Also
 
