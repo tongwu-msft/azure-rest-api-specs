@@ -8757,6 +8757,42 @@
 ## Operations
 ### [Overview](hybridcompute/Operations.yml)
 ### [List](hybridcompute/Operations/List.yml)
+## Private Endpoint Connections
+### [Overview](hybridcompute/Private-Endpoint-Connections.yml)
+### [Create Or Update](hybridcompute/Private-Endpoint-Connections/Create-Or-Update.yml)
+### [Delete](hybridcompute/Private-Endpoint-Connections/Delete.yml)
+### [Get](hybridcompute/Private-Endpoint-Connections/Get.yml)
+### [List By Private Link Scope](hybridcompute/Private-Endpoint-Connections/List-By-Private-Link-Scope.yml)
+## Private Link Resources
+### [Overview](hybridcompute/Private-Link-Resources.yml)
+### [Get](hybridcompute/Private-Link-Resources/Get.yml)
+### [List By Private Link Scope](hybridcompute/Private-Link-Resources/List-By-Private-Link-Scope.yml)
+## Private Link Scopes
+### [Overview](hybridcompute/Private-Link-Scopes.yml)
+### [Create Or Update](hybridcompute/Private-Link-Scopes/Create-Or-Update.yml)
+### [Delete](hybridcompute/Private-Link-Scopes/Delete.yml)
+### [Get](hybridcompute/Private-Link-Scopes/Get.yml)
+### [Get Validation Details](hybridcompute/Private-Link-Scopes/Get-Validation-Details.yml)
+### [Get Validation Details For Machine](hybridcompute/Private-Link-Scopes/Get-Validation-Details-For-Machine.yml)
+### [List](hybridcompute/Private-Link-Scopes/List.yml)
+### [List By Resource Group](hybridcompute/Private-Link-Scopes/List-By-Resource-Group.yml)
+### [Update Tags](hybridcompute/Private-Link-Scopes/Update-Tags.yml)
+## Upgrade Extensions
+### [Overview](hybridcompute/Upgrade-Extensions.yml)
+### [Upgrade Extensions](hybridcompute/Upgrade-Extensions/Upgrade-Extensions.yml)
+# Hybrid Kubernetes
+## [Overview](../docs-ref-conceptual/hybridkubernetes/index.md)
+## Connected Cluster
+### [Overview](hybridkubernetes/Connected-Cluster.yml)
+### [Create](hybridkubernetes/Connected-Cluster/Create.yml)
+### [Delete](hybridkubernetes/Connected-Cluster/Delete.yml)
+### [Get](hybridkubernetes/Connected-Cluster/Get.yml)
+### [List By Resource Group](hybridkubernetes/Connected-Cluster/List-By-Resource-Group.yml)
+### [List By Subscription](hybridkubernetes/Connected-Cluster/List-By-Subscription.yml)
+### [Update](hybridkubernetes/Connected-Cluster/Update.yml)
+## Operations
+### [Overview](hybridkubernetes/Operations.yml)
+### [Get](hybridkubernetes/Operations/Get.yml)
 # Internet Analyzer
 ## [Overview](../docs-ref-conceptual/internetanalyzer/index.md)
 ## Experiments
@@ -9460,19 +9496,6 @@
 ## wrap Key
 ### [Overview](keyvault/wrap-Key.yml)
 ### [wrap Key](keyvault/wrap-Key/wrap-Key.yml)
-# Kubernetes Connect Service
-## [Overview](../docs-ref-conceptual/kubernetesconnect/index.md)
-## Connected Cluster
-### [Overview](kubernetesconnect/Connected-Cluster.yml)
-### [Create](kubernetesconnect/Connected-Cluster/Create.yml)
-### [Delete](kubernetesconnect/Connected-Cluster/Delete.yml)
-### [Get](kubernetesconnect/Connected-Cluster/Get.yml)
-### [List By Resource Group](kubernetesconnect/Connected-Cluster/List-By-Resource-Group.yml)
-### [List By Subscription](kubernetesconnect/Connected-Cluster/List-By-Subscription.yml)
-### [Update](kubernetesconnect/Connected-Cluster/Update.yml)
-## Operations
-### [Overview](kubernetesconnect/Operations.yml)
-### [Get](kubernetesconnect/Operations/Get.yml)
 # Lab Services
 ## [Overview](../docs-ref-conceptual/labservices/index.md)
 ## Environment Settings
@@ -10213,7 +10236,9 @@
 ### [Get Map Tile](maps/Render/Get-Map-Tile.yml)
 ## Render V2
 ### [Overview](maps/Render-V2.yml)
-### [Get Map Tile Preview](maps/Render-V2/Get-Map-Tile-Preview.yml)
+### [Get Map Attribution](maps/Render-V2/Get-Map-Attribution.yml)
+### [Get Map Tile](maps/Render-V2/Get-Map-Tile.yml)
+### [Get Map Tileset](maps/Render-V2/Get-Map-Tileset.yml)
 ## Route
 ### [Overview](maps/Route.yml)
 ### [Get Route Directions](maps/Route/Get-Route-Directions.yml)

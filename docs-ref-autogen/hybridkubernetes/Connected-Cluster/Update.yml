@@ -1,14 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.kubernetesconnect.connectedcluster.get
-name: Get
-service: Kubernetes Connect Service
+uid: management.azure.com.hybridkubernetes.connectedcluster.update
+name: Update
+service: Hybrid Kubernetes
 groupName: Connected Cluster
 apiVersion: 2021-03-01
-summary: "Get the properties of the specified connected cluster.  \nReturns the properties of the specified connected cluster, including name, identity, properties, and additional cluster details."
+summary: "Updates a connected cluster.  \nAPI to update certain properties of the connected cluster resource"
+consumes:
+- application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}?api-version=2021-03-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}?api-version=2021-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,13 +38,25 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Resource retrieved successfully.
+  description: OK
   types:
   - uid: ConnectedCluster
 - name: Other Status Codes
-  description: Error response describing why the operation failed.
+  description: Resource Provider error response describing why the operation failed.
   types:
   - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 requestHeader: []
 definitions:
 - name: ConnectedCluster
@@ -149,6 +163,18 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: ConnectedClusterPatch
+  description: Object containing updates for patch operations.
+  kind: object
+  properties:
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ConnectedClusterIdentity
   description: Identity for the connected cluster.
   kind: object
@@ -324,9 +350,19 @@ definitions:
     types:
     - uid: object
 examples:
-- name: GetClusterExample
+- name: UpdateClusterExample
   request:
-    uri: GET https://management.azure.com/subscriptions/1bfbb5d0-917e-4346-9026-1d3b344417f5/resourcegroups/k8sc-rg/providers/Microsoft.Kubernetes/connectedClusters/testCluster?api-version=2021-03-01
+    uri: PATCH https://management.azure.com/subscriptions/1bfbb5d0-917e-4346-9026-1d3b344417f5/resourcegroups/k8sc-rg/providers/Microsoft.Kubernetes/connectedClusters/testCluster?api-version=2021-03-01
+    body: >-
+      {
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "agentPublicKeyCertificate": "MIICYzCCAcygAwIBAgIBADANBgkqhkiG9w0BAQUFADAuMQswCQYDVQQGEwJVUzEMMAoGA1UEChMDSUJNMREwDwYDVQQLEwhMb2NhbCBDQTAeFw05OTEyMjIwNTAwMDBaFw0wMDEyMjMwNDU5NTlaMC4xCzAJBgNVBAYTAlVTMQwwCgYDVQQKEwNJQk0xETAPBgNVBAsTCExvY2FsIENBMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD2bZEo7xGaX2/0GHkrNFZvlxBou9v1Jmt/PDiTMPve8r9FeJAQ0QdvFST/0JPQYD20rH0bimdDLgNdNynmyRoS2S/IInfpmf69iyc2G0TPyRvmHIiOZbdCd+YBHQi1adkj17NDcWj6S14tVurFX73zx0sNoMS79q3tuXKrDsxeuwIDAQABo4GQMIGNMEsGCVUdDwGG+EIBDQQ+EzxHZW5lcmF0ZWQgYnkgdGhlIFNlY3VyZVdheSBTZWN1cml0eSBTZXJ2ZXIgZm9yIE9TLzM5MCAoUkFDRikwDgYDVR0PAQH/BAQDAgAGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFJ3+ocRyCTJw067dLSwr/nalx6YMMA0GCSqGSIb3DQEBBQUAA4GBAMaQzt+zaj1GU77yzlr8iiMBXgdQrwsZZWJo5exnAucJAEYQZmOfyLiM D6oYq+ZnfvM0n8G/Y79q8nhwvuxpYOnRSAXFp6xSkrIOeZtJMY1h00LKp/JX3Ng1svZ2agE126JHsQ0bhzN5TKsYfbwfTwfjdWAGy6Vf1nYi/rO+ryMO"
+        }
+      }
   responses:
   - statusCode: "200"
     body: >-
@@ -345,8 +381,6 @@ examples:
           "lastModifiedAt": "2020-12-17T07:14:58.865041Z"
         },
         "identity": {
-          "principalId": "d8cd1fd9-154f-4da7-b348-595f283c13a3",
-          "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
           "type": "SystemAssigned"
         },
         "properties": {
@@ -367,5 +401,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Get the properties of the specified connected cluster.  \nReturns the properties of the specified connected cluster, including name, identity, properties, and additional cluster details."
+  description: "Learn more about Hybrid Kubernetes service - Updates a connected cluster.  \nAPI to update certain properties of the connected cluster resource"
 errorCodes: []
