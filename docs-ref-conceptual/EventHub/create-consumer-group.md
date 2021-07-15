@@ -1,5 +1,5 @@
 ---
-title: "Create consumer group"
+title: "Create consumer group2"
 ms.custom: ""
 ms.date: 05/05/2017
 ms.reviewer: ""
@@ -16,9 +16,6 @@ manager: "timlt"
 ---
 
 # Create consumer group
-
-> [!IMPORTANT]
-> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
 
 Creates a new consumer group. When creating a consumer group, you can specify the following properties in **ConsumerGroupDescription**. If a property is not specified, Service Bus uses the default value for that property.  See [ConsumerGroupDescription Properties](/dotnet/api/microsoft.servicebus.messaging.consumergroupdescription).  
   
