@@ -10236,7 +10236,9 @@
 ### [Get Map Tile](maps/Render/Get-Map-Tile.yml)
 ## Render V2
 ### [Overview](maps/Render-V2.yml)
-### [Get Map Tile Preview](maps/Render-V2/Get-Map-Tile-Preview.yml)
+### [Get Map Attribution](maps/Render-V2/Get-Map-Attribution.yml)
+### [Get Map Tile](maps/Render-V2/Get-Map-Tile.yml)
+### [Get Map Tileset](maps/Render-V2/Get-Map-Tileset.yml)
 ## Route
 ### [Overview](maps/Route.yml)
 ### [Get Route Directions](maps/Route/Get-Route-Directions.yml)
