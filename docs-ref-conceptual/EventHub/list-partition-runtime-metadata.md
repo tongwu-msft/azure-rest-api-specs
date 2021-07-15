@@ -17,9 +17,6 @@ manager: "femila"
 
 # List partition runtime metadata
 
-> [!IMPORTANT]
-> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
-
 Returns the metadata for all partitions on an Event Hub. See [Partition Description Properties](/dotnet/api/microsoft.servicebus.messaging.partitiondescription).  
   
 ## Request  
