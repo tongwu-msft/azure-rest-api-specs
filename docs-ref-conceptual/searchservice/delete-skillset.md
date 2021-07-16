@@ -7,8 +7,8 @@ ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: luiscabrer
-ms.author: luisca
+author: HeidiSteen
+ms.author: heidist
 ms.manager: nitinme
 ---
 # Delete Skillset (Azure Cognitive Search REST API)

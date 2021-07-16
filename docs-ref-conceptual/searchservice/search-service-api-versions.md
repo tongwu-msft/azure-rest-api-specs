@@ -4,7 +4,7 @@ titleSuffix: Azure Cognitive Search
 description: Lists the generally available and preview versions of the Search REST APIs for Azure Cognitive Search.
 
 ms.service: cognitive-search
-ms.topic: "language-reference"
+ms.topic: language-reference
 ms.devlang: rest-api
 
 ms.date: 07/20/2021
@@ -35,7 +35,7 @@ Preview versions are released to test new functionality, gather feedback, and di
 |-------------|---------------|-------------|
 | [`2021-04-30-Preview`](/rest/api/searchservice/index-preview) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Azure.Search/preview/2021-04-30-Preview) | [Release note](#2021-04-30-Preview) |
 | `2020-06-30-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Azure.Search/preview/2020-06-30-Preview) | [Release note](#2020-06-30-Preview)  |
-| `2019-05-06-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Azure.Search/preview/2019-05-06-preview)| [Release note](#2019-05-06-Preview) |
+| `2019-05-06-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Azure.Search/preview/2019-05-06-Preview)| [Release note](#2019-05-06-Preview) |
 | `2017-11-11-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Microsoft.Azure.Search.Data/preview/2017-11-11-preview)| Preview version associated with stable version. |
 | `2016-09-01-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Microsoft.Azure.Search.Data/preview/2016-09-01-preview) | Preview version associated with stable version.|
 | `2015-02-28-Preview` | Unsupported after 10-10-2020  | Preview version associated with stable version. |
@@ -55,6 +55,8 @@ This preview version includes all of the features introduced in 2020-06-30-Previ
 + SearchIndexerDataIdentity property that specifies a system or user-managed identity. This property is added to encryption key for indexer data sources, and also as an indexer data source top-level property.
 
 + More languages for the Text Translation cognitive skill.
+
++ More queryLanguages for semantic search and speller.
 
 <a name="2020-06-30"></a>
 
@@ -85,7 +87,7 @@ This preview version includes all of the features introduced in 2019-05-06-Previ
 + Entity Recognition cognitive skill (v3)
 + Sentiment cognitive cognitive skill (v3)
 
-<a name="2019-05-06-Preview></a>
+<a name="2019-05-06-Preview"></a>
 
 ### 2019-05-06-Preview
 

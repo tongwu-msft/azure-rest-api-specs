@@ -1,6 +1,6 @@
 ---
 title: Reset Documents (2021-04-30-Preview)
-description: Preview versionof the Reset Document REST API for Azure Cognitive Search.
+description: Preview version of the Reset Document REST API for Azure Cognitive Search.
 ms.date: 07/20/2021
 
 ms.service: cognitive-search
@@ -36,7 +36,7 @@ POST https://[service name].search.windows.net/indexers/[indexer name]/resetdocs
     api-key: [admin key]  
 ``` 
 
-Reset documents is an asynchronous API. Invoking the API adds the document keys to be reset to the indexer metadata. On the next scheduled or on demand run of the indexer, the indexer prioritizes processing the reset documents before indexing any new or updated documents in the data source.
+Reset Documents is an asynchronous API. Invoking the API adds the document keys to be reset to the indexer metadata. On the next scheduled or on demand run of the indexer, the indexer prioritizes processing the reset documents before indexing any new or updated documents in the data source.
 
 ## URI Parameters
 
