@@ -140,7 +140,7 @@ For version 2019-12-12 and above, `List Blobs` returns the `Sealed` element for 
 
 For version 2020-02-10 and above, `List Blobs` returns the `LastAccessTime` element. The elements shows when the blob's data was last accessed according to the storage account's last access time tracking policy. The element will not be returned if the storage account does not have a last access time tracking policy, or the policy is disabled. For information about setting account's last access time tracking policy, see [Blob Service API](https://docs.microsoft.com/rest/api/storagerp/blobservices/setserviceproperties). The `LastAccessTime` element does not track the last time when the blob's metadata is accessed.
 
-For version 2020-06-12 and above, `List Blobs` returns the `ImmutabilityPolicyUntilDate` and `ImmutabilityPolicyMode` elements when this operation incluedes the `include={immutabilitypolicy}` parameter.
+For version 2020-06-12 and above, `List Blobs` returns the `ImmutabilityPolicyUntilDate` and `ImmutabilityPolicyMode` elements when this operation includes the `include={immutabilitypolicy}` parameter.
 
 For version 2020-06-12 and above, `List Blobs` returns the `LegalHold` element when this operation incluedes the `include={legalhold}` parameter.
 
@@ -311,7 +311,7 @@ For version 2020-08-04 and above, for Hierarchical Namespace enabled accounts, `
 
  **Immutability Policy in the Response**  
   
- The `ImmutabilityPolicyUntilDate`, `ImmutabilityPolicyMode` element are present only if the `include=immutabilitypolicy` parameter was specified on the URI.
+ The `ImmutabilityPolicyUntilDate`, `ImmutabilityPolicyMode` elements are present only if the `include=immutabilitypolicy` parameter was specified on the URI.
  ```  
  <Properties> 
     <ImmutabilityPolicyUntilDate>date-time-value</ImmutabilityPolicyUntilDate>   

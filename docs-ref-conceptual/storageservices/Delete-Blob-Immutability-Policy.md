@@ -11,10 +11,10 @@ ms.author: seanmcc
 
 # Set Blob Immutability Policy
 
-The `Delete Blob Immutability Policy` operation deletes the immutability policy on a blob. This operation does not update the blob's ETag.  This API is available starting in version `2020-06-12`.
+The `Delete Blob Immutability Policy` operation deletes the immutability policy on a blob. This operation does not update the blob's ETag. This API is available starting in version `2020-06-12`.
 
 ## Request
-The `Delete Blob Immutability Policy` request may be constructed as follows. HTTPS is recommended. Replace myaccount with the name of your storage account and myblob with the blob name for which the immutability policy will be deleted.
+The `Delete Blob Immutability Policy` request may be constructed as follows. HTTPS is recommended. Replace myaccount with the name of your storage account, my container with the name of your container, and myblob with the blob name for which the immutability policy will be deleted.
 
 |Method|Request URI|HTTP Version|
 |------------|-----------------|------------------|
