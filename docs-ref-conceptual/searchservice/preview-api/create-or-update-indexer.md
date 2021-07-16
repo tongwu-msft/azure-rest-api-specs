@@ -1,19 +1,20 @@
 ---
-title: Create Indexer (api-version=2020-06-30-Preview)
-description: Preview version of the Create Indexer REST API for Cognitive Search.
-ms.date: 06/30/2020
+title: Create or Update Indexer (2021-04-30-Preview)
+description: Preview version of the Create or Update Indexer REST API for Azure Cognitive Search.
+ms.date: 07/20/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: luiscabrer
-ms.author: luisca
+author: HeidiSteen
+ms.author: heidist
 ms.manager: nitinme
 ---
-# Create Indexer (Preview REST API)
 
-**API Version: 2020-06-30-Preview**
+# Create or Update Indexer (Preview REST API)
+
+**API Version: 2021-04-30-Preview**
 
 > [!Important]
 > This preview API adds a [cache property](#cache) used during [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it.

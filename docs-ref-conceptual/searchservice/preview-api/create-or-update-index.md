@@ -1,19 +1,20 @@
 ---
-title: "Create Index (api-version=2020-06-30-Preview)"
-description: Define an index schema for fields and other constructs in an Azure Cognitive Search index (api-version=2020-06-30-Preview).
-ms.date: 01/06/2021
+title: "Create or Update Index (2021-04-30-Preview)"
+description: Preview version of the Create or Update Index REST API for Azure Cognitive Search.
+ms.date: 07/20/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
+author: HeidiSteen
+ms.author: heidist
 ms.manager: nitinme
 ---
-# Create Index (Preview REST API)
 
-**API Version: 2020-06-30-Preview**
+# Create or Update Index (Preview REST API)
+
+**API Version: 2021-04-30-Preview**
 
 > [!Important]
 > This preview adds support for the [normalizers](https://docs.microsoft.com/azure/search/add-normalizers-to-search-index) that can be used to produce case-insensitive sorting and filtering output.

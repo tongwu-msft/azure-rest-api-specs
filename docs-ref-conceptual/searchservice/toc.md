@@ -1,3 +1,4 @@
+# [API versions](search-service-api-versions.md)
 # [Data types](supported-data-types.md)
 # [Naming rules](naming-rules.md)
 # [HTTP status codes](http-status-codes.md)
@@ -5,15 +6,15 @@
 # [OData support](support-for-odata.md)
 # Reference (Preview)
 ## [Introduction](index-preview.md)
+## [Authorization header](authorization-header.md)
 ## Indexes
-### [Create Index](preview-api/create-index.md)
-### [Update Index](preview-api/update-index.md)
+### [Create or Update Index](preview-api/create-or-update-index.md)
 ## Documents
 ### [Reset Documents](preview-api/reset-documents.md)
 ### [Search Documents](preview-api/search-documents.md)
 ## Indexers
-### [Create Indexer](preview-api/create-indexer.md)
-### [Update Indexer](preview-api/update-indexer.md)
+### [Create or Update Indexer](preview-api/create-or-update-indexer.md)
+### [Create or Update Data Source](preview-api/create-or-update-data-source.md)
 ## Skillsets
 ### [Reset Skills](preview-api/reset-skills.md)
 # Reference (Stable)

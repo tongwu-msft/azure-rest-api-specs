@@ -1,19 +1,20 @@
 ---
-title: Reset Skills (Azure Cognitive Search REST API)
-description: Preview API used to selectively execute specific skills when you need partial reprocessing of a skillset.
-ms.date: 06/30/2020
+title: Reset Skills  (2021-04-30-Preview)
+description: Preview version of the Reset Skills REST API for Azure Cognitive Search.
+ms.date: 07/20/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: luiscabrer
-ms.author: luisca
+author: HeidiSteen
+ms.author: heidist
 ms.manager: nitinme
 ---
-# Reset Skills (Azure Cognitive Search REST API)
 
-**API Version: 2020-06-30-Preview**
+# Reset Skills (Preview REST API)
+
+**API Version: 2021-04-30-Preview**
 
 > [!Important]
 > This preview API is used for incremental enrichment when you want to rebuild all or part of the cache. The entire API is  a preview feature. For more information, see [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual) and [indexer reset](https://docs.microsoft.com/azure/search/search-howto-run-reset-indexers).

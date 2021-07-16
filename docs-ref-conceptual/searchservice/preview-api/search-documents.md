@@ -1,18 +1,20 @@
 ---
-title: Search Documents (api-version=2020-06-30-Preview)
-description: Preview version of the Search Documents REST API for Cognitive Search.
-ms.date: 05/19/2021
+title: Search Documents (2021-04-30-Preview)
+description: Preview version of the Search Documents REST API for Azure Cognitive Search.
+ms.date: 07/20/2021
+
 ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
+author: HeidiSteen
+ms.author: heidist
 ms.manager: nitinme
 ---
+
 # Search Documents (Preview REST API)
 
-**API Version: 2020-06-30-Preview**
+**API Version: 2021-04-30-Preview**
 
 > [!Important]
 > This preview API adds a **semantic** query type and responses, a **speller** parameter that provides spell correction, and  a **featuresMode** parameter that can report on per-field term frequency, per-field similarity score, and per-field number of unique matches. A new **queryLanguage** parameter is required for both semantic queries and **speller**.

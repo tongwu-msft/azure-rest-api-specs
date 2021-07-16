@@ -81,15 +81,20 @@ This preview version includes all of the features introduced in 2019-05-06-Previ
 + Indexer data source for SharePoint Online
 + Normalizer property for text normalization, for case-insensitive filtering, faceting and sorting
 + Reset Documents for indexer-based indexing to specifically refresh specific documents by ID
-+ Cache enriched documents to preserve and reuse image processing (and other AI enrichments)
-+ featuresMode parameter that returns detailed information about a relevance score
++ Entity Linking cognitive skill (v3)
++ Entity Recognition cognitive skill (v3)
++ Sentiment cognitive cognitive skill (v3)
 
 <a name="2019-05-06-Preview></a>
 
 ### 2019-05-06-Preview
 
-TBD
-
++ Indexer data source support for Cosmos DB MongoDB API, Cassandra API
++ Indexer data source for native blob soft delete in Blob Storage
++ featuresMode parameter that returns detailed information about a relevance score
++ Azure Machine Learning (AML) cognitive skill
++ Personal identification detection cognitive skill
++ Cache enriched documents to preserve and reuse image processing (and other AI enrichments)
 
 ## See also
 

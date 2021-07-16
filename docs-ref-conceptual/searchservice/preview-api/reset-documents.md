@@ -1,7 +1,7 @@
 ---
-title: Reset Documents (api-version=2020-06-30-Preview)
-description: Preview API used to re-ingest a subset of documents from a data source with customer-provided document keys.
-ms.date: 02/02/2021
+title: Reset Documents (2021-04-30-Preview)
+description: Preview versionof the Reset Document REST API for Azure Cognitive Search.
+ms.date: 07/20/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -11,9 +11,10 @@ author: shuyangmsft
 ms.author: szhang
 ms.manager: jennmar
 ---
+
 # Reset Documents (Preview REST API)
 
-**API Version: 2020-06-30-Preview**
+**API Version: 2021-04-30-Preview**
 
 > [!Important]
 > This preview API adds the ability to flag specific documents for reprocessing by an indexer. Document keys passed in the request are processed in full on the next run. The entire API is a preview feature. For more information, see [Reset and run an indexer](https://docs.microsoft.com/azure/search/search-howto-run-reset-indexers).
