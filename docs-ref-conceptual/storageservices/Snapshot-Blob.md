@@ -180,7 +180,7 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 
 > [!NOTE]
 > Promoting a snapshot does not incur an additional charge for storage resources, since blocks or pages are shared between the snapshot and the base blob.  
-> Setting a blob tier on a snapshot is allowed starting REST version 2019-12-12. If a tier is set on a root blob, then all snapshots will inherit tier from base blob. Taking a snapshot on an archived blob will fail. Explicitly setting tier on an object will result in billing for the full size of the object. Taking a snapshot of a blob that has tier set would result in full copy billing of root blob and the snapshot. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](https://docs.microsoft.com/azure/storage/storage-blob-storage-tiers).
+> Setting a blob tier on a snapshot is allowed starting REST version 2019-12-12. If a tier is set on a root blob, then all snapshots will inherit tier from base blob. Taking a snapshot on an archived blob will fail. Explicitly setting tier on an object will result in billing for the full size of the object. Taking a snapshot of a blob that has tier set would result in full copy billing of root blob and the snapshot. For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](/azure/storage/storage-blob-storage-tiers).
   
  **Snapshots in Premium Storage Accounts**  
   

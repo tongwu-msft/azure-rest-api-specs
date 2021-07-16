@@ -14,9 +14,9 @@ ms.author: pemari
 Azure premium storage offers a solution for Azure virtual machine workloads requiring high performance and low latency. Premium disks are backed by page blobs in Azure Storage. This topic provides information about performing REST operations against page blobs in general purpose v2 (GPv2) storage accounts with premium performance. To learn more about Azure premium storage, see [Premium SSD](https://go.microsoft.com/fwlink/?LinkId=521898).
 
 
-For information about premium block blob storage, see [Azure Block Blob storage performance tiers](https://docs.microsoft.com/azure/storage/blobs/storage-blob-performance-tiers).
+For information about premium block blob storage, see [Azure Block Blob storage performance tiers](/azure/storage/blobs/storage-blob-performance-tiers).
 
-For information about premium file storage, see [How to create a premium Azure file share](https://docs.microsoft.com/azure/storage/files/storage-how-to-create-premium-fileshare).
+For information about premium file storage, see [How to create a premium Azure file share](/azure/storage/files/storage-how-to-create-premium-fileshare).
 
 To create and manage accounts by using Resource Manager, see the [Storage Resource Provider REST API reference](/rest/api/storagerp/). To create and manage classic accounts, see the [Service Management REST API reference](https://msdn.microsoft.com/library/azure/ee460790.aspx).
 
@@ -27,7 +27,7 @@ You can also access page blobs in GPv2 storage accounts via the [Azure Storage C
 A premium GPv2 account stores only page blobs, and only REST APIs for page blobs and their containers are supported.
 
 > [!NOTE]
-> Premium GPv2 accounts do not support block blobs, or the File, Table, and Queue services. However, premium BlockBlobStorage accounts do support block and append blobs. For more information and to see all the various storage options, visit [Types of storage accounts](https://docs.microsoft.com/azure/storage/common/storage-account-overview#types-of-storage-accounts)
+> Premium GPv2 accounts do not support block blobs, or the File, Table, and Queue services. However, premium BlockBlobStorage accounts do support block and append blobs. For more information and to see all the various storage options, visit [Types of storage accounts](/azure/storage/common/storage-account-overview#types-of-storage-accounts)
 >
 > A premium GPv2 endpoint cannot be mapped to a custom domain name.
 

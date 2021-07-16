@@ -21,7 +21,7 @@ Containers and blobs support custom metadata, represented as HTTP headers. Metad
   
  [Standard HTTP Properties for Containers and Blobs](#Subheading3)  
   
- Blobs also support tags, a special type of custom metadata that is automatically indexed by the Blob service. For more information, see [Manage and find data on Azure Blob Storage with Blob Index](https://docs.microsoft.com/azure/storage/blobs/storage-manage-find-blobs).  
+ Blobs also support tags, a special type of custom metadata that is automatically indexed by the Blob service. For more information, see [Manage and find data on Azure Blob Storage with Blob Index](/azure/storage/blobs/storage-manage-find-blobs).  
   
 ##  <a name="Subheading1"></a> Metadata Header Format  
  Metadata headers are name/value pairs. The format for the header is:  
@@ -114,4 +114,4 @@ PUT https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=metadata
  [Get Blob Metadata](Get-Blob-Metadata.md)   
  [Set Blob Metadata](Set-Blob-Metadata.md)   
  [Blob Service Concepts](Blob-Service-Concepts.md)   
- [Manage and find data on Azure Blob Storage with Blob Index](https://docs.microsoft.com/azure/storage/blobs/storage-manage-find-blobs)   
+ [Manage and find data on Azure Blob Storage with Blob Index](/azure/storage/blobs/storage-manage-find-blobs)   
