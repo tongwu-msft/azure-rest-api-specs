@@ -1,15 +1,16 @@
 ---
-title: Delete Blob Immutability Policy (REST API) - Azure Storage
+title: Delete Blob Immutability Policy (REST API)
+titleSuffix: Azure Storage
 description: The Delete Blob Immutability Policy operation deletes the immutability policy on a blob.
-author: seanmc-msft
+author: seanmcc-msft
 
-ms.date: 07/01/2020
+ms.date: 07/16/2021
 ms.service: storage
 ms.topic: reference
 ms.author: seanmcc
 ---
 
-# Set Blob Immutability Policy
+# Delete Blob Immutability Policy
 
 The `Delete Blob Immutability Policy` operation deletes the immutability policy on a blob. This operation does not update the blob's ETag. This API is available starting in version `2020-06-12`.
 
@@ -65,13 +66,15 @@ This operation can only be called by the storage account owner and by anyone wit
 
 ## Remarks
 Deleting the blob's immutability policy on a blob storage or general purpose v2 account have the following restrictions:
-  * Deleting immutability policy on a snapshot or a version is allowed starting REST version 2020-06-12.
-  * The immutability policy must be in unlocked mode to be deleted.
+
+* Deleting immutability policy on a snapshot or a version is allowed starting REST version 2020-06-12.
+* The immutability policy must be in unlocked mode to be deleted.
 
 > [!NOTE]
->  For detailed information about how immutability works see [Immutable Storage](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-immutable-storage).
+> For detailed information about immutable storage, see [Immutable Storage](/azure/storage/blobs/storage-blob-immutable-storage).
 
-## See Also  
+## See Also
+
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   

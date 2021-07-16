@@ -1,12 +1,13 @@
 ---
-title: Set Blob Legal Hold (REST API) - Azure Storage
+title: Set Blob Legal Hold (REST API)
+titleSuffix: Azure Storage
 description: The Set Blob Legal Hold operation sets the legal hold on a blob.
-author: lawe-msft
+author: seanmcc-msft
 
-ms.date: 06/12/2020
+ms.date: 07/16/2021
 ms.service: storage
 ms.topic: reference
-ms.author: lawe
+ms.author: seanmcc
 ---
 
 # Set Blob Legal Hold
@@ -65,14 +66,15 @@ This operation can only be called by the storage account owner and by anyone wit
 
 ## Remarks
 Setting the blob's legal hold on a blob storage or general purpose v2 account have the following restrictions:
-  * Setting legal hold on a snapshot or a version is allowed starting REST version 2020-06-12.
-  * When legal hold is set to true, user can't modify or delete the blob except some special operations, `PutBlockList/PutBlob/CopyBlob`, because these operations will generate a new version.
 
+* Setting legal hold on a snapshot or a version is allowed starting REST version 2020-06-12.
+* When legal hold is set to true, user can't modify or delete the blob except some special operations, `PutBlockList/PutBlob/CopyBlob`, because these operations will generate a new version.
 
 > [!NOTE]
->  For detailed information about how legal hold work see [Legal Hold on Blob](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-immutable-storage).
+> For detailed information about immutable storage, see [Immutable Storage](/azure/storage/blobs/storage-blob-immutable-storage).
 
-## See Also  
+## See Also
+
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   

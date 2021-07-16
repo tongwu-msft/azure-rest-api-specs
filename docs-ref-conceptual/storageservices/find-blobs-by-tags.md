@@ -129,7 +129,7 @@ The `Find Blobs by Tags` operation finds all blobs in the storage account whose 
  The storage service will reject any request that contains an invalid expression with error code 400 (Bad Request).  
   
 ## See also  
- [Manage and find data on Azure Blob Storage with Blob Index](https://docs.microsoft.com/azure/storage/blobs/storage-manage-find-blobs)  
+ [Manage and find data on Azure Blob Storage with Blob Index](/azure/storage/blobs/storage-manage-find-blobs)  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)  
  [Status and Error Codes](Status-and-Error-Codes2.md)  
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)  

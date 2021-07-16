@@ -110,7 +110,7 @@ The following table describes the elements of the request body:
 |------------------|-----------------|  
 |**QueryRequest**| Required. Groups the set of query request settings. |
 |**QueryType**| Required. The type of the provided query expression. The only valid value for the current version is `SQL`.|
-|**Expression**| Required. The query expression in SQL. The maximum size of the query expression is 256KiB. For more information about the expression syntax, please see [Query Acceleration: SQL Language Reference](https://docs.microsoft.com/azure/storage/blobs/query-acceleration-sql-reference).|
+|**Expression**| Required. The query expression in SQL. The maximum size of the query expression is 256KiB. For more information about the expression syntax, please see [Query Acceleration: SQL Language Reference](/azure/storage/blobs/query-acceleration-sql-reference).|
 |**InputSerialization**| Optional. Groups the settings regarding the input serialization of the blob contents. If not specified, the delimited text configuration will be used.|
 |**Format**| Required if **InputSerialization** is specified. Groups the settings regarding the format of the blob data.|
 |**Type**|Required if **InputSerialization** is specified. The format type; valid values are `delimited`, `csv`, or `json`.|
@@ -283,5 +283,5 @@ The following table describes the elements of the request body:
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)
- [Query Acceleration: SQL Language Reference](https://docs.microsoft.com/azure/storage/blobs/query-acceleration-sql-reference)
+ [Query Acceleration: SQL Language Reference](/azure/storage/blobs/query-acceleration-sql-reference)
 

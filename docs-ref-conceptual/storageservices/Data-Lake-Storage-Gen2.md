@@ -37,5 +37,5 @@ Azure Data Lake Storage Gen2 APIs support Azure Active Directory (Azure AD), Sha
 
 ## See also
 
-- [Azure Data Lake Storage Gen2 Documentation](https://docs.microsoft.com/azure/storage/data-lake-storage/introduction)
+- [Azure Data Lake Storage Gen2 Documentation](/azure/storage/data-lake-storage/introduction)
 - [Azure Blob Storage REST API](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api)
