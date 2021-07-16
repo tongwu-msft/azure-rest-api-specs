@@ -2,7 +2,7 @@
 title: Preview REST API (Search Service)
 titleSuffix: Azure Cognitive Search
 description: Preview version of the search service REST API using for creating and consuming objects.
-ms.date: 03/02/2021
+ms.date: 07/20/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
