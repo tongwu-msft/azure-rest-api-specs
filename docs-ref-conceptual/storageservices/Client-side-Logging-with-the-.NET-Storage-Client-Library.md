@@ -52,7 +52,7 @@ The following example shows the system.diagnostics configuration necessary to co
 ```
 
 >[!NOTE]
-> .NET Framework users on versions 4.6.1-4.7.1 (inclusive) may experience logging issues when using the .NET Standard 2.0 artifacts of the Azure Storage libraries, which may be automatically selected by Visual Studio's NuGet package manager. The libraries are also published as .NET Framework 4.5.2 artifacts, which do not experience these issues. For more information, read about [.NET Standard version support](https://docs.microsoft.com/dotnet/standard/net-standard#net-implementation-support).
+> .NET Framework users on versions 4.6.1-4.7.1 (inclusive) may experience logging issues when using the .NET Standard 2.0 artifacts of the Azure Storage libraries, which may be automatically selected by Visual Studio's NuGet package manager. The libraries are also published as .NET Framework 4.5.2 artifacts, which do not experience these issues. For more information, read about [.NET Standard version support](/dotnet/standard/net-standard#net-implementation-support).
 
 This example configures the client library to write log messages to the physical file `C:\logs\WebRole.log`. You could also use other trace listeners such as the **EventLogTraceListener** to write to the Windows event log, or the **EventProviderTraceListener** to write trace data to the ETW subsystem.
 
@@ -122,7 +122,7 @@ public ActionResult Create(Subscriber subscriber)
 |**Operation Text**|Starting operation with location Primary per location mode PrimaryOnly.|  
   
  `Microsoft.Azure.Storage Information: 3 : c3aa328b...: Starting operation with location Primary per location mode PrimaryOnly.`   
- *The preceding trace message shows that the [location mode](https://docs.microsoft.com/dotnet/api/microsoft.azure.storage.retrypolicies.locationmode) is set to primary only, meaning that a failed request will not be sent to a secondary location.*   
+ *The preceding trace message shows that the [location mode](/dotnet/api/microsoft.azure.storage.retrypolicies.locationmode) is set to primary only, meaning that a failed request will not be sent to a secondary location.*   
  `Microsoft.Azure.Storage Information: 3 : c3aa328b...: Starting synchronous request to https://storageaccountname.table.core.windows.net/mailinglist.`   
  *The preceding trace message shows that the request is synchronous.*   
  `Microsoft.Azure.Storage Information: 3 : c3aa328b...: Setting payload format for the request to 'Json'.`   

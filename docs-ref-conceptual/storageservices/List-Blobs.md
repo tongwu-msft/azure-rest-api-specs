@@ -139,7 +139,7 @@ For version 2019-12-12 and above, `List Blobs` returns the `TagCount` element fo
 
 For version 2019-12-12 and above, `List Blobs` returns the `Sealed` element for Append Blobs. The `Sealed` element appears only when the Append blob has been sealed. These elements do not appear if the Append Blob is not sealed.
 
-For version 2020-02-10 and above, `List Blobs` returns the `LastAccessTime` element. The elements shows when the blob's data was last accessed according to the storage account's last access time tracking policy. The element will not be returned if the storage account does not have a last access time tracking policy, or the policy is disabled. For information about setting account's last access time tracking policy, see [Blob Service API](https://docs.microsoft.com/rest/api/storagerp/blobservices/setserviceproperties). The `LastAccessTime` element does not track the last time when the blob's metadata is accessed.
+For version 2020-02-10 and above, `List Blobs` returns the `LastAccessTime` element. The elements shows when the blob's data was last accessed according to the storage account's last access time tracking policy. The element will not be returned if the storage account does not have a last access time tracking policy, or the policy is disabled. For information about setting account's last access time tracking policy, see [Blob Service API](/rest/api/storagerp/blobservices/setserviceproperties). The `LastAccessTime` element does not track the last time when the blob's metadata is accessed.
 
 For version 2020-06-12 and above, `List Blobs` returns the `ImmutabilityPolicyUntilDate` and `ImmutabilityPolicyMode` elements when this operation includes the `include={immutabilitypolicy}` parameter.
 
@@ -244,7 +244,7 @@ For version 2020-08-04 and above, for Hierarchical Namespace enabled accounts, `
   
  The `Metadata` element is present only if the `include=metadata` parameter was specified on the URI. Within the `Metadata` element, the value of each name-value pair is listed within an element corresponding to the pair's name.  
   
- Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of the Blob service. Beginning with this version, all metadata names must adhere to the naming conventions for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).  
+ Note that metadata requested with this parameter must be stored in accordance with the naming restrictions imposed by the 2009-09-19 version of the Blob service. Beginning with this version, all metadata names must adhere to the naming conventions for [C# identifiers](/dotnet/csharp/language-reference).  
   
  If a metadata name-value pair violates the naming restrictions enforced by the 2009-09-19 version, the response body indicates the problematic name within an `x-ms-invalid-name` element, as shown in the following XML fragment:  
   

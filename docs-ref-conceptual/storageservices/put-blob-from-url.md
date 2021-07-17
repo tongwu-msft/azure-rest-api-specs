@@ -64,7 +64,7 @@ The size of the source blob can be up to a maximum length of 256 Mib.
 |`x-ms-blob-content-language`|Optional. Set the blob's content language.|  
 |`x-ms-blob-content-md5`|Optional. Set the blob’s MD5 hash.|  
 |`x-ms-blob-cache-control`|Optional. Sets the blob's cache control.|  
-|`x-ms-meta-name:value`|Optional. Name-value pairs associated with the blob as metadata.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).|  
+|`x-ms-meta-name:value`|Optional. Name-value pairs associated with the blob as metadata.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).|  
 |`x-ms-encryption-scope`|Optional. Indicates the encryption scope to use to encrypt the request contents. This header is supported in versions 2019-02-02 or later.|  
 |`x-ms-tags`|Optional. Sets the given query-string encoded tags on the blob. See the Remarks for additional information. Supported in version 2019-12-12 and newer.|
 |`x-ms-source-if-modified-since`|Optional. A `DateTime` value. Specify this conditional header to put the blob only if the source blob has been modified since the specified date/time. If the source blob has not been modified, the Blob service returns status code 412 (Precondition Failed). This header cannot be specified if the source is an Azure File.|  
