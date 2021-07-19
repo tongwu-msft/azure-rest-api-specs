@@ -184,7 +184,7 @@ definitions:
   - name: entities
     description: Healthcare entities.
     types:
-    - uid: object
+    - uid: HealthcareEntity
       isArray: true
   - name: relations
     description: Healthcare entity relations.
@@ -277,25 +277,46 @@ definitions:
     description: Inner error contains more specific information.
     types:
     - uid: InnerError
-- name: object
+- name: HealthcareEntity
   kind: object
   properties:
-  - name: lastUpdateDateTime
-    description: ''
+  - name: text
+    description: Entity text as appears in the request.
     types:
     - uid: string
+  - name: category
+    description: Entity type.
+    types:
+    - uid: string
+  - name: subcategory
+    description: (Optional) Entity sub type.
+    types:
+    - uid: string
+  - name: offset
+    description: Start position for the entity text. Use of different 'stringIndexType' values can affect the offset returned.
+    types:
+    - uid: integer
+  - name: length
+    description: Length for the entity text. Use of different 'stringIndexType' values can affect the length returned.
+    types:
+    - uid: integer
+  - name: confidenceScore
+    description: Confidence score between 0 and 1 of the extracted entity.
+    types:
+    - uid: number
+  - name: assertion
+    description: ''
+    types:
+    - uid: HealthcareAssertion
   - name: name
-    description: ''
+    description: "Preferred name for the entity. Example: 'histologically' would have a 'name' of 'histologic'."
     types:
     - uid: string
-  - name: status
-    description: ''
+  - name: links
+    description: Entity references in known data sources.
     types:
-    - uid: State
-  - name: results
-    description: ''
-    types:
-    - uid: EntitiesResult
+    - uid: HealthcareEntityLink
+      isArray: true
 - name: HealthcareRelation
   description: Every relation is an entity graph of a certain relationType, where all entities are connected and have specific roles within the relation context.
   kind: object
@@ -367,25 +388,30 @@ definitions:
   - name: InvalidCountryHint
     types:
     - uid: string
-- name: EntitiesResult
+- name: HealthcareAssertion
   kind: object
   properties:
-  - name: documents
-    description: Response by document
+  - name: conditionality
+    description: Describes any conditionality on the entity.
     types:
-    - uid: DocumentEntities
-      isArray: true
-  - name: errors
-    description: Errors by document id.
+    - uid: Conditionality
+  - name: certainty
+    description: Describes the entities certainty and polarity.
     types:
-    - uid: DocumentError
-      isArray: true
-  - name: statistics
-    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    - uid: Certainty
+  - name: association
+    description: Describes if the entity is the subject of the text or if it describes someone else.
     types:
-    - uid: RequestStatistics
-  - name: modelVersion
-    description: This field indicates which model is used for scoring.
+    - uid: Association
+- name: HealthcareEntityLink
+  kind: object
+  properties:
+  - name: dataSource
+    description: 'Entity Catalog. Examples include: UMLS, CHV, MSH, etc.'
+    types:
+    - uid: string
+  - name: id
+    description: Entity id in the given source catalog.
     types:
     - uid: string
 - name: relationType
@@ -476,54 +502,45 @@ definitions:
   - name: DocumentTruncated
     types:
     - uid: string
-- name: DocumentEntities
-  kind: object
+- name: Conditionality
+  description: Describes any conditionality on the entity.
+  kind: enum
   properties:
-  - name: id
-    description: Unique, non-empty document identifier.
+  - name: hypothetical
     types:
     - uid: string
-  - name: entities
-    description: Recognized entities in the document.
+  - name: conditional
     types:
-    - uid: Entity
-      isArray: true
-  - name: warnings
-    description: Warnings encountered while processing document.
-    types:
-    - uid: TextAnalyticsWarning
-      isArray: true
-  - name: statistics
-    description: if showStats=true was specified in the request this field will contain information about the document payload.
-    types:
-    - uid: DocumentStatistics
-- name: Entity
-  kind: object
+    - uid: string
+- name: Certainty
+  description: Describes the entities certainty and polarity.
+  kind: enum
   properties:
-  - name: text
-    description: Entity text as appears in the request.
+  - name: positive
     types:
     - uid: string
-  - name: category
-    description: Entity type.
+  - name: positivePossible
     types:
     - uid: string
-  - name: subcategory
-    description: (Optional) Entity sub type.
+  - name: neutralPossible
     types:
     - uid: string
-  - name: offset
-    description: Start position for the entity text. Use of different 'stringIndexType' values can affect the offset returned.
+  - name: negativePossible
     types:
-    - uid: integer
-  - name: length
-    description: Length for the entity text. Use of different 'stringIndexType' values can affect the length returned.
+    - uid: string
+  - name: negative
     types:
-    - uid: integer
-  - name: confidenceScore
-    description: Confidence score between 0 and 1 of the extracted entity.
+    - uid: string
+- name: Association
+  description: Describes if the entity is the subject of the text or if it describes someone else.
+  kind: enum
+  properties:
+  - name: subject
     types:
-    - uid: number
+    - uid: string
+  - name: other
+    types:
+    - uid: string
 examples:
 - name: Successful Health request
   request:
