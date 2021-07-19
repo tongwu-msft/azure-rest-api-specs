@@ -1,12 +1,13 @@
 ---
-title: Set Blob Immutability Policy (REST API) - Azure Storage
+title: Set Blob Immutability Policy (REST API)
+titleSuffix: Azure Storage
 description: The Set Blob Immutability Policy operation sets the immutability policy on a blob.
-author: lawe-msft
+author: seanmcc-msft
 
-ms.date: 06/12/2020
+ms.date: 07/16/2021
 ms.service: storage
 ms.topic: reference
-ms.author: lawe
+ms.author: seanmcc
 ---
 
 # Set Blob Immutability Policy
@@ -69,21 +70,22 @@ This operation can only be called by the storage account owner and by anyone wit
 
 ## Remarks
 Setting the blob's immutability policy on a blob storage or general purpose v2 account have the following restrictions:
-  * Setting immutability policy on a snapshot or a version is allowed starting REST version 2020-06-12.
-  * When immutability policy in unlocked mode, user can update the retention until date. When immutability policy in locked mode, user can only extend the retention until date. Immutability policy mode can be set from unlocked to locked, but not the reverse.
-  * When there is immutability policy on a blob, and there is also default immutability policy on container or account, the blob immutability policy will take over the control and make effect.
-  * For blob level immutability policy, `PutBlockList/PutBlob/CopyBlob` operations are allowed, becuase these operations will generate a new version.
-  * When immutability policy in unlocked mode, user can delete immutability policy with below API:
+
+* Setting immutability policy on a snapshot or a version is allowed starting REST version 2020-06-12.
+* When immutability policy in unlocked mode, user can update the retention until date. When immutability policy in locked mode, user can only extend the retention until date. Immutability policy mode can be set from unlocked to locked, but not the reverse.
+* When there is immutability policy on a blob, and there is also default immutability policy on container or account, the blob immutability policy will take over the control and make effect.
+* For blob level immutability policy, `PutBlockList/PutBlob/CopyBlob` operations are allowed, becuase these operations will generate a new version.
+* When immutability policy in unlocked mode, user can delete immutability policy with below API:
 
 |Method|Request URI|HTTP Version|
 |------------|-----------------|------------------|
 |`Delete`|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=immutabilityPolicies`|HTTP/1.1| 
 
-
 > [!NOTE]
->  For detailed information about how immutability works see [Immutable Storage](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-immutable-storage).
+> For detailed information about immutable storage, see [Immutable Storage](/azure/storage/blobs/storage-blob-immutable-storage).
 
-## See Also  
+## See Also
+
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
