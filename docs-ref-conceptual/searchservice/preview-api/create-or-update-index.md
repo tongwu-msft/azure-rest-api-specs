@@ -19,9 +19,9 @@ ms.manager: nitinme
 > [!Important]
 > This preview adds support for the [normalizers](https://docs.microsoft.com/azure/search/add-normalizers-to-search-index) that can be used to produce case-insensitive sorting and filtering output.
 
-An [index](https://docs.microsoft.com/azure/search/search-what-is-an-index) is the primary means of organizing and searching documents in Azure Cognitive Search, similar to how a table organizes records in a database. Each index has a collection of documents that all conform to the index schema (field names, data types, and attributes), but indexes also specify additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.
+An [index](https://docs.microsoft.com/azure/search/search-what-is-an-index) specifies the index schema, including the fields collection (field names, data types, and attributes), but also additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.
 
-You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
+You can use either POST or PUT on a create request. For either one, the JSON document in the request body provides the object definition.
 
 ```http
 POST https://[servicename].search.windows.net/indexes?api-version=[api-version]  
@@ -29,7 +29,7 @@ POST https://[servicename].search.windows.net/indexes?api-version=[api-version]
   api-key: [admin key]  
 ```  
 
-Alternatively, you can use PUT and specify the index name on the URI. 
+For update requests, use PUT and specify the index name on the URI. 
 
 ```http
 PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[api-version]
@@ -39,10 +39,35 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 HTTPS is required for all service requests. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition.
 
-Creating an index establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations](../indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents](../addupdate-or-delete-documents.md). The inverted indexes are generated when the documents are posted.
+**Creating an index** establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations](../indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents](../addupdate-or-delete-documents.md). The inverted indexes are generated when the documents are posted.
 
 > [!NOTE]  
 > The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](/search/search-limits-quotas-capacity/).  
+
+When **updating an existing index**, the body must include the original schema definition, plus the new fields you are adding, as well as the modified scoring profiles and CORS options, if any. If you are not modifying the scoring profiles and CORS options, you must include the original values from when the index was created. In general, the best pattern to use for updates is to retrieve the index definition with a GET, modify it, and then update it with PUT. 
+
+Modifications to an index often requires an [index drop and rebuild](https://docs.microsoft.com/azure/search/search-howto-reindex), with the exception of the following schema changes:
+
++ Adding new fields
++ Adding or changing {scoring profiles](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) 
++ Changing CORS options
++ Changing existing fields with any of the following three modifications:
+
+  + Show or hide fields (`retrievable`: true | false)
+  + Change the analyzer used at query time (`searchAnalyzer`)
+  + Add or edit the synonymMap used at query time (`synonymMaps`) 
+
+To make any of the above schema changes to an existing index, specify the name of the index on the request URI, and then include a fully-specified index definition with the new or changed elements. 
+
+If an update includes modifications to a [`suggester`](https://docs.microsoft.com/azure/search/index-add-suggesters), new fields can be added to a `suggester` at the same time fields are added, but existing fields cannot be removed from nor added to `suggesters` without an index rebuild.
+
+When a new field is added, all existing documents in the index automatically have a null value for that field. No additional storage space is consumed until one of two things occur: a value is provided for the new field ([using merge](addupdate-or-delete-documents.md)), or new documents are added.
+
+Once an analyzer, a tokenizer, a token filter or a char filter is defined, it cannot be modified. New ones can be added to an existing index only if the `allowIndexDowntime` flag is set to true in the index update request:
+
+`PUT https://[search service name].search.windows.net/indexes/[index name]?api-version=[api-version]&allowIndexDowntime=true`
+
+This operation takes your index offline for at least a few seconds, causing your indexing and query requests to fail. Performance and write availability of the index can be impaired for several minutes after the index is updated, or longer for  indexes.
 
 ## URI Parameters
 
@@ -159,9 +184,9 @@ The following attributes can be set on a field when creating an index.
 
 ## Response
 
- For a successful request, you should see status code "201 Created".  
+For a successful create request, you should see status code "201 Created". By default, the response body will contain the JSON for the index definition that was created. However, if the Prefer request header is set to return=minimal, the response body will be empty, and the success status code will be "204 No Content" instead of "201 Created". This is true regardless of whether PUT or POST is used to create the index.
 
- By default, the response body will contain the JSON for the index definition that was created. However, if the Prefer request header is set to return=minimal, the response body will be empty, and the success status code will be "204 No Content" instead of "201 Created". This is true regardless of whether PUT or POST is used to create the index.
+For a successful update request, you should see "204 No Content".  By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the index definition that was updated. In this case, the success status code will be "200 OK.  
 
 ## Examples
 

@@ -19,11 +19,13 @@ ms.manager: nitinme
 > [!Important]
 > This preview API adds a [cache property](#cache) used during [incremental indexing](/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it.
 
-An [indexer](/search/search-indexer-overview) automates indexing from supported Azure data sources such as Azure Storage, Azure SQL Database, and Azure Cosmos DB to name a few. Indexers use a predefined *data source* and *index* to establish an indexing pipeline that extracts and serializes source data, passing it to a search service for data ingestion. For AI enrichment of image and unstructured text, indexers can also accept a *skillset* that defines AI processing. 
+An [indexer](/search/search-indexer-overview) automates indexing from supported data sources by connecting to a predefined *data source*, retrieving and serializing data, and passing it to a search service for data ingestion. For AI enrichment of image and unstructured text, indexers can also accept a *skillset* that adds image and natural language processing. 
 
 Creating an indexer adds it to your search service and runs it. If the request is successful, the index will be populated with searchable content from the data source. 
 
-You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
+Updating an indexer definition does not automatically run it, but depending on your modifications and the associated a data source, a reset and rerun might be required. When updating an existing indexer, the entire definition is replaced with the contents of the request body. In general, the best pattern to use for updates is to retrieve the indexer definition with a GET, modify it, and then update it with PUT.
+
+You can use either POST or PUT on a create request. For either one, the JSON document in the request body provides the object definition.
 
 ```http
 POST https://[service name].search.windows.net/indexers?api-version=[api-version]
@@ -31,7 +33,7 @@ POST https://[service name].search.windows.net/indexers?api-version=[api-version
     api-key: [admin key]  
 ```  
 
-Alternatively, you can use PUT and specify the indexer name on the URI. 
+For update requests, use PUT and specify the indexer name on the URI. 
 
 ```http
 PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]
