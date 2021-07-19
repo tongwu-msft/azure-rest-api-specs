@@ -42,7 +42,7 @@ A blob name must conforming to the following naming rules:
   
 - A blob name must be at least one character long and cannot be more than 1,024 characters long, for blobs in Azure Storage. 
 
-  The Azure Storage emulator supports blob names up to 256 characters long. For more information, see [Use the Azure storage emulator for development and testing](https://docs.microsoft.com/azure/storage/common/storage-use-emulator).
+  The Azure Storage emulator supports blob names up to 256 characters long. For more information, see [Use the Azure storage emulator for development and testing](/azure/storage/common/storage-use-emulator).
 
 - Blob names are case-sensitive.  
   
@@ -67,7 +67,7 @@ You can take advantage of the delimiter character when enumerating blobs.
   
 ### Metadata Names  
 
-Metadata for a container or blob resource is stored as name-value pairs associated with the resource. Metadata names must adhere to the naming rules for [C# identifiers](https://docs.microsoft.com/dotnet/csharp/language-reference).  
+Metadata for a container or blob resource is stored as name-value pairs associated with the resource. Metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).  
   
 Note that metadata names preserve the case with which they were created, but are case-insensitive when set or read. If two or more metadata headers with the same name are submitted for a resource, the Blob service returns status code 400 (Bad Request).  
   
@@ -108,7 +108,7 @@ The URI for a snapshot of that blob is formed as follows:
   
 ## See also  
 
-- [How to Use the Blob Storage Service](https://docs.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-dotnet)   
+- [How to Use the Blob Storage Service](/azure/storage/blobs/storage-quickstart-blobs-dotnet)   
 - [Enumerating Blob Resources](Enumerating-Blob-Resources.md)   
 - [Blob Service Concepts](Blob-Service-Concepts.md)   
 - [Working with the Root Container](Working-with-the-Root-Container.md)   

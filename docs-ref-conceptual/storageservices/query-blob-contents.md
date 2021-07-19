@@ -79,6 +79,7 @@ The `Query Blob Contents` API applies a simple Structured Query Language (SQL) s
       <JsonTextConfiguration>
         <RecordSeparator>String</RecordSeparator>
       </JsonTextConfiguration>
+      <ParquetTextConfiguration></ParquetTextConfiguration>
       <ArrowConfiguration>
         <Schema>
             <Field>
@@ -109,7 +110,7 @@ The following table describes the elements of the request body:
 |------------------|-----------------|  
 |**QueryRequest**| Required. Groups the set of query request settings. |
 |**QueryType**| Required. The type of the provided query expression. The only valid value for the current version is `SQL`.|
-|**Expression**| Required. The query expression in SQL. The maximum size of the query expression is 256KiB. For more information about the expression syntax, please see [Query Acceleration: SQL Language Reference](https://docs.microsoft.com/azure/storage/blobs/query-acceleration-sql-reference).|
+|**Expression**| Required. The query expression in SQL. The maximum size of the query expression is 256KiB. For more information about the expression syntax, please see [Query Acceleration: SQL Language Reference](/azure/storage/blobs/query-acceleration-sql-reference).|
 |**InputSerialization**| Optional. Groups the settings regarding the input serialization of the blob contents. If not specified, the delimited text configuration will be used.|
 |**Format**| Required if **InputSerialization** is specified. Groups the settings regarding the format of the blob data.|
 |**Type**|Required if **InputSerialization** is specified. The format type; valid values are `delimited`, `csv`, or `json`.|
@@ -123,7 +124,7 @@ The following table describes the elements of the request body:
 |**RecordSeparator**|Optional. The string used to separate records. |
 |**OutputSerialization**| Optional. The serialization format of the filtered contents of the blob returned in the response. If not specified, the delimited text configuration will be used.|
 |**Format**|Required if **OutputSerialization** is specified. Groups the settings regarding the format of the response returned.|
-|**Type**|Required if **OutputSerialization** is specified. The format type; valid values are `delimited`, `csv`, `json`, or `arrow`.|
+|**Type**|Required if **OutputSerialization** is specified. The format type; valid values are `delimited`, `csv`, `json`, `arrow`, or `parquet`.|
 |**DelimitedTextConfiguration**|Optional. Groups the settings used for formatting the response if the response should be delimited text formatted.|
 |**ColumnSeparator**|Optional. The string used to separate columns.|
 |**FieldQuote**|Optional. The string used to quote a specific field.| 
@@ -131,6 +132,7 @@ The following table describes the elements of the request body:
 |**EscapeChar**|Optional. The string used as an escape character.|
 |**HasHeaders**|Optional. Boolean representing whether the data has headers.|
 |**JsonTextConfiguration**|Optional. Groups the settings used for formatting the response if the response should be JSON formatted.|
+|**ParquetTextConfiguration**|Optional. Groups the settings used for interpreting the blob data if the blob data is Parquet format.|
 |**RecordSeparator**|Optional. The string used to separate records. |
 |**ArrowConfiguration**|Optional. Groups the settings used for formatting the response if the response should be Arrow formatted.|
 |**Schema** |Required if **ArrowConfiguration** is specified. Groups the settings regarding the schema of the Arrow response returned.|
@@ -281,5 +283,5 @@ The following table describes the elements of the request body:
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
  [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md)
- [Query Acceleration: SQL Language Reference](https://docs.microsoft.com/azure/storage/blobs/query-acceleration-sql-reference)
+ [Query Acceleration: SQL Language Reference](/azure/storage/blobs/query-acceleration-sql-reference)
 
