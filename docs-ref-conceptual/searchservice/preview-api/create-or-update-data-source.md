@@ -19,9 +19,9 @@ ms.manager: nitinme
 > [!Important]
 > This preview adds support for the **SearchIndexerDataIdentity** property used for indexers that connect to external data sources using a system or user-managed identity. This property is a top-level property and also a property of the encryptionKey property bag.
 
-In Azure Cognitive Search, a data source is used with [indexers](../create-indexer.md), providing the connection information for ad hoc or scheduled data refresh of a target index, pulling data from [supported Azure data sources](/search/search-indexer-overview#supported-data-sources). 
+In Azure Cognitive Search, a data source is used with [indexers](../create-indexer.md), providing the connection information for ad hoc or scheduled data refresh of a target index, pulling data from [supported data sources](/search/search-indexer-overview#supported-data-sources). 
 
-You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
+You can use either POST or PUT on a create request. For either one, the request body provides the object definition.
 
 ```http  
 POST https://[service name].search.windows.net/datasources?api-version=[api-version]  
@@ -29,7 +29,7 @@ POST https://[service name].search.windows.net/datasources?api-version=[api-vers
     api-key: [admin key]  
 ```  
 
- Alternatively, you can use PUT and specify the name on the URI. 
+For update requests, use PUT and specify the name on the URI. 
 
 ```http  
 PUT https://[service name].search.windows.net/datasources/[data source name]?api-version=[api-version]
@@ -37,10 +37,10 @@ PUT https://[service name].search.windows.net/datasources/[data source name]?api
     api-key: [admin key]    
 ```
 
- HTTPS is required for all service requests. If the object doesn't exist, it is created. If it already exists, it is updated to the new definition  
+ HTTPS is required for all service requests. If the object doesn't exist, it is created. If it already exists, it is overwritten using the new definition.
 
 > [!NOTE]  
-> The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](/search/search-limits-quotas-capacity/). 
+> Once a data source exists, you cannot change the type property on an update request. Instead, you should create a new data source using the type you want.
 
 ## URI Parameters
 
@@ -96,7 +96,7 @@ The following JSON is a high-level representation of the main parts of the defin
 
 ## Response
 
- For a successful request: 201 Created.  
+For a successful request: 201 Created if a new data source was created, and 204 No Content if an existing data source was updated. 
 
 ## Examples
 

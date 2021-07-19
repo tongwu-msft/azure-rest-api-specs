@@ -21,11 +21,7 @@ ms.manager: nitinme
 
 An [indexer](/search/search-indexer-overview) automates indexing from supported data sources by connecting to a predefined *data source*, retrieving and serializing data, and passing it to a search service for data ingestion. For AI enrichment of image and unstructured text, indexers can also accept a *skillset* that adds image and natural language processing. 
 
-Creating an indexer adds it to your search service and runs it. If the request is successful, the index will be populated with searchable content from the data source. 
-
-Updating an indexer definition does not automatically run it, but depending on your modifications and the associated a data source, a reset and rerun might be required. When updating an existing indexer, the entire definition is replaced with the contents of the request body. In general, the best pattern to use for updates is to retrieve the indexer definition with a GET, modify it, and then update it with PUT.
-
-You can use either POST or PUT on a create request. For either one, the JSON document in the request body provides the object definition.
+You can use either POST or PUT on a create request. For either one, the request body provides the object definition.
 
 ```http
 POST https://[service name].search.windows.net/indexers?api-version=[api-version]
@@ -39,14 +35,18 @@ For update requests, use PUT and specify the indexer name on the URI.
 PUT https://[service name].search.windows.net/indexers/[indexer name]?api-version=[api-version]
     Content-Type: application/json  
     api-key: [admin key]    
-```  
+```
 
 HTTPS is required for all service requests. If the indexer doesn't exist, it is created. If it already exists, it is updated to the new definition but you must issue a [Run Indexer](../run-indexer.md) request if you want indexer execution.
+
+**Creating an indexer** adds it to your search service and runs it. If the request is successful, the index will be populated with searchable content from the data source. 
+
+**Updating an indexer** does not automatically run it, but depending on your modifications and the associated a data source, a reset and rerun might be required. When updating an existing indexer, the entire definition is replaced with the contents of the request body. In general, the best pattern to use for updates is to retrieve the indexer definition with a GET, modify it, and then update it with PUT.
 
 Indexer configuration varies based on the type of data source. For data-platform-specific guidance on creating indexers, start with [Indexers overview](/search/search-indexer-overview), which includes the complete list of [related articles](/search/search-indexer-overview#next-steps).
 
 > [!NOTE]  
-> The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](/search/search-limits-quotas-capacity/).    
+> The maximum number of indexers that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](/search/search-limits-quotas-capacity/).    
 
 ## URI Parameters
 

@@ -21,7 +21,7 @@ ms.manager: nitinme
 
 An [index](https://docs.microsoft.com/azure/search/search-what-is-an-index) specifies the index schema, including the fields collection (field names, data types, and attributes), but also additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.
 
-You can use either POST or PUT on a create request. For either one, the JSON document in the request body provides the object definition.
+You can use either POST or PUT on a create request. For either one, the request body provides the object definition.
 
 ```http
 POST https://[servicename].search.windows.net/indexes?api-version=[api-version]  
@@ -39,14 +39,11 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 HTTPS is required for all service requests. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition.
 
-**Creating an index** establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations](../indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents](../addupdate-or-delete-documents.md). The inverted indexes are generated when the documents are posted.
+**Creating an index** establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations](../indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents](../addupdate-or-delete-documents.md). The maximum number of indexes that you can create varies by pricing tier. Within each index, there are limits on individual elements. For more information, see [Service limits for Azure Cognitive Search](/search/search-limits-quotas-capacity#index-limits).  
 
-> [!NOTE]  
-> The maximum number of indexes that you can create varies by pricing tier. Within each index, there are limits on individual elements.For more information, see [Service limits for Azure Cognitive Search](/search/search-limits-quotas-capacity#index-limits).  
+**Updating an existing index** included the original schema definition, plus new fields you are adding, as well as any modified scoring profiles and CORS options, if any. If you are not modifying the scoring profiles and CORS options, you must include the original values from when the index was created. In general, the best pattern to use for updates is to retrieve the index definition with a GET, modify it, and then update it with PUT. 
 
-When **updating an existing index**, the body must include the original schema definition, plus the new fields you are adding, as well as the modified scoring profiles and CORS options, if any. If you are not modifying the scoring profiles and CORS options, you must include the original values from when the index was created. In general, the best pattern to use for updates is to retrieve the index definition with a GET, modify it, and then update it with PUT. 
-
-Modifications to an index often requires an [index drop and rebuild](https://docs.microsoft.com/azure/search/search-howto-reindex), with the exception of the following schema changes:
+Because an existing index contains content, many index modifications require an [index drop and rebuild](https://docs.microsoft.com/azure/search/search-howto-reindex). The following schema changes are an exception to this rule:
 
 + Adding new fields
 + Adding or changing {scoring profiles](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) 
@@ -59,20 +56,20 @@ Modifications to an index often requires an [index drop and rebuild](https://doc
 
 To make any of the above schema changes to an existing index, specify the name of the index on the request URI, and then include a fully-specified index definition with the new or changed elements. 
 
-If an update includes modifications to a [`suggester`](https://docs.microsoft.com/azure/search/index-add-suggesters), new fields can be added to a `suggester` at the same time fields are added, but existing fields cannot be removed from nor added to `suggesters` without an index rebuild.
-
 When a new field is added, all existing documents in the index automatically have a null value for that field. No additional storage space is consumed until one of two things occur: a value is provided for the new field ([using merge](../addupdate-or-delete-documents.md)), or new documents are added.
 
-Once an analyzer, a tokenizer, a token filter or a char filter is defined, it cannot be modified. New ones can be added to an existing index only if the `allowIndexDowntime` flag is set to true in the index update request:
+**Updates to a [`suggester`](https://docs.microsoft.com/azure/search/index-add-suggesters)** have similar constraints: new fields can be added to a `suggester` at the same time fields are added, but existing fields cannot be removed from nor added to `suggesters` without an index rebuild.
+
+**Updates to an analyzer, a tokenizer, a token filter or a char filter** are not allowed. New ones can be created with the changes you want, but you will need to take the index offline when adding the new analyzer definitions. Setting the `allowIndexDowntime` flag to true in the index update request will take the index offline:
 
 `PUT https://[search service name].search.windows.net/indexes/[index name]?api-version=[api-version]&allowIndexDowntime=true`
 
-This operation takes your index offline for at least a few seconds, causing your indexing and query requests to fail. Performance and write availability of the index can be impaired for several minutes after the index is updated, or longer for  indexes.
+This operation takes your index offline for at least a few seconds, which means indexing and query requests will fail until the index is back online and ready to handle requests.
 
 ## URI Parameters
 
-| Parameter      | Description  | 
-|-------------|--------------|
+| Parameter      | Description  |
+|----------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  |
 | api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more available versions.|
