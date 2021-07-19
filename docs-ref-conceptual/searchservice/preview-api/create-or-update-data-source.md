@@ -17,7 +17,7 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> This preview adds support for indexer connections using a managed identity and Azure role assignments. The **Credentials** property now accepts a resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant read access to data. The **Identity** property accepts a string for services that run under user-managed identity. 
+> This preview adds support for indexer connections using a managed identity and Azure role assignments. The **Credentials** property now accepts a resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant read access to data. The **Identity** property accepts a string for services that have user-managed identities assigned to them. 
 
 In Azure Cognitive Search, a data source is used with [indexers](../create-indexer.md), providing the connection information for on demand or scheduled data refresh of a target index, pulling data from [supported data sources](/azure/search/search-indexer-overview#supported-data-sources). 
 
@@ -102,7 +102,7 @@ The following JSON is a high-level representation of the main parts of the defin
 |dataDeletionDetectionPolicy | Optional. Used to identify deleted data items. Currently, the only supported policy is the Soft Delete Policy, which identifies deleted items based on the value of a 'soft delete' column or property in the data source. </br></br> Only columns with string, integer, or boolean values are supported. The value used as `softDeleteMarkerValue` must be a string, even if the corresponding column holds integers or booleans. For example, if the value that appears in your data source is 1, use "1" as the `softDeleteMarkerValue`.    |
 |encryptionKey| Optional. Used to encrypt the data source at rest with your own keys, managed in your Azure Key Vault. Available for billable search services created on or after 2019-01-01. </br></br> An `encryptionKey` section contains a user-defined `keyVaultKeyName` (required), a system-generated `keyVaultKeyVersion` (required), and a `keyVaultUri` providing the key (required, also referred to as DNS name). An example URI might be "https://my-keyvault-name.vault.azure.net". </br></br>Optionally, you can specify `accessCredentials` if you are not using a managed system identity. Properties of `accessCredentials` include `applicationId` (Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault), and `applicationSecret` (authentication key of the specified Azure AD application). An example in the next section illustrates the syntax.  </br></br>You can specify `identity` if your search service runs under a user-managed identity and role assignments on the key vault allow read access by your search service.|
 |disabled| Optional. Boolean value indicating whether the indexer is disabled. False by default. |
-|identity| Optional. It contains a `userAssignedIdentity` of type `#Microsoft.Azure.Search.DataUserAssignedIdentity` and specifies the user-managed identity of the external resource. This property depends on having `credentials` set to the resource ID of the external resource that provides the data. If the `identity` property is null, the connection to a resource ID is made using the system-managed property. If this property is "none", any identity that was previously specified is cleared. |
+|identity| Optional. It contains a `userAssignedIdentity` of type `#Microsoft.Azure.Search.DataUserAssignedIdentity` and specifies the user-managed identity of the external resource. This property depends on having `credentials` set to the resource ID of the external resource that provides the data. </br></br>If the `identity` property is null, the connection to a resource ID is made using the system-managed property. </br></br>If this property is assigned to the type `#Microsoft.Azure.Search.DataNoneIdentity`, any explicit identity that was previously specified is cleared. |
 
 ## Response
 
@@ -213,7 +213,7 @@ Encryption keys are customer-managed keys used for additional encryption. For mo
     "description": "a description",
     "type": "azuresql",
     "credentials": { "connectionString": "<unchanged>" },
-    "container" : { "name": "sometable" }
+    "container" : { "name": "sometable" },
     "encryptionKey": (optional) { 
       "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
       "keyVaultKeyVersion": "Version of the Azure Key Vault key",
@@ -222,6 +222,30 @@ Encryption keys are customer-managed keys used for additional encryption. For mo
         "applicationId": "Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault",
         "applicationSecret": "Authentication key of the specified Azure AD application)"}
       }
+}
+```
+
+**Example: Encryption key vault connections by search services having a user-managed identity**
+
+This example omits accessCredentials. For a resource that has a user-managed identity assigned to it, you can specify the identity in encryptionKey and retrieve the key using that identity and Azure role assignments.
+
+```json
+{
+    "name" : "adatasource",
+    "description": "a description",
+    "type": "azuresql",
+    "credentials": { "connectionString": "<unchanged>" },
+    "container" : { "name": "sometable" },
+    "encryptionKey": (optional) { 
+      "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
+      "keyVaultKeyVersion": "Version of the Azure Key Vault key",
+      "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net",
+      "accessCredentials": null,
+      "identity": {
+        "@odata.type": "#Microsoft.Azure.Search.DataUserAssignedIdentity",
+        "userAssignedIdentity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-datasource-identity"
+        }
+    }
 }
 ```
 
