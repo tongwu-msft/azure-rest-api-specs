@@ -42,7 +42,7 @@ HTTPS is required for all service requests. If the index doesn't exist, it is cr
 **Creating an index** establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations](../indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents](../addupdate-or-delete-documents.md). The inverted indexes are generated when the documents are posted.
 
 > [!NOTE]  
-> The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](/search/search-limits-quotas-capacity/).  
+> The maximum number of indexes that you can create varies by pricing tier. Within each index, there are limits on individual elements.For more information, see [Service limits for Azure Cognitive Search](/search/search-limits-quotas-capacity#index-limits).  
 
 When **updating an existing index**, the body must include the original schema definition, plus the new fields you are adding, as well as the modified scoring profiles and CORS options, if any. If you are not modifying the scoring profiles and CORS options, you must include the original values from when the index was created. In general, the best pattern to use for updates is to retrieve the index definition with a GET, modify it, and then update it with PUT. 
 
@@ -61,7 +61,7 @@ To make any of the above schema changes to an existing index, specify the name o
 
 If an update includes modifications to a [`suggester`](https://docs.microsoft.com/azure/search/index-add-suggesters), new fields can be added to a `suggester` at the same time fields are added, but existing fields cannot be removed from nor added to `suggesters` without an index rebuild.
 
-When a new field is added, all existing documents in the index automatically have a null value for that field. No additional storage space is consumed until one of two things occur: a value is provided for the new field ([using merge](addupdate-or-delete-documents.md)), or new documents are added.
+When a new field is added, all existing documents in the index automatically have a null value for that field. No additional storage space is consumed until one of two things occur: a value is provided for the new field ([using merge](../addupdate-or-delete-documents.md)), or new documents are added.
 
 Once an analyzer, a tokenizer, a token filter or a char filter is defined, it cannot be modified. New ones can be added to an existing index only if the `allowIndexDowntime` flag is set to true in the index update request:
 
@@ -171,16 +171,6 @@ The following attributes can be set on a field when creating an index.
 > Setting a field as searchable, filterable, sortable, or facetable has an impact on index size and query performance. Don't set those attributes on fields that are not meant to be referenced in query expressions.
 >
 > If a field is not set to be searchable, filterable, sortable, or facetable, the field can't be referenced in any query expression. This is useful for fields that are not used in queries, but are needed in search results.
-
-> [!NOTE]
-> Index schemas are subject to the following limits (the values vary between different pricing tiers, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for details.):
-> - Maximum number of simple fields per index
-> - Maximum depth of sub-fields per index (a top-level field is at depth 1, a sub-field of a top-level field is at depth 2, and so on)
-> - Maximum number of complex collections per index
-> - Maximum number of elements across all complex collections per document
-
-> [!NOTE]
-> Encryption with customer-managed keys is not available for free services. For billable services, it is only available for search services created on or after 2019-01-01.
 
 ## Response
 
