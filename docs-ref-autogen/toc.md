@@ -19360,6 +19360,7 @@
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
 ### Previous Azure Storage services versions
 #### [Overview](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
+#### [Version 2020-08-04](../docs-ref-conceptual/storageservices/version-2020-08-04.md)
 #### [Version 2020-06-12](../docs-ref-conceptual/storageservices/version-2020-06-12.md)
 #### [Version 2020-04-08](../docs-ref-conceptual/storageservices/version-2020-04-08.md)
 #### [Version 2020-02-10](../docs-ref-conceptual/storageservices/version-2020-02-10.md)
@@ -19466,6 +19467,9 @@
 #### [Undelete Blob](../docs-ref-conceptual/storageservices/undelete-blob.md)
 #### [Set Blob Tier](../docs-ref-conceptual/storageservices/set-blob-tier.md)
 #### [Blob Batch](../docs-ref-conceptual/storageservices/blob-batch.md)
+#### [Set Immutability Policy](../docs-ref-conceptual/storageservices/set-blob-immutability-policy.md)
+#### [Delete Immutability Policy](../docs-ref-conceptual/storageservices/delete-blob-immutability-policy.md)
+#### [Set Legal Hold](../docs-ref-conceptual/storageservices/set-blob-legal-hold.md)
 #### Operations on Block Blobs
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-block-blobs.md)
 ##### [Put Block](../docs-ref-conceptual/storageservices/put-block.md)
