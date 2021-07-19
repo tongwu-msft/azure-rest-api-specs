@@ -48,7 +48,7 @@ With POST, the number of clauses in a filter is the limiting factor, not the siz
 | [service name] | Required. Set this to the unique, user-defined name of your search service. |
 | [index name]/docs  | Required. Specifies the documents collection of a named index. |
 | [query parameters] | Query parameters are specified on the URI for GET requests and in the request body for POST requests. |
-| api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview`. For **Search Documents**, the api-version is always specified as a URI parameter for both GET and POST. |
+| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more available versions.|
 
 ### URL-encoding recommendations
 

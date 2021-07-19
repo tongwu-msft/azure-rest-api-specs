@@ -6,7 +6,6 @@
 # [OData support](support-for-odata.md)
 # Reference (Preview)
 ## [Introduction](index-preview.md)
-## [Authorization header](authorization-header.md)
 ## Indexes
 ### [Create or Update Index](preview-api/create-or-update-index.md)
 ## Documents

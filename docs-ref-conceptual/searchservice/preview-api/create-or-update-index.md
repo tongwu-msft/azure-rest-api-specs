@@ -39,10 +39,10 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 HTTPS is required for all service requests. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition.
 
-Creating an index establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations &#40;Azure Cognitive Search REST API&#41;](../indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](../addupdate-or-delete-documents.md). The inverted indexes are generated when the documents are posted.
+Creating an index establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations](../indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents](../addupdate-or-delete-documents.md). The inverted indexes are generated when the documents are posted.
 
 > [!NOTE]  
-> The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).  
+> The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](/search/search-limits-quotas-capacity/).  
 
 ## URI Parameters
 
@@ -50,7 +50,7 @@ Creating an index establishes the schema and metadata. Populating the index is a
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  |
-| api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more available versions.|
 
 ## Request Headers
 
@@ -61,7 +61,7 @@ Creating an index establishes the schema and metadata. Populating the index is a
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an api-key field set to your admin key (as opposed to a query key).|  
 
-You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](/search/search-security-api-keys#find-existing-keys).   
 
 ## Request Body
 
@@ -239,7 +239,7 @@ The following example is a JSON representation of a request payload that provide
   ]
  ```
 
- A **suggester** is referenced by name on query requests that include either the [Suggestions API](../suggestions.md) or [Autocomplete API](../autocomplete.md), depending on whether you want to return a match or the remainder of a query term. For more information about creating and using a suggester, see [Create a suggester](https://docs.microsoft.com/azure/search/index-add-suggesters).  
+ A **suggester** is referenced by name on query requests that include either the [Suggestions API](../suggestions.md) or [Autocomplete API](../autocomplete.md), depending on whether you want to return a match or the remainder of a query term. For more information about creating and using a suggester, see [Create a suggester](/search/index-add-suggesters).  
 
 **Example: Similarity for search relevance**
 
@@ -270,7 +270,7 @@ This property sets the ranking algorithm used to create a relevance score in sea
 
 **Example: Encryption keys**
 
-Encryption keys are customer-managed keys used for additional encryption. For more information, see [Encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
+Encryption keys are customer-managed keys used for additional encryption. For more information, see [Encryption using customer-managed keys in Azure Key Vault](/search/search-security-manage-encryption-keys).
 
 ```json
 {
@@ -291,7 +291,7 @@ Encryption keys are customer-managed keys used for additional encryption. For mo
 
 **Example: Scoring Profiles**
 
-A scoring profile is a section of the schema that defines custom scoring behaviors that let you influence which documents appear higher in the search results. Scoring profiles are made up of field weights and functions. To use them, you specify a profile by name on the query string. For more information, see [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) for details.   
+A scoring profile is a section of the schema that defines custom scoring behaviors that let you influence which documents appear higher in the search results. Scoring profiles are made up of field weights and functions. To use them, you specify a profile by name on the query string. For more information, see [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](/search/index-add-scoring-profiles) for details.   
 
  ```json
 {
@@ -341,10 +341,10 @@ A scoring profile is a section of the schema that defines custom scoring behavio
 ## See also
 
 + [HTTP status codes](../http-status-codes.md)
-+ [Add scoring profiles to a search index](https://docs.microsoft.com/azure/search/index-add-scoring-profiles)
++ [Add scoring profiles to a search index](/search/index-add-scoring-profiles)
 + [Search Documents API](search-documents.md)
 + [Supported data types](../supported-data-types.md)
-+ [Lexical analyzers](https://docs.microsoft.com/azure/search/search-analyzers)
-+ [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)   
-+ [Azure Cognitive Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet&preserve-view=true)
-+ [Create an Azure Cognitive Search index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/)  
++ [Lexical analyzers](/search/search-analyzers)
++ [API versions in Azure Cognitive Search](/search/search-api-versions)   
++ [Azure Cognitive Search .NET SDK](/dotnet/api/overview/azure/search?view=azure-dotnet&preserve-view=true)
++ [Create an Azure Cognitive Search index in the portal](/search/search-create-index-portal/)  

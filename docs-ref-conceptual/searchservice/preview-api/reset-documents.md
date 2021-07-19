@@ -44,7 +44,7 @@ Reset Documents is an asynchronous API. Invoking the API adds the document keys 
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | indexer name  | Required. The request URI specifies the name of the indexer to update. |
-| api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more available versions.|
 | overwrite | Optional. This parameter determines whether consecutive Reset Document operations are combined or overwritten. Default is false. When false, the call’s payload of document keys will be added to the list of keys already queued up for reprocessing. If true, the call’s payload of document keys will overwrite the existing list, including clearing the list of reset documents if you set the keys to null.|
 
 ## Request Headers

@@ -12773,7 +12773,6 @@
 ## [OData support](../docs-ref-conceptual/searchservice/support-for-odata.md)
 ## Reference (Preview)
 ### [Introduction](../docs-ref-conceptual/searchservice/index-preview.md)
-### [Authorization header](../docs-ref-conceptual/searchservice/preview-api/authorization-header.md)
 ### Indexes
 #### [Create or Update Index](../docs-ref-conceptual/searchservice/preview-api/create-or-update-index.md)
 ### Documents

@@ -15,14 +15,13 @@ ms.manager: nitinme
 
 # 2021-04-30-Preview Search Service REST APIs
 
-This section of the REST API reference covers new or changed APIs currently in preview. Only those API that differ from the generally available version are documented in this section. If an API is not covered in this section, it's because there is no preview feature associated with that API.
+This section of the REST API reference describes the new or changed APIs that are currently in preview. Only those API that differ from the generally available version are documented in this section. If an API is not covered in this section, it's because there is no preview feature associated with that API.
 
 > [!NOTE]
 > Preview APIs are available under [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/) and are not recommended for production workloads.
 
 | API | Preview feature description|
 |-----|-----------------------------|
-| [authorization header](preview-api/authorization-header.md) | Applies to all APIs. If you configured a search service to support Azure Active Directory authentication and role-based authorization, use the authorization header to pass the bearer token. |
 | [Create or Update Index](preview-api/create-or-update-index.md) | Add a normalizer attribute to handle case discrepancies in filter and sort operations.  |
 | [Create or Update Indexer](preview-api/create-or-update-indexer.md) | Configure caching of enriched content at each stage for potential reuse if you change parts of a skillset.  |
 | [Create or Update Data Source](preview-api/create-or-update-data-source.md) | Set the SearchIndexerDataIdentity top-level property in indexer data sources if the indexer connects to external data sources using a system or user-managed identity. You can also set SearchIndexerDataIdentity as an encryption key property if the indexer connects to Azure Key Vault under a managed account. |
