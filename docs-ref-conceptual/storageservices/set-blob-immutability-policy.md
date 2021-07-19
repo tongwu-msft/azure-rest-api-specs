@@ -21,7 +21,7 @@ The `Set Blob Immutability Policy` request may be constructed as follows. HTTPS 
 |------------|-----------------|------------------|
 |`PUT`|`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=immutabilityPolicies`|HTTP/1.1| 
 
-### URI Parameters
+### URI parameters
 The following additional parameters may be specified on the request URI.
 
 |Parameter|Description|
@@ -30,7 +30,7 @@ The following additional parameters may be specified on the request URI.
 |`versionid`|Optional for versions 2019-12-12 and newer. The versionid parameter is an opaque `DateTime` value that, when present, specifies the version of the blob to set tier on.| 
 |`timeout`|Optional. The timeout parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|
 
-### Request Headers
+### Request headers
 The following table describes required and optional request headers.
 
 |Request Header|Description|
@@ -44,17 +44,17 @@ The following table describes required and optional request headers.
 
  This operation also supports the use of conditional headers to set the blob only if a specified condition is met. For more information, see [Specifying Conditional Headers for Blob Service Operations](Specifying-Conditional-Headers-for-Blob-Service-Operations.md).  
 
-### Request Body
+### Request body
 None.
 
 ## Response
 The response includes an HTTP status code and a set of response headers.
 
-### Status Code
+### Status code
 A successful operation returns status code 200 (OK).
 
 For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).
-### Response Headers
+### Response headers
 The response for this operation includes the headers below. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).
 
 |Response Header|Description|
