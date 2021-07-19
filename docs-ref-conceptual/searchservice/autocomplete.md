@@ -39,7 +39,7 @@ With POST, the number of clauses in a filter is the limiting factor, not the siz
 |------------|--------------|
 | [service name] | Required. Set this to the unique, user-defined name of your search service. |
 | [index name]/docs  | Required. Specifies the documents collection of a named index. |
-| api-version | Required. The current version is `api-version=2020-06-30`. For a list of all supported versions, see [API versions](../search-service-api-versions.md). For queries, the api-version is always specified as a URI parameter for both GET and POST.|
+| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions. For queries, the api-version is always specified as a URI parameter for both GET and POST.|
 
 ### URL-encoding recommendations
 
