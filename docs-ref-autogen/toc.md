@@ -108,460 +108,6 @@
 ### [Overview](../docs-ref-conceptual/apimanagement/ApiManagementREST/API-Management-REST.md)
 ### [Authentication](../docs-ref-conceptual/apimanagement/ApiManagementREST/Azure-API-Management-REST-API-Authentication.md)
 ## Reference
-### 2019-12-01
-#### Api
-##### [Overview](apimanagement/2019-12-01/Api.yml)
-##### [List By Tags](apimanagement/2019-12-01/Api/List-By-Tags.yml)
-#### Api Diagnostic
-##### [Overview](apimanagement/2019-12-01/Api-Diagnostic.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Api-Diagnostic/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Api-Diagnostic/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Api-Diagnostic/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Api-Diagnostic/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Api-Diagnostic/List-By-Service.yml)
-##### [Update](apimanagement/2019-12-01/Api-Diagnostic/Update.yml)
-#### Api Export
-##### [Overview](apimanagement/2019-12-01/Api-Export.yml)
-##### [Get](apimanagement/2019-12-01/Api-Export/Get.yml)
-#### Api Issue
-##### [Overview](apimanagement/2019-12-01/Api-Issue.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Api-Issue/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Api-Issue/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Api-Issue/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Api-Issue/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Api-Issue/List-By-Service.yml)
-##### [Update](apimanagement/2019-12-01/Api-Issue/Update.yml)
-#### Api Issue Attachment
-##### [Overview](apimanagement/2019-12-01/Api-Issue-Attachment.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Api-Issue-Attachment/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Api-Issue-Attachment/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Api-Issue-Attachment/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Api-Issue-Attachment/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Api-Issue-Attachment/List-By-Service.yml)
-#### Api Issue Comment
-##### [Overview](apimanagement/2019-12-01/Api-Issue-Comment.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Api-Issue-Comment/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Api-Issue-Comment/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Api-Issue-Comment/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Api-Issue-Comment/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Api-Issue-Comment/List-By-Service.yml)
-#### Api Management Operations
-##### [Overview](apimanagement/2019-12-01/Api-Management-Operations.yml)
-##### [List](apimanagement/2019-12-01/Api-Management-Operations/List.yml)
-#### Api Management Service
-##### [Overview](apimanagement/2019-12-01/Api-Management-Service.yml)
-##### [Apply Network Configuration Updates](apimanagement/2019-12-01/Api-Management-Service/Apply-Network-Configuration-Updates.yml)
-##### [Backup](apimanagement/2019-12-01/Api-Management-Service/Backup.yml)
-##### [Check Name Availability](apimanagement/2019-12-01/Api-Management-Service/Check-Name-Availability.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Api-Management-Service/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Api-Management-Service/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Api-Management-Service/Get.yml)
-##### [Get Sso Token](apimanagement/2019-12-01/Api-Management-Service/Get-Sso-Token.yml)
-##### [List](apimanagement/2019-12-01/Api-Management-Service/List.yml)
-##### [List By Resource Group](apimanagement/2019-12-01/Api-Management-Service/List-By-Resource-Group.yml)
-##### [Restore](apimanagement/2019-12-01/Api-Management-Service/Restore.yml)
-##### [Update](apimanagement/2019-12-01/Api-Management-Service/Update.yml)
-#### Api Management Service Skus
-##### [Overview](apimanagement/2019-12-01/Api-Management-Service-Skus.yml)
-##### [List Available Service Skus](apimanagement/2019-12-01/Api-Management-Service-Skus/List-Available-Service-Skus.yml)
-#### Api Operation
-##### [Overview](apimanagement/2019-12-01/Api-Operation.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Api-Operation/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Api-Operation/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Api-Operation/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Api-Operation/Get-Entity-Tag.yml)
-##### [List By Api](apimanagement/2019-12-01/Api-Operation/List-By-Api.yml)
-##### [Update](apimanagement/2019-12-01/Api-Operation/Update.yml)
-#### Api Operation Policy
-##### [Overview](apimanagement/2019-12-01/Api-Operation-Policy.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Api-Operation-Policy/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Api-Operation-Policy/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Api-Operation-Policy/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Api-Operation-Policy/Get-Entity-Tag.yml)
-##### [List By Operation](apimanagement/2019-12-01/Api-Operation-Policy/List-By-Operation.yml)
-#### Api Policy
-##### [Overview](apimanagement/2019-12-01/Api-Policy.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Api-Policy/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Api-Policy/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Api-Policy/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Api-Policy/Get-Entity-Tag.yml)
-##### [List By Api](apimanagement/2019-12-01/Api-Policy/List-By-Api.yml)
-#### Api Product
-##### [Overview](apimanagement/2019-12-01/Api-Product.yml)
-##### [List By Apis](apimanagement/2019-12-01/Api-Product/List-By-Apis.yml)
-#### Api Release
-##### [Overview](apimanagement/2019-12-01/Api-Release.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Api-Release/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Api-Release/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Api-Release/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Api-Release/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Api-Release/List-By-Service.yml)
-##### [Update](apimanagement/2019-12-01/Api-Release/Update.yml)
-#### Api Revision
-##### [Overview](apimanagement/2019-12-01/Api-Revision.yml)
-##### [List By Service](apimanagement/2019-12-01/Api-Revision/List-By-Service.yml)
-#### Api Schema
-##### [Overview](apimanagement/2019-12-01/Api-Schema.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Api-Schema/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Api-Schema/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Api-Schema/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Api-Schema/Get-Entity-Tag.yml)
-##### [List By Api](apimanagement/2019-12-01/Api-Schema/List-By-Api.yml)
-#### Api Tag Description
-##### [Overview](apimanagement/2019-12-01/Api-Tag-Description.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Api-Tag-Description/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Api-Tag-Description/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Api-Tag-Description/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Api-Tag-Description/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Api-Tag-Description/List-By-Service.yml)
-#### Api Version Set
-##### [Overview](apimanagement/2019-12-01/Api-Version-Set.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Api-Version-Set/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Api-Version-Set/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Api-Version-Set/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Api-Version-Set/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Api-Version-Set/List-By-Service.yml)
-##### [Update](apimanagement/2019-12-01/Api-Version-Set/Update.yml)
-#### Apis
-##### [Overview](apimanagement/2019-12-01/Apis.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Apis/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Apis/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Apis/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Apis/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Apis/List-By-Service.yml)
-##### [Update](apimanagement/2019-12-01/Apis/Update.yml)
-#### Authorization Server
-##### [Overview](apimanagement/2019-12-01/Authorization-Server.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Authorization-Server/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Authorization-Server/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Authorization-Server/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Authorization-Server/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Authorization-Server/List-By-Service.yml)
-##### [List Secrets](apimanagement/2019-12-01/Authorization-Server/List-Secrets.yml)
-##### [Update](apimanagement/2019-12-01/Authorization-Server/Update.yml)
-#### Backend
-##### [Overview](apimanagement/2019-12-01/Backend.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Backend/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Backend/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Backend/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Backend/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Backend/List-By-Service.yml)
-##### [Reconnect](apimanagement/2019-12-01/Backend/Reconnect.yml)
-##### [Update](apimanagement/2019-12-01/Backend/Update.yml)
-#### Cache
-##### [Overview](apimanagement/2019-12-01/Cache.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Cache/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Cache/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Cache/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Cache/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Cache/List-By-Service.yml)
-##### [Update](apimanagement/2019-12-01/Cache/Update.yml)
-#### Certificate
-##### [Overview](apimanagement/2019-12-01/Certificate.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Certificate/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Certificate/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Certificate/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Certificate/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Certificate/List-By-Service.yml)
-#### Content Item
-##### [Overview](apimanagement/2019-12-01/Content-Item.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Content-Item/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Content-Item/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Content-Item/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Content-Item/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Content-Item/List-By-Service.yml)
-#### Content Type
-##### [Overview](apimanagement/2019-12-01/Content-Type.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Content-Type/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Content-Type/Delete.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Content-Type/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Content-Type/List-By-Service.yml)
-#### Content Types
-##### [Overview](apimanagement/2019-12-01/Content-Types.yml)
-##### [Get](apimanagement/2019-12-01/Content-Types/Get.yml)
-#### Delegation Settings
-##### [Overview](apimanagement/2019-12-01/Delegation-Settings.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Delegation-Settings/Create-Or-Update.yml)
-##### [Get](apimanagement/2019-12-01/Delegation-Settings/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Delegation-Settings/Get-Entity-Tag.yml)
-##### [List Secrets](apimanagement/2019-12-01/Delegation-Settings/List-Secrets.yml)
-##### [Update](apimanagement/2019-12-01/Delegation-Settings/Update.yml)
-#### Diagnostic
-##### [Overview](apimanagement/2019-12-01/Diagnostic.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Diagnostic/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Diagnostic/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Diagnostic/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Diagnostic/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Diagnostic/List-By-Service.yml)
-##### [Update](apimanagement/2019-12-01/Diagnostic/Update.yml)
-#### Email Template
-##### [Overview](apimanagement/2019-12-01/Email-Template.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Email-Template/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Email-Template/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Email-Template/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Email-Template/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Email-Template/List-By-Service.yml)
-##### [Update](apimanagement/2019-12-01/Email-Template/Update.yml)
-#### Gateway
-##### [Overview](apimanagement/2019-12-01/Gateway.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Gateway/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Gateway/Delete.yml)
-##### [Generate Token](apimanagement/2019-12-01/Gateway/Generate-Token.yml)
-##### [Get](apimanagement/2019-12-01/Gateway/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Gateway/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Gateway/List-By-Service.yml)
-##### [List Keys](apimanagement/2019-12-01/Gateway/List-Keys.yml)
-##### [Regenerate Key](apimanagement/2019-12-01/Gateway/Regenerate-Key.yml)
-##### [Update](apimanagement/2019-12-01/Gateway/Update.yml)
-#### Gateway Api
-##### [Overview](apimanagement/2019-12-01/Gateway-Api.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Gateway-Api/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Gateway-Api/Delete.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Gateway-Api/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Gateway-Api/List-By-Service.yml)
-#### Gateway Hostname Configuration
-##### [Overview](apimanagement/2019-12-01/Gateway-Hostname-Configuration.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Gateway-Hostname-Configuration/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Gateway-Hostname-Configuration/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Gateway-Hostname-Configuration/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Gateway-Hostname-Configuration/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Gateway-Hostname-Configuration/List-By-Service.yml)
-#### Group
-##### [Overview](apimanagement/2019-12-01/Group.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Group/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Group/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Group/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Group/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Group/List-By-Service.yml)
-##### [Update](apimanagement/2019-12-01/Group/Update.yml)
-#### Group User
-##### [Overview](apimanagement/2019-12-01/Group-User.yml)
-##### [Check Entity Exists](apimanagement/2019-12-01/Group-User/Check-Entity-Exists.yml)
-##### [Create](apimanagement/2019-12-01/Group-User/Create.yml)
-##### [Delete](apimanagement/2019-12-01/Group-User/Delete.yml)
-##### [List](apimanagement/2019-12-01/Group-User/List.yml)
-#### Identity Provider
-##### [Overview](apimanagement/2019-12-01/Identity-Provider.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Identity-Provider/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Identity-Provider/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Identity-Provider/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Identity-Provider/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Identity-Provider/List-By-Service.yml)
-##### [List Secrets](apimanagement/2019-12-01/Identity-Provider/List-Secrets.yml)
-##### [Update](apimanagement/2019-12-01/Identity-Provider/Update.yml)
-#### Issue
-##### [Overview](apimanagement/2019-12-01/Issue.yml)
-##### [Get](apimanagement/2019-12-01/Issue/Get.yml)
-##### [List By Service](apimanagement/2019-12-01/Issue/List-By-Service.yml)
-#### Logger
-##### [Overview](apimanagement/2019-12-01/Logger.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Logger/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Logger/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Logger/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Logger/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Logger/List-By-Service.yml)
-##### [Update](apimanagement/2019-12-01/Logger/Update.yml)
-#### Named Value
-##### [Overview](apimanagement/2019-12-01/Named-Value.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Named-Value/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Named-Value/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Named-Value/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Named-Value/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Named-Value/List-By-Service.yml)
-##### [List Value](apimanagement/2019-12-01/Named-Value/List-Value.yml)
-##### [Update](apimanagement/2019-12-01/Named-Value/Update.yml)
-#### Network Status
-##### [Overview](apimanagement/2019-12-01/Network-Status.yml)
-##### [List By Location](apimanagement/2019-12-01/Network-Status/List-By-Location.yml)
-##### [List By Service](apimanagement/2019-12-01/Network-Status/List-By-Service.yml)
-#### Notification
-##### [Overview](apimanagement/2019-12-01/Notification.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Notification/Create-Or-Update.yml)
-##### [Get](apimanagement/2019-12-01/Notification/Get.yml)
-##### [List By Service](apimanagement/2019-12-01/Notification/List-By-Service.yml)
-#### Notification Recipient Email
-##### [Overview](apimanagement/2019-12-01/Notification-Recipient-Email.yml)
-##### [Check Entity Exists](apimanagement/2019-12-01/Notification-Recipient-Email/Check-Entity-Exists.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Notification-Recipient-Email/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Notification-Recipient-Email/Delete.yml)
-##### [List By Notification](apimanagement/2019-12-01/Notification-Recipient-Email/List-By-Notification.yml)
-#### Notification Recipient User
-##### [Overview](apimanagement/2019-12-01/Notification-Recipient-User.yml)
-##### [Check Entity Exists](apimanagement/2019-12-01/Notification-Recipient-User/Check-Entity-Exists.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Notification-Recipient-User/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Notification-Recipient-User/Delete.yml)
-##### [List By Notification](apimanagement/2019-12-01/Notification-Recipient-User/List-By-Notification.yml)
-#### OpenId Connect Provider
-##### [Overview](apimanagement/2019-12-01/OpenId-Connect-Provider.yml)
-##### [Create Or Update](apimanagement/2019-12-01/OpenId-Connect-Provider/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/OpenId-Connect-Provider/Delete.yml)
-##### [Get](apimanagement/2019-12-01/OpenId-Connect-Provider/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/OpenId-Connect-Provider/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/OpenId-Connect-Provider/List-By-Service.yml)
-##### [List Secrets](apimanagement/2019-12-01/OpenId-Connect-Provider/List-Secrets.yml)
-##### [Update](apimanagement/2019-12-01/OpenId-Connect-Provider/Update.yml)
-#### Operation
-##### [Overview](apimanagement/2019-12-01/Operation.yml)
-##### [List By Tags](apimanagement/2019-12-01/Operation/List-By-Tags.yml)
-#### Policy
-##### [Overview](apimanagement/2019-12-01/Policy.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Policy/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Policy/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Policy/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Policy/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Policy/List-By-Service.yml)
-#### Policy Description
-##### [Overview](apimanagement/2019-12-01/Policy-Description.yml)
-##### [List By Service](apimanagement/2019-12-01/Policy-Description/List-By-Service.yml)
-#### Product
-##### [Overview](apimanagement/2019-12-01/Product.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Product/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Product/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Product/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Product/Get-Entity-Tag.yml)
-##### [List By Service](apimanagement/2019-12-01/Product/List-By-Service.yml)
-##### [Update](apimanagement/2019-12-01/Product/Update.yml)
-#### Product Api
-##### [Overview](apimanagement/2019-12-01/Product-Api.yml)
-##### [Check Entity Exists](apimanagement/2019-12-01/Product-Api/Check-Entity-Exists.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Product-Api/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Product-Api/Delete.yml)
-##### [List By Product](apimanagement/2019-12-01/Product-Api/List-By-Product.yml)
-#### Product Group
-##### [Overview](apimanagement/2019-12-01/Product-Group.yml)
-##### [Check Entity Exists](apimanagement/2019-12-01/Product-Group/Check-Entity-Exists.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Product-Group/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Product-Group/Delete.yml)
-##### [List By Product](apimanagement/2019-12-01/Product-Group/List-By-Product.yml)
-#### Product Policy
-##### [Overview](apimanagement/2019-12-01/Product-Policy.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Product-Policy/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Product-Policy/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Product-Policy/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Product-Policy/Get-Entity-Tag.yml)
-##### [List By Product](apimanagement/2019-12-01/Product-Policy/List-By-Product.yml)
-#### Product Subscriptions
-##### [Overview](apimanagement/2019-12-01/Product-Subscriptions.yml)
-##### [List](apimanagement/2019-12-01/Product-Subscriptions/List.yml)
-#### ProductTag
-##### [Overview](apimanagement/2019-12-01/Product-Tag.yml)
-##### [Assign To Product](apimanagement/2019-12-01/Product-Tag/Assign-To-Product.yml)
-##### [Detach From Product](apimanagement/2019-12-01/Product-Tag/Detach-From-Product.yml)
-##### [Get By Product](apimanagement/2019-12-01/Product-Tag/Get-By-Product.yml)
-##### [Get Entity State By Product](apimanagement/2019-12-01/Product-Tag/Get-Entity-State-By-Product.yml)
-##### [List By Product](apimanagement/2019-12-01/Product-Tag/List-By-Product.yml)
-#### Quota By Counter Keys
-##### [Overview](apimanagement/2019-12-01/Quota-By-Counter-Keys.yml)
-##### [List By Service](apimanagement/2019-12-01/Quota-By-Counter-Keys/List-By-Service.yml)
-##### [Update](apimanagement/2019-12-01/Quota-By-Counter-Keys/Update.yml)
-#### Quota By Period Keys
-##### [Overview](apimanagement/2019-12-01/Quota-By-Period-Keys.yml)
-##### [Get](apimanagement/2019-12-01/Quota-By-Period-Keys/Get.yml)
-##### [Update](apimanagement/2019-12-01/Quota-By-Period-Keys/Update.yml)
-#### Region
-##### [Overview](apimanagement/2019-12-01/Region.yml)
-##### [List By Service](apimanagement/2019-12-01/Region/List-By-Service.yml)
-#### Reports
-##### [Overview](apimanagement/2019-12-01/Reports.yml)
-##### [List By Api](apimanagement/2019-12-01/Reports/List-By-Api.yml)
-##### [List By Geo](apimanagement/2019-12-01/Reports/List-By-Geo.yml)
-##### [List By Operation](apimanagement/2019-12-01/Reports/List-By-Operation.yml)
-##### [List By Product](apimanagement/2019-12-01/Reports/List-By-Product.yml)
-##### [List By Request](apimanagement/2019-12-01/Reports/List-By-Request.yml)
-##### [List By Subscription](apimanagement/2019-12-01/Reports/List-By-Subscription.yml)
-##### [List By Time](apimanagement/2019-12-01/Reports/List-By-Time.yml)
-##### [List By User](apimanagement/2019-12-01/Reports/List-By-User.yml)
-#### Sign In Settings
-##### [Overview](apimanagement/2019-12-01/Sign-In-Settings.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Sign-In-Settings/Create-Or-Update.yml)
-##### [Get](apimanagement/2019-12-01/Sign-In-Settings/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Sign-In-Settings/Get-Entity-Tag.yml)
-##### [Update](apimanagement/2019-12-01/Sign-In-Settings/Update.yml)
-#### Sign Up Settings
-##### [Overview](apimanagement/2019-12-01/Sign-Up-Settings.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Sign-Up-Settings/Create-Or-Update.yml)
-##### [Get](apimanagement/2019-12-01/Sign-Up-Settings/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Sign-Up-Settings/Get-Entity-Tag.yml)
-##### [Update](apimanagement/2019-12-01/Sign-Up-Settings/Update.yml)
-#### Subscription
-##### [Overview](apimanagement/2019-12-01/Subscription.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Subscription/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Subscription/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Subscription/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Subscription/Get-Entity-Tag.yml)
-##### [List](apimanagement/2019-12-01/Subscription/List.yml)
-##### [List Secrets](apimanagement/2019-12-01/Subscription/List-Secrets.yml)
-##### [Regenerate Primary Key](apimanagement/2019-12-01/Subscription/Regenerate-Primary-Key.yml)
-##### [Regenerate Secondary Key](apimanagement/2019-12-01/Subscription/Regenerate-Secondary-Key.yml)
-##### [Update](apimanagement/2019-12-01/Subscription/Update.yml)
-#### Tag
-##### [Overview](apimanagement/2019-12-01/Tag.yml)
-##### [Assign To Api](apimanagement/2019-12-01/Tag/Assign-To-Api.yml)
-##### [Assign To Operation](apimanagement/2019-12-01/Tag/Assign-To-Operation.yml)
-##### [Detach From Api](apimanagement/2019-12-01/Tag/Detach-From-Api.yml)
-##### [Detach From Operation](apimanagement/2019-12-01/Tag/Detach-From-Operation.yml)
-##### [Get By Api](apimanagement/2019-12-01/Tag/Get-By-Api.yml)
-##### [Get By Operation](apimanagement/2019-12-01/Tag/Get-By-Operation.yml)
-##### [Get Entity State By Api](apimanagement/2019-12-01/Tag/Get-Entity-State-By-Api.yml)
-##### [Get Entity State By Operation](apimanagement/2019-12-01/Tag/Get-Entity-State-By-Operation.yml)
-##### [List By Api](apimanagement/2019-12-01/Tag/List-By-Api.yml)
-##### [List By Operation](apimanagement/2019-12-01/Tag/List-By-Operation.yml)
-#### Tag Entity
-##### [Overview](apimanagement/2019-12-01/Tag-Entity.yml)
-##### [Create Or Update](apimanagement/2019-12-01/Tag-Entity/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/Tag-Entity/Delete.yml)
-##### [Get](apimanagement/2019-12-01/Tag-Entity/Get.yml)
-##### [Get Entity State](apimanagement/2019-12-01/Tag-Entity/Get-Entity-State.yml)
-##### [List By Service](apimanagement/2019-12-01/Tag-Entity/List-By-Service.yml)
-##### [Update](apimanagement/2019-12-01/Tag-Entity/Update.yml)
-#### Tag Resource
-##### [Overview](apimanagement/2019-12-01/Tag-Resource.yml)
-##### [List By Service](apimanagement/2019-12-01/Tag-Resource/List-By-Service.yml)
-#### TagProduct
-##### [Overview](apimanagement/2019-12-01/Tag-Product.yml)
-##### [List By Tags](apimanagement/2019-12-01/Tag-Product/List-By-Tags.yml)
-#### Tenant Access
-##### [Overview](apimanagement/2019-12-01/Tenant-Access.yml)
-##### [Get](apimanagement/2019-12-01/Tenant-Access/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/Tenant-Access/Get-Entity-Tag.yml)
-##### [List Secrets](apimanagement/2019-12-01/Tenant-Access/List-Secrets.yml)
-##### [Regenerate Primary Key](apimanagement/2019-12-01/Tenant-Access/Regenerate-Primary-Key.yml)
-##### [Regenerate Secondary Key](apimanagement/2019-12-01/Tenant-Access/Regenerate-Secondary-Key.yml)
-##### [Update](apimanagement/2019-12-01/Tenant-Access/Update.yml)
-#### Tenant Access Git
-##### [Overview](apimanagement/2019-12-01/Tenant-Access-Git.yml)
-##### [Get](apimanagement/2019-12-01/Tenant-Access-Git/Get.yml)
-##### [List Secrets](apimanagement/2019-12-01/Tenant-Access-Git/List-Secrets.yml)
-##### [Regenerate Primary Key](apimanagement/2019-12-01/Tenant-Access-Git/Regenerate-Primary-Key.yml)
-##### [Regenerate Secondary Key](apimanagement/2019-12-01/Tenant-Access-Git/Regenerate-Secondary-Key.yml)
-#### Tenant Configuration
-##### [Overview](apimanagement/2019-12-01/Tenant-Configuration.yml)
-##### [Deploy](apimanagement/2019-12-01/Tenant-Configuration/Deploy.yml)
-##### [Get Sync State](apimanagement/2019-12-01/Tenant-Configuration/Get-Sync-State.yml)
-##### [Save](apimanagement/2019-12-01/Tenant-Configuration/Save.yml)
-##### [Validate](apimanagement/2019-12-01/Tenant-Configuration/Validate.yml)
-#### User
-##### [Overview](apimanagement/2019-12-01/User.yml)
-##### [Create Or Update](apimanagement/2019-12-01/User/Create-Or-Update.yml)
-##### [Delete](apimanagement/2019-12-01/User/Delete.yml)
-##### [Generate Sso Url](apimanagement/2019-12-01/User/Generate-Sso-Url.yml)
-##### [Get](apimanagement/2019-12-01/User/Get.yml)
-##### [Get Entity Tag](apimanagement/2019-12-01/User/Get-Entity-Tag.yml)
-##### [Get Shared Access Token](apimanagement/2019-12-01/User/Get-Shared-Access-Token.yml)
-##### [List By Service](apimanagement/2019-12-01/User/List-By-Service.yml)
-##### [Update](apimanagement/2019-12-01/User/Update.yml)
-#### User Confirmation Password
-##### [Overview](apimanagement/2019-12-01/User-Confirmation-Password.yml)
-##### [Send](apimanagement/2019-12-01/User-Confirmation-Password/Send.yml)
-#### User Group
-##### [Overview](apimanagement/2019-12-01/User-Group.yml)
-##### [List](apimanagement/2019-12-01/User-Group/List.yml)
-#### User Identities
-##### [Overview](apimanagement/2019-12-01/User-Identities.yml)
-##### [List](apimanagement/2019-12-01/User-Identities/List.yml)
-#### User Subscription
-##### [Overview](apimanagement/2019-12-01/User-Subscription.yml)
-##### [List](apimanagement/2019-12-01/User-Subscription/List.yml)
 ### 2020-06-01-preview
 #### Api
 ##### [Overview](apimanagement/2020-06-01-preview/Api.yml)
@@ -1042,6 +588,490 @@
 ##### [Overview](apimanagement/2020-06-01-preview/User-Subscription.yml)
 ##### [Get](apimanagement/2020-06-01-preview/User-Subscription/Get.yml)
 ##### [List](apimanagement/2020-06-01-preview/User-Subscription/List.yml)
+### 2020-12-01
+#### Api
+##### [Overview](apimanagement/2020-12-01/Api.yml)
+##### [List By Tags](apimanagement/2020-12-01/Api/List-By-Tags.yml)
+#### Api Diagnostic
+##### [Overview](apimanagement/2020-12-01/Api-Diagnostic.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Api-Diagnostic/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Api-Diagnostic/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Api-Diagnostic/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Api-Diagnostic/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Api-Diagnostic/List-By-Service.yml)
+##### [Update](apimanagement/2020-12-01/Api-Diagnostic/Update.yml)
+#### Api Export
+##### [Overview](apimanagement/2020-12-01/Api-Export.yml)
+##### [Get](apimanagement/2020-12-01/Api-Export/Get.yml)
+#### Api Issue
+##### [Overview](apimanagement/2020-12-01/Api-Issue.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Api-Issue/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Api-Issue/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Api-Issue/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Api-Issue/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Api-Issue/List-By-Service.yml)
+##### [Update](apimanagement/2020-12-01/Api-Issue/Update.yml)
+#### Api Issue Attachment
+##### [Overview](apimanagement/2020-12-01/Api-Issue-Attachment.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Api-Issue-Attachment/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Api-Issue-Attachment/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Api-Issue-Attachment/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Api-Issue-Attachment/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Api-Issue-Attachment/List-By-Service.yml)
+#### Api Issue Comment
+##### [Overview](apimanagement/2020-12-01/Api-Issue-Comment.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Api-Issue-Comment/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Api-Issue-Comment/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Api-Issue-Comment/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Api-Issue-Comment/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Api-Issue-Comment/List-By-Service.yml)
+#### Api Management Operations
+##### [Overview](apimanagement/2020-12-01/Api-Management-Operations.yml)
+##### [List](apimanagement/2020-12-01/Api-Management-Operations/List.yml)
+#### Api Management Service
+##### [Overview](apimanagement/2020-12-01/Api-Management-Service.yml)
+##### [Apply Network Configuration Updates](apimanagement/2020-12-01/Api-Management-Service/Apply-Network-Configuration-Updates.yml)
+##### [Backup](apimanagement/2020-12-01/Api-Management-Service/Backup.yml)
+##### [Check Name Availability](apimanagement/2020-12-01/Api-Management-Service/Check-Name-Availability.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Api-Management-Service/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Api-Management-Service/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Api-Management-Service/Get.yml)
+##### [Get Domain Ownership Identifier](apimanagement/2020-12-01/Api-Management-Service/Get-Domain-Ownership-Identifier.yml)
+##### [Get Sso Token](apimanagement/2020-12-01/Api-Management-Service/Get-Sso-Token.yml)
+##### [List](apimanagement/2020-12-01/Api-Management-Service/List.yml)
+##### [List By Resource Group](apimanagement/2020-12-01/Api-Management-Service/List-By-Resource-Group.yml)
+##### [Restore](apimanagement/2020-12-01/Api-Management-Service/Restore.yml)
+##### [Update](apimanagement/2020-12-01/Api-Management-Service/Update.yml)
+#### Api Management Service Skus
+##### [Overview](apimanagement/2020-12-01/Api-Management-Service-Skus.yml)
+##### [List Available Service Skus](apimanagement/2020-12-01/Api-Management-Service-Skus/List-Available-Service-Skus.yml)
+#### Api Management Skus
+##### [Overview](apimanagement/2020-12-01/Api-Management-Skus.yml)
+##### [List](apimanagement/2020-12-01/Api-Management-Skus/List.yml)
+#### Api Operation
+##### [Overview](apimanagement/2020-12-01/Api-Operation.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Api-Operation/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Api-Operation/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Api-Operation/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Api-Operation/Get-Entity-Tag.yml)
+##### [List By Api](apimanagement/2020-12-01/Api-Operation/List-By-Api.yml)
+##### [Update](apimanagement/2020-12-01/Api-Operation/Update.yml)
+#### Api Operation Policy
+##### [Overview](apimanagement/2020-12-01/Api-Operation-Policy.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Api-Operation-Policy/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Api-Operation-Policy/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Api-Operation-Policy/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Api-Operation-Policy/Get-Entity-Tag.yml)
+##### [List By Operation](apimanagement/2020-12-01/Api-Operation-Policy/List-By-Operation.yml)
+#### Api Policy
+##### [Overview](apimanagement/2020-12-01/Api-Policy.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Api-Policy/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Api-Policy/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Api-Policy/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Api-Policy/Get-Entity-Tag.yml)
+##### [List By Api](apimanagement/2020-12-01/Api-Policy/List-By-Api.yml)
+#### Api Product
+##### [Overview](apimanagement/2020-12-01/Api-Product.yml)
+##### [List By Apis](apimanagement/2020-12-01/Api-Product/List-By-Apis.yml)
+#### Api Release
+##### [Overview](apimanagement/2020-12-01/Api-Release.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Api-Release/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Api-Release/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Api-Release/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Api-Release/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Api-Release/List-By-Service.yml)
+##### [Update](apimanagement/2020-12-01/Api-Release/Update.yml)
+#### Api Revision
+##### [Overview](apimanagement/2020-12-01/Api-Revision.yml)
+##### [List By Service](apimanagement/2020-12-01/Api-Revision/List-By-Service.yml)
+#### Api Schema
+##### [Overview](apimanagement/2020-12-01/Api-Schema.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Api-Schema/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Api-Schema/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Api-Schema/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Api-Schema/Get-Entity-Tag.yml)
+##### [List By Api](apimanagement/2020-12-01/Api-Schema/List-By-Api.yml)
+#### Api Tag Description
+##### [Overview](apimanagement/2020-12-01/Api-Tag-Description.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Api-Tag-Description/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Api-Tag-Description/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Api-Tag-Description/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Api-Tag-Description/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Api-Tag-Description/List-By-Service.yml)
+#### Api Version Set
+##### [Overview](apimanagement/2020-12-01/Api-Version-Set.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Api-Version-Set/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Api-Version-Set/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Api-Version-Set/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Api-Version-Set/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Api-Version-Set/List-By-Service.yml)
+##### [Update](apimanagement/2020-12-01/Api-Version-Set/Update.yml)
+#### Apis
+##### [Overview](apimanagement/2020-12-01/Apis.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Apis/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Apis/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Apis/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Apis/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Apis/List-By-Service.yml)
+##### [Update](apimanagement/2020-12-01/Apis/Update.yml)
+#### Authorization Server
+##### [Overview](apimanagement/2020-12-01/Authorization-Server.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Authorization-Server/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Authorization-Server/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Authorization-Server/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Authorization-Server/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Authorization-Server/List-By-Service.yml)
+##### [List Secrets](apimanagement/2020-12-01/Authorization-Server/List-Secrets.yml)
+##### [Update](apimanagement/2020-12-01/Authorization-Server/Update.yml)
+#### Backend
+##### [Overview](apimanagement/2020-12-01/Backend.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Backend/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Backend/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Backend/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Backend/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Backend/List-By-Service.yml)
+##### [Reconnect](apimanagement/2020-12-01/Backend/Reconnect.yml)
+##### [Update](apimanagement/2020-12-01/Backend/Update.yml)
+#### Cache
+##### [Overview](apimanagement/2020-12-01/Cache.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Cache/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Cache/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Cache/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Cache/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Cache/List-By-Service.yml)
+##### [Update](apimanagement/2020-12-01/Cache/Update.yml)
+#### Certificate
+##### [Overview](apimanagement/2020-12-01/Certificate.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Certificate/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Certificate/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Certificate/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Certificate/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Certificate/List-By-Service.yml)
+##### [Refresh Secret](apimanagement/2020-12-01/Certificate/Refresh-Secret.yml)
+#### Content Item
+##### [Overview](apimanagement/2020-12-01/Content-Item.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Content-Item/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Content-Item/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Content-Item/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Content-Item/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Content-Item/List-By-Service.yml)
+#### Content Type
+##### [Overview](apimanagement/2020-12-01/Content-Type.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Content-Type/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Content-Type/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Content-Type/Get.yml)
+##### [List By Service](apimanagement/2020-12-01/Content-Type/List-By-Service.yml)
+#### Delegation Settings
+##### [Overview](apimanagement/2020-12-01/Delegation-Settings.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Delegation-Settings/Create-Or-Update.yml)
+##### [Get](apimanagement/2020-12-01/Delegation-Settings/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Delegation-Settings/Get-Entity-Tag.yml)
+##### [List Secrets](apimanagement/2020-12-01/Delegation-Settings/List-Secrets.yml)
+##### [Update](apimanagement/2020-12-01/Delegation-Settings/Update.yml)
+#### Deleted Services
+##### [Overview](apimanagement/2020-12-01/Deleted-Services.yml)
+##### [Get By Name](apimanagement/2020-12-01/Deleted-Services/Get-By-Name.yml)
+##### [List By Subscription](apimanagement/2020-12-01/Deleted-Services/List-By-Subscription.yml)
+##### [Purge](apimanagement/2020-12-01/Deleted-Services/Purge.yml)
+#### Diagnostic
+##### [Overview](apimanagement/2020-12-01/Diagnostic.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Diagnostic/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Diagnostic/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Diagnostic/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Diagnostic/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Diagnostic/List-By-Service.yml)
+##### [Update](apimanagement/2020-12-01/Diagnostic/Update.yml)
+#### Email Template
+##### [Overview](apimanagement/2020-12-01/Email-Template.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Email-Template/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Email-Template/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Email-Template/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Email-Template/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Email-Template/List-By-Service.yml)
+##### [Update](apimanagement/2020-12-01/Email-Template/Update.yml)
+#### Gateway
+##### [Overview](apimanagement/2020-12-01/Gateway.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Gateway/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Gateway/Delete.yml)
+##### [Generate Token](apimanagement/2020-12-01/Gateway/Generate-Token.yml)
+##### [Get](apimanagement/2020-12-01/Gateway/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Gateway/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Gateway/List-By-Service.yml)
+##### [List Keys](apimanagement/2020-12-01/Gateway/List-Keys.yml)
+##### [Regenerate Key](apimanagement/2020-12-01/Gateway/Regenerate-Key.yml)
+##### [Update](apimanagement/2020-12-01/Gateway/Update.yml)
+#### Gateway Api
+##### [Overview](apimanagement/2020-12-01/Gateway-Api.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Gateway-Api/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Gateway-Api/Delete.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Gateway-Api/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Gateway-Api/List-By-Service.yml)
+#### Gateway Certificate Authority
+##### [Overview](apimanagement/2020-12-01/Gateway-Certificate-Authority.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Gateway-Certificate-Authority/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Gateway-Certificate-Authority/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Gateway-Certificate-Authority/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Gateway-Certificate-Authority/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Gateway-Certificate-Authority/List-By-Service.yml)
+#### Gateway Hostname Configuration
+##### [Overview](apimanagement/2020-12-01/Gateway-Hostname-Configuration.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Gateway-Hostname-Configuration/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Gateway-Hostname-Configuration/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Gateway-Hostname-Configuration/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Gateway-Hostname-Configuration/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Gateway-Hostname-Configuration/List-By-Service.yml)
+#### Group
+##### [Overview](apimanagement/2020-12-01/Group.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Group/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Group/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Group/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Group/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Group/List-By-Service.yml)
+##### [Update](apimanagement/2020-12-01/Group/Update.yml)
+#### Group User
+##### [Overview](apimanagement/2020-12-01/Group-User.yml)
+##### [Check Entity Exists](apimanagement/2020-12-01/Group-User/Check-Entity-Exists.yml)
+##### [Create](apimanagement/2020-12-01/Group-User/Create.yml)
+##### [Delete](apimanagement/2020-12-01/Group-User/Delete.yml)
+##### [List](apimanagement/2020-12-01/Group-User/List.yml)
+#### Identity Provider
+##### [Overview](apimanagement/2020-12-01/Identity-Provider.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Identity-Provider/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Identity-Provider/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Identity-Provider/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Identity-Provider/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Identity-Provider/List-By-Service.yml)
+##### [List Secrets](apimanagement/2020-12-01/Identity-Provider/List-Secrets.yml)
+##### [Update](apimanagement/2020-12-01/Identity-Provider/Update.yml)
+#### Issue
+##### [Overview](apimanagement/2020-12-01/Issue.yml)
+##### [Get](apimanagement/2020-12-01/Issue/Get.yml)
+##### [List By Service](apimanagement/2020-12-01/Issue/List-By-Service.yml)
+#### Logger
+##### [Overview](apimanagement/2020-12-01/Logger.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Logger/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Logger/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Logger/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Logger/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Logger/List-By-Service.yml)
+##### [Update](apimanagement/2020-12-01/Logger/Update.yml)
+#### Named Value
+##### [Overview](apimanagement/2020-12-01/Named-Value.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Named-Value/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Named-Value/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Named-Value/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Named-Value/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Named-Value/List-By-Service.yml)
+##### [List Value](apimanagement/2020-12-01/Named-Value/List-Value.yml)
+##### [Refresh Secret](apimanagement/2020-12-01/Named-Value/Refresh-Secret.yml)
+##### [Update](apimanagement/2020-12-01/Named-Value/Update.yml)
+#### Network Status
+##### [Overview](apimanagement/2020-12-01/Network-Status.yml)
+##### [List By Location](apimanagement/2020-12-01/Network-Status/List-By-Location.yml)
+##### [List By Service](apimanagement/2020-12-01/Network-Status/List-By-Service.yml)
+#### Notification
+##### [Overview](apimanagement/2020-12-01/Notification.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Notification/Create-Or-Update.yml)
+##### [Get](apimanagement/2020-12-01/Notification/Get.yml)
+##### [List By Service](apimanagement/2020-12-01/Notification/List-By-Service.yml)
+#### Notification Recipient Email
+##### [Overview](apimanagement/2020-12-01/Notification-Recipient-Email.yml)
+##### [Check Entity Exists](apimanagement/2020-12-01/Notification-Recipient-Email/Check-Entity-Exists.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Notification-Recipient-Email/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Notification-Recipient-Email/Delete.yml)
+##### [List By Notification](apimanagement/2020-12-01/Notification-Recipient-Email/List-By-Notification.yml)
+#### Notification Recipient User
+##### [Overview](apimanagement/2020-12-01/Notification-Recipient-User.yml)
+##### [Check Entity Exists](apimanagement/2020-12-01/Notification-Recipient-User/Check-Entity-Exists.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Notification-Recipient-User/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Notification-Recipient-User/Delete.yml)
+##### [List By Notification](apimanagement/2020-12-01/Notification-Recipient-User/List-By-Notification.yml)
+#### OpenId Connect Provider
+##### [Overview](apimanagement/2020-12-01/OpenId-Connect-Provider.yml)
+##### [Create Or Update](apimanagement/2020-12-01/OpenId-Connect-Provider/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/OpenId-Connect-Provider/Delete.yml)
+##### [Get](apimanagement/2020-12-01/OpenId-Connect-Provider/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/OpenId-Connect-Provider/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/OpenId-Connect-Provider/List-By-Service.yml)
+##### [List Secrets](apimanagement/2020-12-01/OpenId-Connect-Provider/List-Secrets.yml)
+##### [Update](apimanagement/2020-12-01/OpenId-Connect-Provider/Update.yml)
+#### Operation
+##### [Overview](apimanagement/2020-12-01/Operation.yml)
+##### [List By Tags](apimanagement/2020-12-01/Operation/List-By-Tags.yml)
+#### Policy
+##### [Overview](apimanagement/2020-12-01/Policy.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Policy/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Policy/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Policy/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Policy/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Policy/List-By-Service.yml)
+#### Policy Description
+##### [Overview](apimanagement/2020-12-01/Policy-Description.yml)
+##### [List By Service](apimanagement/2020-12-01/Policy-Description/List-By-Service.yml)
+#### Portal Revision
+##### [Overview](apimanagement/2020-12-01/Portal-Revision.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Portal-Revision/Create-Or-Update.yml)
+##### [Get](apimanagement/2020-12-01/Portal-Revision/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Portal-Revision/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Portal-Revision/List-By-Service.yml)
+##### [Update](apimanagement/2020-12-01/Portal-Revision/Update.yml)
+#### Portal Settings
+##### [Overview](apimanagement/2020-12-01/Portal-Settings.yml)
+##### [List By Service](apimanagement/2020-12-01/Portal-Settings/List-By-Service.yml)
+#### Product
+##### [Overview](apimanagement/2020-12-01/Product.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Product/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Product/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Product/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Product/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Product/List-By-Service.yml)
+##### [Update](apimanagement/2020-12-01/Product/Update.yml)
+#### Product Api
+##### [Overview](apimanagement/2020-12-01/Product-Api.yml)
+##### [Check Entity Exists](apimanagement/2020-12-01/Product-Api/Check-Entity-Exists.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Product-Api/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Product-Api/Delete.yml)
+##### [List By Product](apimanagement/2020-12-01/Product-Api/List-By-Product.yml)
+#### Product Group
+##### [Overview](apimanagement/2020-12-01/Product-Group.yml)
+##### [Check Entity Exists](apimanagement/2020-12-01/Product-Group/Check-Entity-Exists.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Product-Group/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Product-Group/Delete.yml)
+##### [List By Product](apimanagement/2020-12-01/Product-Group/List-By-Product.yml)
+#### Product Policy
+##### [Overview](apimanagement/2020-12-01/Product-Policy.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Product-Policy/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Product-Policy/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Product-Policy/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Product-Policy/Get-Entity-Tag.yml)
+##### [List By Product](apimanagement/2020-12-01/Product-Policy/List-By-Product.yml)
+#### Product Subscriptions
+##### [Overview](apimanagement/2020-12-01/Product-Subscriptions.yml)
+##### [List](apimanagement/2020-12-01/Product-Subscriptions/List.yml)
+#### ProductTag
+##### [Overview](apimanagement/2020-12-01/Product-Tag.yml)
+##### [Assign To Product](apimanagement/2020-12-01/Product-Tag/Assign-To-Product.yml)
+##### [Detach From Product](apimanagement/2020-12-01/Product-Tag/Detach-From-Product.yml)
+##### [Get By Product](apimanagement/2020-12-01/Product-Tag/Get-By-Product.yml)
+##### [Get Entity State By Product](apimanagement/2020-12-01/Product-Tag/Get-Entity-State-By-Product.yml)
+##### [List By Product](apimanagement/2020-12-01/Product-Tag/List-By-Product.yml)
+#### Quota By Counter Keys
+##### [Overview](apimanagement/2020-12-01/Quota-By-Counter-Keys.yml)
+##### [List By Service](apimanagement/2020-12-01/Quota-By-Counter-Keys/List-By-Service.yml)
+##### [Update](apimanagement/2020-12-01/Quota-By-Counter-Keys/Update.yml)
+#### Quota By Period Keys
+##### [Overview](apimanagement/2020-12-01/Quota-By-Period-Keys.yml)
+##### [Get](apimanagement/2020-12-01/Quota-By-Period-Keys/Get.yml)
+##### [Update](apimanagement/2020-12-01/Quota-By-Period-Keys/Update.yml)
+#### Region
+##### [Overview](apimanagement/2020-12-01/Region.yml)
+##### [List By Service](apimanagement/2020-12-01/Region/List-By-Service.yml)
+#### Reports
+##### [Overview](apimanagement/2020-12-01/Reports.yml)
+##### [List By Api](apimanagement/2020-12-01/Reports/List-By-Api.yml)
+##### [List By Geo](apimanagement/2020-12-01/Reports/List-By-Geo.yml)
+##### [List By Operation](apimanagement/2020-12-01/Reports/List-By-Operation.yml)
+##### [List By Product](apimanagement/2020-12-01/Reports/List-By-Product.yml)
+##### [List By Request](apimanagement/2020-12-01/Reports/List-By-Request.yml)
+##### [List By Subscription](apimanagement/2020-12-01/Reports/List-By-Subscription.yml)
+##### [List By Time](apimanagement/2020-12-01/Reports/List-By-Time.yml)
+##### [List By User](apimanagement/2020-12-01/Reports/List-By-User.yml)
+#### Sign In Settings
+##### [Overview](apimanagement/2020-12-01/Sign-In-Settings.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Sign-In-Settings/Create-Or-Update.yml)
+##### [Get](apimanagement/2020-12-01/Sign-In-Settings/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Sign-In-Settings/Get-Entity-Tag.yml)
+##### [Update](apimanagement/2020-12-01/Sign-In-Settings/Update.yml)
+#### Sign Up Settings
+##### [Overview](apimanagement/2020-12-01/Sign-Up-Settings.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Sign-Up-Settings/Create-Or-Update.yml)
+##### [Get](apimanagement/2020-12-01/Sign-Up-Settings/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Sign-Up-Settings/Get-Entity-Tag.yml)
+##### [Update](apimanagement/2020-12-01/Sign-Up-Settings/Update.yml)
+#### Subscription
+##### [Overview](apimanagement/2020-12-01/Subscription.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Subscription/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Subscription/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Subscription/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Subscription/Get-Entity-Tag.yml)
+##### [List](apimanagement/2020-12-01/Subscription/List.yml)
+##### [List Secrets](apimanagement/2020-12-01/Subscription/List-Secrets.yml)
+##### [Regenerate Primary Key](apimanagement/2020-12-01/Subscription/Regenerate-Primary-Key.yml)
+##### [Regenerate Secondary Key](apimanagement/2020-12-01/Subscription/Regenerate-Secondary-Key.yml)
+##### [Update](apimanagement/2020-12-01/Subscription/Update.yml)
+#### Tag
+##### [Overview](apimanagement/2020-12-01/Tag.yml)
+##### [Assign To Api](apimanagement/2020-12-01/Tag/Assign-To-Api.yml)
+##### [Assign To Operation](apimanagement/2020-12-01/Tag/Assign-To-Operation.yml)
+##### [Detach From Api](apimanagement/2020-12-01/Tag/Detach-From-Api.yml)
+##### [Detach From Operation](apimanagement/2020-12-01/Tag/Detach-From-Operation.yml)
+##### [Get By Api](apimanagement/2020-12-01/Tag/Get-By-Api.yml)
+##### [Get By Operation](apimanagement/2020-12-01/Tag/Get-By-Operation.yml)
+##### [Get Entity State By Api](apimanagement/2020-12-01/Tag/Get-Entity-State-By-Api.yml)
+##### [Get Entity State By Operation](apimanagement/2020-12-01/Tag/Get-Entity-State-By-Operation.yml)
+##### [List By Api](apimanagement/2020-12-01/Tag/List-By-Api.yml)
+##### [List By Operation](apimanagement/2020-12-01/Tag/List-By-Operation.yml)
+#### Tag Entity
+##### [Overview](apimanagement/2020-12-01/Tag-Entity.yml)
+##### [Create Or Update](apimanagement/2020-12-01/Tag-Entity/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/Tag-Entity/Delete.yml)
+##### [Get](apimanagement/2020-12-01/Tag-Entity/Get.yml)
+##### [Get Entity State](apimanagement/2020-12-01/Tag-Entity/Get-Entity-State.yml)
+##### [List By Service](apimanagement/2020-12-01/Tag-Entity/List-By-Service.yml)
+##### [Update](apimanagement/2020-12-01/Tag-Entity/Update.yml)
+#### Tag Resource
+##### [Overview](apimanagement/2020-12-01/Tag-Resource.yml)
+##### [List By Service](apimanagement/2020-12-01/Tag-Resource/List-By-Service.yml)
+#### TagProduct
+##### [Overview](apimanagement/2020-12-01/Tag-Product.yml)
+##### [List By Tags](apimanagement/2020-12-01/Tag-Product/List-By-Tags.yml)
+#### Tenant Access
+##### [Overview](apimanagement/2020-12-01/Tenant-Access.yml)
+##### [Create](apimanagement/2020-12-01/Tenant-Access/Create.yml)
+##### [Get](apimanagement/2020-12-01/Tenant-Access/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/Tenant-Access/Get-Entity-Tag.yml)
+##### [List By Service](apimanagement/2020-12-01/Tenant-Access/List-By-Service.yml)
+##### [List Secrets](apimanagement/2020-12-01/Tenant-Access/List-Secrets.yml)
+##### [Regenerate Primary Key](apimanagement/2020-12-01/Tenant-Access/Regenerate-Primary-Key.yml)
+##### [Regenerate Secondary Key](apimanagement/2020-12-01/Tenant-Access/Regenerate-Secondary-Key.yml)
+##### [Update](apimanagement/2020-12-01/Tenant-Access/Update.yml)
+#### Tenant Access Git
+##### [Overview](apimanagement/2020-12-01/Tenant-Access-Git.yml)
+##### [Regenerate Primary Key](apimanagement/2020-12-01/Tenant-Access-Git/Regenerate-Primary-Key.yml)
+##### [Regenerate Secondary Key](apimanagement/2020-12-01/Tenant-Access-Git/Regenerate-Secondary-Key.yml)
+#### Tenant Configuration
+##### [Overview](apimanagement/2020-12-01/Tenant-Configuration.yml)
+##### [Deploy](apimanagement/2020-12-01/Tenant-Configuration/Deploy.yml)
+##### [Get Sync State](apimanagement/2020-12-01/Tenant-Configuration/Get-Sync-State.yml)
+##### [Save](apimanagement/2020-12-01/Tenant-Configuration/Save.yml)
+##### [Validate](apimanagement/2020-12-01/Tenant-Configuration/Validate.yml)
+#### Tenant Settings
+##### [Overview](apimanagement/2020-12-01/Tenant-Settings.yml)
+##### [Get](apimanagement/2020-12-01/Tenant-Settings/Get.yml)
+##### [List By Service](apimanagement/2020-12-01/Tenant-Settings/List-By-Service.yml)
+#### User
+##### [Overview](apimanagement/2020-12-01/User.yml)
+##### [Create Or Update](apimanagement/2020-12-01/User/Create-Or-Update.yml)
+##### [Delete](apimanagement/2020-12-01/User/Delete.yml)
+##### [Generate Sso Url](apimanagement/2020-12-01/User/Generate-Sso-Url.yml)
+##### [Get](apimanagement/2020-12-01/User/Get.yml)
+##### [Get Entity Tag](apimanagement/2020-12-01/User/Get-Entity-Tag.yml)
+##### [Get Shared Access Token](apimanagement/2020-12-01/User/Get-Shared-Access-Token.yml)
+##### [List By Service](apimanagement/2020-12-01/User/List-By-Service.yml)
+##### [Update](apimanagement/2020-12-01/User/Update.yml)
+#### User Confirmation Password
+##### [Overview](apimanagement/2020-12-01/User-Confirmation-Password.yml)
+##### [Send](apimanagement/2020-12-01/User-Confirmation-Password/Send.yml)
+#### User Group
+##### [Overview](apimanagement/2020-12-01/User-Group.yml)
+##### [List](apimanagement/2020-12-01/User-Group/List.yml)
+#### User Identities
+##### [Overview](apimanagement/2020-12-01/User-Identities.yml)
+##### [List](apimanagement/2020-12-01/User-Identities/List.yml)
+#### User Subscription
+##### [Overview](apimanagement/2020-12-01/User-Subscription.yml)
+##### [Get](apimanagement/2020-12-01/User-Subscription/Get.yml)
+##### [List](apimanagement/2020-12-01/User-Subscription/List.yml)
 ### 2021-01-01-preview
 #### Api
 ##### [Overview](apimanagement/2021-01-01-preview/Api.yml)
@@ -5518,9 +5548,6 @@
 #### [Overview](personalizer/1.0/Rank.yml)
 #### [Rank](personalizer/1.0/Rank/Rank.yml)
 ## 1.1 Preview 1
-### Evaluation
-#### [Overview](personalizer/1.1preview1/Evaluation.yml)
-#### [Apply](personalizer/1.1preview1/Evaluation/Apply.yml)
 ### Evaluations
 #### [Overview](personalizer/1.1preview1/Evaluations.yml)
 #### [Create](personalizer/1.1preview1/Evaluations/Create.yml)
@@ -5557,6 +5584,7 @@
 #### [Rank](personalizer/1.1preview1/Rank/Rank.yml)
 ### Service Configuration
 #### [Overview](personalizer/1.1preview1/Service-Configuration.yml)
+#### [Apply From Evaluation](personalizer/1.1preview1/Service-Configuration/Apply-From-Evaluation.yml)
 #### [Get](personalizer/1.1preview1/Service-Configuration/Get.yml)
 #### [Update](personalizer/1.1preview1/Service-Configuration/Update.yml)
 # Cognitive Services - QnA Maker
@@ -8729,6 +8757,42 @@
 ## Operations
 ### [Overview](hybridcompute/Operations.yml)
 ### [List](hybridcompute/Operations/List.yml)
+## Private Endpoint Connections
+### [Overview](hybridcompute/Private-Endpoint-Connections.yml)
+### [Create Or Update](hybridcompute/Private-Endpoint-Connections/Create-Or-Update.yml)
+### [Delete](hybridcompute/Private-Endpoint-Connections/Delete.yml)
+### [Get](hybridcompute/Private-Endpoint-Connections/Get.yml)
+### [List By Private Link Scope](hybridcompute/Private-Endpoint-Connections/List-By-Private-Link-Scope.yml)
+## Private Link Resources
+### [Overview](hybridcompute/Private-Link-Resources.yml)
+### [Get](hybridcompute/Private-Link-Resources/Get.yml)
+### [List By Private Link Scope](hybridcompute/Private-Link-Resources/List-By-Private-Link-Scope.yml)
+## Private Link Scopes
+### [Overview](hybridcompute/Private-Link-Scopes.yml)
+### [Create Or Update](hybridcompute/Private-Link-Scopes/Create-Or-Update.yml)
+### [Delete](hybridcompute/Private-Link-Scopes/Delete.yml)
+### [Get](hybridcompute/Private-Link-Scopes/Get.yml)
+### [Get Validation Details](hybridcompute/Private-Link-Scopes/Get-Validation-Details.yml)
+### [Get Validation Details For Machine](hybridcompute/Private-Link-Scopes/Get-Validation-Details-For-Machine.yml)
+### [List](hybridcompute/Private-Link-Scopes/List.yml)
+### [List By Resource Group](hybridcompute/Private-Link-Scopes/List-By-Resource-Group.yml)
+### [Update Tags](hybridcompute/Private-Link-Scopes/Update-Tags.yml)
+## Upgrade Extensions
+### [Overview](hybridcompute/Upgrade-Extensions.yml)
+### [Upgrade Extensions](hybridcompute/Upgrade-Extensions/Upgrade-Extensions.yml)
+# Hybrid Kubernetes
+## [Overview](../docs-ref-conceptual/hybridkubernetes/index.md)
+## Connected Cluster
+### [Overview](hybridkubernetes/Connected-Cluster.yml)
+### [Create](hybridkubernetes/Connected-Cluster/Create.yml)
+### [Delete](hybridkubernetes/Connected-Cluster/Delete.yml)
+### [Get](hybridkubernetes/Connected-Cluster/Get.yml)
+### [List By Resource Group](hybridkubernetes/Connected-Cluster/List-By-Resource-Group.yml)
+### [List By Subscription](hybridkubernetes/Connected-Cluster/List-By-Subscription.yml)
+### [Update](hybridkubernetes/Connected-Cluster/Update.yml)
+## Operations
+### [Overview](hybridkubernetes/Operations.yml)
+### [Get](hybridkubernetes/Operations/Get.yml)
 # Internet Analyzer
 ## [Overview](../docs-ref-conceptual/internetanalyzer/index.md)
 ## Experiments
@@ -10172,7 +10236,9 @@
 ### [Get Map Tile](maps/Render/Get-Map-Tile.yml)
 ## Render V2
 ### [Overview](maps/Render-V2.yml)
-### [Get Map Tile Preview](maps/Render-V2/Get-Map-Tile-Preview.yml)
+### [Get Map Attribution](maps/Render-V2/Get-Map-Attribution.yml)
+### [Get Map Tile](maps/Render-V2/Get-Map-Tile.yml)
+### [Get Map Tileset](maps/Render-V2/Get-Map-Tileset.yml)
 ## Route
 ### [Overview](maps/Route.yml)
 ### [Get Route Directions](maps/Route/Get-Route-Directions.yml)
@@ -11763,200 +11829,198 @@
 ### [Update](recoveryservices/Vaults/Update.yml)
 # Recovery Services - Backup
 ## [Overview](../docs-ref-conceptual/backup/index.md)
-## 2018-12-20
-### Aad Properties
-#### [Overview](backup/2018-12-20/Aad-Properties.yml)
-#### [Get](backup/2018-12-20/Aad-Properties/Get.yml)
-### Backup Crr Job Details
-#### [Overview](backup/2018-12-20/Backup-Crr-Job-Details.yml)
-#### [Get](backup/2018-12-20/Backup-Crr-Job-Details/Get.yml)
-### Backup Crr Jobs
-#### [Overview](backup/2018-12-20/Backup-Crr-Jobs.yml)
-#### [List](backup/2018-12-20/Backup-Crr-Jobs/List.yml)
-### Backup Protected Items Crr
-#### [Overview](backup/2018-12-20/Backup-Protected-Items-Crr.yml)
-#### [List](backup/2018-12-20/Backup-Protected-Items-Crr/List.yml)
-### Backup Resource Storage Configs
-#### [Overview](backup/2018-12-20/Backup-Resource-Storage-Configs.yml)
-#### [Get](backup/2018-12-20/Backup-Resource-Storage-Configs/Get.yml)
-#### [Update](backup/2018-12-20/Backup-Resource-Storage-Configs/Update.yml)
-#### [patch](backup/2018-12-20/Backup-Resource-Storage-Configs/patch.yml)
-### Backup Usage Summaries CRR
-#### [Overview](backup/2018-12-20/Backup-Usage-Summaries-CRR.yml)
-#### [List](backup/2018-12-20/Backup-Usage-Summaries-CRR/List.yml)
-### Cross Region Restore
-#### [Overview](backup/2018-12-20/Cross-Region-Restore.yml)
-#### [Trigger](backup/2018-12-20/Cross-Region-Restore/Trigger.yml)
-### Crr Operation Results
-#### [Overview](backup/2018-12-20/Crr-Operation-Results.yml)
-#### [Get](backup/2018-12-20/Crr-Operation-Results/Get.yml)
-### Crr Operation Status
-#### [Overview](backup/2018-12-20/Crr-Operation-Status.yml)
-#### [Get](backup/2018-12-20/Crr-Operation-Status/Get.yml)
-### Recovery Points
-#### [Overview](backup/2018-12-20/Recovery-Points.yml)
-#### [Get Access Token](backup/2018-12-20/Recovery-Points/Get-Access-Token.yml)
-### Recovery Points Crr
-#### [Overview](backup/2018-12-20/Recovery-Points-Crr.yml)
-#### [List](backup/2018-12-20/Recovery-Points-Crr/List.yml)
-## 2021-02-10
-### BMS Prepare Data Move
-#### [Overview](backup/2021-02-10/BMS-Prepare-Data-Move.yml)
-#### [BMS Prepare Data Move](backup/2021-02-10/BMS-Prepare-Data-Move/BMS-Prepare-Data-Move.yml)
-### BMS Prepare Data Move Operation Result
-#### [Overview](backup/2021-02-10/BMS-Prepare-Data-Move-Operation-Result.yml)
-#### [Get](backup/2021-02-10/BMS-Prepare-Data-Move-Operation-Result/Get.yml)
-### BMS Trigger Data Move
-#### [Overview](backup/2021-02-10/BMS-Trigger-Data-Move.yml)
-#### [BMS Trigger Data Move](backup/2021-02-10/BMS-Trigger-Data-Move/BMS-Trigger-Data-Move.yml)
-### Backup Engines
-#### [Overview](backup/2021-02-10/Backup-Engines.yml)
-#### [Get](backup/2021-02-10/Backup-Engines/Get.yml)
-#### [List](backup/2021-02-10/Backup-Engines/List.yml)
-### Backup Jobs
-#### [Overview](backup/2021-02-10/Backup-Jobs.yml)
-#### [List](backup/2021-02-10/Backup-Jobs/List.yml)
-### Backup Operation Results
-#### [Overview](backup/2021-02-10/Backup-Operation-Results.yml)
-#### [Get](backup/2021-02-10/Backup-Operation-Results/Get.yml)
-### Backup Operation Statuses
-#### [Overview](backup/2021-02-10/Backup-Operation-Statuses.yml)
-#### [Get](backup/2021-02-10/Backup-Operation-Statuses/Get.yml)
-### Backup Policies
-#### [Overview](backup/2021-02-10/Backup-Policies.yml)
-#### [List](backup/2021-02-10/Backup-Policies/List.yml)
-### Backup Protectable Items
-#### [Overview](backup/2021-02-10/Backup-Protectable-Items.yml)
-#### [List](backup/2021-02-10/Backup-Protectable-Items/List.yml)
-### Backup Protected Items
-#### [Overview](backup/2021-02-10/Backup-Protected-Items.yml)
-#### [List](backup/2021-02-10/Backup-Protected-Items/List.yml)
-### Backup Protection Containers
-#### [Overview](backup/2021-02-10/Backup-Protection-Containers.yml)
-#### [List](backup/2021-02-10/Backup-Protection-Containers/List.yml)
-### Backup Protection Intent
-#### [Overview](backup/2021-02-10/Backup-Protection-Intent.yml)
-#### [List](backup/2021-02-10/Backup-Protection-Intent/List.yml)
-### Backup Resource Encryption Configs
-#### [Overview](backup/2021-02-10/Backup-Resource-Encryption-Configs.yml)
-#### [Get](backup/2021-02-10/Backup-Resource-Encryption-Configs/Get.yml)
-#### [Update](backup/2021-02-10/Backup-Resource-Encryption-Configs/Update.yml)
-### Backup Resource Vault Configs
-#### [Overview](backup/2021-02-10/Backup-Resource-Vault-Configs.yml)
-#### [Get](backup/2021-02-10/Backup-Resource-Vault-Configs/Get.yml)
-#### [Put](backup/2021-02-10/Backup-Resource-Vault-Configs/Put.yml)
-#### [Update](backup/2021-02-10/Backup-Resource-Vault-Configs/Update.yml)
-### Backup Status
-#### [Overview](backup/2021-02-10/Backup-Status.yml)
-#### [Get](backup/2021-02-10/Backup-Status/Get.yml)
-### Backup Usage Summaries
-#### [Overview](backup/2021-02-10/Backup-Usage-Summaries.yml)
-#### [List](backup/2021-02-10/Backup-Usage-Summaries/List.yml)
-### Backup Workload Items
-#### [Overview](backup/2021-02-10/Backup-Workload-Items.yml)
-#### [List](backup/2021-02-10/Backup-Workload-Items/List.yml)
-### Backups
-#### [Overview](backup/2021-02-10/Backups.yml)
-#### [Trigger](backup/2021-02-10/Backups/Trigger.yml)
-### Export Jobs Operation Results
-#### [Overview](backup/2021-02-10/Export-Jobs-Operation-Results.yml)
-#### [Get](backup/2021-02-10/Export-Jobs-Operation-Results/Get.yml)
-### Feature Support
-#### [Overview](backup/2021-02-10/Feature-Support.yml)
-#### [Validate](backup/2021-02-10/Feature-Support/Validate.yml)
-### Get Operation Status
-#### [Overview](backup/2021-02-10/Get-Operation-Status.yml)
-#### [Get Operation Status](backup/2021-02-10/Get-Operation-Status/Get-Operation-Status.yml)
-### Item Level Recovery Connections
-#### [Overview](backup/2021-02-10/Item-Level-Recovery-Connections.yml)
-#### [Provision](backup/2021-02-10/Item-Level-Recovery-Connections/Provision.yml)
-#### [Revoke](backup/2021-02-10/Item-Level-Recovery-Connections/Revoke.yml)
-### Job Cancellations
-#### [Overview](backup/2021-02-10/Job-Cancellations.yml)
-#### [Trigger](backup/2021-02-10/Job-Cancellations/Trigger.yml)
-### Job Details
-#### [Overview](backup/2021-02-10/Job-Details.yml)
-#### [Get](backup/2021-02-10/Job-Details/Get.yml)
-### Job Operation Results
-#### [Overview](backup/2021-02-10/Job-Operation-Results.yml)
-#### [Get](backup/2021-02-10/Job-Operation-Results/Get.yml)
-### Jobs
-#### [Overview](backup/2021-02-10/Jobs.yml)
-#### [Export](backup/2021-02-10/Jobs/Export.yml)
-### Move Recovery Point
-#### [Overview](backup/2021-02-10/Move-Recovery-Point.yml)
-#### [Move Recovery Point](backup/2021-02-10/Move-Recovery-Point/Move-Recovery-Point.yml)
-### Operation
-#### [Overview](backup/2021-02-10/Operation.yml)
-#### [Validate](backup/2021-02-10/Operation/Validate.yml)
-### Operations
-#### [Overview](backup/2021-02-10/Operations.yml)
-#### [List](backup/2021-02-10/Operations/List.yml)
-### Private Endpoint
-#### [Overview](backup/2021-02-10/Private-Endpoint.yml)
-#### [Get Operation Status](backup/2021-02-10/Private-Endpoint/Get-Operation-Status.yml)
-### Private Endpoint Connection
-#### [Overview](backup/2021-02-10/Private-Endpoint-Connection.yml)
-#### [Delete](backup/2021-02-10/Private-Endpoint-Connection/Delete.yml)
-#### [Get](backup/2021-02-10/Private-Endpoint-Connection/Get.yml)
-#### [Put](backup/2021-02-10/Private-Endpoint-Connection/Put.yml)
-### Protectable Containers
-#### [Overview](backup/2021-02-10/Protectable-Containers.yml)
-#### [List](backup/2021-02-10/Protectable-Containers/List.yml)
-### Protected Item Operation Results
-#### [Overview](backup/2021-02-10/Protected-Item-Operation-Results.yml)
-#### [Get](backup/2021-02-10/Protected-Item-Operation-Results/Get.yml)
-### Protected Item Operation Statuses
-#### [Overview](backup/2021-02-10/Protected-Item-Operation-Statuses.yml)
-#### [Get](backup/2021-02-10/Protected-Item-Operation-Statuses/Get.yml)
-### Protected Items
-#### [Overview](backup/2021-02-10/Protected-Items.yml)
-#### [Create Or Update](backup/2021-02-10/Protected-Items/Create-Or-Update.yml)
-#### [Delete](backup/2021-02-10/Protected-Items/Delete.yml)
-#### [Get](backup/2021-02-10/Protected-Items/Get.yml)
-### Protection Container Operation Results
-#### [Overview](backup/2021-02-10/Protection-Container-Operation-Results.yml)
-#### [Get](backup/2021-02-10/Protection-Container-Operation-Results/Get.yml)
-### Protection Container Refresh Operation Results
-#### [Overview](backup/2021-02-10/Protection-Container-Refresh-Operation-Results.yml)
-#### [Get](backup/2021-02-10/Protection-Container-Refresh-Operation-Results/Get.yml)
-### Protection Containers
-#### [Overview](backup/2021-02-10/Protection-Containers.yml)
-#### [Get](backup/2021-02-10/Protection-Containers/Get.yml)
-#### [Inquire](backup/2021-02-10/Protection-Containers/Inquire.yml)
-#### [Refresh](backup/2021-02-10/Protection-Containers/Refresh.yml)
-#### [Register](backup/2021-02-10/Protection-Containers/Register.yml)
-#### [Unregister](backup/2021-02-10/Protection-Containers/Unregister.yml)
-### Protection Intent
-#### [Overview](backup/2021-02-10/Protection-Intent.yml)
-#### [Create Or Update](backup/2021-02-10/Protection-Intent/Create-Or-Update.yml)
-#### [Delete](backup/2021-02-10/Protection-Intent/Delete.yml)
-#### [Get](backup/2021-02-10/Protection-Intent/Get.yml)
-#### [Validate](backup/2021-02-10/Protection-Intent/Validate.yml)
-### Protection Policies
-#### [Overview](backup/2021-02-10/Protection-Policies.yml)
-#### [Create Or Update](backup/2021-02-10/Protection-Policies/Create-Or-Update.yml)
-#### [Delete](backup/2021-02-10/Protection-Policies/Delete.yml)
-#### [Get](backup/2021-02-10/Protection-Policies/Get.yml)
-### Protection Policy Operation Results
-#### [Overview](backup/2021-02-10/Protection-Policy-Operation-Results.yml)
-#### [Get](backup/2021-02-10/Protection-Policy-Operation-Results/Get.yml)
-### Protection Policy Operation Statuses
-#### [Overview](backup/2021-02-10/Protection-Policy-Operation-Statuses.yml)
-#### [Get](backup/2021-02-10/Protection-Policy-Operation-Statuses/Get.yml)
-### Recovery Points
-#### [Overview](backup/2021-02-10/Recovery-Points.yml)
-#### [Get](backup/2021-02-10/Recovery-Points/Get.yml)
-#### [List](backup/2021-02-10/Recovery-Points/List.yml)
-### Recovery Points Recommended For Move
-#### [Overview](backup/2021-02-10/Recovery-Points-Recommended-For-Move.yml)
-#### [List](backup/2021-02-10/Recovery-Points-Recommended-For-Move/List.yml)
-### Restores
-#### [Overview](backup/2021-02-10/Restores.yml)
-#### [Trigger](backup/2021-02-10/Restores/Trigger.yml)
-### Security PI Ns
-#### [Overview](backup/2021-02-10/Security-PI-Ns.yml)
-#### [Get](backup/2021-02-10/Security-PI-Ns/Get.yml)
+## Aad Properties
+### [Overview](backup/Aad-Properties.yml)
+### [Get](backup/Aad-Properties/Get.yml)
+## BMS Prepare Data Move
+### [Overview](backup/BMS-Prepare-Data-Move.yml)
+### [BMS Prepare Data Move](backup/BMS-Prepare-Data-Move/BMS-Prepare-Data-Move.yml)
+## BMS Prepare Data Move Operation Result
+### [Overview](backup/BMS-Prepare-Data-Move-Operation-Result.yml)
+### [Get](backup/BMS-Prepare-Data-Move-Operation-Result/Get.yml)
+## BMS Trigger Data Move
+### [Overview](backup/BMS-Trigger-Data-Move.yml)
+### [BMS Trigger Data Move](backup/BMS-Trigger-Data-Move/BMS-Trigger-Data-Move.yml)
+## Backup Crr Job Details
+### [Overview](backup/Backup-Crr-Job-Details.yml)
+### [Get](backup/Backup-Crr-Job-Details/Get.yml)
+## Backup Crr Jobs
+### [Overview](backup/Backup-Crr-Jobs.yml)
+### [List](backup/Backup-Crr-Jobs/List.yml)
+## Backup Engines
+### [Overview](backup/Backup-Engines.yml)
+### [Get](backup/Backup-Engines/Get.yml)
+### [List](backup/Backup-Engines/List.yml)
+## Backup Jobs
+### [Overview](backup/Backup-Jobs.yml)
+### [List](backup/Backup-Jobs/List.yml)
+## Backup Operation Results
+### [Overview](backup/Backup-Operation-Results.yml)
+### [Get](backup/Backup-Operation-Results/Get.yml)
+## Backup Operation Statuses
+### [Overview](backup/Backup-Operation-Statuses.yml)
+### [Get](backup/Backup-Operation-Statuses/Get.yml)
+## Backup Policies
+### [Overview](backup/Backup-Policies.yml)
+### [List](backup/Backup-Policies/List.yml)
+## Backup Protectable Items
+### [Overview](backup/Backup-Protectable-Items.yml)
+### [List](backup/Backup-Protectable-Items/List.yml)
+## Backup Protected Items
+### [Overview](backup/Backup-Protected-Items.yml)
+### [List](backup/Backup-Protected-Items/List.yml)
+## Backup Protected Items Crr
+### [Overview](backup/Backup-Protected-Items-Crr.yml)
+### [List](backup/Backup-Protected-Items-Crr/List.yml)
+## Backup Protection Containers
+### [Overview](backup/Backup-Protection-Containers.yml)
+### [List](backup/Backup-Protection-Containers/List.yml)
+## Backup Protection Intent
+### [Overview](backup/Backup-Protection-Intent.yml)
+### [List](backup/Backup-Protection-Intent/List.yml)
+## Backup Resource Encryption Configs
+### [Overview](backup/Backup-Resource-Encryption-Configs.yml)
+### [Get](backup/Backup-Resource-Encryption-Configs/Get.yml)
+### [Update](backup/Backup-Resource-Encryption-Configs/Update.yml)
+## Backup Resource Storage Configs
+### [Overview](backup/Backup-Resource-Storage-Configs.yml)
+### [Get](backup/Backup-Resource-Storage-Configs/Get.yml)
+### [Update](backup/Backup-Resource-Storage-Configs/Update.yml)
+### [patch](backup/Backup-Resource-Storage-Configs/patch.yml)
+## Backup Resource Vault Configs
+### [Overview](backup/Backup-Resource-Vault-Configs.yml)
+### [Get](backup/Backup-Resource-Vault-Configs/Get.yml)
+### [Put](backup/Backup-Resource-Vault-Configs/Put.yml)
+### [Update](backup/Backup-Resource-Vault-Configs/Update.yml)
+## Backup Status
+### [Overview](backup/Backup-Status.yml)
+### [Get](backup/Backup-Status/Get.yml)
+## Backup Usage Summaries
+### [Overview](backup/Backup-Usage-Summaries.yml)
+### [List](backup/Backup-Usage-Summaries/List.yml)
+## Backup Usage Summaries CRR
+### [Overview](backup/Backup-Usage-Summaries-CRR.yml)
+### [List](backup/Backup-Usage-Summaries-CRR/List.yml)
+## Backup Workload Items
+### [Overview](backup/Backup-Workload-Items.yml)
+### [List](backup/Backup-Workload-Items/List.yml)
+## Backups
+### [Overview](backup/Backups.yml)
+### [Trigger](backup/Backups/Trigger.yml)
+## Cross Region Restore
+### [Overview](backup/Cross-Region-Restore.yml)
+### [Trigger](backup/Cross-Region-Restore/Trigger.yml)
+## Crr Operation Results
+### [Overview](backup/Crr-Operation-Results.yml)
+### [Get](backup/Crr-Operation-Results/Get.yml)
+## Crr Operation Status
+### [Overview](backup/Crr-Operation-Status.yml)
+### [Get](backup/Crr-Operation-Status/Get.yml)
+## Export Jobs Operation Results
+### [Overview](backup/Export-Jobs-Operation-Results.yml)
+### [Get](backup/Export-Jobs-Operation-Results/Get.yml)
+## Feature Support
+### [Overview](backup/Feature-Support.yml)
+### [Validate](backup/Feature-Support/Validate.yml)
+## Get Operation Status
+### [Overview](backup/Get-Operation-Status.yml)
+### [Get Operation Status](backup/Get-Operation-Status/Get-Operation-Status.yml)
+## Item Level Recovery Connections
+### [Overview](backup/Item-Level-Recovery-Connections.yml)
+### [Provision](backup/Item-Level-Recovery-Connections/Provision.yml)
+### [Revoke](backup/Item-Level-Recovery-Connections/Revoke.yml)
+## Job Cancellations
+### [Overview](backup/Job-Cancellations.yml)
+### [Trigger](backup/Job-Cancellations/Trigger.yml)
+## Job Details
+### [Overview](backup/Job-Details.yml)
+### [Get](backup/Job-Details/Get.yml)
+## Job Operation Results
+### [Overview](backup/Job-Operation-Results.yml)
+### [Get](backup/Job-Operation-Results/Get.yml)
+## Jobs
+### [Overview](backup/Jobs.yml)
+### [Export](backup/Jobs/Export.yml)
+## Move Recovery Point
+### [Overview](backup/Move-Recovery-Point.yml)
+### [Move Recovery Point](backup/Move-Recovery-Point/Move-Recovery-Point.yml)
+## Operation
+### [Overview](backup/Operation.yml)
+### [Validate](backup/Operation/Validate.yml)
+## Operations
+### [Overview](backup/Operations.yml)
+### [List](backup/Operations/List.yml)
+## Private Endpoint
+### [Overview](backup/Private-Endpoint.yml)
+### [Get Operation Status](backup/Private-Endpoint/Get-Operation-Status.yml)
+## Private Endpoint Connection
+### [Overview](backup/Private-Endpoint-Connection.yml)
+### [Delete](backup/Private-Endpoint-Connection/Delete.yml)
+### [Get](backup/Private-Endpoint-Connection/Get.yml)
+### [Put](backup/Private-Endpoint-Connection/Put.yml)
+## Protectable Containers
+### [Overview](backup/Protectable-Containers.yml)
+### [List](backup/Protectable-Containers/List.yml)
+## Protected Item Operation Results
+### [Overview](backup/Protected-Item-Operation-Results.yml)
+### [Get](backup/Protected-Item-Operation-Results/Get.yml)
+## Protected Item Operation Statuses
+### [Overview](backup/Protected-Item-Operation-Statuses.yml)
+### [Get](backup/Protected-Item-Operation-Statuses/Get.yml)
+## Protected Items
+### [Overview](backup/Protected-Items.yml)
+### [Create Or Update](backup/Protected-Items/Create-Or-Update.yml)
+### [Delete](backup/Protected-Items/Delete.yml)
+### [Get](backup/Protected-Items/Get.yml)
+## Protection Container Operation Results
+### [Overview](backup/Protection-Container-Operation-Results.yml)
+### [Get](backup/Protection-Container-Operation-Results/Get.yml)
+## Protection Container Refresh Operation Results
+### [Overview](backup/Protection-Container-Refresh-Operation-Results.yml)
+### [Get](backup/Protection-Container-Refresh-Operation-Results/Get.yml)
+## Protection Containers
+### [Overview](backup/Protection-Containers.yml)
+### [Get](backup/Protection-Containers/Get.yml)
+### [Inquire](backup/Protection-Containers/Inquire.yml)
+### [Refresh](backup/Protection-Containers/Refresh.yml)
+### [Register](backup/Protection-Containers/Register.yml)
+### [Unregister](backup/Protection-Containers/Unregister.yml)
+## Protection Intent
+### [Overview](backup/Protection-Intent.yml)
+### [Create Or Update](backup/Protection-Intent/Create-Or-Update.yml)
+### [Delete](backup/Protection-Intent/Delete.yml)
+### [Get](backup/Protection-Intent/Get.yml)
+### [Validate](backup/Protection-Intent/Validate.yml)
+## Protection Policies
+### [Overview](backup/Protection-Policies.yml)
+### [Create Or Update](backup/Protection-Policies/Create-Or-Update.yml)
+### [Delete](backup/Protection-Policies/Delete.yml)
+### [Get](backup/Protection-Policies/Get.yml)
+## Protection Policy Operation Results
+### [Overview](backup/Protection-Policy-Operation-Results.yml)
+### [Get](backup/Protection-Policy-Operation-Results/Get.yml)
+## Protection Policy Operation Statuses
+### [Overview](backup/Protection-Policy-Operation-Statuses.yml)
+### [Get](backup/Protection-Policy-Operation-Statuses/Get.yml)
+## Recovery Points
+### [Overview](backup/Recovery-Points.yml)
+### [Get](backup/Recovery-Points/Get.yml)
+### [List](backup/Recovery-Points/List.yml)
+## Recovery Points Crr
+### [Overview](backup/Recovery-Points-Crr.yml)
+### [List](backup/Recovery-Points-Crr/List.yml)
+## Recovery Points Recommended For Move
+### [Overview](backup/Recovery-Points-Recommended-For-Move.yml)
+### [List](backup/Recovery-Points-Recommended-For-Move/List.yml)
+## Recovery points - Get access token for Crr
+### [Overview](backup/Recovery-points-Get-access-token-for-Crr.yml)
+### [Get Access Token](backup/Recovery-points-Get-access-token-for-Crr/Get-Access-Token.yml)
+## Restores
+### [Overview](backup/Restores.yml)
+### [Trigger](backup/Restores/Trigger.yml)
+## Security PI Ns
+### [Overview](backup/Security-PI-Ns.yml)
+### [Get](backup/Security-PI-Ns/Get.yml)
 # Recovery Services - Site Recovery
 ## [Overview](../docs-ref-conceptual/site-recovery/index.md)
 ## Migration Recovery Points
@@ -19829,7 +19893,12 @@
 #### [Update](streamanalytics/2017-04-01-preview/Streaming-Jobs/Update.yml)
 ### Subscriptions
 #### [Overview](streamanalytics/2017-04-01-preview/Subscriptions.yml)
+#### [Compile Query](streamanalytics/2017-04-01-preview/Subscriptions/Compile-Query.yml)
 #### [List Quotas](streamanalytics/2017-04-01-preview/Subscriptions/List-Quotas.yml)
+#### [Sample Input](streamanalytics/2017-04-01-preview/Subscriptions/Sample-Input.yml)
+#### [Test Input](streamanalytics/2017-04-01-preview/Subscriptions/Test-Input.yml)
+#### [Test Output](streamanalytics/2017-04-01-preview/Subscriptions/Test-Output.yml)
+#### [Test Query](streamanalytics/2017-04-01-preview/Subscriptions/Test-Query.yml)
 ### Transformations
 #### [Overview](streamanalytics/2017-04-01-preview/Transformations.yml)
 #### [Create Or Replace](streamanalytics/2017-04-01-preview/Transformations/Create-Or-Replace.yml)
@@ -20142,9 +20211,6 @@
 #### [Overview](synapse/data-plane/Big-Data-Pools.yml)
 #### [Get](synapse/data-plane/Big-Data-Pools/Get.yml)
 #### [List](synapse/data-plane/Big-Data-Pools/List.yml)
-### Create Role Assignment
-#### [Overview](synapse/data-plane/Create-Role-Assignment.yml)
-#### [Create Role Assignment](synapse/data-plane/Create-Role-Assignment/Create-Role-Assignment.yml)
 ### Data Flow
 #### [Overview](synapse/data-plane/Data-Flow.yml)
 #### [Create Or Update Data Flow](synapse/data-plane/Data-Flow/Create-Or-Update-Data-Flow.yml)
@@ -20166,18 +20232,6 @@
 #### [Get Dataset](synapse/data-plane/Dataset/Get-Dataset.yml)
 #### [Get Datasets By Workspace](synapse/data-plane/Dataset/Get-Datasets-By-Workspace.yml)
 #### [Rename Dataset](synapse/data-plane/Dataset/Rename-Dataset.yml)
-### Delete Role Assignment By Id
-#### [Overview](synapse/data-plane/Delete-Role-Assignment-By-Id.yml)
-#### [Delete Role Assignment By Id](synapse/data-plane/Delete-Role-Assignment-By-Id/Delete-Role-Assignment-By-Id.yml)
-### Get Caller Role Assignments
-#### [Overview](synapse/data-plane/Get-Caller-Role-Assignments.yml)
-#### [Get Caller Role Assignments](synapse/data-plane/Get-Caller-Role-Assignments/Get-Caller-Role-Assignments.yml)
-### Get Role Assignment By Id
-#### [Overview](synapse/data-plane/Get-Role-Assignment-By-Id.yml)
-#### [Get Role Assignment By Id](synapse/data-plane/Get-Role-Assignment-By-Id/Get-Role-Assignment-By-Id.yml)
-### Get Role Assignments
-#### [Overview](synapse/data-plane/Get-Role-Assignments.yml)
-#### [Get Role Assignments](synapse/data-plane/Get-Role-Assignments/Get-Role-Assignments.yml)
 ### Get Role Definition By Id
 #### [Overview](synapse/data-plane/Get-Role-Definition-By-Id.yml)
 #### [Get Role Definition By Id](synapse/data-plane/Get-Role-Definition-By-Id/Get-Role-Definition-By-Id.yml)
@@ -20188,6 +20242,15 @@
 #### [Overview](synapse/data-plane/Integration-Runtimes.yml)
 #### [Get](synapse/data-plane/Integration-Runtimes/Get.yml)
 #### [List](synapse/data-plane/Integration-Runtimes/List.yml)
+### Library
+#### [Overview](synapse/data-plane/Library.yml)
+#### [Append](synapse/data-plane/Library/Append.yml)
+#### [Create](synapse/data-plane/Library/Create.yml)
+#### [Delete](synapse/data-plane/Library/Delete.yml)
+#### [Flush](synapse/data-plane/Library/Flush.yml)
+#### [Get](synapse/data-plane/Library/Get.yml)
+#### [Get Operation Result](synapse/data-plane/Library/Get-Operation-Result.yml)
+#### [List](synapse/data-plane/Library/List.yml)
 ### Linked Service
 #### [Overview](synapse/data-plane/Linked-Service.yml)
 #### [Create Or Update Linked Service](synapse/data-plane/Linked-Service/Create-Or-Update-Linked-Service.yml)
@@ -20213,6 +20276,15 @@
 #### [Get Notebook Summary By Work Space](synapse/data-plane/Notebook/Get-Notebook-Summary-By-Work-Space.yml)
 #### [Get Notebooks By Workspace](synapse/data-plane/Notebook/Get-Notebooks-By-Workspace.yml)
 #### [Rename Notebook](synapse/data-plane/Notebook/Rename-Notebook.yml)
+### Notebook Operation Result
+#### [Overview](synapse/data-plane/Notebook-Operation-Result.yml)
+#### [Get](synapse/data-plane/Notebook-Operation-Result/Get.yml)
+### Operation Result
+#### [Overview](synapse/data-plane/Operation-Result.yml)
+#### [Get](synapse/data-plane/Operation-Result/Get.yml)
+### Operation Status
+#### [Overview](synapse/data-plane/Operation-Status.yml)
+#### [Get](synapse/data-plane/Operation-Status/Get.yml)
 ### Pipeline
 #### [Overview](synapse/data-plane/Pipeline.yml)
 #### [Create Or Update Pipeline](synapse/data-plane/Pipeline/Create-Or-Update-Pipeline.yml)
@@ -20227,6 +20299,20 @@
 #### [Get Pipeline Run](synapse/data-plane/Pipeline-Run/Get-Pipeline-Run.yml)
 #### [Query Activity Runs](synapse/data-plane/Pipeline-Run/Query-Activity-Runs.yml)
 #### [Query Pipeline Runs By Workspace](synapse/data-plane/Pipeline-Run/Query-Pipeline-Runs-By-Workspace.yml)
+### Role Assignments
+#### [Overview](synapse/data-plane/Role-Assignments.yml)
+#### [Create Role Assignment](synapse/data-plane/Role-Assignments/Create-Role-Assignment.yml)
+#### [Delete Role Assignment By Id](synapse/data-plane/Role-Assignments/Delete-Role-Assignment-By-Id.yml)
+#### [Get Role Assignment By Id](synapse/data-plane/Role-Assignments/Get-Role-Assignment-By-Id.yml)
+#### [List Role Assignments](synapse/data-plane/Role-Assignments/List-Role-Assignments.yml)
+### Role Assignments2
+#### [Overview](synapse/data-plane/Role%20Assignments2.yml)
+#### [Check Principal Access](synapse/data-plane/Role%20Assignments2/Check-Principal-Access.yml)
+### Role Definitions
+#### [Overview](synapse/data-plane/Role-Definitions.yml)
+#### [Get Role Definition By Id](synapse/data-plane/Role-Definitions/Get-Role-Definition-By-Id.yml)
+#### [List Role Definitions](synapse/data-plane/Role-Definitions/List-Role-Definitions.yml)
+#### [List Scopes](synapse/data-plane/Role-Definitions/List-Scopes.yml)
 ### Spark Batch
 #### [Overview](synapse/data-plane/Spark-Batch.yml)
 #### [Cancel Spark Batch Job](synapse/data-plane/Spark-Batch/Cancel-Spark-Batch-Job.yml)

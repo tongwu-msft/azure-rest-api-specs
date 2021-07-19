@@ -45,6 +45,10 @@ responses:
   description: The streaming job was successfully updated.
   types:
   - uid: StreamingJob
+- name: Other Status Codes
+  description: Error.
+  types:
+  - uid: Error
 requestBody:
 - name: default
   parameters:
@@ -265,6 +269,7 @@ definitions:
     - uid: EventHubOutputDataSource
     - uid: AzureTableOutputDataSource
     - uid: BlobOutputDataSource
+    - uid: RawOutputDatasource
     typesTitle: OutputDataSource
   - name: properties.timeWindow
     description: ''
@@ -511,6 +516,14 @@ definitions:
     description: The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
     types:
     - uid: string
+- name: Error
+  description: Common error representation.
+  kind: object
+  properties:
+  - name: error
+    description: Error definition properties.
+    types:
+    - uid: Error
 - name: StreamingJobSkuName
   description: The name of the SKU. Required on PUT (CreateOrReplace) requests.
   kind: enum
@@ -621,6 +634,7 @@ definitions:
     description: Describes an input data source that contains reference data. Required on PUT (CreateOrReplace) requests.
     types:
     - uid: AzureSqlReferenceInputDataSource
+    - uid: RawReferenceInputDataSource
     - uid: BlobReferenceInputDataSource
     typesTitle: ReferenceInputDataSource
   - name: type
@@ -662,6 +676,7 @@ definitions:
   - name: datasource
     description: Describes an input data source that contains stream data. Required on PUT (CreateOrReplace) requests.
     types:
+    - uid: RawStreamInputDataSource
     - uid: IoTHubStreamInputDataSource
     - uid: EventHubV2StreamInputDataSource
     - uid: EventHubStreamInputDataSource
@@ -1149,6 +1164,19 @@ definitions:
     description: The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead.
     types:
     - uid: string
+- name: RawOutputDatasource
+  description: Describes a raw output data source. This data source type is only applicable/usable when using the query testing API. You cannot create a job with this data source type or add an output of this data source type to an existing job.
+  kind: object
+  properties:
+  - name: properties.payloadUri
+    description: The SAS URL to a blob where the output should be written. If this property is not set, output data will be written into a temporary storage, and a SAS URL to that temporary storage will be included in the result.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Raw
+    typesTitle: string
 - name: ParquetSerialization
   description: Describes how data from an input is serialized or how data is serialized when written to an output in Parquet format.
   kind: object
@@ -1368,13 +1396,30 @@ definitions:
   kind: object
   properties:
   - name: properties
-    description: ''
+    description: Describes Azure SQL database reference input data source properties.
     types:
     - uid: AzureSqlReferenceInputDataSourceProperties
   - name: type
     description: Indicates the type of input data source containing reference data. Required on PUT (CreateOrReplace) requests.
     types:
     - uid: Microsoft.Sql/Server/Database
+    typesTitle: string
+- name: RawReferenceInputDataSource
+  description: Describes a raw input data source that contains reference data. This data source type is only applicable/usable when using the query testing API. You cannot create a job with this data source type or add an input of this data source type to an existing job.
+  kind: object
+  properties:
+  - name: properties.payload
+    description: 'The JSON serialized content of the input data. Either payload or payloadUri must be set, but not both. '
+    types:
+    - uid: string
+  - name: properties.payloadUri
+    description: The SAS URL to a blob containing the JSON serialized content of the input data. Either payload or payloadUri must be set, but not both.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of input data source containing reference data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Raw
     typesTitle: string
 - name: BlobReferenceInputDataSource
   description: Describes a blob input data source that contains reference data.
@@ -1406,6 +1451,23 @@ definitions:
     description: The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead.
     types:
     - uid: string
+- name: RawStreamInputDataSource
+  description: Describes a raw input data source that contains stream data. This data source type is only applicable/usable when using the query testing API. You cannot create a job with this data source type or add an input of this data source type to an existing job.
+  kind: object
+  properties:
+  - name: properties.payload
+    description: 'The JSON serialized content of the input data. Either payload or payloadUri must be set, but not both. '
+    types:
+    - uid: string
+  - name: properties.payloadUri
+    description: The SAS URL to a blob containing the JSON serialized content of the input data. Either payload or payloadUri must be set, but not both.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Raw
+    typesTitle: string
 - name: IoTHubStreamInputDataSource
   description: Describes an IoT Hub input data source that contains stream data.
   kind: object
@@ -1639,6 +1701,7 @@ definitions:
     - uid: Microsoft.MachineLearning/WebService
     typesTitle: string
 - name: AzureSqlReferenceInputDataSourceProperties
+  description: Describes Azure SQL database reference input data source properties.
   kind: object
   properties:
   - name: server

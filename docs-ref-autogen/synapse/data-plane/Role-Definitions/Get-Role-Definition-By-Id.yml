@@ -1,0 +1,205 @@
+### YamlMime:RESTOperation
+uid: synapse.data-plane.roledefinitions.getroledefinitionbyid
+name: Get Role Definition By Id
+service: Synapse
+groupName: Role Definitions
+apiVersion: 2020-12-01
+summary: Get role definition by role definition Id.
+consumes: []
+produces:
+- application/json
+- text/json
+paths:
+- content: GET {endpoint}/roleDefinitions/{roleDefinitionId}?api-version=2020-12-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
+  types:
+  - uid: string
+- name: roleDefinitionId
+  in: path
+  isRequired: true
+  description: Synapse Built-In Role Definition Id.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Synapse client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success response.
+  types:
+  - uid: SynapseRoleDefinition
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorContract
+requestHeader: []
+definitions:
+- name: SynapseRoleDefinition
+  description: Synapse role definition details
+  kind: object
+  properties:
+  - name: id
+    description: Role Definition ID
+    types:
+    - uid: string
+  - name: name
+    description: Name of the Synapse role
+    types:
+    - uid: string
+  - name: isBuiltIn
+    description: Is a built-in role or not
+    types:
+    - uid: boolean
+  - name: description
+    description: Description for the Synapse role
+    types:
+    - uid: string
+  - name: permissions
+    description: Permissions for the Synapse role
+    types:
+    - uid: SynapseRbacPermission
+      isArray: true
+  - name: scopes
+    description: Allowed scopes for the Synapse role
+    types:
+    - uid: string
+      isArray: true
+  - name: availabilityStatus
+    description: Availability of the Synapse role
+    types:
+    - uid: string
+- name: ErrorContract
+  description: Error details.
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nThe error details."
+    types:
+    - uid: ErrorResponse
+- name: SynapseRbacPermission
+  description: Synapse role definition details
+  kind: object
+  properties:
+  - name: actions
+    description: List of actions
+    types:
+    - uid: string
+      isArray: true
+  - name: notActions
+    description: List of Not actions
+    types:
+    - uid: string
+      isArray: true
+  - name: dataActions
+    description: List of data actions
+    types:
+    - uid: string
+      isArray: true
+  - name: notDataActions
+    description: List of Not data actions
+    types:
+    - uid: string
+      isArray: true
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Get role definition information
+  request:
+    uri: GET exampleWorkspace.dev.azuresynapse.net/roleDefinitions/00000000-0000-0000-0000-000000000000?api-version=2020-12-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "name": "Synapse role name",
+        "isBuiltIn": true,
+        "description": "Role description",
+        "permissions": [
+          {
+            "actions": [
+              "Action 1",
+              "Action 2"
+            ],
+            "dataActions": [
+              "Data Action 1",
+              "Data Action 2"
+            ],
+            "notActions": [
+              "Not Action 1",
+              "Not Action 2"
+            ],
+            "notDataActions": [
+              "Data Action 1",
+              "Data Action 2"
+            ]
+          }
+        ],
+        "scopes": [
+          "scope 1",
+          "scope 2"
+        ],
+        "availabilityStatus": "AvailabilityStatusValue"
+      }
+  - statusCode: default
+    body: >-
+      {
+        "error": {
+          "code": "Error code",
+          "message": "Error message"
+        }
+      }
+security: []
+metadata:
+  description: Learn more about Synapse service - Get role definition by role definition Id.
+errorCodes: []

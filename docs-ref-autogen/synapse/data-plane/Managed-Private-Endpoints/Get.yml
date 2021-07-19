@@ -3,13 +3,13 @@ uid: synapse.data-plane.managedprivateendpoints.get
 name: Get
 service: Synapse
 groupName: Managed Private Endpoints
-apiVersion: 2019-06-01-preview
+apiVersion: 2020-12-01
 summary: Get Managed Private Endpoints
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET {endpoint}/managedVirtualNetworks/{managedVirtualNetworkName}/managedPrivateEndpoints/{managedPrivateEndpointName}?api-version=2019-06-01-preview
+- content: GET {endpoint}/managedVirtualNetworks/{managedVirtualNetworkName}/managedPrivateEndpoints/{managedPrivateEndpointName}?api-version=2020-12-01
 uriParameters:
 - name: endpoint
   in: path
@@ -70,6 +70,10 @@ definitions:
   description: Properties of a managed private endpoint
   kind: object
   properties:
+  - name: name
+    description: The name of managed private endpoint
+    types:
+    - uid: string
   - name: privateLinkResourceId
     description: The ARM resource ID of the resource to which the managed private endpoint is created
     types:
@@ -92,6 +96,15 @@ definitions:
     description: Denotes whether the managed private endpoint is reserved
     types:
     - uid: boolean
+  - name: fqdns
+    description: List of fully qualified domain names
+    types:
+    - uid: string
+      isArray: true
+  - name: isCompliant
+    description: Denotes whether the managed private endpoint is compliant
+    types:
+    - uid: boolean
 - name: ManagedPrivateEndpointConnectionState
   description: The connection state of a managed private endpoint
   kind: object
@@ -112,7 +125,7 @@ definitions:
 examples:
 - name: Get a managed private endpoint
   request:
-    uri: GET exampleWorkspace.dev.azuresynapse.net/managedVirtualNetworks/default/managedPrivateEndpoints/myPrivateEndpoint?api-version=2019-06-01-preview
+    uri: GET exampleWorkspace.dev.azuresynapse.net/managedVirtualNetworks/default/managedPrivateEndpoints/myPrivateEndpoint?api-version=2020-12-01
   responses:
   - statusCode: "200"
     body: >-
@@ -120,6 +133,7 @@ examples:
         "type": "Microsoft.Synapse/workspaces/managedVirtualNetworks/managedPrivateEndpoints",
         "name": "myPrivateEndpoint",
         "properties": {
+          "name": "myPrivateEndpoint",
           "privateLinkResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.Storage/accounts/myStorageAccount",
           "groupId": "blob",
           "provisioningState": "Succeeded",
@@ -127,7 +141,12 @@ examples:
             "status": "Approved",
             "description": "",
             "actionsRequired": ""
-          }
+          },
+          "fqdns": [
+            "[hostname1].[domain].[tld]",
+            "[hostname2].[domain].[tld]"
+          ],
+          "isCompliant": true
         }
       }
 security: []

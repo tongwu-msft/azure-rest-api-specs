@@ -562,45 +562,59 @@ For more information about using each feature, see [Enable semantic ranking and 
 The "(preview)" designation indicates that validation testing across all features (semantic ranking, captions, answers, and spell check) is either ongoing or pending. We encourage the use of all of the language variants in the following table, but recommend additional testing of preview languages to ensure the results are valid for your content. Languages with a green check and no preview designation have been validated using equivalent data sets, with measurable gain in relevance.
 
 | Language | queryLanguage | Semantic ranker and captions | Semantic answer | Speller |
-|----------|---------------|------------------|-----------------|---------|
+|----------|---------------|------------------------------|-----------------|---------|
 | English [EN] | EN, EN-US (default), EN-GB, EN-IN, EN-CA, EN-AU | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: (EN, EN-US) |
-| Spanish [ES] | ES, ES-ES (default), ES-MX | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: (ES, ES-ES) |
 | French [FR] | FR, FR-FR (default), FR-CA | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: (FR, FR-FR) |
 | German [DE] | DE, DE-DE (default) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: (DE, DE-DE) |
+| Spanish [ES] | ES, ES-ES (default), ES-MX | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: (ES, ES-ES) |
 | Italian [IT] | IT, IT-IT (default) | :heavy_check_mark: | :heavy_check_mark: |  |
-| Portuguese [PT] | PT, PT-BR (default), PT-PT | :heavy_check_mark: | :heavy_check_mark: (preview) | |
-| Chinese [ZH] | ZH, ZH-CN (default), ZH-TW | :heavy_check_mark: | :heavy_check_mark: (preview) |  |
 | Japanese [JA] | JA, JA-JP (default) | :heavy_check_mark: | :heavy_check_mark: (preview) |  |
-| Korean [KO] | KO, KO-KR (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Russian [RU] | RU, RU-RU (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Czech [CS] | CS, CS-CZ (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Dutch [NL] | NL, NL-BE (default), NL-N | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Polish [PL]  | PL, PL-PL (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Swedish [SV] | SV, SV-SE (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Turkish [TR] | TR, TR-TR (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Hindi [HI] | HI, HI-IN (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Chinese [ZH] | ZH, ZH-CN (default), ZH-TW | :heavy_check_mark: | :heavy_check_mark: (preview) |  |
+| Portuguese [PT] | PT, PT-BR (default), PT-PT | :heavy_check_mark: | :heavy_check_mark: (preview) | |
+| Dutch [NL] | NL, NL-BE, NL-NL (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) | :heavy_check_mark: (NL, NL-NL) |
 | Arabic [AR] | AR, AR-SA (default), AR-EG, AR-MA. AR-KW, AR-JO  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Danish [DA] | DA, DA-DK (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Norwegian [NO] | NO, NO-NO (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Armenian | hy-AM (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Bangla | bn-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Basque | eu-ES (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Bulgarian [BG] | BG, BG-BG (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Catalan [CA] | CA, CA-ES (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Croatian [HR]  | HR, HR-HR (default), HR-BA  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Malaysian [MS]  | MS, MS-MY (default), MS-BN  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Slovenian [SL] | SL, SL-SL (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Tamil [TA] | TA, TA-IN (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Vietnamese [VA] | VA, VI-VN (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Czech [CS] | CS, CS-CZ (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Danish [DA] | DA, DA-DK (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Estonian [ET] | ET, ET-EE (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Finnish [FI] | FI, FI-FI (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Galician | gl-ES (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Greek [EL] | EL, EL-GR (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Romanian [RO] | RO, RO-RO (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Gujarati | gu-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Hebrew | he-IL (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Hindi [HI] | HI, HI-IN (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Icelandic [IS] | IS, IS-IS (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Indonesian [ID] | ID, ID-ID (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Thai [TH] | TH, TH-TH (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Irish | ga-IE (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Kannada | kn-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Korean [KO] | KO, KO-KR (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Latvian [LV] | LV, LV-LV (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Lithuanian [LT]  | LT, LT-LT (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Ukrainian [UK] | UK, UK-UA (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Latvian [LV] | LV, LV-LV (default) 
-| Estonian [ET] | ET, ET-EE (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Catalan [CA] | CA, CA-ES (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Finnish [FI] | FI, FI-FI (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Malayalam | ml-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Malaysian [MS]  | MS, MS-MY (default), MS-BN  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Marathi | mr-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Norwegian [NO] | NO, NO-NO (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Persian | fa-AE (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Polish [PL]  | PL, PL-PL (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Punjabi | pa-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Romanian [RO] | RO, RO-RO (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Russian [RU] | RU, RU-RU (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Serbian [SR] (Cyrillic or Latin) | SR, SR-BA (default), SR-ME, SR-RS  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Slovak [SK] | SK, SK-SK (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Slovenian [SL] | SL, SL-SL (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Tamil [TA] | TA, TA-IN (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Swedish [SV] | SV, SV-SE (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Telugu | te-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Thai [TH] | TH, TH-TH (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Turkish [TR] | TR, TR-TR (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Ukrainian [UK] | UK, UK-UA (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Urdu | ur-PK (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Vietnamese [VA] | VA, VI-VN (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 
 ## See also
 
