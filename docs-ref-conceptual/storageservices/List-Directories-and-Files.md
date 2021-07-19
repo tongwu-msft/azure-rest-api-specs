@@ -3,7 +3,7 @@ title: List Directories and Files (FileREST API) - Azure Files
 description: The List Directories and Files operation returns a list of files or directories under the specified share or directory. It lists the contents only for a single level of the directory hierarchy.
 author: wmgries
 
-ms.date: 06/05/2021
+ms.date: 07/19/2021
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
@@ -46,7 +46,7 @@ The following additional parameters may be specified on the URI.
 | `sharesnapshot` | Optional. Version 2017-04-17 and newer. The share snapshot parameter is an opaque DateTime value that, when present, specifies the share snapshot to query for the list of files and directories. |
 | `marker` | Optional. A string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items.<br /><br /> The marker value is opaque to the client. |
 | `maxresults` | Optional. Specifies the maximum number of files and/or directories to return. If the request does not specify `maxresults` or specifies a value greater than 5,000, the server will return up to 5,000 items.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request). |
-| `include={Timestamps, ETag, Attributes, PermissionKey}` | Optionally available starting in version 2020-04-08. Specifies one or more properites to include in the response:<br /><ul><li>Timestamps</li><li>ETag</li><li>Attributes (Win32 file attributes)</li><li>PermissionKey</li></ul><br /><br />To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma (`%82`).<br /><br />The header `x-ms-file-extended-info` is implicitly assumed to be true when this parameter is specified.  |
+| `include={Timestamps, ETag, Attributes, PermissionKey}` | Optionally available starting in version 2020-04-08. Specifies one or more properties to include in the response:<br /><ul><li>Timestamps</li><li>ETag</li><li>Attributes (Win32 file attributes)</li><li>PermissionKey</li></ul><br /><br />To specify more than one of these options on the URI, you must separate each option with a URL-encoded comma (`%82`).<br /><br />The header `x-ms-file-extended-info` is implicitly assumed to be true when this parameter is specified.  |
 | `timeout` | Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for File Service Operations](Setting-Timeouts-for-File-Service-Operations.md). |
   
 ### Request headers
