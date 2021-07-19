@@ -17,7 +17,7 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> This preview adds support for the [normalizers](https://docs.microsoft.com/azure/search/add-normalizers-to-search-index) that can be used to produce case-insensitive sorting and filtering output.
+> Preview features for this API include [normalizers](https://docs.microsoft.com/azure/search/add-normalizers-to-search-index), used to produce case-insensitive sorting and filtering output. This preview feature is also supported in 2020-06-30-Preview.
 
 An [index](https://docs.microsoft.com/azure/search/search-what-is-an-index) specifies the index schema, including the fields collection (field names, data types, and attributes), but also additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.
 
@@ -39,7 +39,7 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 HTTPS is required for all service requests. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition.
 
-**Creating an index** establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations](../indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents](../addupdate-or-delete-documents.md). The maximum number of indexes that you can create varies by pricing tier. Within each index, there are limits on individual elements. For more information, see [Service limits for Azure Cognitive Search](/search/search-limits-quotas-capacity#index-limits).  
+**Creating an index** establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations](../indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents](../addupdate-or-delete-documents.md). The maximum number of indexes that you can create varies by pricing tier. Within each index, there are limits on individual elements. For more information, see [Service limits for Azure Cognitive Search](/azure/search/search-limits-quotas-capacity#index-limits).  
 
 **Updating an existing index** included the original schema definition, plus new fields you are adding, as well as any modified scoring profiles and CORS options, if any. If you are not modifying the scoring profiles and CORS options, you must include the original values from when the index was created. In general, the best pattern to use for updates is to retrieve the index definition with a GET, modify it, and then update it with PUT. 
 
@@ -72,7 +72,7 @@ This operation takes your index offline for at least a few seconds, which means 
 |----------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  |
-| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more available versions.|
+| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
 
 ## Request Headers
 
@@ -83,7 +83,7 @@ This operation takes your index offline for at least a few seconds, which means 
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an api-key field set to your admin key (as opposed to a query key).|  
 
-You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](/search/search-security-api-keys#find-existing-keys).   
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).   
 
 ## Request Body
 
@@ -251,7 +251,7 @@ The following example is a JSON representation of a request payload that provide
   ]
  ```
 
- A **suggester** is referenced by name on query requests that include either the [Suggestions API](../suggestions.md) or [Autocomplete API](../autocomplete.md), depending on whether you want to return a match or the remainder of a query term. For more information about creating and using a suggester, see [Create a suggester](/search/index-add-suggesters).  
+ A **suggester** is referenced by name on query requests that include either the [Suggestions API](../suggestions.md) or [Autocomplete API](../autocomplete.md), depending on whether you want to return a match or the remainder of a query term. For more information about creating and using a suggester, see [Create a suggester](/azure/search/index-add-suggesters).  
 
 **Example: Similarity for search relevance**
 
@@ -282,7 +282,7 @@ This property sets the ranking algorithm used to create a relevance score in sea
 
 **Example: Encryption keys**
 
-Encryption keys are customer-managed keys used for additional encryption. For more information, see [Encryption using customer-managed keys in Azure Key Vault](/search/search-security-manage-encryption-keys).
+Encryption keys are customer-managed keys used for additional encryption. For more information, see [Encryption using customer-managed keys in Azure Key Vault](/azure/search/search-security-manage-encryption-keys).
 
 ```json
 {
@@ -303,7 +303,7 @@ Encryption keys are customer-managed keys used for additional encryption. For mo
 
 **Example: Scoring Profiles**
 
-A scoring profile is a section of the schema that defines custom scoring behaviors that let you influence which documents appear higher in the search results. Scoring profiles are made up of field weights and functions. To use them, you specify a profile by name on the query string. For more information, see [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](/search/index-add-scoring-profiles) for details.   
+A scoring profile is a section of the schema that defines custom scoring behaviors that let you influence which documents appear higher in the search results. Scoring profiles are made up of field weights and functions. To use them, you specify a profile by name on the query string. For more information, see [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](/azure/search/index-add-scoring-profiles) for details.   
 
  ```json
 {
@@ -353,10 +353,10 @@ A scoring profile is a section of the schema that defines custom scoring behavio
 ## See also
 
 + [HTTP status codes](../http-status-codes.md)
-+ [Add scoring profiles to a search index](/search/index-add-scoring-profiles)
++ [Add scoring profiles to a search index](/azure/search/index-add-scoring-profiles)
 + [Search Documents API](search-documents.md)
 + [Supported data types](../supported-data-types.md)
-+ [Lexical analyzers](/search/search-analyzers)
-+ [API versions in Azure Cognitive Search](/search/search-api-versions)   
++ [Lexical analyzers](/azure/search/search-analyzers)
++ [API versions in Azure Cognitive Search](/azure/search/search-api-versions)   
 + [Azure Cognitive Search .NET SDK](/dotnet/api/overview/azure/search?view=azure-dotnet&preserve-view=true)
-+ [Create an Azure Cognitive Search index in the portal](/search/search-create-index-portal/)  
++ [Create an Azure Cognitive Search index in the portal](/azure/search/search-create-index-portal/)  

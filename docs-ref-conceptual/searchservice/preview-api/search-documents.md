@@ -17,7 +17,7 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> This preview API adds a **semantic** query type and responses, a **speller** parameter that provides spell correction, and  a **featuresMode** parameter that can report on per-field term frequency, per-field similarity score, and per-field number of unique matches. A new **queryLanguage** parameter is required for both semantic queries and **speller**.
+> Preview features for this API include a **semantic** query type and responses, a **speller** parameter that provides spell correction, and a **featuresMode** parameter that can report on per-field term frequency, per-field similarity score, and per-field number of unique matches. A new **queryLanguage** parameter is required for both semantic queries and **speller**. All of these preview features are also supported in 2020-06-30-Preview.
 
 A query request targets the documents collection of a single index on a search service. It includes parameters that define the match criteria, and parameters that shape the response.
 
@@ -48,7 +48,7 @@ With POST, the number of clauses in a filter is the limiting factor, not the siz
 | [service name] | Required. Set this to the unique, user-defined name of your search service. |
 | [index name]/docs  | Required. Specifies the documents collection of a named index. |
 | [query parameters] | Query parameters are specified on the URI for GET requests and in the request body for POST requests. |
-| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more available versions.|
+| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
 
 ### URL-encoding recommendations
 

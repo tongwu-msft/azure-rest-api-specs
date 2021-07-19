@@ -17,9 +17,9 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> This preview API adds a [cache property](#cache) used during [incremental indexing](/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it.
+> Preview features for this API include [cache property](#cache) used during [incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it. This preview feature is also supported in 2020-06-30-Preview.
 
-An [indexer](/search/search-indexer-overview) automates indexing from supported data sources by connecting to a predefined *data source*, retrieving and serializing data, and passing it to a search service for data ingestion. For AI enrichment of image and unstructured text, indexers can also accept a *skillset* that adds image and natural language processing. 
+An [indexer](/azure/search/search-indexer-overview) automates indexing from supported data sources by connecting to a predefined *data source*, retrieving and serializing data, and passing it to a search service for data ingestion. For AI enrichment of image and unstructured text, indexers can also accept a *skillset* that adds image and natural language processing. 
 
 You can use either POST or PUT on a create request. For either one, the request body provides the object definition.
 
@@ -43,10 +43,10 @@ HTTPS is required for all service requests. If the indexer doesn't exist, it is 
 
 **Updating an indexer** does not automatically run it, but depending on your modifications and the associated a data source, a reset and rerun might be required. When updating an existing indexer, the entire definition is replaced with the contents of the request body. In general, the best pattern to use for updates is to retrieve the indexer definition with a GET, modify it, and then update it with PUT.
 
-Indexer configuration varies based on the type of data source. For data-platform-specific guidance on creating indexers, start with [Indexers overview](/search/search-indexer-overview), which includes the complete list of [related articles](/search/search-indexer-overview#next-steps).
+Indexer configuration varies based on the type of data source. For data-platform-specific guidance on creating indexers, start with [Indexers overview](/azure/search/search-indexer-overview), which includes the complete list of [related articles](/azure/search/search-indexer-overview#next-steps).
 
 > [!NOTE]  
-> The maximum number of indexers that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](/search/search-limits-quotas-capacity/).    
+> The maximum number of indexers that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](/azure/search/search-limits-quotas-capacity/).    
 
 ## URI Parameters
 
@@ -54,7 +54,7 @@ Indexer configuration varies based on the type of data source. For data-platform
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | indexer name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
-| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more available versions.|
+| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
 
 ## Request Headers
 
@@ -65,11 +65,11 @@ Indexer configuration varies based on the type of data source. For data-platform
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
-You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](/search/search-security-api-keys#find-existing-keys). 
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys). 
 
 ## Request Body
 
-A [data source](../create-data-source.md), [index](../create-index.md), and [skillset](../create-skillset.md) are part of an [indexer](/search/search-indexer-overview) definition, but each is an independent component that can be used in different combinations. For example, you could use the same data source with multiple indexers, or the same index with multiple indexers, or multiple indexers writing to a single index.
+A [data source](../create-data-source.md), [index](../create-index.md), and [skillset](../create-skillset.md) are part of an [indexer](/azure/search/search-indexer-overview) definition, but each is an independent component that can be used in different combinations. For example, you could use the same data source with multiple indexers, or the same index with multiple indexers, or multiple indexers writing to a single index.
 
 The following JSON is a high-level representation of the main parts of the definition. 
 
@@ -121,13 +121,13 @@ An [index schema](../create-index.md) defines the fields collection containing s
 
 ### "skillsetName"
 
-[AI enrichment](/search/cognitive-search-concept-intro) refers to natural language and image processing capabilities in Azure Cognitive Search, applied during data ingestion to extract entities, key phrases, language, information from images, and so forth. Transformations applied to content are through *skills*, which you combine into a single [*skillset*](../create-skillset.md), one per indexer. As with data sources and indexes, a skillset is an independent component that you attach to an indexer. You can repurpose a skillset with other indexers, but each indexer can only use one skillset at a time.
+[AI enrichment](/azure/search/cognitive-search-concept-intro) refers to natural language and image processing capabilities in Azure Cognitive Search, applied during data ingestion to extract entities, key phrases, language, information from images, and so forth. Transformations applied to content are through *skills*, which you combine into a single [*skillset*](../create-skillset.md), one per indexer. As with data sources and indexes, a skillset is an independent component that you attach to an indexer. You can repurpose a skillset with other indexers, but each indexer can only use one skillset at a time.
 
 <a name="cache"></a>
 
 ### "cache" (preview)
 
-[Incremental indexing](/search/cognitive-search-incremental-indexing-conceptual) is the ability to reuse enriched documents in the cache when processing a skillset. The most common scenario is reuse of OCR or image analysis of image files, which can be costly and time-consuming to process.
+[Incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual) is the ability to reuse enriched documents in the cache when processing a skillset. The most common scenario is reuse of OCR or image analysis of image files, which can be costly and time-consuming to process.
 
 ```json
 "cache" : 
@@ -149,7 +149,7 @@ The cache object has required and optional properties.
 <a name="indexer-schedule"></a>
 
 ### "schedule"  
-An indexer can optionally specify a schedule. Without a schedule, the indexer runs immediately when you send the request: connecting to, crawling, and indexing the data source. For some scenarios including long-running indexing jobs, schedules are used to [extend the processing window](/search/search-howto-large-index) beyond the 24-hour maximum. If a schedule is present, the indexer runs periodically as per schedule. The scheduler is built in; you cannot use an external scheduler. A **Schedule** has the following attributes: 
+An indexer can optionally specify a schedule. Without a schedule, the indexer runs immediately when you send the request: connecting to, crawling, and indexing the data source. For some scenarios including long-running indexing jobs, schedules are used to [extend the processing window](/azure/search/search-howto-large-index) beyond the 24-hour maximum. If a schedule is present, the indexer runs periodically as per schedule. The scheduler is built in; you cannot use an external scheduler. A **Schedule** has the following attributes: 
 
 -   **interval**: Required. A duration value that specifies an interval or period for indexer runs. The smallest allowed interval is five minutes; the longest is one day. It must be formatted as an XSD "dayTimeDuration" value (a restricted subset of an [ISO 8601 duration](https://www.w3.org/TR/xmlschema11-2/#dayTimeDuration) value). The pattern for this is: `"P[nD][T[nH][nM]]".` Examples:  `PT15M` for every 15 minutes, `PT2H` for every 2 hours.  
 
@@ -182,23 +182,23 @@ An indexer can optionally take configuration parameters that modify runtime beha
 
 #### Blob configuration parameters
 
-Several parameters are exclusive to a particular indexer, such as [Azure blob indexing](/search/search-howto-indexing-azure-blob-storage).
+Several parameters are exclusive to a particular indexer, such as [Azure blob indexing](/azure/search/search-howto-indexing-azure-blob-storage).
 
 | Parameter                     | Type and allowed values	| Usage                |
 |-------------------------------|---------------------------|----------------------|
-| `"parsingMode"` | String<br/> `"text"`<br/>`"delimitedText"`<br/> `"json"`<br/> `"jsonArray"` <br /> `"jsonLines"`  | For [Azure blobs](/search/search-howto-indexing-azure-blob-storage), set to `text` to improve indexing performance on plain text files in blob storage. <br/>For [CSV blobs](/search/search-howto-index-csv-blobs), set to `delimitedText` when blobs are plain CSV files. <br/>For [JSON blobs](/search/search-howto-index-json-blobs), set to `json` to extract structured content or to `jsonArray` to extract individual elements of an array as separate documents in Azure Cognitive Search. Use `jsonLines` to extract individual JSON entities, separated by a new line, as separate documents in Azure Cognitive Search. |
-| `"excludedFileNameExtensions"` | String<br/>comma-delimited list<br/>user-defined | For [Azure blobs](/search/search-howto-indexing-azure-blob-storage), ignore any file types in the list. For example, you could exclude ".png, .png, .mp4" to skip over those files during indexing. | 
-| `"indexedFileNameExtensions"` | String<br/>comma-delimited list<br/>user-defined | For [Azure blobs](/search/search-howto-indexing-azure-blob-storage), selects blobs if the file extension is in the list. For example, you could focus indexing on specific application files ".docx, .pptx, .msg" to specifically include those file types. | 
-| `"failOnUnsupportedContentType"` | Boolean<br/> true <br/>false (default) | For [Azure blobs](/search-howto-indexing-azure-blob-storage), set to `false` if you want to continue indexing when an unsupported content type is encountered, and you don't know all the content types (file extensions) in advance. |
-| `"failOnUnprocessableDocument"` | Boolean<br/> true <br/>false (default)| For [Azure blobs](/search-howto-indexing-azure-blob-storage), set to `false` if you want to continue indexing if a document fails indexing. |
-| `"indexStorageMetadataOnly`<br/>`ForOversizedDocuments"` | Boolean true <br/>false (default) | For [Azure blobs](/search/search-howto-indexing-azure-blob-storage), set this property to `true` to still index storage metadata for blob content that is too large to process.  Oversized blobs are treated as errors by default. For limits on blob size, see [Service Limits](/search/search-limits-quotas-capacity). |
-| `"delimitedTextHeaders"` | String<br/>comma-delimited list<br/>user-defined| For [CSV blobs](/search/search-howto-index-csv-blobs), specifies a comma-delimited list of column headers, useful for mapping source fields to destination fields in an index. |
-| `"delimitedTextDelimiter"` | String<br/>single character<br/>user-defined | For [CSV blobs](/search/search-howto-index-csv-blobs), specifies the end-of-line delimiter for CSV files where each line starts a new document (for example, `"|"`).  |
-| `"firstLineContainsHeaders"` | Boolean<br/> true (default) <br/>false | For [CSV blobs](/search/search-howto-index-csv-blobs), indicates that the first (non-blank) line of each blob contains headers.|
-| `"documentRoot"` | String<br/>user-defined path | For [JSON arrays](/search/search-howto-index-json-blobs#nested-json-arrays), given a structured or semi-structured document, you can specify a path to the array using this property. |
-| `"dataToExtract"` | String<br/> `"storageMetadata"` <br/>`"allMetadata"` <br/> `"contentAndMetadata"` (default) | For [Azure blobs](/search/search-howto-indexing-azure-blob-storage):<br/>Set to `"storageMetadata"` to index just the [standard blob properties and user-specified metadata](/storage/blobs/storage-properties-metadata). <br/>Set to `"allMetadata"` to extract metadata provided by the Azure blob storage subsystem and the [content-type specific metadata](/search/search-howto-indexing-azure-blob-storage#ContentSpecificMetadata) (for example, metadata unique to just .png files) are indexed. <br/>Set to `"contentAndMetadata"` to extract all metadata and textual content from each blob. <br/><br/>For [image-analysis in AI enrichment](/search/cognitive-search-concept-image-scenarios), when `"imageAction"` is set to a value other than `"none"`, the `"dataToExtract"` setting tells the indexer which data to extract from image content. Applies to embedded image content in a .PDF or other application, or image files such as .jpg and .png, in Azure blobs.  |
-| `"imageAction"` | String<br/> `"none"`<br/> `"generateNormalizedImages"`<br/> `"generateNormalizedImagePerPage"` | For [Azure blobs](/search/search-howto-indexing-azure-blob-storage), set to`"none"` to ignore embedded images or image files in the data set. This is the default. <br/><br/>For [image-analysis in AI enrichment](/search/cognitive-search-concept-image-scenarios), set to`"generateNormalizedImages"`  to extract text from images (for example, the word "stop" from a traffic Stop sign), and embed it as part of the content field. During image analysis, the indexer creates an array of normalized images as part of document cracking, and embeds the generated information into the content field. This action requires that `"dataToExtract"` is set to `"contentAndMetadata"`. A normalized image refers to additional processing resulting in uniform image output, sized and rotated to promote consistent rendering when you include images in visual search results (for example, same-size photographs in a graph control as seen in the [JFK demo](https://github.com/Microsoft/AzureSearch_JFK_Files)). This information is generated for each image when you use this option.  <br/><br/>If you set to `"generateNormalizedImagePerPage"`, PDF files will be treated differently in that instead of extracting embedded images, each page will be rendered as an image and normalized accordingly.  Non-PDF file types will be treated the same as if `"generateNormalizedImages"` was set.  <br/><br/>Setting the `"imageAction"` configuration to any value other than `"none"` requires that a [skillset](../create-skillset.md) also be attached to that indexer.
-| `"allowSkillsetToReadFileData"` | Boolean<br/> true <br/>false (default) | Setting the `"allowSkillsetToReadFileData"` parameter to `true` will create a path `/document/file_data` that is an object representing the original file data downloaded from your blob data source.  This allows you to pass the original file data to a [custom skill](/search/cognitive-search-custom-skill-web-api) for processing within the enrichment pipeline, or to the [Document Extraction skill](/search/cognitive-search-skill-document-extraction). The object generated will be defined as follows: `{ "$type": "file", "data": "BASE64 encoded string of the file" }` <br/><br/> Setting the `"allowSkillsetToReadFileData"` parameter to `true` requires that a [skillset](../create-skillset.md) be attached to that indexer, that the `"parsingMode"` parameter is set to `"default"`, `"text"` or `"json"`, and the `"dataToExtract"` parameter is set to `"contentAndMetadata"` or `"allMetadata"`. |
+| `"parsingMode"` | String<br/> `"text"`<br/>`"delimitedText"`<br/> `"json"`<br/> `"jsonArray"` <br /> `"jsonLines"`  | For [Azure blobs](/azure/search/search-howto-indexing-azure-blob-storage), set to `text` to improve indexing performance on plain text files in blob storage. <br/>For [CSV blobs](/azure/search/search-howto-index-csv-blobs), set to `delimitedText` when blobs are plain CSV files. <br/>For [JSON blobs](/azure/search/search-howto-index-json-blobs), set to `json` to extract structured content or to `jsonArray` to extract individual elements of an array as separate documents in Azure Cognitive Search. Use `jsonLines` to extract individual JSON entities, separated by a new line, as separate documents in Azure Cognitive Search. |
+| `"excludedFileNameExtensions"` | String<br/>comma-delimited list<br/>user-defined | For [Azure blobs](/azure/search/search-howto-indexing-azure-blob-storage), ignore any file types in the list. For example, you could exclude ".png, .png, .mp4" to skip over those files during indexing. | 
+| `"indexedFileNameExtensions"` | String<br/>comma-delimited list<br/>user-defined | For [Azure blobs](/azure/search/search-howto-indexing-azure-blob-storage), selects blobs if the file extension is in the list. For example, you could focus indexing on specific application files ".docx, .pptx, .msg" to specifically include those file types. | 
+| `"failOnUnsupportedContentType"` | Boolean<br/> true <br/>false (default) | For [Azure blobs](/azure/search-howto-indexing-azure-blob-storage), set to `false` if you want to continue indexing when an unsupported content type is encountered, and you don't know all the content types (file extensions) in advance. |
+| `"failOnUnprocessableDocument"` | Boolean<br/> true <br/>false (default)| For [Azure blobs](/azure/search-howto-indexing-azure-blob-storage), set to `false` if you want to continue indexing if a document fails indexing. |
+| `"indexStorageMetadataOnly`<br/>`ForOversizedDocuments"` | Boolean true <br/>false (default) | For [Azure blobs](/azure/search/search-howto-indexing-azure-blob-storage), set this property to `true` to still index storage metadata for blob content that is too large to process.  Oversized blobs are treated as errors by default. For limits on blob size, see [Service Limits](/azure/search/search-limits-quotas-capacity). |
+| `"delimitedTextHeaders"` | String<br/>comma-delimited list<br/>user-defined| For [CSV blobs](/azure/search/search-howto-index-csv-blobs), specifies a comma-delimited list of column headers, useful for mapping source fields to destination fields in an index. |
+| `"delimitedTextDelimiter"` | String<br/>single character<br/>user-defined | For [CSV blobs](/azure/search/search-howto-index-csv-blobs), specifies the end-of-line delimiter for CSV files where each line starts a new document (for example, `"|"`).  |
+| `"firstLineContainsHeaders"` | Boolean<br/> true (default) <br/>false | For [CSV blobs](/azure/search/search-howto-index-csv-blobs), indicates that the first (non-blank) line of each blob contains headers.|
+| `"documentRoot"` | String<br/>user-defined path | For [JSON arrays](/azure/search/search-howto-index-json-blobs#nested-json-arrays), given a structured or semi-structured document, you can specify a path to the array using this property. |
+| `"dataToExtract"` | String<br/> `"storageMetadata"` <br/>`"allMetadata"` <br/> `"contentAndMetadata"` (default) | For [Azure blobs](/azure/search/search-howto-indexing-azure-blob-storage):<br/>Set to `"storageMetadata"` to index just the [standard blob properties and user-specified metadata](/storage/blobs/storage-properties-metadata). <br/>Set to `"allMetadata"` to extract metadata provided by the Azure blob storage subsystem and the [content-type specific metadata](/azure/search/search-howto-indexing-azure-blob-storage#ContentSpecificMetadata) (for example, metadata unique to just .png files) are indexed. <br/>Set to `"contentAndMetadata"` to extract all metadata and textual content from each blob. <br/><br/>For [image-analysis in AI enrichment](/azure/search/cognitive-search-concept-image-scenarios), when `"imageAction"` is set to a value other than `"none"`, the `"dataToExtract"` setting tells the indexer which data to extract from image content. Applies to embedded image content in a .PDF or other application, or image files such as .jpg and .png, in Azure blobs.  |
+| `"imageAction"` | String<br/> `"none"`<br/> `"generateNormalizedImages"`<br/> `"generateNormalizedImagePerPage"` | For [Azure blobs](/azure/search/search-howto-indexing-azure-blob-storage), set to`"none"` to ignore embedded images or image files in the data set. This is the default. <br/><br/>For [image-analysis in AI enrichment](/azure/search/cognitive-search-concept-image-scenarios), set to`"generateNormalizedImages"`  to extract text from images (for example, the word "stop" from a traffic Stop sign), and embed it as part of the content field. During image analysis, the indexer creates an array of normalized images as part of document cracking, and embeds the generated information into the content field. This action requires that `"dataToExtract"` is set to `"contentAndMetadata"`. A normalized image refers to additional processing resulting in uniform image output, sized and rotated to promote consistent rendering when you include images in visual search results (for example, same-size photographs in a graph control as seen in the [JFK demo](https://github.com/Microsoft/AzureSearch_JFK_Files)). This information is generated for each image when you use this option.  <br/><br/>If you set to `"generateNormalizedImagePerPage"`, PDF files will be treated differently in that instead of extracting embedded images, each page will be rendered as an image and normalized accordingly.  Non-PDF file types will be treated the same as if `"generateNormalizedImages"` was set.  <br/><br/>Setting the `"imageAction"` configuration to any value other than `"none"` requires that a [skillset](../create-skillset.md) also be attached to that indexer.
+| `"allowSkillsetToReadFileData"` | Boolean<br/> true <br/>false (default) | Setting the `"allowSkillsetToReadFileData"` parameter to `true` will create a path `/document/file_data` that is an object representing the original file data downloaded from your blob data source.  This allows you to pass the original file data to a [custom skill](/azure/search/cognitive-search-custom-skill-web-api) for processing within the enrichment pipeline, or to the [Document Extraction skill](/azure/search/cognitive-search-skill-document-extraction). The object generated will be defined as follows: `{ "$type": "file", "data": "BASE64 encoded string of the file" }` <br/><br/> Setting the `"allowSkillsetToReadFileData"` parameter to `true` requires that a [skillset](../create-skillset.md) be attached to that indexer, that the `"parsingMode"` parameter is set to `"default"`, `"text"` or `"json"`, and the `"dataToExtract"` parameter is set to `"contentAndMetadata"` or `"allMetadata"`. |
 | `"pdfTextRotationAlgorithm"` | String<br/> `"none"` (default)<br/> `"detectAngles"` | Setting the `"pdfTextRotationAlgorithm"` parameter to `"detectAngles"` may help produce better and more readable text extraction from PDF files that have rotated text within them.  Note that there may be a small performance speed impact when this parameter is used. This parameter only applies to PDF files, and only to PDFs with embedded text. If the rotated text appears within an embedded image in the PDF, this parameter does not apply.<br/><br/> Setting the `"pdfTextRotationAlgorithm"` parameter to `"detectAngles"` requires that the `"parsingMode"` parameter is set to `"default"`. |
 
 
@@ -208,7 +208,7 @@ The following parameters are specific to Azure SQL Database.
 
 | Parameter | Type and allowed values	| Usage       |
 |-----------|---------------------------|-------------|
-|`"queryTimeout"` | String<br/>"hh:mm:ss"<br/>"00:05:00"   | For [Azure SQL Database](/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers), set this parameter to increase the timeout beyond the 5-minute default.|
+|`"queryTimeout"` | String<br/>"hh:mm:ss"<br/>"00:05:00"   | For [Azure SQL Database](/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers), set this parameter to increase the timeout beyond the 5-minute default.|
 
 <a name="field-mappings"></a>
 
@@ -217,7 +217,7 @@ The following parameters are specific to Azure SQL Database.
 Indexer definitions contain field associations for mapping a source field to a destination field in an Azure Cognitive Search index. There are two types of associations depending on whether the content transfer follows a direct or enriched path:
 
 + **fieldMappings** are optional, applied when source-destination field names do not match, or when you want to specify a function.
-+ **outputFieldMappings** are required if you are building [an enrichment pipeline](/search/cognitive-search-concept-intro). In an enrichment pipeline, the output field is a construct defined during the enrichment process. For example, the output field might be a compound structure built during enrichment from two separate fields in the source document. 
++ **outputFieldMappings** are required if you are building [an enrichment pipeline](/azure/search/cognitive-search-concept-intro). In an enrichment pipeline, the output field is a construct defined during the enrichment process. For example, the output field might be a compound structure built during enrichment from two separate fields in the source document. 
 
 In the following example, consider a source table with a field `_id`. Azure Cognitive Search doesn't allow a field name starting with an underscore, so the field must be renamed. This can be done using the `fieldMappings` property of the indexer as follows:
 
@@ -236,13 +236,13 @@ You can specify multiple field mappings:
 
 Both source and target field names are case-insensitive.
 
-To learn about scenarios where field mappings are useful, see [Search Indexer Field Mappings](/search/search-indexer-field-mappings).
+To learn about scenarios where field mappings are useful, see [Search Indexer Field Mappings](/azure/search/search-indexer-field-mappings).
 
 <a name="output-fieldmappings"></a>
 
 ### "outputFieldMappings"
 
-In [AI enrichment](/search/cognitive-search-concept-intro) scenarios in which a skillset is bound to an indexer, you must add `outputFieldMappings` to associate any output of an enrichment step that provides content to a searchable field in the index.
+In [AI enrichment](/azure/search/cognitive-search-concept-intro) scenarios in which a skillset is bound to an indexer, you must add `outputFieldMappings` to associate any output of an enrichment step that provides content to a searchable field in the index.
 
 ```json
   "outputFieldMappings" : [
@@ -331,7 +331,7 @@ New in this preview, you can specify the [cache property](#cache) to reuse docum
 
 ### "encryptionKey"
 
-While indexers are encrypted by default using [service-managed keys]/security/azure-security-encryption-atrest#data-encryption-models), you can also encrypt them with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](/search/search-security-manage-encryption-keys).
+While indexers are encrypted by default using [service-managed keys]/security/azure-security-encryption-atrest#data-encryption-models), you can also encrypt them with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](/azure/search/search-security-manage-encryption-keys).
 
 ```json
 "encryptionKey": (optional) { 
@@ -349,7 +349,7 @@ While indexers are encrypted by default using [service-managed keys]/security/az
 
 ## See also
 
-+ [Indexer overview](/search/search-indexer-overview)
-+ [AI enrichment overview](/search/cognitive-search-concept-intro)
-+ [Quickstart: Try AI enrichment in the portal](/search/cognitive-search-quickstart-blob)
-+ [How to map fields (AI enrichment)](/search/cognitive-search-output-field-mapping)
++ [Indexer overview](/azure/search/search-indexer-overview)
++ [AI enrichment overview](/azure/search/cognitive-search-concept-intro)
++ [Quickstart: Try AI enrichment in the portal](/azure/search/cognitive-search-quickstart-blob)
++ [How to map fields (AI enrichment)](/azure/search/cognitive-search-output-field-mapping)

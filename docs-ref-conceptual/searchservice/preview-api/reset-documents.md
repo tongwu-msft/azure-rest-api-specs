@@ -17,7 +17,7 @@ ms.manager: jennmar
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> This preview API adds the ability to flag specific documents for reprocessing by an indexer. Document keys passed in the request are processed in full on the next run. The entire API is a preview feature. For more information, see [Reset and run an indexer](https://docs.microsoft.com/azure/search/search-howto-run-reset-indexers).
+> This preview API adds the ability to flag specific documents for reprocessing by an indexer. Document keys passed in the request are processed in full on the next run. The entire API is a preview feature. This preview feature is also supported in 2020-06-30-Preview. For more information, see [Reset and run an indexer](https://docs.microsoft.com/azure/search/search-howto-run-reset-indexers). 
 
 The Reset Documents API allows you to selectively reprocess documents from your data source. The API accepts document keys as input, and prioritizes the processing of those documents ahead of other documents from the same data source. This API works for all indexers (with or without a skillset). If the call succeeds, customers will always get a 204 NoContent response.
 
@@ -44,7 +44,7 @@ Reset Documents is an asynchronous API. Invoking the API adds the document keys 
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | indexer name  | Required. The request URI specifies the name of the indexer to update. |
-| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more available versions.|
+| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
 | overwrite | Optional. This parameter determines whether consecutive Reset Document operations are combined or overwritten. Default is false. When false, the call’s payload of document keys will be added to the list of keys already queued up for reprocessing. If true, the call’s payload of document keys will overwrite the existing list, including clearing the list of reset documents if you set the keys to null.|
 
 ## Request Headers
