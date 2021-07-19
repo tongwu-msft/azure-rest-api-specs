@@ -1,5 +1,6 @@
 ---
 title: "Create or Update Data Source (2021-04-30-Preview)"
+titleSuffix: Azure Cognitive Search
 description: Preview version of the Create or Update Data Source REST API for Azure Cognitive Search.
 ms.date: 07/20/2021
 

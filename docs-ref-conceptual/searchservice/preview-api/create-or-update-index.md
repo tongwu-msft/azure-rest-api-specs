@@ -1,5 +1,6 @@
 ---
 title: "Create or Update Index (2021-04-30-Preview)"
+titleSuffix: Azure Cognitive Search
 description: Preview version of the Create or Update Index REST API for Azure Cognitive Search.
 ms.date: 07/20/2021
 
@@ -46,7 +47,7 @@ HTTPS is required for all service requests. If the index doesn't exist, it is cr
 Because an existing index contains content, many index modifications require an [index drop and rebuild](https://docs.microsoft.com/azure/search/search-howto-reindex). The following schema changes are an exception to this rule:
 
 + Adding new fields
-+ Adding or changing {scoring profiles](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) 
++ Adding or changing [scoring profiles](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) 
 + Changing CORS options
 + Changing existing fields with any of the following three modifications:
 

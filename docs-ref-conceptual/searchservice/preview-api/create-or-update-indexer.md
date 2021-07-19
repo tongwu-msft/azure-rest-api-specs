@@ -1,5 +1,6 @@
 ---
 title: Create or Update Indexer (2021-04-30-Preview)
+titleSuffix: Azure Cognitive Search
 description: Preview version of the Create or Update Indexer REST API for Azure Cognitive Search.
 ms.date: 07/20/2021
 
@@ -331,7 +332,7 @@ New in this preview, you can specify the [cache property](#cache) to reuse docum
 
 ### "encryptionKey"
 
-While indexers are encrypted by default using [service-managed keys]/security/azure-security-encryption-atrest#data-encryption-models), you can also encrypt them with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](/azure/search/search-security-manage-encryption-keys).
+While indexers are encrypted by default using [service-managed keys](/azure/security/fundamentals/encryption-models#server-side-encryption-using-service-managed-keys), you can also encrypt them with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](/azure/search/search-security-manage-encryption-keys).
 
 ```json
 "encryptionKey": (optional) { 

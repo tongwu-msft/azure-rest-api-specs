@@ -1,5 +1,6 @@
 ---
 title: Reset Skills  (2021-04-30-Preview)
+titleSuffix: Azure Cognitive Search
 description: Preview version of the Reset Skills REST API for Azure Cognitive Search.
 ms.date: 07/20/2021
 

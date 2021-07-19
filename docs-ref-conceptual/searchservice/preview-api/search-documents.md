@@ -1,5 +1,6 @@
 ---
 title: Search Documents (2021-04-30-Preview)
+titleSuffix: Azure Cognitive Search
 description: Preview version of the Search Documents REST API for Azure Cognitive Search.
 ms.date: 07/20/2021
 
