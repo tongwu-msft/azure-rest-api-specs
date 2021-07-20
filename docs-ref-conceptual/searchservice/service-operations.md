@@ -24,5 +24,5 @@ An admin API key is required for viewing system information.
 ## See also
 
 + [Get started with Azure Cognitive Search REST APIs](https://docs.microsoft.com/azure/search/search-get-started-rest)   
-+ [Service limits](/azure/search//search-limits-quotas-capacity/)   
++ [Service limits](/azure/search/search-limits-quotas-capacity/)   
 + [Create and manage API keys](https://docs.microsoft.com/azure/search/search-security-api-keys)  

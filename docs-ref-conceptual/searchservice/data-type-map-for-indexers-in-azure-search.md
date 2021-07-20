@@ -32,11 +32,11 @@ For more information, see [Indexer operations &#40;Azure Cognitive Search REST A
 |bigint|Edm.Int64, Edm.String||  
 |real, float|Edm.Double, Edm.String||  
 |smallmoney, money<br /><br /> decimal<br /><br /> numeric|Edm.String|Azure Cognitive Search does not support converting decimal types into Edm.Double because doing so would lose precision.|  
-|char, nchar, varchar, nvarchar|Edm.String <br /><br/>Collection(Edm.String). See [Field Mapping Functions](create-indexer.md#FieldMappingFunctions) for details on how to transform a string column into a Collection(Edm.String)|  
+|char, nchar, varchar, nvarchar|Edm.String <br /><br/>Collection(Edm.String). See [Field Mapping Functions](/azure/search/search-indexer-field-mappings#field-mapping-functions) for details on how to transform a string column into a Collection(Edm.String)|  
 |smalldatetime, datetime, datetime2, date, datetimeoffset|Edm.DateTimeOffset, Edm.String||  
 |uniqueidentifer|Edm.String||  
 |rowversion|N/A|Row-version columns cannot be stored in the search index, but they can be used for change tracking.|  
-|geography|Edm.GeographyPoint, Edm.String| If using [geography data types](https://docs.microsoft.com/sql/relational-databases/spatial/create-construct-and-query-geography-instances?view=sql-server-ver15), only geography instances of type POINT with SRID 4326 (which is the default) are supported. If using strings, only GeoJSON points in the [following format](https://tools.ietf.org/html/rfc7946#appendix-A.1) are supported: `{"type": "Point", "coordinates": [long, lat]}`|  
+|geography|Edm.GeographyPoint, Edm.String| If using [geography data types](/sql/relational-databases/spatial/create-construct-and-query-geography-instances?view=sql-server-ver15), only geography instances of type POINT with SRID 4326 (which is the default) are supported. If using strings, only GeoJSON points in the [following format](https://tools.ietf.org/html/rfc7946#appendix-A.1) are supported: `{"type": "Point", "coordinates": [long, lat]}`|  
 |time, timespan<br /><br /> varbinary<br /><br /> image<br /><br /> xml<br /><br /> geometry<br /><br /> CLR types|N/A|Not supported.|  
 
 ##  <a name="bkmk_json_search"></a> JSON Data Types to Azure Cognitive Search Data Types  
@@ -54,8 +54,8 @@ For more information, see [Indexer operations &#40;Azure Cognitive Search REST A
 
 ## See also  
 
-+ [Create Data Source &#40;Azure Cognitive Search REST API&#41;](create-data-source.md)   
-+ [Create Indexer &#40;Azure Cognitive Search REST API&#41;](create-indexer.md)   
-+ [Supported data types &#40;Azure Cognitive Search&#41;](supported-data-types.md)   
-+ [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md)   
++ [Create Data Source](create-data-source.md)   
++ [Create Indexer](create-indexer.md)   
++ [Supported data types](supported-data-types.md)   
++ [Indexer operations](indexer-operations.md)   
 + [Azure Cognitive Search REST APIs](index.md)  
