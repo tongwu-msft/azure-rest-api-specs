@@ -13,7 +13,7 @@ ms.manager: nitinme
 ---
 # Update Index (Azure Cognitive Search REST API)
 
-Modifying an existing Azure Cognitive Search index typically requires an [index drop and rebuild](azure/search/search-howto-reindex), with the exception of the following schema changes:
+Modifying an existing Azure Cognitive Search index typically requires an [index drop and rebuild](/azure/search/search-howto-reindex), with the exception of the following schema changes:
 
 + Add new fields
 + [Add or change scoring profiles](/azure/search/index-add-scoring-profiles) 
