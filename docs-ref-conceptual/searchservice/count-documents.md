@@ -38,7 +38,7 @@ The following table describes the required and optional request headers.
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. The **Count Documents** request can specify either an admin key or query key for the `api-key`.| 
 
-You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).
 
 ## Request Body  
  None.  
@@ -50,7 +50,6 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 
 ## See also  
  [Azure Cognitive Search REST APIs](index.md)   
- [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
- [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
- [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)  
- [Search results page](https://docs.microsoft.com/azure/search/search-pagination-page-layout)
+ [HTTP status codes](http-status-codes.md)   
+ [OData Expression Syntax for Azure Cognitive Search](/azure/search/query-odata-filter-orderby-syntax)   
+ [Search results page](/azure/search/search-pagination-page-layout)
