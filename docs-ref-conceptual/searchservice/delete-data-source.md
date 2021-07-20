@@ -40,7 +40,7 @@ The following table describes the required and optional request headers.
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Delete requests must include an api-key field set to your admin key (as opposed to a query key).|  
 
-You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).
 
 ## Request Body
 None. 
