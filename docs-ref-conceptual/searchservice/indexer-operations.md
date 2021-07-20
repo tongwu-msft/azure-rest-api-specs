@@ -17,7 +17,7 @@ ms.manager: nitinme
 
 Indexers can run on demand or on a schedule, and depending on the data source, can honor the native change detection functionality of the underlying data source so that data refresh picks up just the changed data. 
 
-Depending on the service tier, a search service has a maximum limit on the number of indexers and data sources that you can create. For more information, see [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).  
+Depending on the service tier, a search service has a maximum limit on the number of indexers and data sources that you can create. For more information, see [Service Limits](/azure/search/search-limits-quotas-capacity/).  
 
 ## Typical workflow  
 
@@ -63,8 +63,8 @@ An admin API key is required for viewing system information. Indexers require an
 
 ## See also
  
-+ [Get started with Azure Cognitive Search REST APIs](https://docs.microsoft.com/azure/search/search-get-started-rest)
-+ [Create and manage API keys](https://docs.microsoft.com/azure/search/search-security-api-keys)
-+ [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity)  
-+ [Indexers in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-indexer-overview)
-+ [Tutorial: Index Azure JSON blobs](https://docs.microsoft.com/azure/search/search-semi-structured-data)
++ [Get started with Azure Cognitive Search REST APIs](/azure/search/search-get-started-rest)
++ [Create and manage API keys](/azure/search/search-security-api-keys)
++ [Service Limits](/azure/search/search-limits-quotas-capacity)  
++ [Indexers in Azure Cognitive Search](/azure/search/search-indexer-overview)
++ [Tutorial: Index Azure JSON blobs](/azure/search/search-semi-structured-data)

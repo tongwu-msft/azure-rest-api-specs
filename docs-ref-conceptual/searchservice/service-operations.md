@@ -19,9 +19,10 @@ While most of the Azure Cognitive Search REST APIs apply to a particular object 
 
 An admin API key is required for viewing system information.
 
-- [Get Service Statistics &#40;Azure Cognitive Search REST API&#41;](get-service-statistics.md)  
+- [Get Service Statistics](get-service-statistics.md)  
 
-## See also  
- [Get started with Azure Cognitive Search REST APIs](https://docs.microsoft.com/azure/search/search-get-started-rest)   
- [Service limits in Azure Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)   
- [Create and manage API keys](https://docs.microsoft.com/azure/search/search-security-api-keys)  
+## See also
+
++ [Get started with Azure Cognitive Search REST APIs](https://docs.microsoft.com/azure/search/search-get-started-rest)   
++ [Service limits](/azure/search//search-limits-quotas-capacity/)   
++ [Create and manage API keys](https://docs.microsoft.com/azure/search/search-security-api-keys)  

@@ -30,7 +30,7 @@ An admin API key is required for all skillset operations.
 ## See also  
 
 + [Get started with Azure Cognitive Search REST APIs](https://docs.microsoft.com/azure/search/search-get-started-rest)   
-+ [Service limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/)   
++ [Service limits](/azure/search//search-limits-quotas-capacity/)   
 + [AI enrichment overview](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro)
 + [Quickstart: Create a skillset in the portal](https://docs.microsoft.com/azure/search/cognitive-search-quickstart-blob)
 + [Tutorial: Enriched indexing with AI](https://docs.microsoft.com/azure/search/cognitive-search-tutorial-blob)
