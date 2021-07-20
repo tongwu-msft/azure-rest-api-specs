@@ -4,35 +4,30 @@ name: Get
 service: Azure FarmBeats
 groupName: Seasonal Fields
 apiVersion: 2021-03-31-preview
-summary: Gets a specified seasonal field resource under a particular farmer.
+summary: >+
+  Get a specified seasonal field resource for a given farmer.
+
 produces:
 - application/json
 paths:
-- content: GET {Endpoint}/farmers/{farmerId}/seasonal-fields/{seasonalFieldId}?api-version=2021-03-31-preview
+- content: GET /farmers/{farmerId}/seasonal-fields/{seasonalFieldId}?api-version=2021-03-31-preview
 uriParameters:
-- name: Endpoint
-  in: path
-  isRequired: true
-  skipUrlEncoding: true
-  description: 'The endpoint of your FarmBeats resource (protocol and hostname, for example: https://{resourceName}.farmbeats.azure.net).'
-  types:
-  - uid: string
 - name: farmerId
   in: path
   isRequired: true
-  description: ID of the associated farmer.
+  description: Id of the associated farmer.
   types:
   - uid: string
 - name: seasonalFieldId
   in: path
   isRequired: true
-  description: ID of the seasonal field.
+  description: Id of the seasonal field.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: The requested API version
+  description: The requested API version.
   types:
   - uid: string
 responses:
@@ -58,102 +53,95 @@ definitions:
   properties:
   - name: farmerId
     isReadyOnly: true
-    description: Farmer ID.
+    description: Id of the associated farmer.
     types:
     - uid: string
   - name: primaryBoundaryId
     isReadyOnly: true
-    description: Primary boundary id.
+    description: Id of the primary boundary associated with the seasonal field. At any point in time, a seasonal field can contain a maximum of one primary boundary.
     types:
     - uid: string
   - name: boundaryIds
     isReadyOnly: true
-    description: Boundary Ids.
+    description: List of Ids of boundaries associated with the seasonal field.
     types:
     - uid: string
       isArray: true
   - name: farmId
-    description: ID of the associated Farm.
+    description: Id of the associated farm.
     types:
     - uid: string
   - name: fieldId
-    description: ID of the associated Field.
+    description: Id of the associated field.
     types:
     - uid: string
   - name: seasonId
-    description: ID of the season it belongs to.
+    description: Id of the season associated with the seasonal field.
     types:
     - uid: string
   - name: cropVarietyIds
-    description: CropVariety ids.
+    description: List of Ids of crop varieties associated with the seasonal field. All the crop varieties must belong to the same crop.
     types:
     - uid: string
       isArray: true
   - name: cropId
-    description: ID of the crop it belongs to.
+    description: Id of the crop associated with the seasonal field. Seasonal fields are mono crop entities.
     types:
     - uid: string
   - name: avgYieldValue
-    description: Average yield value of the seasonal field.
+    description: Average yield generated from the seasonal field.
     types:
     - uid: number
   - name: avgYieldUnit
-    description: Unit of the average yield value attribute.
+    description: Unit to measure average yield.
     types:
     - uid: string
   - name: avgSeedPopulationValue
-    description: Average seed population value of the seasonal field.
+    description: Average seed population planted in the seasonal field.
     types:
     - uid: number
   - name: avgSeedPopulationUnit
-    description: Unit of average seed population value attribute.
+    description: Unit to measure average seed population.
     types:
     - uid: string
   - name: plantingDateTime
-    description: 'Planting datetime, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time at which crops were planted (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: Unique resource ID.
+    description: Unique Id of the seasonal field. This Id is unique for a given farmer.
     types:
     - uid: string
   - name: eTag
     isReadyOnly: true
-    description: The ETag value to implement optimistic concurrency.
+    description: ETag value can be used to implement optimistic concurrency.
     types:
     - uid: string
   - name: status
-    description: Status of the resource.
+    description: User determined status of the resource.
     types:
     - uid: string
   - name: createdDateTime
     isReadyOnly: true
-    description: 'Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: modifiedDateTime
     isReadyOnly: true
-    description: 'Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: name
-    description: Name to identify resource.
+    description: Name of the seasonal field.
     types:
     - uid: string
   - name: description
-    description: Textual description of the resource.
+    description: Brief description of the seasonal field.
     types:
     - uid: string
   - name: properties
-    description: >-
-      A collection of key value pairs that belongs to the resource.
-
-      Each pair must not have a key greater than 50 characters
-
-      and must not have a value greater than 150 characters.
-
-      Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
+    description: A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource.
     types:
     - uid: object
       isDictionary: true
@@ -162,21 +150,21 @@ definitions:
       - uid: object
 - name: ErrorResponse
   description: >-
-    An error response from the Azure AgPlatform service.
+    An error response from Azure AgPlatform service.
 
     <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
   kind: object
   properties:
   - name: error
-    description: An error from the Azure AgPlatform service.
+    description: An error from Azure FarmBeats service.
     types:
     - uid: Error
   - name: traceId
-    description: Unique trace ID.
+    description: Unique trace Id.
     types:
     - uid: string
 - name: Error
-  description: An error from the Azure AgPlatform service.
+  description: An error from Azure FarmBeats service.
   kind: object
   properties:
   - name: code
@@ -211,10 +199,7 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: >-
-      Specific error code than was provided by the
-
-      containing error.
+    description: Specific error code than was provided by the containing error.
     types:
     - uid: string
   - name: innererror
@@ -227,7 +212,7 @@ definitions:
 examples:
 - name: SeasonalFields_Get
   request:
-    uri: GET {Endpoint}/farmers/FARMER123/seasonal-fields/SEASONALFIELD123?api-version=2021-03-31-preview
+    uri: GET /farmers/FARMER123/seasonal-fields/SEASONALFIELD123?api-version=2021-03-31-preview
   responses:
   - statusCode: "200"
     body: >-
@@ -269,5 +254,7 @@ security:
   description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
   in: header
 metadata:
-  description: Learn more about Azure FarmBeats service - Gets a specified seasonal field resource under a particular farmer.
+  description: >+
+    Learn more about Azure FarmBeats service - Get a specified seasonal field resource for a given farmer.
+
 errorCodes: []

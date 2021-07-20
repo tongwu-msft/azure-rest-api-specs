@@ -60,7 +60,7 @@ An admin API key is required for all synonym map operations.
 
 ## See also
 
-+ [Get started with Azure Cognitive Search REST APIs](https://docs.microsoft.com/azure/search/search-get-started-rest)
-+ [Synonyms in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-synonyms)
-+ [Synonyms C# example](https://docs.microsoft.com/azure/search/search-synonyms-tutorial-sdk)
-+ [Create and manage API keys](https://docs.microsoft.com/azure/search/search-security-api-keys)
++ [Get started with Azure Cognitive Search REST APIs](/azure/search/search-get-started-rest)
++ [Synonyms in Azure Cognitive Search](/azure/search/search-synonyms)
++ [Synonyms C# example](/azure/search/search-synonyms-tutorial-sdk)
++ [Create and manage API keys](/azure/search/search-security-api-keys)

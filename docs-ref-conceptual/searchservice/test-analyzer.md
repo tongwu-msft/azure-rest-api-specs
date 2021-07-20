@@ -27,7 +27,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/analyze?api-
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required. The request URI specifies the name of the index that contains the field you want to analyze.   |
-| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current stable version is `api-version=2020-06-30`. See [API versions](search-service-api-versions.md) for more versions. |
 
 ## Request Headers 
  The following table describes the required and optional request headers.  
@@ -37,7 +37,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/analyze?api-
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Analyzer requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
-You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).   
 
 ## Request Body
 
@@ -125,8 +125,8 @@ The response shows the tokens emitted by the analyzer for the string you provide
  > The [Search Analyzer Demo](https://alice.unearth.ai/) provides side-by-side comparison of results produced by the standard Lucene analyzer, Lucene's English language analyzer, and Microsoft's English natural language processor. For each search input you provide, results from each analyzer are displayed in adjacent panes.
  
 ## See also  
- [Azure Cognitive Search REST APIs](index.md)  
- [Custom analyzers in Azure Cognitive Search](https://docs.microsoft.com/azure/search/index-add-custom-analyzers)  
- [Language support](https://docs.microsoft.com/azure/search/index-add-language-analyzers)  
- [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md) 
- [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)
+
++ [Azure Cognitive Search REST APIs](index.md)  
++ [Custom analyzers in Azure Cognitive Search](/azure/search/index-add-custom-analyzers)  
++ [Language support](/azure/search/index-add-language-analyzers)  
++ [HTTP status codes](http-status-codes.md) 

@@ -1,7 +1,8 @@
 ---
-title: Reset Documents (api-version=2020-06-30-Preview)
-description: Preview API used to re-ingest a subset of documents from a data source with customer-provided document keys.
-ms.date: 02/02/2021
+title: Reset Documents (2021-04-30-Preview)
+titleSuffix: Azure Cognitive Search
+description: Preview version of the Reset Document REST API for Azure Cognitive Search.
+ms.date: 07/20/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -11,12 +12,13 @@ author: shuyangmsft
 ms.author: szhang
 ms.manager: jennmar
 ---
+
 # Reset Documents (Preview REST API)
 
-**API Version: 2020-06-30-Preview**
+**API Version: 2021-04-30-Preview**
 
 > [!Important]
-> This preview API adds the ability to flag specific documents for reprocessing by an indexer. Document keys passed in the request are processed in full on the next run. The entire API is a preview feature. For more information, see [Reset and run an indexer](https://docs.microsoft.com/azure/search/search-howto-run-reset-indexers).
+> This preview API adds the ability to flag specific documents for reprocessing by an indexer. Document keys passed in the request are processed in full on the next run. The entire API is a preview feature. This preview feature is also supported in 2020-06-30-Preview. For more information, see [Reset and run an indexer](/azure/search/search-howto-run-reset-indexers). 
 
 The Reset Documents API allows you to selectively reprocess documents from your data source. The API accepts document keys as input, and prioritizes the processing of those documents ahead of other documents from the same data source. This API works for all indexers (with or without a skillset). If the call succeeds, customers will always get a 204 NoContent response.
 
@@ -35,7 +37,7 @@ POST https://[service name].search.windows.net/indexers/[indexer name]/resetdocs
     api-key: [admin key]  
 ``` 
 
-Reset documents is an asynchronous API. Invoking the API adds the document keys to be reset to the indexer metadata. On the next scheduled or on demand run of the indexer, the indexer prioritizes processing the reset documents before indexing any new or updated documents in the data source.
+Reset Documents is an asynchronous API. Invoking the API adds the document keys to be reset to the indexer metadata. On the next scheduled or on demand run of the indexer, the indexer prioritizes processing the reset documents before indexing any new or updated documents in the data source.
 
 ## URI Parameters
 
@@ -43,7 +45,7 @@ Reset documents is an asynchronous API. Invoking the API adds the document keys 
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | indexer name  | Required. The request URI specifies the name of the indexer to update. |
-| api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
 | overwrite | Optional. This parameter determines whether consecutive Reset Document operations are combined or overwritten. Default is false. When false, the call’s payload of document keys will be added to the list of keys already queued up for reprocessing. If true, the call’s payload of document keys will overwrite the existing list, including clearing the list of reset documents if you set the keys to null.|
 
 ## Request Headers
@@ -55,7 +57,7 @@ The following table describes the required and optional request headers.
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
-You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).   
 
 ## Request Body
 
@@ -83,7 +85,7 @@ The following JSON is a high-level representation of the main parts of the defin
 
 ## See also
 
-+ [Indexer overview](https://docs.microsoft.com/azure/search/search-indexer-overview)
-+ [AI enrichment overview](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro)
-+ [Quickstart: Try AI enrichment in the portal](https://docs.microsoft.com/azure/search/cognitive-search-quickstart-blob)
-+ [How to map fields (AI enrichment)](https://docs.microsoft.com/azure/search/cognitive-search-output-field-mapping)
++ [Indexer overview](/azure/search/search-indexer-overview)
++ [AI enrichment overview](/azure/search/cognitive-search-concept-intro)
++ [Quickstart: Try AI enrichment in the portal](/azure/search/cognitive-search-quickstart-blob)
++ [How to map fields (AI enrichment)](/azure/search/cognitive-search-output-field-mapping)

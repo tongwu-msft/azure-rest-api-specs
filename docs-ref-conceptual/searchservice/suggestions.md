@@ -36,7 +36,7 @@ In contrast with a [Search Documents](search-documents.md) request, you might bi
 
 When called with GET, the length of the request URL cannot exceed 8 KB. This length is usually enough for most applications. However, some applications produce very large queries, specifically when OData filter expressions are used. For these applications, HTTP POST is a better choice because it allows larger filters than GET. 
 
-With POST, the number of clauses in a filter is the limiting factor, not the size of the raw filter string since the request size limit for POST is approximately 16 MB. Even though the POST request size limit is very large, filter expressions cannot be arbitrarily complex. For more information about filter complexity limitations, see [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax).  
+With POST, the number of clauses in a filter is the limiting factor, not the size of the raw filter string since the request size limit for POST is approximately 16 MB. Even though the POST request size limit is very large, filter expressions cannot be arbitrarily complex. For more information about filter complexity limitations, see [OData Expression Syntax for Azure Cognitive Search](/azure/search/query-odata-filter-orderby-syntax).  
 
 ## URI Parameters
 
@@ -44,11 +44,11 @@ With POST, the number of clauses in a filter is the limiting factor, not the siz
 |-------------|--------------|
 | [service name] | Required. Set this to the unique, user-defined name of your search service. |
 | [index name]/docs  | Required. Specifies the documents collection of a named index. |
-| api-version | Required. The current version is `api-version=2020-06-30`. For a list of all supported versions, see [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions). For queries, the api-version is always specified as a URI parameter for both GET and POST.|
+| api-version | Required. The current stable version is `api-version=2020-06-30`. See [API versions](search-service-api-versions.md) for more versions. For queries, the api-version is always specified as a URI parameter for both GET and POST.|
 
 ### URL-encoding recommendations
 
-Remember to [URL-encode](https://docs.microsoft.com/dotnet/api/system.uri.escapedatastring) specific query parameters when calling the GET REST API directly. For **Suggestions** operations, this includes:  
+Remember to [URL-encode](/dotnet/api/system.uri.escapedatastring) specific query parameters when calling the GET REST API directly. For **Suggestions** operations, this includes:  
 
 + search
 + $filter
@@ -57,7 +57,7 @@ Remember to [URL-encode](https://docs.microsoft.com/dotnet/api/system.uri.escape
 
 URL encoding is only recommended for individual parameters. If you inadvertently URL-encode the entire query string (everything after the `?`), requests will break.  
 
-Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Suggestions** using POST, or when using the [Azure Cognitive Search .NET client library](https://docs.microsoft.com/dotnet/api/overview/azure/search) handles URL encoding for you.  
+Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when calling **Suggestions** using POST, or when using the [Azure Cognitive Search .NET client library](/dotnet/api/overview/azure/search) handles URL encoding for you.  
 
 ## Request Headers 
 
@@ -68,7 +68,7 @@ The following table describes the required and optional request headers.
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service URL. Query requests against the `docs` collection can specify either an admin-key or query-key as the `api-key`. The query-key is used for query-only operations.|  
 
-You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).  
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).  
 
 ## Request Body
 
@@ -98,8 +98,8 @@ A query accepts several parameters on the URL when called with GET, and as JSON 
 
 | Name      | Type | Description |
 |-----------|------|-------------|
-| api-version | string | Required. Version of the REST API used for the request. For a list of supported versions, see [API versioning](https://docs.microsoft.com/azure/search/search-api-versions). For this operation, the api-version is specified as a query parameter in the URL regardless of whether you call the API with GET or POST.|  
-| $filter | string | Optional. An expression that filters the documents considered for suggestions. Only filterable fields can be used in a filter. Filter expressions "search.ismatch" and "search.ismatchscoring*" are not supported in the Autocomplete API. When called with POST, this parameter is named filter instead of $filter. See [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for details on the subset of the OData expression grammar that Azure Cognitive Search supports.|
+| api-version | string | Required. Version of the REST API used for the request. For a list of supported versions, see [API versions](search-service-api-versions.md). For this operation, the api-version is specified as a query parameter in the URL regardless of whether you call the API with GET or POST.|  
+| $filter | string | Optional. An expression that filters the documents considered for suggestions. Only filterable fields can be used in a filter. Filter expressions "search.ismatch" and "search.ismatchscoring*" are not supported in the Autocomplete API. When called with POST, this parameter is named filter instead of $filter. See [OData Expression Syntax for Azure Cognitive Search](/azure/search/query-odata-filter-orderby-syntax) for details on the subset of the OData expression grammar that Azure Cognitive Search supports.|
 | fuzzy | boolean | Optional. Defaults to false. When set to true, this API finds suggestions even if there is a substituted or missing character in the search text. The edit distance is 1 per query string. If the query string is multiple terms, there can only be one missing, extra, substituted, or transposed character in the entire string. Enabling fuzzy match can be a better experience in some scenarios, it does come at a performance cost, as fuzzy suggestion searches are slower and consume more resources. |  
 | highlightPostTag | string | Optional. Defaults to an empty string. A string tag that appends to the highlighted term. Must be set with highlightPreTag. Reserved characters in URL must be percent-encoded (for example, %23 instead of #). When called using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #). |
 | highlightPreTag | string | Optional. Defaults to an empty string. A string tag that prepends to the highlighted term. Must be set with highlightPostTag. When called using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|
@@ -107,9 +107,9 @@ A query accepts several parameters on the URL when called with GET, and as JSON 
 | minimumCoverage | integer | Optional. Defaults to 80. A number between 0 and 100 indicating the percentage of the index that must be available to service the query before it can be reported as a success. </br></br>The default reflects a bias towards speed and efficiency over full coverage. Reducing coverage constrains query expansion, allowing results to come back faster. It also allows the query to succeed on partial index availability, even if one shard is slow to respond or unavailable due to service health issues or index maintenance. </br></br>Whatever the value of minimumCoverage, that percentage of the index must be available or Suggestions returns HTTP status code 503. If Suggestions succeed at the minimumCoverage level, it returns HTTP 200 and includes a @search.coverage value in the response indicating the percentage of the index that was available when servicing the query. </br></br>Lowering this value might be helpful if 503 errors are occurring. Otherwise, you might consider raising the value if the response is providing insufficient matches.|  
 | search | string | Required. The text to search for. The search text to complete. Must be at least 1 character, and no more than 100 characters. It cannot contain operators, query syntax, or quoted phrases. |
 | search | string | Required. The search text to use to suggest queries. Must be at least 1 character, and no more than 100 characters. It cannot contain operators, query syntax, or quoted phrases. |  
-| searchFields | string | Optional. The list of comma-separated field names to search for the specified search text. Target fields must be listed in the [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters) definition in the index. |  
+| searchFields | string | Optional. The list of comma-separated field names to search for the specified search text. Target fields must be listed in the [Suggesters](/azure/search/index-add-suggesters) definition in the index. |  
 |$select | string | Optional. A list of comma-separated fields to retrieve. If unspecified, only the document key and suggestion text are returned. You can explicitly request all fields by setting this parameter to `*`. When calling with POST, this parameter is named select instead of $select.|  
-| suggesterName | string | Required. The name of the suggester as specified in the [Suggesters](https://docs.microsoft.com/azure/search/index-add-suggesters) collection that's part of the index definition. A suggester determines which fields are scanned for suggested query terms. | 
+| suggesterName | string | Required. The name of the suggester as specified in the [Suggesters](/azure/search/index-add-suggesters) collection that's part of the index definition. A suggester determines which fields are scanned for suggested query terms. | 
 | $top | integer | Optional. Defaults to 5). The number of autocompleted suggestions to retrieve. The value must be a number between 1 and 100. When calling with POST, this parameter is named top instead of $top.|
 
 ## Response 
@@ -165,6 +165,6 @@ POST /indexes/hotels/docs/suggest?api-version=2020-06-30
 
 ## See also
 
-+ [Add suggesters to an index](https://docs.microsoft.com/azure/search/index-add-suggesters)
-+ [Add suggestions or autocomplete to an application](https://docs.microsoft.com/azure/search/search-autocomplete-tutorial)
++ [Add suggesters to an index](/azure/search/index-add-suggesters)
++ [Add suggestions or autocomplete to an application](/azure/search/search-autocomplete-tutorial)
 + [HTTP status codes](http-status-codes.md)

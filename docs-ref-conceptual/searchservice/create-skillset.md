@@ -7,13 +7,13 @@ ms.service: cognitive-search
 ms.devlang: rest-api
 ms.topic: language-reference
 
-author: luiscabrer
-ms.author: luisca
+author: HeidiSteen
+ms.author: heidist
 ms.manager: nitinme
 ---
 # Create Skillset (Azure Cognitive Search REST API)
 
-A skillset is a collection of [cognitive skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills) used for AI enrichment, with an optional specification for creating an external knowledge store in Azure Storage. Skills invoke natural language processing and other transformations, such as entity recognition, key phrase extraction, chunking text into logical pages, among others.
+A skillset is a collection of [cognitive skills](/azure/search/cognitive-search-predefined-skills) used for AI enrichment, with an optional specification for creating an external knowledge store in Azure Storage. Skills invoke natural language processing and other transformations, such as entity recognition, key phrase extraction, chunking text into logical pages, among others.
 
 A skillset is attached to an indexer. To use the skillset, reference it in an [indexer](create-indexer.md) and then run the indexer to import data, invoke transformations and enrichment, and map the output fields to an index. A skillset is high-level resource, but it is operational only within indexer processing. As a high-level resource, you can design a skillset once, and then reference it in multiple indexers. 
 
@@ -33,7 +33,7 @@ PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-versi
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | skillset name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
-| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current stable version is `api-version=2020-06-30`. See [API versions](search-service-api-versions.md) for more versions.|
 
 ## Request Headers 
 
@@ -44,7 +44,7 @@ PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-versi
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
-You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).  
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).  
 
 ## Request Body
 
@@ -74,12 +74,12 @@ The following JSON is a high-level representation of the main parts of the defin
 |--------------|-----------------|  
 |name|Required. The name of the skillset. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.|  
 |skills| You can use built-in or custom skills. At least one skill is required. If you are using a knowledge store, you must use a Shaper skill unless you are defining the data shape within the projection. | 
-|cognitiveServices |  Cognitive Services all-in-one key that attaches all of the resources that back the built-in skills (for image analysis and natural language processing). The key is used for billing but not authentication. The key is optional if transactions are under the 20 per day, per indexer, threshold; otherwise, it's required. For more information, see [Attach a Cognitive Services resource](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).|
-|knowledgeStore| Optional. Destination for enrichment output to Azure Storage. Requires a connection string to an Azure Storage account and [projections](https://docs.microsoft.com/azure/search/knowledge-store-projection-overview). </br></br>`storageConnectionString` (required) A string in this format: "DefaultEndpointsProtocol=https;AccountName=<ACCOUNT-NAME>;AccountKey=<ACCOUNT-KEY>;EndpointSuffix=core.windows.net".  </br></br>`projections` (required) An array of projection groups, where each group consists of tables, objects, and files, which are either specified or null. Within a projection group, any relationships among the data, if detected, are preserved across tables, objects, and files. </br></br>`source` (required) The path to the node of the enrichment tree that is the root of the projection. This node is the output of any of the skills in the skillset. Paths start with `/document/`, representing the enriched document but can be extended to `/document/content/` or to nodes within the document tree. Examples: `/document/countries/*` (all countries), or `/document/countries/*/states/*` (all states in all countries). For more information on document paths, see [Skillset concepts and composition](https://docs.microsoft.com/azure/search/cognitive-search-working-with-skillsets). </br></br>`tableName` applies to table projections. It's a table to create in Azure Table storage. </br></br>`storageContainer` applies to object and file projections. It's the name of a container to create in Azure Blob storage. </br></br>`generatedKeyName` applies to table projections. It's a column in the table that uniquely identifies a document. The enrichment pipeline populates this column with generated values.|
+|cognitiveServices |  Cognitive Services all-in-one key that attaches all of the resources that back the built-in skills (for image analysis and natural language processing). The key is used for billing but not authentication. The key is optional if transactions are under the 20 per day, per indexer, threshold; otherwise, it's required. For more information, see [Attach a Cognitive Services resource](/azure/search/cognitive-search-attach-cognitive-services).|
+|knowledgeStore| Optional. Destination for enrichment output to Azure Storage. Requires a connection string to an Azure Storage account and [projections](/azure/search/knowledge-store-projection-overview). </br></br>`storageConnectionString` (required) A string in this format: "DefaultEndpointsProtocol=https;AccountName=<ACCOUNT-NAME>;AccountKey=<ACCOUNT-KEY>;EndpointSuffix=core.windows.net".  </br></br>`projections` (required) An array of projection groups, where each group consists of tables, objects, and files, which are either specified or null. Within a projection group, any relationships among the data, if detected, are preserved across tables, objects, and files. </br></br>`source` (required) The path to the node of the enrichment tree that is the root of the projection. This node is the output of any of the skills in the skillset. Paths start with `/document/`, representing the enriched document but can be extended to `/document/content/` or to nodes within the document tree. Examples: `/document/countries/*` (all countries), or `/document/countries/*/states/*` (all states in all countries). For more information on document paths, see [Skillset concepts and composition](/azure/search/cognitive-search-working-with-skillsets). </br></br>`tableName` applies to table projections. It's a table to create in Azure Table storage. </br></br>`storageContainer` applies to object and file projections. It's the name of a container to create in Azure Blob storage. </br></br>`generatedKeyName` applies to table projections. It's a column in the table that uniquely identifies a document. The enrichment pipeline populates this column with generated values.|
 |encryptionKey| Optional. Used to encrypt a skillset definition at rest with your own keys, managed in your Azure Key Vault. Available for billable search services created on or after 2019-01-01. </br></br> An `encryptionKey` section contains a user-defined `keyVaultKeyName` (required), a system-generated `keyVaultKeyVersion` (required), and a `keyVaultUri` providing the key (required, also referred to as DNS name). An example URI might be "https://my-keyvault-name.vault.azure.net". </br></br>Optionally, you can specify `accessCredentials` if you are not using a managed system identity. Properties of `accessCredentials` include `applicationId` (Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault), and `applicationSecret` (authentication key of the specified Azure AD application). An example in the next section illustrates the syntax. |
 
 > [!NOTE]
-> Skillsets are the basis of [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) in Azure Cognitive Search. A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Cognitive Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).
+> Skillsets are the basis of [AI enrichment](/azure/search/cognitive-search-concept-intro) in Azure Cognitive Search. A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Cognitive Search skillset](/azure/search/cognitive-search-attach-cognitive-services).
 
 ## Response  
 
@@ -91,7 +91,7 @@ By default, the response body will contain the JSON for the skillset definition 
 
 **Example: Skillset used for enriching a collection of financial document**
 
-This skillset uses two skills asynchronously, independently processing the substance of the `contents` as two different transformations. Alternatively, you can direct the output of one transformation to be the input of another. For more information, see [How to define a skillset](https://docs.microsoft.com/azure/search/cognitive-search-defining-skillset).
+This skillset uses two skills asynchronously, independently processing the substance of the `contents` as two different transformations. Alternatively, you can direct the output of one transformation to be the input of another. For more information, see [How to define a skillset](/azure/search/cognitive-search-defining-skillset).
 
 ```json
 {
@@ -159,7 +159,7 @@ This skillset uses two skills asynchronously, independently processing the subst
 
 **Example: Knowledge store**
 
-A skillset can have a single, optional [knowledge store](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro) if you want to send enrichment output to Azure Storage. It requires a connection string to an Azure Storage account and [projections](https://docs.microsoft.com/azure/search/knowledge-store-projection-overview) that determine whether enriched content lands in table or blob storage (as objects or files). 
+A skillset can have a single, optional [knowledge store](/azure/search/knowledge-store-concept-intro) if you want to send enrichment output to Azure Storage. It requires a connection string to an Azure Storage account and [projections](/azure/search/knowledge-store-projection-overview) that determine whether enriched content lands in table or blob storage (as objects or files). 
 
 ```json
 {   
@@ -192,7 +192,7 @@ A skillset can have a single, optional [knowledge store](https://docs.microsoft.
 
 **Example: Encryption keys**
 
-Encryption keys are customer-managed keys used for additional encryption. For more information, see [Encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
+Encryption keys are customer-managed keys used for additional encryption. For more information, see [Encryption using customer-managed keys in Azure Key Vault](/azure/search/search-security-manage-encryption-keys).
 
 ```json
 {
@@ -214,11 +214,11 @@ Encryption keys are customer-managed keys used for additional encryption. For mo
 
 ## See also
 
-+ [AI enrichment overview](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro)
-+ [Tutorial: Enriched indexing with AI](https://docs.microsoft.com/azure/search/cognitive-search-tutorial-blob)
-+ [How to define a skillset](https://docs.microsoft.com/azure/search/cognitive-search-defining-skillset)
-+ [How to map fields](https://docs.microsoft.com/azure/search/cognitive-search-output-field-mapping)
-+ [How to define a custom interface](https://docs.microsoft.com/azure/search/cognitive-search-custom-skill-interface)
-+ [Example: creating a custom skill](https://docs.microsoft.com/azure/search/cognitive-search-create-custom-skill-example)
-+ [Built-in skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills)
-+ [Knowledge store overview](https://docs.microsoft.com/azure/search/knowledge-store-concept-intro)
++ [AI enrichment overview](/azure/search/cognitive-search-concept-intro)
++ [Tutorial: Enriched indexing with AI](/azure/search/cognitive-search-tutorial-blob)
++ [How to define a skillset](/azure/search/cognitive-search-defining-skillset)
++ [How to map fields](/azure/search/cognitive-search-output-field-mapping)
++ [How to define a custom interface](/azure/search/cognitive-search-custom-skill-interface)
++ [Example: creating a custom skill](/azure/search/cognitive-search-create-custom-skill-example)
++ [Built-in skills](/azure/search/cognitive-search-predefined-skills)
++ [Knowledge store overview](/azure/search/knowledge-store-concept-intro)

@@ -2711,9 +2711,11 @@
 ## [Overview](../docs-ref-conceptual/agfood/index.md)
 ## Application Data
 ### [Overview](azurefarmBeats/Application-Data.yml)
+### [Create Cascade Delete Job](azurefarmBeats/Application-Data/Create-Cascade-Delete-Job.yml)
 ### [Create Or Update](azurefarmBeats/Application-Data/Create-Or-Update.yml)
 ### [Delete](azurefarmBeats/Application-Data/Delete.yml)
 ### [Get](azurefarmBeats/Application-Data/Get.yml)
+### [Get Cascade Delete Job Details](azurefarmBeats/Application-Data/Get-Cascade-Delete-Job-Details.yml)
 ### [List](azurefarmBeats/Application-Data/List.yml)
 ### [List By Farmer Id](azurefarmBeats/Application-Data/List-By-Farmer-Id.yml)
 ## Attachments
@@ -2799,9 +2801,11 @@
 ### [List By Farmer Id](azurefarmBeats/Fields/List-By-Farmer-Id.yml)
 ## Harvest Data
 ### [Overview](azurefarmBeats/Harvest-Data.yml)
+### [Create Cascade Delete Job](azurefarmBeats/Harvest-Data/Create-Cascade-Delete-Job.yml)
 ### [Create Or Update](azurefarmBeats/Harvest-Data/Create-Or-Update.yml)
 ### [Delete](azurefarmBeats/Harvest-Data/Delete.yml)
 ### [Get](azurefarmBeats/Harvest-Data/Get.yml)
+### [Get Cascade Delete Job Details](azurefarmBeats/Harvest-Data/Get-Cascade-Delete-Job-Details.yml)
 ### [List](azurefarmBeats/Harvest-Data/List.yml)
 ### [List By Farmer Id](azurefarmBeats/Harvest-Data/List-By-Farmer-Id.yml)
 ## Image Processing
@@ -2813,9 +2817,11 @@
 ### [Check Name Availability](azurefarmBeats/Locations/Check-Name-Availability.yml)
 ## O Auth Providers
 ### [Overview](azurefarmBeats/O-Auth-Providers.yml)
+### [Create Cascade Delete Job](azurefarmBeats/O-Auth-Providers/Create-Cascade-Delete-Job.yml)
 ### [Create Or Update](azurefarmBeats/O-Auth-Providers/Create-Or-Update.yml)
 ### [Delete](azurefarmBeats/O-Auth-Providers/Delete.yml)
 ### [Get](azurefarmBeats/O-Auth-Providers/Get.yml)
+### [Get Cascade Delete Job Details](azurefarmBeats/O-Auth-Providers/Get-Cascade-Delete-Job-Details.yml)
 ### [List](azurefarmBeats/O-Auth-Providers/List.yml)
 ## O Auth Tokens
 ### [Overview](azurefarmBeats/O-Auth-Tokens.yml)
@@ -2828,9 +2834,11 @@
 ### [List](azurefarmBeats/Operations/List.yml)
 ## Planting Data
 ### [Overview](azurefarmBeats/Planting-Data.yml)
+### [Create Cascade Delete Job](azurefarmBeats/Planting-Data/Create-Cascade-Delete-Job.yml)
 ### [Create Or Update](azurefarmBeats/Planting-Data/Create-Or-Update.yml)
 ### [Delete](azurefarmBeats/Planting-Data/Delete.yml)
 ### [Get](azurefarmBeats/Planting-Data/Get.yml)
+### [Get Cascade Delete Job Details](azurefarmBeats/Planting-Data/Get-Cascade-Delete-Job-Details.yml)
 ### [List](azurefarmBeats/Planting-Data/List.yml)
 ### [List By Farmer Id](azurefarmBeats/Planting-Data/List-By-Farmer-Id.yml)
 ## Scenes
@@ -2856,9 +2864,11 @@
 ### [List](azurefarmBeats/Seasons/List.yml)
 ## Tillage Data
 ### [Overview](azurefarmBeats/Tillage-Data.yml)
+### [Create Cascade Delete Job](azurefarmBeats/Tillage-Data/Create-Cascade-Delete-Job.yml)
 ### [Create Or Update](azurefarmBeats/Tillage-Data/Create-Or-Update.yml)
 ### [Delete](azurefarmBeats/Tillage-Data/Delete.yml)
 ### [Get](azurefarmBeats/Tillage-Data/Get.yml)
+### [Get Cascade Delete Job Details](azurefarmBeats/Tillage-Data/Get-Cascade-Delete-Job-Details.yml)
 ### [List](azurefarmBeats/Tillage-Data/List.yml)
 ### [List By Farmer Id](azurefarmBeats/Tillage-Data/List-By-Farmer-Id.yml)
 ## Weather
@@ -3810,7 +3820,7 @@
 ### [Add Connection To Group](webpubsub/Web-Pub-Sub/Add-Connection-To-Group.yml)
 ### [Add User To Group](webpubsub/Web-Pub-Sub/Add-User-To-Group.yml)
 ### [Check Permission](webpubsub/Web-Pub-Sub/Check-Permission.yml)
-### [Close Client Connection](webpubsub/Web-Pub-Sub/Close-Client-Connection.yml)
+### [Close Connection](webpubsub/Web-Pub-Sub/Close-Connection.yml)
 ### [Connection Exists](webpubsub/Web-Pub-Sub/Connection-Exists.yml)
 ### [Grant Permission](webpubsub/Web-Pub-Sub/Grant-Permission.yml)
 ### [Group Exists](webpubsub/Web-Pub-Sub/Group-Exists.yml)
@@ -12765,6 +12775,7 @@
 ##### [List By Service](searchmanagement/2021-04-01-preview/Shared-Private-Link-Resources/List-By-Service.yml)
 # Search Service
 ## [Overview](../docs-ref-conceptual/searchservice/index.md)
+## [API versions](../docs-ref-conceptual/searchservice/search-service-api-versions.md)
 ## [Data types](../docs-ref-conceptual/searchservice/supported-data-types.md)
 ## [Naming rules](../docs-ref-conceptual/searchservice/naming-rules.md)
 ## [HTTP status codes](../docs-ref-conceptual/searchservice/http-status-codes.md)
@@ -12773,14 +12784,13 @@
 ## Reference (Preview)
 ### [Introduction](../docs-ref-conceptual/searchservice/index-preview.md)
 ### Indexes
-#### [Create Index](../docs-ref-conceptual/searchservice/preview-api/create-index.md)
-#### [Update Index](../docs-ref-conceptual/searchservice/preview-api/update-index.md)
+#### [Create or Update Index](../docs-ref-conceptual/searchservice/preview-api/create-or-update-index.md)
 ### Documents
 #### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
 #### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)
 ### Indexers
-#### [Create Indexer](../docs-ref-conceptual/searchservice/preview-api/create-indexer.md)
-#### [Update Indexer](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
+#### [Create or Update Indexer](../docs-ref-conceptual/searchservice/preview-api/create-or-update-indexer.md)
+#### [Create or Update Data Source](../docs-ref-conceptual/searchservice/preview-api/create-or-update-data-source.md)
 ### Skillsets
 #### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
 ## Reference (Stable)
@@ -19360,6 +19370,7 @@
 ### [Protocol Version Support for .NET Client Library Versions](../docs-ref-conceptual/storageservices/protocol-version-support-for-.net-client-library-versions.md)
 ### Previous Azure Storage services versions
 #### [Overview](../docs-ref-conceptual/storageservices/previous-azure-storage-service-versions.md)
+#### [Version 2020-08-04](../docs-ref-conceptual/storageservices/version-2020-08-04.md)
 #### [Version 2020-06-12](../docs-ref-conceptual/storageservices/version-2020-06-12.md)
 #### [Version 2020-04-08](../docs-ref-conceptual/storageservices/version-2020-04-08.md)
 #### [Version 2020-02-10](../docs-ref-conceptual/storageservices/version-2020-02-10.md)
@@ -19466,6 +19477,9 @@
 #### [Undelete Blob](../docs-ref-conceptual/storageservices/undelete-blob.md)
 #### [Set Blob Tier](../docs-ref-conceptual/storageservices/set-blob-tier.md)
 #### [Blob Batch](../docs-ref-conceptual/storageservices/blob-batch.md)
+#### [Set Immutability Policy](../docs-ref-conceptual/storageservices/set-blob-immutability-policy.md)
+#### [Delete Immutability Policy](../docs-ref-conceptual/storageservices/delete-blob-immutability-policy.md)
+#### [Set Legal Hold](../docs-ref-conceptual/storageservices/set-blob-legal-hold.md)
 #### Operations on Block Blobs
 ##### [Overview](../docs-ref-conceptual/storageservices/operations-on-block-blobs.md)
 ##### [Put Block](../docs-ref-conceptual/storageservices/put-block.md)

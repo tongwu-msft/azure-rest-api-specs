@@ -4,37 +4,43 @@ name: Create Or Update
 service: Azure FarmBeats
 groupName: Fields
 apiVersion: 2021-03-31-preview
-summary: Creates or Updates a field resource under a particular farmer.
+summary: >+
+  Create or update a field resource for a given farmer.
+
+
+
+  ###### Note:
+
+
+  1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+
+  2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+
+  3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+
 consumes:
 - application/merge-patch+json
 produces:
 - application/json
 paths:
-- content: PATCH {Endpoint}/farmers/{farmerId}/fields/{fieldId}?api-version=2021-03-31-preview
+- content: PATCH /farmers/{farmerId}/fields/{fieldId}?api-version=2021-03-31-preview
 uriParameters:
-- name: Endpoint
-  in: path
-  isRequired: true
-  skipUrlEncoding: true
-  description: 'The endpoint of your FarmBeats resource (protocol and hostname, for example: https://{resourceName}.farmbeats.azure.net).'
-  types:
-  - uid: string
 - name: farmerId
   in: path
   isRequired: true
-  description: ID of the associated farmer resource.
+  description: Id of the associated farmer.
   types:
   - uid: string
 - name: fieldId
   in: path
   isRequired: true
-  description: ID of the field resource.
+  description: Unique Id of the field. This Id is unique for a given farmer.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: The requested API version
+  description: The requested API version.
   types:
   - uid: string
 responses:
@@ -55,34 +61,27 @@ requestBody:
   parameters:
   - name: farmId
     in: body
-    description: ID of the associated Farm.
+    description: Id of the associated farm.
     types:
     - uid: string
   - name: status
     in: body
-    description: Status of the resource.
+    description: User determined status of the resource.
     types:
     - uid: string
   - name: name
     in: body
-    description: Name to identify resource.
+    description: Name of the field.
     types:
     - uid: string
   - name: description
     in: body
-    description: Textual description of the resource.
+    description: Brief description of the field.
     types:
     - uid: string
   - name: properties
     in: body
-    description: >-
-      A collection of key value pairs that belongs to the resource.
-
-      Each pair must not have a key greater than 50 characters
-
-      and must not have a value greater than 150 characters.
-
-      Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
+    description: A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource.
     types:
     - uid: object
       isDictionary: true
@@ -98,70 +97,63 @@ requestHeader:
   - uid: string
 definitions:
 - name: Field
-  description: Schema of field resource.
+  description: Schema of a field resource.
   kind: object
   properties:
   - name: farmId
-    description: ID of the associated Farm.
+    description: Id of the associated farm.
     types:
     - uid: string
   - name: farmerId
     isReadyOnly: true
-    description: Farmer ID.
+    description: Id of the associated farmer.
     types:
     - uid: string
   - name: primaryBoundaryId
     isReadyOnly: true
-    description: Primary boundary id.
+    description: Id of the primary boundary associated with the field. At any point in time, a field can contain a maximum of one primary boundary.
     types:
     - uid: string
   - name: boundaryIds
     isReadyOnly: true
-    description: Boundary Ids.
+    description: List of Ids of boundaries associated with the field.
     types:
     - uid: string
       isArray: true
   - name: id
     isReadyOnly: true
-    description: Unique resource ID.
+    description: Unique Id of the field. This Id is unique for a given farmer.
     types:
     - uid: string
   - name: eTag
     isReadyOnly: true
-    description: The ETag value to implement optimistic concurrency.
+    description: ETag value can be used to implement optimistic concurrency.
     types:
     - uid: string
   - name: status
-    description: Status of the resource.
+    description: User determined status of the resource.
     types:
     - uid: string
   - name: createdDateTime
     isReadyOnly: true
-    description: 'Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: modifiedDateTime
     isReadyOnly: true
-    description: 'Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: name
-    description: Name to identify resource.
+    description: Name of the field.
     types:
     - uid: string
   - name: description
-    description: Textual description of the resource.
+    description: Brief description of the field.
     types:
     - uid: string
   - name: properties
-    description: >-
-      A collection of key value pairs that belongs to the resource.
-
-      Each pair must not have a key greater than 50 characters
-
-      and must not have a value greater than 150 characters.
-
-      Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
+    description: A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource.
     types:
     - uid: object
       isDictionary: true
@@ -170,21 +162,21 @@ definitions:
       - uid: object
 - name: ErrorResponse
   description: >-
-    An error response from the Azure AgPlatform service.
+    An error response from Azure AgPlatform service.
 
     <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
   kind: object
   properties:
   - name: error
-    description: An error from the Azure AgPlatform service.
+    description: An error from Azure FarmBeats service.
     types:
     - uid: Error
   - name: traceId
-    description: Unique trace ID.
+    description: Unique trace Id.
     types:
     - uid: string
 - name: Error
-  description: An error from the Azure AgPlatform service.
+  description: An error from Azure FarmBeats service.
   kind: object
   properties:
   - name: code
@@ -219,10 +211,7 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: >-
-      Specific error code than was provided by the
-
-      containing error.
+    description: Specific error code than was provided by the containing error.
     types:
     - uid: string
   - name: innererror
@@ -235,7 +224,7 @@ definitions:
 examples:
 - name: Fields_CreateOrUpdate
   request:
-    uri: PATCH {Endpoint}/farmers/FARMER123/fields/FIELD123?api-version=2021-03-31-preview
+    uri: PATCH /farmers/FARMER123/fields/FIELD123?api-version=2021-03-31-preview
     body: >-
       {
         "farmId": "FARM123",
@@ -298,5 +287,13 @@ security:
   description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
   in: header
 metadata:
-  description: Learn more about Azure FarmBeats service - Creates or Updates a field resource under a particular farmer.
+  description: >-
+    Create or update a field resource for a given farmer.
+
+
+
+    ###### Note:
+
+
+    1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
 errorCodes: []

@@ -162,22 +162,22 @@ definitions:
   - name: entityRecognitionTasks
     description: ''
     types:
-    - uid: object
+    - uid: EntityRecognitionTasks
       isArray: true
   - name: entityRecognitionPiiTasks
     description: ''
     types:
-    - uid: object
+    - uid: EntityRecognitionPiiTasks
       isArray: true
   - name: keyPhraseExtractionTasks
     description: ''
     types:
-    - uid: object
+    - uid: KeyPhraseExtractionTasks
       isArray: true
   - name: entityLinkingTasks
     description: ''
     types:
-    - uid: object
+    - uid: EntityLinkingTasks
       isArray: true
 - name: TextAnalyticsError
   kind: object
@@ -238,7 +238,7 @@ definitions:
     description: ''
     types:
     - uid: State
-- name: object
+- name: EntityRecognitionTasks
   kind: object
   properties:
   - name: lastUpdateDateTime
@@ -257,6 +257,63 @@ definitions:
     description: ''
     types:
     - uid: EntitiesResult
+- name: EntityRecognitionPiiTasks
+  kind: object
+  properties:
+  - name: lastUpdateDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: State
+  - name: results
+    description: ''
+    types:
+    - uid: PiiResult
+- name: KeyPhraseExtractionTasks
+  kind: object
+  properties:
+  - name: lastUpdateDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: State
+  - name: results
+    description: ''
+    types:
+    - uid: KeyPhraseResult
+- name: EntityLinkingTasks
+  kind: object
+  properties:
+  - name: lastUpdateDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: State
+  - name: results
+    description: ''
+    types:
+    - uid: EntityLinkingResult
 - name: ErrorCodeValue
   description: Error code.
   kind: enum
@@ -310,6 +367,69 @@ definitions:
     description: Response by document
     types:
     - uid: DocumentEntities
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: DocumentError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: PiiResult
+  kind: object
+  properties:
+  - name: documents
+    description: Response by document
+    types:
+    - uid: PiiDocumentEntities
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: DocumentError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: KeyPhraseResult
+  kind: object
+  properties:
+  - name: documents
+    description: Response by document
+    types:
+    - uid: DocumentKeyPhrases
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: DocumentError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: EntityLinkingResult
+  kind: object
+  properties:
+  - name: documents
+    description: Response by document
+    types:
+    - uid: DocumentLinkedEntities
       isArray: true
   - name: errors
     description: Errors by document id.
@@ -387,6 +507,73 @@ definitions:
     description: Document Error.
     types:
     - uid: TextAnalyticsError
+- name: PiiDocumentEntities
+  kind: object
+  properties:
+  - name: id
+    description: Unique, non-empty document identifier.
+    types:
+    - uid: string
+  - name: redactedText
+    description: Returns redacted text.
+    types:
+    - uid: string
+  - name: entities
+    description: Recognized entities in the document.
+    types:
+    - uid: Entity
+      isArray: true
+  - name: warnings
+    description: Warnings encountered while processing document.
+    types:
+    - uid: TextAnalyticsWarning
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the document payload.
+    types:
+    - uid: DocumentStatistics
+- name: DocumentKeyPhrases
+  kind: object
+  properties:
+  - name: id
+    description: Unique, non-empty document identifier.
+    types:
+    - uid: string
+  - name: keyPhrases
+    description: A list of representative words or phrases. The number of key phrases returned is proportional to the number of words in the input document.
+    types:
+    - uid: string
+      isArray: true
+  - name: warnings
+    description: Warnings encountered while processing document.
+    types:
+    - uid: TextAnalyticsWarning
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the document payload.
+    types:
+    - uid: DocumentStatistics
+- name: DocumentLinkedEntities
+  kind: object
+  properties:
+  - name: id
+    description: Unique, non-empty document identifier.
+    types:
+    - uid: string
+  - name: entities
+    description: Recognized well known entities in the document.
+    types:
+    - uid: LinkedEntity
+      isArray: true
+  - name: warnings
+    description: Warnings encountered while processing document.
+    types:
+    - uid: TextAnalyticsWarning
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the document payload.
+    types:
+    - uid: DocumentStatistics
 - name: Entity
   kind: object
   properties:
@@ -441,6 +628,38 @@ definitions:
     description: Number of transactions for the document.
     types:
     - uid: integer
+- name: LinkedEntity
+  kind: object
+  properties:
+  - name: name
+    description: Entity Linking formal name.
+    types:
+    - uid: string
+  - name: matches
+    description: List of instances this entity appears in the text.
+    types:
+    - uid: Match
+      isArray: true
+  - name: language
+    description: Language used in the data source.
+    types:
+    - uid: string
+  - name: id
+    description: Unique identifier of the recognized entity from the data source.
+    types:
+    - uid: string
+  - name: url
+    description: URL for the entity's page from the data source.
+    types:
+    - uid: string
+  - name: dataSource
+    description: Data source used to extract entity linking, such as Wiki/Bing etc.
+    types:
+    - uid: string
+  - name: bingId
+    description: Bing Entity Search API unique identifier of the recognized entity.
+    types:
+    - uid: string
 - name: WarningCodeValue
   description: Error code.
   kind: enum
@@ -451,6 +670,25 @@ definitions:
   - name: DocumentTruncated
     types:
     - uid: string
+- name: Match
+  kind: object
+  properties:
+  - name: confidenceScore
+    description: If a well known item is recognized, a decimal number denoting the confidence level between 0 and 1 will be returned.
+    types:
+    - uid: number
+  - name: text
+    description: Entity text as appears in the request.
+    types:
+    - uid: string
+  - name: offset
+    description: Start position for the entity match text.
+    types:
+    - uid: integer
+  - name: length
+    description: Length for the entity match text.
+    types:
+    - uid: integer
 examples:
 - name: Successful Get Analysis job status request
   request:
