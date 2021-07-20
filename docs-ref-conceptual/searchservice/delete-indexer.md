@@ -1,6 +1,6 @@
 ---
 title: "Delete Indexer (Azure Cognitive Search REST API)"
-description: Permanently delete an index definition and all content from an Azure Cognitive Search service.
+description: Permanently delete an indexer definition from an Azure Cognitive Search service.
 ms.date: 06/30/2020
 
 ms.service: cognitive-search

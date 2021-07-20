@@ -32,7 +32,7 @@ For more information, see [Indexer operations &#40;Azure Cognitive Search REST A
 |bigint|Edm.Int64, Edm.String||  
 |real, float|Edm.Double, Edm.String||  
 |smallmoney, money<br /><br /> decimal<br /><br /> numeric|Edm.String|Azure Cognitive Search does not support converting decimal types into Edm.Double because doing so would lose precision.|  
-|char, nchar, varchar, nvarchar|Edm.String <br /><br/>Collection(Edm.String). See [Field Mapping Functions](create-indexer.md#FieldMappingFunctions) for details on how to transform a string column into a Collection(Edm.String)|  
+|char, nchar, varchar, nvarchar|Edm.String <br /><br/>Collection(Edm.String). See [Field Mapping Functions](/azure/search/search-indexer-field-mappings#field-mapping-functions) for details on how to transform a string column into a Collection(Edm.String)|  
 |smalldatetime, datetime, datetime2, date, datetimeoffset|Edm.DateTimeOffset, Edm.String||  
 |uniqueidentifer|Edm.String||  
 |rowversion|N/A|Row-version columns cannot be stored in the search index, but they can be used for change tracking.|  
@@ -54,8 +54,8 @@ For more information, see [Indexer operations &#40;Azure Cognitive Search REST A
 
 ## See also  
 
-+ [Create Data Source &#40;Azure Cognitive Search REST API&#41;](create-data-source.md)   
-+ [Create Indexer &#40;Azure Cognitive Search REST API&#41;](create-indexer.md)   
-+ [Supported data types &#40;Azure Cognitive Search&#41;](supported-data-types.md)   
-+ [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md)   
++ [Create Data Source](create-data-source.md)   
++ [Create Indexer](create-indexer.md)   
++ [Supported data types](supported-data-types.md)   
++ [Indexer operations](indexer-operations.md)   
 + [Azure Cognitive Search REST APIs](index.md)  

@@ -51,5 +51,5 @@ You can get the api-key value from your service dashboard in the Azure portal. F
 ## See also  
 
 + [AI enrichment overview](/azure/search/cognitive-search-concept-intro)
-+ [Tutorial: Enriched indexing with AI](h/azure/search/cognitive-search-tutorial-blob)
++ [Tutorial: Enriched indexing with AI](/azure/search/cognitive-search-tutorial-blob)
 + [Built-in skills](/azure/search/cognitive-search-predefined-skills)

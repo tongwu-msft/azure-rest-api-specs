@@ -34,7 +34,7 @@ PUT https://[service name].search.windows.net/datasources/[data source name]?api
  HTTPS is required for all service requests. If the object doesn't exist, it is created. If it already exists, it is updated to the new definition  
 
 > [!NOTE]  
-> The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).   
+> The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits](/azure/search/search-limits-quotas-capacity).   
 
 ## URI Parameters
 
