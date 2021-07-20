@@ -82,7 +82,7 @@ The following JSON is a high-level representation of the main parts of the defin
       "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
       "keyVaultKeyVersion": "Version of the Azure Key Vault key",
       "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key.",
-      "identity": "Name of the user-managed identity, key vault connections made using Azure AD",
+      "identity": "Resource ID of a user-managed identity, for key vault connections made using Azure AD",
       "accessCredentials": (optional, only if not using managed system identity) {
         "applicationId": "Azure AD Application ID that has access permissions to the key vault",
         "applicationSecret": "Authentication key of the specified Azure AD application)"}
