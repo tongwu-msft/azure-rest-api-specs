@@ -138,11 +138,7 @@ The following attributes can be set on a field when creating an index.
 > If a field is not set to be searchable, filterable, sortable, or facetable, the field can't be referenced in any query expression. This is useful for fields that are not used in queries, but are needed in search results.
 
 > [!NOTE]
-> Index schemas are subject to the following limits (the values vary between different pricing tiers, see [Service limits](/azure/search/search-limits-quotas-capacity/) for details.):
-> - Maximum number of simple fields per index
-> - Maximum depth of sub-fields per index (a top-level field is at depth 1, a sub-field of a top-level field is at depth 2, and so on)
-> - Maximum number of complex collections per index
-> - Maximum number of elements across all complex collections per document
+> The maximum number of indexes you can create varies by pricing tier. For more information, see [Service limits](/azure/search/search-limits-quotas-capacity/).
 
 ## Response
 

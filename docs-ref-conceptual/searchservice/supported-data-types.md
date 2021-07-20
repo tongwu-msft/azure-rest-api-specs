@@ -13,7 +13,7 @@ ms.manager: nitinme
 ---
 # Supported data types (Azure Cognitive Search)
 
-In Azure Cognitive Search, document fields and values in expressions (for example, in filters) are typed according to the Entity Data Model, or EDM (see [Entity Data Model](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model) for details).
+In Azure Cognitive Search, document fields and values in expressions (for example, in filters) are typed according to the Entity Data Model, or EDM (see [Entity Data Model](/dotnet/framework/data/adonet/entity-data-model) for details).
 
 > [!NOTE]  
 > If you're using indexers to pull data into Azure Cognitive Search, indexers have different data type mappings for JSON and SQL Server data sources. For more information, see [Data type map for indexers in Azure Cognitive Search](data-type-map-for-indexers-in-azure-search.md).  
@@ -65,4 +65,3 @@ To learn more about geospatial search in Azure, see this video: [Azure Cognitive
 + [Create Index](create-index.md)
 + [Add, Update or Delete Document](addupdate-or-delete-documents.md)
 + [Indexer operations](indexer-operations.md)
-+ [Azure Cognitive Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search)  

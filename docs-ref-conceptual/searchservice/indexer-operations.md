@@ -25,7 +25,7 @@ Using an indexer is efficient, [removing the need to write code to index your da
 
  Setting up automatic indexing is typically a four step process:  
 
-1. Identify the data source that contains the data that needs to be indexed. Indexers only work with certain Azure data platforms. For more information, see [Supported data source](https://docs.microsoft.com/azure/search/search-indexer-overview#supported-data-sources).  
+1. Identify the data source that contains the data that needs to be indexed. Indexers only work with certain Azure data platforms. For more information, see [Supported data source](/azure/search/search-indexer-overview#supported-data-sources).  
 
 1. Create search index whose schema is compatible with your data source.  
 
