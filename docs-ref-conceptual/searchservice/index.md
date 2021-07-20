@@ -36,7 +36,7 @@ All together, there are five types of operations that can be executed against th
 | [Index](index-operations.md) | Create, delete, update, or configure a search index. |
 | [Document](document-operations.md) | Add, update, or delete documents in the index, query the index, or look up specific documents by ID. |
 | [Indexer](indexer-operations.md) | Automate aspects of an indexing operation by configuring a **data source** and an **indexer** that you can schedule or run on demand. This feature is supported for a limited number of data source types on Azure. |
-| [Skillset](skillset-operations.md) | Part of an [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) workload, a skillset defines a series of enrichment processing that extracts or creates searchable text from unstructured text, application files, or image files. A skillset is invoked by an indexer. |
+| [Skillset](skillset-operations.md) | Part of an [AI enrichment](/azure/search/cognitive-search-concept-intro) workload, a skillset defines a series of enrichment processing that extracts or creates searchable text from unstructured text, application files, or image files. A skillset is invoked by an indexer. |
 | [Synonym map](synonym-map-operations.md) | A synonym map is service-level resource that contains user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field). |
 
 ## Calling the APIs
