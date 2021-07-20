@@ -4,161 +4,161 @@ name: List
 service: Azure FarmBeats
 groupName: Application Data
 apiVersion: 2021-03-31-preview
-summary: Returns a paginated list of application data resources across all farmers.
+summary: >+
+  Get a paginated list of application data resources across all the farmers for a given search criteria.
+
+
+
+  ###### Note:
+
+  1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+
+  2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+
 produces:
 - application/json
 paths:
-- content: GET {Endpoint}/application-data?api-version=2021-03-31-preview
-- content: GET {Endpoint}/application-data?minAvgMaterial={minAvgMaterial}&maxAvgMaterial={maxAvgMaterial}&minTotalMaterial={minTotalMaterial}&maxTotalMaterial={maxTotalMaterial}&sources={sources}&associatedBoundaryIds={associatedBoundaryIds}&operationBoundaryIds={operationBoundaryIds}&minOperationStartDateTime={minOperationStartDateTime}&maxOperationStartDateTime={maxOperationStartDateTime}&minOperationEndDateTime={minOperationEndDateTime}&maxOperationEndDateTime={maxOperationEndDateTime}&minOperationModifiedDateTime={minOperationModifiedDateTime}&maxOperationModifiedDateTime={maxOperationModifiedDateTime}&minArea={minArea}&maxArea={maxArea}&ids={ids}&names={names}&propertyFilters={propertyFilters}&statuses={statuses}&minCreatedDateTime={minCreatedDateTime}&maxCreatedDateTime={maxCreatedDateTime}&minLastModifiedDateTime={minLastModifiedDateTime}&maxLastModifiedDateTime={maxLastModifiedDateTime}&$maxPageSize={$maxPageSize}&$skipToken={$skipToken}&api-version=2021-03-31-preview
+- content: GET /application-data?api-version=2021-03-31-preview
+- content: GET /application-data?minAvgMaterial={minAvgMaterial}&maxAvgMaterial={maxAvgMaterial}&minTotalMaterial={minTotalMaterial}&maxTotalMaterial={maxTotalMaterial}&sources={sources}&associatedBoundaryIds={associatedBoundaryIds}&operationBoundaryIds={operationBoundaryIds}&minOperationStartDateTime={minOperationStartDateTime}&maxOperationStartDateTime={maxOperationStartDateTime}&minOperationEndDateTime={minOperationEndDateTime}&maxOperationEndDateTime={maxOperationEndDateTime}&minOperationModifiedDateTime={minOperationModifiedDateTime}&maxOperationModifiedDateTime={maxOperationModifiedDateTime}&minArea={minArea}&maxArea={maxArea}&ids={ids}&names={names}&propertyFilters={propertyFilters}&statuses={statuses}&minCreatedDateTime={minCreatedDateTime}&maxCreatedDateTime={maxCreatedDateTime}&minLastModifiedDateTime={minLastModifiedDateTime}&maxLastModifiedDateTime={maxLastModifiedDateTime}&$maxPageSize={$maxPageSize}&$skipToken={$skipToken}&api-version=2021-03-31-preview
   isOptional: true
 uriParameters:
-- name: Endpoint
-  in: path
-  isRequired: true
-  skipUrlEncoding: true
-  description: 'The endpoint of your FarmBeats resource (protocol and hostname, for example: https://{resourceName}.farmbeats.azure.net).'
-  types:
-  - uid: string
 - name: minAvgMaterial
   in: query
-  description: Minimum average amount of material applied during the application (inclusive).
+  description: Application data with average material greater than or equal to the value specified will be returned.
   types:
   - uid: number
   format: double
 - name: maxAvgMaterial
   in: query
-  description: Maximum average amount of material applied during the application (inclusive).
+  description: " Application data with average material lesser than or equal to the value specified will be returned."
   types:
   - uid: number
   format: double
 - name: minTotalMaterial
   in: query
-  description: Minimum total amount of material applied during the application (inclusive).
+  description: Application data with total material greater than or equal to the value specified will be returned.
   types:
   - uid: number
   format: double
 - name: maxTotalMaterial
   in: query
-  description: Maximum total amount of material applied during the application (inclusive).
+  description: Application data with total material lesser than or equal to the value specified will be returned.
   types:
   - uid: number
   format: double
 - name: sources
   in: query
-  description: Sources of the operation data.
+  description: Application data obtained from the given list of sources will be returned.
   types:
   - uid: array
 - name: associatedBoundaryIds
   in: query
-  description: Boundary IDs associated with operation data.
+  description: List of boundary Ids of the field/seasonal field on which the application operation was done.
   types:
   - uid: array
 - name: operationBoundaryIds
   in: query
-  description: Operation boundary IDs associated with operation data.
+  description: List of the boundary Ids that were created using the geographical area on which the application operation was carried out.
   types:
   - uid: array
 - name: minOperationStartDateTime
   in: query
-  description: 'Minimum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive).'
+  description: Application operations that began at or after the given UTC date-time is returned.
   types:
   - uid: string
   format: date-time
 - name: maxOperationStartDateTime
   in: query
-  description: 'Maximum start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive).'
+  description: Application operations that began at or before the given UTC date-time is returned.
   types:
   - uid: string
   format: date-time
 - name: minOperationEndDateTime
   in: query
-  description: 'Minimum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive).'
+  description: Application operations that ended at or after the given UTC date-time is returned.
   types:
   - uid: string
   format: date-time
 - name: maxOperationEndDateTime
   in: query
-  description: 'Maximum end date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive).'
+  description: Application operations that ended at or before the given UTC date-time is returned.
   types:
   - uid: string
   format: date-time
 - name: minOperationModifiedDateTime
   in: query
-  description: 'Minimum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive).'
+  description: Application operations that were modified (at source) at or after the given UTC date-time is returned.
   types:
   - uid: string
   format: date-time
 - name: maxOperationModifiedDateTime
   in: query
-  description: 'Maximum modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ (inclusive).'
+  description: Application operations that were modified (at source) at or before the given UTC date-time is returned.
   types:
   - uid: string
   format: date-time
 - name: minArea
   in: query
-  description: Minimum area for which operation was applied (inclusive).
+  description: Application operations carried over area greater than or equal to the given value is returned.
   types:
   - uid: number
   format: double
 - name: maxArea
   in: query
-  description: Maximum area for which operation was applied (inclusive).
+  description: Application operations carried over area lesser than or equal to the given value is returned.
   types:
   - uid: number
   format: double
 - name: ids
   in: query
-  description: Ids of the resource.
+  description: List of Ids of application operations to be returned.
   types:
   - uid: array
 - name: names
   in: query
-  description: Names of the resource.
+  description: List of names of application operations to be returned.
   types:
   - uid: array
 - name: propertyFilters
   in: query
   description: >-
-    Filters on key-value pairs within the Properties object.
+    Filters on key-value pairs within 'Properties'.
 
-    eg. "{testKey} eq {testValue}".
+    eg. "{testKey} eq {testValue}".
   types:
   - uid: array
 - name: statuses
   in: query
-  description: Statuses of the resource.
+  description: Application data with only the given statuses are returned.
   types:
   - uid: array
 - name: minCreatedDateTime
   in: query
-  description: Minimum creation date of resource (inclusive).
+  description: 'Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ).'
   types:
   - uid: string
   format: date-time
 - name: maxCreatedDateTime
   in: query
-  description: Maximum creation date of resource (inclusive).
+  description: 'Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ).'
   types:
   - uid: string
   format: date-time
 - name: minLastModifiedDateTime
   in: query
-  description: Minimum last modified date of resource (inclusive).
+  description: 'Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ).'
   types:
   - uid: string
   format: date-time
 - name: maxLastModifiedDateTime
   in: query
-  description: Maximum last modified date of resource (inclusive).
+  description: 'Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ).'
   types:
   - uid: string
   format: date-time
 - name: $maxPageSize
   in: query
-  description: >-
-    Maximum number of items needed (inclusive).
-
-    Minimum = 10, Maximum = 1000, Default value = 50.
+  description: Maximum number of items to be returned in a single page.
   types:
   - uid: integer
   format: int32
@@ -170,7 +170,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The requested API version
+  description: The requested API version.
   types:
   - uid: string
 responses:
@@ -204,22 +204,22 @@ definitions:
     types:
     - uid: string
   - name: nextLink
-    description: Continuation link (absolute URI) to the next page of results in the list.
+    description: Continuation link (absolute URI) to the next page of results in the list. If null, there are no additional pages.
     types:
     - uid: string
 - name: ErrorResponse
   description: >-
-    An error response from the Azure AgPlatform service.
+    An error response from Azure AgPlatform service.
 
     <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
   kind: object
   properties:
   - name: error
-    description: An error from the Azure AgPlatform service.
+    description: An error from Azure FarmBeats service.
     types:
     - uid: Error
   - name: traceId
-    description: Unique trace ID.
+    description: Unique trace Id.
     types:
     - uid: string
 - name: ApplicationData
@@ -244,83 +244,73 @@ definitions:
     types:
     - uid: Measure
   - name: source
-    description: Source of the operation data.
+    description: Represents the source from which the application data was obtained.
     types:
     - uid: string
   - name: operationModifiedDateTime
-    description: >-
-      Modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ.
-
-      Note: this will be specified by the source provider itself.
+    description: UTC date-time at which the operation data was modified at the source (format: yyyy-MM-ddTHH:mm:ssZ). This will be specified by the source.
     types:
     - uid: string
   - name: operationStartDateTime
-    description: 'Start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC date-time at which the operation started (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: operationEndDateTime
-    description: 'End date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC date-time at which the operation ended (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: attachmentsLink
     isReadyOnly: true
-    description: Link for attachments.
+    description: Link to 'Attachments API' that can be used to find shapefiles, raster files or any other attachments associated with this operation.
     types:
     - uid: string
   - name: associatedBoundaryId
-    description: Optional boundary ID of the field for which operation was applied.
+    description: Id of the boundary of the field/seasonal field on which the application operation was done.
     types:
     - uid: string
   - name: operationBoundaryId
-    description: Optional boundary ID of the actual area for which operation was applied inside the specified field.
+    description: Id of the boundary that is created using the geographical area on which the application operation was carried out.
     types:
     - uid: string
   - name: farmerId
     isReadyOnly: true
-    description: Farmer ID which belongs to the operation data.
+    description: Id of the associated farmer.
     types:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: Unique resource ID.
+    description: Unique Id of the operation (application). This Id is unique for a given farmer.
     types:
     - uid: string
   - name: eTag
     isReadyOnly: true
-    description: The ETag value to implement optimistic concurrency.
+    description: ETag value can be used to implement optimistic concurrency.
     types:
     - uid: string
   - name: status
-    description: Status of the resource.
+    description: User determined status of the resource.
     types:
     - uid: string
   - name: createdDateTime
     isReadyOnly: true
-    description: 'Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: modifiedDateTime
     isReadyOnly: true
-    description: 'Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: name
-    description: Name to identify resource.
+    description: Name of the application operation.
     types:
     - uid: string
   - name: description
-    description: Textual description of the resource.
+    description: Brief description of the application operation.
     types:
     - uid: string
   - name: properties
-    description: >-
-      A collection of key value pairs that belongs to the resource.
-
-      Each pair must not have a key greater than 50 characters
-
-      and must not have a value greater than 150 characters.
-
-      Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
+    description: A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource.
     types:
     - uid: object
       isDictionary: true
@@ -328,7 +318,7 @@ definitions:
       - uid: string
       - uid: object
 - name: Error
-  description: An error from the Azure AgPlatform service.
+  description: An error from Azure FarmBeats service.
   kind: object
   properties:
   - name: code
@@ -356,15 +346,15 @@ definitions:
     types:
     - uid: InnerError
 - name: ApplicationProductDetail
-  description: Schema of product used during application.
+  description: Schema of a product used during application.
   kind: object
   properties:
   - name: productName
-    description: Name of the product applied.
+    description: Name of a product applied.
     types:
     - uid: string
   - name: isCarrier
-    description: A flag indicating whether product is a carrier for a tank mix.
+    description: Indicates if the product is a carrier for a tank mix.
     types:
     - uid: boolean
   - name: avgMaterial
@@ -395,10 +385,7 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: >-
-      Specific error code than was provided by the
-
-      containing error.
+    description: Specific error code than was provided by the containing error.
     types:
     - uid: string
   - name: innererror
@@ -411,62 +398,61 @@ definitions:
 examples:
 - name: ApplicationData_List
   request:
-    uri: GET {Endpoint}/application-data?api-version=2021-03-31-preview
+    uri: GET /application-data?api-version=2021-03-31-preview
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "farmerId": "FARMER123",
-            "id": "APPLICATION123",
-            "source": "Manual",
-            "name": "Application data for North Farm",
-            "description": "some description",
-            "status": "Active",
-            "operationStartDateTime": "2021-02-25T16:57:04Z",
-            "operationEndDateTime": "2021-02-27T10:13:06Z",
-            "operationModifiedDateTime": "2021-02-28T11:12:12Z",
-            "operationBoundaryId": "APPLICATIONOPBOUNDARY1",
-            "associatedBoundaryId": "NORTHFARM2021CORNBOUNDARY",
-            "area": {
-              "unit": "acre",
-              "value": 60
+            "applicationProductDetails": [
+              {
+                "productName": "Product123",
+                "isCarrier": false,
+                "avgMaterial": {
+                  "unit": "kilosperacre",
+                  "value": 0.15
+                },
+                "totalMaterial": {
+                  "unit": "kilos",
+                  "value": 9
+                }
+              }
+            ],
+            "avgMaterial": {
+              "unit": "kilosperacre",
+              "value": 0.15
             },
             "totalMaterial": {
               "unit": "kilos",
               "value": 9
             },
-            "avgMaterial": {
-              "unit": "kilosperacre",
-              "value": 0.15
+            "area": {
+              "unit": "acre",
+              "value": 60
             },
-            "applicationProductDetails": [
-              {
-                "productName": "POTASHVAR1",
-                "isCarrier": false,
-                "totalMaterial": {
-                  "unit": "kilos",
-                  "value": 4
-                },
-                "avgMaterial": {
-                  "unit": "kilosperacre",
-                  "value": 0.2
-                }
-              }
-            ],
+            "source": "Manual",
+            "operationModifiedDateTime": "2021-02-25T16:57:04Z",
+            "operationStartDateTime": "2021-02-27T10:13:06Z",
+            "operationEndDateTime": "2021-02-28T11:12:12Z",
+            "attachmentsLink": "https://test.farmbeats.azure.net/farmer/Farmer123/attachments?api-version=2021-03-31-preview&resourceIds=Application123&resourceTypes=FarmOperationApplicationData",
+            "associatedBoundaryId": "AssociatedBoundary123",
+            "operationBoundaryId": "OperationBoundary123",
+            "farmerId": "Farmer123",
+            "id": "Application123",
+            "eTag": "0300c56c-0000-0600-0000-60cc93920000",
+            "status": "Active",
+            "createdDateTime": "2021-06-18T12:37:38Z",
+            "modifiedDateTime": "2021-06-18T12:37:38Z",
+            "name": "Test application data",
+            "description": "Test application data description",
             "properties": {
-              "Region": "Europe",
-              "CountyCode": 123
-            },
-            "attachmentsLink": "https://<resource-name>.farmbeats.azure.net/farmer/{{farmerId}}/attachments?api-version={{apiVersion}}&resourceIds={{applicationDataId}}&resourceTypes=ApplicationData",
-            "createdDateTime": "2021-02-29T04:57:04Z",
-            "modifiedDateTime": "2021-03-08T18:22:07Z",
-            "eTag": "cb00a3ac-0000-0100-0000-601d21ec0000"
+              "Region": "Central US",
+              "RetailerId": 123
+            }
           }
         ],
-        "$skipToken": "string",
-        "nextLink": "https://{{resourceName}}.farmbeats.azure.net/farmers/{{farmerId}}/seasonalFields/{{seasonalFieldId}}?api-version={{apiVersion}}&$skipToken=%5b%7b%22token%22%3a%22%2bRID%3a%7e23TRC%3a10%23ISA%3d%22%2c%22range%22%3a%7b%22min%22%3a%22%22%2c%22max%22%3a%22FF%22%7d%7d%5d"
+        "nextLink": "https://bb-prod-wcus-1.farmbeats.azure.net/application-data?api-version=2021-03-31-preview&$skipToken=ffa6d232-0892-4e7e-bc8d-6acb12645251"
       }
 security:
 - name: Authorization
@@ -474,5 +460,5 @@ security:
   description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
   in: header
 metadata:
-  description: Learn more about Azure FarmBeats service - Returns a paginated list of application data resources across all farmers.
+  description: Get a paginated list of application data resources across all the farmers for a given search criteria.
 errorCodes: []

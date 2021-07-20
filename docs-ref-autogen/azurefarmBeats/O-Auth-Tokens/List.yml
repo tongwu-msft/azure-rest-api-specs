@@ -4,66 +4,58 @@ name: List
 service: Azure FarmBeats
 groupName: O Auth Tokens
 apiVersion: 2021-03-31-preview
-summary: Returns a list of OAuthToken documents.
+summary: >+
+  Get a list of OAuthToken documents for a given search criteria.
+
 produces:
 - application/json
 paths:
-- content: GET {Endpoint}/oauth/tokens?api-version=2021-03-31-preview
-- content: GET {Endpoint}/oauth/tokens?authProviderIds={authProviderIds}&farmerIds={farmerIds}&isValid={isValid}&minCreatedDateTime={minCreatedDateTime}&maxCreatedDateTime={maxCreatedDateTime}&minLastModifiedDateTime={minLastModifiedDateTime}&maxLastModifiedDateTime={maxLastModifiedDateTime}&$maxPageSize={$maxPageSize}&$skipToken={$skipToken}&api-version=2021-03-31-preview
+- content: GET /oauth/tokens?api-version=2021-03-31-preview
+- content: GET /oauth/tokens?authProviderIds={authProviderIds}&farmerIds={farmerIds}&isValid={isValid}&minCreatedDateTime={minCreatedDateTime}&maxCreatedDateTime={maxCreatedDateTime}&minLastModifiedDateTime={minLastModifiedDateTime}&maxLastModifiedDateTime={maxLastModifiedDateTime}&$maxPageSize={$maxPageSize}&$skipToken={$skipToken}&api-version=2021-03-31-preview
   isOptional: true
 uriParameters:
-- name: Endpoint
-  in: path
-  isRequired: true
-  skipUrlEncoding: true
-  description: 'The endpoint of your FarmBeats resource (protocol and hostname, for example: https://{resourceName}.farmbeats.azure.net).'
-  types:
-  - uid: string
 - name: authProviderIds
   in: query
-  description: Name of AuthProvider.
+  description: List of Ids of OAuth providers to be returned.
   types:
   - uid: array
 - name: farmerIds
   in: query
-  description: List of farmers.
+  description: List of Ids of associated farmers.
   types:
   - uid: array
 - name: isValid
   in: query
-  description: If the token object is valid.
+  description: If set, only valid (non expired) OAuth tokens are returned.
   types:
   - uid: boolean
 - name: minCreatedDateTime
   in: query
-  description: Minimum creation date of resource (inclusive).
+  description: 'Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ).'
   types:
   - uid: string
   format: date-time
 - name: maxCreatedDateTime
   in: query
-  description: Maximum creation date of resource (inclusive).
+  description: 'Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ).'
   types:
   - uid: string
   format: date-time
 - name: minLastModifiedDateTime
   in: query
-  description: Minimum last modified date of resource (inclusive).
+  description: 'Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ).'
   types:
   - uid: string
   format: date-time
 - name: maxLastModifiedDateTime
   in: query
-  description: Maximum last modified date of resource (inclusive).
+  description: 'Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ).'
   types:
   - uid: string
   format: date-time
 - name: $maxPageSize
   in: query
-  description: >-
-    Maximum number of items needed (inclusive).
-
-    Minimum = 10, Maximum = 1000, Default value = 50.
+  description: Maximum number of items to be returned in a single page.
   types:
   - uid: integer
   format: int32
@@ -75,7 +67,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The requested API version
+  description: The requested API version.
   types:
   - uid: string
 responses:
@@ -109,22 +101,22 @@ definitions:
     types:
     - uid: string
   - name: nextLink
-    description: Continuation link (absolute URI) to the next page of results in the list.
+    description: Continuation link (absolute URI) to the next page of results in the list. If null, there are no additional pages.
     types:
     - uid: string
 - name: ErrorResponse
   description: >-
-    An error response from the Azure AgPlatform service.
+    An error response from Azure AgPlatform service.
 
     <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
   kind: object
   properties:
   - name: error
-    description: An error from the Azure AgPlatform service.
+    description: An error from Azure FarmBeats service.
     types:
     - uid: Error
   - name: traceId
-    description: Unique trace ID.
+    description: Unique trace Id.
     types:
     - uid: string
 - name: OAuthToken
@@ -132,34 +124,34 @@ definitions:
   kind: object
   properties:
   - name: farmerId
-    description: Farmer ID for this OAuth config.
+    description: Id of the farmer for whom the OAuth flow is being configured.
     types:
     - uid: string
   - name: authProviderId
-    description: ID of the OAuth provider resource containing app information.
+    description: Id of the OAuth provider resource containing the app information.
     types:
     - uid: string
   - name: isValid
-    description: 'An optional flag indicating whether the token is a valid or expired (Default value: true).'
+    description: An optional flag indicating whether the token is valid or expired.
     types:
     - uid: boolean
   - name: eTag
     isReadyOnly: true
-    description: The ETag value to implement optimistic concurrency.
+    description: ETag value can be used to implement optimistic concurrency.
     types:
     - uid: string
   - name: createdDateTime
     isReadyOnly: true
-    description: 'Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: modifiedDateTime
     isReadyOnly: true
-    description: 'Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
 - name: Error
-  description: An error from the Azure AgPlatform service.
+  description: An error from Azure FarmBeats service.
   kind: object
   properties:
   - name: code
@@ -194,10 +186,7 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: >-
-      Specific error code than was provided by the
-
-      containing error.
+    description: Specific error code than was provided by the containing error.
     types:
     - uid: string
   - name: innererror
@@ -210,23 +199,21 @@ definitions:
 examples:
 - name: OAuthTokens_List
   request:
-    uri: GET {Endpoint}/oauth/tokens?api-version=2021-03-31-preview
+    uri: GET /oauth/tokens?api-version=2021-03-31-preview
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "farmerId": "FARMER123",
+            "farmerId": "Farmer123",
             "authProviderId": "JOHNDEERE",
             "isValid": true,
             "eTag": "0f8fad5b-d9cb-469f-a165-70867728950e",
             "createdDateTime": "2021-04-22T18:49:25Z",
             "modifiedDateTime": "2021-04-22T18:49:25Z"
           }
-        ],
-        "$skipToken": "string",
-        "nextLink": "https://{{resourceName}}.farmbeats.azure.net/farmers/{{farmerId}}/seasonalFields/{{seasonalFieldId}}?api-version={{apiVersion}}&$skipToken=%5b%7b%22token%22%3a%22%2bRID%3a%7e23TRC%3a10%23ISA%3d%22%2c%22range%22%3a%7b%22min%22%3a%22%22%2c%22max%22%3a%22FF%22%7d%7d%5d"
+        ]
       }
 security:
 - name: Authorization
@@ -234,5 +221,7 @@ security:
   description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
   in: header
 metadata:
-  description: Learn more about Azure FarmBeats service - Returns a list of OAuthToken documents.
+  description: >+
+    Learn more about Azure FarmBeats service - Get a list of OAuthToken documents for a given search criteria.
+
 errorCodes: []

@@ -2711,9 +2711,11 @@
 ## [Overview](../docs-ref-conceptual/agfood/index.md)
 ## Application Data
 ### [Overview](azurefarmBeats/Application-Data.yml)
+### [Create Cascade Delete Job](azurefarmBeats/Application-Data/Create-Cascade-Delete-Job.yml)
 ### [Create Or Update](azurefarmBeats/Application-Data/Create-Or-Update.yml)
 ### [Delete](azurefarmBeats/Application-Data/Delete.yml)
 ### [Get](azurefarmBeats/Application-Data/Get.yml)
+### [Get Cascade Delete Job Details](azurefarmBeats/Application-Data/Get-Cascade-Delete-Job-Details.yml)
 ### [List](azurefarmBeats/Application-Data/List.yml)
 ### [List By Farmer Id](azurefarmBeats/Application-Data/List-By-Farmer-Id.yml)
 ## Attachments
@@ -2799,9 +2801,11 @@
 ### [List By Farmer Id](azurefarmBeats/Fields/List-By-Farmer-Id.yml)
 ## Harvest Data
 ### [Overview](azurefarmBeats/Harvest-Data.yml)
+### [Create Cascade Delete Job](azurefarmBeats/Harvest-Data/Create-Cascade-Delete-Job.yml)
 ### [Create Or Update](azurefarmBeats/Harvest-Data/Create-Or-Update.yml)
 ### [Delete](azurefarmBeats/Harvest-Data/Delete.yml)
 ### [Get](azurefarmBeats/Harvest-Data/Get.yml)
+### [Get Cascade Delete Job Details](azurefarmBeats/Harvest-Data/Get-Cascade-Delete-Job-Details.yml)
 ### [List](azurefarmBeats/Harvest-Data/List.yml)
 ### [List By Farmer Id](azurefarmBeats/Harvest-Data/List-By-Farmer-Id.yml)
 ## Image Processing
@@ -2813,9 +2817,11 @@
 ### [Check Name Availability](azurefarmBeats/Locations/Check-Name-Availability.yml)
 ## O Auth Providers
 ### [Overview](azurefarmBeats/O-Auth-Providers.yml)
+### [Create Cascade Delete Job](azurefarmBeats/O-Auth-Providers/Create-Cascade-Delete-Job.yml)
 ### [Create Or Update](azurefarmBeats/O-Auth-Providers/Create-Or-Update.yml)
 ### [Delete](azurefarmBeats/O-Auth-Providers/Delete.yml)
 ### [Get](azurefarmBeats/O-Auth-Providers/Get.yml)
+### [Get Cascade Delete Job Details](azurefarmBeats/O-Auth-Providers/Get-Cascade-Delete-Job-Details.yml)
 ### [List](azurefarmBeats/O-Auth-Providers/List.yml)
 ## O Auth Tokens
 ### [Overview](azurefarmBeats/O-Auth-Tokens.yml)
@@ -2828,9 +2834,11 @@
 ### [List](azurefarmBeats/Operations/List.yml)
 ## Planting Data
 ### [Overview](azurefarmBeats/Planting-Data.yml)
+### [Create Cascade Delete Job](azurefarmBeats/Planting-Data/Create-Cascade-Delete-Job.yml)
 ### [Create Or Update](azurefarmBeats/Planting-Data/Create-Or-Update.yml)
 ### [Delete](azurefarmBeats/Planting-Data/Delete.yml)
 ### [Get](azurefarmBeats/Planting-Data/Get.yml)
+### [Get Cascade Delete Job Details](azurefarmBeats/Planting-Data/Get-Cascade-Delete-Job-Details.yml)
 ### [List](azurefarmBeats/Planting-Data/List.yml)
 ### [List By Farmer Id](azurefarmBeats/Planting-Data/List-By-Farmer-Id.yml)
 ## Scenes
@@ -2856,9 +2864,11 @@
 ### [List](azurefarmBeats/Seasons/List.yml)
 ## Tillage Data
 ### [Overview](azurefarmBeats/Tillage-Data.yml)
+### [Create Cascade Delete Job](azurefarmBeats/Tillage-Data/Create-Cascade-Delete-Job.yml)
 ### [Create Or Update](azurefarmBeats/Tillage-Data/Create-Or-Update.yml)
 ### [Delete](azurefarmBeats/Tillage-Data/Delete.yml)
 ### [Get](azurefarmBeats/Tillage-Data/Get.yml)
+### [Get Cascade Delete Job Details](azurefarmBeats/Tillage-Data/Get-Cascade-Delete-Job-Details.yml)
 ### [List](azurefarmBeats/Tillage-Data/List.yml)
 ### [List By Farmer Id](azurefarmBeats/Tillage-Data/List-By-Farmer-Id.yml)
 ## Weather
