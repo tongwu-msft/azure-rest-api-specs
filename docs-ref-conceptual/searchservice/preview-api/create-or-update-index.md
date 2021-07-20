@@ -1,26 +1,28 @@
 ---
-title: "Create Index (api-version=2020-06-30-Preview)"
-description: Define an index schema for fields and other constructs in an Azure Cognitive Search index (api-version=2020-06-30-Preview).
-ms.date: 01/06/2021
+title: "Create or Update Index (2021-04-30-Preview)"
+titleSuffix: Azure Cognitive Search
+description: Preview version of the Create or Update Index REST API for Azure Cognitive Search.
+ms.date: 07/20/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
+author: HeidiSteen
+ms.author: heidist
 ms.manager: nitinme
 ---
-# Create Index (Preview REST API)
 
-**API Version: 2020-06-30-Preview**
+# Create or Update Index (Preview REST API)
+
+**API Version: 2021-04-30-Preview**
 
 > [!Important]
-> This preview adds support for the [normalizers](https://docs.microsoft.com/azure/search/add-normalizers-to-search-index) that can be used to produce case-insensitive sorting and filtering output.
+> Preview features for this API include [normalizers](https://docs.microsoft.com/azure/search/add-normalizers-to-search-index), used to produce case-insensitive sorting and filtering output. This preview feature is also supported in 2020-06-30-Preview.
 
-An [index](https://docs.microsoft.com/azure/search/search-what-is-an-index) is the primary means of organizing and searching documents in Azure Cognitive Search, similar to how a table organizes records in a database. Each index has a collection of documents that all conform to the index schema (field names, data types, and attributes), but indexes also specify additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.
+An [index](https://docs.microsoft.com/azure/search/search-what-is-an-index) specifies the index schema, including the fields collection (field names, data types, and attributes), but also additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.
 
-You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
+You can use either POST or PUT on a create request. For either one, the request body provides the object definition.
 
 ```http
 POST https://[servicename].search.windows.net/indexes?api-version=[api-version]  
@@ -28,7 +30,7 @@ POST https://[servicename].search.windows.net/indexes?api-version=[api-version]
   api-key: [admin key]  
 ```  
 
-Alternatively, you can use PUT and specify the index name on the URI. 
+For update requests, use PUT and specify the index name on the URI. 
 
 ```http
 PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[api-version]
@@ -38,18 +40,40 @@ PUT https://[servicename].search.windows.net/indexes/[index name]?api-version=[a
 
 HTTPS is required for all service requests. If the index doesn't exist, it is created. If it already exists, it is updated to the new definition.
 
-Creating an index establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations &#40;Azure Cognitive Search REST API&#41;](../indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](../addupdate-or-delete-documents.md). The inverted indexes are generated when the documents are posted.
+**Creating an index** establishes the schema and metadata. Populating the index is a separate operation. For this step, you can use an indexer (see [Indexer operations](../indexer-operations.md), available for supported data sources) or an [Add, Update or Delete Documents](../addupdate-or-delete-documents.md). The maximum number of indexes that you can create varies by pricing tier. Within each index, there are limits on individual elements. For more information, see [Service limits for Azure Cognitive Search](/azure/search/search-limits-quotas-capacity#index-limits).  
 
-> [!NOTE]  
-> The maximum number of indexes that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).  
+**Updating an existing index** included the original schema definition, plus new fields you are adding, as well as any modified scoring profiles and CORS options, if any. If you are not modifying the scoring profiles and CORS options, you must include the original values from when the index was created. In general, the best pattern to use for updates is to retrieve the index definition with a GET, modify it, and then update it with PUT. 
+
+Because an existing index contains content, many index modifications require an [index drop and rebuild](https://docs.microsoft.com/azure/search/search-howto-reindex). The following schema changes are an exception to this rule:
+
++ Adding new fields
++ Adding or changing [scoring profiles](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) 
++ Changing CORS options
++ Changing existing fields with any of the following three modifications:
+
+  + Show or hide fields (`retrievable`: true | false)
+  + Change the analyzer used at query time (`searchAnalyzer`)
+  + Add or edit the synonymMap used at query time (`synonymMaps`) 
+
+To make any of the above schema changes to an existing index, specify the name of the index on the request URI, and then include a fully-specified index definition with the new or changed elements. 
+
+When a new field is added, all existing documents in the index automatically have a null value for that field. No additional storage space is consumed until one of two things occur: a value is provided for the new field ([using merge](../addupdate-or-delete-documents.md)), or new documents are added.
+
+**Updates to a [`suggester`](https://docs.microsoft.com/azure/search/index-add-suggesters)** have similar constraints: new fields can be added to a `suggester` at the same time fields are added, but existing fields cannot be removed from nor added to `suggesters` without an index rebuild.
+
+**Updates to an analyzer, a tokenizer, a token filter or a char filter** are not allowed. New ones can be created with the changes you want, but you will need to take the index offline when adding the new analyzer definitions. Setting the `allowIndexDowntime` flag to true in the index update request will take the index offline:
+
+`PUT https://[search service name].search.windows.net/indexes/[index name]?api-version=[api-version]&allowIndexDowntime=true`
+
+This operation takes your index offline for at least a few seconds, which means indexing and query requests will fail until the index is back online and ready to handle requests.
 
 ## URI Parameters
 
-| Parameter      | Description  | 
-|-------------|--------------|
+| Parameter      | Description  |
+|----------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be fewer than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive.  |
-| api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
 
 ## Request Headers
 
@@ -60,7 +84,7 @@ Creating an index establishes the schema and metadata. Populating the index is a
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an api-key field set to your admin key (as opposed to a query key).|  
 
-You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).   
 
 ## Request Body
 
@@ -146,21 +170,11 @@ The following attributes can be set on a field when creating an index.
 >
 > If a field is not set to be searchable, filterable, sortable, or facetable, the field can't be referenced in any query expression. This is useful for fields that are not used in queries, but are needed in search results.
 
-> [!NOTE]
-> Index schemas are subject to the following limits (the values vary between different pricing tiers, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for details.):
-> - Maximum number of simple fields per index
-> - Maximum depth of sub-fields per index (a top-level field is at depth 1, a sub-field of a top-level field is at depth 2, and so on)
-> - Maximum number of complex collections per index
-> - Maximum number of elements across all complex collections per document
-
-> [!NOTE]
-> Encryption with customer-managed keys is not available for free services. For billable services, it is only available for search services created on or after 2019-01-01.
-
 ## Response
 
- For a successful request, you should see status code "201 Created".  
+For a successful create request, you should see status code "201 Created". By default, the response body will contain the JSON for the index definition that was created. However, if the Prefer request header is set to return=minimal, the response body will be empty, and the success status code will be "204 No Content" instead of "201 Created". This is true regardless of whether PUT or POST is used to create the index.
 
- By default, the response body will contain the JSON for the index definition that was created. However, if the Prefer request header is set to return=minimal, the response body will be empty, and the success status code will be "204 No Content" instead of "201 Created". This is true regardless of whether PUT or POST is used to create the index.
+For a successful update request, you should see "204 No Content".  By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the index definition that was updated. In this case, the success status code will be "200 OK.  
 
 ## Examples
 
@@ -238,7 +252,7 @@ The following example is a JSON representation of a request payload that provide
   ]
  ```
 
- A **suggester** is referenced by name on query requests that include either the [Suggestions API](../suggestions.md) or [Autocomplete API](../autocomplete.md), depending on whether you want to return a match or the remainder of a query term. For more information about creating and using a suggester, see [Create a suggester](https://docs.microsoft.com/azure/search/index-add-suggesters).  
+ A **suggester** is referenced by name on query requests that include either the [Suggestions API](../suggestions.md) or [Autocomplete API](../autocomplete.md), depending on whether you want to return a match or the remainder of a query term. For more information about creating and using a suggester, see [Create a suggester](/azure/search/index-add-suggesters).  
 
 **Example: Similarity for search relevance**
 
@@ -269,7 +283,7 @@ This property sets the ranking algorithm used to create a relevance score in sea
 
 **Example: Encryption keys**
 
-Encryption keys are customer-managed keys used for additional encryption. For more information, see [Encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
+Encryption keys are customer-managed keys used for additional encryption. For more information, see [Encryption using customer-managed keys in Azure Key Vault](/azure/search/search-security-manage-encryption-keys).
 
 ```json
 {
@@ -290,7 +304,7 @@ Encryption keys are customer-managed keys used for additional encryption. For mo
 
 **Example: Scoring Profiles**
 
-A scoring profile is a section of the schema that defines custom scoring behaviors that let you influence which documents appear higher in the search results. Scoring profiles are made up of field weights and functions. To use them, you specify a profile by name on the query string. For more information, see [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](https://docs.microsoft.com/azure/search/index-add-scoring-profiles) for details.   
+A scoring profile is a section of the schema that defines custom scoring behaviors that let you influence which documents appear higher in the search results. Scoring profiles are made up of field weights and functions. To use them, you specify a profile by name on the query string. For more information, see [Add scoring profiles to a search index &#40;Azure Cognitive Search REST API&#41;](/azure/search/index-add-scoring-profiles) for details.   
 
  ```json
 {
@@ -340,10 +354,10 @@ A scoring profile is a section of the schema that defines custom scoring behavio
 ## See also
 
 + [HTTP status codes](../http-status-codes.md)
-+ [Add scoring profiles to a search index](https://docs.microsoft.com/azure/search/index-add-scoring-profiles)
++ [Add scoring profiles to a search index](/azure/search/index-add-scoring-profiles)
 + [Search Documents API](search-documents.md)
 + [Supported data types](../supported-data-types.md)
-+ [Lexical analyzers](https://docs.microsoft.com/azure/search/search-analyzers)
-+ [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)   
-+ [Azure Cognitive Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet&preserve-view=true)
-+ [Create an Azure Cognitive Search index in the portal](https://azure.microsoft.com/documentation/articles/search-create-index-portal/)  
++ [Lexical analyzers](/azure/search/search-analyzers)
++ [API versions in Azure Cognitive Search](/azure/search/search-api-versions)   
++ [Azure Cognitive Search .NET SDK](/dotnet/api/overview/azure/search?view=azure-dotnet&preserve-view=true)
++ [Create an Azure Cognitive Search index in the portal](/azure/search/search-create-index-portal/)  

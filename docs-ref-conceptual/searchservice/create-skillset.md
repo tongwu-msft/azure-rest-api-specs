@@ -7,8 +7,8 @@ ms.service: cognitive-search
 ms.devlang: rest-api
 ms.topic: language-reference
 
-author: luiscabrer
-ms.author: luisca
+author: HeidiSteen
+ms.author: heidist
 ms.manager: nitinme
 ---
 # Create Skillset (Azure Cognitive Search REST API)

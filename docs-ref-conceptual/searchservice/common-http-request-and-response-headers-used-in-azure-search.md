@@ -1,7 +1,7 @@
 ---
 title: Common HTTP request and response headers - Azure Cognitive Search
 description: HTTP codes returned by Azure Cognitive Search when making REST API calls.
-ms.date: 06/30/2020
+ms.date: 07/19/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -19,6 +19,7 @@ The Azure Cognitive Search REST APIs support a set of common HTTP request/respon
 |--------------------|----------|-----------------|  
 |Accept|Content type|The requested content type for the response. Default is application/json;odata.metadata=minimal. Other allowable values are application/json, application/json;odata.metata=full, application/json;odata.metadata=none, and text/plain (for $count only).|  
 |api-key|String|Set to your query or admin key, depending on the API.|  
+|authorization (preview) |String|The authorization token for the request. Requires that your search service has been configured for data plane authentication using the portal or [Management REST API 04-01-2021-Preview](/rest/api/searchmanagement/2021-04-01-preview/services/create-or-update) (or an equivalent SDK). This request header can be used in any supported REST API version as long as the search service is configured for [data plane authentication](/rest/api/searchmanagement/2021-04-01-preview/services/create-or-update#dataplaneaadorapikeyauthoption).  |  
 |Content-Type|Content-Type|Content type of request body (PUT/POST). Default is `application/json`.|  
 |client-request-id|GUID|Optional caller-specified request ID, in the form of a GUID with no decoration such as curly braces (for example, client-request-id: 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0). A caller-defined value that identifies the given request. If specified, this will be included in response information as a way to map the request.|  
 |OData-MaxVersion|"4.0"|Specifies the maximum version of the OData protocol supported by the client. Default is "4.0"|  

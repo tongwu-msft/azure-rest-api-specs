@@ -12765,6 +12765,7 @@
 ##### [List By Service](searchmanagement/2021-04-01-preview/Shared-Private-Link-Resources/List-By-Service.yml)
 # Search Service
 ## [Overview](../docs-ref-conceptual/searchservice/index.md)
+## [API versions](../docs-ref-conceptual/searchservice/search-service-api-versions.md)
 ## [Data types](../docs-ref-conceptual/searchservice/supported-data-types.md)
 ## [Naming rules](../docs-ref-conceptual/searchservice/naming-rules.md)
 ## [HTTP status codes](../docs-ref-conceptual/searchservice/http-status-codes.md)
@@ -12773,14 +12774,13 @@
 ## Reference (Preview)
 ### [Introduction](../docs-ref-conceptual/searchservice/index-preview.md)
 ### Indexes
-#### [Create Index](../docs-ref-conceptual/searchservice/preview-api/create-index.md)
-#### [Update Index](../docs-ref-conceptual/searchservice/preview-api/update-index.md)
+#### [Create or Update Index](../docs-ref-conceptual/searchservice/preview-api/create-or-update-index.md)
 ### Documents
 #### [Reset Documents](../docs-ref-conceptual/searchservice/preview-api/reset-documents.md)
 #### [Search Documents](../docs-ref-conceptual/searchservice/preview-api/search-documents.md)
 ### Indexers
-#### [Create Indexer](../docs-ref-conceptual/searchservice/preview-api/create-indexer.md)
-#### [Update Indexer](../docs-ref-conceptual/searchservice/preview-api/update-indexer.md)
+#### [Create or Update Indexer](../docs-ref-conceptual/searchservice/preview-api/create-or-update-indexer.md)
+#### [Create or Update Data Source](../docs-ref-conceptual/searchservice/preview-api/create-or-update-data-source.md)
 ### Skillsets
 #### [Reset Skills](../docs-ref-conceptual/searchservice/preview-api/reset-skills.md)
 ## Reference (Stable)

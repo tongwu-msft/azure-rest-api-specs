@@ -1,7 +1,7 @@
 ---
 title: "Azure Cognitive Search Service REST"
 description: REST API reference for Azure Cognitive Search, used for non-managed code such as Java, JavaScript, node.js, Python, and any programming language compatible with REST.
-ms.date: 06/30/2020
+ms.date: 07/20/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -13,7 +13,7 @@ ms.manager: nitinme
 ---
 # Azure Cognitive Search Service REST
 
-Azure Cognitive Search is a fully managed cloud search service that provides a rich search experience to custom applications. One way to add search capability is through the REST APIs, with operations that create and manage indexes, load data, implement search features, execute queries, and handle results.
+Azure Cognitive Search is a fully managed cloud search service that provides a rich search experience over user-owned content. One way to add search capability is through the REST APIs, with operations that create and manage indexes, load data, implement search features, execute queries, and handle results.
 
 A separate REST API is used to provision and alter a search service configuration. Alternatively, you can use the portal. For more information, see [Create a search service in Azure portal](https://docs.microsoft.com/azure/search/search-create-service-portal) or [Azure Cognitive Search Management REST](~/docs-ref-conceptual/searchmanagement/index.md).  
 
@@ -25,9 +25,9 @@ Cognitive Search has the concepts of *search services* and *indexes* and *docume
 - An index provides persistent storage of search documents.
 - Search documents are loaded from external sources in the form of JSON documents and pushed to an index to make it searchable.
 
-If you use an *indexer* to load an index, you can automate data upload operations. An indexer can crawl a data source and serialize the content as JSON, in route to a destination index.
+If you use an *indexer* to load an index, you can automate data upload operations. An indexer can crawl a data source and serialize the content as JSON, and index it.
 
-[AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) in Cognitive Search has the concept of *skillsets*. A skillset is attached to an indexer. During data ingestion, it defines a sequence of steps that detect, structure, or transform content that is otherwise unsearchable.
+[AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) is an extension of indexers that adds AI-based transformations. The construct that drives AI enrichment is a *skillset*. During data ingestion, it defines a sequence of steps that detect, structure, or transform content that is otherwise unsearchable (for example, image content).
 
 All together, there are five types of operations that can be executed against the service:  
 
@@ -36,7 +36,7 @@ All together, there are five types of operations that can be executed against th
 | [Index](index-operations.md) | Create, delete, update, or configure a search index. |
 | [Document](document-operations.md) | Add, update, or delete documents in the index, query the index, or look up specific documents by ID. |
 | [Indexer](indexer-operations.md) | Automate aspects of an indexing operation by configuring a **data source** and an **indexer** that you can schedule or run on demand. This feature is supported for a limited number of data source types on Azure. |
-| [Skillset](skillset-operations.md) | Part of an [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) workload, a skillset defines a series of enrichment processing. A skillset is consumed by an indexer. |
+| [Skillset](skillset-operations.md) | Part of an [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) workload, a skillset defines a series of enrichment processing that extracts or creates searchable text from unstructured text, application files, or image files. A skillset is invoked by an indexer. |
 | [Synonym map](synonym-map-operations.md) | A synonym map is service-level resource that contains user-defined synonyms. This resource is maintained independently from search indexes. Once uploaded, you can point any searchable field to the synonym map (one per field). |
 
 ## Calling the APIs
@@ -67,9 +67,9 @@ Every HTTP request to your search service is authenticated based on two pieces o
 
 ## Authorization
 
- Authorization is available for administrative operations via the role-based access controls (RBAC) provided in the Azure portal. RBAC roles are used to set levels of access for service administration in a way that is consistent across all services. For example, viewing sensitive data, such as the admin key, is restricted to the Owner and Contributor roles, whereas viewing service status is available to members of any role.  
+Cognitive Search supports Azure role-based access control (Azure RBAC) for search service administration, through Owner, Contributor, and Reader roles.
 
- For its own search-centric operations, Azure Cognitive Search does not provide an authorization model. However, if you have the ability to load an index with document and user associations, you can filter search results based on user identity. For more information, see [Security filters for trimming results in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-security-trimming-for-azure-search).
+Optionally, for search solutions that can use preview features, you can use Azure RBAC to control access to indexes and other objects on a search service. The [preview API](index-preview.md) provides these capabilities.
 
 ## See also
 
