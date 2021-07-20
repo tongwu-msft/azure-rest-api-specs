@@ -3810,7 +3810,7 @@
 ### [Add Connection To Group](webpubsub/Web-Pub-Sub/Add-Connection-To-Group.yml)
 ### [Add User To Group](webpubsub/Web-Pub-Sub/Add-User-To-Group.yml)
 ### [Check Permission](webpubsub/Web-Pub-Sub/Check-Permission.yml)
-### [Close Client Connection](webpubsub/Web-Pub-Sub/Close-Client-Connection.yml)
+### [Close Connection](webpubsub/Web-Pub-Sub/Close-Connection.yml)
 ### [Connection Exists](webpubsub/Web-Pub-Sub/Connection-Exists.yml)
 ### [Grant Permission](webpubsub/Web-Pub-Sub/Grant-Permission.yml)
 ### [Group Exists](webpubsub/Web-Pub-Sub/Group-Exists.yml)
