@@ -13,7 +13,7 @@ ms.manager: nitinme
 ---
 # Autocomplete (Azure Cognitive Search REST API)
 
-The **Autocomplete API** finishes a partially typed query input using existing terms in the search index for use in a secondary query. For example, if the query input is "medic", the Autocomplete API will return "medicare", "medicaid", "medicine" if those terms are in the index. Internally, the search engine looks for matching terms in fields that have a [**Suggester**](https://docs.microsoft.com/azure/search/index-add-suggesters) configured.
+The **Autocomplete API** finishes a partially typed query input using existing terms in the search index for use in a secondary query. For example, if the query input is "medic", the Autocomplete API will return "medicare", "medicaid", "medicine" if those terms are in the index. Internally, the search engine looks for matching terms in fields that have a [**Suggester**](/azure/search/index-add-suggesters) configured.
 
 HTTPS is required for service requests. The **Autocomplete** request can be constructed using the GET or POST methods.
 
@@ -52,7 +52,7 @@ Remember to [URL-encode](/dotnet/api/system.uri.escapedatastring) specific query
 
 URL encoding is only recommended for individual parameters. If you inadvertently URL-encode the entire query string (everything after the `?`), requests will break.  
 
-Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when using POST, or when using the [Azure Cognitive Search .NET client library](dotnet/api/overview/azure/search), which handles encoding for you.  
+Also, URL encoding is only necessary when calling the REST API directly using GET. No URL encoding is necessary when using POST, or when using the [Azure Cognitive Search .NET client library](/dotnet/api/overview/azure/search), which handles encoding for you.  
 
 ## Request Headers 
 
@@ -92,7 +92,7 @@ A query accepts several parameters on the URL when called with GET, and as JSON 
 
 | Name      | Type | Description |
 |-----------|------|-------------|
-| api-version | string | Required. Version of the REST API used for the request. For a list of supported versions, see [API versioning](https://docs.microsoft.com/azure/search/search-api-versions). For this operation, the api-version is specified as a URI parameter regardless of whether you call **Autocomplete** with GET or POST.  |  
+| api-version | string | Required. Version of the REST API used for the request. For a list of supported versions, see [API versioning](search-service-api-versions.md). For this operation, the api-version is specified as a URI parameter regardless of whether you call **Autocomplete** with GET or POST.  |  
 | autocompleteMode | string| Optional. Defaults to oneTerm. Valid values are oneTerm, twoTerm, oneTermWithContext. </br></br>"oneTerm" returns a single term. If the query has two terms, only the last term is completed. For example, given "washington medic", the response might be any one of these single terms: "medicaid", "medicare", "medicine". </br></br>"twoTerms" matches on two-term phrases in the index. For example, given "medic", the response might be "medicare coverage", or "medical assistant". </br></br>"oneTermWithContext " completes the last term in a query with two or more terms, where the last two terms are a phrase that exists in the index. For example, given "washington medic", the response might be "washington medicaid", "washington medical". |
 | $filter | string | Optional. A structured search expression in standard OData syntax that filters the documents considered for producing the completed term suggestions. Filter expressions "search.ismatch" and "search.ismatchscoring*" are not supported in the Autocomplete API. Only filterable fields can be used in a filter. When calling with POST, this parameter is named filter instead of $filter. See [OData Expression Syntax for Azure Cognitive Search](/azure/search/query-odata-filter-orderby-syntax) for details on the subset of the OData expression grammar that Azure Cognitive Search supports. |
 | fuzzy | boolean | Optional. Defaults to false. When set to true, this API finds suggestions even if there is a substituted or missing character in the search text <sup>(1)</sup>. This provides a better experience in some scenarios but it comes at a performance cost as fuzzy suggestion searches are slower and consume more resources.|
@@ -216,5 +216,5 @@ Notice that **suggesterName** is required in an Autocomplete operation.
 ## See also
 
 + [Add suggesters to an index](/azure/search/index-add-suggesters)
-+ [Add suggestions or autocomplete to an application](azure/search/search-autocomplete-tutorial)
++ [Add suggestions or autocomplete to an application](/azure/search/search-autocomplete-tutorial)
 + [HTTP status codes](http-status-codes.md)

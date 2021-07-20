@@ -52,4 +52,4 @@ You can get the api-key value from your service dashboard in the Azure portal. F
  [Azure Cognitive Search REST APIs](index.md)   
  [HTTP status codes](http-status-codes.md)   
  [OData Expression Syntax for Azure Cognitive Search](/azure/search/query-odata-filter-orderby-syntax)   
- [Search results page](azure/search/search-pagination-page-layout)
+ [Search results page](/azure/search/search-pagination-page-layout)

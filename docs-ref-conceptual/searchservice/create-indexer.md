@@ -268,4 +268,4 @@ Encryption keys are customer-managed keys used for additional encryption. For mo
 + [Creating indexers](/azure/search/search-howto-create-indexers)
 + [AI enrichment overview](/azure/search/cognitive-search-concept-intro)
 + [Quickstart: Try AI enrichment in the portal](/azure/search/cognitive-search-quickstart-blob)
-+ [How to map fields (AI enrichment)](azure/search/cognitive-search-output-field-mapping)
++ [How to map fields (AI enrichment)](/azure/search/cognitive-search-output-field-mapping)

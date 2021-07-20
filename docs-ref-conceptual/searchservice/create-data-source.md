@@ -13,7 +13,7 @@ ms.manager: nitinme
 ---
 # Create Data Source (Azure Cognitive Search REST API)
 
-In Azure Cognitive Search, a data source is used with [indexers](create-indexer.md), providing the connection information for ad hoc or scheduled data refresh of a target index, pulling data from [supported Azure data sources](https://docs.microsoft.com/azure/search/search-indexer-overview#supported-data-sources). 
+In Azure Cognitive Search, a data source is used with [indexers](create-indexer.md), providing the connection information for ad hoc or scheduled data refresh of a target index, pulling data from [supported Azure data sources](/azure/search/search-indexer-overview#supported-data-sources). 
 
 You can use either POST or PUT on the request. For either one, the JSON document in the request body provides the object definition.
 

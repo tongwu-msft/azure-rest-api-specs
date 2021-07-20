@@ -13,7 +13,7 @@ ms.manager: nitinme
 ---
 # Create Skillset (Azure Cognitive Search REST API)
 
-A skillset is a collection of [cognitive skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills) used for AI enrichment, with an optional specification for creating an external knowledge store in Azure Storage. Skills invoke natural language processing and other transformations, such as entity recognition, key phrase extraction, chunking text into logical pages, among others.
+A skillset is a collection of [cognitive skills](/azure/search/cognitive-search-predefined-skills) used for AI enrichment, with an optional specification for creating an external knowledge store in Azure Storage. Skills invoke natural language processing and other transformations, such as entity recognition, key phrase extraction, chunking text into logical pages, among others.
 
 A skillset is attached to an indexer. To use the skillset, reference it in an [indexer](create-indexer.md) and then run the indexer to import data, invoke transformations and enrichment, and map the output fields to an index. A skillset is high-level resource, but it is operational only within indexer processing. As a high-level resource, you can design a skillset once, and then reference it in multiple indexers. 
 
