@@ -36,7 +36,7 @@ For more information, see [Indexer operations &#40;Azure Cognitive Search REST A
 |smalldatetime, datetime, datetime2, date, datetimeoffset|Edm.DateTimeOffset, Edm.String||  
 |uniqueidentifer|Edm.String||  
 |rowversion|N/A|Row-version columns cannot be stored in the search index, but they can be used for change tracking.|  
-|geography|Edm.GeographyPoint, Edm.String| If using [geography data types](/sql/relational-databases/spatial/create-construct-and-query-geography-instances?view=sql-server-ver15), only geography instances of type POINT with SRID 4326 (which is the default) are supported. If using strings, only GeoJSON points in the [following format](https://tools.ietf.org/html/rfc7946#appendix-A.1) are supported: `{"type": "Point", "coordinates": [long, lat]}`|  
+|geography|Edm.GeographyPoint, Edm.String| If using [geography data types](/sql/relational-databases/spatial/create-construct-and-query-geography-instances), only geography instances of type POINT with SRID 4326 (which is the default) are supported. If using strings, only GeoJSON points in the [following format](https://tools.ietf.org/html/rfc7946#appendix-A.1) are supported: `{"type": "Point", "coordinates": [long, lat]}`|  
 |time, timespan<br /><br /> varbinary<br /><br /> image<br /><br /> xml<br /><br /> geometry<br /><br /> CLR types|N/A|Not supported.|  
 
 ##  <a name="bkmk_json_search"></a> JSON Data Types to Azure Cognitive Search Data Types  

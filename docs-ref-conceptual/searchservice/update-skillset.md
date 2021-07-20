@@ -22,7 +22,7 @@ PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-versi
 ``` 
 
 > [!NOTE]
-> Skillsets are the basis of [AI enrichment](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro) in Azure Cognitive Search. A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Cognitive Search skillset](https://docs.microsoft.com/azure/search/cognitive-search-attach-cognitive-services).
+> Skillsets are the basis of [AI enrichment](/azure/search/cognitive-search-concept-intro) in Azure Cognitive Search. A free resource is available for limited processing, but for larger and more frequent workloads, a billable Cognitive Services resource is required. For more information, see [Attach a Cognitive Services resource to an Azure Cognitive Search skillset](/azure/search/cognitive-search-attach-cognitive-services).
 
 ## URI Parameters
 
@@ -31,7 +31,7 @@ PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-versi
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | skillset name  | Required. The request URI specifies the name of the skillset to update. |
 | api-version | Required. The current stable version is `api-version=2020-06-30`. See [API versions](search-service-api-versions.md) for more versions. |
-| disableCacheReprocessingChangeDetection | Optional. Used for incremental enrichment (`false` by default). Set to `true` to prevent updates to existing documents based on the current action. For more information, see [cache management](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual#cache-management).|
+| disableCacheReprocessingChangeDetection | Optional. Used for incremental enrichment (`false` by default). Set to `true` to prevent updates to existing documents based on the current action. For more information, see [cache management](/azure/search/cognitive-search-incremental-indexing-conceptual#cache-management).|
 
 ## Request Headers 
  The following table describes the required and optional request headers.  
@@ -41,7 +41,7 @@ PUT https://[servicename].search.windows.net/skillsets/[skillset name]?api-versi
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Update requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
-You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).  
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).  
 
 ## Request Body  
 
@@ -64,7 +64,7 @@ api-key: [admin key]
 Content-Type: application/json
 ```
 
-The body of request is a JSON document. This particular skillset uses two skills asynchronously, independently processing the substance of `/document/content` as two different transformations. Alternatively, you can direct the output of one transformation to be the input of another. For more information, see [How to define a skillset](https://docs.microsoft.com/azure/search/cognitive-search-defining-skillset).
+The body of request is a JSON document. This particular skillset uses two skills asynchronously, independently processing the substance of `/document/content` as two different transformations. Alternatively, you can direct the output of one transformation to be the input of another. For more information, see [How to define a skillset](/azure/search/cognitive-search-defining-skillset).
 
 ```json
 {
@@ -117,10 +117,9 @@ The body of request is a JSON document. This particular skillset uses two skills
 
 ## See also
 
-+ [AI enrichment overview](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro)
-+ [Tutorial: Enriched indexing with AI](https://docs.microsoft.com/azure/search/cognitive-search-tutorial-blob)
-+ [How to define a skillset](https://docs.microsoft.com/azure/search/cognitive-search-defining-skillset)
-+ [How to map fields](https://docs.microsoft.com/azure/search/cognitive-search-output-field-mapping)
-+ [How to define a custom interface](https://docs.microsoft.com/azure/search/cognitive-search-custom-skill-interface)
-+ [Example: creating a custom skill](https://docs.microsoft.com/azure/search/cognitive-search-create-custom-skill-example)
-+ [Built-in skills](https://docs.microsoft.com/azure/search/cognitive-search-predefined-skills)
++ [AI enrichment overview](/azure/search/cognitive-search-concept-intro)
++ [Tutorial: Enriched indexing with AI](/azure/search/cognitive-search-tutorial-blob)
++ [How to define a skillset](/azure/search/cognitive-search-defining-skillset)
++ [How to map fields](/azure/search/cognitive-search-output-field-mapping)
++ [How to define a custom interface](/azure/search/cognitive-search-custom-skill-interface)
++ [Built-in skills](/azure/search/cognitive-search-predefined-skills)

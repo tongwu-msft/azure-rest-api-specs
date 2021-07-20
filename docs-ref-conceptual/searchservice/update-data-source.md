@@ -38,7 +38,7 @@ PUT https://[service name].search.windows.net/datasources/[data source name]?api
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Update requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
-You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).  
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).  
 
 ## Request Body
 The request body syntax is the same as for [Create Data Source](create-data-source.md).  
@@ -52,7 +52,8 @@ When updating an existing data source, the entire definition is replaced with th
 >  Some properties cannot be updated on an existing data source. For example, you cannot change the type of an existing data source.  
 
 ## See also  
- [Azure Cognitive Search REST APIs](index.md)   
- [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
- [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md)   
- [Naming rules &#40;Azure Cognitive Search&#41;](naming-rules.md)  
+
++ [Azure Cognitive Search REST APIs](index.md)   
++ [HTTP status codes](http-status-codes.md)   
++ [Indexer operations](indexer-operations.md)   
++ [Naming rules](naming-rules.md)  

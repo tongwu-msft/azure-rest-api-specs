@@ -18,11 +18,11 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> This preview API is used for incremental enrichment when you want to rebuild all or part of the cache. The entire API is  a preview feature. This preview feature is also supported in 2020-06-30-Preview. For more information, see [incremental indexing](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual) and [indexer reset](https://docs.microsoft.com/azure/search/search-howto-run-reset-indexers).
+> This preview API is used for incremental enrichment when you want to rebuild all or part of the cache. The entire API is  a preview feature. This preview feature is also supported in 2020-06-30-Preview. For more information, see [incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual) and [indexer reset](/azure/search/search-howto-run-reset-indexers).
 
 The **Reset Skills** request selectively processes one or more skills on the next indexer run. For indexers that have caching enabled, you can explicitly request processing for skill updates that the indexer cannot detect. For example, if you make external changes, such as revisions to a custom skill, you can use this API to rerun the skill. Outputs, such as a knowledge store or search index, are refreshed using reusable data from the cache and new content per the updated skill.
 
-You can reset an existing [skillset](https://docs.microsoft.com/rest/api/searchservice/create-skillset) using an HTTP POST, specifying the name of the skillset to update on the request URI. 
+You can reset an existing [skillset](/rest/api/searchservice/create-skillset) using an HTTP POST, specifying the name of the skillset to update on the request URI. 
 
 ```http  
 POST https://[servicename].search.windows.net/skillsets/[skillset name]/resetskills?api-version=[api-version]
@@ -47,7 +47,7 @@ POST https://[servicename].search.windows.net/skillsets/[skillset name]/resetski
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Update requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
-You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).  
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).  
 
 ## Request Body
 
@@ -65,8 +65,8 @@ Status Code: 204 No Content for a successful response.
 
 ## See also
 
-+ [Search REST APIs](https://docs.microsoft.com/rest/api/searchservice)
-+ [HTTP status codes](https://docs.microsoft.com/rest/api/searchservice/http-status-codes)  
-+ [AI enrichment overview](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro)
-+ [Configure caching and incremental enrichment](https://docs.microsoft.com/azure/search/search-howto-incremental-index)
-+ [Incremental enrichment](https://docs.microsoft.com/azure/search/cognitive-search-incremental-indexing-conceptual)
++ [Search REST APIs](/rest/api/searchservice)
++ [HTTP status codes](/rest/api/searchservice/http-status-codes)  
++ [AI enrichment overview](/azure/search/cognitive-search-concept-intro)
++ [Configure caching and incremental enrichment](/azure/search/search-howto-incremental-index)
++ [Incremental enrichment](/azure/search/cognitive-search-incremental-indexing-conceptual)

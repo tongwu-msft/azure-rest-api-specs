@@ -103,7 +103,7 @@ The following JSON is a high-level representation of the main parts of the defin
 |[parameters](#indexer-parameters)| Optional. Properties for modifying runtime behavior.|
 |[fieldMappings](#field-mappings)| Optional. Used when source and destination fields have different names. |
 |[outputFieldMappings](#output-fieldmappings)| Required for AI enrichment. Maps output from a skillset to an index or projection. |
-|[encryptionKey](#encryption-key)| Optional. Used to encrypt indexer data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys). |
+|[encryptionKey](#encryption-key)| Optional. Used to encrypt indexer data at rest with your own keys, managed in your Azure Key Vault. To learn more, see [Azure Cognitive Search encryption using customer-managed keys in Azure Key Vault](/azure/search/search-security-manage-encryption-keys). |
 |disabled| Optional. Boolean value indicating whether the indexer is disabled. False by default. |
 
 <a name="dataSourceName"></a>
@@ -269,7 +269,7 @@ In [AI enrichment](/azure/search/cognitive-search-concept-intro) scenarios in wh
 
 Field mappings can also be used to transform source field values using *field mapping functions*. For example, an arbitrary string value can be base64-encoded so it can be used to populate a document key field.
 
-To learn more about when and how to use field mapping functions, see [Field Mapping Functions](https://docs.microsoft.com/azure/search/search-indexer-field-mappings#field-mapping-functions).
+To learn more about when and how to use field mapping functions, see [Field Mapping Functions](/azure/search/search-indexer-field-mappings#field-mapping-functions).
 
 ## Response  
  201 Created for a successful request.  

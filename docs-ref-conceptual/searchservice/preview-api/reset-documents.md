@@ -18,7 +18,7 @@ ms.manager: jennmar
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> This preview API adds the ability to flag specific documents for reprocessing by an indexer. Document keys passed in the request are processed in full on the next run. The entire API is a preview feature. This preview feature is also supported in 2020-06-30-Preview. For more information, see [Reset and run an indexer](https://docs.microsoft.com/azure/search/search-howto-run-reset-indexers). 
+> This preview API adds the ability to flag specific documents for reprocessing by an indexer. Document keys passed in the request are processed in full on the next run. The entire API is a preview feature. This preview feature is also supported in 2020-06-30-Preview. For more information, see [Reset and run an indexer](/azure/search/search-howto-run-reset-indexers). 
 
 The Reset Documents API allows you to selectively reprocess documents from your data source. The API accepts document keys as input, and prioritizes the processing of those documents ahead of other documents from the same data source. This API works for all indexers (with or without a skillset). If the call succeeds, customers will always get a 204 NoContent response.
 
@@ -57,7 +57,7 @@ The following table describes the required and optional request headers.
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
 
-You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).   
+You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).   
 
 ## Request Body
 
@@ -85,7 +85,7 @@ The following JSON is a high-level representation of the main parts of the defin
 
 ## See also
 
-+ [Indexer overview](https://docs.microsoft.com/azure/search/search-indexer-overview)
-+ [AI enrichment overview](https://docs.microsoft.com/azure/search/cognitive-search-concept-intro)
-+ [Quickstart: Try AI enrichment in the portal](https://docs.microsoft.com/azure/search/cognitive-search-quickstart-blob)
-+ [How to map fields (AI enrichment)](https://docs.microsoft.com/azure/search/cognitive-search-output-field-mapping)
++ [Indexer overview](/azure/search/search-indexer-overview)
++ [AI enrichment overview](/azure/search/cognitive-search-concept-intro)
++ [Quickstart: Try AI enrichment in the portal](/azure/search/cognitive-search-quickstart-blob)
++ [How to map fields (AI enrichment)](/azure/search/cognitive-search-output-field-mapping)
