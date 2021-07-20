@@ -40,7 +40,7 @@ The following table describes the required and optional request headers.
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Get requests about objects in your service must include an api-key field set to your admin key (as opposed to a query key).|  
 
-You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).
 
 ## Request Body
 
@@ -78,13 +78,13 @@ The response body is similar to examples in [Create Data Source &#40;Azure Cogni
 > Do not set the `Accept` request header to `application/json;odata.metadata=none` when calling this API as doing so will cause `@odata.type` attribute to be omitted from the response and you won't be able to differentiate between data change and data deletion detection policies of different types.
 
 > [!NOTE]
-> If the data source has an [encryption key](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys), the search service must have access to the encryption key to retrieve the data source definition. Without access to the encryption key, a 400 Bad Request is returned. Restoring access to the key allows the search service to retrieve the data source definition again.
+> If the data source has an [encryption key](/azure/search/search-security-manage-encryption-keys), the search service must have access to the encryption key to retrieve the data source definition. Without access to the encryption key, a 400 Bad Request is returned. Restoring access to the key allows the search service to retrieve the data source definition again.
 
 ## See also
 
 * [Azure Cognitive Search REST APIs](index.md)
-* [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)
-* [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md)
-* [Naming rules &#40;Azure Cognitive Search&#41;](naming-rules.md)
-* [Support for OData &#40;Azure Cognitive Search&#41;](support-for-odata.md)
-* [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)  
+* [HTTP status codes](http-status-codes.md)
+* [Indexer operations](indexer-operations.md)
+* [Naming rule](naming-rules.md)
+* [Support for OData](support-for-odata.md)
+* [OData Expression Syntax for Azure Cognitive Search](/azure/search/query-odata-filter-orderby-syntax)  

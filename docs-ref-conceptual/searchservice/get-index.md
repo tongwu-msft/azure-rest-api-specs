@@ -37,7 +37,7 @@ The following table describes the required and optional request headers.
 |Content-Type|Required. Set this to `application/json`|  
 |api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Get requests about objects in your service must include an api-key field set to your admin key (as opposed to a query key).|  
 
-You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys). 
+You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys). 
 
 ## Request Body  
  None.  
@@ -46,6 +46,6 @@ You can get the api-key value from your service dashboard in the Azure portal. F
  Status Code: "200 OK" is returned for a successful response. See the example request JSON in [Create Index &#40;Azure Cognitive Search REST API&#41;](create-index.md) for an example of the response payload. The Get Index response body and the Create Index response and response bodies are all of the same format.  
 
 ## See also  
- [Azure Cognitive Search REST APIs](index.md)   
- [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
- [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)
+
++ [Azure Cognitive Search REST APIs](index.md)   
++ [HTTP status codes](http-status-codes.md)   
