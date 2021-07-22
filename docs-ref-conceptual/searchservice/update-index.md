@@ -7,8 +7,8 @@ ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
+author: Brjohnstmsft
+ms.author: brjohnst
 ms.manager: nitinme
 ---
 # Update Index (Azure Cognitive Search REST API)
