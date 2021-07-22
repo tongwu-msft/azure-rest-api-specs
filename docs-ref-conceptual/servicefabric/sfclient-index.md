@@ -1,7 +1,7 @@
 ---
-title: "ServiceFabricClientAPIs"
-description: "ServiceFabricClientAPIs"
-ms.date: "04/02/2021"
+title: "Service Fabric Client REST API Reference"
+description: "Service Fabric Client REST API Reference"
+ms.date: "07/13/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -37,7 +37,7 @@ Service Fabric Client APIs allow deploying and managing microservices based appl
 
 
 > [!IMPORTANT]
->  These APIs work with Service Fabric clusters running runtime version 8.0.0.46 and above.
+>  These APIs work with Service Fabric clusters running runtime version 8.1.0.46 and above.
 >
 
 ## Versioning
@@ -187,6 +187,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [Start Application Upgrade](sfclient-api-startapplicationupgrade.md) | Starts upgrading an application in the Service Fabric cluster.<br/> |
 | [Get Application Upgrade](sfclient-api-getapplicationupgrade.md) | Gets details for the latest upgrade performed on this application.<br/> |
 | [Update Application Upgrade](sfclient-api-updateapplicationupgrade.md) | Updates an ongoing application upgrade in the Service Fabric cluster.<br/> |
+| [Update Application](sfclient-api-updateapplication.md) | Updates a Service Fabric application.<br/> |
 | [Resume Application Upgrade](sfclient-api-resumeapplicationupgrade.md) | Resumes upgrading an application in the Service Fabric cluster.<br/> |
 | [Rollback Application Upgrade](sfclient-api-rollbackapplicationupgrade.md) | Starts rolling back the currently on-going upgrade of an application in the Service Fabric cluster.<br/> |
 | [Get Deployed Application Info List](sfclient-api-getdeployedapplicationinfolist.md) | Gets the list of applications deployed on a Service Fabric node.<br/> |
@@ -236,6 +237,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [Move Secondary Replica](sfclient-api-movesecondaryreplica.md) | Moves the secondary replica of a partition of a stateful service.<br/> |
 | [Update Partition Load](sfclient-api-updatepartitionload.md) | Update the loads of provided partitions for specific metrics.<br/> |
 | [Move Instance](sfclient-api-moveinstance.md) | Moves the instance of a partition of a stateless service.<br/> |
+| [Move Auxiliary Replica](sfclient-api-moveauxiliaryreplica.md) | Moves the auxiliary replica of a partition of a stateful service.<br/> |
 
 ----
 ## [RepairManagement APIs](sfclient-index-repairmanagement.md)
@@ -586,6 +588,7 @@ Following is a list of Service Fabric Client REST APIs.
 | [ApplicationTypeInfo](sfclient-model-applicationtypeinfo.md) | Information about an application type.<br/> |
 | [ApplicationTypeManifest](sfclient-model-applicationtypemanifest.md) | Contains the manifest describing an application type registered in a Service Fabric cluster.<br/> |
 | [ApplicationTypeStatus enum](sfclient-model-applicationtypestatus.md) | The status of the application type.<br/> |
+| [ApplicationUpdateDescription](sfclient-model-applicationupdatedescription.md) | Describes the parameters for updating an application instance.<br/> |
 | [ApplicationUpgradeCompletedEvent](sfclient-model-applicationupgradecompletedevent.md) | Application Upgrade Completed event.<br/> |
 | [ApplicationUpgradeCompletedEvent](sfclient-model-applicationupgradecompletedevent.md) | Application Upgrade Completed event.<br/> |
 | [ApplicationUpgradeDescription](sfclient-model-applicationupgradedescription.md) | Describes the parameters for an application upgrade. Note that upgrade description replaces the existing application description. This means that if the parameters are not specified, the existing parameters on the applications will be overwritten with the empty parameters list. This would result in the application using the default value of the parameters from the application manifest. If you do not want to change any existing parameter values, please get the application parameters first using the GetApplicationInfo query and then supply those values as Parameters in this ApplicationUpgradeDescription.<br/> |
@@ -1038,8 +1041,8 @@ Following is a list of Service Fabric Client REST APIs.
 | [PartitionInformation](sfclient-model-partitioninformation.md) | Information about the partition identity, partitioning scheme and keys supported by it.<br/> |
 | [PartitionInstanceCountScaleMechanism](sfclient-model-partitioninstancecountscalemechanism.md) | Represents a scaling mechanism for adding or removing instances of stateless service partition.<br/> |
 | [PartitionInstanceCountScaleMechanism](sfclient-model-partitioninstancecountscalemechanism.md) | Represents a scaling mechanism for adding or removing instances of stateless service partition.<br/> |
-| [PartitionLoadInformation](sfclient-model-partitionloadinformation.md) | Represents load information for a partition, which contains the primary and secondary reported load metrics.<br/>In case there is no load reported, PartitionLoadInformation will contain the default load for the service of the partition.<br/>For default loads, LoadMetricReport's LastReportedUtc is set to 0.<br/> |
-| [PartitionMetricLoadDescription](sfclient-model-partitionmetricloaddescription.md) | Represents load information for a partition, which contains the metrics load information about primary, all secondary replicas/instances or a specific secondary replica/instance located on a specific node.<br/> |
+| [PartitionLoadInformation](sfclient-model-partitionloadinformation.md) | Represents load information for a partition, which contains the primary, secondary and auxiliary reported load metrics.<br/>In case there is no load reported, PartitionLoadInformation will contain the default load for the service of the partition.<br/>For default loads, LoadMetricReport's LastReportedUtc is set to 0.<br/> |
+| [PartitionMetricLoadDescription](sfclient-model-partitionmetricloaddescription.md) | Represents load information for a partition, which contains the metrics load information about primary, all secondary replicas/instances or a specific secondary replica/instance on a specific node , all auxiliary replicas or a specific auxiliary replica on a specific node.<br/> |
 | [PartitionNewHealthReportEvent](sfclient-model-partitionnewhealthreportevent.md) | Partition Health Report Created event.<br/> |
 | [PartitionNewHealthReportEvent](sfclient-model-partitionnewhealthreportevent.md) | Partition Health Report Created event.<br/> |
 | [PartitionPrimaryMoveAnalysisEvent](sfclient-model-partitionprimarymoveanalysisevent.md) | Partition Primary Move Analysis event.<br/> |
@@ -1317,6 +1320,8 @@ Following is a list of Service Fabric Client REST APIs.
 | [UpdatePartitionLoadResult](sfclient-model-updatepartitionloadresult.md) | Specifies result of updating load for specified partitions. The output will be ordered based on the partition ID.<br/> |
 | [UpgradeDomainDeltaNodesCheckHealthEvaluation](sfclient-model-upgradedomaindeltanodescheckhealthevaluation.md) | Represents health evaluation for delta unhealthy cluster nodes in an upgrade domain, containing health evaluations for each unhealthy node that impacted current aggregated health state.<br/>Can be returned during cluster upgrade when cluster aggregated health state is Warning or Error.<br/> |
 | [UpgradeDomainDeltaNodesCheckHealthEvaluation](sfclient-model-upgradedomaindeltanodescheckhealthevaluation.md) | Represents health evaluation for delta unhealthy cluster nodes in an upgrade domain, containing health evaluations for each unhealthy node that impacted current aggregated health state.<br/>Can be returned during cluster upgrade when cluster aggregated health state is Warning or Error.<br/> |
+| [UpgradeDomainDeployedApplicationsHealthEvaluation](sfclient-model-upgradedomaindeployedapplicationshealthevaluation.md) | Represents health evaluation for deployed applications in an upgrade domain, containing health evaluations for each unhealthy deployed application that impacted current aggregated health state. Can be returned when evaluating cluster health during cluster upgrade and the aggregated health state is either Error or Warning.<br/> |
+| [UpgradeDomainDeployedApplicationsHealthEvaluation](sfclient-model-upgradedomaindeployedapplicationshealthevaluation.md) | Represents health evaluation for deployed applications in an upgrade domain, containing health evaluations for each unhealthy deployed application that impacted current aggregated health state. Can be returned when evaluating cluster health during cluster upgrade and the aggregated health state is either Error or Warning.<br/> |
 | [UpgradeDomainInfo](sfclient-model-upgradedomaininfo.md) | Information about an upgrade domain.<br/> |
 | [UpgradeDomainNodesHealthEvaluation](sfclient-model-upgradedomainnodeshealthevaluation.md) | Represents health evaluation for cluster nodes in an upgrade domain, containing health evaluations for each unhealthy node that impacted current aggregated health state. Can be returned when evaluating cluster health during cluster upgrade and the aggregated health state is either Error or Warning.<br/> |
 | [UpgradeDomainNodesHealthEvaluation](sfclient-model-upgradedomainnodeshealthevaluation.md) | Represents health evaluation for cluster nodes in an upgrade domain, containing health evaluations for each unhealthy node that impacted current aggregated health state. Can be returned when evaluating cluster health during cluster upgrade and the aggregated health state is either Error or Warning.<br/> |

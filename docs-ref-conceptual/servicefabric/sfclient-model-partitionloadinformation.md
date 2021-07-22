@@ -1,7 +1,7 @@
 ---
 title: "PartitionLoadInformation"
 description: "PartitionLoadInformation"
-ms.date: "10/21/2020"
+ms.date: "07/13/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -29,7 +29,7 @@ translation.priority.mt:
 ---
 # PartitionLoadInformation
 
-Represents load information for a partition, which contains the primary and secondary reported load metrics.
+Represents load information for a partition, which contains the primary, secondary and auxiliary reported load metrics.
 In case there is no load reported, PartitionLoadInformation will contain the default load for the service of the partition.
 For default loads, LoadMetricReport's LastReportedUtc is set to 0.
 
@@ -40,6 +40,7 @@ For default loads, LoadMetricReport's LastReportedUtc is set to 0.
 | [`PartitionId`](#partitionid) | string (uuid) | No |
 | [`PrimaryLoadMetricReports`](#primaryloadmetricreports) | array of [LoadMetricReport](sfclient-model-loadmetricreport.md) | No |
 | [`SecondaryLoadMetricReports`](#secondaryloadmetricreports) | array of [LoadMetricReport](sfclient-model-loadmetricreport.md) | No |
+| [`AuxiliaryLoadMetricReports`](#auxiliaryloadmetricreports) | array of [LoadMetricReport](sfclient-model-loadmetricreport.md) | No |
 
 ____
 ### `PartitionId`
@@ -61,5 +62,14 @@ __Type__: array of [LoadMetricReport](sfclient-model-loadmetricreport.md) <br/>
 __Required__: No<br/>
 <br/>
 Array of aggregated load reports from all secondary replicas for this partition.
+Array only contains the latest reported load for each metric.
+
+
+____
+### `AuxiliaryLoadMetricReports`
+__Type__: array of [LoadMetricReport](sfclient-model-loadmetricreport.md) <br/>
+__Required__: No<br/>
+<br/>
+Array of aggregated load reports from all auxiliary replicas for this partition.
 Array only contains the latest reported load for each metric.
 

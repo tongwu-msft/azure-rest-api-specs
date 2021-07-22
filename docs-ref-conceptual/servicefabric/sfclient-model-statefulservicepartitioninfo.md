@@ -1,7 +1,7 @@
 ---
 title: "StatefulServicePartitionInfo"
 description: "StatefulServicePartitionInfo"
-ms.date: "10/21/2020"
+ms.date: "07/13/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -39,6 +39,7 @@ Information about a partition of a stateful Service Fabric service..
 | [`PartitionInformation`](#partitioninformation) | [PartitionInformation](sfclient-model-partitioninformation.md) | No |
 | [`TargetReplicaSetSize`](#targetreplicasetsize) | integer (int64) | No |
 | [`MinReplicaSetSize`](#minreplicasetsize) | integer (int64) | No |
+| [`AuxiliaryReplicaCount`](#auxiliaryreplicacount) | integer (int64) | No |
 | [`LastQuorumLossDuration`](#lastquorumlossduration) | string (duration) | No |
 | [`PrimaryEpoch`](#primaryepoch) | [Epoch](sfclient-model-epoch.md) | No |
 
@@ -101,6 +102,13 @@ __Type__: integer (int64) <br/>
 __Required__: No<br/>
 <br/>
 The minimum replica set size as a number.
+
+____
+### `AuxiliaryReplicaCount`
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+<br/>
+The auxiliary replica count as a number. To use Auxiliary replicas the following must be true, AuxiliaryReplicaCount < (TargetReplicaSetSize+1)/2 and TargetReplicaSetSize >=3.
 
 ____
 ### `LastQuorumLossDuration`

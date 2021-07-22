@@ -1,7 +1,7 @@
 ---
 title: "Partition"
 description: "Partition"
-ms.date: "04/02/2021"
+ms.date: "07/13/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -48,4 +48,5 @@ translation.priority.mt:
 | [Move Secondary Replica](sfclient-api-movesecondaryreplica.md) | Moves the secondary replica of a partition of a stateful service.<br/> |
 | [Update Partition Load](sfclient-api-updatepartitionload.md) | Update the loads of provided partitions for specific metrics.<br/> |
 | [Move Instance](sfclient-api-moveinstance.md) | Moves the instance of a partition of a stateless service.<br/> |
+| [Move Auxiliary Replica](sfclient-api-moveauxiliaryreplica.md) | Moves the auxiliary replica of a partition of a stateful service.<br/> |
 

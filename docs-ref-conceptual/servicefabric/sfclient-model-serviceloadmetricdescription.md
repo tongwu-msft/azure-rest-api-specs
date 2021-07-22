@@ -1,7 +1,7 @@
 ---
 title: "ServiceLoadMetricDescription"
 description: "ServiceLoadMetricDescription"
-ms.date: "10/21/2020"
+ms.date: "07/13/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -38,6 +38,7 @@ Specifies a metric to load balance a service during runtime.
 | [`Weight`](#weight) | string (enum) | No |
 | [`PrimaryDefaultLoad`](#primarydefaultload) | integer | No |
 | [`SecondaryDefaultLoad`](#secondarydefaultload) | integer | No |
+| [`AuxiliaryDefaultLoad`](#auxiliarydefaultload) | integer | No |
 | [`DefaultLoad`](#defaultload) | integer | No |
 
 ____
@@ -78,6 +79,13 @@ __Type__: integer <br/>
 __Required__: No<br/>
 <br/>
 Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Secondary replica.
+
+____
+### `AuxiliaryDefaultLoad`
+__Type__: integer <br/>
+__Required__: No<br/>
+<br/>
+Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is an Auxiliary replica.
 
 ____
 ### `DefaultLoad`
