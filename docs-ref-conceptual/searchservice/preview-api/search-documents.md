@@ -8,8 +8,8 @@ ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: HeidiSteen
-ms.author: heidist
+author: Brjohnstmsft
+ms.author: brjohnst
 ms.manager: nitinme
 ---
 
