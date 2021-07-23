@@ -4,7 +4,7 @@ author: sethmanheim
 ms.author: sethm
 ms.date: 09/25/2017
 ms.topic: reference
-ms.service: Azure
+ms.service: service-bus-relay
 ms.devlang: rest-api
 
 ---
