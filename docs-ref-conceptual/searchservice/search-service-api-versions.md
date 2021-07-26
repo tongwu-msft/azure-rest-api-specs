@@ -50,13 +50,13 @@ Preview versions are released to test new functionality, gather feedback, and di
 
 This preview version includes all of the features introduced in 2020-06-30-Preview, plus the following additions:
 
-+ Azure Active Directory (Azure AD) support. This preview API adds an authorization header so that applications can authenticate using Azure Active Directory. Azure AD support means that you can implement [role-based authorization](/azure/search/search-security-rbac) to indexes, synonym maps, indexers, data sources, and skillsets. Using this feature requires that you first enable it on your search service using Azure portal or the [Management REST API](/rest/api/searchmanagement/) version 2021-04-01-Preview.
++ [Managed identities for outbound access](/azure/search/search-howto-managed-identities-data-sources) to external data sources is now supported in the REST API. This preview adds new values for connection strings in [Create or Update Data Source](./preview-api/create-or-update-data-source.md) so that you can connect using Azure Active Directory authentication and roles instead of hard-coded database credentials or keys. 
 
-+ SearchIndexerDataIdentity property that specifies a system or user-managed identity. This property is added to encryption key for indexer data sources, and also as an indexer data source top-level property.
++ Managed identity support is also supported for key vault connections, for search solutions that supplement default encryption with [customer-managed encryption](/azure/search/search-security-manage-encryption-keys). When specifying an encryption key, you can now also set a user-assigned managed identity for connections to the key vault.
 
 + More languages for the Text Translation cognitive skill.
 
-+ More queryLanguages for semantic search and speller.
++ More queryLanguages for semantic search and speller in [Search Documents (preview)](./preview-api/search-documents.md).
 
 <a name="2020-06-30"></a>
 
