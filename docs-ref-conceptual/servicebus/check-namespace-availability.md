@@ -25,6 +25,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Check Namespace Availability
+
+> [!IMPORTANT]
+> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+
 Checks the availability of the given service namespace across all Microsoft Azure subscriptions. This is useful because the domain name is created based on the namespace name.  
   
 ## Request  

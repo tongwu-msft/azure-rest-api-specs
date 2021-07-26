@@ -25,6 +25,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Subscription
+
+> [!IMPORTANT]
+> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+
 Creates a new subscription. Once created, the subscription resource manifest is immutable. This operation is not idempotent. Repeating the create call after a subscription with same name (under same topic and namespace) has been created successfully, results in a 409 Conflict error message.  
   
  If you create a subscription with a name that contains special or encoded characters (for example, "test?Name=value&", which gets encoded to "test%3FName%3Dvalue%26"), a (401) Unauthorized exception is generated.  

@@ -25,6 +25,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Get SB Regions
+
+> [!IMPORTANT]
+> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+
 Retrieves the list of regions that support the creation and management of Service Bus service namespaces.  
   
 ## Request  
