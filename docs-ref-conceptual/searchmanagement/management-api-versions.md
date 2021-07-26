@@ -47,7 +47,7 @@ This preview API has all of the features of the previous preview API, and adds t
 
 + Enable or disable [semantic search (preview)](/azure/search/semantic-search-overview). Semantic search is a premium feature that runs on Standard tier services. In this preview management REST API, use [Create or Update Services](/rest/api/searchmanagement/2021-04-01-preview/services/create-or-update) to disable semantic search at the service level to prohibit any query that invokes semantic ranking. You can also enable this feature on search services on the free tier for a small number of free queries.
 
-+ Enforce new search services to require encryption of data plane resources via [Customer Managed Keys (CMK)](/azure/search/search-security-manage-encryption-keys). Use [Create or Update Services](/rest/api/searchmanagement/2021-04-01-preview/services/create-or-update) to configure this option. Existing search services that don't meet this requirement will be marked as non-compliant.
++ Enforce encryption of data plane resources via [Customer Managed Keys (CMK)](/azure/search/search-security-manage-encryption-keys). Use [Create or Update Services](/rest/api/searchmanagement/2021-04-01-preview/services/create-or-update) to configure this option. Existing search services that don't meet this requirement will be marked as non-compliant.
 
 + Disable scenarios that push data from Azure Cognitive Search to external resources. Use [Create or Update Services](/rest/api/searchmanagement/2021-04-01-preview/services/create-or-update) to set `properties.disabledDataExfiltrationOptions` to "All" or null (default). Disabling all scenarios turns off the following capabilities:
 
