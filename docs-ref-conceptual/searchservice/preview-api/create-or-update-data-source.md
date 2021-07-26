@@ -18,7 +18,7 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> This preview adds support for indexer connections using a managed identity and Azure role assignments. The **Credentials** property now accepts a resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant read access to data. The **Identity** property accepts the resource ID of services that have user-managed identities assigned to them. If you are using a customer-managed encryption key, this preview adds the **identity** property and managed identity support to key vault connections.
+> This preview adds support for indexer connections using a managed identity and Azure role assignments. The **Credentials** property now accepts a resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant read access to data. The **Identity** property accepts the resource ID of services that have user-managed identities assigned to them. If you are using a [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds the **identity** property and managed identity support to key vault connections.
 
 In Azure Cognitive Search, a data source is used with [indexers](../create-indexer.md), providing the connection information for on demand or scheduled data refresh of a target index, pulling data from [supported data sources](/azure/search/search-indexer-overview#supported-data-sources). 
 

@@ -18,7 +18,7 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> Preview features for this API include [cache property](#cache) used during [incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it. This preview feature is also supported in 2020-06-30-Preview.
+> Preview features for this API include [cache property](#cache) used during [incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it. If you are using a [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds the **identity** property and managed identity support to key vault connections. This preview feature is also supported in 2020-06-30-Preview.
 
 An [indexer](/azure/search/search-indexer-overview) automates indexing from supported data sources by connecting to a predefined *data source*, retrieving and serializing data, and passing it to a search service for data ingestion. For AI enrichment of image and unstructured text, indexers can also accept a *skillset* that adds image and natural language processing. 
 
@@ -337,7 +337,8 @@ While indexers are encrypted by default using [service-managed keys](/azure/secu
   "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
   "keyVaultKeyVersion": "Version of the Azure Key Vault key",
   "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net",
-  "accessCredentials": (optional, only if not using managed system identity) {
+  "identity": (optional),
+  "accessCredentials": (omit if you are using a managed identity) {
     "applicationId": "Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault",
     "applicationSecret": "Authentication key of the specified Azure AD application)"}
   }
