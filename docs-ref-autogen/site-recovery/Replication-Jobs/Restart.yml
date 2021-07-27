@@ -3,14 +3,14 @@ uid: management.azure.com.site-recovery.replicationjobs.restart
 name: Restart
 service: Recovery Services - Site Recovery
 groupName: Replication Jobs
-apiVersion: 2018-07-10
+apiVersion: 2021-06-01
 summary: "Restarts the specified job.  \nThe operation to restart an Azure Site Recovery job."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/restart?api-version=2018-07-10
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/restart?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -134,7 +134,7 @@ definitions:
     types:
     - uid: string
   - name: targetInstanceType
-    description: The type of the affected object which is of {Microsoft.Azure.SiteRecovery.V2015_11_10.AffectedObjectType} class.
+    description: The type of the affected object which is of Microsoft.Azure.SiteRecovery.V2015_11_10.AffectedObjectType class.
     types:
     - uid: string
   - name: customDetails
@@ -192,19 +192,14 @@ definitions:
     types:
     - uid: AutomationRunbookTaskDetails
     - uid: ConsistencyCheckTaskDetails
-    - uid: FabricReplicationGroupTaskDetails
-    - uid: JobTaskDetails
     - uid: ManualActionTaskDetails
     - uid: ScriptActionTaskDetails
-    - uid: VirtualMachineTaskDetails
     - uid: VmNicUpdatesTaskDetails
     typesTitle: TaskTypeDetails
   - name: groupTaskCustomDetails
     description: The custom task details based on the task type, if the task type is GroupTaskDetails or one of the types derived from it.
     types:
     - uid: InlineWorkflowTaskDetails
-    - uid: RecoveryPlanGroupTaskDetails
-    - uid: RecoveryPlanShutdownGroupTaskDetails
     typesTitle: GroupTaskDetails
   - name: errors
     description: The task error details.
@@ -236,7 +231,7 @@ definitions:
     types:
     - uid: string
 - name: ServiceError
-  description: ASR error model
+  description: ASR error model.
   kind: object
   properties:
   - name: code
@@ -288,7 +283,6 @@ definitions:
   kind: object
   properties:
   - name: instanceType
-    isReadyOnly: true
     description: Gets the type of job details (see JobDetailsTypes enum for possible values).
     types:
     - uid: AsrJobDetails
@@ -314,7 +308,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the type of job details (see JobDetailsTypes enum for possible values).
     types:
     - uid: ExportJobDetails
@@ -337,7 +330,6 @@ definitions:
     - uid: FailoverReplicationProtectedItemDetails
       isArray: true
   - name: instanceType
-    isReadyOnly: true
     description: Gets the type of job details (see JobDetailsTypes enum for possible values).
     types:
     - uid: FailoverJobDetails
@@ -359,7 +351,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the type of job details (see JobDetailsTypes enum for possible values).
     types:
     - uid: SwitchProtectionJobDetails
@@ -402,7 +393,6 @@ definitions:
     - uid: FailoverReplicationProtectedItemDetails
       isArray: true
   - name: instanceType
-    isReadyOnly: true
     description: Gets the type of job details (see JobDetailsTypes enum for possible values).
     types:
     - uid: TestFailoverJobDetails
@@ -474,40 +464,6 @@ definitions:
     types:
     - uid: ConsistencyCheckTaskDetails
     typesTitle: string
-- name: FabricReplicationGroupTaskDetails
-  description: This class represents the fabric replication group task details.
-  kind: object
-  properties:
-  - name: skippedReason
-    description: The skipped reason.
-    types:
-    - uid: string
-  - name: skippedReasonString
-    description: The skipped reason string.
-    types:
-    - uid: string
-  - name: jobTask
-    description: The job entity.
-    types:
-    - uid: JobEntity
-  - name: instanceType
-    description: The type of task details.
-    types:
-    - uid: FabricReplicationGroupTaskDetails
-    typesTitle: string
-- name: JobTaskDetails
-  description: This class represents a task which is actually a workflow so that one can navigate to its individual drill down.
-  kind: object
-  properties:
-  - name: jobTask
-    description: The job entity.
-    types:
-    - uid: JobEntity
-  - name: instanceType
-    description: The type of task details.
-    types:
-    - uid: JobTaskDetails
-    typesTitle: string
 - name: ManualActionTaskDetails
   description: This class represents the manual action task details.
   kind: object
@@ -554,27 +510,6 @@ definitions:
     types:
     - uid: ScriptActionTaskDetails
     typesTitle: string
-- name: VirtualMachineTaskDetails
-  description: This class represents the virtual machine task details.
-  kind: object
-  properties:
-  - name: skippedReason
-    description: The skipped reason.
-    types:
-    - uid: string
-  - name: skippedReasonString
-    description: The skipped reason string.
-    types:
-    - uid: string
-  - name: jobTask
-    description: The job entity.
-    types:
-    - uid: JobEntity
-  - name: instanceType
-    description: The type of task details.
-    types:
-    - uid: VirtualMachineTaskDetails
-    typesTitle: string
 - name: VmNicUpdatesTaskDetails
   description: This class represents the vm NicUpdates task details.
   kind: object
@@ -609,58 +544,6 @@ definitions:
     description: The type of task details.
     types:
     - uid: InlineWorkflowTaskDetails
-    typesTitle: string
-  - name: childTasks
-    description: The child tasks.
-    types:
-    - uid: ASRTask
-      isArray: true
-- name: RecoveryPlanGroupTaskDetails
-  description: This class represents the recovery plan group task.
-  kind: object
-  properties:
-  - name: name
-    description: The name.
-    types:
-    - uid: string
-  - name: groupId
-    description: The group identifier.
-    types:
-    - uid: string
-  - name: rpGroupType
-    description: The group type.
-    types:
-    - uid: string
-  - name: instanceType
-    description: The type of task details.
-    types:
-    - uid: RecoveryPlanGroupTaskDetails
-    typesTitle: string
-  - name: childTasks
-    description: The child tasks.
-    types:
-    - uid: ASRTask
-      isArray: true
-- name: RecoveryPlanShutdownGroupTaskDetails
-  description: This class represents the recovery plan shutdown group task details.
-  kind: object
-  properties:
-  - name: name
-    description: The name.
-    types:
-    - uid: string
-  - name: groupId
-    description: The group identifier.
-    types:
-    - uid: string
-  - name: rpGroupType
-    description: The group type.
-    types:
-    - uid: string
-  - name: instanceType
-    description: The type of task details.
-    types:
-    - uid: RecoveryPlanShutdownGroupTaskDetails
     typesTitle: string
   - name: childTasks
     description: The child tasks.
@@ -729,38 +612,10 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: JobEntity
-  description: This class contains the minimal job details required to navigate to the desired drill down.
-  kind: object
-  properties:
-  - name: jobId
-    description: The job id.
-    types:
-    - uid: string
-  - name: jobFriendlyName
-    description: The job display name.
-    types:
-    - uid: string
-  - name: targetObjectId
-    description: The object id.
-    types:
-    - uid: string
-  - name: targetObjectName
-    description: The object name.
-    types:
-    - uid: string
-  - name: targetInstanceType
-    description: The workflow affected object type.
-    types:
-    - uid: string
-  - name: jobScenarioName
-    description: The job name. Enum type ScenarioName.
-    types:
-    - uid: string
 examples:
 - name: Restarts the specified job.
   request:
-    uri: POST https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationJobs/0664564c-353e-401a-ab0c-722257c10e25/restart?api-version=2018-07-10
+    uri: POST https://management.azure.com/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationJobs/0664564c-353e-401a-ab0c-722257c10e25/restart?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-

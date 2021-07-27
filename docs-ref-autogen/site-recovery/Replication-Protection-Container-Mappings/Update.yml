@@ -3,14 +3,14 @@ uid: management.azure.com.site-recovery.replicationprotectioncontainermappings.u
 name: Update
 service: Recovery Services - Site Recovery
 groupName: Replication Protection Container Mappings
-apiVersion: 2018-07-10
+apiVersion: 2021-06-01
 summary: The operation to update protection container mapping.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}?api-version=2018-07-10
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -79,6 +79,7 @@ definitions:
     description: Provider specific input for updating protection container mapping.
     types:
     - uid: A2AUpdateContainerMappingInput
+    - uid: InMageRcmUpdateContainerMappingInput
     typesTitle: ReplicationProviderSpecificUpdateContainerMappingInput
 - name: ProtectionContainerMapping
   description: Protection container mapping object.
@@ -131,6 +132,7 @@ definitions:
     description: Provider specific provider details.
     types:
     - uid: A2AProtectionContainerMappingDetails
+    - uid: InMageRcmProtectionContainerMappingDetails
     - uid: VMwareCbtProtectionContainerMappingDetails
     typesTitle: ProtectionContainerMappingProviderSpecificDetails
   - name: health
@@ -147,7 +149,7 @@ definitions:
     types:
     - uid: string
   - name: state
-    description: Association Status
+    description: Association Status.
     types:
     - uid: string
   - name: sourceProtectionContainerFriendlyName
@@ -183,8 +185,21 @@ definitions:
     types:
     - uid: A2A
     typesTitle: string
+- name: InMageRcmUpdateContainerMappingInput
+  description: InMageRcm update protection container mapping.
+  kind: object
+  properties:
+  - name: enableAgentAutoUpgrade
+    description: A value indicating whether agent auto upgrade has to be enabled.
+    types:
+    - uid: string
+  - name: instanceType
+    description: The class type.
+    types:
+    - uid: InMageRcm
+    typesTitle: string
 - name: HealthError
-  description: Health Error
+  description: Health Error.
   kind: object
   properties:
   - name: innerHealthErrors
@@ -229,7 +244,7 @@ definitions:
     types:
     - uid: string
   - name: creationTimeUtc
-    description: Error creation time (UTC)
+    description: Error creation time (UTC).
     types:
     - uid: string
   - name: recoveryProviderErrorMessage
@@ -279,10 +294,23 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: A2A
+    typesTitle: string
+- name: InMageRcmProtectionContainerMappingDetails
+  description: InMageRcm provider specific container mapping details.
+  kind: object
+  properties:
+  - name: enableAgentAutoUpgrade
+    isReadyOnly: true
+    description: A value indicating whether the flag for enable agent auto upgrade.
+    types:
+    - uid: string
+  - name: instanceType
+    description: Gets the class type. Overridden in derived classes.
+    types:
+    - uid: InMageRcm
     typesTitle: string
 - name: VMwareCbtProtectionContainerMappingDetails
   description: VMwareCbt provider specific container mapping details.
@@ -319,7 +347,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: VMwareCbt
@@ -365,7 +392,7 @@ definitions:
     types:
     - uid: string
   - name: creationTimeUtc
-    description: Error creation time (UTC)
+    description: Error creation time (UTC).
     types:
     - uid: string
   - name: recoveryProviderErrorMessage
@@ -376,6 +403,14 @@ definitions:
     description: ID of the entity.
     types:
     - uid: string
+  - name: errorId
+    description: The health error unique id.
+    types:
+    - uid: string
+  - name: customerResolvability
+    description: Value indicating whether the health error is customer resolvable.
+    types:
+    - uid: HealthErrorCustomerResolvability
 - name: HealthErrorCustomerResolvability
   description: Value indicating whether the health error is customer resolvable.
   kind: enum
@@ -389,7 +424,7 @@ definitions:
 examples:
 - name: Update protection container mapping.
   request:
-    uri: PATCH https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectionContainerMappings/cloud1protectionprofile1?api-version=2018-07-10
+    uri: PATCH https://management.azure.com/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectionContainerMappings/cloud1protectionprofile1?api-version=2021-06-01
     body: >-
       {
         "properties": {

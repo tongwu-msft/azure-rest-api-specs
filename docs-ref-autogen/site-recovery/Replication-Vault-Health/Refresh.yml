@@ -3,14 +3,14 @@ uid: management.azure.com.site-recovery.replicationvaulthealth.refresh
 name: Refresh
 service: Recovery Services - Site Recovery
 groupName: Replication Vault Health
-apiVersion: 2018-07-10
+apiVersion: 2021-06-01
 summary: Refreshes health summary of the vault.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth/default/refresh?api-version=2018-07-10
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth/default/refresh?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -94,7 +94,7 @@ definitions:
     types:
     - uid: ResourceHealthSummary
 - name: HealthError
-  description: Health Error
+  description: Health Error.
   kind: object
   properties:
   - name: innerHealthErrors
@@ -139,7 +139,7 @@ definitions:
     types:
     - uid: string
   - name: creationTimeUtc
-    description: Error creation time (UTC)
+    description: Error creation time (UTC).
     types:
     - uid: string
   - name: recoveryProviderErrorMessage
@@ -171,6 +171,14 @@ definitions:
     types:
     - uid: HealthErrorSummary
       isArray: true
+  - name: categorizedResourceCounts
+    description: The categorized resource counts.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: integer
 - name: InnerHealthError
   description: Implements InnerHealthError class. HealthError object has a list of InnerHealthErrors as child errors. InnerHealthError is used because this will prevent an infinite loop of structures when Hydra tries to auto-generate the contract. We are exposing the related health errors as inner health errors and all API consumers can utilize this in the same fashion as Exception -&gt; InnerException.
   kind: object
@@ -212,7 +220,7 @@ definitions:
     types:
     - uid: string
   - name: creationTimeUtc
-    description: Error creation time (UTC)
+    description: Error creation time (UTC).
     types:
     - uid: string
   - name: recoveryProviderErrorMessage
@@ -223,6 +231,14 @@ definitions:
     description: ID of the entity.
     types:
     - uid: string
+  - name: errorId
+    description: The health error unique id.
+    types:
+    - uid: string
+  - name: customerResolvability
+    description: Value indicating whether the health error is customer resolvable.
+    types:
+    - uid: HealthErrorCustomerResolvability
 - name: HealthErrorCustomerResolvability
   description: Value indicating whether the health error is customer resolvable.
   kind: enum
@@ -288,7 +304,19 @@ definitions:
   - name: VersionExpiry
     types:
     - uid: string
-  - name: AgentAutoUpdate
+  - name: AgentAutoUpdateInfra
+    types:
+    - uid: string
+  - name: AgentAutoUpdateArtifactDeleted
+    types:
+    - uid: string
+  - name: AgentAutoUpdateRunAsAccount
+    types:
+    - uid: string
+  - name: AgentAutoUpdateRunAsAccountExpiry
+    types:
+    - uid: string
+  - name: AgentAutoUpdateRunAsAccountExpired
     types:
     - uid: string
 - name: Severity
@@ -310,7 +338,7 @@ definitions:
 examples:
 - name: Refreshes health summary of the vault.
   request:
-    uri: POST https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationVaultHealth/default/refresh?api-version=2018-07-10
+    uri: POST https://management.azure.com/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationVaultHealth/default/refresh?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-
