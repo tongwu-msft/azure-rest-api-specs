@@ -27,7 +27,7 @@ This article lists the current and past versions of the Management REST APIs for
 
 ## Preview versions
 
-Preview versions are released to test new functionality, gather feedback, and discover and fix issues. Preview APIs are provided without a service level agreement, and are not recommended for production workloads. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/).
+Preview versions are released to test new functionality, gather feedback, and discover and fix issues. Preview APIs are available under [Supplemental Terms of Use](https://azure.microsoft.com/support/legal/preview-supplemental-terms/), and are not recommended for production workloads.
 
 | API version | Specification | API updates |
 |---------|---------------|-----------------|
@@ -43,13 +43,13 @@ Preview versions are released to test new functionality, gather feedback, and di
 
 This preview API has all of the features of the previous preview API, and adds the following functionality:
 
-+ Enable or disable [Azure role-based access (Azure RBAC)](/azure/search/search-security-rbac), currently in public preview. In addition to the original key-based authentication, you can now use Azure Active Directory (Azure AD) authentication and Azure RBAC authorization for data plane operations. The ability use to Azure AD roles in this capacity must be specified when the service is [created or updated](/rest/api/searchmanagement/2021-04-01-preview/services/create-or-update) using `properties.authOptions`.
++ Enable or disable [Azure role-based access (Azure RBAC)](/azure/search/search-security-rbac), currently in public preview. In addition to the original key-based authentication, you can now use Azure Active Directory (Azure AD) authentication and Azure RBAC authorization for data plane operations. In this preview management REST API, use [Create or Update Services](/rest/api/searchmanagement/2021-04-01-preview/services/create-or-update) to enabled or disable RBAC.
 
-+ Enable or disable [semantic search (preview)](/azure/search/semantic-search-overview). Semantic search is a premium feature that runs on Standard tier services. In this preview management REST API, use [Create or Update Services](/rest/api/searchmanagement/2021-04-01-preview/services/create-or-update) to disable semantic search at the service level to prohibit any query that invokes semantic ranking. You can also enable this feature on search services on the free tier for a small number of free queries.
++ Enable or disable [semantic search](/azure/search/semantic-search-overview). Semantic search is a premium feature that runs on Standard tier services. In this preview management REST API, use [Create or Update Services](/rest/api/searchmanagement/2021-04-01-preview/services/create-or-update) to disable semantic search at the service level to prohibit any query that invokes semantic ranking. You can also enable this feature on search services on the free tier for a small number of free queries.
 
 + Enforce encryption of data plane resources via [Customer Managed Keys (CMK)](/azure/search/search-security-manage-encryption-keys). Use [Create or Update Services](/rest/api/searchmanagement/2021-04-01-preview/services/create-or-update) to configure this option. Existing search services that don't meet this requirement will be marked as non-compliant.
 
-+ Disable scenarios that push data from Azure Cognitive Search to external resources. Use [Create or Update Services](/rest/api/searchmanagement/2021-04-01-preview/services/create-or-update) to set `properties.disabledDataExfiltrationOptions` to "All" or null (default). Disabling all scenarios turns off the following capabilities:
++ Disable workloads that push data from Azure Cognitive Search to external resources. Use [Create or Update Services](/rest/api/searchmanagement/2021-04-01-preview/services/create-or-update) to set `properties.disabledDataExfiltrationOptions` to "All" or null (default). Disabling all workloads turns off the following capabilities:
 
   + [Power query connectors](/azure/search/search-how-to-index-power-query-data-sources)
   + [Debug sessions](/azure/search/cognitive-search-debug-session)

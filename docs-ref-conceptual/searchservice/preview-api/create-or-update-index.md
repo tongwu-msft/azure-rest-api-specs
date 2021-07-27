@@ -18,7 +18,7 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> Preview features for this API include [normalizers](/azure/search/add-normalizers-to-search-index), used to produce case-insensitive sorting and filtering output. If you are using a [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds the **identity** property and managed identity support to key vault connections. This preview feature is also supported in 2020-06-30-Preview.
+> If you are using [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds an **identity** property and managed identity support to key vault connections. Other preview features for this API include [normalizers](/azure/search/add-normalizers-to-search-index), used to produce case-insensitive sorting and filtering output. Normalizer was introduced in 2020-06-30-Preview. 
 
 An [index](/azure/search/search-what-is-an-index) specifies the index schema, including the fields collection (field names, data types, and attributes), but also additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.
 
