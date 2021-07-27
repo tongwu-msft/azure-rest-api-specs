@@ -3,14 +3,14 @@ uid: management.azure.com.site-recovery.replicationpolicies.list
 name: List
 service: Recovery Services - Site Recovery
 groupName: Replication Policies
-apiVersion: 2018-07-10
-summary: "Gets the list of replication policies  \nLists the replication policies for a vault."
+apiVersion: 2021-06-01
+summary: "Gets the list of replication policies.  \nLists the replication policies for a vault."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies?api-version=2018-07-10
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -102,8 +102,8 @@ definitions:
     - uid: InMageAzureV2PolicyDetails
     - uid: InMageBasePolicyDetails
     - uid: InMagePolicyDetails
+    - uid: InMageRcmFailbackPolicyDetails
     - uid: InMageRcmPolicyDetails
-    - uid: RcmAzureMigrationPolicyDetails
     - uid: VmwareCbtPolicyDetails
     typesTitle: PolicyProviderSpecificDetails
 - name: A2APolicyDetails
@@ -131,7 +131,6 @@ definitions:
     types:
     - uid: integer
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: A2A
@@ -165,7 +164,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: HyperVReplicaAzure
@@ -211,11 +209,10 @@ definitions:
     types:
     - uid: integer
   - name: replicaDeletionOption
-    description: 'A value indicating whether the VM has to be auto deleted. Supported Values: String.Empty, None, OnRecoveryCloud'
+    description: 'A value indicating whether the VM has to be auto deleted. Supported Values: String.Empty, None, OnRecoveryCloud.'
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: HyperVReplicaBasePolicyDetails
@@ -269,7 +266,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: HyperVReplica2012R2
@@ -319,7 +315,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: HyperVReplica2012
@@ -349,7 +344,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: InMageAzureV2
@@ -375,7 +369,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: InMageBasePolicyDetails
@@ -401,70 +394,51 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: InMage
+    typesTitle: string
+- name: InMageRcmFailbackPolicyDetails
+  description: InMageRcm failback specific policy details.
+  kind: object
+  properties:
+  - name: appConsistentFrequencyInMinutes
+    description: The app consistent snapshot frequency in minutes.
+    types:
+    - uid: integer
+  - name: crashConsistentFrequencyInMinutes
+    description: The crash consistent snapshot frequency in minutes.
+    types:
+    - uid: integer
+  - name: instanceType
+    description: Gets the class type. Overridden in derived classes.
+    types:
+    - uid: InMageRcmFailback
     typesTitle: string
 - name: InMageRcmPolicyDetails
   description: InMageRcm specific policy details.
   kind: object
   properties:
   - name: recoveryPointHistoryInMinutes
-    isReadyOnly: true
     description: The duration in minutes until which the recovery points need to be stored.
     types:
     - uid: integer
   - name: appConsistentFrequencyInMinutes
-    isReadyOnly: true
     description: The app consistent snapshot frequency in minutes.
     types:
     - uid: integer
   - name: crashConsistentFrequencyInMinutes
-    isReadyOnly: true
     description: The crash consistent snapshot frequency in minutes.
     types:
     - uid: integer
   - name: enableMultiVmSync
-    isReadyOnly: true
     description: A value indicating whether multi-VM sync has to be enabled.
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: InMageRcm
-    typesTitle: string
-- name: RcmAzureMigrationPolicyDetails
-  description: RCM based Azure migration specific policy details.
-  kind: object
-  properties:
-  - name: recoveryPointThresholdInMinutes
-    description: The recovery point threshold in minutes.
-    types:
-    - uid: integer
-  - name: recoveryPointHistory
-    description: The duration in minutes until which the recovery points need to be stored.
-    types:
-    - uid: integer
-  - name: appConsistentFrequencyInMinutes
-    description: The app consistent snapshot frequency in minutes.
-    types:
-    - uid: integer
-  - name: multiVmSyncStatus
-    description: A value indicating whether multi-VM sync has to be enabled.
-    types:
-    - uid: MultiVmSyncStatus
-  - name: crashConsistentFrequencyInMinutes
-    description: The crash consistent snapshot frequency in minutes.
-    types:
-    - uid: integer
-  - name: instanceType
-    isReadyOnly: true
-    description: Gets the class type. Overridden in derived classes.
-    types:
-    - uid: RcmAzureMigration
     typesTitle: string
 - name: VmwareCbtPolicyDetails
   description: VMware Cbt specific policy details.
@@ -483,25 +457,14 @@ definitions:
     types:
     - uid: integer
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: VMwareCbt
     typesTitle: string
-- name: MultiVmSyncStatus
-  description: A value indicating whether multi-VM sync has to be enabled.
-  kind: enum
-  properties:
-  - name: Enabled
-    types:
-    - uid: string
-  - name: Disabled
-    types:
-    - uid: string
 examples:
-- name: Gets the list of replication policies
+- name: Gets the list of replication policies.
   request:
-    uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationPolicies?api-version=2018-07-10
+    uri: GET https://management.azure.com/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationPolicies?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -530,5 +493,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account.
 metadata:
-  description: "Learn more about Recovery Services - Site Recovery service - Gets the list of replication policies  \nLists the replication policies for a vault."
+  description: "Learn more about Recovery Services - Site Recovery service - Gets the list of replication policies.  \nLists the replication policies for a vault."
 errorCodes: []

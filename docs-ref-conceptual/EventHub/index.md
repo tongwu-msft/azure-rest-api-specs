@@ -17,6 +17,10 @@ The REST APIs fall into the following categories:
 - **Event Hubs service**: APIs that enable operations directly on the Event Hubs service, and have `<namespaceName>.servicebus.windows.net/` in the request URI. 
 - **"Classic" or RDFE management**: APIs that provide programmatic access to much of the functionality available through the Azure portal. These APIs have `management.core.windows.net` in the URI. Event Hubs doesn't have RDFE REST APIs at this time.
 
+> [!IMPORTANT]
+> If you are using **"Classic" or RDFE management APIs**, they are [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+
+
 ## REST operation groups
 The Event Hubs REST API provides operations for working with the following resources.
 

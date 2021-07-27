@@ -3,15 +3,15 @@ uid: management.azure.com.site-recovery.replicationmigrationitems.list
 name: List
 service: Recovery Services - Site Recovery
 groupName: Replication Migration Items
-apiVersion: 2018-07-10
+apiVersion: 2021-06-01
 summary: Gets the list of migration items in the vault.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationMigrationItems?api-version=2018-07-10
-- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationMigrationItems?api-version=2018-07-10&skipToken={skipToken}&$filter={$filter}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationMigrationItems?api-version=2021-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationMigrationItems?api-version=2021-06-01&skipToken={skipToken}&takeToken={takeToken}&$filter={$filter}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -41,6 +41,11 @@ uriParameters:
 - name: skipToken
   in: query
   description: The pagination token.
+  types:
+  - uid: string
+- name: takeToken
+  in: query
+  description: The page size.
   types:
   - uid: string
 - name: $filter
@@ -114,11 +119,6 @@ definitions:
     description: The name of policy governing this item.
     types:
     - uid: string
-  - name: recoveryServicesProviderId
-    isReadyOnly: true
-    description: The recovery services provider ARM Id.
-    types:
-    - uid: string
   - name: migrationState
     isReadyOnly: true
     description: The migration status.
@@ -127,6 +127,16 @@ definitions:
   - name: migrationStateDescription
     isReadyOnly: true
     description: The migration state description.
+    types:
+    - uid: string
+  - name: lastTestMigrationTime
+    isReadyOnly: true
+    description: The last test migration time.
+    types:
+    - uid: string
+  - name: lastTestMigrationStatus
+    isReadyOnly: true
+    description: The status of the last test migration.
     types:
     - uid: string
   - name: testMigrateState
@@ -143,7 +153,7 @@ definitions:
     isReadyOnly: true
     description: The consolidated health.
     types:
-    - uid: string
+    - uid: ProtectionHealth
   - name: healthErrors
     isReadyOnly: true
     description: The list of health errors.
@@ -152,7 +162,7 @@ definitions:
       isArray: true
   - name: allowedOperations
     isReadyOnly: true
-    description: The allowed operations on the migration item, based on the current migration state of the item.
+    description: The allowed operations on the migration item based on the current migration state of the item.
     types:
     - uid: string
       isArray: true
@@ -161,6 +171,11 @@ definitions:
     description: The current job details.
     types:
     - uid: CurrentJobDetails
+  - name: eventCorrelationId
+    isReadyOnly: true
+    description: The correlation Id for events associated with this migration item.
+    types:
+    - uid: string
   - name: providerSpecificDetails
     description: The migration provider custom settings.
     types:
@@ -222,8 +237,24 @@ definitions:
   - name: TestMigrationCleanupInProgress
     types:
     - uid: string
+- name: ProtectionHealth
+  description: The health.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Normal
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Critical
+    types:
+    - uid: string
 - name: HealthError
-  description: Health Error
+  description: Health Error.
   kind: object
   properties:
   - name: innerHealthErrors
@@ -268,7 +299,7 @@ definitions:
     types:
     - uid: string
   - name: creationTimeUtc
-    description: Error creation time (UTC)
+    description: Error creation time (UTC).
     types:
     - uid: string
   - name: recoveryProviderErrorMessage
@@ -292,14 +323,17 @@ definitions:
   kind: object
   properties:
   - name: jobName
+    isReadyOnly: true
     description: The job name.
     types:
     - uid: string
   - name: jobId
+    isReadyOnly: true
     description: The ARM Id of the job being executed.
     types:
     - uid: string
   - name: startTime
+    isReadyOnly: true
     description: The start time of the job.
     types:
     - uid: string
@@ -344,7 +378,7 @@ definitions:
     types:
     - uid: string
   - name: creationTimeUtc
-    description: Error creation time (UTC)
+    description: Error creation time (UTC).
     types:
     - uid: string
   - name: recoveryProviderErrorMessage
@@ -355,6 +389,14 @@ definitions:
     description: ID of the entity.
     types:
     - uid: string
+  - name: errorId
+    description: The health error unique id.
+    types:
+    - uid: string
+  - name: customerResolvability
+    description: Value indicating whether the health error is customer resolvable.
+    types:
+    - uid: HealthErrorCustomerResolvability
 - name: HealthErrorCustomerResolvability
   description: Value indicating whether the health error is customer resolvable.
   kind: enum
@@ -366,7 +408,7 @@ definitions:
     types:
     - uid: string
 - name: VMwareCbtMigrationDetails
-  description: VMwareCbt provider specific settings
+  description: VMwareCbt provider specific settings.
   kind: object
   properties:
   - name: vmwareMachineId
@@ -379,18 +421,32 @@ definitions:
     description: The type of the OS on the VM.
     types:
     - uid: string
+  - name: firmwareType
+    isReadyOnly: true
+    description: The firmware type.
+    types:
+    - uid: string
+  - name: targetGeneration
+    isReadyOnly: true
+    description: The target generation.
+    types:
+    - uid: string
   - name: licenseType
     description: License Type of the VM to be used.
     types:
     - uid: string
+  - name: sqlServerLicenseType
+    description: The SQL Server license type.
+    types:
+    - uid: string
   - name: dataMoverRunAsAccountId
     isReadyOnly: true
-    description: The data mover RunAs account Id.
+    description: The data mover run as account Id.
     types:
     - uid: string
   - name: snapshotRunAsAccountId
     isReadyOnly: true
-    description: The snapshot RunAs account Id.
+    description: The snapshot run as account Id.
     types:
     - uid: string
   - name: targetVmName
@@ -414,10 +470,26 @@ definitions:
     description: The target availability set Id.
     types:
     - uid: string
+  - name: targetAvailabilityZone
+    description: The target availability zone.
+    types:
+    - uid: string
+  - name: targetProximityPlacementGroupId
+    description: The target proximity placement group Id.
+    types:
+    - uid: string
   - name: targetBootDiagnosticsStorageAccountId
     description: The target boot diagnostics storage account ARM Id.
     types:
     - uid: string
+  - name: targetVmTags
+    description: The target VM tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: protectedDisks
     description: The list of protected disks.
     types:
@@ -432,6 +504,14 @@ definitions:
     types:
     - uid: VMwareCbtNicDetails
       isArray: true
+  - name: targetNicTags
+    description: The tags for the target NICs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: migrationRecoveryPointId
     isReadyOnly: true
     description: The recovery point Id to which the VM was migrated.
@@ -442,8 +522,67 @@ definitions:
     description: The last recovery point received time.
     types:
     - uid: string
-  - name: instanceType
+  - name: lastRecoveryPointId
     isReadyOnly: true
+    description: The last recovery point Id.
+    types:
+    - uid: string
+  - name: initialSeedingProgressPercentage
+    isReadyOnly: true
+    description: The initial seeding progress percentage.
+    types:
+    - uid: integer
+  - name: migrationProgressPercentage
+    isReadyOnly: true
+    description: The migration progress percentage.
+    types:
+    - uid: integer
+  - name: resyncProgressPercentage
+    isReadyOnly: true
+    description: The resync progress percentage.
+    types:
+    - uid: integer
+  - name: initialSeedingRetryCount
+    isReadyOnly: true
+    description: The initial seeding retry count.
+    types:
+    - uid: integer
+  - name: resyncRetryCount
+    isReadyOnly: true
+    description: The resync retry count.
+    types:
+    - uid: integer
+  - name: resyncRequired
+    isReadyOnly: true
+    description: A value indicating whether resync is required.
+    types:
+    - uid: string
+  - name: resyncState
+    isReadyOnly: true
+    description: The resync state.
+    types:
+    - uid: ResyncState
+  - name: performAutoResync
+    description: A value indicating whether auto resync is to be done.
+    types:
+    - uid: string
+  - name: seedDiskTags
+    description: The tags for the seed disks.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: targetDiskTags
+    description: The tags for the target disks.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: instanceType
     description: Gets the instance type.
     types:
     - uid: VMwareCbt
@@ -462,6 +601,10 @@ definitions:
     description: The disk name.
     types:
     - uid: string
+  - name: diskType
+    description: The disk type.
+    types:
+    - uid: DiskAccountType
   - name: diskPath
     isReadyOnly: true
     description: The disk path.
@@ -487,6 +630,11 @@ definitions:
     description: The key vault secret name of the log storage account.
     types:
     - uid: string
+  - name: diskEncryptionSetId
+    isReadyOnly: true
+    description: The DiskEncryptionSet ARM Id.
+    types:
+    - uid: string
   - name: seedManagedDiskId
     isReadyOnly: true
     description: The ARM Id of the seed managed disk.
@@ -497,10 +645,10 @@ definitions:
     description: The ARM Id of the target managed disk.
     types:
     - uid: string
-  - name: diskType
-    description: The disk type.
+  - name: targetDiskName
+    description: The name for the target managed disk.
     types:
-    - uid: DiskType
+    - uid: string
 - name: VMwareCbtNicDetails
   description: VMwareCbt NIC details.
   kind: object
@@ -541,12 +689,29 @@ definitions:
     description: Target subnet name.
     types:
     - uid: string
+  - name: targetNicName
+    description: Target NIC name.
+    types:
+    - uid: string
   - name: isSelectedForMigration
     description: A value indicating whether this NIC is selected for migration.
     types:
     - uid: string
-- name: DiskType
-  description: The disk type.
+- name: ResyncState
+  description: The resync state.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: PreparedForResynchronization
+    types:
+    - uid: string
+  - name: StartedResynchronization
+    types:
+    - uid: string
+- name: DiskAccountType
+  description: The DiskType.
   kind: enum
   properties:
   - name: Standard_LRS
@@ -571,7 +736,7 @@ definitions:
 examples:
 - name: Gets the list of migration items in the vault.
   request:
-    uri: GET https://management.azure.com/Subscriptions/cb53d0c3-bd59-4721-89bc-06916a9147ef/resourceGroups/resourcegroup1/providers/Microsoft.RecoveryServices/vaults/migrationvault/replicationMigrationItems?api-version=2018-07-10
+    uri: GET https://management.azure.com/subscriptions/cb53d0c3-bd59-4721-89bc-06916a9147ef/resourceGroups/resourcegroup1/providers/Microsoft.RecoveryServices/vaults/migrationvault/replicationMigrationItems?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -602,8 +767,7 @@ examples:
               },
               "providerSpecificDetails": {
                 "instanceType": "VMwareCbt"
-              },
-              "recoveryServicesProviderId": "/Subscriptions/cb53d0c3-bd59-4721-89bc-06916a9147ef/resourceGroups/resourcegroup1/providers/Microsoft.RecoveryServices/vaults/migrationvault/replicationFabrics/vmwarefabric1/replicationRecoveryServicesProviders/45b55118-f42d-505f-8bde-f3745258171f"
+              }
             }
           }
         ]

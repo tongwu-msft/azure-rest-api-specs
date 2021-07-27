@@ -8,8 +8,8 @@ ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: HeidiSteen
-ms.author: heidist
+author: Brjohnstmsft
+ms.author: brjohnst
 ms.manager: nitinme
 ---
 
@@ -18,7 +18,7 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> Preview features for this API include [normalizers](/azure/search/add-normalizers-to-search-index), used to produce case-insensitive sorting and filtering output. This preview feature is also supported in 2020-06-30-Preview.
+> If you are using [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds an **identity** property and managed identity support to key vault connections. Previously introduced features from 2020-06-30-Preview that are carried forward to this preview include [normalizers](/azure/search/add-normalizers-to-search-index), used to produce case-insensitive sorting and filtering output. 
 
 An [index](/azure/search/search-what-is-an-index) specifies the index schema, including the fields collection (field names, data types, and attributes), but also additional constructs (suggesters, scoring profiles, and CORS configuration) that define other search behaviors.
 
@@ -82,9 +82,7 @@ This operation takes your index offline for at least a few seconds, which means 
 |Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to `application/json`|  
-|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an api-key field set to your admin key (as opposed to a query key).|  
-
-You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).   
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key). You can [find the API key](/azure/search/search-security-api-keys#find-existing-keys) in your search service dashboard in the Azure portal.|     
 
 ## Request Body
 
@@ -140,7 +138,7 @@ The following JSON is a high-level representation of the main parts of the defin
 | normalizers| Normalizes the lexicographical ordering of strings, producing case-insensitive sorting and filtering output. For more information, see [Add normalizers to a search index](/azure/search/add-normalizers-to-search-index).
 | defaultScoringProfile | Name of a custom scoring profile that overwrites the default scoring behaviors. |
 | corsOptions| Optional. Client-side JavaScript cannot call any APIs by default since the browser will prevent all cross-origin requests. To allow cross-origin queries to your index, enable CORS (Cross-Origin Resource Sharing) by setting the **corsOptions** attribute. For security reasons, only query APIs support CORS. The `corsOptions` section includes: </br></br>`allowedOrigins` (Required) A comma-delimited list of origins that will be granted access to your index, where each origin is typically of the form protocol://\<fully-qualified-domain-name>:\<port> (although the \<port> is often omitted).  This means that any JavaScript code served from those origins will be allowed to query your index (assuming it provides the correct `api-key`). If you want to allow access to all origins, specify `*` as a single item in the `allowedOrigins` array. This is not recommended for production, but might be useful for development or debugging. </br></br>`maxAgeInSeconds` (Optional) Browsers use this value to determine the duration (in seconds) to cache CORS preflight responses. This must be a non-negative integer. The larger this value is, the better performance will be, but the longer it will take for CORS policy changes to take effect. If it is not set, a default duration of 5 minutes will be used.| 
-|encryptionKey| Optional. Used to encrypt a synonym map, with your own keys, managed in your Azure Key Vault. Available for billable search services created on or after 2019-01-01. </br></br> An `encryptionKey` section contains a user-defined `keyVaultKeyName` (required), a system-generated `keyVaultKeyVersion` (required), and a `keyVaultUri` providing the key (required, also referred to as DNS name). An example URI might be "https://my-keyvault-name.vault.azure.net". </br></br>Optionally, you can specify `accessCredentials` if you are not using a managed system identity. Properties of `accessCredentials` include `applicationId` (Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault), and `applicationSecret` (authentication key of the specified Azure AD application). An example in the next section illustrates the syntax. |
+|encryptionKey| Optional. Used for additional encryption of the index, through [customer-managed encryption keys (CMK)](/azure/search/search-security-manage-encryption-keys) in Azure Key Vault. Available for billable search services created on or after 2019-01-01. </br></br> An `encryptionKey` section contains a user-defined `keyVaultKeyName` (required), a system-generated `keyVaultKeyVersion` (required), and a `keyVaultUri` providing the key (required, also referred to as DNS name). An example URI might be "https://my-keyvault-name.vault.azure.net". </br></br>A connection to the key vault must be authenticated. You can use either `accessCredentials` or a managed identity for this purpose. </br></br>Properties of `accessCredentials` include `applicationId` (Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault), and `applicationSecret` (authentication key of the specified Azure AD application).  </br></br>Managed identities can be system or user-assigned. If the search service has both a system-assigned managed identity and a role assignment that grants read access to the key vault, you can omit both `identity` and `accessCredentials`, and the request will authenticate using the managed identity. If the search service has user-assigned identity and role assignment, set the `identity` property to the resource ID of that identity.|
 
 ###  <a name="bkmk_indexAttrib"> Field definitions </a>
 

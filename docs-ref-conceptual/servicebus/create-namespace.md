@@ -25,6 +25,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Create Namespace
+
+> [!IMPORTANT]
+> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+
 Creates a new service namespace. Once created, this namespace’s resource manifest is immutable. This operation is idempotent.  
   
  The namespace identifier should adhere to the following naming conventions:  

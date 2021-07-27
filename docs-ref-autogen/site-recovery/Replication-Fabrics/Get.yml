@@ -3,14 +3,16 @@ uid: management.azure.com.site-recovery.replicationfabrics.get
 name: Get
 service: Recovery Services - Site Recovery
 groupName: Replication Fabrics
-apiVersion: 2018-07-10
+apiVersion: 2021-06-01
 summary: "Gets the details of an ASR fabric.  \nGets the details of an Azure Site Recovery fabric."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}?api-version=2018-07-10
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}?api-version=2021-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}?api-version=2021-06-01&$filter={$filter}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,6 +42,11 @@ uriParameters:
   in: query
   isRequired: true
   description: Client Api Version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter options.
   types:
   - uid: string
 responses:
@@ -136,7 +143,7 @@ definitions:
     types:
     - uid: string
 - name: HealthError
-  description: Health Error
+  description: Health Error.
   kind: object
   properties:
   - name: innerHealthErrors
@@ -181,7 +188,7 @@ definitions:
     types:
     - uid: string
   - name: creationTimeUtc
-    description: Error creation time (UTC)
+    description: Error creation time (UTC).
     types:
     - uid: string
   - name: recoveryProviderErrorMessage
@@ -213,8 +220,12 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: zones
+    description: The zones.
+    types:
+    - uid: A2AZoneDetails
+      isArray: true
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: Azure
@@ -223,8 +234,12 @@ definitions:
   description: HyperVSite fabric specific details.
   kind: object
   properties:
+  - name: hyperVHosts
+    description: The list of Hyper-V hosts associated with the fabric.
+    types:
+    - uid: HyperVHostDetails
+      isArray: true
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: HyperVSite
@@ -268,6 +283,10 @@ definitions:
     description: The control plane Uri.
     types:
     - uid: string
+  - name: sourceAgentIdentityDetails
+    description: The source agent identity details.
+    types:
+    - uid: IdentityProviderDetails
   - name: processServers
     isReadyOnly: true
     description: The list of process servers.
@@ -298,6 +317,12 @@ definitions:
     types:
     - uid: ReprotectAgentDetails
       isArray: true
+  - name: marsAgents
+    isReadyOnly: true
+    description: The list of Mars agents.
+    types:
+    - uid: MarsAgentDetails
+      isArray: true
   - name: dras
     isReadyOnly: true
     description: The list of DRAs.
@@ -311,7 +336,6 @@ definitions:
     - uid: AgentDetails
       isArray: true
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: InMageRcm
@@ -321,7 +345,6 @@ definitions:
   kind: object
   properties:
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: VMM
@@ -438,7 +461,7 @@ definitions:
     types:
     - uid: string
   - name: versionStatus
-    description: Version status
+    description: Version status.
     types:
     - uid: string
   - name: sslCertExpiryDate
@@ -462,7 +485,6 @@ definitions:
     types:
     - uid: VersionDetails
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: VMware
@@ -474,6 +496,11 @@ definitions:
   - name: vmwareSiteId
     isReadyOnly: true
     description: The ARM Id of the VMware site.
+    types:
+    - uid: string
+  - name: physicalSiteId
+    isReadyOnly: true
+    description: The ARM Id of the physical site.
     types:
     - uid: string
   - name: migrationSolutionId
@@ -491,8 +518,18 @@ definitions:
     description: The service resource Id.
     types:
     - uid: string
-  - name: instanceType
+  - name: serviceContainerId
     isReadyOnly: true
+    description: The service container Id.
+    types:
+    - uid: string
+  - name: processServers
+    isReadyOnly: true
+    description: The list of process servers.
+    types:
+    - uid: ProcessServerDetails
+      isArray: true
+  - name: instanceType
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: VMwareV2
@@ -538,7 +575,7 @@ definitions:
     types:
     - uid: string
   - name: creationTimeUtc
-    description: Error creation time (UTC)
+    description: Error creation time (UTC).
     types:
     - uid: string
   - name: recoveryProviderErrorMessage
@@ -549,6 +586,14 @@ definitions:
     description: ID of the entity.
     types:
     - uid: string
+  - name: errorId
+    description: The health error unique id.
+    types:
+    - uid: string
+  - name: customerResolvability
+    description: Value indicating whether the health error is customer resolvable.
+    types:
+    - uid: HealthErrorCustomerResolvability
 - name: HealthErrorCustomerResolvability
   description: Value indicating whether the health error is customer resolvable.
   kind: enum
@@ -557,6 +602,61 @@ definitions:
     types:
     - uid: string
   - name: NotAllowed
+    types:
+    - uid: string
+- name: A2AZoneDetails
+  description: Zone details data.
+  kind: object
+  properties:
+  - name: source
+    description: Source zone info.
+    types:
+    - uid: string
+  - name: target
+    description: The target zone info.
+    types:
+    - uid: string
+- name: HyperVHostDetails
+  description: Hyper-V host details.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The Hyper-V host Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The Hyper-V host name.
+    types:
+    - uid: string
+  - name: marsAgentVersion
+    isReadyOnly: true
+    description: The Mars agent version.
+    types:
+    - uid: string
+- name: IdentityProviderDetails
+  description: Identity provider details.
+  kind: object
+  properties:
+  - name: tenantId
+    description: The tenant Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services.
+    types:
+    - uid: string
+  - name: applicationId
+    description: The application/client Id for the service principal with which the on-premise management/data plane components would communicate with our Azure services.
+    types:
+    - uid: string
+  - name: objectId
+    description: The object Id of the service principal with which the on-premise management/data plane components would communicate with our Azure services.
+    types:
+    - uid: string
+  - name: audience
+    description: The intended Audience of the service principal with which the on-premise management/data plane components would communicate with our Azure services.
+    types:
+    - uid: string
+  - name: aadAuthority
+    description: The base authority for Azure Active Directory authentication.
     types:
     - uid: string
 - name: ProcessServerDetails
@@ -573,9 +673,30 @@ definitions:
     description: The process server name.
     types:
     - uid: string
+  - name: biosId
+    isReadyOnly: true
+    description: The process server Bios Id.
+    types:
+    - uid: string
+  - name: fabricObjectId
+    isReadyOnly: true
+    description: The fabric object Id.
+    types:
+    - uid: string
+  - name: fqdn
+    isReadyOnly: true
+    description: The process server Fqdn.
+    types:
+    - uid: string
+  - name: ipAddresses
+    isReadyOnly: true
+    description: The list of IP addresses for communicating with the RCM component.
+    types:
+    - uid: string
+      isArray: true
   - name: version
     isReadyOnly: true
-    description: The process server version.
+    description: The version.
     types:
     - uid: string
   - name: lastHeartbeatUtc
@@ -638,6 +759,36 @@ definitions:
     description: The processor usage percentage.
     types:
     - uid: number
+  - name: throughputStatus
+    isReadyOnly: true
+    description: The throughput status.
+    types:
+    - uid: RcmComponentStatus
+  - name: systemLoad
+    isReadyOnly: true
+    description: The system load.
+    types:
+    - uid: integer
+  - name: systemLoadStatus
+    isReadyOnly: true
+    description: The system load status.
+    types:
+    - uid: RcmComponentStatus
+  - name: diskUsageStatus
+    isReadyOnly: true
+    description: The disk usage status.
+    types:
+    - uid: RcmComponentStatus
+  - name: memoryUsageStatus
+    isReadyOnly: true
+    description: The memory usage status.
+    types:
+    - uid: RcmComponentStatus
+  - name: processorUsageStatus
+    isReadyOnly: true
+    description: The processor usage status.
+    types:
+    - uid: RcmComponentStatus
   - name: health
     isReadyOnly: true
     description: The health of the process server.
@@ -649,6 +800,11 @@ definitions:
     types:
     - uid: HealthError
       isArray: true
+  - name: protectedItemCount
+    isReadyOnly: true
+    description: The protected item count.
+    types:
+    - uid: integer
   - name: historicHealth
     isReadyOnly: true
     description: The historic health of the process server based on the health in last 24 hours.
@@ -668,9 +824,29 @@ definitions:
     description: The RCM proxy name.
     types:
     - uid: string
+  - name: biosId
+    isReadyOnly: true
+    description: The RCM proxy Bios Id.
+    types:
+    - uid: string
+  - name: fabricObjectId
+    isReadyOnly: true
+    description: The fabric object Id.
+    types:
+    - uid: string
+  - name: fqdn
+    isReadyOnly: true
+    description: The RCM proxy Fqdn.
+    types:
+    - uid: string
+  - name: clientAuthenticationType
+    isReadyOnly: true
+    description: The client authentication type.
+    types:
+    - uid: string
   - name: version
     isReadyOnly: true
-    description: The RCM proxy version.
+    description: The version.
     types:
     - uid: string
   - name: lastHeartbeatUtc
@@ -703,9 +879,24 @@ definitions:
     description: The push installer name.
     types:
     - uid: string
+  - name: biosId
+    isReadyOnly: true
+    description: The push installer Bios Id.
+    types:
+    - uid: string
+  - name: fabricObjectId
+    isReadyOnly: true
+    description: The fabric object Id.
+    types:
+    - uid: string
+  - name: fqdn
+    isReadyOnly: true
+    description: The push installer Fqdn.
+    types:
+    - uid: string
   - name: version
     isReadyOnly: true
-    description: The push installer version.
+    description: The version.
     types:
     - uid: string
   - name: lastHeartbeatUtc
@@ -738,9 +929,24 @@ definitions:
     description: The replication agent name.
     types:
     - uid: string
+  - name: biosId
+    isReadyOnly: true
+    description: The replication agent Bios Id.
+    types:
+    - uid: string
+  - name: fabricObjectId
+    isReadyOnly: true
+    description: The fabric object Id.
+    types:
+    - uid: string
+  - name: fqdn
+    isReadyOnly: true
+    description: The replication agent Fqdn.
+    types:
+    - uid: string
   - name: version
     isReadyOnly: true
-    description: The replication agent version.
+    description: The version.
     types:
     - uid: string
   - name: lastHeartbeatUtc
@@ -773,6 +979,21 @@ definitions:
     description: The reprotect agent name.
     types:
     - uid: string
+  - name: biosId
+    isReadyOnly: true
+    description: The reprotect agent Bios Id.
+    types:
+    - uid: string
+  - name: fabricObjectId
+    isReadyOnly: true
+    description: The fabric object Id.
+    types:
+    - uid: string
+  - name: fqdn
+    isReadyOnly: true
+    description: The reprotect agent Fqdn.
+    types:
+    - uid: string
   - name: version
     isReadyOnly: true
     description: The version.
@@ -786,6 +1007,77 @@ definitions:
   - name: health
     isReadyOnly: true
     description: The health of the reprotect agent.
+    types:
+    - uid: ProtectionHealth
+  - name: healthErrors
+    isReadyOnly: true
+    description: The health errors.
+    types:
+    - uid: HealthError
+      isArray: true
+  - name: protectedItemCount
+    isReadyOnly: true
+    description: The protected item count.
+    types:
+    - uid: integer
+  - name: accessibleDatastores
+    isReadyOnly: true
+    description: The list of accessible datastores fetched from discovery.
+    types:
+    - uid: string
+      isArray: true
+  - name: vcenterId
+    isReadyOnly: true
+    description: The Vcenter Id.
+    types:
+    - uid: string
+  - name: lastDiscoveryInUtc
+    isReadyOnly: true
+    description: The last time when SDS information discovered in SRS.
+    types:
+    - uid: string
+- name: MarsAgentDetails
+  description: Mars agent details.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The Mars agent Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The Mars agent name.
+    types:
+    - uid: string
+  - name: biosId
+    isReadyOnly: true
+    description: The Mars agent Bios Id.
+    types:
+    - uid: string
+  - name: fabricObjectId
+    isReadyOnly: true
+    description: The fabric object Id.
+    types:
+    - uid: string
+  - name: fqdn
+    isReadyOnly: true
+    description: The Mars agent Fqdn.
+    types:
+    - uid: string
+  - name: version
+    isReadyOnly: true
+    description: The version.
+    types:
+    - uid: string
+  - name: lastHeartbeatUtc
+    isReadyOnly: true
+    description: The last heartbeat received from the Mars agent.
+    types:
+    - uid: string
+  - name: health
+    isReadyOnly: true
+    description: The health of the Mars agent.
     types:
     - uid: ProtectionHealth
   - name: healthErrors
@@ -808,9 +1100,14 @@ definitions:
     description: The DRA name.
     types:
     - uid: string
+  - name: biosId
+    isReadyOnly: true
+    description: The DRA Bios Id.
+    types:
+    - uid: string
   - name: version
     isReadyOnly: true
-    description: The DRA version.
+    description: The version.
     types:
     - uid: string
   - name: lastHeartbeatUtc
@@ -820,7 +1117,7 @@ definitions:
     - uid: string
   - name: health
     isReadyOnly: true
-    description: The health of the DRA.
+    description: The health.
     types:
     - uid: ProtectionHealth
   - name: healthErrors
@@ -829,6 +1126,16 @@ definitions:
     types:
     - uid: HealthError
       isArray: true
+  - name: forwardProtectedItemCount
+    isReadyOnly: true
+    description: The count of protected items which are protected in forward direction.
+    types:
+    - uid: integer
+  - name: reverseProtectedItemCount
+    isReadyOnly: true
+    description: The count of protected items which are protected in reverse direction.
+    types:
+    - uid: integer
 - name: AgentDetails
   description: Agent details.
   kind: object
@@ -855,7 +1162,7 @@ definitions:
     - uid: string
   - name: disks
     isReadyOnly: true
-    description: The details of agent disks.
+    description: The disks.
     types:
     - uid: AgentDiskDetails
       isArray: true
@@ -888,7 +1195,7 @@ definitions:
     types:
     - uid: string
   - name: versionStatus
-    description: Version status
+    description: Version status.
     types:
     - uid: string
   - name: mobilityServiceUpdates
@@ -1046,7 +1353,7 @@ definitions:
     types:
     - uid: string
   - name: versionStatus
-    description: Version status
+    description: Version status.
     types:
     - uid: string
   - name: retentionVolumes
@@ -1125,8 +1432,24 @@ definitions:
     description: A value indicating whether security update required.
     types:
     - uid: AgentVersionStatus
+- name: RcmComponentStatus
+  description: The throughput status.
+  kind: enum
+  properties:
+  - name: Healthy
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Critical
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
 - name: ProtectionHealth
-  description: The health of the DRA.
+  description: The health.
   kind: enum
   properties:
   - name: None
@@ -1207,7 +1530,7 @@ definitions:
     types:
     - uid: integer
 - name: DataStore
-  description: The data store details of the MT.
+  description: The datastore details of the MT.
   kind: object
   properties:
   - name: symbolicName
@@ -1252,7 +1575,7 @@ definitions:
 examples:
 - name: Gets the details of an ASR fabric.
   request:
-    uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1?api-version=2018-07-10
+    uri: GET https://management.azure.com/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-

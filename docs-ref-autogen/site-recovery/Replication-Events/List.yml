@@ -3,15 +3,15 @@ uid: management.azure.com.site-recovery.replicationevents.list
 name: List
 service: Recovery Services - Site Recovery
 groupName: Replication Events
-apiVersion: 2018-07-10
+apiVersion: 2021-06-01
 summary: Gets the list of Azure Site Recovery events for the vault.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents?api-version=2018-07-10
-- content: GET https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents?api-version=2018-07-10&$filter={$filter}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents?api-version=2021-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents?api-version=2021-06-01&$filter={$filter}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -110,6 +110,10 @@ definitions:
     description: The friendly name of the source of the event on which it is raised (for example, VM, VMM etc).
     types:
     - uid: string
+  - name: affectedObjectCorrelationId
+    description: The affected object correlationId for the event.
+    types:
+    - uid: string
   - name: severity
     description: The severity of the event.
     types:
@@ -132,6 +136,8 @@ definitions:
     - uid: HyperVReplicaBaseEventDetails
     - uid: InMageAzureV2EventDetails
     - uid: InMageRcmEventDetails
+    - uid: InMageRcmFailbackEventDetails
+    - uid: VMwareCbtEventDetails
     typesTitle: EventProviderSpecificDetails
   - name: eventSpecificDetails
     description: The event specific settings.
@@ -144,7 +150,7 @@ definitions:
     - uid: HealthError
       isArray: true
 - name: HealthError
-  description: Health Error
+  description: Health Error.
   kind: object
   properties:
   - name: innerHealthErrors
@@ -189,7 +195,7 @@ definitions:
     types:
     - uid: string
   - name: creationTimeUtc
-    description: Error creation time (UTC)
+    description: Error creation time (UTC).
     types:
     - uid: string
   - name: recoveryProviderErrorMessage
@@ -237,7 +243,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: A2A
@@ -263,7 +268,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: HyperVReplica2012
@@ -289,7 +293,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: HyperVReplica2012R2
@@ -311,7 +314,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: HyperVReplicaAzure
@@ -337,7 +339,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: HyperVReplicaBaseEventDetails
@@ -347,7 +348,7 @@ definitions:
   kind: object
   properties:
   - name: eventType
-    description: InMage Event type. Takes one of the values of {InMageDataContract.InMageMonitoringEventType}.
+    description: InMage Event type. Takes one of the values of InMageDataContract.InMageMonitoringEventType.
     types:
     - uid: string
   - name: category
@@ -375,7 +376,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: InMageAzureV2
@@ -389,11 +389,93 @@ definitions:
     description: The protected item name.
     types:
     - uid: string
-  - name: instanceType
+  - name: vmName
     isReadyOnly: true
+    description: The protected item name.
+    types:
+    - uid: string
+  - name: latestAgentVersion
+    isReadyOnly: true
+    description: The latest agent version.
+    types:
+    - uid: string
+  - name: jobId
+    isReadyOnly: true
+    description: The job Id.
+    types:
+    - uid: string
+  - name: fabricName
+    isReadyOnly: true
+    description: The fabric name.
+    types:
+    - uid: string
+  - name: applianceName
+    isReadyOnly: true
+    description: The appliance name.
+    types:
+    - uid: string
+  - name: serverType
+    isReadyOnly: true
+    description: The server type.
+    types:
+    - uid: string
+  - name: componentDisplayName
+    isReadyOnly: true
+    description: The component display name.
+    types:
+    - uid: string
+  - name: instanceType
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: InMageRcm
+    typesTitle: string
+- name: InMageRcmFailbackEventDetails
+  description: Event details for InMageRcmFailback provider.
+  kind: object
+  properties:
+  - name: protectedItemName
+    isReadyOnly: true
+    description: The protected item name.
+    types:
+    - uid: string
+  - name: vmName
+    isReadyOnly: true
+    description: The protected item name.
+    types:
+    - uid: string
+  - name: applianceName
+    isReadyOnly: true
+    description: The appliance name.
+    types:
+    - uid: string
+  - name: serverType
+    isReadyOnly: true
+    description: The server type.
+    types:
+    - uid: string
+  - name: componentDisplayName
+    isReadyOnly: true
+    description: The component display name.
+    types:
+    - uid: string
+  - name: instanceType
+    description: Gets the class type. Overridden in derived classes.
+    types:
+    - uid: InMageRcmFailback
+    typesTitle: string
+- name: VMwareCbtEventDetails
+  description: Event details for VMwareCbt provider.
+  kind: object
+  properties:
+  - name: migrationItemName
+    isReadyOnly: true
+    description: The migration item name.
+    types:
+    - uid: string
+  - name: instanceType
+    description: Gets the class type. Overridden in derived classes.
+    types:
+    - uid: VMwareCbt
     typesTitle: string
 - name: JobStatusEventDetails
   description: Model class for event details of a job status event.
@@ -416,7 +498,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the class type. Overridden in derived classes.
     types:
     - uid: JobStatus
@@ -462,7 +543,7 @@ definitions:
     types:
     - uid: string
   - name: creationTimeUtc
-    description: Error creation time (UTC)
+    description: Error creation time (UTC).
     types:
     - uid: string
   - name: recoveryProviderErrorMessage
@@ -473,6 +554,14 @@ definitions:
     description: ID of the entity.
     types:
     - uid: string
+  - name: errorId
+    description: The health error unique id.
+    types:
+    - uid: string
+  - name: customerResolvability
+    description: Value indicating whether the health error is customer resolvable.
+    types:
+    - uid: HealthErrorCustomerResolvability
 - name: HealthErrorCustomerResolvability
   description: Value indicating whether the health error is customer resolvable.
   kind: enum
@@ -486,7 +575,7 @@ definitions:
 examples:
 - name: Gets the list of Azure Site Recovery events.
   request:
-    uri: GET https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationEvents?api-version=2018-07-10
+    uri: GET https://management.azure.com/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationEvents?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-

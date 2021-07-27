@@ -18,7 +18,7 @@ ms.manager: nitinme
 **API Version: 2021-04-30-Preview**
 
 > [!Important]
-> Preview features for this API include [cache property](#cache) used during [incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it. This preview feature is also supported in 2020-06-30-Preview.
+> If you are using [customer-managed encryption](/azure/search/search-security-manage-encryption-keys), this preview adds an **identity** property and managed identity support to key vault connections. Previously introduced preview features from 2020-06-30-Preview that are carried forward to this preview include the [cache property](#cache) used during [incremental indexing](/azure/search/cognitive-search-incremental-indexing-conceptual), allowing you to repurpose existing processed content when you make a modification that doesn't affect it.
 
 An [indexer](/azure/search/search-indexer-overview) automates indexing from supported data sources by connecting to a predefined *data source*, retrieving and serializing data, and passing it to a search service for data ingestion. For AI enrichment of image and unstructured text, indexers can also accept a *skillset* that adds image and natural language processing. 
 
@@ -64,9 +64,7 @@ Indexer configuration varies based on the type of data source. For data-platform
 |Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to `application/json`|  
-|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
-
-You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys). 
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key). You can [find the API key](/azure/search/search-security-api-keys#find-existing-keys) in your search service dashboard in the Azure portal.|  
 
 ## Request Body
 
@@ -339,7 +337,8 @@ While indexers are encrypted by default using [service-managed keys](/azure/secu
   "keyVaultKeyName": "Name of the Azure Key Vault key used for encryption",
   "keyVaultKeyVersion": "Version of the Azure Key Vault key",
   "keyVaultUri": "URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net",
-  "accessCredentials": (optional, only if not using managed system identity) {
+  "identity": (optional),
+  "accessCredentials": (omit if you are using a managed identity) {
     "applicationId": "Azure Active Directory Application ID that was granted access permissions to your specified Azure Key Vault",
     "applicationSecret": "Authentication key of the specified Azure AD application)"}
   }
