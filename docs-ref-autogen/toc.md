@@ -13090,20 +13090,22 @@
 ### [Update](securitycenter/Workspace-Settings/Update.yml)
 # Sentinel
 ## [Overview](../docs-ref-conceptual/securityinsights/index.md)
-## Incident Comments
-### [Overview](securityinsights/Incident-Comments.yml)
-### [Create Comment](securityinsights/Incident-Comments/Create-Comment.yml)
-### [Get](securityinsights/Incident-Comments/Get.yml)
-### [List By Incident](securityinsights/Incident-Comments/List-By-Incident.yml)
-## Incidents
-### [Overview](securityinsights/Incidents.yml)
-### [Create Or Update](securityinsights/Incidents/Create-Or-Update.yml)
-### [Delete](securityinsights/Incidents/Delete.yml)
-### [Get](securityinsights/Incidents/Get.yml)
-### [List](securityinsights/Incidents/List.yml)
-## Operations
-### [Overview](securityinsights/Operations.yml)
-### [List](securityinsights/Operations/List.yml)
+## [Request limits and throttling](../docs-ref-conceptual/securityinsights/request-limits-and-throttling.md)
+## Reference
+### Incident Comments
+#### [Overview](securityinsights/Incident-Comments.yml)
+#### [Create Comment](securityinsights/Incident-Comments/Create-Comment.yml)
+#### [Get](securityinsights/Incident-Comments/Get.yml)
+#### [List By Incident](securityinsights/Incident-Comments/List-By-Incident.yml)
+### Incidents
+#### [Overview](securityinsights/Incidents.yml)
+#### [Create Or Update](securityinsights/Incidents/Create-Or-Update.yml)
+#### [Delete](securityinsights/Incidents/Delete.yml)
+#### [Get](securityinsights/Incidents/Get.yml)
+#### [List](securityinsights/Incidents/List.yml)
+### Operations
+#### [Overview](securityinsights/Operations.yml)
+#### [List](securityinsights/Operations/List.yml)
 # Serial Console
 ## [Overview](../docs-ref-conceptual/serialconsole/index.md)
 ## Disable Console
