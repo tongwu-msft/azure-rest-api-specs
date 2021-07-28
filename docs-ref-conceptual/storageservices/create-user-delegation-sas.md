@@ -172,13 +172,13 @@ The optional `signedIp` (`sip`) field specifies an IP address or a range of IP a
   
 When you specify a range of IP addresses, the range is inclusive. For example, specifying `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70` on the SAS restricts the request to those IP addresses.  
 
-The following table describes whether to include the `signedIp` on a SAS token, based on the client environment and the location of the storage account.
+The following table describes whether to include the `signedIp` field on a SAS token for a given scenario, based on the client environment and the location of the storage account.
 
 | Client environment | Storage account location | Recommendation |
 |--|--|--|
 | Client running in Azure | In same region as client | A SAS provided to the client in this scenario should not include an outbound IP address for the `signedIp` field. Requests made from within the same region using a SAS with an outbound IP address specified will fail.<br /><br/> Instead, use an Azure Virtual Network (VNet) to manage network security restrictions. Requests to Azure Storage from within the same region always take place over a private IP address. For more information, see [Configure Azure Storage firewalls and virtual networks](/azure/storage/common/storage-network-security). |
 | Client running in Azure | In different region from client | A SAS provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. A request made with the SAS must originate from the specified IP address or range of addresses. |
-| Client running on-premises or in a different cloud environment | In any Azure region | A SAS provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. A request made with the SAS must originate from the specified IP address or range of addresses.<br /><br /> If the request passes through a proxy or gateway, then use the public outbound IP address of that proxy or gateway. |
+| Client running on-premises or in a different cloud environment | In any Azure region | A SAS provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. A request made with the SAS must originate from the specified IP address or range of addresses.<br /><br /> If the request passes through a proxy or gateway, then provide the public outbound IP address of that proxy or gateway for the `signedIp` field. |
   
 ### Specify the HTTP protocol  
 
