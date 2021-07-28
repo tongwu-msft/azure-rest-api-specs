@@ -13095,20 +13095,70 @@
 ## [Overview](../docs-ref-conceptual/securityinsights/index.md)
 ## [Request limits and throttling](../docs-ref-conceptual/securityinsights/request-limits-and-throttling.md)
 ## Reference
+### Actions
+#### [Overview](securityinsights/Actions.yml)
+#### [Create Or Update](securityinsights/Actions/Create-Or-Update.yml)
+#### [Delete](securityinsights/Actions/Delete.yml)
+#### [Get](securityinsights/Actions/Get.yml)
+#### [List By Alert Rule](securityinsights/Actions/List-By-Alert-Rule.yml)
+### Alert Rule Templates
+#### [Overview](securityinsights/Alert-Rule-Templates.yml)
+#### [Get](securityinsights/Alert-Rule-Templates/Get.yml)
+#### [List](securityinsights/Alert-Rule-Templates/List.yml)
+### Alert Rules
+#### [Overview](securityinsights/Alert-Rules.yml)
+#### [Create Or Update](securityinsights/Alert-Rules/Create-Or-Update.yml)
+#### [Delete](securityinsights/Alert-Rules/Delete.yml)
+#### [Get](securityinsights/Alert-Rules/Get.yml)
+#### [List](securityinsights/Alert-Rules/List.yml)
+### Bookmarks
+#### [Overview](securityinsights/Bookmarks.yml)
+#### [Create Or Update](securityinsights/Bookmarks/Create-Or-Update.yml)
+#### [Delete](securityinsights/Bookmarks/Delete.yml)
+#### [Get](securityinsights/Bookmarks/Get.yml)
+#### [List](securityinsights/Bookmarks/List.yml)
+### Data Connectors
+#### [Overview](securityinsights/Data-Connectors.yml)
+#### [Create Or Update](securityinsights/Data-Connectors/Create-Or-Update.yml)
+#### [Delete](securityinsights/Data-Connectors/Delete.yml)
+#### [Get](securityinsights/Data-Connectors/Get.yml)
+#### [List](securityinsights/Data-Connectors/List.yml)
 ### Incident Comments
 #### [Overview](securityinsights/Incident-Comments.yml)
 #### [Create Comment](securityinsights/Incident-Comments/Create-Comment.yml)
+#### [Delete Comment](securityinsights/Incident-Comments/Delete-Comment.yml)
 #### [Get](securityinsights/Incident-Comments/Get.yml)
 #### [List By Incident](securityinsights/Incident-Comments/List-By-Incident.yml)
+### Incident Relations
+#### [Overview](securityinsights/Incident-Relations.yml)
+#### [Create Or Update Relation](securityinsights/Incident-Relations/Create-Or-Update-Relation.yml)
+#### [Delete Relation](securityinsights/Incident-Relations/Delete-Relation.yml)
+#### [Get Relation](securityinsights/Incident-Relations/Get-Relation.yml)
+#### [List](securityinsights/Incident-Relations/List.yml)
 ### Incidents
 #### [Overview](securityinsights/Incidents.yml)
 #### [Create Or Update](securityinsights/Incidents/Create-Or-Update.yml)
 #### [Delete](securityinsights/Incidents/Delete.yml)
 #### [Get](securityinsights/Incidents/Get.yml)
 #### [List](securityinsights/Incidents/List.yml)
+#### [List Of Alerts](securityinsights/Incidents/List-Of-Alerts.yml)
+#### [List Of Bookmarks](securityinsights/Incidents/List-Of-Bookmarks.yml)
+#### [List Of Entities](securityinsights/Incidents/List-Of-Entities.yml)
 ### Operations
 #### [Overview](securityinsights/Operations.yml)
 #### [List](securityinsights/Operations/List.yml)
+### Watchlist Items
+#### [Overview](securityinsights/Watchlist-Items.yml)
+#### [Create Or Update](securityinsights/Watchlist-Items/Create-Or-Update.yml)
+#### [Delete](securityinsights/Watchlist-Items/Delete.yml)
+#### [Get](securityinsights/Watchlist-Items/Get.yml)
+#### [List](securityinsights/Watchlist-Items/List.yml)
+### Watchlists
+#### [Overview](securityinsights/Watchlists.yml)
+#### [Create Or Update](securityinsights/Watchlists/Create-Or-Update.yml)
+#### [Delete](securityinsights/Watchlists/Delete.yml)
+#### [Get](securityinsights/Watchlists/Get.yml)
+#### [List](securityinsights/Watchlists/List.yml)
 # Serial Console
 ## [Overview](../docs-ref-conceptual/serialconsole/index.md)
 ## Disable Console
