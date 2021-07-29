@@ -20,16 +20,29 @@ Operations provided by the Batch service REST API may have multiple versions for
 
 To specify which version of an operation to use, set the *api-version* query parameter. The version is of the format Group.Major.Minor where Group is in the format ‘YYYY-MM-DD’ and Major is an integer and Minor is an integer.
 
-## Latest version: 2020-09-01.12.0
+## Latest version: 2021-06-01.14.0
 
-- [Breaking] Replaced property `maxTasksPerNode` with `taskSlotsPerNode` on the pool. Using this property tasks in a job can consume a dynamic amount of slots allowing for more fine-grained control over resource consumption.
-- [Breaking] Changed the response type of [`GetTaskCounts`](/rest/api/batchservice/job/gettaskcounts) to return [`TaskCountsResult`](/rest/api/batchservice/job/gettaskcounts#taskcountsresult), which is a complex object containing the previous [`TaskCounts`](/rest/api/batchservice/job/gettaskcounts#taskcounts) object and a new [`TaskSlotCounts`](/rest/api/batchservice/job/gettaskcounts#taskcounts) object providing similar information in the context of slots being used.
-- Added property `requiredSlots` to the task allowing user to specify how many slots on a node it should take up.
+- Add ability to assign user-assigned managed identities to `CloudPool`. These identities will be made available on each node in the pool, and can be used to access various resources.
+- Added `IdentityReference` property to the following models to support accessing resources via managed identity:
+  - `AzureBlobFileSystemConfiguration`
+  - `OutputFileBlobContainerDestination`
+  - `ContainerRegistry`
+  - `ResourceFile`
+  - `UploadBatchServiceLogsConfiguration`
+- Added new `ComputeNodeExtension` operations to `BatchServiceClient` for getting/listing VM extensions on a node
+- Added new `extensions` property to `VirtualMachineConfiguration` on `CloudPool` to specify virtual machine extensions for nodes
+- Added the ability to specify availability zones using a new property `NodePlacementConfiguration` on `VirtualMachineConfiguration`
+- Added new `OSDisk` property to `VirtualMachineConfiguration`, which contains settings for the operating system disk of the Virtual Machine.
+  - The `placement` property on `DiffDiskSettings` specifies the ephemeral disk placement for operating system disks for all VMs in the pool. Setting it to "CacheDisk" will store the ephemeral OS disk on the VM cache.
+- Added `MaxParallelTasks` property on `CloudJob` to control the maximum allowed tasks per job (defaults to -1, meaning unlimited).
+- Added `VirtualMachineInfo` property on `ComputeNode` which contains information about the current state of the virtual machine, including the exact version of the marketplace image the VM is using.
+- Added `RecurrenceInterval` property to `Schedule` to control the interval between the start times of two successive job under a job schedule.
 
 ## Previous Versions
 
  Previous versions include:
 
+- [2020-09-01.12.0](#version-2020-09-01120)
 - [2020-03-01.11.0](#version-2020-03-01110)
 - [2019-08-01.10.0](#version-2019-08-01100)
 - [2019-06-01.9.0](#version-2019-06-0190)
@@ -47,6 +60,12 @@ To specify which version of an operation to use, set the *api-version* query par
 - 2015-06-01.2.0
 - 2015-03-01.1.1
 - 2014-10-01.1.0
+
+## Version: 2020-09-01.12.0
+
+- [Breaking] Replaced property `maxTasksPerNode` with `taskSlotsPerNode` on the pool. Using this property tasks in a job can consume a dynamic amount of slots allowing for more fine-grained control over resource consumption.
+- [Breaking] Changed the response type of [`GetTaskCounts`](/rest/api/batchservice/job/gettaskcounts) to return [`TaskCountsResult`](/rest/api/batchservice/job/gettaskcounts#taskcountsresult), which is a complex object containing the previous [`TaskCounts`](/rest/api/batchservice/job/gettaskcounts#taskcounts) object and a new [`TaskSlotCounts`](/rest/api/batchservice/job/gettaskcounts#taskcounts) object providing similar information in the context of slots being used.
+- Added property `requiredSlots` to the task allowing user to specify how many slots on a node it should take up.
 
 ## Version: 2020-03-01.11.0
 
