@@ -1,5 +1,6 @@
 ---
 title: "Batch Service REST API Versioning | Microsoft Docs"
+description: "Details changes and features for Azure Batch's REST API."
 ms.custom: ""
 ms.date: "09/29/2020"
 ms.reviewer: ""
@@ -9,9 +10,9 @@ ms.tgt_pltfrm: ""
 ms.topic: "reference"
 ms.assetid: b4b1f270-69e7-4d7d-af45-416efbd7d1cf
 caps.latest.revision: 25
-author: "laurenhughes"
-ms.author: "lahugh"
-manager: "gwallace"
+author: "paterasMSFT"
+ms.author: "mipatera"
+manager: "dawatrou"
 ---
 
 # Batch Service REST API Versioning
@@ -157,7 +158,7 @@ The version of the Batch API described here is **2017-06-01.5.1**. Using the lat
 
 New features in version 2017-06-01.5.1 include:
 
-- Support for efficient task counts via the new [Get Task Counts](../batchservice/get-the-task-counts-for-a-job.md) operation. By calling the Get Task Counts operation, you can get a count of active, running, and completed tasks, and of tasks that have succeeded or failed. For more information, see [Count tasks for a job by state (Preview)](https://docs.microsoft.com/azure/batch/batch-get-task-counts).
+- Support for efficient task counts via the new [Get Task Counts](../batchservice/get-the-task-counts-for-a-job.md) operation. By calling the Get Task Counts operation, you can get a count of active, running, and completed tasks, and of tasks that have succeeded or failed. For more information, see [Count tasks for a job by state (Preview)](/azure/batch/batch-get-task-counts).
 - Support for specifying inbound endpoints on pool compute nodes, via the new **poolEndpointConfiguration** property. By setting this property, you can address specific ports on the node externally.
 
 ### Version 2017-05-01.5.0
@@ -187,7 +188,7 @@ Azure Batch now offers additional support for creating named users on Linux node
 - The new **linuxUserConfiguration** property supports specifying a **uid** (user ID) and **gid** (group ID) when creating a Linux user.
 - (**Breaking change**) The **sshPrivateKey** property has been moved from the **userAccount** property to the new **linuxUserConfiguration** property. The **linuxUserConfiguration** property is itself a property of the **userAccount** property.
 
-For more information about named user accounts, see [Run tasks under user accounts in Batch](https://docs.microsoft.com/azure/batch/batch-user-accounts).
+For more information about named user accounts, see [Run tasks under user accounts in Batch](/azure/batch/batch-user-accounts).
 
 #### Output files for task data
 
@@ -251,7 +252,7 @@ You can now request that application licenses be provisioned to your pool, via t
 
     Specify the **dependencyAction** property in requests to [Add Task](../batchservice/add-a-task-to-a-job.md) or [Add Task Collection](../batchservice/add-a-collection-of-tasks-to-a-job.md).
 
-    For more information about using dependency actions, see [Dependency actions](https://docs.microsoft.com/azure/batch/batch-task-dependencies#dependency-actions).
+    For more information about using dependency actions, see [Dependency actions](/azure/batch/batch-task-dependencies#dependency-actions).
 
 - **Use custom OS disk images when creating a pool.**
 
