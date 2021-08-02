@@ -32,15 +32,15 @@ The IoT Central REST API provides operations for working with the following reso
 | Operation group | Description                                                        | Learn more |
 |-----------------|--------------------------------------------------------------------|------------| 
 | [API Tokens](https://docs.microsoft.com/rest/api/iotcentral/1.0/apitokens)  | Create, read, delete access tokens used to interact with the IoT Central public APIs| [Authenticating against the API](https://aka.ms/iotcentralapidocsauth)
-| [Continuous Data Exports](https://docs.microsoft.com/rest/api/iotcentral/1.1-preview/continuousdataexports) | Manage data exports within your IoT Central application | [Export your data](/azure/iot-central/preview/howto-export-data)|
-| [Device Templates](https://docs.microsoft.com/rest/api/iotcentral/1.0/devicetemplates) | Create, read, and delete device templates within an IoT Central application| [Setup device template](https://docs.microsoft.com/azure/iot-central/core/howto-set-up-template)|
-| [Devices](https://docs.microsoft.com/rest/api/iotcentral/1.0/devices) | Get information about and manage devices and IoT Edge modules in your IoT Central application| [Manage your devices](/azure/iot-central/preview/howto-manage-devices)|
-| [Device Groups](https://docs.microsoft.com/rest/api/iotcentral/1.1-preview/devicegroups)| List the set of device groups within your application | [List Device Groups](https://docs.microsoft.com/azure/iot-central/core/tutorial-use-device-groups) |
-| [File Upload](https://docs.microsoft.com/rest/api/iotcentral/1.1-preview/fileupload) | Update, retrieve and delete file upload configurations| [Configure File Upload](https://docs.microsoft.com/azure/iot-central/core/howto-configure-file-uploads)|
-| [Jobs](https://docs.microsoft.com/rest/api/iotcentral/1.1-preview/jobs)|Get information about and manage jobs within your application | [Manage your jobs](/azure/iot-central/core/howto-run-a-job) |
-| [Organizations](https://docs.microsoft.com/rest/api/iotcentral/1.1-preview/organizations) | Create, read, delete and list organizations within your IoT Central application| [Manage your organizations](https://aka.ms/iotcapi-orgs)|
-| [Roles](https://docs.microsoft.com/rest/api/iotcentral/1.0/roles)| List roles within your application | [Manage users and roles](/azure/iot-central/core/howto-manage-users-roles)|
-| [Users](https://docs.microsoft.com/rest/api/iotcentral/1.0/users)| Add, update, and remove users within your application | [Manage users and roles](/azure/iot-central/core/howto-manage-users-roles) |
+| [Continuous Data Exports](https://aka.ms/iotcapi-cde) | Manage data exports within your IoT Central application | [Export your data](/azure/iot-central/preview/howto-export-data)|
+| [Device Templates](https://aka.ms/iotcapi-devicetemplates) | Create, read, and delete device templates within an IoT Central application| [Setup device template](https://docs.microsoft.com/azure/iot-central/core/howto-set-up-template)|
+| [Devices](https://aka.ms/iotcapi-devices) | Get information about and manage devices and IoT Edge modules in your IoT Central application| [Manage your devices](/azure/iot-central/preview/howto-manage-devices)|
+| [Device Groups](https://aka.ms/iotc-devicegroups)| List the set of device groups within your application | [List Device Groups](https://docs.microsoft.com/azure/iot-central/core/tutorial-use-device-groups) |
+| [File Upload](https://aka.ms/iotcapi-fileupload) | Update, retrieve and delete file upload configurations| [Configure File Upload](https://docs.microsoft.com/azure/iot-central/core/howto-configure-file-uploads)|
+| [Jobs](https://aka.ms/iotcapi-jobs)|Get information about and manage jobs within your application | [Manage your jobs](/azure/iot-central/core/howto-run-a-job) |
+| [Organizations](https://docs.microsoft.com/rest/api/iotcentral/1.1-preview/organizations) | Create, read, delete and list organizations within your IoT Central application| [Manage your organizations](https://aka.ms/iotcapi-orgs-docs)|
+| [Roles](https://aka.ms/iotcapi-roles)| List roles within your application | [Manage users and roles](/azure/iot-central/core/howto-manage-users-roles)|
+| [Users](https://aka.ms/iotcapi-users)| Add, update, and remove users within your application | [Manage users and roles](/azure/iot-central/core/howto-manage-users-roles) |
 
 ## Next steps
 
