@@ -6,7 +6,7 @@ ms.service: iot-central
 ms.topic: reference
 author: avneet723
 ms.author: avneets
-ms.date: 12/29/2020
+ms.date: 08/02/2021
 ---
 
 # Authentication and authorization

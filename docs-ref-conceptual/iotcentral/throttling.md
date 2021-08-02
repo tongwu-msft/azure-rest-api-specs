@@ -4,9 +4,9 @@ description: Learn about throttling limits in the IoT Central REST API.
 services: iot-central
 ms.service: iot-central
 ms.topic: reference
-author: viviali
-ms.author: viviali
-ms.date: 12/29/2020
+author: avneet723
+ms.author: avneets
+ms.date: 08/02/2021
 ---
 
 # Throttling

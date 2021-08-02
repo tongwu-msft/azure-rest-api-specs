@@ -6,7 +6,7 @@ ms.service: iot-central
 ms.topic: reference
 author: avneet723
 ms.author: avneets
-ms.date: 05/03/2021
+ms.date: 08/02/2021
 ---
 
 # Azure IoT Central REST API reference
