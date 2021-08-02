@@ -17,7 +17,7 @@ The IoT Central API uses rate-limit throttling, which means it allows a specific
 
 ## Throttling limits
 
-- **Throttling limit**: 10 requests per second per application
+- **Throttling limit**: 20 requests per second per application
 - **Throttled response**: 429 Too Many Requests
 
 When your client receives a 429 response code, it should try to back off and send fewer requests concurrently. Try to identify any other clients who may be making API requests at the same time, as these requests may contribute to the throttling limit.
