@@ -3,15 +3,15 @@ uid: management.azure.com.securityinsights.incidentcomments.listbyincident
 name: List By Incident
 service: Sentinel
 groupName: Incident Comments
-apiVersion: 2020-01-01
-summary: Gets all incident comments.
+apiVersion: 2021-04-01
+summary: Gets all comments for a given incident.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/comments?api-version=2020-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/comments?api-version=2020-01-01&$filter={$filter}&$orderby={$orderby}&$top={$top}&$skipToken={$skipToken}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/comments?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}/comments?api-version=2021-04-01&$filter={$filter}&$orderby={$orderby}&$top={$top}&$skipToken={$skipToken}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -43,7 +43,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: API version for the operation
+  description: The API version to use for this operation.
   types:
   - uid: string
 - name: $filter
@@ -109,6 +109,11 @@ definitions:
     description: The time the comment was created
     types:
     - uid: string
+  - name: properties.lastModifiedTimeUtc
+    isReadyOnly: true
+    description: The time the comment was updated
+    types:
+    - uid: string
   - name: properties.message
     description: The comment message
     types:
@@ -118,6 +123,10 @@ definitions:
     description: Describes the client that created the comment
     types:
     - uid: ClientInfo
+  - name: etag
+    description: Etag of the azure resource
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Azure resource Id
@@ -133,6 +142,11 @@ definitions:
     description: Azure resource type
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -184,6 +198,34 @@ definitions:
     description: The user principal name of the client.
     types:
     - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -198,10 +240,26 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: Get all incident comments.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/incidents/73e01a99-5cd7-4139-a149-9f2736ff2ab5/comments?api-version=2020-01-01
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/incidents/73e01a99-5cd7-4139-a149-9f2736ff2ab5/comments?api-version=2021-04-01
   responses:
   - statusCode: "200"
     body: >-
@@ -211,9 +269,11 @@ examples:
             "id": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/incidents/73e01a99-5cd7-4139-a149-9f2736ff2ab5/comments/4bb36b7b-26ff-4d1c-9cbe-0d8ab3da0014",
             "name": "4bb36b7b-26ff-4d1c-9cbe-0d8ab3da0014",
             "type": "Microsoft.SecurityInsights/incidents/comments",
+            "etag": "0300bf09-0000-0000-0000-5c37296e0000",
             "properties": {
               "message": "Some message",
               "createdTimeUtc": "2019-01-01T13:15:30Z",
+              "lastModifiedTimeUtc": "2019-01-01T13:15:30Z",
               "author": {
                 "objectId": "2046feea-040d-4a46-9e2b-91c2941bfa70",
                 "email": "john.doe@contoso.com",
@@ -234,5 +294,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Sentinel service - Gets all incident comments.
+  description: Learn more about Sentinel service - Gets all comments for a given incident.
 errorCodes: []

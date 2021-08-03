@@ -3,14 +3,14 @@ uid: management.azure.com.site-recovery.replicationprotectionintents.create
 name: Create
 service: Recovery Services - Site Recovery
 groupName: Replication Protection Intents
-apiVersion: 2018-07-10
+apiVersion: 2021-06-01
 summary: "Create protection intent Resource.  \nThe operation to create an ASR replication protection intent item."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents/{intentObjectName}?api-version=2018-07-10
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents/{intentObjectName}?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -62,7 +62,7 @@ definitions:
   kind: object
   properties:
   - name: providerSpecificDetails
-    description: The ReplicationProviderInput. For A2A provider, it will be A2ACreateProtectionIntentInput object. For other providers, it can be null.
+    description: The ReplicationProviderInput. For A2A provider, it will be A2ACreateProtectionIntentInput object.
     types:
     - uid: A2ACreateProtectionIntentInput
     typesTitle: CreateProtectionIntentProviderSpecificDetails
@@ -253,7 +253,7 @@ definitions:
     types:
     - uid: string
 - name: A2AProtectionIntentDiskInputDetails
-  description: Azure VM disk input details.
+  description: Azure VM unmanaged disk input details.
   kind: object
   properties:
   - name: diskUri
@@ -324,10 +324,6 @@ definitions:
     description: The fabric specific object Id of the virtual machine.
     types:
     - uid: string
-  - name: policyId
-    description: The ID of Policy governing this PE.
-    types:
-    - uid: string
   - name: primaryLocation
     description: The primary location for the virtual machine.
     types:
@@ -340,56 +336,51 @@ definitions:
     description: The recovery subscription Id of the virtual machine.
     types:
     - uid: string
-  - name: primaryFabricFriendlyName
-    description: The recovery fabric Name.
-    types:
-    - uid: string
-  - name: recoveryFabricFriendlyName
-    description: The recovery fabric Name.
-    types:
-    - uid: string
-  - name: primaryContainerFriendlyName
-    description: The primary container Name.
-    types:
-    - uid: string
-  - name: recoveryContainerFriendlyName
-    description: The recovery container Name.
-    types:
-    - uid: string
-  - name: recoveryAvailabilityType
-    description: The recovery availability type of the virtual machine.
-    types:
-    - uid: string
   - name: vmDisks
     description: The list of vm disk details.
     types:
-    - uid: A2AVmDiskDetails
+    - uid: A2AProtectionIntentDiskInputDetails
       isArray: true
   - name: vmManagedDisks
     description: The list of vm managed disk details.
     types:
-    - uid: A2AVmManagedDiskDetails
+    - uid: A2AProtectionIntentManagedDiskInputDetails
       isArray: true
   - name: recoveryResourceGroupId
     description: The recovery resource group id.
     types:
     - uid: string
-  - name: recoveryAvailabilitySetId
-    description: The recovery availability set Id.
+  - name: protectionProfile
+    description: The protection profile custom details.
     types:
-    - uid: string
-  - name: recoveryVirtualNetworkId
-    description: The recovery virtual network Id.
+    - uid: ExistingProtectionProfile
+    - uid: NewProtectionProfile
+    typesTitle: ProtectionProfileCustomDetails
+  - name: primaryStagingStorageAccount
+    description: The primary staging storage account details.
     types:
-    - uid: string
-  - name: recoveryProximityPlacementGroupId
+    - uid: ExistingStorageAccount
+    typesTitle: StorageAccountCustomDetails
+  - name: recoveryAvailabilitySet
+    description: The recovery availability set details.
+    types:
+    - uid: ExistingRecoveryAvailabilitySet
+    typesTitle: RecoveryAvailabilitySetCustomDetails
+  - name: recoveryVirtualNetwork
+    description: The recovery virtual network details.
+    types:
+    - uid: ExistingRecoveryVirtualNetwork
+    - uid: NewRecoveryVirtualNetwork
+    typesTitle: RecoveryVirtualNetworkCustomDetails
+  - name: recoveryProximityPlacementGroup
     description: The recovery proximity placement group custom details.
     types:
-    - uid: string
-  - name: autoProtectionOfDataDiskStatus
+    - uid: ExistingRecoveryProximityPlacementGroup
+    typesTitle: RecoveryProximityPlacementGroupCustomDetails
+  - name: autoProtectionOfDataDisk
     description: A value indicating whether the auto protection is enabled.
     types:
-    - uid: AutoProtectionOfDataDiskStatus
+    - uid: AutoProtectionOfDataDisk
   - name: multiVmGroupName
     description: The multi vm group name.
     types:
@@ -398,10 +389,11 @@ definitions:
     description: The multi vm group id.
     types:
     - uid: string
-  - name: recoveryBootDiagStorageAccountId
+  - name: recoveryBootDiagStorageAccount
     description: The boot diagnostic storage account.
     types:
-    - uid: string
+    - uid: ExistingStorageAccount
+    typesTitle: StorageAccountCustomDetails
   - name: diskEncryptionInfo
     description: The recovery disk encryption information (for two pass flows).
     types:
@@ -410,8 +402,11 @@ definitions:
     description: The recovery availability zone.
     types:
     - uid: string
+  - name: recoveryAvailabilityType
+    description: The recovery availability type of the virtual machine.
+    types:
+    - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the Instance type.
     types:
     - uid: A2A
@@ -536,11 +531,11 @@ definitions:
   kind: object
   properties:
   - name: secretIdentifier
-    description: The secret URL / identifier.
+    description: The secret url / identifier.
     types:
     - uid: string
   - name: keyVaultResourceArmId
-    description: The KeyVault resource ARM Id for secret.
+    description: The KeyVault resource ARM id for secret.
     types:
     - uid: string
 - name: KeyEncryptionKeyInfo
@@ -553,64 +548,6 @@ definitions:
     - uid: string
   - name: keyVaultResourceArmId
     description: The KeyVault resource ARM Id for key.
-    types:
-    - uid: string
-- name: A2AVmDiskDetails
-  description: Azure VM disk details.
-  kind: object
-  properties:
-  - name: diskUri
-    description: The disk Uri.
-    types:
-    - uid: string
-  - name: recoveryAzureStorageAccountId
-    description: The recovery VHD storage account Id.
-    types:
-    - uid: string
-  - name: primaryStagingAzureStorageAccountId
-    description: The primary staging storage account Id.
-    types:
-    - uid: string
-- name: A2AVmManagedDiskDetails
-  description: Azure VM managed disk input details.
-  kind: object
-  properties:
-  - name: diskId
-    description: The disk Id.
-    types:
-    - uid: string
-  - name: primaryStagingAzureStorageAccountId
-    description: The primary staging storage account Arm Id.
-    types:
-    - uid: string
-  - name: recoveryResourceGroupId
-    description: The target resource group Arm Id.
-    types:
-    - uid: string
-  - name: recoveryReplicaDiskAccountType
-    description: The replica disk type.
-    types:
-    - uid: string
-  - name: recoveryTargetDiskAccountType
-    description: The target disk type after failover.
-    types:
-    - uid: string
-  - name: recoveryDiskEncryptionSetId
-    description: The recovery disk encryption set Id.
-    types:
-    - uid: string
-  - name: diskEncryptionInfo
-    description: The recovery disk encryption information (for one / single pass flows).
-    types:
-    - uid: DiskEncryptionInfo
-- name: AutoProtectionOfDataDiskStatus
-  description: A value indicating whether the auto protection is enabled.
-  kind: enum
-  properties:
-  - name: Disabled
-    types:
-    - uid: string
-  - name: Enabled
     types:
     - uid: string
 - name: SetMultiVmSyncStatus
@@ -639,7 +576,7 @@ definitions:
 examples:
 - name: Create protection intent Resource.
   request:
-    uri: PUT https://management.azure.com/subscriptions/509099b2-9d2c-4636-b43e-bd5cafb6be69/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationProtectionIntents/vm1?api-version=2018-07-10
+    uri: PUT https://management.azure.com/subscriptions/509099b2-9d2c-4636-b43e-bd5cafb6be69/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationProtectionIntents/vm1?api-version=2021-06-01
     body: >-
       {
         "properties": {
@@ -666,7 +603,8 @@ examples:
           "jobId": "/Subscriptions/d90d145a-4cdd-45a3-b2c4-971d69775278/resourceGroups/a2acl-rg-vault-prod-gip-ccy/providers/Microsoft.RecoveryServices/vaults/a2acl-vault-prod-gip-ccy/replicationJobs/02004ea7-d498-4bb4-bdeb-cdb611706867",
           "jobState": "InProgress",
           "providerSpecificDetails": {
-            "instanceType": "A2A"
+            "instanceType": "A2A",
+            "recoveryAvailabilityType": "Single"
           }
         }
       }

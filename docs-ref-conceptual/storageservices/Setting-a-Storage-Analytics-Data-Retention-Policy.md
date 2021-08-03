@@ -11,7 +11,7 @@ ms.author: pemari
 
 # Setting a Storage Analytics data retention policy
 
-By default, Storage Analytics will not delete any logging or metrics data. There are two ways to delete Storage Analytics data: by manually making deletion requests or by setting a data retention policy. Manual requests to delete Storage Analytics data are billable, but delete requests resulting from a retention policy are not billable.  
+By default, Storage Analytics will not delete any logging or metrics data. There are two ways to delete Storage Analytics data: by manually making deletion requests or by setting a data retention policy. 
   
 > [!IMPORTANT]
 >  To avoid unnecessary charges, set a retention policy for logging and metrics.  

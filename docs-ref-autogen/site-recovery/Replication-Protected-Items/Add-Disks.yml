@@ -3,14 +3,14 @@ uid: management.azure.com.site-recovery.replicationprotecteditems.adddisks
 name: Add Disks
 service: Recovery Services - Site Recovery
 groupName: Replication Protected Items
-apiVersion: 2018-07-10
+apiVersion: 2021-06-01
 summary: "Add disk(s) for protection.  \nOperation to add disks(s) to the replication protected item."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/addDisks?api-version=2018-07-10
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/addDisks?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -224,17 +224,23 @@ definitions:
   - name: providerSpecificDetails
     description: The Replication provider custom settings.
     types:
+    - uid: A2ACrossClusterMigrationReplicationDetails
     - uid: A2AReplicationDetails
     - uid: HyperVReplicaAzureReplicationDetails
     - uid: HyperVReplicaBaseReplicationDetails
     - uid: HyperVReplicaBlueReplicationDetails
     - uid: HyperVReplicaReplicationDetails
     - uid: InMageAzureV2ReplicationDetails
+    - uid: InMageRcmFailbackReplicationDetails
     - uid: InMageRcmReplicationDetails
     - uid: InMageReplicationDetails
     typesTitle: ReplicationProviderSpecificSettings
   - name: recoveryContainerId
     description: The recovery container Id.
+    types:
+    - uid: string
+  - name: eventCorrelationId
+    description: The correlation Id for events associated with this protected item.
     types:
     - uid: string
 - name: A2AAddDisksInput
@@ -257,7 +263,7 @@ definitions:
     - uid: A2A
     typesTitle: string
 - name: HealthError
-  description: Health Error
+  description: Health Error.
   kind: object
   properties:
   - name: innerHealthErrors
@@ -302,7 +308,7 @@ definitions:
     types:
     - uid: string
   - name: creationTimeUtc
-    description: Error creation time (UTC)
+    description: Error creation time (UTC).
     types:
     - uid: string
   - name: recoveryProviderErrorMessage
@@ -338,7 +344,7 @@ definitions:
     types:
     - uid: string
 - name: A2AVmDiskInputDetails
-  description: Azure VM disk input details.
+  description: A2A disk input details.
   kind: object
   properties:
   - name: diskUri
@@ -354,7 +360,7 @@ definitions:
     types:
     - uid: string
 - name: A2AVmManagedDiskInputDetails
-  description: Azure VM managed disk input details.
+  description: A2A managed disk input details.
   kind: object
   properties:
   - name: diskId
@@ -426,7 +432,7 @@ definitions:
     types:
     - uid: string
   - name: creationTimeUtc
-    description: Error creation time (UTC)
+    description: Error creation time (UTC).
     types:
     - uid: string
   - name: recoveryProviderErrorMessage
@@ -437,6 +443,14 @@ definitions:
     description: ID of the entity.
     types:
     - uid: string
+  - name: errorId
+    description: The health error unique id.
+    types:
+    - uid: string
+  - name: customerResolvability
+    description: Value indicating whether the health error is customer resolvable.
+    types:
+    - uid: HealthErrorCustomerResolvability
 - name: HealthErrorCustomerResolvability
   description: Value indicating whether the health error is customer resolvable.
   kind: enum
@@ -447,6 +461,39 @@ definitions:
   - name: NotAllowed
     types:
     - uid: string
+- name: A2ACrossClusterMigrationReplicationDetails
+  description: A2A provider specific settings.
+  kind: object
+  properties:
+  - name: fabricObjectId
+    description: The fabric specific object Id of the virtual machine.
+    types:
+    - uid: string
+  - name: primaryFabricLocation
+    description: Primary fabric location.
+    types:
+    - uid: string
+  - name: osType
+    description: The type of operating system.
+    types:
+    - uid: string
+  - name: vmProtectionState
+    description: The protection state for the vm.
+    types:
+    - uid: string
+  - name: vmProtectionStateDescription
+    description: The protection state description for the vm.
+    types:
+    - uid: string
+  - name: lifecycleId
+    description: An id associated with the PE that survives actions like switch protection which change the backing PE/CPE objects internally.The lifecycle id gets carried forward to have a link/continuity in being able to have an Id that denotes the "same" protected item even though other internal Ids/ARM Id might be changing.
+    types:
+    - uid: string
+  - name: instanceType
+    description: Gets the Instance type.
+    types:
+    - uid: A2ACrossClusterMigration
+    typesTitle: string
 - name: A2AReplicationDetails
   description: A2A provider specific settings.
   kind: object
@@ -455,24 +502,24 @@ definitions:
     description: The fabric specific object Id of the virtual machine.
     types:
     - uid: string
-  - name: initialPrimaryFabricLocation
-    isReadyOnly: true
-    description: The initial primary fabric location.
-    types:
-    - uid: string
-  - name: initialRecoveryFabricLocation
-    isReadyOnly: true
-    description: The initial recovery fabric location.
-    types:
-    - uid: string
   - name: initialPrimaryZone
     isReadyOnly: true
     description: The initial primary availability zone.
     types:
     - uid: string
+  - name: initialPrimaryFabricLocation
+    isReadyOnly: true
+    description: The initial primary fabric location.
+    types:
+    - uid: string
   - name: initialRecoveryZone
     isReadyOnly: true
     description: The initial recovery availability zone.
+    types:
+    - uid: string
+  - name: initialRecoveryFabricLocation
+    isReadyOnly: true
+    description: The initial recovery fabric location.
     types:
     - uid: string
   - name: multiVmGroupId
@@ -575,8 +622,21 @@ definitions:
     description: The agent version.
     types:
     - uid: string
+  - name: agentExpiryDate
+    description: Agent expiry date.
+    types:
+    - uid: string
   - name: isReplicationAgentUpdateRequired
     description: A value indicating whether replication agent update is required.
+    types:
+    - uid: boolean
+  - name: agentCertificateExpiryDate
+    isReadyOnly: true
+    description: Agent certificate expiry date.
+    types:
+    - uid: string
+  - name: isReplicationAgentCertificateUpdateRequired
+    description: A value indicating whether agent certificate update is required.
     types:
     - uid: boolean
   - name: recoveryFabricObjectId
@@ -607,6 +667,10 @@ definitions:
     description: The time (in UTC) when the last RPO value was calculated by Protection Service.
     types:
     - uid: string
+  - name: primaryAvailabilityZone
+    description: The primary availability zone.
+    types:
+    - uid: string
   - name: recoveryAvailabilityZone
     description: The recovery availability zone.
     types:
@@ -617,15 +681,27 @@ definitions:
     types:
     - uid: VmEncryptionType
   - name: tfoAzureVMName
-    description: The test failover VM name.
+    description: The test failover vm name.
+    types:
+    - uid: string
+  - name: recoveryAzureGeneration
+    isReadyOnly: true
+    description: The recovery azure generation.
     types:
     - uid: string
   - name: recoveryProximityPlacementGroupId
     description: The recovery proximity placement group Id.
     types:
     - uid: string
+  - name: autoProtectionOfDataDisk
+    description: A value indicating whether the auto protection is enabled.
+    types:
+    - uid: AutoProtectionOfDataDisk
+  - name: recoveryVirtualMachineScaleSetId
+    description: The recovery virtual machine scale set id.
+    types:
+    - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the Instance type.
     types:
     - uid: A2A
@@ -713,7 +789,7 @@ definitions:
     types:
     - uid: integer
   - name: enableRdpOnTargetOption
-    description: The selected option to enable RDP\SSH on target vm after failover. String value of {SrsDataContract.EnableRDPOnTargetOption} enum.
+    description: The selected option to enable RDP\SSH on target vm after failover. String value of SrsDataContract.EnableRDPOnTargetOption enum.
     types:
     - uid: string
   - name: recoveryAzureResourceGroupId
@@ -740,8 +816,53 @@ definitions:
     description: License Type of the VM to be used.
     types:
     - uid: string
-  - name: instanceType
+  - name: sqlServerLicenseType
+    description: The SQL Server license type.
+    types:
+    - uid: string
+  - name: lastRecoveryPointReceived
     isReadyOnly: true
+    description: The last recovery point received time.
+    types:
+    - uid: string
+  - name: targetVmTags
+    description: The target VM tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: seedManagedDiskTags
+    description: The tags for the seed managed disks.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: targetManagedDiskTags
+    description: The tags for the target managed disks.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: targetNicTags
+    description: The tags for the target NICs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: protectedManagedDisks
+    description: The list of protected managed disks.
+    types:
+    - uid: HyperVReplicaAzureManagedDiskDetails
+      isArray: true
+  - name: instanceType
     description: Gets the Instance type.
     types:
     - uid: HyperVReplicaAzure
@@ -781,7 +902,6 @@ definitions:
     - uid: DiskDetails
       isArray: true
   - name: instanceType
-    isReadyOnly: true
     description: Gets the Instance type.
     types:
     - uid: HyperVReplicaBaseReplicationDetails
@@ -821,7 +941,6 @@ definitions:
     - uid: DiskDetails
       isArray: true
   - name: instanceType
-    isReadyOnly: true
     description: Gets the Instance type.
     types:
     - uid: HyperVReplica2012R2
@@ -861,13 +980,12 @@ definitions:
     - uid: DiskDetails
       isArray: true
   - name: instanceType
-    isReadyOnly: true
     description: Gets the Instance type.
     types:
     - uid: HyperVReplica2012
     typesTitle: string
 - name: InMageAzureV2ReplicationDetails
-  description: InMageAzureV2 provider specific settings
+  description: InMageAzureV2 provider specific settings.
   kind: object
   properties:
   - name: infrastructureVmId
@@ -939,7 +1057,6 @@ definitions:
     types:
     - uid: string
   - name: processServerName
-    isReadyOnly: true
     description: The process server name.
     types:
     - uid: string
@@ -1031,11 +1148,11 @@ definitions:
     types:
     - uid: string
   - name: enableRdpOnTargetOption
-    description: The selected option to enable RDP\SSH on target vm after failover. String value of {SrsDataContract.EnableRDPOnTargetOption} enum.
+    description: The selected option to enable RDP\SSH on target vm after failover. String value of SrsDataContract.EnableRDPOnTargetOption enum.
     types:
     - uid: string
   - name: datastores
-    description: The data stores of the on-premise machine. Value can be list of strings that contain data store names.
+    description: The datastores of the on-premise machine. Value can be list of strings that contain datastore names.
     types:
     - uid: string
       isArray: true
@@ -1067,6 +1184,10 @@ definitions:
     description: License Type of the VM to be used.
     types:
     - uid: string
+  - name: sqlServerLicenseType
+    description: The SQL Server license type.
+    types:
+    - uid: string
   - name: validationErrors
     description: The validation errors of the on-premise machine Value can be list of validation errors.
     types:
@@ -1093,11 +1214,219 @@ definitions:
     types:
     - uid: InMageAzureV2ManagedDiskDetails
       isArray: true
-  - name: instanceType
+  - name: lastRecoveryPointReceived
     isReadyOnly: true
+    description: The last recovery point received time.
+    types:
+    - uid: string
+  - name: firmwareType
+    description: The firmware type of this protected item.
+    types:
+    - uid: string
+  - name: azureVmGeneration
+    description: The target generation for this protected item.
+    types:
+    - uid: string
+  - name: isAdditionalStatsAvailable
+    description: A value indicating whether additional IR stats are available or not.
+    types:
+    - uid: boolean
+  - name: totalDataTransferred
+    description: The total transferred data in bytes.
+    types:
+    - uid: integer
+  - name: totalProgressHealth
+    description: The progress health.
+    types:
+    - uid: string
+  - name: targetVmTags
+    description: The target VM tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: seedManagedDiskTags
+    description: The tags for the seed managed disks.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: targetManagedDiskTags
+    description: The tags for the target managed disks.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: targetNicTags
+    description: The tags for the target NICs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: instanceType
     description: Gets the Instance type.
     types:
     - uid: InMageAzureV2
+    typesTitle: string
+- name: InMageRcmFailbackReplicationDetails
+  description: InMageRcmFailback provider specific details.
+  kind: object
+  properties:
+  - name: internalIdentifier
+    isReadyOnly: true
+    description: The virtual machine internal identifier.
+    types:
+    - uid: string
+  - name: azureVirtualMachineId
+    isReadyOnly: true
+    description: The ARM Id of the azure VM.
+    types:
+    - uid: string
+  - name: multiVmGroupName
+    isReadyOnly: true
+    description: The multi VM group name.
+    types:
+    - uid: string
+  - name: reprotectAgentId
+    isReadyOnly: true
+    description: The reprotect agent Id.
+    types:
+    - uid: string
+  - name: reprotectAgentName
+    isReadyOnly: true
+    description: The reprotect agent name.
+    types:
+    - uid: string
+  - name: osType
+    isReadyOnly: true
+    description: The type of the OS on the VM.
+    types:
+    - uid: string
+  - name: logStorageAccountId
+    isReadyOnly: true
+    description: The log storage account ARM Id.
+    types:
+    - uid: string
+  - name: targetvCenterId
+    isReadyOnly: true
+    description: The target vCenter Id.
+    types:
+    - uid: string
+  - name: targetDataStoreName
+    isReadyOnly: true
+    description: The target datastore name.
+    types:
+    - uid: string
+  - name: targetVmName
+    isReadyOnly: true
+    description: The target VM name.
+    types:
+    - uid: string
+  - name: initialReplicationProgressPercentage
+    isReadyOnly: true
+    description: The initial replication progress percentage.
+    types:
+    - uid: integer
+  - name: initialReplicationProcessedBytes
+    isReadyOnly: true
+    description: The initial replication processed bytes. This includes sum of total bytes transferred and matched bytes on all selected disks in source VM.
+    types:
+    - uid: integer
+  - name: initialReplicationTransferredBytes
+    isReadyOnly: true
+    description: The initial replication transferred bytes from source VM to target for all selected disks on source VM.
+    types:
+    - uid: integer
+  - name: initialReplicationProgressHealth
+    isReadyOnly: true
+    description: The initial replication progress health.
+    types:
+    - uid: VmReplicationProgressHealth
+  - name: resyncProgressPercentage
+    isReadyOnly: true
+    description: The resync progress percentage.
+    types:
+    - uid: integer
+  - name: resyncProcessedBytes
+    isReadyOnly: true
+    description: The resync processed bytes. This includes sum of total bytes transferred and matched bytes on all selected disks in source VM.
+    types:
+    - uid: integer
+  - name: resyncTransferredBytes
+    isReadyOnly: true
+    description: The resync transferred bytes from source VM to target for all selected disks on source VM.
+    types:
+    - uid: integer
+  - name: resyncProgressHealth
+    isReadyOnly: true
+    description: The resync progress health.
+    types:
+    - uid: VmReplicationProgressHealth
+  - name: resyncRequired
+    isReadyOnly: true
+    description: A value indicating whether resync is required.
+    types:
+    - uid: string
+  - name: resyncState
+    isReadyOnly: true
+    description: The resync state.
+    types:
+    - uid: ResyncState
+  - name: protectedDisks
+    description: The list of protected disks.
+    types:
+    - uid: InMageRcmFailbackProtectedDiskDetails
+      isArray: true
+  - name: mobilityAgentDetails
+    description: The mobility agent information.
+    types:
+    - uid: InMageRcmFailbackMobilityAgentDetails
+  - name: vmNics
+    description: The network details.
+    types:
+    - uid: InMageRcmFailbackNicDetails
+      isArray: true
+  - name: lastPlannedFailoverStartTime
+    isReadyOnly: true
+    description: The last planned failover start time.
+    types:
+    - uid: string
+  - name: lastPlannedFailoverStatus
+    isReadyOnly: true
+    description: The last planned failover status.
+    types:
+    - uid: PlannedFailoverStatus
+  - name: discoveredVmDetails
+    description: The discovered VM information.
+    types:
+    - uid: InMageRcmFailbackDiscoveredProtectedVmDetails
+  - name: lastUsedPolicyId
+    isReadyOnly: true
+    description: The policy Id used by the forward replication.
+    types:
+    - uid: string
+  - name: lastUsedPolicyFriendlyName
+    isReadyOnly: true
+    description: The policy friendly name used by the forward replication.
+    types:
+    - uid: string
+  - name: isAgentRegistrationSuccessfulAfterFailover
+    isReadyOnly: true
+    description: A value indicating whether agent registration was successful after failover.
+    types:
+    - uid: boolean
+  - name: instanceType
+    description: Gets the Instance type.
+    types:
+    - uid: InMageRcmFailback
     typesTitle: string
 - name: InMageRcmReplicationDetails
   description: InMageRcm provider specific details.
@@ -1158,58 +1487,57 @@ definitions:
     description: The firmware type.
     types:
     - uid: string
+  - name: primaryNicIpAddress
+    isReadyOnly: true
+    description: The IP address of the primary network interface.
+    types:
+    - uid: string
   - name: targetGeneration
     isReadyOnly: true
     description: The target generation.
     types:
     - uid: string
   - name: licenseType
-    isReadyOnly: true
     description: License Type of the VM to be used.
     types:
     - uid: string
   - name: targetVmName
-    isReadyOnly: true
     description: Target VM name.
     types:
     - uid: string
   - name: targetVmSize
-    isReadyOnly: true
     description: The target VM size.
     types:
     - uid: string
   - name: targetResourceGroupId
-    isReadyOnly: true
     description: The target resource group Id.
     types:
     - uid: string
+  - name: targetLocation
+    description: The target location.
+    types:
+    - uid: string
   - name: targetAvailabilitySetId
-    isReadyOnly: true
     description: The target availability set Id.
     types:
     - uid: string
   - name: targetAvailabilityZone
-    isReadyOnly: true
     description: The target availability zone.
     types:
     - uid: string
   - name: targetProximityPlacementGroupId
-    isReadyOnly: true
     description: The target proximity placement group Id.
     types:
     - uid: string
   - name: targetBootDiagnosticsStorageAccountId
-    isReadyOnly: true
     description: The target boot diagnostics storage account ARM Id.
     types:
     - uid: string
   - name: targetNetworkId
-    isReadyOnly: true
     description: The target network Id.
     types:
     - uid: string
   - name: testNetworkId
-    isReadyOnly: true
     description: The test network Id.
     types:
     - uid: string
@@ -1253,6 +1581,11 @@ definitions:
     description: The initial replication transferred bytes from source VM to azure for all selected disks on source VM.
     types:
     - uid: integer
+  - name: initialReplicationProgressHealth
+    isReadyOnly: true
+    description: The initial replication progress health.
+    types:
+    - uid: VmReplicationProgressHealth
   - name: resyncProgressPercentage
     isReadyOnly: true
     description: The resync progress percentage. This is calculated based on total bytes processed for all disks in the source VM.
@@ -1268,6 +1601,11 @@ definitions:
     description: The resync transferred bytes from source VM to azure for all selected disks on source VM.
     types:
     - uid: integer
+  - name: resyncProgressHealth
+    isReadyOnly: true
+    description: The resync progress health.
+    types:
+    - uid: VmReplicationProgressHealth
   - name: resyncRequired
     isReadyOnly: true
     description: A value indicating whether resync is required.
@@ -1288,13 +1626,17 @@ definitions:
     description: The last agent upgrade type.
     types:
     - uid: string
-  - name: lastAgentUpgradeFailedJobId
+  - name: agentUpgradeJobId
     isReadyOnly: true
-    description: The last agent upgrade failed or cancelled job Id.
+    description: The agent upgrade job Id.
+    types:
+    - uid: string
+  - name: agentUpgradeAttemptToVersion
+    isReadyOnly: true
+    description: The agent version to which last agent upgrade was attempted.
     types:
     - uid: string
   - name: protectedDisks
-    isReadyOnly: true
     description: The list of protected disks.
     types:
     - uid: InMageRcmProtectedDiskDetails
@@ -1304,37 +1646,41 @@ definitions:
     description: A value indicating whether last agent upgrade was successful or not.
     types:
     - uid: string
-  - name: mobilityAgentDetails
+  - name: isAgentRegistrationSuccessfulAfterFailover
     isReadyOnly: true
+    description: A value indicating whether agent registration was successful after failover.
+    types:
+    - uid: boolean
+  - name: mobilityAgentDetails
     description: The mobility agent information.
     types:
     - uid: InMageRcmMobilityAgentDetails
   - name: lastAgentUpgradeErrorDetails
-    isReadyOnly: true
     description: The last agent upgrade error information.
     types:
     - uid: InMageRcmLastAgentUpgradeErrorDetails
       isArray: true
   - name: agentUpgradeBlockingErrorDetails
-    isReadyOnly: true
     description: The agent upgrade blocking error information.
     types:
     - uid: InMageRcmAgentUpgradeBlockingErrorDetails
       isArray: true
   - name: vmNics
-    isReadyOnly: true
     description: The network details.
     types:
     - uid: InMageRcmNicDetails
       isArray: true
+  - name: discoveredVmDetails
+    description: The discovered VM details.
+    types:
+    - uid: InMageRcmDiscoveredProtectedVmDetails
   - name: instanceType
-    isReadyOnly: true
     description: Gets the Instance type.
     types:
     - uid: InMageRcm
     typesTitle: string
 - name: InMageReplicationDetails
-  description: InMage provider specific settings
+  description: InMage provider specific settings.
   kind: object
   properties:
   - name: activeSiteType
@@ -1370,7 +1716,7 @@ definitions:
     types:
     - uid: string
   - name: resyncDetails
-    description: The resync details of the machine
+    description: The resync details of the machine.
     types:
     - uid: InitialReplicationDetails
   - name: retentionWindowStart
@@ -1468,12 +1814,12 @@ definitions:
     types:
     - uid: string
   - name: datastores
-    description: The data stores of the on-premise machine Value can be list of strings that contain data store names
+    description: The datastores of the on-premise machine Value can be list of strings that contain datastore names.
     types:
     - uid: string
       isArray: true
   - name: validationErrors
-    description: The validation errors of the on-premise machine Value can be list of validation errors
+    description: The validation errors of the on-premise machine Value can be list of validation errors.
     types:
     - uid: HealthError
       isArray: true
@@ -1493,8 +1839,19 @@ definitions:
     description: The OS Version of the protected item.
     types:
     - uid: string
+  - name: isAdditionalStatsAvailable
+    description: A value indicating whether additional IR stats are available or not.
+    types:
+    - uid: boolean
+  - name: totalDataTransferred
+    description: The total transferred data in bytes.
+    types:
+    - uid: integer
+  - name: totalProgressHealth
+    description: The progress health.
+    types:
+    - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the Instance type.
     types:
     - uid: InMage
@@ -1610,6 +1967,14 @@ definitions:
     description: The KeyVault resource id for key (KEK).
     types:
     - uid: string
+  - name: failoverDiskName
+    description: The failover name for the managed disk.
+    types:
+    - uid: string
+  - name: tfoDiskName
+    description: The test failover name for the managed disk.
+    types:
+    - uid: string
 - name: A2AUnprotectedDiskDetails
   description: A2A unprotected disk details.
   kind: object
@@ -1618,6 +1983,10 @@ definitions:
     description: The source lun Id for the data disk.
     types:
     - uid: integer
+  - name: diskAutoProtectionStatus
+    description: A value indicating whether the disk auto protection is enabled.
+    types:
+    - uid: AutoProtectionOfDataDisk
 - name: A2AProtectedManagedDiskDetails
   description: A2A protected managed disk details.
   kind: object
@@ -1638,6 +2007,10 @@ definitions:
     description: Recovery replica disk Arm Id.
     types:
     - uid: string
+  - name: recoveryOrignalTargetDiskId
+    description: Recovery original target disk Arm Id.
+    types:
+    - uid: string
   - name: recoveryReplicaDiskAccountType
     description: The replica disk type. Its an optional value and will be same as source disk type if not user provided.
     types:
@@ -1648,6 +2021,10 @@ definitions:
     - uid: string
   - name: recoveryDiskEncryptionSetId
     description: The recovery disk encryption set Id.
+    types:
+    - uid: string
+  - name: primaryDiskEncryptionSetId
+    description: The primary disk encryption set Id.
     types:
     - uid: string
   - name: diskName
@@ -1743,10 +2120,6 @@ definitions:
     description: The source nic ARM Id.
     types:
     - uid: string
-  - name: vMSubnetName
-    description: VM subnet name.
-    types:
-    - uid: string
   - name: vMNetworkName
     description: VM network name.
     types:
@@ -1755,43 +2128,19 @@ definitions:
     description: Recovery VM network Id.
     types:
     - uid: string
-  - name: recoveryVMSubnetName
-    description: Recovery VM subnet name.
+  - name: ipConfigs
+    description: The IP configurations of the NIC.
     types:
-    - uid: string
-  - name: ipAddressType
-    description: Ip address type.
-    types:
-    - uid: string
-  - name: primaryNicStaticIPAddress
-    description: Primary nic static IP address.
-    types:
-    - uid: string
-  - name: replicaNicStaticIPAddress
-    description: Replica nic static IP address.
-    types:
-    - uid: string
+    - uid: IPConfigDetails
+      isArray: true
   - name: selectionType
     description: Selection type for failover.
-    types:
-    - uid: string
-  - name: recoveryNicIpAddressType
-    description: IP allocation type for recovery VM.
-    types:
-    - uid: string
-  - name: recoveryPublicIpAddressId
-    description: The id of the public IP address resource associated with the NIC.
     types:
     - uid: string
   - name: recoveryNetworkSecurityGroupId
     description: The id of the NSG associated with the NIC.
     types:
     - uid: string
-  - name: recoveryLBBackendAddressPoolIds
-    description: The target backend address pools for the NIC.
-    types:
-    - uid: string
-      isArray: true
   - name: enableAcceleratedNetworkingOnRecovery
     description: A value indicating whether the NIC has accelerated networking enabled.
     types:
@@ -1800,23 +2149,14 @@ definitions:
     description: The network to be used by NIC during test failover.
     types:
     - uid: string
-  - name: tfoVMSubnetName
-    description: The subnet to be used by NIC during test failover.
-    types:
-    - uid: string
   - name: tfoNetworkSecurityGroupId
     description: The NSG to be used by NIC during test failover.
     types:
     - uid: string
   - name: enableAcceleratedNetworkingOnTfo
-    description: Whether the test failover NIC has accelerated networking enabled.
+    description: Whether the TFO NIC has accelerated networking enabled.
     types:
     - uid: boolean
-  - name: tfoIPConfigs
-    description: The IP configurations to be used by NIC during test failover.
-    types:
-    - uid: IPConfig
-      isArray: true
   - name: recoveryNicName
     description: The name of the NIC to be used when creating target NICs.
     types:
@@ -1841,6 +2181,10 @@ definitions:
     description: A value indicating whether an existing NIC is allowed to be reused during test failover subject to availability.
     types:
     - uid: boolean
+  - name: targetNicName
+    description: Target NIC name.
+    types:
+    - uid: string
 - name: AzureToAzureVmSyncedConfigDetails
   description: Azure to Azure VM synced configuration details.
   kind: object
@@ -1869,6 +2213,16 @@ definitions:
     types:
     - uid: string
   - name: TwoPassEncrypted
+    types:
+    - uid: string
+- name: AutoProtectionOfDataDisk
+  description: A value indicating whether the auto protection is enabled.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
     types:
     - uid: string
 - name: AzureVmDiskDetails
@@ -1911,6 +2265,10 @@ definitions:
     description: The DiskEncryptionSet ARM ID.
     types:
     - uid: string
+  - name: customTargetDiskName
+    description: The custom target Azure disk name.
+    types:
+    - uid: string
 - name: InitialReplicationDetails
   description: Initial replication details.
   kind: object
@@ -1951,8 +2309,28 @@ definitions:
     description: The OS Minor Version.
     types:
     - uid: string
+- name: HyperVReplicaAzureManagedDiskDetails
+  description: Hyper-V Managed disk details.
+  kind: object
+  properties:
+  - name: diskId
+    description: The disk Id.
+    types:
+    - uid: string
+  - name: seedManagedDiskId
+    description: Seed managed disk Id.
+    types:
+    - uid: string
+  - name: replicaDiskType
+    description: The replica disk type.
+    types:
+    - uid: string
+  - name: diskEncryptionSetId
+    description: The disk encryption set ARM Id.
+    types:
+    - uid: string
 - name: DiskDetails
-  description: On-prem disk details data.
+  description: Onprem disk details data.
   kind: object
   properties:
   - name: maxSizeMB
@@ -2035,6 +2413,34 @@ definitions:
     description: The last RPO calculated time.
     types:
     - uid: string
+  - name: resyncProcessedBytes
+    description: The resync processed bytes.
+    types:
+    - uid: integer
+  - name: resyncTotalTransferredBytes
+    description: The resync total transferred bytes.
+    types:
+    - uid: integer
+  - name: resyncLast15MinutesTransferredBytes
+    description: The resync last 15 minutes transferred bytes.
+    types:
+    - uid: integer
+  - name: resyncLastDataTransferTimeUTC
+    description: The last data transfer time in UTC.
+    types:
+    - uid: string
+  - name: resyncStartTime
+    description: The resync start time.
+    types:
+    - uid: string
+  - name: progressHealth
+    description: The Progress Health.
+    types:
+    - uid: string
+  - name: progressStatus
+    description: The Progress Status.
+    types:
+    - uid: string
 - name: InMageAzureV2ManagedDiskDetails
   description: InMageAzureV2 Managed disk details.
   kind: object
@@ -2051,6 +2457,30 @@ definitions:
     description: The replica disk type.
     types:
     - uid: string
+  - name: diskEncryptionSetId
+    description: The DiskEncryptionSet ARM ID.
+    types:
+    - uid: string
+  - name: targetDiskName
+    description: The target disk name.
+    types:
+    - uid: string
+- name: VmReplicationProgressHealth
+  description: The initial replication progress health.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: SlowProgress
+    types:
+    - uid: string
+  - name: NoProgress
+    types:
+    - uid: string
 - name: ResyncState
   description: The resync state.
   kind: enum
@@ -2062,6 +2492,219 @@ definitions:
     types:
     - uid: string
   - name: StartedResynchronization
+    types:
+    - uid: string
+- name: InMageRcmFailbackProtectedDiskDetails
+  description: InMageRcmFailback protected disk details.
+  kind: object
+  properties:
+  - name: diskId
+    isReadyOnly: true
+    description: The disk Id (reported by source agent).
+    types:
+    - uid: string
+  - name: diskName
+    isReadyOnly: true
+    description: The disk name.
+    types:
+    - uid: string
+  - name: isOSDisk
+    isReadyOnly: true
+    description: A value indicating whether the disk is the OS disk.
+    types:
+    - uid: string
+  - name: capacityInBytes
+    isReadyOnly: true
+    description: The disk capacity in bytes.
+    types:
+    - uid: integer
+  - name: diskUuid
+    isReadyOnly: true
+    description: The disk Uuid (reported by vCenter).
+    types:
+    - uid: string
+  - name: dataPendingInLogDataStoreInMB
+    isReadyOnly: true
+    description: The data pending in log data store in MB.
+    types:
+    - uid: number
+  - name: dataPendingAtSourceAgentInMB
+    isReadyOnly: true
+    description: The data pending at source agent in MB.
+    types:
+    - uid: number
+  - name: isInitialReplicationComplete
+    isReadyOnly: true
+    description: A value indicating whether initial replication is complete or not.
+    types:
+    - uid: string
+  - name: irDetails
+    description: The initial replication details.
+    types:
+    - uid: InMageRcmFailbackSyncDetails
+  - name: resyncDetails
+    description: The resync details.
+    types:
+    - uid: InMageRcmFailbackSyncDetails
+  - name: lastSyncTime
+    isReadyOnly: true
+    description: The last sync time.
+    types:
+    - uid: string
+- name: InMageRcmFailbackMobilityAgentDetails
+  description: InMageRcmFailback mobility agent details.
+  kind: object
+  properties:
+  - name: version
+    isReadyOnly: true
+    description: The agent version.
+    types:
+    - uid: string
+  - name: latestVersion
+    isReadyOnly: true
+    description: The latest agent version available.
+    types:
+    - uid: string
+  - name: driverVersion
+    isReadyOnly: true
+    description: The driver version.
+    types:
+    - uid: string
+  - name: latestUpgradableVersionWithoutReboot
+    isReadyOnly: true
+    description: The latest upgradeable version available without reboot.
+    types:
+    - uid: string
+  - name: agentVersionExpiryDate
+    isReadyOnly: true
+    description: The agent version expiry date.
+    types:
+    - uid: string
+  - name: driverVersionExpiryDate
+    isReadyOnly: true
+    description: The driver version expiry date.
+    types:
+    - uid: string
+  - name: lastHeartbeatUtc
+    isReadyOnly: true
+    description: The time of the last heartbeat received from the agent.
+    types:
+    - uid: string
+  - name: reasonsBlockingUpgrade
+    isReadyOnly: true
+    description: The whether update is possible or not.
+    types:
+    - uid: string
+      isArray: true
+  - name: isUpgradeable
+    isReadyOnly: true
+    description: A value indicating whether agent is upgradeable or not.
+    types:
+    - uid: string
+- name: InMageRcmFailbackNicDetails
+  description: InMageRcmFailback NIC details.
+  kind: object
+  properties:
+  - name: macAddress
+    isReadyOnly: true
+    description: The mac address.
+    types:
+    - uid: string
+  - name: networkName
+    isReadyOnly: true
+    description: The network name.
+    types:
+    - uid: string
+  - name: adapterType
+    isReadyOnly: true
+    description: The adapter type.
+    types:
+    - uid: string
+  - name: sourceIpAddress
+    isReadyOnly: true
+    description: The IP address.
+    types:
+    - uid: string
+- name: PlannedFailoverStatus
+  description: The last planned failover status.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelled
+    types:
+    - uid: string
+  - name: Unknown
+    types:
+    - uid: string
+- name: InMageRcmFailbackDiscoveredProtectedVmDetails
+  description: InMageRcmFailback discovered VM details.
+  kind: object
+  properties:
+  - name: vCenterId
+    isReadyOnly: true
+    description: The VCenter Id.
+    types:
+    - uid: string
+  - name: vCenterFqdn
+    isReadyOnly: true
+    description: The VCenter fqdn.
+    types:
+    - uid: string
+  - name: datastores
+    isReadyOnly: true
+    description: The list of datastores.
+    types:
+    - uid: string
+      isArray: true
+  - name: ipAddresses
+    isReadyOnly: true
+    description: The list of IP addresses.
+    types:
+    - uid: string
+      isArray: true
+  - name: vmwareToolsStatus
+    isReadyOnly: true
+    description: The VMware tools status.
+    types:
+    - uid: string
+  - name: powerStatus
+    isReadyOnly: true
+    description: The VM power status.
+    types:
+    - uid: string
+  - name: vmFqdn
+    isReadyOnly: true
+    description: The VM fqdn.
+    types:
+    - uid: string
+  - name: osName
+    isReadyOnly: true
+    description: The VM's OS name.
+    types:
+    - uid: string
+  - name: createdTimestamp
+    isReadyOnly: true
+    description: The SDS created timestamp.
+    types:
+    - uid: string
+  - name: updatedTimestamp
+    isReadyOnly: true
+    description: The SDS updated timestamp.
+    types:
+    - uid: string
+  - name: isDeleted
+    isReadyOnly: true
+    description: A value indicating whether the VM is deleted.
+    types:
+    - uid: boolean
+  - name: lastDiscoveryTimeInUtc
+    isReadyOnly: true
+    description: The last time when SDS information discovered in SRS.
     types:
     - uid: string
 - name: MobilityAgentUpgradeState
@@ -2111,7 +2754,7 @@ definitions:
     - uid: string
   - name: diskEncryptionSetId
     isReadyOnly: true
-    description: The disk encryption set ARM Id.
+    description: The DiskEncryptionSet ARM Id.
     types:
     - uid: string
   - name: seedManagedDiskId
@@ -2125,10 +2768,32 @@ definitions:
     types:
     - uid: string
   - name: diskType
-    isReadyOnly: true
     description: The disk type.
     types:
     - uid: DiskAccountType
+  - name: dataPendingInLogDataStoreInMB
+    isReadyOnly: true
+    description: The data pending in log data store in MB.
+    types:
+    - uid: number
+  - name: dataPendingAtSourceAgentInMB
+    isReadyOnly: true
+    description: The data pending at source agent in MB.
+    types:
+    - uid: number
+  - name: isInitialReplicationComplete
+    isReadyOnly: true
+    description: A value indicating whether initial replication is complete or not.
+    types:
+    - uid: string
+  - name: irDetails
+    description: The initial replication details.
+    types:
+    - uid: InMageRcmSyncDetails
+  - name: resyncDetails
+    description: The resync details.
+    types:
+    - uid: InMageRcmSyncDetails
 - name: InMageRcmMobilityAgentDetails
   description: InMageRcm mobility agent details.
   kind: object
@@ -2141,6 +2806,11 @@ definitions:
   - name: latestVersion
     isReadyOnly: true
     description: The latest agent version available.
+    types:
+    - uid: string
+  - name: latestAgentReleaseDate
+    isReadyOnly: true
+    description: The latest agent version release date.
     types:
     - uid: string
   - name: driverVersion
@@ -2273,12 +2943,10 @@ definitions:
     types:
     - uid: string
   - name: isPrimaryNic
-    isReadyOnly: true
     description: A value indicating whether this is the primary NIC.
     types:
     - uid: string
   - name: isSelectedForFailover
-    isReadyOnly: true
     description: A value indicating whether this NIC is selected for failover.
     types:
     - uid: string
@@ -2303,35 +2971,95 @@ definitions:
     types:
     - uid: string
   - name: targetIPAddress
-    isReadyOnly: true
     description: The target IP address.
     types:
     - uid: string
   - name: targetIPAddressType
-    isReadyOnly: true
     description: The target IP address type.
     types:
     - uid: EthernetAddressType
   - name: targetSubnetName
-    isReadyOnly: true
     description: Target subnet name.
     types:
     - uid: string
   - name: testSubnetName
-    isReadyOnly: true
     description: Test subnet name.
     types:
     - uid: string
   - name: testIPAddress
-    isReadyOnly: true
     description: The test IP address.
     types:
     - uid: string
   - name: testIPAddressType
-    isReadyOnly: true
     description: The test IP address type.
     types:
     - uid: EthernetAddressType
+- name: InMageRcmDiscoveredProtectedVmDetails
+  description: InMageRcm discovered protected VM details.
+  kind: object
+  properties:
+  - name: vCenterId
+    isReadyOnly: true
+    description: The VCenter Id.
+    types:
+    - uid: string
+  - name: vCenterFqdn
+    isReadyOnly: true
+    description: The VCenter fqdn.
+    types:
+    - uid: string
+  - name: datastores
+    isReadyOnly: true
+    description: The list of datastores.
+    types:
+    - uid: string
+      isArray: true
+  - name: ipAddresses
+    isReadyOnly: true
+    description: The list of IP addresses.
+    types:
+    - uid: string
+      isArray: true
+  - name: vmwareToolsStatus
+    isReadyOnly: true
+    description: The VMware tools status.
+    types:
+    - uid: string
+  - name: powerStatus
+    isReadyOnly: true
+    description: The VM power status.
+    types:
+    - uid: string
+  - name: vmFqdn
+    isReadyOnly: true
+    description: The VM fqdn.
+    types:
+    - uid: string
+  - name: osName
+    isReadyOnly: true
+    description: The VM's OS name.
+    types:
+    - uid: string
+  - name: createdTimestamp
+    isReadyOnly: true
+    description: The SDS created timestamp.
+    types:
+    - uid: string
+  - name: updatedTimestamp
+    isReadyOnly: true
+    description: The SDS updated timestamp.
+    types:
+    - uid: string
+  - name: isDeleted
+    isReadyOnly: true
+    description: A value indicating whether the VM is deleted.
+    types:
+    - uid: boolean
+  - name: lastDiscoveryTimeInUtc
+    isReadyOnly: true
+    description: The last time when SDS information discovered in SRS.
+    types:
+    - uid: string
 - name: OSDiskDetails
   description: Details of the OS Disk.
   kind: object
@@ -2412,6 +3140,34 @@ definitions:
     description: The last RPO calculated time.
     types:
     - uid: string
+  - name: resyncProcessedBytes
+    description: The resync processed bytes.
+    types:
+    - uid: integer
+  - name: resyncTotalTransferredBytes
+    description: The resync total transferred bytes.
+    types:
+    - uid: integer
+  - name: resyncLast15MinutesTransferredBytes
+    description: The resync last 15 minutes transferred bytes.
+    types:
+    - uid: integer
+  - name: resyncLastDataTransferTimeUTC
+    description: The last data transfer time in UTC.
+    types:
+    - uid: string
+  - name: resyncStartTime
+    description: The resync start time.
+    types:
+    - uid: string
+  - name: progressHealth
+    description: The Progress Health.
+    types:
+    - uid: string
+  - name: progressStatus
+    description: The Progress Status.
+    types:
+    - uid: string
 - name: InMageAgentDetails
   description: The details of the InMage agent.
   kind: object
@@ -2437,11 +3193,11 @@ definitions:
   kind: object
   properties:
   - name: secretIdentifier
-    description: The secret URL / identifier.
+    description: The secret url / identifier.
     types:
     - uid: string
   - name: keyVaultResourceArmId
-    description: The KeyVault resource ARM Id for secret.
+    description: The KeyVault resource ARM id for secret.
     types:
     - uid: string
 - name: KeyEncryptionKeyInfo
@@ -2456,43 +3212,134 @@ definitions:
     description: The KeyVault resource ARM Id for key.
     types:
     - uid: string
-- name: IPConfig
-  description: IP configuration details.
+- name: IPConfigDetails
   kind: object
   properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: isPrimary
+    description: ''
+    types:
+    - uid: boolean
+  - name: subnetName
+    description: ''
+    types:
+    - uid: string
   - name: staticIPAddress
-    description: The static IP address of the IP configuration.
+    description: ''
     types:
     - uid: string
-  - name: publicIpAddressId
-    description: The Id of the public IP address associated with the IP configuration.
+  - name: ipAddressType
+    description: ''
     types:
     - uid: string
-  - name: lBBackendAddressPoolIds
-    description: The backend address pools associated with the IP configuration.
+  - name: isSeletedForFailover
+    description: ''
+    types:
+    - uid: boolean
+  - name: recoverySubnetName
+    description: ''
+    types:
+    - uid: string
+  - name: recoveryStaticIPAddress
+    description: ''
+    types:
+    - uid: string
+  - name: recoveryIPAddressType
+    description: ''
+    types:
+    - uid: string
+  - name: recoveryPublicIPAddressId
+    description: ''
+    types:
+    - uid: string
+  - name: recoveryLBBackendAddressPoolIds
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: tfoSubnetName
+    description: ''
+    types:
+    - uid: string
+  - name: tfoStaticIPAddress
+    description: ''
+    types:
+    - uid: string
+  - name: tfoPublicIPAddressId
+    description: ''
+    types:
+    - uid: string
+  - name: tfoLBBackendAddressPoolIds
+    description: ''
     types:
     - uid: string
       isArray: true
 - name: InputEndpoint
-  description: Azure VM input endpoint details.
   kind: object
   properties:
   - name: endpointName
-    description: The input endpoint name.
+    description: ''
     types:
     - uid: string
   - name: privatePort
-    description: The input endpoint private port.
+    description: ''
     types:
     - uid: integer
   - name: publicPort
-    description: The input endpoint public port.
+    description: ''
     types:
     - uid: integer
   - name: protocol
-    description: The input endpoint protocol.
+    description: ''
     types:
     - uid: string
+- name: InMageRcmFailbackSyncDetails
+  description: InMageRcmFailback disk level sync details.
+  kind: object
+  properties:
+  - name: progressHealth
+    isReadyOnly: true
+    description: The progress health.
+    types:
+    - uid: DiskReplicationProgressHealth
+  - name: transferredBytes
+    isReadyOnly: true
+    description: The transferred bytes from source VM to azure for the disk.
+    types:
+    - uid: integer
+  - name: last15MinutesTransferredBytes
+    isReadyOnly: true
+    description: The bytes transferred in last 15 minutes from source VM to target.
+    types:
+    - uid: integer
+  - name: lastDataTransferTimeUtc
+    isReadyOnly: true
+    description: The time of the last data transfer from source VM to target.
+    types:
+    - uid: string
+  - name: processedBytes
+    isReadyOnly: true
+    description: The total processed bytes. This includes bytes that are transferred from source VM to target and matched bytes.
+    types:
+    - uid: integer
+  - name: startTime
+    isReadyOnly: true
+    description: The start time.
+    types:
+    - uid: string
+  - name: lastRefreshTime
+    isReadyOnly: true
+    description: The last refresh time.
+    types:
+    - uid: string
+  - name: progressPercentage
+    isReadyOnly: true
+    description: Progress in percentage. Progress percentage is calculated based on processed bytes.
+    types:
+    - uid: integer
 - name: DiskAccountType
   description: The DiskType.
   kind: enum
@@ -2506,6 +3353,50 @@ definitions:
   - name: StandardSSD_LRS
     types:
     - uid: string
+- name: InMageRcmSyncDetails
+  description: InMageRcm disk level sync details.
+  kind: object
+  properties:
+  - name: progressHealth
+    isReadyOnly: true
+    description: The progress health.
+    types:
+    - uid: DiskReplicationProgressHealth
+  - name: transferredBytes
+    isReadyOnly: true
+    description: The transferred bytes from source VM to azure for the disk.
+    types:
+    - uid: integer
+  - name: last15MinutesTransferredBytes
+    isReadyOnly: true
+    description: The bytes transferred in last 15 minutes from source VM to azure.
+    types:
+    - uid: integer
+  - name: lastDataTransferTimeUtc
+    isReadyOnly: true
+    description: The time of the last data transfer from source VM to azure.
+    types:
+    - uid: string
+  - name: processedBytes
+    isReadyOnly: true
+    description: The total processed bytes. This includes bytes that are transferred from source VM to azure and matched bytes.
+    types:
+    - uid: integer
+  - name: startTime
+    isReadyOnly: true
+    description: The start time.
+    types:
+    - uid: string
+  - name: lastRefreshTime
+    isReadyOnly: true
+    description: The last refresh time.
+    types:
+    - uid: string
+  - name: progressPercentage
+    isReadyOnly: true
+    description: Progress in percentage. Progress percentage is calculated based on processed bytes.
+    types:
+    - uid: integer
 - name: EthernetAddressType
   description: The source IP address type.
   kind: enum
@@ -2516,10 +3407,29 @@ definitions:
   - name: Static
     types:
     - uid: string
+- name: DiskReplicationProgressHealth
+  description: The progress health.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: SlowProgress
+    types:
+    - uid: string
+  - name: NoProgress
+    types:
+    - uid: string
+  - name: Queued
+    types:
+    - uid: string
 examples:
 - name: Add disk(s) for protection.
   request:
-    uri: POST https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectedItems/f8491e4f-817a-40dd-a90c-af773978c75b/addDisks?api-version=2018-07-10
+    uri: POST https://management.azure.com/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectedItems/f8491e4f-817a-40dd-a90c-af773978c75b/addDisks?api-version=2021-06-01
     body: >-
       {
         "properties": {
