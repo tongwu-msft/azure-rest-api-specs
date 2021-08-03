@@ -3857,6 +3857,7 @@
 ### [Get Keys](BatchManagement/Batch-Account/Get-Keys.yml)
 ### [List](BatchManagement/Batch-Account/List.yml)
 ### [List By Resource Group](BatchManagement/Batch-Account/List-By-Resource-Group.yml)
+### [List Outbound Network Dependencies Endpoints](BatchManagement/Batch-Account/List-Outbound-Network-Dependencies-Endpoints.yml)
 ### [Regenerate Key](BatchManagement/Batch-Account/Regenerate-Key.yml)
 ### [Synchronize Auto Storage Keys](BatchManagement/Batch-Account/Synchronize-Auto-Storage-Keys.yml)
 ### [Update](BatchManagement/Batch-Account/Update.yml)
@@ -3872,6 +3873,8 @@
 ### [Overview](BatchManagement/Location.yml)
 ### [Check Name Availability](BatchManagement/Location/Check-Name-Availability.yml)
 ### [Get Quotas](BatchManagement/Location/Get-Quotas.yml)
+### [List Supported Cloud Service Skus](BatchManagement/Location/List-Supported-Cloud-Service-Skus.yml)
+### [List Supported Virtual Machine Skus](BatchManagement/Location/List-Supported-Virtual-Machine-Skus.yml)
 ## Operations
 ### [Overview](BatchManagement/Operations.yml)
 ### [List](BatchManagement/Operations/List.yml)
@@ -3932,6 +3935,10 @@
 #### [Reimage](batchservice/Compute-Node/Reimage.yml)
 #### [Update User](batchservice/Compute-Node/Update-User.yml)
 #### [Upload Batch Service Logs](batchservice/Compute-Node/Upload-Batch-Service-Logs.yml)
+### Compute Node Extension
+#### [Overview](batchservice/Compute-Node-Extension.yml)
+#### [Get](batchservice/Compute-Node-Extension/Get.yml)
+#### [List](batchservice/Compute-Node-Extension/List.yml)
 ### File
 #### [Overview](batchservice/File.yml)
 #### [Delete From Compute Node](batchservice/File/Delete-From-Compute-Node.yml)
@@ -20491,30 +20498,6 @@
 ### [Syntax](../docs-ref-conceptual/time-series-insights/gen1-query-syntax.md)
 ### [Reference Data API](../docs-ref-conceptual/time-series-insights/gen1-reference-data-api.md)
 ## Reference
-### Data Access (Preview)
-#### Model Settings
-##### [Overview](time-series-insights/dataaccess(preview)/Model-Settings.yml)
-##### [Get](time-series-insights/dataaccess(preview)/Model-Settings/Get.yml)
-##### [Update](time-series-insights/dataaccess(preview)/Model-Settings/Update.yml)
-#### Query
-##### [Overview](time-series-insights/dataaccess(preview)/Query.yml)
-##### [Execute](time-series-insights/dataaccess(preview)/Query/Execute.yml)
-##### [Get Availability](time-series-insights/dataaccess(preview)/Query/Get-Availability.yml)
-##### [Get Event Schema](time-series-insights/dataaccess(preview)/Query/Get-Event-Schema.yml)
-#### Time Series Hierarchies
-##### [Overview](time-series-insights/dataaccess(preview)/Time-Series-Hierarchies.yml)
-##### [Execute Batch](time-series-insights/dataaccess(preview)/Time-Series-Hierarchies/Execute-Batch.yml)
-##### [Get](time-series-insights/dataaccess(preview)/Time-Series-Hierarchies/Get.yml)
-#### Time Series Instances
-##### [Overview](time-series-insights/dataaccess(preview)/Time-Series-Instances.yml)
-##### [Execute Batch](time-series-insights/dataaccess(preview)/Time-Series-Instances/Execute-Batch.yml)
-##### [Get](time-series-insights/dataaccess(preview)/Time-Series-Instances/Get.yml)
-##### [Search](time-series-insights/dataaccess(preview)/Time-Series-Instances/Search.yml)
-##### [Suggest](time-series-insights/dataaccess(preview)/Time-Series-Instances/Suggest.yml)
-#### Time Series Types
-##### [Overview](time-series-insights/dataaccess(preview)/Time-Series-Types.yml)
-##### [Execute Batch](time-series-insights/dataaccess(preview)/Time-Series-Types/Execute-Batch.yml)
-##### [Get](time-series-insights/dataaccess(preview)/Time-Series-Types/Get.yml)
 ### Data Access Gen2
 #### Model Settings
 ##### [Overview](time-series-insights/dataaccessgen2/Model-Settings.yml)

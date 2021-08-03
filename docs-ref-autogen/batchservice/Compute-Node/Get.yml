@@ -3,15 +3,15 @@ uid: batchservice.computenode.get
 name: Get
 service: Batch Service
 groupName: Compute Node
-apiVersion: 2020-09-01.12.0
+apiVersion: 2021-06-01.14.0
 summary: Gets information about the specified Compute Node.
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: GET {batchUrl}/pools/{poolId}/nodes/{nodeId}?api-version=2020-09-01.12.0
-- content: GET {batchUrl}/pools/{poolId}/nodes/{nodeId}?$select={$select}&timeout={timeout}&api-version=2020-09-01.12.0
+- content: GET {batchUrl}/pools/{poolId}/nodes/{nodeId}?api-version=2021-06-01.14.0
+- content: GET {batchUrl}/pools/{poolId}/nodes/{nodeId}?$select={$select}&timeout={timeout}&api-version=2021-06-01.14.0
   isOptional: true
 uriParameters:
 - name: batchUrl
@@ -182,6 +182,10 @@ definitions:
     description: "Information about the Compute Node agent version and the time the Compute Node upgraded to a new version.  \nThe Batch Compute Node agent is a program that runs on each Compute Node in the Pool and provides Batch capability on the Compute Node."
     types:
     - uid: NodeAgentInformation
+  - name: virtualMachineInfo
+    description: Info about the current state of the virtual machine.
+    types:
+    - uid: VirtualMachineInfo
 - name: BatchError
   description: An error response received from the Azure Batch service.
   kind: object
@@ -432,6 +436,14 @@ definitions:
     description: "The time when the Compute Node agent was updated on the Compute Node.  \nThis is the most recent time that the Compute Node agent was updated to a new version."
     types:
     - uid: string
+- name: VirtualMachineInfo
+  description: Info about the current state of the virtual machine.
+  kind: object
+  properties:
+  - name: imageReference
+    description: The reference to the Azure Virtual Machine's Marketplace Image.
+    types:
+    - uid: ImageReference
 - name: ErrorMessage
   description: An error message received in an Azure Batch error response.
   kind: object
@@ -549,11 +561,11 @@ definitions:
     types:
     - uid: string
   - name: storageContainerUrl
-    description: "The URL of the blob container within Azure Blob Storage.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable using anonymous access; that is, the Batch service does not present any credentials when downloading blobs from the container. There are two ways to get such a URL for a container in Azure storage: include a Shared Access Signature (SAS) granting read and list permissions on the container, or set the ACL for the container to allow public access."
+    description: "The URL of the blob container within Azure Blob Storage.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable from compute nodes. There are three ways to get such a URL for a container in Azure storage: include a Shared Access Signature (SAS) granting read and list permissions on the container, use a managed identity with read and list permissions, or set the ACL for the container to allow public access."
     types:
     - uid: string
   - name: httpUrl
-    description: "The URL of the file to download.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL points to Azure Blob Storage, it must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access."
+    description: "The URL of the file to download.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL points to Azure Blob Storage, it must be readable from compute nodes. There are three ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, use a managed identity with read permission, or set the ACL for the blob or its container to allow public access."
     types:
     - uid: string
   - name: blobPrefix
@@ -568,6 +580,10 @@ definitions:
     description: "The file permission mode attribute in octal format.  \nThis property applies only to files being downloaded to Linux Compute Nodes. It will be ignored if it is specified for a resourceFile which will be downloaded to a Windows Compute Node. If this property is not specified for a Linux Compute Node, then a default value of 0770 is applied to the file."
     types:
     - uid: string
+  - name: identityReference
+    description: "The reference to the user assigned identity to use to access Azure Blob Storage specified by storageContainerUrl or httpUrl  \nThe reference to a user assigned identity associated with the Batch pool which a compute node will use."
+    types:
+    - uid: ComputeNodeIdentityReference
 - name: EnvironmentSetting
   description: An environment variable to be set on a Task process.
   kind: object
@@ -705,14 +721,39 @@ definitions:
     description: The backend port number of the endpoint.
     types:
     - uid: integer
+- name: ImageReference
+  description: A reference to an Azure Virtual Machines Marketplace Image or a Shared Image Gallery Image. To get the list of all Azure Marketplace Image references verified by Azure Batch, see the 'List Supported Images' operation.
+  kind: object
+  properties:
+  - name: publisher
+    description: "The publisher of the Azure Virtual Machines Marketplace Image.  \nFor example, Canonical or MicrosoftWindowsServer."
+    types:
+    - uid: string
+  - name: offer
+    description: "The offer type of the Azure Virtual Machines Marketplace Image.  \nFor example, UbuntuServer or WindowsServer."
+    types:
+    - uid: string
+  - name: sku
+    description: "The SKU of the Azure Virtual Machines Marketplace Image.  \nFor example, 18.04-LTS or 2019-Datacenter."
+    types:
+    - uid: string
+  - name: version
+    description: "The version of the Azure Virtual Machines Marketplace Image.  \nA value of 'latest' can be specified to select the latest version of an Image. If omitted, the default is 'latest'."
+    types:
+    - uid: string
+  - name: virtualMachineImageId
+    description: "The ARM resource identifier of the Shared Image Gallery Image. Compute Nodes in the Pool will be created using this Image Id. This is of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{VersionId} or /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName} for always defaulting to the latest image version.  \nThis property is mutually exclusive with other ImageReference properties. The Shared Image Gallery Image must have replicas in the same region and must be in the same subscription as the Azure Batch account. If the image version is not specified in the imageId, the latest version will be used. For information about the firewall settings for the Batch Compute Node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration."
+    types:
+    - uid: string
+  - name: exactVersion
+    isReadyOnly: true
+    description: The specific version of the platform image or marketplace image used to create the node. This read-only field differs from 'version' only if the value specified for 'version' when the pool was created was 'latest'.
+    types:
+    - uid: string
 - name: ContainerRegistry
   description: A private container registry.
   kind: object
   properties:
-  - name: registryServer
-    description: "The registry URL.  \nIf omitted, the default is \"docker.io\"."
-    types:
-    - uid: string
   - name: username
     description: The user name to log into the registry server.
     types:
@@ -721,6 +762,14 @@ definitions:
     description: The password to log into the registry server.
     types:
     - uid: string
+  - name: registryServer
+    description: "The registry URL.  \nIf omitted, the default is \"docker.io\"."
+    types:
+    - uid: string
+  - name: identityReference
+    description: "The reference to the user assigned identity to use to access an Azure Container Registry instead of username and password.  \nThe reference to a user assigned identity associated with the Batch pool which a compute node will use."
+    types:
+    - uid: ComputeNodeIdentityReference
 - name: ContainerWorkingDirectory
   description: The location of the container Task working directory.
   kind: enum
@@ -731,6 +780,14 @@ definitions:
     - uid: string
   - name: containerImageDefault
     description: Use the working directory defined in the container Image. Beware that this directory will not contain the Resource Files downloaded by Batch.
+    types:
+    - uid: string
+- name: ComputeNodeIdentityReference
+  description: The reference to a user assigned identity associated with the Batch pool which a compute node will use.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The ARM resource id of the user assigned identity.
     types:
     - uid: string
 - name: AutoUserSpecification
@@ -796,7 +853,7 @@ definitions:
 examples:
 - name: Node get
   request:
-    uri: GET account.region.batch.azure.com/pools/poolId/nodes/tvm-1695681911_2-20161122t193202z?api-version=2020-09-01.12.0
+    uri: GET account.region.batch.azure.com/pools/poolId/nodes/tvm-1695681911_2-20161122t193202z?api-version=2021-06-01.14.0
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
