@@ -19744,6 +19744,11 @@
 ## Skus
 ### [Overview](storagecache/Skus.yml)
 ### [List](storagecache/Skus/List.yml)
+## Storage Target
+### [Overview](storagecache/Storage-Target.yml)
+### [Flush](storagecache/Storage-Target/Flush.yml)
+### [Resume](storagecache/Storage-Target/Resume.yml)
+### [Suspend](storagecache/Storage-Target/Suspend.yml)
 ## Storage Targets
 ### [Overview](storagecache/Storage-Targets.yml)
 ### [Create Or Update](storagecache/Storage-Targets/Create-Or-Update.yml)
