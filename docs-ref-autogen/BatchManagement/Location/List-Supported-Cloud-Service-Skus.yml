@@ -1,0 +1,190 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.batchmanagement.location.listsupportedcloudserviceskus
+name: List Supported Cloud Service Skus
+service: Batch Management
+groupName: Location
+apiVersion: 2021-06-01
+summary: Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/cloudServiceSkus?api-version=2021-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/cloudServiceSkus?maxresults={maxresults}&$filter={$filter}&api-version=2021-06-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
+  types:
+  - uid: string
+- name: locationName
+  in: path
+  isRequired: true
+  description: The region for which to retrieve Batch service supported SKUs.
+  types:
+  - uid: string
+- name: maxresults
+  in: query
+  description: The maximum number of items to return in the response.
+  types:
+  - uid: integer
+  format: int32
+- name: $filter
+  in: query
+  description: OData filter expression. Valid properties for filtering are "familyName".
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation was successful. The response contains the Batch service supported Cloud Service VM sizes for the subscription in the specified location.
+  types:
+  - uid: SupportedSkusResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: SupportedSkusResult
+  description: The Batch List supported SKUs operation response.
+  kind: object
+  properties:
+  - name: value
+    description: The list of SKUs available for the Batch service in the location.
+    types:
+    - uid: SupportedSku
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: error
+    description: The body of the error response.
+    types:
+    - uid: CloudErrorBody
+- name: SupportedSku
+  description: Describes a Batch supported SKU.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The name of the SKU.
+    types:
+    - uid: string
+  - name: familyName
+    isReadyOnly: true
+    description: The family name of the SKU.
+    types:
+    - uid: string
+  - name: capabilities
+    isReadyOnly: true
+    description: A collection of capabilities which this SKU supports.
+    types:
+    - uid: SkuCapability
+      isArray: true
+- name: CloudErrorBody
+  description: An error response from the Batch service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: SkuCapability
+  description: A SKU capability, such as the number of cores.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The name of the feature.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: The value of the feature.
+    types:
+    - uid: string
+examples:
+- name: LocationListCloudServiceSkus
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Batch/locations/japaneast/cloudServiceSkus?api-version=2021-06-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Small",
+            "familyName": "standardA0_A7Family",
+            "capabilities": [
+              {
+                "name": "MaxResourceVolumeMB",
+                "value": "20480"
+              },
+              {
+                "name": "vCPUs",
+                "value": "1"
+              },
+              {
+                "name": "HyperVGenerations",
+                "value": "V1"
+              },
+              {
+                "name": "MemoryGB",
+                "value": "0.75"
+              },
+              {
+                "name": "LowPriorityCapable",
+                "value": "False"
+              },
+              {
+                "name": "vCPUsAvailable",
+                "value": "1"
+              },
+              {
+                "name": "EphemeralOSDiskSupported",
+                "value": "False"
+              }
+            ]
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Batch Management service - Gets the list of Batch supported Cloud Service VM sizes available at the given location.
+errorCodes: []
