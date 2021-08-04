@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.networkinterfaces.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Network Interfaces
-apiVersion: 2020-11-01
+apiVersion: 2021-02-01
 summary: Creates or updates a network interface.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}?api-version=2020-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -83,6 +83,11 @@ requestBody:
     description: Indicates whether IP forwarding is enabled on this network interface.
     types:
     - uid: boolean
+  - name: properties.workloadType
+    in: body
+    description: WorkloadType of the NetworkInterface for BareMetal resources
+    types:
+    - uid: string
   - name: properties.nicType
     in: body
     description: Type of Network Interface resource.
@@ -299,6 +304,10 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+  - name: properties.gatewayLoadBalancer
+    description: The reference to gateway load balancer frontend IP.
+    types:
+    - uid: SubResource
   - name: properties.virtualNetworkTaps
     description: The reference to Virtual Network Taps.
     types:
@@ -591,6 +600,10 @@ definitions:
     description: The provisioning state of the network interface resource.
     types:
     - uid: ProvisioningState
+  - name: properties.workloadType
+    description: WorkloadType of the NetworkInterface for BareMetal resources
+    types:
+    - uid: string
   - name: properties.nicType
     description: Type of Network Interface resource.
     types:
@@ -1116,6 +1129,11 @@ definitions:
     description: The location of the backend address pool.
     types:
     - uid: string
+  - name: properties.tunnelInterfaces
+    description: An array of gateway load balancer tunnel interfaces.
+    types:
+    - uid: GatewayLoadBalancerTunnelInterface
+      isArray: true
   - name: properties.loadBalancerBackendAddresses
     description: An array of backend addresses.
     types:
@@ -1319,6 +1337,10 @@ definitions:
     description: The linked public IP address of the public IP address resource.
     types:
     - uid: PublicIPAddress
+  - name: properties.deleteOption
+    description: Specify what happens to the public IP address when the VM using it is deleted
+    types:
+    - uid: DeleteOptions
   - name: id
     description: Resource ID.
     types:
@@ -1479,6 +1501,10 @@ definitions:
     - uid: PublicIPAddress
   - name: properties.publicIPPrefix
     description: The reference to the Public IP Prefix resource.
+    types:
+    - uid: SubResource
+  - name: properties.gatewayLoadBalancer
+    description: The reference to gateway load balancer frontend IP.
     types:
     - uid: SubResource
   - name: properties.provisioningState
@@ -2123,6 +2149,26 @@ definitions:
     description: IP address.
     types:
     - uid: string
+- name: GatewayLoadBalancerTunnelInterface
+  description: Gateway load balancer tunnel interface of a load balancer backend address pool.
+  kind: object
+  properties:
+  - name: port
+    description: Port of gateway load balancer tunnel interface.
+    types:
+    - uid: integer
+  - name: identifier
+    description: Identifier of gateway load balancer tunnel interface.
+    types:
+    - uid: integer
+  - name: protocol
+    description: Protocol of gateway load balancer tunnel interface.
+    types:
+    - uid: GatewayLoadBalancerTunnelProtocol
+  - name: type
+    description: Traffic type of gateway load balancer tunnel interface.
+    types:
+    - uid: GatewayLoadBalancerTunnelInterfaceType
 - name: LoadBalancerBackendAddress
   description: Load balancer backend addresses.
   kind: object
@@ -2314,6 +2360,16 @@ definitions:
   - name: Committed
     types:
     - uid: string
+- name: DeleteOptions
+  description: Specify what happens to the public IP address when the VM using it is deleted
+  kind: enum
+  properties:
+  - name: Delete
+    types:
+    - uid: string
+  - name: Detach
+    types:
+    - uid: string
 - name: Route
   description: Route resource.
   kind: object
@@ -2422,6 +2478,32 @@ definitions:
     description: The interval in minutes which would decide how frequently TA service should do flow analytics.
     types:
     - uid: integer
+- name: GatewayLoadBalancerTunnelProtocol
+  description: Protocol of gateway load balancer tunnel interface.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Native
+    types:
+    - uid: string
+  - name: VXLAN
+    types:
+    - uid: string
+- name: GatewayLoadBalancerTunnelInterfaceType
+  description: Traffic type of gateway load balancer tunnel interface.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Internal
+    types:
+    - uid: string
+  - name: External
+    types:
+    - uid: string
 - name: PublicIPAddressSkuName
   description: Name of a public IP address SKU.
   kind: enum
@@ -2489,7 +2571,7 @@ definitions:
 examples:
 - name: Create network interface
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic?api-version=2020-11-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic?api-version=2021-02-01
     body: >-
       {
         "properties": {
@@ -2571,6 +2653,111 @@ examples:
                 },
                 "primary": true,
                 "privateIPAddressVersion": "IPv4"
+              }
+            }
+          ],
+          "dnsSettings": {
+            "dnsServers": [],
+            "appliedDnsServers": []
+          },
+          "enableAcceleratedNetworking": true,
+          "enableIPForwarding": false
+        },
+        "type": "Microsoft.Network/networkInterfaces"
+      }
+- name: Create network interface with Gateway Load Balancer Consumer configured
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic?api-version=2021-02-01
+    body: >-
+      {
+        "properties": {
+          "enableAcceleratedNetworking": true,
+          "ipConfigurations": [
+            {
+              "name": "ipconfig1",
+              "properties": {
+                "publicIPAddress": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip"
+                },
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default"
+                },
+                "gatewayLoadBalancer": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb-provider"
+                }
+              }
+            }
+          ]
+        },
+        "location": "eastus"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "test-nic",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic",
+        "location": "eastus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "ipConfigurations": [
+            {
+              "name": "ipconfig1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic/ipConfigurations/ipconfig1",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateIPAddress": "172.20.2.4",
+                "privateIPAllocationMethod": "Dynamic",
+                "publicIPAddress": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip"
+                },
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default"
+                },
+                "primary": true,
+                "privateIPAddressVersion": "IPv4",
+                "gatewayLoadBalancer": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb-provider"
+                }
+              }
+            }
+          ],
+          "dnsSettings": {
+            "dnsServers": [],
+            "appliedDnsServers": []
+          },
+          "enableAcceleratedNetworking": true,
+          "enableIPForwarding": false
+        },
+        "type": "Microsoft.Network/networkInterfaces"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "test-nic",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic",
+        "location": "eastus",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "ipConfigurations": [
+            {
+              "name": "ipconfig1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic/ipConfigurations/ipconfig1",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateIPAddress": "172.20.2.4",
+                "privateIPAllocationMethod": "Dynamic",
+                "publicIPAddress": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip"
+                },
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default"
+                },
+                "primary": true,
+                "privateIPAddressVersion": "IPv4",
+                "gatewayLoadBalancer": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb-provider"
+                }
               }
             }
           ],

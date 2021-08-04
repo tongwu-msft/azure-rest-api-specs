@@ -3,14 +3,16 @@ uid: management.azure.com.virtualnetwork.virtualnetworkpeerings.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Virtual Network Peerings
-apiVersion: 2020-11-01
+apiVersion: 2021-02-01
 summary: Creates or updates a peering in the specified virtual network.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}?api-version=2020-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}?api-version=2021-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings/{virtualNetworkPeeringName}?syncRemoteAddressSpace=true&api-version=2021-02-01
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,6 +38,11 @@ uriParameters:
   description: The name of the peering.
   types:
   - uid: string
+- name: syncRemoteAddressSpace
+  in: query
+  description: Parameter indicates the intention to sync the peering with the current address space on the remote vNet after it's updated.
+  types:
+  - uid: SyncRemoteAddressSpace
 - name: api-version
   in: query
   isRequired: true
@@ -95,7 +102,12 @@ requestBody:
     - uid: SubResource
   - name: properties.remoteAddressSpace
     in: body
-    description: The reference to the remote virtual network address space.
+    description: The reference to the address space peered with the remote virtual network.
+    types:
+    - uid: AddressSpace
+  - name: properties.remoteVirtualNetworkAddressSpace
+    in: body
+    description: The reference to the current address space of the remote virtual network.
     types:
     - uid: AddressSpace
   - name: properties.remoteBgpCommunities
@@ -108,6 +120,11 @@ requestBody:
     description: The status of the virtual network peering.
     types:
     - uid: VirtualNetworkPeeringState
+  - name: properties.peeringSyncLevel
+    in: body
+    description: The peering sync status of the virtual network peering.
+    types:
+    - uid: VirtualNetworkPeeringLevel
   - name: properties.doNotVerifyRemoteGateways
     in: body
     description: If we need to verify the provisioning state of the remote gateway.
@@ -120,6 +137,13 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
+- name: SyncRemoteAddressSpace
+  description: Parameter indicates the intention to sync the peering with the current address space on the remote vNet after it's updated.
+  kind: enum
+  properties:
+  - name: "true"
+    types:
+    - uid: string
 - name: SubResource
   description: Reference to another subresource.
   kind: object
@@ -188,7 +212,11 @@ definitions:
     types:
     - uid: SubResource
   - name: properties.remoteAddressSpace
-    description: The reference to the remote virtual network address space.
+    description: The reference to the address space peered with the remote virtual network.
+    types:
+    - uid: AddressSpace
+  - name: properties.remoteVirtualNetworkAddressSpace
+    description: The reference to the current address space of the remote virtual network.
     types:
     - uid: AddressSpace
   - name: properties.remoteBgpCommunities
@@ -199,6 +227,10 @@ definitions:
     description: The status of the virtual network peering.
     types:
     - uid: VirtualNetworkPeeringState
+  - name: properties.peeringSyncLevel
+    description: The peering sync status of the virtual network peering.
+    types:
+    - uid: VirtualNetworkPeeringLevel
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the virtual network peering resource.
@@ -236,6 +268,22 @@ definitions:
     types:
     - uid: string
   - name: Disconnected
+    types:
+    - uid: string
+- name: VirtualNetworkPeeringLevel
+  description: The peering sync status of the virtual network peering.
+  kind: enum
+  properties:
+  - name: FullyInSync
+    types:
+    - uid: string
+  - name: RemoteNotInSync
+    types:
+    - uid: string
+  - name: LocalNotInSync
+    types:
+    - uid: string
+  - name: LocalAndRemoteNotInSync
     types:
     - uid: string
 - name: ProvisioningState
@@ -278,7 +326,7 @@ definitions:
 examples:
 - name: Create peering
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer?api-version=2020-11-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer?syncRemoteAddressSpace=true&api-version=2021-02-01
     body: >-
       {
         "properties": {
@@ -310,11 +358,17 @@ examples:
               "12.0.0.0/8"
             ]
           },
+          "remoteVirtualNetworkAddressSpace": {
+            "addressPrefixes": [
+              "12.0.0.0/8"
+            ]
+          },
           "remoteBgpCommunities": {
             "virtualNetworkCommunity": "12076:20002",
             "regionalCommunity": "12076:50004"
           },
           "peeringState": "Initiated",
+          "peeringSyncLevel": "FullyInSync",
           "provisioningState": "Succeeded"
         }
       }
@@ -336,11 +390,97 @@ examples:
               "12.0.0.0/8"
             ]
           },
+          "remoteVirtualNetworkAddressSpace": {
+            "addressPrefixes": [
+              "12.0.0.0/8"
+            ]
+          },
           "remoteBgpCommunities": {
             "virtualNetworkCommunity": "12076:20002",
             "regionalCommunity": "12076:50004"
           },
           "peeringState": "Initiated",
+          "peeringSyncLevel": "FullyInSync",
+          "provisioningState": "Succeeded"
+        }
+      }
+- name: Sync Peering
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer?syncRemoteAddressSpace=true&api-version=2021-02-01
+    body: >-
+      {
+        "properties": {
+          "allowVirtualNetworkAccess": true,
+          "allowForwardedTraffic": true,
+          "allowGatewayTransit": false,
+          "useRemoteGateways": false,
+          "remoteVirtualNetwork": {
+            "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer",
+        "name": "peer",
+        "properties": {
+          "allowVirtualNetworkAccess": true,
+          "allowForwardedTraffic": true,
+          "allowGatewayTransit": false,
+          "useRemoteGateways": false,
+          "remoteVirtualNetwork": {
+            "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
+          },
+          "remoteAddressSpace": {
+            "addressPrefixes": [
+              "12.0.0.0/8"
+            ]
+          },
+          "remoteVirtualNetworkAddressSpace": {
+            "addressPrefixes": [
+              "12.0.0.0/8"
+            ]
+          },
+          "remoteBgpCommunities": {
+            "virtualNetworkCommunity": "12076:20002",
+            "regionalCommunity": "12076:50004"
+          },
+          "peeringState": "Initiated",
+          "peeringSyncLevel": "FullyInSync",
+          "provisioningState": "Succeeded"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings/peer",
+        "name": "peer",
+        "properties": {
+          "allowVirtualNetworkAccess": true,
+          "allowForwardedTraffic": true,
+          "allowGatewayTransit": false,
+          "useRemoteGateways": false,
+          "remoteVirtualNetwork": {
+            "id": "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2"
+          },
+          "remoteAddressSpace": {
+            "addressPrefixes": [
+              "12.0.0.0/8"
+            ]
+          },
+          "remoteVirtualNetworkAddressSpace": {
+            "addressPrefixes": [
+              "12.0.0.0/8"
+            ]
+          },
+          "remoteBgpCommunities": {
+            "virtualNetworkCommunity": "12076:20002",
+            "regionalCommunity": "12076:50004"
+          },
+          "peeringState": "Initiated",
+          "peeringSyncLevel": "FullyInSync",
           "provisioningState": "Succeeded"
         }
       }
