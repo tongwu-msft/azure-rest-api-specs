@@ -84,6 +84,11 @@ requestBody:
     description: stand by count value can be either enabled or disabled
     types:
     - uid: HAEnabledEnum
+  - name: properties.standbyCount
+    in: body
+    description: The number of standbys.
+    types:
+    - uid: integer
   - name: properties.maintenanceWindow
     in: body
     description: Maintenance window of a server.
@@ -115,6 +120,15 @@ definitions:
     description: Max storage allowed for a server.
     types:
     - uid: integer
+  - name: geoRedundantBackup
+    description: A value indicating whether Geo-Redundant backup is enabled on the server.
+    types:
+    - uid: GeoRedundantBackupEnum
+  - name: earliestRestoreDate
+    isReadyOnly: true
+    description: The earliest restore point time (ISO8601 format) for server.
+    types:
+    - uid: string
 - name: MaintenanceWindow
   description: Maintenance window of a server.
   kind: object
@@ -159,6 +173,11 @@ definitions:
     description: PostgreSQL Server version.
     types:
     - uid: ServerVersion
+  - name: properties.minorVersion
+    isReadyOnly: true
+    description: The minor version of the server.
+    types:
+    - uid: string
   - name: properties.state
     isReadyOnly: true
     description: A state of a server that is visible to user.
@@ -195,6 +214,14 @@ definitions:
     description: stand by count value can be either enabled or disabled
     types:
     - uid: HAEnabledEnum
+  - name: properties.standbyCount
+    description: The number of standbys.
+    types:
+    - uid: integer
+  - name: properties.logBackupStorageSku
+    description: The log backup storage sku of the server.
+    types:
+    - uid: string
   - name: properties.sourceServerName
     description: The source PostgreSQL server name to restore from.
     types:
@@ -312,6 +339,10 @@ definitions:
     description: stand by count value can be either enabled or disabled
     types:
     - uid: HAEnabledEnum
+  - name: properties.standbyCount
+    description: The number of standbys.
+    types:
+    - uid: integer
   - name: properties.maintenanceWindow
     description: Maintenance window of a server.
     types:
@@ -327,6 +358,16 @@ definitions:
     types:
     - uid: string
   - name: MemoryOptimized
+    types:
+    - uid: string
+- name: GeoRedundantBackupEnum
+  description: A value indicating whether Geo-Redundant backup is enabled on the server.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 - name: Identity
@@ -530,6 +571,7 @@ examples:
         "properties": {
           "administratorLogin": "cloudsa",
           "version": "12",
+          "minorVersion": "6",
           "state": "Ready",
           "haState": "NotEnabled",
           "fullyQualifiedDomainName": "pgtestsvc4.postgres.database.azure.com",
@@ -537,11 +579,15 @@ examples:
           "publicNetworkAccess": "Enabled",
           "storageProfile": {
             "storageMB": 524288,
-            "backupRetentionDays": 20
+            "backupRetentionDays": 20,
+            "geoRedundantBackup": "Disabled",
+            "earliestRestoreDate": "2021-05-26T23:07:25.8166567+00:00"
           },
           "delegatedSubnetArguments": {},
           "privateDnsZoneArguments": {},
           "haEnabled": "Disabled",
+          "standbyCount": 0,
+          "logBackupStorageSku": "Standard_ZRS",
           "availabilityZone": "1"
         },
         "location": "westus",
@@ -579,6 +625,7 @@ examples:
         "properties": {
           "administratorLogin": "cloudsa",
           "version": "12",
+          "minorVersion": "6",
           "state": "Ready",
           "haState": "NotEnabled",
           "fullyQualifiedDomainName": "pgtestsvc4.postgres.database.azure.com",
@@ -586,11 +633,15 @@ examples:
           "publicNetworkAccess": "Enabled",
           "storageProfile": {
             "storageMB": 524288,
-            "backupRetentionDays": 20
+            "backupRetentionDays": 20,
+            "geoRedundantBackup": "Disabled",
+            "earliestRestoreDate": "2021-05-26T23:07:25.8166567+00:00"
           },
           "delegatedSubnetArguments": {},
           "privateDnsZoneArguments": {},
           "haEnabled": "Disabled",
+          "standbyCount": 0,
+          "logBackupStorageSku": "Standard_ZRS",
           "availabilityZone": "1",
           "maintenanceWindow": {
             "dayOfWeek": 0,
