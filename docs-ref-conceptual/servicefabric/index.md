@@ -63,7 +63,4 @@ Service Fabric Client APIs allow managing microservices applications in a Servic
 
  The **latest** version of [Service Fabric Client APIs](sfclient-index.md) is `8.1`.
 
-Following are some of the other supported versions.
-
-* [Service Fabric Client APIs (v8.0)](v80/sfclient-v80-index.md)
 

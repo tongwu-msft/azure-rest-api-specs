@@ -1,6 +1,6 @@
 ---
-title: "Models"
-description: "Models"
+title: "Models v8.1"
+description: "Models v8.1"
 ms.date: "07/13/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"

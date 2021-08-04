@@ -1,5 +1,5 @@
 ---
-title: "StatefulServiceUpdateDescription"
+title: "StatefulServiceUpdateDescription v8.1"
 description: "StatefulServiceUpdateDescription"
 ms.date: "07/13/2021"
 ms.service: "service-fabric"

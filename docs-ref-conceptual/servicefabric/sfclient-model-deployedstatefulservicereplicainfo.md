@@ -1,5 +1,5 @@
 ---
-title: "DeployedStatefulServiceReplicaInfo"
+title: "DeployedStatefulServiceReplicaInfo v8.1"
 description: "DeployedStatefulServiceReplicaInfo"
 ms.date: "07/13/2021"
 ms.service: "service-fabric"

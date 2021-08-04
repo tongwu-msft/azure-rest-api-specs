@@ -1,5 +1,5 @@
 ---
-title: "ReconfigurationInformation"
+title: "ReconfigurationInformation v8.1"
 description: "ReconfigurationInformation"
 ms.date: "07/13/2021"
 ms.service: "service-fabric"

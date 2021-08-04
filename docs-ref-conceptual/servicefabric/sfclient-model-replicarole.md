@@ -1,5 +1,5 @@
 ---
-title: "ReplicaRole"
+title: "ReplicaRole v8.1"
 description: "ReplicaRole"
 ms.date: "07/13/2021"
 ms.service: "service-fabric"

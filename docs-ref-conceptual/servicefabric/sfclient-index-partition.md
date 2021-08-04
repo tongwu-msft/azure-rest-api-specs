@@ -1,6 +1,6 @@
 ---
-title: "Partition"
-description: "Partition"
+title: "Partition v8.1"
+description: "Partition v8.1"
 ms.date: "07/13/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -1,5 +1,5 @@
 ---
-title: "StatefulServicePartitionInfo"
+title: "StatefulServicePartitionInfo  v8.1"
 description: "StatefulServicePartitionInfo"
 ms.date: "07/13/2021"
 ms.service: "service-fabric"
