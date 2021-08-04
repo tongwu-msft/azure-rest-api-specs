@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgatewayconnections.creat
 name: Create Or Update
 service: Network Gateway
 groupName: Virtual Network Gateway Connections
-apiVersion: 2020-11-01
+apiVersion: 2021-02-01
 summary: Creates or updates a virtual network gateway connection in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2020-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -73,6 +73,18 @@ requestBody:
     description: The reference to local network gateway resource.
     types:
     - uid: LocalNetworkGateway
+  - name: properties.ingressNatRules
+    in: body
+    description: List of ingress NatRules.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.egressNatRules
+    in: body
+    description: List of egress NatRules.
+    types:
+    - uid: SubResource
+      isArray: true
   - name: properties.connectionType
     in: body
     isRequired: true
@@ -247,6 +259,15 @@ definitions:
     description: Customer vnet resource id. VirtualNetworkGateway of type local gateway is associated with the customer vnet.
     types:
     - uid: string
+  - name: properties.natRules
+    description: NatRules for virtual network gateway.
+    types:
+    - uid: VirtualNetworkGatewayNatRule
+      isArray: true
+  - name: properties.enableBgpRouteTranslationForNat
+    description: EnableBgpRouteTranslationForNat flag.
+    types:
+    - uid: boolean
   - name: id
     description: Resource ID.
     types:
@@ -334,6 +355,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: TunnelConnectionHealth
   description: VirtualNetworkGatewayConnection properties.
   kind: object
@@ -361,14 +390,6 @@ definitions:
   - name: lastConnectionEstablishedUtcTime
     isReadyOnly: true
     description: The time at which connection was established in Utc format.
-    types:
-    - uid: string
-- name: SubResource
-  description: Reference to another subresource.
-  kind: object
-  properties:
-  - name: id
-    description: Resource ID.
     types:
     - uid: string
 - name: IpsecPolicy
@@ -446,6 +467,16 @@ definitions:
     description: The reference to local network gateway resource.
     types:
     - uid: LocalNetworkGateway
+  - name: properties.ingressNatRules
+    description: List of ingress NatRules.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.egressNatRules
+    description: List of egress NatRules.
+    types:
+    - uid: SubResource
+      isArray: true
   - name: properties.connectionType
     description: Gateway connection type.
     types:
@@ -771,6 +802,55 @@ definitions:
     types:
     - uid: string
   - name: Failed
+    types:
+    - uid: string
+- name: VirtualNetworkGatewayNatRule
+  description: VirtualNetworkGatewayNatRule Resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the NAT Rule resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.type
+    description: The type of NAT rule for VPN NAT.
+    types:
+    - uid: VpnNatRuleType
+  - name: properties.mode
+    description: The Source NAT direction of a VPN NAT.
+    types:
+    - uid: VpnNatRuleMode
+  - name: properties.internalMappings
+    description: The private IP address internal mapping for NAT.
+    types:
+    - uid: VpnNatRuleMapping
+      isArray: true
+  - name: properties.externalMappings
+    description: The private IP address external mapping for NAT.
+    types:
+    - uid: VpnNatRuleMapping
+      isArray: true
+  - name: properties.ipConfigurationId
+    description: The IP Configuration ID this NAT rule applies to.
+    types:
+    - uid: string
+  - name: id
+    description: Resource ID.
     types:
     - uid: string
 - name: VirtualNetworkGatewayConnectionStatus
@@ -1228,10 +1308,38 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: VpnNatRuleType
+  description: The type of NAT rule for VPN NAT.
+  kind: enum
+  properties:
+  - name: Static
+    types:
+    - uid: string
+  - name: Dynamic
+    types:
+    - uid: string
+- name: VpnNatRuleMode
+  description: The Source NAT direction of a VPN NAT.
+  kind: enum
+  properties:
+  - name: EgressSnat
+    types:
+    - uid: string
+  - name: IngressSnat
+    types:
+    - uid: string
+- name: VpnNatRuleMapping
+  description: Vpn NatRule mapping.
+  kind: object
+  properties:
+  - name: addressSpace
+    description: Address space for Vpn NatRule mapping.
+    types:
+    - uid: string
 examples:
 - name: CreateVirtualNetworkGatewayConnection_S2S
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/connS2S?api-version=2020-11-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/connections/connS2S?api-version=2021-02-01
     body: >-
       {
         "properties": {
@@ -1283,6 +1391,16 @@ examples:
             "location": "centralus",
             "tags": {}
           },
+          "ingressNatRules": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1"
+            }
+          ],
+          "egressNatRules": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2"
+            }
+          ],
           "connectionType": "IPsec",
           "connectionProtocol": "IKEv2",
           "routingWeight": 0,
@@ -1316,6 +1434,16 @@ examples:
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/localNetworkGateways/localgw",
             "properties": {}
           },
+          "ingressNatRules": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1"
+            }
+          ],
+          "egressNatRules": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2"
+            }
+          ],
           "connectionType": "IPsec",
           "connectionProtocol": "IKEv2",
           "routingWeight": 0,
@@ -1349,6 +1477,16 @@ examples:
             "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/localNetworkGateways/localgw",
             "properties": {}
           },
+          "ingressNatRules": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1"
+            }
+          ],
+          "egressNatRules": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2"
+            }
+          ],
           "connectionType": "IPsec",
           "connectionProtocol": "IKEv2",
           "routingWeight": 0,

@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.customipprefixes.list
 name: List
 service: Virtual Networks
 groupName: Custom IP Prefixes
-apiVersion: 2020-11-01
+apiVersion: 2021-02-01
 summary: Gets all custom IP prefixes in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes?api-version=2020-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -84,6 +84,24 @@ definitions:
     description: The prefix range in CIDR notation. Should include the start address and the prefix length.
     types:
     - uid: string
+  - name: properties.signedMessage
+    description: Signed message for WAN validation.
+    types:
+    - uid: string
+  - name: properties.authorizationMessage
+    description: Authorization message for WAN validation.
+    types:
+    - uid: string
+  - name: properties.customIpPrefixParent
+    description: The Parent CustomIpPrefix for IPv6 /64 CustomIpPrefix.
+    types:
+    - uid: CustomIpPrefix
+  - name: properties.childCustomIpPrefixes
+    isReadyOnly: true
+    description: The list of all Children for IPv6 /48 CustomIpPrefix.
+    types:
+    - uid: CustomIpPrefix
+      isArray: true
   - name: properties.commissionedState
     description: The commissioned state of the Custom IP Prefix.
     types:
@@ -97,6 +115,11 @@ definitions:
   - name: properties.resourceGuid
     isReadyOnly: true
     description: The resource GUID property of the custom IP prefix resource.
+    types:
+    - uid: string
+  - name: properties.failedReason
+    isReadyOnly: true
+    description: The reason why resource is in failed state.
     types:
     - uid: string
   - name: properties.provisioningState
@@ -219,7 +242,7 @@ definitions:
 examples:
 - name: List resource group Custom IP prefixes
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/customIpPrefixes?api-version=2020-11-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/customIpPrefixes?api-version=2021-02-01
   responses:
   - statusCode: "200"
     body: >-
@@ -235,7 +258,11 @@ examples:
               "resourceGuid": "00000000-0000-0000-0000-00000000",
               "cidr": "0.0.0.0/24",
               "commissionedState": "Commissioned",
-              "publicIpPrefixes": []
+              "signedMessage": "signedMessage",
+              "authorizationMessage": "authorizationMessage",
+              "failedReason": "",
+              "publicIpPrefixes": [],
+              "childCustomIpPrefixes": []
             },
             "type": "Microsoft.Network/customIpPrefixes"
           },
@@ -249,7 +276,54 @@ examples:
               "resourceGuid": "00000000-0000-0000-0000-00000000",
               "cidr": "0.0.1.0/30",
               "commissionedState": "Commissioned",
-              "publicIpPrefixes": []
+              "signedMessage": "signedMessage",
+              "authorizationMessage": "authorizationMessage",
+              "failedReason": "",
+              "publicIpPrefixes": [],
+              "childCustomIpPrefixes": []
+            },
+            "type": "Microsoft.Network/customIpPrefixes"
+          },
+          {
+            "name": "test-customipprefix4",
+            "id": "/subscriptions/subid/resourceGroups/rg3/providers/Microsoft.Network/customIpPrefixes/test-customipprefix4",
+            "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+            "location": "eastus",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "resourceGuid": "00000000-0000-0000-0000-00000000",
+              "cidr": "2607:f0d1:1002:0001::/64",
+              "commissionedState": "Commissioned",
+              "signedMessage": "signedMessage",
+              "authorizationMessage": "authorizationMessage",
+              "failedReason": "",
+              "publicIpPrefixes": [],
+              "childCustomIpPrefixes": [],
+              "customIpPrefixParent": {
+                "id": "/subscriptions/subid/resourceGroups/rg3/providers/Microsoft.Network/customIpPrefixes/test-customipprefix5"
+              }
+            },
+            "type": "Microsoft.Network/customIpPrefixes"
+          },
+          {
+            "name": "test-customipprefix5",
+            "id": "/subscriptions/subid/resourceGroups/rg3/providers/Microsoft.Network/customIpPrefixes/test-customipprefix5",
+            "etag": "W/\"00000000-0000-0000-0000-00000000\"",
+            "location": "eastus",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "resourceGuid": "00000000-0000-0000-0000-00000000",
+              "cidr": "2607:f0d1:1002::/48",
+              "commissionedState": "Provisioned",
+              "signedMessage": "signedMessage",
+              "authorizationMessage": "authorizationMessage",
+              "failedReason": "",
+              "publicIpPrefixes": [],
+              "childCustomIpPrefixes": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg3/providers/Microsoft.Network/customIpPrefixes/test-customipprefix4"
+                }
+              ]
             },
             "type": "Microsoft.Network/customIpPrefixes"
           }

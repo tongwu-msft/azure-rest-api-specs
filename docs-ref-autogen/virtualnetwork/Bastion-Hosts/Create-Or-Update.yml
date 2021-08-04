@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.bastionhosts.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Bastion Hosts
-apiVersion: 2020-11-01
+apiVersion: 2021-02-01
 summary: Creates or updates the specified Bastion Host.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}?api-version=2020-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,6 +52,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: sku
+    in: body
+    description: The sku of this Bastion Host.
+    types:
+    - uid: Sku
   - name: properties.ipConfigurations
     in: body
     description: IP configuration of the Bastion Host resource.
@@ -84,6 +89,14 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
+- name: Sku
+  description: The sku of this Bastion Host.
+  kind: object
+  properties:
+  - name: name
+    description: The name of this Bastion Host.
+    types:
+    - uid: BastionHostSkuName
 - name: BastionHostIPConfiguration
   description: IP configuration of an Bastion Host.
   kind: object
@@ -132,6 +145,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: sku
+    description: The sku of this Bastion Host.
+    types:
+    - uid: Sku
   - name: properties.ipConfigurations
     description: IP configuration of the Bastion Host resource.
     types:
@@ -180,6 +197,16 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
+- name: BastionHostSkuName
+  description: The name of this Bastion Host.
+  kind: enum
+  properties:
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
 - name: SubResource
   description: Reference to another subresource.
   kind: object
@@ -238,7 +265,7 @@ definitions:
 examples:
 - name: Create Bastion Host
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/bastionHosts/bastionhosttenant'?api-version=2020-11-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/bastionHosts/bastionhosttenant?api-version=2021-02-01
     body: >-
       {
         "properties": {
@@ -261,11 +288,14 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "name": "bastionhost'",
+        "name": "bastionhost",
         "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/bastionHosts/bastionhosttenant'",
         "type": "Microsoft.Network/bastionHosts",
         "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
         "location": "West US",
+        "sku": {
+          "name": "Standard"
+        },
         "properties": {
           "provisioningState": "Succeeded",
           "dnsName": "bst-9d89d361-100e-4c01-b92d-466548c476dc.bastion.azure.com",
@@ -297,6 +327,9 @@ examples:
         "type": "Microsoft.Network/bastionHosts",
         "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
         "location": "West US",
+        "sku": {
+          "name": "Standard"
+        },
         "properties": {
           "provisioningState": "Succeeded",
           "dnsName": "bst-9d89d361-100e-4c01-b92d-466548c476dc.bastion.azure.com",
