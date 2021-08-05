@@ -1,5 +1,5 @@
 ﻿---
-title: "Send Microsoft Push Notification Services (MPNS) notification"
+title: "Send Microsoft Push Notification Service (MPNS) notification"
 ms.custom: ""
 ms.date: 08/05/2021
 ms.reviewer: ""
@@ -14,7 +14,7 @@ manager: "femila"
 ---
 
 
-# Send a Microsoft Push Notification Services (MPNS) native notification
+# Send a Microsoft Push Notification Service (MPNS) native notification
 
 Sends an MPNS native notification through a notification hub.
 
