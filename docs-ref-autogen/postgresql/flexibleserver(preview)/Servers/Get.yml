@@ -71,6 +71,11 @@ definitions:
     description: PostgreSQL Server version.
     types:
     - uid: ServerVersion
+  - name: properties.minorVersion
+    isReadyOnly: true
+    description: The minor version of the server.
+    types:
+    - uid: string
   - name: properties.state
     isReadyOnly: true
     description: A state of a server that is visible to user.
@@ -107,6 +112,14 @@ definitions:
     description: stand by count value can be either enabled or disabled
     types:
     - uid: HAEnabledEnum
+  - name: properties.standbyCount
+    description: The number of standbys.
+    types:
+    - uid: integer
+  - name: properties.logBackupStorageSku
+    description: The log backup storage sku of the server.
+    types:
+    - uid: string
   - name: properties.sourceServerName
     description: The source PostgreSQL server name to restore from.
     types:
@@ -291,6 +304,15 @@ definitions:
     description: Max storage allowed for a server.
     types:
     - uid: integer
+  - name: geoRedundantBackup
+    description: A value indicating whether Geo-Redundant backup is enabled on the server.
+    types:
+    - uid: GeoRedundantBackupEnum
+  - name: earliestRestoreDate
+    isReadyOnly: true
+    description: The earliest restore point time (ISO8601 format) for server.
+    types:
+    - uid: string
 - name: ServerPublicNetworkAccessState
   description: public network access is enabled or not
   kind: enum
@@ -406,6 +428,16 @@ definitions:
   - name: MemoryOptimized
     types:
     - uid: string
+- name: GeoRedundantBackupEnum
+  description: A value indicating whether Geo-Redundant backup is enabled on the server.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -435,6 +467,7 @@ examples:
         "properties": {
           "administratorLogin": "cloudsa",
           "version": "12",
+          "minorVersion": "6",
           "state": "Ready",
           "haState": "NotEnabled",
           "fullyQualifiedDomainName": "pgtestsvc4.postgres.database.azure.com",
@@ -442,9 +475,13 @@ examples:
           "publicNetworkAccess": "Enabled",
           "storageProfile": {
             "storageMB": 524288,
-            "backupRetentionDays": 7
+            "backupRetentionDays": 7,
+            "geoRedundantBackup": "Disabled",
+            "earliestRestoreDate": "2021-05-26T23:07:25.8166567+00:00"
           },
           "haEnabled": "Enabled",
+          "standbyCount": 1,
+          "logBackupStorageSku": "Standard_ZRS",
           "availabilityZone": "1",
           "standbyAvailabilityZone": "2",
           "maintenanceWindow": {
@@ -476,8 +513,12 @@ examples:
         "properties": {
           "administratorLogin": "cloudsa",
           "version": "12",
+          "minorVersion": "6",
           "state": "Ready",
           "haState": "NotEnabled",
+          "haEnabled": "Disabled",
+          "standbyCount": 0,
+          "logBackupStorageSku": "Standard_ZRS",
           "fullyQualifiedDomainName": "pgtestsvc4.postgres.database.azure.com",
           "displayName": "demosingleserver",
           "publicNetworkAccess": "Disabled",
@@ -489,7 +530,9 @@ examples:
           },
           "storageProfile": {
             "storageMB": 524288,
-            "backupRetentionDays": 7
+            "backupRetentionDays": 7,
+            "geoRedundantBackup": "Disabled",
+            "earliestRestoreDate": "2021-05-26T23:07:25.8166567+00:00"
           },
           "availabilityZone": "1"
         },

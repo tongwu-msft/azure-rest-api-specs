@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.customipprefixes.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Custom IP Prefixes
-apiVersion: 2020-11-01
+apiVersion: 2021-02-01
 summary: Creates or updates a custom IP prefix.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}?api-version=2020-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -68,6 +68,21 @@ requestBody:
     description: The prefix range in CIDR notation. Should include the start address and the prefix length.
     types:
     - uid: string
+  - name: properties.signedMessage
+    in: body
+    description: Signed message for WAN validation.
+    types:
+    - uid: string
+  - name: properties.authorizationMessage
+    in: body
+    description: Authorization message for WAN validation.
+    types:
+    - uid: string
+  - name: properties.customIpPrefixParent
+    in: body
+    description: The Parent CustomIpPrefix for IPv6 /64 CustomIpPrefix.
+    types:
+    - uid: CustomIpPrefix
   - name: properties.commissionedState
     in: body
     description: The commissioned state of the Custom IP Prefix.
@@ -106,14 +121,6 @@ definitions:
     description: The type of the extended location.
     types:
     - uid: ExtendedLocationTypes
-- name: SubResource
-  description: Reference to another subresource.
-  kind: object
-  properties:
-  - name: id
-    description: Resource ID.
-    types:
-    - uid: string
 - name: CustomIpPrefix
   description: Custom IP prefix resource.
   kind: object
@@ -136,6 +143,24 @@ definitions:
     description: The prefix range in CIDR notation. Should include the start address and the prefix length.
     types:
     - uid: string
+  - name: properties.signedMessage
+    description: Signed message for WAN validation.
+    types:
+    - uid: string
+  - name: properties.authorizationMessage
+    description: Authorization message for WAN validation.
+    types:
+    - uid: string
+  - name: properties.customIpPrefixParent
+    description: The Parent CustomIpPrefix for IPv6 /64 CustomIpPrefix.
+    types:
+    - uid: CustomIpPrefix
+  - name: properties.childCustomIpPrefixes
+    isReadyOnly: true
+    description: The list of all Children for IPv6 /48 CustomIpPrefix.
+    types:
+    - uid: CustomIpPrefix
+      isArray: true
   - name: properties.commissionedState
     description: The commissioned state of the Custom IP Prefix.
     types:
@@ -149,6 +174,11 @@ definitions:
   - name: properties.resourceGuid
     isReadyOnly: true
     description: The resource GUID property of the custom IP prefix resource.
+    types:
+    - uid: string
+  - name: properties.failedReason
+    isReadyOnly: true
+    description: The reason why resource is in failed state.
     types:
     - uid: string
   - name: properties.provisioningState
@@ -182,6 +212,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: CloudError
   description: An error response from the service.
   kind: object
@@ -259,7 +297,7 @@ definitions:
 examples:
 - name: Create custom IP prefix allocation method
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/customIpPrefixes/test-customipprefix?api-version=2020-11-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/customIpPrefixes/test-customipprefix?api-version=2021-02-01
     body: >-
       {
         "location": "westus",
@@ -283,7 +321,11 @@ examples:
           "resourceGuid": "00000000-0000-0000-0000-00000000",
           "cidr": "192.168.254.2/24",
           "commissionedState": "Provisioning",
-          "publicIpPrefixes": []
+          "signedMessage": "signedMessage",
+          "authorizationMessage": "authorizationMessage",
+          "failedReason": "",
+          "publicIpPrefixes": [],
+          "childCustomIpPrefixes": []
         },
         "type": "Microsoft.Network/customIpPrefixes"
       }
@@ -302,7 +344,11 @@ examples:
           "resourceGuid": "00000000-0000-0000-0000-00000000",
           "cidr": "192.168.254.2/24",
           "commissionedState": "Provisioning",
-          "publicIpPrefixes": []
+          "signedMessage": "signedMessage",
+          "authorizationMessage": "authorizationMessage",
+          "failedReason": "",
+          "publicIpPrefixes": [],
+          "childCustomIpPrefixes": []
         },
         "type": "Microsoft.Network/customIpPrefixes"
       }

@@ -3,15 +3,15 @@ uid: management.azure.com.virtualnetwork.privatelinkservices.get
 name: Get
 service: Virtual Networks
 groupName: Private Link Services
-apiVersion: 2020-11-01
+apiVersion: 2021-02-01
 summary: Gets the specified private link service by resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}?api-version=2020-11-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}?api-version=2020-11-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}?api-version=2021-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}?api-version=2021-02-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -250,6 +250,10 @@ definitions:
     description: The reference to the Public IP Prefix resource.
     types:
     - uid: SubResource
+  - name: properties.gatewayLoadBalancer
+    description: The reference to gateway load balancer frontend IP.
+    types:
+    - uid: SubResource
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the frontend IP configuration resource.
@@ -387,6 +391,10 @@ definitions:
     description: The provisioning state of the network interface resource.
     types:
     - uid: ProvisioningState
+  - name: properties.workloadType
+    description: WorkloadType of the NetworkInterface for BareMetal resources
+    types:
+    - uid: string
   - name: properties.nicType
     description: Type of Network Interface resource.
     types:
@@ -752,6 +760,10 @@ definitions:
     description: The linked public IP address of the public IP address resource.
     types:
     - uid: PublicIPAddress
+  - name: properties.deleteOption
+    description: Specify what happens to the public IP address when the VM using it is deleted
+    types:
+    - uid: DeleteOptions
   - name: id
     description: Resource ID.
     types:
@@ -938,6 +950,10 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+  - name: properties.gatewayLoadBalancer
+    description: The reference to gateway load balancer frontend IP.
+    types:
+    - uid: SubResource
   - name: properties.virtualNetworkTaps
     description: The reference to Virtual Network Taps.
     types:
@@ -1630,6 +1646,16 @@ definitions:
   - name: Committed
     types:
     - uid: string
+- name: DeleteOptions
+  description: Specify what happens to the public IP address when the VM using it is deleted
+  kind: enum
+  properties:
+  - name: Delete
+    types:
+    - uid: string
+  - name: Detach
+    types:
+    - uid: string
 - name: SecurityRule
   description: Network security rule.
   kind: object
@@ -1971,6 +1997,11 @@ definitions:
     description: The location of the backend address pool.
     types:
     - uid: string
+  - name: properties.tunnelInterfaces
+    description: An array of gateway load balancer tunnel interfaces.
+    types:
+    - uid: GatewayLoadBalancerTunnelInterface
+      isArray: true
   - name: properties.loadBalancerBackendAddresses
     description: An array of backend addresses.
     types:
@@ -2334,6 +2365,26 @@ definitions:
     description: IP address.
     types:
     - uid: string
+- name: GatewayLoadBalancerTunnelInterface
+  description: Gateway load balancer tunnel interface of a load balancer backend address pool.
+  kind: object
+  properties:
+  - name: port
+    description: Port of gateway load balancer tunnel interface.
+    types:
+    - uid: integer
+  - name: identifier
+    description: Identifier of gateway load balancer tunnel interface.
+    types:
+    - uid: integer
+  - name: protocol
+    description: Protocol of gateway load balancer tunnel interface.
+    types:
+    - uid: GatewayLoadBalancerTunnelProtocol
+  - name: type
+    description: Traffic type of gateway load balancer tunnel interface.
+    types:
+    - uid: GatewayLoadBalancerTunnelInterfaceType
 - name: LoadBalancerBackendAddress
   description: Load balancer backend addresses.
   kind: object
@@ -2433,10 +2484,36 @@ definitions:
     description: The interval in minutes which would decide how frequently TA service should do flow analytics.
     types:
     - uid: integer
+- name: GatewayLoadBalancerTunnelProtocol
+  description: Protocol of gateway load balancer tunnel interface.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Native
+    types:
+    - uid: string
+  - name: VXLAN
+    types:
+    - uid: string
+- name: GatewayLoadBalancerTunnelInterfaceType
+  description: Traffic type of gateway load balancer tunnel interface.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Internal
+    types:
+    - uid: string
+  - name: External
+    types:
+    - uid: string
 examples:
 - name: Get private link service
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls?api-version=2020-11-01
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls?api-version=2021-02-01
   responses:
   - statusCode: "200"
     body: >-

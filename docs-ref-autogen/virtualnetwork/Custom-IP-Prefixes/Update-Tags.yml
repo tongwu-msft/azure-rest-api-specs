@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.customipprefixes.updatetags
 name: Update Tags
 service: Virtual Networks
 groupName: Custom IP Prefixes
-apiVersion: 2020-11-01
+apiVersion: 2021-02-01
 summary: Updates custom IP prefix tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}?api-version=2020-11-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -81,6 +81,24 @@ definitions:
     description: The prefix range in CIDR notation. Should include the start address and the prefix length.
     types:
     - uid: string
+  - name: properties.signedMessage
+    description: Signed message for WAN validation.
+    types:
+    - uid: string
+  - name: properties.authorizationMessage
+    description: Authorization message for WAN validation.
+    types:
+    - uid: string
+  - name: properties.customIpPrefixParent
+    description: The Parent CustomIpPrefix for IPv6 /64 CustomIpPrefix.
+    types:
+    - uid: CustomIpPrefix
+  - name: properties.childCustomIpPrefixes
+    isReadyOnly: true
+    description: The list of all Children for IPv6 /48 CustomIpPrefix.
+    types:
+    - uid: CustomIpPrefix
+      isArray: true
   - name: properties.commissionedState
     description: The commissioned state of the Custom IP Prefix.
     types:
@@ -94,6 +112,11 @@ definitions:
   - name: properties.resourceGuid
     isReadyOnly: true
     description: The resource GUID property of the custom IP prefix resource.
+    types:
+    - uid: string
+  - name: properties.failedReason
+    isReadyOnly: true
+    description: The reason why resource is in failed state.
     types:
     - uid: string
   - name: properties.provisioningState
@@ -236,7 +259,7 @@ definitions:
 examples:
 - name: Update public IP address tags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/customIpPrefixes/test-customipprefix?api-version=2020-11-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/customIpPrefixes/test-customipprefix?api-version=2021-02-01
     body: >-
       {
         "tags": {
@@ -260,7 +283,11 @@ examples:
           "resourceGuid": "00000000-0000-0000-0000-00000000",
           "cidr": "192.168.254.2/24",
           "commissionedState": "Provisioning",
-          "publicIpPrefixes": []
+          "signedMessage": "signedMessage",
+          "authorizationMessage": "authorizationMessage",
+          "failedReason": "",
+          "publicIpPrefixes": [],
+          "childCustomIpPrefixes": []
         },
         "tags": {
           "tag1": "value1",

@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.virtualhubs.list
 name: List
 service: Virtual WAN
 groupName: Virtual Hubs
-apiVersion: 2020-11-01
+apiVersion: 2021-02-01
 summary: Lists all the VirtualHubs in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualHubs?api-version=2020-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualHubs?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -145,6 +145,10 @@ definitions:
     description: Flag to control transit for VirtualRouter hub.
     types:
     - uid: boolean
+  - name: properties.preferredRoutingGateway
+    description: The preferred gateway to route on-prem traffic
+    types:
+    - uid: PreferredRoutingGateway
   - name: id
     description: Resource ID.
     types:
@@ -273,6 +277,19 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: PreferredRoutingGateway
+  description: The preferred routing gateway types
+  kind: enum
+  properties:
+  - name: ExpressRoute
+    types:
+    - uid: string
+  - name: VpnGateway
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
 - name: VirtualHubRoute
   description: VirtualHub route.
   kind: object
@@ -311,7 +328,7 @@ definitions:
 examples:
 - name: VirtualHubList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/virtualHubs?api-version=2020-11-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/virtualHubs?api-version=2021-02-01
   responses:
   - statusCode: "200"
     body: >-
@@ -372,7 +389,8 @@ examples:
                 "10.10.1.12",
                 "10.10.1.13"
               ],
-              "allowBranchToBranchTraffic": false
+              "allowBranchToBranchTraffic": false,
+              "preferredRoutingGateway": "ExpressRoute"
             }
           },
           {
@@ -430,7 +448,8 @@ examples:
                 "10.10.1.12",
                 "10.10.1.13"
               ],
-              "allowBranchToBranchTraffic": false
+              "allowBranchToBranchTraffic": false,
+              "preferredRoutingGateway": "ExpressRoute"
             }
           }
         ]

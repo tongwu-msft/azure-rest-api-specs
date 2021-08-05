@@ -6015,6 +6015,46 @@
 #### [List](compute/Images/List.yml)
 #### [List By Resource Group](compute/Images/List-By-Resource-Group.yml)
 #### [Update](compute/Images/Update.yml)
+### Inbound Nat Rules
+#### [Overview](compute/Inbound-Nat-Rules.yml)
+#### [Create Or Update](compute/Inbound-Nat-Rules/Create-Or-Update.yml)
+#### [Delete](compute/Inbound-Nat-Rules/Delete.yml)
+#### [Get](compute/Inbound-Nat-Rules/Get.yml)
+#### [List](compute/Inbound-Nat-Rules/List.yml)
+### Load Balancer Backend Address Pools
+#### [Overview](compute/Load-Balancer-Backend-Address-Pools.yml)
+#### [Create Or Update](compute/Load-Balancer-Backend-Address-Pools/Create-Or-Update.yml)
+#### [Delete](compute/Load-Balancer-Backend-Address-Pools/Delete.yml)
+#### [Get](compute/Load-Balancer-Backend-Address-Pools/Get.yml)
+#### [List](compute/Load-Balancer-Backend-Address-Pools/List.yml)
+### Load Balancer Frontend IP Configurations
+#### [Overview](compute/Load-Balancer-Frontend-IP-Configurations.yml)
+#### [Get](compute/Load-Balancer-Frontend-IP-Configurations/Get.yml)
+#### [List](compute/Load-Balancer-Frontend-IP-Configurations/List.yml)
+### Load Balancer Load Balancing Rules
+#### [Overview](compute/Load-Balancer-Load-Balancing-Rules.yml)
+#### [Get](compute/Load-Balancer-Load-Balancing-Rules/Get.yml)
+#### [List](compute/Load-Balancer-Load-Balancing-Rules/List.yml)
+### Load Balancer Network Interfaces
+#### [Overview](compute/Load-Balancer-Network-Interfaces.yml)
+#### [List](compute/Load-Balancer-Network-Interfaces/List.yml)
+### Load Balancer Outbound Rules
+#### [Overview](compute/Load-Balancer-Outbound-Rules.yml)
+#### [Get](compute/Load-Balancer-Outbound-Rules/Get.yml)
+#### [List](compute/Load-Balancer-Outbound-Rules/List.yml)
+### Load Balancer Probes
+#### [Overview](compute/Load-Balancer-Probes.yml)
+#### [Get](compute/Load-Balancer-Probes/Get.yml)
+#### [List](compute/Load-Balancer-Probes/List.yml)
+### Load Balancers
+#### [Overview](compute/Load-Balancers.yml)
+#### [Create Or Update](compute/Load-Balancers/Create-Or-Update.yml)
+#### [Delete](compute/Load-Balancers/Delete.yml)
+#### [Get](compute/Load-Balancers/Get.yml)
+#### [List](compute/Load-Balancers/List.yml)
+#### [List All](compute/Load-Balancers/List-All.yml)
+#### [Swap Public Ip Addresses](compute/Load-Balancers/Swap-Public-Ip-Addresses.yml)
+#### [Update Tags](compute/Load-Balancers/Update-Tags.yml)
 ### Log Analytics
 #### [Overview](compute/Log-Analytics.yml)
 #### [Export Request Rate By Interval](compute/Log-Analytics/Export-Request-Rate-By-Interval.yml)
@@ -9628,6 +9668,7 @@
 ### [Get](load-balancer/Load-Balancers/Get.yml)
 ### [List](load-balancer/Load-Balancers/List.yml)
 ### [List All](load-balancer/Load-Balancers/List-All.yml)
+### [Swap Public Ip Addresses](load-balancer/Load-Balancers/Swap-Public-Ip-Addresses.yml)
 ### [Update Tags](load-balancer/Load-Balancers/Update-Tags.yml)
 # Log Analytics
 ## [Overview](../docs-ref-conceptual/loganalytics/index.md)
@@ -11198,6 +11239,12 @@
 ### [Start Packet Capture](network-gateway/Virtual-Network-Gateway-Connections/Start-Packet-Capture.yml)
 ### [Stop Packet Capture](network-gateway/Virtual-Network-Gateway-Connections/Stop-Packet-Capture.yml)
 ### [Update Tags](network-gateway/Virtual-Network-Gateway-Connections/Update-Tags.yml)
+## Virtual Network Gateway Nat Rules
+### [Overview](network-gateway/Virtual-Network-Gateway-Nat-Rules.yml)
+### [Create Or Update](network-gateway/Virtual-Network-Gateway-Nat-Rules/Create-Or-Update.yml)
+### [Delete](network-gateway/Virtual-Network-Gateway-Nat-Rules/Delete.yml)
+### [Get](network-gateway/Virtual-Network-Gateway-Nat-Rules/Get.yml)
+### [List By Virtual Network Gateway](network-gateway/Virtual-Network-Gateway-Nat-Rules/List-By-Virtual-Network-Gateway.yml)
 ## Virtual Network Gateways
 ### [Overview](network-gateway/Virtual-Network-Gateways.yml)
 ### [Create Or Update](network-gateway/Virtual-Network-Gateways/Create-Or-Update.yml)
@@ -19744,6 +19791,11 @@
 ## Skus
 ### [Overview](storagecache/Skus.yml)
 ### [List](storagecache/Skus/List.yml)
+## Storage Target
+### [Overview](storagecache/Storage-Target.yml)
+### [Flush](storagecache/Storage-Target/Flush.yml)
+### [Resume](storagecache/Storage-Target/Resume.yml)
+### [Suspend](storagecache/Storage-Target/Suspend.yml)
 ## Storage Targets
 ### [Overview](storagecache/Storage-Targets.yml)
 ### [Create Or Update](storagecache/Storage-Targets/Create-Or-Update.yml)
@@ -20661,6 +20713,12 @@
 ### [List](virtualnetwork/Custom-IP-Prefixes/List.yml)
 ### [List All](virtualnetwork/Custom-IP-Prefixes/List-All.yml)
 ### [Update Tags](virtualnetwork/Custom-IP-Prefixes/Update-Tags.yml)
+## Ddos Custom Policies
+### [Overview](virtualnetwork/Ddos-Custom-Policies.yml)
+### [Create Or Update](virtualnetwork/Ddos-Custom-Policies/Create-Or-Update.yml)
+### [Delete](virtualnetwork/Ddos-Custom-Policies/Delete.yml)
+### [Get](virtualnetwork/Ddos-Custom-Policies/Get.yml)
+### [Update Tags](virtualnetwork/Ddos-Custom-Policies/Update-Tags.yml)
 ## Ddos Protection Plans
 ### [Overview](virtualnetwork/Ddos-Protection-Plans.yml)
 ### [Create Or Update](virtualnetwork/Ddos-Protection-Plans/Create-Or-Update.yml)
