@@ -58,8 +58,8 @@ Alternatives include the following Azure SDKs, which are independently updated o
 
 + [.NET](/dotnet/api/overview/azure/search/management)
 + [Python](/python/api/overview/azure/search/management?view=azure-python)
-+ [Node.js (readme)](/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.nodejs.md)
-+ [TypeScript (readme)](/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.typescript.md)
++ [Node.js (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.nodejs.md)
++ [TypeScript (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.typescript.md)
 
 ## See also
 
