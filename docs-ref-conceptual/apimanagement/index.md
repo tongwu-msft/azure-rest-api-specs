@@ -1,19 +1,18 @@
 ---
-ms.assetid: 42b764a3-97dd-4a44-9205-4fe1be8bcc92
-title: Azure API Management
+title: Azure API Management REST API
+description: REST API reference for the Azure API Management service
 ms.service: api-management
-author: steved0x
-ms.author: sdanie
-ms.manager: douge
-service_description: To be added
+author: dlepow
+ms.author: danlep
+ms.topic: reference
+ms.devlang: rest-api
 ---
 
-
-# Azure API Management
+# Azure API Management REST API reference
 
 Azure API Management provides a REST API for performing operations on selected entities, such as users, groups, products, and subscriptions. This reference provides a guide for working with the API Management REST API, and specific reference information for each available operation, grouped by entity.
 
-## REST Operation Groups
+## REST operation groups
 
 | Operation Group                                                                                     | Description                                                                                                                    |
 |-----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
@@ -60,7 +59,7 @@ Azure API Management provides a REST API for performing operations on selected e
 | [Network Status](xref:management.azure.com.apimanagement.2020-12-01.networkstatus)                             | Provides Api for viewing the Network Status of a service instance deployed in Virtual Network.                                 |
 | [Notification](xref:management.azure.com.apimanagement.2020-12-01.notification)                                | Provides operations for managing notifications for a service instance.                                                         |
 | [Notifications Recipient Email](xref:management.azure.com.apimanagement.2020-12-01.notificationrecipientemail) | Provides operations for managing email recipients configured for notifications in a service instance.                          |
-| [Notifications Recipient User](xref:management.azure.com.apimanagement.2020-12-01.notification-ecipientuser)   | Provides operations for managing email recipient users configured for notifications in a service instance.                     |
+| [Notifications Recipient User](xref:management.azure.com.apimanagement.2020-12-01.notificationrecipientuser)   | Provides operations for managing email recipient users configured for notifications in a service instance.                     |
 | [Open ID Connect Providers](xref:management.azure.com.apimanagement.2020-12-01.openidconnectprovider)          | Provides operations for managing the Open ID Connect Providers for the service instance.                                       |
 | [Policy](xref:management.azure.com.apimanagement.2020-12-01.policy)                                            | Provides operations for policy management at the global service instance level.                                                |      
 | [Policy Description](xref:management.azure.com.apimanagement.2020-12-01.policydescription)                                            | Provides operations for policy descriptiion for the service instance.                                                |                                                                              |
@@ -97,7 +96,7 @@ Azure API Management provides a REST API for performing operations on selected e
 
 ## See Also
 
-- [Azure API Management documentation](https://docs.microsoft.com/azure/api-management/)
+- [Azure API Management documentation](/azure/api-management/)
 - [Azure API Management FAQ](https://azure.microsoft.com/documentation/articles/api-management-faq/)
 - [What is Azure API Management](https://azure.microsoft.com/documentation/articles/api-management-key-concepts/)
 - [Original Access API model](../apimanagement/ApiManagementREST/API-Management-REST.md)
