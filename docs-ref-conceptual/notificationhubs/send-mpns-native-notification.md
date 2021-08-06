@@ -1,28 +1,31 @@
 ﻿---
-title: "Send Microsoft Push Notification Services (MPNS) notification"
+title: "Send Microsoft Push Notification Service (MPNS) notification"
 ms.custom: ""
-ms.date: 04/05/2019
+ms.date: 08/05/2021
 ms.reviewer: ""
 ms.service: "notification-hubs"
 ms.suite: ""
 ms.tgt_pltfrm: ""
 ms.topic: "reference"
-author: "spelluru"
-ms.author: "spelluru"
-manager: "timlt"
+author: "sethmanheim"
+ms.author: "sethm"
+manager: "femila"
 
 ---
 
 
-# Send a Microsoft Push Notification Services (MPNS) native notification
+# Send a Microsoft Push Notification Service (MPNS) native notification
+
 Sends an MPNS native notification through a notification hub.
+
+> [!IMPORTANT]
+> Microsoft Push Notification Service (MPNS) has been deprecated and is no longer supported.
 
 ## Request
 
 | Method | Request URI | HTTP Version |
 | ------ | ----------- | ------------ | 
 | POST | `https://{namespace}.servicebus.windows.net/{NotificationHub}/messages/?api-version=2015-01` | HTTP/1.1 |
-
 
 ## Request headers
 
