@@ -3,12 +3,15 @@ uid: communication.chat.chatthread.sendtypingnotification
 name: Send Typing Notification
 service: Communication
 groupName: Chat Thread
-apiVersion: 2021-03-07
+apiVersion: 2021-04-05-preview6
 summary: Posts a typing event to a thread, on behalf of a user.
+consumes:
+- application/json
+- application/merge-patch+json
 produces:
 - application/json
 paths:
-- content: POST {endpoint}/chat/threads/{chatThreadId}/typing?api-version=2021-03-07
+- content: POST {endpoint}/chat/threads/{chatThreadId}/typing?api-version=2021-04-05-preview6
 uriParameters:
 - name: endpoint
   in: path
@@ -48,6 +51,14 @@ responses:
   description: Service unavailable.
   types:
   - uid: CommunicationErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: senderDisplayName
+    in: body
+    description: The display name of the typing notification sender. This property is used to populate sender name for push notifications.
+    types:
+    - uid: string
 requestHeader:
 - name: Authorization
   in: header
@@ -55,11 +66,23 @@ requestHeader:
   description: An ACS (Azure Communication Services) user access token.
   types:
   - uid: string
-definitions: []
+definitions:
+- name: SendTypingNotificationRequest
+  description: Request payload for typing notifications.
+  kind: object
+  properties:
+  - name: senderDisplayName
+    description: The display name of the typing notification sender. This property is used to populate sender name for push notifications.
+    types:
+    - uid: string
 examples:
 - name: Post typing event to a thread
   request:
-    uri: POST https://contoso.westus.communications.azure.com/chat/threads/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/typing?api-version=2021-03-07
+    uri: POST https://contoso.westus.communications.azure.com/chat/threads/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/typing?api-version=2021-04-05-preview6
+    body: >-
+      {
+        "senderDisplayName": "Jane"
+      }
   responses:
   - statusCode: "200"
   - statusCode: "401"
