@@ -3,14 +3,16 @@ uid: management.azure.com.compute.galleries.get
 name: Get
 service: Compute
 groupName: Galleries
-apiVersion: 2019-12-01
+apiVersion: 2020-09-30
 summary: Retrieves information about a Shared Image Gallery.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}?api-version=2019-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}?api-version=2020-09-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}?api-version=2020-09-30&$select=Permissions
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,6 +38,11 @@ uriParameters:
   description: Client Api Version.
   types:
   - uid: string
+- name: $select
+  in: query
+  description: The select expression to apply on the operation.
+  types:
+  - uid: SelectPermissions
 responses:
 - name: 200 OK
   description: OK
@@ -47,6 +54,13 @@ responses:
   - uid: CloudError
 requestHeader: []
 definitions:
+- name: SelectPermissions
+  description: The select expression to apply on the operation.
+  kind: enum
+  properties:
+  - name: Permissions
+    types:
+    - uid: string
 - name: Gallery
   description: Specifies information about the Shared Image Gallery that you want to create or update.
   kind: object
@@ -70,6 +84,10 @@ definitions:
     - uid: Deleting
     - uid: Migrating
     typesTitle: enum
+  - name: properties.sharingProfile
+    description: Profile for gallery sharing to subscription or tenant
+    types:
+    - uid: SharingProfile
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -114,6 +132,20 @@ definitions:
     description: The unique name of the Shared Image Gallery. This name is generated automatically by Azure.
     types:
     - uid: string
+- name: SharingProfile
+  description: Profile for gallery sharing to subscription or tenant
+  kind: object
+  properties:
+  - name: permissions
+    description: 'This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups**'
+    types:
+    - uid: GallerySharingPermissionTypes
+  - name: groups
+    isReadyOnly: true
+    description: A list of sharing profile groups.
+    types:
+    - uid: SharingProfileGroup
+      isArray: true
 - name: ApiError
   description: Api error.
   kind: object
@@ -139,6 +171,29 @@ definitions:
     description: The error message.
     types:
     - uid: string
+- name: GallerySharingPermissionTypes
+  description: 'This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups**'
+  kind: enum
+  properties:
+  - name: Private
+    types:
+    - uid: string
+  - name: Groups
+    types:
+    - uid: string
+- name: SharingProfileGroup
+  description: Group of the gallery sharing profile
+  kind: object
+  properties:
+  - name: type
+    description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
+    types:
+    - uid: SharingProfileGroupTypes
+  - name: ids
+    description: A list of subscription/tenant ids the gallery is aimed to be shared to.
+    types:
+    - uid: string
+      isArray: true
 - name: ApiErrorBase
   description: Api error base.
   kind: object
@@ -167,10 +222,20 @@ definitions:
     description: The internal error message or exception dump.
     types:
     - uid: string
+- name: SharingProfileGroupTypes
+  description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
+  kind: enum
+  properties:
+  - name: Subscriptions
+    types:
+    - uid: string
+  - name: AADTenants
+    types:
+    - uid: string
 examples:
 - name: Get a gallery.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2019-12-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2020-09-30&$select=Permissions
   responses:
   - statusCode: "200"
     body: >-
@@ -181,6 +246,36 @@ examples:
             "uniqueName": "{subscription-id}-MYGALLERYNAME"
           },
           "provisioningState": "Succeeded"
+        },
+        "location": "West US",
+        "name": "myGalleryName"
+      }
+- name: Get a gallery with select permissions.
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2020-09-30&$select=Permissions
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "sharingProfile": {
+            "permissions": "Groups",
+            "groups": [
+              {
+                "type": "Subscriptions",
+                "ids": [
+                  "34a4ab42-0d72-47d9-bd1a-aed207386dac",
+                  "380fd389-260b-41aa-bad9-0a83108c370b"
+                ]
+              },
+              {
+                "type": "AADTenants",
+                "ids": [
+                  "c24c76aa-8897-4027-9b03-8f7928b54ff6"
+                ]
+              }
+            ]
+          }
         },
         "location": "West US",
         "name": "myGalleryName"

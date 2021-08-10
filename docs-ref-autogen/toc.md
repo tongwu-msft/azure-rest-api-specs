@@ -6007,6 +6007,9 @@
 #### [Get](compute/Gallery-Images/Get.yml)
 #### [List By Gallery](compute/Gallery-Images/List-By-Gallery.yml)
 #### [Update](compute/Gallery-Images/Update.yml)
+### Gallery Sharing Profile
+#### [Overview](compute/Gallery-Sharing-Profile.yml)
+#### [Update](compute/Gallery-Sharing-Profile/Update.yml)
 ### Images
 #### [Overview](compute/Images.yml)
 #### [Create Or Update](compute/Images/Create-Or-Update.yml)

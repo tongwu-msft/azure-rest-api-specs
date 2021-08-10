@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleryimageversions.update
 name: Update
 service: Compute
 groupName: Gallery Image Versions
-apiVersion: 2019-12-01
-summary: Update a gallery Image Version.
+apiVersion: 2020-09-30
+summary: Update a gallery image version.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?api-version=2019-12-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?api-version=2020-09-30
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,13 +33,13 @@ uriParameters:
 - name: galleryImageName
   in: path
   isRequired: true
-  description: The name of the gallery Image Definition in which the Image Version is to be updated.
+  description: The name of the gallery image definition in which the Image Version is to be updated.
   types:
   - uid: string
 - name: galleryImageVersionName
   in: path
   isRequired: true
-  description: 'The name of the gallery Image Version to be updated. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>'
+  description: 'The name of the gallery image version to be updated. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>'
   types:
   - uid: string
 - name: api-version
@@ -62,7 +62,7 @@ requestBody:
   parameters:
   - name: properties.publishingProfile
     in: body
-    description: The publishing profile of a gallery Image Version.
+    description: The publishing profile of a gallery image Version.
     types:
     - uid: GalleryImageVersionPublishingProfile
   - name: properties.storageProfile
@@ -83,7 +83,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: GalleryImageVersionPublishingProfile
-  description: The publishing profile of a gallery Image Version.
+  description: The publishing profile of a gallery image Version.
   kind: object
   properties:
   - name: targetRegions
@@ -101,11 +101,11 @@ definitions:
     - uid: boolean
   - name: publishedDate
     isReadyOnly: true
-    description: The timestamp for when the gallery Image Version is published.
+    description: The timestamp for when the gallery image version is published.
     types:
     - uid: string
   - name: endOfLifeDate
-    description: The end of life date of the gallery Image Version. This property can be used for decommissioning purposes. This property is updatable.
+    description: The end of life date of the gallery image version. This property can be used for decommissioning purposes. This property is updatable.
     types:
     - uid: string
   - name: storageAccountType
@@ -130,7 +130,7 @@ definitions:
     - uid: GalleryDataDiskImage
       isArray: true
 - name: ReplicationStatus
-  description: This is the replication status of the gallery Image Version.
+  description: This is the replication status of the gallery image version.
   kind: object
   properties:
   - name: aggregatedState
@@ -145,16 +145,16 @@ definitions:
     - uid: RegionalReplicationStatus
       isArray: true
 - name: GalleryImageVersion
-  description: Specifies information about the gallery Image Version that you want to create or update.
+  description: Specifies information about the gallery image version that you want to create or update.
   kind: object
   properties:
   - name: properties.publishingProfile
-    description: The publishing profile of a gallery Image Version.
+    description: The publishing profile of a gallery image Version.
     types:
     - uid: GalleryImageVersionPublishingProfile
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The current state of the gallery Image Version.  \nThe provisioning state, which only appears in the response."
+    description: "The current state of the gallery image version.  \nThe provisioning state, which only appears in the response."
     types:
     - uid: Creating
     - uid: Updating
@@ -169,7 +169,7 @@ definitions:
     - uid: GalleryImageVersionStorageProfile
   - name: properties.replicationStatus
     isReadyOnly: true
-    description: This is the replication status of the gallery Image Version.
+    description: This is the replication status of the gallery image version.
     types:
     - uid: ReplicationStatus
   - name: id
@@ -208,16 +208,16 @@ definitions:
     types:
     - uid: ApiError
 - name: GalleryImageVersionUpdate
-  description: Specifies information about the gallery Image Version that you want to update.
+  description: Specifies information about the gallery image version that you want to update.
   kind: object
   properties:
   - name: properties.publishingProfile
-    description: The publishing profile of a gallery Image Version.
+    description: The publishing profile of a gallery image Version.
     types:
     - uid: GalleryImageVersionPublishingProfile
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The current state of the gallery Image Version.  \nThe provisioning state, which only appears in the response."
+    description: "The current state of the gallery image version.  \nThe provisioning state, which only appears in the response."
     types:
     - uid: Creating
     - uid: Updating
@@ -232,7 +232,7 @@ definitions:
     - uid: GalleryImageVersionStorageProfile
   - name: properties.replicationStatus
     isReadyOnly: true
-    description: This is the replication status of the gallery Image Version.
+    description: This is the replication status of the gallery image version.
     types:
     - uid: ReplicationStatus
   - name: id
@@ -296,7 +296,11 @@ definitions:
   kind: object
   properties:
   - name: id
-    description: The id of the gallery artifact version source. Can specify a disk uri, snapshot uri, or user image.
+    description: The id of the gallery artifact version source. Can specify a disk uri, snapshot uri, user image or storage account resource.
+    types:
+    - uid: string
+  - name: uri
+    description: The uri of the gallery artifact version source. Currently used to specify vhd/blob source.
     types:
     - uid: string
 - name: GalleryOSDiskImage
@@ -359,7 +363,7 @@ definitions:
   properties:
   - name: region
     isReadyOnly: true
-    description: The region to which the gallery Image Version is being replicated to.
+    description: The region to which the gallery image version is being replicated to.
     types:
     - uid: string
   - name: state
@@ -495,7 +499,7 @@ definitions:
 examples:
 - name: Update a simple Gallery Image Version (Managed Image as source).
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2019-12-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2020-09-30
     body: >-
       {
         "properties": {
@@ -573,6 +577,82 @@ examples:
         "location": "West US",
         "name": "1.0.0"
       }
+- name: Update a simple Gallery Image Version without source id.
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2020-09-30
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS"
+              }
+            ]
+          },
+          "storageProfile": {}
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS"
+              }
+            ],
+            "replicaCount": 1,
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS"
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
+            },
+            "osDiskImage": {
+              "sizeInGB": 10,
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "lun": 1,
+                "sizeInGB": 10,
+                "hostCaching": "None"
+              }
+            ]
+          },
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "1.0.0"
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -583,5 +663,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - Update a gallery Image Version.
+  description: Learn more about Compute service - Update a gallery image version.
 errorCodes: []
