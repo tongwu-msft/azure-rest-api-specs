@@ -37,6 +37,9 @@
 ### [Get Upgrade Profile](aks/Agent-Pools/Get-Upgrade-Profile.yml)
 ### [List](aks/Agent-Pools/List.yml)
 ### [Upgrade Node Image Version](aks/Agent-Pools/Upgrade-Node-Image-Version.yml)
+## Container Services
+### [Overview](aks/Container-Services.yml)
+### [List Orchestrators](aks/Container-Services/List-Orchestrators.yml)
 ## Maintenance Configurations
 ### [Overview](aks/Maintenance-Configurations.yml)
 ### [Create Or Update](aks/Maintenance-Configurations/Create-Or-Update.yml)
@@ -6439,18 +6442,6 @@
 ### [List Events](containerregistry/Webhooks/List-Events.yml)
 ### [Ping](containerregistry/Webhooks/Ping.yml)
 ### [Update](containerregistry/Webhooks/Update.yml)
-# Container Service
-## [Overview](../docs-ref-conceptual/container-service/index.md)
-## Container Service Client
-### [Overview](container-service/Container-Service-Client.yml)
-### [List Orchestrators](container-service/Container-Service-Client/List-Orchestrators.yml)
-## Container Services
-### [Overview](container-service/Container-Services.yml)
-### [Create Or Update](container-service/Container-Services/Create-Or-Update.yml)
-### [Delete](container-service/Container-Services/Delete.yml)
-### [Get](container-service/Container-Services/Get.yml)
-### [List](container-service/Container-Services/List.yml)
-### [List By Resource Group](container-service/Container-Services/List-By-Resource-Group.yml)
 # Cosmos DB
 ## [Overview](../docs-ref-conceptual/cosmos-db/index.md)
 ## [Introduction](../docs-ref-conceptual/cosmos-db/restful-interactions-with-cosmosdb-resources.md)
