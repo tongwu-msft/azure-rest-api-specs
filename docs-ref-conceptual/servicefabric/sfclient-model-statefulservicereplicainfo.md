@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatefulServiceReplicaInfo
+# StatefulServiceReplicaInfo v8.1
 
 Represents a stateful service replica. This includes information about the identity, role, status, health, node name, uptime, and other details about the replica.
 

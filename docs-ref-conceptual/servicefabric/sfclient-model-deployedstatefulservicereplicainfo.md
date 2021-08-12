@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedStatefulServiceReplicaInfo
+# DeployedStatefulServiceReplicaInfo v8.1
 
 Information about a stateful service replica deployed on a node.
 

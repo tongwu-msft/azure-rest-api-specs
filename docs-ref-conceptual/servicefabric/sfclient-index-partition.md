@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Partition APIs
+# Partition APIs v8.1
 
 | Name | Description |
 | --- | --- |

@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReconfigurationInformation
+# ReconfigurationInformation v8.1
 
 Information about current reconfiguration like phase, type, previous configuration role of replica and reconfiguration start date time.
 

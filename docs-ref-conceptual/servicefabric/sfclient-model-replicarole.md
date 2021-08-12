@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReplicaRole enum
+# ReplicaRole enum v8.1
 
 type: string
 

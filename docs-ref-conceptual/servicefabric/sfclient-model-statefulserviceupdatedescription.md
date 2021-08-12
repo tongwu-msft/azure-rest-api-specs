@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatefulServiceUpdateDescription
+# StatefulServiceUpdateDescription v8.1
 
 Describes an update for a stateful service.
 
