@@ -217,7 +217,7 @@ ____
 __Type__: [ReplicaLifecycleDescription](sfclient-model-replicalifecycledescription.md) <br/>
 __Required__: No<br/>
 <br/>
-Defines how replicas of this service will behave during ther lifecycle.
+Defines how replicas of this service will behave during their lifecycle.
 
 ____
 ### `AuxiliaryReplicaCount`
