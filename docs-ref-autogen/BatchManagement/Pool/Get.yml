@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.pool.get
 name: Get
 service: Batch Management
 groupName: Pool
-apiVersion: 2021-01-01
+apiVersion: 2021-06-01
 summary: Gets information about the specified pool.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}?api-version=2021-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools/{poolName}?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -115,7 +115,7 @@ definitions:
     - uid: integer
   - name: properties.currentLowPriorityNodes
     isReadyOnly: true
-    description: The number of low priority compute nodes currently in the pool.
+    description: The number of low-priority compute nodes currently in the pool.
     types:
     - uid: integer
   - name: properties.scaleSettings
@@ -207,7 +207,7 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: An error response from the Batch service.
+    description: The body of the error response.
     types:
     - uid: CloudErrorBody
 - name: BatchPoolIdentity
@@ -219,9 +219,13 @@ definitions:
     types:
     - uid: PoolIdentityType
   - name: userAssignedIdentities
-    description: "The list of user identities associated with the Batch pool. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    description: The list of user identities associated with the Batch pool.
     types:
-    - uid: UserAssignedIdentities
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentities
 - name: PoolProvisioningState
   description: The current state of the pool.
   kind: enum
@@ -438,7 +442,7 @@ definitions:
     types:
     - uid: integer
   - name: targetLowPriorityNodes
-    description: The desired number of low priority compute nodes in the pool.
+    description: The desired number of low-priority compute nodes in the pool.
     types:
     - uid: integer
   - name: resizeTimeout
@@ -512,13 +516,19 @@ definitions:
     types:
     - uid: string
 - name: UserAssignedIdentities
-  description: "The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  description: The list of associated user identities.
   kind: object
   properties:
-  - name: ''
-    description: ''
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of user assigned identity.
     types:
-    - uid: ''
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client id of user assigned identity.
+    types:
+    - uid: string
 - name: CloudServiceConfiguration
   description: The configuration for nodes in a pool based on the Azure Cloud Services platform.
   kind: object
@@ -573,6 +583,10 @@ definitions:
     types:
     - uid: VMExtension
       isArray: true
+  - name: osDisk
+    description: "Settings for the operating system disk of the Virtual Machine.  \nContains configuration for ephemeral OSDisk settings."
+    types:
+    - uid: OSDisk
 - name: FixedScaleSettings
   description: Fixed scale settings for the pool.
   kind: object
@@ -586,7 +600,7 @@ definitions:
     types:
     - uid: integer
   - name: targetLowPriorityNodes
-    description: "The desired number of low priority compute nodes in the pool.  \nAt least one of targetDedicatedNodes, targetLowPriorityNodes must be set."
+    description: "The desired number of low-priority compute nodes in the pool.  \nAt least one of targetDedicatedNodes, targetLowPriorityNodes must be set."
     types:
     - uid: integer
   - name: nodeDeallocationOption
@@ -701,11 +715,11 @@ definitions:
     types:
     - uid: string
   - name: storageContainerUrl
-    description: "The URL of the blob container within Azure Blob Storage.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read and list permissions on the blob, or set the ACL for the blob or its container to allow public access."
+    description: "The URL of the blob container within Azure Blob Storage.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable from compute nodes. There are three ways to get such a URL for a container in Azure storage: include a Shared Access Signature (SAS) granting read and list permissions on the container, use a managed identity with read and list permissions, or set the ACL for the container to allow public access."
     types:
     - uid: string
   - name: httpUrl
-    description: "The URL of the file to download.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL is Azure Blob Storage, it must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access."
+    description: "The URL of the file to download.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL points to Azure Blob Storage, it must be readable from compute nodes. There are three ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, use a managed identity with read permission, or set the ACL for the blob or its container to allow public access."
     types:
     - uid: string
   - name: blobPrefix
@@ -720,6 +734,10 @@ definitions:
     description: "The file permission mode attribute in octal format.  \nThis property applies only to files being downloaded to Linux compute nodes. It will be ignored if it is specified for a resourceFile which will be downloaded to a Windows node. If this property is not specified for a Linux node, then a default value of 0770 is applied to the file."
     types:
     - uid: string
+  - name: identityReference
+    description: "The reference to the user assigned identity to use to access Azure Blob Storage specified by storageContainerUrl or httpUrl  \nThe reference to a user assigned identity associated with the Batch pool which a compute node will use."
+    types:
+    - uid: ComputeNodeIdentityReference
 - name: EnvironmentSetting
   description: An environment variable to be set on a task process.
   kind: object
@@ -826,11 +844,11 @@ definitions:
     types:
     - uid: string
   - name: accountKey
-    description: "The Azure Storage Account key.  \nThis property is mutually exclusive with sasKey and one must be specified."
+    description: "The Azure Storage Account key.  \nThis property is mutually exclusive with both sasKey and identity; exactly one must be specified."
     types:
     - uid: string
   - name: sasKey
-    description: "The Azure Storage SAS token.  \nThis property is mutually exclusive with accountKey and one must be specified."
+    description: "The Azure Storage SAS token.  \nThis property is mutually exclusive with both accountKey and identity; exactly one must be specified."
     types:
     - uid: string
   - name: blobfuseOptions
@@ -841,6 +859,10 @@ definitions:
     description: "The relative path on the compute node where the file system will be mounted  \nAll file systems are mounted relative to the Batch mounts directory, accessible via the AZ_BATCH_NODE_MOUNTS_DIR environment variable."
     types:
     - uid: string
+  - name: identityReference
+    description: "The reference to the user assigned identity to use to access containerName  \nThis property is mutually exclusive with both accountKey and sasKey; exactly one must be specified."
+    types:
+    - uid: ComputeNodeIdentityReference
 - name: NFSMountConfiguration
   description: Information used to connect to an NFS file system.
   kind: object
@@ -1029,6 +1051,14 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: OSDisk
+  description: Settings for the operating system disk of the virtual machine.
+  kind: object
+  properties:
+  - name: ephemeralOSDiskSettings
+    description: Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine.
+    types:
+    - uid: DiffDiskSettings
 - name: InboundNatPool
   description: A inbound NAT pool that can be used to address specific ports on compute nodes in a Batch pool externally.
   kind: object
@@ -1086,6 +1116,14 @@ definitions:
     description: The LOGON32_LOGON_INTERACTIVE Win32 login mode. Some applications require having permissions associated with the interactive login mode. If this is the case for an application used in your task, then this option is recommended.
     types:
     - uid: string
+- name: ComputeNodeIdentityReference
+  description: The reference to a user assigned identity associated with the Batch pool which a compute node will use.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The ARM resource id of the user assigned identity.
+    types:
+    - uid: string
 - name: AutoUserSpecification
   description: Specifies the parameters for the auto user that runs a task on the Batch service.
   kind: object
@@ -1102,10 +1140,6 @@ definitions:
   description: A private container registry.
   kind: object
   properties:
-  - name: registryServer
-    description: "The registry URL.  \nIf omitted, the default is \"docker.io\"."
-    types:
-    - uid: string
   - name: username
     description: The user name to log into the registry server.
     types:
@@ -1114,6 +1148,14 @@ definitions:
     description: The password to log into the registry server.
     types:
     - uid: string
+  - name: registryServer
+    description: "The registry URL.  \nIf omitted, the default is \"docker.io\"."
+    types:
+    - uid: string
+  - name: identityReference
+    description: "The reference to the user assigned identity to use to access an Azure Container Registry instead of username and password.  \nThe reference to a user assigned identity associated with the Batch pool which a compute node will use."
+    types:
+    - uid: ComputeNodeIdentityReference
 - name: ContainerWorkingDirectory
   description: A flag to indicate where the container task working directory is. The default is 'taskWorkingDirectory'.
   kind: enum
@@ -1174,6 +1216,14 @@ definitions:
     description: Nodes in the pool will be spread across different zones with best effort balancing.
     types:
     - uid: string
+- name: DiffDiskSettings
+  description: Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine.
+  kind: object
+  properties:
+  - name: placement
+    description: "Specifies the ephemeral disk placement for operating system disk for all VMs in the pool.  \nThis property can be used by user in the request to choose which location the operating system should be in. e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements."
+    types:
+    - uid: DiffDiskPlacement
 - name: InboundEndpointProtocol
   description: The protocol of the endpoint.
   kind: enum
@@ -1219,6 +1269,14 @@ definitions:
     description: Specifies that the task runs as the common auto user account which is created on every node in a pool.
     types:
     - uid: string
+- name: DiffDiskPlacement
+  description: Specifies the ephemeral disk placement for operating system disk for all VMs in the pool.
+  kind: enum
+  properties:
+  - name: CacheDisk
+    description: The Ephemeral OS Disk is stored on the VM cache.
+    types:
+    - uid: string
 - name: NetworkSecurityGroupRuleAccess
   description: The action that should be taken for a specified IP address, subnet range or tag.
   kind: enum
@@ -1234,7 +1292,7 @@ definitions:
 examples:
 - name: GetPool
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2021-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2021-06-01
   responses:
   - statusCode: "200"
     headers:
@@ -1382,7 +1440,7 @@ examples:
       }
 - name: GetPool - VirtualMachineConfiguration Extensions
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2021-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2021-06-01
   responses:
   - statusCode: "200"
     headers:
@@ -1427,10 +1485,10 @@ examples:
             "virtualMachineConfiguration": {
               "imageReference": {
                 "publisher": "Canonical",
-                "offer": "UbuntuServer",
-                "sku": "16.04.0-LTS"
+                "offer": "0001-com-ubuntu-server-focal",
+                "sku": "20_04-lts"
               },
-              "nodeAgentSkuId": "batch.node.ubuntu 16.04",
+              "nodeAgentSkuId": "batch.node.ubuntu 20.04",
               "extensions": [
                 {
                   "name": "batchextension1",

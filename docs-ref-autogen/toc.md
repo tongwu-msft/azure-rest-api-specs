@@ -37,6 +37,9 @@
 ### [Get Upgrade Profile](aks/Agent-Pools/Get-Upgrade-Profile.yml)
 ### [List](aks/Agent-Pools/List.yml)
 ### [Upgrade Node Image Version](aks/Agent-Pools/Upgrade-Node-Image-Version.yml)
+## Container Services
+### [Overview](aks/Container-Services.yml)
+### [List Orchestrators](aks/Container-Services/List-Orchestrators.yml)
 ## Maintenance Configurations
 ### [Overview](aks/Maintenance-Configurations.yml)
 ### [Create Or Update](aks/Maintenance-Configurations/Create-Or-Update.yml)
@@ -3857,6 +3860,7 @@
 ### [Get Keys](BatchManagement/Batch-Account/Get-Keys.yml)
 ### [List](BatchManagement/Batch-Account/List.yml)
 ### [List By Resource Group](BatchManagement/Batch-Account/List-By-Resource-Group.yml)
+### [List Outbound Network Dependencies Endpoints](BatchManagement/Batch-Account/List-Outbound-Network-Dependencies-Endpoints.yml)
 ### [Regenerate Key](BatchManagement/Batch-Account/Regenerate-Key.yml)
 ### [Synchronize Auto Storage Keys](BatchManagement/Batch-Account/Synchronize-Auto-Storage-Keys.yml)
 ### [Update](BatchManagement/Batch-Account/Update.yml)
@@ -3872,6 +3876,8 @@
 ### [Overview](BatchManagement/Location.yml)
 ### [Check Name Availability](BatchManagement/Location/Check-Name-Availability.yml)
 ### [Get Quotas](BatchManagement/Location/Get-Quotas.yml)
+### [List Supported Cloud Service Skus](BatchManagement/Location/List-Supported-Cloud-Service-Skus.yml)
+### [List Supported Virtual Machine Skus](BatchManagement/Location/List-Supported-Virtual-Machine-Skus.yml)
 ## Operations
 ### [Overview](BatchManagement/Operations.yml)
 ### [List](BatchManagement/Operations/List.yml)
@@ -3932,6 +3938,10 @@
 #### [Reimage](batchservice/Compute-Node/Reimage.yml)
 #### [Update User](batchservice/Compute-Node/Update-User.yml)
 #### [Upload Batch Service Logs](batchservice/Compute-Node/Upload-Batch-Service-Logs.yml)
+### Compute Node Extension
+#### [Overview](batchservice/Compute-Node-Extension.yml)
+#### [Get](batchservice/Compute-Node-Extension/Get.yml)
+#### [List](batchservice/Compute-Node-Extension/List.yml)
 ### File
 #### [Overview](batchservice/File.yml)
 #### [Delete From Compute Node](batchservice/File/Delete-From-Compute-Node.yml)
@@ -6000,6 +6010,9 @@
 #### [Get](compute/Gallery-Images/Get.yml)
 #### [List By Gallery](compute/Gallery-Images/List-By-Gallery.yml)
 #### [Update](compute/Gallery-Images/Update.yml)
+### Gallery Sharing Profile
+#### [Overview](compute/Gallery-Sharing-Profile.yml)
+#### [Update](compute/Gallery-Sharing-Profile/Update.yml)
 ### Images
 #### [Overview](compute/Images.yml)
 #### [Create Or Update](compute/Images/Create-Or-Update.yml)
@@ -6008,6 +6021,46 @@
 #### [List](compute/Images/List.yml)
 #### [List By Resource Group](compute/Images/List-By-Resource-Group.yml)
 #### [Update](compute/Images/Update.yml)
+### Inbound Nat Rules
+#### [Overview](compute/Inbound-Nat-Rules.yml)
+#### [Create Or Update](compute/Inbound-Nat-Rules/Create-Or-Update.yml)
+#### [Delete](compute/Inbound-Nat-Rules/Delete.yml)
+#### [Get](compute/Inbound-Nat-Rules/Get.yml)
+#### [List](compute/Inbound-Nat-Rules/List.yml)
+### Load Balancer Backend Address Pools
+#### [Overview](compute/Load-Balancer-Backend-Address-Pools.yml)
+#### [Create Or Update](compute/Load-Balancer-Backend-Address-Pools/Create-Or-Update.yml)
+#### [Delete](compute/Load-Balancer-Backend-Address-Pools/Delete.yml)
+#### [Get](compute/Load-Balancer-Backend-Address-Pools/Get.yml)
+#### [List](compute/Load-Balancer-Backend-Address-Pools/List.yml)
+### Load Balancer Frontend IP Configurations
+#### [Overview](compute/Load-Balancer-Frontend-IP-Configurations.yml)
+#### [Get](compute/Load-Balancer-Frontend-IP-Configurations/Get.yml)
+#### [List](compute/Load-Balancer-Frontend-IP-Configurations/List.yml)
+### Load Balancer Load Balancing Rules
+#### [Overview](compute/Load-Balancer-Load-Balancing-Rules.yml)
+#### [Get](compute/Load-Balancer-Load-Balancing-Rules/Get.yml)
+#### [List](compute/Load-Balancer-Load-Balancing-Rules/List.yml)
+### Load Balancer Network Interfaces
+#### [Overview](compute/Load-Balancer-Network-Interfaces.yml)
+#### [List](compute/Load-Balancer-Network-Interfaces/List.yml)
+### Load Balancer Outbound Rules
+#### [Overview](compute/Load-Balancer-Outbound-Rules.yml)
+#### [Get](compute/Load-Balancer-Outbound-Rules/Get.yml)
+#### [List](compute/Load-Balancer-Outbound-Rules/List.yml)
+### Load Balancer Probes
+#### [Overview](compute/Load-Balancer-Probes.yml)
+#### [Get](compute/Load-Balancer-Probes/Get.yml)
+#### [List](compute/Load-Balancer-Probes/List.yml)
+### Load Balancers
+#### [Overview](compute/Load-Balancers.yml)
+#### [Create Or Update](compute/Load-Balancers/Create-Or-Update.yml)
+#### [Delete](compute/Load-Balancers/Delete.yml)
+#### [Get](compute/Load-Balancers/Get.yml)
+#### [List](compute/Load-Balancers/List.yml)
+#### [List All](compute/Load-Balancers/List-All.yml)
+#### [Swap Public Ip Addresses](compute/Load-Balancers/Swap-Public-Ip-Addresses.yml)
+#### [Update Tags](compute/Load-Balancers/Update-Tags.yml)
 ### Log Analytics
 #### [Overview](compute/Log-Analytics.yml)
 #### [Export Request Rate By Interval](compute/Log-Analytics/Export-Request-Rate-By-Interval.yml)
@@ -6389,18 +6442,6 @@
 ### [List Events](containerregistry/Webhooks/List-Events.yml)
 ### [Ping](containerregistry/Webhooks/Ping.yml)
 ### [Update](containerregistry/Webhooks/Update.yml)
-# Container Service
-## [Overview](../docs-ref-conceptual/container-service/index.md)
-## Container Service Client
-### [Overview](container-service/Container-Service-Client.yml)
-### [List Orchestrators](container-service/Container-Service-Client/List-Orchestrators.yml)
-## Container Services
-### [Overview](container-service/Container-Services.yml)
-### [Create Or Update](container-service/Container-Services/Create-Or-Update.yml)
-### [Delete](container-service/Container-Services/Delete.yml)
-### [Get](container-service/Container-Services/Get.yml)
-### [List](container-service/Container-Services/List.yml)
-### [List By Resource Group](container-service/Container-Services/List-By-Resource-Group.yml)
 # Cosmos DB
 ## [Overview](../docs-ref-conceptual/cosmos-db/index.md)
 ## [Introduction](../docs-ref-conceptual/cosmos-db/restful-interactions-with-cosmosdb-resources.md)
@@ -9621,6 +9662,7 @@
 ### [Get](load-balancer/Load-Balancers/Get.yml)
 ### [List](load-balancer/Load-Balancers/List.yml)
 ### [List All](load-balancer/Load-Balancers/List-All.yml)
+### [Swap Public Ip Addresses](load-balancer/Load-Balancers/Swap-Public-Ip-Addresses.yml)
 ### [Update Tags](load-balancer/Load-Balancers/Update-Tags.yml)
 # Log Analytics
 ## [Overview](../docs-ref-conceptual/loganalytics/index.md)
@@ -11191,6 +11233,12 @@
 ### [Start Packet Capture](network-gateway/Virtual-Network-Gateway-Connections/Start-Packet-Capture.yml)
 ### [Stop Packet Capture](network-gateway/Virtual-Network-Gateway-Connections/Stop-Packet-Capture.yml)
 ### [Update Tags](network-gateway/Virtual-Network-Gateway-Connections/Update-Tags.yml)
+## Virtual Network Gateway Nat Rules
+### [Overview](network-gateway/Virtual-Network-Gateway-Nat-Rules.yml)
+### [Create Or Update](network-gateway/Virtual-Network-Gateway-Nat-Rules/Create-Or-Update.yml)
+### [Delete](network-gateway/Virtual-Network-Gateway-Nat-Rules/Delete.yml)
+### [Get](network-gateway/Virtual-Network-Gateway-Nat-Rules/Get.yml)
+### [List By Virtual Network Gateway](network-gateway/Virtual-Network-Gateway-Nat-Rules/List-By-Virtual-Network-Gateway.yml)
 ## Virtual Network Gateways
 ### [Overview](network-gateway/Virtual-Network-Gateways.yml)
 ### [Create Or Update](network-gateway/Virtual-Network-Gateways/Create-Or-Update.yml)
@@ -19737,6 +19785,11 @@
 ## Skus
 ### [Overview](storagecache/Skus.yml)
 ### [List](storagecache/Skus/List.yml)
+## Storage Target
+### [Overview](storagecache/Storage-Target.yml)
+### [Flush](storagecache/Storage-Target/Flush.yml)
+### [Resume](storagecache/Storage-Target/Resume.yml)
+### [Suspend](storagecache/Storage-Target/Suspend.yml)
 ## Storage Targets
 ### [Overview](storagecache/Storage-Targets.yml)
 ### [Create Or Update](storagecache/Storage-Targets/Create-Or-Update.yml)
@@ -20491,30 +20544,6 @@
 ### [Syntax](../docs-ref-conceptual/time-series-insights/gen1-query-syntax.md)
 ### [Reference Data API](../docs-ref-conceptual/time-series-insights/gen1-reference-data-api.md)
 ## Reference
-### Data Access (Preview)
-#### Model Settings
-##### [Overview](time-series-insights/dataaccess(preview)/Model-Settings.yml)
-##### [Get](time-series-insights/dataaccess(preview)/Model-Settings/Get.yml)
-##### [Update](time-series-insights/dataaccess(preview)/Model-Settings/Update.yml)
-#### Query
-##### [Overview](time-series-insights/dataaccess(preview)/Query.yml)
-##### [Execute](time-series-insights/dataaccess(preview)/Query/Execute.yml)
-##### [Get Availability](time-series-insights/dataaccess(preview)/Query/Get-Availability.yml)
-##### [Get Event Schema](time-series-insights/dataaccess(preview)/Query/Get-Event-Schema.yml)
-#### Time Series Hierarchies
-##### [Overview](time-series-insights/dataaccess(preview)/Time-Series-Hierarchies.yml)
-##### [Execute Batch](time-series-insights/dataaccess(preview)/Time-Series-Hierarchies/Execute-Batch.yml)
-##### [Get](time-series-insights/dataaccess(preview)/Time-Series-Hierarchies/Get.yml)
-#### Time Series Instances
-##### [Overview](time-series-insights/dataaccess(preview)/Time-Series-Instances.yml)
-##### [Execute Batch](time-series-insights/dataaccess(preview)/Time-Series-Instances/Execute-Batch.yml)
-##### [Get](time-series-insights/dataaccess(preview)/Time-Series-Instances/Get.yml)
-##### [Search](time-series-insights/dataaccess(preview)/Time-Series-Instances/Search.yml)
-##### [Suggest](time-series-insights/dataaccess(preview)/Time-Series-Instances/Suggest.yml)
-#### Time Series Types
-##### [Overview](time-series-insights/dataaccess(preview)/Time-Series-Types.yml)
-##### [Execute Batch](time-series-insights/dataaccess(preview)/Time-Series-Types/Execute-Batch.yml)
-##### [Get](time-series-insights/dataaccess(preview)/Time-Series-Types/Get.yml)
 ### Data Access Gen2
 #### Model Settings
 ##### [Overview](time-series-insights/dataaccessgen2/Model-Settings.yml)
@@ -20678,6 +20707,12 @@
 ### [List](virtualnetwork/Custom-IP-Prefixes/List.yml)
 ### [List All](virtualnetwork/Custom-IP-Prefixes/List-All.yml)
 ### [Update Tags](virtualnetwork/Custom-IP-Prefixes/Update-Tags.yml)
+## Ddos Custom Policies
+### [Overview](virtualnetwork/Ddos-Custom-Policies.yml)
+### [Create Or Update](virtualnetwork/Ddos-Custom-Policies/Create-Or-Update.yml)
+### [Delete](virtualnetwork/Ddos-Custom-Policies/Delete.yml)
+### [Get](virtualnetwork/Ddos-Custom-Policies/Get.yml)
+### [Update Tags](virtualnetwork/Ddos-Custom-Policies/Update-Tags.yml)
 ## Ddos Protection Plans
 ### [Overview](virtualnetwork/Ddos-Protection-Plans.yml)
 ### [Create Or Update](virtualnetwork/Ddos-Protection-Plans/Create-Or-Update.yml)

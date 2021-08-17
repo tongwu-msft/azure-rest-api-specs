@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleries.listbyresourcegroup
 name: List By Resource Group
 service: Compute
 groupName: Galleries
-apiVersion: 2019-12-01
+apiVersion: 2020-09-30
 summary: List galleries under a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries?api-version=2019-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries?api-version=2020-09-30
 uriParameters:
 - name: subscriptionId
   in: path
@@ -85,6 +85,10 @@ definitions:
     - uid: Deleting
     - uid: Migrating
     typesTitle: enum
+  - name: properties.sharingProfile
+    description: Profile for gallery sharing to subscription or tenant
+    types:
+    - uid: SharingProfile
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -146,6 +150,20 @@ definitions:
     description: The unique name of the Shared Image Gallery. This name is generated automatically by Azure.
     types:
     - uid: string
+- name: SharingProfile
+  description: Profile for gallery sharing to subscription or tenant
+  kind: object
+  properties:
+  - name: permissions
+    description: 'This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups**'
+    types:
+    - uid: GallerySharingPermissionTypes
+  - name: groups
+    isReadyOnly: true
+    description: A list of sharing profile groups.
+    types:
+    - uid: SharingProfileGroup
+      isArray: true
 - name: ApiErrorBase
   description: Api error base.
   kind: object
@@ -174,10 +192,43 @@ definitions:
     description: The internal error message or exception dump.
     types:
     - uid: string
+- name: GallerySharingPermissionTypes
+  description: 'This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups**'
+  kind: enum
+  properties:
+  - name: Private
+    types:
+    - uid: string
+  - name: Groups
+    types:
+    - uid: string
+- name: SharingProfileGroup
+  description: Group of the gallery sharing profile
+  kind: object
+  properties:
+  - name: type
+    description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
+    types:
+    - uid: SharingProfileGroupTypes
+  - name: ids
+    description: A list of subscription/tenant ids the gallery is aimed to be shared to.
+    types:
+    - uid: string
+      isArray: true
+- name: SharingProfileGroupTypes
+  description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
+  kind: enum
+  properties:
+  - name: Subscriptions
+    types:
+    - uid: string
+  - name: AADTenants
+    types:
+    - uid: string
 examples:
 - name: List galleries in a resource group.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries?api-version=2019-12-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries?api-version=2020-09-30
   responses:
   - statusCode: "200"
     body: >-

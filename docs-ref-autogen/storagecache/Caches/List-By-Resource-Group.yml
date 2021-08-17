@@ -3,14 +3,14 @@ uid: management.azure.com.storagecache.caches.listbyresourcegroup
 name: List By Resource Group
 service: Storagecache
 groupName: Caches
-apiVersion: 2021-03-01
+apiVersion: 2021-05-01
 summary: Returns all Caches the user has access to under a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches?api-version=2021-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -122,6 +122,7 @@ definitions:
     - uid: string
       isArray: true
   - name: properties.provisioningState
+    isReadyOnly: true
     description: ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
     types:
     - uid: ProvisioningStateType
@@ -130,6 +131,7 @@ definitions:
     types:
     - uid: string
   - name: properties.upgradeStatus
+    isReadyOnly: true
     description: Upgrade status of the Cache.
     types:
     - uid: CacheUpgradeStatus
@@ -176,18 +178,22 @@ definitions:
   properties:
   - name: principalId
     isReadyOnly: true
-    description: The principal id of the cache.
+    description: The principal ID for the system-assigned identity of the cache.
     types:
     - uid: string
   - name: tenantId
     isReadyOnly: true
-    description: The tenant id associated with the cache.
+    description: The tenant ID associated with the cache.
     types:
     - uid: string
   - name: type
     description: The type of identity used for the cache
     types:
     - uid: CacheIdentityType
+  - name: userAssignedIdentities
+    description: A dictionary where each key is a user assigned identity resource ID, and each key's value is an empty dictionary.
+    types:
+    - uid: UserAssignedIdentities
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -328,6 +334,10 @@ definitions:
     description: Specifies the location of the key encryption key in Key Vault.
     types:
     - uid: KeyVaultKeyReference
+  - name: rotationToLatestKeyVersionEnabled
+    description: Specifies whether the service will automatically rotate to the newest version of the key in the Key Vault.
+    types:
+    - uid: boolean
 - name: CacheSecuritySettings
   description: Cache security settings.
   kind: object
@@ -356,9 +366,23 @@ definitions:
   - name: SystemAssigned
     types:
     - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
   - name: None
     types:
     - uid: string
+- name: UserAssignedIdentities
+  description: A dictionary where each key is a user assigned identity resource ID, and each key's value is an empty dictionary.
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -668,7 +692,7 @@ definitions:
 examples:
 - name: Caches_ListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches?api-version=2021-05-01
   responses:
   - statusCode: "200"
     body: >-

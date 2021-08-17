@@ -75,7 +75,7 @@ Before getting started, ensure you have:
 - Your Azure Managed Identity
 - The URL Path and HTTP Verb that you're calling
 
-For how to create Azure Managed Identity, see - [Create an Azure Active Directory managed identity application from the Azure CLI](https://docs.microsoft.com/azure/communication-services/quickstarts/managed-identity-from-cli.md).
+For how to create Azure Managed Identity, see - [Create an Azure Active Directory managed identity application from the Azure CLI](https://docs.microsoft.com/azure/communication-services/quickstarts/identity/service-principal-from-cli).
 
 Once you have Azure Managed Identity created, you can use one of its secrets for authentication to access Communication Services for creating users, issuing user access tokens, or sending SMS messages.
 

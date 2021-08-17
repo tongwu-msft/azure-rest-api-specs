@@ -3,15 +3,15 @@ uid: batchservice.task.addcollection
 name: Add Collection
 service: Batch Service
 groupName: Task
-apiVersion: 2020-09-01.12.0
+apiVersion: 2021-06-01.14.0
 summary: "Adds a collection of Tasks to the specified Job.  \nNote that each Task must have a unique ID. The Batch service may not return the results for each Task in the same order the Tasks were submitted in this request. If the server times out or the connection is closed during the request, the request may have been partially or fully processed, or not at all. In such cases, the user should re-issue the request. Note that it is up to the user to correctly handle failures when re-issuing a request. For example, you should use the same Task IDs during a retry so that if the prior operation succeeded, the retry will not create extra Tasks unexpectedly. If the response contains any Tasks which failed to add, a client can retry the request. In a retry, it is most efficient to resubmit only Tasks that failed to add, and to omit Tasks that were successfully added on the first attempt. The maximum lifetime of a Task from addition to completion is 180 days. If a Task has not completed within 180 days of being added it will be terminated by the Batch service and left in whatever state it was in at that time."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: POST {batchUrl}/jobs/{jobId}/addtaskcollection?api-version=2020-09-01.12.0
-- content: POST {batchUrl}/jobs/{jobId}/addtaskcollection?timeout={timeout}&api-version=2020-09-01.12.0
+- content: POST {batchUrl}/jobs/{jobId}/addtaskcollection?api-version=2021-06-01.14.0
+- content: POST {batchUrl}/jobs/{jobId}/addtaskcollection?timeout={timeout}&api-version=2021-06-01.14.0
   isOptional: true
 uriParameters:
 - name: batchUrl
@@ -244,11 +244,11 @@ definitions:
     types:
     - uid: string
   - name: storageContainerUrl
-    description: "The URL of the blob container within Azure Blob Storage.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable using anonymous access; that is, the Batch service does not present any credentials when downloading blobs from the container. There are two ways to get such a URL for a container in Azure storage: include a Shared Access Signature (SAS) granting read and list permissions on the container, or set the ACL for the container to allow public access."
+    description: "The URL of the blob container within Azure Blob Storage.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. This URL must be readable and listable from compute nodes. There are three ways to get such a URL for a container in Azure storage: include a Shared Access Signature (SAS) granting read and list permissions on the container, use a managed identity with read and list permissions, or set the ACL for the container to allow public access."
     types:
     - uid: string
   - name: httpUrl
-    description: "The URL of the file to download.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL points to Azure Blob Storage, it must be readable using anonymous access; that is, the Batch service does not present any credentials when downloading the blob. There are two ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, or set the ACL for the blob or its container to allow public access."
+    description: "The URL of the file to download.  \nThe autoStorageContainerName, storageContainerUrl and httpUrl properties are mutually exclusive and one of them must be specified. If the URL points to Azure Blob Storage, it must be readable from compute nodes. There are three ways to get such a URL for a blob in Azure storage: include a Shared Access Signature (SAS) granting read permissions on the blob, use a managed identity with read permission, or set the ACL for the blob or its container to allow public access."
     types:
     - uid: string
   - name: blobPrefix
@@ -263,6 +263,10 @@ definitions:
     description: "The file permission mode attribute in octal format.  \nThis property applies only to files being downloaded to Linux Compute Nodes. It will be ignored if it is specified for a resourceFile which will be downloaded to a Windows Compute Node. If this property is not specified for a Linux Compute Node, then a default value of 0770 is applied to the file."
     types:
     - uid: string
+  - name: identityReference
+    description: "The reference to the user assigned identity to use to access Azure Blob Storage specified by storageContainerUrl or httpUrl  \nThe reference to a user assigned identity associated with the Batch pool which a compute node will use."
+    types:
+    - uid: ComputeNodeIdentityReference
 - name: OutputFile
   description: A specification for uploading files from an Azure Batch Compute Node to another location after the Batch service has finished executing the Task process.
   kind: object
@@ -435,10 +439,6 @@ definitions:
   description: A private container registry.
   kind: object
   properties:
-  - name: registryServer
-    description: "The registry URL.  \nIf omitted, the default is \"docker.io\"."
-    types:
-    - uid: string
   - name: username
     description: The user name to log into the registry server.
     types:
@@ -447,6 +447,14 @@ definitions:
     description: The password to log into the registry server.
     types:
     - uid: string
+  - name: registryServer
+    description: "The registry URL.  \nIf omitted, the default is \"docker.io\"."
+    types:
+    - uid: string
+  - name: identityReference
+    description: "The reference to the user assigned identity to use to access an Azure Container Registry instead of username and password.  \nThe reference to a user assigned identity associated with the Batch pool which a compute node will use."
+    types:
+    - uid: ComputeNodeIdentityReference
 - name: ContainerWorkingDirectory
   description: The location of the container Task working directory.
   kind: enum
@@ -499,6 +507,14 @@ definitions:
     description: "An action that the Batch service performs on Tasks that depend on this Task.  \nPossible values are 'satisfy' (allowing dependent tasks to progress) and 'block' (dependent tasks continue to wait). Batch does not yet support cancellation of dependent tasks."
     types:
     - uid: DependencyAction
+- name: ComputeNodeIdentityReference
+  description: The reference to a user assigned identity associated with the Batch pool which a compute node will use.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The ARM resource id of the user assigned identity.
+    types:
+    - uid: string
 - name: OutputFileDestination
   description: The destination to which a file should be uploaded.
   kind: object
@@ -592,9 +608,13 @@ definitions:
     types:
     - uid: string
   - name: containerUrl
-    description: "The URL of the container within Azure Blob Storage to which to upload the file(s).  \nThe URL must include a Shared Access Signature (SAS) granting write permissions to the container."
+    description: "The URL of the container within Azure Blob Storage to which to upload the file(s).  \nIf not using a managed identity, the URL must include a Shared Access Signature (SAS) granting write permissions to the container."
     types:
     - uid: string
+  - name: identityReference
+    description: "The reference to the user assigned identity to use to access Azure Blob Storage specified by containerUrl  \nThe identity must have write access to the Azure Blob Storage container"
+    types:
+    - uid: ComputeNodeIdentityReference
 - name: OutputFileUploadCondition
   description: The conditions under which a Task output file or set of files should be uploaded.
   kind: enum
@@ -638,7 +658,7 @@ definitions:
 examples:
 - name: Add a basic collection of tasks
   request:
-    uri: POST account.region.batch.azure.com/jobs/jobId/addtaskcollection?api-version=2020-09-01.12.0
+    uri: POST account.region.batch.azure.com/jobs/jobId/addtaskcollection?api-version=2021-06-01.14.0
     body: >-
       {
         "value": [
@@ -680,7 +700,7 @@ examples:
       }
 - name: Add a complex collection of tasks
   request:
-    uri: POST account.region.batch.azure.com/jobs/jobId/addtaskcollection?api-version=2020-09-01.12.0
+    uri: POST account.region.batch.azure.com/jobs/jobId/addtaskcollection?api-version=2021-06-01.14.0
     body: >-
       {
         "value": [
