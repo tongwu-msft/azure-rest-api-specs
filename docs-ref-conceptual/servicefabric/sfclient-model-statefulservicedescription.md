@@ -1,7 +1,7 @@
 ---
-title: "StatefulServiceDescription"
+title: "StatefulServiceDescription v8.1"
 description: "StatefulServiceDescription"
-ms.date: "04/02/2021"
+ms.date: "07/13/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatefulServiceDescription
+# StatefulServiceDescription v8.1
 
 Describes a stateful service.
 
@@ -60,6 +60,7 @@ Describes a stateful service.
 | [`ServicePlacementTimeLimitSeconds`](#serviceplacementtimelimitseconds) | integer (int64) | No |
 | [`DropSourceReplicaOnMove`](#dropsourcereplicaonmove) | boolean | No |
 | [`ReplicaLifecycleDescription`](#replicalifecycledescription) | [ReplicaLifecycleDescription](sfclient-model-replicalifecycledescription.md) | No |
+| [`AuxiliaryReplicaCount`](#auxiliaryreplicacount) | integer | No |
 
 ____
 ### `ApplicationName`
@@ -283,3 +284,11 @@ __Type__: [ReplicaLifecycleDescription](sfclient-model-replicalifecycledescripti
 __Required__: No<br/>
 <br/>
 Defines how replicas of this service will behave during their lifecycle.
+
+____
+### `AuxiliaryReplicaCount`
+__Type__: integer <br/>
+__Required__: No<br/>
+__InclusiveMinimum__: `0` <br/>
+<br/>
+The auxiliary replica count as a number. To use Auxiliary replicas, the following must be true: AuxiliaryReplicaCount < (TargetReplicaSetSize+1)/2 and TargetReplicaSetSize >=3.

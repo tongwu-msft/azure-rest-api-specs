@@ -3,14 +3,14 @@ uid: management.azure.com.redis.redis.get
 name: Get
 service: Redis Cache
 groupName: Redis
-apiVersion: 2020-06-01
+apiVersion: 2020-12-01
 summary: Gets a Redis cache (resource description).
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}?api-version=2020-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}?api-version=2020-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -56,11 +56,6 @@ definitions:
     types:
     - uid: string
       isArray: true
-  - name: properties.redisVersion
-    isReadyOnly: true
-    description: Redis version.
-    types:
-    - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
     description: Redis instance provisioning status.
@@ -118,17 +113,17 @@ definitions:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: Resource ID.
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name.
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type.
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
   - name: properties.sku
@@ -151,12 +146,20 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: redisVersion
+    description: 'Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6)'
+    types:
+    - uid: string
   - name: enableNonSslPort
     description: Specifies whether the non-ssl Redis server port (6379) is enabled.
     types:
     - uid: boolean
   - name: replicasPerMaster
-    description: The number of replicas to be created per master.
+    description: The number of replicas to be created per primary.
+    types:
+    - uid: integer
+  - name: replicasPerPrimary
+    description: The number of replicas to be created per primary.
     types:
     - uid: integer
   - name: tenantSettings
@@ -276,7 +279,12 @@ definitions:
     - uid: integer
   - name: isMaster
     isReadyOnly: true
-    description: Specifies whether the instance is a master node.
+    description: Specifies whether the instance is a primary node.
+    types:
+    - uid: boolean
+  - name: isPrimary
+    isReadyOnly: true
+    description: Specifies whether the instance is a primary node.
     types:
     - uid: boolean
 - name: PrivateEndpointConnection
@@ -298,17 +306,17 @@ definitions:
     - uid: PrivateEndpointConnectionProvisioningState
   - name: id
     isReadyOnly: true
-    description: Resource ID.
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name.
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type.
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
 - name: Sku
@@ -475,7 +483,7 @@ definitions:
 examples:
 - name: RedisCacheGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1?api-version=2020-06-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1?api-version=2020-12-01
   responses:
   - statusCode: "200"
     body: >-
@@ -495,6 +503,7 @@ examples:
           },
           "enableNonSslPort": true,
           "replicasPerMaster": 2,
+          "replicasPerPrimary": 2,
           "redisConfiguration": {},
           "hostName": "cache1.redis.cache.windows.net",
           "port": 6379,
@@ -508,17 +517,20 @@ examples:
             {
               "sslPort": 15000,
               "nonSslPort": 13000,
-              "isMaster": true
+              "isMaster": true,
+              "isPrimary": true
             },
             {
               "sslPort": 15001,
               "nonSslPort": 13001,
-              "isMaster": false
+              "isMaster": false,
+              "isPrimary": false
             },
             {
               "sslPort": 15002,
               "nonSslPort": 13002,
-              "isMaster": false
+              "isMaster": false,
+              "isPrimary": false
             }
           ],
           "publicNetworkAccess": "Enabled",
