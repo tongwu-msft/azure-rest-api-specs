@@ -43,7 +43,5 @@ translation.priority.mt:
 | [Restart Node](sfclient-v80-api-restartnode.md) | Restarts a Service Fabric cluster node.<br/> |
 | [Remove Configuration Overrides](sfclient-v80-api-removeconfigurationoverrides.md) | Removes configuration overrides on the specified node.<br/> |
 | [Get Configuration Overrides](sfclient-v80-api-getconfigurationoverrides.md) | Gets the list of configuration overrides on the specified node.<br/> |
-| [Add Configuration Parameter Overrides](sfclient-v80-api-addconfigurationparameteroverrides.md) | Adds the list of configuration overrides on the specified node.<br/> |
 | [Remove Node Tags](sfclient-v80-api-removenodetags.md) | Removes the list of tags from the specified node.<br/> |
-| [Add Node Tags](sfclient-v80-api-addnodetags.md) | Adds the list of tags on the specified node.<br/> |
 

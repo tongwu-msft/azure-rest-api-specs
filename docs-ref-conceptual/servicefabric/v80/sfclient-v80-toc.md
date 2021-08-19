@@ -4,9 +4,6 @@ description: Service Fabric client table of content v80"
 ms.service: "service-fabric"
 ---
 
-# [Service Fabric Client APIs v80](sfclient-v80-index.md)
-## [Authenticating Service Fabric REST Requests](sfclient-authenticating-service-fabric-rest-requests.md)
-## [Service Fabric Names and JSON Serialization](sfclient-service-fabric-names-and-json-serialization.md)
 ## [Status and Error Codes](sfclient-v80-status-and-error-codes.md)
 ## [Cluster](sfclient-v80-index-cluster.md)
 ### [Get Cluster Manifest](sfclient-v80-api-getclustermanifest.md)
