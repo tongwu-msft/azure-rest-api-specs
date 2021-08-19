@@ -24,7 +24,7 @@ The Management REST API of Azure Cognitive Search provides programmatic access t
 
 For all other tasks, such as creating and querying an index, use the [Search Service REST API](/rest/api/searchservice/) instead.
 
-To fully administer your service programmatically, you will need two APIs: the Management REST API of Azure Cognitive Search documented here, plus the common [Azure Resource Manager REST API](/rest/api/searchmanagement/). The Resource Manager API is used for general-purpose operations that are not service specific, such as querying subscription data, listing geo-locations, and so forth. 
+To fully administer your service programmatically, you will need two APIs: the Management REST API of Azure Cognitive Search documented here, plus the common [Azure Resource Manager REST API](/rest/api/resources/). The Resource Manager API is used for general-purpose operations that are not service specific, such as querying subscription data, listing geo-locations, and so forth. 
 
 ## Connect to the management endpoint
 
@@ -58,8 +58,8 @@ Alternatives include the following Azure SDKs, which are independently updated o
 
 + [.NET](/dotnet/api/overview/azure/search/management)
 + [Python](/python/api/overview/azure/search/management?view=azure-python)
-+ [Node.js (readme)](/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.nodejs.md)
-+ [TypeScript (readme)](/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.typescript.md)
++ [Node.js (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.nodejs.md)
++ [TypeScript (readme)](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/search/resource-manager/readme.typescript.md)
 
 ## See also
 

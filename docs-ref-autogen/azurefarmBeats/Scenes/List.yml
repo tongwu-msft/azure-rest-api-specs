@@ -4,89 +4,82 @@ name: List
 service: Azure FarmBeats
 groupName: Scenes
 apiVersion: 2021-03-31-preview
-summary: Returns a paginated list of scene resources.
+summary: "Get a paginated list of scene resources for a given search criteria.\n\n\r###### Note: \n1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.\n2. This API will retrieve scenes present in the FarmBeats datastore and does not ingest new data. Example: a user has ingested satellite data from 1st of Jan 2019 to 30th of June 2019. However, using the current API, the user has asked for data from 1st of Jan 2019 to 31st of December 2019. In such a case, only data for the first 6 months is returned to the user.\n\n"
 produces:
 - application/json
 paths:
-- content: GET {Endpoint}/scenes?provider={provider}&farmerId={farmerId}&boundaryId={boundaryId}&api-version=2021-03-31-preview
-- content: GET {Endpoint}/scenes?provider={provider}&farmerId={farmerId}&boundaryId={boundaryId}&source={source}&startDateTime={startDateTime}&endDateTime={endDateTime}&maxCloudCoveragePercentage={maxCloudCoveragePercentage}&maxDarkPixelCoveragePercentage={maxDarkPixelCoveragePercentage}&imageNames={imageNames}&imageResolutions={imageResolutions}&imageFormats={imageFormats}&$maxPageSize={$maxPageSize}&$skipToken={$skipToken}&api-version=2021-03-31-preview
+- content: GET /scenes?provider={provider}&farmerId={farmerId}&boundaryId={boundaryId}&api-version=2021-03-31-preview
+- content: GET /scenes?provider={provider}&farmerId={farmerId}&boundaryId={boundaryId}&source={source}&startDateTime={startDateTime}&endDateTime={endDateTime}&maxCloudCoveragePercentage={maxCloudCoveragePercentage}&maxDarkPixelCoveragePercentage={maxDarkPixelCoveragePercentage}&imageNames={imageNames}&imageResolutions={imageResolutions}&imageFormats={imageFormats}&$maxPageSize={$maxPageSize}&$skipToken={$skipToken}&api-version=2021-03-31-preview
   isOptional: true
 uriParameters:
-- name: Endpoint
-  in: path
-  isRequired: true
-  skipUrlEncoding: true
-  description: 'The endpoint of your FarmBeats resource (protocol and hostname, for example: https://{resourceName}.farmbeats.azure.net).'
-  types:
-  - uid: string
 - name: provider
   in: query
   isRequired: true
-  description: Provider name of scene data.
+  description: Name of the data provider for the scene. For satellite imagery, this refers to the name of the satellite data provider.
   types:
   - uid: string
 - name: farmerId
   in: query
   isRequired: true
-  description: FarmerId.
+  description: Id of the associated farmer.
   types:
   - uid: string
 - name: boundaryId
   in: query
   isRequired: true
-  description: BoundaryId.
+  description: Id of the associated boundary.
   types:
   - uid: string
 - name: source
   in: query
-  description: Source name of scene data, default value Sentinel_2_L2A (Sentinel 2 L2A).
+  description: Source from where the scene was procured/generated. For satellite imagery, this refers to the name of the satellite constellation.
   types:
   - uid: string
 - name: startDateTime
   in: query
-  description: 'Scene start UTC datetime (inclusive), sample format: yyyy-MM-ddThh:mm:ssZ.'
+  description: Scenes that were captured/made available (at source) at or after this UTC Date-time is returned (format: yyyy-MM-ddTHH:mm:ssZ).
   types:
   - uid: string
   format: date-time
 - name: endDateTime
   in: query
-  description: 'Scene end UTC datetime (inclusive), sample format: yyyy-MM-dThh:mm:ssZ.'
+  description: Scenes that were captured/made available (at source) at or before this UTC Date-time is returned (format: yyyy-MM-ddTHH:mm:ssZ).
   types:
   - uid: string
   format: date-time
 - name: maxCloudCoveragePercentage
   in: query
-  description: Filter scenes with cloud coverage percentage less than max value. Range [0 to 100.0].
+  description: Scenes with cloud cover less than or equal to the given value are returned. Range [0 to 100.0].
   types:
   - uid: number
   format: double
 - name: maxDarkPixelCoveragePercentage
   in: query
-  description: Filter scenes with dark pixel coverage percentage less than max value. Range [0 to 100.0].
+  description: Scenes with dark pixel cover less than or equal to the given value are returned. Range [0 to 100.0].
   types:
   - uid: number
   format: double
 - name: imageNames
   in: query
-  description: List of image names to be filtered.
+  description: >-
+    List of names of images to be fetched.
+
+    For Sentinel-2, allowed values are: 'B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B8A', 'B09', 'B11', 'B12', 'AOT', 'SCL', 'SNW', 'CLD', 'NDVI', 'NDWI', 'EVI', 'LAI', 'LAIMask', 'CLP', 'CLM', 'dataMask', sunAzimuthAngles, sunZenithAngles, viewAzimuthMean and viewZenithMean.
   types:
   - uid: array
 - name: imageResolutions
   in: query
-  description: List of image resolutions in meters to be filtered.
+  description: List of image resolutions in meters. For Sentinel-2, available values are: 10, 20, 60.
   types:
   - uid: array
 - name: imageFormats
   in: query
-  description: List of image formats to be filtered.
+  description: Format in which the scenes are to be returned. Available value: TIF.
   types:
   - uid: array
 - name: $maxPageSize
   in: query
-  description: >-
-    Maximum number of items needed (inclusive).
-
-    Minimum = 10, Maximum = 1000, Default value = 50.
+  description: Maximum number of items to be returned in a single page.
   types:
   - uid: integer
   format: int32
@@ -98,7 +91,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The requested API version
+  description: The requested API version.
   types:
   - uid: string
 responses:
@@ -132,22 +125,22 @@ definitions:
     types:
     - uid: string
   - name: nextLink
-    description: Continuation link (absolute URI) to the next page of results in the list.
+    description: Continuation link (absolute URI) to the next page of results in the list. If null, there are no additional pages.
     types:
     - uid: string
 - name: ErrorResponse
   description: >-
-    An error response from the Azure AgPlatform service.
+    An error response from Azure AgPlatform service.
 
     <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
   kind: object
   properties:
   - name: error
-    description: An error from the Azure AgPlatform service.
+    description: An error from Azure FarmBeats service.
     types:
     - uid: Error
   - name: traceId
-    description: Unique trace ID.
+    description: Unique trace Id.
     types:
     - uid: string
 - name: Scene
@@ -155,15 +148,15 @@ definitions:
   kind: object
   properties:
   - name: sceneDateTime
-    description: 'Date-time of the scene, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time at which the image was captured/made available at source (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: provider
-    description: Data provider of the scene.
+    description: Name of the data provider for the scene. For satellite imagery, this refers to the name of the satellite data provider.
     types:
     - uid: string
   - name: source
-    description: Data source of the scene.
+    description: Source from where the scene was procured/generated. For satellite imagery, this refers to the name of the satellite constellation.
     types:
     - uid: string
   - name: imageFiles
@@ -176,36 +169,36 @@ definitions:
     types:
     - uid: ImageFormat
   - name: cloudCoverPercentage
-    description: Cloud cover percentage of the scene.
+    description: Signifies the percentage of the scene covered by clouds.
     types:
     - uid: number
   - name: darkPixelPercentage
-    description: Dark pixel percentage of the scene.
+    description: Signifies the percentage of the scene covered by dark pixels.
     types:
     - uid: number
   - name: ndviMedianValue
-    description: Median of NDVI of the scene.
+    description: Median of NDVI values of the scene.
     types:
     - uid: number
   - name: boundaryId
-    description: Boundary ID which belongs to the scene.
+    description: Id of the associated boundary.
     types:
     - uid: string
   - name: farmerId
-    description: Farmer ID which belongs to the scene.
+    description: Id of the associated farmer.
     types:
     - uid: string
   - name: id
-    description: Unique scene resource ID.
+    description: Unique Id of the scene
     types:
     - uid: string
   - name: eTag
     isReadyOnly: true
-    description: The ETag value to implement optimistic concurrency.
+    description: ETag value can be used to implement optimistic concurrency.
     types:
     - uid: string
 - name: Error
-  description: An error from the Azure AgPlatform service.
+  description: An error from Azure FarmBeats service.
   kind: object
   properties:
   - name: code
@@ -237,7 +230,7 @@ definitions:
   kind: object
   properties:
   - name: fileLink
-    description: Link of the image file.
+    description: Link to the image file.
     types:
     - uid: string
   - name: name
@@ -249,7 +242,7 @@ definitions:
     types:
     - uid: ImageFormat
   - name: resolution
-    description: Resolution of image file in meters.
+    description: Resolution of image in meters.
     types:
     - uid: number
 - name: ImageFormat
@@ -267,10 +260,7 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: >-
-      Specific error code than was provided by the
-
-      containing error.
+    description: Specific error code than was provided by the containing error.
     types:
     - uid: string
   - name: innererror
@@ -283,138 +273,54 @@ definitions:
 examples:
 - name: Scenes_List
   request:
-    uri: GET {Endpoint}/scenes?provider=Microsoft&farmerId=FARMER123&boundaryId=BOUNDARY123&api-version=2021-03-31-preview
+    uri: GET /scenes?provider=Microsoft&farmerId=Farmer123&boundaryId=Boundary123&api-version=2021-03-31-preview
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "400e200f-ccc4-0cea-c120-3fdc6a41f99f",
-            "sceneDateTime": "2019-01-27T00:00:00Z",
-            "boundaryId": "BOUNDARY123",
-            "farmerId": "FARMER123",
+            "sceneDateTime": "2021-04-16T00:00:00Z",
             "provider": "Microsoft",
             "source": "Sentinel_2_L2A",
-            "cloudCoverPercentage": 67.2,
-            "darkPixelPercentage": 2.4,
-            "imageFormat": "TIF",
             "imageFiles": [
               {
-                "name": "B08",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b08_10.tif"
-              },
-              {
-                "name": "B03",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b03_10.tif"
-              },
-              {
-                "name": "B11",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b11_10.tif"
-              },
-              {
-                "name": "SNW",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/snw_10.tif"
-              },
-              {
-                "name": "B05",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b05_10.tif"
-              },
-              {
-                "name": "B06",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b06_10.tif"
-              },
-              {
-                "name": "dataMask",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/datamask_10.tif"
-              },
-              {
-                "name": "B07",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b07_10.tif"
-              },
-              {
-                "name": "CLP",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/clp_10.tif"
-              },
-              {
+                "fileLink": "https://test.farmbeats.azure.net/scenes/downloadFiles?api-version=2021-03-31-preview&filePath=Microsoft%2fSentinel_2_L2A%2fFarmer123%2fBoundary123%2f2021-04-16%2f00-00-00%2fndvi_10.tif",
                 "name": "NDVI",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/ndvi_10.tif"
-              },
-              {
-                "name": "SCL",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/scl_10.tif"
-              },
-              {
-                "name": "B09",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b09_10.tif"
-              },
-              {
-                "name": "B01",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b01_10.tif"
-              },
-              {
-                "name": "NDWI",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/ndwi_10.tif"
-              },
-              {
-                "name": "AOT",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/aot_10.tif"
-              },
-              {
-                "name": "CLD",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/cld_10.tif"
-              },
-              {
-                "name": "CLM",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/clm_10.tif"
-              },
-              {
-                "name": "B02",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b02_10.tif"
-              },
-              {
-                "name": "B04",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b04_10.tif"
-              },
-              {
-                "name": "B8A",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b8a_10.tif"
-              },
-              {
-                "name": "EVI",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/evi_10.tif"
-              },
-              {
-                "name": "B12",
-                "resolution": 10,
-                "fileLink": "https://{{resourceName}}.farmbeats.azure.net/scenes/downloadFiles?api-version=2020-12-31-preview& filePath=microsoft/sentinel_2_l2a/FARMER123/BOUNDARY123/2019-01-27/00-00-00/b12_10.tif"
+                "resolution": 10
               }
-            ]
+            ],
+            "imageFormat": "TIF",
+            "cloudCoverPercentage": 0,
+            "darkPixelPercentage": 0,
+            "ndviMedianValue": 0.43166860938072205,
+            "boundaryId": "Boundary123",
+            "farmerId": "Farmer123",
+            "id": "4e533975-5cfc-5b54-b216-6c6a0fdb387b",
+            "eTag": "03007b6d-0000-0600-0000-60ce0db80000"
+          },
+          {
+            "sceneDateTime": "2021-04-11T00:00:00Z",
+            "provider": "Microsoft",
+            "source": "Sentinel_2_L2A",
+            "imageFiles": [
+              {
+                "fileLink": "https://test.farmbeats.azure.net/scenes/downloadFiles?api-version=2021-03-31-preview&filePath=Microsoft%2fSentinel_2_L2A%2fFarmer123%2fBoundary123%2f2021-04-11%2f00-00-00%2fndvi_10.tif",
+                "name": "NDVI",
+                "resolution": 10
+              }
+            ],
+            "imageFormat": "TIF",
+            "cloudCoverPercentage": 0,
+            "darkPixelPercentage": 0,
+            "ndviMedianValue": 0.41777390241622925,
+            "boundaryId": "Boundary123",
+            "farmerId": "Farmer123",
+            "id": "4ebdef7f-3ade-7750-0096-2c5024eb72c0",
+            "eTag": "0300796d-0000-0600-0000-60ce0db80000"
           }
         ],
-        "$skipToken": "string",
-        "nextLink": "https://{{resourceName}}.farmbeats.azure.net/scenes?provider=Microsoft&farmerId=FARMER123&boundaryId=BOUNDARY123&api-version=2020-10-16-preview&$skipToken=%5b%7b%22token%22%3a%22%2bRID%3a%7ehK8eAKzdo1PTnwcAAAAAAA%3d%3d%23RT%3a1%23TRC%3a10%23ISV%3a2%23IEO%3a65551%23FPC%3aAdOfBwAAAAAA7Z8HAAAAAAA%3d%22%2c%22range%22%3a%7b%22min%22%3a%22%22%2c%22max%22%3a%22FF%22%7d%7d%5d"
+        "nextLink": "https://test.farmbeats.azure.net/scenes?provider=Microsoft&farmerId=Farmer123&boundaryId=Boundary123&source=Sentinel_2_L2A&api-version=2021-03-31-preview&$skipToken=W3sidG9rZW4iOiIrUklEOn5Qa1pRQU1teHVDWVVQZ0VBQUFBQUFBPT0jUlQ6MSNUUkM6NTAjUlREOm4rVGxTTDV1UEkzZjhDSUxkNys1QlRNeE16RXVNVGt1TVRwVk1URTdNVEU3TVRGYkFBPT0jSVNWOjIjSUVPOjY1NTY3I1FDRjo3I0ZQQzpBZXc5QVFBQUFBQUFORDRCQUFBQUFBQT0iLCJyYW5nZSI6eyJtaW4iOiIiLCJtYXgiOiIxRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRiJ9fV0"
       }
 security:
 - name: Authorization
@@ -422,5 +328,5 @@ security:
   description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
   in: header
 metadata:
-  description: Learn more about Azure FarmBeats service - Returns a paginated list of scene resources.
+  description: "Get a paginated list of scene resources for a given search criteria.\n\n\r###### Note: \n1. Users will get paginated response with each page containing a link to the next page."
 errorCodes: []

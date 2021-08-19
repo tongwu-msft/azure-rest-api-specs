@@ -20,7 +20,7 @@ Azure Cognitive Search service API uses Open Data Protocol (OData) for index que
 
  Another header you can set is `OData-MaxVersion`. The Azure Cognitive Search Service API supports OData V4 so you should set `OData-MaxVersion` to "4.0". This tells the API to expect the OData V4 format in the request body, and to send responses in the OData V4 format. In the future as we add support for newer versions of the OData protocol, you may set this header to a different value. The Azure Cognitive Search service API does not support versions of OData older than V4.  
 
- See [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax) for details about using OData in filters and sort expressions. See [Simple query syntax in Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-simple-syntax) for alternative syntax.  
+ See [OData Expression Syntax for Azure Cognitive Search](/azure/search/query-odata-filter-orderby-syntax) for details about using OData in filters and sort expressions. See [Simple query syntax in Azure Cognitive Search](/azure/search/query-simple-syntax) for alternative syntax.  
 
 ## Search service API with Alternate OData syntax  
  The Search service API supports OData syntax for entity lookup. This applies both to both documents in an index, as well as to indexes themselves (where the index name is the entity key). Here is a summary of all APIs that have alternate OData syntax:  
@@ -79,9 +79,10 @@ GET /indexes('[index name]')/docs/$count?api-version=2015-02-28
 GET /indexes('[index name]')/docs/suggest?[query parameters]  
 ```  
 
-## See also  
- [OData Expression Syntax for Azure Cognitive Search](https://docs.microsoft.com/azure/search/query-odata-filter-orderby-syntax)   
- [Azure Cognitive Search REST APIs](index.md)   
- [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
- [Create Index &#40;Azure Cognitive Search REST API&#41;](create-index.md)   
- [Add, Update or Delete Documents &#40;Azure Cognitive Search REST API&#41;](addupdate-or-delete-documents.md)  
+## See also
+
++ [OData Expression Syntax for Azure Cognitive Search](/azure/search/query-odata-filter-orderby-syntax)   
++ [Azure Cognitive Search REST APIs](index.md)   
++ [HTTP status codes](http-status-codes.md)   
++ [Create Index](create-index.md)   
++ [Add, Update or Delete Documents](addupdate-or-delete-documents.md)  

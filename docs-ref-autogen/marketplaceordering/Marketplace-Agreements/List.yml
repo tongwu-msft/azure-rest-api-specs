@@ -30,6 +30,10 @@ responses:
   types:
   - uid: AgreementTermsList
 - name: Other Status Codes
+  description: Unsupported Media Type
+  types:
+  - uid: UnsupportedMediaTypeErrorResponse
+- name: Other Status Codes
   description: Microsoft.MarketplaceOrdering error response describing why the operation failed.
   types:
   - uid: ErrorResponse
@@ -42,52 +46,52 @@ definitions:
   - name: value
     description: The value of the array.
     types:
-    - uid: AgreementTerms
+    - uid: OldAgreementTerms
       isArray: true
+- name: UnsupportedMediaTypeErrorResponse
+  description: Error response that indicates the media type in the request is unsupported.
+  kind: object
+  properties:
+  - name: Message
+    description: The details of the error.
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response indicates Microsoft.MarketplaceOrdering service is not able to process the incoming request. The reason is provided in the error message.
   kind: object
   properties:
-  - name: Error
+  - name: error
     description: The details of the error.
     types:
     - uid: Error
-- name: AgreementTerms
+- name: OldAgreementTerms
   description: Terms properties for provided Publisher/Offer/Plan tuple
   kind: object
   properties:
+  - name: properties.id
+    description: A unique identifier of the agreement.
+    types:
+    - uid: string
   - name: properties.publisher
     description: Publisher identifier string of image being deployed.
     types:
     - uid: string
-  - name: properties.product
+  - name: properties.offer
     description: Offer identifier string of image being deployed.
     types:
     - uid: string
-  - name: properties.plan
-    description: Plan identifier string of image being deployed.
+  - name: properties.signDate
+    description: Date and time in UTC of when the terms were accepted. This is empty if state is cancelled.
     types:
     - uid: string
-  - name: properties.licenseTextLink
-    description: Link to HTML with Microsoft and Publisher terms.
+  - name: properties.cancelDate
+    description: Date and time in UTC of when the terms were cancelled. This is empty if state is active.
     types:
     - uid: string
-  - name: properties.privacyPolicyLink
-    description: Link to the privacy policy of the publisher.
+  - name: properties.state
+    description: Whether the agreement is active or cancelled
     types:
-    - uid: string
-  - name: properties.retrieveDatetime
-    description: Date and time in UTC of when the terms were accepted. This is empty if Accepted is false.
-    types:
-    - uid: string
-  - name: properties.signature
-    description: Terms signature.
-    types:
-    - uid: string
-  - name: properties.accepted
-    description: If any version of the terms have been accepted, otherwise false.
-    types:
-    - uid: boolean
+    - uid: state
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -107,14 +111,24 @@ definitions:
   description: The details of the error.
   kind: object
   properties:
-  - name: Code
+  - name: code
     isReadyOnly: true
     description: Error code.
     types:
     - uid: string
-  - name: Message
+  - name: message
     isReadyOnly: true
     description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: state
+  description: Whether the agreement is active or cancelled
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Canceled
     types:
     - uid: string
 examples:
@@ -132,16 +146,18 @@ examples:
             "type": "Microsoft.MarketplaceOrdering/offertypes",
             "properties": {
               "publisher": "pubid",
-              "product": "offid",
-              "plan": "planid",
-              "licenseTextLink": "test.licenseLink",
-              "privacyPolicyLink": "test.privacyPolicyLink",
-              "retrieveDatetime": "2017-08-15T11:33:07.12132Z",
-              "signature": "ASDFSDAFWEFASDGWERLWER",
-              "accepted": true
+              "offer": "offid",
+              "signDate": "2019-04-26T05:57:25.3013164Z",
+              "cancelDate": "2019-04-27T05:57:25.3013164Z",
+              "state": "Active"
             }
           }
         ]
+      }
+  - statusCode: "415"
+    body: >-
+      {
+        "Message": "media type unsupported"
       }
 security:
 - name: azure_auth

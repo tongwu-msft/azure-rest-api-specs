@@ -13,7 +13,7 @@ ms.manager: nitinme
 ---
 # Supported data types (Azure Cognitive Search)
 
-In Azure Cognitive Search, document fields and values in expressions (for example, in filters) are typed according to the Entity Data Model, or EDM (see [Entity Data Model](https://docs.microsoft.com/dotnet/framework/data/adonet/entity-data-model) for details).
+In Azure Cognitive Search, document fields and values in expressions (for example, in filters) are typed according to the Entity Data Model, or EDM (see [Entity Data Model](/dotnet/framework/data/adonet/entity-data-model) for details).
 
 > [!NOTE]  
 > If you're using indexers to pull data into Azure Cognitive Search, indexers have different data type mappings for JSON and SQL Server data sources. For more information, see [Data type map for indexers in Azure Cognitive Search](data-type-map-for-indexers-in-azure-search.md).  
@@ -31,7 +31,7 @@ Specifying EDM data types is necessary when defining fields in an index. You can
 |Edm.Double|Double-precision IEEE 754 floating-point values.|  
 |Edm.DateTimeOffset|Date and time values represented in the OData V4 format: `yyyy-MM-ddTHH:mm:ss.fffZ` or `yyyy-MM-ddTHH:mm:ss.fff[+&#124;-]HH:mm`. Precision of `DateTimeOffset` fields is limited to milliseconds. If you upload `DateTimeOffset` values with sub-millisecond precision, the value returned will be rounded up to milliseconds (for example, `2015-04-15T10:30:09.7552052Z` will be returned as `2015-04-15T10:30:09.7550000Z`). When you upload `DateTimeOffset` values with time zone information to your index, Azure Cognitive Search normalizes these values to UTC. For example, `2017-01-13T14:03:00-08:00` will be stored as `2017-01-13T22:03:00Z`. If you need to store time zone information, you will need to add an extra field to your index.|  
 |Edm.GeographyPoint|A point representing a geographic location on the globe. For request and response bodies the representation of values of this type follows the GeoJSON "Point" type format. For URLs OData uses a literal form based on the WKT standard. A point literal is constructed as geography'POINT(lon lat)'.|  
-|Edm.ComplexType|Objects whose properties map to sub-fields that can be of any other supported data type. This enables indexing of structured hierarchical data such as JSON. Objects in a field of type `Edm.ComplexType` can contain nested objects, but the level of nesting is limited. The limits are described in [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).|
+|Edm.ComplexType|Objects whose properties map to sub-fields that can be of any other supported data type. This enables indexing of structured hierarchical data such as JSON. Objects in a field of type `Edm.ComplexType` can contain nested objects, but the level of nesting is limited. The limits are described in [Service limits](/azure/search/search-limits-quotas-capacity/).|
 |Collection(Edm.String)|A list of strings.|  
 |Collection(Edm.Boolean)|A list of boolean values.|
 |Collection(Edm.Int32)|A list of 32-bit integer values.|
@@ -39,7 +39,7 @@ Specifying EDM data types is necessary when defining fields in an index. You can
 |Collection(Edm.Double)|A list of double-precision numeric values.|
 |Collection(Edm.DateTimeOffset)|A list of date time values.|
 |Collection(Edm.GeographyPoint)|A list of points representing geographic locations.|
-|Collection(Edm.ComplexType)|A list of objects of type `Edm.ComplexType`. There is a limit on the maximum number of elements across all collections of type `Edm.ComplexType` in a document. See [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) for details.|
+|Collection(Edm.ComplexType)|A list of objects of type `Edm.ComplexType`. There is a limit on the maximum number of elements across all collections of type `Edm.ComplexType` in a document. See [Service limits](/azure/search/search-limits-quotas-capacity/) for details.|
 
 > [!NOTE]  
 > All of the above types are nullable, except for collections of primitive and complex types, for example, `Collection(Edm.String)`. Nullable fields can be explicitly set to null. They are automatically set to null when omitted from a document that is uploaded to an Azure Cognitive Search index. Collection fields are automatically set to empty ('[]' in JSON) when they are omitted from a document. Also, it is not possible to store a null value in a collection field.
@@ -65,4 +65,3 @@ To learn more about geospatial search in Azure, see this video: [Azure Cognitive
 + [Create Index](create-index.md)
 + [Add, Update or Delete Document](addupdate-or-delete-documents.md)
 + [Indexer operations](indexer-operations.md)
-+ [Azure Cognitive Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search)  

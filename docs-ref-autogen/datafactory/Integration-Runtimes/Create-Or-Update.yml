@@ -291,10 +291,10 @@ definitions:
     types:
     - uid: PackageStore
       isArray: true
-  - name: managedCredential
-    description: The user-assigned managed identity reference.
+  - name: credential
+    description: The credential reference containing authentication information.
     types:
-    - uid: EntityReference
+    - uid: CredentialReference
 - name: LinkedIntegrationRuntimeRbacAuthorization
   description: The role based access control (RBAC) authorization type integration runtime.
   kind: object
@@ -337,6 +337,10 @@ definitions:
     description: Time to live (in minutes) setting of the cluster which will execute data flow job.
     types:
     - uid: integer
+  - name: cleanup
+    description: Cluster will not be recycled and it will be used in next data flow activity run until TTL (time to live) is reached if this is set as false. Default is true.
+    types:
+    - uid: boolean
 - name: IntegrationRuntimeVNetProperties
   description: VNet properties for managed integration runtime.
   kind: object
@@ -354,6 +358,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: subnetId
+    description: The ID of subnet, to which this Azure-SSIS integration runtime will be joined.
+    types:
+    - uid: string
 - name: IntegrationRuntimeSsisCatalogInfo
   description: Catalog information for managed dedicated integration runtime.
   kind: object
@@ -438,16 +446,17 @@ definitions:
     description: The package store linked service reference.
     types:
     - uid: EntityReference
-- name: EntityReference
-  description: The entity reference.
+- name: CredentialReference
+  description: Credential reference type.
   kind: object
   properties:
   - name: type
-    description: The type of this referenced entity.
+    description: Credential reference type.
     types:
-    - uid: IntegrationRuntimeEntityReferenceType
+    - uid: CredentialReference
+    typesTitle: enum
   - name: referenceName
-    description: The name of this referenced entity.
+    description: Reference credential name.
     types:
     - uid: string
 - name: SecureString
@@ -492,6 +501,18 @@ definitions:
   - name: PremiumRS
     types:
     - uid: string
+- name: EntityReference
+  description: The entity reference.
+  kind: object
+  properties:
+  - name: type
+    description: The type of this referenced entity.
+    types:
+    - uid: IntegrationRuntimeEntityReferenceType
+  - name: referenceName
+    description: The name of this referenced entity.
+    types:
+    - uid: string
 - name: IntegrationRuntimeEntityReferenceType
   description: The type of this referenced entity.
   kind: enum
@@ -500,9 +521,6 @@ definitions:
     types:
     - uid: string
   - name: LinkedServiceReference
-    types:
-    - uid: string
-  - name: CredentialReference
     types:
     - uid: string
 examples:

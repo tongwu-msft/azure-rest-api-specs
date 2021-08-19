@@ -33,7 +33,8 @@ An admin API key is required for object management, but you can use a query API 
 + [Lookup Document](lookup-document.md)  
 
 ## See also  
- [Get started with Azure Cognitive Search REST APIs](https://docs.microsoft.com/azure/search/search-get-started-rest)   
- [Query types and composition](https://docs.microsoft.com/azure/search/search-query-overview)   
- [Create a basic query](https://docs.microsoft.com/azure/search/search-query-create)   
- [Create and manage API keys](https://docs.microsoft.com/azure/search/search-security-api-keys)  
+
++ [Get started with Azure Cognitive Search REST APIs](/azure/search/search-get-started-rest)   
++ [Query types and composition](/azure/search/search-query-overview)   
++ [Create a basic query](/azure/search/search-query-create)   
++ [Create and manage API keys](/azure/search/search-security-api-keys)  

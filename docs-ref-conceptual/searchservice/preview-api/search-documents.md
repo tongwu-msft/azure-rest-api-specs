@@ -1,21 +1,24 @@
 ---
-title: Search Documents (api-version=2020-06-30-Preview)
-description: Preview version of the Search Documents REST API for Cognitive Search.
-ms.date: 05/19/2021
+title: Search Documents (2021-04-30-Preview)
+titleSuffix: Azure Cognitive Search
+description: Preview version of the Search Documents REST API for Azure Cognitive Search.
+ms.date: 07/20/2021
+
 ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
-author: "Brjohnstmsft"
-ms.author: "brjohnst"
+author: Brjohnstmsft
+ms.author: brjohnst
 ms.manager: nitinme
 ---
+
 # Search Documents (Preview REST API)
 
-**API Version: 2020-06-30-Preview**
+**API Version: 2021-04-30-Preview**
 
 > [!Important]
-> This preview API adds a **semantic** query type and responses, a **speller** parameter that provides spell correction, and  a **featuresMode** parameter that can report on per-field term frequency, per-field similarity score, and per-field number of unique matches. A new **queryLanguage** parameter is required for both semantic queries and **speller**.
+> Preview features for this API include a **semantic** query type and responses, a **speller** parameter that provides spell correction, and a **featuresMode** parameter that can report on per-field term frequency, per-field similarity score, and per-field number of unique matches. A new **queryLanguage** parameter is required for both semantic queries and **speller**. All of these preview features are also supported in 2020-06-30-Preview.
 
 A query request targets the documents collection of a single index on a search service. It includes parameters that define the match criteria, and parameters that shape the response.
 
@@ -46,7 +49,7 @@ With POST, the number of clauses in a filter is the limiting factor, not the siz
 | [service name] | Required. Set this to the unique, user-defined name of your search service. |
 | [index name]/docs  | Required. Specifies the documents collection of a named index. |
 | [query parameters] | Query parameters are specified on the URI for GET requests and in the request body for POST requests. |
-| api-version | Required. For preview features, the current version is `api-version=2020-06-30-Preview`. For **Search Documents**, the api-version is always specified as a URI parameter for both GET and POST. |
+| api-version | Required. The current version is `api-version=2021-04-30-Preview`. See [API versions](../search-service-api-versions.md) for more versions.|
 
 ### URL-encoding recommendations
 
@@ -69,7 +72,7 @@ The following table describes the required and optional request headers.
 |Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to "application/json"|  
-|api-key|Required. A unique, system-generated string that authenticates the request to your search service. Query requests against the documents collection can specify either an admin-key or query-key as the API key. The query-key is used for read-only operations against the documents collection. You can get keys from the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).|  
+|api-key|Required. A unique, system-generated string that authenticates the request to your search service. Query requests against the documents collection can specify either an admin-key or query-key as the API key. The query-key is used for read-only operations against the documents collection. You can [find the API key](/azure/search/search-security-api-keys#find-existing-keys) in your search service dashboard in the Azure portal.|  
 
 ## Request Body
 
@@ -122,8 +125,8 @@ A query accepts several parameters on the URL when called with GET, and as JSON 
 
 | Name      | Type | Description |
 |-----------|------|-------------|
-| answers (preview) | string | Optional. Valid values are "none" and "extractive". Defaults to "none". This parameter is only valid if the query type is "semantic". When set to "extractive", the query formulates and returns answers from key passages in the highest semantically ranked documents. The default is one answer, but you can specify up to five by adding a count. For example, "answers": "extractive\|count-3" returns three answers. For an answer to be returned, there must be sufficient information in the searchFields to formulate one. In addition, the query itself must look like a question. A keyword search won't return an answer. |
-| api-version | string | Required. Version of the REST API used for the request. For a list of supported versions, see [API versioning](/azure/search/search-api-versions). For this operation, the api-version is specified as a URI parameter regardless of whether you call **Search Documents** with GET or POST.  |
+| answers (preview) | string | Optional. Valid values are "none" and "extractive". Defaults to "none". This parameter is only valid if the query type is "semantic". When set to "extractive", the query formulates and returns answers from key passages in the highest semantically ranked documents. The default is one answer, but you can specify up to ten by adding a count. For example, "answers": "extractive\|count-3" returns three answers. For an answer to be returned, there must be sufficient information in the searchFields to formulate one. In addition, the query itself must look like a question. A keyword search won't return an answer. |
+| api-version | string | Required. Version of the REST API used for the request. For a list of supported versions, see [API versions](../search-service-api-versions.md). For this operation, the api-version is specified as a URI parameter regardless of whether you call **Search Documents** with GET or POST.  |
 | $count | boolean | Optional. Valid values are "true" or "false". Defaults to "false". When called with POST, this parameter is named count instead of $count. Specifies whether to fetch the total count of results. This is the count of all documents that match the search and $filter parameters, ignoring $top and $skip. Setting this value to "true" may degrade performance. The count returned is an approximation. If you’d like to get only the count without any documents, you can use $top=0. |
 | facet | string | Optional. A field to facet by. The string may contain parameters to customize the faceting, expressed as comma-separated name:value pairs. When called with POST, this parameter is named facets instead of facet. </br></br>Valid are "count", "sort", "values", "interval", and "timeoffset". </br></br>"count" is the maximum number of facet terms; default is 10. There is no upper limit on the number of terms, but higher values will degrade performance, especially if the faceted field contains a large number of unique terms. For example, "facet=category,count:5" gets the top five categories in facet results. If the count parameter is less than the number of unique terms, the results may not be accurate. This is due to the way faceting queries are distributed across shards. Increasing count generally increases the accuracy of term counts, but at a performance cost. </br></br>"sort" can be set to "count", "-count", "value", "-value". Use count to sort descending by count. Use -count to sort ascending by count. Use value to sort ascending by value. Use -value to sort descending by value (for example, "facet=category,count:3,sort:count" gets the top three categories in facet results in descending order by the number of documents with each city name). If the top three categories are Budget, Motel, and Luxury, and Budget has 5 hits, Motel has 6, and Luxury has 4, then the buckets will be in the order Motel, Budget, Luxury. For -value, "facet=rating,sort:-value" produces buckets for all possible ratings, in descending order by value (for example, if the ratings are from 1 to 5, the buckets will be ordered 5, 4, 3, 2, 1, irrespective of how many documents match each rating). </br></br>"values" can set to pipe-delimited numeric or Edm.DateTimeOffset values specifying a dynamic set of facet entry values (for example, "facet=baseRate,values:10 \| 20" produces three buckets: one for base rate 0 up to but not including 10, one for 10 up to but not including 20, and one for 20 and higher). A string "facet=lastRenovationDate,values:2010-02-01T00:00:00Z" produces two buckets: one for hotels renovated before February 2010, and one for hotels renovated February 1, 2010 or later. </br></br>"interval" is an integer interval greater than 0 for numbers, or minute, hour, day, week, month, quarter, year for date time values. For example, "facet=baseRate,interval:100" produces buckets based on base rate ranges of size 100. If base rates are all between $60 and $600, there will be buckets for 0-100, 100-200, 200-300, 300-400, 400-500, and 500-600. The string "facet=lastRenovationDate,interval:year" produces one bucket for each year when hotels were renovated. </br></br>"timeoffset" can be set to ([+-]hh:mm, [+-]hhmm, or [+-]hh). If used, the timeoffset parameter must be combined with the interval option, and only when applied to a field of type Edm.DateTimeOffset. The value specifies the UTC time offset to account for in setting time boundaries. For example: "facet=lastRenovationDate,interval:day,timeoffset:-01:00" uses the day boundary that starts at 01:00:00 UTC (midnight in the target time zone). </br></br>count and sort can be combined in the same facet specification, but they cannot be combined with interval or values, and interval and values cannot be combined together. </br></br>Interval facets on date time are computed based on the UTC time if time offset is not specified. For example: for "facet=lastRenovationDate,interval:day", the day boundary starts at 00:00:00 UTC. |
 | featuresMode (preview) | boolean | Optional. Valid values are "enabled" and "disabled". Default is "disabled". A value that specifies whether the results should include *query result features*, used to compute the relevance score of a document in relation to the query, such as per field similarity. Use "enabled" to expose additional query result features: per field similarity score, per field term frequency, and per field number of unique tokens matched. For more information, see [Similarity and scoring](/azure/search/index-similarity-and-scoring). |
@@ -562,45 +565,59 @@ For more information about using each feature, see [Enable semantic ranking and 
 The "(preview)" designation indicates that validation testing across all features (semantic ranking, captions, answers, and spell check) is either ongoing or pending. We encourage the use of all of the language variants in the following table, but recommend additional testing of preview languages to ensure the results are valid for your content. Languages with a green check and no preview designation have been validated using equivalent data sets, with measurable gain in relevance.
 
 | Language | queryLanguage | Semantic ranker and captions | Semantic answer | Speller |
-|----------|---------------|------------------|-----------------|---------|
+|----------|---------------|------------------------------|-----------------|---------|
 | English [EN] | EN, EN-US (default), EN-GB, EN-IN, EN-CA, EN-AU | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: (EN, EN-US) |
-| Spanish [ES] | ES, ES-ES (default), ES-MX | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: (ES, ES-ES) |
 | French [FR] | FR, FR-FR (default), FR-CA | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: (FR, FR-FR) |
 | German [DE] | DE, DE-DE (default) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: (DE, DE-DE) |
+| Spanish [ES] | ES, ES-ES (default), ES-MX | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: (ES, ES-ES) |
 | Italian [IT] | IT, IT-IT (default) | :heavy_check_mark: | :heavy_check_mark: |  |
-| Portuguese [PT] | PT, PT-BR (default), PT-PT | :heavy_check_mark: | :heavy_check_mark: (preview) | |
-| Chinese [ZH] | ZH, ZH-CN (default), ZH-TW | :heavy_check_mark: | :heavy_check_mark: (preview) |  |
 | Japanese [JA] | JA, JA-JP (default) | :heavy_check_mark: | :heavy_check_mark: (preview) |  |
-| Korean [KO] | KO, KO-KR (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Russian [RU] | RU, RU-RU (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Czech [CS] | CS, CS-CZ (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Dutch [NL] | NL, NL-BE (default), NL-N | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Polish [PL]  | PL, PL-PL (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Swedish [SV] | SV, SV-SE (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Turkish [TR] | TR, TR-TR (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Hindi [HI] | HI, HI-IN (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Chinese [ZH] | ZH, ZH-CN (default), ZH-TW | :heavy_check_mark: | :heavy_check_mark: (preview) |  |
+| Portuguese [PT] | PT, PT-BR (default), PT-PT | :heavy_check_mark: | :heavy_check_mark: (preview) | |
+| Dutch [NL] | NL, NL-BE, NL-NL (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) | :heavy_check_mark: (NL, NL-NL) |
 | Arabic [AR] | AR, AR-SA (default), AR-EG, AR-MA. AR-KW, AR-JO  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Danish [DA] | DA, DA-DK (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Norwegian [NO] | NO, NO-NO (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Armenian | hy-AM (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Bangla | bn-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Basque | eu-ES (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Bulgarian [BG] | BG, BG-BG (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Catalan [CA] | CA, CA-ES (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Croatian [HR]  | HR, HR-HR (default), HR-BA  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Malaysian [MS]  | MS, MS-MY (default), MS-BN  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Slovenian [SL] | SL, SL-SL (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Tamil [TA] | TA, TA-IN (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Vietnamese [VA] | VA, VI-VN (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Czech [CS] | CS, CS-CZ (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Danish [DA] | DA, DA-DK (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Estonian [ET] | ET, ET-EE (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Finnish [FI] | FI, FI-FI (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Galician | gl-ES (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Greek [EL] | EL, EL-GR (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Romanian [RO] | RO, RO-RO (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Gujarati | gu-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Hebrew | he-IL (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Hindi [HI] | HI, HI-IN (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Icelandic [IS] | IS, IS-IS (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Indonesian [ID] | ID, ID-ID (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Thai [TH] | TH, TH-TH (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Irish | ga-IE (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Kannada | kn-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Korean [KO] | KO, KO-KR (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Latvian [LV] | LV, LV-LV (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Lithuanian [LT]  | LT, LT-LT (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Ukrainian [UK] | UK, UK-UA (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Latvian [LV] | LV, LV-LV (default) 
-| Estonian [ET] | ET, ET-EE (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Catalan [CA] | CA, CA-ES (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
-| Finnish [FI] | FI, FI-FI (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Malayalam | ml-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Malaysian [MS]  | MS, MS-MY (default), MS-BN  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Marathi | mr-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Norwegian [NO] | NO, NO-NO (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Persian | fa-AE (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Polish [PL]  | PL, PL-PL (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Punjabi | pa-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Romanian [RO] | RO, RO-RO (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Russian [RU] | RU, RU-RU (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Serbian [SR] (Cyrillic or Latin) | SR, SR-BA (default), SR-ME, SR-RS  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 | Slovak [SK] | SK, SK-SK (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Slovenian [SL] | SL, SL-SL (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Tamil [TA] | TA, TA-IN (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Swedish [SV] | SV, SV-SE (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Telugu | te-IN (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Thai [TH] | TH, TH-TH (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Turkish [TR] | TR, TR-TR (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Ukrainian [UK] | UK, UK-UA (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Urdu | ur-PK (default) | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
+| Vietnamese [VA] | VA, VI-VN (default)  | :heavy_check_mark: (preview) | :heavy_check_mark: (preview) |  |
 
 ## See also
 

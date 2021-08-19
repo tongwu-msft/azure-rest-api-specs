@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.networkinterfaceloadbalancers.list
 name: List
 service: Virtual Networks
 groupName: Network Interface Load Balancers
-apiVersion: 2020-11-01
+apiVersion: 2021-02-01
 summary: List all load balancers in a network interface.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/loadBalancers?api-version=2020-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/loadBalancers?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -273,6 +273,10 @@ definitions:
     description: The reference to the Public IP Prefix resource.
     types:
     - uid: SubResource
+  - name: properties.gatewayLoadBalancer
+    description: The reference to gateway load balancer frontend IP.
+    types:
+    - uid: SubResource
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the frontend IP configuration resource.
@@ -304,6 +308,11 @@ definitions:
     description: The location of the backend address pool.
     types:
     - uid: string
+  - name: properties.tunnelInterfaces
+    description: An array of gateway load balancer tunnel interfaces.
+    types:
+    - uid: GatewayLoadBalancerTunnelInterface
+      isArray: true
   - name: properties.loadBalancerBackendAddresses
     description: An array of backend addresses.
     types:
@@ -367,6 +376,11 @@ definitions:
     description: A reference to a pool of DIPs. Inbound traffic is randomly load balanced across IPs in the backend IPs.
     types:
     - uid: SubResource
+  - name: properties.backendAddressPools
+    description: An array of references to pool of DIPs.
+    types:
+    - uid: SubResource
+      isArray: true
   - name: properties.probe
     description: The reference to the load balancer probe used by the load balancing rule.
     types:
@@ -669,6 +683,9 @@ definitions:
   - name: Standard
     types:
     - uid: string
+  - name: Gateway
+    types:
+    - uid: string
 - name: LoadBalancerSkuTier
   description: Tier of a load balancer SKU.
   kind: enum
@@ -908,6 +925,10 @@ definitions:
     description: The linked public IP address of the public IP address resource.
     types:
     - uid: PublicIPAddress
+  - name: properties.deleteOption
+    description: Specify what happens to the public IP address when the VM using it is deleted
+    types:
+    - uid: DeleteOptions
   - name: id
     description: Resource ID.
     types:
@@ -934,6 +955,26 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: GatewayLoadBalancerTunnelInterface
+  description: Gateway load balancer tunnel interface of a load balancer backend address pool.
+  kind: object
+  properties:
+  - name: port
+    description: Port of gateway load balancer tunnel interface.
+    types:
+    - uid: integer
+  - name: identifier
+    description: Identifier of gateway load balancer tunnel interface.
+    types:
+    - uid: integer
+  - name: protocol
+    description: Protocol of gateway load balancer tunnel interface.
+    types:
+    - uid: GatewayLoadBalancerTunnelProtocol
+  - name: type
+    description: Traffic type of gateway load balancer tunnel interface.
+    types:
+    - uid: GatewayLoadBalancerTunnelInterfaceType
 - name: LoadBalancerBackendAddress
   description: Load balancer backend addresses.
   kind: object
@@ -980,6 +1021,10 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+  - name: properties.gatewayLoadBalancer
+    description: The reference to gateway load balancer frontend IP.
+    types:
+    - uid: SubResource
   - name: properties.virtualNetworkTaps
     description: The reference to Virtual Network Taps.
     types:
@@ -1762,6 +1807,42 @@ definitions:
   - name: Committed
     types:
     - uid: string
+- name: DeleteOptions
+  description: Specify what happens to the public IP address when the VM using it is deleted
+  kind: enum
+  properties:
+  - name: Delete
+    types:
+    - uid: string
+  - name: Detach
+    types:
+    - uid: string
+- name: GatewayLoadBalancerTunnelProtocol
+  description: Protocol of gateway load balancer tunnel interface.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Native
+    types:
+    - uid: string
+  - name: VXLAN
+    types:
+    - uid: string
+- name: GatewayLoadBalancerTunnelInterfaceType
+  description: Traffic type of gateway load balancer tunnel interface.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Internal
+    types:
+    - uid: string
+  - name: External
+    types:
+    - uid: string
 - name: VirtualNetworkTap
   description: Virtual Network Tap resource.
   kind: object
@@ -2101,6 +2182,10 @@ definitions:
     description: The provisioning state of the network interface resource.
     types:
     - uid: ProvisioningState
+  - name: properties.workloadType
+    description: WorkloadType of the NetworkInterface for BareMetal resources
+    types:
+    - uid: string
   - name: properties.nicType
     description: Type of Network Interface resource.
     types:
@@ -2825,7 +2910,7 @@ definitions:
 examples:
 - name: NetworkInterfaceLoadBalancerList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/networkInterfaces/nic1/loadBalancers?api-version=2020-11-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/networkInterfaces/nic1/loadBalancers?api-version=2021-02-01
   responses:
   - statusCode: "200"
     body: >-

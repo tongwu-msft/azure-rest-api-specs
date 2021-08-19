@@ -13,7 +13,7 @@ ms.manager: nitinme
 ---
 # Add, Update or Delete Documents (Azure Cognitive Search REST API)
 
-You can [import search documents](https://docs.microsoft.com/azure/search/search-what-is-data-import) into a specified index using HTTP POST. For large numbers of updates, batching of documents (up to 1000 documents per batch, or about 16 MB per batch) is recommended and will significantly improve indexing performance.  
+You can [import search documents](/azure/search/search-what-is-data-import) into a specified index using HTTP POST. For large numbers of updates, batching of documents (up to 1000 documents per batch, or about 16 MB per batch) is recommended and will significantly improve indexing performance.  
 
 ```http  
 POST https://[service name].search.windows.net/indexes/[index name]/docs/index?api-version=[api-version]   
@@ -21,7 +21,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/index?a
   api-key: [admin key]  
 ```  
 
-For supported Azure data sources, [indexers](https://docs.microsoft.com/azure/search/search-indexer-overview) offer a simpler alternative for adding and updating documents. For more information, see [Indexer operations](indexer-operations.md).  
+For supported Azure data sources, [indexers](/azure/search/search-indexer-overview) offer a simpler alternative for adding and updating documents. For more information, see [Indexer operations](indexer-operations.md).  
 
 ## URI Parameters
 
@@ -29,7 +29,7 @@ For supported Azure data sources, [indexers](https://docs.microsoft.com/azure/se
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required on the URI, specifying which index to post documents. You can only post documents to one index at a time.  |
-| api-version | Required. The current version is `api-version=2020-06-30`. For a list of all supported versions, see [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions).|
+| api-version | Required. The current stable version is `api-version=2020-06-30`. See [API versions](search-service-api-versions.md) for more versions. |
 
 ## Request Headers
 
@@ -38,7 +38,7 @@ The following table describes the required and optional request headers.
 |Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to `application/json`|  
-|api-key|Required. A unique, system-generated string that authenticates the request to your search service. Uploading documents requires an admin API key. You can get keys from the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).| 
+|api-key|Required. A unique, system-generated string that authenticates the request to your search service. Uploading documents requires an admin API key. You can get keys from the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).| 
 
 ## Request Body
 
@@ -249,5 +249,3 @@ Status code: 429 indicates that you have exceeded your quota on the number of do
 
 + [Azure Cognitive Search REST API](index.md)
 + [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)
-+ [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)
-+ [Azure Cognitive Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search)

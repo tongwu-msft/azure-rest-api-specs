@@ -1,5 +1,5 @@
 ---
-title: "DeployedStatefulServiceReplicaInfo"
+title: "DeployedStatefulServiceReplicaInfo v8.1"
 description: "DeployedStatefulServiceReplicaInfo"
 ms.date: "07/13/2021"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedStatefulServiceReplicaInfo
+# DeployedStatefulServiceReplicaInfo v8.1
 
 Information about a stateful service replica deployed on a node.
 

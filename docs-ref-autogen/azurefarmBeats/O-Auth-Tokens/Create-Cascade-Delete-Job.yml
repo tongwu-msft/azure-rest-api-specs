@@ -4,41 +4,45 @@ name: Create Cascade Delete Job
 service: Azure FarmBeats
 groupName: O Auth Tokens
 apiVersion: 2021-03-31-preview
-summary: Create a cascade delete job for OAuth tokens.
+summary: >+
+  Create job to remove OAuth token.
+
+
+
+  ###### Note:
+
+
+  1. The **‘contentType’** in the request header should be **'application/json'**.
+
+  2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+
 produces:
 - application/json
 paths:
-- content: PUT {Endpoint}/oauth/tokens/remove/{jobId}?farmerId={farmerId}&oauthProviderId={oauthProviderId}&api-version=2021-03-31-preview
+- content: PUT /oauth/tokens/remove/{jobId}?farmerId={farmerId}&oauthProviderId={oauthProviderId}&api-version=2021-03-31-preview
 uriParameters:
-- name: Endpoint
-  in: path
-  isRequired: true
-  skipUrlEncoding: true
-  description: 'The endpoint of your FarmBeats resource (protocol and hostname, for example: https://{resourceName}.farmbeats.azure.net).'
-  types:
-  - uid: string
 - name: jobId
   in: path
   isRequired: true
-  description: Job ID supplied by end user.
+  description: Id of the OAuth token removal job.
   types:
   - uid: string
 - name: farmerId
   in: query
   isRequired: true
-  description: ID of the farmer.
+  description: Id of the associated farmer.
   types:
   - uid: string
 - name: oauthProviderId
   in: query
   isRequired: true
-  description: ID of the OAuthProvider.
+  description: Id of the OAuth provider resource.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: The requested API version
+  description: The requested API version.
   types:
   - uid: string
 responses:
@@ -63,20 +67,20 @@ definitions:
   kind: object
   properties:
   - name: farmerId
-    description: Farmer ID.
+    description: Farmer Id.
     types:
     - uid: string
   - name: resourceId
-    description: The id of the resource.
+    description: The id of the resource which is to be deleted (along with the subtree & associated data).
     types:
     - uid: string
   - name: resourceType
-    description: The type of the resource.
+    description: Signifies the type of the resource that is being deleted (along with the subtree & associated data).
     types:
     - uid: string
   - name: id
     isReadyOnly: true
-    description: Unique job id.
+    description: Unique Id of the cascade delete job. This Id is unique for a given tenant.
     types:
     - uid: string
   - name: status
@@ -86,77 +90,76 @@ definitions:
 
       Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
     types:
-    - uid: string
+    - uid: JobStatus
   - name: durationInSeconds
     isReadyOnly: true
-    description: Duration of the job in seconds.
+    description: Processing duration of the job. Can be calculated as min(current time, job succeeded/failed/cancelled time) - job execution start time. This does not include the time spent waiting in the queue for the job to be picked up for processing.
     types:
     - uid: number
   - name: message
     isReadyOnly: true
-    description: Status message to capture more details of the job.
+    description: Brief description of the result of the job.
     types:
     - uid: string
   - name: createdDateTime
     isReadyOnly: true
-    description: 'Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time at which the job was created (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: lastActionDateTime
     isReadyOnly: true
-    description: 'Job was last acted upon at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time at which the job was last acted upon (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: startTime
     isReadyOnly: true
-    description: 'Job start time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time at which the processing of the job started (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: endTime
     isReadyOnly: true
-    description: 'Job end time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time at which the processing of the job ended (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
-  - name: name
-    description: Name to identify resource.
-    types:
-    - uid: string
-  - name: description
-    description: Textual description of the resource.
-    types:
-    - uid: string
-  - name: properties
-    description: >-
-      A collection of key value pairs that belongs to the resource.
-
-      Each pair must not have a key greater than 50 characters
-
-      and must not have a value greater than 150 characters.
-
-      Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
 - name: ErrorResponse
   description: >-
-    An error response from the Azure AgPlatform service.
+    An error response from Azure AgPlatform service.
 
     <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
   kind: object
   properties:
   - name: error
-    description: An error from the Azure AgPlatform service.
+    description: An error from Azure FarmBeats service.
     types:
     - uid: Error
   - name: traceId
-    description: Unique trace ID.
+    description: Unique trace Id.
+    types:
+    - uid: string
+- name: JobStatus
+  description: >-
+    Status of the job.
+
+    Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
+  kind: enum
+  properties:
+  - name: Waiting
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Cancelled
     types:
     - uid: string
 - name: Error
-  description: An error from the Azure AgPlatform service.
+  description: An error from Azure FarmBeats service.
   kind: object
   properties:
   - name: code
@@ -191,10 +194,7 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: >-
-      Specific error code than was provided by the
-
-      containing error.
+    description: Specific error code than was provided by the containing error.
     types:
     - uid: string
   - name: innererror
@@ -207,17 +207,17 @@ definitions:
 examples:
 - name: OAuthTokens_CreateCascadeDeleteJob
   request:
-    uri: PUT {Endpoint}/oauth/tokens/remove/JOBID123?farmerId=FARMER123&oauthProviderId=JOHNDEERE&api-version=2021-03-31-preview
+    uri: PUT /oauth/tokens/remove/Job123?farmerId=Farmer123&oauthProviderId=JOHNDEERE&api-version=2021-03-31-preview
   responses:
   - statusCode: "202"
     body: >-
       {
-        "farmerId": "FARMER123",
+        "farmerId": "Farmer123",
         "resourceId": "JOHNDEERE",
         "resourceType": "oauthtokeninfo",
-        "id": "JOBID123",
+        "id": "Job123",
         "status": "Waiting",
-        "message": "Created cascade delete job for 'oauthtokeninfo' resource with id 'JOHNDEERE' and farmerId 'FARMER123'.",
+        "message": "Created cascade delete job for 'oauthtokeninfo' resource with id 'JOHNDEERE' and farmerId 'Farmer123'.",
         "createdDateTime": "2021-05-13T20:04:39Z",
         "lastActionDateTime": "2021-05-13T20:04:39Z",
         "startTime": "2021-05-13T20:04:37Z"
@@ -228,5 +228,13 @@ security:
   description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
   in: header
 metadata:
-  description: Learn more about Azure FarmBeats service - Create a cascade delete job for OAuth tokens.
+  description: >-
+    Create job to remove OAuth token.
+
+
+
+    ###### Note:
+
+
+    1. The **‘contentType’** in the request header should be **'application/json'**.
 errorCodes: []

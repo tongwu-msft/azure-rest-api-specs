@@ -1,5 +1,5 @@
 ---
-title: "StatefulServiceDescription"
+title: "StatefulServiceDescription v8.1"
 description: "StatefulServiceDescription"
 ms.date: "07/13/2021"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatefulServiceDescription
+# StatefulServiceDescription v8.1
 
 Describes a stateful service.
 
@@ -283,7 +283,7 @@ ____
 __Type__: [ReplicaLifecycleDescription](sfclient-model-replicalifecycledescription.md) <br/>
 __Required__: No<br/>
 <br/>
-Defines how replicas of this service will behave during ther lifecycle.
+Defines how replicas of this service will behave during their lifecycle.
 
 ____
 ### `AuxiliaryReplicaCount`

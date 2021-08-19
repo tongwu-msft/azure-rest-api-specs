@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleries.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Galleries
-apiVersion: 2019-12-01
+apiVersion: 2020-09-30
 summary: Create or update a Shared Image Gallery.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}?api-version=2019-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}?api-version=2020-09-30
 uriParameters:
 - name: subscriptionId
   in: path
@@ -66,6 +66,11 @@ requestBody:
     description: Describes the gallery unique name.
     types:
     - uid: GalleryIdentifier
+  - name: properties.sharingProfile
+    in: body
+    description: Profile for gallery sharing to subscription or tenant
+    types:
+    - uid: SharingProfile
   - name: location
     in: body
     isRequired: true
@@ -92,6 +97,20 @@ definitions:
     description: The unique name of the Shared Image Gallery. This name is generated automatically by Azure.
     types:
     - uid: string
+- name: SharingProfile
+  description: Profile for gallery sharing to subscription or tenant
+  kind: object
+  properties:
+  - name: permissions
+    description: 'This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups**'
+    types:
+    - uid: GallerySharingPermissionTypes
+  - name: groups
+    isReadyOnly: true
+    description: A list of sharing profile groups.
+    types:
+    - uid: SharingProfileGroup
+      isArray: true
 - name: Gallery
   description: Specifies information about the Shared Image Gallery that you want to create or update.
   kind: object
@@ -115,6 +134,10 @@ definitions:
     - uid: Deleting
     - uid: Migrating
     typesTitle: enum
+  - name: properties.sharingProfile
+    description: Profile for gallery sharing to subscription or tenant
+    types:
+    - uid: SharingProfile
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -150,6 +173,29 @@ definitions:
     description: Api error.
     types:
     - uid: ApiError
+- name: GallerySharingPermissionTypes
+  description: 'This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups**'
+  kind: enum
+  properties:
+  - name: Private
+    types:
+    - uid: string
+  - name: Groups
+    types:
+    - uid: string
+- name: SharingProfileGroup
+  description: Group of the gallery sharing profile
+  kind: object
+  properties:
+  - name: type
+    description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
+    types:
+    - uid: SharingProfileGroupTypes
+  - name: ids
+    description: A list of subscription/tenant ids the gallery is aimed to be shared to.
+    types:
+    - uid: string
+      isArray: true
 - name: ApiError
   description: Api error.
   kind: object
@@ -173,6 +219,16 @@ definitions:
     - uid: string
   - name: message
     description: The error message.
+    types:
+    - uid: string
+- name: SharingProfileGroupTypes
+  description: 'This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants**'
+  kind: enum
+  properties:
+  - name: Subscriptions
+    types:
+    - uid: string
+  - name: AADTenants
     types:
     - uid: string
 - name: ApiErrorBase
@@ -206,7 +262,7 @@ definitions:
 examples:
 - name: Create or update a simple gallery.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2019-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2020-09-30
     body: >-
       {
         "location": "West US",
@@ -250,6 +306,68 @@ examples:
             "uniqueName": "{subscription-id}-MYGALLERYNAME"
           },
           "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "myGalleryName"
+      }
+- name: Create or update a simple gallery with sharing profile.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2020-09-30
+    body: >-
+      {
+        "location": "West US",
+        "properties": {
+          "description": "This is the gallery description.",
+          "sharingProfile": {
+            "permissions": "Groups"
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "description": "This is the gallery description.",
+          "identifier": {
+            "uniqueName": "{subscription-id}-MYGALLERYNAME"
+          },
+          "provisioningState": "Updating",
+          "sharingProfile": {
+            "permissions": "Groups"
+          }
+        },
+        "location": "West US",
+        "name": "myGalleryName"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "description": "This is the gallery description.",
+          "identifier": {
+            "uniqueName": "{subscription-id}-MYGALLERYNAME"
+          },
+          "provisioningState": "Creating",
+          "sharingProfile": {
+            "permissions": "Groups"
+          }
+        },
+        "location": "West US",
+        "name": "myGalleryName"
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "description": "This is the gallery description.",
+          "identifier": {
+            "uniqueName": "{subscription-id}-MYGALLERYNAME"
+          },
+          "provisioningState": "Updating",
+          "sharingProfile": {
+            "permissions": "Groups"
+          }
         },
         "location": "West US",
         "name": "myGalleryName"

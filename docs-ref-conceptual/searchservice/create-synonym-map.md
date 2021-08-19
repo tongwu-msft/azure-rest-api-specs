@@ -34,7 +34,7 @@ PUT https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-
  HTTPS is required for all service requests. If the synonym map doesn't exist, it is created. If it already exists, it is updated to the new definition.
 
  > [!NOTE]  
-> The maximum number of synonym maps that you can create varies by pricing tier. For more information, see [Service limits for Azure Cognitive Search](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/).  
+> The maximum number of synonym maps that you can create varies by pricing tier. For more information, see [Service limits](/azure/search/search-limits-quotas-capacity).  
 
 ## URI Parameters
 
@@ -42,7 +42,7 @@ PUT https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | synonym map name  | Required on the URI if using PUT. The name must be lower case, start with a letter or number, have no slashes or dots, and be less than 128 characters. After starting the name with a letter or number, the rest of the name can include any letter, number and dashes, as long as the dashes are not consecutive. |
-| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current stable version is `api-version=2020-06-30`. See [API versions](search-service-api-versions.md) for more versions.|
 
 ## Request Headers
 
@@ -51,9 +51,7 @@ PUT https://[service name].search.windows.net/synonymmaps/[synonymmap name]?api-
 |Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to `application/json`|  
-|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key).|  
-
-You can get the `api-key` from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key). You can [find the API key](/azure/search/search-security-api-keys#find-existing-keys) in your search service dashboard in the Azure portal.|  
 
 ## Request Body
 
@@ -103,7 +101,7 @@ Explicit mapping is denoted by an arrow `=>` ("USA, U.S.A., U.S., United States,
 
 **Example: Encryption keys**
 
-Encryption keys are customer-managed keys used for additional encryption. For more information, see [Encryption using customer-managed keys in Azure Key Vault](https://docs.microsoft.com/azure/search/search-security-manage-encryption-keys).
+Encryption keys are customer-managed keys used for additional encryption. For more information, see [Encryption using customer-managed keys in Azure Key Vault](/azure/search/search-security-manage-encryption-keys).
 
 ```json
 {   
@@ -125,5 +123,5 @@ Encryption keys are customer-managed keys used for additional encryption. For mo
 ## See also  
 
 + [C# code sample](https://github.com/Azure-Samples/search-dotnet-getting-started/tree/master/DotNetHowToSynonyms)
-+ [Synonym C# tutorial](https://docs.microsoft.com/azure/search/search-synonyms-tutorial-sdk) to learn more about synonyms.
-+ [Synonyms in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-synonyms)
++ [Synonym C# tutorial](/azure/search/search-synonyms-tutorial-sdk) to learn more about synonyms.
++ [Synonyms in Azure Cognitive Search](/azure/search/search-synonyms)

@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleryimageversions.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Gallery Image Versions
-apiVersion: 2019-12-01
-summary: Create or update a gallery Image Version.
+apiVersion: 2020-09-30
+summary: Create or update a gallery image version.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?api-version=2019-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?api-version=2020-09-30
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,13 +33,13 @@ uriParameters:
 - name: galleryImageName
   in: path
   isRequired: true
-  description: The name of the gallery Image Definition in which the Image Version is to be created.
+  description: The name of the gallery image definition in which the Image Version is to be created.
   types:
   - uid: string
 - name: galleryImageVersionName
   in: path
   isRequired: true
-  description: 'The name of the gallery Image Version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>'
+  description: 'The name of the gallery image version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>'
   types:
   - uid: string
 - name: api-version
@@ -70,7 +70,7 @@ requestBody:
   parameters:
   - name: properties.publishingProfile
     in: body
-    description: The publishing profile of a gallery Image Version.
+    description: The publishing profile of a gallery image Version.
     types:
     - uid: GalleryImageVersionPublishingProfile
   - name: properties.storageProfile
@@ -97,7 +97,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: GalleryImageVersionPublishingProfile
-  description: The publishing profile of a gallery Image Version.
+  description: The publishing profile of a gallery image Version.
   kind: object
   properties:
   - name: targetRegions
@@ -115,11 +115,11 @@ definitions:
     - uid: boolean
   - name: publishedDate
     isReadyOnly: true
-    description: The timestamp for when the gallery Image Version is published.
+    description: The timestamp for when the gallery image version is published.
     types:
     - uid: string
   - name: endOfLifeDate
-    description: The end of life date of the gallery Image Version. This property can be used for decommissioning purposes. This property is updatable.
+    description: The end of life date of the gallery image version. This property can be used for decommissioning purposes. This property is updatable.
     types:
     - uid: string
   - name: storageAccountType
@@ -144,7 +144,7 @@ definitions:
     - uid: GalleryDataDiskImage
       isArray: true
 - name: ReplicationStatus
-  description: This is the replication status of the gallery Image Version.
+  description: This is the replication status of the gallery image version.
   kind: object
   properties:
   - name: aggregatedState
@@ -159,16 +159,16 @@ definitions:
     - uid: RegionalReplicationStatus
       isArray: true
 - name: GalleryImageVersion
-  description: Specifies information about the gallery Image Version that you want to create or update.
+  description: Specifies information about the gallery image version that you want to create or update.
   kind: object
   properties:
   - name: properties.publishingProfile
-    description: The publishing profile of a gallery Image Version.
+    description: The publishing profile of a gallery image Version.
     types:
     - uid: GalleryImageVersionPublishingProfile
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The current state of the gallery Image Version.  \nThe provisioning state, which only appears in the response."
+    description: "The current state of the gallery image version.  \nThe provisioning state, which only appears in the response."
     types:
     - uid: Creating
     - uid: Updating
@@ -183,7 +183,7 @@ definitions:
     - uid: GalleryImageVersionStorageProfile
   - name: properties.replicationStatus
     isReadyOnly: true
-    description: This is the replication status of the gallery Image Version.
+    description: This is the replication status of the gallery image version.
     types:
     - uid: ReplicationStatus
   - name: id
@@ -259,7 +259,11 @@ definitions:
   kind: object
   properties:
   - name: id
-    description: The id of the gallery artifact version source. Can specify a disk uri, snapshot uri, or user image.
+    description: The id of the gallery artifact version source. Can specify a disk uri, snapshot uri, user image or storage account resource.
+    types:
+    - uid: string
+  - name: uri
+    description: The uri of the gallery artifact version source. Currently used to specify vhd/blob source.
     types:
     - uid: string
 - name: GalleryOSDiskImage
@@ -322,7 +326,7 @@ definitions:
   properties:
   - name: region
     isReadyOnly: true
-    description: The region to which the gallery Image Version is being replicated to.
+    description: The region to which the gallery image version is being replicated to.
     types:
     - uid: string
   - name: state
@@ -456,9 +460,9 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Create or update a simple Gallery Image Version (Managed Image as source).
+- name: Create or update a simple Gallery Image Version using managed image as source.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2019-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2020-09-30
     body: >-
       {
         "location": "West US",
@@ -470,16 +474,16 @@ examples:
                 "regionalReplicaCount": 1,
                 "encryption": {
                   "osDiskImage": {
-                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet"
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
                   },
                   "dataDiskImages": [
                     {
                       "lun": 0,
-                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherDiskEncryptionSet"
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"
                     },
                     {
                       "lun": 1,
-                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet"
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
                     }
                   ]
                 }
@@ -487,7 +491,22 @@ examples:
               {
                 "name": "East US",
                 "regionalReplicaCount": 2,
-                "storageAccountType": "Standard_ZRS"
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -511,16 +530,16 @@ examples:
                 "storageAccountType": "Standard_LRS",
                 "encryption": {
                   "osDiskImage": {
-                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet"
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
                   },
                   "dataDiskImages": [
                     {
                       "lun": 0,
-                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherDiskEncryptionSet"
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"
                     },
                     {
                       "lun": 1,
-                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet"
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
                     }
                   ]
                 }
@@ -528,7 +547,22 @@ examples:
               {
                 "name": "East US",
                 "regionalReplicaCount": 2,
-                "storageAccountType": "Standard_ZRS"
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
               }
             ],
             "replicaCount": 1,
@@ -568,16 +602,16 @@ examples:
                 "storageAccountType": "Standard_LRS",
                 "encryption": {
                   "osDiskImage": {
-                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet"
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
                   },
                   "dataDiskImages": [
                     {
                       "lun": 0,
-                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherDiskEncryptionSet"
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"
                     },
                     {
                       "lun": 1,
-                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet"
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
                     }
                   ]
                 }
@@ -585,7 +619,22 @@ examples:
               {
                 "name": "East US",
                 "regionalReplicaCount": 2,
-                "storageAccountType": "Standard_ZRS"
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
               }
             ],
             "replicaCount": 1,
@@ -625,16 +674,16 @@ examples:
                 "storageAccountType": "Standard_LRS",
                 "encryption": {
                   "osDiskImage": {
-                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet"
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
                   },
                   "dataDiskImages": [
                     {
                       "lun": 0,
-                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherDiskEncryptionSet"
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"
                     },
                     {
                       "lun": 1,
-                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet"
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
                     }
                   ]
                 }
@@ -642,7 +691,22 @@ examples:
               {
                 "name": "East US",
                 "regionalReplicaCount": 2,
-                "storageAccountType": "Standard_ZRS"
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
               }
             ],
             "replicaCount": 1,
@@ -672,7 +736,1081 @@ examples:
       }
 - name: Create or update a simple Gallery Image Version using snapshots as a source.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2019-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2020-09-30
+    body: >-
+      {
+        "location": "West US",
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "osDiskImage": {
+              "source": {
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}"
+              },
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "source": {
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}"
+                },
+                "lun": 1,
+                "hostCaching": "None"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ],
+            "replicaCount": 1,
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS"
+          },
+          "storageProfile": {
+            "osDiskImage": {
+              "source": {
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}"
+              },
+              "sizeInGB": 10,
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "source": {
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}"
+                },
+                "lun": 1,
+                "sizeInGB": 10,
+                "hostCaching": "None"
+              }
+            ]
+          },
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "1.0.0"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ],
+            "replicaCount": 1,
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS"
+          },
+          "storageProfile": {
+            "osDiskImage": {
+              "source": {
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}"
+              },
+              "sizeInGB": 10,
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "source": {
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}"
+                },
+                "lun": 1,
+                "sizeInGB": 10,
+                "hostCaching": "None"
+              }
+            ]
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "West US",
+        "name": "1.0.0"
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ],
+            "replicaCount": 1,
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS"
+          },
+          "storageProfile": {
+            "osDiskImage": {
+              "source": {
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}"
+              },
+              "sizeInGB": 10,
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "source": {
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}"
+                },
+                "lun": 1,
+                "sizeInGB": 10,
+                "hostCaching": "None"
+              }
+            ]
+          },
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "1.0.0"
+      }
+- name: Create or update a simple Gallery Image Version using VM as source.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2020-09-30
+    body: >-
+      {
+        "location": "West US",
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/{vmName}"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ],
+            "replicaCount": 1,
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS"
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/{vmName}"
+            },
+            "osDiskImage": {
+              "sizeInGB": 10,
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "lun": 1,
+                "sizeInGB": 10,
+                "hostCaching": "None"
+              }
+            ]
+          },
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "1.0.0"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ],
+            "replicaCount": 1,
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS"
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/{vmName}"
+            },
+            "osDiskImage": {
+              "sizeInGB": 10,
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "lun": 1,
+                "sizeInGB": 10,
+                "hostCaching": "None"
+              }
+            ]
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "West US",
+        "name": "1.0.0"
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ],
+            "replicaCount": 1,
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS"
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/{vmName}"
+            },
+            "osDiskImage": {
+              "sizeInGB": 10,
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "lun": 1,
+                "sizeInGB": 10,
+                "hostCaching": "None"
+              }
+            ]
+          },
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "1.0.0"
+      }
+- name: Create or update a simple Gallery Image Version using shared image as source.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2020-09-30
+    body: >-
+      {
+        "location": "West US",
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionName}"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ],
+            "replicaCount": 1,
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS"
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionName}"
+            },
+            "osDiskImage": {
+              "sizeInGB": 10,
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "lun": 1,
+                "sizeInGB": 10,
+                "hostCaching": "None"
+              }
+            ]
+          },
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "1.0.0"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ],
+            "replicaCount": 1,
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS"
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionName}"
+            },
+            "osDiskImage": {
+              "sizeInGB": 10,
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "lun": 1,
+                "sizeInGB": 10,
+                "hostCaching": "None"
+              }
+            ]
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "West US",
+        "name": "1.0.0"
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ],
+            "replicaCount": 1,
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS"
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionName}"
+            },
+            "osDiskImage": {
+              "sizeInGB": 10,
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "lun": 1,
+                "sizeInGB": 10,
+                "hostCaching": "None"
+              }
+            ]
+          },
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "1.0.0"
+      }
+- name: Create or update a simple Gallery Image Version using mix of disks and snapshots as a source.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2020-09-30
+    body: >-
+      {
+        "location": "West US",
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "osDiskImage": {
+              "source": {
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}"
+              },
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "source": {
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}"
+                },
+                "lun": 1,
+                "hostCaching": "None"
+              }
+            ]
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ],
+            "replicaCount": 1,
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS"
+          },
+          "storageProfile": {
+            "osDiskImage": {
+              "source": {
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}"
+              },
+              "sizeInGB": 10,
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "source": {
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}"
+                },
+                "lun": 1,
+                "sizeInGB": 10,
+                "hostCaching": "None"
+              }
+            ]
+          },
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "1.0.0"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ],
+            "replicaCount": 1,
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS"
+          },
+          "storageProfile": {
+            "osDiskImage": {
+              "source": {
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}"
+              },
+              "sizeInGB": 10,
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "source": {
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}"
+                },
+                "lun": 1,
+                "sizeInGB": 10,
+                "hostCaching": "None"
+              }
+            ]
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "West US",
+        "name": "1.0.0"
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ],
+            "replicaCount": 1,
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS"
+          },
+          "storageProfile": {
+            "osDiskImage": {
+              "source": {
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}"
+              },
+              "sizeInGB": 10,
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "source": {
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}"
+                },
+                "lun": 1,
+                "sizeInGB": 10,
+                "hostCaching": "None"
+              }
+            ]
+          },
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "1.0.0"
+      }
+- name: Create or update a simple Gallery Image Version using vhd as a source.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2020-09-30
     body: >-
       {
         "location": "West US",
@@ -704,14 +1842,16 @@ examples:
           "storageProfile": {
             "osDiskImage": {
               "source": {
-                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{snapshotName}"
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
+                "uri": "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
               },
               "hostCaching": "ReadOnly"
             },
             "dataDiskImages": [
               {
                 "source": {
-                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{diskSnapshotName}"
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
+                  "uri": "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
                 },
                 "lun": 1,
                 "hostCaching": "None"
@@ -756,18 +1896,18 @@ examples:
           "storageProfile": {
             "osDiskImage": {
               "source": {
-                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}"
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
+                "uri": "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
               },
-              "sizeInGB": 10,
               "hostCaching": "ReadOnly"
             },
             "dataDiskImages": [
               {
                 "source": {
-                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{diskSnapshotName}"
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
+                  "uri": "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
                 },
                 "lun": 1,
-                "sizeInGB": 10,
                 "hostCaching": "None"
               }
             ]
@@ -812,18 +1952,18 @@ examples:
           "storageProfile": {
             "osDiskImage": {
               "source": {
-                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}"
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
+                "uri": "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
               },
-              "sizeInGB": 10,
               "hostCaching": "ReadOnly"
             },
             "dataDiskImages": [
               {
                 "source": {
-                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{diskSnapshotName}"
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
+                  "uri": "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
                 },
                 "lun": 1,
-                "sizeInGB": 10,
                 "hostCaching": "None"
               }
             ]
@@ -868,18 +2008,18 @@ examples:
           "storageProfile": {
             "osDiskImage": {
               "source": {
-                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}"
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
+                "uri": "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
               },
-              "sizeInGB": 10,
               "hostCaching": "ReadOnly"
             },
             "dataDiskImages": [
               {
                 "source": {
-                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{diskSnapshotName}"
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
+                  "uri": "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
                 },
                 "lun": 1,
-                "sizeInGB": 10,
                 "hostCaching": "None"
               }
             ]
@@ -899,5 +2039,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - Create or update a gallery Image Version.
+  description: Learn more about Compute service - Create or update a gallery image version.
 errorCodes: []

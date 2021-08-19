@@ -4,40 +4,33 @@ name: List
 service: Azure FarmBeats
 groupName: Weather
 apiVersion: 2021-03-31-preview
-summary: Returns a paginated list of weather data.
+summary: "Get a paginated list of weather data resources for a given search criteria.\n\n\r###### Note: \n1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.\n2. This API will retrieve weather data present in the FarmBeats datastore and does not ingest new data. Example: a user has ingested historical weather data from 1st of Jan 2019 to 30th of June 2019. However, using the current API, the user has asked for historical data from 1st of Jan 2019 to 31st of December 2019. In such a case, only data for the first 6 months is returned to the user.\n\n"
 produces:
 - application/json
 paths:
-- content: GET {Endpoint}/weather?farmerId={farmerId}&boundaryId={boundaryId}&extensionId={extensionId}&weatherDataType={weatherDataType}&granularity={granularity}&api-version=2021-03-31-preview
-- content: GET {Endpoint}/weather?farmerId={farmerId}&boundaryId={boundaryId}&extensionId={extensionId}&weatherDataType={weatherDataType}&granularity={granularity}&startDateTime={startDateTime}&endDateTime={endDateTime}&$maxPageSize={$maxPageSize}&$skipToken={$skipToken}&api-version=2021-03-31-preview
+- content: GET /weather?farmerId={farmerId}&boundaryId={boundaryId}&extensionId={extensionId}&weatherDataType={weatherDataType}&granularity={granularity}&api-version=2021-03-31-preview
+- content: GET /weather?farmerId={farmerId}&boundaryId={boundaryId}&extensionId={extensionId}&weatherDataType={weatherDataType}&granularity={granularity}&startDateTime={startDateTime}&endDateTime={endDateTime}&$maxPageSize={$maxPageSize}&$skipToken={$skipToken}&api-version=2021-03-31-preview
   isOptional: true
 uriParameters:
-- name: Endpoint
-  in: path
-  isRequired: true
-  skipUrlEncoding: true
-  description: 'The endpoint of your FarmBeats resource (protocol and hostname, for example: https://{resourceName}.farmbeats.azure.net).'
-  types:
-  - uid: string
 - name: farmerId
   in: query
   isRequired: true
-  description: Farmer ID.
+  description: Id of the associated farmer.
   types:
   - uid: string
 - name: boundaryId
   in: query
   isRequired: true
-  description: Boundary ID.
+  description: Id of the associated boundary.
   types:
   - uid: string
 - name: extensionId
   in: query
   isRequired: true
-  description: ID of the weather extension.
+  description: Id of the weather extension. This signifies the source from where the weather data is fetched (eg. DTN.ClearAg).
   types:
   - uid: string
-  pattern: ^[A-za-z]{3,50}[.][A-za-z]{3,100}$
+  pattern: ^[a-zA-Z]{3,50}[.][a-zA-Z]{3,100}$
 - name: weatherDataType
   in: query
   isRequired: true
@@ -52,22 +45,19 @@ uriParameters:
   - uid: string
 - name: startDateTime
   in: query
-  description: 'Weather data start UTC date-time (inclusive), sample format: yyyy-MM-ddTHH:mm:ssZ.'
+  description: 'Weather data at or after the given UTC Date-time will be returned (format: yyyy-MM-ddTHH:mm:ssZ).'
   types:
   - uid: string
   format: date-time
 - name: endDateTime
   in: query
-  description: 'Weather data end UTC date-time (inclusive), sample format: yyyy-MM-ddTHH:mm:ssZ.'
+  description: 'Weather data at or before the given UTC Date-time will be returned (format: yyyy-MM-ddTHH:mm:ssZ).'
   types:
   - uid: string
   format: date-time
 - name: $maxPageSize
   in: query
-  description: >-
-    Maximum number of items needed (inclusive).
-
-    Minimum = 10, Maximum = 1000, Default value = 50.
+  description: Maximum number of items to be returned in a single page.
   types:
   - uid: integer
   format: int32
@@ -79,7 +69,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: The requested API version
+  description: The requested API version.
   types:
   - uid: string
 responses:
@@ -113,22 +103,22 @@ definitions:
     types:
     - uid: string
   - name: nextLink
-    description: Continuation link (absolute URI) to the next page of results in the list.
+    description: Continuation link (absolute URI) to the next page of results in the list. If null, there are no additional pages.
     types:
     - uid: string
 - name: ErrorResponse
   description: >-
-    An error response from the Azure AgPlatform service.
+    An error response from Azure AgPlatform service.
 
     <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
   kind: object
   properties:
   - name: error
-    description: An error from the Azure AgPlatform service.
+    description: An error from Azure FarmBeats service.
     types:
     - uid: Error
   - name: traceId
-    description: Unique trace ID.
+    description: Unique trace Id.
     types:
     - uid: string
 - name: WeatherData
@@ -136,15 +126,15 @@ definitions:
   kind: object
   properties:
   - name: farmerId
-    description: Farmer ID.
+    description: Id of the associated farmer.
     types:
     - uid: string
   - name: boundaryId
-    description: Boundary ID.
+    description: Id of the associated boundary.
     types:
     - uid: string
   - name: extensionId
-    description: ID of the weather extension.
+    description: Id of the weather extension. This signifies the source from where the weather data is fetched (eg. DTN.ClearAg).
     types:
     - uid: string
   - name: location
@@ -152,11 +142,11 @@ definitions:
     types:
     - uid: Location
   - name: dateTime
-    description: 'Date-time of the weather data, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time of the weather data (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: unitSystemCode
-    description: Unit System like US/SI etc.
+    description: Unit system like US/SI etc.
     types:
     - uid: string
   - name: extensionVersion
@@ -232,33 +222,26 @@ definitions:
     types:
     - uid: Measure
   - name: id
-    description: Weather data ID.
+    description: Unique id of weather data.
     types:
     - uid: string
   - name: eTag
     isReadyOnly: true
-    description: The ETag value to implement optimistic concurrency.
+    description: ETag value can be used to implement optimistic concurrency.
     types:
     - uid: string
   - name: createdDateTime
     isReadyOnly: true
-    description: 'Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: modifiedDateTime
     isReadyOnly: true
-    description: 'Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ.'
+    description: UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ).
     types:
     - uid: string
   - name: properties
-    description: >-
-      A collection of key value pairs that belongs to the resource.
-
-      Each pair must not have a key greater than 50 characters
-
-      and must not have a value greater than 150 characters.
-
-      Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
+    description: A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource.
     types:
     - uid: object
       isDictionary: true
@@ -266,7 +249,7 @@ definitions:
       - uid: string
       - uid: object
 - name: Error
-  description: An error from the Azure AgPlatform service.
+  description: An error from Azure FarmBeats service.
   kind: object
   properties:
   - name: code
@@ -325,10 +308,7 @@ definitions:
   kind: object
   properties:
   - name: code
-    description: >-
-      Specific error code than was provided by the
-
-      containing error.
+    description: Specific error code than was provided by the containing error.
     types:
     - uid: string
   - name: innererror
@@ -341,73 +321,88 @@ definitions:
 examples:
 - name: Weather_List
   request:
-    uri: GET {Endpoint}/weather?farmerId=FARMER123&boundaryId=BOUNDARY123&extensionId=DTN.ClearAg&weatherDataType=Historical&granularity=Daily&api-version=2021-03-31-preview
+    uri: GET /weather?farmerId=Farmer123&boundaryId=Boundary123&extensionId=DTN.ClearAg&weatherDataType=historical&granularity=daily&api-version=2021-03-31-preview
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "ecd327e7-07f1-31b1-65ee-2162e193c055",
-            "farmerId": "test_farmer",
-            "boundaryId": "test_boundary",
-            "extensionId": "dtn.clearAg",
+            "farmerId": "Farmer123",
+            "boundaryId": "Boundary123",
+            "extensionId": "DTN.ClearAg",
             "location": {
-              "latitude": 77.756958014435682,
-              "longitude": 12.30932563432023
+              "latitude": 47.922759,
+              "longitude": -97.089954
             },
-            "dateTime": "2020-12-23T00:00:00Z",
+            "dateTime": "2020-11-30T00:00:00Z",
             "unitSystemCode": "us-std",
             "extensionVersion": "1.0",
-            "weatherDataType": "forecast",
+            "weatherDataType": "historical",
             "granularity": "daily",
             "cloudCover": {
               "unit": "%",
-              "value": 81.1
+              "value": 10.2
             },
             "dewPoint": {
               "unit": "F",
-              "value": 26
+              "value": 12
             },
             "precipitation": {
               "unit": "in",
-              "value": 0.1
+              "value": 0
             },
             "relativeHumidity": {
               "unit": "%",
-              "value": 74
+              "value": 70
             },
             "temperature": {
               "unit": "F",
-              "value": 33
+              "value": 21
+            },
+            "visibility": {
+              "unit": "mi",
+              "value": 10
             },
             "windGust": {
               "unit": "mph",
-              "value": 50
+              "value": 26
             },
             "windSpeed": {
               "unit": "mph",
-              "value": 31
+              "value": 12
             },
-            "eTag": "\"2b00a419-0000-0700-0000-5fe1ae4c0000\"",
+            "id": "b947d00f-5078-9bfa-f97a-1ef1ce54756a",
+            "eTag": "03002f6d-0000-0600-0000-60ce04a90000",
+            "createdDateTime": "2021-06-19T14:52:25Z",
+            "modifiedDateTime": "2021-06-19T14:52:25Z",
             "properties": {
-              "air_temp_max": {
+              "airTempMax": {
                 "unit": "F",
-                "value": 36
+                "value": 35
               },
-              "air_temp_min": "29",
-              "cloudCoverDescriptor": "Becoming Broken Overcast",
-              "precipitationDescriptor": "Light Snow Likely",
-              "weatherDescriptor": "Light Snow Likely",
-              "windDirectionDescriptor": "East",
-              "windTrendDescriptor": "None",
+              "airTempMin": {
+                "unit": "F",
+                "value": 10
+              },
+              "cloudCoverMax": {
+                "unit": "%",
+                "value": 59.7
+              },
+              "cloudCoverMin": {
+                "unit": "%",
+                "value": 0
+              },
+              "cloudCoverAvgDescriptor": "Sunny",
+              "cloudCoverMaxDescriptor": "Partly Cloudy",
+              "cloudCoverMinDescriptor": "Sunny",
               "dewPointMax": {
                 "unit": "F",
-                "value": 28
+                "value": 18
               },
               "dewPointMin": {
                 "unit": "F",
-                "value": 22
+                "value": 6
               },
               "iceAccPeriod": {
                 "unit": "in",
@@ -419,55 +414,83 @@ examples:
               },
               "longWaveRadiationAvg": {
                 "unit": "W/m^2",
-                "value": 291
+                "value": 210
+              },
+              "longWaveRadiationMax": {
+                "unit": "W/m^2",
+                "value": 264
+              },
+              "longWaveRadiationMin": {
+                "unit": "W/m^2",
+                "value": 173
               },
               "petPeriod": {
                 "unit": "in",
-                "value": 0.04
+                "value": 0.02
               },
-              "precipProb": {
+              "precipAccPeriodAdjusted": {
                 "unit": "%",
-                "value": 75
+                "value": 0
+              },
+              "precipAccPeriodRaw": {
+                "unit": "%",
+                "value": 0
               },
               "relativeHumidityMax": {
                 "unit": "%",
-                "value": 81
+                "value": 82
               },
               "relativeHumidityMin": {
                 "unit": "%",
-                "value": 69
+                "value": 46
               },
               "shortWaveRadiationAvg": {
+                "unit": "W/m^2",
+                "value": 44
+              },
+              "shortWaveRadiationMax": {
+                "unit": "W/m^2",
+                "value": 220
+              },
+              "shortWaveRadiationMin": {
                 "unit": "W/m^2",
                 "value": 0
               },
               "snowAccPeriod": {
                 "unit": "in",
-                "value": 0.7
+                "value": 0
               },
               "sunshineDuration": {
                 "unit": "hours",
-                "value": 0
+                "value": 2
+              },
+              "visibilityMax": {
+                "unit": "mi",
+                "value": 10
+              },
+              "visibilityMin": {
+                "unit": "mi",
+                "value": 10
               },
               "windSpeed2mAvg": {
                 "unit": "mph",
-                "value": 24
+                "value": 9
               },
               "windSpeed2mMax": {
                 "unit": "mph",
-                "value": 32
+                "value": 14
               },
               "windSpeed2mMin": {
                 "unit": "mph",
-                "value": 17
+                "value": 4
               },
               "windSpeedMax": {
                 "unit": "mph",
-                "value": 42
+                "value": 18
               },
               "windSpeedMin": {
                 "unit": "mph",
-                "value": 23
+                "value": 5
               }
             }
           }
@@ -479,5 +502,5 @@ security:
   description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
   in: header
 metadata:
-  description: Learn more about Azure FarmBeats service - Returns a paginated list of weather data.
+  description: "Get a paginated list of weather data resources for a given search criteria.\n\n\r###### Note: \n1. Users will get paginated response with each page containing a link to the next page."
 errorCodes: []

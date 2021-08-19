@@ -3,14 +3,14 @@ uid: management.azure.com.monitor.scheduledqueryrule-preview.scheduledqueryrules
 name: Create Or Update
 service: Monitor
 groupName: Scheduled Query Rules
-apiVersion: 2020-05-01-preview
+apiVersion: 2021-02-01-preview
 summary: Creates or updates a scheduled query rule.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}?api-version=2020-05-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}?api-version=2021-02-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,7 +21,7 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
 - name: ruleName
@@ -52,6 +52,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: kind
+    in: body
+    description: Indicates the type of scheduled query rule. The default is LogAlert.
+    types:
+    - uid: Kind
   - name: properties.description
     in: body
     description: The description of the scheduled query rule.
@@ -64,8 +69,7 @@ requestBody:
     - uid: string
   - name: properties.severity
     in: body
-    isRequired: true
-    description: Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest
+    description: Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert.
     types:
     - uid: AlertSeverity
   - name: properties.enabled
@@ -83,24 +87,22 @@ requestBody:
       isArray: true
   - name: properties.evaluationFrequency
     in: body
-    isRequired: true
-    description: How often the scheduled query rule is evaluated represented in ISO 8601 duration format.
+    description: How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert.
     types:
     - uid: string
   - name: properties.windowSize
     in: body
-    isRequired: true
-    description: The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size).
+    description: The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert.
     types:
     - uid: string
   - name: properties.overrideQueryTimeRange
     in: body
-    description: If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods)
+    description: If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert.
     types:
     - uid: string
   - name: properties.targetResourceTypes
     in: body
-    description: List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria
+    description: List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert
     types:
     - uid: string
       isArray: true
@@ -112,15 +114,29 @@ requestBody:
     - uid: ScheduledQueryRuleCriteria
   - name: properties.muteActionsDuration
     in: body
-    description: Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired.
+    description: Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert.
     types:
     - uid: string
   - name: properties.actions
     in: body
     description: Actions to invoke when the alert fires.
     types:
-    - uid: Action
-      isArray: true
+    - uid: Actions
+  - name: properties.checkWorkspaceAlertsStorageConfigured
+    in: body
+    description: The flag which indicates whether this scheduled query rule should be stored in the customer's storage. The default is false. Relevant only for rules of the kind LogAlert.
+    types:
+    - uid: boolean
+  - name: properties.skipQueryValidation
+    in: body
+    description: The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert.
+    types:
+    - uid: boolean
+  - name: properties.autoMitigate
+    in: body
+    description: The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of the kind LogAlert.
+    types:
+    - uid: boolean
   - name: tags
     in: body
     description: Resource tags.
@@ -138,6 +154,34 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: ScheduledQueryRuleCriteria
   description: The rule criteria that defines the conditions of the scheduled query rule.
   kind: object
@@ -147,16 +191,17 @@ definitions:
     types:
     - uid: Condition
       isArray: true
-- name: Action
+- name: Actions
   description: Actions to invoke when the alert fires.
   kind: object
   properties:
-  - name: actionGroupId
-    description: Action Group resource Id to invoke when the alert fires.
+  - name: actionGroups
+    description: Action Group resource Ids to invoke when the alert fires.
     types:
     - uid: string
-  - name: webHookProperties
-    description: The properties of a webhook object.
+      isArray: true
+  - name: customProperties
+    description: The properties of an alert payload.
     types:
     - uid: object
       isDictionary: true
@@ -168,15 +213,19 @@ definitions:
   kind: object
   properties:
   - name: kind
-    isReadyOnly: true
-    description: Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource provider must validate and persist this value.
+    description: Indicates the type of scheduled query rule. The default is LogAlert.
     types:
-    - uid: string
+    - uid: Kind
   - name: etag
     isReadyOnly: true
     description: 'The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. '
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: SystemData of ScheduledQueryRule.
+    types:
+    - uid: systemData
   - name: properties.createdWithApiVersion
     isReadyOnly: true
     description: The api-version used when creating this alert rule
@@ -196,7 +245,7 @@ definitions:
     types:
     - uid: string
   - name: properties.severity
-    description: Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest
+    description: Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert.
     types:
     - uid: AlertSeverity
   - name: properties.enabled
@@ -209,19 +258,19 @@ definitions:
     - uid: string
       isArray: true
   - name: properties.evaluationFrequency
-    description: How often the scheduled query rule is evaluated represented in ISO 8601 duration format.
+    description: How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert.
     types:
     - uid: string
   - name: properties.windowSize
-    description: The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size).
+    description: The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert.
     types:
     - uid: string
   - name: properties.overrideQueryTimeRange
-    description: If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods)
+    description: If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert.
     types:
     - uid: string
   - name: properties.targetResourceTypes
-    description: List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria
+    description: List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert
     types:
     - uid: string
       isArray: true
@@ -230,14 +279,30 @@ definitions:
     types:
     - uid: ScheduledQueryRuleCriteria
   - name: properties.muteActionsDuration
-    description: Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired.
+    description: Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert.
     types:
     - uid: string
   - name: properties.actions
     description: Actions to invoke when the alert fires.
     types:
-    - uid: Action
-      isArray: true
+    - uid: Actions
+  - name: properties.isWorkspaceAlertsStorageConfigured
+    isReadyOnly: true
+    description: The flag which indicates whether this scheduled query rule has been configured to be stored in the customer's storage. The default is false.
+    types:
+    - uid: boolean
+  - name: properties.checkWorkspaceAlertsStorageConfigured
+    description: The flag which indicates whether this scheduled query rule should be stored in the customer's storage. The default is false. Relevant only for rules of the kind LogAlert.
+    types:
+    - uid: boolean
+  - name: properties.skipQueryValidation
+    description: The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert.
+    types:
+    - uid: boolean
+  - name: properties.autoMitigate
+    description: The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of the kind LogAlert.
+    types:
+    - uid: boolean
   - name: tags
     description: Resource tags.
     types:
@@ -273,6 +338,22 @@ definitions:
     description: "Error Response  \nThe error details."
     types:
     - uid: ErrorResponse
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: Condition
   description: A condition of the scheduled query rule.
   kind: object
@@ -282,15 +363,15 @@ definitions:
     types:
     - uid: string
   - name: timeAggregation
-    description: Aggregation type
+    description: Aggregation type. Relevant and required only for rules of the kind LogAlert.
     types:
     - uid: timeAggregation
   - name: metricMeasureColumn
-    description: The column containing the metric measure number.
+    description: The column containing the metric measure number. Relevant only for rules of the kind LogAlert.
     types:
     - uid: string
   - name: resourceIdColumn
-    description: The column containing the resource id. The content of the column must be a uri formatted as resource id
+    description: The column containing the resource id. The content of the column must be a uri formatted as resource id. Relevant only for rules of the kind LogAlert.
     types:
     - uid: string
   - name: dimensions
@@ -299,19 +380,33 @@ definitions:
     - uid: Dimension
       isArray: true
   - name: operator
-    description: The criteria operator.
+    description: The criteria operator. Relevant and required only for rules of the kind LogAlert.
     types:
     - uid: conditionOperator
   - name: threshold
-    description: the criteria threshold value that activates the alert.
+    description: the criteria threshold value that activates the alert. Relevant and required only for rules of the kind LogAlert.
     types:
     - uid: number
   - name: failingPeriods
-    description: The minimum number of violations required within the selected lookback time window required to raise an alert.
+    description: The minimum number of violations required within the selected lookback time window required to raise an alert. Relevant only for rules of the kind LogAlert.
     types:
     - uid: FailingPeriods
+  - name: metricName
+    description: The name of the metric to be sent. Relevant and required only for rules of the kind LogToMetric.
+    types:
+    - uid: string
+- name: Kind
+  description: Indicates the type of scheduled query rule. The default is LogAlert.
+  kind: enum
+  properties:
+  - name: LogAlert
+    types:
+    - uid: string
+  - name: LogToMetric
+    types:
+    - uid: string
 - name: AlertSeverity
-  description: Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest
+  description: Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert.
   kind: enum
   properties:
   - name: "0"
@@ -361,7 +456,7 @@ definitions:
     - uid: ErrorAdditionalInfo
       isArray: true
 - name: timeAggregation
-  description: Aggregation type
+  description: Aggregation type. Relevant and required only for rules of the kind LogAlert.
   kind: enum
   properties:
   - name: Count
@@ -397,7 +492,7 @@ definitions:
     - uid: string
       isArray: true
 - name: conditionOperator
-  description: The criteria operator.
+  description: The criteria operator. Relevant and required only for rules of the kind LogAlert.
   kind: enum
   properties:
   - name: Equals
@@ -416,7 +511,7 @@ definitions:
     types:
     - uid: string
 - name: FailingPeriods
-  description: The minimum number of violations required within the selected lookback time window required to raise an alert.
+  description: The minimum number of violations required within the selected lookback time window required to raise an alert. Relevant only for rules of the kind LogAlert.
   kind: object
   properties:
   - name: numberOfEvaluationPeriods
@@ -454,7 +549,7 @@ definitions:
 examples:
 - name: Create or update a scheduled query rule for Single Resource
   request:
-    uri: PUT https://management.azure.com/subscriptions/dd4bfc94-a096-412b-9c43-4bd13e35afbc/resourceGroups/QueryResourceGroupName/providers/Microsoft.Insights/scheduledQueryRules/perf?api-version=2020-05-01-preview
+    uri: PUT https://management.azure.com/subscriptions/dd4bfc94-a096-412b-9c43-4bd13e35afbc/resourceGroups/QueryResourceGroupName/providers/Microsoft.Insights/scheduledQueryRules/perf?api-version=2021-02-01-preview
     body: >-
       {
         "location": "eastus",
@@ -500,15 +595,18 @@ examples:
             ]
           },
           "muteActionsDuration": "PT30M",
-          "actions": [
-            {
-              "actionGroupId": "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup",
-              "webHookProperties": {
-                "key11": "value11",
-                "key12": "value12"
-              }
+          "actions": {
+            "actionGroups": [
+              "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup"
+            ],
+            "customProperties": {
+              "key11": "value11",
+              "key12": "value12"
             }
-          ]
+          },
+          "autoMitigate": true,
+          "checkWorkspaceAlertsStorageConfigured": true,
+          "skipQueryValidation": true
         }
       }
   responses:
@@ -562,15 +660,19 @@ examples:
             ]
           },
           "muteActionsDuration": "PT30M",
-          "actions": [
-            {
-              "actionGroupId": "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup",
-              "webHookProperties": {
-                "key11": "value11",
-                "key12": "value12"
-              }
+          "actions": {
+            "actionGroups": [
+              "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup"
+            ],
+            "customProperties": {
+              "key11": "value11",
+              "key12": "value12"
             }
-          ]
+          },
+          "autoMitigate": true,
+          "isWorkspaceAlertsStorageConfigured": true,
+          "checkWorkspaceAlertsStorageConfigured": true,
+          "skipQueryValidation": true
         }
       }
   - statusCode: "201"
@@ -623,20 +725,24 @@ examples:
             ]
           },
           "muteActionsDuration": "PT30M",
-          "actions": [
-            {
-              "actionGroupId": "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup",
-              "webHookProperties": {
-                "key11": "value11",
-                "key12": "value12"
-              }
+          "actions": {
+            "actionGroups": [
+              "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup"
+            ],
+            "customProperties": {
+              "key11": "value11",
+              "key12": "value12"
             }
-          ]
+          },
+          "autoMitigate": true,
+          "isWorkspaceAlertsStorageConfigured": true,
+          "checkWorkspaceAlertsStorageConfigured": true,
+          "skipQueryValidation": true
         }
       }
 - name: Create or update a scheduled query rule on Resource group(s)
   request:
-    uri: PUT https://management.azure.com/subscriptions/dd4bfc94-a096-412b-9c43-4bd13e35afbc/resourceGroups/QueryResourceGroupName/providers/Microsoft.Insights/scheduledQueryRules/heartbeat?api-version=2020-05-01-preview
+    uri: PUT https://management.azure.com/subscriptions/dd4bfc94-a096-412b-9c43-4bd13e35afbc/resourceGroups/QueryResourceGroupName/providers/Microsoft.Insights/scheduledQueryRules/heartbeat?api-version=2021-02-01-preview
     body: >-
       {
         "location": "eastus",
@@ -668,15 +774,18 @@ examples:
             ]
           },
           "muteActionsDuration": "PT30M",
-          "actions": [
-            {
-              "actionGroupId": "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup",
-              "webHookProperties": {
-                "key11": "value11",
-                "key12": "value12"
-              }
+          "actions": {
+            "actionGroups": [
+              "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup"
+            ],
+            "customProperties": {
+              "key11": "value11",
+              "key12": "value12"
             }
-          ]
+          },
+          "autoMitigate": true,
+          "checkWorkspaceAlertsStorageConfigured": true,
+          "skipQueryValidation": true
         }
       }
   responses:
@@ -716,15 +825,19 @@ examples:
             ]
           },
           "muteActionsDuration": "PT30M",
-          "actions": [
-            {
-              "actionGroupId": "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup",
-              "webHookProperties": {
-                "key11": "value11",
-                "key12": "value12"
-              }
+          "actions": {
+            "actionGroups": [
+              "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup"
+            ],
+            "customProperties": {
+              "key11": "value11",
+              "key12": "value12"
             }
-          ]
+          },
+          "autoMitigate": true,
+          "isWorkspaceAlertsStorageConfigured": true,
+          "checkWorkspaceAlertsStorageConfigured": true,
+          "skipQueryValidation": true
         }
       }
   - statusCode: "201"
@@ -763,20 +876,24 @@ examples:
             ]
           },
           "muteActionsDuration": "PT30M",
-          "actions": [
-            {
-              "actionGroupId": "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup",
-              "webHookProperties": {
-                "key11": "value11",
-                "key12": "value12"
-              }
+          "actions": {
+            "actionGroups": [
+              "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup"
+            ],
+            "customProperties": {
+              "key11": "value11",
+              "key12": "value12"
             }
-          ]
+          },
+          "autoMitigate": true,
+          "isWorkspaceAlertsStorageConfigured": true,
+          "checkWorkspaceAlertsStorageConfigured": true,
+          "skipQueryValidation": true
         }
       }
 - name: 'Create or update a scheduled query rule on Subscription '
   request:
-    uri: PUT https://management.azure.com/subscriptions/dd4bfc94-a096-412b-9c43-4bd13e35afbc/resourceGroups/QueryResourceGroupName/providers/Microsoft.Insights/scheduledQueryRules/perf?api-version=2020-05-01-preview
+    uri: PUT https://management.azure.com/subscriptions/dd4bfc94-a096-412b-9c43-4bd13e35afbc/resourceGroups/QueryResourceGroupName/providers/Microsoft.Insights/scheduledQueryRules/perf?api-version=2021-02-01-preview
     body: >-
       {
         "location": "eastus",
@@ -825,15 +942,18 @@ examples:
             ]
           },
           "muteActionsDuration": "PT30M",
-          "actions": [
-            {
-              "actionGroupId": "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup",
-              "webHookProperties": {
-                "key11": "value11",
-                "key12": "value12"
-              }
+          "actions": {
+            "actionGroups": [
+              "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup"
+            ],
+            "customProperties": {
+              "key11": "value11",
+              "key12": "value12"
             }
-          ]
+          },
+          "autoMitigate": true,
+          "checkWorkspaceAlertsStorageConfigured": true,
+          "skipQueryValidation": true
         }
       }
   responses:
@@ -890,15 +1010,19 @@ examples:
             ]
           },
           "muteActionsDuration": "PT30M",
-          "actions": [
-            {
-              "actionGroupId": "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup",
-              "webHookProperties": {
-                "key11": "value11",
-                "key12": "value12"
-              }
+          "actions": {
+            "actionGroups": [
+              "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup"
+            ],
+            "customProperties": {
+              "key11": "value11",
+              "key12": "value12"
             }
-          ]
+          },
+          "autoMitigate": true,
+          "isWorkspaceAlertsStorageConfigured": true,
+          "checkWorkspaceAlertsStorageConfigured": true,
+          "skipQueryValidation": true
         }
       }
   - statusCode: "201"
@@ -954,15 +1078,19 @@ examples:
             ]
           },
           "muteActionsDuration": "PT30M",
-          "actions": [
-            {
-              "actionGroupId": "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup",
-              "webHookProperties": {
-                "key11": "value11",
-                "key12": "value12"
-              }
+          "actions": {
+            "actionGroups": [
+              "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup"
+            ],
+            "customProperties": {
+              "key11": "value11",
+              "key12": "value12"
             }
-          ]
+          },
+          "autoMitigate": true,
+          "isWorkspaceAlertsStorageConfigured": true,
+          "checkWorkspaceAlertsStorageConfigured": true,
+          "skipQueryValidation": true
         }
       }
 security:

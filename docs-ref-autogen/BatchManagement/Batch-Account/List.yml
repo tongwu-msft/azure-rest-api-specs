@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.batchaccount.list
 name: List
 service: Batch Management
 groupName: Batch Account
-apiVersion: 2021-01-01
+apiVersion: 2021-06-01
 summary: Gets information about the Batch accounts associated with the subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Batch/batchAccounts?api-version=2021-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Batch/batchAccounts?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -53,7 +53,7 @@ definitions:
   kind: object
   properties:
   - name: error
-    description: An error response from the Batch service.
+    description: The body of the error response.
     types:
     - uid: CloudErrorBody
 - name: BatchAccount
@@ -112,7 +112,7 @@ definitions:
     - uid: integer
   - name: properties.lowPriorityCoreQuota
     isReadyOnly: true
-    description: "The low priority core quota for the Batch account.  \nFor accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned."
+    description: "The low-priority core quota for the Batch account.  \nFor accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned."
     types:
     - uid: integer
   - name: properties.dedicatedCoreQuotaPerVMFamily
@@ -136,6 +136,12 @@ definitions:
     description: The active job and job schedule quota for the Batch account.
     types:
     - uid: integer
+  - name: properties.allowedAuthenticationModes
+    isReadyOnly: true
+    description: List of allowed authentication modes for the Batch account that can be used to authenticate with the data plane. This does not affect authentication with the control plane.
+    types:
+    - uid: string
+      isArray: true
   - name: id
     isReadyOnly: true
     description: The ID of the resource.
@@ -187,7 +193,7 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 - name: BatchAccountIdentity
-  description: The identity of the Batch account, if configured. This is only used when the user specifies 'Microsoft.KeyVault' as their Batch account encryption configuration.
+  description: The identity of the Batch account, if configured. This is used when the user specifies 'Microsoft.KeyVault' as their Batch account encryption configuration or when `ManagedIdentity` is selected as the auto-storage authentication mode.
   kind: object
   properties:
   - name: principalId
@@ -205,9 +211,13 @@ definitions:
     types:
     - uid: ResourceIdentityType
   - name: userAssignedIdentities
-    description: "The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    description: The list of user identities associated with the Batch account.
     types:
-    - uid: UserAssignedIdentities
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentities
 - name: ProvisioningState
   description: The provisioned state of the resource
   kind: enum
@@ -321,6 +331,14 @@ definitions:
     description: The resource ID of the storage account to be used for auto-storage account.
     types:
     - uid: string
+  - name: authenticationMode
+    description: The authentication mode which the Batch service will use to manage the auto-storage account.
+    types:
+    - uid: AutoStorageAuthenticationMode
+  - name: nodeIdentityReference
+    description: "The reference to the user assigned identity which compute nodes will use to access auto-storage.  \nThe identity referenced here must be assigned to pools which have compute nodes that need access to auto-storage."
+    types:
+    - uid: ComputeNodeIdentityReference
 - name: EncryptionProperties
   description: Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead.
   kind: object
@@ -364,13 +382,19 @@ definitions:
     types:
     - uid: string
 - name: UserAssignedIdentities
-  description: "The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  description: The list of associated user identities.
   kind: object
   properties:
-  - name: ''
-    description: ''
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of user assigned identity.
     types:
-    - uid: ''
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client id of user assigned identity.
+    types:
+    - uid: string
 - name: PrivateEndpointConnectionProvisioningState
   description: The provisioning state of the private endpoint connection.
   kind: enum
@@ -411,6 +435,26 @@ definitions:
   - name: actionRequired
     isReadyOnly: true
     description: Action required on the private connection state
+    types:
+    - uid: string
+- name: AutoStorageAuthenticationMode
+  description: The authentication mode which the Batch service will use to manage the auto-storage account.
+  kind: enum
+  properties:
+  - name: StorageKeys
+    description: The Batch service will authenticate requests to auto-storage using storage account keys.
+    types:
+    - uid: string
+  - name: BatchAccountManagedIdentity
+    description: The Batch service will authenticate requests to auto-storage using the managed identity assigned to the Batch account.
+    types:
+    - uid: string
+- name: ComputeNodeIdentityReference
+  description: The reference to a user assigned identity associated with the Batch pool which a compute node will use.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The ARM resource id of the user assigned identity.
     types:
     - uid: string
 - name: KeySource
@@ -461,7 +505,7 @@ definitions:
 examples:
 - name: BatchAccountList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Batch/batchAccounts?api-version=2021-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Batch/batchAccounts?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-

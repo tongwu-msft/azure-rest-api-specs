@@ -94,6 +94,8 @@ definitions:
   - name: properties.activities
     description: List of activities in pipeline.
     types:
+    - uid: ExecuteWranglingDataflowActivity
+      isArray: true
     - uid: ExecutionActivity
       isArray: true
     - uid: ControlActivity
@@ -268,6 +270,73 @@ definitions:
     description: Pipeline ElapsedTime Metric Policy.
     types:
     - uid: PipelineElapsedTimeMetricPolicy
+- name: ExecuteWranglingDataflowActivity
+  description: Execute power query activity.
+  kind: object
+  properties:
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: typeProperties.sinks
+    description: List of Power Query activity sinks mapped to a queryName.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: PowerQuerySink
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: ExecuteWranglingDataflow
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+  - name: typeProperties.dataFlow
+    description: Data flow reference.
+    types:
+    - uid: DataFlowReference
+  - name: typeProperties.staging
+    description: Staging info for execute data flow activity.
+    types:
+    - uid: DataFlowStagingInfo
+  - name: typeProperties.integrationRuntime
+    description: The integration runtime reference.
+    types:
+    - uid: IntegrationRuntimeReference
+  - name: typeProperties.compute
+    description: Compute properties for data flow activity.
+    types:
+    - uid: Compute
+  - name: typeProperties.traceLevel
+    description: "Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string)"
+    types:
+    - uid: object
+  - name: typeProperties.continueOnError
+    description: 'Continue on error setting used for data flow execution. Enables processing to continue if a sink fails. Type: boolean (or Expression with resultType boolean)'
+    types:
+    - uid: object
+  - name: typeProperties.runConcurrently
+    description: 'Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean)'
+    types:
+    - uid: object
 - name: ExecutionActivity
   description: Base class for all execution activities.
   kind: object
@@ -552,6 +621,8 @@ definitions:
   - name: typeProperties.activities
     description: List of activities to execute.
     types:
+    - uid: ExecuteWranglingDataflowActivity
+      isArray: true
     - uid: ExecutionActivity
       isArray: true
     - uid: ControlActivity
@@ -698,6 +769,8 @@ definitions:
   - name: typeProperties.activities
     description: List of activities to execute .
     types:
+    - uid: ExecuteWranglingDataflowActivity
+      isArray: true
     - uid: ExecutionActivity
       isArray: true
     - uid: ControlActivity
@@ -810,6 +883,8 @@ definitions:
   - name: typeProperties.defaultActivities
     description: List of activities to execute if no case condition is satisfied. This is an optional property and if not provided, the activity will exit without any action.
     types:
+    - uid: ExecuteWranglingDataflowActivity
+      isArray: true
     - uid: ExecutionActivity
       isArray: true
     - uid: ControlActivity
@@ -917,6 +992,8 @@ definitions:
   - name: typeProperties.ifTrueActivities
     description: List of activities to execute if expression is evaluated to true. This is an optional property and if not provided, the activity will exit without any action.
     types:
+    - uid: ExecuteWranglingDataflowActivity
+      isArray: true
     - uid: ExecutionActivity
       isArray: true
     - uid: ControlActivity
@@ -993,6 +1070,8 @@ definitions:
   - name: typeProperties.ifFalseActivities
     description: List of activities to execute if expression is evaluated to false. This is an optional property and if not provided, the activity will exit without any action.
     types:
+    - uid: ExecuteWranglingDataflowActivity
+      isArray: true
     - uid: ExecutionActivity
       isArray: true
     - uid: ControlActivity
@@ -2651,27 +2730,6 @@ definitions:
     description: TimeSpan value, after which an Azure Monitoring Metric is fired.
     types:
     - uid: object
-- name: LinkedServiceReference
-  description: Linked service reference type.
-  kind: object
-  properties:
-  - name: type
-    description: Linked service reference type.
-    types:
-    - uid: LinkedServiceReference
-    typesTitle: enum
-  - name: referenceName
-    description: Reference LinkedService name.
-    types:
-    - uid: string
-  - name: parameters
-    description: Arguments for LinkedService.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
 - name: ActivityPolicy
   description: Execution policy for an activity.
   kind: object
@@ -2696,6 +2754,34 @@ definitions:
     description: When set to true, Output from activity is considered as secure and will not be logged to monitoring.
     types:
     - uid: boolean
+- name: PowerQuerySink
+  description: Power query sink.
+  kind: object
+  properties:
+  - name: script
+    description: sink script.
+    types:
+    - uid: string
+  - name: dataset
+    description: Dataset reference.
+    types:
+    - uid: DatasetReference
+  - name: linkedService
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: schemaLinkedService
+    description: Schema linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: name
+    description: Transformation name.
+    types:
+    - uid: string
+  - name: description
+    description: Transformation description.
+    types:
+    - uid: string
 - name: ActivityDependency
   description: Activity dependency information.
   kind: object
@@ -2721,6 +2807,89 @@ definitions:
     description: 'User property value. Type: string (or Expression with resultType string).'
     types:
     - uid: object
+- name: DataFlowReference
+  description: Data flow reference type.
+  kind: object
+  properties:
+  - name: type
+    description: Data flow reference type.
+    types:
+    - uid: DataFlowReference
+    typesTitle: enum
+  - name: referenceName
+    description: Reference data flow name.
+    types:
+    - uid: string
+  - name: datasetParameters
+    description: Reference data flow parameters from dataset.
+    types:
+    - uid: object
+- name: DataFlowStagingInfo
+  description: Staging info for execute data flow activity.
+  kind: object
+  properties:
+  - name: linkedService
+    description: Staging linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: folderPath
+    description: 'Folder path for staging blob. Type: string (or Expression with resultType string)'
+    types:
+    - uid: object
+- name: IntegrationRuntimeReference
+  description: Integration runtime reference type.
+  kind: object
+  properties:
+  - name: type
+    description: Type of integration runtime.
+    types:
+    - uid: IntegrationRuntimeReference
+    typesTitle: enum
+  - name: referenceName
+    description: Reference integration runtime name.
+    types:
+    - uid: string
+  - name: parameters
+    description: Arguments for integration runtime.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: Compute
+  description: Compute properties for data flow activity.
+  kind: object
+  properties:
+  - name: computeType
+    description: "Compute type of the cluster which will execute data flow job. Possible values include: 'General', 'MemoryOptimized', 'ComputeOptimized'. Type: string (or Expression with resultType string)"
+    types:
+    - uid: object
+  - name: coreCount
+    description: 'Core count of the cluster which will execute data flow job. Supported values are: 8, 16, 32, 48, 80, 144 and 272. Type: integer (or Expression with resultType integer)'
+    types:
+    - uid: object
+- name: LinkedServiceReference
+  description: Linked service reference type.
+  kind: object
+  properties:
+  - name: type
+    description: Linked service reference type.
+    types:
+    - uid: LinkedServiceReference
+    typesTitle: enum
+  - name: referenceName
+    description: Reference LinkedService name.
+    types:
+    - uid: string
+  - name: parameters
+    description: Arguments for LinkedService.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
 - name: WebHookActivityMethod
   description: The list of HTTP methods supported by a WebHook activity.
   kind: enum
@@ -2760,6 +2929,10 @@ definitions:
     description: 'TenantId for which Azure Auth token will be requested when using ServicePrincipal Authentication. Type: string (or Expression with resultType string).'
     types:
     - uid: object
+  - name: credential
+    description: The credential reference containing authentication information.
+    types:
+    - uid: CredentialReference
 - name: Expression
   description: Azure Data Factory expression definition.
   kind: object
@@ -2805,6 +2978,8 @@ definitions:
   - name: activities
     description: List of activities to execute for satisfied case condition.
     types:
+    - uid: ExecuteWranglingDataflowActivity
+      isArray: true
     - uid: ExecutionActivity
       isArray: true
     - uid: ControlActivity
@@ -2895,68 +3070,6 @@ definitions:
     description: Reference name.
     types:
     - uid: string
-- name: DataFlowReference
-  description: Data flow reference type.
-  kind: object
-  properties:
-  - name: type
-    description: Data flow reference type.
-    types:
-    - uid: DataFlowReference
-    typesTitle: enum
-  - name: referenceName
-    description: Reference data flow name.
-    types:
-    - uid: string
-  - name: datasetParameters
-    description: Reference data flow parameters from dataset.
-    types:
-    - uid: object
-- name: DataFlowStagingInfo
-  description: Staging info for execute data flow activity.
-  kind: object
-  properties:
-  - name: linkedService
-    description: Staging linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: folderPath
-    description: 'Folder path for staging blob. Type: string (or Expression with resultType string)'
-    types:
-    - uid: object
-- name: IntegrationRuntimeReference
-  description: Integration runtime reference type.
-  kind: object
-  properties:
-  - name: type
-    description: Type of integration runtime.
-    types:
-    - uid: IntegrationRuntimeReference
-    typesTitle: enum
-  - name: referenceName
-    description: Reference integration runtime name.
-    types:
-    - uid: string
-  - name: parameters
-    description: Arguments for integration runtime.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-- name: Compute
-  description: Compute properties for data flow activity.
-  kind: object
-  properties:
-  - name: computeType
-    description: "Compute type of the cluster which will execute data flow job. Possible values include: 'General', 'MemoryOptimized', 'ComputeOptimized'. Type: string (or Expression with resultType string)"
-    types:
-    - uid: object
-  - name: coreCount
-    description: 'Core count of the cluster which will execute data flow job. Supported values are: 8, 16, 32, 48, 80, 144 and 272. Type: integer (or Expression with resultType integer)'
-    types:
-    - uid: object
 - name: AzureFunctionActivityMethod
   description: The list of HTTP methods supported by a AzureFunctionActivity.
   kind: enum
@@ -3228,6 +3341,19 @@ definitions:
     description: 'Skip if source/sink file changed by other concurrent write. Default is false. Type: boolean (or Expression with resultType boolean).'
     types:
     - uid: object
+- name: CredentialReference
+  description: Credential reference type.
+  kind: object
+  properties:
+  - name: type
+    description: Credential reference type.
+    types:
+    - uid: CredentialReference
+    typesTitle: enum
+  - name: referenceName
+    description: Reference credential name.
+    types:
+    - uid: string
 - name: StoredProcedureParameterType
   description: Stored procedure parameter type.
   kind: enum

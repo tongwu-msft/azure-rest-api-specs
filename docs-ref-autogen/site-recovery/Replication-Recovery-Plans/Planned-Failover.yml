@@ -3,14 +3,14 @@ uid: management.azure.com.site-recovery.replicationrecoveryplans.plannedfailover
 name: Planned Failover
 service: Recovery Services - Site Recovery
 groupName: Replication Recovery Plans
-apiVersion: 2018-07-10
+apiVersion: 2021-06-01
 summary: "Execute planned failover of the recovery plan.  \nThe operation to start the planned failover of a recovery plan."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/plannedFailover?api-version=2018-07-10
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/plannedFailover?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -81,6 +81,8 @@ definitions:
       isArray: true
     - uid: RecoveryPlanInMageFailoverInput
       isArray: true
+    - uid: RecoveryPlanInMageRcmFailbackFailoverInput
+      isArray: true
     - uid: RecoveryPlanInMageRcmFailoverInput
       isArray: true
     typesTitle: RecoveryPlanProviderSpecificFailoverInput[]
@@ -130,7 +132,7 @@ definitions:
     types:
     - uid: string
 - name: RecoveryPlanProperties
-  description: Recovery plan custom details.
+  description: Recovery plan properties.
   kind: object
   properties:
   - name: friendlyName
@@ -197,7 +199,6 @@ definitions:
     - uid: RecoveryPlanGroup
       isArray: true
   - name: providerSpecificDetails
-    isReadyOnly: true
     description: The provider id and provider specific details.
     types:
     - uid: RecoveryPlanA2ADetails
@@ -245,10 +246,6 @@ definitions:
   description: Recovery plan HVR Azure failover input.
   kind: object
   properties:
-  - name: vaultLocation
-    description: The vault location.
-    types:
-    - uid: string
   - name: primaryKekCertificatePfx
     description: The primary KEK certificate PFX.
     types:
@@ -270,10 +267,6 @@ definitions:
   description: Recovery plan InMageAzureV2 failover input.
   kind: object
   properties:
-  - name: vaultLocation
-    description: The vault location.
-    types:
-    - uid: string
   - name: recoveryPointType
     description: The recovery point type.
     types:
@@ -299,6 +292,23 @@ definitions:
     description: The class type.
     types:
     - uid: InMage
+    typesTitle: string
+- name: RecoveryPlanInMageRcmFailbackFailoverInput
+  description: Recovery plan InMageRcmFailback failover input.
+  kind: object
+  properties:
+  - name: recoveryPointType
+    description: The recovery point type.
+    types:
+    - uid: InMageRcmFailbackRecoveryPointType
+  - name: useMultiVmSyncPoint
+    description: A value indicating whether multi VM sync enabled VMs should use multi VM sync points for failover.
+    types:
+    - uid: string
+  - name: instanceType
+    description: The class type.
+    types:
+    - uid: InMageRcmFailback
     typesTitle: string
 - name: RecoveryPlanInMageRcmFailoverInput
   description: Recovery plan InMageRcm failover input.
@@ -444,6 +454,16 @@ definitions:
   - name: Custom
     types:
     - uid: string
+- name: InMageRcmFailbackRecoveryPointType
+  description: The recovery point type.
+  kind: enum
+  properties:
+  - name: ApplicationConsistent
+    types:
+    - uid: string
+  - name: CrashConsistent
+    types:
+    - uid: string
 - name: RecoveryPlanPointType
   description: The recovery point type.
   kind: enum
@@ -523,7 +543,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the Instance type.
     types:
     - uid: A2A
@@ -545,7 +564,6 @@ definitions:
     types:
     - uid: RecoveryPlanActionLocation
   - name: instanceType
-    isReadyOnly: true
     description: Gets the type of action details (see RecoveryPlanActionDetailsTypes enum for possible values).
     types:
     - uid: AutomationRunbookActionDetails
@@ -559,7 +577,6 @@ definitions:
     types:
     - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the type of action details (see RecoveryPlanActionDetailsTypes enum for possible values).
     types:
     - uid: ManualActionDetails
@@ -581,7 +598,6 @@ definitions:
     types:
     - uid: RecoveryPlanActionLocation
   - name: instanceType
-    isReadyOnly: true
     description: Gets the type of action details (see RecoveryPlanActionDetailsTypes enum for possible values).
     types:
     - uid: ScriptActionDetails
@@ -599,7 +615,7 @@ definitions:
 examples:
 - name: Execute planned failover of the recovery plan.
   request:
-    uri: POST https://management.azure.com/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationRecoveryPlans/RPtest1/plannedFailover?api-version=2018-07-10
+    uri: POST https://management.azure.com/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationRecoveryPlans/RPtest1/plannedFailover?api-version=2021-06-01
     body: >-
       {
         "properties": {

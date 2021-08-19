@@ -3,14 +3,16 @@ uid: management.azure.com.site-recovery.replicationprotectionintents.list
 name: List
 service: Recovery Services - Site Recovery
 groupName: Replication Protection Intents
-apiVersion: 2018-07-10
+apiVersion: 2021-06-01
 summary: "Gets the list of replication protection intent objects.  \nGets the list of ASR replication protection intent objects in the vault."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents?api-version=2018-07-10
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents?api-version=2021-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents?api-version=2021-06-01&skipToken={skipToken}&takeToken={takeToken}
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,6 +36,16 @@ uriParameters:
   in: query
   isRequired: true
   description: Client Api Version.
+  types:
+  - uid: string
+- name: skipToken
+  in: query
+  description: The pagination token.
+  types:
+  - uid: string
+- name: takeToken
+  in: query
+  description: The page size.
   types:
   - uid: string
 responses:
@@ -124,10 +136,6 @@ definitions:
     description: The fabric specific object Id of the virtual machine.
     types:
     - uid: string
-  - name: policyId
-    description: The ID of Policy governing this PE.
-    types:
-    - uid: string
   - name: primaryLocation
     description: The primary location for the virtual machine.
     types:
@@ -140,56 +148,51 @@ definitions:
     description: The recovery subscription Id of the virtual machine.
     types:
     - uid: string
-  - name: primaryFabricFriendlyName
-    description: The recovery fabric Name.
-    types:
-    - uid: string
-  - name: recoveryFabricFriendlyName
-    description: The recovery fabric Name.
-    types:
-    - uid: string
-  - name: primaryContainerFriendlyName
-    description: The primary container Name.
-    types:
-    - uid: string
-  - name: recoveryContainerFriendlyName
-    description: The recovery container Name.
-    types:
-    - uid: string
-  - name: recoveryAvailabilityType
-    description: The recovery availability type of the virtual machine.
-    types:
-    - uid: string
   - name: vmDisks
     description: The list of vm disk details.
     types:
-    - uid: A2AVmDiskDetails
+    - uid: A2AProtectionIntentDiskInputDetails
       isArray: true
   - name: vmManagedDisks
     description: The list of vm managed disk details.
     types:
-    - uid: A2AVmManagedDiskDetails
+    - uid: A2AProtectionIntentManagedDiskInputDetails
       isArray: true
   - name: recoveryResourceGroupId
     description: The recovery resource group id.
     types:
     - uid: string
-  - name: recoveryAvailabilitySetId
-    description: The recovery availability set Id.
+  - name: protectionProfile
+    description: The protection profile custom details.
     types:
-    - uid: string
-  - name: recoveryVirtualNetworkId
-    description: The recovery virtual network Id.
+    - uid: ExistingProtectionProfile
+    - uid: NewProtectionProfile
+    typesTitle: ProtectionProfileCustomDetails
+  - name: primaryStagingStorageAccount
+    description: The primary staging storage account details.
     types:
-    - uid: string
-  - name: recoveryProximityPlacementGroupId
+    - uid: ExistingStorageAccount
+    typesTitle: StorageAccountCustomDetails
+  - name: recoveryAvailabilitySet
+    description: The recovery availability set details.
+    types:
+    - uid: ExistingRecoveryAvailabilitySet
+    typesTitle: RecoveryAvailabilitySetCustomDetails
+  - name: recoveryVirtualNetwork
+    description: The recovery virtual network details.
+    types:
+    - uid: ExistingRecoveryVirtualNetwork
+    - uid: NewRecoveryVirtualNetwork
+    typesTitle: RecoveryVirtualNetworkCustomDetails
+  - name: recoveryProximityPlacementGroup
     description: The recovery proximity placement group custom details.
     types:
-    - uid: string
-  - name: autoProtectionOfDataDiskStatus
+    - uid: ExistingRecoveryProximityPlacementGroup
+    typesTitle: RecoveryProximityPlacementGroupCustomDetails
+  - name: autoProtectionOfDataDisk
     description: A value indicating whether the auto protection is enabled.
     types:
-    - uid: AutoProtectionOfDataDiskStatus
+    - uid: AutoProtectionOfDataDisk
   - name: multiVmGroupName
     description: The multi vm group name.
     types:
@@ -198,10 +201,11 @@ definitions:
     description: The multi vm group id.
     types:
     - uid: string
-  - name: recoveryBootDiagStorageAccountId
+  - name: recoveryBootDiagStorageAccount
     description: The boot diagnostic storage account.
     types:
-    - uid: string
+    - uid: ExistingStorageAccount
+    typesTitle: StorageAccountCustomDetails
   - name: diskEncryptionInfo
     description: The recovery disk encryption information (for two pass flows).
     types:
@@ -210,29 +214,34 @@ definitions:
     description: The recovery availability zone.
     types:
     - uid: string
+  - name: recoveryAvailabilityType
+    description: The recovery availability type of the virtual machine.
+    types:
+    - uid: string
   - name: instanceType
-    isReadyOnly: true
     description: Gets the Instance type.
     types:
     - uid: A2A
     typesTitle: string
-- name: A2AVmDiskDetails
-  description: Azure VM disk details.
+- name: A2AProtectionIntentDiskInputDetails
+  description: Azure VM unmanaged disk input details.
   kind: object
   properties:
   - name: diskUri
     description: The disk Uri.
     types:
     - uid: string
-  - name: recoveryAzureStorageAccountId
-    description: The recovery VHD storage account Id.
+  - name: recoveryAzureStorageAccountCustomInput
+    description: The recovery VHD storage account input.
     types:
-    - uid: string
-  - name: primaryStagingAzureStorageAccountId
-    description: The primary staging storage account Id.
+    - uid: ExistingStorageAccount
+    typesTitle: StorageAccountCustomDetails
+  - name: primaryStagingStorageAccountCustomInput
+    description: The primary staging storage account input.
     types:
-    - uid: string
-- name: A2AVmManagedDiskDetails
+    - uid: ExistingStorageAccount
+    typesTitle: StorageAccountCustomDetails
+- name: A2AProtectionIntentManagedDiskInputDetails
   description: Azure VM managed disk input details.
   kind: object
   properties:
@@ -240,20 +249,22 @@ definitions:
     description: The disk Id.
     types:
     - uid: string
-  - name: primaryStagingAzureStorageAccountId
-    description: The primary staging storage account Arm Id.
+  - name: primaryStagingStorageAccountCustomInput
+    description: The primary staging storage account input.
     types:
-    - uid: string
-  - name: recoveryResourceGroupId
-    description: The target resource group Arm Id.
+    - uid: ExistingStorageAccount
+    typesTitle: StorageAccountCustomDetails
+  - name: recoveryResourceGroupCustomInput
+    description: The recovery resource group input.
     types:
-    - uid: string
+    - uid: ExistingRecoveryRecoveryResourceGroup
+    typesTitle: RecoveryResourceGroupCustomDetails
   - name: recoveryReplicaDiskAccountType
-    description: The replica disk type.
+    description: The replica disk type. Its an optional value and will be same as source disk type if not user provided.
     types:
     - uid: string
   - name: recoveryTargetDiskAccountType
-    description: The target disk type after failover.
+    description: The target disk type after failover. Its an optional value and will be same as source disk type if not user provided.
     types:
     - uid: string
   - name: recoveryDiskEncryptionSetId
@@ -264,7 +275,7 @@ definitions:
     description: The recovery disk encryption information (for one / single pass flows).
     types:
     - uid: DiskEncryptionInfo
-- name: AutoProtectionOfDataDiskStatus
+- name: AutoProtectionOfDataDisk
   description: A value indicating whether the auto protection is enabled.
   kind: enum
   properties:
@@ -286,16 +297,131 @@ definitions:
     description: The recovery KeyVault reference for key.
     types:
     - uid: KeyEncryptionKeyInfo
+- name: ExistingProtectionProfile
+  description: Existing storage account input.
+  kind: object
+  properties:
+  - name: protectionProfileId
+    description: The protection profile Arm Id. Throw error, if resource does not exists.
+    types:
+    - uid: string
+  - name: resourceType
+    description: The class type.
+    types:
+    - uid: Existing
+    typesTitle: string
+- name: NewProtectionProfile
+  description: New Protection profile input.
+  kind: object
+  properties:
+  - name: policyName
+    description: The protection profile input.
+    types:
+    - uid: string
+  - name: recoveryPointHistory
+    description: The duration in minutes until which the recovery points need to be stored.
+    types:
+    - uid: integer
+  - name: crashConsistentFrequencyInMinutes
+    description: The crash consistent snapshot frequency (in minutes).
+    types:
+    - uid: integer
+  - name: appConsistentFrequencyInMinutes
+    description: The app consistent snapshot frequency (in minutes).
+    types:
+    - uid: integer
+  - name: multiVmSyncStatus
+    description: A value indicating whether multi-VM sync has to be enabled. Value should be 'Enabled' or 'Disabled'.
+    types:
+    - uid: SetMultiVmSyncStatus
+  - name: resourceType
+    description: The class type.
+    types:
+    - uid: New
+    typesTitle: string
+- name: ExistingStorageAccount
+  description: Existing storage account input.
+  kind: object
+  properties:
+  - name: azureStorageAccountId
+    description: The storage account Arm Id. Throw error, if resource does not exists.
+    types:
+    - uid: string
+  - name: resourceType
+    description: The class type.
+    types:
+    - uid: Existing
+    typesTitle: string
+- name: ExistingRecoveryAvailabilitySet
+  description: Existing recovery availability set input.
+  kind: object
+  properties:
+  - name: recoveryAvailabilitySetId
+    description: The recovery availability set Id. Will throw error, if resource does not exist.
+    types:
+    - uid: string
+  - name: resourceType
+    description: The class type.
+    types:
+    - uid: Existing
+    typesTitle: string
+- name: ExistingRecoveryVirtualNetwork
+  description: Existing recovery virtual network input.
+  kind: object
+  properties:
+  - name: recoveryVirtualNetworkId
+    description: The recovery virtual network Id. Will throw error, if resource does not exist.
+    types:
+    - uid: string
+  - name: recoverySubnetName
+    description: The recovery subnet name.
+    types:
+    - uid: string
+  - name: resourceType
+    description: The class type.
+    types:
+    - uid: Existing
+    typesTitle: string
+- name: NewRecoveryVirtualNetwork
+  description: Recovery virtual network input to create new virtual network from given source network.
+  kind: object
+  properties:
+  - name: recoveryVirtualNetworkResourceGroupName
+    description: The name of the resource group to be used to create the recovery virtual network. If absent, target network would be created in the same resource group as target VM.
+    types:
+    - uid: string
+  - name: recoveryVirtualNetworkName
+    description: The recovery virtual network name.
+    types:
+    - uid: string
+  - name: resourceType
+    description: The class type.
+    types:
+    - uid: New
+    typesTitle: string
+- name: ExistingRecoveryProximityPlacementGroup
+  description: Existing recovery proximity placement group input.
+  kind: object
+  properties:
+  - name: recoveryProximityPlacementGroupId
+    description: The recovery proximity placement group Id. Will throw error, if resource does not exist.
+    types:
+    - uid: string
+  - name: resourceType
+    description: The class type.
+    types:
+    - uid: Existing
+    typesTitle: string
 - name: DiskEncryptionKeyInfo
   description: Disk Encryption Key Information (BitLocker Encryption Key (BEK) on Windows).
   kind: object
   properties:
   - name: secretIdentifier
-    description: The secret URL / identifier.
+    description: The secret url / identifier.
     types:
     - uid: string
   - name: keyVaultResourceArmId
-    description: The KeyVault resource ARM Id for secret.
+    description: The KeyVault resource ARM id for secret.
     types:
     - uid: string
 - name: KeyEncryptionKeyInfo
@@ -310,10 +436,33 @@ definitions:
     description: The KeyVault resource ARM Id for key.
     types:
     - uid: string
+- name: ExistingRecoveryRecoveryResourceGroup
+  description: Existing recovery resource group input.
+  kind: object
+  properties:
+  - name: recoveryResourceGroupId
+    description: The recovery resource group Id. Valid for V2 scenarios.
+    types:
+    - uid: string
+  - name: resourceType
+    description: The class type.
+    types:
+    - uid: Existing
+    typesTitle: string
+- name: SetMultiVmSyncStatus
+  description: A value indicating whether multi-VM sync has to be enabled. Value should be 'Enabled' or 'Disabled'.
+  kind: enum
+  properties:
+  - name: Enable
+    types:
+    - uid: string
+  - name: Disable
+    types:
+    - uid: string
 examples:
 - name: Gets the list of replication protection intent objects.
   request:
-    uri: GET https://management.azure.com/subscriptions/509099b2-9d2c-4636-b43e-bd5cafb6be69/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/2007vttp/replicationProtectionIntents?api-version=2018-07-10
+    uri: GET https://management.azure.com/subscriptions/509099b2-9d2c-4636-b43e-bd5cafb6be69/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/2007vttp/replicationProtectionIntents?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-

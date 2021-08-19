@@ -1,5 +1,5 @@
 ---
-title: "ReconfigurationInformation"
+title: "ReconfigurationInformation v8.1"
 description: "ReconfigurationInformation"
 ms.date: "07/13/2021"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReconfigurationInformation
+# ReconfigurationInformation v8.1
 
 Information about current reconfiguration like phase, type, previous configuration role of replica and reconfiguration start date time.
 

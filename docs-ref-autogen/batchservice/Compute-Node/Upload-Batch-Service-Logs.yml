@@ -3,15 +3,15 @@ uid: batchservice.computenode.uploadbatchservicelogs
 name: Upload Batch Service Logs
 service: Batch Service
 groupName: Compute Node
-apiVersion: 2020-09-01.12.0
+apiVersion: 2021-06-01.14.0
 summary: "Upload Azure Batch service log files from the specified Compute Node to Azure Blob Storage.  \nThis is for gathering Azure Batch service log files in an automated fashion from Compute Nodes if you are experiencing an error and wish to escalate to Azure support. The Azure Batch service log files should be shared with Azure support to aid in debugging issues with the Batch service."
 consumes:
 - application/json; odata=minimalmetadata
 produces:
 - application/json
 paths:
-- content: POST {batchUrl}/pools/{poolId}/nodes/{nodeId}/uploadbatchservicelogs?api-version=2020-09-01.12.0
-- content: POST {batchUrl}/pools/{poolId}/nodes/{nodeId}/uploadbatchservicelogs?timeout={timeout}&api-version=2020-09-01.12.0
+- content: POST {batchUrl}/pools/{poolId}/nodes/{nodeId}/uploadbatchservicelogs?api-version=2021-06-01.14.0
+- content: POST {batchUrl}/pools/{poolId}/nodes/{nodeId}/uploadbatchservicelogs?timeout={timeout}&api-version=2021-06-01.14.0
   isOptional: true
 uriParameters:
 - name: batchUrl
@@ -65,7 +65,7 @@ requestBody:
   - name: containerUrl
     in: body
     isRequired: true
-    description: "The URL of the container within Azure Blob Storage to which to upload the Batch Service log file(s).  \nThe URL must include a Shared Access Signature (SAS) granting write permissions to the container. The SAS duration must allow enough time for the upload to finish. The start time for SAS is optional and recommended to not be specified."
+    description: "The URL of the container within Azure Blob Storage to which to upload the Batch Service log file(s).  \nIf a user assigned managed identity is not being used, the URL must include a Shared Access Signature (SAS) granting write permissions to the container. The SAS duration must allow enough time for the upload to finish. The start time for SAS is optional and recommended to not be specified."
     types:
     - uid: string
   - name: startTime
@@ -79,6 +79,11 @@ requestBody:
     description: "The end of the time range from which to upload Batch Service log file(s).  \nAny log file containing a log message in the time range will be uploaded. This means that the operation might retrieve more logs than have been requested since the entire log file is always uploaded, but the operation should not retrieve fewer logs than have been requested. If omitted, the default is to upload all logs available after the startTime."
     types:
     - uid: string
+  - name: identityReference
+    in: body
+    description: "The reference to the user assigned identity to use to access Azure Blob Storage specified by containerUrl.  \nThe identity must have write access to the Azure Blob Storage container."
+    types:
+    - uid: ComputeNodeIdentityReference
 requestHeader:
 - name: client-request-id
   in: header
@@ -98,6 +103,14 @@ requestHeader:
   - uid: string
   format: date-time-rfc1123
 definitions:
+- name: ComputeNodeIdentityReference
+  description: The reference to a user assigned identity associated with the Batch pool which a compute node will use.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The ARM resource id of the user assigned identity.
+    types:
+    - uid: string
 - name: UploadBatchServiceLogsResult
   description: The result of uploading Batch service log files from a specific Compute Node.
   kind: object
@@ -132,7 +145,7 @@ definitions:
   kind: object
   properties:
   - name: containerUrl
-    description: "The URL of the container within Azure Blob Storage to which to upload the Batch Service log file(s).  \nThe URL must include a Shared Access Signature (SAS) granting write permissions to the container. The SAS duration must allow enough time for the upload to finish. The start time for SAS is optional and recommended to not be specified."
+    description: "The URL of the container within Azure Blob Storage to which to upload the Batch Service log file(s).  \nIf a user assigned managed identity is not being used, the URL must include a Shared Access Signature (SAS) granting write permissions to the container. The SAS duration must allow enough time for the upload to finish. The start time for SAS is optional and recommended to not be specified."
     types:
     - uid: string
   - name: startTime
@@ -143,6 +156,10 @@ definitions:
     description: "The end of the time range from which to upload Batch Service log file(s).  \nAny log file containing a log message in the time range will be uploaded. This means that the operation might retrieve more logs than have been requested since the entire log file is always uploaded, but the operation should not retrieve fewer logs than have been requested. If omitted, the default is to upload all logs available after the startTime."
     types:
     - uid: string
+  - name: identityReference
+    description: "The reference to the user assigned identity to use to access Azure Blob Storage specified by containerUrl.  \nThe identity must have write access to the Azure Blob Storage container."
+    types:
+    - uid: ComputeNodeIdentityReference
 - name: ErrorMessage
   description: An error message received in an Azure Batch error response.
   kind: object
@@ -170,7 +187,7 @@ definitions:
 examples:
 - name: Upload BatchService Logs
   request:
-    uri: POST account.region.batch.azure.com/pools/poolId/nodes/tvm-1695681911_1-20161121t182739z/uploadbatchservicelogs?api-version=2020-09-01.12.0
+    uri: POST account.region.batch.azure.com/pools/poolId/nodes/tvm-1695681911_1-20161121t182739z/uploadbatchservicelogs?api-version=2021-06-01.14.0
     body: >-
       {
         "containerUrl": "https://somestorageacct.blob.core.windows.net/batch-compute-node-logs?se=2017-12-09T18%3A51%3A00Z&sp=w&sv=2016-05-31&sr=c&sig",

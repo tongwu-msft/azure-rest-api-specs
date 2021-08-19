@@ -90,7 +90,7 @@ An admin API key is required for all search index operations, including GET.
 
 ## See also  
 
-+ [Get started with Azure Cognitive Search REST APIs](https://docs.microsoft.com/azure/search/search-get-started-rest)
-+ [Create and manage API keys](https://docs.microsoft.com/azure/search/search-security-api-keys)
-+ [Service Limits](https://azure.microsoft.com/documentation/articles/search-limits-quotas-capacity/) 
-+ [How to create a basic search index](https://docs.microsoft.com/azure/search/search-what-is-an-index)
++ [Get started with Azure Cognitive Search REST APIs](/azure/search/search-get-started-rest)
++ [Create and manage API keys](/azure/search/search-security-api-keys)
++ [Service Limits](/azure/search/search-limits-quotas-capacity/) 
++ [How to create a basic search index](/azure/search/search-what-is-an-index)

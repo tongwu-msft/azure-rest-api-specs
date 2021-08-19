@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.virtualnetworkpeerings.list
 name: List
 service: Virtual Networks
 groupName: Virtual Network Peerings
-apiVersion: 2020-11-01
+apiVersion: 2021-02-01
 summary: Gets all virtual network peerings in a virtual network.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings?api-version=2020-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings?api-version=2021-02-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -106,7 +106,11 @@ definitions:
     types:
     - uid: SubResource
   - name: properties.remoteAddressSpace
-    description: The reference to the remote virtual network address space.
+    description: The reference to the address space peered with the remote virtual network.
+    types:
+    - uid: AddressSpace
+  - name: properties.remoteVirtualNetworkAddressSpace
+    description: The reference to the current address space of the remote virtual network.
     types:
     - uid: AddressSpace
   - name: properties.remoteBgpCommunities
@@ -117,6 +121,10 @@ definitions:
     description: The status of the virtual network peering.
     types:
     - uid: VirtualNetworkPeeringState
+  - name: properties.peeringSyncLevel
+    description: The peering sync status of the virtual network peering.
+    types:
+    - uid: VirtualNetworkPeeringLevel
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the virtual network peering resource.
@@ -199,6 +207,22 @@ definitions:
   - name: Disconnected
     types:
     - uid: string
+- name: VirtualNetworkPeeringLevel
+  description: The peering sync status of the virtual network peering.
+  kind: enum
+  properties:
+  - name: FullyInSync
+    types:
+    - uid: string
+  - name: RemoteNotInSync
+    types:
+    - uid: string
+  - name: LocalNotInSync
+    types:
+    - uid: string
+  - name: LocalAndRemoteNotInSync
+    types:
+    - uid: string
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -218,7 +242,7 @@ definitions:
 examples:
 - name: List peerings
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings?api-version=2020-11-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet1/virtualNetworkPeerings?api-version=2021-02-01
   responses:
   - statusCode: "200"
     body: >-
@@ -240,11 +264,17 @@ examples:
                   "12.0.0.0/8"
                 ]
               },
+              "remoteVirtualNetworkAddressSpace": {
+                "addressPrefixes": [
+                  "12.0.0.0/8"
+                ]
+              },
               "remoteBgpCommunities": {
                 "virtualNetworkCommunity": "12076:20002",
                 "regionalCommunity": "12076:50004"
               },
               "peeringState": "Initiated",
+              "peeringSyncLevel": "FullyInSync",
               "provisioningState": "Succeeded"
             }
           },
@@ -264,11 +294,17 @@ examples:
                   "13.0.0.0/8"
                 ]
               },
+              "remoteVirtualNetworkAddressSpace": {
+                "addressPrefixes": [
+                  "13.0.0.0/8"
+                ]
+              },
               "remoteBgpCommunities": {
                 "virtualNetworkCommunity": "12076:20003",
                 "regionalCommunity": "12076:50004"
               },
               "peeringState": "Initiated",
+              "peeringSyncLevel": "FullyInSync",
               "provisioningState": "Succeeded"
             }
           }
