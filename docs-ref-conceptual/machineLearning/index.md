@@ -1,6 +1,6 @@
 ---
 ms.assetid: 
-title: Azure Machine Learning Studio (classic) API Web Service
+title: ML Studio (classic) API Web Service
 ms.prod: 
 ms.service: machine-learning
 ms.subservice: studio-classic
@@ -9,9 +9,9 @@ ms.author: amlstudiodocs
 service_description: To be added
 ---
 
-# Azure Machine Learning Studio (classic) Management REST APIs
+# Machine Learning Studio (classic) Management REST APIs
 
-<!-- Deprecation notice for Machine Learning Studio (classic) docs
+<!-- Deprecation notice for Machine Learning (ML) Studio (classic) docs
 -->
 
 > [!IMPORTANT]
@@ -24,12 +24,12 @@ service_description: To be added
 > 
 > ML Studio (classic) documentation is being retired and may not be updated in the future.
 
-The following Azure Machine Learning Studio (classic) REST APIs enable you to create and manage:
+The following ML Studio (classic) REST APIs enable you to create and manage:
 
-- **Azure Machine Learning Studio (classic) commitment plans and associations**
+- **ML Studio (classic) commitment plans and associations**
 
-- **Azure Resource Manager based web services** - Azure Machine Learning Studio (classic) enables you to build and test a predictive analytics solution, and then deploy it as an Azure web service. 
-For an overview of the process, see [Azure Machine Learning Studio (classic) Web Services: Deployment and consumption](/azure/machine-learning/studio/deploy-consume-web-service-guide).
+- **Azure Resource Manager based web services** - ML Studio (classic) enables you to build and test a predictive analytics solution, and then deploy it as an Azure web service. 
+For an overview of the process, see [ML Studio (classic) Web Services: Deployment and consumption](/azure/machine-learning/classic/deploy-consume-web-service-guide).
 
 
 ## REST Operation Groups
@@ -45,14 +45,14 @@ For an overview of the process, see [Azure Machine Learning Studio (classic) Web
 
 The following information is common to tasks related to these APIs:
 
-- The host URI for Azure Machine Learning Studio (classic) REST APIs is **https://management.azure.com/**
+- The host URI for ML Studio (classic) REST APIs is **https://management.azure.com/**
 - Replace `{subscription-id}` with your subscription identifier in the URI
 - Replace `{resource-group-name}` with the resource group name
 - Set the Content-Type header to **application/json**
 - Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory <!-- This topic doesn't exist anymore: (for more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx))-->
 
 ## Commitment plan tasks
-You can do the following tasks with the REST APIs for Azure Machine Learning Studio (classic) commitment plans:
+You can do the following tasks with the REST APIs for ML Studio (classic) commitment plans:
 
 ### [Commitment associations](/rest/api/machinelearning/commitmentassociations)
 - [Get](/rest/api/machinelearning/CommitmentAssociations/Get) - Get a commitment association
@@ -71,7 +71,7 @@ You can do the following tasks with the REST APIs for Azure Machine Learning Stu
 - [List](/rest/api/machinelearning/UsageHistory/List) - Get the usage history of a commitment plan
 
 ## [Web service tasks](/rest/api/machinelearning/webservices)
-You can do the following tasks with the REST APIs for Azure Machine Learning Studio (classic) web services:
+You can do the following tasks with the REST APIs for ML Studio (classic) web services:
 
 - [Create Or Update](/rest/api/machinelearning/WebServices/CreateOrUpdate) - Create or update a web service
 - [Get](/rest/api/machinelearning/WebServices/Get) - Get information about a web service
@@ -85,5 +85,5 @@ You can do the following tasks with the REST APIs for Azure Machine Learning Stu
 ## See Also
 
 - [Machine Learning Web Services cmdlets for Azure Resource Manager](/powershell/module/az.machinelearning/)
-- [Manage a web service using the Azure Machine Learning Studio (classic) Web Services portal](/azure/machine-learning/studio/manage-new-webservice)
-- [Overview of deploying and consuming Azure Machine Learning Studio (classic) web services](/azure/machine-learning/studio/deploy-consume-web-service-guide)
+- [Manage a web service using the ML Studio (classic) Web Services portal](/azure/machine-learning/studio/manage-new-webservice)
+- [Overview of deploying and consuming ML Studio (classic) web services](/azure/machine-learning/studio/deploy-consume-web-service-guide)
