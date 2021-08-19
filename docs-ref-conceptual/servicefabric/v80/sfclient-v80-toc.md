@@ -4,9 +4,9 @@ description: Service Fabric client table of content v80"
 ms.service: "service-fabric"
 ---
 
-# [Service Fabric Client APIs](sfclient-v80-index.md)
-## [Authenticating Service Fabric REST Requests](sfclient-v80-authenticating-service-fabric-rest-requests.md)
-## [Service Fabric Names and JSON Serialization](sfclient-v80-service-fabric-names-and-json-serialization.md)
+# [Service Fabric Client APIs v80](sfclient-v80-index.md)
+## [Authenticating Service Fabric REST Requests](sfclient-authenticating-service-fabric-rest-requests.md)
+## [Service Fabric Names and JSON Serialization](sfclient-service-fabric-names-and-json-serialization.md)
 ## [Status and Error Codes](sfclient-v80-status-and-error-codes.md)
 ## [Cluster](sfclient-v80-index-cluster.md)
 ### [Get Cluster Manifest](sfclient-v80-api-getclustermanifest.md)
@@ -46,9 +46,6 @@ ms.service: "service-fabric"
 ### [Restart Node](sfclient-v80-api-restartnode.md)
 ### [Remove Configuration Overrides](sfclient-v80-api-removeconfigurationoverrides.md)
 ### [Get Configuration Overrides](sfclient-v80-api-getconfigurationoverrides.md)
-### [Add Configuration Parameter Overrides](sfclient-v80-api-addconfigurationparameteroverrides.md)
-### [Remove Node Tags](sfclient-v80-api-removenodetags.md)
-### [Add Node Tags](sfclient-v80-api-addnodetags.md)
 ## [ApplicationType](sfclient-v80-index-applicationtype.md)
 ### [Get Application Type Info List](sfclient-v80-api-getapplicationtypeinfolist.md)
 ### [Get Application Type Info List By Name](sfclient-v80-api-getapplicationtypeinfolistbyname.md)
