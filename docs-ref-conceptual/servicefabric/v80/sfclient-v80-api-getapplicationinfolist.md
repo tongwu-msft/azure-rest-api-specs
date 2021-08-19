@@ -1,6 +1,6 @@
 ---
-title: "Get Application Info List"
-description: "Get Application Info List"
+title: "Get Application Info List v80"
+description: "Get Application Info List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Application Info List
+# Get Application Info List v80
 Gets the list of applications created in the Service Fabric cluster that match the specified filters.
 
 Gets the information about the applications that were created or in the process of being created in the Service Fabric cluster and match the specified filters. The response includes the name, type, status, parameters, and other details about the application. If the applications do not fit in a page, one page of results is returned as well as a continuation token, which can be used to get the next page. Filters ApplicationTypeName and ApplicationDefinitionKindFilter cannot be specified at the same time.

@@ -1,6 +1,6 @@
 ---
-title: "ServicePlacementPreferPrimaryDomainPolicyDescription"
-description: "ServicePlacementPreferPrimaryDomainPolicyDescription"
+title: "ServicePlacementPreferPrimaryDomainPolicyDescription v80"
+description: "ServicePlacementPreferPrimaryDomainPolicyDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServicePlacementPreferPrimaryDomainPolicyDescription
+# ServicePlacementPreferPrimaryDomainPolicyDescription v80
 
 Describes the policy to be used for placement of a Service Fabric service where the service's Primary replicas should optimally be placed in a particular domain.
 

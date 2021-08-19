@@ -1,6 +1,6 @@
 ---
-title: "Get Replica Info List"
-description: "Get Replica Info List"
+title: "Get Replica Info List v80"
+description: "Get Replica Info List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Replica Info List
+# Get Replica Info List v80
 Gets the information about replicas of a Service Fabric service partition.
 
 The GetReplicas endpoint returns information about the replicas of the specified partition. The response includes the ID, role, status, health, node name, uptime, and other details about the replica.

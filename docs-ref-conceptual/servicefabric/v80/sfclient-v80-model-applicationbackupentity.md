@@ -1,6 +1,6 @@
 ---
-title: "ApplicationBackupEntity"
-description: "ApplicationBackupEntity"
+title: "ApplicationBackupEntity v80"
+description: "ApplicationBackupEntity v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationBackupEntity
+# ApplicationBackupEntity v80
 
 Identifies the Service Fabric application which is being backed up.
 

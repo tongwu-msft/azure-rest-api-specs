@@ -1,6 +1,6 @@
 ---
-title: "RepairTask"
-description: "RepairTask"
+title: "RepairTask v80"
+description: "RepairTask v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RepairTask
+# RepairTask v80
 
 Represents a repair task, which includes information about what kind of repair was requested, what its progress is, and what its final result was.
 

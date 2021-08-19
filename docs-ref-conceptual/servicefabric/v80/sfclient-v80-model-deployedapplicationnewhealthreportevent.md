@@ -1,6 +1,6 @@
 ---
-title: "DeployedApplicationNewHealthReportEvent"
-description: "DeployedApplicationNewHealthReportEvent"
+title: "DeployedApplicationNewHealthReportEvent v80"
+description: "DeployedApplicationNewHealthReportEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedApplicationNewHealthReportEvent
+# DeployedApplicationNewHealthReportEvent v80
 
 Deployed Application Health Report Created event.
 

@@ -1,6 +1,6 @@
 ---
-title: "BackupPartitionDescription"
-description: "BackupPartitionDescription"
+title: "BackupPartitionDescription v80"
+description: "BackupPartitionDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# BackupPartitionDescription
+# BackupPartitionDescription v80
 
 Describes the parameters for triggering partition's backup.
 

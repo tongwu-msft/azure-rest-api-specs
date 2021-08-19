@@ -1,6 +1,6 @@
 ---
-title: "Start Cluster Upgrade"
-description: "Start Cluster Upgrade"
+title: "Start Cluster Upgrade v80"
+description: "Start Cluster Upgrade v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Start Cluster Upgrade
+# Start Cluster Upgrade v80
 Start upgrading the code or configuration version of a Service Fabric cluster.
 
 Validate the supplied upgrade parameters and start upgrading the code or configuration version of a Service Fabric cluster if the parameters are valid.

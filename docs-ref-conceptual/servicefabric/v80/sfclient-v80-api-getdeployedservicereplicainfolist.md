@@ -1,6 +1,6 @@
 ---
-title: "Get Deployed Service Replica Info List"
-description: "Get Deployed Service Replica Info List"
+title: "Get Deployed Service Replica Info List v80"
+description: "Get Deployed Service Replica Info List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Deployed Service Replica Info List
+# Get Deployed Service Replica Info List v80
 Gets the list of replicas deployed on a Service Fabric node.
 
 Gets the list containing the information about replicas deployed on a Service Fabric node. The information include partition ID, replica ID, status of the replica, name of the service, name of the service type, and other information. Use PartitionId or ServiceManifestName query parameters to return information about the deployed replicas matching the specified values for those parameters.

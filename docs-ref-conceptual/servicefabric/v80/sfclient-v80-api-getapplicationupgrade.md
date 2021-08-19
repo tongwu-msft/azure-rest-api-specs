@@ -1,6 +1,6 @@
 ---
-title: "Get Application Upgrade"
-description: "Get Application Upgrade"
+title: "Get Application Upgrade v80"
+description: "Get Application Upgrade v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Application Upgrade
+# Get Application Upgrade v80
 Gets details for the latest upgrade performed on this application.
 
 Returns information about the state of the latest application upgrade along with details to aid debugging application health issues.

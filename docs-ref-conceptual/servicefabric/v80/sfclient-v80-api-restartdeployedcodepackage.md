@@ -1,6 +1,6 @@
 ---
-title: "Restart Deployed Code Package"
-description: "Restart Deployed Code Package"
+title: "Restart Deployed Code Package v80"
+description: "Restart Deployed Code Package v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Restart Deployed Code Package
+# Restart Deployed Code Package v80
 Restarts a code package deployed on a Service Fabric node in a cluster.
 
 Restarts a code package deployed on a Service Fabric node in a cluster. This aborts the code package process, which will restart all the user service replicas hosted in that process.

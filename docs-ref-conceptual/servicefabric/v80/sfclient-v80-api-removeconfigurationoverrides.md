@@ -1,6 +1,6 @@
 ---
-title: "Remove Configuration Overrides"
-description: "Remove Configuration Overrides"
+title: "Remove Configuration Overrides v80"
+description: "Remove Configuration Overrides v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Remove Configuration Overrides
+# Remove Configuration Overrides v80
 Removes configuration overrides on the specified node.
 
 This api allows removing all existing configuration overrides on specified node.

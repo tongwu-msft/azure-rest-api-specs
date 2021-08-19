@@ -1,6 +1,6 @@
 ---
-title: "ServiceTypeDescription"
-description: "ServiceTypeDescription"
+title: "ServiceTypeDescription v80"
+description: "ServiceTypeDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceTypeDescription
+# ServiceTypeDescription v80
 
 Describes a service type defined in the service manifest of a provisioned application type. The properties the ones defined in the service manifest.
 ## Inheritance

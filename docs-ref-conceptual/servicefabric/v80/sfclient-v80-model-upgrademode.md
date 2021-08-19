@@ -1,6 +1,6 @@
 ---
-title: "UpgradeMode"
-description: "UpgradeMode"
+title: "UpgradeMode v80"
+description: "UpgradeMode v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UpgradeMode enum
+# UpgradeMode enum v80
 
 type: string
 

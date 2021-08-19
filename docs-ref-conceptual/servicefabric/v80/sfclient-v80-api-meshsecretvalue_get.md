@@ -1,6 +1,6 @@
 ---
-title: "Get"
-description: "Get"
+title: "Get v80"
+description: "Get v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get
+# Get v80
 Gets the specified secret value resource.
 
 Get the information about the specified named secret value resources. The information does not include the actual value of the secret.

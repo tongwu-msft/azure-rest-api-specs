@@ -1,6 +1,6 @@
 ---
-title: "SecretResourceDescription"
-description: "SecretResourceDescription"
+title: "SecretResourceDescription v80"
+description: "SecretResourceDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SecretResourceDescription
+# SecretResourceDescription v80
 
 This type describes a secret resource.
 

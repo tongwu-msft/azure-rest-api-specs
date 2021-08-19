@@ -1,6 +1,6 @@
 ---
-title: "NetworkResourcePropertiesBase"
-description: "NetworkResourcePropertiesBase"
+title: "NetworkResourcePropertiesBase v80"
+description: "NetworkResourcePropertiesBase v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NetworkResourcePropertiesBase
+# NetworkResourcePropertiesBase v80
 
 This type describes the properties of a network resource, including its kind.
 ## Inheritance

@@ -1,6 +1,6 @@
 ---
-title: "DeployedApplicationStatus"
-description: "DeployedApplicationStatus"
+title: "DeployedApplicationStatus v80"
+description: "DeployedApplicationStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedApplicationStatus enum
+# DeployedApplicationStatus enum v80
 
 type: string
 

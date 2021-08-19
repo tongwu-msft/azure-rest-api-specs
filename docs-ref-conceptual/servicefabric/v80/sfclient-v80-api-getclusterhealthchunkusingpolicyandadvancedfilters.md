@@ -1,6 +1,6 @@
 ---
-title: "Get Cluster Health Chunk Using Policy And Advanced Filters"
-description: "Get Cluster Health Chunk Using Policy And Advanced Filters"
+title: "Get Cluster Health Chunk Using Policy And Advanced Filters v80"
+description: "Get Cluster Health Chunk Using Policy And Advanced Filters v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Cluster Health Chunk Using Policy And Advanced Filters
+# Get Cluster Health Chunk Using Policy And Advanced Filters v80
 Gets the health of a Service Fabric cluster using health chunks.
 
 Gets the health of a Service Fabric cluster using health chunks. The health evaluation is done based on the input cluster health chunk query description.

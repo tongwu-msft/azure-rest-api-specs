@@ -1,6 +1,6 @@
 ---
-title: "RegistryCredential"
-description: "RegistryCredential"
+title: "RegistryCredential v80"
+description: "RegistryCredential v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RegistryCredential
+# RegistryCredential v80
 
 Credential information to connect to container registry.
 

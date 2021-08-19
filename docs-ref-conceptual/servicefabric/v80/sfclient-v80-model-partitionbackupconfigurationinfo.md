@@ -1,6 +1,6 @@
 ---
-title: "PartitionBackupConfigurationInfo"
-description: "PartitionBackupConfigurationInfo"
+title: "PartitionBackupConfigurationInfo v80"
+description: "PartitionBackupConfigurationInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionBackupConfigurationInfo
+# PartitionBackupConfigurationInfo v80
 
 Backup configuration information, for a specific partition, specifying what backup policy is being applied and suspend description, if any.
 

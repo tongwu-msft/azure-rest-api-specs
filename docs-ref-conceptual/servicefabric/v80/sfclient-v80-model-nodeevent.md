@@ -1,6 +1,6 @@
 ---
-title: "NodeEvent"
-description: "NodeEvent"
+title: "NodeEvent v80"
+description: "NodeEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeEvent
+# NodeEvent v80
 
 Represents the base for all Node Events.
 

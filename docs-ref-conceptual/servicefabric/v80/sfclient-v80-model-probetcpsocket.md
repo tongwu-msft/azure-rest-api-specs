@@ -1,6 +1,6 @@
 ---
-title: "ProbeTcpSocket"
-description: "ProbeTcpSocket"
+title: "ProbeTcpSocket v80"
+description: "ProbeTcpSocket v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ProbeTcpSocket
+# ProbeTcpSocket v80
 
 Tcp port to probe inside the container.
 

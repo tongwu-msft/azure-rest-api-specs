@@ -1,6 +1,6 @@
 ---
-title: "OperationState"
-description: "OperationState"
+title: "OperationState v80"
+description: "OperationState v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# OperationState enum
+# OperationState enum v80
 
 type: string
 

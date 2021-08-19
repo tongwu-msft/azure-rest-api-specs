@@ -1,6 +1,6 @@
 ---
-title: "ServiceHealthStateChunk"
-description: "ServiceHealthStateChunk"
+title: "ServiceHealthStateChunk v80"
+description: "ServiceHealthStateChunk v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceHealthStateChunk
+# ServiceHealthStateChunk v80
 
 Represents the health state chunk of a service, which contains the service name, its aggregated health state and any partitions that respect the filters in the cluster health chunk query description.
 

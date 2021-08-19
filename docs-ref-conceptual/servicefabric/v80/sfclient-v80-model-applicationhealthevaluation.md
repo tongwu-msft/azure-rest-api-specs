@@ -1,6 +1,6 @@
 ---
-title: "ApplicationHealthEvaluation"
-description: "ApplicationHealthEvaluation"
+title: "ApplicationHealthEvaluation v80"
+description: "ApplicationHealthEvaluation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationHealthEvaluation
+# ApplicationHealthEvaluation v80
 
 Represents health evaluation for an application, containing information about the data and the algorithm used by the health store to evaluate health.
 

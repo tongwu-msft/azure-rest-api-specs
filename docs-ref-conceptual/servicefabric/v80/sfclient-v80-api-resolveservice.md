@@ -1,6 +1,6 @@
 ---
-title: "Resolve Service"
-description: "Resolve Service"
+title: "Resolve Service v80"
+description: "Resolve Service v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Resolve Service
+# Resolve Service v80
 Resolve a Service Fabric partition.
 
 Resolve a Service Fabric service partition to get the endpoints of the service replicas.

@@ -1,6 +1,6 @@
 ---
-title: "RepairTargetKind"
-description: "RepairTargetKind"
+title: "RepairTargetKind v80"
+description: "RepairTargetKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RepairTargetKind enum
+# RepairTargetKind enum v80
 
 type: string
 

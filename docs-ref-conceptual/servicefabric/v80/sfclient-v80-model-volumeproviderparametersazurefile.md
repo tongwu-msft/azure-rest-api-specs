@@ -1,6 +1,6 @@
 ---
-title: "VolumeProviderParametersAzureFile"
-description: "VolumeProviderParametersAzureFile"
+title: "VolumeProviderParametersAzureFile v80"
+description: "VolumeProviderParametersAzureFile v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# VolumeProviderParametersAzureFile
+# VolumeProviderParametersAzureFile v80
 
 This type describes a volume provided by an Azure Files file share.
 

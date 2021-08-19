@@ -1,6 +1,6 @@
 ---
-title: "Enable Node"
-description: "Enable Node"
+title: "Enable Node v80"
+description: "Enable Node v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Enable Node
+# Enable Node v80
 Activate a Service Fabric cluster node that is currently deactivated.
 
 Activates a Service Fabric cluster node that is currently deactivated. Once activated, the node will again become a viable target for placing new replicas, and any deactivated replicas remaining on the node will be reactivated.

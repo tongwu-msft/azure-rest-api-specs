@@ -1,6 +1,6 @@
 ---
-title: "EnvironmentVariableType"
-description: "EnvironmentVariableType"
+title: "EnvironmentVariableType v80"
+description: "EnvironmentVariableType v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EnvironmentVariableType enum
+# EnvironmentVariableType enum v80
 
 type: string
 

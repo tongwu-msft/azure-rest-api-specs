@@ -1,6 +1,6 @@
 ---
-title: "Get Deployed Application Health"
-description: "Get Deployed Application Health"
+title: "Get Deployed Application Health v80"
+description: "Get Deployed Application Health v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Deployed Application Health
+# Get Deployed Application Health v80
 Gets the information about health of an application deployed on a Service Fabric node.
 
 Gets the information about health of an application deployed on a Service Fabric node. Use EventsHealthStateFilter to optionally filter for the collection of HealthEvent objects reported on the deployed application based on health state. Use DeployedServicePackagesHealthStateFilter to optionally filter for DeployedServicePackageHealth children based on health state.

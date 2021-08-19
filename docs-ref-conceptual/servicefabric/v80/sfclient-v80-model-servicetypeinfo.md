@@ -1,6 +1,6 @@
 ---
-title: "ServiceTypeInfo"
-description: "ServiceTypeInfo"
+title: "ServiceTypeInfo v80"
+description: "ServiceTypeInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceTypeInfo
+# ServiceTypeInfo v80
 
 Information about a service type that is defined in a service manifest of a provisioned application type.
 

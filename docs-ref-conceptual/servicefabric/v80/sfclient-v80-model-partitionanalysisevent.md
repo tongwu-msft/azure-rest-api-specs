@@ -1,6 +1,6 @@
 ---
-title: "PartitionAnalysisEvent"
-description: "PartitionAnalysisEvent"
+title: "PartitionAnalysisEvent v80"
+description: "PartitionAnalysisEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionAnalysisEvent
+# PartitionAnalysisEvent v80
 
 Represents the base for all Partition Analysis Events.
 

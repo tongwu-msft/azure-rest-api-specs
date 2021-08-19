@@ -1,6 +1,6 @@
 ---
-title: "ClusterHealthPolicies"
-description: "ClusterHealthPolicies"
+title: "ClusterHealthPolicies v80"
+description: "ClusterHealthPolicies v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterHealthPolicies
+# ClusterHealthPolicies v80
 
 Health policies to evaluate cluster health.
 

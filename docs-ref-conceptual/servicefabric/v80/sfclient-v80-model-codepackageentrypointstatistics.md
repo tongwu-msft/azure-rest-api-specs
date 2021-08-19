@@ -1,6 +1,6 @@
 ---
-title: "CodePackageEntryPointStatistics"
-description: "CodePackageEntryPointStatistics"
+title: "CodePackageEntryPointStatistics v80"
+description: "CodePackageEntryPointStatistics v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# CodePackageEntryPointStatistics
+# CodePackageEntryPointStatistics v80
 
 Statistics about setup or main entry point  of a code package deployed on a Service Fabric node.
 

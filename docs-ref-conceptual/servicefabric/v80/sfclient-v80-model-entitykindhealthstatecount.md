@@ -1,6 +1,6 @@
 ---
-title: "EntityKindHealthStateCount"
-description: "EntityKindHealthStateCount"
+title: "EntityKindHealthStateCount v80"
+description: "EntityKindHealthStateCount v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EntityKindHealthStateCount
+# EntityKindHealthStateCount v80
 
 Represents health state count for entities of the specified entity kind.
 

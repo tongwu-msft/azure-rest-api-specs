@@ -1,6 +1,6 @@
 ---
-title: "DeployedApplicationInfo"
-description: "DeployedApplicationInfo"
+title: "DeployedApplicationInfo v80"
+description: "DeployedApplicationInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedApplicationInfo
+# DeployedApplicationInfo v80
 
 Information about application deployed on the node.
 

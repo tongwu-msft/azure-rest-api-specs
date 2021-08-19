@@ -1,6 +1,6 @@
 ---
-title: "HttpConfig"
-description: "HttpConfig"
+title: "HttpConfig v80"
+description: "HttpConfig v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# HttpConfig
+# HttpConfig v80
 
 Describes the http configuration for external connectivity for this network.
 

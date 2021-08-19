@@ -1,6 +1,6 @@
 ---
-title: "ImageStoreCopyDescription"
-description: "ImageStoreCopyDescription"
+title: "ImageStoreCopyDescription v80"
+description: "ImageStoreCopyDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ImageStoreCopyDescription
+# ImageStoreCopyDescription v80
 
 Information about how to copy image store content from one image store relative path to another image store relative path.
 

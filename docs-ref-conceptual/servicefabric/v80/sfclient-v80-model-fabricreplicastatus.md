@@ -1,6 +1,6 @@
 ---
-title: "FabricReplicaStatus"
-description: "FabricReplicaStatus"
+title: "FabricReplicaStatus v80"
+description: "FabricReplicaStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# FabricReplicaStatus enum
+# FabricReplicaStatus enum v80
 
 type: string
 

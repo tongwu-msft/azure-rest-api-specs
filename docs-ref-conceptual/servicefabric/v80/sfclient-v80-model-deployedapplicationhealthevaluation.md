@@ -1,6 +1,6 @@
 ---
-title: "DeployedApplicationHealthEvaluation"
-description: "DeployedApplicationHealthEvaluation"
+title: "DeployedApplicationHealthEvaluation v80"
+description: "DeployedApplicationHealthEvaluation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedApplicationHealthEvaluation
+# DeployedApplicationHealthEvaluation v80
 
 Represents health evaluation for a deployed application, containing information about the data and the algorithm used by the health store to evaluate health.
 

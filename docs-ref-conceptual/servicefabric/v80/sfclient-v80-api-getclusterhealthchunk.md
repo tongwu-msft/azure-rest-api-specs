@@ -1,6 +1,6 @@
 ---
-title: "Get Cluster Health Chunk"
-description: "Get Cluster Health Chunk"
+title: "Get Cluster Health Chunk v80"
+description: "Get Cluster Health Chunk v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Cluster Health Chunk
+# Get Cluster Health Chunk v80
 Gets the health of a Service Fabric cluster using health chunks.
 
 Gets the health of a Service Fabric cluster using health chunks. Includes the aggregated health state of the cluster, but none of the cluster entities.

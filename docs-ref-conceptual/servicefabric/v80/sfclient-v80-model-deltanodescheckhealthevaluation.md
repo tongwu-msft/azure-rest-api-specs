@@ -1,6 +1,6 @@
 ---
-title: "DeltaNodesCheckHealthEvaluation"
-description: "DeltaNodesCheckHealthEvaluation"
+title: "DeltaNodesCheckHealthEvaluation v80"
+description: "DeltaNodesCheckHealthEvaluation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeltaNodesCheckHealthEvaluation
+# DeltaNodesCheckHealthEvaluation v80
 
 Represents health evaluation for delta nodes, containing health evaluations for each unhealthy node that impacted current aggregated health state.
 Can be returned during cluster upgrade when the aggregated health state of the cluster is Warning or Error.

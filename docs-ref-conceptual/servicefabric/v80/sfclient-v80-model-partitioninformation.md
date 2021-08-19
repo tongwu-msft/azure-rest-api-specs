@@ -1,6 +1,6 @@
 ---
-title: "PartitionInformation"
-description: "PartitionInformation"
+title: "PartitionInformation v80"
+description: "PartitionInformation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionInformation
+# PartitionInformation v80
 
 Information about the partition identity, partitioning scheme and keys supported by it.
 ## Inheritance

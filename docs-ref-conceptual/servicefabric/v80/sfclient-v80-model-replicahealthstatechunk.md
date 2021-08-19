@@ -1,6 +1,6 @@
 ---
-title: "ReplicaHealthStateChunk"
-description: "ReplicaHealthStateChunk"
+title: "ReplicaHealthStateChunk v80"
+description: "ReplicaHealthStateChunk v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReplicaHealthStateChunk
+# ReplicaHealthStateChunk v80
 
 Represents the health state chunk of a stateful service replica or a stateless service instance.
 The replica health state contains the replica ID and its aggregated health state.

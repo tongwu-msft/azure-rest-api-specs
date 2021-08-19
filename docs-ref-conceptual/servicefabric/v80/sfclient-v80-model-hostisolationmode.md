@@ -1,6 +1,6 @@
 ---
-title: "HostIsolationMode"
-description: "HostIsolationMode"
+title: "HostIsolationMode v80"
+description: "HostIsolationMode v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# HostIsolationMode enum
+# HostIsolationMode enum v80
 
 type: string
 

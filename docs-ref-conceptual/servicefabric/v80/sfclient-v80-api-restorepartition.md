@@ -1,6 +1,6 @@
 ---
-title: "Restore Partition"
-description: "Restore Partition"
+title: "Restore Partition v80"
+description: "Restore Partition v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Restore Partition
+# Restore Partition v80
 Triggers restore of the state of the partition using the specified restore partition description.
 
 Restores the state of a of the stateful persisted partition using the specified backup point. In case the partition is already being periodically backed up, then by default the backup point is looked for in the storage specified in backup policy. One can also override the same by specifying the backup storage details as part of the restore partition description in body. Once the restore is initiated, its progress can be tracked using the GetRestoreProgress operation. 

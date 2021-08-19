@@ -1,6 +1,6 @@
 ---
-title: "BackupScheduleFrequencyType"
-description: "BackupScheduleFrequencyType"
+title: "BackupScheduleFrequencyType v80"
+description: "BackupScheduleFrequencyType v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# BackupScheduleFrequencyType enum
+# BackupScheduleFrequencyType enum v80
 
 type: string
 

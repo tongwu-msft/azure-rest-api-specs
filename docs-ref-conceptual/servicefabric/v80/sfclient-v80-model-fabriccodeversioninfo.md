@@ -1,6 +1,6 @@
 ---
-title: "FabricCodeVersionInfo"
-description: "FabricCodeVersionInfo"
+title: "FabricCodeVersionInfo v80"
+description: "FabricCodeVersionInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# FabricCodeVersionInfo
+# FabricCodeVersionInfo v80
 
 Information about a Service Fabric code version.
 

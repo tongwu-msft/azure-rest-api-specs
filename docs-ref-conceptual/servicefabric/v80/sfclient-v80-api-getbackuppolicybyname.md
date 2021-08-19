@@ -1,6 +1,6 @@
 ---
-title: "Get Backup Policy By Name"
-description: "Get Backup Policy By Name"
+title: "Get Backup Policy By Name v80"
+description: "Get Backup Policy By Name v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Backup Policy By Name
+# Get Backup Policy By Name v80
 Gets a particular backup policy by name.
 
 Gets a particular backup policy identified by {backupPolicyName}

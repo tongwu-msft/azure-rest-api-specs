@@ -1,6 +1,6 @@
 ---
-title: "ImpactLevel"
-description: "ImpactLevel"
+title: "ImpactLevel v80"
+description: "ImpactLevel v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ImpactLevel enum
+# ImpactLevel enum v80
 
 type: string
 

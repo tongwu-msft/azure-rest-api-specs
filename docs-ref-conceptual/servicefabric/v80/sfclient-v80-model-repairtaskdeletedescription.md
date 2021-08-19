@@ -1,6 +1,6 @@
 ---
-title: "RepairTaskDeleteDescription"
-description: "RepairTaskDeleteDescription"
+title: "RepairTaskDeleteDescription v80"
+description: "RepairTaskDeleteDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RepairTaskDeleteDescription
+# RepairTaskDeleteDescription v80
 
 Describes a request to delete a completed repair task.
 

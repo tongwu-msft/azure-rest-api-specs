@@ -1,6 +1,6 @@
 ---
-title: "ImageStoreInfo"
-description: "ImageStoreInfo"
+title: "ImageStoreInfo v80"
+description: "ImageStoreInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ImageStoreInfo
+# ImageStoreInfo v80
 
 Information about the ImageStore's resource usage
 

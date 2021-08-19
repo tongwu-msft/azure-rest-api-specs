@@ -1,6 +1,6 @@
 ---
-title: "CheckSequencePropertyBatchOperation"
-description: "CheckSequencePropertyBatchOperation"
+title: "CheckSequencePropertyBatchOperation v80"
+description: "CheckSequencePropertyBatchOperation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# CheckSequencePropertyBatchOperation
+# CheckSequencePropertyBatchOperation v80
 
 Compares the Sequence Number of a property with the SequenceNumber argument.
 A property's sequence number can be thought of as that property's version.

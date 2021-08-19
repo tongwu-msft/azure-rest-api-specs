@@ -1,6 +1,6 @@
 ---
-title: "HealthEvaluationWrapper"
-description: "HealthEvaluationWrapper"
+title: "HealthEvaluationWrapper v80"
+description: "HealthEvaluationWrapper v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# HealthEvaluationWrapper
+# HealthEvaluationWrapper v80
 
 Wrapper object for health evaluation.
 

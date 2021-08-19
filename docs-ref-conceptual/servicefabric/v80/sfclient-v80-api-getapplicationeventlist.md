@@ -1,6 +1,6 @@
 ---
-title: "Get Application Event List"
-description: "Get Application Event List"
+title: "Get Application Event List v80"
+description: "Get Application Event List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Application Event List
+# Get Application Event List v80
 Gets an Application-related events.
 
 The response is list of ApplicationEvent objects.

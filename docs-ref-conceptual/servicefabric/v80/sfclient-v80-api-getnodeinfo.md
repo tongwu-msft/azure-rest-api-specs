@@ -1,6 +1,6 @@
 ---
-title: "Get Node Info"
-description: "Get Node Info"
+title: "Get Node Info v80"
+description: "Get Node Info v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Node Info
+# Get Node Info v80
 Gets the information about a specific node in the Service Fabric cluster.
 
 The response includes the name, status, ID, health, uptime, and other details about the node.

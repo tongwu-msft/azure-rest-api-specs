@@ -1,6 +1,6 @@
 ---
-title: "StatelessServiceInstanceInfo"
-description: "StatelessServiceInstanceInfo"
+title: "StatelessServiceInstanceInfo v80"
+description: "StatelessServiceInstanceInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatelessServiceInstanceInfo
+# StatelessServiceInstanceInfo v80
 
 Represents a stateless service instance. This includes information about the identity, status, health, node name, uptime, and other details about the instance.
 

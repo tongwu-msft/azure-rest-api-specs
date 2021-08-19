@@ -1,6 +1,6 @@
 ---
-title: "ClusterUpgradeStartedEvent"
-description: "ClusterUpgradeStartedEvent"
+title: "ClusterUpgradeStartedEvent v80"
+description: "ClusterUpgradeStartedEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterUpgradeStartedEvent
+# ClusterUpgradeStartedEvent v80
 
 Cluster Upgrade Started event.
 

@@ -1,6 +1,6 @@
 ---
-title: "NodeId"
-description: "NodeId"
+title: "NodeId v80"
+description: "NodeId v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeId
+# NodeId v80
 
 An internal ID used by Service Fabric to uniquely identify a node. Node Id is deterministically generated from node name.
 

@@ -1,6 +1,6 @@
 ---
-title: "NodeDeactivationTaskType"
-description: "NodeDeactivationTaskType"
+title: "NodeDeactivationTaskType v80"
+description: "NodeDeactivationTaskType v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeDeactivationTaskType enum
+# NodeDeactivationTaskType enum v80
 
 type: string
 

@@ -1,6 +1,6 @@
 ---
-title: "PartitionsHealthEvaluation"
-description: "PartitionsHealthEvaluation"
+title: "PartitionsHealthEvaluation v80"
+description: "PartitionsHealthEvaluation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionsHealthEvaluation
+# PartitionsHealthEvaluation v80
 
 Represents health evaluation for the partitions of a service, containing health evaluations for each unhealthy partition that impacts current aggregated health state. Can be returned when evaluating service health and the aggregated health state is either Error or Warning.
 

@@ -1,6 +1,6 @@
 ---
-title: "NodeDeactivationInfo"
-description: "NodeDeactivationInfo"
+title: "NodeDeactivationInfo v80"
+description: "NodeDeactivationInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeDeactivationInfo
+# NodeDeactivationInfo v80
 
 Information about the node deactivation. This information is valid for a node that is undergoing deactivation or has already been deactivated.
 

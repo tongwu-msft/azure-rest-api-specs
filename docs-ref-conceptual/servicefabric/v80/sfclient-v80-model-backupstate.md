@@ -1,6 +1,6 @@
 ---
-title: "BackupState"
-description: "BackupState"
+title: "BackupState v80"
+description: "BackupState v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# BackupState enum
+# BackupState enum v80
 
 type: string
 

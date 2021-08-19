@@ -1,6 +1,6 @@
 ---
-title: "StatelessServiceTypeDescription"
-description: "StatelessServiceTypeDescription"
+title: "StatelessServiceTypeDescription v80"
+description: "StatelessServiceTypeDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatelessServiceTypeDescription
+# StatelessServiceTypeDescription v80
 
 Describes a stateless service type defined in the service manifest of a provisioned application type.
 

@@ -1,6 +1,6 @@
 ---
-title: "IdentityDescription"
-description: "IdentityDescription"
+title: "IdentityDescription v80"
+description: "IdentityDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# IdentityDescription
+# IdentityDescription v80
 
 Information describing the identities associated with this application.
 

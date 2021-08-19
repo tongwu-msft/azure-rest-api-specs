@@ -1,6 +1,6 @@
 ---
-title: "ApplicationTypeDefinitionKind"
-description: "ApplicationTypeDefinitionKind"
+title: "ApplicationTypeDefinitionKind v80"
+description: "ApplicationTypeDefinitionKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationTypeDefinitionKind enum
+# ApplicationTypeDefinitionKind enum v80
 
 type: string
 

@@ -1,6 +1,6 @@
 ---
-title: "ServiceTypeExtensionDescription"
-description: "ServiceTypeExtensionDescription"
+title: "ServiceTypeExtensionDescription v80"
+description: "ServiceTypeExtensionDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceTypeExtensionDescription
+# ServiceTypeExtensionDescription v80
 
 Describes extension of a service type defined in the service manifest.
 

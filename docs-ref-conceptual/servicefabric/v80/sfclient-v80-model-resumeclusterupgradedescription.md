@@ -1,6 +1,6 @@
 ---
-title: "ResumeClusterUpgradeDescription"
-description: "ResumeClusterUpgradeDescription"
+title: "ResumeClusterUpgradeDescription v80"
+description: "ResumeClusterUpgradeDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ResumeClusterUpgradeDescription
+# ResumeClusterUpgradeDescription v80
 
 Describes the parameters for resuming a cluster upgrade.
 

@@ -1,6 +1,6 @@
 ---
-title: "Delete Application"
-description: "Delete Application"
+title: "Delete Application v80"
+description: "Delete Application v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete Application
+# Delete Application v80
 Deletes an existing Service Fabric application.
 
 An application must be created before it can be deleted. Deleting an application will delete all services that are part of that application. By default, Service Fabric will try to close service replicas in a graceful manner and then delete the service. However, if a service is having issues closing the replica gracefully, the delete operation may take a long time or get stuck. Use the optional ForceRemove flag to skip the graceful close sequence and forcefully delete the application and all of its services.

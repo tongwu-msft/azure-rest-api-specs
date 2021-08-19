@@ -1,6 +1,6 @@
 ---
-title: "AadMetadata"
-description: "AadMetadata"
+title: "AadMetadata v80"
+description: "AadMetadata v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AadMetadata
+# AadMetadata v80
 
 Azure Active Directory metadata used for secured connection to cluster.
 

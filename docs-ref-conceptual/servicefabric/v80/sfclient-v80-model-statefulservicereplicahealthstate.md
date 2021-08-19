@@ -1,6 +1,6 @@
 ---
-title: "StatefulServiceReplicaHealthState"
-description: "StatefulServiceReplicaHealthState"
+title: "StatefulServiceReplicaHealthState v80"
+description: "StatefulServiceReplicaHealthState v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatefulServiceReplicaHealthState
+# StatefulServiceReplicaHealthState v80
 
 Represents the health state of the stateful service replica, which contains the replica ID and the aggregated health state.
 

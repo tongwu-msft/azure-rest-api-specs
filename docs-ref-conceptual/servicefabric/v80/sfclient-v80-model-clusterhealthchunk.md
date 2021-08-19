@@ -1,6 +1,6 @@
 ---
-title: "ClusterHealthChunk"
-description: "ClusterHealthChunk"
+title: "ClusterHealthChunk v80"
+description: "ClusterHealthChunk v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterHealthChunk
+# ClusterHealthChunk v80
 
 Represents the health chunk of the cluster.
 Contains the cluster aggregated health state, and the cluster entities that respect the input filter.

@@ -1,6 +1,6 @@
 ---
-title: "ServiceEndpointRole"
-description: "ServiceEndpointRole"
+title: "ServiceEndpointRole v80"
+description: "ServiceEndpointRole v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceEndpointRole enum
+# ServiceEndpointRole enum v80
 
 type: string
 

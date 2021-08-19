@@ -1,6 +1,6 @@
 ---
-title: "Invoke Infrastructure Command"
-description: "Invoke Infrastructure Command"
+title: "Invoke Infrastructure Command v80"
+description: "Invoke Infrastructure Command v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Invoke Infrastructure Command
+# Invoke Infrastructure Command v80
 Invokes an administrative command on the given Infrastructure Service instance.
 
 For clusters that have one or more instances of the Infrastructure Service configured,

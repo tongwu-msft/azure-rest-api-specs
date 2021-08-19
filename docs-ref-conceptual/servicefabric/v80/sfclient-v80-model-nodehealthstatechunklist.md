@@ -1,6 +1,6 @@
 ---
-title: "NodeHealthStateChunkList"
-description: "NodeHealthStateChunkList"
+title: "NodeHealthStateChunkList v80"
+description: "NodeHealthStateChunkList v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeHealthStateChunkList
+# NodeHealthStateChunkList v80
 
 The list of node health state chunks in the cluster that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
 

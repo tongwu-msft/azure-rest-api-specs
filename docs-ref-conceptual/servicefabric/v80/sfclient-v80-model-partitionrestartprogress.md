@@ -1,6 +1,6 @@
 ---
-title: "PartitionRestartProgress"
-description: "PartitionRestartProgress"
+title: "PartitionRestartProgress v80"
+description: "PartitionRestartProgress v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionRestartProgress
+# PartitionRestartProgress v80
 
 Information about a partition restart user-induced operation.
 

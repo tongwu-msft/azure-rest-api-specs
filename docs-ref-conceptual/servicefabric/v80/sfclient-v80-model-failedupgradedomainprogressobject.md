@@ -1,6 +1,6 @@
 ---
-title: "FailedUpgradeDomainProgressObject"
-description: "FailedUpgradeDomainProgressObject"
+title: "FailedUpgradeDomainProgressObject v80"
+description: "FailedUpgradeDomainProgressObject v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# FailedUpgradeDomainProgressObject
+# FailedUpgradeDomainProgressObject v80
 
 The detailed upgrade progress for nodes in the current upgrade domain at the point of failure.
 

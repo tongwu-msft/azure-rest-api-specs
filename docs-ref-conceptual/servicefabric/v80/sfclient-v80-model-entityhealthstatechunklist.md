@@ -1,6 +1,6 @@
 ---
-title: "EntityHealthStateChunkList"
-description: "EntityHealthStateChunkList"
+title: "EntityHealthStateChunkList v80"
+description: "EntityHealthStateChunkList v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EntityHealthStateChunkList
+# EntityHealthStateChunkList v80
 
 A base type for the list of health state chunks found in the cluster. It contains the total number of health states that match the input filters.
 

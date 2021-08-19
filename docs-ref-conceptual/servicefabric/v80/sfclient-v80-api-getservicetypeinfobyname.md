@@ -1,6 +1,6 @@
 ---
-title: "Get Service Type Info By Name"
-description: "Get Service Type Info By Name"
+title: "Get Service Type Info By Name v80"
+description: "Get Service Type Info By Name v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Service Type Info By Name
+# Get Service Type Info By Name v80
 Gets the information about a specific service type that is supported by a provisioned application type in a Service Fabric cluster.
 
 Gets the information about a specific service type that is supported by a provisioned application type in a Service Fabric cluster. The provided application type must exist. Otherwise, a 404 status is returned. A 204 response is returned if the specified service type is not found in the cluster.

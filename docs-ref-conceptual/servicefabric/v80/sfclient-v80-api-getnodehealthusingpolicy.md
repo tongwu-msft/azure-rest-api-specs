@@ -1,6 +1,6 @@
 ---
-title: "Get Node Health Using Policy"
-description: "Get Node Health Using Policy"
+title: "Get Node Health Using Policy v80"
+description: "Get Node Health Using Policy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Node Health Using Policy
+# Get Node Health Using Policy v80
 Gets the health of a Service Fabric node, by using the specified health policy.
 
 Gets the health of a Service Fabric node. Use EventsHealthStateFilter to filter the collection of health events reported on the node based on the health state. Use ClusterHealthPolicy in the POST body to override the health policies used to evaluate the health. If the node that you specify by name does not exist in the health store, this returns an error.

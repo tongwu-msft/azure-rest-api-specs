@@ -1,6 +1,6 @@
 ---
-title: "List"
-description: "List"
+title: "List v80"
+description: "List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# List
+# List v80
 List names of all values of the specified secret resource.
 
 Gets information about all secret value resources of the specified secret resource. The information includes the names of the secret value resources, but not the actual values.

@@ -1,6 +1,6 @@
 ---
-title: "Disable Partition Backup"
-description: "Disable Partition Backup"
+title: "Disable Partition Backup v80"
+description: "Disable Partition Backup v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Disable Partition Backup
+# Disable Partition Backup v80
 Disables periodic backup of Service Fabric partition which was previously enabled.
 
 Disables periodic backup of partition which was previously enabled. Backup must be explicitly enabled before it can be disabled. 

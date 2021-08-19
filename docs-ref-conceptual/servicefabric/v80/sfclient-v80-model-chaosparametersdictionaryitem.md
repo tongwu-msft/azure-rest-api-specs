@@ -1,6 +1,6 @@
 ---
-title: "ChaosParametersDictionaryItem"
-description: "ChaosParametersDictionaryItem"
+title: "ChaosParametersDictionaryItem v80"
+description: "ChaosParametersDictionaryItem v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ChaosParametersDictionaryItem
+# ChaosParametersDictionaryItem v80
 
 Defines an item in ChaosParametersDictionary of the Chaos Schedule.
 

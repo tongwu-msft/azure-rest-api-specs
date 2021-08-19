@@ -1,6 +1,6 @@
 ---
-title: "Get"
-description: "Get"
+title: "Get v80"
+description: "Get v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get
+# Get v80
 Gets the given replica of the service of an application.
 
 Gets the information about the service replica with the given name. The information include the description and other properties of the service replica.

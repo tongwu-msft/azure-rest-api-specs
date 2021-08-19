@@ -1,6 +1,6 @@
 ---
-title: "Get Cluster Configuration"
-description: "Get Cluster Configuration"
+title: "Get Cluster Configuration v80"
+description: "Get Cluster Configuration v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Cluster Configuration
+# Get Cluster Configuration v80
 Get the Service Fabric standalone cluster configuration.
 
 The cluster configuration contains properties of the cluster that include different node types on the cluster,

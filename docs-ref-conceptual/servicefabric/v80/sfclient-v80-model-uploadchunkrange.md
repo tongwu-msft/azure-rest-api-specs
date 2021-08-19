@@ -1,6 +1,6 @@
 ---
-title: "UploadChunkRange"
-description: "UploadChunkRange"
+title: "UploadChunkRange v80"
+description: "UploadChunkRange v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UploadChunkRange
+# UploadChunkRange v80
 
 Information about which portion of the file to upload.
 

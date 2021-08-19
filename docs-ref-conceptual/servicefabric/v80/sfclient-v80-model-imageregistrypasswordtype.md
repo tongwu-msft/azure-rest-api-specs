@@ -1,6 +1,6 @@
 ---
-title: "ImageRegistryPasswordType"
-description: "ImageRegistryPasswordType"
+title: "ImageRegistryPasswordType v80"
+description: "ImageRegistryPasswordType v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ImageRegistryPasswordType enum
+# ImageRegistryPasswordType enum v80
 
 type: string
 

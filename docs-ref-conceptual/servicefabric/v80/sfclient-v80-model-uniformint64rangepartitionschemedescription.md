@@ -1,6 +1,6 @@
 ---
-title: "UniformInt64RangePartitionSchemeDescription"
-description: "UniformInt64RangePartitionSchemeDescription"
+title: "UniformInt64RangePartitionSchemeDescription v80"
+description: "UniformInt64RangePartitionSchemeDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UniformInt64RangePartitionSchemeDescription
+# UniformInt64RangePartitionSchemeDescription v80
 
 Describes a partitioning scheme where an integer range is allocated evenly across a number of partitions.
 

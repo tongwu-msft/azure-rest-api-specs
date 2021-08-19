@@ -1,6 +1,6 @@
 ---
-title: "MeshGateways"
-description: "MeshGateways"
+title: "MeshGateways v80"
+description: "MeshGateways v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# MeshGateways APIs
+# MeshGateways APIs v80
 
 | Name | Description |
 | --- | --- |

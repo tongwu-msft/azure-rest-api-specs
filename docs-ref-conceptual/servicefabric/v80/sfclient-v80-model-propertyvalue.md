@@ -1,6 +1,6 @@
 ---
-title: "PropertyValue"
-description: "PropertyValue"
+title: "PropertyValue v80"
+description: "PropertyValue v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PropertyValue
+# PropertyValue v80
 
 Describes a Service Fabric property value.
 ## Inheritance

@@ -1,6 +1,6 @@
 ---
-title: "NodeUpgradeProgressInfo"
-description: "NodeUpgradeProgressInfo"
+title: "NodeUpgradeProgressInfo v80"
+description: "NodeUpgradeProgressInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeUpgradeProgressInfo
+# NodeUpgradeProgressInfo v80
 
 Information about the upgrading node and its status
 

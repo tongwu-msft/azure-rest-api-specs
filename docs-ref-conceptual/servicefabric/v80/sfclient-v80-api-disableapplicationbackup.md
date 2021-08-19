@@ -1,6 +1,6 @@
 ---
-title: "Disable Application Backup"
-description: "Disable Application Backup"
+title: "Disable Application Backup v80"
+description: "Disable Application Backup v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Disable Application Backup
+# Disable Application Backup v80
 Disables periodic backup of Service Fabric application.
 
 Disables periodic backup of Service Fabric application which was previously enabled.

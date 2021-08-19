@@ -1,6 +1,6 @@
 ---
-title: "Start Data Loss"
-description: "Start Data Loss"
+title: "Start Data Loss v80"
+description: "Start Data Loss v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Start Data Loss
+# Start Data Loss v80
 This API will induce data loss for the specified partition. It will trigger a call to the OnDataLossAsync API of the partition.
 
 This API will induce data loss for the specified partition. It will trigger a call to the OnDataLoss API of the partition.

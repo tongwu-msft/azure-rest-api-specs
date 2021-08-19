@@ -1,6 +1,6 @@
 ---
-title: "Provision Cluster"
-description: "Provision Cluster"
+title: "Provision Cluster v80"
+description: "Provision Cluster v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Provision Cluster
+# Provision Cluster v80
 Provision the code or configuration packages of a Service Fabric cluster.
 
 Validate and provision the code or configuration packages of a Service Fabric cluster.

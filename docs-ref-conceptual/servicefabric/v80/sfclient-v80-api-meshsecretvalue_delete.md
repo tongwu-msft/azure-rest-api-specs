@@ -1,6 +1,6 @@
 ---
-title: "Delete"
-description: "Delete"
+title: "Delete v80"
+description: "Delete v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete
+# Delete v80
 Deletes the specified  value of the named secret resource.
 
 Deletes the secret value resource identified by the name. The name of the resource is typically the version associated with that value. Deletion will fail if the specified value is in use.

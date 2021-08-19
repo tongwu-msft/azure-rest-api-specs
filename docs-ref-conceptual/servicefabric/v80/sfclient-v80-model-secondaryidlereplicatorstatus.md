@@ -1,6 +1,6 @@
 ---
-title: "SecondaryIdleReplicatorStatus"
-description: "SecondaryIdleReplicatorStatus"
+title: "SecondaryIdleReplicatorStatus v80"
+description: "SecondaryIdleReplicatorStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SecondaryIdleReplicatorStatus
+# SecondaryIdleReplicatorStatus v80
 
 Status of the secondary replicator when it is in idle mode and is being built by the primary.
 

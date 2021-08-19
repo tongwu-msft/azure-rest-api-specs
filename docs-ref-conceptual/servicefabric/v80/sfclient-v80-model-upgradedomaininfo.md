@@ -1,6 +1,6 @@
 ---
-title: "UpgradeDomainInfo"
-description: "UpgradeDomainInfo"
+title: "UpgradeDomainInfo v80"
+description: "UpgradeDomainInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UpgradeDomainInfo
+# UpgradeDomainInfo v80
 
 Information about an upgrade domain.
 

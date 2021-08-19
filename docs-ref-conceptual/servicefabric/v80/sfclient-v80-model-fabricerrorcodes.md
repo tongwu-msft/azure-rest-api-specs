@@ -1,6 +1,6 @@
 ---
-title: "FabricErrorCodes"
-description: "FabricErrorCodes"
+title: "FabricErrorCodes v80"
+description: "FabricErrorCodes v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# FabricErrorCodes enum
+# FabricErrorCodes enum v80
 
 type: string
 

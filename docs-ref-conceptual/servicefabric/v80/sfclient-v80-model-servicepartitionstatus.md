@@ -1,6 +1,6 @@
 ---
-title: "ServicePartitionStatus"
-description: "ServicePartitionStatus"
+title: "ServicePartitionStatus v80"
+description: "ServicePartitionStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServicePartitionStatus enum
+# ServicePartitionStatus enum v80
 
 type: string
 

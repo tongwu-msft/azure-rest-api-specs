@@ -1,6 +1,6 @@
 ---
-title: "Upload File Chunk"
-description: "Upload File Chunk"
+title: "Upload File Chunk v80"
+description: "Upload File Chunk v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Upload File Chunk
+# Upload File Chunk v80
 Uploads a file chunk to the image store relative path.
 
 Uploads a file chunk to the image store with the specified upload session ID and image store relative path. This API allows user to resume the file upload operation. user doesn't have to restart the file upload from scratch whenever there is a network interruption. Use this option if the file size is large.

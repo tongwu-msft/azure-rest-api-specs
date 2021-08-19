@@ -1,6 +1,6 @@
 ---
-title: "HttpHostConfig"
-description: "HttpHostConfig"
+title: "HttpHostConfig v80"
+description: "HttpHostConfig v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# HttpHostConfig
+# HttpHostConfig v80
 
 Describes the hostname properties for http routing.
 

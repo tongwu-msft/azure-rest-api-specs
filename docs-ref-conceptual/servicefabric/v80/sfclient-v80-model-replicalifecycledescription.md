@@ -1,6 +1,6 @@
 ---
-title: "ReplicaLifecycleDescription"
-description: "ReplicaLifecycleDescription"
+title: "ReplicaLifecycleDescription v80"
+description: "ReplicaLifecycleDescription v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReplicaLifecycleDescription
+# ReplicaLifecycleDescription v80
 
 Describes how the replica will behave
 

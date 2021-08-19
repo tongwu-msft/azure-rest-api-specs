@@ -1,6 +1,6 @@
 ---
-title: "StringPropertyValue"
-description: "StringPropertyValue"
+title: "StringPropertyValue v80"
+description: "StringPropertyValue v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StringPropertyValue
+# StringPropertyValue v80
 
 Describes a Service Fabric property value of type String.
 

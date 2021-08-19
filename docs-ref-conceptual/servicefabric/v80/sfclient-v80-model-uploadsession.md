@@ -1,6 +1,6 @@
 ---
-title: "UploadSession"
-description: "UploadSession"
+title: "UploadSession v80"
+description: "UploadSession v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UploadSession
+# UploadSession v80
 
 Information about a image store upload session
 

@@ -1,6 +1,6 @@
 ---
-title: "IdentityItemDescription"
-description: "IdentityItemDescription"
+title: "IdentityItemDescription v80"
+description: "IdentityItemDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# IdentityItemDescription
+# IdentityItemDescription v80
 
 Describes a single user-assigned identity associated with the application.
 

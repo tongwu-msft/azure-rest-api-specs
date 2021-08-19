@@ -1,6 +1,6 @@
 ---
-title: "PutPropertyBatchOperation"
-description: "PutPropertyBatchOperation"
+title: "PutPropertyBatchOperation v80"
+description: "PutPropertyBatchOperation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PutPropertyBatchOperation
+# PutPropertyBatchOperation v80
 
 Puts the specified property under the specified name.
 Note that if one PropertyBatchOperation in a PropertyBatch fails,

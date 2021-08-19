@@ -1,6 +1,6 @@
 ---
-title: "Get Node Transition Progress"
-description: "Get Node Transition Progress"
+title: "Get Node Transition Progress v80"
+description: "Get Node Transition Progress v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Node Transition Progress
+# Get Node Transition Progress v80
 Gets the progress of an operation started using StartNodeTransition.
 
 Gets the progress of an operation started with StartNodeTransition using the provided OperationId.

@@ -1,6 +1,6 @@
 ---
-title: "ReplicaHealthEvaluation"
-description: "ReplicaHealthEvaluation"
+title: "ReplicaHealthEvaluation v80"
+description: "ReplicaHealthEvaluation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReplicaHealthEvaluation
+# ReplicaHealthEvaluation v80
 
 Represents health evaluation for a replica, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.
 

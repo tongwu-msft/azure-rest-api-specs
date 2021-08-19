@@ -1,6 +1,6 @@
 ---
-title: "DeployedServicePackageHealthStateChunk"
-description: "DeployedServicePackageHealthStateChunk"
+title: "DeployedServicePackageHealthStateChunk v80"
+description: "DeployedServicePackageHealthStateChunk v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedServicePackageHealthStateChunk
+# DeployedServicePackageHealthStateChunk v80
 
 Represents the health state chunk of a deployed service package, which contains the service manifest name and the service package aggregated health state.
 

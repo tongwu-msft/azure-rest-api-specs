@@ -1,6 +1,6 @@
 ---
-title: "List"
-description: "List"
+title: "List v80"
+description: "List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# List
+# List v80
 Lists all the replicas of a service.
 
 Gets the information about all replicas of a service. The information include the description and other properties of the service replica.

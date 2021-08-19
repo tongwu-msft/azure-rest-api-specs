@@ -1,6 +1,6 @@
 ---
-title: "Get Partition Load Information"
-description: "Get Partition Load Information"
+title: "Get Partition Load Information v80"
+description: "Get Partition Load Information v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Partition Load Information
+# Get Partition Load Information v80
 Gets the load information of the specified Service Fabric partition.
 
 Returns information about the load of a specified partition.

@@ -1,6 +1,6 @@
 ---
-title: "ClusterLoadInfo"
-description: "ClusterLoadInfo"
+title: "ClusterLoadInfo v80"
+description: "ClusterLoadInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterLoadInfo
+# ClusterLoadInfo v80
 
 Information about load in a Service Fabric cluster. It holds a summary of all metrics and their load in a cluster.
 

@@ -1,6 +1,6 @@
 ---
-title: "PartitionSafetyCheck"
-description: "PartitionSafetyCheck"
+title: "PartitionSafetyCheck v80"
+description: "PartitionSafetyCheck v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionSafetyCheck
+# PartitionSafetyCheck v80
 
 Represents a safety check for the service partition being performed by service fabric before continuing with operations.
 

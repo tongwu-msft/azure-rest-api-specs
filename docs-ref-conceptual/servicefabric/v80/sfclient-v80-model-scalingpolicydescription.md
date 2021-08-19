@@ -1,6 +1,6 @@
 ---
-title: "ScalingPolicyDescription"
-description: "ScalingPolicyDescription"
+title: "ScalingPolicyDescription v80"
+description: "ScalingPolicyDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ScalingPolicyDescription
+# ScalingPolicyDescription v80
 
 Describes how the scaling should be performed
 

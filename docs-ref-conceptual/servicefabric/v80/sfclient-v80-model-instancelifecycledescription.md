@@ -1,6 +1,6 @@
 ---
-title: "InstanceLifecycleDescription"
-description: "InstanceLifecycleDescription"
+title: "InstanceLifecycleDescription v80"
+description: "InstanceLifecycleDescription v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# InstanceLifecycleDescription
+# InstanceLifecycleDescription v80
 
 Describes how the instance will behave
 

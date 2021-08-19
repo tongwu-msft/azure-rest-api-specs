@@ -1,6 +1,6 @@
 ---
-title: "ConfigParameterOverride"
-description: "ConfigParameterOverride"
+title: "ConfigParameterOverride v80"
+description: "ConfigParameterOverride v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ConfigParameterOverride
+# ConfigParameterOverride v80
 
 Information about a configuration parameter override.
 

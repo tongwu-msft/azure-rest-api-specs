@@ -1,6 +1,6 @@
 ---
-title: "ResourceRequests"
-description: "ResourceRequests"
+title: "ResourceRequests v80"
+description: "ResourceRequests v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ResourceRequests
+# ResourceRequests v80
 
 This type describes the requested resources for a given container. It describes the least amount of resources required for the container. A container can consume more than requested resources up to the specified limits before being restarted. Currently, the requested resources are treated as limits.
 

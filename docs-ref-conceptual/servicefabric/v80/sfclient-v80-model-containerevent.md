@@ -1,6 +1,6 @@
 ---
-title: "ContainerEvent"
-description: "ContainerEvent"
+title: "ContainerEvent v80"
+description: "ContainerEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ContainerEvent
+# ContainerEvent v80
 
 A container event.
 

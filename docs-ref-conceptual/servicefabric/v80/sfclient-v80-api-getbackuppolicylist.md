@@ -1,6 +1,6 @@
 ---
-title: "Get Backup Policy List"
-description: "Get Backup Policy List"
+title: "Get Backup Policy List v80"
+description: "Get Backup Policy List v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Backup Policy List
+# Get Backup Policy List v80
 Gets all the backup policies configured.
 
 Get a list of all the backup policies configured.

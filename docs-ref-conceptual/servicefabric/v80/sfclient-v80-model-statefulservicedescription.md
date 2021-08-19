@@ -1,6 +1,6 @@
 ---
-title: "StatefulServiceDescription"
-description: "StatefulServiceDescription"
+title: "StatefulServiceDescription v80"
+description: "StatefulServiceDescription v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatefulServiceDescription
+# StatefulServiceDescription v80
 
 Describes a stateful service.
 

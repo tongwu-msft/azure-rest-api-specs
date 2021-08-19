@@ -1,6 +1,6 @@
 ---
-title: "Get Sub Name Info List"
-description: "Get Sub Name Info List"
+title: "Get Sub Name Info List v80"
+description: "Get Sub Name Info List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Sub Name Info List
+# Get Sub Name Info List v80
 Enumerates all the Service Fabric names under a given name.
 
 Enumerates all the Service Fabric names under a given name. If the subnames do not fit in a page, one page of results is returned as well as a continuation token, which can be used to get the next page. Querying a name that doesn't exist will fail.

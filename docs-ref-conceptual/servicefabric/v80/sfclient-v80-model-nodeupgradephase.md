@@ -1,6 +1,6 @@
 ---
-title: "NodeUpgradePhase"
-description: "NodeUpgradePhase"
+title: "NodeUpgradePhase v80"
+description: "NodeUpgradePhase v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeUpgradePhase enum
+# NodeUpgradePhase enum v80
 
 type: string
 

@@ -1,6 +1,6 @@
 ---
-title: "ApplicationLoadMetricInformation"
-description: "ApplicationLoadMetricInformation"
+title: "ApplicationLoadMetricInformation v80"
+description: "ApplicationLoadMetricInformation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationLoadMetricInformation
+# ApplicationLoadMetricInformation v80
 
 Describes load information for a custom resource balancing metric. This can be used to limit the total consumption of this metric by the services of this application.
 

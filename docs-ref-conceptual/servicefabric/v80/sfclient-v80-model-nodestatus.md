@@ -1,6 +1,6 @@
 ---
-title: "NodeStatus"
-description: "NodeStatus"
+title: "NodeStatus v80"
+description: "NodeStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeStatus enum
+# NodeStatus enum v80
 
 type: string
 

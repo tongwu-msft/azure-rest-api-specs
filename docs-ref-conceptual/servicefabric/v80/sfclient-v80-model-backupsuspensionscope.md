@@ -1,6 +1,6 @@
 ---
-title: "BackupSuspensionScope"
-description: "BackupSuspensionScope"
+title: "BackupSuspensionScope v80"
+description: "BackupSuspensionScope v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# BackupSuspensionScope enum
+# BackupSuspensionScope enum v80
 
 type: string
 

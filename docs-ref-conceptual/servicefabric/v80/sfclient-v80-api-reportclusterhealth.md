@@ -1,6 +1,6 @@
 ---
-title: "Report Cluster Health"
-description: "Report Cluster Health"
+title: "Report Cluster Health v80"
+description: "Report Cluster Health v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Report Cluster Health
+# Report Cluster Health v80
 Sends a health report on the Service Fabric cluster.
 
 Sends a health report on a Service Fabric cluster. The report must contain the information about the source of the health report and property on which it is reported.

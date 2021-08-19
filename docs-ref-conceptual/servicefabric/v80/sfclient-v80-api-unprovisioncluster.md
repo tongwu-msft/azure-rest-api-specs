@@ -1,6 +1,6 @@
 ---
-title: "Unprovision Cluster"
-description: "Unprovision Cluster"
+title: "Unprovision Cluster v80"
+description: "Unprovision Cluster v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Unprovision Cluster
+# Unprovision Cluster v80
 Unprovision the code or configuration packages of a Service Fabric cluster.
 
 It is supported to unprovision code and configuration separately.

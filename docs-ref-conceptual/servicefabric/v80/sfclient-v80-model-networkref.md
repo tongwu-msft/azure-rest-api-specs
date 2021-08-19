@@ -1,6 +1,6 @@
 ---
-title: "NetworkRef"
-description: "NetworkRef"
+title: "NetworkRef v80"
+description: "NetworkRef v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NetworkRef
+# NetworkRef v80
 
 Describes a network reference in a service.
 

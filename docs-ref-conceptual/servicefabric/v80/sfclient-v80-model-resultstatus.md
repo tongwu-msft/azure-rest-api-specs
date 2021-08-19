@@ -1,6 +1,6 @@
 ---
-title: "ResultStatus"
-description: "ResultStatus"
+title: "ResultStatus v80"
+description: "ResultStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ResultStatus enum
+# ResultStatus enum v80
 
 type: string
 

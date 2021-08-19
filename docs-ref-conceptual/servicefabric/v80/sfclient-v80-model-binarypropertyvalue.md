@@ -1,6 +1,6 @@
 ---
-title: "BinaryPropertyValue"
-description: "BinaryPropertyValue"
+title: "BinaryPropertyValue v80"
+description: "BinaryPropertyValue v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# BinaryPropertyValue
+# BinaryPropertyValue v80
 
 Describes a Service Fabric property value of type Binary.
 

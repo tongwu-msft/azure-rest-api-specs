@@ -1,6 +1,6 @@
 ---
-title: "Remove Node Tags"
-description: "Remove Node Tags"
+title: "Remove Node Tags v80"
+description: "Remove Node Tags v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Remove Node Tags
+# Remove Node Tags v80
 Removes the list of tags from the specified node.
 
 This api allows removing set of tags from the specified node.

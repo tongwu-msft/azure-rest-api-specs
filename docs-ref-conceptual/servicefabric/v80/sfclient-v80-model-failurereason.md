@@ -1,6 +1,6 @@
 ---
-title: "FailureReason"
-description: "FailureReason"
+title: "FailureReason v80"
+description: "FailureReason v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# FailureReason enum
+# FailureReason enum v80
 
 type: string
 

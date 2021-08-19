@@ -1,6 +1,6 @@
 ---
-title: "RepairTargetDescriptionBase"
-description: "RepairTargetDescriptionBase"
+title: "RepairTargetDescriptionBase v80"
+description: "RepairTargetDescriptionBase v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RepairTargetDescriptionBase
+# RepairTargetDescriptionBase v80
 
 Describes the entities targeted by a repair action.
 

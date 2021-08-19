@@ -1,6 +1,6 @@
 ---
-title: "Start Quorum Loss"
-description: "Start Quorum Loss"
+title: "Start Quorum Loss v80"
+description: "Start Quorum Loss v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Start Quorum Loss
+# Start Quorum Loss v80
 Induces quorum loss for a given stateful service partition.
 
 This API is useful for a temporary quorum loss situation on your service.

@@ -1,6 +1,6 @@
 ---
-title: "Get Deployed Application Info"
-description: "Get Deployed Application Info"
+title: "Get Deployed Application Info v80"
+description: "Get Deployed Application Info v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Deployed Application Info
+# Get Deployed Application Info v80
 Gets the information about an application deployed on a Service Fabric node.
 
 This query returns system application information if the application ID provided is for system application. Results encompass deployed applications in active, activating, and downloading states. This query requires that the node name corresponds to a node on the cluster. The query fails if the provided node name does not point to any active Service Fabric nodes on the cluster.

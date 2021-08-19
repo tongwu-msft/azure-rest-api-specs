@@ -1,6 +1,6 @@
 ---
-title: "UpgradeKind"
-description: "UpgradeKind"
+title: "UpgradeKind v80"
+description: "UpgradeKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UpgradeKind enum
+# UpgradeKind enum v80
 
 type: string
 

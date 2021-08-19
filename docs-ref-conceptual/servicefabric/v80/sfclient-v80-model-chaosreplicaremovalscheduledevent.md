@@ -1,6 +1,6 @@
 ---
-title: "ChaosReplicaRemovalScheduledEvent"
-description: "ChaosReplicaRemovalScheduledEvent"
+title: "ChaosReplicaRemovalScheduledEvent v80"
+description: "ChaosReplicaRemovalScheduledEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ChaosReplicaRemovalScheduledEvent
+# ChaosReplicaRemovalScheduledEvent v80
 
 Chaos Remove Replica Fault Scheduled event.
 

@@ -1,6 +1,6 @@
 ---
-title: "SafetyCheckKind"
-description: "SafetyCheckKind"
+title: "SafetyCheckKind v80"
+description: "SafetyCheckKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SafetyCheckKind enum
+# SafetyCheckKind enum v80
 
 type: string
 

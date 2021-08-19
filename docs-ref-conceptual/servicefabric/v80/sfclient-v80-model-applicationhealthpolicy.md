@@ -1,6 +1,6 @@
 ---
-title: "ApplicationHealthPolicy"
-description: "ApplicationHealthPolicy"
+title: "ApplicationHealthPolicy v80"
+description: "ApplicationHealthPolicy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationHealthPolicy
+# ApplicationHealthPolicy v80
 
 Defines a health policy used to evaluate the health of an application or one of its children entities.
 

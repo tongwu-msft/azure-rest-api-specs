@@ -1,6 +1,6 @@
 ---
-title: "Get Cluster Load"
-description: "Get Cluster Load"
+title: "Get Cluster Load v80"
+description: "Get Cluster Load v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Cluster Load
+# Get Cluster Load v80
 Gets the load of a Service Fabric cluster.
 
 Retrieves the load information of a Service Fabric cluster for all the metrics that have load or capacity defined.

@@ -1,6 +1,6 @@
 ---
-title: "Get Cluster Event List"
-description: "Get Cluster Event List"
+title: "Get Cluster Event List v80"
+description: "Get Cluster Event List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Cluster Event List
+# Get Cluster Event List v80
 Gets all Cluster-related events.
 
 The response is list of ClusterEvent objects.

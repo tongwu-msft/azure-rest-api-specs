@@ -1,6 +1,6 @@
 ---
-title: "ReplicatorQueueStatus"
-description: "ReplicatorQueueStatus"
+title: "ReplicatorQueueStatus v80"
+description: "ReplicatorQueueStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReplicatorQueueStatus
+# ReplicatorQueueStatus v80
 
 Provides various statistics of the queue used in the service fabric replicator.
 Contains information about the service fabric replicator like the replication/copy queue utilization, last acknowledgement received timestamp, etc.

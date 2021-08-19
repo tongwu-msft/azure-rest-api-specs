@@ -1,6 +1,6 @@
 ---
-title: "Add Node Tags"
-description: "Add Node Tags"
+title: "Add Node Tags v80"
+description: "Add Node Tags v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Add Node Tags
+# Add Node Tags v80
 Adds the list of tags on the specified node.
 
 This api allows adding tags to the specified node.

@@ -1,6 +1,6 @@
 ---
-title: "Get Partition Backup List"
-description: "Get Partition Backup List"
+title: "Get Partition Backup List v80"
+description: "Get Partition Backup List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Partition Backup List
+# Get Partition Backup List v80
 Gets the list of backups available for the specified partition.
 
 Returns a list of backups available for the specified partition. The server enumerates all the backups available in the backup store configured in the backup policy. It also allows filtering of the result based on start and end datetime or just fetching the latest available backup for the partition.

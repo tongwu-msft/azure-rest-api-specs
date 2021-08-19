@@ -1,6 +1,6 @@
 ---
-title: "Get Fault Operation List"
-description: "Get Fault Operation List"
+title: "Get Fault Operation List v80"
+description: "Get Fault Operation List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Fault Operation List
+# Get Fault Operation List v80
 Gets a list of user-induced fault operations filtered by provided input.
 
 Gets the list of user-induced fault operations filtered by provided input.

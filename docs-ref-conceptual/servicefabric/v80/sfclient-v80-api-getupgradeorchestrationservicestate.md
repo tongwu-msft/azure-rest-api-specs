@@ -1,6 +1,6 @@
 ---
-title: "Get Upgrade Orchestration Service State"
-description: "Get Upgrade Orchestration Service State"
+title: "Get Upgrade Orchestration Service State v80"
+description: "Get Upgrade Orchestration Service State v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Upgrade Orchestration Service State
+# Get Upgrade Orchestration Service State v80
 Get the service state of Service Fabric Upgrade Orchestration Service.
 
 Get the service state of Service Fabric Upgrade Orchestration Service. This API is internally used for support purposes.

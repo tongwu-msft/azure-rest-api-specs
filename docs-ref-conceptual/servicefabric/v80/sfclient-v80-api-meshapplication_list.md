@@ -1,6 +1,6 @@
 ---
-title: "List"
-description: "List"
+title: "List v80"
+description: "List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# List
+# List v80
 Lists all the application resources.
 
 Gets the information about all application resources in a given resource group. The information include the description and other properties of the Application.

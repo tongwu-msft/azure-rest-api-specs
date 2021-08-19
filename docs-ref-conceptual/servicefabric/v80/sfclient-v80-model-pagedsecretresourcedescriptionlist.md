@@ -1,6 +1,6 @@
 ---
-title: "PagedSecretResourceDescriptionList"
-description: "PagedSecretResourceDescriptionList"
+title: "PagedSecretResourceDescriptionList v80"
+description: "PagedSecretResourceDescriptionList v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PagedSecretResourceDescriptionList
+# PagedSecretResourceDescriptionList v80
 
 The list of secret resources. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.
 

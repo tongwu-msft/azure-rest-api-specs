@@ -1,6 +1,6 @@
 ---
-title: "PartitionSchemeDescription"
-description: "PartitionSchemeDescription"
+title: "PartitionSchemeDescription v80"
+description: "PartitionSchemeDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionSchemeDescription
+# PartitionSchemeDescription v80
 
 Describes how the service is partitioned.
 ## Inheritance

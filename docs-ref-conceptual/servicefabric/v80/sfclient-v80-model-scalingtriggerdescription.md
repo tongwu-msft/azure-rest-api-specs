@@ -1,6 +1,6 @@
 ---
-title: "ScalingTriggerDescription"
-description: "ScalingTriggerDescription"
+title: "ScalingTriggerDescription v80"
+description: "ScalingTriggerDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ScalingTriggerDescription
+# ScalingTriggerDescription v80
 
 Describes the trigger for performing a scaling operation.
 ## Inheritance

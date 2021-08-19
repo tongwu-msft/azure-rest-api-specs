@@ -1,6 +1,6 @@
 ---
-title: "NameDescription"
-description: "NameDescription"
+title: "NameDescription v80"
+description: "NameDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NameDescription
+# NameDescription v80
 
 Describes a Service Fabric name.
 

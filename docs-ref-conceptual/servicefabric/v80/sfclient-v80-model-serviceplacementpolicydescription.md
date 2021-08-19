@@ -1,6 +1,6 @@
 ---
-title: "ServicePlacementPolicyDescription"
-description: "ServicePlacementPolicyDescription"
+title: "ServicePlacementPolicyDescription v80"
+description: "ServicePlacementPolicyDescription v80"
 ms.date: "01/28/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServicePlacementPolicyDescription
+# ServicePlacementPolicyDescription v80
 
 Describes the policy to be used for placement of a Service Fabric service.
 ## Inheritance

@@ -1,6 +1,6 @@
 ---
-title: "GetPropertyBatchOperation"
-description: "GetPropertyBatchOperation"
+title: "GetPropertyBatchOperation v80"
+description: "GetPropertyBatchOperation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# GetPropertyBatchOperation
+# GetPropertyBatchOperation v80
 
 Represents a PropertyBatchOperation that gets the specified property if it exists.
 Note that if one PropertyBatchOperation in a PropertyBatch fails,

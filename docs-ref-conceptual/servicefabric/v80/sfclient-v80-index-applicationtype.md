@@ -1,6 +1,6 @@
 ---
-title: "ApplicationType"
-description: "ApplicationType"
+title: "ApplicationType v80"
+description: "ApplicationType v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationType APIs
+# ApplicationType APIs v80
 
 | Name | Description |
 | --- | --- |

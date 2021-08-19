@@ -1,6 +1,6 @@
 ---
-title: "NodeRepairImpactDescription"
-description: "NodeRepairImpactDescription"
+title: "NodeRepairImpactDescription v80"
+description: "NodeRepairImpactDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeRepairImpactDescription
+# NodeRepairImpactDescription v80
 
 Describes the expected impact of a repair on a set of nodes.
 

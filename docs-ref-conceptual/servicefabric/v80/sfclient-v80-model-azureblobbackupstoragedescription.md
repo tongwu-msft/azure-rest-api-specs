@@ -1,6 +1,6 @@
 ---
-title: "AzureBlobBackupStorageDescription"
-description: "AzureBlobBackupStorageDescription"
+title: "AzureBlobBackupStorageDescription v80"
+description: "AzureBlobBackupStorageDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AzureBlobBackupStorageDescription
+# AzureBlobBackupStorageDescription v80
 
 Describes the parameters for Azure blob store used for storing and enumerating backups.
 

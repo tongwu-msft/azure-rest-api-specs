@@ -1,6 +1,6 @@
 ---
-title: "SecretKind"
-description: "SecretKind"
+title: "SecretKind v80"
+description: "SecretKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SecretKind enum
+# SecretKind enum v80
 
 type: string
 

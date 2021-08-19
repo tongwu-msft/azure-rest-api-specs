@@ -1,6 +1,6 @@
 ---
-title: "HealthInformation"
-description: "HealthInformation"
+title: "HealthInformation v80"
+description: "HealthInformation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# HealthInformation
+# HealthInformation v80
 
 Represents common health report information. It is included in all health reports sent to health store and in all health events returned by health queries.
 

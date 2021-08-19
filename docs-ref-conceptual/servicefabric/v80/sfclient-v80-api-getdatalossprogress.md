@@ -1,6 +1,6 @@
 ---
-title: "Get Data Loss Progress"
-description: "Get Data Loss Progress"
+title: "Get Data Loss Progress v80"
+description: "Get Data Loss Progress v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Data Loss Progress
+# Get Data Loss Progress v80
 Gets the progress of a partition data loss operation started using the StartDataLoss API.
 
 Gets the progress of a data loss operation started with StartDataLoss, using the OperationId.

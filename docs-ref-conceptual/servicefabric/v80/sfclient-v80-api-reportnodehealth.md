@@ -1,6 +1,6 @@
 ---
-title: "Report Node Health"
-description: "Report Node Health"
+title: "Report Node Health v80"
+description: "Report Node Health v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Report Node Health
+# Report Node Health v80
 Sends a health report on the Service Fabric node.
 
 Reports health state of the specified Service Fabric node. The report must contain the information about the source of the health report and property on which it is reported.

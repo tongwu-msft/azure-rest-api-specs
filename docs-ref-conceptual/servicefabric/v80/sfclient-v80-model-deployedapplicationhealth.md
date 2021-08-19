@@ -1,6 +1,6 @@
 ---
-title: "DeployedApplicationHealth"
-description: "DeployedApplicationHealth"
+title: "DeployedApplicationHealth v80"
+description: "DeployedApplicationHealth v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedApplicationHealth
+# DeployedApplicationHealth v80
 
 Information about the health of an application deployed on a Service Fabric node.
 

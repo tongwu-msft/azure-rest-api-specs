@@ -1,6 +1,6 @@
 ---
-title: "ServicePartitionKind"
-description: "ServicePartitionKind"
+title: "ServicePartitionKind v80"
+description: "ServicePartitionKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServicePartitionKind enum
+# ServicePartitionKind enum v80
 
 type: string
 

@@ -1,6 +1,6 @@
 ---
-title: "ApplicationProcessExitedEvent"
-description: "ApplicationProcessExitedEvent"
+title: "ApplicationProcessExitedEvent v80"
+description: "ApplicationProcessExitedEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationProcessExitedEvent
+# ApplicationProcessExitedEvent v80
 
 Process Exited event.
 

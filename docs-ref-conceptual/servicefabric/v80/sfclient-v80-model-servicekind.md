@@ -1,6 +1,6 @@
 ---
-title: "ServiceKind"
-description: "ServiceKind"
+title: "ServiceKind v80"
+description: "ServiceKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceKind enum
+# ServiceKind enum v80
 
 type: string
 

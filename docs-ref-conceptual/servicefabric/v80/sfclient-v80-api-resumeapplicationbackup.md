@@ -1,6 +1,6 @@
 ---
-title: "Resume Application Backup"
-description: "Resume Application Backup"
+title: "Resume Application Backup v80"
+description: "Resume Application Backup v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Resume Application Backup
+# Resume Application Backup v80
 Resumes periodic backup of a Service Fabric application which was previously suspended.
 
 The previously suspended Service Fabric application resumes taking periodic backup as per the backup policy currently configured for the same.

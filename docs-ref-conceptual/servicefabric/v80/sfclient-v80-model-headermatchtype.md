@@ -1,6 +1,6 @@
 ---
-title: "HeaderMatchType"
-description: "HeaderMatchType"
+title: "HeaderMatchType v80"
+description: "HeaderMatchType v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# HeaderMatchType enum
+# HeaderMatchType enum v80
 
 type: string
 

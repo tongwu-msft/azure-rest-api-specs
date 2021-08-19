@@ -1,6 +1,6 @@
 ---
-title: "Get Service Info"
-description: "Get Service Info"
+title: "Get Service Info v80"
+description: "Get Service Info v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Service Info
+# Get Service Info v80
 Gets the information about the specific service belonging to the Service Fabric application.
 
 Returns the information about the specified service belonging to the specified Service Fabric application.

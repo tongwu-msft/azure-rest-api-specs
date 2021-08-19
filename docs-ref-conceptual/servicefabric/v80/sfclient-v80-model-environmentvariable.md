@@ -1,6 +1,6 @@
 ---
-title: "EnvironmentVariable"
-description: "EnvironmentVariable"
+title: "EnvironmentVariable v80"
+description: "EnvironmentVariable v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EnvironmentVariable
+# EnvironmentVariable v80
 
 Describes an environment variable for the container.
 

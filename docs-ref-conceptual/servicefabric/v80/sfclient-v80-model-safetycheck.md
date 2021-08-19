@@ -1,6 +1,6 @@
 ---
-title: "SafetyCheck"
-description: "SafetyCheck"
+title: "SafetyCheck v80"
+description: "SafetyCheck v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SafetyCheck
+# SafetyCheck v80
 
 Represents a safety check performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state.
 ## Inheritance

@@ -1,6 +1,6 @@
 ---
-title: "FolderInfo"
-description: "FolderInfo"
+title: "FolderInfo v80"
+description: "FolderInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# FolderInfo
+# FolderInfo v80
 
 Information about a image store folder. It includes how many files this folder contains and its image store relative path.
 

@@ -1,6 +1,6 @@
 ---
-title: "CurrentUpgradeDomainProgressInfo"
-description: "CurrentUpgradeDomainProgressInfo"
+title: "CurrentUpgradeDomainProgressInfo v80"
+description: "CurrentUpgradeDomainProgressInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# CurrentUpgradeDomainProgressInfo
+# CurrentUpgradeDomainProgressInfo v80
 
 Information about the current in-progress upgrade domain.
 

@@ -1,6 +1,6 @@
 ---
-title: "HealthStateCount"
-description: "HealthStateCount"
+title: "HealthStateCount v80"
+description: "HealthStateCount v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# HealthStateCount
+# HealthStateCount v80
 
 Represents information about how many health entities are in Ok, Warning and Error health state.
 

@@ -1,6 +1,6 @@
 ---
-title: "PartitionReconfiguredEvent"
-description: "PartitionReconfiguredEvent"
+title: "PartitionReconfiguredEvent v80"
+description: "PartitionReconfiguredEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionReconfiguredEvent
+# PartitionReconfiguredEvent v80
 
 Partition Reconfiguration event.
 

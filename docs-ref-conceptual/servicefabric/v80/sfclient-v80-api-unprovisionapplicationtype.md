@@ -1,6 +1,6 @@
 ---
-title: "Unprovision Application Type"
-description: "Unprovision Application Type"
+title: "Unprovision Application Type v80"
+description: "Unprovision Application Type v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Unprovision Application Type
+# Unprovision Application Type v80
 Removes or unregisters a Service Fabric application type from the cluster.
 
 This operation can only be performed if all application instances of the application type have been deleted. Once the application type is unregistered, no new application instances can be created for this particular application type.

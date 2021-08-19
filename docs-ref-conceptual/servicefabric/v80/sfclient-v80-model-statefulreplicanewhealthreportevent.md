@@ -1,6 +1,6 @@
 ---
-title: "StatefulReplicaNewHealthReportEvent"
-description: "StatefulReplicaNewHealthReportEvent"
+title: "StatefulReplicaNewHealthReportEvent v80"
+description: "StatefulReplicaNewHealthReportEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatefulReplicaNewHealthReportEvent
+# StatefulReplicaNewHealthReportEvent v80
 
 Stateful Replica Health Report Created event.
 

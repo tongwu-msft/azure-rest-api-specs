@@ -1,6 +1,6 @@
 ---
-title: "ResumeApplicationUpgradeDescription"
-description: "ResumeApplicationUpgradeDescription"
+title: "ResumeApplicationUpgradeDescription v80"
+description: "ResumeApplicationUpgradeDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ResumeApplicationUpgradeDescription
+# ResumeApplicationUpgradeDescription v80
 
 Describes the parameters for resuming an unmonitored manual Service Fabric application upgrade
 

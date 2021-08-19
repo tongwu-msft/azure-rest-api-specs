@@ -1,6 +1,6 @@
 ---
-title: "DoublePropertyValue"
-description: "DoublePropertyValue"
+title: "DoublePropertyValue v80"
+description: "DoublePropertyValue v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DoublePropertyValue
+# DoublePropertyValue v80
 
 Describes a Service Fabric property value of type Double.
 

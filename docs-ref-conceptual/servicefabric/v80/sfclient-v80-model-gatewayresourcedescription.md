@@ -1,6 +1,6 @@
 ---
-title: "GatewayResourceDescription"
-description: "GatewayResourceDescription"
+title: "GatewayResourceDescription v80"
+description: "GatewayResourceDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# GatewayResourceDescription
+# GatewayResourceDescription v80
 
 This type describes a gateway resource.
 

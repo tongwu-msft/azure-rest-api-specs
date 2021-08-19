@@ -1,6 +1,6 @@
 ---
-title: "ChaosScheduleJob"
-description: "ChaosScheduleJob"
+title: "ChaosScheduleJob v80"
+description: "ChaosScheduleJob v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ChaosScheduleJob
+# ChaosScheduleJob v80
 
 Defines a repetition rule and parameters of Chaos to be used with the Chaos Schedule.
 

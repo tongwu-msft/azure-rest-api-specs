@@ -1,6 +1,6 @@
 ---
-title: "PropertyBatchInfo"
-description: "PropertyBatchInfo"
+title: "PropertyBatchInfo v80"
+description: "PropertyBatchInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PropertyBatchInfo
+# PropertyBatchInfo v80
 
 Information about the results of a property batch.
 ## Inheritance

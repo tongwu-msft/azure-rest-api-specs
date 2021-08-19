@@ -1,6 +1,6 @@
 ---
-title: "ReliableCollectionsRef"
-description: "ReliableCollectionsRef"
+title: "ReliableCollectionsRef v80"
+description: "ReliableCollectionsRef v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReliableCollectionsRef
+# ReliableCollectionsRef v80
 
 Specifying this parameter adds support for reliable collections
 

@@ -1,6 +1,6 @@
 ---
-title: "NodeRemovedFromClusterEvent"
-description: "NodeRemovedFromClusterEvent"
+title: "NodeRemovedFromClusterEvent v80"
+description: "NodeRemovedFromClusterEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeRemovedFromClusterEvent
+# NodeRemovedFromClusterEvent v80
 
 Node Removed event.
 

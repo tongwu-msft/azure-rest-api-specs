@@ -1,6 +1,6 @@
 ---
-title: "ServiceNewHealthReportEvent"
-description: "ServiceNewHealthReportEvent"
+title: "ServiceNewHealthReportEvent v80"
+description: "ServiceNewHealthReportEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceNewHealthReportEvent
+# ServiceNewHealthReportEvent v80
 
 Service Health Report Created event.
 

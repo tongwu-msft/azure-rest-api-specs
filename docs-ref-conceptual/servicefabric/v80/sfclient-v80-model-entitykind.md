@@ -1,6 +1,6 @@
 ---
-title: "EntityKind"
-description: "EntityKind"
+title: "EntityKind v80"
+description: "EntityKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EntityKind enum
+# EntityKind enum v80
 
 type: string
 

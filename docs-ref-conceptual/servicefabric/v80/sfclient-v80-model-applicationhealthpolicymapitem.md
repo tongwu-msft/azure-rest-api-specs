@@ -1,6 +1,6 @@
 ---
-title: "ApplicationHealthPolicyMapItem"
-description: "ApplicationHealthPolicyMapItem"
+title: "ApplicationHealthPolicyMapItem v80"
+description: "ApplicationHealthPolicyMapItem v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationHealthPolicyMapItem
+# ApplicationHealthPolicyMapItem v80
 
 Defines an item in ApplicationHealthPolicyMap.
 

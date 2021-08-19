@@ -1,6 +1,6 @@
 ---
-title: "NodeTagsDescription"
-description: "NodeTagsDescription"
+title: "NodeTagsDescription v80"
+description: "NodeTagsDescription v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeTagsDescription
+# NodeTagsDescription v80
 
 Describes the tags required for placement or running of the service.
 

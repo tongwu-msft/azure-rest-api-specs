@@ -1,6 +1,6 @@
 ---
-title: "GuidPropertyValue"
-description: "GuidPropertyValue"
+title: "GuidPropertyValue v80"
+description: "GuidPropertyValue v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# GuidPropertyValue
+# GuidPropertyValue v80
 
 Describes a Service Fabric property value of type Guid.
 

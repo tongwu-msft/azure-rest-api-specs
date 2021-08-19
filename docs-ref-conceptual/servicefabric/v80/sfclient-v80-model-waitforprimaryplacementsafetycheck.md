@@ -1,6 +1,6 @@
 ---
-title: "WaitForPrimaryPlacementSafetyCheck"
-description: "WaitForPrimaryPlacementSafetyCheck"
+title: "WaitForPrimaryPlacementSafetyCheck v80"
+description: "WaitForPrimaryPlacementSafetyCheck v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# WaitForPrimaryPlacementSafetyCheck
+# WaitForPrimaryPlacementSafetyCheck v80
 
 Safety check that waits for the primary replica that was moved out of the node due to upgrade to be placed back again on that node.
 

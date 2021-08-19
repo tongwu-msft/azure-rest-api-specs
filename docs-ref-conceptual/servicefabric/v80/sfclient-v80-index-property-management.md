@@ -1,6 +1,6 @@
 ---
-title: "Property Management"
-description: "Property Management"
+title: "Property Management v80"
+description: "Property Management v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Property Management APIs
+# Property Management APIs v80
 
 | Name | Description |
 | --- | --- |

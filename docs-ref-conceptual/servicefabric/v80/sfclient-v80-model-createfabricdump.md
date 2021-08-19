@@ -1,6 +1,6 @@
 ---
-title: "CreateFabricDump"
-description: "CreateFabricDump"
+title: "CreateFabricDump v80"
+description: "CreateFabricDump v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# CreateFabricDump enum
+# CreateFabricDump enum v80
 
 type: string
 

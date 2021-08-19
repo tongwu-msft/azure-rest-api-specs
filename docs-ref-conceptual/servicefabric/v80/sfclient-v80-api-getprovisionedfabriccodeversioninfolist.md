@@ -1,6 +1,6 @@
 ---
-title: "Get Provisioned Fabric Code Version Info List"
-description: "Get Provisioned Fabric Code Version Info List"
+title: "Get Provisioned Fabric Code Version Info List v80"
+description: "Get Provisioned Fabric Code Version Info List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Provisioned Fabric Code Version Info List
+# Get Provisioned Fabric Code Version Info List v80
 Gets a list of fabric code versions that are provisioned in a Service Fabric cluster.
 
 Gets a list of information about fabric code versions that are provisioned in the cluster. The parameter CodeVersion can be used to optionally filter the output to only that particular version.

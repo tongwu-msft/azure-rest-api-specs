@@ -1,6 +1,6 @@
 ---
-title: "Get Loaded Partition Info List"
-description: "Get Loaded Partition Info List"
+title: "Get Loaded Partition Info List v80"
+description: "Get Loaded Partition Info List v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Loaded Partition Info List
+# Get Loaded Partition Info List v80
 Gets ordered list of partitions.
 
 Retrieves partitions which are most/least loaded according to specified metric.

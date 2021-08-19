@@ -1,6 +1,6 @@
 ---
-title: "Add Value"
-description: "Add Value"
+title: "Add Value v80"
+description: "Add Value v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Add Value
+# Add Value v80
 Adds the specified value as a new version of the specified secret resource.
 
 Creates a new value of the specified secret resource. The name of the value is typically the version identifier. Once created the value cannot be changed.

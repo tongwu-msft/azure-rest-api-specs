@@ -1,6 +1,6 @@
 ---
-title: "Get Cluster Health Using Policy"
-description: "Get Cluster Health Using Policy"
+title: "Get Cluster Health Using Policy v80"
+description: "Get Cluster Health Using Policy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Cluster Health Using Policy
+# Get Cluster Health Using Policy v80
 Gets the health of a Service Fabric cluster using the specified policy.
 
 Use EventsHealthStateFilter to filter the collection of health events reported on the cluster based on the health state.

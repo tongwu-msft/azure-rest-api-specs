@@ -1,6 +1,6 @@
 ---
-title: "Get Image Store Folder Size"
-description: "Get Image Store Folder Size"
+title: "Get Image Store Folder Size v80"
+description: "Get Image Store Folder Size v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Image Store Folder Size
+# Get Image Store Folder Size v80
 Get the size of a folder in image store
 
 Gets the total size of file under a image store folder, specified by contentPath. The contentPath is relative to the root of the image store.

@@ -1,6 +1,6 @@
 ---
-title: "Show"
-description: "Show"
+title: "Show v80"
+description: "Show v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Show
+# Show v80
 Lists the specified value of the secret resource.
 
 Lists the decrypted value of the specified named value of the secret resource. This is a privileged operation.

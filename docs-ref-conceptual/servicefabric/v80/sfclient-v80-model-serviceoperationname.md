@@ -1,6 +1,6 @@
 ---
-title: "ServiceOperationName"
-description: "ServiceOperationName"
+title: "ServiceOperationName v80"
+description: "ServiceOperationName v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceOperationName enum
+# ServiceOperationName enum v80
 
 type: string
 

@@ -1,6 +1,6 @@
 ---
-title: "RestoreProgressInfo"
-description: "RestoreProgressInfo"
+title: "RestoreProgressInfo v80"
+description: "RestoreProgressInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RestoreProgressInfo
+# RestoreProgressInfo v80
 
 Describes the progress of a restore operation on a partition.
 

@@ -1,6 +1,6 @@
 ---
-title: "Get Chaos Schedule"
-description: "Get Chaos Schedule"
+title: "Get Chaos Schedule v80"
+description: "Get Chaos Schedule v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Chaos Schedule
+# Get Chaos Schedule v80
 Get the Chaos Schedule defining when and how to run Chaos.
 
 Gets the version of the Chaos Schedule in use and the Chaos Schedule that defines when and how to run Chaos.

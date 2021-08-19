@@ -1,6 +1,6 @@
 ---
-title: "Get Node Health"
-description: "Get Node Health"
+title: "Get Node Health v80"
+description: "Get Node Health v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Node Health
+# Get Node Health v80
 Gets the health of a Service Fabric node.
 
 Gets the health of a Service Fabric node. Use EventsHealthStateFilter to filter the collection of health events reported on the node based on the health state. If the node that you specify by name does not exist in the health store, this returns an error.

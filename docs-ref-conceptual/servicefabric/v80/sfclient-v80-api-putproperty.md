@@ -1,6 +1,6 @@
 ---
-title: "Put Property"
-description: "Put Property"
+title: "Put Property v80"
+description: "Put Property v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Put Property
+# Put Property v80
 Creates or updates a Service Fabric property.
 
 Creates or updates the specified Service Fabric property under a given name.

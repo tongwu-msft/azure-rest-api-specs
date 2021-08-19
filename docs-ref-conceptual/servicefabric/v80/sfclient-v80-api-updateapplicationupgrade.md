@@ -1,6 +1,6 @@
 ---
-title: "Update Application Upgrade"
-description: "Update Application Upgrade"
+title: "Update Application Upgrade v80"
+description: "Update Application Upgrade v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Update Application Upgrade
+# Update Application Upgrade v80
 Updates an ongoing application upgrade in the Service Fabric cluster.
 
 Updates the parameters of an ongoing application upgrade from the ones specified at the time of starting the application upgrade. This may be required to mitigate stuck application upgrades due to incorrect parameters or issues in the application to make progress.

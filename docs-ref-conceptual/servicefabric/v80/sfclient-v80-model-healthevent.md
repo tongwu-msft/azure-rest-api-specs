@@ -1,6 +1,6 @@
 ---
-title: "HealthEvent"
-description: "HealthEvent"
+title: "HealthEvent v80"
+description: "HealthEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# HealthEvent
+# HealthEvent v80
 
 Represents health information reported on a health entity, such as cluster, application or node, with additional metadata added by the Health Manager.
 

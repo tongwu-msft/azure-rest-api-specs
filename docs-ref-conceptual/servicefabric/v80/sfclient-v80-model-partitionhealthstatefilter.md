@@ -1,6 +1,6 @@
 ---
-title: "PartitionHealthStateFilter"
-description: "PartitionHealthStateFilter"
+title: "PartitionHealthStateFilter v80"
+description: "PartitionHealthStateFilter v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionHealthStateFilter
+# PartitionHealthStateFilter v80
 
 Defines matching criteria to determine whether a partition should be included as a child of a service in the cluster health chunk.
 The partitions are only returned if the parent entities match a filter specified in the cluster health chunk query description. The parent service and application must be included in the cluster health chunk.

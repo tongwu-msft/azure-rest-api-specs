@@ -1,6 +1,6 @@
 ---
-title: "ResourceRequirements"
-description: "ResourceRequirements"
+title: "ResourceRequirements v80"
+description: "ResourceRequirements v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ResourceRequirements
+# ResourceRequirements v80
 
 This type describes the resource requirements for a container or a service.
 

@@ -1,6 +1,6 @@
 ---
-title: "ApplicationUpgradeProgressInfo"
-description: "ApplicationUpgradeProgressInfo"
+title: "ApplicationUpgradeProgressInfo v80"
+description: "ApplicationUpgradeProgressInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationUpgradeProgressInfo
+# ApplicationUpgradeProgressInfo v80
 
 Describes the parameters for an application upgrade.
 

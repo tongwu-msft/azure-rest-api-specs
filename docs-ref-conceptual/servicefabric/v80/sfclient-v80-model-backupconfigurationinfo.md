@@ -1,6 +1,6 @@
 ---
-title: "BackupConfigurationInfo"
-description: "BackupConfigurationInfo"
+title: "BackupConfigurationInfo v80"
+description: "BackupConfigurationInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# BackupConfigurationInfo
+# BackupConfigurationInfo v80
 
 Describes the backup configuration information.
 ## Inheritance

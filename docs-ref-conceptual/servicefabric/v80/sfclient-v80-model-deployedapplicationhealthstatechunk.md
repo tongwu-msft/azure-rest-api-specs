@@ -1,6 +1,6 @@
 ---
-title: "DeployedApplicationHealthStateChunk"
-description: "DeployedApplicationHealthStateChunk"
+title: "DeployedApplicationHealthStateChunk v80"
+description: "DeployedApplicationHealthStateChunk v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedApplicationHealthStateChunk
+# DeployedApplicationHealthStateChunk v80
 
 Represents the health state chunk of a deployed application, which contains the node where the application is deployed, the aggregated health state and any deployed service packages that respect the chunk query description filters.
 

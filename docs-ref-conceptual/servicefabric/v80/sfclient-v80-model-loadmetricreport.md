@@ -1,6 +1,6 @@
 ---
-title: "LoadMetricReport"
-description: "LoadMetricReport"
+title: "LoadMetricReport v80"
+description: "LoadMetricReport v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# LoadMetricReport
+# LoadMetricReport v80
 
 Represents the load metric report which contains the time metric was reported, its name and value.
 

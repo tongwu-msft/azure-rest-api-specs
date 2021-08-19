@@ -1,6 +1,6 @@
 ---
-title: "TestErrorChaosEvent"
-description: "TestErrorChaosEvent"
+title: "TestErrorChaosEvent v80"
+description: "TestErrorChaosEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# TestErrorChaosEvent
+# TestErrorChaosEvent v80
 
 Describes a Chaos event that gets generated when an unexpected event occurs in the Chaos engine.
 For example, due to the cluster snapshot being inconsistent, while faulting an entity, Chaos found that the entity was already faulted -- which would be an unexpected event.

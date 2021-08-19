@@ -1,6 +1,6 @@
 ---
-title: "Get Deployed Code Package Info List"
-description: "Get Deployed Code Package Info List"
+title: "Get Deployed Code Package Info List v80"
+description: "Get Deployed Code Package Info List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Deployed Code Package Info List
+# Get Deployed Code Package Info List v80
 Gets the list of code packages deployed on a Service Fabric node.
 
 Gets the list of code packages deployed on a Service Fabric node for the given application.

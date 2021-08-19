@@ -1,6 +1,6 @@
 ---
-title: "DiskInfo"
-description: "DiskInfo"
+title: "DiskInfo v80"
+description: "DiskInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DiskInfo
+# DiskInfo v80
 
 Information about the disk
 

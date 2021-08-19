@@ -1,6 +1,6 @@
 ---
-title: "Report Application Health"
-description: "Report Application Health"
+title: "Report Application Health v80"
+description: "Report Application Health v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Report Application Health
+# Report Application Health v80
 Sends a health report on the Service Fabric application.
 
 Reports health state of the specified Service Fabric application. The report must contain the information about the source of the health report and property on which it is reported.

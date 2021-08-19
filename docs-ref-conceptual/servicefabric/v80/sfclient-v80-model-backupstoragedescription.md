@@ -1,6 +1,6 @@
 ---
-title: "BackupStorageDescription"
-description: "BackupStorageDescription"
+title: "BackupStorageDescription v80"
+description: "BackupStorageDescription v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# BackupStorageDescription
+# BackupStorageDescription v80
 
 Describes the parameters for the backup storage.
 ## Inheritance

@@ -1,6 +1,6 @@
 ---
-title: "NodeOpenFailedEvent"
-description: "NodeOpenFailedEvent"
+title: "NodeOpenFailedEvent v80"
+description: "NodeOpenFailedEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeOpenFailedEvent
+# NodeOpenFailedEvent v80
 
 Node Open Failed event.
 

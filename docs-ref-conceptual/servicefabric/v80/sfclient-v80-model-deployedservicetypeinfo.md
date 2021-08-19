@@ -1,6 +1,6 @@
 ---
-title: "DeployedServiceTypeInfo"
-description: "DeployedServiceTypeInfo"
+title: "DeployedServiceTypeInfo v80"
+description: "DeployedServiceTypeInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedServiceTypeInfo
+# DeployedServiceTypeInfo v80
 
 Information about service type deployed on a node, information such as the status of the service type registration on a node.
 

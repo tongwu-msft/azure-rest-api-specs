@@ -1,6 +1,6 @@
 ---
-title: "StatefulServicePartitionInfo"
-description: "StatefulServicePartitionInfo"
+title: "StatefulServicePartitionInfo v80"
+description: "StatefulServicePartitionInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatefulServicePartitionInfo
+# StatefulServicePartitionInfo v80
 
 Information about a partition of a stateful Service Fabric service..
 

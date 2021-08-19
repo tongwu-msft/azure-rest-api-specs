@@ -1,6 +1,6 @@
 ---
-title: "Get Application Manifest"
-description: "Get Application Manifest"
+title: "Get Application Manifest v80"
+description: "Get Application Manifest v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Application Manifest
+# Get Application Manifest v80
 Gets the manifest describing an application type.
 
 The response contains the application manifest XML as a string.

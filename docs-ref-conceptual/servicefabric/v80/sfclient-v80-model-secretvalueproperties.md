@@ -1,6 +1,6 @@
 ---
-title: "SecretValueProperties"
-description: "SecretValueProperties"
+title: "SecretValueProperties v80"
+description: "SecretValueProperties v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SecretValueProperties
+# SecretValueProperties v80
 
 This type describes properties of secret value resource.
 

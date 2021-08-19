@@ -1,6 +1,6 @@
 ---
-title: "Enable Partition Backup"
-description: "Enable Partition Backup"
+title: "Enable Partition Backup v80"
+description: "Enable Partition Backup v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Enable Partition Backup
+# Enable Partition Backup v80
 Enables periodic backup of the stateful persisted partition.
 
 Enables periodic backup of stateful persisted partition. Each partition is backed up as per the specified backup policy description. In case the application or service, which is partition is part of, is already enabled for backup then this operation would override the policy being used to take the periodic backup of this partition.

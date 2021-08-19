@@ -1,6 +1,6 @@
 ---
-title: "Resume Partition Backup"
-description: "Resume Partition Backup"
+title: "Resume Partition Backup v80"
+description: "Resume Partition Backup v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Resume Partition Backup
+# Resume Partition Backup v80
 Resumes periodic backup of partition which was previously suspended.
 
 The previously suspended partition resumes taking periodic backup as per the backup policy currently configured for the same.

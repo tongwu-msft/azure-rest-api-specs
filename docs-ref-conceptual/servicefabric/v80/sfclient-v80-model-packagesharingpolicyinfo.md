@@ -1,6 +1,6 @@
 ---
-title: "PackageSharingPolicyInfo"
-description: "PackageSharingPolicyInfo"
+title: "PackageSharingPolicyInfo v80"
+description: "PackageSharingPolicyInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PackageSharingPolicyInfo
+# PackageSharingPolicyInfo v80
 
 Represents a policy for the package sharing.
 

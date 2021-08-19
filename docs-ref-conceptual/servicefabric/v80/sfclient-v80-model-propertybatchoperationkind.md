@@ -1,6 +1,6 @@
 ---
-title: "PropertyBatchOperationKind"
-description: "PropertyBatchOperationKind"
+title: "PropertyBatchOperationKind v80"
+description: "PropertyBatchOperationKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PropertyBatchOperationKind enum
+# PropertyBatchOperationKind enum v80
 
 type: string
 

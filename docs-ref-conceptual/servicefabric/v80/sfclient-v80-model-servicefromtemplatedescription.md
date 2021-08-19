@@ -1,6 +1,6 @@
 ---
-title: "ServiceFromTemplateDescription"
-description: "ServiceFromTemplateDescription"
+title: "ServiceFromTemplateDescription v80"
+description: "ServiceFromTemplateDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceFromTemplateDescription
+# ServiceFromTemplateDescription v80
 
 Defines description for creating a Service Fabric service from a template defined in the application manifest.
 

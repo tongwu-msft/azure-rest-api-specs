@@ -1,6 +1,6 @@
 ---
-title: "Partition"
-description: "Partition"
+title: "Partition v80"
+description: "Partition v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Partition APIs
+# Partition APIs v80
 
 | Name | Description |
 | --- | --- |

@@ -1,6 +1,6 @@
 ---
-title: "NodeOpenSucceededEvent"
-description: "NodeOpenSucceededEvent"
+title: "NodeOpenSucceededEvent v80"
+description: "NodeOpenSucceededEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeOpenSucceededEvent
+# NodeOpenSucceededEvent v80
 
 Node Opened Succeeded event.
 

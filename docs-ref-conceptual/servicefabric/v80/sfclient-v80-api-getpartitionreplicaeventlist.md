@@ -1,6 +1,6 @@
 ---
-title: "Get Partition Replica Event List"
-description: "Get Partition Replica Event List"
+title: "Get Partition Replica Event List v80"
+description: "Get Partition Replica Event List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Partition Replica Event List
+# Get Partition Replica Event List v80
 Gets a Partition Replica-related events.
 
 The response is list of ReplicaEvent objects.

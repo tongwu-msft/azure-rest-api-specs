@@ -1,6 +1,6 @@
 ---
-title: "Get Service Description"
-description: "Get Service Description"
+title: "Get Service Description v80"
+description: "Get Service Description v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Service Description
+# Get Service Description v80
 Gets the description of an existing Service Fabric service.
 
 Gets the description of an existing Service Fabric service. A service must be created before its description can be obtained.

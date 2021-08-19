@@ -1,6 +1,6 @@
 ---
-title: "LoadMetricInformation"
-description: "LoadMetricInformation"
+title: "LoadMetricInformation v80"
+description: "LoadMetricInformation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# LoadMetricInformation
+# LoadMetricInformation v80
 
 Represents data structure that contains load information for a certain metric in a cluster.
 

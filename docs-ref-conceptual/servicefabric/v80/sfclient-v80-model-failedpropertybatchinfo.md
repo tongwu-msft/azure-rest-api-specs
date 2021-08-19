@@ -1,6 +1,6 @@
 ---
-title: "FailedPropertyBatchInfo"
-description: "FailedPropertyBatchInfo"
+title: "FailedPropertyBatchInfo v80"
+description: "FailedPropertyBatchInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# FailedPropertyBatchInfo
+# FailedPropertyBatchInfo v80
 
 Derived from PropertyBatchInfo. Represents the property batch failing. Contains information about the specific batch failure.
 

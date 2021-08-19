@@ -1,6 +1,6 @@
 ---
-title: "ApplicationHealthStateFilter"
-description: "ApplicationHealthStateFilter"
+title: "ApplicationHealthStateFilter v80"
+description: "ApplicationHealthStateFilter v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationHealthStateFilter
+# ApplicationHealthStateFilter v80
 
 Defines matching criteria to determine whether a application should be included in the cluster health chunk.
 One filter can match zero, one or multiple applications, depending on its properties.

@@ -1,6 +1,6 @@
 ---
-title: "Update Repair Task Health Policy"
-description: "Update Repair Task Health Policy"
+title: "Update Repair Task Health Policy v80"
+description: "Update Repair Task Health Policy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Update Repair Task Health Policy
+# Update Repair Task Health Policy v80
 Updates the health policy of the given repair task.
 
 This API supports the Service Fabric platform; it is not meant to be used directly from your code.

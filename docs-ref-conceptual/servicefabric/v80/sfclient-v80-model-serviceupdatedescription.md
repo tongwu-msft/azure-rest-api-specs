@@ -1,6 +1,6 @@
 ---
-title: "ServiceUpdateDescription"
-description: "ServiceUpdateDescription"
+title: "ServiceUpdateDescription v80"
+description: "ServiceUpdateDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceUpdateDescription
+# ServiceUpdateDescription v80
 
 A ServiceUpdateDescription contains all of the information necessary to update a service.
 ## Inheritance

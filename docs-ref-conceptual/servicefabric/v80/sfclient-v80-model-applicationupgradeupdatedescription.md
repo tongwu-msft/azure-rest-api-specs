@@ -1,6 +1,6 @@
 ---
-title: "ApplicationUpgradeUpdateDescription"
-description: "ApplicationUpgradeUpdateDescription"
+title: "ApplicationUpgradeUpdateDescription v80"
+description: "ApplicationUpgradeUpdateDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationUpgradeUpdateDescription
+# ApplicationUpgradeUpdateDescription v80
 
 Describes the parameters for updating an ongoing application upgrade.
 

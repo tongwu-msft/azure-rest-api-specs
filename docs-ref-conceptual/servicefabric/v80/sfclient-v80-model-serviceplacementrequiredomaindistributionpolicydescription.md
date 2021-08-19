@@ -1,6 +1,6 @@
 ---
-title: "ServicePlacementRequireDomainDistributionPolicyDescription"
-description: "ServicePlacementRequireDomainDistributionPolicyDescription"
+title: "ServicePlacementRequireDomainDistributionPolicyDescription v80"
+description: "ServicePlacementRequireDomainDistributionPolicyDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServicePlacementRequireDomainDistributionPolicyDescription
+# ServicePlacementRequireDomainDistributionPolicyDescription v80
 
 Describes the policy to be used for placement of a Service Fabric service where two replicas from the same partition should never be placed in the same fault or upgrade domain.
 

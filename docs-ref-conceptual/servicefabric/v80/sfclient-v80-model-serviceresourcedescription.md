@@ -1,6 +1,6 @@
 ---
-title: "ServiceResourceDescription"
-description: "ServiceResourceDescription"
+title: "ServiceResourceDescription v80"
+description: "ServiceResourceDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceResourceDescription
+# ServiceResourceDescription v80
 
 This type describes a service resource.
 

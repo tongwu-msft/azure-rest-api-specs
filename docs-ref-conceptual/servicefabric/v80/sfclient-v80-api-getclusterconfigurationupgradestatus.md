@@ -1,6 +1,6 @@
 ---
-title: "Get Cluster Configuration Upgrade Status"
-description: "Get Cluster Configuration Upgrade Status"
+title: "Get Cluster Configuration Upgrade Status v80"
+description: "Get Cluster Configuration Upgrade Status v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Cluster Configuration Upgrade Status
+# Get Cluster Configuration Upgrade Status v80
 Get the cluster configuration upgrade status of a Service Fabric standalone cluster.
 
 Get the cluster configuration upgrade status details of a Service Fabric standalone cluster.

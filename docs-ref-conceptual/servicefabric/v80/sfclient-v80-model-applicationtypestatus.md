@@ -1,6 +1,6 @@
 ---
-title: "ApplicationTypeStatus"
-description: "ApplicationTypeStatus"
+title: "ApplicationTypeStatus v80"
+description: "ApplicationTypeStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationTypeStatus enum
+# ApplicationTypeStatus enum v80
 
 type: string
 

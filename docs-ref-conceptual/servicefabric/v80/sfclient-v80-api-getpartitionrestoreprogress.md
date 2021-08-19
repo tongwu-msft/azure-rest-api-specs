@@ -1,6 +1,6 @@
 ---
-title: "Get Partition Restore Progress"
-description: "Get Partition Restore Progress"
+title: "Get Partition Restore Progress v80"
+description: "Get Partition Restore Progress v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Partition Restore Progress
+# Get Partition Restore Progress v80
 Gets details for the latest restore operation triggered for this partition.
 
 Returns information about the state of the latest restore operation along with details or failure reason in case of completion.

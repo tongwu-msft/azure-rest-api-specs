@@ -1,6 +1,6 @@
 ---
-title: "ReplicaInfo"
-description: "ReplicaInfo"
+title: "ReplicaInfo v80"
+description: "ReplicaInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReplicaInfo
+# ReplicaInfo v80
 
 Information about the identity, status, health, node name, uptime, and other details about the replica.
 ## Inheritance

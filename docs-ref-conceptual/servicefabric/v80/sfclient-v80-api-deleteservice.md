@@ -1,6 +1,6 @@
 ---
-title: "Delete Service"
-description: "Delete Service"
+title: "Delete Service v80"
+description: "Delete Service v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete Service
+# Delete Service v80
 Deletes an existing Service Fabric service.
 
 A service must be created before it can be deleted. By default, Service Fabric will try to close service replicas in a graceful manner and then delete the service. However, if the service is having issues closing the replica gracefully, the delete operation may take a long time or get stuck. Use the optional ForceRemove flag to skip the graceful close sequence and forcefully delete the service.

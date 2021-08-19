@@ -1,6 +1,6 @@
 ---
-title: "DiagnosticsDescription"
-description: "DiagnosticsDescription"
+title: "DiagnosticsDescription v80"
+description: "DiagnosticsDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DiagnosticsDescription
+# DiagnosticsDescription v80
 
 Describes the diagnostics options available
 

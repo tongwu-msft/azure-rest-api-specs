@@ -1,6 +1,6 @@
 ---
-title: "Start Application Upgrade"
-description: "Start Application Upgrade"
+title: "Start Application Upgrade v80"
+description: "Start Application Upgrade v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Start Application Upgrade
+# Start Application Upgrade v80
 Starts upgrading an application in the Service Fabric cluster.
 
 Validates the supplied application upgrade parameters and starts upgrading the application if the parameters are valid.

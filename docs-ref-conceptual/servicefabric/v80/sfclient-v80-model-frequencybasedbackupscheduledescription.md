@@ -1,6 +1,6 @@
 ---
-title: "FrequencyBasedBackupScheduleDescription"
-description: "FrequencyBasedBackupScheduleDescription"
+title: "FrequencyBasedBackupScheduleDescription v80"
+description: "FrequencyBasedBackupScheduleDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# FrequencyBasedBackupScheduleDescription
+# FrequencyBasedBackupScheduleDescription v80
 
 Describes the frequency based backup schedule.
 

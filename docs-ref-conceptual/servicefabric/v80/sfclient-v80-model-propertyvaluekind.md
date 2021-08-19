@@ -1,6 +1,6 @@
 ---
-title: "PropertyValueKind"
-description: "PropertyValueKind"
+title: "PropertyValueKind v80"
+description: "PropertyValueKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PropertyValueKind enum
+# PropertyValueKind enum v80
 
 type: string
 

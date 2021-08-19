@@ -1,6 +1,6 @@
 ---
-title: "ReplicaHealthState"
-description: "ReplicaHealthState"
+title: "ReplicaHealthState v80"
+description: "ReplicaHealthState v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReplicaHealthState
+# ReplicaHealthState v80
 
 Represents a base class for stateful service replica or stateless service instance health state.
 ## Inheritance

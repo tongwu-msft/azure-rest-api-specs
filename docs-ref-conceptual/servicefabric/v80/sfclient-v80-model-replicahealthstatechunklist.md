@@ -1,6 +1,6 @@
 ---
-title: "ReplicaHealthStateChunkList"
-description: "ReplicaHealthStateChunkList"
+title: "ReplicaHealthStateChunkList v80"
+description: "ReplicaHealthStateChunkList v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReplicaHealthStateChunkList
+# ReplicaHealthStateChunkList v80
 
 The list of replica health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
 

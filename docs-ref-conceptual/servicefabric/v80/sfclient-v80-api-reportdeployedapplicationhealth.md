@@ -1,6 +1,6 @@
 ---
-title: "Report Deployed Application Health"
-description: "Report Deployed Application Health"
+title: "Report Deployed Application Health v80"
+description: "Report Deployed Application Health v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Report Deployed Application Health
+# Report Deployed Application Health v80
 Sends a health report on the Service Fabric application deployed on a Service Fabric node.
 
 Reports health state of the application deployed on a Service Fabric node. The report must contain the information about the source of the health report and property on which it is reported.

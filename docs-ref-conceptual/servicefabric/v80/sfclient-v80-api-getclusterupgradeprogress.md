@@ -1,6 +1,6 @@
 ---
-title: "Get Cluster Upgrade Progress"
-description: "Get Cluster Upgrade Progress"
+title: "Get Cluster Upgrade Progress v80"
+description: "Get Cluster Upgrade Progress v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Cluster Upgrade Progress
+# Get Cluster Upgrade Progress v80
 Gets the progress of the current cluster upgrade.
 
 Gets the current progress of the ongoing cluster upgrade. If no upgrade is currently in progress, get the last state of the previous cluster upgrade.

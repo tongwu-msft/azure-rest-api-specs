@@ -1,6 +1,6 @@
 ---
-title: "EntityHealthStateChunk"
-description: "EntityHealthStateChunk"
+title: "EntityHealthStateChunk v80"
+description: "EntityHealthStateChunk v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EntityHealthStateChunk
+# EntityHealthStateChunk v80
 
 A base type for the health state chunk of various entities in the cluster. It contains the aggregated health state.
 

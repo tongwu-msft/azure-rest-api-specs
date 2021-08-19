@@ -1,6 +1,6 @@
 ---
-title: "Get Service Manifest"
-description: "Get Service Manifest"
+title: "Get Service Manifest v80"
+description: "Get Service Manifest v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Service Manifest
+# Get Service Manifest v80
 Gets the manifest describing a service type.
 
 Gets the manifest describing a service type. The response contains the service manifest XML as a string.

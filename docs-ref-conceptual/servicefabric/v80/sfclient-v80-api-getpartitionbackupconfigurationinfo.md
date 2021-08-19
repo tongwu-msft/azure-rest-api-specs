@@ -1,6 +1,6 @@
 ---
-title: "Get Partition Backup Configuration Info"
-description: "Get Partition Backup Configuration Info"
+title: "Get Partition Backup Configuration Info v80"
+description: "Get Partition Backup Configuration Info v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Partition Backup Configuration Info
+# Get Partition Backup Configuration Info v80
 Gets the partition backup configuration information
 
 Gets the Service Fabric Backup configuration information for the specified partition.

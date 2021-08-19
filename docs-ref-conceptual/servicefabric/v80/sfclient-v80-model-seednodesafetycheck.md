@@ -1,6 +1,6 @@
 ---
-title: "SeedNodeSafetyCheck"
-description: "SeedNodeSafetyCheck"
+title: "SeedNodeSafetyCheck v80"
+description: "SeedNodeSafetyCheck v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,6 +27,6 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SeedNodeSafetyCheck
+# SeedNodeSafetyCheck v80
 
 Represents a safety check for the seed nodes being performed by service fabric before continuing with node level operations.

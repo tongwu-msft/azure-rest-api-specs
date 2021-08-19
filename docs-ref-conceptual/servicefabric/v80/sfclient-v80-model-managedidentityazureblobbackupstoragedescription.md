@@ -1,6 +1,6 @@
 ---
-title: "ManagedIdentityAzureBlobBackupStorageDescription"
-description: "ManagedIdentityAzureBlobBackupStorageDescription"
+title: "ManagedIdentityAzureBlobBackupStorageDescription v80"
+description: "ManagedIdentityAzureBlobBackupStorageDescription v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ManagedIdentityAzureBlobBackupStorageDescription
+# ManagedIdentityAzureBlobBackupStorageDescription v80
 
 Describes the parameters for Azure blob store (connected using managed identity) used for storing and enumerating backups.
 

@@ -1,6 +1,6 @@
 ---
-title: "Create Repair Task"
-description: "Create Repair Task"
+title: "Create Repair Task v80"
+description: "Create Repair Task v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create Repair Task
+# Create Repair Task v80
 Creates a new repair task.
 
 For clusters that have the Repair Manager Service configured,

@@ -1,6 +1,6 @@
 ---
-title: "NodeDeactivationTaskId"
-description: "NodeDeactivationTaskId"
+title: "NodeDeactivationTaskId v80"
+description: "NodeDeactivationTaskId v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeDeactivationTaskId
+# NodeDeactivationTaskId v80
 
 Identity of the task related to deactivation operation on the node.
 

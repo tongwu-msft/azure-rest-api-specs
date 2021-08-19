@@ -1,6 +1,6 @@
 ---
-title: "RetentionPolicyType"
-description: "RetentionPolicyType"
+title: "RetentionPolicyType v80"
+description: "RetentionPolicyType v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RetentionPolicyType enum
+# RetentionPolicyType enum v80
 
 type: string
 

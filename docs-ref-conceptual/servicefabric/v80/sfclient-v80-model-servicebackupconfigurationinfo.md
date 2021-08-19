@@ -1,6 +1,6 @@
 ---
-title: "ServiceBackupConfigurationInfo"
-description: "ServiceBackupConfigurationInfo"
+title: "ServiceBackupConfigurationInfo v80"
+description: "ServiceBackupConfigurationInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceBackupConfigurationInfo
+# ServiceBackupConfigurationInfo v80
 
 Backup configuration information for a specific Service Fabric service specifying what backup policy is being applied and suspend description, if any.
 

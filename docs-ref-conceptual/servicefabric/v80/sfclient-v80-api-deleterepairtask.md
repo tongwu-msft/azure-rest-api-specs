@@ -1,6 +1,6 @@
 ---
-title: "Delete Repair Task"
-description: "Delete Repair Task"
+title: "Delete Repair Task v80"
+description: "Delete Repair Task v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete Repair Task
+# Delete Repair Task v80
 Deletes a completed repair task.
 
 This API supports the Service Fabric platform; it is not meant to be used directly from your code.

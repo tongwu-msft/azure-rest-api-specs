@@ -1,6 +1,6 @@
 ---
-title: "ServiceHealthStateFilter"
-description: "ServiceHealthStateFilter"
+title: "ServiceHealthStateFilter v80"
+description: "ServiceHealthStateFilter v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceHealthStateFilter
+# ServiceHealthStateFilter v80
 
 Defines matching criteria to determine whether a service should be included as a child of an application in the cluster health chunk.
 The services are only returned if the parent application matches a filter specified in the cluster health chunk query description.

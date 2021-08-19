@@ -1,6 +1,6 @@
 ---
-title: "FolderSizeInfo"
-description: "FolderSizeInfo"
+title: "FolderSizeInfo v80"
+description: "FolderSizeInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# FolderSizeInfo
+# FolderSizeInfo v80
 
 Information of a image store folder size
 

@@ -1,6 +1,6 @@
 ---
-title: "StatefulServiceTypeDescription"
-description: "StatefulServiceTypeDescription"
+title: "StatefulServiceTypeDescription v80"
+description: "StatefulServiceTypeDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatefulServiceTypeDescription
+# StatefulServiceTypeDescription v80
 
 Describes a stateful service type defined in the service manifest of a provisioned application type.
 

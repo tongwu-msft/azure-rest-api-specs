@@ -1,6 +1,6 @@
 ---
-title: "Delete Backup Policy"
-description: "Delete Backup Policy"
+title: "Delete Backup Policy v80"
+description: "Delete Backup Policy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete Backup Policy
+# Delete Backup Policy v80
 Deletes the backup policy.
 
 Deletes an existing backup policy. A backup policy must be created before it can be deleted. A currently active backup policy, associated with any Service Fabric application, service or partition, cannot be deleted without first deleting the mapping.

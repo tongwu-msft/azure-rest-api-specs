@@ -1,6 +1,6 @@
 ---
-title: "Get Replica Health Using Policy"
-description: "Get Replica Health Using Policy"
+title: "Get Replica Health Using Policy v80"
+description: "Get Replica Health Using Policy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Replica Health Using Policy
+# Get Replica Health Using Policy v80
 Gets the health of a Service Fabric stateful service replica or stateless service instance using the specified policy.
 
 Gets the health of a Service Fabric stateful service replica or stateless service instance.

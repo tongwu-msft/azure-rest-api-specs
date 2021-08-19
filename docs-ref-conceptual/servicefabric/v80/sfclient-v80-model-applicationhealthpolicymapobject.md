@@ -1,6 +1,6 @@
 ---
-title: "ApplicationHealthPolicyMapObject"
-description: "ApplicationHealthPolicyMapObject"
+title: "ApplicationHealthPolicyMapObject v80"
+description: "ApplicationHealthPolicyMapObject v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationHealthPolicyMapObject
+# ApplicationHealthPolicyMapObject v80
 
 Represents the map of application health policies for a ServiceFabric cluster upgrade
 

@@ -1,6 +1,6 @@
 ---
-title: "ApplicationPackageCleanupPolicy"
-description: "ApplicationPackageCleanupPolicy"
+title: "ApplicationPackageCleanupPolicy v80"
+description: "ApplicationPackageCleanupPolicy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationPackageCleanupPolicy enum
+# ApplicationPackageCleanupPolicy enum v80
 
 type: string
 

@@ -1,6 +1,6 @@
 ---
-title: "PackageSharingPolicyScope"
-description: "PackageSharingPolicyScope"
+title: "PackageSharingPolicyScope v80"
+description: "PackageSharingPolicyScope v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PackageSharingPolicyScope enum
+# PackageSharingPolicyScope enum v80
 
 type: string
 

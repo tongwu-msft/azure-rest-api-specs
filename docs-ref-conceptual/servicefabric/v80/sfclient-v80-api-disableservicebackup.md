@@ -1,6 +1,6 @@
 ---
-title: "Disable Service Backup"
-description: "Disable Service Backup"
+title: "Disable Service Backup v80"
+description: "Disable Service Backup v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Disable Service Backup
+# Disable Service Backup v80
 Disables periodic backup of Service Fabric service which was previously enabled.
 
 Disables periodic backup of Service Fabric service which was previously enabled. Backup must be explicitly enabled before it can be disabled.

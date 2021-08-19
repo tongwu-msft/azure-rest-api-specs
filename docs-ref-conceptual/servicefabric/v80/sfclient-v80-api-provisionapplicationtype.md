@@ -1,6 +1,6 @@
 ---
-title: "Provision Application Type"
-description: "Provision Application Type"
+title: "Provision Application Type v80"
+description: "Provision Application Type v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Provision Application Type
+# Provision Application Type v80
 Provisions or registers a Service Fabric application type with the cluster using the '.sfpkg' package in the external store or using the application package in the image store.
 
 Provisions a Service Fabric application type with the cluster. The provision is required before any new applications can be instantiated.

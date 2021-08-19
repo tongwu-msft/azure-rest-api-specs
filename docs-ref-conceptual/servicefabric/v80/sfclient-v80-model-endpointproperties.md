@@ -1,6 +1,6 @@
 ---
-title: "EndpointProperties"
-description: "EndpointProperties"
+title: "EndpointProperties v80"
+description: "EndpointProperties v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EndpointProperties
+# EndpointProperties v80
 
 Describes a container endpoint.
 

@@ -1,6 +1,6 @@
 ---
-title: "ResourceLimits"
-description: "ResourceLimits"
+title: "ResourceLimits v80"
+description: "ResourceLimits v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ResourceLimits
+# ResourceLimits v80
 
 This type describes the resource limits for a given container. It describes the most amount of resources a container is allowed to use before being restarted.
 

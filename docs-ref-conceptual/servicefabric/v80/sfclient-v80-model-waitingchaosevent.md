@@ -1,6 +1,6 @@
 ---
-title: "WaitingChaosEvent"
-description: "WaitingChaosEvent"
+title: "WaitingChaosEvent v80"
+description: "WaitingChaosEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# WaitingChaosEvent
+# WaitingChaosEvent v80
 
 Describes a Chaos event that gets generated when Chaos is waiting for the cluster to become ready for faulting, for example, Chaos may be waiting for the on-going upgrade to finish.
 

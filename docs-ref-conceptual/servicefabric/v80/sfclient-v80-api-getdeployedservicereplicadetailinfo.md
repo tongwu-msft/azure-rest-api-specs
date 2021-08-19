@@ -1,6 +1,6 @@
 ---
-title: "Get Deployed Service Replica Detail Info"
-description: "Get Deployed Service Replica Detail Info"
+title: "Get Deployed Service Replica Detail Info v80"
+description: "Get Deployed Service Replica Detail Info v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Deployed Service Replica Detail Info
+# Get Deployed Service Replica Detail Info v80
 Gets the details of replica deployed on a Service Fabric node.
 
 Gets the details of the replica deployed on a Service Fabric node. The information includes service kind, service name, current service operation, current service operation start date time, partition ID, replica/instance ID, reported load, and other information.

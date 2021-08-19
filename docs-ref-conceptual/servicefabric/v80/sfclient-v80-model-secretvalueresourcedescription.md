@@ -1,6 +1,6 @@
 ---
-title: "SecretValueResourceDescription"
-description: "SecretValueResourceDescription"
+title: "SecretValueResourceDescription v80"
+description: "SecretValueResourceDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SecretValueResourceDescription
+# SecretValueResourceDescription v80
 
 This type describes a value of a secret resource. The name of this resource is the version identifier corresponding to this secret value.
 

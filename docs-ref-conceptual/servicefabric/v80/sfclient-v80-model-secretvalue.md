@@ -1,6 +1,6 @@
 ---
-title: "SecretValue"
-description: "SecretValue"
+title: "SecretValue v80"
+description: "SecretValue v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SecretValue
+# SecretValue v80
 
 This type represents the unencrypted value of the secret.
 

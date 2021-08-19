@@ -1,6 +1,6 @@
 ---
-title: "RepairTaskApproveDescription"
-description: "RepairTaskApproveDescription"
+title: "RepairTaskApproveDescription v80"
+description: "RepairTaskApproveDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RepairTaskApproveDescription
+# RepairTaskApproveDescription v80
 
 Describes a request for forced approval of a repair task.
 

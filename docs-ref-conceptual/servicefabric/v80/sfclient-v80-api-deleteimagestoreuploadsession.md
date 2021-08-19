@@ -1,6 +1,6 @@
 ---
-title: "Delete Image Store Upload Session"
-description: "Delete Image Store Upload Session"
+title: "Delete Image Store Upload Session v80"
+description: "Delete Image Store Upload Session v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete Image Store Upload Session
+# Delete Image Store Upload Session v80
 Cancels an image store upload session.
 
 The DELETE request will cause the existing upload session to expire and remove any previously uploaded file chunks.

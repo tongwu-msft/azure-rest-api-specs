@@ -1,6 +1,6 @@
 ---
-title: "FailureUpgradeDomainProgressInfo"
-description: "FailureUpgradeDomainProgressInfo"
+title: "FailureUpgradeDomainProgressInfo v80"
+description: "FailureUpgradeDomainProgressInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# FailureUpgradeDomainProgressInfo
+# FailureUpgradeDomainProgressInfo v80
 
 Information about the upgrade domain progress at the time of upgrade failure.
 

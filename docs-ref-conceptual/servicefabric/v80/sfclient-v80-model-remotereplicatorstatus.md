@@ -1,6 +1,6 @@
 ---
-title: "RemoteReplicatorStatus"
-description: "RemoteReplicatorStatus"
+title: "RemoteReplicatorStatus v80"
+description: "RemoteReplicatorStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RemoteReplicatorStatus
+# RemoteReplicatorStatus v80
 
 Represents the state of the secondary replicator from the primary replicator’s point of view.
 

@@ -1,6 +1,6 @@
 ---
-title: "AzureInternalMonitoringPipelineSinkDescription"
-description: "AzureInternalMonitoringPipelineSinkDescription"
+title: "AzureInternalMonitoringPipelineSinkDescription v80"
+description: "AzureInternalMonitoringPipelineSinkDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AzureInternalMonitoringPipelineSinkDescription
+# AzureInternalMonitoringPipelineSinkDescription v80
 
 Diagnostics settings for Geneva.
 

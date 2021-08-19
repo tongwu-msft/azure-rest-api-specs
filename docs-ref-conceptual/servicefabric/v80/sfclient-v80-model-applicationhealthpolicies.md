@@ -1,6 +1,6 @@
 ---
-title: "ApplicationHealthPolicies"
-description: "ApplicationHealthPolicies"
+title: "ApplicationHealthPolicies v80"
+description: "ApplicationHealthPolicies v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationHealthPolicies
+# ApplicationHealthPolicies v80
 
 Defines the application health policy map used to evaluate the health of an application or one of its children entities.
 

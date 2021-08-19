@@ -1,6 +1,6 @@
 ---
-title: "Faults"
-description: "Faults"
+title: "Faults v80"
+description: "Faults v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Faults APIs
+# Faults APIs v80
 
 | Name | Description |
 | --- | --- |

@@ -1,6 +1,6 @@
 ---
-title: "ServiceTypeHealthPolicyMapItem"
-description: "ServiceTypeHealthPolicyMapItem"
+title: "ServiceTypeHealthPolicyMapItem v80"
+description: "ServiceTypeHealthPolicyMapItem v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceTypeHealthPolicyMapItem
+# ServiceTypeHealthPolicyMapItem v80
 
 Defines an item in ServiceTypeHealthPolicyMap.
 

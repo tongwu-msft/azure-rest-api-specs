@@ -1,6 +1,6 @@
 ---
-title: "Get Image Store Root Content"
-description: "Get Image Store Root Content"
+title: "Get Image Store Root Content v80"
+description: "Get Image Store Root Content v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Image Store Root Content
+# Get Image Store Root Content v80
 Gets the content information at the root of the image store.
 
 Returns the information about the image store content at the root of the image store.

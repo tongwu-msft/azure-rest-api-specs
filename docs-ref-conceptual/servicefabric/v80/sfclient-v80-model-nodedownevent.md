@@ -1,6 +1,6 @@
 ---
-title: "NodeDownEvent"
-description: "NodeDownEvent"
+title: "NodeDownEvent v80"
+description: "NodeDownEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeDownEvent
+# NodeDownEvent v80
 
 Node Down event.
 

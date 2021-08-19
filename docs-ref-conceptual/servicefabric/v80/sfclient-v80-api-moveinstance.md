@@ -1,6 +1,6 @@
 ---
-title: "Move Instance"
-description: "Move Instance"
+title: "Move Instance v80"
+description: "Move Instance v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Move Instance
+# Move Instance v80
 Moves the instance of a partition of a stateless service.
 
 This command moves the instance of a partition of a stateless service, respecting all constraints.

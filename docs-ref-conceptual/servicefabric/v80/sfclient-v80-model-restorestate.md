@@ -1,6 +1,6 @@
 ---
-title: "RestoreState"
-description: "RestoreState"
+title: "RestoreState v80"
+description: "RestoreState v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RestoreState enum
+# RestoreState enum v80
 
 type: string
 

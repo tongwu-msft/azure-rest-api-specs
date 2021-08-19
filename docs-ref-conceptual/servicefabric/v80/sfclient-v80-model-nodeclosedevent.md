@@ -1,6 +1,6 @@
 ---
-title: "NodeClosedEvent"
-description: "NodeClosedEvent"
+title: "NodeClosedEvent v80"
+description: "NodeClosedEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeClosedEvent
+# NodeClosedEvent v80
 
 Node Closed event.
 

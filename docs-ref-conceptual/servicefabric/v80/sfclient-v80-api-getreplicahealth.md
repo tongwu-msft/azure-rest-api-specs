@@ -1,6 +1,6 @@
 ---
-title: "Get Replica Health"
-description: "Get Replica Health"
+title: "Get Replica Health v80"
+description: "Get Replica Health v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Replica Health
+# Get Replica Health v80
 Gets the health of a Service Fabric stateful service replica or stateless service instance.
 
 Gets the health of a Service Fabric replica.

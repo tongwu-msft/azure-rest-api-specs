@@ -1,6 +1,6 @@
 ---
-title: "EnableBackupDescription"
-description: "EnableBackupDescription"
+title: "EnableBackupDescription v80"
+description: "EnableBackupDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EnableBackupDescription
+# EnableBackupDescription v80
 
 Specifies the parameters needed to enable periodic backup.
 

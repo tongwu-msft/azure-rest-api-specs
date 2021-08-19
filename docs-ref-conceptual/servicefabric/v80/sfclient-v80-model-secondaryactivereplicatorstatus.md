@@ -1,6 +1,6 @@
 ---
-title: "SecondaryActiveReplicatorStatus"
-description: "SecondaryActiveReplicatorStatus"
+title: "SecondaryActiveReplicatorStatus v80"
+description: "SecondaryActiveReplicatorStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SecondaryActiveReplicatorStatus
+# SecondaryActiveReplicatorStatus v80
 
 Status of the secondary replicator when it is in active mode and is part of the replica set.
 

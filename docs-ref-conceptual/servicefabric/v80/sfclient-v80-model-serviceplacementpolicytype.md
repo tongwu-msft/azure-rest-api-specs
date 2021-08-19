@@ -1,6 +1,6 @@
 ---
-title: "ServicePlacementPolicyType"
-description: "ServicePlacementPolicyType"
+title: "ServicePlacementPolicyType v80"
+description: "ServicePlacementPolicyType v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServicePlacementPolicyType enum
+# ServicePlacementPolicyType enum v80
 
 type: string
 

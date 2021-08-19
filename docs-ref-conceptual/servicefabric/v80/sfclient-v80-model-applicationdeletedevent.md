@@ -1,6 +1,6 @@
 ---
-title: "ApplicationDeletedEvent"
-description: "ApplicationDeletedEvent"
+title: "ApplicationDeletedEvent v80"
+description: "ApplicationDeletedEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationDeletedEvent
+# ApplicationDeletedEvent v80
 
 Application Deleted event.
 

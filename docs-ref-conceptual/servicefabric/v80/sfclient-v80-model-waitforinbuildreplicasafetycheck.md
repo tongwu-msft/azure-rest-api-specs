@@ -1,6 +1,6 @@
 ---
-title: "WaitForInbuildReplicaSafetyCheck"
-description: "WaitForInbuildReplicaSafetyCheck"
+title: "WaitForInbuildReplicaSafetyCheck v80"
+description: "WaitForInbuildReplicaSafetyCheck v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# WaitForInbuildReplicaSafetyCheck
+# WaitForInbuildReplicaSafetyCheck v80
 
 Safety check that waits for the replica build operation to finish. This indicates that there is a replica that is going through the copy or is providing data for building another replica. Bring the node down will abort this copy operation which are typically expensive involving data movements.
 

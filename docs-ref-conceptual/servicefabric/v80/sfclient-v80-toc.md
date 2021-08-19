@@ -1,6 +1,6 @@
 ---
-title: "Service fabric client table of contents"
-description: Service Fabric client table of contents
+title: "Service fabric client table of contents v80"
+description: Service Fabric client table of content v80"
 ms.service: "service-fabric"
 ---
 
@@ -27,7 +27,7 @@ ms.service: "service-fabric"
 ### [Rollback Cluster Upgrade](sfclient-v80-api-rollbackclusterupgrade.md)
 ### [Resume Cluster Upgrade](sfclient-v80-api-resumeclusterupgrade.md)
 ### [Start Cluster Upgrade](sfclient-v80-api-startclusterupgrade.md)
-### [Start Cluster Configuration Upgrade](sfclient-v80-api-startclusterconfigurationupgrade.md)
+### [Start Cluster Configuration Upgrade](sfclient-v80-api-startclusterconfigurationupgrade.md) v80
 ### [Update Cluster Upgrade](sfclient-v80-api-updateclusterupgrade.md)
 ### [Get Aad Metadata](sfclient-v80-api-getaadmetadata.md)
 ### [Get Cluster Version](sfclient-v80-api-getclusterversion.md)

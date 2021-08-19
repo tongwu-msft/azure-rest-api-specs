@@ -1,6 +1,6 @@
 ---
-title: "BackupInfo"
-description: "BackupInfo"
+title: "BackupInfo v80"
+description: "BackupInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# BackupInfo
+# BackupInfo v80
 
 Represents a backup point which can be used to trigger a restore.
 

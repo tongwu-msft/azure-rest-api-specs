@@ -1,6 +1,6 @@
 ---
-title: "Stop Chaos"
-description: "Stop Chaos"
+title: "Stop Chaos v80"
+description: "Stop Chaos v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Stop Chaos
+# Stop Chaos v80
 Stops Chaos if it is running in the cluster and put the Chaos Schedule in a stopped state.
 
 Stops Chaos from executing new faults. In-flight faults will continue to execute until they are complete. The current Chaos Schedule is put into a stopped state.

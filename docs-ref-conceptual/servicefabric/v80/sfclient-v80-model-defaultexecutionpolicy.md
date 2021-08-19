@@ -1,6 +1,6 @@
 ---
-title: "DefaultExecutionPolicy"
-description: "DefaultExecutionPolicy"
+title: "DefaultExecutionPolicy v80"
+description: "DefaultExecutionPolicy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,6 +27,6 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DefaultExecutionPolicy
+# DefaultExecutionPolicy v80
 
 The default execution policy. Always restart the service if an exit occurs.

@@ -1,6 +1,6 @@
 ---
-title: "DeployedApplicationsHealthEvaluation"
-description: "DeployedApplicationsHealthEvaluation"
+title: "DeployedApplicationsHealthEvaluation v80"
+description: "DeployedApplicationsHealthEvaluation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedApplicationsHealthEvaluation
+# DeployedApplicationsHealthEvaluation v80
 
 Represents health evaluation for deployed applications, containing health evaluations for each unhealthy deployed application that impacted current aggregated health state.
 Can be returned when evaluating application health and the aggregated health state is either Error or Warning.

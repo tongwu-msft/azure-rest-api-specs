@@ -1,6 +1,6 @@
 ---
-title: "Get Application Info"
-description: "Get Application Info"
+title: "Get Application Info v80"
+description: "Get Application Info v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Application Info
+# Get Application Info v80
 Gets information about a Service Fabric application.
 
 Returns the information about the application that was created or in the process of being created in the Service Fabric cluster and whose name matches the one specified as the parameter. The response includes the name, type, status, parameters, and other details about the application.

@@ -1,6 +1,6 @@
 ---
-title: "SingletonPartitionInformation"
-description: "SingletonPartitionInformation"
+title: "SingletonPartitionInformation v80"
+description: "SingletonPartitionInformation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SingletonPartitionInformation
+# SingletonPartitionInformation v80
 
 Information about a partition that is singleton. The services with singleton partitioning scheme are effectively non-partitioned. They only have one partition.
 

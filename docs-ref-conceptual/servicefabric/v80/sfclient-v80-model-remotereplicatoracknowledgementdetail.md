@@ -1,6 +1,6 @@
 ---
-title: "RemoteReplicatorAcknowledgementDetail"
-description: "RemoteReplicatorAcknowledgementDetail"
+title: "RemoteReplicatorAcknowledgementDetail v80"
+description: "RemoteReplicatorAcknowledgementDetail v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RemoteReplicatorAcknowledgementDetail
+# RemoteReplicatorAcknowledgementDetail v80
 
 Provides various statistics of the acknowledgements that are being received from the remote replicator.
 

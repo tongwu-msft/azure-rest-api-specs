@@ -1,6 +1,6 @@
 ---
-title: "NodeTypeNodesHealthEvaluation"
-description: "NodeTypeNodesHealthEvaluation"
+title: "NodeTypeNodesHealthEvaluation v80"
+description: "NodeTypeNodesHealthEvaluation v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeTypeNodesHealthEvaluation
+# NodeTypeNodesHealthEvaluation v80
 
 Represents health evaluation for nodes of a particular node type. The node type nodes evaluation can be returned when cluster health evaluation returns unhealthy aggregated health state, either Error or Warning. It contains health evaluations for each unhealthy node of the included node type that impacted current aggregated health state.
 

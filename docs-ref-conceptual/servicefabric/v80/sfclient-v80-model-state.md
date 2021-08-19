@@ -1,6 +1,6 @@
 ---
-title: "State"
-description: "State"
+title: "State v80"
+description: "State v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# State enum
+# State enum v80
 
 type: string
 

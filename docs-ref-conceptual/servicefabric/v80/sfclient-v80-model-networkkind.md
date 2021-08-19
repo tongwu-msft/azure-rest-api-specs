@@ -1,6 +1,6 @@
 ---
-title: "NetworkKind"
-description: "NetworkKind"
+title: "NetworkKind v80"
+description: "NetworkKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NetworkKind enum
+# NetworkKind enum v80
 
 type: string
 

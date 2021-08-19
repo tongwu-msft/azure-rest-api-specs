@@ -1,6 +1,6 @@
 ---
-title: "ApplicationMetricDescription"
-description: "ApplicationMetricDescription"
+title: "ApplicationMetricDescription v80"
+description: "ApplicationMetricDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationMetricDescription
+# ApplicationMetricDescription v80
 
 Describes capacity information for a custom resource balancing metric. This can be used to limit the total consumption of this metric by the services of this application.
 

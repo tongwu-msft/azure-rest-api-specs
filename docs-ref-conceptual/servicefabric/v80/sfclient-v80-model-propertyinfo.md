@@ -1,6 +1,6 @@
 ---
-title: "PropertyInfo"
-description: "PropertyInfo"
+title: "PropertyInfo v80"
+description: "PropertyInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PropertyInfo
+# PropertyInfo v80
 
 Information about a Service Fabric property.
 

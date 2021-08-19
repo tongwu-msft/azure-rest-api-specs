@@ -1,6 +1,6 @@
 ---
-title: "ClusterUpgradeDomainCompletedEvent"
-description: "ClusterUpgradeDomainCompletedEvent"
+title: "ClusterUpgradeDomainCompletedEvent v80"
+description: "ClusterUpgradeDomainCompletedEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterUpgradeDomainCompletedEvent
+# ClusterUpgradeDomainCompletedEvent v80
 
 Cluster Upgrade Domain Completed event.
 

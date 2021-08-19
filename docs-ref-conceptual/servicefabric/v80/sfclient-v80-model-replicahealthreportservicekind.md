@@ -1,6 +1,6 @@
 ---
-title: "ReplicaHealthReportServiceKind"
-description: "ReplicaHealthReportServiceKind"
+title: "ReplicaHealthReportServiceKind v80"
+description: "ReplicaHealthReportServiceKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReplicaHealthReportServiceKind enum
+# ReplicaHealthReportServiceKind enum v80
 
 type: string
 

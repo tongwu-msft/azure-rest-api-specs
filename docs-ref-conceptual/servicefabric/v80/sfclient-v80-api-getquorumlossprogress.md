@@ -1,6 +1,6 @@
 ---
-title: "Get Quorum Loss Progress"
-description: "Get Quorum Loss Progress"
+title: "Get Quorum Loss Progress v80"
+description: "Get Quorum Loss Progress v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Quorum Loss Progress
+# Get Quorum Loss Progress v80
 Gets the progress of a quorum loss operation on a partition started using the StartQuorumLoss API.
 
 Gets the progress of a quorum loss operation started with StartQuorumLoss, using the provided OperationId.

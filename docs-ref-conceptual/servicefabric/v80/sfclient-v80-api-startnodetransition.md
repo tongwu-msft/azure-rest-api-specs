@@ -1,6 +1,6 @@
 ---
-title: "Start Node Transition"
-description: "Start Node Transition"
+title: "Start Node Transition v80"
+description: "Start Node Transition v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Start Node Transition
+# Start Node Transition v80
 Starts or stops a cluster node.
 
 Starts or stops a cluster node.  A cluster node is a process, not the OS instance itself.  To start a node, pass in "Start" for the NodeTransitionType parameter.

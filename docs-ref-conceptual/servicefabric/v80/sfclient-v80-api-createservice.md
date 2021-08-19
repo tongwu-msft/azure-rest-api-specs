@@ -1,6 +1,6 @@
 ---
-title: "Create Service"
-description: "Create Service"
+title: "Create Service v80"
+description: "Create Service v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create Service
+# Create Service v80
 Creates the specified Service Fabric service.
 
 This api allows creating a new Service Fabric stateless or stateful service under a specified Service Fabric application. The description for creating the service includes partitioning information and optional properties for placement and load balancing. Some of the properties can later be modified using `UpdateService` API.

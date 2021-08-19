@@ -1,6 +1,6 @@
 ---
-title: "Create Application"
-description: "Create Application"
+title: "Create Application v80"
+description: "Create Application v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create Application
+# Create Application v80
 Creates a Service Fabric application.
 
 Creates a Service Fabric application using the specified description.

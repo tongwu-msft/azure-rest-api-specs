@@ -1,6 +1,6 @@
 ---
-title: "DeployedServicePackageHealthState"
-description: "DeployedServicePackageHealthState"
+title: "DeployedServicePackageHealthState v80"
+description: "DeployedServicePackageHealthState v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedServicePackageHealthState
+# DeployedServicePackageHealthState v80
 
 Represents the health state of a deployed service package, containing the entity identifier and the aggregated health state.
 

@@ -1,6 +1,6 @@
 ---
-title: "LoadedPartitionInformationQueryDescription"
-description: "LoadedPartitionInformationQueryDescription"
+title: "LoadedPartitionInformationQueryDescription v80"
+description: "LoadedPartitionInformationQueryDescription v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# LoadedPartitionInformationQueryDescription
+# LoadedPartitionInformationQueryDescription v80
 
 Represents data structure that contains query information.
 

@@ -1,6 +1,6 @@
 ---
-title: "StoppedChaosEvent"
-description: "StoppedChaosEvent"
+title: "StoppedChaosEvent v80"
+description: "StoppedChaosEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StoppedChaosEvent
+# StoppedChaosEvent v80
 
 Describes a Chaos event that gets generated when Chaos stops because either the user issued a stop or the time to run was up.
 

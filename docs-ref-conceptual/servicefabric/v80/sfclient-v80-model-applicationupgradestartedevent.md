@@ -1,6 +1,6 @@
 ---
-title: "ApplicationUpgradeStartedEvent"
-description: "ApplicationUpgradeStartedEvent"
+title: "ApplicationUpgradeStartedEvent v80"
+description: "ApplicationUpgradeStartedEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationUpgradeStartedEvent
+# ApplicationUpgradeStartedEvent v80
 
 Application Upgrade Started event.
 

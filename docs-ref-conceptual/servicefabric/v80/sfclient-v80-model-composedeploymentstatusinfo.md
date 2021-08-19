@@ -1,6 +1,6 @@
 ---
-title: "ComposeDeploymentStatusInfo"
-description: "ComposeDeploymentStatusInfo"
+title: "ComposeDeploymentStatusInfo v80"
+description: "ComposeDeploymentStatusInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ComposeDeploymentStatusInfo
+# ComposeDeploymentStatusInfo v80
 
 Information about a Service Fabric compose deployment.
 

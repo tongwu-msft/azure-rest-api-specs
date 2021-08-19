@@ -1,6 +1,6 @@
 ---
-title: "Suspend Application Backup"
-description: "Suspend Application Backup"
+title: "Suspend Application Backup v80"
+description: "Suspend Application Backup v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Suspend Application Backup
+# Suspend Application Backup v80
 Suspends periodic backup for the specified Service Fabric application.
 
 The application which is configured to take periodic backups, is suspended for taking further backups till it is resumed again. This operation applies to the entire application's hierarchy. It means all the services and partitions under this application are now suspended for backup.

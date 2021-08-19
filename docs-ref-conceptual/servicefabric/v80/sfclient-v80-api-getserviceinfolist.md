@@ -1,6 +1,6 @@
 ---
-title: "Get Service Info List"
-description: "Get Service Info List"
+title: "Get Service Info List v80"
+description: "Get Service Info List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Service Info List
+# Get Service Info List v80
 Gets the information about all services belonging to the application specified by the application ID.
 
 Returns the information about all services belonging to the application specified by the application ID.

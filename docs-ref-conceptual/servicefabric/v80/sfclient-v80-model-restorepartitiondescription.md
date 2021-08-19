@@ -1,6 +1,6 @@
 ---
-title: "RestorePartitionDescription"
-description: "RestorePartitionDescription"
+title: "RestorePartitionDescription v80"
+description: "RestorePartitionDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RestorePartitionDescription
+# RestorePartitionDescription v80
 
 Specifies the parameters needed to trigger a restore of a specific partition.
 

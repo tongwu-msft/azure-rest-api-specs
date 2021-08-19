@@ -1,6 +1,6 @@
 ---
-title: "Get Correlated Event List"
-description: "Get Correlated Event List"
+title: "Get Correlated Event List v80"
+description: "Get Correlated Event List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Correlated Event List
+# Get Correlated Event List v80
 Gets all correlated events for a given event.
 
 The response is list of FabricEvents.

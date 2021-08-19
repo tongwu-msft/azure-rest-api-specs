@@ -1,6 +1,6 @@
 ---
-title: "UpgradeState"
-description: "UpgradeState"
+title: "UpgradeState v80"
+description: "UpgradeState v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UpgradeState enum
+# UpgradeState enum v80
 
 type: string
 

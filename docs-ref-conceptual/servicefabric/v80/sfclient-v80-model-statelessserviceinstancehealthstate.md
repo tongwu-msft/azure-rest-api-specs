@@ -1,6 +1,6 @@
 ---
-title: "StatelessServiceInstanceHealthState"
-description: "StatelessServiceInstanceHealthState"
+title: "StatelessServiceInstanceHealthState v80"
+description: "StatelessServiceInstanceHealthState v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatelessServiceInstanceHealthState
+# StatelessServiceInstanceHealthState v80
 
 Represents the health state of the stateless service instance, which contains the instance ID and the aggregated health state.
 

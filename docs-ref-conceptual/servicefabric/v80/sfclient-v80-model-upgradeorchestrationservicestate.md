@@ -1,6 +1,6 @@
 ---
-title: "UpgradeOrchestrationServiceState"
-description: "UpgradeOrchestrationServiceState"
+title: "UpgradeOrchestrationServiceState v80"
+description: "UpgradeOrchestrationServiceState v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UpgradeOrchestrationServiceState
+# UpgradeOrchestrationServiceState v80
 
 Service state of Service Fabric Upgrade Orchestration Service.
 

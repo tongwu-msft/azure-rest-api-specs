@@ -1,6 +1,6 @@
 ---
-title: "ComposeDeploymentUpgradeProgressInfo"
-description: "ComposeDeploymentUpgradeProgressInfo"
+title: "ComposeDeploymentUpgradeProgressInfo v80"
+description: "ComposeDeploymentUpgradeProgressInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ComposeDeploymentUpgradeProgressInfo
+# ComposeDeploymentUpgradeProgressInfo v80
 
 Describes the parameters for a compose deployment upgrade.
 

@@ -1,6 +1,6 @@
 ---
-title: "CheckValuePropertyBatchOperation"
-description: "CheckValuePropertyBatchOperation"
+title: "CheckValuePropertyBatchOperation v80"
+description: "CheckValuePropertyBatchOperation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# CheckValuePropertyBatchOperation
+# CheckValuePropertyBatchOperation v80
 
 Represents a PropertyBatchOperation that compares the value of the property with the expected value.
 The CheckValuePropertyBatchOperation is generally used as a precondition for the write operations in the batch.

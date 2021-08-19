@@ -1,6 +1,6 @@
 ---
-title: "Get Cluster Manifest"
-description: "Get Cluster Manifest"
+title: "Get Cluster Manifest v80"
+description: "Get Cluster Manifest v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Cluster Manifest
+# Get Cluster Manifest v80
 Get the Service Fabric cluster manifest.
 
 Get the Service Fabric cluster manifest. The cluster manifest contains properties of the cluster that include different node types on the cluster,

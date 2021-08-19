@@ -1,6 +1,6 @@
 ---
-title: "ReplicasHealthEvaluation"
-description: "ReplicasHealthEvaluation"
+title: "ReplicasHealthEvaluation v80"
+description: "ReplicasHealthEvaluation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReplicasHealthEvaluation
+# ReplicasHealthEvaluation v80
 
 Represents health evaluation for replicas, containing health evaluations for each unhealthy replica that impacted current aggregated health state. Can be returned when evaluating partition health and the aggregated health state is either Error or Warning.
 

@@ -1,6 +1,6 @@
 ---
-title: "ServicePlacementAllowMultipleStatelessInstancesOnNodePolicyDescription"
-description: "ServicePlacementAllowMultipleStatelessInstancesOnNodePolicyDescription"
+title: "ServicePlacementAllowMultipleStatelessInstancesOnNodePolicyDescription v80"
+description: "ServicePlacementAllowMultipleStatelessInstancesOnNodePolicyDescription v80"
 ms.date: "01/28/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServicePlacementAllowMultipleStatelessInstancesOnNodePolicyDescription
+# ServicePlacementAllowMultipleStatelessInstancesOnNodePolicyDescription v80
 
 Describes the policy to be used for placement of a Service Fabric service allowing multiple stateless instances of a partition of the service to be placed on a node.
 

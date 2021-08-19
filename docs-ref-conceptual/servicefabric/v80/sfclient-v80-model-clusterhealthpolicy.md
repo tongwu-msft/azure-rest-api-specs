@@ -1,6 +1,6 @@
 ---
-title: "ClusterHealthPolicy"
-description: "ClusterHealthPolicy"
+title: "ClusterHealthPolicy v80"
+description: "ClusterHealthPolicy v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterHealthPolicy
+# ClusterHealthPolicy v80
 
 Defines a health policy used to evaluate the health of the cluster or of a cluster node.
 

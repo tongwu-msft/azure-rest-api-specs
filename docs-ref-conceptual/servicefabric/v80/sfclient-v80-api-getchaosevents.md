@@ -1,6 +1,6 @@
 ---
-title: "Get Chaos Events"
-description: "Get Chaos Events"
+title: "Get Chaos Events v80"
+description: "Get Chaos Events v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Chaos Events
+# Get Chaos Events v80
 Gets the next segment of the Chaos events based on the continuation token or the time range.
 
 To get the next segment of the Chaos events, you can specify the ContinuationToken. To get the start of a new segment of Chaos events, you can specify the time range

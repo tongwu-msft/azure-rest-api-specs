@@ -1,6 +1,6 @@
 ---
-title: "Get Services Event List"
-description: "Get Services Event List"
+title: "Get Services Event List v80"
+description: "Get Services Event List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Services Event List
+# Get Services Event List v80
 Gets all Services-related events.
 
 The response is list of ServiceEvent objects.

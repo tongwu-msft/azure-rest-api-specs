@@ -1,6 +1,6 @@
 ---
-title: "Setting"
-description: "Setting"
+title: "Setting v80"
+description: "Setting v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Setting
+# Setting v80
 
 Describes a setting for the container. The setting file path can be fetched from environment variable "Fabric_SettingPath". The path for Windows container is "C:\\secrets". The path for Linux container is "/var/secrets".
 

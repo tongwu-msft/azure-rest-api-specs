@@ -1,6 +1,6 @@
 ---
-title: "Get Container Logs"
-description: "Get Container Logs"
+title: "Get Container Logs v80"
+description: "Get Container Logs v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Container Logs
+# Get Container Logs v80
 Gets the logs from the container.
 
 Gets the logs for the container of the specified code package of the service replica.

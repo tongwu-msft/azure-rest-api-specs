@@ -1,6 +1,6 @@
 ---
-title: "Get Upgrade Progress"
-description: "Get Upgrade Progress"
+title: "Get Upgrade Progress v80"
+description: "Get Upgrade Progress v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Upgrade Progress
+# Get Upgrade Progress v80
 Gets the progress of the latest upgrade performed on this application resource.
 
 Gets the upgrade progress information about the Application resource with the given name. The information include percentage of completion and other upgrade state information of the Application resource.

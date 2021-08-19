@@ -1,6 +1,6 @@
 ---
-title: "UnprovisionFabricDescription"
-description: "UnprovisionFabricDescription"
+title: "UnprovisionFabricDescription v80"
+description: "UnprovisionFabricDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UnprovisionFabricDescription
+# UnprovisionFabricDescription v80
 
 Describes the parameters for unprovisioning a cluster.
 

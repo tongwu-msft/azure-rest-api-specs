@@ -1,6 +1,6 @@
 ---
-title: "MeshServiceReplicas"
-description: "MeshServiceReplicas"
+title: "MeshServiceReplicas v80"
+description: "MeshServiceReplicas v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# MeshServiceReplicas APIs
+# MeshServiceReplicas APIs v80
 
 | Name | Description |
 | --- | --- |

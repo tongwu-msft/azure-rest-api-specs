@@ -1,6 +1,6 @@
 ---
-title: "ChaosScheduleDescription"
-description: "ChaosScheduleDescription"
+title: "ChaosScheduleDescription v80"
+description: "ChaosScheduleDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ChaosScheduleDescription
+# ChaosScheduleDescription v80
 
 Defines the Chaos Schedule used by Chaos and the version of the Chaos Schedule. The version value wraps back to 0 after surpassing 2,147,483,647.
 

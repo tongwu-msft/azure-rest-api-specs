@@ -1,6 +1,6 @@
 ---
-title: "Get Application Name Info"
-description: "Get Application Name Info"
+title: "Get Application Name Info v80"
+description: "Get Application Name Info v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Application Name Info
+# Get Application Name Info v80
 Gets the name of the Service Fabric application for a service.
 
 Gets the name of the application for the specified service. A 404 FABRIC_E_SERVICE_DOES_NOT_EXIST error is returned if a service with the provided service ID does not exist.

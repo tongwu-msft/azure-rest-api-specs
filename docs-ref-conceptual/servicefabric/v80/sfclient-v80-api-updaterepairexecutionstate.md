@@ -1,6 +1,6 @@
 ---
-title: "Update Repair Execution State"
-description: "Update Repair Execution State"
+title: "Update Repair Execution State v80"
+description: "Update Repair Execution State v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Update Repair Execution State
+# Update Repair Execution State v80
 Updates the execution state of a repair task.
 
 This API supports the Service Fabric platform; it is not meant to be used directly from your code.

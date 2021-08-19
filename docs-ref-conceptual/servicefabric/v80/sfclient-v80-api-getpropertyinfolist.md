@@ -1,6 +1,6 @@
 ---
-title: "Get Property Info List"
-description: "Get Property Info List"
+title: "Get Property Info List v80"
+description: "Get Property Info List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Property Info List
+# Get Property Info List v80
 Gets information on all Service Fabric properties under a given name.
 
 A Service Fabric name can have one or more named properties that store custom information. This operation gets the information about these properties in a paged list. The information includes name, value, and metadata about each of the properties.

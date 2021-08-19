@@ -1,6 +1,6 @@
 ---
-title: "DiagnosticsRef"
-description: "DiagnosticsRef"
+title: "DiagnosticsRef v80"
+description: "DiagnosticsRef v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DiagnosticsRef
+# DiagnosticsRef v80
 
 Reference to sinks in DiagnosticsDescription.
 

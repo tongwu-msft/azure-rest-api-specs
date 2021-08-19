@@ -1,6 +1,6 @@
 ---
-title: "ApplicationScopedVolumeCreationParameters"
-description: "ApplicationScopedVolumeCreationParameters"
+title: "ApplicationScopedVolumeCreationParameters v80"
+description: "ApplicationScopedVolumeCreationParameters v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationScopedVolumeCreationParameters
+# ApplicationScopedVolumeCreationParameters v80
 
 Describes parameters for creating application-scoped volumes.
 ## Inheritance

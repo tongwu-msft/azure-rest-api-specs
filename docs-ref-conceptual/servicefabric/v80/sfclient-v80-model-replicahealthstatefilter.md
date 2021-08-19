@@ -1,6 +1,6 @@
 ---
-title: "ReplicaHealthStateFilter"
-description: "ReplicaHealthStateFilter"
+title: "ReplicaHealthStateFilter v80"
+description: "ReplicaHealthStateFilter v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReplicaHealthStateFilter
+# ReplicaHealthStateFilter v80
 
 Defines matching criteria to determine whether a replica should be included as a child of a partition in the cluster health chunk.
 The replicas are only returned if the parent entities match a filter specified in the cluster health chunk query description. The parent partition, service and application must be included in the cluster health chunk.

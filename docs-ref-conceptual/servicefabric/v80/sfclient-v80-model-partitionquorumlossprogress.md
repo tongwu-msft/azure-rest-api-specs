@@ -1,6 +1,6 @@
 ---
-title: "PartitionQuorumLossProgress"
-description: "PartitionQuorumLossProgress"
+title: "PartitionQuorumLossProgress v80"
+description: "PartitionQuorumLossProgress v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionQuorumLossProgress
+# PartitionQuorumLossProgress v80
 
 Information about a partition quorum loss user-induced operation.
 

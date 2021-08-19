@@ -1,6 +1,6 @@
 ---
-title: "PropertyBatchOperation"
-description: "PropertyBatchOperation"
+title: "PropertyBatchOperation v80"
+description: "PropertyBatchOperation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PropertyBatchOperation
+# PropertyBatchOperation v80
 
 Represents the base type for property operations that can be put into a batch and submitted.
 ## Inheritance

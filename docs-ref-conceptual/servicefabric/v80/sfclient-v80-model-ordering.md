@@ -1,6 +1,6 @@
 ---
-title: "Ordering"
-description: "Ordering"
+title: "Ordering v80"
+description: "Ordering v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Ordering enum
+# Ordering enum v80
 
 type: string
 

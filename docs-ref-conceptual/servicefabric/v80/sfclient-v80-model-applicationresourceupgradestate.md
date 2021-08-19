@@ -1,6 +1,6 @@
 ---
-title: "ApplicationResourceUpgradeState"
-description: "ApplicationResourceUpgradeState"
+title: "ApplicationResourceUpgradeState v80"
+description: "ApplicationResourceUpgradeState v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationResourceUpgradeState enum
+# ApplicationResourceUpgradeState enum v80
 
 type: string
 

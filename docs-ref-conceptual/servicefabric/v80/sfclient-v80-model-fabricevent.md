@@ -1,6 +1,6 @@
 ---
-title: "FabricEvent"
-description: "FabricEvent"
+title: "FabricEvent v80"
+description: "FabricEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# FabricEvent
+# FabricEvent v80
 
 Represents the base for all Fabric Events.
 ## Inheritance

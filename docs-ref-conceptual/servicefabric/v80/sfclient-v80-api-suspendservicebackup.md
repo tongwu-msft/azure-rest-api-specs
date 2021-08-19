@@ -1,6 +1,6 @@
 ---
-title: "Suspend Service Backup"
-description: "Suspend Service Backup"
+title: "Suspend Service Backup v80"
+description: "Suspend Service Backup v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Suspend Service Backup
+# Suspend Service Backup v80
 Suspends periodic backup for the specified Service Fabric service.
 
 The service which is configured to take periodic backups, is suspended for taking further backups till it is resumed again. This operation applies to the entire service's hierarchy. It means all the partitions under this service are now suspended for backup.

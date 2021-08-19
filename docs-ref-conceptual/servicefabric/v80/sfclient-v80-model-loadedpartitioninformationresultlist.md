@@ -1,6 +1,6 @@
 ---
-title: "LoadedPartitionInformationResultList"
-description: "LoadedPartitionInformationResultList"
+title: "LoadedPartitionInformationResultList v80"
+description: "LoadedPartitionInformationResultList v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# LoadedPartitionInformationResultList
+# LoadedPartitionInformationResultList v80
 
 Represents data structure that contains top/least loaded partitions for a certain metric.
 

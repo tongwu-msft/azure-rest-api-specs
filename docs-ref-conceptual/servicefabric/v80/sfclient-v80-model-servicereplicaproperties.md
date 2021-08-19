@@ -1,6 +1,6 @@
 ---
-title: "ServiceReplicaProperties"
-description: "ServiceReplicaProperties"
+title: "ServiceReplicaProperties v80"
+description: "ServiceReplicaProperties v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceReplicaProperties
+# ServiceReplicaProperties v80
 
 Describes the properties of a service replica.
 

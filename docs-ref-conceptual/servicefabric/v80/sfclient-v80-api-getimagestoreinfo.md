@@ -1,6 +1,6 @@
 ---
-title: "Get Image Store Info"
-description: "Get Image Store Info"
+title: "Get Image Store Info v80"
+description: "Get Image Store Info v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Image Store Info
+# Get Image Store Info v80
 Gets the overall ImageStore information
 
 Returns information about the primary ImageStore replica, such as disk capacity and available disk space at the node it is on, and several categories of the ImageStore's file system usage.

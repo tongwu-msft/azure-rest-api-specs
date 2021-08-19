@@ -1,6 +1,6 @@
 ---
-title: "Get Image Store Content"
-description: "Get Image Store Content"
+title: "Get Image Store Content v80"
+description: "Get Image Store Content v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Image Store Content
+# Get Image Store Content v80
 Gets the image store content information.
 
 Returns the information about the image store content at the specified contentPath. The contentPath is relative to the root of the image store.

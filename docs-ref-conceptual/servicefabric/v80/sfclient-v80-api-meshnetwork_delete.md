@@ -1,6 +1,6 @@
 ---
-title: "Delete"
-description: "Delete"
+title: "Delete v80"
+description: "Delete v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete
+# Delete v80
 Deletes the Network resource.
 
 Deletes the Network resource identified by the name.

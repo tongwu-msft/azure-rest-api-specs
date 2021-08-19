@@ -1,6 +1,6 @@
 ---
-title: "ApplicationScopedVolume"
-description: "ApplicationScopedVolume"
+title: "ApplicationScopedVolume v80"
+description: "ApplicationScopedVolume v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationScopedVolume
+# ApplicationScopedVolume v80
 
 Describes a volume whose lifetime is scoped to the application's lifetime.
 

@@ -1,6 +1,6 @@
 ---
-title: "Service"
-description: "Service"
+title: "Service v80"
+description: "Service v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Service APIs
+# Service APIs v80
 
 | Name | Description |
 | --- | --- |

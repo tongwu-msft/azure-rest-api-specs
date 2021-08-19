@@ -1,6 +1,6 @@
 ---
-title: "PagedApplicationInfoList"
-description: "PagedApplicationInfoList"
+title: "PagedApplicationInfoList v80"
+description: "PagedApplicationInfoList v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PagedApplicationInfoList
+# PagedApplicationInfoList v80
 
 The list of applications in the cluster. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.
 

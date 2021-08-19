@@ -1,6 +1,6 @@
 ---
-title: "ExecutionPolicy"
-description: "ExecutionPolicy"
+title: "ExecutionPolicy v80"
+description: "ExecutionPolicy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ExecutionPolicy
+# ExecutionPolicy v80
 
 The execution policy of the service
 ## Inheritance

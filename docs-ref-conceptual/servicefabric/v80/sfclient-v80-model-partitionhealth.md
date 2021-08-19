@@ -1,6 +1,6 @@
 ---
-title: "PartitionHealth"
-description: "PartitionHealth"
+title: "PartitionHealth v80"
+description: "PartitionHealth v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionHealth
+# PartitionHealth v80
 
 Information about the health of a Service Fabric partition.
 

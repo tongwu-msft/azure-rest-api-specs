@@ -1,6 +1,6 @@
 ---
-title: "EntityHealth"
-description: "EntityHealth"
+title: "EntityHealth v80"
+description: "EntityHealth v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EntityHealth
+# EntityHealth v80
 
 Health information common to all entities in the cluster. It contains the aggregated health state, health events and unhealthy evaluation.
 

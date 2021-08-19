@@ -1,6 +1,6 @@
 ---
-title: "StatelessServiceDescription"
-description: "StatelessServiceDescription"
+title: "StatelessServiceDescription v80"
+description: "StatelessServiceDescription v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatelessServiceDescription
+# StatelessServiceDescription v80
 
 Describes a stateless service.
 

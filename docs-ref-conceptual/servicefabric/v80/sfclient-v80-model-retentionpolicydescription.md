@@ -1,6 +1,6 @@
 ---
-title: "RetentionPolicyDescription"
-description: "RetentionPolicyDescription"
+title: "RetentionPolicyDescription v80"
+description: "RetentionPolicyDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RetentionPolicyDescription
+# RetentionPolicyDescription v80
 
 Describes the retention policy configured.
 ## Inheritance

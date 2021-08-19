@@ -1,6 +1,6 @@
 ---
-title: "Get Name Exists Info"
-description: "Get Name Exists Info"
+title: "Get Name Exists Info v80"
+description: "Get Name Exists Info v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Name Exists Info
+# Get Name Exists Info v80
 Returns whether the Service Fabric name exists.
 
 Returns whether the specified Service Fabric name exists.

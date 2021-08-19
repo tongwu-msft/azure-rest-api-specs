@@ -1,6 +1,6 @@
 ---
-title: "SecondaryReplicatorStatus"
-description: "SecondaryReplicatorStatus"
+title: "SecondaryReplicatorStatus v80"
+description: "SecondaryReplicatorStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SecondaryReplicatorStatus
+# SecondaryReplicatorStatus v80
 
 Provides statistics about the Service Fabric Replicator, when it is functioning in a ActiveSecondary role.
 

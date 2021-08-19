@@ -1,6 +1,6 @@
 ---
-title: "ComposeDeploymentUpgradeState"
-description: "ComposeDeploymentUpgradeState"
+title: "ComposeDeploymentUpgradeState v80"
+description: "ComposeDeploymentUpgradeState v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ComposeDeploymentUpgradeState enum
+# ComposeDeploymentUpgradeState enum v80
 
 type: string
 

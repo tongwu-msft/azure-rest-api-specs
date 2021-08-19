@@ -1,6 +1,6 @@
 ---
-title: "Status and Error Codes"
-ms.date: "11/23/2019"
+title: "Status and Error Codes v80"
+ms.date: "11/23/2019 v80"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to:
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-tw"
 ---
 
-# Status and Error Codes
+# Status and Error Codes v80
 REST API operations for Service Fabric return standard HTTP status codes, as defined in the [HTTP/1.1 Status Code Definitions](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).  
 
 API operations may also return additional error information that is defined by Service Fabric. This additional error information is returned in the response body. The body of the error response is of [FabricError](sfclient-v80-model-FabricError.md) schema as shown below:

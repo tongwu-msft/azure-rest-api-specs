@@ -1,6 +1,6 @@
 ---
-title: "ScalingMechanismDescription"
-description: "ScalingMechanismDescription"
+title: "ScalingMechanismDescription v80"
+description: "ScalingMechanismDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ScalingMechanismDescription
+# ScalingMechanismDescription v80
 
 Describes the mechanism for performing a scaling operation.
 ## Inheritance

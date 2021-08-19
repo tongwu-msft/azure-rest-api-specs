@@ -1,6 +1,6 @@
 ---
-title: "Move Primary Replica"
-description: "Move Primary Replica"
+title: "Move Primary Replica v80"
+description: "Move Primary Replica v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Move Primary Replica
+# Move Primary Replica v80
 Moves the primary replica of a partition of a stateful service.
 
 This command moves the primary replica of a partition of a stateful service, respecting all constraints.

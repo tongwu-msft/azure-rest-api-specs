@@ -1,6 +1,6 @@
 ---
-title: "LocalNetworkResourceProperties"
-description: "LocalNetworkResourceProperties"
+title: "LocalNetworkResourceProperties v80"
+description: "LocalNetworkResourceProperties v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# LocalNetworkResourceProperties
+# LocalNetworkResourceProperties v80
 
 Information about a Service Fabric container network local to a single Service Fabric cluster.
 

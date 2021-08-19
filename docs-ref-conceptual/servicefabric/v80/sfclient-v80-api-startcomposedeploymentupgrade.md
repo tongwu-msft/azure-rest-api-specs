@@ -1,6 +1,6 @@
 ---
-title: "Start Compose Deployment Upgrade"
-description: "Start Compose Deployment Upgrade"
+title: "Start Compose Deployment Upgrade v80"
+description: "Start Compose Deployment Upgrade v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Start Compose Deployment Upgrade
+# Start Compose Deployment Upgrade v80
 Starts upgrading a compose deployment in the Service Fabric cluster.
 
 Validates the supplied upgrade parameters and starts upgrading the deployment if the parameters are valid.

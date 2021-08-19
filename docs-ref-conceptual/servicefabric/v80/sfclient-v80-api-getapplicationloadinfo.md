@@ -1,6 +1,6 @@
 ---
-title: "Get Application Load Info"
-description: "Get Application Load Info"
+title: "Get Application Load Info v80"
+description: "Get Application Load Info v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Application Load Info
+# Get Application Load Info v80
 Gets load information about a Service Fabric application.
 
 Returns the load information about the application that was created or in the process of being created in the Service Fabric cluster and whose name matches the one specified as the parameter. The response includes the name, minimum nodes, maximum nodes, the number of nodes the application is occupying currently, and application load metric information about the application.

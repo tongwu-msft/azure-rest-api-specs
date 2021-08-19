@@ -1,6 +1,6 @@
 ---
-title: "Get Image Store Root Folder Size"
-description: "Get Image Store Root Folder Size"
+title: "Get Image Store Root Folder Size v80"
+description: "Get Image Store Root Folder Size v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Image Store Root Folder Size
+# Get Image Store Root Folder Size v80
 Get the folder size at the root of the image store.
 
 Returns the total size of files at the root and children folders in image store.

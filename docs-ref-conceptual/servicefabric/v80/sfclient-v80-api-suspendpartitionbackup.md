@@ -1,6 +1,6 @@
 ---
-title: "Suspend Partition Backup"
-description: "Suspend Partition Backup"
+title: "Suspend Partition Backup v80"
+description: "Suspend Partition Backup v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Suspend Partition Backup
+# Suspend Partition Backup v80
 Suspends periodic backup for the specified partition.
 
 The partition which is configured to take periodic backups, is suspended for taking further backups till it is resumed again.

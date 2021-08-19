@@ -1,6 +1,6 @@
 ---
-title: "PartitionHealthStateChunkList"
-description: "PartitionHealthStateChunkList"
+title: "PartitionHealthStateChunkList v80"
+description: "PartitionHealthStateChunkList v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionHealthStateChunkList
+# PartitionHealthStateChunkList v80
 
 The list of partition health state chunks that respect the input filters in the chunk query description.
 Returned by get cluster health state chunks query as part of the parent application hierarchy.

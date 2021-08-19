@@ -1,6 +1,6 @@
 ---
-title: "PropertyMetadata"
-description: "PropertyMetadata"
+title: "PropertyMetadata v80"
+description: "PropertyMetadata v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PropertyMetadata
+# PropertyMetadata v80
 
 The metadata associated with a property, including the property's name.
 

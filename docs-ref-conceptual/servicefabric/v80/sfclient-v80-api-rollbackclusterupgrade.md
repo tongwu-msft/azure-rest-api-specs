@@ -1,6 +1,6 @@
 ---
-title: "Rollback Cluster Upgrade"
-description: "Rollback Cluster Upgrade"
+title: "Rollback Cluster Upgrade v80"
+description: "Rollback Cluster Upgrade v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Rollback Cluster Upgrade
+# Rollback Cluster Upgrade v80
 Roll back the upgrade of a Service Fabric cluster.
 
 Roll back the code or configuration upgrade of a Service Fabric cluster.

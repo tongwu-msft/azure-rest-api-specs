@@ -1,6 +1,6 @@
 ---
-title: "NodeHealthStateFilter"
-description: "NodeHealthStateFilter"
+title: "NodeHealthStateFilter v80"
+description: "NodeHealthStateFilter v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeHealthStateFilter
+# NodeHealthStateFilter v80
 
 Defines matching criteria to determine whether a node should be included in the returned cluster health chunk.
 One filter can match zero, one or multiple nodes, depending on its properties.

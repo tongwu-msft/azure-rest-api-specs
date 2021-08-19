@@ -1,6 +1,6 @@
 ---
-title: "Get Image Store Upload Session By Path"
-description: "Get Image Store Upload Session By Path"
+title: "Get Image Store Upload Session By Path v80"
+description: "Get Image Store Upload Session By Path v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Image Store Upload Session By Path
+# Get Image Store Upload Session By Path v80
 Get the image store upload session by relative path.
 
 Gets the image store upload session associated with the given image store relative path. User can query the upload session at any time during uploading. 

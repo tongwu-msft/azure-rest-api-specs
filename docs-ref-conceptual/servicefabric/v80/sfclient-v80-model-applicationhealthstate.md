@@ -1,6 +1,6 @@
 ---
-title: "ApplicationHealthState"
-description: "ApplicationHealthState"
+title: "ApplicationHealthState v80"
+description: "ApplicationHealthState v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationHealthState
+# ApplicationHealthState v80
 
 Represents the health state of an application, which contains the application identifier and the aggregated health state.
 

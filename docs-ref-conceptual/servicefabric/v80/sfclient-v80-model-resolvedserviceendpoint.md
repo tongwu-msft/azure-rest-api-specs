@@ -1,6 +1,6 @@
 ---
-title: "ResolvedServiceEndpoint"
-description: "ResolvedServiceEndpoint"
+title: "ResolvedServiceEndpoint v80"
+description: "ResolvedServiceEndpoint v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ResolvedServiceEndpoint
+# ResolvedServiceEndpoint v80
 
 Endpoint of a resolved service partition.
 

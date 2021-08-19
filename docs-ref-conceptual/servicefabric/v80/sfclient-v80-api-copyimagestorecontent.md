@@ -1,6 +1,6 @@
 ---
-title: "Copy Image Store Content"
-description: "Copy Image Store Content"
+title: "Copy Image Store Content v80"
+description: "Copy Image Store Content v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Copy Image Store Content
+# Copy Image Store Content v80
 Copies image store content internally
 
 Copies the image store content from the source image store relative path to the destination image store relative path.

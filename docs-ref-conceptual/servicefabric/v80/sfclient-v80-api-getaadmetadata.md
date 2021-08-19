@@ -1,6 +1,6 @@
 ---
-title: "Get Aad Metadata"
-description: "Get Aad Metadata"
+title: "Get Aad Metadata v80"
+description: "Get Aad Metadata v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Aad Metadata
+# Get Aad Metadata v80
 Gets the Azure Active Directory metadata used for secured connection to cluster.
 
 Gets the Azure Active Directory metadata used for secured connection to cluster.

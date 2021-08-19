@@ -1,6 +1,6 @@
 ---
-title: "DeletePropertyBatchOperation"
-description: "DeletePropertyBatchOperation"
+title: "DeletePropertyBatchOperation v80"
+description: "DeletePropertyBatchOperation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeletePropertyBatchOperation
+# DeletePropertyBatchOperation v80
 
 Represents a PropertyBatchOperation that deletes a specified property if it exists.
 Note that if one PropertyBatchOperation in a PropertyBatch fails,

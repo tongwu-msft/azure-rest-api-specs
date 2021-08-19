@@ -1,6 +1,6 @@
 ---
-title: "ManagedIdentityType"
-description: "ManagedIdentityType"
+title: "ManagedIdentityType v80"
+description: "ManagedIdentityType v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ManagedIdentityType enum
+# ManagedIdentityType enum v80
 
 type: string
 

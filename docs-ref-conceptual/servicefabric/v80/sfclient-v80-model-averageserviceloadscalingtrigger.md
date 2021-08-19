@@ -1,6 +1,6 @@
 ---
-title: "AverageServiceLoadScalingTrigger"
-description: "AverageServiceLoadScalingTrigger"
+title: "AverageServiceLoadScalingTrigger v80"
+description: "AverageServiceLoadScalingTrigger v80"
 ms.date: "01/28/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AverageServiceLoadScalingTrigger
+# AverageServiceLoadScalingTrigger v80
 
 Represents a scaling policy related to an average load of a metric/resource of a service.
 

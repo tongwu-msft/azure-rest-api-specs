@@ -1,6 +1,6 @@
 ---
-title: "SettingType"
-description: "SettingType"
+title: "SettingType v80"
+description: "SettingType v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SettingType enum
+# SettingType enum v80
 
 type: string
 

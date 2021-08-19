@@ -1,6 +1,6 @@
 ---
-title: "DeactivationIntent"
-description: "DeactivationIntent"
+title: "DeactivationIntent v80"
+description: "DeactivationIntent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeactivationIntent enum
+# DeactivationIntent enum v80
 
 type: string
 

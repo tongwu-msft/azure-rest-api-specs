@@ -1,6 +1,6 @@
 ---
-title: "AutoScalingTrigger"
-description: "AutoScalingTrigger"
+title: "AutoScalingTrigger v80"
+description: "AutoScalingTrigger v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AutoScalingTrigger
+# AutoScalingTrigger v80
 
 Describes the trigger for performing auto scaling operation.
 ## Inheritance

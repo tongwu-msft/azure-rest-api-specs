@@ -1,6 +1,6 @@
 ---
-title: "PartitionHealthStateChunk"
-description: "PartitionHealthStateChunk"
+title: "PartitionHealthStateChunk v80"
+description: "PartitionHealthStateChunk v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionHealthStateChunk
+# PartitionHealthStateChunk v80
 
 Represents the health state chunk of a partition, which contains the partition ID, its aggregated health state and any replicas that respect the filters in the cluster health chunk query description.
 

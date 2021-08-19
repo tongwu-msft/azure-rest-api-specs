@@ -1,6 +1,6 @@
 ---
-title: "NodeRepairTargetDescription"
-description: "NodeRepairTargetDescription"
+title: "NodeRepairTargetDescription v80"
+description: "NodeRepairTargetDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeRepairTargetDescription
+# NodeRepairTargetDescription v80
 
 Describes the list of nodes targeted by a repair action.
 

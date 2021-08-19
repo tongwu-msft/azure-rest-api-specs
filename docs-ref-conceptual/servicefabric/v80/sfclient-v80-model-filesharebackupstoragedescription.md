@@ -1,6 +1,6 @@
 ---
-title: "FileShareBackupStorageDescription"
-description: "FileShareBackupStorageDescription"
+title: "FileShareBackupStorageDescription v80"
+description: "FileShareBackupStorageDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# FileShareBackupStorageDescription
+# FileShareBackupStorageDescription v80
 
 Describes the parameters for file share storage used for storing or enumerating backups.
 

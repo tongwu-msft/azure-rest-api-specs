@@ -1,6 +1,6 @@
 ---
-title: "ChaosStatus"
-description: "ChaosStatus"
+title: "ChaosStatus v80"
+description: "ChaosStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ChaosStatus enum
+# ChaosStatus enum v80
 
 type: string
 

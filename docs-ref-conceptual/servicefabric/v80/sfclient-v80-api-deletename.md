@@ -1,6 +1,6 @@
 ---
-title: "Delete Name"
-description: "Delete Name"
+title: "Delete Name v80"
+description: "Delete Name v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete Name
+# Delete Name v80
 Deletes a Service Fabric name.
 
 Deletes the specified Service Fabric name. A name must be created before it can be deleted. Deleting a name with child properties will fail.

@@ -1,6 +1,6 @@
 ---
-title: "RepairManagement"
-description: "RepairManagement"
+title: "RepairManagement v80"
+description: "RepairManagement v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RepairManagement APIs
+# RepairManagement APIs v80
 
 | Name | Description |
 | --- | --- |

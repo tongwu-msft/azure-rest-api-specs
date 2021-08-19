@@ -1,6 +1,6 @@
 ---
-title: "EnsureAvailabilitySafetyCheck"
-description: "EnsureAvailabilitySafetyCheck"
+title: "EnsureAvailabilitySafetyCheck v80"
+description: "EnsureAvailabilitySafetyCheck v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EnsureAvailabilitySafetyCheck
+# EnsureAvailabilitySafetyCheck v80
 
 Safety check that waits to ensure the availability of the partition. It waits until there are replicas available such that bringing down this replica will not cause availability loss for the partition.
 

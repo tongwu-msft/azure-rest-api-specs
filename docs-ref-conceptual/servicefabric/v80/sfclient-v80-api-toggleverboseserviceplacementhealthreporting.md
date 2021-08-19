@@ -1,6 +1,6 @@
 ---
-title: "Toggle Verbose Service Placement Health Reporting"
-description: "Toggle Verbose Service Placement Health Reporting"
+title: "Toggle Verbose Service Placement Health Reporting v80"
+description: "Toggle Verbose Service Placement Health Reporting v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Toggle Verbose Service Placement Health Reporting
+# Toggle Verbose Service Placement Health Reporting v80
 Changes the verbosity of service placement health reporting.
 
 If verbosity is set to true, then detailed health reports will be generated when replicas cannot be placed or dropped.

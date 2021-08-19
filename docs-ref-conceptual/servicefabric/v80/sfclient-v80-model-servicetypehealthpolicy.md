@@ -1,6 +1,6 @@
 ---
-title: "ServiceTypeHealthPolicy"
-description: "ServiceTypeHealthPolicy"
+title: "ServiceTypeHealthPolicy v80"
+description: "ServiceTypeHealthPolicy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceTypeHealthPolicy
+# ServiceTypeHealthPolicy v80
 
 Represents the health policy used to evaluate the health of services belonging to a service type.
 

@@ -1,6 +1,6 @@
 ---
-title: "WaitForPrimarySwapSafetyCheck"
-description: "WaitForPrimarySwapSafetyCheck"
+title: "WaitForPrimarySwapSafetyCheck v80"
+description: "WaitForPrimarySwapSafetyCheck v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# WaitForPrimarySwapSafetyCheck
+# WaitForPrimarySwapSafetyCheck v80
 
 Safety check that waits for the primary replica to be moved out of the node before starting an upgrade to ensure the availability of the primary replica for the partition.
 

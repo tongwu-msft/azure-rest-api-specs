@@ -1,6 +1,6 @@
 ---
-title: "CodePackageEntryPoint"
-description: "CodePackageEntryPoint"
+title: "CodePackageEntryPoint v80"
+description: "CodePackageEntryPoint v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# CodePackageEntryPoint
+# CodePackageEntryPoint v80
 
 Information about setup or main entry point of a code package deployed on a Service Fabric node.
 

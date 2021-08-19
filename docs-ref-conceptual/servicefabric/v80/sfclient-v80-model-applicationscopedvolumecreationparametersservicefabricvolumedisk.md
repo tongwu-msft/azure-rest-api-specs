@@ -1,6 +1,6 @@
 ---
-title: "ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk"
-description: "ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk"
+title: "ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk v80"
+description: "ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk
+# ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk v80
 
 Describes parameters for creating application-scoped volumes provided by Service Fabric Volume Disks
 

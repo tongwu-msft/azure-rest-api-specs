@@ -1,6 +1,6 @@
 ---
-title: "PagedSecretValueResourceDescriptionList"
-description: "PagedSecretValueResourceDescriptionList"
+title: "PagedSecretValueResourceDescriptionList v80"
+description: "PagedSecretValueResourceDescriptionList v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PagedSecretValueResourceDescriptionList
+# PagedSecretValueResourceDescriptionList v80
 
 The list of values of a secret resource, paged if the number of results exceeds the limits of a single message. The next set of results can be obtained by executing the same query with the continuation token provided in the previous page.
 

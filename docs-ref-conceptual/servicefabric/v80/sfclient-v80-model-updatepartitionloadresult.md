@@ -1,6 +1,6 @@
 ---
-title: "UpdatePartitionLoadResult"
-description: "UpdatePartitionLoadResult"
+title: "UpdatePartitionLoadResult v80"
+description: "UpdatePartitionLoadResult v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UpdatePartitionLoadResult
+# UpdatePartitionLoadResult v80
 
 Specifies result of updating load for specified partitions. The output will be ordered based on the partition ID.
 

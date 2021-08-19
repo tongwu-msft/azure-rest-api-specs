@@ -1,6 +1,6 @@
 ---
-title: "Submit Property Batch"
-description: "Submit Property Batch"
+title: "Submit Property Batch v80"
+description: "Submit Property Batch v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Submit Property Batch
+# Submit Property Batch v80
 Submits a property batch.
 
 Submits a batch of property operations. Either all or none of the operations will be committed.

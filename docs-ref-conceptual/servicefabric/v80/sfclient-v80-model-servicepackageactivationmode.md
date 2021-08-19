@@ -1,6 +1,6 @@
 ---
-title: "ServicePackageActivationMode"
-description: "ServicePackageActivationMode"
+title: "ServicePackageActivationMode v80"
+description: "ServicePackageActivationMode v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServicePackageActivationMode enum
+# ServicePackageActivationMode enum v80
 
 type: string
 

@@ -1,6 +1,6 @@
 ---
-title: "ServicePlacementNonPartiallyPlaceServicePolicyDescription"
-description: "ServicePlacementNonPartiallyPlaceServicePolicyDescription"
+title: "ServicePlacementNonPartiallyPlaceServicePolicyDescription v80"
+description: "ServicePlacementNonPartiallyPlaceServicePolicyDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServicePlacementNonPartiallyPlaceServicePolicyDescription
+# ServicePlacementNonPartiallyPlaceServicePolicyDescription v80
 
 Describes the policy to be used for placement of a Service Fabric service where all replicas must be able to be placed in order for any replicas to be created.
 

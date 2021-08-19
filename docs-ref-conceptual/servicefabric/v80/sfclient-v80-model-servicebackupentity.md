@@ -1,6 +1,6 @@
 ---
-title: "ServiceBackupEntity"
-description: "ServiceBackupEntity"
+title: "ServiceBackupEntity v80"
+description: "ServiceBackupEntity v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceBackupEntity
+# ServiceBackupEntity v80
 
 Identifies the Service Fabric stateful service which is being backed up.
 

@@ -1,6 +1,6 @@
 ---
-title: "Cancel Operation"
-description: "Cancel Operation"
+title: "Cancel Operation v80"
+description: "Cancel Operation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Cancel Operation
+# Cancel Operation v80
 Cancels a user-induced fault operation.
 
 The following APIs start fault operations that may be cancelled by using CancelOperation: StartDataLoss, StartQuorumLoss, StartPartitionRestart, StartNodeTransition.

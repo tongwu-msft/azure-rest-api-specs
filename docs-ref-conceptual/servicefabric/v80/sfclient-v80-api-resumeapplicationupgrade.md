@@ -1,6 +1,6 @@
 ---
-title: "Resume Application Upgrade"
-description: "Resume Application Upgrade"
+title: "Resume Application Upgrade v80"
+description: "Resume Application Upgrade v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Resume Application Upgrade
+# Resume Application Upgrade v80
 Resumes upgrading an application in the Service Fabric cluster.
 
 Resumes an unmonitored manual Service Fabric application upgrade. Service Fabric upgrades one upgrade domain at a time. For unmonitored manual upgrades, after Service Fabric finishes an upgrade domain, it waits for you to call this API before proceeding to the next upgrade domain.

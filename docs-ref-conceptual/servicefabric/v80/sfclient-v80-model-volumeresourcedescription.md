@@ -1,6 +1,6 @@
 ---
-title: "VolumeResourceDescription"
-description: "VolumeResourceDescription"
+title: "VolumeResourceDescription v80"
+description: "VolumeResourceDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# VolumeResourceDescription
+# VolumeResourceDescription v80
 
 This type describes a volume resource.
 

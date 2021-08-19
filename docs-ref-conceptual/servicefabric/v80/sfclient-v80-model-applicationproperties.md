@@ -1,6 +1,6 @@
 ---
-title: "ApplicationProperties"
-description: "ApplicationProperties"
+title: "ApplicationProperties v80"
+description: "ApplicationProperties v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationProperties
+# ApplicationProperties v80
 
 Describes properties of a application resource.
 

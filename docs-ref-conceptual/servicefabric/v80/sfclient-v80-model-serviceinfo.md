@@ -1,6 +1,6 @@
 ---
-title: "ServiceInfo"
-description: "ServiceInfo"
+title: "ServiceInfo v80"
+description: "ServiceInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceInfo
+# ServiceInfo v80
 
 Information about a Service Fabric service.
 ## Inheritance

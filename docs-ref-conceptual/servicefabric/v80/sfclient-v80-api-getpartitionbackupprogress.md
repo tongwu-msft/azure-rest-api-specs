@@ -1,6 +1,6 @@
 ---
-title: "Get Partition Backup Progress"
-description: "Get Partition Backup Progress"
+title: "Get Partition Backup Progress v80"
+description: "Get Partition Backup Progress v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Partition Backup Progress
+# Get Partition Backup Progress v80
 Gets details for the latest backup triggered for this partition.
 
 Returns information about the state of the latest backup along with details or failure reason in case of completion.

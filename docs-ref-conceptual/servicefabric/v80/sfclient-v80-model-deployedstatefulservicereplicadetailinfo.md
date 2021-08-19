@@ -1,6 +1,6 @@
 ---
-title: "DeployedStatefulServiceReplicaDetailInfo"
-description: "DeployedStatefulServiceReplicaDetailInfo"
+title: "DeployedStatefulServiceReplicaDetailInfo v80"
+description: "DeployedStatefulServiceReplicaDetailInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedStatefulServiceReplicaDetailInfo
+# DeployedStatefulServiceReplicaDetailInfo v80
 
 Information about a stateful replica running in a code package. Note DeployedServiceReplicaQueryResult will contain duplicate data like ServiceKind, ServiceName, PartitionId and replicaId.
 

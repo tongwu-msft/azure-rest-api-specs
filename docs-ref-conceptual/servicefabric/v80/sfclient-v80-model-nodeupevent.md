@@ -1,6 +1,6 @@
 ---
-title: "NodeUpEvent"
-description: "NodeUpEvent"
+title: "NodeUpEvent v80"
+description: "NodeUpEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeUpEvent
+# NodeUpEvent v80
 
 Node Up event.
 

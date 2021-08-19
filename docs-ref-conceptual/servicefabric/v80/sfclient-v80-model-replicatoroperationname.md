@@ -1,6 +1,6 @@
 ---
-title: "ReplicatorOperationName"
-description: "ReplicatorOperationName"
+title: "ReplicatorOperationName v80"
+description: "ReplicatorOperationName v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReplicatorOperationName enum
+# ReplicatorOperationName enum v80
 
 type: string
 

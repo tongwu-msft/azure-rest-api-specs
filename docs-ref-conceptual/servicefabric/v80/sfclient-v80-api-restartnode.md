@@ -1,6 +1,6 @@
 ---
-title: "Restart Node"
-description: "Restart Node"
+title: "Restart Node v80"
+description: "Restart Node v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Restart Node
+# Restart Node v80
 Restarts a Service Fabric cluster node.
 
 Restarts a Service Fabric cluster node that is already started.

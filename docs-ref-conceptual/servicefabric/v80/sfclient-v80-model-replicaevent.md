@@ -1,6 +1,6 @@
 ---
-title: "ReplicaEvent"
-description: "ReplicaEvent"
+title: "ReplicaEvent v80"
+description: "ReplicaEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReplicaEvent
+# ReplicaEvent v80
 
 Represents the base for all Replica Events.
 

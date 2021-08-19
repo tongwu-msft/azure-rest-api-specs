@@ -1,6 +1,6 @@
 ---
-title: "GetBackupByStorageQueryDescription"
-description: "GetBackupByStorageQueryDescription"
+title: "GetBackupByStorageQueryDescription v80"
+description: "GetBackupByStorageQueryDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# GetBackupByStorageQueryDescription
+# GetBackupByStorageQueryDescription v80
 
 Describes additional filters to be applied, while listing backups, and backup storage details from where to fetch the backups.
 

@@ -1,6 +1,6 @@
 ---
-title: "Delete Property"
-description: "Delete Property"
+title: "Delete Property v80"
+description: "Delete Property v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete Property
+# Delete Property v80
 Deletes the specified Service Fabric property.
 
 Deletes the specified Service Fabric property under a given name. A property must be created before it can be deleted.

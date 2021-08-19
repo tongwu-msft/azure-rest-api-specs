@@ -1,6 +1,6 @@
 ---
-title: "ServiceIdentity"
-description: "ServiceIdentity"
+title: "ServiceIdentity v80"
+description: "ServiceIdentity v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceIdentity
+# ServiceIdentity v80
 
 Map service identity friendly name to an application identity.
 

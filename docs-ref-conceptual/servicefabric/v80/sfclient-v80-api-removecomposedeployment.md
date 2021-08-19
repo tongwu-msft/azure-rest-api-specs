@@ -1,6 +1,6 @@
 ---
-title: "Remove Compose Deployment"
-description: "Remove Compose Deployment"
+title: "Remove Compose Deployment v80"
+description: "Remove Compose Deployment v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Remove Compose Deployment
+# Remove Compose Deployment v80
 Deletes an existing Service Fabric compose deployment from cluster.
 
 Deletes an existing Service Fabric compose deployment.

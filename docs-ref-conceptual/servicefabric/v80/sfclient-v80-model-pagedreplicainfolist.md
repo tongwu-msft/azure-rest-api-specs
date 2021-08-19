@@ -1,6 +1,6 @@
 ---
-title: "PagedReplicaInfoList"
-description: "PagedReplicaInfoList"
+title: "PagedReplicaInfoList v80"
+description: "PagedReplicaInfoList v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PagedReplicaInfoList
+# PagedReplicaInfoList v80
 
 The list of replicas in the cluster for a given partition. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.
 

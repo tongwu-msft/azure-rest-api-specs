@@ -1,6 +1,6 @@
 ---
-title: "Get Service Type Info List"
-description: "Get Service Type Info List"
+title: "Get Service Type Info List v80"
+description: "Get Service Type Info List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Service Type Info List
+# Get Service Type Info List v80
 Gets the list containing the information about service types that are supported by a provisioned application type in a Service Fabric cluster.
 
 Gets the list containing the information about service types that are supported by a provisioned application type in a Service Fabric cluster. The provided application type must exist. Otherwise, a 404 status is returned.

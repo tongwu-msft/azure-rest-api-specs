@@ -1,6 +1,6 @@
 ---
-title: "NodeAddedToClusterEvent"
-description: "NodeAddedToClusterEvent"
+title: "NodeAddedToClusterEvent v80"
+description: "NodeAddedToClusterEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeAddedToClusterEvent
+# NodeAddedToClusterEvent v80
 
 Node Added event.
 

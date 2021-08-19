@@ -1,6 +1,6 @@
 ---
-title: "Get Partition Health"
-description: "Get Partition Health"
+title: "Get Partition Health v80"
+description: "Get Partition Health v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Partition Health
+# Get Partition Health v80
 Gets the health of the specified Service Fabric partition.
 
 Use EventsHealthStateFilter to filter the collection of health events reported on the service based on the health state.

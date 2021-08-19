@@ -1,6 +1,6 @@
 ---
-title: "UnprovisionApplicationTypeDescriptionInfo"
-description: "UnprovisionApplicationTypeDescriptionInfo"
+title: "UnprovisionApplicationTypeDescriptionInfo v80"
+description: "UnprovisionApplicationTypeDescriptionInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UnprovisionApplicationTypeDescriptionInfo
+# UnprovisionApplicationTypeDescriptionInfo v80
 
 Describes the operation to unregister or unprovision an application type and its version that was registered with the Service Fabric.
 

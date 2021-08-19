@@ -1,6 +1,6 @@
 ---
-title: "ChaosEvent"
-description: "ChaosEvent"
+title: "ChaosEvent v80"
+description: "ChaosEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ChaosEvent
+# ChaosEvent v80
 
 Represents an event generated during a Chaos run.
 ## Inheritance

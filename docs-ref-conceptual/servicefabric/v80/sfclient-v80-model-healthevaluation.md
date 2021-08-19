@@ -1,6 +1,6 @@
 ---
-title: "HealthEvaluation"
-description: "HealthEvaluation"
+title: "HealthEvaluation v80"
+description: "HealthEvaluation v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# HealthEvaluation
+# HealthEvaluation v80
 
 Represents a health evaluation which describes the data and the algorithm used by health manager to evaluate the health of an entity.
 ## Inheritance

@@ -1,6 +1,6 @@
 ---
-title: "RemoteReplicatorAcknowledgementStatus"
-description: "RemoteReplicatorAcknowledgementStatus"
+title: "RemoteReplicatorAcknowledgementStatus v80"
+description: "RemoteReplicatorAcknowledgementStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RemoteReplicatorAcknowledgementStatus
+# RemoteReplicatorAcknowledgementStatus v80
 
 Provides details about the remote replicators from the primary replicator's point of view.
 

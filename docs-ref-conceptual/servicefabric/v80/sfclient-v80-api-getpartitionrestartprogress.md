@@ -1,6 +1,6 @@
 ---
-title: "Get Partition Restart Progress"
-description: "Get Partition Restart Progress"
+title: "Get Partition Restart Progress v80"
+description: "Get Partition Restart Progress v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Partition Restart Progress
+# Get Partition Restart Progress v80
 Gets the progress of a PartitionRestart operation started using StartPartitionRestart.
 
 Gets the progress of a PartitionRestart started with StartPartitionRestart using the provided OperationId.

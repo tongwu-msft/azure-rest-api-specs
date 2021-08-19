@@ -1,6 +1,6 @@
 ---
-title: "ProvisionApplicationTypeDescription"
-description: "ProvisionApplicationTypeDescription"
+title: "ProvisionApplicationTypeDescription v80"
+description: "ProvisionApplicationTypeDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ProvisionApplicationTypeDescription
+# ProvisionApplicationTypeDescription v80
 
 Describes the operation to register or provision an application type using an application package uploaded to the Service Fabric image store.
 

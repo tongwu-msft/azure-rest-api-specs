@@ -1,6 +1,6 @@
 ---
-title: "ServiceResourceProperties"
-description: "ServiceResourceProperties"
+title: "ServiceResourceProperties v80"
+description: "ServiceResourceProperties v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceResourceProperties
+# ServiceResourceProperties v80
 
 This type describes properties of a service resource.
 

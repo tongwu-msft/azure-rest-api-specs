@@ -1,6 +1,6 @@
 ---
-title: "ContainerApiResult"
-description: "ContainerApiResult"
+title: "ContainerApiResult v80"
+description: "ContainerApiResult v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ContainerApiResult
+# ContainerApiResult v80
 
 Container API result.
 

@@ -1,6 +1,6 @@
 ---
-title: "KeyValueStoreReplicaStatus"
-description: "KeyValueStoreReplicaStatus"
+title: "KeyValueStoreReplicaStatus v80"
+description: "KeyValueStoreReplicaStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# KeyValueStoreReplicaStatus
+# KeyValueStoreReplicaStatus v80
 
 Key value store related information for the replica.
 

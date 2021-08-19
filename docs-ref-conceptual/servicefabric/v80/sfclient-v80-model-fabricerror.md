@@ -1,6 +1,6 @@
 ---
-title: "FabricError"
-description: "FabricError"
+title: "FabricError v80"
+description: "FabricError v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# FabricError
+# FabricError v80
 
 The REST API operations for Service Fabric return standard HTTP status codes. This type defines the additional information returned from the Service Fabric API operations that are not successful.
 

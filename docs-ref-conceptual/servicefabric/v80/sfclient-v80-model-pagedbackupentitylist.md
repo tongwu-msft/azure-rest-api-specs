@@ -1,6 +1,6 @@
 ---
-title: "PagedBackupEntityList"
-description: "PagedBackupEntityList"
+title: "PagedBackupEntityList v80"
+description: "PagedBackupEntityList v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PagedBackupEntityList
+# PagedBackupEntityList v80
 
 The list of backup entities that are being periodically backed. The list is paged when all of the results cannot fit in a single message. The next set of results can be obtained by executing the same query with the continuation token provided in this list.
 

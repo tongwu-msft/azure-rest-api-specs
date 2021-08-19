@@ -1,6 +1,6 @@
 ---
-title: "ApplicationNameInfo"
-description: "ApplicationNameInfo"
+title: "ApplicationNameInfo v80"
+description: "ApplicationNameInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationNameInfo
+# ApplicationNameInfo v80
 
 Information about the application name.
 

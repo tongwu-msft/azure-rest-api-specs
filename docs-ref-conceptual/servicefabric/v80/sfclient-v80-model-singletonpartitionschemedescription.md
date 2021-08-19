@@ -1,6 +1,6 @@
 ---
-title: "SingletonPartitionSchemeDescription"
-description: "SingletonPartitionSchemeDescription"
+title: "SingletonPartitionSchemeDescription v80"
+description: "SingletonPartitionSchemeDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,6 +27,6 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SingletonPartitionSchemeDescription
+# SingletonPartitionSchemeDescription v80
 
 Describes the partition scheme of a singleton-partitioned, or non-partitioned service.

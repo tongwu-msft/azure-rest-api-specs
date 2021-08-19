@@ -1,6 +1,6 @@
 ---
-title: "OperationStatus"
-description: "OperationStatus"
+title: "OperationStatus v80"
+description: "OperationStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# OperationStatus
+# OperationStatus v80
 
 Contains the OperationId, OperationState, and OperationType for user-induced operations.
 

@@ -1,6 +1,6 @@
 ---
-title: "PartitionEvent"
-description: "PartitionEvent"
+title: "PartitionEvent v80"
+description: "PartitionEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionEvent
+# PartitionEvent v80
 
 Represents the base for all Partition Events.
 

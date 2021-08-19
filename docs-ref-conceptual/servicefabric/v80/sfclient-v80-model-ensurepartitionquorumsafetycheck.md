@@ -1,6 +1,6 @@
 ---
-title: "EnsurePartitionQuorumSafetyCheck"
-description: "EnsurePartitionQuorumSafetyCheck"
+title: "EnsurePartitionQuorumSafetyCheck v80"
+description: "EnsurePartitionQuorumSafetyCheck v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EnsurePartitionQuorumSafetyCheck
+# EnsurePartitionQuorumSafetyCheck v80
 
 Safety check that ensures that a quorum of replicas are not lost for a partition.
 

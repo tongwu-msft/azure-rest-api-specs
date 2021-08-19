@@ -1,6 +1,6 @@
 ---
-title: "NodeDeactivationIntent"
-description: "NodeDeactivationIntent"
+title: "NodeDeactivationIntent v80"
+description: "NodeDeactivationIntent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeDeactivationIntent enum
+# NodeDeactivationIntent enum v80
 
 type: string
 

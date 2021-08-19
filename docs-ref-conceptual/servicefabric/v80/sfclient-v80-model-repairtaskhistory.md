@@ -1,6 +1,6 @@
 ---
-title: "RepairTaskHistory"
-description: "RepairTaskHistory"
+title: "RepairTaskHistory v80"
+description: "RepairTaskHistory v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RepairTaskHistory
+# RepairTaskHistory v80
 
 A record of the times when the repair task entered each state.
 

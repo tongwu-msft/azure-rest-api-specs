@@ -1,6 +1,6 @@
 ---
-title: "InlinedValueSecretResourceProperties"
-description: "InlinedValueSecretResourceProperties"
+title: "InlinedValueSecretResourceProperties v80"
+description: "InlinedValueSecretResourceProperties v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# InlinedValueSecretResourceProperties
+# InlinedValueSecretResourceProperties v80
 
 Describes the properties of a secret resource whose value is provided explicitly as plaintext. The secret resource may have multiple values, each being uniquely versioned. The secret value of each version is stored encrypted, and delivered as plaintext into the context of applications referencing it.
 

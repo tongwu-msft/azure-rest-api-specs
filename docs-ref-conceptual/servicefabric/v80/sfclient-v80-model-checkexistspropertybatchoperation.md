@@ -1,6 +1,6 @@
 ---
-title: "CheckExistsPropertyBatchOperation"
-description: "CheckExistsPropertyBatchOperation"
+title: "CheckExistsPropertyBatchOperation v80"
+description: "CheckExistsPropertyBatchOperation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# CheckExistsPropertyBatchOperation
+# CheckExistsPropertyBatchOperation v80
 
 Represents a PropertyBatchOperation that compares the Boolean existence of a property with the Exists argument.
 The PropertyBatchOperation operation fails if the property's existence is not equal to the Exists argument.

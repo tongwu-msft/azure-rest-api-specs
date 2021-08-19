@@ -1,6 +1,6 @@
 ---
-title: "SelectedPartition"
-description: "SelectedPartition"
+title: "SelectedPartition v80"
+description: "SelectedPartition v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SelectedPartition
+# SelectedPartition v80
 
 This class returns information about the partition that the user-induced operation acted upon.
 

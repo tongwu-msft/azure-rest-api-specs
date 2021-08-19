@@ -1,6 +1,6 @@
 ---
-title: "PartitionMetricLoadDescription"
-description: "PartitionMetricLoadDescription"
+title: "PartitionMetricLoadDescription v80"
+description: "PartitionMetricLoadDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionMetricLoadDescription
+# PartitionMetricLoadDescription v80
 
 Represents load information for a partition, which contains the metrics load information about primary, all secondary replicas/instances or a specific secondary replica/instance located on a specific node.
 

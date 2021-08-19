@@ -1,6 +1,6 @@
 ---
-title: "NodeLoadMetricInformation"
-description: "NodeLoadMetricInformation"
+title: "NodeLoadMetricInformation v80"
+description: "NodeLoadMetricInformation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeLoadMetricInformation
+# NodeLoadMetricInformation v80
 
 Represents data structure that contains load information for a certain metric on a node.
 

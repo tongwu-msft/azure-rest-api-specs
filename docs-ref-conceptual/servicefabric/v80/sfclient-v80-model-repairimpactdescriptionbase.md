@@ -1,6 +1,6 @@
 ---
-title: "RepairImpactDescriptionBase"
-description: "RepairImpactDescriptionBase"
+title: "RepairImpactDescriptionBase v80"
+description: "RepairImpactDescriptionBase v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RepairImpactDescriptionBase
+# RepairImpactDescriptionBase v80
 
 Describes the expected impact of executing a repair task.
 

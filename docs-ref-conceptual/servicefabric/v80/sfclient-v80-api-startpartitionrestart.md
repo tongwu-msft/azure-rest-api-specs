@@ -1,6 +1,6 @@
 ---
-title: "Start Partition Restart"
-description: "Start Partition Restart"
+title: "Start Partition Restart v80"
+description: "Start Partition Restart v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Start Partition Restart
+# Start Partition Restart v80
 This API will restart some or all replicas or instances of the specified partition.
 
 This API is useful for testing failover.

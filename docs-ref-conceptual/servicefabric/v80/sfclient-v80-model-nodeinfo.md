@@ -1,6 +1,6 @@
 ---
-title: "NodeInfo"
-description: "NodeInfo"
+title: "NodeInfo v80"
+description: "NodeInfo v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeInfo
+# NodeInfo v80
 
 Information about a node in Service Fabric cluster.
 

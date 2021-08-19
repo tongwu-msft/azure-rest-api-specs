@@ -1,6 +1,6 @@
 ---
-title: "NodesHealthEvaluation"
-description: "NodesHealthEvaluation"
+title: "NodesHealthEvaluation v80"
+description: "NodesHealthEvaluation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodesHealthEvaluation
+# NodesHealthEvaluation v80
 
 Represents health evaluation for nodes, containing health evaluations for each unhealthy node that impacted current aggregated health state. Can be returned when evaluating cluster health and the aggregated health state is either Error or Warning.
 

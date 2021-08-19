@@ -1,6 +1,6 @@
 ---
-title: "RestartPolicy"
-description: "RestartPolicy"
+title: "RestartPolicy v80"
+description: "RestartPolicy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RestartPolicy enum
+# RestartPolicy enum v80
 
 type: string
 

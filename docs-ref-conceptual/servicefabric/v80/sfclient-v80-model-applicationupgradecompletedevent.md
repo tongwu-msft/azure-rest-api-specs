@@ -1,6 +1,6 @@
 ---
-title: "ApplicationUpgradeCompletedEvent"
-description: "ApplicationUpgradeCompletedEvent"
+title: "ApplicationUpgradeCompletedEvent v80"
+description: "ApplicationUpgradeCompletedEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationUpgradeCompletedEvent
+# ApplicationUpgradeCompletedEvent v80
 
 Application Upgrade Completed event.
 

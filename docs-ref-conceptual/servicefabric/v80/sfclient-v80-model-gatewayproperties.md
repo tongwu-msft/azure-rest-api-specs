@@ -1,6 +1,6 @@
 ---
-title: "GatewayProperties"
-description: "GatewayProperties"
+title: "GatewayProperties v80"
+description: "GatewayProperties v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# GatewayProperties
+# GatewayProperties v80
 
 Describes properties of a gateway resource.
 

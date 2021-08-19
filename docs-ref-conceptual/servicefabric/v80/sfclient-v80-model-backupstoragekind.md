@@ -1,6 +1,6 @@
 ---
-title: "BackupStorageKind"
-description: "BackupStorageKind"
+title: "BackupStorageKind v80"
+description: "BackupStorageKind v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# BackupStorageKind enum
+# BackupStorageKind enum v80
 
 type: string
 

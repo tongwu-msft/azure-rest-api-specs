@@ -1,6 +1,6 @@
 ---
-title: "PartitionAccessStatus"
-description: "PartitionAccessStatus"
+title: "PartitionAccessStatus v80"
+description: "PartitionAccessStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionAccessStatus enum
+# PartitionAccessStatus enum v80
 
 type: string
 

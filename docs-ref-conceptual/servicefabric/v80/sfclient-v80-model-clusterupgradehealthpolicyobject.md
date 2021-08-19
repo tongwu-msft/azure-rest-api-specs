@@ -1,6 +1,6 @@
 ---
-title: "ClusterUpgradeHealthPolicyObject"
-description: "ClusterUpgradeHealthPolicyObject"
+title: "ClusterUpgradeHealthPolicyObject v80"
+description: "ClusterUpgradeHealthPolicyObject v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterUpgradeHealthPolicyObject
+# ClusterUpgradeHealthPolicyObject v80
 
 Defines a health policy used to evaluate the health of the cluster during a cluster upgrade.
 

@@ -1,6 +1,6 @@
 ---
-title: "ServiceCreatedEvent"
-description: "ServiceCreatedEvent"
+title: "ServiceCreatedEvent v80"
+description: "ServiceCreatedEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceCreatedEvent
+# ServiceCreatedEvent v80
 
 Service Created event.
 

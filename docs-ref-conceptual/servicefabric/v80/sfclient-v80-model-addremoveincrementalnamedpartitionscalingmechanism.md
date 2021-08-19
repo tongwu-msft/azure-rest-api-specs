@@ -1,6 +1,6 @@
 ---
-title: "AddRemoveIncrementalNamedPartitionScalingMechanism"
-description: "AddRemoveIncrementalNamedPartitionScalingMechanism"
+title: "AddRemoveIncrementalNamedPartitionScalingMechanism v80"
+description: "AddRemoveIncrementalNamedPartitionScalingMechanism v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AddRemoveIncrementalNamedPartitionScalingMechanism
+# AddRemoveIncrementalNamedPartitionScalingMechanism v80
 
 Represents a scaling mechanism for adding or removing named partitions of a stateless service. Partition names are in the format '0','1''N-1'
 

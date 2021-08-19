@@ -1,6 +1,6 @@
 ---
-title: "StatefulServiceReplicaHealth"
-description: "StatefulServiceReplicaHealth"
+title: "StatefulServiceReplicaHealth v80"
+description: "StatefulServiceReplicaHealth v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StatefulServiceReplicaHealth
+# StatefulServiceReplicaHealth v80
 
 Represents the health of the stateful service replica.
 Contains the replica aggregated health state, the health events and the unhealthy evaluations.

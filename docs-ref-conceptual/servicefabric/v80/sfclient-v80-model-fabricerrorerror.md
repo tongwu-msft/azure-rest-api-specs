@@ -1,6 +1,6 @@
 ---
-title: "FabricErrorError"
-description: "FabricErrorError"
+title: "FabricErrorError v80"
+description: "FabricErrorError v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# FabricErrorError
+# FabricErrorError v80
 
 Error object containing error code and error message.
 

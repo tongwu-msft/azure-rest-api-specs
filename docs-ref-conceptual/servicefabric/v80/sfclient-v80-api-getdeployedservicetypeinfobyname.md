@@ -1,6 +1,6 @@
 ---
-title: "Get Deployed Service Type Info By Name"
-description: "Get Deployed Service Type Info By Name"
+title: "Get Deployed Service Type Info By Name v80"
+description: "Get Deployed Service Type Info By Name v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Deployed Service Type Info By Name
+# Get Deployed Service Type Info By Name v80
 Gets the information about a specified service type of the application deployed on a node in a Service Fabric cluster.
 
 Gets the list containing the information about a specific service type from the applications deployed on a node in a Service Fabric cluster. The response includes the name of the service type, its registration status, the code package that registered it and activation ID of the service package. Each entry represents one activation of a service type, differentiated by the activation ID.

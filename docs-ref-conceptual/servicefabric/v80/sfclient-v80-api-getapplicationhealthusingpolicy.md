@@ -1,6 +1,6 @@
 ---
-title: "Get Application Health Using Policy"
-description: "Get Application Health Using Policy"
+title: "Get Application Health Using Policy v80"
+description: "Get Application Health Using Policy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Application Health Using Policy
+# Get Application Health Using Policy v80
 Gets the health of a Service Fabric application using the specified policy.
 
 Gets the health of a Service Fabric application. Use EventsHealthStateFilter to filter the collection of health events reported on the node based on the health state. Use ClusterHealthPolicies to override the health policies used to evaluate the health.

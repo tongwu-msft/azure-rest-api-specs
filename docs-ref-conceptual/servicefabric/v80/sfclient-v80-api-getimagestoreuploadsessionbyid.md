@@ -1,6 +1,6 @@
 ---
-title: "Get Image Store Upload Session By Id"
-description: "Get Image Store Upload Session By Id"
+title: "Get Image Store Upload Session By Id v80"
+description: "Get Image Store Upload Session By Id v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Image Store Upload Session By Id
+# Get Image Store Upload Session By Id v80
 Get the image store upload session by ID.
 
 Gets the image store upload session identified by the given ID. User can query the upload session at any time during uploading. 

@@ -1,6 +1,6 @@
 ---
-title: "Get Backups From Backup Location"
-description: "Get Backups From Backup Location"
+title: "Get Backups From Backup Location v80"
+description: "Get Backups From Backup Location v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Backups From Backup Location
+# Get Backups From Backup Location v80
 Gets the list of backups available for the specified backed up entity at the specified backup location.
 
 Gets the list of backups available for the specified backed up entity (Application, Service or Partition) at the specified backup location (FileShare or Azure Blob Storage).

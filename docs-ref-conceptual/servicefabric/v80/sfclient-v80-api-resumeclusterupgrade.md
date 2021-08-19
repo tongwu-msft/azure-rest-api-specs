@@ -1,6 +1,6 @@
 ---
-title: "Resume Cluster Upgrade"
-description: "Resume Cluster Upgrade"
+title: "Resume Cluster Upgrade v80"
+description: "Resume Cluster Upgrade v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Resume Cluster Upgrade
+# Resume Cluster Upgrade v80
 Make the cluster upgrade move on to the next upgrade domain.
 
 Make the cluster code or configuration upgrade move on to the next upgrade domain if appropriate.

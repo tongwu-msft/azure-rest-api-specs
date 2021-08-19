@@ -1,6 +1,6 @@
 ---
-title: "SizeTypes"
-description: "SizeTypes"
+title: "SizeTypes v80"
+description: "SizeTypes v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SizeTypes enum
+# SizeTypes enum v80
 
 type: string
 

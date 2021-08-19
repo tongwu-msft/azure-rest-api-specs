@@ -1,6 +1,6 @@
 ---
-title: "Enable Service Backup"
-description: "Enable Service Backup"
+title: "Enable Service Backup v80"
+description: "Enable Service Backup v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Enable Service Backup
+# Enable Service Backup v80
 Enables periodic backup of stateful partitions under this Service Fabric service.
 
 Enables periodic backup of stateful partitions which are part of this Service Fabric service. Each partition is backed up individually as per the specified backup policy description. In case the application, which the service is part of, is already enabled for backup then this operation would override the policy being used to take the periodic backup for this service and its partitions (unless explicitly overridden at the partition level).

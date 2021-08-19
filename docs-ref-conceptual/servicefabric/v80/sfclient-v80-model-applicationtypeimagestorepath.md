@@ -1,6 +1,6 @@
 ---
-title: "ApplicationTypeImageStorePath"
-description: "ApplicationTypeImageStorePath"
+title: "ApplicationTypeImageStorePath v80"
+description: "ApplicationTypeImageStorePath v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationTypeImageStorePath
+# ApplicationTypeImageStorePath v80
 
 Path description for the application package in the image store specified during the prior copy operation.
 

@@ -1,6 +1,6 @@
 ---
-title: "ApplicationHealthReportExpiredEvent"
-description: "ApplicationHealthReportExpiredEvent"
+title: "ApplicationHealthReportExpiredEvent v80"
+description: "ApplicationHealthReportExpiredEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationHealthReportExpiredEvent
+# ApplicationHealthReportExpiredEvent v80
 
 Application Health Report Expired event.
 

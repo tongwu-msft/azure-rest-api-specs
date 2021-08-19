@@ -1,6 +1,6 @@
 ---
-title: "Reset Partition Load"
-description: "Reset Partition Load"
+title: "Reset Partition Load v80"
+description: "Reset Partition Load v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Reset Partition Load
+# Reset Partition Load v80
 Resets the current load of a Service Fabric partition.
 
 Resets the current load of a Service Fabric partition to the default load for the service.

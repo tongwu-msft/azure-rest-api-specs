@@ -1,6 +1,6 @@
 ---
-title: "NodeDeactivationTask"
-description: "NodeDeactivationTask"
+title: "NodeDeactivationTask v80"
+description: "NodeDeactivationTask v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeDeactivationTask
+# NodeDeactivationTask v80
 
 The task representing the deactivation operation on the node.
 

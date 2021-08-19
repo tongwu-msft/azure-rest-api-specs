@@ -1,6 +1,6 @@
 ---
-title: "NodeLoadInfo"
-description: "NodeLoadInfo"
+title: "NodeLoadInfo v80"
+description: "NodeLoadInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeLoadInfo
+# NodeLoadInfo v80
 
 Information about load on a Service Fabric node. It holds a summary of all metrics and their load on a node.
 

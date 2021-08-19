@@ -1,6 +1,6 @@
 ---
-title: "NodeDeactivateCompletedEvent"
-description: "NodeDeactivateCompletedEvent"
+title: "NodeDeactivateCompletedEvent v80"
+description: "NodeDeactivateCompletedEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeDeactivateCompletedEvent
+# NodeDeactivateCompletedEvent v80
 
 Node Deactivate Completed event.
 

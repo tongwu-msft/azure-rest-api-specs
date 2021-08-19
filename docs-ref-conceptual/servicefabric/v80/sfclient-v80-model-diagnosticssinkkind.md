@@ -1,6 +1,6 @@
 ---
-title: "DiagnosticsSinkKind"
-description: "DiagnosticsSinkKind"
+title: "DiagnosticsSinkKind v80"
+description: "DiagnosticsSinkKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DiagnosticsSinkKind enum
+# DiagnosticsSinkKind enum v80
 
 type: string
 

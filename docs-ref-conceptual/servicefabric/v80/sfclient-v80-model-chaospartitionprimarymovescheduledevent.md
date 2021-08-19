@@ -1,6 +1,6 @@
 ---
-title: "ChaosPartitionPrimaryMoveScheduledEvent"
-description: "ChaosPartitionPrimaryMoveScheduledEvent"
+title: "ChaosPartitionPrimaryMoveScheduledEvent v80"
+description: "ChaosPartitionPrimaryMoveScheduledEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ChaosPartitionPrimaryMoveScheduledEvent
+# ChaosPartitionPrimaryMoveScheduledEvent v80
 
 Chaos Move Primary Fault Scheduled event.
 

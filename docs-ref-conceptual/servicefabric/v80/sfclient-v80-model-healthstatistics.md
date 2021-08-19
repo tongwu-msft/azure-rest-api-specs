@@ -1,6 +1,6 @@
 ---
-title: "HealthStatistics"
-description: "HealthStatistics"
+title: "HealthStatistics v80"
+description: "HealthStatistics v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# HealthStatistics
+# HealthStatistics v80
 
 The health statistics of an entity, returned as part of the health query result when the query description is configured to include statistics.
 The statistics include health state counts for all children types of the current entity.

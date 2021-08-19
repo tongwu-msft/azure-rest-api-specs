@@ -1,6 +1,6 @@
 ---
-title: "ClusterUpgradeDescriptionObject"
-description: "ClusterUpgradeDescriptionObject"
+title: "ClusterUpgradeDescriptionObject v80"
+description: "ClusterUpgradeDescriptionObject v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterUpgradeDescriptionObject
+# ClusterUpgradeDescriptionObject v80
 
 Represents a ServiceFabric cluster upgrade
 

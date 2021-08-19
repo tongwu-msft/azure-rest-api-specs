@@ -1,6 +1,6 @@
 ---
-title: "Get Property Info"
-description: "Get Property Info"
+title: "Get Property Info v80"
+description: "Get Property Info v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Property Info
+# Get Property Info v80
 Gets the specified Service Fabric property.
 
 Gets the specified Service Fabric property under a given name. This will always return both value and metadata.

@@ -1,6 +1,6 @@
 ---
-title: "Create Service From Template"
-description: "Create Service From Template"
+title: "Create Service From Template v80"
+description: "Create Service From Template v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create Service From Template
+# Create Service From Template v80
 Creates a Service Fabric service from the service template.
 
 Creates a Service Fabric service from the service template defined in the application manifest. A service template contains the properties that will be same for the service instance of the same type. The API allows overriding the properties that are usually different for different services of the same service type.

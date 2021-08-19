@@ -1,6 +1,6 @@
 ---
-title: "Get Node Load Info"
-description: "Get Node Load Info"
+title: "Get Node Load Info v80"
+description: "Get Node Load Info v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Node Load Info
+# Get Node Load Info v80
 Gets the load information of a Service Fabric node.
 
 Retrieves the load information of a Service Fabric node for all the metrics that have load or capacity defined.

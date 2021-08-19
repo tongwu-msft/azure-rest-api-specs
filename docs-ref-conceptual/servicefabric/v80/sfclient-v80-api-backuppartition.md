@@ -1,6 +1,6 @@
 ---
-title: "Backup Partition"
-description: "Backup Partition"
+title: "Backup Partition v80"
+description: "Backup Partition v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Backup Partition
+# Backup Partition v80
 Triggers backup of the partition's state.
 
 Creates a backup of the stateful persisted partition's state. In case the partition is already being periodically backed up, then by default the new backup is created at the same backup storage. One can also override the same by specifying the backup storage details as part of the request body. Once the backup is initiated, its progress can be tracked using the GetBackupProgress operation. 

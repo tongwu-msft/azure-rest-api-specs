@@ -1,6 +1,6 @@
 ---
-title: "AutoScalingMetric"
-description: "AutoScalingMetric"
+title: "AutoScalingMetric v80"
+description: "AutoScalingMetric v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AutoScalingMetric
+# AutoScalingMetric v80
 
 Describes the metric that is used for triggering auto scaling operation. Derived classes will describe resources or metrics.
 ## Inheritance

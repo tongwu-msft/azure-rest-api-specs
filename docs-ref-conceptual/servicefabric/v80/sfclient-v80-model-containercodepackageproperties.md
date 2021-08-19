@@ -1,6 +1,6 @@
 ---
-title: "ContainerCodePackageProperties"
-description: "ContainerCodePackageProperties"
+title: "ContainerCodePackageProperties v80"
+description: "ContainerCodePackageProperties v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ContainerCodePackageProperties
+# ContainerCodePackageProperties v80
 
 Describes a container and its runtime properties.
 

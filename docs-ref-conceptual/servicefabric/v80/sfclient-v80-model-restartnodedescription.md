@@ -1,6 +1,6 @@
 ---
-title: "RestartNodeDescription"
-description: "RestartNodeDescription"
+title: "RestartNodeDescription v80"
+description: "RestartNodeDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RestartNodeDescription
+# RestartNodeDescription v80
 
 Describes the parameters to restart a Service Fabric node.
 

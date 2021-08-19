@@ -1,6 +1,6 @@
 ---
-title: "ChaosParameters"
-description: "ChaosParameters"
+title: "ChaosParameters v80"
+description: "ChaosParameters v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ChaosParameters
+# ChaosParameters v80
 
 Defines all the parameters to configure a Chaos run.
 

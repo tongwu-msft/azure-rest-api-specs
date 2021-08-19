@@ -1,6 +1,6 @@
 ---
-title: "SecretResourceProperties"
-description: "SecretResourceProperties"
+title: "SecretResourceProperties v80"
+description: "SecretResourceProperties v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SecretResourceProperties
+# SecretResourceProperties v80
 
 Describes the properties of a secret resource.
 

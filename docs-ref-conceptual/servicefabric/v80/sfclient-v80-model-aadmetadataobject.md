@@ -1,6 +1,6 @@
 ---
-title: "AadMetadataObject"
-description: "AadMetadataObject"
+title: "AadMetadataObject v80"
+description: "AadMetadataObject v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AadMetadataObject
+# AadMetadataObject v80
 
 Azure Active Directory metadata object used for secured connection to cluster.
 

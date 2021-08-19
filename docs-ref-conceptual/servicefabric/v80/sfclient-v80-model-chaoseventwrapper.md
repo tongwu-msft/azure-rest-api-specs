@@ -1,6 +1,6 @@
 ---
-title: "ChaosEventWrapper"
-description: "ChaosEventWrapper"
+title: "ChaosEventWrapper v80"
+description: "ChaosEventWrapper v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ChaosEventWrapper
+# ChaosEventWrapper v80
 
 Wrapper object for Chaos event.
 

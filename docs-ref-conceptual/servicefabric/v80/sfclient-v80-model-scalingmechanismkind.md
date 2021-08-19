@@ -1,6 +1,6 @@
 ---
-title: "ScalingMechanismKind"
-description: "ScalingMechanismKind"
+title: "ScalingMechanismKind v80"
+description: "ScalingMechanismKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ScalingMechanismKind enum
+# ScalingMechanismKind enum v80
 
 type: string
 

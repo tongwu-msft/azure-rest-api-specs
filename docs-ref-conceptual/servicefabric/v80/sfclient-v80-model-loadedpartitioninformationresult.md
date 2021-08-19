@@ -1,6 +1,6 @@
 ---
-title: "LoadedPartitionInformationResult"
-description: "LoadedPartitionInformationResult"
+title: "LoadedPartitionInformationResult v80"
+description: "LoadedPartitionInformationResult v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# LoadedPartitionInformationResult
+# LoadedPartitionInformationResult v80
 
 Represents partition information.
 

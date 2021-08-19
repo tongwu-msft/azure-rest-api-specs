@@ -1,6 +1,6 @@
 ---
-title: "Get Service Health"
-description: "Get Service Health"
+title: "Get Service Health v80"
+description: "Get Service Health v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Service Health
+# Get Service Health v80
 Gets the health of the specified Service Fabric service.
 
 Gets the health information of the specified service.

@@ -1,6 +1,6 @@
 ---
-title: "RepairImpactKind"
-description: "RepairImpactKind"
+title: "RepairImpactKind v80"
+description: "RepairImpactKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RepairImpactKind enum
+# RepairImpactKind enum v80
 
 type: string
 

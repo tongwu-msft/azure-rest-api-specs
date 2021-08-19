@@ -1,6 +1,6 @@
 ---
-title: "ExecutingFaultsChaosEvent"
-description: "ExecutingFaultsChaosEvent"
+title: "ExecutingFaultsChaosEvent v80"
+description: "ExecutingFaultsChaosEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ExecutingFaultsChaosEvent
+# ExecutingFaultsChaosEvent v80
 
 Describes a Chaos event that gets generated when Chaos has decided on the faults for an iteration. This Chaos event contains the details of the faults as a list of strings.
 

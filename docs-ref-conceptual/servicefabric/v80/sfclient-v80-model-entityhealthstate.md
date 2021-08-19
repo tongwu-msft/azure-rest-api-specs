@@ -1,6 +1,6 @@
 ---
-title: "EntityHealthState"
-description: "EntityHealthState"
+title: "EntityHealthState v80"
+description: "EntityHealthState v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EntityHealthState
+# EntityHealthState v80
 
 A base type for the health state of various entities in the cluster. It contains the aggregated health state.
 

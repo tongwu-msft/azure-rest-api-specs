@@ -1,6 +1,6 @@
 ---
-title: "Create Compose Deployment"
-description: "Create Compose Deployment"
+title: "Create Compose Deployment v80"
+description: "Create Compose Deployment v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create Compose Deployment
+# Create Compose Deployment v80
 Creates a Service Fabric compose deployment.
 
 Compose is a file format that describes multi-container applications. This API allows deploying container based applications defined in compose format in a Service Fabric cluster. Once the deployment is created, its status can be tracked via the `GetComposeDeploymentStatus` API.

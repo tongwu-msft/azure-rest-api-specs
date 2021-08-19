@@ -1,6 +1,6 @@
 ---
-title: "ProbeHttpGetHeaders"
-description: "ProbeHttpGetHeaders"
+title: "ProbeHttpGetHeaders v80"
+description: "ProbeHttpGetHeaders v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ProbeHttpGetHeaders
+# ProbeHttpGetHeaders v80
 
 Http headers.
 

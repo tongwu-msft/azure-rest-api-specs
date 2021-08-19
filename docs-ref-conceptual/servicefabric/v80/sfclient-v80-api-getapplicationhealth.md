@@ -1,6 +1,6 @@
 ---
-title: "Get Application Health"
-description: "Get Application Health"
+title: "Get Application Health v80"
+description: "Get Application Health v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Application Health
+# Get Application Health v80
 Gets the health of the service fabric application.
 
 Returns the heath state of the service fabric application. The response reports either Ok, Error or Warning health state. If the entity is not found in the health store, it will return Error.

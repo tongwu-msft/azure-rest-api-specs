@@ -1,6 +1,6 @@
 ---
-title: "VolumeProperties"
-description: "VolumeProperties"
+title: "VolumeProperties v80"
+description: "VolumeProperties v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# VolumeProperties
+# VolumeProperties v80
 
 Describes properties of a volume resource.
 

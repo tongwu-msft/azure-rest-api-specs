@@ -1,6 +1,6 @@
 ---
-title: "UpdateClusterUpgradeDescription"
-description: "UpdateClusterUpgradeDescription"
+title: "UpdateClusterUpgradeDescription v80"
+description: "UpdateClusterUpgradeDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UpdateClusterUpgradeDescription
+# UpdateClusterUpgradeDescription v80
 
 Parameters for updating a cluster upgrade.
 

@@ -1,6 +1,6 @@
 ---
-title: "EntryPointStatus"
-description: "EntryPointStatus"
+title: "EntryPointStatus v80"
+description: "EntryPointStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EntryPointStatus enum
+# EntryPointStatus enum v80
 
 type: string
 

@@ -1,6 +1,6 @@
 ---
-title: "RepairTaskUpdateInfo"
-description: "RepairTaskUpdateInfo"
+title: "RepairTaskUpdateInfo v80"
+description: "RepairTaskUpdateInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RepairTaskUpdateInfo
+# RepairTaskUpdateInfo v80
 
 Describes the result of an operation that created or updated a repair task.
 

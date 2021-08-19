@@ -1,6 +1,6 @@
 ---
-title: "TimeOfDay"
-description: "TimeOfDay"
+title: "TimeOfDay v80"
+description: "TimeOfDay v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# TimeOfDay
+# TimeOfDay v80
 
 Defines an hour and minute of the day specified in 24 hour time.
 

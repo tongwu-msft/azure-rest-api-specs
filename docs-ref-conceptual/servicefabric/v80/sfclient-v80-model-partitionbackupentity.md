@@ -1,6 +1,6 @@
 ---
-title: "PartitionBackupEntity"
-description: "PartitionBackupEntity"
+title: "PartitionBackupEntity v80"
+description: "PartitionBackupEntity v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionBackupEntity
+# PartitionBackupEntity v80
 
 Identifies the Service Fabric stateful partition which is being backed up.
 

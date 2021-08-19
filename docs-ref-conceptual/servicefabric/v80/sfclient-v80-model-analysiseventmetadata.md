@@ -1,6 +1,6 @@
 ---
-title: "AnalysisEventMetadata"
-description: "AnalysisEventMetadata"
+title: "AnalysisEventMetadata v80"
+description: "AnalysisEventMetadata v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AnalysisEventMetadata
+# AnalysisEventMetadata v80
 
 Metadata about an Analysis Event.
 

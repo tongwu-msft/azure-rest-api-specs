@@ -1,6 +1,6 @@
 ---
-title: "NodeTransitionProgress"
-description: "NodeTransitionProgress"
+title: "NodeTransitionProgress v80"
+description: "NodeTransitionProgress v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeTransitionProgress
+# NodeTransitionProgress v80
 
 Information about an NodeTransition operation.  This class contains an OperationState and a NodeTransitionResult.  The NodeTransitionResult is not valid until OperationState
 is Completed or Faulted.

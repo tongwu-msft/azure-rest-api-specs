@@ -1,6 +1,6 @@
 ---
-title: "AutoScalingMechanism"
-description: "AutoScalingMechanism"
+title: "AutoScalingMechanism v80"
+description: "AutoScalingMechanism v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AutoScalingMechanism
+# AutoScalingMechanism v80
 
 Describes the mechanism for performing auto scaling operation. Derived classes will describe the actual mechanism.
 ## Inheritance

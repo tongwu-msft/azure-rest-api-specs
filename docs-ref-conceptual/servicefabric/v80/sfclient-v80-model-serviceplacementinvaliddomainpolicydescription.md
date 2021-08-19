@@ -1,6 +1,6 @@
 ---
-title: "ServicePlacementInvalidDomainPolicyDescription"
-description: "ServicePlacementInvalidDomainPolicyDescription"
+title: "ServicePlacementInvalidDomainPolicyDescription v80"
+description: "ServicePlacementInvalidDomainPolicyDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServicePlacementInvalidDomainPolicyDescription
+# ServicePlacementInvalidDomainPolicyDescription v80
 
 Describes the policy to be used for placement of a Service Fabric service where a particular fault or upgrade domain should not be used for placement of the instances or replicas of that service.
 

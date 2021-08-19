@@ -1,6 +1,6 @@
 ---
-title: "Move Secondary Replica"
-description: "Move Secondary Replica"
+title: "Move Secondary Replica v80"
+description: "Move Secondary Replica v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Move Secondary Replica
+# Move Secondary Replica v80
 Moves the secondary replica of a partition of a stateful service.
 
 This command moves the secondary replica of a partition of a stateful service, respecting all constraints.

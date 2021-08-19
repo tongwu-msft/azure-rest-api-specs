@@ -1,6 +1,6 @@
 ---
-title: "RollingUpgradeUpdateDescription"
-description: "RollingUpgradeUpdateDescription"
+title: "RollingUpgradeUpdateDescription v80"
+description: "RollingUpgradeUpdateDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RollingUpgradeUpdateDescription
+# RollingUpgradeUpdateDescription v80
 
 Describes the parameters for updating a rolling upgrade of application or cluster.
 

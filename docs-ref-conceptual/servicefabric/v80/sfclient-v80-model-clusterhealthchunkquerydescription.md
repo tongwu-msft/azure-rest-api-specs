@@ -1,6 +1,6 @@
 ---
-title: "ClusterHealthChunkQueryDescription"
-description: "ClusterHealthChunkQueryDescription"
+title: "ClusterHealthChunkQueryDescription v80"
+description: "ClusterHealthChunkQueryDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterHealthChunkQueryDescription
+# ClusterHealthChunkQueryDescription v80
 
 The cluster health chunk query description, which can specify the health policies to evaluate cluster health and very expressive filters to select which cluster entities to include in response.
 

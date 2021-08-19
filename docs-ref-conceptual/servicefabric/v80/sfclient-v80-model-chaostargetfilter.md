@@ -1,6 +1,6 @@
 ---
-title: "ChaosTargetFilter"
-description: "ChaosTargetFilter"
+title: "ChaosTargetFilter v80"
+description: "ChaosTargetFilter v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ChaosTargetFilter
+# ChaosTargetFilter v80
 
 Defines all filters for targeted Chaos faults, for example, faulting only certain node types or faulting only certain applications.
 If ChaosTargetFilter is not used, Chaos faults all cluster entities. If ChaosTargetFilter is used, Chaos faults only the entities that meet the ChaosTargetFilter

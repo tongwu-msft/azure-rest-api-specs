@@ -1,6 +1,6 @@
 ---
-title: "Get Partition Info List"
-description: "Get Partition Info List"
+title: "Get Partition Info List v80"
+description: "Get Partition Info List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Partition Info List
+# Get Partition Info List v80
 Gets the list of partitions of a Service Fabric service.
 
 The response includes the partition ID, partitioning scheme information, keys supported by the partition, status, health, and other details about the partition.

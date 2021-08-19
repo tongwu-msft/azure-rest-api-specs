@@ -1,6 +1,6 @@
 ---
-title: "RepairTaskCancelDescription"
-description: "RepairTaskCancelDescription"
+title: "RepairTaskCancelDescription v80"
+description: "RepairTaskCancelDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RepairTaskCancelDescription
+# RepairTaskCancelDescription v80
 
 Describes a request to cancel a repair task.
 

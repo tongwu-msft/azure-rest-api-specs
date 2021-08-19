@@ -1,6 +1,6 @@
 ---
-title: "ServiceHealthStateChunkList"
-description: "ServiceHealthStateChunkList"
+title: "ServiceHealthStateChunkList v80"
+description: "ServiceHealthStateChunkList v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceHealthStateChunkList
+# ServiceHealthStateChunkList v80
 
 The list of service health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
 

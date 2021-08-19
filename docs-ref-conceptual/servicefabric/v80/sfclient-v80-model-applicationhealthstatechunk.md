@@ -1,6 +1,6 @@
 ---
-title: "ApplicationHealthStateChunk"
-description: "ApplicationHealthStateChunk"
+title: "ApplicationHealthStateChunk v80"
+description: "ApplicationHealthStateChunk v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationHealthStateChunk
+# ApplicationHealthStateChunk v80
 
 Represents the health state chunk of a application.
 The application health state chunk contains the application name, its aggregated health state and any children services and deployed applications that respect the filters in cluster health chunk query description.

@@ -1,6 +1,6 @@
 ---
-title: "NodeNewHealthReportEvent"
-description: "NodeNewHealthReportEvent"
+title: "NodeNewHealthReportEvent v80"
+description: "NodeNewHealthReportEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeNewHealthReportEvent
+# NodeNewHealthReportEvent v80
 
 Node Health Report Created event.
 

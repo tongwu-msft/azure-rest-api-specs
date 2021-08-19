@@ -1,6 +1,6 @@
 ---
-title: "Int64RangePartitionInformation"
-description: "Int64RangePartitionInformation"
+title: "Int64RangePartitionInformation v80"
+description: "Int64RangePartitionInformation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Int64RangePartitionInformation
+# Int64RangePartitionInformation v80
 
 Describes the partition information for the integer range that is based on partition schemes.
 

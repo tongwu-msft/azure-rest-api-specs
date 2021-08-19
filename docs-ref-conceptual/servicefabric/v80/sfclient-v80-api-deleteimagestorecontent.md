@@ -1,6 +1,6 @@
 ---
-title: "Delete Image Store Content"
-description: "Delete Image Store Content"
+title: "Delete Image Store Content v80"
+description: "Delete Image Store Content v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Delete Image Store Content
+# Delete Image Store Content v80
 Deletes existing image store content.
 
 Deletes existing image store content being found within the given image store relative path. This command can be used to delete uploaded application packages once they are provisioned.

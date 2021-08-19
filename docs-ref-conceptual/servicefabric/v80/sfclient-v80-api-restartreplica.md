@@ -1,6 +1,6 @@
 ---
-title: "Restart Replica"
-description: "Restart Replica"
+title: "Restart Replica v80"
+description: "Restart Replica v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Restart Replica
+# Restart Replica v80
 Restarts a service replica of a persisted service running on a node.
 
 Restarts a service replica of a persisted service running on a node. Warning - There are no safety checks performed when this API is used. Incorrect use of this API can lead to availability loss for stateful services.

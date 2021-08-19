@@ -1,6 +1,6 @@
 ---
-title: "Recover All Partitions"
-description: "Recover All Partitions"
+title: "Recover All Partitions v80"
+description: "Recover All Partitions v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Recover All Partitions
+# Recover All Partitions v80
 Indicates to the Service Fabric cluster that it should attempt to recover any services (including system services) which are currently stuck in quorum loss.
 
 This operation should only be performed if it is known that the replicas that are down cannot be recovered. Incorrect use of this API can cause potential data loss.

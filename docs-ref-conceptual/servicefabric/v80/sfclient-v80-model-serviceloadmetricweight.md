@@ -1,6 +1,6 @@
 ---
-title: "ServiceLoadMetricWeight"
-description: "ServiceLoadMetricWeight"
+title: "ServiceLoadMetricWeight v80"
+description: "ServiceLoadMetricWeight v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceLoadMetricWeight enum
+# ServiceLoadMetricWeight enum v80
 
 type: string
 

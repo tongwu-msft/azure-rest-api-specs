@@ -1,6 +1,6 @@
 ---
-title: "EndpointRef"
-description: "EndpointRef"
+title: "EndpointRef v80"
+description: "EndpointRef v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EndpointRef
+# EndpointRef v80
 
 Describes a reference to a service endpoint.
 

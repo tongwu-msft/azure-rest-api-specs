@@ -1,6 +1,6 @@
 ---
-title: "ApplicationResourceUpgradeProgressInfo"
-description: "ApplicationResourceUpgradeProgressInfo"
+title: "ApplicationResourceUpgradeProgressInfo v80"
+description: "ApplicationResourceUpgradeProgressInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationResourceUpgradeProgressInfo
+# ApplicationResourceUpgradeProgressInfo v80
 
 This type describes an application resource upgrade.
 

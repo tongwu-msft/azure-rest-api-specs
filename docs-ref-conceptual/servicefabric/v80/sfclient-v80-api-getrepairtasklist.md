@@ -1,6 +1,6 @@
 ---
-title: "Get Repair Task List"
-description: "Get Repair Task List"
+title: "Get Repair Task List v80"
+description: "Get Repair Task List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Repair Task List
+# Get Repair Task List v80
 Gets a list of repair tasks matching the given filters.
 
 This API supports the Service Fabric platform; it is not meant to be used directly from your code.

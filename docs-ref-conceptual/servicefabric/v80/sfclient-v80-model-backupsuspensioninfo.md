@@ -1,6 +1,6 @@
 ---
-title: "BackupSuspensionInfo"
-description: "BackupSuspensionInfo"
+title: "BackupSuspensionInfo v80"
+description: "BackupSuspensionInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# BackupSuspensionInfo
+# BackupSuspensionInfo v80
 
 Describes the backup suspension details.
 

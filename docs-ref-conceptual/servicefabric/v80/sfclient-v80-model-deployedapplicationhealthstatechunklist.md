@@ -1,6 +1,6 @@
 ---
-title: "DeployedApplicationHealthStateChunkList"
-description: "DeployedApplicationHealthStateChunkList"
+title: "DeployedApplicationHealthStateChunkList v80"
+description: "DeployedApplicationHealthStateChunkList v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedApplicationHealthStateChunkList
+# DeployedApplicationHealthStateChunkList v80
 
 The list of deployed application health state chunks that respect the input filters in the chunk query. Returned by get cluster health state chunks query.
 

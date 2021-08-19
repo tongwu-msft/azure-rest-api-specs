@@ -1,6 +1,6 @@
 ---
-title: "ChaosStoppedEvent"
-description: "ChaosStoppedEvent"
+title: "ChaosStoppedEvent v80"
+description: "ChaosStoppedEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ChaosStoppedEvent
+# ChaosStoppedEvent v80
 
 Chaos Stopped event.
 

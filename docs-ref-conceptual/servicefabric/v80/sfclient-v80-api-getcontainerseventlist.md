@@ -1,6 +1,6 @@
 ---
-title: "Get Containers Event List"
-description: "Get Containers Event List"
+title: "Get Containers Event List v80"
+description: "Get Containers Event List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Containers Event List
+# Get Containers Event List v80
 Gets all Containers-related events.
 
 The response is list of ContainerInstanceEvent objects.

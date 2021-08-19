@@ -1,6 +1,6 @@
 ---
-title: "RestartDeployedCodePackageDescription"
-description: "RestartDeployedCodePackageDescription"
+title: "RestartDeployedCodePackageDescription v80"
+description: "RestartDeployedCodePackageDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RestartDeployedCodePackageDescription
+# RestartDeployedCodePackageDescription v80
 
 Defines description for restarting a deployed code package on Service Fabric node.
 

@@ -1,6 +1,6 @@
 ---
-title: "NodeHealthState"
-description: "NodeHealthState"
+title: "NodeHealthState v80"
+description: "NodeHealthState v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeHealthState
+# NodeHealthState v80
 
 Represents the health state of a node, which contains the node identifier and its aggregated health state.
 

@@ -1,6 +1,6 @@
 ---
-title: "PartitionDataLossProgress"
-description: "PartitionDataLossProgress"
+title: "PartitionDataLossProgress v80"
+description: "PartitionDataLossProgress v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionDataLossProgress
+# PartitionDataLossProgress v80
 
 Information about a partition data loss user-induced operation.
 

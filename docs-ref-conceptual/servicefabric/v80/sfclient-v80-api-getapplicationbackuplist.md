@@ -1,6 +1,6 @@
 ---
-title: "Get Application Backup List"
-description: "Get Application Backup List"
+title: "Get Application Backup List v80"
+description: "Get Application Backup List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Application Backup List
+# Get Application Backup List v80
 Gets the list of backups available for every partition in this application.
 
 Returns a list of backups available for every partition in this Service Fabric application. The server enumerates all the backups available at the backup location configured in the backup policy. It also allows filtering of the result based on start and end datetime or just fetching the latest available backup for every partition.

@@ -1,6 +1,6 @@
 ---
-title: "ClusterConfigurationUpgradeStatusInfo"
-description: "ClusterConfigurationUpgradeStatusInfo"
+title: "ClusterConfigurationUpgradeStatusInfo v80"
+description: "ClusterConfigurationUpgradeStatusInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterConfigurationUpgradeStatusInfo
+# ClusterConfigurationUpgradeStatusInfo v80
 
 Information about a standalone cluster configuration upgrade status.
 

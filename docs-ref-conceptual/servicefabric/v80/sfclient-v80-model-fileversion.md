@@ -1,6 +1,6 @@
 ---
-title: "FileVersion"
-description: "FileVersion"
+title: "FileVersion v80"
+description: "FileVersion v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# FileVersion
+# FileVersion v80
 
 Information about the version of image store file.
 

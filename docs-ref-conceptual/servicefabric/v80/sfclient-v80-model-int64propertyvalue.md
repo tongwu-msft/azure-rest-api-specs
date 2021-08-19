@@ -1,6 +1,6 @@
 ---
-title: "Int64PropertyValue"
-description: "Int64PropertyValue"
+title: "Int64PropertyValue v80"
+description: "Int64PropertyValue v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Int64PropertyValue
+# Int64PropertyValue v80
 
 Describes a Service Fabric property value of type Int64.
 

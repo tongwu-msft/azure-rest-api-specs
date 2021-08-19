@@ -1,6 +1,6 @@
 ---
-title: "DeployedServiceReplicaDetailInfo"
-description: "DeployedServiceReplicaDetailInfo"
+title: "DeployedServiceReplicaDetailInfo v80"
+description: "DeployedServiceReplicaDetailInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedServiceReplicaDetailInfo
+# DeployedServiceReplicaDetailInfo v80
 
 Information about a Service Fabric service replica deployed on a node.
 ## Inheritance

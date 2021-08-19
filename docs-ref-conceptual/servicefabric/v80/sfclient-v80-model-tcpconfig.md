@@ -1,6 +1,6 @@
 ---
-title: "TcpConfig"
-description: "TcpConfig"
+title: "TcpConfig v80"
+description: "TcpConfig v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# TcpConfig
+# TcpConfig v80
 
 Describes the tcp configuration for external connectivity for this network.
 

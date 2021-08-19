@@ -1,6 +1,6 @@
 ---
-title: "DisableBackupDescription"
-description: "DisableBackupDescription"
+title: "DisableBackupDescription v80"
+description: "DisableBackupDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DisableBackupDescription
+# DisableBackupDescription v80
 
 It describes the body parameters while disabling backup of a backup entity(Application/Service/Partition).
 

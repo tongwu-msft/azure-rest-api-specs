@@ -1,6 +1,6 @@
 ---
-title: "Get Unplaced Replica Information"
-description: "Get Unplaced Replica Information"
+title: "Get Unplaced Replica Information v80"
+description: "Get Unplaced Replica Information v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Unplaced Replica Information
+# Get Unplaced Replica Information v80
 Gets the information about unplaced replica of the service.
 
 Returns the information about the unplaced replicas of the service.

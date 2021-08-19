@@ -1,6 +1,6 @@
 ---
-title: "Get Replica Info"
-description: "Get Replica Info"
+title: "Get Replica Info v80"
+description: "Get Replica Info v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Replica Info
+# Get Replica Info v80
 Gets the information about a replica of a Service Fabric partition.
 
 The response includes the ID, role, status, health, node name, uptime, and other details about the replica.

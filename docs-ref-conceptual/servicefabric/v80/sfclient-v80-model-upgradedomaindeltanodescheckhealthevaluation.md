@@ -1,6 +1,6 @@
 ---
-title: "UpgradeDomainDeltaNodesCheckHealthEvaluation"
-description: "UpgradeDomainDeltaNodesCheckHealthEvaluation"
+title: "UpgradeDomainDeltaNodesCheckHealthEvaluation v80"
+description: "UpgradeDomainDeltaNodesCheckHealthEvaluation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UpgradeDomainDeltaNodesCheckHealthEvaluation
+# UpgradeDomainDeltaNodesCheckHealthEvaluation v80
 
 Represents health evaluation for delta unhealthy cluster nodes in an upgrade domain, containing health evaluations for each unhealthy node that impacted current aggregated health state.
 Can be returned during cluster upgrade when cluster aggregated health state is Warning or Error.

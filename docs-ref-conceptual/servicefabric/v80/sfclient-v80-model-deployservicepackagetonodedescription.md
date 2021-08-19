@@ -1,6 +1,6 @@
 ---
-title: "DeployServicePackageToNodeDescription"
-description: "DeployServicePackageToNodeDescription"
+title: "DeployServicePackageToNodeDescription v80"
+description: "DeployServicePackageToNodeDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployServicePackageToNodeDescription
+# DeployServicePackageToNodeDescription v80
 
 Defines description for downloading packages associated with a service manifest to image cache on a Service Fabric node.
 

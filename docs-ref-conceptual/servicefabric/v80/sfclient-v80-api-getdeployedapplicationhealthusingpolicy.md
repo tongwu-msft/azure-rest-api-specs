@@ -1,6 +1,6 @@
 ---
-title: "Get Deployed Application Health Using Policy"
-description: "Get Deployed Application Health Using Policy"
+title: "Get Deployed Application Health Using Policy v80"
+description: "Get Deployed Application Health Using Policy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Deployed Application Health Using Policy
+# Get Deployed Application Health Using Policy v80
 Gets the information about health of an application deployed on a Service Fabric node. using the specified policy.
 
 Gets the information about health of an application deployed on a Service Fabric node using the specified policy. Use EventsHealthStateFilter to optionally filter for the collection of HealthEvent objects reported on the deployed application based on health state. Use DeployedServicePackagesHealthStateFilter to optionally filter for DeployedServicePackageHealth children based on health state. Use ApplicationHealthPolicy to optionally override the health policies used to evaluate the health. This API only uses 'ConsiderWarningAsError' field of the ApplicationHealthPolicy. The rest of the fields are ignored while evaluating the health of the deployed application.

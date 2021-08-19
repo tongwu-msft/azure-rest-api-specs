@@ -1,6 +1,6 @@
 ---
-title: "ServiceUpgradeProgress"
-description: "ServiceUpgradeProgress"
+title: "ServiceUpgradeProgress v80"
+description: "ServiceUpgradeProgress v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceUpgradeProgress
+# ServiceUpgradeProgress v80
 
 Information about how many replicas are completed or pending for a specific service during upgrade.
 

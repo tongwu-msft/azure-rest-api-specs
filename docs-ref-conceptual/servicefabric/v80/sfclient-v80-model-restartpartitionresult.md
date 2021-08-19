@@ -1,6 +1,6 @@
 ---
-title: "RestartPartitionResult"
-description: "RestartPartitionResult"
+title: "RestartPartitionResult v80"
+description: "RestartPartitionResult v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RestartPartitionResult
+# RestartPartitionResult v80
 
 Represents information about an operation in a terminal state (Completed or Faulted).
 

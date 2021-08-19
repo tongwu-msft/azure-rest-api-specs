@@ -1,6 +1,6 @@
 ---
-title: "SuccessfulPropertyBatchInfo"
-description: "SuccessfulPropertyBatchInfo"
+title: "SuccessfulPropertyBatchInfo v80"
+description: "SuccessfulPropertyBatchInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SuccessfulPropertyBatchInfo
+# SuccessfulPropertyBatchInfo v80
 
 Derived from PropertyBatchInfo. Represents the property batch succeeding. Contains the results of any "Get" operations in the batch.
 

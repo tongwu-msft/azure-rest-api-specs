@@ -1,6 +1,6 @@
 ---
-title: "PartitionHealthReportExpiredEvent"
-description: "PartitionHealthReportExpiredEvent"
+title: "PartitionHealthReportExpiredEvent v80"
+description: "PartitionHealthReportExpiredEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionHealthReportExpiredEvent
+# PartitionHealthReportExpiredEvent v80
 
 Partition Health Report Expired event.
 

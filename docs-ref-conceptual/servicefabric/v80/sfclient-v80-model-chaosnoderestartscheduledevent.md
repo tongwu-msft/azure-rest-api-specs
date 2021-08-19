@@ -1,6 +1,6 @@
 ---
-title: "ChaosNodeRestartScheduledEvent"
-description: "ChaosNodeRestartScheduledEvent"
+title: "ChaosNodeRestartScheduledEvent v80"
+description: "ChaosNodeRestartScheduledEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ChaosNodeRestartScheduledEvent
+# ChaosNodeRestartScheduledEvent v80
 
 Chaos Restart Node Fault Scheduled event.
 

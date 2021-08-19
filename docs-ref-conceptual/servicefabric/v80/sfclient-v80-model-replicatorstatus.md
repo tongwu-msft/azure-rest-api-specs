@@ -1,6 +1,6 @@
 ---
-title: "ReplicatorStatus"
-description: "ReplicatorStatus"
+title: "ReplicatorStatus v80"
+description: "ReplicatorStatus v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReplicatorStatus
+# ReplicatorStatus v80
 
 Represents a base class for primary or secondary replicator status.
 Contains information about the service fabric replicator like the replication/copy queue utilization, last acknowledgement received timestamp, etc.

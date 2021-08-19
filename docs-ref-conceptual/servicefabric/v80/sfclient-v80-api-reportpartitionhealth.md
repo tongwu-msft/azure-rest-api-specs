@@ -1,6 +1,6 @@
 ---
-title: "Report Partition Health"
-description: "Report Partition Health"
+title: "Report Partition Health v80"
+description: "Report Partition Health v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Report Partition Health
+# Report Partition Health v80
 Sends a health report on the Service Fabric partition.
 
 Reports health state of the specified Service Fabric partition. The report must contain the information about the source of the health report and property on which it is reported.

@@ -1,6 +1,6 @@
 ---
-title: "ImageRegistryCredential"
-description: "ImageRegistryCredential"
+title: "ImageRegistryCredential v80"
+description: "ImageRegistryCredential v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ImageRegistryCredential
+# ImageRegistryCredential v80
 
 Image registry credential.
 

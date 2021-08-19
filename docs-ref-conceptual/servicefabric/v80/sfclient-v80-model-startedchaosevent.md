@@ -1,6 +1,6 @@
 ---
-title: "StartedChaosEvent"
-description: "StartedChaosEvent"
+title: "StartedChaosEvent v80"
+description: "StartedChaosEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# StartedChaosEvent
+# StartedChaosEvent v80
 
 Describes a Chaos event that gets generated when Chaos is started.
 

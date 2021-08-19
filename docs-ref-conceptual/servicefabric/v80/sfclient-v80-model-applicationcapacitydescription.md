@@ -1,6 +1,6 @@
 ---
-title: "ApplicationCapacityDescription"
-description: "ApplicationCapacityDescription"
+title: "ApplicationCapacityDescription v80"
+description: "ApplicationCapacityDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationCapacityDescription
+# ApplicationCapacityDescription v80
 
 Describes capacity information for services of this application. This description can be used for describing the following.
 - Reserving the capacity for the services on the nodes

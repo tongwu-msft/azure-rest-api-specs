@@ -1,6 +1,6 @@
 ---
-title: "ServicePlacementRequiredDomainPolicyDescription"
-description: "ServicePlacementRequiredDomainPolicyDescription"
+title: "ServicePlacementRequiredDomainPolicyDescription v80"
+description: "ServicePlacementRequiredDomainPolicyDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServicePlacementRequiredDomainPolicyDescription
+# ServicePlacementRequiredDomainPolicyDescription v80
 
 Describes the policy to be used for placement of a Service Fabric service where the instances or replicas of that service must be placed in a particular domain
 

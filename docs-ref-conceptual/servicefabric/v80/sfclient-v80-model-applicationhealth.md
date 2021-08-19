@@ -1,6 +1,6 @@
 ---
-title: "ApplicationHealth"
-description: "ApplicationHealth"
+title: "ApplicationHealth v80"
+description: "ApplicationHealth v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationHealth
+# ApplicationHealth v80
 
 Represents the health of the application. Contains the application aggregated health state and the service and deployed application health states.
 

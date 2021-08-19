@@ -1,6 +1,6 @@
 ---
-title: "PagedDeployedApplicationInfoList"
-description: "PagedDeployedApplicationInfoList"
+title: "PagedDeployedApplicationInfoList v80"
+description: "PagedDeployedApplicationInfoList v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PagedDeployedApplicationInfoList
+# PagedDeployedApplicationInfoList v80
 
 The list of deployed applications in activating, downloading, or active states on a node.
 The list is paged when all of the results cannot fit in a single message.

@@ -1,6 +1,6 @@
 ---
-title: "DeployedServicePackageHealthStateFilter"
-description: "DeployedServicePackageHealthStateFilter"
+title: "DeployedServicePackageHealthStateFilter v80"
+description: "DeployedServicePackageHealthStateFilter v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedServicePackageHealthStateFilter
+# DeployedServicePackageHealthStateFilter v80
 
 Defines matching criteria to determine whether a deployed service package should be included as a child of a deployed application in the cluster health chunk.
 The deployed service packages are only returned if the parent entities match a filter specified in the cluster health chunk query description. The parent deployed application and its parent application must be included in the cluster health chunk.

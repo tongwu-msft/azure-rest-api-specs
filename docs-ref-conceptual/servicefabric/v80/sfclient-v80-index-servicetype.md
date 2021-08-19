@@ -1,6 +1,6 @@
 ---
-title: "ServiceType"
-description: "ServiceType"
+title: "ServiceType v80"
+description: "ServiceType v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceType APIs
+# ServiceType APIs v80
 
 | Name | Description |
 | --- | --- |

@@ -1,6 +1,6 @@
 ---
-title: "UsageInfo"
-description: "UsageInfo"
+title: "UsageInfo v80"
+description: "UsageInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UsageInfo
+# UsageInfo v80
 
 Information about how much space and how many files in the file system the ImageStore is using in this category
 

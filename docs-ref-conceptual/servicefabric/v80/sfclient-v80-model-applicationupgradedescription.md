@@ -1,6 +1,6 @@
 ---
-title: "ApplicationUpgradeDescription"
-description: "ApplicationUpgradeDescription"
+title: "ApplicationUpgradeDescription v80"
+description: "ApplicationUpgradeDescription v80"
 ms.date: "01/28/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationUpgradeDescription
+# ApplicationUpgradeDescription v80
 
 Describes the parameters for an application upgrade. Note that upgrade description replaces the existing application description. This means that if the parameters are not specified, the existing parameters on the applications will be overwritten with the empty parameters list. This would result in the application using the default value of the parameters from the application manifest. If you do not want to change any existing parameter values, please get the application parameters first using the GetApplicationInfo query and then supply those values as Parameters in this ApplicationUpgradeDescription.
 

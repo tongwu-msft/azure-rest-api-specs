@@ -1,6 +1,6 @@
 ---
-title: "Create Name"
-description: "Create Name"
+title: "Create Name v80"
+description: "Create Name v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create Name
+# Create Name v80
 Creates a Service Fabric name.
 
 Creates the specified Service Fabric name.

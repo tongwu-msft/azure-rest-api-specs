@@ -1,6 +1,6 @@
 ---
-title: "ProvisionApplicationTypeKind"
-description: "ProvisionApplicationTypeKind"
+title: "ProvisionApplicationTypeKind v80"
+description: "ProvisionApplicationTypeKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ProvisionApplicationTypeKind enum
+# ProvisionApplicationTypeKind enum v80
 
 type: string
 

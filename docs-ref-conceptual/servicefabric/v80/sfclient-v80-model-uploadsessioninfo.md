@@ -1,6 +1,6 @@
 ---
-title: "UploadSessionInfo"
-description: "UploadSessionInfo"
+title: "UploadSessionInfo v80"
+description: "UploadSessionInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UploadSessionInfo
+# UploadSessionInfo v80
 
 Information about an image store upload session. A session is associated with a relative path in the image store.
 

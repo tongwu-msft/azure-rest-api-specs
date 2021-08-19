@@ -1,6 +1,6 @@
 ---
-title: "ApplicationsHealthEvaluation"
-description: "ApplicationsHealthEvaluation"
+title: "ApplicationsHealthEvaluation v80"
+description: "ApplicationsHealthEvaluation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationsHealthEvaluation
+# ApplicationsHealthEvaluation v80
 
 Represents health evaluation for applications, containing health evaluations for each unhealthy application that impacted current aggregated health state.
 

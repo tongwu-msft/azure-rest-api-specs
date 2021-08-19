@@ -1,6 +1,6 @@
 ---
-title: "DeployedApplicationHealthStateFilter"
-description: "DeployedApplicationHealthStateFilter"
+title: "DeployedApplicationHealthStateFilter v80"
+description: "DeployedApplicationHealthStateFilter v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedApplicationHealthStateFilter
+# DeployedApplicationHealthStateFilter v80
 
 Defines matching criteria to determine whether a deployed application should be included as a child of an application in the cluster health chunk.
 The deployed applications are only returned if the parent application matches a filter specified in the cluster health chunk query description.

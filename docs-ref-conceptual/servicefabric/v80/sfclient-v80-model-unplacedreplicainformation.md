@@ -1,6 +1,6 @@
 ---
-title: "UnplacedReplicaInformation"
-description: "UnplacedReplicaInformation"
+title: "UnplacedReplicaInformation v80"
+description: "UnplacedReplicaInformation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# UnplacedReplicaInformation
+# UnplacedReplicaInformation v80
 
 Contains information for an unplaced replica.
 

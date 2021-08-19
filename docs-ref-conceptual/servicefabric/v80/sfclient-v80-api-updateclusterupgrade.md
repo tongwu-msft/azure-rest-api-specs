@@ -1,6 +1,6 @@
 ---
-title: "Update Cluster Upgrade"
-description: "Update Cluster Upgrade"
+title: "Update Cluster Upgrade v80"
+description: "Update Cluster Upgrade v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Update Cluster Upgrade
+# Update Cluster Upgrade v80
 Update the upgrade parameters of a Service Fabric cluster upgrade.
 
 Update the upgrade parameters used during a Service Fabric cluster upgrade.

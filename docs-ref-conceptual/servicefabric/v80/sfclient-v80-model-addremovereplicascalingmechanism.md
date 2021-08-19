@@ -1,6 +1,6 @@
 ---
-title: "AddRemoveReplicaScalingMechanism"
-description: "AddRemoveReplicaScalingMechanism"
+title: "AddRemoveReplicaScalingMechanism v80"
+description: "AddRemoveReplicaScalingMechanism v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AddRemoveReplicaScalingMechanism
+# AddRemoveReplicaScalingMechanism v80
 
 Describes the horizontal auto scaling mechanism that adds or removes replicas (containers or container groups).
 

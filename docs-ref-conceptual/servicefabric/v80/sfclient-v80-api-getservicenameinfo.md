@@ -1,6 +1,6 @@
 ---
-title: "Get Service Name Info"
-description: "Get Service Name Info"
+title: "Get Service Name Info v80"
+description: "Get Service Name Info v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Service Name Info
+# Get Service Name Info v80
 Gets the name of the Service Fabric service for a partition.
 
 Gets name of the service for the specified partition. A 404 error is returned if the partition ID does not exist in the cluster.

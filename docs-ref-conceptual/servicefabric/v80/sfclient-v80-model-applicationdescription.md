@@ -1,6 +1,6 @@
 ---
-title: "ApplicationDescription"
-description: "ApplicationDescription"
+title: "ApplicationDescription v80"
+description: "ApplicationDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationDescription
+# ApplicationDescription v80
 
 Describes a Service Fabric application.
 

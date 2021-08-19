@@ -1,6 +1,6 @@
 ---
-title: "EventHealthEvaluation"
-description: "EventHealthEvaluation"
+title: "EventHealthEvaluation v80"
+description: "EventHealthEvaluation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# EventHealthEvaluation
+# EventHealthEvaluation v80
 
 Represents health evaluation of a HealthEvent that was reported on the entity.
 The health evaluation is returned when evaluating health of an entity results in Error or Warning.

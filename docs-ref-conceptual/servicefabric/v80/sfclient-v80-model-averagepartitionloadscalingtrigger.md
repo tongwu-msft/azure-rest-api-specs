@@ -1,6 +1,6 @@
 ---
-title: "AveragePartitionLoadScalingTrigger"
-description: "AveragePartitionLoadScalingTrigger"
+title: "AveragePartitionLoadScalingTrigger v80"
+description: "AveragePartitionLoadScalingTrigger v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AveragePartitionLoadScalingTrigger
+# AveragePartitionLoadScalingTrigger v80
 
 Represents a scaling trigger related to an average load of a metric/resource of a partition.
 

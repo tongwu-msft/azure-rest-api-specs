@@ -1,6 +1,6 @@
 ---
-title: "AutoScalingPolicy"
-description: "AutoScalingPolicy"
+title: "AutoScalingPolicy v80"
+description: "AutoScalingPolicy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AutoScalingPolicy
+# AutoScalingPolicy v80
 
 Describes the auto scaling policy
 

@@ -1,6 +1,6 @@
 ---
-title: "SafetyCheckWrapper"
-description: "SafetyCheckWrapper"
+title: "SafetyCheckWrapper v80"
+description: "SafetyCheckWrapper v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SafetyCheckWrapper
+# SafetyCheckWrapper v80
 
 A wrapper for the safety check object. Safety checks are performed by service fabric before continuing with the operations. These checks ensure the availability of the service and the reliability of the state.
 

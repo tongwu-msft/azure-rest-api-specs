@@ -1,6 +1,6 @@
 ---
-title: "ReconfigurationType"
-description: "ReconfigurationType"
+title: "ReconfigurationType v80"
+description: "ReconfigurationType v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReconfigurationType enum
+# ReconfigurationType enum v80
 
 type: string
 

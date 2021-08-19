@@ -1,6 +1,6 @@
 ---
-title: "ChaosEventsSegment"
-description: "ChaosEventsSegment"
+title: "ChaosEventsSegment v80"
+description: "ChaosEventsSegment v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ChaosEventsSegment
+# ChaosEventsSegment v80
 
 Contains the list of Chaos events and the continuation token to get the next segment.
 

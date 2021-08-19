@@ -1,6 +1,6 @@
 ---
-title: "Update Partition Load"
-description: "Update Partition Load"
+title: "Update Partition Load v80"
+description: "Update Partition Load v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Update Partition Load
+# Update Partition Load v80
 Update the loads of provided partitions for specific metrics.
 
 Updates the load value and predicted load value for all the partitions provided for specified metrics.

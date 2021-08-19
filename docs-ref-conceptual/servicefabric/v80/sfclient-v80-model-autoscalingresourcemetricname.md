@@ -1,6 +1,6 @@
 ---
-title: "AutoScalingResourceMetricName"
-description: "AutoScalingResourceMetricName"
+title: "AutoScalingResourceMetricName v80"
+description: "AutoScalingResourceMetricName v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AutoScalingResourceMetricName enum
+# AutoScalingResourceMetricName enum v80
 
 type: string
 

@@ -1,6 +1,6 @@
 ---
-title: "DiagnosticsSinkProperties"
-description: "DiagnosticsSinkProperties"
+title: "DiagnosticsSinkProperties v80"
+description: "DiagnosticsSinkProperties v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DiagnosticsSinkProperties
+# DiagnosticsSinkProperties v80
 
 Properties of a DiagnosticsSink.
 ## Inheritance

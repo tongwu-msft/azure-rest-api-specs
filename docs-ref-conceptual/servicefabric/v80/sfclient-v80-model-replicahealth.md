@@ -1,6 +1,6 @@
 ---
-title: "ReplicaHealth"
-description: "ReplicaHealth"
+title: "ReplicaHealth v80"
+description: "ReplicaHealth v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReplicaHealth
+# ReplicaHealth v80
 
 Represents a base class for stateful service replica or stateless service instance health.
 Contains the replica aggregated health state, the health events and the unhealthy evaluations.

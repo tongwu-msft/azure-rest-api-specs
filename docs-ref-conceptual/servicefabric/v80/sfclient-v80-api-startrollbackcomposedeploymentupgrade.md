@@ -1,6 +1,6 @@
 ---
-title: "Start Rollback Compose Deployment Upgrade"
-description: "Start Rollback Compose Deployment Upgrade"
+title: "Start Rollback Compose Deployment Upgrade v80"
+description: "Start Rollback Compose Deployment Upgrade v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Start Rollback Compose Deployment Upgrade
+# Start Rollback Compose Deployment Upgrade v80
 Starts rolling back a compose deployment upgrade in the Service Fabric cluster.
 
 Rollback a service fabric compose deployment upgrade.

@@ -1,6 +1,6 @@
 ---
-title: "GatewayDestination"
-description: "GatewayDestination"
+title: "GatewayDestination v80"
+description: "GatewayDestination v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# GatewayDestination
+# GatewayDestination v80
 
 Describes destination endpoint for routing traffic.
 

@@ -1,6 +1,6 @@
 ---
-title: "ClusterManifest"
-description: "ClusterManifest"
+title: "ClusterManifest v80"
+description: "ClusterManifest v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterManifest
+# ClusterManifest v80
 
 Information about the cluster manifest.
 

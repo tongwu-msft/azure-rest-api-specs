@@ -1,6 +1,6 @@
 ---
-title: "RunToCompletionExecutionPolicy"
-description: "RunToCompletionExecutionPolicy"
+title: "RunToCompletionExecutionPolicy v80"
+description: "RunToCompletionExecutionPolicy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# RunToCompletionExecutionPolicy
+# RunToCompletionExecutionPolicy v80
 
 The run to completion execution policy, the service will perform its desired operation and complete successfully. If the service encounters failure, it will restarted based on restart policy specified. If the service completes its operation successfully, it will not be restarted again.
 

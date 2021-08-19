@@ -1,6 +1,6 @@
 ---
-title: "DeployedCodePackageInfo"
-description: "DeployedCodePackageInfo"
+title: "DeployedCodePackageInfo v80"
+description: "DeployedCodePackageInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedCodePackageInfo
+# DeployedCodePackageInfo v80
 
 Information about code package deployed on a Service Fabric node.
 

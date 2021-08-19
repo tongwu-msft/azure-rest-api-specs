@@ -1,6 +1,6 @@
 ---
-title: "ServiceTypeManifest"
-description: "ServiceTypeManifest"
+title: "ServiceTypeManifest v80"
+description: "ServiceTypeManifest v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceTypeManifest
+# ServiceTypeManifest v80
 
 Contains the manifest describing a service type registered as part of an application in a Service Fabric cluster.
 

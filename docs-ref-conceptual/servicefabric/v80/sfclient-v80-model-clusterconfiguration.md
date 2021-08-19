@@ -1,6 +1,6 @@
 ---
-title: "ClusterConfiguration"
-description: "ClusterConfiguration"
+title: "ClusterConfiguration v80"
+description: "ClusterConfiguration v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterConfiguration
+# ClusterConfiguration v80
 
 Information about the standalone cluster configuration.
 

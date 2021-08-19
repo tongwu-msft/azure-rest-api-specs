@@ -1,6 +1,6 @@
 ---
-title: "ChaosScheduleJobActiveDaysOfWeek"
-description: "ChaosScheduleJobActiveDaysOfWeek"
+title: "ChaosScheduleJobActiveDaysOfWeek v80"
+description: "ChaosScheduleJobActiveDaysOfWeek v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ChaosScheduleJobActiveDaysOfWeek
+# ChaosScheduleJobActiveDaysOfWeek v80
 
 Defines the days of the week that a Chaos Schedule Job will run for.
 

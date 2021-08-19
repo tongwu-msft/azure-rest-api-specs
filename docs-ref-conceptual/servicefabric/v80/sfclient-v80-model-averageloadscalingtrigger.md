@@ -1,6 +1,6 @@
 ---
-title: "AverageLoadScalingTrigger"
-description: "AverageLoadScalingTrigger"
+title: "AverageLoadScalingTrigger v80"
+description: "AverageLoadScalingTrigger v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AverageLoadScalingTrigger
+# AverageLoadScalingTrigger v80
 
 Describes the average load trigger used for auto scaling.
 

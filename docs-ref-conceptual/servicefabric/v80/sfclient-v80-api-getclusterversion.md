@@ -1,6 +1,6 @@
 ---
-title: "Get Cluster Version"
-description: "Get Cluster Version"
+title: "Get Cluster Version v80"
+description: "Get Cluster Version v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Cluster Version
+# Get Cluster Version v80
 Get the current Service Fabric cluster version.
 
 If a cluster upgrade is happening, then this API will return the lowest (older) version of the current and target cluster runtime versions.

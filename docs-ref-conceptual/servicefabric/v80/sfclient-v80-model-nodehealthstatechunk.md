@@ -1,6 +1,6 @@
 ---
-title: "NodeHealthStateChunk"
-description: "NodeHealthStateChunk"
+title: "NodeHealthStateChunk v80"
+description: "NodeHealthStateChunk v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeHealthStateChunk
+# NodeHealthStateChunk v80
 
 Represents the health state chunk of a node, which contains the node name and its aggregated health state.
 

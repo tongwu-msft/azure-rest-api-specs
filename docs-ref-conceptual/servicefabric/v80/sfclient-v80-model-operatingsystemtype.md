@@ -1,6 +1,6 @@
 ---
-title: "OperatingSystemType"
-description: "OperatingSystemType"
+title: "OperatingSystemType v80"
+description: "OperatingSystemType v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# OperatingSystemType enum
+# OperatingSystemType enum v80
 
 type: string
 

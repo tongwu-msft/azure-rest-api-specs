@@ -1,6 +1,6 @@
 ---
-title: "ProvisionApplicationTypeDescriptionBase"
-description: "ProvisionApplicationTypeDescriptionBase"
+title: "ProvisionApplicationTypeDescriptionBase v80"
+description: "ProvisionApplicationTypeDescriptionBase v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ProvisionApplicationTypeDescriptionBase
+# ProvisionApplicationTypeDescriptionBase v80
 
 Represents the type of registration or provision requested, and if the operation needs to be asynchronous or not. Supported types of provision operations are from either image store or external store.
 ## Inheritance

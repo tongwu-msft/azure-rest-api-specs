@@ -1,6 +1,6 @@
 ---
-title: "Get Node Info List"
-description: "Get Node Info List"
+title: "Get Node Info List v80"
+description: "Get Node Info List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Node Info List
+# Get Node Info List v80
 Gets the list of nodes in the Service Fabric cluster.
 
 The response includes the name, status, ID, health, uptime, and other details about the nodes.

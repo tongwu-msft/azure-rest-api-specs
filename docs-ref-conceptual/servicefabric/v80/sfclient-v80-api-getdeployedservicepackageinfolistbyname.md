@@ -1,6 +1,6 @@
 ---
-title: "Get Deployed Service Package Info List By Name"
-description: "Get Deployed Service Package Info List By Name"
+title: "Get Deployed Service Package Info List By Name v80"
+description: "Get Deployed Service Package Info List By Name v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Deployed Service Package Info List By Name
+# Get Deployed Service Package Info List By Name v80
 Gets the list of service packages deployed on a Service Fabric node matching exactly the specified name.
 
 Returns the information about the service packages deployed on a Service Fabric node for the given application. These results are of service packages whose name match exactly the service package name specified as the parameter.

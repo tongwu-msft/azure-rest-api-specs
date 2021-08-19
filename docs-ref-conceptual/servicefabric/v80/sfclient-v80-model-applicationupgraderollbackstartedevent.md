@@ -1,6 +1,6 @@
 ---
-title: "ApplicationUpgradeRollbackStartedEvent"
-description: "ApplicationUpgradeRollbackStartedEvent"
+title: "ApplicationUpgradeRollbackStartedEvent v80"
+description: "ApplicationUpgradeRollbackStartedEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationUpgradeRollbackStartedEvent
+# ApplicationUpgradeRollbackStartedEvent v80
 
 Application Upgrade Rollback Started event.
 

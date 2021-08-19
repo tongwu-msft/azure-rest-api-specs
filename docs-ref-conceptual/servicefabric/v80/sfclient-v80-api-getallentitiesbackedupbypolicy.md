@@ -1,6 +1,6 @@
 ---
-title: "Get All Entities Backed Up By Policy"
-description: "Get All Entities Backed Up By Policy"
+title: "Get All Entities Backed Up By Policy v80"
+description: "Get All Entities Backed Up By Policy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get All Entities Backed Up By Policy
+# Get All Entities Backed Up By Policy v80
 Gets the list of backup entities that are associated with this policy.
 
 Returns a list of Service Fabric application, service or partition which are associated with this backup policy.

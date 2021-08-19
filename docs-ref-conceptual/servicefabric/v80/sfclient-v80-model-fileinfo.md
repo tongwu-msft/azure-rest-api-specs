@@ -1,6 +1,6 @@
 ---
-title: "FileInfo"
-description: "FileInfo"
+title: "FileInfo v80"
+description: "FileInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# FileInfo
+# FileInfo v80
 
 Information about a image store file.
 

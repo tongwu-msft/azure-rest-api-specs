@@ -1,6 +1,6 @@
 ---
-title: "Service Package"
-description: "Service Package"
+title: "Service Package v80"
+description: "Service Package v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Service Package APIs
+# Service Package APIs v80
 
 | Name | Description |
 | --- | --- |

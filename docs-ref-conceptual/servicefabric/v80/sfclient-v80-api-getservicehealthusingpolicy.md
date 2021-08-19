@@ -1,6 +1,6 @@
 ---
-title: "Get Service Health Using Policy"
-description: "Get Service Health Using Policy"
+title: "Get Service Health Using Policy v80"
+description: "Get Service Health Using Policy v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Service Health Using Policy
+# Get Service Health Using Policy v80
 Gets the health of the specified Service Fabric service, by using the specified health policy.
 
 Gets the health information of the specified service.

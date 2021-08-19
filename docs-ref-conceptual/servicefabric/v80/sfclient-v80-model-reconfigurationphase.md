@@ -1,6 +1,6 @@
 ---
-title: "ReconfigurationPhase"
-description: "ReconfigurationPhase"
+title: "ReconfigurationPhase v80"
+description: "ReconfigurationPhase v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReconfigurationPhase enum
+# ReconfigurationPhase enum v80
 
 type: string
 

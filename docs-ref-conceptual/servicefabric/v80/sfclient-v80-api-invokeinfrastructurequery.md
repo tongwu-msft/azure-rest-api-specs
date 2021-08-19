@@ -1,6 +1,6 @@
 ---
-title: "Invoke Infrastructure Query"
-description: "Invoke Infrastructure Query"
+title: "Invoke Infrastructure Query v80"
+description: "Invoke Infrastructure Query v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Invoke Infrastructure Query
+# Invoke Infrastructure Query v80
 Invokes a read-only query on the given infrastructure service instance.
 
 For clusters that have one or more instances of the Infrastructure Service configured,

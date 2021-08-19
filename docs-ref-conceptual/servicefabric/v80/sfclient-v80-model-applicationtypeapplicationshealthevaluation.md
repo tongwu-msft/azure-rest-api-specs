@@ -1,6 +1,6 @@
 ---
-title: "ApplicationTypeApplicationsHealthEvaluation"
-description: "ApplicationTypeApplicationsHealthEvaluation"
+title: "ApplicationTypeApplicationsHealthEvaluation v80"
+description: "ApplicationTypeApplicationsHealthEvaluation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationTypeApplicationsHealthEvaluation
+# ApplicationTypeApplicationsHealthEvaluation v80
 
 Represents health evaluation for applications of a particular application type. The application type applications evaluation can be returned when cluster health evaluation returns unhealthy aggregated health state, either Error or Warning. It contains health evaluations for each unhealthy application of the included application type that impacted current aggregated health state.
 

@@ -1,6 +1,6 @@
 ---
-title: "ServiceDescription"
-description: "ServiceDescription"
+title: "ServiceDescription v80"
+description: "ServiceDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceDescription
+# ServiceDescription v80
 
 A ServiceDescription contains all of the information necessary to create a service.
 ## Inheritance

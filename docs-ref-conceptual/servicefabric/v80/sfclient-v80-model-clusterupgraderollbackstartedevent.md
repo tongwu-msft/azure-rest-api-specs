@@ -1,6 +1,6 @@
 ---
-title: "ClusterUpgradeRollbackStartedEvent"
-description: "ClusterUpgradeRollbackStartedEvent"
+title: "ClusterUpgradeRollbackStartedEvent v80"
+description: "ClusterUpgradeRollbackStartedEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterUpgradeRollbackStartedEvent
+# ClusterUpgradeRollbackStartedEvent v80
 
 Cluster Upgrade Rollback Started event.
 

@@ -1,6 +1,6 @@
 ---
-title: "ReplicaMetricLoadDescription"
-description: "ReplicaMetricLoadDescription"
+title: "ReplicaMetricLoadDescription v80"
+description: "ReplicaMetricLoadDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ReplicaMetricLoadDescription
+# ReplicaMetricLoadDescription v80
 
 Specifies metric loads of a partition's specific secondary replica or instance.
 

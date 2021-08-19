@@ -1,6 +1,6 @@
 ---
-title: "PropertyBatchDescriptionList"
-description: "PropertyBatchDescriptionList"
+title: "PropertyBatchDescriptionList v80"
+description: "PropertyBatchDescriptionList v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PropertyBatchDescriptionList
+# PropertyBatchDescriptionList v80
 
 Describes a list of property batch operations to be executed. Either all or none of the operations will be committed.
 

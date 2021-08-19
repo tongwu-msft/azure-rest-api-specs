@@ -1,6 +1,6 @@
 ---
-title: "NodeTransitionResult"
-description: "NodeTransitionResult"
+title: "NodeTransitionResult v80"
+description: "NodeTransitionResult v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeTransitionResult
+# NodeTransitionResult v80
 
 Represents information about an operation in a terminal state (Completed or Faulted).
 

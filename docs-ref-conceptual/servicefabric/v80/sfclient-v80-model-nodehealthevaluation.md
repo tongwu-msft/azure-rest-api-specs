@@ -1,6 +1,6 @@
 ---
-title: "NodeHealthEvaluation"
-description: "NodeHealthEvaluation"
+title: "NodeHealthEvaluation v80"
+description: "NodeHealthEvaluation v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeHealthEvaluation
+# NodeHealthEvaluation v80
 
 Represents health evaluation for a node, containing information about the data and the algorithm used by health store to evaluate health. The evaluation is returned only when the aggregated health state is either Error or Warning.
 

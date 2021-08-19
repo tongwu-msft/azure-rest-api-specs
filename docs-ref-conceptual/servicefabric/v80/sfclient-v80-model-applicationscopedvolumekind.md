@@ -1,6 +1,6 @@
 ---
-title: "ApplicationScopedVolumeKind"
-description: "ApplicationScopedVolumeKind"
+title: "ApplicationScopedVolumeKind v80"
+description: "ApplicationScopedVolumeKind v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ApplicationScopedVolumeKind enum
+# ApplicationScopedVolumeKind enum v80
 
 type: string
 

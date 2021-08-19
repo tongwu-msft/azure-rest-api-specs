@@ -1,6 +1,6 @@
 ---
-title: "Get Application Backup Configuration Info"
-description: "Get Application Backup Configuration Info"
+title: "Get Application Backup Configuration Info v80"
+description: "Get Application Backup Configuration Info v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Application Backup Configuration Info
+# Get Application Backup Configuration Info v80
 Gets the Service Fabric application backup configuration information.
 
 Gets the Service Fabric backup configuration information for the application and the services and partitions under this application.

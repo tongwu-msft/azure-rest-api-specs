@@ -1,6 +1,6 @@
 ---
-title: "SecretResourcePropertiesBase"
-description: "SecretResourcePropertiesBase"
+title: "SecretResourcePropertiesBase v80"
+description: "SecretResourcePropertiesBase v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# SecretResourcePropertiesBase
+# SecretResourcePropertiesBase v80
 
 This type describes the properties of a secret resource, including its kind.
 ## Inheritance

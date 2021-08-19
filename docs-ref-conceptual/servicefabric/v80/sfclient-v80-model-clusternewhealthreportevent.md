@@ -1,6 +1,6 @@
 ---
-title: "ClusterNewHealthReportEvent"
-description: "ClusterNewHealthReportEvent"
+title: "ClusterNewHealthReportEvent v80"
+description: "ClusterNewHealthReportEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterNewHealthReportEvent
+# ClusterNewHealthReportEvent v80
 
 Cluster Health Report Created event.
 

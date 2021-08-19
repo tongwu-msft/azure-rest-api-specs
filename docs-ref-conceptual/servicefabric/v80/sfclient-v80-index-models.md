@@ -1,6 +1,6 @@
 ---
-title: "Models"
-description: "Models"
+title: "Models v80"
+description: "Models v80"
 ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Type Models
+# Type Models v80
 
 
 | Name | Description |

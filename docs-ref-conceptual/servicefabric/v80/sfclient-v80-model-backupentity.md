@@ -1,6 +1,6 @@
 ---
-title: "BackupEntity"
-description: "BackupEntity"
+title: "BackupEntity v80"
+description: "BackupEntity v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# BackupEntity
+# BackupEntity v80
 
 Describes the Service Fabric entity that is configured for backup.
 ## Inheritance

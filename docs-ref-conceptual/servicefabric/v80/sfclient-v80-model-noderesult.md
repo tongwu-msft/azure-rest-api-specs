@@ -1,6 +1,6 @@
 ---
-title: "NodeResult"
-description: "NodeResult"
+title: "NodeResult v80"
+description: "NodeResult v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeResult
+# NodeResult v80
 
 Contains information about a node that was targeted by a user-induced operation.
 

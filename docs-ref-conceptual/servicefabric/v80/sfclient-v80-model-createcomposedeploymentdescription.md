@@ -1,6 +1,6 @@
 ---
-title: "CreateComposeDeploymentDescription"
-description: "CreateComposeDeploymentDescription"
+title: "CreateComposeDeploymentDescription v80"
+description: "CreateComposeDeploymentDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# CreateComposeDeploymentDescription
+# CreateComposeDeploymentDescription v80
 
 Defines description for creating a Service Fabric compose deployment.
 

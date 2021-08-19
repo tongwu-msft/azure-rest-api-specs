@@ -1,6 +1,6 @@
 ---
-title: "Get Partitions Event List"
-description: "Get Partitions Event List"
+title: "Get Partitions Event List v80"
+description: "Get Partitions Event List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Partitions Event List
+# Get Partitions Event List v80
 Gets all Partitions-related events.
 
 The response is list of PartitionEvent objects.

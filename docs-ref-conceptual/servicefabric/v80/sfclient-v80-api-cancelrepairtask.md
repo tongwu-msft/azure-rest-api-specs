@@ -1,6 +1,6 @@
 ---
-title: "Cancel Repair Task"
-description: "Cancel Repair Task"
+title: "Cancel Repair Task v80"
+description: "Cancel Repair Task v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Cancel Repair Task
+# Cancel Repair Task v80
 Requests the cancellation of the given repair task.
 
 This API supports the Service Fabric platform; it is not meant to be used directly from your code.

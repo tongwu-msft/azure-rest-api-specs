@@ -1,6 +1,6 @@
 ---
-title: "Set Upgrade Orchestration Service State"
-description: "Set Upgrade Orchestration Service State"
+title: "Set Upgrade Orchestration Service State v80"
+description: "Set Upgrade Orchestration Service State v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Set Upgrade Orchestration Service State
+# Set Upgrade Orchestration Service State v80
 Update the service state of Service Fabric Upgrade Orchestration Service.
 
 Update the service state of Service Fabric Upgrade Orchestration Service. This API is internally used for support purposes.

@@ -1,6 +1,6 @@
 ---
-title: "NodeDeactivateStartedEvent"
-description: "NodeDeactivateStartedEvent"
+title: "NodeDeactivateStartedEvent v80"
+description: "NodeDeactivateStartedEvent v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NodeDeactivateStartedEvent
+# NodeDeactivateStartedEvent v80
 
 Node Deactivate Started event.
 

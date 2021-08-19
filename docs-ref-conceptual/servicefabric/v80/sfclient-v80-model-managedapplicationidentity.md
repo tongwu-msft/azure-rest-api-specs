@@ -1,6 +1,6 @@
 ---
-title: "ManagedApplicationIdentity"
-description: "ManagedApplicationIdentity"
+title: "ManagedApplicationIdentity v80"
+description: "ManagedApplicationIdentity v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ManagedApplicationIdentity
+# ManagedApplicationIdentity v80
 
 Describes a managed application identity.
 

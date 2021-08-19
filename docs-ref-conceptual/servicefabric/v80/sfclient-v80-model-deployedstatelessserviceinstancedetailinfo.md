@@ -1,6 +1,6 @@
 ---
-title: "DeployedStatelessServiceInstanceDetailInfo"
-description: "DeployedStatelessServiceInstanceDetailInfo"
+title: "DeployedStatelessServiceInstanceDetailInfo v80"
+description: "DeployedStatelessServiceInstanceDetailInfo v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DeployedStatelessServiceInstanceDetailInfo
+# DeployedStatelessServiceInstanceDetailInfo v80
 
 Information about a stateless instance running in a code package. Note that DeployedServiceReplicaQueryResult will contain duplicate data like ServiceKind, ServiceName, PartitionId and InstanceId.
 

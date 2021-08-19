@@ -1,6 +1,6 @@
 ---
-title: "Get Nodes Event List"
-description: "Get Nodes Event List"
+title: "Get Nodes Event List v80"
+description: "Get Nodes Event List v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Nodes Event List
+# Get Nodes Event List v80
 Gets all Nodes-related Events.
 
 The response is list of NodeEvent objects.

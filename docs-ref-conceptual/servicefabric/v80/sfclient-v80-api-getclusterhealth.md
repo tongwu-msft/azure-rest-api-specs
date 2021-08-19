@@ -1,6 +1,6 @@
 ---
-title: "Get Cluster Health"
-description: "Get Cluster Health"
+title: "Get Cluster Health v80"
+description: "Get Cluster Health v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Cluster Health
+# Get Cluster Health v80
 Gets the health of a Service Fabric cluster.
 
 Use EventsHealthStateFilter to filter the collection of health events reported on the cluster based on the health state.

@@ -1,6 +1,6 @@
 ---
-title: "Create Or Update"
-description: "Create Or Update"
+title: "Create Or Update v80"
+description: "Create Or Update v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create Or Update
+# Create Or Update v80
 Creates or updates a Secret resource.
 
 Creates a Secret resource with the specified name, description and properties. If Secret resource with the same name exists, then it is updated with the specified description and properties. Once created, the kind and contentType of a secret resource cannot be updated.

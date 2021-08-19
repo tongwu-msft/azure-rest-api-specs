@@ -1,6 +1,6 @@
 ---
-title: "Get Container Logs Deployed On Node"
-description: "Get Container Logs Deployed On Node"
+title: "Get Container Logs Deployed On Node v80"
+description: "Get Container Logs Deployed On Node v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Container Logs Deployed On Node
+# Get Container Logs Deployed On Node v80
 Gets the container logs for container deployed on a Service Fabric node.
 
 Gets the container logs for container deployed on a Service Fabric node for the given code package.

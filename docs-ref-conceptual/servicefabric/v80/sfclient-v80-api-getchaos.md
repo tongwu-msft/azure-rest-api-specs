@@ -1,6 +1,6 @@
 ---
-title: "Get Chaos"
-description: "Get Chaos"
+title: "Get Chaos v80"
+description: "Get Chaos v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Chaos
+# Get Chaos v80
 Get the status of Chaos.
 
 Get the status of Chaos indicating whether or not Chaos is running, the Chaos parameters used for running Chaos and the status of the Chaos Schedule.

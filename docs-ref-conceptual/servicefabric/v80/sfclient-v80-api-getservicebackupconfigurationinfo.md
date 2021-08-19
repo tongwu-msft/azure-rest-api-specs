@@ -1,6 +1,6 @@
 ---
-title: "Get Service Backup Configuration Info"
-description: "Get Service Backup Configuration Info"
+title: "Get Service Backup Configuration Info v80"
+description: "Get Service Backup Configuration Info v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Get Service Backup Configuration Info
+# Get Service Backup Configuration Info v80
 Gets the Service Fabric service backup configuration information.
 
 Gets the Service Fabric backup configuration information for the service and the partitions under this service.

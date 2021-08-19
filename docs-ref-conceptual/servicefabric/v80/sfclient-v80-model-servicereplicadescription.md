@@ -1,6 +1,6 @@
 ---
-title: "ServiceReplicaDescription"
-description: "ServiceReplicaDescription"
+title: "ServiceReplicaDescription v80"
+description: "ServiceReplicaDescription v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceReplicaDescription
+# ServiceReplicaDescription v80
 
 Describes a replica of a service resource.
 

@@ -1,6 +1,6 @@
 ---
-title: "ServiceHealthState"
-description: "ServiceHealthState"
+title: "ServiceHealthState v80"
+description: "ServiceHealthState v80"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceHealthState
+# ServiceHealthState v80
 
 Represents the health state of a service, which contains the service identifier and its aggregated health state.
 
