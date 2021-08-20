@@ -1,6 +1,7 @@
 ---
 ms.assetid: 
 title: ML Studio (classic) API Web Service
+description: ML Studio (classic) REST APIs enable you to create and manage ML Studio (classic) commitment plans and associations and Azure Resource Manager based web services. 
 ms.prod: 
 ms.service: machine-learning
 ms.subservice: studio-classic
