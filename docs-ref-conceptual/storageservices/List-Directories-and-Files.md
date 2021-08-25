@@ -133,7 +133,7 @@ Note that the `Content-Length` element is returned in the listing. However, this
 
 In versions 2020-04-08, 2020-06-12 and 2020-08-04, `FileId` will be returned for files and directories if the header `x-ms-file-extended-info` is true. In versions 2020-10-02 and newer, `FileId` will always be returned for files and directories.
 
-In version 2020-04-08, `include={timestamps}` will return following 3 timestamp properties – `CreationTime`, `LastAccessTime` and `LastWriteTime`. In versions `2020-06-12` and newer, `include={timestamps}` will return following 5 timestamp properties – `CreationTime`, `LastAccessTime` and `LastWriteTime`, `ChangeTime` and `Last-Modified`.
+In version 2020-04-08, `include={timestamps}` will return following 3 timestamp properties – `CreationTime`, `LastAccessTime` and `LastWriteTime`. In versions `2020-06-12` and newer, `include={timestamps}` will return following 5 timestamp properties – `CreationTime`, `LastAccessTime`, `LastWriteTime`, `ChangeTime` and `Last-Modified`.
 
 In versions 2020-10-02 and newer, `DirectoryId` is returned in the response. It specifies the `FileId` of the directory the API is being called on.
 
