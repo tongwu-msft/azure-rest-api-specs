@@ -1,5 +1,6 @@
 ---
 title: "EncodingReservedUnitType"
+description: "Encoding Media Reserved Units API details"
 ms.custom: ""
 ms.date: "08/24/2021"
 ms.reviewer: ""
@@ -25,10 +26,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # EncodingReservedUnitType
-By default, Media Reserved Units are no longer needed to be used for Azure Media Services accounts. For compatability purposes, you can continue to use the Azure APIs to manage and scale MRUs. However, by default, none of the MRU configurations that you set will be used to control encoding concurrency or performance. Be sure to review the [Scale Media Processing Overview page](https://docs.microsoft.com/en-us/azure/media-services/previous/media-services-scale-media-processing-overview) to get more information about scaling media processing.
+By default, Media Reserved Units are no longer needed to be used for Azure Media Services accounts. For compatability purposes, you can continue to use the Azure APIs to manage and scale MRUs. However, by default, none of the MRU configurations that you set will be used to control encoding concurrency or performance. Be sure to review the [Scale Media Processing Overview page](~/azure-docs-pr/articles/media-services/previous/media-services-scale-media-processing-overview.md) to get more information about scaling media processing.
   
 > [!IMPORTANT]
-> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](~/azure-docs-pr/articles/media-services/previous/media-services-rest-how-to-use.md) and [Connecting to Media Services with the Media Services REST API](~/azure-docs-pr/articles/media-services/previous/media-services-use-aad-auth-to-access-ams-api.md).  
 
 This topic gives an overview of the `EncodingReservedUnitType` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
