@@ -1,7 +1,8 @@
 ---
 title: "EncodingReservedUnitType"
+description: "Encoding Media Reserved Units API details"
 ms.custom: ""
-ms.date: "03/14/2018"
+ms.date: "08/24/2021"
 ms.reviewer: ""
 ms.service: "media-services"
 ms.suite: ""
@@ -9,7 +10,7 @@ ms.tgt_pltfrm: ""
 ms.topic: "article"
 ms.assetid: 15c36cc3-1cbd-4927-9780-935241768161
 caps.latest.revision: 13
-author: "Juliako"
+author: "jiayali-ms"
 ms.author: "juliako"
 manager: "erikre"
 translation.priority.mt: 
@@ -25,31 +26,27 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # EncodingReservedUnitType
-A Media Services account is associated with a `Reserved Unit Type` which determines the speed with which your encoding jobs are processed. You can pick between the following reserved unit types: `S1`, `S2`, or `S3`.  
-  
- In addition to specifying the reserved unit type, you can specify to provision your account with encoding reserved units. The number of provisioned encoding reserved units determines the number of media tasks that can be processed concurrently in a given account. For example, if your account has 5 reserved units, then 5 media tasks will be running concurrently as long as there are tasks to be processed. The remaining tasks will wait in the queue and will get picked up for processing sequentially as soon as a running task finishes. If an account does not have any reserved units provisioned, then tasks will be picked up sequentially. In this case, the wait time between one task finishing and the next one starting will depend on the availability of resources in the system.  
-  
- To update the reserved unit type or the number of reserved units, use the REST API described in this topic. For more information, see the [Scaling media processing](https://azure.microsoft.com/documentation/articles/media-services-scale-media-processing-overview/).  
-  
- By default, every Media Services account can scale to up to 25 encoding units. To request a higher limit, see [How to request a higher limit for updatable quotas](https://msdn.microsoft.com/82f7e538-6bdf-4883-aa50-24574cc4996e).  
-  
- The highest number of units specified for the 24-hour period is used in calculating the cost.  
+By default, Media Reserved Units are no longer needed to be used for Azure Media Services accounts. For compatibility purposes, you can continue to use the Azure APIs to manage and scale MRUs. However, by default, none of the MRU configurations that you set will be used to control encoding concurrency or performance. Be sure to review the [Scale Media Processing Overview page](/MicrosoftDocs/azure-docs-pr/articles/media-services/previous/media-services-scale-media-processing-overview) to get more information about scaling media processing.
   
 > [!IMPORTANT]
-> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](https://docs.microsoft.com/azure/media-services/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).  
+> When accessing entities in Media Services, you must set specific header fields and values in your HTTP requests. <br/>For more information, see [Setup for Media Services REST API Development](/MicrosoftDocs/azure-docs-pr/articles/media-services/previous/media-services-rest-how-to-use) and [Connecting to Media Services with the Media Services REST API](/MicrosoftDocs/azure-docs-pr/articles/media-services/previous/media-services-use-aad-auth-to-access-ams-api).  
 
- This topic gives an overview of the `EncodingReservedUnitType` entity and also demonstrates how to execute various operations with the Media Services REST API.  
+This topic gives an overview of the `EncodingReservedUnitType` entity and also demonstrates how to execute various operations with the Media Services REST API.  
   
--   [Get EncodingReservedUnitType](#get_EncodingReservedUnitType)  
+* [Get EncodingReservedUnitType](#get_EncodingReservedUnitType)  
   
--   [Update EncodingReservedUnitType](#update_EncodingReservedUnitType)  
+* [Update EncodingReservedUnitType](#update_EncodingReservedUnitType)  
   
-## EncodingReservedUnitType Entity  
- The `EncodingReservedUnitType` entity contains the following properties.  
+## EncodingReservedUnitType Entity
+
+> [!Note]
+> As described above, Reserved Units are no longer offered by Azure Media Services. The following information is for compatibility issues only.
+
+The `EncodingReservedUnitType` entity contains the following properties.  
   
 |Name|Type|Description|  
 |----------|----------|-----------------|  
-|`AccountId`<br /><br /> Required. Read-Only|Edm.GUID|Media Services account Id.|  
+|`AccountId`<br /><br /> Required. Read-Only|Edm.GUID|Media Services account ID.|  
 |`ReservedUnitType`<br /><br /> Required.|Edm.Int|Reserved unit type can be one of the following: `S1` (0), `S2` (1), `S3` (2).|  
 |`CurrentReservedUnits`<br /><br /> Required.|Edm.Int|Current reserved units. The number of the encoding reserved units that you want to be provisioned for this account.<br /><br /> By default, every Media Services account can scale to up to 25 encoding units. To request a higher limit, see [How to request a higher limit for updatable quotas](https://msdn.microsoft.com/82f7e538-6bdf-4883-aa50-24574cc4996e).|  
 |`MaxReservableUnits`<br /><br /> Read-only.|Edm.Int|Maximum number of units that can be reserved for the account.|  
