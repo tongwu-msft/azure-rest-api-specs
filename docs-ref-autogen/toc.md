@@ -5836,10 +5836,6 @@
 ##### [Send Typing Notification](communication/chat/Chat-Thread/Send-Typing-Notification.yml)
 ##### [Update Chat Message](communication/chat/Chat-Thread/Update-Chat-Message.yml)
 ##### [Update Chat Thread Properties](communication/chat/Chat-Thread/Update-Chat-Thread-Properties.yml)
-### Communication Turn
-#### Communication Identity
-##### [Overview](communication/communicationturn/Communication-Identity.yml)
-##### [Issue Turn Credentials](communication/communicationturn/Communication-Identity/Issue-Turn-Credentials.yml)
 # Compute
 ## [Overview](../docs-ref-conceptual/compute/index.md)
 ## Cloud Services (classic)
