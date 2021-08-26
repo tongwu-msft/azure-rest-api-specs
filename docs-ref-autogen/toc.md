@@ -6103,6 +6103,18 @@
 #### [Create](compute/Restore-Points/Create.yml)
 #### [Delete](compute/Restore-Points/Delete.yml)
 #### [Get](compute/Restore-Points/Get.yml)
+### Shared Galleries
+#### [Overview](compute/Shared-Galleries.yml)
+#### [Get](compute/Shared-Galleries/Get.yml)
+#### [List](compute/Shared-Galleries/List.yml)
+### Shared Gallery Image Versions
+#### [Overview](compute/Shared-Gallery-Image-Versions.yml)
+#### [Get](compute/Shared-Gallery-Image-Versions/Get.yml)
+#### [List](compute/Shared-Gallery-Image-Versions/List.yml)
+### Shared Gallery Images
+#### [Overview](compute/Shared-Gallery-Images.yml)
+#### [Get](compute/Shared-Gallery-Images/Get.yml)
+#### [List](compute/Shared-Gallery-Images/List.yml)
 ### Snapshots
 #### [Overview](compute/Snapshots.yml)
 #### [Create Or Update](compute/Snapshots/Create-Or-Update.yml)
