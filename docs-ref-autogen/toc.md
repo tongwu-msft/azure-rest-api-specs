@@ -5877,6 +5877,21 @@
 #### [List Available Sizes](compute/Availability-Sets/List-Available-Sizes.yml)
 #### [List By Subscription](compute/Availability-Sets/List-By-Subscription.yml)
 #### [Update](compute/Availability-Sets/Update.yml)
+### Capacity Reservation Groups
+#### [Overview](compute/Capacity-Reservation-Groups.yml)
+#### [Create Or Update](compute/Capacity-Reservation-Groups/Create-Or-Update.yml)
+#### [Delete](compute/Capacity-Reservation-Groups/Delete.yml)
+#### [Get](compute/Capacity-Reservation-Groups/Get.yml)
+#### [List By Resource Group](compute/Capacity-Reservation-Groups/List-By-Resource-Group.yml)
+#### [List By Subscription](compute/Capacity-Reservation-Groups/List-By-Subscription.yml)
+#### [Update](compute/Capacity-Reservation-Groups/Update.yml)
+### Capacity Reservations
+#### [Overview](compute/Capacity-Reservations.yml)
+#### [Create Or Update](compute/Capacity-Reservations/Create-Or-Update.yml)
+#### [Delete](compute/Capacity-Reservations/Delete.yml)
+#### [Get](compute/Capacity-Reservations/Get.yml)
+#### [List By Capacity Reservation Group](compute/Capacity-Reservations/List-By-Capacity-Reservation-Group.yml)
+#### [Update](compute/Capacity-Reservations/Update.yml)
 ### Cloud Service Operating Systems
 #### [Overview](compute/Cloud-Service-Operating-Systems.yml)
 #### [Get OS Family](compute/Cloud-Service-Operating-Systems/Get-OS-Family.yml)
