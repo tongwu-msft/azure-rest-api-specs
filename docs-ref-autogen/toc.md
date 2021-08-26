@@ -5836,10 +5836,6 @@
 ##### [Send Typing Notification](communication/chat/Chat-Thread/Send-Typing-Notification.yml)
 ##### [Update Chat Message](communication/chat/Chat-Thread/Update-Chat-Message.yml)
 ##### [Update Chat Thread Properties](communication/chat/Chat-Thread/Update-Chat-Thread-Properties.yml)
-### Communication Turn
-#### Communication Identity
-##### [Overview](communication/communicationturn/Communication-Identity.yml)
-##### [Issue Turn Credentials](communication/communicationturn/Communication-Identity/Issue-Turn-Credentials.yml)
 # Compute
 ## [Overview](../docs-ref-conceptual/compute/index.md)
 ## Cloud Services (classic)
@@ -5881,6 +5877,21 @@
 #### [List Available Sizes](compute/Availability-Sets/List-Available-Sizes.yml)
 #### [List By Subscription](compute/Availability-Sets/List-By-Subscription.yml)
 #### [Update](compute/Availability-Sets/Update.yml)
+### Capacity Reservation Groups
+#### [Overview](compute/Capacity-Reservation-Groups.yml)
+#### [Create Or Update](compute/Capacity-Reservation-Groups/Create-Or-Update.yml)
+#### [Delete](compute/Capacity-Reservation-Groups/Delete.yml)
+#### [Get](compute/Capacity-Reservation-Groups/Get.yml)
+#### [List By Resource Group](compute/Capacity-Reservation-Groups/List-By-Resource-Group.yml)
+#### [List By Subscription](compute/Capacity-Reservation-Groups/List-By-Subscription.yml)
+#### [Update](compute/Capacity-Reservation-Groups/Update.yml)
+### Capacity Reservations
+#### [Overview](compute/Capacity-Reservations.yml)
+#### [Create Or Update](compute/Capacity-Reservations/Create-Or-Update.yml)
+#### [Delete](compute/Capacity-Reservations/Delete.yml)
+#### [Get](compute/Capacity-Reservations/Get.yml)
+#### [List By Capacity Reservation Group](compute/Capacity-Reservations/List-By-Capacity-Reservation-Group.yml)
+#### [Update](compute/Capacity-Reservations/Update.yml)
 ### Cloud Service Operating Systems
 #### [Overview](compute/Cloud-Service-Operating-Systems.yml)
 #### [Get OS Family](compute/Cloud-Service-Operating-Systems/Get-OS-Family.yml)
@@ -6092,6 +6103,18 @@
 #### [Create](compute/Restore-Points/Create.yml)
 #### [Delete](compute/Restore-Points/Delete.yml)
 #### [Get](compute/Restore-Points/Get.yml)
+### Shared Galleries
+#### [Overview](compute/Shared-Galleries.yml)
+#### [Get](compute/Shared-Galleries/Get.yml)
+#### [List](compute/Shared-Galleries/List.yml)
+### Shared Gallery Image Versions
+#### [Overview](compute/Shared-Gallery-Image-Versions.yml)
+#### [Get](compute/Shared-Gallery-Image-Versions/Get.yml)
+#### [List](compute/Shared-Gallery-Image-Versions/List.yml)
+### Shared Gallery Images
+#### [Overview](compute/Shared-Gallery-Images.yml)
+#### [Get](compute/Shared-Gallery-Images/Get.yml)
+#### [List](compute/Shared-Gallery-Images/List.yml)
 ### Snapshots
 #### [Overview](compute/Snapshots.yml)
 #### [Create Or Update](compute/Snapshots/Create-Or-Update.yml)

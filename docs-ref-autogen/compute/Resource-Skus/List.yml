@@ -3,15 +3,15 @@ uid: management.azure.com.compute.resourceskus.list
 name: List
 service: Compute
 groupName: Resource Skus
-apiVersion: 2019-04-01
+apiVersion: 2021-07-01
 summary: Gets the list of Microsoft.Compute SKUs available for your Subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus?api-version=2019-04-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus?api-version=2019-04-01&$filter={$filter}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus?api-version=2021-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/skus?api-version=2021-07-01&$filter={$filter}&includeExtendedLocations={includeExtendedLocations}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -29,6 +29,11 @@ uriParameters:
 - name: $filter
   in: query
   description: The filter to apply on the operation. Only **location** filter is supported currently.
+  types:
+  - uid: string
+- name: includeExtendedLocations
+  in: query
+  description: To Include Extended Locations information or not in the response.
   types:
   - uid: string
 responses:
@@ -151,6 +156,7 @@ definitions:
     types:
     - uid: ResourceSkuCapacityScaleType
 - name: ResourceSkuLocationInfo
+  description: Describes an available Compute SKU Location Information.
   kind: object
   properties:
   - name: location
@@ -170,6 +176,17 @@ definitions:
     types:
     - uid: ResourceSkuZoneDetails
       isArray: true
+  - name: extendedLocations
+    isReadyOnly: true
+    description: The names of extended locations.
+    types:
+    - uid: string
+      isArray: true
+  - name: type
+    isReadyOnly: true
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationType
 - name: ResourceSkuCosts
   description: Describes metadata for retrieving price info.
   kind: object
@@ -257,6 +274,13 @@ definitions:
     types:
     - uid: ResourceSkuCapabilities
       isArray: true
+- name: ExtendedLocationType
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 - name: ResourceSkuRestrictionsType
   description: The type of restrictions.
   kind: enum
@@ -268,6 +292,7 @@ definitions:
     types:
     - uid: string
 - name: ResourceSkuRestrictionInfo
+  description: Describes an available Compute SKU Restriction Information.
   kind: object
   properties:
   - name: locations
@@ -295,7 +320,7 @@ definitions:
 examples:
 - name: Lists all available Resource SKUs
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/skus?api-version=2019-04-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/skus?api-version=2021-07-01
   responses:
   - statusCode: "200"
     body: >-
@@ -482,7 +507,7 @@ examples:
       }
 - name: Lists all available Resource SKUs for the specified region
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/skus?api-version=2019-04-01&$filter=location eq 'westus'
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/skus?api-version=2021-07-01&$filter=location eq 'westus'
   responses:
   - statusCode: "200"
     body: >-
@@ -657,6 +682,202 @@ examples:
                   "2",
                   "3"
                 ]
+              }
+            ],
+            "name": "Standard_A1",
+            "tier": "Standard",
+            "size": "A1",
+            "family": "standardA0_A7Family"
+          }
+        ],
+        "nextLink": null
+      }
+- name: Lists all available Resource SKUs with Extended Location information
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/skus?api-version=2021-07-01&includeExtendedLocations=true
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "resourceType": "virtualMachines",
+            "locations": [
+              "westus"
+            ],
+            "capabilities": [
+              {
+                "name": "MaxResourceVolumeMB",
+                "value": "20480"
+              },
+              {
+                "name": "OSVhdSizeMB",
+                "value": "1047552"
+              },
+              {
+                "name": "vCPUs",
+                "value": "1"
+              },
+              {
+                "name": "HyperVGenerations",
+                "value": "V1"
+              },
+              {
+                "name": "MemoryGB",
+                "value": "0.75"
+              },
+              {
+                "name": "MaxDataDiskCount",
+                "value": "1"
+              },
+              {
+                "name": "LowPriorityCapable",
+                "value": "False"
+              },
+              {
+                "name": "PremiumIO",
+                "value": "False"
+              },
+              {
+                "name": "vCPUsAvailable",
+                "value": "1"
+              },
+              {
+                "name": "ACUs",
+                "value": "50"
+              },
+              {
+                "name": "vCPUsPerCore",
+                "value": "1"
+              },
+              {
+                "name": "EphemeralOSDiskSupported",
+                "value": "False"
+              },
+              {
+                "name": "AcceleratedNetworkingEnabled",
+                "value": "False"
+              },
+              {
+                "name": "RdmaEnabled",
+                "value": "False"
+              },
+              {
+                "name": "MaxNetworkInterfaces",
+                "value": "2"
+              }
+            ],
+            "locationInfo": [
+              {
+                "location": "westus",
+                "zones": [
+                  "2",
+                  "1"
+                ],
+                "zoneDetails": [
+                  {
+                    "name": [
+                      "2"
+                    ],
+                    "capabilities": [
+                      {
+                        "name": "UltraSSDAvailable",
+                        "value": "True"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "name": "Standard_A0",
+            "tier": "Standard",
+            "size": "A0",
+            "family": "standardA0_A7Family"
+          },
+          {
+            "resourceType": "virtualMachines",
+            "locations": [
+              "westus"
+            ],
+            "capabilities": [
+              {
+                "name": "MaxResourceVolumeMB",
+                "value": "71680"
+              },
+              {
+                "name": "OSVhdSizeMB",
+                "value": "1047552"
+              },
+              {
+                "name": "vCPUs",
+                "value": "1"
+              },
+              {
+                "name": "HyperVGenerations",
+                "value": "V1"
+              },
+              {
+                "name": "MemoryGB",
+                "value": "1.75"
+              },
+              {
+                "name": "MaxDataDiskCount",
+                "value": "2"
+              },
+              {
+                "name": "LowPriorityCapable",
+                "value": "True"
+              },
+              {
+                "name": "PremiumIO",
+                "value": "False"
+              },
+              {
+                "name": "vCPUsAvailable",
+                "value": "1"
+              },
+              {
+                "name": "ACUs",
+                "value": "100"
+              },
+              {
+                "name": "vCPUsPerCore",
+                "value": "1"
+              },
+              {
+                "name": "EphemeralOSDiskSupported",
+                "value": "False"
+              },
+              {
+                "name": "AcceleratedNetworkingEnabled",
+                "value": "False"
+              },
+              {
+                "name": "RdmaEnabled",
+                "value": "False"
+              },
+              {
+                "name": "MaxNetworkInterfaces",
+                "value": "2"
+              }
+            ],
+            "locationInfo": [
+              {
+                "location": "westus",
+                "zones": [
+                  "1",
+                  "2",
+                  "3"
+                ]
+              },
+              {
+                "location": "westus",
+                "extendedLocations": [
+                  "Las Vegas",
+                  "Seattle",
+                  "Portland"
+                ],
+                "type": "EdgeZone"
               }
             ],
             "name": "Standard_A1",

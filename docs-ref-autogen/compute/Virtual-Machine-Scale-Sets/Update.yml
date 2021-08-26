@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesets.update
 name: Update
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2021-03-01
+apiVersion: 2021-07-01
 summary: Update a VM scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2021-03-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2021-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -96,7 +96,7 @@ requestBody:
     - uid: AdditionalCapabilities
   - name: properties.scaleInPolicy
     in: body
-    description: Specifies the scale-in policy that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in.
+    description: Specifies the policies applied when scaling in Virtual Machines in the Virtual Machine Scale Set.
     types:
     - uid: ScaleInPolicy
   - name: properties.proximityPlacementGroup
@@ -253,6 +253,10 @@ definitions:
     description: The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a virtual machine or virtual machine scale set only if this property is enabled.
     types:
     - uid: boolean
+  - name: hibernationEnabled
+    description: The flag that enables or disables hibernation capability on the VM.
+    types:
+    - uid: boolean
 - name: ScaleInPolicy
   description: Describes a scale-in policy for a virtual machine scale set.
   kind: object
@@ -262,6 +266,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: forceDeletion
+    description: This property allows you to specify if virtual machines chosen for removal have to be force deleted when a virtual machine scale set is being scaled-in.(Feature in Preview)
+    types:
+    - uid: boolean
 - name: SubResource
   kind: object
   properties:
@@ -329,7 +337,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.zoneBalance
-    description: Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage.
+    description: Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage. zoneBalance property can only be set if the zones property of the scale set contains more than one zone. If there are no zones or only one zone specified, then zoneBalance property should not be set.
     types:
     - uid: boolean
   - name: properties.platformFaultDomainCount
@@ -349,13 +357,17 @@ definitions:
     types:
     - uid: AdditionalCapabilities
   - name: properties.scaleInPolicy
-    description: Specifies the scale-in policy that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in.
+    description: Specifies the policies applied when scaling in Virtual Machines in the Virtual Machine Scale Set.
     types:
     - uid: ScaleInPolicy
   - name: properties.orchestrationMode
     description: Specifies the orchestration mode for the virtual machine scale set.
     types:
     - uid: OrchestrationMode
+  - name: properties.spotRestorePolicy
+    description: Specifies the Spot Restore properties for the virtual machine scale set.
+    types:
+    - uid: SpotRestorePolicy
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -428,7 +440,7 @@ definitions:
     types:
     - uid: AdditionalCapabilities
   - name: properties.scaleInPolicy
-    description: Specifies the scale-in policy that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in.
+    description: Specifies the policies applied when scaling in Virtual Machines in the Virtual Machine Scale Set.
     types:
     - uid: ScaleInPolicy
   - name: properties.proximityPlacementGroup
@@ -691,6 +703,14 @@ definitions:
     description: 'UserData for the virtual machines in the scale set, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01'
     types:
     - uid: string
+  - name: capacityReservation
+    description: 'Specifies the capacity reservation related details of a scale set. <br><br>Minimum api-version: 2021-04-01.'
+    types:
+    - uid: CapacityReservationProfile
+  - name: applicationProfile
+    description: Specifies the gallery applications that should be made available to the VM/VMSS
+    types:
+    - uid: ApplicationProfile
 - name: OrchestrationMode
   description: Specifies the orchestration mode for the virtual machine scale set.
   kind: enum
@@ -699,6 +719,18 @@ definitions:
     types:
     - uid: string
   - name: Flexible
+    types:
+    - uid: string
+- name: SpotRestorePolicy
+  description: Specifies the Spot-Try-Restore properties for the virtual machine scale set. <br><br> With this property customer can enable or disable automatic restore of the evicted Spot VMSS VM instances opportunistically based on capacity availability and pricing constraint.
+  kind: object
+  properties:
+  - name: enabled
+    description: Enables the Spot-Try-Restore feature where evicted VMSS SPOT instances will be tried to be restored opportunistically based on capacity availability and pricing constraints
+    types:
+    - uid: boolean
+  - name: restoreTimeout
+    description: Timeout value expressed as an ISO 8601 time duration after which the platform will not try to restore the VMSS SPOT instances
     types:
     - uid: string
 - name: WindowsConfiguration
@@ -786,6 +818,10 @@ definitions:
   - name: exactVersion
     isReadyOnly: true
     description: Specifies in decimal numbers, the version of platform image or marketplace image used to create the virtual machine. This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'.
+    types:
+    - uid: string
+  - name: sharedGalleryImageId
+    description: Specified the shared gallery image unique id for vm deployment. This can be fetched from shared gallery image GET call.
     types:
     - uid: string
   - name: id
@@ -1007,6 +1043,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.suppressFailures
+    description: Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -1120,6 +1160,23 @@ definitions:
   - name: Delete
     types:
     - uid: string
+- name: CapacityReservationProfile
+  description: The parameters of a capacity reservation Profile.
+  kind: object
+  properties:
+  - name: capacityReservationGroup
+    description: Specifies the capacity reservation group resource id that should be used for allocating the virtual machine or scaleset vm instances provided enough capacity has been reserved. Please refer to https://aka.ms/CapacityReservation for more details.
+    types:
+    - uid: SubResource
+- name: ApplicationProfile
+  description: Contains the list of gallery applications that should be made available to the VM/VMSS
+  kind: object
+  properties:
+  - name: galleryApplications
+    description: Specifies the gallery applications that should be made available to the VM/VMSS
+    types:
+    - uid: VMGalleryApplication
+      isArray: true
 - name: AdditionalUnattendContent
   description: Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. Contents are defined by setting name, component name, and the pass in which the content is applied.
   kind: object
@@ -1191,7 +1248,7 @@ definitions:
   kind: object
   properties:
   - name: certificateUrl
-    description: 'This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: <br><br> {<br> "data":"<Base64-encoded-certificate>",<br> "dataType":"pfx",<br> "password":"<pfx-file-password>"<br>} <br> To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows).'
+    description: 'This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>  "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>} <br> To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows).'
     types:
     - uid: string
   - name: certificateStore
@@ -1401,6 +1458,26 @@ definitions:
     description: Resource Id
     types:
     - uid: string
+- name: VMGalleryApplication
+  description: Specifies the required information to reference a compute gallery application version
+  kind: object
+  properties:
+  - name: tags
+    description: Optional, Specifies a passthrough value for more generic context.
+    types:
+    - uid: string
+  - name: order
+    description: Optional, Specifies the order in which the packages have to be installed
+    types:
+    - uid: integer
+  - name: packageReferenceId
+    description: Specifies the GalleryApplicationVersion resource id on the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{application}/versions/{version}
+    types:
+    - uid: string
+  - name: configurationReference
+    description: Optional, Specifies the uri to an azure blob that will replace the default configuration for the package if provided
+    types:
+    - uid: string
 - name: PassNames
   description: The pass name. Currently, the only allowable value is OobeSystem.
   kind: enum
@@ -1457,7 +1534,7 @@ definitions:
     types:
     - uid: ProtocolTypes
   - name: certificateUrl
-    description: 'This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: <br><br> {<br> "data":"<Base64-encoded-certificate>",<br> "dataType":"pfx",<br> "password":"<pfx-file-password>"<br>} <br> To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows).'
+    description: 'This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>  "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>} <br> To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows).'
     types:
     - uid: string
 - name: SshPublicKey
@@ -1493,7 +1570,7 @@ definitions:
     types:
     - uid: string
 - name: StorageAccountTypes
-  description: 'Specifies the storage account type for the managed disk. Managed OS disk storage account type can only be set when you create the scale set. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.'
+  description: 'Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk.'
   kind: enum
   properties:
   - name: Standard_LRS
