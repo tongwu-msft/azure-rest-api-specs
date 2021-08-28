@@ -41,11 +41,13 @@ To request a quota increase for Azure Virtual Machines (cores/vCPU), provide add
 |Property|Required|Type|Description|Example|
 | :---: |:---|:---|:---| :---|
 |VmFamily|True|string|Microsoft.Compute [SKU family list](https://docs.microsoft.com/rest/api/compute/resourceskus/list) |ESv3 Series|
+|VmFamily|True|string|regional quota |\*|
+|VmFamily|True|string|spot vCPU|All Series|
 |NewLimit|True|integer|Desired new quota limit|200|
 
-### Example
+### Examples
 
-To request quota for Azure Virtual Machines (cores/vCPU):
+1. The following example illustrate the payload for requesting quota increases for the ESv3 Series and Av2 Series Azure Virtual Machines (cores/vCPU) SKUs:
 
 ```json
 "quotaTicketDetails": {
@@ -64,6 +66,35 @@ To request quota for Azure Virtual Machines (cores/vCPU):
 ```
 
 View the complete request and response body for [Quota increase for Azure Virtual Machines (cores/vCPU)](https://docs.microsoft.com/rest/api/support/supporttickets/create?branch=support#create-a-ticket-to-request-quota-increase-for-compute-vm-cores).
+
+
+2. The following example illustrate the payload for requesting a quota increase across all VM series in a given region (regional quota):
+
+```json
+"quotaTicketDetails": {
+  "quotaChangeRequestVersion": "1.0",
+  "quotaChangeRequests": [
+    {
+      "region": "AustraliaEast",
+      "payload": "{\"VMFamily\":*\",\"NewLimit\":200}"
+    },
+  ]
+}
+```
+
+3. The following example illustrate the payload for requesting a quota increase for a spot VM:
+
+```json
+"quotaTicketDetails": {
+  "quotaChangeRequestVersion": "1.0",
+  "quotaChangeRequests": [
+    {
+      "region": "AustraliaEast",
+      "payload": "{\"VMFamily\":All Series\",\"NewLimit\":20}"
+    },
+  ]
+}
+```
 
 ## Azure Batch
 
