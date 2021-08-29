@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleryimageversions.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Gallery Image Versions
-apiVersion: 2020-09-30
+apiVersion: 2021-07-01
 summary: Create or update a gallery image version.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?api-version=2020-09-30
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?api-version=2021-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -126,6 +126,10 @@ definitions:
     description: Specifies the storage account type to be used to store the image. This property is not updatable.
     types:
     - uid: StorageAccountType
+  - name: replicationMode
+    description: Optional parameter which specifies the mode to be used for replication. This property is not updatable.
+    types:
+    - uid: ReplicationMode
 - name: GalleryImageVersionStorageProfile
   description: This is the storage profile of a Gallery Image Version.
   kind: object
@@ -252,6 +256,16 @@ definitions:
     types:
     - uid: string
   - name: Premium_LRS
+    types:
+    - uid: string
+- name: ReplicationMode
+  description: Optional parameter which specifies the mode to be used for replication. This property is not updatable.
+  kind: enum
+  properties:
+  - name: Full
+    types:
+    - uid: string
+  - name: Shallow
     types:
     - uid: string
 - name: GalleryArtifactVersionSource
@@ -462,7 +476,7 @@ definitions:
 examples:
 - name: Create or update a simple Gallery Image Version using managed image as source.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2020-09-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-07-01
     body: >-
       {
         "location": "West US",
@@ -736,7 +750,7 @@ examples:
       }
 - name: Create or update a simple Gallery Image Version using snapshots as a source.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2020-09-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-07-01
     body: >-
       {
         "location": "West US",
@@ -999,7 +1013,7 @@ examples:
       }
 - name: Create or update a simple Gallery Image Version using VM as source.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2020-09-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-07-01
     body: >-
       {
         "location": "West US",
@@ -1273,7 +1287,7 @@ examples:
       }
 - name: Create or update a simple Gallery Image Version using shared image as source.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2020-09-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-07-01
     body: >-
       {
         "location": "West US",
@@ -1547,7 +1561,7 @@ examples:
       }
 - name: Create or update a simple Gallery Image Version using mix of disks and snapshots as a source.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2020-09-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-07-01
     body: >-
       {
         "location": "West US",
@@ -1810,7 +1824,7 @@ examples:
       }
 - name: Create or update a simple Gallery Image Version using vhd as a source.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2020-09-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-07-01
     body: >-
       {
         "location": "West US",
@@ -2020,6 +2034,144 @@ examples:
                   "uri": "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
                 },
                 "lun": 1,
+                "hostCaching": "None"
+              }
+            ]
+          },
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "1.0.0"
+      }
+- name: Create or update a simple Gallery Image Version using shallow replication mode.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-07-01
+    body: >-
+      {
+        "location": "West US",
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1
+              }
+            ],
+            "replicationMode": "Shallow"
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
+            }
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS"
+              }
+            ],
+            "replicaCount": 1,
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS",
+            "replicationMode": "Shallow"
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
+            },
+            "osDiskImage": {
+              "sizeInGB": 10,
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "lun": 1,
+                "sizeInGB": 10,
+                "hostCaching": "None"
+              }
+            ]
+          },
+          "provisioningState": "Updating"
+        },
+        "location": "West US",
+        "name": "1.0.0"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS"
+              }
+            ],
+            "replicaCount": 1,
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS",
+            "replicationMode": "Shallow"
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
+            },
+            "osDiskImage": {
+              "sizeInGB": 10,
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "lun": 1,
+                "sizeInGB": 10,
+                "hostCaching": "None"
+              }
+            ]
+          },
+          "provisioningState": "Creating"
+        },
+        "location": "West US",
+        "name": "1.0.0"
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "storageAccountType": "Standard_LRS"
+              }
+            ],
+            "replicaCount": 1,
+            "publishedDate": "2018-01-01T00:00:00Z",
+            "storageAccountType": "Standard_LRS",
+            "replicationMode": "Shallow"
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
+            },
+            "osDiskImage": {
+              "sizeInGB": 10,
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "lun": 1,
+                "sizeInGB": 10,
                 "hostCaching": "None"
               }
             ]

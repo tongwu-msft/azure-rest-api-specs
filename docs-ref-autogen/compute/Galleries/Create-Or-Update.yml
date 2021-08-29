@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleries.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Galleries
-apiVersion: 2020-09-30
+apiVersion: 2021-07-01
 summary: Create or update a Shared Image Gallery.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}?api-version=2020-09-30
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}?api-version=2021-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -71,6 +71,11 @@ requestBody:
     description: Profile for gallery sharing to subscription or tenant
     types:
     - uid: SharingProfile
+  - name: properties.softDeletePolicy
+    in: body
+    description: Contains information about the soft deletion policy of the gallery.
+    types:
+    - uid: SoftDeletePolicy
   - name: location
     in: body
     isRequired: true
@@ -111,6 +116,14 @@ definitions:
     types:
     - uid: SharingProfileGroup
       isArray: true
+- name: SoftDeletePolicy
+  description: Contains information about the soft deletion policy of the gallery.
+  kind: object
+  properties:
+  - name: isSoftDeleteEnabled
+    description: Enables soft-deletion for resources in this gallery, allowing them to be recovered within retention time.
+    types:
+    - uid: boolean
 - name: Gallery
   description: Specifies information about the Shared Image Gallery that you want to create or update.
   kind: object
@@ -138,6 +151,10 @@ definitions:
     description: Profile for gallery sharing to subscription or tenant
     types:
     - uid: SharingProfile
+  - name: properties.softDeletePolicy
+    description: Contains information about the soft deletion policy of the gallery.
+    types:
+    - uid: SoftDeletePolicy
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -262,7 +279,7 @@ definitions:
 examples:
 - name: Create or update a simple gallery.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2020-09-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2021-07-01
     body: >-
       {
         "location": "West US",
@@ -312,7 +329,7 @@ examples:
       }
 - name: Create or update a simple gallery with sharing profile.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2020-09-30
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2021-07-01
     body: >-
       {
         "location": "West US",
@@ -367,6 +384,68 @@ examples:
           "provisioningState": "Updating",
           "sharingProfile": {
             "permissions": "Groups"
+          }
+        },
+        "location": "West US",
+        "name": "myGalleryName"
+      }
+- name: Create or update a simple gallery with soft deletion enabled.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName?api-version=2021-07-01
+    body: >-
+      {
+        "location": "West US",
+        "properties": {
+          "description": "This is the gallery description.",
+          "softDeletePolicy": {
+            "isSoftDeleteEnabled": true
+          }
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "description": "This is the gallery description.",
+          "identifier": {
+            "uniqueName": "{subscription-id}-MYGALLERYNAME"
+          },
+          "provisioningState": "Updating",
+          "softDeletePolicy": {
+            "isSoftDeleteEnabled": true
+          }
+        },
+        "location": "West US",
+        "name": "myGalleryName"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "description": "This is the gallery description.",
+          "identifier": {
+            "uniqueName": "{subscription-id}-MYGALLERYNAME"
+          },
+          "provisioningState": "Creating",
+          "softDeletePolicy": {
+            "isSoftDeleteEnabled": true
+          }
+        },
+        "location": "West US",
+        "name": "myGalleryName"
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "properties": {
+          "description": "This is the gallery description.",
+          "identifier": {
+            "uniqueName": "{subscription-id}-MYGALLERYNAME"
+          },
+          "provisioningState": "Updating",
+          "softDeletePolicy": {
+            "isSoftDeleteEnabled": true
           }
         },
         "location": "West US",
