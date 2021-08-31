@@ -3,14 +3,14 @@ uid: management.azure.com.loganalytics.workspaces.get
 name: Get
 service: Log Analytics
 groupName: Workspaces
-apiVersion: 2020-08-01
+apiVersion: 2021-06-01
 summary: Gets a workspace instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}?api-version=2020-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -105,6 +105,10 @@ definitions:
     types:
     - uid: PrivateLinkScopedResource
       isArray: true
+  - name: properties.features
+    description: Workspace features.
+    types:
+    - uid: WorkspaceFeatures
   - name: tags
     description: Resource tags.
     types:
@@ -174,14 +178,9 @@ definitions:
     types:
     - uid: WorkspaceSkuNameEnum
   - name: capacityReservationLevel
-    description: The capacity reservation level for this workspace, when CapacityReservation sku is selected.
+    description: The capacity reservation level in GB for this workspace, when CapacityReservation sku is selected.
     types:
-    - uid: integer
-  - name: maxCapacityReservationLevel
-    isReadyOnly: true
-    description: The maximum capacity reservation level available for this workspace, when CapacityReservation sku is selected.
-    types:
-    - uid: integer
+    - uid: CapacityReservationLevel
   - name: lastSkuUpdate
     isReadyOnly: true
     description: The last time when the sku was updated.
@@ -229,6 +228,30 @@ definitions:
     description: The private link scope unique Identifier.
     types:
     - uid: string
+- name: WorkspaceFeatures
+  description: Workspace features.
+  kind: object
+  properties:
+  - name: enableDataExport
+    description: Flag that indicate if data should be exported.
+    types:
+    - uid: boolean
+  - name: immediatePurgeDataOn30Days
+    description: Flag that describes if we want to remove the data after 30 days.
+    types:
+    - uid: boolean
+  - name: enableLogAccessUsingOnlyResourcePermissions
+    description: Flag that indicate which permission to use - resource or workspace or both.
+    types:
+    - uid: boolean
+  - name: clusterResourceId
+    description: Dedicated LA cluster resourceId that is linked to the workspaces.
+    types:
+    - uid: string
+  - name: disableLocalAuth
+    description: Disable Non-AAD based Auth.
+    types:
+    - uid: boolean
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -288,6 +311,34 @@ definitions:
   - name: LACluster
     types:
     - uid: string
+- name: CapacityReservationLevel
+  description: The capacity reservation level in GB for this workspace, when CapacityReservation sku is selected.
+  kind: enum
+  properties:
+  - name: "100"
+    types:
+    - uid: string
+  - name: "200"
+    types:
+    - uid: string
+  - name: "300"
+    types:
+    - uid: string
+  - name: "400"
+    types:
+    - uid: string
+  - name: "500"
+    types:
+    - uid: string
+  - name: "1000"
+    types:
+    - uid: string
+  - name: "2000"
+    types:
+    - uid: string
+  - name: "5000"
+    types:
+    - uid: string
 - name: DataIngestionStatus
   description: The status of data ingestion for this workspace.
   kind: enum
@@ -333,7 +384,7 @@ definitions:
 examples:
 - name: WorkspaceGet
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685?api-version=2020-08-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-
