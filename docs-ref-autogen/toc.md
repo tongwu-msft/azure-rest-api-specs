@@ -3217,6 +3217,7 @@
 ### [Delete](netapp/Accounts/Delete.yml)
 ### [Get](netapp/Accounts/Get.yml)
 ### [List](netapp/Accounts/List.yml)
+### [List By Subscription](netapp/Accounts/List-By-Subscription.yml)
 ### [Update](netapp/Accounts/Update.yml)
 ## Backup Policies
 ### [Overview](netapp/Backup-Policies.yml)
@@ -3230,6 +3231,8 @@
 ### [Create](netapp/Backups/Create.yml)
 ### [Delete](netapp/Backups/Delete.yml)
 ### [Get](netapp/Backups/Get.yml)
+### [Get Status](netapp/Backups/Get-Status.yml)
+### [Get Volume Restore Status](netapp/Backups/Get-Volume-Restore-Status.yml)
 ### [List](netapp/Backups/List.yml)
 ### [Update](netapp/Backups/Update.yml)
 ## NetApp Resource
@@ -3265,9 +3268,6 @@
 ## Vaults
 ### [Overview](netapp/Vaults.yml)
 ### [List](netapp/Vaults/List.yml)
-## Volume Backup Status
-### [Overview](netapp/Volume-Backup-Status.yml)
-### [Get](netapp/Volume-Backup-Status/Get.yml)
 ## Volumes
 ### [Overview](netapp/Volumes.yml)
 ### [Authorize Replication](netapp/Volumes/Authorize-Replication.yml)
