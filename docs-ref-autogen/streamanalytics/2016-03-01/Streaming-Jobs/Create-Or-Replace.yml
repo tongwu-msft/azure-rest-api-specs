@@ -167,8 +167,8 @@ definitions:
   - name: properties
     description: The properties that are associated with an input. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: ReferenceInputProperties
     - uid: StreamInputProperties
+    - uid: ReferenceInputProperties
     typesTitle: InputProperties
   - name: id
     isReadyOnly: true
@@ -222,15 +222,15 @@ definitions:
   - name: properties.datasource
     description: Describes the data source that output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: AzureDataLakeStoreOutputDataSource
-    - uid: PowerBIOutputDataSource
-    - uid: ServiceBusTopicOutputDataSource
-    - uid: ServiceBusQueueOutputDataSource
-    - uid: DocumentDbOutputDataSource
-    - uid: AzureSqlDatabaseOutputDataSource
-    - uid: EventHubOutputDataSource
-    - uid: AzureTableOutputDataSource
     - uid: BlobOutputDataSource
+    - uid: AzureTableOutputDataSource
+    - uid: EventHubOutputDataSource
+    - uid: AzureSqlDatabaseOutputDataSource
+    - uid: DocumentDbOutputDataSource
+    - uid: ServiceBusQueueOutputDataSource
+    - uid: ServiceBusTopicOutputDataSource
+    - uid: PowerBIOutputDataSource
+    - uid: AzureDataLakeStoreOutputDataSource
     typesTitle: OutputDataSource
   - name: properties.serialization
     description: Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests.
@@ -467,6 +467,39 @@ definitions:
   - name: "1.0"
     types:
     - uid: string
+- name: StreamInputProperties
+  description: The properties that are associated with an input containing stream data.
+  kind: object
+  properties:
+  - name: datasource
+    description: Describes an input data source that contains stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: BlobStreamInputDataSource
+    - uid: EventHubStreamInputDataSource
+    - uid: IoTHubStreamInputDataSource
+    typesTitle: StreamInputDataSource
+  - name: type
+    description: Indicates whether the input is a source of reference data or stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Stream
+    typesTitle: string
+  - name: serialization
+    description: Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: CsvSerialization
+    - uid: JsonSerialization
+    - uid: AvroSerialization
+    typesTitle: Serialization
+  - name: diagnostics
+    isReadyOnly: true
+    description: Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention.
+    types:
+    - uid: Diagnostics
+  - name: etag
+    isReadyOnly: true
+    description: The current entity tag for the input. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
+    types:
+    - uid: string
 - name: ReferenceInputProperties
   description: The properties that are associated with an input containing reference data.
   kind: object
@@ -498,37 +531,260 @@ definitions:
     description: The current entity tag for the input. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
     types:
     - uid: string
-- name: StreamInputProperties
-  description: The properties that are associated with an input containing stream data.
+- name: BlobOutputDataSource
+  description: Describes a blob output data source.
   kind: object
   properties:
-  - name: datasource
-    description: Describes an input data source that contains stream data. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: IoTHubStreamInputDataSource
-    - uid: EventHubStreamInputDataSource
-    - uid: BlobStreamInputDataSource
-    typesTitle: StreamInputDataSource
   - name: type
-    description: Indicates whether the input is a source of reference data or stream data. Required on PUT (CreateOrReplace) requests.
+    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: Stream
+    - uid: Microsoft.Storage/Blob
     typesTitle: string
-  - name: serialization
-    description: Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests.
+  - name: properties.storageAccounts
+    description: A list of one or more Azure Storage accounts. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: CsvSerialization
-    - uid: JsonSerialization
-    - uid: AvroSerialization
-    typesTitle: Serialization
-  - name: diagnostics
-    isReadyOnly: true
-    description: Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention.
+    - uid: StorageAccount
+      isArray: true
+  - name: properties.container
+    description: The name of a container within the associated Storage account. This container contains either the blob(s) to be read from or written to. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: Diagnostics
-  - name: etag
-    isReadyOnly: true
-    description: The current entity tag for the input. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
+    - uid: string
+  - name: properties.pathPattern
+    description: The blob path pattern. Not a regular expression. It represents a pattern against which blob names will be matched to determine whether or not they should be included as input or output to the job. See https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-input or https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for a more detailed explanation and example.
+    types:
+    - uid: string
+  - name: properties.dateFormat
+    description: The date format. Wherever {date} appears in pathPattern, the value of this property is used as the date format instead.
+    types:
+    - uid: string
+  - name: properties.timeFormat
+    description: The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead.
+    types:
+    - uid: string
+- name: AzureTableOutputDataSource
+  description: Describes an Azure Table output data source.
+  kind: object
+  properties:
+  - name: properties.accountName
+    description: The name of the Azure Storage account. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.accountKey
+    description: The account key for the Azure Storage account. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.table
+    description: The name of the Azure Table. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.partitionKey
+    description: This element indicates the name of a column from the SELECT statement in the query that will be used as the partition key for the Azure Table. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.rowKey
+    description: This element indicates the name of a column from the SELECT statement in the query that will be used as the row key for the Azure Table. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.columnsToRemove
+    description: If specified, each item in the array is the name of a column to remove (if present) from output event entities.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.batchSize
+    description: The number of rows to write to the Azure Table at a time.
+    types:
+    - uid: integer
+  - name: type
+    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.Storage/Table
+    typesTitle: string
+- name: EventHubOutputDataSource
+  description: Describes an Event Hub output data source.
+  kind: object
+  properties:
+  - name: properties.partitionKey
+    description: The key/column that is used to determine to which partition to send event data.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.ServiceBus/EventHub
+    typesTitle: string
+  - name: properties.eventHubName
+    description: The name of the Event Hub. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: serviceBusNamespace
+    description: The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: sharedAccessPolicyName
+    description: The shared access policy name for the Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: sharedAccessPolicyKey
+    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+- name: AzureSqlDatabaseOutputDataSource
+  description: Describes an Azure SQL database output data source.
+  kind: object
+  properties:
+  - name: type
+    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.Sql/Server/Database
+    typesTitle: string
+  - name: properties.server
+    description: The name of the SQL server containing the Azure SQL database. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.database
+    description: The name of the Azure SQL database. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.user
+    description: The user name that will be used to connect to the Azure SQL database. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.password
+    description: The password that will be used to connect to the Azure SQL database. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.table
+    description: The name of the table in the Azure SQL database. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+- name: DocumentDbOutputDataSource
+  description: Describes a DocumentDB output data source.
+  kind: object
+  properties:
+  - name: properties.accountId
+    description: The DocumentDB account name or ID. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.accountKey
+    description: The account key for the DocumentDB account. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.database
+    description: The name of the DocumentDB database. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.collectionNamePattern
+    description: The collection name pattern for the collections to be used. The collection name format can be constructed using the optional {partition} token, where partitions start from 0. See the DocumentDB section of https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for more information. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.partitionKey
+    description: The name of the field in output events used to specify the key for partitioning output across collections. If 'collectionNamePattern' contains the {partition} token, this property is required to be specified.
+    types:
+    - uid: string
+  - name: properties.documentId
+    description: The name of the field in output events used to specify the primary key which insert or update operations are based on.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.Storage/DocumentDB
+    typesTitle: string
+- name: ServiceBusQueueOutputDataSource
+  description: Describes a Service Bus Queue output data source.
+  kind: object
+  properties:
+  - name: properties.queueName
+    description: The name of the Service Bus Queue. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.propertyColumns
+    description: A string array of the names of output columns to be attached to Service Bus messages as custom properties.
+    types:
+    - uid: string
+      isArray: true
+  - name: type
+    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.ServiceBus/Queue
+    typesTitle: string
+  - name: properties.serviceBusNamespace
+    description: The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.sharedAccessPolicyName
+    description: The shared access policy name for the Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.sharedAccessPolicyKey
+    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+- name: ServiceBusTopicOutputDataSource
+  description: Describes a Service Bus Topic output data source.
+  kind: object
+  properties:
+  - name: properties.topicName
+    description: The name of the Service Bus Topic. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.propertyColumns
+    description: A string array of the names of output columns to be attached to Service Bus messages as custom properties.
+    types:
+    - uid: string
+      isArray: true
+  - name: type
+    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.ServiceBus/Topic
+    typesTitle: string
+  - name: properties.serviceBusNamespace
+    description: The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.sharedAccessPolicyName
+    description: The shared access policy name for the Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.sharedAccessPolicyKey
+    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+- name: PowerBIOutputDataSource
+  description: Describes a Power BI output data source.
+  kind: object
+  properties:
+  - name: properties.dataset
+    description: The name of the Power BI dataset. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.table
+    description: The name of the Power BI table under the specified dataset. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.groupId
+    description: The ID of the Power BI group.
+    types:
+    - uid: string
+  - name: properties.groupName
+    description: The name of the Power BI group. Use this property to help remember which specific Power BI group id was used.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: PowerBI
+    typesTitle: string
+  - name: properties.refreshToken
+    description: A refresh token that can be used to obtain a valid access token that can then be used to authenticate with the data source. A valid refresh token is currently only obtainable via the Azure Portal. It is recommended to put a dummy string value here when creating the data source and then going to the Azure Portal to authenticate the data source which will update this property with a valid refresh token. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.tokenUserPrincipalName
+    description: The user principal name (UPN) of the user that was used to obtain the refresh token. Use this property to help remember which user was used to obtain the refresh token.
+    types:
+    - uid: string
+  - name: properties.tokenUserDisplayName
+    description: The user display name of the user that was used to obtain the refresh token. Use this property to help remember which user was used to obtain the refresh token.
     types:
     - uid: string
 - name: AzureDataLakeStoreOutputDataSource
@@ -570,262 +826,6 @@ definitions:
     - uid: string
   - name: properties.tokenUserDisplayName
     description: The user display name of the user that was used to obtain the refresh token. Use this property to help remember which user was used to obtain the refresh token.
-    types:
-    - uid: string
-- name: PowerBIOutputDataSource
-  description: Describes a Power BI output data source.
-  kind: object
-  properties:
-  - name: properties.dataset
-    description: The name of the Power BI dataset. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.table
-    description: The name of the Power BI table under the specified dataset. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.groupId
-    description: The ID of the Power BI group.
-    types:
-    - uid: string
-  - name: properties.groupName
-    description: The name of the Power BI group. Use this property to help remember which specific Power BI group id was used.
-    types:
-    - uid: string
-  - name: type
-    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: PowerBI
-    typesTitle: string
-  - name: properties.refreshToken
-    description: A refresh token that can be used to obtain a valid access token that can then be used to authenticate with the data source. A valid refresh token is currently only obtainable via the Azure Portal. It is recommended to put a dummy string value here when creating the data source and then going to the Azure Portal to authenticate the data source which will update this property with a valid refresh token. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.tokenUserPrincipalName
-    description: The user principal name (UPN) of the user that was used to obtain the refresh token. Use this property to help remember which user was used to obtain the refresh token.
-    types:
-    - uid: string
-  - name: properties.tokenUserDisplayName
-    description: The user display name of the user that was used to obtain the refresh token. Use this property to help remember which user was used to obtain the refresh token.
-    types:
-    - uid: string
-- name: ServiceBusTopicOutputDataSource
-  description: Describes a Service Bus Topic output data source.
-  kind: object
-  properties:
-  - name: properties.topicName
-    description: The name of the Service Bus Topic. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.propertyColumns
-    description: A string array of the names of output columns to be attached to Service Bus messages as custom properties.
-    types:
-    - uid: string
-      isArray: true
-  - name: type
-    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Microsoft.ServiceBus/Topic
-    typesTitle: string
-  - name: properties.serviceBusNamespace
-    description: The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.sharedAccessPolicyName
-    description: The shared access policy name for the Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.sharedAccessPolicyKey
-    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-- name: ServiceBusQueueOutputDataSource
-  description: Describes a Service Bus Queue output data source.
-  kind: object
-  properties:
-  - name: properties.queueName
-    description: The name of the Service Bus Queue. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.propertyColumns
-    description: A string array of the names of output columns to be attached to Service Bus messages as custom properties.
-    types:
-    - uid: string
-      isArray: true
-  - name: type
-    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Microsoft.ServiceBus/Queue
-    typesTitle: string
-  - name: properties.serviceBusNamespace
-    description: The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.sharedAccessPolicyName
-    description: The shared access policy name for the Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.sharedAccessPolicyKey
-    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-- name: DocumentDbOutputDataSource
-  description: Describes a DocumentDB output data source.
-  kind: object
-  properties:
-  - name: properties.accountId
-    description: The DocumentDB account name or ID. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.accountKey
-    description: The account key for the DocumentDB account. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.database
-    description: The name of the DocumentDB database. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.collectionNamePattern
-    description: The collection name pattern for the collections to be used. The collection name format can be constructed using the optional {partition} token, where partitions start from 0. See the DocumentDB section of https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for more information. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.partitionKey
-    description: The name of the field in output events used to specify the key for partitioning output across collections. If 'collectionNamePattern' contains the {partition} token, this property is required to be specified.
-    types:
-    - uid: string
-  - name: properties.documentId
-    description: The name of the field in output events used to specify the primary key which insert or update operations are based on.
-    types:
-    - uid: string
-  - name: type
-    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Microsoft.Storage/DocumentDB
-    typesTitle: string
-- name: AzureSqlDatabaseOutputDataSource
-  description: Describes an Azure SQL database output data source.
-  kind: object
-  properties:
-  - name: type
-    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Microsoft.Sql/Server/Database
-    typesTitle: string
-  - name: properties.server
-    description: The name of the SQL server containing the Azure SQL database. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.database
-    description: The name of the Azure SQL database. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.user
-    description: The user name that will be used to connect to the Azure SQL database. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.password
-    description: The password that will be used to connect to the Azure SQL database. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.table
-    description: The name of the table in the Azure SQL database. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-- name: EventHubOutputDataSource
-  description: Describes an Event Hub output data source.
-  kind: object
-  properties:
-  - name: properties.partitionKey
-    description: The key/column that is used to determine to which partition to send event data.
-    types:
-    - uid: string
-  - name: type
-    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Microsoft.ServiceBus/EventHub
-    typesTitle: string
-  - name: properties.eventHubName
-    description: The name of the Event Hub. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: serviceBusNamespace
-    description: The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: sharedAccessPolicyName
-    description: The shared access policy name for the Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: sharedAccessPolicyKey
-    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-- name: AzureTableOutputDataSource
-  description: Describes an Azure Table output data source.
-  kind: object
-  properties:
-  - name: properties.accountName
-    description: The name of the Azure Storage account. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.accountKey
-    description: The account key for the Azure Storage account. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.table
-    description: The name of the Azure Table. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.partitionKey
-    description: This element indicates the name of a column from the SELECT statement in the query that will be used as the partition key for the Azure Table. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.rowKey
-    description: This element indicates the name of a column from the SELECT statement in the query that will be used as the row key for the Azure Table. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.columnsToRemove
-    description: If specified, each item in the array is the name of a column to remove (if present) from output event entities.
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.batchSize
-    description: The number of rows to write to the Azure Table at a time.
-    types:
-    - uid: integer
-  - name: type
-    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Microsoft.Storage/Table
-    typesTitle: string
-- name: BlobOutputDataSource
-  description: Describes a blob output data source.
-  kind: object
-  properties:
-  - name: type
-    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Microsoft.Storage/Blob
-    typesTitle: string
-  - name: properties.storageAccounts
-    description: A list of one or more Azure Storage accounts. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: StorageAccount
-      isArray: true
-  - name: properties.container
-    description: The name of a container within the associated Storage account. This container contains either the blob(s) to be read from or written to. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.pathPattern
-    description: The blob path pattern. Not a regular expression. It represents a pattern against which blob names will be matched to determine whether or not they should be included as input or output to the job. See https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-input or https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for a more detailed explanation and example.
-    types:
-    - uid: string
-  - name: properties.dateFormat
-    description: The date format. Wherever {date} appears in pathPattern, the value of this property is used as the date format instead.
-    types:
-    - uid: string
-  - name: properties.timeFormat
-    description: The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead.
     types:
     - uid: string
 - name: CsvSerialization
@@ -906,8 +906,8 @@ definitions:
   - name: properties.binding
     description: The physical binding of the function. For example, in the Azure Machine Learning web service’s case, this describes the endpoint.
     types:
-    - uid: JavaScriptFunctionBinding
     - uid: AzureMachineLearningWebServiceFunctionBinding
+    - uid: JavaScriptFunctionBinding
     typesTitle: FunctionBinding
   - name: type
     description: Indicates the type of function.
@@ -981,94 +981,6 @@ definitions:
     description: The (Azure Stream Analytics supported) data type of the function output. A list of valid Azure Stream Analytics data types are described at https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx
     types:
     - uid: string
-- name: BlobReferenceInputDataSource
-  description: Describes a blob input data source that contains reference data.
-  kind: object
-  properties:
-  - name: type
-    description: Indicates the type of input data source containing reference data. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Microsoft.Storage/Blob
-    typesTitle: string
-  - name: properties.storageAccounts
-    description: A list of one or more Azure Storage accounts. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: StorageAccount
-      isArray: true
-  - name: properties.container
-    description: The name of a container within the associated Storage account. This container contains either the blob(s) to be read from or written to. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.pathPattern
-    description: The blob path pattern. Not a regular expression. It represents a pattern against which blob names will be matched to determine whether or not they should be included as input or output to the job. See https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-input or https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for a more detailed explanation and example.
-    types:
-    - uid: string
-  - name: properties.dateFormat
-    description: The date format. Wherever {date} appears in pathPattern, the value of this property is used as the date format instead.
-    types:
-    - uid: string
-  - name: properties.timeFormat
-    description: The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead.
-    types:
-    - uid: string
-- name: IoTHubStreamInputDataSource
-  description: Describes an IoT Hub input data source that contains stream data.
-  kind: object
-  properties:
-  - name: properties.iotHubNamespace
-    description: The name or the URI of the IoT Hub. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.sharedAccessPolicyName
-    description: The shared access policy name for the IoT Hub. This policy must contain at least the Service connect permission. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.sharedAccessPolicyKey
-    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.consumerGroupName
-    description: The name of an IoT Hub Consumer Group that should be used to read events from the IoT Hub. If not specified, the input uses the Iot Hub’s default consumer group.
-    types:
-    - uid: string
-  - name: properties.endpoint
-    description: The IoT Hub endpoint to connect to (ie. messages/events, messages/operationsMonitoringEvents, etc.).
-    types:
-    - uid: string
-  - name: type
-    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Microsoft.Devices/IotHubs
-    typesTitle: string
-- name: EventHubStreamInputDataSource
-  description: Describes an Event Hub input data source that contains stream data.
-  kind: object
-  properties:
-  - name: properties.consumerGroupName
-    description: The name of an Event Hub Consumer Group that should be used to read events from the Event Hub. Specifying distinct consumer group names for multiple inputs allows each of those inputs to receive the same events from the Event Hub. If not specified, the input uses the Event Hub’s default consumer group.
-    types:
-    - uid: string
-  - name: type
-    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Microsoft.ServiceBus/EventHub
-    typesTitle: string
-  - name: properties.eventHubName
-    description: The name of the Event Hub. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: serviceBusNamespace
-    description: The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: sharedAccessPolicyName
-    description: The shared access policy name for the Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: sharedAccessPolicyKey
-    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
 - name: BlobStreamInputDataSource
   description: Describes a blob input data source that contains stream data.
   kind: object
@@ -1103,19 +1015,94 @@ definitions:
     description: The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead.
     types:
     - uid: string
-- name: JavaScriptFunctionBinding
-  description: The binding to a JavaScript function.
+- name: EventHubStreamInputDataSource
+  description: Describes an Event Hub input data source that contains stream data.
   kind: object
   properties:
-  - name: properties.script
-    description: "The JavaScript code containing a single function definition. For example: 'function (x, y) { return x + y; }'"
+  - name: properties.consumerGroupName
+    description: The name of an Event Hub Consumer Group that should be used to read events from the Event Hub. Specifying distinct consumer group names for multiple inputs allows each of those inputs to receive the same events from the Event Hub. If not specified, the input uses the Event Hub’s default consumer group.
     types:
     - uid: string
   - name: type
-    description: Indicates the function binding type.
+    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: Microsoft.StreamAnalytics/JavascriptUdf
+    - uid: Microsoft.ServiceBus/EventHub
     typesTitle: string
+  - name: properties.eventHubName
+    description: The name of the Event Hub. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: serviceBusNamespace
+    description: The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: sharedAccessPolicyName
+    description: The shared access policy name for the Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: sharedAccessPolicyKey
+    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+- name: IoTHubStreamInputDataSource
+  description: Describes an IoT Hub input data source that contains stream data.
+  kind: object
+  properties:
+  - name: properties.iotHubNamespace
+    description: The name or the URI of the IoT Hub. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.sharedAccessPolicyName
+    description: The shared access policy name for the IoT Hub. This policy must contain at least the Service connect permission. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.sharedAccessPolicyKey
+    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.consumerGroupName
+    description: The name of an IoT Hub Consumer Group that should be used to read events from the IoT Hub. If not specified, the input uses the Iot Hub’s default consumer group.
+    types:
+    - uid: string
+  - name: properties.endpoint
+    description: The IoT Hub endpoint to connect to (ie. messages/events, messages/operationsMonitoringEvents, etc.).
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.Devices/IotHubs
+    typesTitle: string
+- name: BlobReferenceInputDataSource
+  description: Describes a blob input data source that contains reference data.
+  kind: object
+  properties:
+  - name: type
+    description: Indicates the type of input data source containing reference data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.Storage/Blob
+    typesTitle: string
+  - name: properties.storageAccounts
+    description: A list of one or more Azure Storage accounts. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: StorageAccount
+      isArray: true
+  - name: properties.container
+    description: The name of a container within the associated Storage account. This container contains either the blob(s) to be read from or written to. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.pathPattern
+    description: The blob path pattern. Not a regular expression. It represents a pattern against which blob names will be matched to determine whether or not they should be included as input or output to the job. See https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-input or https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for a more detailed explanation and example.
+    types:
+    - uid: string
+  - name: properties.dateFormat
+    description: The date format. Wherever {date} appears in pathPattern, the value of this property is used as the date format instead.
+    types:
+    - uid: string
+  - name: properties.timeFormat
+    description: The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead.
+    types:
+    - uid: string
 - name: AzureMachineLearningWebServiceFunctionBinding
   description: The binding to an Azure Machine Learning web service.
   kind: object
@@ -1145,6 +1132,19 @@ definitions:
     description: Indicates the function binding type.
     types:
     - uid: Microsoft.MachineLearning/WebService
+    typesTitle: string
+- name: JavaScriptFunctionBinding
+  description: The binding to a JavaScript function.
+  kind: object
+  properties:
+  - name: properties.script
+    description: "The JavaScript code containing a single function definition. For example: 'function (x, y) { return x + y; }'"
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the function binding type.
+    types:
+    - uid: Microsoft.StreamAnalytics/JavascriptUdf
     typesTitle: string
 - name: AzureMachineLearningWebServiceInputs
   description: The inputs for the Azure Machine Learning web service endpoint.

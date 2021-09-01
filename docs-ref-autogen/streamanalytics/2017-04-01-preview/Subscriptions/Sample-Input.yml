@@ -71,8 +71,8 @@ definitions:
   - name: properties
     description: The properties that are associated with an input. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: ReferenceInputProperties
     - uid: StreamInputProperties
+    - uid: ReferenceInputProperties
     typesTitle: InputProperties
   - name: id
     isReadyOnly: true
@@ -182,21 +182,23 @@ definitions:
     description: The sample input operation failed to connect to the input.
     types:
     - uid: string
-- name: ReferenceInputProperties
-  description: The properties that are associated with an input containing reference data.
+- name: StreamInputProperties
+  description: The properties that are associated with an input containing stream data.
   kind: object
   properties:
   - name: datasource
-    description: Describes an input data source that contains reference data. Required on PUT (CreateOrReplace) requests.
+    description: Describes an input data source that contains stream data. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: AzureSqlReferenceInputDataSource
-    - uid: RawReferenceInputDataSource
-    - uid: BlobReferenceInputDataSource
-    typesTitle: ReferenceInputDataSource
+    - uid: BlobStreamInputDataSource
+    - uid: EventHubStreamInputDataSource
+    - uid: EventHubV2StreamInputDataSource
+    - uid: IoTHubStreamInputDataSource
+    - uid: RawStreamInputDataSource
+    typesTitle: StreamInputDataSource
   - name: type
     description: Indicates whether the input is a source of reference data or stream data. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: Reference
+    - uid: Stream
     typesTitle: string
   - name: serialization
     description: Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests.
@@ -225,23 +227,21 @@ definitions:
     description: partitionKey Describes a key in the input data which is used for partitioning the input data
     types:
     - uid: string
-- name: StreamInputProperties
-  description: The properties that are associated with an input containing stream data.
+- name: ReferenceInputProperties
+  description: The properties that are associated with an input containing reference data.
   kind: object
   properties:
   - name: datasource
-    description: Describes an input data source that contains stream data. Required on PUT (CreateOrReplace) requests.
+    description: Describes an input data source that contains reference data. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: RawStreamInputDataSource
-    - uid: IoTHubStreamInputDataSource
-    - uid: EventHubV2StreamInputDataSource
-    - uid: EventHubStreamInputDataSource
-    - uid: BlobStreamInputDataSource
-    typesTitle: StreamInputDataSource
+    - uid: BlobReferenceInputDataSource
+    - uid: RawReferenceInputDataSource
+    - uid: AzureSqlReferenceInputDataSource
+    typesTitle: ReferenceInputDataSource
   - name: type
     description: Indicates whether the input is a source of reference data or stream data. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: Stream
+    - uid: Reference
     typesTitle: string
   - name: serialization
     description: Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests.
@@ -304,42 +304,16 @@ definitions:
     description: ''
     types:
     - uid: string
-- name: AzureSqlReferenceInputDataSource
-  description: Describes an Azure SQL database reference input data source.
+- name: BlobStreamInputDataSource
+  description: Describes a blob input data source that contains stream data.
   kind: object
   properties:
-  - name: properties
-    description: Describes Azure SQL database reference input data source properties.
+  - name: properties.sourcePartitionCount
+    description: The partition count of the blob input data source. Range 1 - 256.
     types:
-    - uid: AzureSqlReferenceInputDataSourceProperties
+    - uid: integer
   - name: type
-    description: Indicates the type of input data source containing reference data. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Microsoft.Sql/Server/Database
-    typesTitle: string
-- name: RawReferenceInputDataSource
-  description: Describes a raw input data source that contains reference data. This data source type is only applicable/usable when using the query testing API. You cannot create a job with this data source type or add an input of this data source type to an existing job.
-  kind: object
-  properties:
-  - name: properties.payload
-    description: 'The JSON serialized content of the input data. Either payload or payloadUri must be set, but not both. '
-    types:
-    - uid: string
-  - name: properties.payloadUri
-    description: The SAS URL to a blob containing the JSON serialized content of the input data. Either payload or payloadUri must be set, but not both.
-    types:
-    - uid: string
-  - name: type
-    description: Indicates the type of input data source containing reference data. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Raw
-    typesTitle: string
-- name: BlobReferenceInputDataSource
-  description: Describes a blob input data source that contains reference data.
-  kind: object
-  properties:
-  - name: type
-    description: Indicates the type of input data source containing reference data. Required on PUT (CreateOrReplace) requests.
+    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
     types:
     - uid: Microsoft.Storage/Blob
     typesTitle: string
@@ -364,6 +338,118 @@ definitions:
     description: The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead.
     types:
     - uid: string
+- name: EventHubStreamInputDataSource
+  description: Describes an Event Hub input data source that contains stream data.
+  kind: object
+  properties:
+  - name: properties.consumerGroupName
+    description: The name of an Event Hub Consumer Group that should be used to read events from the Event Hub. Specifying distinct consumer group names for multiple inputs allows each of those inputs to receive the same events from the Event Hub. If not specified, the input uses the Event Hub’s default consumer group.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.ServiceBus/EventHub
+    typesTitle: string
+  - name: properties.eventHubName
+    description: The name of the Event Hub. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: serviceBusNamespace
+    description: The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: sharedAccessPolicyName
+    description: The shared access policy name for the Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: sharedAccessPolicyKey
+    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: authenticationMode
+    description: Authentication Mode.
+    types:
+    - uid: AuthenticationMode
+- name: EventHubV2StreamInputDataSource
+  description: Describes an Event Hub input data source that contains stream data.
+  kind: object
+  properties:
+  - name: properties.consumerGroupName
+    description: The name of an Event Hub Consumer Group that should be used to read events from the Event Hub. Specifying distinct consumer group names for multiple inputs allows each of those inputs to receive the same events from the Event Hub. If not specified, the input uses the Event Hub’s default consumer group.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.EventHub/EventHub
+    typesTitle: string
+  - name: properties.eventHubName
+    description: The name of the Event Hub. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: serviceBusNamespace
+    description: The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: sharedAccessPolicyName
+    description: The shared access policy name for the Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: sharedAccessPolicyKey
+    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: authenticationMode
+    description: Authentication Mode.
+    types:
+    - uid: AuthenticationMode
+- name: IoTHubStreamInputDataSource
+  description: Describes an IoT Hub input data source that contains stream data.
+  kind: object
+  properties:
+  - name: properties.iotHubNamespace
+    description: The name or the URI of the IoT Hub. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.sharedAccessPolicyName
+    description: The shared access policy name for the IoT Hub. This policy must contain at least the Service connect permission. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.sharedAccessPolicyKey
+    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.consumerGroupName
+    description: The name of an IoT Hub Consumer Group that should be used to read events from the IoT Hub. If not specified, the input uses the Iot Hub’s default consumer group.
+    types:
+    - uid: string
+  - name: properties.endpoint
+    description: The IoT Hub endpoint to connect to (ie. messages/events, messages/operationsMonitoringEvents, etc.).
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.Devices/IotHubs
+    typesTitle: string
+- name: RawStreamInputDataSource
+  description: Describes a raw input data source that contains stream data. This data source type is only applicable/usable when using the query testing API. You cannot create a job with this data source type or add an input of this data source type to an existing job.
+  kind: object
+  properties:
+  - name: properties.payload
+    description: 'The JSON serialized content of the input data. Either payload or payloadUri must be set, but not both. '
+    types:
+    - uid: string
+  - name: properties.payloadUri
+    description: The SAS URL to a blob containing the JSON serialized content of the input data. Either payload or payloadUri must be set, but not both.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Raw
+    typesTitle: string
 - name: ParquetSerialization
   description: Describes how data from an input is serialized or how data is serialized when written to an output in Parquet format.
   kind: object
@@ -452,128 +538,12 @@ definitions:
     description: The human-readable message describing the condition in detail. Localized in the Accept-Language of the client request.
     types:
     - uid: string
-- name: RawStreamInputDataSource
-  description: Describes a raw input data source that contains stream data. This data source type is only applicable/usable when using the query testing API. You cannot create a job with this data source type or add an input of this data source type to an existing job.
+- name: BlobReferenceInputDataSource
+  description: Describes a blob input data source that contains reference data.
   kind: object
   properties:
-  - name: properties.payload
-    description: 'The JSON serialized content of the input data. Either payload or payloadUri must be set, but not both. '
-    types:
-    - uid: string
-  - name: properties.payloadUri
-    description: The SAS URL to a blob containing the JSON serialized content of the input data. Either payload or payloadUri must be set, but not both.
-    types:
-    - uid: string
   - name: type
-    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Raw
-    typesTitle: string
-- name: IoTHubStreamInputDataSource
-  description: Describes an IoT Hub input data source that contains stream data.
-  kind: object
-  properties:
-  - name: properties.iotHubNamespace
-    description: The name or the URI of the IoT Hub. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.sharedAccessPolicyName
-    description: The shared access policy name for the IoT Hub. This policy must contain at least the Service connect permission. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.sharedAccessPolicyKey
-    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.consumerGroupName
-    description: The name of an IoT Hub Consumer Group that should be used to read events from the IoT Hub. If not specified, the input uses the Iot Hub’s default consumer group.
-    types:
-    - uid: string
-  - name: properties.endpoint
-    description: The IoT Hub endpoint to connect to (ie. messages/events, messages/operationsMonitoringEvents, etc.).
-    types:
-    - uid: string
-  - name: type
-    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Microsoft.Devices/IotHubs
-    typesTitle: string
-- name: EventHubV2StreamInputDataSource
-  description: Describes an Event Hub input data source that contains stream data.
-  kind: object
-  properties:
-  - name: properties.consumerGroupName
-    description: The name of an Event Hub Consumer Group that should be used to read events from the Event Hub. Specifying distinct consumer group names for multiple inputs allows each of those inputs to receive the same events from the Event Hub. If not specified, the input uses the Event Hub’s default consumer group.
-    types:
-    - uid: string
-  - name: type
-    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Microsoft.EventHub/EventHub
-    typesTitle: string
-  - name: properties.eventHubName
-    description: The name of the Event Hub. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: serviceBusNamespace
-    description: The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: sharedAccessPolicyName
-    description: The shared access policy name for the Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: sharedAccessPolicyKey
-    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: authenticationMode
-    description: Authentication Mode.
-    types:
-    - uid: AuthenticationMode
-- name: EventHubStreamInputDataSource
-  description: Describes an Event Hub input data source that contains stream data.
-  kind: object
-  properties:
-  - name: properties.consumerGroupName
-    description: The name of an Event Hub Consumer Group that should be used to read events from the Event Hub. Specifying distinct consumer group names for multiple inputs allows each of those inputs to receive the same events from the Event Hub. If not specified, the input uses the Event Hub’s default consumer group.
-    types:
-    - uid: string
-  - name: type
-    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Microsoft.ServiceBus/EventHub
-    typesTitle: string
-  - name: properties.eventHubName
-    description: The name of the Event Hub. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: serviceBusNamespace
-    description: The namespace that is associated with the desired Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: sharedAccessPolicyName
-    description: The shared access policy name for the Event Hub, Service Bus Queue, Service Bus Topic, etc. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: sharedAccessPolicyKey
-    description: The shared access policy key for the specified shared access policy. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: authenticationMode
-    description: Authentication Mode.
-    types:
-    - uid: AuthenticationMode
-- name: BlobStreamInputDataSource
-  description: Describes a blob input data source that contains stream data.
-  kind: object
-  properties:
-  - name: properties.sourcePartitionCount
-    description: The partition count of the blob input data source. Range 1 - 256.
-    types:
-    - uid: integer
-  - name: type
-    description: Indicates the type of input data source containing stream data. Required on PUT (CreateOrReplace) requests.
+    description: Indicates the type of input data source containing reference data. Required on PUT (CreateOrReplace) requests.
     types:
     - uid: Microsoft.Storage/Blob
     typesTitle: string
@@ -596,6 +566,97 @@ definitions:
     - uid: string
   - name: properties.timeFormat
     description: The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead.
+    types:
+    - uid: string
+- name: RawReferenceInputDataSource
+  description: Describes a raw input data source that contains reference data. This data source type is only applicable/usable when using the query testing API. You cannot create a job with this data source type or add an input of this data source type to an existing job.
+  kind: object
+  properties:
+  - name: properties.payload
+    description: 'The JSON serialized content of the input data. Either payload or payloadUri must be set, but not both. '
+    types:
+    - uid: string
+  - name: properties.payloadUri
+    description: The SAS URL to a blob containing the JSON serialized content of the input data. Either payload or payloadUri must be set, but not both.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of input data source containing reference data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Raw
+    typesTitle: string
+- name: AzureSqlReferenceInputDataSource
+  description: Describes an Azure SQL database reference input data source.
+  kind: object
+  properties:
+  - name: properties
+    description: Describes Azure SQL database reference input data source properties.
+    types:
+    - uid: AzureSqlReferenceInputDataSourceProperties
+  - name: type
+    description: Indicates the type of input data source containing reference data. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Microsoft.Sql/Server/Database
+    typesTitle: string
+- name: StorageAccount
+  description: The properties that are associated with an Azure Storage account
+  kind: object
+  properties:
+  - name: accountName
+    description: The name of the Azure Storage account. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: accountKey
+    description: The account key for the Azure Storage account. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+- name: AuthenticationMode
+  description: Authentication Mode. Valid modes are `ConnectionString`, `Msi` and 'UserToken'.
+  kind: enum
+  properties:
+  - name: Msi
+    types:
+    - uid: string
+  - name: UserToken
+    types:
+    - uid: string
+  - name: ConnectionString
+    types:
+    - uid: string
+- name: EventSerializationType
+  description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
+  kind: enum
+  properties:
+  - name: Csv
+    types:
+    - uid: string
+  - name: Avro
+    types:
+    - uid: string
+  - name: Json
+    types:
+    - uid: string
+  - name: CustomClr
+    types:
+    - uid: string
+  - name: Parquet
+    types:
+    - uid: string
+- name: Encoding
+  description: Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output.
+  kind: enum
+  properties:
+  - name: UTF8
+    types:
+    - uid: string
+- name: JsonOutputSerializationFormat
+  description: Specifies the format of the JSON the output will be written in. The currently supported values are 'lineSeparated' indicating the output will be formatted by having each JSON object separated by a new line and 'array' indicating the output will be formatted as an array of JSON objects.
+  kind: enum
+  properties:
+  - name: LineSeparated
+    types:
+    - uid: string
+  - name: Array
     types:
     - uid: string
 - name: AzureSqlReferenceInputDataSourceProperties
@@ -636,67 +697,6 @@ definitions:
     - uid: string
   - name: deltaSnapshotQuery
     description: This element is associated with the datasource element. This query is used to fetch incremental changes from the SQL database. To use this option, we recommend using temporal tables in Azure SQL Database.
-    types:
-    - uid: string
-- name: StorageAccount
-  description: The properties that are associated with an Azure Storage account
-  kind: object
-  properties:
-  - name: accountName
-    description: The name of the Azure Storage account. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: accountKey
-    description: The account key for the Azure Storage account. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-- name: EventSerializationType
-  description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
-  kind: enum
-  properties:
-  - name: Csv
-    types:
-    - uid: string
-  - name: Avro
-    types:
-    - uid: string
-  - name: Json
-    types:
-    - uid: string
-  - name: CustomClr
-    types:
-    - uid: string
-  - name: Parquet
-    types:
-    - uid: string
-- name: Encoding
-  description: Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output.
-  kind: enum
-  properties:
-  - name: UTF8
-    types:
-    - uid: string
-- name: JsonOutputSerializationFormat
-  description: Specifies the format of the JSON the output will be written in. The currently supported values are 'lineSeparated' indicating the output will be formatted by having each JSON object separated by a new line and 'array' indicating the output will be formatted as an array of JSON objects.
-  kind: enum
-  properties:
-  - name: LineSeparated
-    types:
-    - uid: string
-  - name: Array
-    types:
-    - uid: string
-- name: AuthenticationMode
-  description: Authentication Mode. Valid modes are `ConnectionString`, `Msi` and 'UserToken'.
-  kind: enum
-  properties:
-  - name: Msi
-    types:
-    - uid: string
-  - name: UserToken
-    types:
-    - uid: string
-  - name: ConnectionString
     types:
     - uid: string
 examples:

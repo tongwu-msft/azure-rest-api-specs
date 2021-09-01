@@ -94,79 +94,79 @@ definitions:
   - name: properties.activities
     description: List of activities in pipeline.
     types:
-    - uid: ExecuteWranglingDataflowActivity
+    - uid: ControlActivity
       isArray: true
     - uid: ExecutionActivity
       isArray: true
-    - uid: ControlActivity
+    - uid: ExecuteWranglingDataflowActivity
       isArray: true
-    - uid: WebHookActivity
-      isArray: true
-    - uid: AppendVariableActivity
-      isArray: true
-    - uid: SetVariableActivity
-      isArray: true
-    - uid: FilterActivity
-      isArray: true
-    - uid: ValidationActivity
-      isArray: true
-    - uid: UntilActivity
-      isArray: true
-    - uid: WaitActivity
-      isArray: true
-    - uid: ForEachActivity
-      isArray: true
-    - uid: SwitchActivity
-      isArray: true
-    - uid: IfConditionActivity
-      isArray: true
-    - uid: ExecutePipelineActivity
-      isArray: true
-    - uid: ExecuteDataFlowActivity
-      isArray: true
-    - uid: AzureFunctionActivity
-      isArray: true
-    - uid: DatabricksSparkPythonActivity
-      isArray: true
-    - uid: DatabricksSparkJarActivity
-      isArray: true
-    - uid: DatabricksNotebookActivity
-      isArray: true
-    - uid: DataLakeAnalyticsUSQLActivity
-      isArray: true
-    - uid: AzureMLExecutePipelineActivity
-      isArray: true
-    - uid: AzureMLUpdateResourceActivity
-      isArray: true
-    - uid: AzureMLBatchExecutionActivity
-      isArray: true
-    - uid: GetMetadataActivity
-      isArray: true
-    - uid: WebActivity
-      isArray: true
-    - uid: LookupActivity
-      isArray: true
-    - uid: AzureDataExplorerCommandActivity
-      isArray: true
-    - uid: DeleteActivity
-      isArray: true
-    - uid: SqlServerStoredProcedureActivity
-      isArray: true
-    - uid: CustomActivity
-      isArray: true
-    - uid: ExecuteSSISPackageActivity
-      isArray: true
-    - uid: HDInsightSparkActivity
-      isArray: true
-    - uid: HDInsightStreamingActivity
-      isArray: true
-    - uid: HDInsightMapReduceActivity
-      isArray: true
-    - uid: HDInsightPigActivity
+    - uid: CopyActivity
       isArray: true
     - uid: HDInsightHiveActivity
       isArray: true
-    - uid: CopyActivity
+    - uid: HDInsightPigActivity
+      isArray: true
+    - uid: HDInsightMapReduceActivity
+      isArray: true
+    - uid: HDInsightStreamingActivity
+      isArray: true
+    - uid: HDInsightSparkActivity
+      isArray: true
+    - uid: ExecuteSSISPackageActivity
+      isArray: true
+    - uid: CustomActivity
+      isArray: true
+    - uid: SqlServerStoredProcedureActivity
+      isArray: true
+    - uid: DeleteActivity
+      isArray: true
+    - uid: AzureDataExplorerCommandActivity
+      isArray: true
+    - uid: LookupActivity
+      isArray: true
+    - uid: WebActivity
+      isArray: true
+    - uid: GetMetadataActivity
+      isArray: true
+    - uid: AzureMLBatchExecutionActivity
+      isArray: true
+    - uid: AzureMLUpdateResourceActivity
+      isArray: true
+    - uid: AzureMLExecutePipelineActivity
+      isArray: true
+    - uid: DataLakeAnalyticsUSQLActivity
+      isArray: true
+    - uid: DatabricksNotebookActivity
+      isArray: true
+    - uid: DatabricksSparkJarActivity
+      isArray: true
+    - uid: DatabricksSparkPythonActivity
+      isArray: true
+    - uid: AzureFunctionActivity
+      isArray: true
+    - uid: ExecuteDataFlowActivity
+      isArray: true
+    - uid: ExecutePipelineActivity
+      isArray: true
+    - uid: IfConditionActivity
+      isArray: true
+    - uid: SwitchActivity
+      isArray: true
+    - uid: ForEachActivity
+      isArray: true
+    - uid: WaitActivity
+      isArray: true
+    - uid: UntilActivity
+      isArray: true
+    - uid: ValidationActivity
+      isArray: true
+    - uid: FilterActivity
+      isArray: true
+    - uid: SetVariableActivity
+      isArray: true
+    - uid: AppendVariableActivity
+      isArray: true
+    - uid: WebHookActivity
       isArray: true
     typesTitle: Activity[]
   - name: properties.parameters
@@ -270,6 +270,68 @@ definitions:
     description: Pipeline ElapsedTime Metric Policy.
     types:
     - uid: PipelineElapsedTimeMetricPolicy
+- name: ControlActivity
+  description: Base class for all control activities like IfCondition, ForEach , Until.
+  kind: object
+  properties:
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Container
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: ExecutionActivity
+  description: Base class for all execution activities.
+  kind: object
+  properties:
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Execution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
 - name: ExecuteWranglingDataflowActivity
   description: Execute power query activity.
   kind: object
@@ -337,912 +399,82 @@ definitions:
     description: 'Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean)'
     types:
     - uid: object
-- name: ExecutionActivity
-  description: Base class for all execution activities.
+- name: CopyActivity
+  description: Copy activity.
   kind: object
   properties:
-  - name: linkedServiceName
-    description: Linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: policy
-    description: Activity policy.
-    types:
-    - uid: ActivityPolicy
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: Execution
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: ControlActivity
-  description: Base class for all control activities like IfCondition, ForEach , Until.
-  kind: object
-  properties:
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: Container
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: WebHookActivity
-  description: WebHook activity.
-  kind: object
-  properties:
-  - name: typeProperties.method
-    description: Rest API method for target endpoint.
-    types:
-    - uid: WebHookActivityMethod
-  - name: typeProperties.url
-    description: 'WebHook activity target endpoint and path. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.timeout
-    description: 'The timeout within which the webhook should be called back. If there is no value specified, it defaults to 10 minutes. Type: string. Pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
-    types:
-    - uid: string
-  - name: typeProperties.headers
-    description: 'Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.body
-    description: 'Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.authentication
-    description: Authentication method used for calling the endpoint.
-    types:
-    - uid: WebActivityAuthentication
-  - name: typeProperties.reportStatusOnCallBack
-    description: 'When set to true, statusCode, output and error in callback request body will be consumed by activity. The activity can be marked as failed by setting statusCode >= 400 in callback request. Default is false. Type: boolean (or Expression with resultType boolean).'
-    types:
-    - uid: object
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: WebHook
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: AppendVariableActivity
-  description: Append value for a Variable of type Array.
-  kind: object
-  properties:
-  - name: typeProperties.variableName
-    description: Name of the variable whose value needs to be appended to.
-    types:
-    - uid: string
-  - name: typeProperties.value
-    description: Value to be appended. Could be a static value or Expression
-    types:
-    - uid: object
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: AppendVariable
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: SetVariableActivity
-  description: Set value for a Variable.
-  kind: object
-  properties:
-  - name: typeProperties.variableName
-    description: Name of the variable whose value needs to be set.
-    types:
-    - uid: string
-  - name: typeProperties.value
-    description: Value to be set. Could be a static value or Expression
-    types:
-    - uid: object
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: SetVariable
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: FilterActivity
-  description: Filter and return results from input array based on the conditions.
-  kind: object
-  properties:
-  - name: typeProperties.items
-    description: Input array on which filter should be applied.
-    types:
-    - uid: Expression
-  - name: typeProperties.condition
-    description: Condition to be used for filtering the input.
-    types:
-    - uid: Expression
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: Filter
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: ValidationActivity
-  description: This activity verifies that an external resource exists.
-  kind: object
-  properties:
-  - name: typeProperties.timeout
-    description: 'Specifies the timeout for the activity to run. If there is no value specified, it takes the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
-    types:
-    - uid: object
-  - name: typeProperties.sleep
-    description: 'A delay in seconds between validation attempts. If no value is specified, 10 seconds will be used as the default. Type: integer (or Expression with resultType integer).'
-    types:
-    - uid: object
-  - name: typeProperties.minimumSize
-    description: 'Can be used if dataset points to a file. The file must be greater than or equal in size to the value specified. Type: integer (or Expression with resultType integer).'
-    types:
-    - uid: object
-  - name: typeProperties.childItems
-    description: 'Can be used if dataset points to a folder. If set to true, the folder must have at least one file. If set to false, the folder must be empty. Type: boolean (or Expression with resultType boolean).'
-    types:
-    - uid: object
-  - name: typeProperties.dataset
-    description: Validation activity dataset reference.
+  - name: inputs
+    description: List of inputs for the activity.
     types:
     - uid: DatasetReference
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: Validation
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
       isArray: true
-  - name: userProperties
-    description: Activity user properties.
+  - name: outputs
+    description: List of outputs for the activity.
     types:
-    - uid: UserProperty
+    - uid: DatasetReference
       isArray: true
-- name: UntilActivity
-  description: This activity executes inner activities until the specified boolean expression results to true or timeout is reached, whichever is earlier.
-  kind: object
-  properties:
-  - name: typeProperties.expression
-    description: An expression that would evaluate to Boolean. The loop will continue until this expression evaluates to true
+  - name: typeProperties.source
+    description: Copy activity source.
     types:
-    - uid: Expression
-  - name: typeProperties.timeout
-    description: 'Specifies the timeout for the activity to run. If there is no value specified, it takes the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    - uid: CopySource
+  - name: typeProperties.sink
+    description: Copy activity sink.
+    types:
+    - uid: CopySink
+  - name: typeProperties.translator
+    description: Copy activity translator. If not specified, tabular translator is used.
     types:
     - uid: object
-  - name: typeProperties.activities
-    description: List of activities to execute.
-    types:
-    - uid: ExecuteWranglingDataflowActivity
-      isArray: true
-    - uid: ExecutionActivity
-      isArray: true
-    - uid: ControlActivity
-      isArray: true
-    - uid: WebHookActivity
-      isArray: true
-    - uid: AppendVariableActivity
-      isArray: true
-    - uid: SetVariableActivity
-      isArray: true
-    - uid: FilterActivity
-      isArray: true
-    - uid: ValidationActivity
-      isArray: true
-    - uid: UntilActivity
-      isArray: true
-    - uid: WaitActivity
-      isArray: true
-    - uid: ForEachActivity
-      isArray: true
-    - uid: SwitchActivity
-      isArray: true
-    - uid: IfConditionActivity
-      isArray: true
-    - uid: ExecutePipelineActivity
-      isArray: true
-    - uid: ExecuteDataFlowActivity
-      isArray: true
-    - uid: AzureFunctionActivity
-      isArray: true
-    - uid: DatabricksSparkPythonActivity
-      isArray: true
-    - uid: DatabricksSparkJarActivity
-      isArray: true
-    - uid: DatabricksNotebookActivity
-      isArray: true
-    - uid: DataLakeAnalyticsUSQLActivity
-      isArray: true
-    - uid: AzureMLExecutePipelineActivity
-      isArray: true
-    - uid: AzureMLUpdateResourceActivity
-      isArray: true
-    - uid: AzureMLBatchExecutionActivity
-      isArray: true
-    - uid: GetMetadataActivity
-      isArray: true
-    - uid: WebActivity
-      isArray: true
-    - uid: LookupActivity
-      isArray: true
-    - uid: AzureDataExplorerCommandActivity
-      isArray: true
-    - uid: DeleteActivity
-      isArray: true
-    - uid: SqlServerStoredProcedureActivity
-      isArray: true
-    - uid: CustomActivity
-      isArray: true
-    - uid: ExecuteSSISPackageActivity
-      isArray: true
-    - uid: HDInsightSparkActivity
-      isArray: true
-    - uid: HDInsightStreamingActivity
-      isArray: true
-    - uid: HDInsightMapReduceActivity
-      isArray: true
-    - uid: HDInsightPigActivity
-      isArray: true
-    - uid: HDInsightHiveActivity
-      isArray: true
-    - uid: CopyActivity
-      isArray: true
-    typesTitle: Activity[]
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: Until
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: WaitActivity
-  description: This activity suspends pipeline execution for the specified interval.
-  kind: object
-  properties:
-  - name: typeProperties.waitTimeInSeconds
-    description: Duration in seconds.
+  - name: typeProperties.enableStaging
+    description: 'Specifies whether to copy data via an interim staging. Default value is false. Type: boolean (or Expression with resultType boolean).'
     types:
     - uid: object
-  - name: name
-    description: Activity name.
+  - name: typeProperties.stagingSettings
+    description: Specifies interim staging settings when EnableStaging is true.
     types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: Wait
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: ForEachActivity
-  description: This activity is used for iterating over a collection and execute given activities.
-  kind: object
-  properties:
-  - name: typeProperties.isSequential
-    description: Should the loop be executed in sequence or in parallel (max 50)
-    types:
-    - uid: boolean
-  - name: typeProperties.batchCount
-    description: Batch count to be used for controlling the number of parallel execution (when isSequential is set to false).
-    types:
-    - uid: integer
-  - name: typeProperties.items
-    description: Collection to iterate.
-    types:
-    - uid: Expression
-  - name: typeProperties.activities
-    description: List of activities to execute .
-    types:
-    - uid: ExecuteWranglingDataflowActivity
-      isArray: true
-    - uid: ExecutionActivity
-      isArray: true
-    - uid: ControlActivity
-      isArray: true
-    - uid: WebHookActivity
-      isArray: true
-    - uid: AppendVariableActivity
-      isArray: true
-    - uid: SetVariableActivity
-      isArray: true
-    - uid: FilterActivity
-      isArray: true
-    - uid: ValidationActivity
-      isArray: true
-    - uid: UntilActivity
-      isArray: true
-    - uid: WaitActivity
-      isArray: true
-    - uid: ForEachActivity
-      isArray: true
-    - uid: SwitchActivity
-      isArray: true
-    - uid: IfConditionActivity
-      isArray: true
-    - uid: ExecutePipelineActivity
-      isArray: true
-    - uid: ExecuteDataFlowActivity
-      isArray: true
-    - uid: AzureFunctionActivity
-      isArray: true
-    - uid: DatabricksSparkPythonActivity
-      isArray: true
-    - uid: DatabricksSparkJarActivity
-      isArray: true
-    - uid: DatabricksNotebookActivity
-      isArray: true
-    - uid: DataLakeAnalyticsUSQLActivity
-      isArray: true
-    - uid: AzureMLExecutePipelineActivity
-      isArray: true
-    - uid: AzureMLUpdateResourceActivity
-      isArray: true
-    - uid: AzureMLBatchExecutionActivity
-      isArray: true
-    - uid: GetMetadataActivity
-      isArray: true
-    - uid: WebActivity
-      isArray: true
-    - uid: LookupActivity
-      isArray: true
-    - uid: AzureDataExplorerCommandActivity
-      isArray: true
-    - uid: DeleteActivity
-      isArray: true
-    - uid: SqlServerStoredProcedureActivity
-      isArray: true
-    - uid: CustomActivity
-      isArray: true
-    - uid: ExecuteSSISPackageActivity
-      isArray: true
-    - uid: HDInsightSparkActivity
-      isArray: true
-    - uid: HDInsightStreamingActivity
-      isArray: true
-    - uid: HDInsightMapReduceActivity
-      isArray: true
-    - uid: HDInsightPigActivity
-      isArray: true
-    - uid: HDInsightHiveActivity
-      isArray: true
-    - uid: CopyActivity
-      isArray: true
-    typesTitle: Activity[]
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: ForEach
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: SwitchActivity
-  description: This activity evaluates an expression and executes activities under the cases property that correspond to the expression evaluation expected in the equals property.
-  kind: object
-  properties:
-  - name: typeProperties.on
-    description: An expression that would evaluate to a string or integer. This is used to determine the block of activities in cases that will be executed.
-    types:
-    - uid: Expression
-  - name: typeProperties.cases
-    description: List of cases that correspond to expected values of the 'on' property. This is an optional property and if not provided, the activity will execute activities provided in defaultActivities.
-    types:
-    - uid: SwitchCase
-      isArray: true
-  - name: typeProperties.defaultActivities
-    description: List of activities to execute if no case condition is satisfied. This is an optional property and if not provided, the activity will exit without any action.
-    types:
-    - uid: ExecuteWranglingDataflowActivity
-      isArray: true
-    - uid: ExecutionActivity
-      isArray: true
-    - uid: ControlActivity
-      isArray: true
-    - uid: WebHookActivity
-      isArray: true
-    - uid: AppendVariableActivity
-      isArray: true
-    - uid: SetVariableActivity
-      isArray: true
-    - uid: FilterActivity
-      isArray: true
-    - uid: ValidationActivity
-      isArray: true
-    - uid: UntilActivity
-      isArray: true
-    - uid: WaitActivity
-      isArray: true
-    - uid: ForEachActivity
-      isArray: true
-    - uid: SwitchActivity
-      isArray: true
-    - uid: IfConditionActivity
-      isArray: true
-    - uid: ExecutePipelineActivity
-      isArray: true
-    - uid: ExecuteDataFlowActivity
-      isArray: true
-    - uid: AzureFunctionActivity
-      isArray: true
-    - uid: DatabricksSparkPythonActivity
-      isArray: true
-    - uid: DatabricksSparkJarActivity
-      isArray: true
-    - uid: DatabricksNotebookActivity
-      isArray: true
-    - uid: DataLakeAnalyticsUSQLActivity
-      isArray: true
-    - uid: AzureMLExecutePipelineActivity
-      isArray: true
-    - uid: AzureMLUpdateResourceActivity
-      isArray: true
-    - uid: AzureMLBatchExecutionActivity
-      isArray: true
-    - uid: GetMetadataActivity
-      isArray: true
-    - uid: WebActivity
-      isArray: true
-    - uid: LookupActivity
-      isArray: true
-    - uid: AzureDataExplorerCommandActivity
-      isArray: true
-    - uid: DeleteActivity
-      isArray: true
-    - uid: SqlServerStoredProcedureActivity
-      isArray: true
-    - uid: CustomActivity
-      isArray: true
-    - uid: ExecuteSSISPackageActivity
-      isArray: true
-    - uid: HDInsightSparkActivity
-      isArray: true
-    - uid: HDInsightStreamingActivity
-      isArray: true
-    - uid: HDInsightMapReduceActivity
-      isArray: true
-    - uid: HDInsightPigActivity
-      isArray: true
-    - uid: HDInsightHiveActivity
-      isArray: true
-    - uid: CopyActivity
-      isArray: true
-    typesTitle: Activity[]
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: Switch
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: IfConditionActivity
-  description: This activity evaluates a boolean expression and executes either the activities under the ifTrueActivities property or the ifFalseActivities property depending on the result of the expression.
-  kind: object
-  properties:
-  - name: typeProperties.expression
-    description: An expression that would evaluate to Boolean. This is used to determine the block of activities (ifTrueActivities or ifFalseActivities) that will be executed.
-    types:
-    - uid: Expression
-  - name: typeProperties.ifTrueActivities
-    description: List of activities to execute if expression is evaluated to true. This is an optional property and if not provided, the activity will exit without any action.
-    types:
-    - uid: ExecuteWranglingDataflowActivity
-      isArray: true
-    - uid: ExecutionActivity
-      isArray: true
-    - uid: ControlActivity
-      isArray: true
-    - uid: WebHookActivity
-      isArray: true
-    - uid: AppendVariableActivity
-      isArray: true
-    - uid: SetVariableActivity
-      isArray: true
-    - uid: FilterActivity
-      isArray: true
-    - uid: ValidationActivity
-      isArray: true
-    - uid: UntilActivity
-      isArray: true
-    - uid: WaitActivity
-      isArray: true
-    - uid: ForEachActivity
-      isArray: true
-    - uid: SwitchActivity
-      isArray: true
-    - uid: IfConditionActivity
-      isArray: true
-    - uid: ExecutePipelineActivity
-      isArray: true
-    - uid: ExecuteDataFlowActivity
-      isArray: true
-    - uid: AzureFunctionActivity
-      isArray: true
-    - uid: DatabricksSparkPythonActivity
-      isArray: true
-    - uid: DatabricksSparkJarActivity
-      isArray: true
-    - uid: DatabricksNotebookActivity
-      isArray: true
-    - uid: DataLakeAnalyticsUSQLActivity
-      isArray: true
-    - uid: AzureMLExecutePipelineActivity
-      isArray: true
-    - uid: AzureMLUpdateResourceActivity
-      isArray: true
-    - uid: AzureMLBatchExecutionActivity
-      isArray: true
-    - uid: GetMetadataActivity
-      isArray: true
-    - uid: WebActivity
-      isArray: true
-    - uid: LookupActivity
-      isArray: true
-    - uid: AzureDataExplorerCommandActivity
-      isArray: true
-    - uid: DeleteActivity
-      isArray: true
-    - uid: SqlServerStoredProcedureActivity
-      isArray: true
-    - uid: CustomActivity
-      isArray: true
-    - uid: ExecuteSSISPackageActivity
-      isArray: true
-    - uid: HDInsightSparkActivity
-      isArray: true
-    - uid: HDInsightStreamingActivity
-      isArray: true
-    - uid: HDInsightMapReduceActivity
-      isArray: true
-    - uid: HDInsightPigActivity
-      isArray: true
-    - uid: HDInsightHiveActivity
-      isArray: true
-    - uid: CopyActivity
-      isArray: true
-    typesTitle: Activity[]
-  - name: typeProperties.ifFalseActivities
-    description: List of activities to execute if expression is evaluated to false. This is an optional property and if not provided, the activity will exit without any action.
-    types:
-    - uid: ExecuteWranglingDataflowActivity
-      isArray: true
-    - uid: ExecutionActivity
-      isArray: true
-    - uid: ControlActivity
-      isArray: true
-    - uid: WebHookActivity
-      isArray: true
-    - uid: AppendVariableActivity
-      isArray: true
-    - uid: SetVariableActivity
-      isArray: true
-    - uid: FilterActivity
-      isArray: true
-    - uid: ValidationActivity
-      isArray: true
-    - uid: UntilActivity
-      isArray: true
-    - uid: WaitActivity
-      isArray: true
-    - uid: ForEachActivity
-      isArray: true
-    - uid: SwitchActivity
-      isArray: true
-    - uid: IfConditionActivity
-      isArray: true
-    - uid: ExecutePipelineActivity
-      isArray: true
-    - uid: ExecuteDataFlowActivity
-      isArray: true
-    - uid: AzureFunctionActivity
-      isArray: true
-    - uid: DatabricksSparkPythonActivity
-      isArray: true
-    - uid: DatabricksSparkJarActivity
-      isArray: true
-    - uid: DatabricksNotebookActivity
-      isArray: true
-    - uid: DataLakeAnalyticsUSQLActivity
-      isArray: true
-    - uid: AzureMLExecutePipelineActivity
-      isArray: true
-    - uid: AzureMLUpdateResourceActivity
-      isArray: true
-    - uid: AzureMLBatchExecutionActivity
-      isArray: true
-    - uid: GetMetadataActivity
-      isArray: true
-    - uid: WebActivity
-      isArray: true
-    - uid: LookupActivity
-      isArray: true
-    - uid: AzureDataExplorerCommandActivity
-      isArray: true
-    - uid: DeleteActivity
-      isArray: true
-    - uid: SqlServerStoredProcedureActivity
-      isArray: true
-    - uid: CustomActivity
-      isArray: true
-    - uid: ExecuteSSISPackageActivity
-      isArray: true
-    - uid: HDInsightSparkActivity
-      isArray: true
-    - uid: HDInsightStreamingActivity
-      isArray: true
-    - uid: HDInsightMapReduceActivity
-      isArray: true
-    - uid: HDInsightPigActivity
-      isArray: true
-    - uid: HDInsightHiveActivity
-      isArray: true
-    - uid: CopyActivity
-      isArray: true
-    typesTitle: Activity[]
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: IfCondition
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: ExecutePipelineActivity
-  description: Execute pipeline activity.
-  kind: object
-  properties:
-  - name: typeProperties.pipeline
-    description: Pipeline reference.
-    types:
-    - uid: PipelineReference
-  - name: typeProperties.parameters
-    description: Pipeline parameters.
+    - uid: StagingSettings
+  - name: typeProperties.parallelCopies
+    description: 'Maximum number of concurrent sessions opened on the source or sink to avoid overloading the data store. Type: integer (or Expression with resultType integer), minimum: 0.'
     types:
     - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-  - name: typeProperties.waitOnCompletion
-    description: Defines whether activity execution will wait for the dependent pipeline execution to finish. Default is false.
+  - name: typeProperties.dataIntegrationUnits
+    description: 'Maximum number of data integration units that can be used to perform this data movement. Type: integer (or Expression with resultType integer), minimum: 0.'
     types:
-    - uid: boolean
-  - name: name
-    description: Activity name.
+    - uid: object
+  - name: typeProperties.enableSkipIncompatibleRow
+    description: 'Whether to skip incompatible row. Default value is false. Type: boolean (or Expression with resultType boolean).'
     types:
-    - uid: string
-  - name: type
-    description: Type of activity.
+    - uid: object
+  - name: typeProperties.redirectIncompatibleRowSettings
+    description: Redirect incompatible row settings when EnableSkipIncompatibleRow is true.
     types:
-    - uid: ExecutePipeline
-    typesTitle: string
-  - name: description
-    description: Activity description.
+    - uid: RedirectIncompatibleRowSettings
+  - name: typeProperties.logStorageSettings
+    description: (Deprecated. Please use LogSettings) Log storage settings customer need to provide when enabling session log.
     types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
+    - uid: LogStorageSettings
+  - name: typeProperties.logSettings
+    description: Log settings customer needs provide when enabling log.
     types:
-    - uid: ActivityDependency
+    - uid: LogSettings
+  - name: typeProperties.preserveRules
+    description: Preserve Rules.
+    types:
+    - uid: object
       isArray: true
-  - name: userProperties
-    description: Activity user properties.
+  - name: typeProperties.preserve
+    description: Preserve rules.
     types:
-    - uid: UserProperty
+    - uid: object
       isArray: true
-- name: ExecuteDataFlowActivity
-  description: Execute data flow activity.
-  kind: object
-  properties:
-  - name: typeProperties.dataFlow
-    description: Data flow reference.
-    types:
-    - uid: DataFlowReference
-  - name: typeProperties.staging
-    description: Staging info for execute data flow activity.
-    types:
-    - uid: DataFlowStagingInfo
-  - name: typeProperties.integrationRuntime
-    description: The integration runtime reference.
-    types:
-    - uid: IntegrationRuntimeReference
-  - name: typeProperties.compute
-    description: Compute properties for data flow activity.
-    types:
-    - uid: Compute
-  - name: typeProperties.traceLevel
-    description: "Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string)"
+  - name: typeProperties.validateDataConsistency
+    description: 'Whether to enable Data Consistency validation. Type: boolean (or Expression with resultType boolean).'
     types:
     - uid: object
-  - name: typeProperties.continueOnError
-    description: 'Continue on error setting used for data flow execution. Enables processing to continue if a sink fails. Type: boolean (or Expression with resultType boolean)'
+  - name: typeProperties.skipErrorFile
+    description: Specify the fault tolerance for data consistency.
     types:
-    - uid: object
-  - name: typeProperties.runConcurrently
-    description: 'Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean)'
-    types:
-    - uid: object
+    - uid: SkipErrorFile
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1258,7 +490,7 @@ definitions:
   - name: type
     description: Type of activity.
     types:
-    - uid: ExecuteDataFlow
+    - uid: Copy
     typesTitle: string
   - name: description
     description: Activity description.
@@ -1274,686 +506,49 @@ definitions:
     types:
     - uid: UserProperty
       isArray: true
-- name: AzureFunctionActivity
-  description: Azure Function activity.
+- name: HDInsightHiveActivity
+  description: HDInsight Hive activity type.
   kind: object
   properties:
-  - name: typeProperties.method
-    description: Rest API method for target endpoint.
-    types:
-    - uid: AzureFunctionActivityMethod
-  - name: typeProperties.functionName
-    description: 'Name of the Function that the Azure Function Activity will call. Type: string (or Expression with resultType string)'
-    types:
-    - uid: object
-  - name: typeProperties.headers
-    description: 'Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.body
-    description: 'Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: linkedServiceName
-    description: Linked service reference.
+  - name: typeProperties.storageLinkedServices
+    description: Storage linked service references.
     types:
     - uid: LinkedServiceReference
-  - name: policy
-    description: Activity policy.
-    types:
-    - uid: ActivityPolicy
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: AzureFunctionActivity
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
       isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: DatabricksSparkPythonActivity
-  description: DatabricksSparkPython activity.
-  kind: object
-  properties:
-  - name: typeProperties.pythonFile
-    description: 'The URI of the Python file to be executed. DBFS paths are supported. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.parameters
-    description: Command line parameters that will be passed to the Python file.
+  - name: typeProperties.arguments
+    description: User specified arguments to HDInsightActivity.
     types:
     - uid: object
       isArray: true
-  - name: typeProperties.libraries
-    description: A list of libraries to be installed on the cluster that will execute the job.
+  - name: typeProperties.getDebugInfo
+    description: Debug info option.
     types:
-    - uid: object
-      isArray: true
-  - name: linkedServiceName
-    description: Linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: policy
-    description: Activity policy.
-    types:
-    - uid: ActivityPolicy
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: DatabricksSparkPython
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: DatabricksSparkJarActivity
-  description: DatabricksSparkJar activity.
-  kind: object
-  properties:
-  - name: typeProperties.mainClassName
-    description: 'The full name of the class containing the main method to be executed. This class must be contained in a JAR provided as a library. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.parameters
-    description: Parameters that will be passed to the main method.
-    types:
-    - uid: object
-      isArray: true
-  - name: typeProperties.libraries
-    description: A list of libraries to be installed on the cluster that will execute the job.
-    types:
-    - uid: object
-      isArray: true
-  - name: linkedServiceName
-    description: Linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: policy
-    description: Activity policy.
-    types:
-    - uid: ActivityPolicy
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: DatabricksSparkJar
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: DatabricksNotebookActivity
-  description: DatabricksNotebook activity.
-  kind: object
-  properties:
-  - name: typeProperties.notebookPath
-    description: 'The absolute path of the notebook to be run in the Databricks Workspace. This path must begin with a slash. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.baseParameters
-    description: Base parameters to be used for each run of this job.If the notebook takes a parameter that is not specified, the default value from the notebook will be used.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-  - name: typeProperties.libraries
-    description: A list of libraries to be installed on the cluster that will execute the job.
-    types:
-    - uid: object
-      isArray: true
-  - name: linkedServiceName
-    description: Linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: policy
-    description: Activity policy.
-    types:
-    - uid: ActivityPolicy
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: DatabricksNotebook
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: DataLakeAnalyticsUSQLActivity
-  description: Data Lake Analytics U-SQL activity.
-  kind: object
-  properties:
+    - uid: HDInsightActivityDebugInfoOption
   - name: typeProperties.scriptPath
-    description: 'Case-sensitive path to folder that contains the U-SQL script. Type: string (or Expression with resultType string).'
+    description: 'Script path. Type: string (or Expression with resultType string).'
     types:
     - uid: object
   - name: typeProperties.scriptLinkedService
     description: Script linked service reference.
     types:
     - uid: LinkedServiceReference
-  - name: typeProperties.degreeOfParallelism
-    description: 'The maximum number of nodes simultaneously used to run the job. Default value is 1. Type: integer (or Expression with resultType integer), minimum: 1.'
-    types:
-    - uid: object
-  - name: typeProperties.priority
-    description: 'Determines which jobs out of all that are queued should be selected to run first. The lower the number, the higher the priority. Default value is 1000. Type: integer (or Expression with resultType integer), minimum: 1.'
-    types:
-    - uid: object
-  - name: typeProperties.parameters
-    description: Parameters for U-SQL job request.
+  - name: typeProperties.defines
+    description: Allows user to specify defines for Hive job request.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: object
-  - name: typeProperties.runtimeVersion
-    description: 'Runtime version of the U-SQL engine to use. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.compilationMode
-    description: 'Compilation mode of U-SQL. Must be one of these values : Semantic, Full and SingleBox. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: linkedServiceName
-    description: Linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: policy
-    description: Activity policy.
-    types:
-    - uid: ActivityPolicy
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: DataLakeAnalyticsU-SQL
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: AzureMLExecutePipelineActivity
-  description: Azure ML Execute Pipeline activity.
-  kind: object
-  properties:
-  - name: typeProperties.mlPipelineId
-    description: 'ID of the published Azure ML pipeline. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.mlPipelineEndpointId
-    description: 'ID of the published Azure ML pipeline endpoint. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.version
-    description: 'Version of the published Azure ML pipeline endpoint. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.experimentName
-    description: 'Run history experiment name of the pipeline run. This information will be passed in the ExperimentName property of the published pipeline execution request. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.mlPipelineParameters
-    description: 'Key,Value pairs to be passed to the published Azure ML pipeline endpoint. Keys must match the names of pipeline parameters defined in the published pipeline. Values will be passed in the ParameterAssignments property of the published pipeline execution request. Type: object with key value pairs (or Expression with resultType object).'
-    types:
-    - uid: object
-  - name: typeProperties.dataPathAssignments
-    description: 'Dictionary used for changing data path assignments without retraining. Values will be passed in the dataPathAssignments property of the published pipeline execution request. Type: object with key value pairs (or Expression with resultType object).'
-    types:
-    - uid: object
-  - name: typeProperties.mlParentRunId
-    description: 'The parent Azure ML Service pipeline run id. This information will be passed in the ParentRunId property of the published pipeline execution request. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.continueOnStepFailure
-    description: 'Whether to continue execution of other steps in the PipelineRun if a step fails. This information will be passed in the continueOnStepFailure property of the published pipeline execution request. Type: boolean (or Expression with resultType boolean).'
-    types:
-    - uid: object
-  - name: linkedServiceName
-    description: Linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: policy
-    description: Activity policy.
-    types:
-    - uid: ActivityPolicy
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: AzureMLExecutePipeline
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: AzureMLUpdateResourceActivity
-  description: Azure ML Update Resource management activity.
-  kind: object
-  properties:
-  - name: typeProperties.trainedModelName
-    description: 'Name of the Trained Model module in the Web Service experiment to be updated. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.trainedModelLinkedServiceName
-    description: Name of Azure Storage linked service holding the .ilearner file that will be uploaded by the update operation.
-    types:
-    - uid: LinkedServiceReference
-  - name: typeProperties.trainedModelFilePath
-    description: 'The relative file path in trainedModelLinkedService to represent the .ilearner file that will be uploaded by the update operation.  Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: linkedServiceName
-    description: Linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: policy
-    description: Activity policy.
-    types:
-    - uid: ActivityPolicy
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: AzureMLUpdateResource
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: AzureMLBatchExecutionActivity
-  description: Azure ML Batch Execution activity.
-  kind: object
-  properties:
-  - name: typeProperties.globalParameters
-    description: Key,Value pairs to be passed to the Azure ML Batch Execution Service endpoint. Keys must match the names of web service parameters defined in the published Azure ML web service. Values will be passed in the GlobalParameters property of the Azure ML batch execution request.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-  - name: typeProperties.webServiceOutputs
-    description: Key,Value pairs, mapping the names of Azure ML endpoint's Web Service Outputs to AzureMLWebServiceFile objects specifying the output Blob locations. This information will be passed in the WebServiceOutputs property of the Azure ML batch execution request.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: AzureMLWebServiceFile
-  - name: typeProperties.webServiceInputs
-    description: Key,Value pairs, mapping the names of Azure ML endpoint's Web Service Inputs to AzureMLWebServiceFile objects specifying the input Blob locations.. This information will be passed in the WebServiceInputs property of the Azure ML batch execution request.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: AzureMLWebServiceFile
-  - name: linkedServiceName
-    description: Linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: policy
-    description: Activity policy.
-    types:
-    - uid: ActivityPolicy
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: AzureMLBatchExecution
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: GetMetadataActivity
-  description: Activity to get metadata of dataset
-  kind: object
-  properties:
-  - name: typeProperties.dataset
-    description: GetMetadata activity dataset reference.
-    types:
-    - uid: DatasetReference
-  - name: typeProperties.fieldList
-    description: Fields of metadata to get from dataset.
+  - name: typeProperties.variables
+    description: User specified arguments under hivevar namespace.
     types:
     - uid: object
       isArray: true
-  - name: typeProperties.storeSettings
-    description: GetMetadata activity store settings.
-    types:
-    - uid: StoreReadSettings
-  - name: typeProperties.formatSettings
-    description: GetMetadata activity format settings.
-    types:
-    - uid: FormatReadSettings
-  - name: linkedServiceName
-    description: Linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: policy
-    description: Activity policy.
-    types:
-    - uid: ActivityPolicy
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: GetMetadata
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: WebActivity
-  description: Web activity.
-  kind: object
-  properties:
-  - name: typeProperties.method
-    description: Rest API method for target endpoint.
-    types:
-    - uid: WebActivityMethod
-  - name: typeProperties.url
-    description: 'Web activity target endpoint and path. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.headers
-    description: 'Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.body
-    description: 'Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.authentication
-    description: Authentication method used for calling the endpoint.
-    types:
-    - uid: WebActivityAuthentication
-  - name: typeProperties.datasets
-    description: List of datasets passed to web endpoint.
-    types:
-    - uid: DatasetReference
-      isArray: true
-  - name: typeProperties.linkedServices
-    description: List of linked services passed to web endpoint.
-    types:
-    - uid: LinkedServiceReference
-      isArray: true
-  - name: typeProperties.connectVia
-    description: The integration runtime reference.
-    types:
-    - uid: IntegrationRuntimeReference
-  - name: linkedServiceName
-    description: Linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: policy
-    description: Activity policy.
-    types:
-    - uid: ActivityPolicy
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: WebActivity
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: LookupActivity
-  description: Lookup activity.
-  kind: object
-  properties:
-  - name: typeProperties.source
-    description: Dataset-specific source properties, same as copy activity source.
-    types:
-    - uid: CopySource
-  - name: typeProperties.dataset
-    description: Lookup activity dataset reference.
-    types:
-    - uid: DatasetReference
-  - name: typeProperties.firstRowOnly
-    description: 'Whether to return first row or all rows. Default value is true. Type: boolean (or Expression with resultType boolean).'
-    types:
-    - uid: object
-  - name: linkedServiceName
-    description: Linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: policy
-    description: Activity policy.
-    types:
-    - uid: ActivityPolicy
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: Lookup
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: AzureDataExplorerCommandActivity
-  description: Azure Data Explorer command activity.
-  kind: object
-  properties:
-  - name: typeProperties.command
-    description: 'A control command, according to the Azure Data Explorer command syntax. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.commandTimeout
-    description: 'Control command timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9]))..)'
-    types:
-    - uid: object
-  - name: linkedServiceName
-    description: Linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: policy
-    description: Activity policy.
-    types:
-    - uid: ActivityPolicy
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: AzureDataExplorerCommand
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: DeleteActivity
-  description: Delete activity.
-  kind: object
-  properties:
-  - name: typeProperties.recursive
-    description: 'If true, files or sub-folders under current folder path will be deleted recursively. Default is false. Type: boolean (or Expression with resultType boolean).'
-    types:
-    - uid: object
-  - name: typeProperties.maxConcurrentConnections
-    description: The max concurrent connections to connect data source at the same time.
+  - name: typeProperties.queryTimeout
+    description: Query timeout value (in minutes).  Effective when the HDInsight cluster is with ESP (Enterprise Security Package)
     types:
     - uid: integer
-  - name: typeProperties.enableLogging
-    description: 'Whether to record detailed logs of delete-activity execution. Default value is false. Type: boolean (or Expression with resultType boolean).'
-    types:
-    - uid: object
-  - name: typeProperties.logStorageSettings
-    description: Log storage settings customer need to provide when enableLogging is true.
-    types:
-    - uid: LogStorageSettings
-  - name: typeProperties.dataset
-    description: Delete activity dataset reference.
-    types:
-    - uid: DatasetReference
-  - name: typeProperties.storeSettings
-    description: Delete activity store settings.
-    types:
-    - uid: StoreReadSettings
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1969,7 +564,7 @@ definitions:
   - name: type
     description: Type of activity.
     types:
-    - uid: Delete
+    - uid: HDInsightHive
     typesTitle: string
   - name: description
     description: Activity description.
@@ -1985,89 +580,39 @@ definitions:
     types:
     - uid: UserProperty
       isArray: true
-- name: SqlServerStoredProcedureActivity
-  description: SQL stored procedure activity type.
+- name: HDInsightPigActivity
+  description: HDInsight Pig activity type.
   kind: object
   properties:
-  - name: typeProperties.storedProcedureName
-    description: 'Stored procedure name. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.storedProcedureParameters
-    description: 'Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}".'
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: StoredProcedureParameter
-  - name: linkedServiceName
-    description: Linked service reference.
+  - name: typeProperties.storageLinkedServices
+    description: Storage linked service references.
     types:
     - uid: LinkedServiceReference
-  - name: policy
-    description: Activity policy.
-    types:
-    - uid: ActivityPolicy
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: SqlServerStoredProcedure
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
       isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: CustomActivity
-  description: Custom activity type.
-  kind: object
-  properties:
-  - name: typeProperties.command
-    description: 'Command for custom activity Type: string (or Expression with resultType string).'
+  - name: typeProperties.arguments
+    description: 'User specified arguments to HDInsightActivity. Type: array (or Expression with resultType array).'
     types:
     - uid: object
-  - name: typeProperties.resourceLinkedService
-    description: Resource linked service reference.
+  - name: typeProperties.getDebugInfo
+    description: Debug info option.
+    types:
+    - uid: HDInsightActivityDebugInfoOption
+  - name: typeProperties.scriptPath
+    description: 'Script path. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.scriptLinkedService
+    description: Script linked service reference.
     types:
     - uid: LinkedServiceReference
-  - name: typeProperties.folderPath
-    description: 'Folder path for resource files Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.referenceObjects
-    description: Reference objects
-    types:
-    - uid: CustomActivityReferenceObject
-  - name: typeProperties.extendedProperties
-    description: User defined property bag. There is no restriction on the keys or values that can be used. The user specified custom activity has the full responsibility to consume and interpret the content defined.
+  - name: typeProperties.defines
+    description: Allows user to specify defines for Pig job request.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: object
-  - name: typeProperties.retentionTimeInDays
-    description: 'The retention time for the files submitted for custom activity. Type: double (or Expression with resultType double).'
-    types:
-    - uid: object
-  - name: typeProperties.autoUserSpecification
-    description: 'Elevation level and scope for the user, default is nonadmin task. Type: string (or Expression with resultType double).'
-    types:
-    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -2083,7 +628,244 @@ definitions:
   - name: type
     description: Type of activity.
     types:
-    - uid: Custom
+    - uid: HDInsightPig
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: HDInsightMapReduceActivity
+  description: HDInsight MapReduce activity type.
+  kind: object
+  properties:
+  - name: typeProperties.storageLinkedServices
+    description: Storage linked service references.
+    types:
+    - uid: LinkedServiceReference
+      isArray: true
+  - name: typeProperties.arguments
+    description: User specified arguments to HDInsightActivity.
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.getDebugInfo
+    description: Debug info option.
+    types:
+    - uid: HDInsightActivityDebugInfoOption
+  - name: typeProperties.className
+    description: 'Class name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.jarFilePath
+    description: 'Jar path. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.jarLinkedService
+    description: Jar linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: typeProperties.jarLibs
+    description: Jar libs.
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.defines
+    description: Allows user to specify defines for the MapReduce job request.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: HDInsightMapReduce
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: HDInsightStreamingActivity
+  description: HDInsight streaming activity type.
+  kind: object
+  properties:
+  - name: typeProperties.storageLinkedServices
+    description: Storage linked service references.
+    types:
+    - uid: LinkedServiceReference
+      isArray: true
+  - name: typeProperties.arguments
+    description: User specified arguments to HDInsightActivity.
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.getDebugInfo
+    description: Debug info option.
+    types:
+    - uid: HDInsightActivityDebugInfoOption
+  - name: typeProperties.mapper
+    description: 'Mapper executable name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.reducer
+    description: 'Reducer executable name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.input
+    description: 'Input blob path. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.output
+    description: 'Output blob path. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.filePaths
+    description: Paths to streaming job files. Can be directories.
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.fileLinkedService
+    description: Linked service reference where the files are located.
+    types:
+    - uid: LinkedServiceReference
+  - name: typeProperties.combiner
+    description: 'Combiner executable name. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.commandEnvironment
+    description: Command line environment values.
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.defines
+    description: Allows user to specify defines for streaming job request.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: HDInsightStreaming
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: HDInsightSparkActivity
+  description: HDInsight Spark activity.
+  kind: object
+  properties:
+  - name: typeProperties.rootPath
+    description: "The root path in 'sparkJobLinkedService' for all the job’s files. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
+  - name: typeProperties.entryFilePath
+    description: 'The relative path to the root folder of the code/package to be executed. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.arguments
+    description: The user-specified arguments to HDInsightSparkActivity.
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.getDebugInfo
+    description: Debug info option.
+    types:
+    - uid: HDInsightActivityDebugInfoOption
+  - name: typeProperties.sparkJobLinkedService
+    description: The storage linked service for uploading the entry file and dependencies, and for receiving logs.
+    types:
+    - uid: LinkedServiceReference
+  - name: typeProperties.className
+    description: The application's Java/Spark main class.
+    types:
+    - uid: string
+  - name: typeProperties.proxyUser
+    description: 'The user to impersonate that will execute the job. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.sparkConfig
+    description: Spark configuration property.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: HDInsightSpark
     typesTitle: string
   - name: description
     description: Activity description.
@@ -2202,47 +984,42 @@ definitions:
     types:
     - uid: UserProperty
       isArray: true
-- name: HDInsightSparkActivity
-  description: HDInsight Spark activity.
+- name: CustomActivity
+  description: Custom activity type.
   kind: object
   properties:
-  - name: typeProperties.rootPath
-    description: "The root path in 'sparkJobLinkedService' for all the job’s files. Type: string (or Expression with resultType string)."
+  - name: typeProperties.command
+    description: 'Command for custom activity Type: string (or Expression with resultType string).'
     types:
     - uid: object
-  - name: typeProperties.entryFilePath
-    description: 'The relative path to the root folder of the code/package to be executed. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.arguments
-    description: The user-specified arguments to HDInsightSparkActivity.
-    types:
-    - uid: object
-      isArray: true
-  - name: typeProperties.getDebugInfo
-    description: Debug info option.
-    types:
-    - uid: HDInsightActivityDebugInfoOption
-  - name: typeProperties.sparkJobLinkedService
-    description: The storage linked service for uploading the entry file and dependencies, and for receiving logs.
+  - name: typeProperties.resourceLinkedService
+    description: Resource linked service reference.
     types:
     - uid: LinkedServiceReference
-  - name: typeProperties.className
-    description: The application's Java/Spark main class.
-    types:
-    - uid: string
-  - name: typeProperties.proxyUser
-    description: 'The user to impersonate that will execute the job. Type: string (or Expression with resultType string).'
+  - name: typeProperties.folderPath
+    description: 'Folder path for resource files Type: string (or Expression with resultType string).'
     types:
     - uid: object
-  - name: typeProperties.sparkConfig
-    description: Spark configuration property.
+  - name: typeProperties.referenceObjects
+    description: Reference objects
+    types:
+    - uid: CustomActivityReferenceObject
+  - name: typeProperties.extendedProperties
+    description: User defined property bag. There is no restriction on the keys or values that can be used. The user specified custom activity has the full responsibility to consume and interpret the content defined.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: object
+  - name: typeProperties.retentionTimeInDays
+    description: 'The retention time for the files submitted for custom activity. Type: double (or Expression with resultType double).'
+    types:
+    - uid: object
+  - name: typeProperties.autoUserSpecification
+    description: 'Elevation level and scope for the user, default is nonadmin task. Type: string (or Expression with resultType double).'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -2258,7 +1035,7 @@ definitions:
   - name: type
     description: Type of activity.
     types:
-    - uid: HDInsightSpark
+    - uid: Custom
     typesTitle: string
   - name: description
     description: Activity description.
@@ -2274,66 +1051,22 @@ definitions:
     types:
     - uid: UserProperty
       isArray: true
-- name: HDInsightStreamingActivity
-  description: HDInsight streaming activity type.
+- name: SqlServerStoredProcedureActivity
+  description: SQL stored procedure activity type.
   kind: object
   properties:
-  - name: typeProperties.storageLinkedServices
-    description: Storage linked service references.
-    types:
-    - uid: LinkedServiceReference
-      isArray: true
-  - name: typeProperties.arguments
-    description: User specified arguments to HDInsightActivity.
+  - name: typeProperties.storedProcedureName
+    description: 'Stored procedure name. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-      isArray: true
-  - name: typeProperties.getDebugInfo
-    description: Debug info option.
-    types:
-    - uid: HDInsightActivityDebugInfoOption
-  - name: typeProperties.mapper
-    description: 'Mapper executable name. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.reducer
-    description: 'Reducer executable name. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.input
-    description: 'Input blob path. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.output
-    description: 'Output blob path. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.filePaths
-    description: Paths to streaming job files. Can be directories.
-    types:
-    - uid: object
-      isArray: true
-  - name: typeProperties.fileLinkedService
-    description: Linked service reference where the files are located.
-    types:
-    - uid: LinkedServiceReference
-  - name: typeProperties.combiner
-    description: 'Combiner executable name. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.commandEnvironment
-    description: Command line environment values.
-    types:
-    - uid: object
-      isArray: true
-  - name: typeProperties.defines
-    description: Allows user to specify defines for streaming job request.
+  - name: typeProperties.storedProcedureParameters
+    description: 'Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}".'
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
-      - uid: object
+      - uid: StoredProcedureParameter
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -2349,7 +1082,7 @@ definitions:
   - name: type
     description: Type of activity.
     types:
-    - uid: HDInsightStreaming
+    - uid: SqlServerStoredProcedure
     typesTitle: string
   - name: description
     description: Activity description.
@@ -2365,187 +1098,34 @@ definitions:
     types:
     - uid: UserProperty
       isArray: true
-- name: HDInsightMapReduceActivity
-  description: HDInsight MapReduce activity type.
+- name: DeleteActivity
+  description: Delete activity.
   kind: object
   properties:
-  - name: typeProperties.storageLinkedServices
-    description: Storage linked service references.
-    types:
-    - uid: LinkedServiceReference
-      isArray: true
-  - name: typeProperties.arguments
-    description: User specified arguments to HDInsightActivity.
+  - name: typeProperties.recursive
+    description: 'If true, files or sub-folders under current folder path will be deleted recursively. Default is false. Type: boolean (or Expression with resultType boolean).'
     types:
     - uid: object
-      isArray: true
-  - name: typeProperties.getDebugInfo
-    description: Debug info option.
-    types:
-    - uid: HDInsightActivityDebugInfoOption
-  - name: typeProperties.className
-    description: 'Class name. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.jarFilePath
-    description: 'Jar path. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.jarLinkedService
-    description: Jar linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: typeProperties.jarLibs
-    description: Jar libs.
-    types:
-    - uid: object
-      isArray: true
-  - name: typeProperties.defines
-    description: Allows user to specify defines for the MapReduce job request.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-  - name: linkedServiceName
-    description: Linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: policy
-    description: Activity policy.
-    types:
-    - uid: ActivityPolicy
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: HDInsightMapReduce
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: HDInsightPigActivity
-  description: HDInsight Pig activity type.
-  kind: object
-  properties:
-  - name: typeProperties.storageLinkedServices
-    description: Storage linked service references.
-    types:
-    - uid: LinkedServiceReference
-      isArray: true
-  - name: typeProperties.arguments
-    description: 'User specified arguments to HDInsightActivity. Type: array (or Expression with resultType array).'
-    types:
-    - uid: object
-  - name: typeProperties.getDebugInfo
-    description: Debug info option.
-    types:
-    - uid: HDInsightActivityDebugInfoOption
-  - name: typeProperties.scriptPath
-    description: 'Script path. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.scriptLinkedService
-    description: Script linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: typeProperties.defines
-    description: Allows user to specify defines for Pig job request.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-  - name: linkedServiceName
-    description: Linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: policy
-    description: Activity policy.
-    types:
-    - uid: ActivityPolicy
-  - name: name
-    description: Activity name.
-    types:
-    - uid: string
-  - name: type
-    description: Type of activity.
-    types:
-    - uid: HDInsightPig
-    typesTitle: string
-  - name: description
-    description: Activity description.
-    types:
-    - uid: string
-  - name: dependsOn
-    description: Activity depends on condition.
-    types:
-    - uid: ActivityDependency
-      isArray: true
-  - name: userProperties
-    description: Activity user properties.
-    types:
-    - uid: UserProperty
-      isArray: true
-- name: HDInsightHiveActivity
-  description: HDInsight Hive activity type.
-  kind: object
-  properties:
-  - name: typeProperties.storageLinkedServices
-    description: Storage linked service references.
-    types:
-    - uid: LinkedServiceReference
-      isArray: true
-  - name: typeProperties.arguments
-    description: User specified arguments to HDInsightActivity.
-    types:
-    - uid: object
-      isArray: true
-  - name: typeProperties.getDebugInfo
-    description: Debug info option.
-    types:
-    - uid: HDInsightActivityDebugInfoOption
-  - name: typeProperties.scriptPath
-    description: 'Script path. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: typeProperties.scriptLinkedService
-    description: Script linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: typeProperties.defines
-    description: Allows user to specify defines for Hive job request.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-  - name: typeProperties.variables
-    description: User specified arguments under hivevar namespace.
-    types:
-    - uid: object
-      isArray: true
-  - name: typeProperties.queryTimeout
-    description: Query timeout value (in minutes).  Effective when the HDInsight cluster is with ESP (Enterprise Security Package)
+  - name: typeProperties.maxConcurrentConnections
+    description: The max concurrent connections to connect data source at the same time.
     types:
     - uid: integer
+  - name: typeProperties.enableLogging
+    description: 'Whether to record detailed logs of delete-activity execution. Default value is false. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: typeProperties.logStorageSettings
+    description: Log storage settings customer need to provide when enableLogging is true.
+    types:
+    - uid: LogStorageSettings
+  - name: typeProperties.dataset
+    description: Delete activity dataset reference.
+    types:
+    - uid: DatasetReference
+  - name: typeProperties.storeSettings
+    description: Delete activity store settings.
+    types:
+    - uid: StoreReadSettings
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -2561,7 +1141,7 @@ definitions:
   - name: type
     description: Type of activity.
     types:
-    - uid: HDInsightHive
+    - uid: Delete
     typesTitle: string
   - name: description
     description: Activity description.
@@ -2577,82 +1157,18 @@ definitions:
     types:
     - uid: UserProperty
       isArray: true
-- name: CopyActivity
-  description: Copy activity.
+- name: AzureDataExplorerCommandActivity
+  description: Azure Data Explorer command activity.
   kind: object
   properties:
-  - name: inputs
-    description: List of inputs for the activity.
-    types:
-    - uid: DatasetReference
-      isArray: true
-  - name: outputs
-    description: List of outputs for the activity.
-    types:
-    - uid: DatasetReference
-      isArray: true
-  - name: typeProperties.source
-    description: Copy activity source.
-    types:
-    - uid: CopySource
-  - name: typeProperties.sink
-    description: Copy activity sink.
-    types:
-    - uid: CopySink
-  - name: typeProperties.translator
-    description: Copy activity translator. If not specified, tabular translator is used.
+  - name: typeProperties.command
+    description: 'A control command, according to the Azure Data Explorer command syntax. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-  - name: typeProperties.enableStaging
-    description: 'Specifies whether to copy data via an interim staging. Default value is false. Type: boolean (or Expression with resultType boolean).'
+  - name: typeProperties.commandTimeout
+    description: 'Control command timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9]))..)'
     types:
     - uid: object
-  - name: typeProperties.stagingSettings
-    description: Specifies interim staging settings when EnableStaging is true.
-    types:
-    - uid: StagingSettings
-  - name: typeProperties.parallelCopies
-    description: 'Maximum number of concurrent sessions opened on the source or sink to avoid overloading the data store. Type: integer (or Expression with resultType integer), minimum: 0.'
-    types:
-    - uid: object
-  - name: typeProperties.dataIntegrationUnits
-    description: 'Maximum number of data integration units that can be used to perform this data movement. Type: integer (or Expression with resultType integer), minimum: 0.'
-    types:
-    - uid: object
-  - name: typeProperties.enableSkipIncompatibleRow
-    description: 'Whether to skip incompatible row. Default value is false. Type: boolean (or Expression with resultType boolean).'
-    types:
-    - uid: object
-  - name: typeProperties.redirectIncompatibleRowSettings
-    description: Redirect incompatible row settings when EnableSkipIncompatibleRow is true.
-    types:
-    - uid: RedirectIncompatibleRowSettings
-  - name: typeProperties.logStorageSettings
-    description: (Deprecated. Please use LogSettings) Log storage settings customer need to provide when enabling session log.
-    types:
-    - uid: LogStorageSettings
-  - name: typeProperties.logSettings
-    description: Log settings customer needs provide when enabling log.
-    types:
-    - uid: LogSettings
-  - name: typeProperties.preserveRules
-    description: Preserve Rules.
-    types:
-    - uid: object
-      isArray: true
-  - name: typeProperties.preserve
-    description: Preserve rules.
-    types:
-    - uid: object
-      isArray: true
-  - name: typeProperties.validateDataConsistency
-    description: 'Whether to enable Data Consistency validation. Type: boolean (or Expression with resultType boolean).'
-    types:
-    - uid: object
-  - name: typeProperties.skipErrorFile
-    description: Specify the fault tolerance for data consistency.
-    types:
-    - uid: SkipErrorFile
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -2668,7 +1184,1491 @@ definitions:
   - name: type
     description: Type of activity.
     types:
-    - uid: Copy
+    - uid: AzureDataExplorerCommand
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: LookupActivity
+  description: Lookup activity.
+  kind: object
+  properties:
+  - name: typeProperties.source
+    description: Dataset-specific source properties, same as copy activity source.
+    types:
+    - uid: CopySource
+  - name: typeProperties.dataset
+    description: Lookup activity dataset reference.
+    types:
+    - uid: DatasetReference
+  - name: typeProperties.firstRowOnly
+    description: 'Whether to return first row or all rows. Default value is true. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Lookup
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: WebActivity
+  description: Web activity.
+  kind: object
+  properties:
+  - name: typeProperties.method
+    description: Rest API method for target endpoint.
+    types:
+    - uid: WebActivityMethod
+  - name: typeProperties.url
+    description: 'Web activity target endpoint and path. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.headers
+    description: 'Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.body
+    description: 'Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.authentication
+    description: Authentication method used for calling the endpoint.
+    types:
+    - uid: WebActivityAuthentication
+  - name: typeProperties.datasets
+    description: List of datasets passed to web endpoint.
+    types:
+    - uid: DatasetReference
+      isArray: true
+  - name: typeProperties.linkedServices
+    description: List of linked services passed to web endpoint.
+    types:
+    - uid: LinkedServiceReference
+      isArray: true
+  - name: typeProperties.connectVia
+    description: The integration runtime reference.
+    types:
+    - uid: IntegrationRuntimeReference
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: WebActivity
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: GetMetadataActivity
+  description: Activity to get metadata of dataset
+  kind: object
+  properties:
+  - name: typeProperties.dataset
+    description: GetMetadata activity dataset reference.
+    types:
+    - uid: DatasetReference
+  - name: typeProperties.fieldList
+    description: Fields of metadata to get from dataset.
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.storeSettings
+    description: GetMetadata activity store settings.
+    types:
+    - uid: StoreReadSettings
+  - name: typeProperties.formatSettings
+    description: GetMetadata activity format settings.
+    types:
+    - uid: FormatReadSettings
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: GetMetadata
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: AzureMLBatchExecutionActivity
+  description: Azure ML Batch Execution activity.
+  kind: object
+  properties:
+  - name: typeProperties.globalParameters
+    description: Key,Value pairs to be passed to the Azure ML Batch Execution Service endpoint. Keys must match the names of web service parameters defined in the published Azure ML web service. Values will be passed in the GlobalParameters property of the Azure ML batch execution request.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.webServiceOutputs
+    description: Key,Value pairs, mapping the names of Azure ML endpoint's Web Service Outputs to AzureMLWebServiceFile objects specifying the output Blob locations. This information will be passed in the WebServiceOutputs property of the Azure ML batch execution request.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AzureMLWebServiceFile
+  - name: typeProperties.webServiceInputs
+    description: Key,Value pairs, mapping the names of Azure ML endpoint's Web Service Inputs to AzureMLWebServiceFile objects specifying the input Blob locations.. This information will be passed in the WebServiceInputs property of the Azure ML batch execution request.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AzureMLWebServiceFile
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: AzureMLBatchExecution
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: AzureMLUpdateResourceActivity
+  description: Azure ML Update Resource management activity.
+  kind: object
+  properties:
+  - name: typeProperties.trainedModelName
+    description: 'Name of the Trained Model module in the Web Service experiment to be updated. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.trainedModelLinkedServiceName
+    description: Name of Azure Storage linked service holding the .ilearner file that will be uploaded by the update operation.
+    types:
+    - uid: LinkedServiceReference
+  - name: typeProperties.trainedModelFilePath
+    description: 'The relative file path in trainedModelLinkedService to represent the .ilearner file that will be uploaded by the update operation.  Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: AzureMLUpdateResource
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: AzureMLExecutePipelineActivity
+  description: Azure ML Execute Pipeline activity.
+  kind: object
+  properties:
+  - name: typeProperties.mlPipelineId
+    description: 'ID of the published Azure ML pipeline. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.mlPipelineEndpointId
+    description: 'ID of the published Azure ML pipeline endpoint. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.version
+    description: 'Version of the published Azure ML pipeline endpoint. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.experimentName
+    description: 'Run history experiment name of the pipeline run. This information will be passed in the ExperimentName property of the published pipeline execution request. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.mlPipelineParameters
+    description: 'Key,Value pairs to be passed to the published Azure ML pipeline endpoint. Keys must match the names of pipeline parameters defined in the published pipeline. Values will be passed in the ParameterAssignments property of the published pipeline execution request. Type: object with key value pairs (or Expression with resultType object).'
+    types:
+    - uid: object
+  - name: typeProperties.dataPathAssignments
+    description: 'Dictionary used for changing data path assignments without retraining. Values will be passed in the dataPathAssignments property of the published pipeline execution request. Type: object with key value pairs (or Expression with resultType object).'
+    types:
+    - uid: object
+  - name: typeProperties.mlParentRunId
+    description: 'The parent Azure ML Service pipeline run id. This information will be passed in the ParentRunId property of the published pipeline execution request. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.continueOnStepFailure
+    description: 'Whether to continue execution of other steps in the PipelineRun if a step fails. This information will be passed in the continueOnStepFailure property of the published pipeline execution request. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: AzureMLExecutePipeline
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: DataLakeAnalyticsUSQLActivity
+  description: Data Lake Analytics U-SQL activity.
+  kind: object
+  properties:
+  - name: typeProperties.scriptPath
+    description: 'Case-sensitive path to folder that contains the U-SQL script. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.scriptLinkedService
+    description: Script linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: typeProperties.degreeOfParallelism
+    description: 'The maximum number of nodes simultaneously used to run the job. Default value is 1. Type: integer (or Expression with resultType integer), minimum: 1.'
+    types:
+    - uid: object
+  - name: typeProperties.priority
+    description: 'Determines which jobs out of all that are queued should be selected to run first. The lower the number, the higher the priority. Default value is 1000. Type: integer (or Expression with resultType integer), minimum: 1.'
+    types:
+    - uid: object
+  - name: typeProperties.parameters
+    description: Parameters for U-SQL job request.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.runtimeVersion
+    description: 'Runtime version of the U-SQL engine to use. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.compilationMode
+    description: 'Compilation mode of U-SQL. Must be one of these values : Semantic, Full and SingleBox. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: DataLakeAnalyticsU-SQL
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: DatabricksNotebookActivity
+  description: DatabricksNotebook activity.
+  kind: object
+  properties:
+  - name: typeProperties.notebookPath
+    description: 'The absolute path of the notebook to be run in the Databricks Workspace. This path must begin with a slash. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.baseParameters
+    description: Base parameters to be used for each run of this job.If the notebook takes a parameter that is not specified, the default value from the notebook will be used.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.libraries
+    description: A list of libraries to be installed on the cluster that will execute the job.
+    types:
+    - uid: object
+      isArray: true
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: DatabricksNotebook
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: DatabricksSparkJarActivity
+  description: DatabricksSparkJar activity.
+  kind: object
+  properties:
+  - name: typeProperties.mainClassName
+    description: 'The full name of the class containing the main method to be executed. This class must be contained in a JAR provided as a library. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.parameters
+    description: Parameters that will be passed to the main method.
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.libraries
+    description: A list of libraries to be installed on the cluster that will execute the job.
+    types:
+    - uid: object
+      isArray: true
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: DatabricksSparkJar
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: DatabricksSparkPythonActivity
+  description: DatabricksSparkPython activity.
+  kind: object
+  properties:
+  - name: typeProperties.pythonFile
+    description: 'The URI of the Python file to be executed. DBFS paths are supported. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.parameters
+    description: Command line parameters that will be passed to the Python file.
+    types:
+    - uid: object
+      isArray: true
+  - name: typeProperties.libraries
+    description: A list of libraries to be installed on the cluster that will execute the job.
+    types:
+    - uid: object
+      isArray: true
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: DatabricksSparkPython
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: AzureFunctionActivity
+  description: Azure Function activity.
+  kind: object
+  properties:
+  - name: typeProperties.method
+    description: Rest API method for target endpoint.
+    types:
+    - uid: AzureFunctionActivityMethod
+  - name: typeProperties.functionName
+    description: 'Name of the Function that the Azure Function Activity will call. Type: string (or Expression with resultType string)'
+    types:
+    - uid: object
+  - name: typeProperties.headers
+    description: 'Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.body
+    description: 'Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: AzureFunctionActivity
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: ExecuteDataFlowActivity
+  description: Execute data flow activity.
+  kind: object
+  properties:
+  - name: typeProperties.dataFlow
+    description: Data flow reference.
+    types:
+    - uid: DataFlowReference
+  - name: typeProperties.staging
+    description: Staging info for execute data flow activity.
+    types:
+    - uid: DataFlowStagingInfo
+  - name: typeProperties.integrationRuntime
+    description: The integration runtime reference.
+    types:
+    - uid: IntegrationRuntimeReference
+  - name: typeProperties.compute
+    description: Compute properties for data flow activity.
+    types:
+    - uid: Compute
+  - name: typeProperties.traceLevel
+    description: "Trace level setting used for data flow monitoring output. Supported values are: 'coarse', 'fine', and 'none'. Type: string (or Expression with resultType string)"
+    types:
+    - uid: object
+  - name: typeProperties.continueOnError
+    description: 'Continue on error setting used for data flow execution. Enables processing to continue if a sink fails. Type: boolean (or Expression with resultType boolean)'
+    types:
+    - uid: object
+  - name: typeProperties.runConcurrently
+    description: 'Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean)'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: policy
+    description: Activity policy.
+    types:
+    - uid: ActivityPolicy
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: ExecuteDataFlow
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: ExecutePipelineActivity
+  description: Execute pipeline activity.
+  kind: object
+  properties:
+  - name: typeProperties.pipeline
+    description: Pipeline reference.
+    types:
+    - uid: PipelineReference
+  - name: typeProperties.parameters
+    description: Pipeline parameters.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: typeProperties.waitOnCompletion
+    description: Defines whether activity execution will wait for the dependent pipeline execution to finish. Default is false.
+    types:
+    - uid: boolean
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: ExecutePipeline
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: IfConditionActivity
+  description: This activity evaluates a boolean expression and executes either the activities under the ifTrueActivities property or the ifFalseActivities property depending on the result of the expression.
+  kind: object
+  properties:
+  - name: typeProperties.expression
+    description: An expression that would evaluate to Boolean. This is used to determine the block of activities (ifTrueActivities or ifFalseActivities) that will be executed.
+    types:
+    - uid: Expression
+  - name: typeProperties.ifTrueActivities
+    description: List of activities to execute if expression is evaluated to true. This is an optional property and if not provided, the activity will exit without any action.
+    types:
+    - uid: ControlActivity
+      isArray: true
+    - uid: ExecutionActivity
+      isArray: true
+    - uid: ExecuteWranglingDataflowActivity
+      isArray: true
+    - uid: CopyActivity
+      isArray: true
+    - uid: HDInsightHiveActivity
+      isArray: true
+    - uid: HDInsightPigActivity
+      isArray: true
+    - uid: HDInsightMapReduceActivity
+      isArray: true
+    - uid: HDInsightStreamingActivity
+      isArray: true
+    - uid: HDInsightSparkActivity
+      isArray: true
+    - uid: ExecuteSSISPackageActivity
+      isArray: true
+    - uid: CustomActivity
+      isArray: true
+    - uid: SqlServerStoredProcedureActivity
+      isArray: true
+    - uid: DeleteActivity
+      isArray: true
+    - uid: AzureDataExplorerCommandActivity
+      isArray: true
+    - uid: LookupActivity
+      isArray: true
+    - uid: WebActivity
+      isArray: true
+    - uid: GetMetadataActivity
+      isArray: true
+    - uid: AzureMLBatchExecutionActivity
+      isArray: true
+    - uid: AzureMLUpdateResourceActivity
+      isArray: true
+    - uid: AzureMLExecutePipelineActivity
+      isArray: true
+    - uid: DataLakeAnalyticsUSQLActivity
+      isArray: true
+    - uid: DatabricksNotebookActivity
+      isArray: true
+    - uid: DatabricksSparkJarActivity
+      isArray: true
+    - uid: DatabricksSparkPythonActivity
+      isArray: true
+    - uid: AzureFunctionActivity
+      isArray: true
+    - uid: ExecuteDataFlowActivity
+      isArray: true
+    - uid: ExecutePipelineActivity
+      isArray: true
+    - uid: IfConditionActivity
+      isArray: true
+    - uid: SwitchActivity
+      isArray: true
+    - uid: ForEachActivity
+      isArray: true
+    - uid: WaitActivity
+      isArray: true
+    - uid: UntilActivity
+      isArray: true
+    - uid: ValidationActivity
+      isArray: true
+    - uid: FilterActivity
+      isArray: true
+    - uid: SetVariableActivity
+      isArray: true
+    - uid: AppendVariableActivity
+      isArray: true
+    - uid: WebHookActivity
+      isArray: true
+    typesTitle: Activity[]
+  - name: typeProperties.ifFalseActivities
+    description: List of activities to execute if expression is evaluated to false. This is an optional property and if not provided, the activity will exit without any action.
+    types:
+    - uid: ControlActivity
+      isArray: true
+    - uid: ExecutionActivity
+      isArray: true
+    - uid: ExecuteWranglingDataflowActivity
+      isArray: true
+    - uid: CopyActivity
+      isArray: true
+    - uid: HDInsightHiveActivity
+      isArray: true
+    - uid: HDInsightPigActivity
+      isArray: true
+    - uid: HDInsightMapReduceActivity
+      isArray: true
+    - uid: HDInsightStreamingActivity
+      isArray: true
+    - uid: HDInsightSparkActivity
+      isArray: true
+    - uid: ExecuteSSISPackageActivity
+      isArray: true
+    - uid: CustomActivity
+      isArray: true
+    - uid: SqlServerStoredProcedureActivity
+      isArray: true
+    - uid: DeleteActivity
+      isArray: true
+    - uid: AzureDataExplorerCommandActivity
+      isArray: true
+    - uid: LookupActivity
+      isArray: true
+    - uid: WebActivity
+      isArray: true
+    - uid: GetMetadataActivity
+      isArray: true
+    - uid: AzureMLBatchExecutionActivity
+      isArray: true
+    - uid: AzureMLUpdateResourceActivity
+      isArray: true
+    - uid: AzureMLExecutePipelineActivity
+      isArray: true
+    - uid: DataLakeAnalyticsUSQLActivity
+      isArray: true
+    - uid: DatabricksNotebookActivity
+      isArray: true
+    - uid: DatabricksSparkJarActivity
+      isArray: true
+    - uid: DatabricksSparkPythonActivity
+      isArray: true
+    - uid: AzureFunctionActivity
+      isArray: true
+    - uid: ExecuteDataFlowActivity
+      isArray: true
+    - uid: ExecutePipelineActivity
+      isArray: true
+    - uid: IfConditionActivity
+      isArray: true
+    - uid: SwitchActivity
+      isArray: true
+    - uid: ForEachActivity
+      isArray: true
+    - uid: WaitActivity
+      isArray: true
+    - uid: UntilActivity
+      isArray: true
+    - uid: ValidationActivity
+      isArray: true
+    - uid: FilterActivity
+      isArray: true
+    - uid: SetVariableActivity
+      isArray: true
+    - uid: AppendVariableActivity
+      isArray: true
+    - uid: WebHookActivity
+      isArray: true
+    typesTitle: Activity[]
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: IfCondition
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: SwitchActivity
+  description: This activity evaluates an expression and executes activities under the cases property that correspond to the expression evaluation expected in the equals property.
+  kind: object
+  properties:
+  - name: typeProperties.on
+    description: An expression that would evaluate to a string or integer. This is used to determine the block of activities in cases that will be executed.
+    types:
+    - uid: Expression
+  - name: typeProperties.cases
+    description: List of cases that correspond to expected values of the 'on' property. This is an optional property and if not provided, the activity will execute activities provided in defaultActivities.
+    types:
+    - uid: SwitchCase
+      isArray: true
+  - name: typeProperties.defaultActivities
+    description: List of activities to execute if no case condition is satisfied. This is an optional property and if not provided, the activity will exit without any action.
+    types:
+    - uid: ControlActivity
+      isArray: true
+    - uid: ExecutionActivity
+      isArray: true
+    - uid: ExecuteWranglingDataflowActivity
+      isArray: true
+    - uid: CopyActivity
+      isArray: true
+    - uid: HDInsightHiveActivity
+      isArray: true
+    - uid: HDInsightPigActivity
+      isArray: true
+    - uid: HDInsightMapReduceActivity
+      isArray: true
+    - uid: HDInsightStreamingActivity
+      isArray: true
+    - uid: HDInsightSparkActivity
+      isArray: true
+    - uid: ExecuteSSISPackageActivity
+      isArray: true
+    - uid: CustomActivity
+      isArray: true
+    - uid: SqlServerStoredProcedureActivity
+      isArray: true
+    - uid: DeleteActivity
+      isArray: true
+    - uid: AzureDataExplorerCommandActivity
+      isArray: true
+    - uid: LookupActivity
+      isArray: true
+    - uid: WebActivity
+      isArray: true
+    - uid: GetMetadataActivity
+      isArray: true
+    - uid: AzureMLBatchExecutionActivity
+      isArray: true
+    - uid: AzureMLUpdateResourceActivity
+      isArray: true
+    - uid: AzureMLExecutePipelineActivity
+      isArray: true
+    - uid: DataLakeAnalyticsUSQLActivity
+      isArray: true
+    - uid: DatabricksNotebookActivity
+      isArray: true
+    - uid: DatabricksSparkJarActivity
+      isArray: true
+    - uid: DatabricksSparkPythonActivity
+      isArray: true
+    - uid: AzureFunctionActivity
+      isArray: true
+    - uid: ExecuteDataFlowActivity
+      isArray: true
+    - uid: ExecutePipelineActivity
+      isArray: true
+    - uid: IfConditionActivity
+      isArray: true
+    - uid: SwitchActivity
+      isArray: true
+    - uid: ForEachActivity
+      isArray: true
+    - uid: WaitActivity
+      isArray: true
+    - uid: UntilActivity
+      isArray: true
+    - uid: ValidationActivity
+      isArray: true
+    - uid: FilterActivity
+      isArray: true
+    - uid: SetVariableActivity
+      isArray: true
+    - uid: AppendVariableActivity
+      isArray: true
+    - uid: WebHookActivity
+      isArray: true
+    typesTitle: Activity[]
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Switch
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: ForEachActivity
+  description: This activity is used for iterating over a collection and execute given activities.
+  kind: object
+  properties:
+  - name: typeProperties.isSequential
+    description: Should the loop be executed in sequence or in parallel (max 50)
+    types:
+    - uid: boolean
+  - name: typeProperties.batchCount
+    description: Batch count to be used for controlling the number of parallel execution (when isSequential is set to false).
+    types:
+    - uid: integer
+  - name: typeProperties.items
+    description: Collection to iterate.
+    types:
+    - uid: Expression
+  - name: typeProperties.activities
+    description: List of activities to execute .
+    types:
+    - uid: ControlActivity
+      isArray: true
+    - uid: ExecutionActivity
+      isArray: true
+    - uid: ExecuteWranglingDataflowActivity
+      isArray: true
+    - uid: CopyActivity
+      isArray: true
+    - uid: HDInsightHiveActivity
+      isArray: true
+    - uid: HDInsightPigActivity
+      isArray: true
+    - uid: HDInsightMapReduceActivity
+      isArray: true
+    - uid: HDInsightStreamingActivity
+      isArray: true
+    - uid: HDInsightSparkActivity
+      isArray: true
+    - uid: ExecuteSSISPackageActivity
+      isArray: true
+    - uid: CustomActivity
+      isArray: true
+    - uid: SqlServerStoredProcedureActivity
+      isArray: true
+    - uid: DeleteActivity
+      isArray: true
+    - uid: AzureDataExplorerCommandActivity
+      isArray: true
+    - uid: LookupActivity
+      isArray: true
+    - uid: WebActivity
+      isArray: true
+    - uid: GetMetadataActivity
+      isArray: true
+    - uid: AzureMLBatchExecutionActivity
+      isArray: true
+    - uid: AzureMLUpdateResourceActivity
+      isArray: true
+    - uid: AzureMLExecutePipelineActivity
+      isArray: true
+    - uid: DataLakeAnalyticsUSQLActivity
+      isArray: true
+    - uid: DatabricksNotebookActivity
+      isArray: true
+    - uid: DatabricksSparkJarActivity
+      isArray: true
+    - uid: DatabricksSparkPythonActivity
+      isArray: true
+    - uid: AzureFunctionActivity
+      isArray: true
+    - uid: ExecuteDataFlowActivity
+      isArray: true
+    - uid: ExecutePipelineActivity
+      isArray: true
+    - uid: IfConditionActivity
+      isArray: true
+    - uid: SwitchActivity
+      isArray: true
+    - uid: ForEachActivity
+      isArray: true
+    - uid: WaitActivity
+      isArray: true
+    - uid: UntilActivity
+      isArray: true
+    - uid: ValidationActivity
+      isArray: true
+    - uid: FilterActivity
+      isArray: true
+    - uid: SetVariableActivity
+      isArray: true
+    - uid: AppendVariableActivity
+      isArray: true
+    - uid: WebHookActivity
+      isArray: true
+    typesTitle: Activity[]
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: ForEach
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: WaitActivity
+  description: This activity suspends pipeline execution for the specified interval.
+  kind: object
+  properties:
+  - name: typeProperties.waitTimeInSeconds
+    description: Duration in seconds.
+    types:
+    - uid: object
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Wait
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: UntilActivity
+  description: This activity executes inner activities until the specified boolean expression results to true or timeout is reached, whichever is earlier.
+  kind: object
+  properties:
+  - name: typeProperties.expression
+    description: An expression that would evaluate to Boolean. The loop will continue until this expression evaluates to true
+    types:
+    - uid: Expression
+  - name: typeProperties.timeout
+    description: 'Specifies the timeout for the activity to run. If there is no value specified, it takes the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: typeProperties.activities
+    description: List of activities to execute.
+    types:
+    - uid: ControlActivity
+      isArray: true
+    - uid: ExecutionActivity
+      isArray: true
+    - uid: ExecuteWranglingDataflowActivity
+      isArray: true
+    - uid: CopyActivity
+      isArray: true
+    - uid: HDInsightHiveActivity
+      isArray: true
+    - uid: HDInsightPigActivity
+      isArray: true
+    - uid: HDInsightMapReduceActivity
+      isArray: true
+    - uid: HDInsightStreamingActivity
+      isArray: true
+    - uid: HDInsightSparkActivity
+      isArray: true
+    - uid: ExecuteSSISPackageActivity
+      isArray: true
+    - uid: CustomActivity
+      isArray: true
+    - uid: SqlServerStoredProcedureActivity
+      isArray: true
+    - uid: DeleteActivity
+      isArray: true
+    - uid: AzureDataExplorerCommandActivity
+      isArray: true
+    - uid: LookupActivity
+      isArray: true
+    - uid: WebActivity
+      isArray: true
+    - uid: GetMetadataActivity
+      isArray: true
+    - uid: AzureMLBatchExecutionActivity
+      isArray: true
+    - uid: AzureMLUpdateResourceActivity
+      isArray: true
+    - uid: AzureMLExecutePipelineActivity
+      isArray: true
+    - uid: DataLakeAnalyticsUSQLActivity
+      isArray: true
+    - uid: DatabricksNotebookActivity
+      isArray: true
+    - uid: DatabricksSparkJarActivity
+      isArray: true
+    - uid: DatabricksSparkPythonActivity
+      isArray: true
+    - uid: AzureFunctionActivity
+      isArray: true
+    - uid: ExecuteDataFlowActivity
+      isArray: true
+    - uid: ExecutePipelineActivity
+      isArray: true
+    - uid: IfConditionActivity
+      isArray: true
+    - uid: SwitchActivity
+      isArray: true
+    - uid: ForEachActivity
+      isArray: true
+    - uid: WaitActivity
+      isArray: true
+    - uid: UntilActivity
+      isArray: true
+    - uid: ValidationActivity
+      isArray: true
+    - uid: FilterActivity
+      isArray: true
+    - uid: SetVariableActivity
+      isArray: true
+    - uid: AppendVariableActivity
+      isArray: true
+    - uid: WebHookActivity
+      isArray: true
+    typesTitle: Activity[]
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Until
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: ValidationActivity
+  description: This activity verifies that an external resource exists.
+  kind: object
+  properties:
+  - name: typeProperties.timeout
+    description: 'Specifies the timeout for the activity to run. If there is no value specified, it takes the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: object
+  - name: typeProperties.sleep
+    description: 'A delay in seconds between validation attempts. If no value is specified, 10 seconds will be used as the default. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: typeProperties.minimumSize
+    description: 'Can be used if dataset points to a file. The file must be greater than or equal in size to the value specified. Type: integer (or Expression with resultType integer).'
+    types:
+    - uid: object
+  - name: typeProperties.childItems
+    description: 'Can be used if dataset points to a folder. If set to true, the folder must have at least one file. If set to false, the folder must be empty. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: typeProperties.dataset
+    description: Validation activity dataset reference.
+    types:
+    - uid: DatasetReference
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Validation
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: FilterActivity
+  description: Filter and return results from input array based on the conditions.
+  kind: object
+  properties:
+  - name: typeProperties.items
+    description: Input array on which filter should be applied.
+    types:
+    - uid: Expression
+  - name: typeProperties.condition
+    description: Condition to be used for filtering the input.
+    types:
+    - uid: Expression
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Filter
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: SetVariableActivity
+  description: Set value for a Variable.
+  kind: object
+  properties:
+  - name: typeProperties.variableName
+    description: Name of the variable whose value needs to be set.
+    types:
+    - uid: string
+  - name: typeProperties.value
+    description: Value to be set. Could be a static value or Expression
+    types:
+    - uid: object
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: SetVariable
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: AppendVariableActivity
+  description: Append value for a Variable of type Array.
+  kind: object
+  properties:
+  - name: typeProperties.variableName
+    description: Name of the variable whose value needs to be appended to.
+    types:
+    - uid: string
+  - name: typeProperties.value
+    description: Value to be appended. Could be a static value or Expression
+    types:
+    - uid: object
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: AppendVariable
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: WebHookActivity
+  description: WebHook activity.
+  kind: object
+  properties:
+  - name: typeProperties.method
+    description: Rest API method for target endpoint.
+    types:
+    - uid: WebHookActivityMethod
+  - name: typeProperties.url
+    description: 'WebHook activity target endpoint and path. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.timeout
+    description: 'The timeout within which the webhook should be called back. If there is no value specified, it defaults to 10 minutes. Type: string. Pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
+    types:
+    - uid: string
+  - name: typeProperties.headers
+    description: 'Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.body
+    description: 'Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.authentication
+    description: Authentication method used for calling the endpoint.
+    types:
+    - uid: WebActivityAuthentication
+  - name: typeProperties.reportStatusOnCallBack
+    description: 'When set to true, statusCode, output and error in callback request body will be consumed by activity. The activity can be marked as failed by setting statusCode >= 400 in callback request. Default is false. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: WebHook
     typesTitle: string
   - name: description
     description: Activity description.
@@ -2730,6 +2730,52 @@ definitions:
     description: TimeSpan value, after which an Azure Monitoring Metric is fired.
     types:
     - uid: object
+- name: ActivityDependency
+  description: Activity dependency information.
+  kind: object
+  properties:
+  - name: activity
+    description: Activity name.
+    types:
+    - uid: string
+  - name: dependencyConditions
+    description: Match-Condition for the dependency.
+    types:
+    - uid: string
+      isArray: true
+- name: UserProperty
+  description: User property.
+  kind: object
+  properties:
+  - name: name
+    description: User property name.
+    types:
+    - uid: string
+  - name: value
+    description: 'User property value. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+- name: LinkedServiceReference
+  description: Linked service reference type.
+  kind: object
+  properties:
+  - name: type
+    description: Linked service reference type.
+    types:
+    - uid: LinkedServiceReference
+    typesTitle: enum
+  - name: referenceName
+    description: Reference LinkedService name.
+    types:
+    - uid: string
+  - name: parameters
+    description: Arguments for LinkedService.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
 - name: ActivityPolicy
   description: Execution policy for an activity.
   kind: object
@@ -2782,31 +2828,6 @@ definitions:
     description: Transformation description.
     types:
     - uid: string
-- name: ActivityDependency
-  description: Activity dependency information.
-  kind: object
-  properties:
-  - name: activity
-    description: Activity name.
-    types:
-    - uid: string
-  - name: dependencyConditions
-    description: Match-Condition for the dependency.
-    types:
-    - uid: string
-      isArray: true
-- name: UserProperty
-  description: User property.
-  kind: object
-  properties:
-  - name: name
-    description: User property name.
-    types:
-    - uid: string
-  - name: value
-    description: 'User property value. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
 - name: DataFlowReference
   description: Data flow reference type.
   kind: object
@@ -2869,83 +2890,6 @@ definitions:
     description: 'Core count of the cluster which will execute data flow job. Supported values are: 8, 16, 32, 48, 80, 144 and 272. Type: integer (or Expression with resultType integer)'
     types:
     - uid: object
-- name: LinkedServiceReference
-  description: Linked service reference type.
-  kind: object
-  properties:
-  - name: type
-    description: Linked service reference type.
-    types:
-    - uid: LinkedServiceReference
-    typesTitle: enum
-  - name: referenceName
-    description: Reference LinkedService name.
-    types:
-    - uid: string
-  - name: parameters
-    description: Arguments for LinkedService.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: object
-- name: WebHookActivityMethod
-  description: The list of HTTP methods supported by a WebHook activity.
-  kind: enum
-  properties:
-  - name: POST
-    types:
-    - uid: string
-- name: WebActivityAuthentication
-  description: Web activity authentication properties.
-  kind: object
-  properties:
-  - name: type
-    description: Web activity authentication (Basic/ClientCertificate/MSI/ServicePrincipal)
-    types:
-    - uid: string
-  - name: pfx
-    description: Base64-encoded contents of a PFX file or Certificate when used for ServicePrincipal
-    types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
-  - name: username
-    description: 'Web activity authentication user name for basic authentication or ClientID when used for ServicePrincipal. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: password
-    description: Password for the PFX file or basic authentication / Secret when used for ServicePrincipal
-    types:
-    - uid: SecureString
-    - uid: AzureKeyVaultSecretReference
-    typesTitle: SecretBase
-  - name: resource
-    description: 'Resource for which Azure Auth token will be requested when using MSI Authentication. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: userTenant
-    description: 'TenantId for which Azure Auth token will be requested when using ServicePrincipal Authentication. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
-  - name: credential
-    description: The credential reference containing authentication information.
-    types:
-    - uid: CredentialReference
-- name: Expression
-  description: Azure Data Factory expression definition.
-  kind: object
-  properties:
-  - name: type
-    description: Expression type.
-    types:
-    - uid: Expression
-    typesTitle: enum
-  - name: value
-    description: Expression value.
-    types:
-    - uid: string
 - name: DatasetReference
   description: Dataset reference type.
   kind: object
@@ -2967,162 +2911,34 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: object
-- name: SwitchCase
-  description: Switch cases with have a value and corresponding activities.
+- name: StagingSettings
+  description: Staging settings.
   kind: object
   properties:
-  - name: value
-    description: Expected value that satisfies the expression result of the 'on' property.
-    types:
-    - uid: string
-  - name: activities
-    description: List of activities to execute for satisfied case condition.
-    types:
-    - uid: ExecuteWranglingDataflowActivity
-      isArray: true
-    - uid: ExecutionActivity
-      isArray: true
-    - uid: ControlActivity
-      isArray: true
-    - uid: WebHookActivity
-      isArray: true
-    - uid: AppendVariableActivity
-      isArray: true
-    - uid: SetVariableActivity
-      isArray: true
-    - uid: FilterActivity
-      isArray: true
-    - uid: ValidationActivity
-      isArray: true
-    - uid: UntilActivity
-      isArray: true
-    - uid: WaitActivity
-      isArray: true
-    - uid: ForEachActivity
-      isArray: true
-    - uid: SwitchActivity
-      isArray: true
-    - uid: IfConditionActivity
-      isArray: true
-    - uid: ExecutePipelineActivity
-      isArray: true
-    - uid: ExecuteDataFlowActivity
-      isArray: true
-    - uid: AzureFunctionActivity
-      isArray: true
-    - uid: DatabricksSparkPythonActivity
-      isArray: true
-    - uid: DatabricksSparkJarActivity
-      isArray: true
-    - uid: DatabricksNotebookActivity
-      isArray: true
-    - uid: DataLakeAnalyticsUSQLActivity
-      isArray: true
-    - uid: AzureMLExecutePipelineActivity
-      isArray: true
-    - uid: AzureMLUpdateResourceActivity
-      isArray: true
-    - uid: AzureMLBatchExecutionActivity
-      isArray: true
-    - uid: GetMetadataActivity
-      isArray: true
-    - uid: WebActivity
-      isArray: true
-    - uid: LookupActivity
-      isArray: true
-    - uid: AzureDataExplorerCommandActivity
-      isArray: true
-    - uid: DeleteActivity
-      isArray: true
-    - uid: SqlServerStoredProcedureActivity
-      isArray: true
-    - uid: CustomActivity
-      isArray: true
-    - uid: ExecuteSSISPackageActivity
-      isArray: true
-    - uid: HDInsightSparkActivity
-      isArray: true
-    - uid: HDInsightStreamingActivity
-      isArray: true
-    - uid: HDInsightMapReduceActivity
-      isArray: true
-    - uid: HDInsightPigActivity
-      isArray: true
-    - uid: HDInsightHiveActivity
-      isArray: true
-    - uid: CopyActivity
-      isArray: true
-    typesTitle: Activity[]
-- name: PipelineReference
-  description: Pipeline reference type.
-  kind: object
-  properties:
-  - name: type
-    description: Pipeline reference type.
-    types:
-    - uid: PipelineReference
-    typesTitle: enum
-  - name: referenceName
-    description: Reference pipeline name.
-    types:
-    - uid: string
-  - name: name
-    description: Reference name.
-    types:
-    - uid: string
-- name: AzureFunctionActivityMethod
-  description: The list of HTTP methods supported by a AzureFunctionActivity.
-  kind: enum
-  properties:
-  - name: GET
-    types:
-    - uid: string
-  - name: POST
-    types:
-    - uid: string
-  - name: PUT
-    types:
-    - uid: string
-  - name: DELETE
-    types:
-    - uid: string
-  - name: OPTIONS
-    types:
-    - uid: string
-  - name: HEAD
-    types:
-    - uid: string
-  - name: TRACE
-    types:
-    - uid: string
-- name: AzureMLWebServiceFile
-  description: Azure ML WebService Input/Output file
-  kind: object
-  properties:
-  - name: filePath
-    description: 'The relative file path, including container name, in the Azure Blob Storage specified by the LinkedService. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
   - name: linkedServiceName
-    description: Reference to an Azure Storage LinkedService, where Azure ML WebService Input/Output file located.
+    description: Staging linked service reference.
     types:
     - uid: LinkedServiceReference
-- name: WebActivityMethod
-  description: The list of HTTP methods supported by a WebActivity.
-  kind: enum
+  - name: path
+    description: 'The path to storage for storing the interim data. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: enableCompression
+    description: 'Specifies whether to use compression when copying data via an interim staging. Default value is false. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+- name: RedirectIncompatibleRowSettings
+  description: Redirect incompatible row settings
+  kind: object
   properties:
-  - name: GET
+  - name: linkedServiceName
+    description: 'Name of the Azure Storage, Storage SAS, or Azure Data Lake Store linked service used for redirecting incompatible row. Must be specified if redirectIncompatibleRowSettings is specified. Type: string (or Expression with resultType string).'
     types:
-    - uid: string
-  - name: POST
+    - uid: object
+  - name: path
+    description: 'The path for storing the redirect incompatible row data. Type: string (or Expression with resultType string).'
     types:
-    - uid: string
-  - name: PUT
-    types:
-    - uid: string
-  - name: DELETE
-    types:
-    - uid: string
+    - uid: object
 - name: LogStorageSettings
   description: (Deprecated. Please use LogSettings) Log storage settings.
   kind: object
@@ -3143,32 +2959,47 @@ definitions:
     description: 'Specifies whether to enable reliable logging. Type: boolean (or Expression with resultType boolean).'
     types:
     - uid: object
-- name: StoredProcedureParameter
-  description: SQL stored procedure parameter.
+- name: LogSettings
+  description: Log settings.
   kind: object
   properties:
-  - name: value
-    description: 'Stored procedure parameter value. Type: string (or Expression with resultType string).'
+  - name: enableCopyActivityLog
+    description: 'Specifies whether to enable copy activity log. Type: boolean (or Expression with resultType boolean).'
     types:
     - uid: object
-  - name: type
-    description: Stored procedure parameter type.
+  - name: copyActivityLogSettings
+    description: Specifies settings for copy activity log.
     types:
-    - uid: StoredProcedureParameterType
-- name: CustomActivityReferenceObject
-  description: Reference objects for custom activity
+    - uid: CopyActivityLogSettings
+  - name: logLocationSettings
+    description: Log location settings customer needs to provide when enabling log.
+    types:
+    - uid: LogLocationSettings
+- name: SkipErrorFile
+  description: Skip error file.
   kind: object
   properties:
-  - name: linkedServices
-    description: Linked service references.
+  - name: fileMissing
+    description: 'Skip if file is deleted by other client during copy. Default is true. Type: boolean (or Expression with resultType boolean).'
     types:
-    - uid: LinkedServiceReference
-      isArray: true
-  - name: datasets
-    description: Dataset references.
+    - uid: object
+  - name: dataInconsistency
+    description: 'Skip if source/sink file changed by other concurrent write. Default is false. Type: boolean (or Expression with resultType boolean).'
     types:
-    - uid: DatasetReference
-      isArray: true
+    - uid: object
+- name: HDInsightActivityDebugInfoOption
+  description: The HDInsightActivityDebugInfoOption settings to use.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Always
+    types:
+    - uid: string
+  - name: Failure
+    types:
+    - uid: string
 - name: SSISPackageLocation
   description: SSIS package location.
   kind: object
@@ -3272,113 +3103,268 @@ definitions:
     description: 'Specifies the interval to refresh log. The default interval is 5 minutes. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).'
     types:
     - uid: object
-- name: HDInsightActivityDebugInfoOption
-  description: The HDInsightActivityDebugInfoOption settings to use.
-  kind: enum
-  properties:
-  - name: None
-    types:
-    - uid: string
-  - name: Always
-    types:
-    - uid: string
-  - name: Failure
-    types:
-    - uid: string
-- name: StagingSettings
-  description: Staging settings.
+- name: CustomActivityReferenceObject
+  description: Reference objects for custom activity
   kind: object
   properties:
-  - name: linkedServiceName
-    description: Staging linked service reference.
+  - name: linkedServices
+    description: Linked service references.
     types:
     - uid: LinkedServiceReference
-  - name: path
-    description: 'The path to storage for storing the interim data. Type: string (or Expression with resultType string).'
+      isArray: true
+  - name: datasets
+    description: Dataset references.
     types:
-    - uid: object
-  - name: enableCompression
-    description: 'Specifies whether to use compression when copying data via an interim staging. Default value is false. Type: boolean (or Expression with resultType boolean).'
-    types:
-    - uid: object
-- name: RedirectIncompatibleRowSettings
-  description: Redirect incompatible row settings
+    - uid: DatasetReference
+      isArray: true
+- name: StoredProcedureParameter
+  description: SQL stored procedure parameter.
   kind: object
   properties:
-  - name: linkedServiceName
-    description: 'Name of the Azure Storage, Storage SAS, or Azure Data Lake Store linked service used for redirecting incompatible row. Must be specified if redirectIncompatibleRowSettings is specified. Type: string (or Expression with resultType string).'
+  - name: value
+    description: 'Stored procedure parameter value. Type: string (or Expression with resultType string).'
     types:
     - uid: object
-  - name: path
-    description: 'The path for storing the redirect incompatible row data. Type: string (or Expression with resultType string).'
+  - name: type
+    description: Stored procedure parameter type.
     types:
-    - uid: object
-- name: LogSettings
-  description: Log settings.
-  kind: object
+    - uid: StoredProcedureParameterType
+- name: WebActivityMethod
+  description: The list of HTTP methods supported by a WebActivity.
+  kind: enum
   properties:
-  - name: enableCopyActivityLog
-    description: 'Specifies whether to enable copy activity log. Type: boolean (or Expression with resultType boolean).'
+  - name: GET
     types:
-    - uid: object
-  - name: copyActivityLogSettings
-    description: Specifies settings for copy activity log.
+    - uid: string
+  - name: POST
     types:
-    - uid: CopyActivityLogSettings
-  - name: logLocationSettings
-    description: Log location settings customer needs to provide when enabling log.
+    - uid: string
+  - name: PUT
     types:
-    - uid: LogLocationSettings
-- name: SkipErrorFile
-  description: Skip error file.
-  kind: object
-  properties:
-  - name: fileMissing
-    description: 'Skip if file is deleted by other client during copy. Default is true. Type: boolean (or Expression with resultType boolean).'
+    - uid: string
+  - name: DELETE
     types:
-    - uid: object
-  - name: dataInconsistency
-    description: 'Skip if source/sink file changed by other concurrent write. Default is false. Type: boolean (or Expression with resultType boolean).'
-    types:
-    - uid: object
-- name: CredentialReference
-  description: Credential reference type.
+    - uid: string
+- name: WebActivityAuthentication
+  description: Web activity authentication properties.
   kind: object
   properties:
   - name: type
-    description: Credential reference type.
+    description: Web activity authentication (Basic/ClientCertificate/MSI/ServicePrincipal)
+    types:
+    - uid: string
+  - name: pfx
+    description: Base64-encoded contents of a PFX file or Certificate when used for ServicePrincipal
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: username
+    description: 'Web activity authentication user name for basic authentication or ClientID when used for ServicePrincipal. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: password
+    description: Password for the PFX file or basic authentication / Secret when used for ServicePrincipal
+    types:
+    - uid: SecureString
+    - uid: AzureKeyVaultSecretReference
+    typesTitle: SecretBase
+  - name: resource
+    description: 'Resource for which Azure Auth token will be requested when using MSI Authentication. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: userTenant
+    description: 'TenantId for which Azure Auth token will be requested when using ServicePrincipal Authentication. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: credential
+    description: The credential reference containing authentication information.
     types:
     - uid: CredentialReference
-    typesTitle: enum
-  - name: referenceName
-    description: Reference credential name.
+- name: AzureMLWebServiceFile
+  description: Azure ML WebService Input/Output file
+  kind: object
+  properties:
+  - name: filePath
+    description: 'The relative file path, including container name, in the Azure Blob Storage specified by the LinkedService. Type: string (or Expression with resultType string).'
     types:
-    - uid: string
-- name: StoredProcedureParameterType
-  description: Stored procedure parameter type.
+    - uid: object
+  - name: linkedServiceName
+    description: Reference to an Azure Storage LinkedService, where Azure ML WebService Input/Output file located.
+    types:
+    - uid: LinkedServiceReference
+- name: AzureFunctionActivityMethod
+  description: The list of HTTP methods supported by a AzureFunctionActivity.
   kind: enum
   properties:
-  - name: String
+  - name: GET
     types:
     - uid: string
-  - name: Int
+  - name: POST
     types:
     - uid: string
-  - name: Int64
+  - name: PUT
     types:
     - uid: string
-  - name: Decimal
+  - name: DELETE
     types:
     - uid: string
-  - name: Guid
+  - name: OPTIONS
     types:
     - uid: string
-  - name: Boolean
+  - name: HEAD
     types:
     - uid: string
-  - name: Date
+  - name: TRACE
     types:
     - uid: string
+- name: PipelineReference
+  description: Pipeline reference type.
+  kind: object
+  properties:
+  - name: type
+    description: Pipeline reference type.
+    types:
+    - uid: PipelineReference
+    typesTitle: enum
+  - name: referenceName
+    description: Reference pipeline name.
+    types:
+    - uid: string
+  - name: name
+    description: Reference name.
+    types:
+    - uid: string
+- name: Expression
+  description: Azure Data Factory expression definition.
+  kind: object
+  properties:
+  - name: type
+    description: Expression type.
+    types:
+    - uid: Expression
+    typesTitle: enum
+  - name: value
+    description: Expression value.
+    types:
+    - uid: string
+- name: SwitchCase
+  description: Switch cases with have a value and corresponding activities.
+  kind: object
+  properties:
+  - name: value
+    description: Expected value that satisfies the expression result of the 'on' property.
+    types:
+    - uid: string
+  - name: activities
+    description: List of activities to execute for satisfied case condition.
+    types:
+    - uid: ControlActivity
+      isArray: true
+    - uid: ExecutionActivity
+      isArray: true
+    - uid: ExecuteWranglingDataflowActivity
+      isArray: true
+    - uid: CopyActivity
+      isArray: true
+    - uid: HDInsightHiveActivity
+      isArray: true
+    - uid: HDInsightPigActivity
+      isArray: true
+    - uid: HDInsightMapReduceActivity
+      isArray: true
+    - uid: HDInsightStreamingActivity
+      isArray: true
+    - uid: HDInsightSparkActivity
+      isArray: true
+    - uid: ExecuteSSISPackageActivity
+      isArray: true
+    - uid: CustomActivity
+      isArray: true
+    - uid: SqlServerStoredProcedureActivity
+      isArray: true
+    - uid: DeleteActivity
+      isArray: true
+    - uid: AzureDataExplorerCommandActivity
+      isArray: true
+    - uid: LookupActivity
+      isArray: true
+    - uid: WebActivity
+      isArray: true
+    - uid: GetMetadataActivity
+      isArray: true
+    - uid: AzureMLBatchExecutionActivity
+      isArray: true
+    - uid: AzureMLUpdateResourceActivity
+      isArray: true
+    - uid: AzureMLExecutePipelineActivity
+      isArray: true
+    - uid: DataLakeAnalyticsUSQLActivity
+      isArray: true
+    - uid: DatabricksNotebookActivity
+      isArray: true
+    - uid: DatabricksSparkJarActivity
+      isArray: true
+    - uid: DatabricksSparkPythonActivity
+      isArray: true
+    - uid: AzureFunctionActivity
+      isArray: true
+    - uid: ExecuteDataFlowActivity
+      isArray: true
+    - uid: ExecutePipelineActivity
+      isArray: true
+    - uid: IfConditionActivity
+      isArray: true
+    - uid: SwitchActivity
+      isArray: true
+    - uid: ForEachActivity
+      isArray: true
+    - uid: WaitActivity
+      isArray: true
+    - uid: UntilActivity
+      isArray: true
+    - uid: ValidationActivity
+      isArray: true
+    - uid: FilterActivity
+      isArray: true
+    - uid: SetVariableActivity
+      isArray: true
+    - uid: AppendVariableActivity
+      isArray: true
+    - uid: WebHookActivity
+      isArray: true
+    typesTitle: Activity[]
+- name: WebHookActivityMethod
+  description: The list of HTTP methods supported by a WebHook activity.
+  kind: enum
+  properties:
+  - name: POST
+    types:
+    - uid: string
+- name: CopyActivityLogSettings
+  description: Settings for copy activity log.
+  kind: object
+  properties:
+  - name: logLevel
+    description: 'Gets or sets the log level, support: Info, Warning. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: enableReliableLogging
+    description: 'Specifies whether to enable reliable logging. Type: boolean (or Expression with resultType boolean).'
+    types:
+    - uid: object
+- name: LogLocationSettings
+  description: Log location settings.
+  kind: object
+  properties:
+  - name: linkedServiceName
+    description: Log storage linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: path
+    description: 'The path to storage for storing detailed logs of activity execution. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
 - name: SsisPackageLocationType
   description: The type of SSIS package location.
   kind: enum
@@ -3453,30 +3439,44 @@ definitions:
   - name: File
     types:
     - uid: string
-- name: CopyActivityLogSettings
-  description: Settings for copy activity log.
+- name: StoredProcedureParameterType
+  description: Stored procedure parameter type.
+  kind: enum
+  properties:
+  - name: String
+    types:
+    - uid: string
+  - name: Int
+    types:
+    - uid: string
+  - name: Int64
+    types:
+    - uid: string
+  - name: Decimal
+    types:
+    - uid: string
+  - name: Guid
+    types:
+    - uid: string
+  - name: Boolean
+    types:
+    - uid: string
+  - name: Date
+    types:
+    - uid: string
+- name: CredentialReference
+  description: Credential reference type.
   kind: object
   properties:
-  - name: logLevel
-    description: 'Gets or sets the log level, support: Info, Warning. Type: string (or Expression with resultType string).'
+  - name: type
+    description: Credential reference type.
     types:
-    - uid: object
-  - name: enableReliableLogging
-    description: 'Specifies whether to enable reliable logging. Type: boolean (or Expression with resultType boolean).'
+    - uid: CredentialReference
+    typesTitle: enum
+  - name: referenceName
+    description: Reference credential name.
     types:
-    - uid: object
-- name: LogLocationSettings
-  description: Log location settings.
-  kind: object
-  properties:
-  - name: linkedServiceName
-    description: Log storage linked service reference.
-    types:
-    - uid: LinkedServiceReference
-  - name: path
-    description: 'The path to storage for storing detailed logs of activity execution. Type: string (or Expression with resultType string).'
-    types:
-    - uid: object
+    - uid: string
 - name: AzureKeyVaultSecretReference
   description: Azure Key Vault secret reference.
   kind: object
