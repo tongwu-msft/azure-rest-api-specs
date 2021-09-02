@@ -19190,14 +19190,35 @@
 ### [Get Azure Async Header Result](synapse/Operations%202/Get-Azure-Async-Header-Result.yml)
 ### [Get Location Header Result](synapse/Operations%202/Get-Location-Header-Result.yml)
 ### [List](synapse/Operations%202/List.yml)
+## Private Endpoint Connections
+### [Overview](synapse/Private-Endpoint-Connections.yml)
+### [Create](synapse/Private-Endpoint-Connections/Create.yml)
+### [Delete](synapse/Private-Endpoint-Connections/Delete.yml)
+### [Get](synapse/Private-Endpoint-Connections/Get.yml)
+### [List](synapse/Private-Endpoint-Connections/List.yml)
+## Private Endpoint Connections Private Link Hub
+### [Overview](synapse/Private-Endpoint-Connections-Private-Link-Hub.yml)
+### [List](synapse/Private-Endpoint-Connections-Private-Link-Hub/List.yml)
 ## Private Link Hub Private Link Resources
 ### [Overview](synapse/Private-Link-Hub-Private-Link-Resources.yml)
 ### [Get](synapse/Private-Link-Hub-Private-Link-Resources/Get.yml)
 ### [List](synapse/Private-Link-Hub-Private-Link-Resources/List.yml)
+## Private Link Hubs
+### [Overview](synapse/Private-Link-Hubs.yml)
+### [Create Or Update](synapse/Private-Link-Hubs/Create-Or-Update.yml)
+### [Delete](synapse/Private-Link-Hubs/Delete.yml)
+### [Get](synapse/Private-Link-Hubs/Get.yml)
+### [List](synapse/Private-Link-Hubs/List.yml)
+### [List By Resource Group](synapse/Private-Link-Hubs/List-By-Resource-Group.yml)
+### [Update](synapse/Private-Link-Hubs/Update.yml)
 ## Private Link Resources
 ### [Overview](synapse/Private-Link-Resources.yml)
 ### [Get](synapse/Private-Link-Resources/Get.yml)
 ### [List](synapse/Private-Link-Resources/List.yml)
+## Restorable Dropped Sql Pools
+### [Overview](synapse/Restorable-Dropped-Sql-Pools.yml)
+### [Get](synapse/Restorable-Dropped-Sql-Pools/Get.yml)
+### [List By Workspace](synapse/Restorable-Dropped-Sql-Pools/List-By-Workspace.yml)
 ## Sql Pool Blob Auditing Policies
 ### [Overview](synapse/Sql-Pool-Blob-Auditing-Policies.yml)
 ### [Create Or Update](synapse/Sql-Pool-Blob-Auditing-Policies/Create-Or-Update.yml)
@@ -19320,6 +19341,28 @@
 ### [Rename](synapse/Sql-Pools/Rename.yml)
 ### [Resume](synapse/Sql-Pools/Resume.yml)
 ### [Update](synapse/Sql-Pools/Update.yml)
+## Workspace Aad Admins
+### [Overview](synapse/Workspace-Aad-Admins.yml)
+### [Create Or Update](synapse/Workspace-Aad-Admins/Create-Or-Update.yml)
+### [Delete](synapse/Workspace-Aad-Admins/Delete.yml)
+### [Get](synapse/Workspace-Aad-Admins/Get.yml)
+## Workspace Managed Identity Sql Control Settings
+### [Overview](synapse/Workspace-Managed-Identity-Sql-Control-Settings.yml)
+### [Create Or Update](synapse/Workspace-Managed-Identity-Sql-Control-Settings/Create-Or-Update.yml)
+### [Get](synapse/Workspace-Managed-Identity-Sql-Control-Settings/Get.yml)
+## Workspace Sql Aad Admins
+### [Overview](synapse/Workspace-Sql-Aad-Admins.yml)
+### [Create Or Update](synapse/Workspace-Sql-Aad-Admins/Create-Or-Update.yml)
+### [Delete](synapse/Workspace-Sql-Aad-Admins/Delete.yml)
+### [Get](synapse/Workspace-Sql-Aad-Admins/Get.yml)
+## Workspaces
+### [Overview](synapse/Workspaces.yml)
+### [Create Or Update](synapse/Workspaces/Create-Or-Update.yml)
+### [Delete](synapse/Workspaces/Delete.yml)
+### [Get](synapse/Workspaces/Get.yml)
+### [List](synapse/Workspaces/List.yml)
+### [List By Resource Group](synapse/Workspaces/List-By-Resource-Group.yml)
+### [Update](synapse/Workspaces/Update.yml)
 ## Data-plane
 ### Big Data Pools
 #### [Overview](synapse/data-plane/Big-Data-Pools.yml)
@@ -19480,6 +19523,9 @@
 #### [Cancel Trigger Instance](synapse/data-plane/Trigger-Run/Cancel-Trigger-Instance.yml)
 #### [Query Trigger Runs By Workspace](synapse/data-plane/Trigger-Run/Query-Trigger-Runs-By-Workspace.yml)
 #### [Rerun Trigger Instance](synapse/data-plane/Trigger-Run/Rerun-Trigger-Instance.yml)
+### Workspace
+#### [Overview](synapse/data-plane/Workspace.yml)
+#### [Get](synapse/data-plane/Workspace/Get.yml)
 ### Workspace Git Repo Management
 #### [Overview](synapse/data-plane/Workspace-Git-Repo-Management.yml)
 #### [get Git Hub Access Token](synapse/data-plane/Workspace-Git-Repo-Management/get-Git-Hub-Access-Token.yml)
