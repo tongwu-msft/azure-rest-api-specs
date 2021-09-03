@@ -11590,6 +11590,8 @@
 ### [List For Management Group](policy/Policy-Assignments/List-For-Management-Group.yml)
 ### [List For Resource](policy/Policy-Assignments/List-For-Resource.yml)
 ### [List For Resource Group](policy/Policy-Assignments/List-For-Resource-Group.yml)
+### [Update](policy/Policy-Assignments/Update.yml)
+### [Update By Id](policy/Policy-Assignments/Update-By-Id.yml)
 ## Policy Definitions
 ### [Overview](policy/Policy-Definitions.yml)
 ### [Create Or Update](policy/Policy-Definitions/Create-Or-Update.yml)
