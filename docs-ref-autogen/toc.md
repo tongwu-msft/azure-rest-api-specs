@@ -8867,6 +8867,28 @@
 ## Operations
 ### [Overview](hybridkubernetes/Operations.yml)
 ### [Get](hybridkubernetes/Operations/Get.yml)
+# Hybrid Network
+## [Overview](../docs-ref-conceptual/hybridnetwork/index.md)
+## Devices
+### [Overview](hybridnetwork/Devices.yml)
+### [Create Or Update](hybridnetwork/Devices/Create-Or-Update.yml)
+### [Delete](hybridnetwork/Devices/Delete.yml)
+### [Get](hybridnetwork/Devices/Get.yml)
+### [List By Resource Group](hybridnetwork/Devices/List-By-Resource-Group.yml)
+### [List By Subscription](hybridnetwork/Devices/List-By-Subscription.yml)
+### [List Registration Key](hybridnetwork/Devices/List-Registration-Key.yml)
+### [Update Tags](hybridnetwork/Devices/Update-Tags.yml)
+## Network Functions
+### [Overview](hybridnetwork/Network-Functions.yml)
+### [Create Or Update](hybridnetwork/Network-Functions/Create-Or-Update.yml)
+### [Delete](hybridnetwork/Network-Functions/Delete.yml)
+### [Get](hybridnetwork/Network-Functions/Get.yml)
+### [List By Resource Group](hybridnetwork/Network-Functions/List-By-Resource-Group.yml)
+### [List By Subscription](hybridnetwork/Network-Functions/List-By-Subscription.yml)
+### [Update Tags](hybridnetwork/Network-Functions/Update-Tags.yml)
+## Operations
+### [Overview](hybridnetwork/Operations.yml)
+### [List](hybridnetwork/Operations/List.yml)
 # Internet Analyzer
 ## [Overview](../docs-ref-conceptual/internetanalyzer/index.md)
 ## Experiments
@@ -11906,6 +11928,27 @@
 ### [Overview](purview/Private-Link-Resources.yml)
 ### [Get By Group Id](purview/Private-Link-Resources/Get-By-Group-Id.yml)
 ### [List By Account](purview/Private-Link-Resources/List-By-Account.yml)
+## Account
+### Accounts
+#### [Overview](purview/account/Accounts.yml)
+#### [Get Access Keys](purview/account/Accounts/Get-Access-Keys.yml)
+#### [Get Account Properties](purview/account/Accounts/Get-Account-Properties.yml)
+#### [Regenerate Access Key](purview/account/Accounts/Regenerate-Access-Key.yml)
+#### [Update Account Properties](purview/account/Accounts/Update-Account-Properties.yml)
+### Collections
+#### [Overview](purview/account/Collections.yml)
+#### [Create Or Update Collection](purview/account/Collections/Create-Or-Update-Collection.yml)
+#### [Delete Collection](purview/account/Collections/Delete-Collection.yml)
+#### [Get Collection](purview/account/Collections/Get-Collection.yml)
+#### [Get Collection Path](purview/account/Collections/Get-Collection-Path.yml)
+#### [List Child Collection Names](purview/account/Collections/List-Child-Collection-Names.yml)
+#### [List Collections](purview/account/Collections/List-Collections.yml)
+### Resource Set Rules
+#### [Overview](purview/account/Resource-Set-Rules.yml)
+#### [Create Or Update Resource Set Rule](purview/account/Resource-Set-Rules/Create-Or-Update-Resource-Set-Rule.yml)
+#### [Delete Resource Set Rule](purview/account/Resource-Set-Rules/Delete-Resource-Set-Rule.yml)
+#### [Get Resource Set Rule](purview/account/Resource-Set-Rules/Get-Resource-Set-Rule.yml)
+#### [List Resource Set Rules](purview/account/Resource-Set-Rules/List-Resource-Set-Rules.yml)
 ## Scanning Data Plane
 ### Classification Rules
 #### [Overview](purview/scanningdataplane/Classification-Rules.yml)
