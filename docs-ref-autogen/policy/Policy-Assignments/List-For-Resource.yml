@@ -3,15 +3,15 @@ uid: management.azure.com.policy.policyassignments.listforresource
 name: List For Resource
 service: Policy
 groupName: Policy Assignments
-apiVersion: 2020-09-01
+apiVersion: 2021-06-01
 summary: "Retrieves all policy assignments that apply to a resource.  \nThis operation retrieves the list of all policy assignments associated with the specified resource in the given resource group and subscription that match the optional given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, the unfiltered list includes all policy assignments associated with the resource, including those that apply directly or from all containing scopes, as well as any applied to resources contained within the resource. If $filter=atScope() is provided, the returned list includes all policy assignments that apply to the resource, which is everything in the unfiltered list except those applied to resources contained within the resource. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the resource level. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value} that apply to the resource. Three parameters plus the resource name are used to identify a specific resource. If the resource is not part of a parent resource (the more common case), the parent resource path should not be provided (or provided as ''). For example a web app could be specified as ({resourceProviderNamespace} == 'Microsoft.Web', {parentResourcePath} == '', {resourceType} == 'sites', {resourceName} == 'MyWebApp'). If the resource is part of a parent resource, then all parameters should be provided. For example a virtual machine DNS name could be specified as ({resourceProviderNamespace} == 'Microsoft.Compute', {parentResourcePath} == 'virtualMachines/MyVirtualMachine', {resourceType} == 'domainNames', {resourceName} == 'MyComputerName'). A convenient alternative to providing the namespace and type name separately is to provide both in the {resourceType} parameter, format: ({resourceProviderNamespace} == '', {parentResourcePath} == '', {resourceType} == 'Microsoft.Web/sites', {resourceName} == 'MyWebApp')."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments?api-version=2020-09-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&$top={$top}&api-version=2020-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments?api-version=2021-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments?$filter={$filter}&$top={$top}&api-version=2021-06-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -129,6 +129,11 @@ definitions:
     description: The managed identity associated with the policy assignment.
     types:
     - uid: Identity
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata relating to this resource.
+    types:
+    - uid: systemData
   - name: properties.displayName
     description: The display name of the policy assignment.
     types:
@@ -204,23 +209,55 @@ definitions:
     - uid: ErrorAdditionalInfo
       isArray: true
 - name: Identity
-  description: Identity for the resource.
+  description: Identity for the resource.  Policy assignments support a maximum of one identity.  That is either a system assigned identity or a single user assigned identity.
   kind: object
   properties:
   - name: principalId
     isReadyOnly: true
-    description: The principal ID of the resource identity.
+    description: The principal ID of the resource identity.  This property will only be provided for a system assigned identity
     types:
     - uid: string
   - name: tenantId
     isReadyOnly: true
-    description: The tenant ID of the resource identity.
+    description: The tenant ID of the resource identity.  This property will only be provided for a system assigned identity
     types:
     - uid: string
   - name: type
-    description: The identity type. This is the only required field when adding a system assigned identity to a resource.
+    description: The identity type. This is the only required field when adding a system or user assigned identity to a resource.
     types:
     - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The user identity associated with the policy. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: ParameterValuesValue
   description: The value of a parameter.
   kind: object
@@ -268,10 +305,14 @@ definitions:
     types:
     - uid: object
 - name: ResourceIdentityType
-  description: The identity type. This is the only required field when adding a system assigned identity to a resource.
+  description: The identity type. This is the only required field when adding a system or user assigned identity to a resource.
   kind: enum
   properties:
   - name: SystemAssigned
+    description: Indicates that a system assigned identity is associated with the resource.
+    types:
+    - uid: string
+  - name: UserAssigned
     description: Indicates that a system assigned identity is associated with the resource.
     types:
     - uid: string
@@ -279,10 +320,34 @@ definitions:
     description: Indicates that no identity is associated with the resource or that the existing identity should be removed.
     types:
     - uid: string
+- name: UserAssignedIdentities
+  description: "The user identity associated with the policy. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: List all policy assignments that apply to a resource
   request:
-    uri: GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup/providers/Microsoft.Compute/virtualMachines/MyTestVm/domainNames/MyTestComputer.cloudapp.net/providers/Microsoft.Authorization/policyAssignments?api-version=2020-09-01
+    uri: GET https://management.azure.com/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/resourceGroups/TestResourceGroup/providers/Microsoft.Compute/virtualMachines/MyTestVm/domainNames/MyTestComputer.cloudapp.net/providers/Microsoft.Authorization/policyAssignments?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-
