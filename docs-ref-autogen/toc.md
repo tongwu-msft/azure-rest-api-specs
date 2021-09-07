@@ -3217,6 +3217,7 @@
 ### [Delete](netapp/Accounts/Delete.yml)
 ### [Get](netapp/Accounts/Get.yml)
 ### [List](netapp/Accounts/List.yml)
+### [List By Subscription](netapp/Accounts/List-By-Subscription.yml)
 ### [Update](netapp/Accounts/Update.yml)
 ## Backup Policies
 ### [Overview](netapp/Backup-Policies.yml)
@@ -3230,6 +3231,8 @@
 ### [Create](netapp/Backups/Create.yml)
 ### [Delete](netapp/Backups/Delete.yml)
 ### [Get](netapp/Backups/Get.yml)
+### [Get Status](netapp/Backups/Get-Status.yml)
+### [Get Volume Restore Status](netapp/Backups/Get-Volume-Restore-Status.yml)
 ### [List](netapp/Backups/List.yml)
 ### [Update](netapp/Backups/Update.yml)
 ## NetApp Resource
@@ -3265,9 +3268,6 @@
 ## Vaults
 ### [Overview](netapp/Vaults.yml)
 ### [List](netapp/Vaults/List.yml)
-## Volume Backup Status
-### [Overview](netapp/Volume-Backup-Status.yml)
-### [Get](netapp/Volume-Backup-Status/Get.yml)
 ## Volumes
 ### [Overview](netapp/Volumes.yml)
 ### [Authorize Replication](netapp/Volumes/Authorize-Replication.yml)
@@ -8867,6 +8867,28 @@
 ## Operations
 ### [Overview](hybridkubernetes/Operations.yml)
 ### [Get](hybridkubernetes/Operations/Get.yml)
+# Hybrid Network
+## [Overview](../docs-ref-conceptual/hybridnetwork/index.md)
+## Devices
+### [Overview](hybridnetwork/Devices.yml)
+### [Create Or Update](hybridnetwork/Devices/Create-Or-Update.yml)
+### [Delete](hybridnetwork/Devices/Delete.yml)
+### [Get](hybridnetwork/Devices/Get.yml)
+### [List By Resource Group](hybridnetwork/Devices/List-By-Resource-Group.yml)
+### [List By Subscription](hybridnetwork/Devices/List-By-Subscription.yml)
+### [List Registration Key](hybridnetwork/Devices/List-Registration-Key.yml)
+### [Update Tags](hybridnetwork/Devices/Update-Tags.yml)
+## Network Functions
+### [Overview](hybridnetwork/Network-Functions.yml)
+### [Create Or Update](hybridnetwork/Network-Functions/Create-Or-Update.yml)
+### [Delete](hybridnetwork/Network-Functions/Delete.yml)
+### [Get](hybridnetwork/Network-Functions/Get.yml)
+### [List By Resource Group](hybridnetwork/Network-Functions/List-By-Resource-Group.yml)
+### [List By Subscription](hybridnetwork/Network-Functions/List-By-Subscription.yml)
+### [Update Tags](hybridnetwork/Network-Functions/Update-Tags.yml)
+## Operations
+### [Overview](hybridnetwork/Operations.yml)
+### [List](hybridnetwork/Operations/List.yml)
 # Internet Analyzer
 ## [Overview](../docs-ref-conceptual/internetanalyzer/index.md)
 ## Experiments
@@ -11590,6 +11612,8 @@
 ### [List For Management Group](policy/Policy-Assignments/List-For-Management-Group.yml)
 ### [List For Resource](policy/Policy-Assignments/List-For-Resource.yml)
 ### [List For Resource Group](policy/Policy-Assignments/List-For-Resource-Group.yml)
+### [Update](policy/Policy-Assignments/Update.yml)
+### [Update By Id](policy/Policy-Assignments/Update-By-Id.yml)
 ## Policy Definitions
 ### [Overview](policy/Policy-Definitions.yml)
 ### [Create Or Update](policy/Policy-Definitions/Create-Or-Update.yml)
@@ -11906,6 +11930,27 @@
 ### [Overview](purview/Private-Link-Resources.yml)
 ### [Get By Group Id](purview/Private-Link-Resources/Get-By-Group-Id.yml)
 ### [List By Account](purview/Private-Link-Resources/List-By-Account.yml)
+## Account
+### Accounts
+#### [Overview](purview/account/Accounts.yml)
+#### [Get Access Keys](purview/account/Accounts/Get-Access-Keys.yml)
+#### [Get Account Properties](purview/account/Accounts/Get-Account-Properties.yml)
+#### [Regenerate Access Key](purview/account/Accounts/Regenerate-Access-Key.yml)
+#### [Update Account Properties](purview/account/Accounts/Update-Account-Properties.yml)
+### Collections
+#### [Overview](purview/account/Collections.yml)
+#### [Create Or Update Collection](purview/account/Collections/Create-Or-Update-Collection.yml)
+#### [Delete Collection](purview/account/Collections/Delete-Collection.yml)
+#### [Get Collection](purview/account/Collections/Get-Collection.yml)
+#### [Get Collection Path](purview/account/Collections/Get-Collection-Path.yml)
+#### [List Child Collection Names](purview/account/Collections/List-Child-Collection-Names.yml)
+#### [List Collections](purview/account/Collections/List-Collections.yml)
+### Resource Set Rules
+#### [Overview](purview/account/Resource-Set-Rules.yml)
+#### [Create Or Update Resource Set Rule](purview/account/Resource-Set-Rules/Create-Or-Update-Resource-Set-Rule.yml)
+#### [Delete Resource Set Rule](purview/account/Resource-Set-Rules/Delete-Resource-Set-Rule.yml)
+#### [Get Resource Set Rule](purview/account/Resource-Set-Rules/Get-Resource-Set-Rule.yml)
+#### [List Resource Set Rules](purview/account/Resource-Set-Rules/List-Resource-Set-Rules.yml)
 ## Scanning Data Plane
 ### Classification Rules
 #### [Overview](purview/scanningdataplane/Classification-Rules.yml)
@@ -19190,14 +19235,35 @@
 ### [Get Azure Async Header Result](synapse/Operations%202/Get-Azure-Async-Header-Result.yml)
 ### [Get Location Header Result](synapse/Operations%202/Get-Location-Header-Result.yml)
 ### [List](synapse/Operations%202/List.yml)
+## Private Endpoint Connections
+### [Overview](synapse/Private-Endpoint-Connections.yml)
+### [Create](synapse/Private-Endpoint-Connections/Create.yml)
+### [Delete](synapse/Private-Endpoint-Connections/Delete.yml)
+### [Get](synapse/Private-Endpoint-Connections/Get.yml)
+### [List](synapse/Private-Endpoint-Connections/List.yml)
+## Private Endpoint Connections Private Link Hub
+### [Overview](synapse/Private-Endpoint-Connections-Private-Link-Hub.yml)
+### [List](synapse/Private-Endpoint-Connections-Private-Link-Hub/List.yml)
 ## Private Link Hub Private Link Resources
 ### [Overview](synapse/Private-Link-Hub-Private-Link-Resources.yml)
 ### [Get](synapse/Private-Link-Hub-Private-Link-Resources/Get.yml)
 ### [List](synapse/Private-Link-Hub-Private-Link-Resources/List.yml)
+## Private Link Hubs
+### [Overview](synapse/Private-Link-Hubs.yml)
+### [Create Or Update](synapse/Private-Link-Hubs/Create-Or-Update.yml)
+### [Delete](synapse/Private-Link-Hubs/Delete.yml)
+### [Get](synapse/Private-Link-Hubs/Get.yml)
+### [List](synapse/Private-Link-Hubs/List.yml)
+### [List By Resource Group](synapse/Private-Link-Hubs/List-By-Resource-Group.yml)
+### [Update](synapse/Private-Link-Hubs/Update.yml)
 ## Private Link Resources
 ### [Overview](synapse/Private-Link-Resources.yml)
 ### [Get](synapse/Private-Link-Resources/Get.yml)
 ### [List](synapse/Private-Link-Resources/List.yml)
+## Restorable Dropped Sql Pools
+### [Overview](synapse/Restorable-Dropped-Sql-Pools.yml)
+### [Get](synapse/Restorable-Dropped-Sql-Pools/Get.yml)
+### [List By Workspace](synapse/Restorable-Dropped-Sql-Pools/List-By-Workspace.yml)
 ## Sql Pool Blob Auditing Policies
 ### [Overview](synapse/Sql-Pool-Blob-Auditing-Policies.yml)
 ### [Create Or Update](synapse/Sql-Pool-Blob-Auditing-Policies/Create-Or-Update.yml)
@@ -19320,6 +19386,28 @@
 ### [Rename](synapse/Sql-Pools/Rename.yml)
 ### [Resume](synapse/Sql-Pools/Resume.yml)
 ### [Update](synapse/Sql-Pools/Update.yml)
+## Workspace Aad Admins
+### [Overview](synapse/Workspace-Aad-Admins.yml)
+### [Create Or Update](synapse/Workspace-Aad-Admins/Create-Or-Update.yml)
+### [Delete](synapse/Workspace-Aad-Admins/Delete.yml)
+### [Get](synapse/Workspace-Aad-Admins/Get.yml)
+## Workspace Managed Identity Sql Control Settings
+### [Overview](synapse/Workspace-Managed-Identity-Sql-Control-Settings.yml)
+### [Create Or Update](synapse/Workspace-Managed-Identity-Sql-Control-Settings/Create-Or-Update.yml)
+### [Get](synapse/Workspace-Managed-Identity-Sql-Control-Settings/Get.yml)
+## Workspace Sql Aad Admins
+### [Overview](synapse/Workspace-Sql-Aad-Admins.yml)
+### [Create Or Update](synapse/Workspace-Sql-Aad-Admins/Create-Or-Update.yml)
+### [Delete](synapse/Workspace-Sql-Aad-Admins/Delete.yml)
+### [Get](synapse/Workspace-Sql-Aad-Admins/Get.yml)
+## Workspaces
+### [Overview](synapse/Workspaces.yml)
+### [Create Or Update](synapse/Workspaces/Create-Or-Update.yml)
+### [Delete](synapse/Workspaces/Delete.yml)
+### [Get](synapse/Workspaces/Get.yml)
+### [List](synapse/Workspaces/List.yml)
+### [List By Resource Group](synapse/Workspaces/List-By-Resource-Group.yml)
+### [Update](synapse/Workspaces/Update.yml)
 ## Data-plane
 ### Big Data Pools
 #### [Overview](synapse/data-plane/Big-Data-Pools.yml)
@@ -19480,6 +19568,9 @@
 #### [Cancel Trigger Instance](synapse/data-plane/Trigger-Run/Cancel-Trigger-Instance.yml)
 #### [Query Trigger Runs By Workspace](synapse/data-plane/Trigger-Run/Query-Trigger-Runs-By-Workspace.yml)
 #### [Rerun Trigger Instance](synapse/data-plane/Trigger-Run/Rerun-Trigger-Instance.yml)
+### Workspace
+#### [Overview](synapse/data-plane/Workspace.yml)
+#### [Get](synapse/data-plane/Workspace/Get.yml)
 ### Workspace Git Repo Management
 #### [Overview](synapse/data-plane/Workspace-Git-Repo-Management.yml)
 #### [get Git Hub Access Token](synapse/data-plane/Workspace-Git-Repo-Management/get-Git-Hub-Access-Token.yml)

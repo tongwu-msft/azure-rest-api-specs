@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.netappresource.checkfilepathavailability
 name: Check File Path Availability
 service: Azure NetApp Files
 groupName: NetApp Resource
-apiVersion: 2020-12-01
+apiVersion: 2021-06-01
 summary: "Check file path availability  \nCheck if a file path is available."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkFilePathAvailability?api-version=2020-12-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkFilePathAvailability?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -43,19 +43,13 @@ requestBody:
   - name: name
     in: body
     isRequired: true
-    description: Resource name to verify.
+    description: File path to verify.
     types:
     - uid: string
-  - name: type
+  - name: subnetId
     in: body
     isRequired: true
-    description: Resource type used for verification.
-    types:
-    - uid: CheckNameResourceTypes
-  - name: resourceGroup
-    in: body
-    isRequired: true
-    description: Resource group name.
+    description: The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes
     types:
     - uid: string
 requestHeader: []
@@ -76,20 +70,16 @@ definitions:
     description: If reason == invalid, provide the user with the reason why the given name is invalid, and provide the resource naming requirements so that the user can select a valid name. If reason == AlreadyExists, explain that resource name is already in use, and direct them to select a different name.
     types:
     - uid: string
-- name: ResourceNameAvailabilityRequest
-  description: Resource name availability request content.
+- name: FilePathAvailabilityRequest
+  description: File path availability request content - availability is based on the name and the subnetId.
   kind: object
   properties:
   - name: name
-    description: Resource name to verify.
+    description: File path to verify.
     types:
     - uid: string
-  - name: type
-    description: Resource type used for verification.
-    types:
-    - uid: CheckNameResourceTypes
-  - name: resourceGroup
-    description: Resource group name.
+  - name: subnetId
+    description: The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes
     types:
     - uid: string
 - name: InAvailabilityReasonType
@@ -102,31 +92,14 @@ definitions:
   - name: AlreadyExists
     types:
     - uid: string
-- name: CheckNameResourceTypes
-  description: Resource type used for verification.
-  kind: enum
-  properties:
-  - name: Microsoft.NetApp/netAppAccounts
-    types:
-    - uid: string
-  - name: Microsoft.NetApp/netAppAccounts/capacityPools
-    types:
-    - uid: string
-  - name: Microsoft.NetApp/netAppAccounts/capacityPools/volumes
-    types:
-    - uid: string
-  - name: Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots
-    types:
-    - uid: string
 examples:
 - name: CheckFilePathAvailability
   request:
-    uri: POST https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/providers/Microsoft.NetApp/locations/eastus/checkFilePathAvailability?api-version=2020-12-01
+    uri: POST https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/providers/Microsoft.NetApp/locations/eastus/checkFilePathAvailability?api-version=2021-06-01
     body: >-
       {
         "name": "my-exact-filepth",
-        "type": "netAppAccount/capacityPools/volume",
-        "resourceGroup": "myRG"
+        "subnetId": "/subscriptions/9760acf5-4638-11e7-9bdb-020073ca7778/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3"
       }
   responses:
   - statusCode: "200"

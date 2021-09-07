@@ -64,8 +64,8 @@ definitions:
   - name: properties
     description: Integration runtime properties.
     types:
-    - uid: SelfHostedIntegrationRuntime
     - uid: ManagedIntegrationRuntime
+    - uid: SelfHostedIntegrationRuntime
     typesTitle: IntegrationRuntime
   - name: etag
     isReadyOnly: true
@@ -132,25 +132,6 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-- name: SelfHostedIntegrationRuntime
-  description: Self-hosted integration runtime.
-  kind: object
-  properties:
-  - name: typeProperties.linkedInfo
-    description: Linked integration runtime type from data factory
-    types:
-    - uid: LinkedIntegrationRuntimeRbacAuthorization
-    - uid: LinkedIntegrationRuntimeKeyAuthorization
-    typesTitle: LinkedIntegrationRuntimeType
-  - name: type
-    description: Type of integration runtime.
-    types:
-    - uid: SelfHosted
-    typesTitle: string
-  - name: description
-    description: Integration runtime description.
-    types:
-    - uid: string
 - name: ManagedIntegrationRuntime
   description: Managed integration runtime, including managed elastic and managed dedicated integration runtimes.
   kind: object
@@ -181,14 +162,23 @@ definitions:
     description: Integration runtime description.
     types:
     - uid: string
-- name: IntegrationRuntimeType
-  description: The type of integration runtime.
-  kind: enum
+- name: SelfHostedIntegrationRuntime
+  description: Self-hosted integration runtime.
+  kind: object
   properties:
-  - name: Managed
+  - name: typeProperties.linkedInfo
+    description: Linked integration runtime type from data factory
     types:
-    - uid: string
-  - name: SelfHosted
+    - uid: LinkedIntegrationRuntimeKeyAuthorization
+    - uid: LinkedIntegrationRuntimeRbacAuthorization
+    typesTitle: LinkedIntegrationRuntimeType
+  - name: type
+    description: Type of integration runtime.
+    types:
+    - uid: SelfHosted
+    typesTitle: string
+  - name: description
+    description: Integration runtime description.
     types:
     - uid: string
 - name: IntegrationRuntimeState
@@ -295,32 +285,16 @@ definitions:
     types:
     - uid: CustomSetupBase
       isArray: true
-- name: LinkedIntegrationRuntimeRbacAuthorization
-  description: The role based access control (RBAC) authorization type integration runtime.
-  kind: object
+- name: IntegrationRuntimeType
+  description: The type of integration runtime.
+  kind: enum
   properties:
-  - name: resourceId
-    description: The resource identifier of the integration runtime to be shared.
+  - name: Managed
     types:
     - uid: string
-  - name: authorizationType
-    description: The authorization type for integration runtime sharing.
+  - name: SelfHosted
     types:
-    - uid: RBAC
-    typesTitle: string
-- name: LinkedIntegrationRuntimeKeyAuthorization
-  description: The key authorization type integration runtime.
-  kind: object
-  properties:
-  - name: key
-    description: The key used for authorization.
-    types:
-    - uid: SecureString
-  - name: authorizationType
-    description: The authorization type for integration runtime sharing.
-    types:
-    - uid: Key
-    typesTitle: string
+    - uid: string
 - name: IntegrationRuntimeDataFlowProperties
   description: Data flow properties for managed integration runtime.
   kind: object
@@ -426,18 +400,31 @@ definitions:
   - name: Enterprise
     types:
     - uid: string
-- name: SecureString
-  description: Azure Synapse secure string definition. The string value will be masked with asterisks '*' during Get or List API calls.
+- name: LinkedIntegrationRuntimeKeyAuthorization
+  description: The key authorization type integration runtime.
   kind: object
   properties:
-  - name: value
-    description: Value of secure string.
-    types:
-    - uid: string
-  - name: type
-    description: Type of the secret.
+  - name: key
+    description: The key used for authorization.
     types:
     - uid: SecureString
+  - name: authorizationType
+    description: The authorization type for integration runtime sharing.
+    types:
+    - uid: Key
+    typesTitle: string
+- name: LinkedIntegrationRuntimeRbacAuthorization
+  description: The role based access control (RBAC) authorization type integration runtime.
+  kind: object
+  properties:
+  - name: resourceId
+    description: The resource identifier of the integration runtime to be shared.
+    types:
+    - uid: string
+  - name: authorizationType
+    description: The authorization type for integration runtime sharing.
+    types:
+    - uid: RBAC
     typesTitle: string
 - name: DataFlowComputeType
   description: Compute type of the cluster which will execute data flow job.
@@ -452,6 +439,19 @@ definitions:
   - name: ComputeOptimized
     types:
     - uid: string
+- name: SecureString
+  description: Azure Synapse secure string definition. The string value will be masked with asterisks '*' during Get or List API calls.
+  kind: object
+  properties:
+  - name: value
+    description: Value of secure string.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the secret.
+    types:
+    - uid: SecureString
+    typesTitle: string
 - name: IntegrationRuntimeSsisCatalogPricingTier
   description: The pricing tier for the catalog database. The valid values could be found in https://azure.microsoft.com/en-us/pricing/details/sql-database/
   kind: enum

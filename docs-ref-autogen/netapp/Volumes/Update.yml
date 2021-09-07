@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.volumes.update
 name: Update
 service: Azure NetApp Files
 groupName: Volumes
-apiVersion: 2020-12-01
+apiVersion: 2021-06-01
 summary: "Update a volume  \nPatch the specified volume"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}?api-version=2020-12-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,7 +48,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -104,6 +104,21 @@ requestBody:
     description: "DataProtection  \nDataProtection type volumes include an object containing details of the replication"
     types:
     - uid: volumePatchProperties.DataProtection
+  - name: properties.isDefaultQuotaEnabled
+    in: body
+    description: Specifies if default quota is enabled for the volume.
+    types:
+    - uid: boolean
+  - name: properties.defaultUserQuotaInKiBs
+    in: body
+    description: Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies .
+    types:
+    - uid: integer
+  - name: properties.defaultGroupQuotaInKiBs
+    in: body
+    description: Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies.
+    types:
+    - uid: integer
 requestHeader: []
 definitions:
 - name: ExportPolicy
@@ -157,6 +172,10 @@ definitions:
     description: "Backup  \nBackup Properties"
     types:
     - uid: volumeBackupProperties
+  - name: snapshot
+    description: "Snapshot  \nSnapshot properties."
+    types:
+    - uid: volumeSnapshotProperties
 - name: volumePatch.volumePatchProperties.DataProtection
   description: DataProtection
   kind: object
@@ -165,6 +184,10 @@ definitions:
     description: "Backup  \nBackup Properties"
     types:
     - uid: volumeBackupProperties
+  - name: snapshot
+    description: "Snapshot  \nSnapshot properties."
+    types:
+    - uid: volumeSnapshotProperties
 - name: volume
   description: Volume resource
   kind: object
@@ -181,6 +204,11 @@ definitions:
   - name: name
     isReadyOnly: true
     description: Resource name
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
   - name: type
@@ -294,6 +322,39 @@ definitions:
     description: Specifies whether LDAP is enabled or not for a given NFS volume.
     types:
     - uid: boolean
+  - name: properties.coolAccess
+    description: Specifies whether Cool Access(tiering) is enabled for the volume.
+    types:
+    - uid: boolean
+  - name: properties.coolnessPeriod
+    description: Specifies the number of days after which data that is not accessed by clients will be tiered.
+    types:
+    - uid: integer
+  - name: properties.unixPermissions
+    description: 'UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users.'
+    types:
+    - uid: string
+  - name: properties.cloneProgress
+    isReadyOnly: true
+    description: When a volume is being restored from another volume's snapshot, will show the percentage completion of this cloning process. When this value is empty/null there is no cloning process currently happening on this volume. This value will update every 5 minutes during cloning.
+    types:
+    - uid: integer
+  - name: properties.avsDataStore
+    description: "avsDataStore  \nSpecifies whether the volume is enabled for Azure VMware Solution (AVS) datastore purpose"
+    types:
+    - uid: avsDataStore
+  - name: properties.isDefaultQuotaEnabled
+    description: Specifies if default quota is enabled for the volume.
+    types:
+    - uid: boolean
+  - name: properties.defaultUserQuotaInKiBs
+    description: Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies .
+    types:
+    - uid: integer
+  - name: properties.defaultGroupQuotaInKiBs
+    description: Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies.
+    types:
+    - uid: integer
 - name: cloudError
   description: An error response from the service.
   kind: object
@@ -353,6 +414,18 @@ definitions:
     description: "DataProtection  \nDataProtection type volumes include an object containing details of the replication"
     types:
     - uid: volumePatchProperties.DataProtection
+  - name: properties.isDefaultQuotaEnabled
+    description: Specifies if default quota is enabled for the volume.
+    types:
+    - uid: boolean
+  - name: properties.defaultUserQuotaInKiBs
+    description: Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies .
+    types:
+    - uid: integer
+  - name: properties.defaultGroupQuotaInKiBs
+    description: Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies.
+    types:
+    - uid: integer
 - name: exportPolicyRule
   description: Volume Export Policy Rule
   kind: object
@@ -413,6 +486,10 @@ definitions:
     description: Has root access to volume
     types:
     - uid: boolean
+  - name: chownMode
+    description: This parameter specifies who is authorized to change the ownership of a file. restricted - Only root user can change the ownership of the file. unrestricted - Non-root users can change ownership of files that they own.
+    types:
+    - uid: ChownMode
 - name: volumeBackupProperties
   description: Volume Backup Properties
   kind: object
@@ -433,6 +510,14 @@ definitions:
     description: Backup Enabled
     types:
     - uid: boolean
+- name: volumeSnapshotProperties
+  description: Volume Snapshot Properties
+  kind: object
+  properties:
+  - name: snapshotPolicyId
+    description: Snapshot Policy ResourceId
+    types:
+    - uid: string
 - name: ServiceLevel
   description: serviceLevel
   kind: enum
@@ -447,6 +532,10 @@ definitions:
     - uid: string
   - name: Ultra
     description: Ultra service level
+    types:
+    - uid: string
+  - name: StandardZRS
+    description: Zone redundant storage service level
     types:
     - uid: string
 - name: mountTargetProperties
@@ -481,6 +570,18 @@ definitions:
   - name: unix
     types:
     - uid: string
+- name: avsDataStore
+  description: avsDataStore
+  kind: enum
+  properties:
+  - name: Enabled
+    description: avsDataStore is enabled
+    types:
+    - uid: string
+  - name: Disabled
+    description: avsDataStore is disabled
+    types:
+    - uid: string
 - name: cloudErrorBody
   description: An error response from the service.
   kind: object
@@ -491,6 +592,16 @@ definitions:
     - uid: string
   - name: message
     description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+- name: ChownMode
+  description: This parameter specifies who is authorized to change the ownership of a file. restricted - Only root user can change the ownership of the file. unrestricted - Non-root users can change ownership of files that they own.
+  kind: enum
+  properties:
+  - name: Restricted
+    types:
+    - uid: string
+  - name: Unrestricted
     types:
     - uid: string
 - name: replicationObject
@@ -515,14 +626,6 @@ definitions:
     - uid: string
   - name: remoteVolumeRegion
     description: The remote region for the other end of the Volume Replication.
-    types:
-    - uid: string
-- name: volumeSnapshotProperties
-  description: Volume Snapshot Properties
-  kind: object
-  properties:
-  - name: snapshotPolicyId
-    description: Snapshot Policy ResourceId
     types:
     - uid: string
 - name: EndpointType
@@ -551,7 +654,7 @@ definitions:
 examples:
 - name: Volumes_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1?api-version=2020-12-01
+    uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1?api-version=2021-06-01
     body: '{}'
   responses:
   - statusCode: "200"
@@ -568,7 +671,12 @@ examples:
           "serviceLevel": "Premium",
           "provisioningState": "Succeeded",
           "throughputMibps": 128,
-          "subnetId": "/subscriptions/9760acf5-4638-11e7-9bdb-020073ca7778/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3"
+          "subnetId": "/subscriptions/9760acf5-4638-11e7-9bdb-020073ca7778/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3",
+          "dataProtection": {
+            "snapshot": {
+              "snapshotPolicyId": "/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRP/providers/Microsoft.NetApp/netAppAccounts/account1/snapshotPolicies/snapshotPolicy1"
+            }
+          }
         }
       }
   - statusCode: "202"

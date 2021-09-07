@@ -97,9 +97,9 @@ definitions:
   - name: properties.serialization
     description: Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: AvroSerialization
-    - uid: JsonSerialization
     - uid: CsvSerialization
+    - uid: JsonSerialization
+    - uid: AvroSerialization
     typesTitle: Serialization
   - name: properties.diagnostics
     isReadyOnly: true
@@ -432,14 +432,22 @@ definitions:
     description: The user display name of the user that was used to obtain the refresh token. Use this property to help remember which user was used to obtain the refresh token.
     types:
     - uid: string
-- name: AvroSerialization
-  description: Describes how data from an input is serialized or how data is serialized when written to an output in Avro format.
+- name: CsvSerialization
+  description: Describes how data from an input is serialized or how data is serialized when written to an output in CSV format.
   kind: object
   properties:
+  - name: properties.fieldDelimiter
+    description: Specifies the delimiter that will be used to separate comma-separated value (CSV) records. See https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-input or https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for a list of supported values. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.encoding
+    description: Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Encoding
   - name: type
     description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: Avro
+    - uid: Csv
     typesTitle: string
 - name: JsonSerialization
   description: Describes how data from an input is serialized or how data is serialized when written to an output in JSON format.
@@ -458,22 +466,14 @@ definitions:
     types:
     - uid: Json
     typesTitle: string
-- name: CsvSerialization
-  description: Describes how data from an input is serialized or how data is serialized when written to an output in CSV format.
+- name: AvroSerialization
+  description: Describes how data from an input is serialized or how data is serialized when written to an output in Avro format.
   kind: object
   properties:
-  - name: properties.fieldDelimiter
-    description: Specifies the delimiter that will be used to separate comma-separated value (CSV) records. See https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-input or https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for a list of supported values. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.encoding
-    description: Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Encoding
   - name: type
     description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: Csv
+    - uid: Avro
     typesTitle: string
 - name: DiagnosticCondition
   description: Condition applicable to the resource, or to the job overall, that warrant customer attention.
@@ -506,6 +506,13 @@ definitions:
     description: The account key for the Azure Storage account. Required on PUT (CreateOrReplace) requests.
     types:
     - uid: string
+- name: Encoding
+  description: Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output.
+  kind: enum
+  properties:
+  - name: UTF8
+    types:
+    - uid: string
 - name: EventSerializationType
   description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
   kind: enum
@@ -517,13 +524,6 @@ definitions:
     types:
     - uid: string
   - name: Json
-    types:
-    - uid: string
-- name: Encoding
-  description: Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output.
-  kind: enum
-  properties:
-  - name: UTF8
     types:
     - uid: string
 - name: JsonOutputSerializationFormat

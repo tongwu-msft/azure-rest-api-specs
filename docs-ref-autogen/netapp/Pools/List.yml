@@ -3,14 +3,14 @@ uid: management.azure.com.netapp.pools.list
 name: List
 service: Azure NetApp Files
 groupName: Pools
-apiVersion: 2020-12-01
+apiVersion: 2021-06-01
 summary: "Describe all Capacity Pools  \nList all capacity pools in the NetApp Account"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools?api-version=2020-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -34,7 +34,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -75,6 +75,11 @@ definitions:
   - name: name
     isReadyOnly: true
     description: Resource name
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
   - name: type
@@ -122,6 +127,14 @@ definitions:
     description: "qosType  \nThe qos type of the pool"
     types:
     - uid: qosType
+  - name: properties.coolAccess
+    description: If enabled (true) the pool can contain cool Access enabled volumes.
+    types:
+    - uid: boolean
+  - name: properties.encryptionType
+    description: "encryptionType  \nEncryption type of the capacity pool, set encryption type for data at rest for this pool and all volumes in it. This value can only be set when creating new pool."
+    types:
+    - uid: encryptionType
 - name: ServiceLevel
   description: serviceLevel
   kind: enum
@@ -138,6 +151,10 @@ definitions:
     description: Ultra service level
     types:
     - uid: string
+  - name: StandardZRS
+    description: Zone redundant storage service level
+    types:
+    - uid: string
 - name: qosType
   description: qosType
   kind: enum
@@ -150,10 +167,22 @@ definitions:
     description: qos type Manual
     types:
     - uid: string
+- name: encryptionType
+  description: encryptionType
+  kind: enum
+  properties:
+  - name: Single
+    description: EncryptionType Single, volumes will use single encryption at rest
+    types:
+    - uid: string
+  - name: Double
+    description: EncryptionType Double, volumes will use double encryption at rest
+    types:
+    - uid: string
 examples:
 - name: Pools_List
   request:
-    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools?api-version=2020-12-01
+    uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-

@@ -3,15 +3,15 @@ uid: management.azure.com.policy.policysetdefinitions.listbymanagementgroup
 name: List By Management Group
 service: Policy
 groupName: Policy Set Definitions
-apiVersion: 2020-09-01
+apiVersion: 2021-06-01
 summary: "Retrieves all policy set definitions in management group.  \nThis operation retrieves a list of all the policy set definitions in a given management group that match the optional given $filter. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, the unfiltered list includes all policy set definitions associated with the management group, including those that apply directly or from management groups that contain the given management group. If $filter=atExactScope() is provided, the returned list only includes all policy set definitions that at the given management group. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy set definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn and Custom. If $filter='category -eq {value}' is provided, the returned list only includes all policy set definitions whose category match the {value}."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions?api-version=2020-09-01
-- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions?api-version=2020-09-01&$filter={$filter}&$top={$top}
+- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions?api-version=2021-06-01
+- content: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions?api-version=2021-06-01&$filter={$filter}&$top={$top}
   isOptional: true
 uriParameters:
 - name: managementGroupId
@@ -88,6 +88,11 @@ definitions:
     description: The type of the resource (Microsoft.Authorization/policySetDefinitions).
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata relating to this resource.
+    types:
+    - uid: systemData
   - name: properties.policyType
     description: The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static.
     types:
@@ -153,6 +158,34 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: policyType
   description: The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static.
   kind: enum
@@ -253,6 +286,22 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: parameterType
   description: The data type of the parameter.
   kind: enum
@@ -309,7 +358,7 @@ definitions:
 examples:
 - name: List policy set definitions at management group level
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policySetDefinitions?api-version=2020-09-01
+    uri: GET https://management.azure.com/providers/Microsoft.Management/managementGroups/MyManagementGroup/providers/Microsoft.Authorization/policySetDefinitions?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-
