@@ -127,7 +127,11 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 |`x-ms-immutability-policy-until-date`|Version 2020-06-12 or newer. Specifies the 'retention until' date set on the blob. This is the date until which the blob can be protected from being modified or deleted. Returned only if an immutability policy is set on the blob. The value of this header is RFC1123 format.| 
 |`x-ms-immutability-policy-mode: unlocked/locked`|Version 2020-06-12 or newer. The immutability policy mode, returned if an immutability policy is set on the blob. Values are `unlocked`/`locked`. `unlocked` indicates the user may change the policy by increasing or decreasing the retention-until date. `locked` indicates that these actions are prohibited.| 
 |`x-ms-legal-hold: true/false`|Version 2020-06-12 or newer. This header is not returned if there is no legal hold on the blob. The value of this header is set to true if the blob contains a legal hold and its value is true. Otherwise, the value is set to false if the blob contains a legal hold and its value false.| 
-  
+|`x-ms-owner`|Version 2020-06-12 or newer only for accounts with hierarchical namespace enabled. Returns the owner user of the file or directory.| 
+|`x-ms-group`|Version 2020-06-12 or newer only for accounts with hierarchical namespace enabled. Returns the owning group of the file or directory.| 
+|`x-ms-permissions`|Version 2020-06-12 or newer only for accounts with hierarchical namespace enabled. Returns the permissions set for 'user', 'group' and 'other' on the file or directory. Each individual permission is in [r,w,x,-]{3} format.| 
+|`x-ms-resource-type`|Version 2020-10-02 or newer only for accounts with hierarchical namespace enabled. Returns the resource type for the path, which can be either `file`/`directory`.|
+
 ### Response Body  
  The response body contains the content of the blob.  
   

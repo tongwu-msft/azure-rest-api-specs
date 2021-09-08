@@ -128,6 +128,7 @@ Beginning with version 2019-02-02, the following headers may be specified on the
 |`x-ms-owner`|Version 2020-06-12 or newer only for accounts with hierarchical namespace enabled. Returns the owner user of the file or directory.| 
 |`x-ms-group`|Version 2020-06-12 or newer only for accounts with hierarchical namespace enabled. Returns the owning group of the file or directory.| 
 |`x-ms-permissions`|Version 2020-06-12 or newer only for accounts with hierarchical namespace enabled. Returns the permissions set for 'user', 'group' and 'other' on the file or directory. Each individual permission is in [r,w,x,-]{3} format.| 
+|`x-ms-resource-type`|Version 2020-10-02 or newer only for accounts with hierarchical namespace enabled. Returns the resource type for the path, which can be either `file`/`directory`.| 
 
 ### Response Body  
  None.  
