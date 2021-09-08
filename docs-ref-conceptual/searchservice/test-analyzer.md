@@ -13,7 +13,7 @@ ms.manager: nitinme
 ---
 # Analyze Text (Azure Cognitive Search REST API)
 
-The **Analyze API** shows how an analyzer breaks text into tokens. It's used to test tokenization interactively, showing how a string is tokenized for a given analyzer
+The **Analyze API** shows how an analyzer breaks text into tokens. It's intended for interactive testing so that you can see how a given analyzer will tokenize a string input.
 
 ```http
 POST https://[service name].search.windows.net/indexes/[index name]/analyze?api-version=[api-version]
