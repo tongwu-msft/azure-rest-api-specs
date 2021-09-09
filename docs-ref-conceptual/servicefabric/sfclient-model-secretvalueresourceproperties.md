@@ -1,5 +1,6 @@
 ---
 title: "SecretValueResourceProperties"
+description: "SecretValueResourceProperties"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

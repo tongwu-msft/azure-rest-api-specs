@@ -1,0 +1,195 @@
+### YamlMime:RESTOperation
+uid: cognitiveservices-textanalytics.3.1preview4.cancelhealthjob.cancelhealthjob
+name: Cancel Health Job
+service: Cognitive Services - Text Analytics
+groupName: Cancel Health Job
+apiVersion: v3.1-preview.4
+summary: Cancel healthcare prediction job.
+produces:
+- application/json
+- text/json
+paths:
+- content: DELETE {Endpoint}/text/analytics/v3.1-preview.4/entities/health/jobs/{jobId}
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com).'
+  types:
+  - uid: string
+- name: jobId
+  in: path
+  isRequired: true
+  description: Job ID
+  types:
+  - uid: string
+  format: uuid
+responses:
+- name: 202 Accepted
+  headers:
+  - name: Operation-Location
+    value: string
+  description: Cancel Job request has been received.
+- name: 404 Not Found
+  description: Job ID not found.
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: Internal error response
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  types:
+  - uid: string
+definitions:
+- name: ErrorResponse
+  kind: object
+  properties:
+  - name: error
+    description: Document Error.
+    types:
+    - uid: TextAnalyticsError
+- name: TextAnalyticsError
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: ErrorCodeValue
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: Inner error contains more specific information.
+    types:
+    - uid: InnerError
+  - name: details
+    description: Details about specific errors that led to this reported error.
+    types:
+    - uid: TextAnalyticsError
+      isArray: true
+- name: ErrorCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidArgument
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: ServiceUnavailable
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+- name: InnerError
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: InnerErrorCodeValue
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: Inner error contains more specific information.
+    types:
+    - uid: InnerError
+- name: InnerErrorCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: InvalidParameterValue
+    types:
+    - uid: string
+  - name: InvalidRequestBodyFormat
+    types:
+    - uid: string
+  - name: EmptyRequest
+    types:
+    - uid: string
+  - name: MissingInputRecords
+    types:
+    - uid: string
+  - name: InvalidDocument
+    types:
+    - uid: string
+  - name: ModelVersionIncorrect
+    types:
+    - uid: string
+  - name: InvalidDocumentBatch
+    types:
+    - uid: string
+  - name: UnsupportedLanguageCode
+    types:
+    - uid: string
+  - name: InvalidCountryHint
+    types:
+    - uid: string
+examples:
+- name: Successful Health request
+  request:
+    uri: DELETE {Endpoint}/text/analytics/v3.1-preview.4/entities/health/jobs/{Job ID}
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Operation-Location
+      value: '{endpoint}/text/analytics/v3.1-preview.4/entities/healthcare/jobs/{jobId}'
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "NotFound",
+          "message": "Not Found",
+          "innererror": {
+            "code": "JobIdNotFound",
+            "message": "Job ID not found."
+          }
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "InternalServerError",
+          "message": "Internal Server Error"
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  in: header
+metadata:
+  description: Learn more about Cognitive Services - Text Analytics service - Cancel healthcare prediction job.
+errorCodes: []

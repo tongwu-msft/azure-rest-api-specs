@@ -1,0 +1,303 @@
+### YamlMime:RESTOperation
+uid: azurefarmbeats.oauthproviders.createorupdate
+name: Create Or Update
+service: Azure FarmBeats
+groupName: O Auth Providers
+apiVersion: 2021-03-31-preview
+summary: >+
+  Create or update an OAuth provider resource.
+
+
+
+  ###### Note:
+
+
+  1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+
+  2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+
+  3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+
+consumes:
+- application/merge-patch+json
+produces:
+- application/json
+paths:
+- content: PATCH /oauth/providers/{oauthProviderId}?api-version=2021-03-31-preview
+uriParameters:
+- name: oauthProviderId
+  in: path
+  isRequired: true
+  description: Id of the OAuth provider resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The requested API version.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Success
+  types:
+  - uid: OAuthProvider
+- name: 200 OK
+  description: Success
+  types:
+  - uid: OAuthProvider
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: appId
+    in: body
+    description: OAuth App Id for a given OAuth Provider.
+    types:
+    - uid: string
+  - name: appSecret
+    in: body
+    description: >-
+      OAuth App secret for a given OAuth Provider.
+
+      Note: The app secret will not be part of the response.
+    types:
+    - uid: string
+  - name: apiKey
+    in: body
+    description: >-
+      OAuth Api key for a given Provider.
+
+      Note: The Api key will not be part of the response. This is applicable only for authenticating to Climate Corp.
+    types:
+    - uid: string
+  - name: isProductionApp
+    in: body
+    description: >-
+      An optional flag to determine if the OAuth App is ready to be used for production scenarios.
+
+      Note: This is applicable only for John Deere.
+    types:
+    - uid: boolean
+  - name: name
+    in: body
+    description: Name of the OAuth provider.
+    types:
+    - uid: string
+  - name: description
+    in: body
+    description: Brief description of the OAuth provider.
+    types:
+    - uid: string
+  - name: properties
+    in: body
+    description: A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  types:
+  - uid: string
+definitions:
+- name: OAuthProvider
+  description: Schema of OAuth provider resource.
+  kind: object
+  properties:
+  - name: appId
+    description: OAuth App Id for a given OAuth Provider.
+    types:
+    - uid: string
+  - name: appSecret
+    description: >-
+      OAuth App secret for a given OAuth Provider.
+
+      Note: The app secret will not be part of the response.
+    types:
+    - uid: string
+  - name: apiKey
+    description: >-
+      OAuth Api key for a given Provider.
+
+      Note: The Api key will not be part of the response. This is applicable only for authenticating to Climate Corp.
+    types:
+    - uid: string
+  - name: isProductionApp
+    description: >-
+      An optional flag to determine if the OAuth App is ready to be used for production scenarios.
+
+      Note: This is applicable only for John Deere.
+    types:
+    - uid: boolean
+  - name: id
+    isReadyOnly: true
+    description: "FarmBeats recognized unique Id for the OAuth provider. Valid value: 'JOHNDEERE."
+    types:
+    - uid: string
+  - name: eTag
+    isReadyOnly: true
+    description: ETag value can be used to implement optimistic concurrency.
+    types:
+    - uid: string
+  - name: createdDateTime
+    isReadyOnly: true
+    description: UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: modifiedDateTime
+    isReadyOnly: true
+    description: UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: name
+    description: Name of the OAuth provider.
+    types:
+    - uid: string
+  - name: description
+    description: Brief description of the OAuth provider.
+    types:
+    - uid: string
+  - name: properties
+    description: A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: ErrorResponse
+  description: >-
+    An error response from Azure AgPlatform service.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
+  kind: object
+  properties:
+  - name: error
+    description: An error from Azure FarmBeats service.
+    types:
+    - uid: Error
+  - name: traceId
+    description: Unique trace Id.
+    types:
+    - uid: string
+- name: Error
+  description: An error from Azure FarmBeats service.
+  kind: object
+  properties:
+  - name: code
+    description: Server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+- name: InnerError
+  description: >-
+    Inner error containing list of errors.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+  kind: object
+  properties:
+  - name: code
+    description: Specific error code than was provided by the containing error.
+    types:
+    - uid: string
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+examples:
+- name: OAuthProviders_CreateOrUpdate
+  request:
+    uri: PATCH /oauth/providers/JOHNDEERE?api-version=2021-03-31-preview
+    body: >-
+      {
+        "appId": "appId",
+        "appSecret": "appSecret",
+        "apiKey": "apiKey",
+        "isProductionApp": false,
+        "name": "Test oAuth provider",
+        "description": "Test oAuth provider description",
+        "properties": {
+          "Region": "Central US",
+          "RetailerId": 123
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "JOHNDEERE",
+        "appId": "appId",
+        "isProductionApp": false,
+        "name": "Test oAuth provider",
+        "description": "Test oAuth provider description",
+        "properties": {
+          "Region": "Central US",
+          "RetailerId": 123
+        },
+        "eTag": "0f8fad5b-d9cb-469f-a165-70867728950e",
+        "createdDateTime": "2021-04-23T11:31:10Z",
+        "modifiedDateTime": "2021-04-23T11:31:10Z"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "JOHNDEERE",
+        "appId": "appId",
+        "isProductionApp": false,
+        "name": "Test oAuth provider",
+        "description": "Test oAuth provider description",
+        "properties": {
+          "Region": "Central US",
+          "RetailerId": 123
+        },
+        "eTag": "0f8fad5b-d9cb-469f-a165-70867728950e",
+        "createdDateTime": "2021-04-23T11:31:10Z",
+        "modifiedDateTime": "2021-04-23T11:31:10Z"
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  in: header
+metadata:
+  description: >-
+    Create or update an OAuth provider resource.
+
+
+
+    ###### Note:
+
+
+    1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+errorCodes: []

@@ -1,0 +1,355 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.securityinsights.watchlists.get
+name: Get
+service: Sentinel
+groupName: Watchlists
+apiVersion: 2021-04-01
+summary: Get a watchlist, without its watchlist items.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/watchlists/{watchlistAlias}?api-version=2021-04-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: operationalInsightsResourceProvider
+  in: path
+  isRequired: true
+  description: The namespace of workspaces resource provider- Microsoft.OperationalInsights.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of the workspace.
+  types:
+  - uid: string
+- name: watchlistAlias
+  in: path
+  isRequired: true
+  description: The watchlist alias
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Watchlist
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: Watchlist
+  description: Represents a Watchlist in Azure Security Insights.
+  kind: object
+  properties:
+  - name: properties.watchlistId
+    description: The id (a Guid) of the watchlist
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: The display name of the watchlist
+    types:
+    - uid: string
+  - name: properties.provider
+    description: The provider of the watchlist
+    types:
+    - uid: string
+  - name: properties.source
+    description: The source of the watchlist
+    types:
+    - uid: source
+  - name: properties.created
+    description: The time the watchlist was created
+    types:
+    - uid: string
+  - name: properties.updated
+    description: The last time the watchlist was updated
+    types:
+    - uid: string
+  - name: properties.createdBy
+    description: Describes a user that created the watchlist
+    types:
+    - uid: UserInfo
+  - name: properties.updatedBy
+    description: Describes a user that updated the watchlist
+    types:
+    - uid: UserInfo
+  - name: properties.description
+    description: A description of the watchlist
+    types:
+    - uid: string
+  - name: properties.watchlistType
+    description: The type of the watchlist
+    types:
+    - uid: string
+  - name: properties.watchlistAlias
+    description: The alias of the watchlist
+    types:
+    - uid: string
+  - name: properties.isDeleted
+    description: A flag that indicates if the watchlist is deleted or not
+    types:
+    - uid: boolean
+  - name: properties.labels
+    description: List of labels relevant to this watchlist
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.defaultDuration
+    description: The default duration of a watchlist (in ISO 8601 duration format)
+    types:
+    - uid: string
+  - name: properties.tenantId
+    description: The tenantId where the watchlist belongs to
+    types:
+    - uid: string
+  - name: properties.numberOfLinesToSkip
+    description: The number of lines in a csv content to skip before the header
+    types:
+    - uid: integer
+  - name: properties.rawContent
+    description: >-
+      The raw content that represents to watchlist items to create. Example : This line will be skipped
+
+      header1,header2
+
+      value1,value2
+    types:
+    - uid: string
+  - name: properties.itemsSearchKey
+    description: The search key is used to optimize query performance when using watchlists for joins with other data. For example, enable a column with IP addresses to be the designated SearchKey field, then use this field as the key field when joining to other event data by IP address.
+    types:
+    - uid: string
+  - name: properties.contentType
+    description: The content type of the raw content. For now, only text/csv is valid
+    types:
+    - uid: string
+  - name: properties.uploadStatus
+    description: 'The status of the Watchlist upload : New, InProgress or Complete. **Note** : When a Watchlist upload status is InProgress, the Watchlist cannot be deleted'
+    types:
+    - uid: string
+  - name: etag
+    description: Etag of the azure resource
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Azure resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Azure resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Azure resource type
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: CloudError
+  description: An error response for a resource management request.
+  kind: object
+  properties:
+  - name: error
+    description: "Error Response  \nThe error object of the CloudError response"
+    types:
+    - uid: ErrorResponse
+- name: source
+  description: The source of the watchlist
+  kind: enum
+  properties:
+  - name: Local file
+    types:
+    - uid: string
+  - name: Remote storage
+    types:
+    - uid: string
+- name: UserInfo
+  description: User information that made some action
+  kind: object
+  properties:
+  - name: email
+    isReadyOnly: true
+    description: The email of the user.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the user.
+    types:
+    - uid: string
+  - name: objectId
+    description: The object id of the user.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorResponse
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Get a watchlist.
+  request:
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/watchlists/highValueAsset?api-version=2021-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalIinsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/watchlists/highValueAsset",
+        "name": "highValueAsset",
+        "type": "Microsoft.SecurityInsights/Watchlists",
+        "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
+        "properties": {
+          "watchlistId": "76d5a51f-ba1f-4038-9d22-59fda38dc017",
+          "displayName": "High Value Assets Watchlist",
+          "provider": "Microsoft",
+          "source": "Local file",
+          "created": "2020-09-28T00:26:54.7746089+00:00",
+          "updated": "2020-09-28T00:26:57+00:00",
+          "createdBy": {
+            "objectId": "2046feea-040d-4a46-9e2b-91c2941bfa70",
+            "email": "john@contoso.com",
+            "name": "john doe"
+          },
+          "updatedBy": {
+            "objectId": "2046feea-040d-4a46-9e2b-91c2941bfa70",
+            "email": "john@contoso.com",
+            "name": "john doe"
+          },
+          "description": "Watchlist from CSV content",
+          "watchlistType": "watchlist",
+          "watchlistAlias": "highValueAsset",
+          "itemsSearchKey": "header1",
+          "isDeleted": false,
+          "labels": [
+            "Tag1",
+            "Tag2"
+          ],
+          "defaultDuration": "P1279DT12H30M5S",
+          "tenantId": "f686d426-8d16-42db-81b7-ab578e110ccd"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Sentinel service - Get a watchlist, without its watchlist items.
+errorCodes: []

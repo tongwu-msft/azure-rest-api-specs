@@ -4,7 +4,7 @@ name: List
 service: Consumption
 groupName: Forecasts
 apiVersion: 2019-10-01
-summary: Lists the forecast charges by subscriptionId.
+summary: 'Lists the forecast charges for scope defined. Please note that this API is no longer actively under development. We recommend using our new Forecast API moving forward: https://docs.microsoft.com/en-us/rest/api/cost-management/forecast/usage.'
 consumes:
 - application/json
 produces:
@@ -70,7 +70,7 @@ definitions:
     types:
     - uid: string
   - name: properties.grain
-    description: The granularity of forecast.
+    description: The granularity of forecast. Please note that Yearly is not currently supported in this API. The API will provide responses in the Monthly grain if Yearly is selected. To get yearly grain data, please use our newer Forecast API.
     types:
     - uid: Grain
   - name: properties.charge
@@ -108,6 +108,11 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: Resource etag.
+    types:
+    - uid: string
   - name: tags
     isReadyOnly: true
     description: Resource tags.
@@ -132,7 +137,7 @@ definitions:
     types:
     - uid: string
 - name: Grain
-  description: The granularity of forecast.
+  description: The granularity of forecast. Please note that Yearly is not currently supported in this API. The API will provide responses in the Monthly grain if Yearly is selected. To get yearly grain data, please use our newer Forecast API.
   kind: enum
   properties:
   - name: Daily
@@ -232,7 +237,7 @@ examples:
       }
 - name: ForecastsListFilterByGrain
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/forecasts?$filter=Grain eq 'Monthly'&api-version=2019-10-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/forecasts?$filter=properties/Grain eq 'Monthly'&api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -279,7 +284,7 @@ examples:
       }
 - name: ForecastsListFilterByDates
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/forecasts?$filter=usagedate ge '2018-04-01' AND usagedate le '2018-04-02'&api-version=2019-10-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/forecasts?$filter=properties/usagedate ge '2018-04-01' AND properties/usagedate le '2018-04-02'&api-version=2019-10-01
   responses:
   - statusCode: "200"
     body: >-
@@ -333,4 +338,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Lists the forecast charges for scope defined. Please note that this API is no longer actively under development.
 errorCodes: []

@@ -1,5 +1,6 @@
 ---
 title: "Upload File Chunk"
+description: "Upload File Chunk"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

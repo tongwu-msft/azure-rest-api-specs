@@ -1,0 +1,234 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.natrules.get
+name: Get
+service: Virtual WAN
+groupName: Nat Rules
+apiVersion: 2021-02-01
+summary: Retrieves the details of a nat ruleGet.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}?api-version=2021-02-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name of the VpnGateway.
+  types:
+  - uid: string
+- name: gatewayName
+  in: path
+  isRequired: true
+  description: The name of the gateway.
+  types:
+  - uid: string
+- name: natRuleName
+  in: path
+  isRequired: true
+  description: The name of the nat rule.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns the details of the nat rule.
+  types:
+  - uid: VpnGatewayNatRule
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: VpnGatewayNatRule
+  description: VpnGatewayNatRule Resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the NAT Rule resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.type
+    description: The type of NAT rule for VPN NAT.
+    types:
+    - uid: VpnNatRuleType
+  - name: properties.mode
+    description: The Source NAT direction of a VPN NAT.
+    types:
+    - uid: VpnNatRuleMode
+  - name: properties.internalMappings
+    description: The private IP address internal mapping for NAT.
+    types:
+    - uid: VpnNatRuleMapping
+      isArray: true
+  - name: properties.externalMappings
+    description: The private IP address external mapping for NAT.
+    types:
+    - uid: VpnNatRuleMapping
+      isArray: true
+  - name: properties.ipConfigurationId
+    description: The IP Configuration ID this NAT rule applies to.
+    types:
+    - uid: string
+  - name: properties.egressVpnSiteLinkConnections
+    isReadyOnly: true
+    description: List of egress VpnSiteLinkConnections.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.ingressVpnSiteLinkConnections
+    isReadyOnly: true
+    description: List of ingress VpnSiteLinkConnections.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: VpnNatRuleType
+  description: The type of NAT rule for VPN NAT.
+  kind: enum
+  properties:
+  - name: Static
+    types:
+    - uid: string
+  - name: Dynamic
+    types:
+    - uid: string
+- name: VpnNatRuleMode
+  description: The Source NAT direction of a VPN NAT.
+  kind: enum
+  properties:
+  - name: EgressSnat
+    types:
+    - uid: string
+  - name: IngressSnat
+    types:
+    - uid: string
+- name: VpnNatRuleMapping
+  description: Vpn NatRule mapping.
+  kind: object
+  properties:
+  - name: addressSpace
+    description: Address space for Vpn NatRule mapping.
+    types:
+    - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: NatRuleGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/natRule1?api-version=2021-02-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "natRule1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/natRule1",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "type": "Static",
+          "mode": "EgressSnat",
+          "internalMappings": [
+            {
+              "addressSpace": "10.4.0.0/24"
+            }
+          ],
+          "externalMappings": [],
+          "egressVpnSiteLinkConnections": [],
+          "ingressVpnSiteLinkConnections": []
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Virtual WAN service - Retrieves the details of a nat ruleGet.
+errorCodes: []

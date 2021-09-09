@@ -4,7 +4,7 @@ description: Provides operations to programmatically get Azure service retail pr
 author: bandersmsft
 ms.author: banders
 ms.reviewer: mumami
-ms.date: 11/17/2020
+ms.date: 04/07/2021
 ms.topic: reference
 ms.service: cost-management-billing
 ms.subservice: cost-management
@@ -45,6 +45,12 @@ Example call filtered for compute resources
 
 ```http
 https://prices.azure.com/api/retail/prices?$filter=serviceFamily eq 'Compute'
+```
+
+Example call filtered for compute with currency in euro
+
+```http
+https://prices.azure.com/api/retail/prices?currencyCode='EUR'&$filter=serviceFamily eq 'Compute'
 ```
 
 ## API response examples
@@ -104,13 +110,41 @@ Here's a sample API response with reservation prices and term in the response.
         }
 ```
 
+Here's a sample response with a non-USD currency.
+
+```json
+{
+  "currencyCode": "EUR",
+  "tierMinimumUnits": 0,
+  "retailPrice": 0.6176,
+  "unitPrice": 0.6176,
+  "armRegionName": "westeurope",
+  "location": "EU West",
+  "effectiveStartDate": "2021-04-01T00:00:00Z",
+  "meterId": "000a794b-bdb0-58be-a0cd-0c3a0f222923",
+  "meterName": "F16s Spot",
+  "productId": "DZH318Z0BQPS",
+  "skuId": "DZH318Z0BQPS/00TG",
+  "productName": "Virtual Machines FS Series Windows",
+  "skuName": "F16s Spot",
+  "serviceName": "Virtual Machines",
+  "serviceId": "DZH313Z7MMC8",
+  "serviceFamily": "Compute",
+  "unitOfMeasure": "1 Hour",
+  "type": "Consumption",
+  "isPrimaryMeterRegion": true,
+  "armSkuName": "Standard_F16s"
+}
+```
+
+
 ## API property details
 
 Here's all the property details that are a part of the API response.
 
 | Field | Example Values | Definition |
 | --- | --- | --- |
-| currencyCode | USD | The currency in which rates are defined. Currently, the only currency returned is USD. |
+| currencyCode | USD | The currency in which rates are defined and returns prices in USD unless specified. |
 | tierMinimumUnits | 0 | Minimum units of consumption to avail the price |
 | reservationTerm | 1 year | Reservation term – 1 year or 3 years |
 | retailPrice | 0.176346 | Prices without discount |
@@ -152,13 +186,29 @@ Filters are supported for the following fields:
  
 You append the filters to the API endpoint, as shown in the API sample calls.
 
-## Unsupported functions
+## Supported currencies
 
-The Retail Prices API doesn't support the following functionalities:
+You append the currency code to the API endpoint, as shown in the API sample call.
 
-- The API doesn't support other currencies.
-- Azure Marketplace products aren't included in the response.
-- Part numbers aren't included in the response.
+| Currency code | Detail |
+| --- | --- |
+| USD | US dollar |
+| AUD​ | Australian dollar​ |
+| BRL​ | Brazilian real​ |
+| CAD​ | Canadian dollar​ |
+| CHF​ | Swiss franc​ |
+| CNY​ | Chinese yuan​ |
+| DKK​ | Danish krone​ |
+| EUR​ | Euro​ |
+| GBP​ | British pound​ |
+| INR​ | Indian rupee​ |
+| JPY​ | Japanese yen​ |
+| KRW​ | Korean won​ |
+| NOK​ | Norwegian krone​ |
+| NZD​ | New Zealand dollar​ |
+| RUB​ | Russian ruble​ |
+| SEK​ | Swedish krona​ |
+| TWD​ | Taiwan dollar​ |
 
 ## Next steps
 

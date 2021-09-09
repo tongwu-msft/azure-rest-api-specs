@@ -1,0 +1,330 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.capacityreservationgroups.createorupdate
+name: Create Or Update
+service: Compute
+groupName: Capacity Reservation Groups
+apiVersion: 2021-07-01
+summary: The operation to create or update a capacity reservation group. When updating a capacity reservation group, only tags may be modified. Please refer to https://aka.ms/CapacityReservation for more details.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}?api-version=2021-07-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: capacityReservationGroupName
+  in: path
+  isRequired: true
+  description: The name of the capacity reservation group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: CapacityReservationGroup
+- name: 201 Created
+  description: Created
+  types:
+  - uid: CapacityReservationGroup
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: zones
+    in: body
+    description: Availability Zones to use for this capacity reservation group. The zones can be assigned only during creation. If not provided, the group supports only regional resources in the region. If provided, enforces each capacity reservation in the group to be in one of the zones.
+    types:
+    - uid: string
+      isArray: true
+  - name: location
+    in: body
+    isRequired: true
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: SubResourceReadOnly
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+- name: CapacityReservationGroupInstanceView
+  kind: object
+  properties:
+  - name: capacityReservations
+    isReadyOnly: true
+    description: List of instance view of the capacity reservations under the capacity reservation group.
+    types:
+    - uid: CapacityReservationInstanceViewWithName
+      isArray: true
+- name: CapacityReservationGroup
+  description: Specifies information about the capacity reservation group that the capacity reservations should be assigned to. <br><br> Currently, a capacity reservation can only be added to a capacity reservation group at creation time. An existing capacity reservation cannot be added or moved to another capacity reservation group.
+  kind: object
+  properties:
+  - name: zones
+    description: Availability Zones to use for this capacity reservation group. The zones can be assigned only during creation. If not provided, the group supports only regional resources in the region. If provided, enforces each capacity reservation in the group to be in one of the zones.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.capacityReservations
+    isReadyOnly: true
+    description: A list of all capacity reservation resource ids that belong to capacity reservation group.
+    types:
+    - uid: SubResourceReadOnly
+      isArray: true
+  - name: properties.virtualMachinesAssociated
+    isReadyOnly: true
+    description: A list of references to all virtual machines associated to the capacity reservation group.
+    types:
+    - uid: SubResourceReadOnly
+      isArray: true
+  - name: properties.instanceView
+    isReadyOnly: true
+    description: The capacity reservation group instance view which has the list of instance views for all the capacity reservations that belong to the capacity reservation group.
+    types:
+    - uid: CapacityReservationGroupInstanceView
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
+- name: CapacityReservationInstanceViewWithName
+  description: The instance view of a capacity reservation that includes the name of the capacity reservation. It is used for the response to the instance view of a capacity reservation group.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The name of the capacity reservation.
+    types:
+    - uid: string
+  - name: utilizationInfo
+    description: Unutilized capacity of the capacity reservation.
+    types:
+    - uid: CapacityReservationUtilization
+  - name: statuses
+    description: The resource status information.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: CapacityReservationUtilization
+  description: Represents the capacity reservation utilization in terms of resources allocated.
+  kind: object
+  properties:
+  - name: virtualMachinesAllocated
+    isReadyOnly: true
+    description: A list of all virtual machines resource ids allocated against the capacity reservation.
+    types:
+    - uid: SubResourceReadOnly
+      isArray: true
+- name: InstanceViewStatus
+  description: Instance view status.
+  kind: object
+  properties:
+  - name: code
+    description: The status code.
+    types:
+    - uid: string
+  - name: level
+    description: The level code.
+    types:
+    - uid: StatusLevelTypes
+  - name: displayStatus
+    description: The short localizable label for the status.
+    types:
+    - uid: string
+  - name: message
+    description: The detailed status message, including for alerts and error messages.
+    types:
+    - uid: string
+  - name: time
+    description: The time of the status.
+    types:
+    - uid: string
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
+    types:
+    - uid: string
+- name: StatusLevelTypes
+  description: The level code.
+  kind: enum
+  properties:
+  - name: Info
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+examples:
+- name: Create or update a capacity reservation group.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/capacityReservationGroups/myCapacityReservationGroup?api-version=2021-07-01
+    body: >-
+      {
+        "location": "westus",
+        "tags": {
+          "department": "finance"
+        },
+        "zones": [
+          "1",
+          "2"
+        ]
+      }
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "myCapacityReservationGroup",
+        "location": "westus",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/CapacityReservationGroups/myCapacityReservationGroup",
+        "tags": {
+          "department": "finance"
+        },
+        "zones": [
+          "1",
+          "2"
+        ]
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "location": "westus",
+        "tags": {
+          "department": "finance",
+          "owner": "myCompany"
+        },
+        "name": "myCapacityReservationGroup",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/CapacityReservationGroups/myCapacityReservationGroup",
+        "zones": [
+          "1",
+          "2"
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: The operation to create or update a capacity reservation group. When updating a capacity reservation group, only tags may be modified.
+errorCodes: []

@@ -1,7 +1,7 @@
 ---
 title: "Delete a Collection - Azure Cosmos DB REST API"
 description: Delete a collection REST API syntax. Request and response headers, body, status codes and examples.
-ms.date: "03/29/2016"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 96485f72-facb-402d-b360-4d2c580cbdd4
@@ -23,6 +23,9 @@ translation.priority.mt:
 ---
 # Delete a Collection
 The `Delete Collection` operation deletes an existing collection in a database.  
+
+> [!NOTE]
+> These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md).  
   
 ## Request  
   
@@ -56,7 +59,7 @@ The `Delete Collection` operation deletes an existing collection in a database.
   
 ```  
 DELETE https://querydemo.documents.azure.com/dbs/testdb/colls/testcoll HTTP/1.1  
-x-ms-date: Mon, 28 Mar 2016 20:56:34 GMT  
+x-ms.date: 04/20/2021
 authorization: type%3dmaster%26ver%3d1.0%26sig%3dWmlMB62iSXF%2f0CUMyBD00AzOFH4LlcjzibmFC6zocxc%3d  
 Cache-Control: no-cache  
 User-Agent: Microsoft.Azure.Documents.Client/1.6.0.0 samples-net/3  

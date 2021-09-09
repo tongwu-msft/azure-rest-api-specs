@@ -1,5 +1,6 @@
 ---
 title: "Get Service Type Info List"
+description: "Get Service Type Info List"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

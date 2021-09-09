@@ -1,0 +1,315 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.streamanalytics.2017-04-01-preview.subscriptions.compilequery
+name: Compile Query
+service: Stream Analytics
+groupName: Subscriptions
+apiVersion: 2017-04-01-preview
+summary: Compile the Stream Analytics query.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.StreamAnalytics/locations/{location}/compileQuery?api-version=2017-04-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: 'The region to which the request is sent. You can find out which regions Azure Stream Analytics is supported in here: https://azure.microsoft.com/en-us/regions/'
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The Stream Analytics query was compiled successfully.
+  types:
+  - uid: QueryCompilationResult
+- name: Other Status Codes
+  description: Error.
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: query
+    in: body
+    isRequired: true
+    description: The query to compile.
+    types:
+    - uid: string
+  - name: inputs
+    in: body
+    description: The inputs for the query compilation.
+    types:
+    - uid: QueryInput
+      isArray: true
+  - name: functions
+    in: body
+    description: The functions for the query compilation.
+    types:
+    - uid: QueryFunction
+      isArray: true
+  - name: jobType
+    in: body
+    isRequired: true
+    description: Describes the type of the job. Valid values are `Cloud` and 'Edge'.
+    types:
+    - uid: JobType
+  - name: compatibilityLevel
+    in: body
+    description: The query to compile.
+    types:
+    - uid: CompatibilityLevel
+requestHeader: []
+definitions:
+- name: QueryInput
+  description: An input for the query compilation.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the input.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the input, can be Stream or Reference.
+    types:
+    - uid: string
+- name: QueryFunction
+  description: A function for the query compilation.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the function.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the function.
+    types:
+    - uid: string
+  - name: bindingType
+    description: The type of the function binding.
+    types:
+    - uid: string
+  - name: inputs
+    description: The inputs for the function.
+    types:
+    - uid: FunctionInput
+      isArray: true
+  - name: output
+    description: An output for the function.
+    types:
+    - uid: FunctionOutput
+- name: QueryCompilationResult
+  description: The result of the query compilation request.
+  kind: object
+  properties:
+  - name: errors
+    isReadyOnly: true
+    description: Error messages produced by the compiler.
+    types:
+    - uid: QueryCompilationError
+      isArray: true
+  - name: warnings
+    isReadyOnly: true
+    description: Warning messages produced by the compiler.
+    types:
+    - uid: string
+      isArray: true
+  - name: inputs
+    isReadyOnly: true
+    description: All input names used by the query.
+    types:
+    - uid: string
+      isArray: true
+  - name: outputs
+    isReadyOnly: true
+    description: All output names used by the query.
+    types:
+    - uid: string
+      isArray: true
+  - name: functions
+    isReadyOnly: true
+    description: All function names used by the query.
+    types:
+    - uid: string
+      isArray: true
+- name: Error
+  description: Common error representation.
+  kind: object
+  properties:
+  - name: error
+    description: Error definition properties.
+    types:
+    - uid: Error
+- name: CompileQuery
+  description: The query compilation object which defines the input, output, and transformation for the query compilation.
+  kind: object
+  properties:
+  - name: query
+    description: The query to compile.
+    types:
+    - uid: string
+  - name: inputs
+    description: The inputs for the query compilation.
+    types:
+    - uid: QueryInput
+      isArray: true
+  - name: functions
+    description: The functions for the query compilation.
+    types:
+    - uid: QueryFunction
+      isArray: true
+  - name: jobType
+    description: Describes the type of the job. Valid values are `Cloud` and 'Edge'.
+    types:
+    - uid: JobType
+  - name: compatibilityLevel
+    description: The query to compile.
+    types:
+    - uid: CompatibilityLevel
+- name: FunctionInput
+  description: Describes one input parameter of a function.
+  kind: object
+  properties:
+  - name: dataType
+    description: The (Azure Stream Analytics supported) data type of the function input parameter. A list of valid Azure Stream Analytics data types are described at https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx
+    types:
+    - uid: string
+  - name: isConfigurationParameter
+    description: A flag indicating if the parameter is a configuration parameter. True if this input parameter is expected to be a constant. Default is false.
+    types:
+    - uid: boolean
+- name: FunctionOutput
+  description: Describes the output of a function.
+  kind: object
+  properties:
+  - name: dataType
+    description: The (Azure Stream Analytics supported) data type of the function output. A list of valid Azure Stream Analytics data types are described at https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx
+    types:
+    - uid: string
+- name: QueryCompilationError
+  description: An error produced by the compiler.
+  kind: object
+  properties:
+  - name: message
+    isReadyOnly: true
+    description: The content of the error message.
+    types:
+    - uid: string
+  - name: startLine
+    isReadyOnly: true
+    description: Describes the error location in the original query. Not set if isGlobal is true.
+    types:
+    - uid: integer
+  - name: startColumn
+    isReadyOnly: true
+    description: Describes the error location in the original query. Not set if isGlobal is true.
+    types:
+    - uid: integer
+  - name: endLine
+    isReadyOnly: true
+    description: Describes the error location in the original query. Not set if isGlobal is true.
+    types:
+    - uid: integer
+  - name: endColumn
+    isReadyOnly: true
+    description: Describes the error location in the original query. Not set if isGlobal is true.
+    types:
+    - uid: integer
+  - name: isGlobal
+    isReadyOnly: true
+    description: Whether the error is not for a specific part but for the entire query.
+    types:
+    - uid: boolean
+- name: JobType
+  description: Describes the type of the job. Valid modes are `Cloud` and 'Edge'.
+  kind: enum
+  properties:
+  - name: Cloud
+    types:
+    - uid: string
+  - name: Edge
+    types:
+    - uid: string
+- name: CompatibilityLevel
+  description: Controls certain runtime behaviors of the streaming job.
+  kind: enum
+  properties:
+  - name: "1.0"
+    types:
+    - uid: string
+examples:
+- name: Compile the Stream Analytics query
+  request:
+    uri: POST https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/providers/Microsoft.StreamAnalytics/locations/West US/compileQuery?api-version=2017-04-01-preview
+    body: >-
+      {
+        "query": "SELECT\r\n    *\r\nINTO\r\n    [output1]\r\nFROM\r\n    [input1]",
+        "inputs": [
+          {
+            "name": "input1",
+            "type": "Stream"
+          }
+        ],
+        "functions": [
+          {
+            "name": "function1",
+            "type": "Scalar",
+            "bindingType": "Microsoft.StreamAnalytics/JavascriptUdf",
+            "inputs": [
+              {
+                "dataType": "any",
+                "isConfigurationParameter": null
+              }
+            ],
+            "output": {
+              "dataType": "bigint"
+            }
+          }
+        ],
+        "jobType": "Cloud",
+        "compatibilityLevel": "1.2"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "errors": [
+          {
+            "message": "Query failed to compile.",
+            "isGlobal": true
+          }
+        ],
+        "inputs": [
+          "inputtest"
+        ],
+        "outputs": [
+          "outputtest"
+        ],
+        "functions": [
+          "transformationtest"
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Stream Analytics service - Compile the Stream Analytics query.
+errorCodes: []

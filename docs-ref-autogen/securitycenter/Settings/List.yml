@@ -3,14 +3,14 @@ uid: management.azure.com.securitycenter.settings.list
 name: List
 service: Security Center
 groupName: Settings
-apiVersion: 2019-01-01
+apiVersion: 2021-06-01
 summary: Settings about different configurations in security center
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/settings?api-version=2019-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/settings?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,6 +45,8 @@ definitions:
     types:
     - uid: DataExportSettings
       isArray: true
+    - uid: AlertSyncSettings
+      isArray: true
     typesTitle: Setting[]
   - name: nextLink
     isReadyOnly: true
@@ -52,31 +54,121 @@ definitions:
     types:
     - uid: string
 - name: CloudError
-  description: Error response structure.
+  description: Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
   kind: object
   properties:
   - name: error.code
     isReadyOnly: true
-    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    description: The error code.
     types:
     - uid: string
   - name: error.message
     isReadyOnly: true
-    description: A message describing the error, intended to be suitable for display in a user interface.
+    description: The error message.
     types:
     - uid: string
+  - name: error.target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: error.details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: error.additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: CloudErrorBody
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 - name: DataExportSettings
   description: Represents a data export setting
   kind: object
   properties:
   - name: properties.enabled
-    description: Is the data export setting is enabled
+    description: Is the data export setting enabled
     types:
     - uid: boolean
   - name: kind
-    description: the kind of the settings string (DataExportSettings)
+    description: the kind of the settings string
     types:
     - uid: DataExportSettings
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: AlertSyncSettings
+  description: Represents an alert sync setting
+  kind: object
+  properties:
+  - name: properties.enabled
+    description: Is the alert sync setting enabled
+    types:
+    - uid: boolean
+  - name: kind
+    description: the kind of the settings string
+    types:
+    - uid: AlertSyncSettings
     typesTitle: string
   - name: id
     isReadyOnly: true
@@ -96,7 +188,7 @@ definitions:
 examples:
 - name: Get settings of subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/settings?api-version=2019-01-01
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/settings?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -119,6 +211,15 @@ examples:
             "properties": {
               "enabled": false
             }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/settings/Sentinel",
+            "name": "Sentinel",
+            "kind": "AlertSyncSettings",
+            "type": "Microsoft.Security/settings",
+            "properties": {
+              "enabled": false
+            }
           }
         ]
       }
@@ -131,4 +232,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Security Center service - Settings about different configurations in security center
 errorCodes: []

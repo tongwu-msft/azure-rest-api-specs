@@ -23,9 +23,9 @@ A service SAS is secured using the storage account key. To create a service SAS,
 
 To use Azure AD credentials to secure a SAS for a container or blob, create a user delegation SAS. For more information, see [Create a user delegation SAS](create-user-delegation-sas.md).
 
-## Service SAS support for directory scoped access (preview)
+## Service SAS support for directory scoped access
 
-A service SAS supports directory scope (`sr=d`) (preview) when the authentication version (`sv`) is 2020-02-10 or higher and a hierarchical namespace (HNS) is enabled. The semantics for directory scope (`sr=d`) are similar to container scope (`sr=c`), except that access is restricted to a directory and any files and subdirectories beneath it. When `sr=d` is specified, the `sdd` query parameter is also required.
+A service SAS supports directory scope (`sr=d`) when the authentication version (`sv`) is 2020-02-10 or higher and a hierarchical namespace (HNS) is enabled. The semantics for directory scope (`sr=d`) are similar to container scope (`sr=c`), except that access is restricted to a directory and any files and subdirectories beneath it. When `sr=d` is specified, the `sdd` query parameter is also required.
 
 The string-to-sign format for authentication version 2020-02-10 is unchanged.
 
@@ -45,9 +45,6 @@ The `signedVersion` (`sv`) field contains the service version of the shared acce
 |----------------|---------------------|-----------------|  
 |`signedVersion`|`sv`|Required. Supported in versions 2012-02-12 and newer. The storage service version to use to authorize requests made with this shared access signature, and the service version to use when handling requests made with this shared access signature. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md for information about which version is used when to execute requests via a shared access signature, and how clients executing the request can control the version using the `api-version` query parameter or the `x-ms-version` header.|
 
-> [!IMPORTANT]
-> All features added with version 2020-02-10 are currently in preview. The preview is intended for non-production use only.
-  
 #### Determining the version of a legacy shared access signature request
 
 In legacy scenarios where `signedVersion` is not used, the Blob service applies rules to determine the version. See [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md) for more information about these rules.  
@@ -65,7 +62,7 @@ The required `signedResource` (`sr`) field specifies which resources are accessi
 | Blob version | bv | Version 2018-11-09 and later | Grants access to the content and metadata of the blob version, but not the base blob. |
 | Blob snapshot | bs | Version 2018-11-09 and later | Grants access to the content and metadata of the blob snapshot, but not the base blob. |
 | Container | c | All | Grants access to the content and metadata of any blob in the container, and to the list of blobs in the container. |
-| Directory (preview) | d | Version 2020-02-10 and later | Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedResource` field, then the `signedDirectoryDepth` (`sdd`) parameter is also required. A directory is always beneath a container. |
+| Directory | d | Version 2020-02-10 and later | Grants access to the content and metadata of any blob in the directory, and to the list of blobs in the directory, in a storage account with a hierarchical namespace enabled. If a directory is specified for the `signedResource` field, then the `signedDirectoryDepth` (`sdd`) parameter is also required. A directory is always beneath a container. |
 
 ### Specifying the signed resource (File service)
 
@@ -156,10 +153,10 @@ The following table shows the permissions supported for each resource type.
 | Permanent delete | y | Blob | Version 2020-02-10 or later | Permanently delete a blob snapshot or version.|
 | List | l | Container<br />Directory | All | List blobs non-recursively. |
 | Tags | t | Blob | Version 2019-12-12 or later | Read or write the tags on a blob. |
-| Move (preview) | m | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. This operation can optionally be restricted to the owner of the child blob, directory, or parent directory if the `saoid` parameter is included on the SAS token and the sticky bit is set on the parent directory. |
-| Execute (preview) | e | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. Does not permit the caller to read user-defined metadata. |
-| Ownership (preview) | o | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, this permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or blob within a directory that has the sticky bit set. |
-| Permissions (preview) | p | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, this permission allows the caller to set permissions and POSIX ACLs on directories and blobs. |
+| Move | m | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Move a blob or a directory and its contents to a new location. This operation can optionally be restricted to the owner of the child blob, directory, or parent directory if the `saoid` parameter is included on the SAS token and the sticky bit is set on the parent directory. |
+| Execute | e | Container<br />Directory<br />Blob | Version 2020-02-10 or later | Get the system properties and, if the hierarchical namespace is enabled for the storage account, get the POSIX ACL of a blob. If the hierarchical namespace is enabled and the caller is the owner of a blob, this permission grants the ability to set the owning group, POSIX permissions, and POSIX ACL of the blob. Does not permit the caller to read user-defined metadata. |
+| Ownership | o | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, this permission enables the caller to set the owner or the owning group, or to act as the owner when renaming or deleting a directory or blob within a directory that has the sticky bit set. |
+| Permissions | p | Container<br />Directory<br />Blob | Version 2020-02-10 or later | When the hierarchical namespace is enabled, this permission allows the caller to set permissions and POSIX ACLs on directories and blobs. |
   
 #### Permissions for a file
   
@@ -202,11 +199,16 @@ The following table shows the permissions supported for each resource type.
 
 Beginning with version 2015-04-05, the optional `signedIp` (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates does not match the IP address or address range specified on the SAS token, the request is not authorized.  
   
-When specifying a range of IP addresses, note that the range is inclusive. For example, specifying `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70` on the SAS restricts the request to those IP addresses.  
-  
-> [!IMPORTANT]
-> A SAS used by a client that is in the same Azure region as the storage account may not include a public outbound IP address for the `signedIp` field. Requests made from within the same region using a SAS with a public outbound IP address specified will fail.
+When specifying a range of IP addresses, note that the range is inclusive. For example, specifying `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70` on the SAS restricts the request to those IP addresses.
 
+The following table describes whether to include the `signedIp` field on a SAS token for a given scenario, based on the client environment and the location of the storage account.
+
+| Client environment | Storage account location | Recommendation |
+|--|--|--|
+| Client running in Azure | In same region as client | A SAS provided to the client in this scenario should not include an outbound IP address for the `signedIp` field. Requests made from within the same region using a SAS with an outbound IP address specified will fail.<br /><br/> Instead, use an Azure Virtual Network (VNet) to manage network security restrictions. Requests to Azure Storage from within the same region always take place over a private IP address. For more information, see [Configure Azure Storage firewalls and virtual networks](/azure/storage/common/storage-network-security). |
+| Client running in Azure | In different region from client | A SAS provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. A request made with the SAS must originate from the specified IP address or range of addresses. |
+| Client running on-premises or in a different cloud environment | In any Azure region | A SAS provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. A request made with the SAS must originate from the specified IP address or range of addresses.<br /><br /> If the request passes through a proxy or gateway, then provide the public outbound IP address of that proxy or gateway for the `signedIp` field. |
+  
 ### Specifying the HTTP protocol  
 
 Beginning with version 2015-04-05, the optional `signedProtocol` (`spr`) field specifies the protocol permitted for a request made with the SAS. Possible values are both HTTPS and HTTP (`https,http`) or HTTPS only (`https`).  The default value is `https,http`.  Note that HTTP only is not a permitted value.  
@@ -222,9 +224,9 @@ The `startPk`, `startRk`, `endPk`, and `endRk` fields define a range of table en
 |`startPk`, `startRk`|(partitionKey > `startPk`) &#124;&#124; (partitionKey == `startPk` && rowKey >= `startRk`)|  
 |`endPk`, `endRk`|(partitionKey < `endPk`) &#124;&#124; (partitionKey == `endPk` && rowKey <= `endRk`)|  
 
-### Specify the directory depth (preview)
+### Specify the directory depth
 
-When a hierarchical namespace is enabled and the `signedResource` field specifies a directory (`sr=d`), then you must also specify the `signedDirectoryDepth` (`sdd`) field (preview) to indicate the number of subdirectories under the root directory. The value of the `sdd` field must be a non-negative integer.
+When a hierarchical namespace is enabled and the `signedResource` field specifies a directory (`sr=d`), then you must also specify the `signedDirectoryDepth` (`sdd`) field to indicate the number of subdirectories under the root directory. The value of the `sdd` field must be a non-negative integer.
 
 For example, the root directory `https://{account}.blob.core.windows.net/{container}/` has a depth of 0. Each subdirectory beneath the root directory adds to the depth by one. The directory `https://{account}.blob.core.windows.net/{container}/d1/d2` has a depth of two.  
 
@@ -417,6 +419,10 @@ When constructing the string to be signed, keep in mind the following:
     |Table|raud|  
   
     For example, examples of valid permissions settings for a container include `rw`, `rd`, `rl`, `wd`, `wl`, and `rl`. Examples of invalid settings include `wr`, `dr`, `lr`, and `dw`. Specifying a permission designation more than once is not permitted.  
+
+- Provide a value for the `signedIdentifier` portion of the string if you are associating the request with a stored access policy.  
+  
+- A shared access signature that specifies a storage service version before 2012-02-12 can only share a blob or container, and must omit `signedVersion` and the newline before it.  
   
 - The `canonicalizedResource` portion of the string is a canonical path to the signed resource. It must include the service name (blob, table, queue or file) for version 2015-02-21 or later, the storage account name, and the resource name, and must be URL-decoded. Names of blobs must include the blob’s container. Table names must be lower-case.
 
@@ -424,94 +430,90 @@ The canonicalized resource string for a container, queue, table, or file share m
 
 The following examples show how to construct the `canonicalizedResource` portion of the string, depending on the type of resource.  
   
-     **Containers**  
-  
-     For version 2015-02-21 and later:  
-  
-    ```  
-    URL = https://myaccount.blob.core.windows.net/music  
-    canonicalizedResource = "/blob/myaccount/music"  
-    ```  
-  
-     For versions prior to 2015-02-21:  
-  
-    ```  
-    URL = https://myaccount.blob.core.windows.net/music
-    canonicalizedResource = "/myaccount/music"  
-    ```  
-  
-     **Blobs**  
-  
-     For version 2015-02-21 and later:  
-  
-    ```  
-    URL = https://myaccount.blob.core.windows.net/music/intro.mp3  
-    canonicalizedResource = "/blob/myaccount/music/intro.mp3"  
-  
-    ```  
-  
-     For versions prior to 2015-02-21:  
-  
-    ```  
-    URL = https://myaccount.blob.core.windows.net/music/intro.mp3
-    canonicalizedResource = "/myaccount/music/intro.mp3"  
-    ```  
-  
-     **File Shares**  
-  
-    ```  
-    URL = https://myaccount.file.core.windows.net/music
-    canonicalizedResource = "/file/myaccount/music"  
-    ```  
-  
-     **Files**  
-  
-    ```  
-    URL = https://myaccount.file.core.windows.net/music/intro.mp3
-    canonicalizedResource = "/file/myaccount/music/intro.mp3"  
-    ```  
-  
-     **Queues**  
-  
-     For version 2015-02-21 and later:  
-  
-    ```  
-    URL = https://myaccount.queue.core.windows.net/thumbnails  
-    canonicalizedResource = "/queue/myaccount/thumbnails"  
-  
-    ```  
-  
-     For versions prior to 2015-02-21:  
-  
-    ```  
-    URL = https://myaccount.queue.core.windows.net/thumbnails  
-    canonicalizedResource = "/myaccount/thumbnails"  
-  
-    ```  
-  
-     **Tables**  
-  
-     If the signed resource is a table, assure the table name is lower-case in the canonicalized format.  
-  
-     For version 2015-02-21 and later:  
-  
-    ```  
-    URL = https://myaccount.table.core.windows.net/Employees(PartitionKey='Jeff',RowKey='Price')  
-    canonicalizedResource = "/table/myaccount/employees"  
-  
-    ```  
-  
-     For versions prior to 2015-02-21:  
-  
-    ```  
-    URL = https://myaccount.table.core.windows.net/Employees(PartitionKey='Jeff',RowKey='Price')  
-    canonicalizedResource = "/myaccount/employees"  
-  
-    ```  
-  
-- Provide a value for the `signedIdentifier` portion of the string if you are associating the request with a stored access policy.  
-  
-- A shared access signature that specifies a storage service version before 2012-02-12 can only share a blob or container, and must omit `signedVersion` and the newline before it.  
+**Containers**  
+
+For version 2015-02-21 and later:  
+
+```
+URL = https://myaccount.blob.core.windows.net/music  
+canonicalizedResource = "/blob/myaccount/music"  
+```  
+
+For versions prior to 2015-02-21:  
+
+```  
+URL = https://myaccount.blob.core.windows.net/music
+canonicalizedResource = "/myaccount/music"  
+```  
+
+**Blobs**  
+
+For version 2015-02-21 and later:  
+
+```  
+URL = https://myaccount.blob.core.windows.net/music/intro.mp3  
+canonicalizedResource = "/blob/myaccount/music/intro.mp3"  
+
+```  
+
+For versions prior to 2015-02-21:  
+
+```  
+URL = https://myaccount.blob.core.windows.net/music/intro.mp3
+canonicalizedResource = "/myaccount/music/intro.mp3"  
+```  
+
+**File Shares**  
+
+```  
+URL = https://myaccount.file.core.windows.net/music
+canonicalizedResource = "/file/myaccount/music"  
+```  
+
+**Files**  
+
+```  
+URL = https://myaccount.file.core.windows.net/music/intro.mp3
+canonicalizedResource = "/file/myaccount/music/intro.mp3"  
+```  
+
+**Queues**  
+
+For version 2015-02-21 and later:  
+
+```  
+URL = https://myaccount.queue.core.windows.net/thumbnails  
+canonicalizedResource = "/queue/myaccount/thumbnails"  
+
+```  
+
+For versions prior to 2015-02-21:  
+
+```  
+URL = https://myaccount.queue.core.windows.net/thumbnails  
+canonicalizedResource = "/myaccount/thumbnails"  
+
+```  
+
+**Tables**  
+
+If the signed resource is a table, assure the table name is lower-case in the canonicalized format.  
+
+For version 2015-02-21 and later:  
+
+```  
+URL = https://myaccount.table.core.windows.net/Employees(PartitionKey='Jeff',RowKey='Price')  
+canonicalizedResource = "/table/myaccount/employees"  
+
+```  
+
+For versions prior to 2015-02-21:  
+
+```  
+URL = https://myaccount.table.core.windows.net/Employees(PartitionKey='Jeff',RowKey='Price')  
+canonicalizedResource = "/myaccount/employees"  
+
+```  
 
 ## Lifetime and revocation of a shared access signature  
 

@@ -25,6 +25,10 @@ translation.priority.mt:
   - "zh-tw"
 ---
 # Delete Subscription
+
+> [!IMPORTANT]
+> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+
 Deletes an existing subscription.  
   
 ## Request  

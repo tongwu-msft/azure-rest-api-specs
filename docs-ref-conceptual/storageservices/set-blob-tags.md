@@ -111,7 +111,7 @@ The `Set Blob Tags` operation sets user-defined tags for the specified blob as o
  If a request provides invalid tags, the Blob service returns status code 400 (Bad Request).  
   
 ## See Also  
- [Manage and find data on Azure Blob Storage with Blob Index](https://docs.microsoft.com/azure/storage/blobs/storage-manage-find-blobs)  
+ [Manage and find data on Azure Blob Storage with Blob Index](/azure/storage/blobs/storage-manage-find-blobs)  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)  
  [Status and Error Codes](Status-and-Error-Codes2.md)   
  [Blob Service Error Codes](Blob-Service-Error-Codes.md)  

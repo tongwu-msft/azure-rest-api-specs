@@ -3,21 +3,21 @@ uid: management.azure.com.resources.providers.get
 name: Get
 service: Resource Management
 groupName: Providers
-apiVersion: 2020-06-01
+apiVersion: 2021-04-01
 summary: Gets the specified resource provider.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}?api-version=2020-06-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}?$expand={$expand}&api-version=2020-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}?$expand={$expand}&api-version=2021-04-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The ID of the target subscription.
+  description: The Microsoft Azure subscription ID.
   types:
   - uid: string
 - name: resourceProviderNamespace
@@ -77,6 +77,10 @@ definitions:
     types:
     - uid: ProviderResourceType
       isArray: true
+  - name: providerAuthorizationConsentState
+    description: The provider authorization consent state.
+    types:
+    - uid: ProviderAuthorizationConsentState
 - name: CloudError
   description: An error response for a resource management request.
   kind: object
@@ -97,6 +101,11 @@ definitions:
     description: The collection of locations where this resource type can be created.
     types:
     - uid: string
+      isArray: true
+  - name: locationMappings
+    description: The location mappings that are supported by this resource type.
+    types:
+    - uid: ProviderExtendedLocation
       isArray: true
   - name: aliases
     description: The aliases that are supported by this resource type.
@@ -131,6 +140,22 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ProviderAuthorizationConsentState
+  description: The provider authorization consent state.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: Required
+    types:
+    - uid: string
+  - name: NotRequired
+    types:
+    - uid: string
+  - name: Consented
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -161,6 +186,23 @@ definitions:
     description: The error additional info.
     types:
     - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ProviderExtendedLocation
+  description: 'The provider extended location. '
+  kind: object
+  properties:
+  - name: location
+    description: The azure location.
+    types:
+    - uid: string
+  - name: type
+    description: The extended location type.
+    types:
+    - uid: string
+  - name: extendedLocations
+    description: The extended locations for the azure location.
+    types:
+    - uid: string
       isArray: true
 - name: Alias
   description: 'The alias type. '
@@ -346,7 +388,53 @@ definitions:
     description: The token that the alias path is referring to is modifiable by policies with 'modify' effect.
     types:
     - uid: string
-examples: []
+examples:
+- name: Get provider.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.TestRP1?api-version=2021-04-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.TestRP1",
+        "namespace": "Microsoft.TestRP1",
+        "registrationState": "Registering",
+        "registrationPolicy": "RegistrationRequired",
+        "resourceTypes": [
+          {
+            "resourceType": "TestResourceType",
+            "locations": [
+              "West US"
+            ],
+            "apiVersions": [
+              "2018-01-01",
+              "2015-05-01"
+            ],
+            "locationMappings": [
+              {
+                "location": "West US",
+                "type": "EdgeZone",
+                "extendedLocations": [
+                  "LosAngeles",
+                  "LosAngeles2"
+                ]
+              }
+            ],
+            "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation"
+          },
+          {
+            "resourceType": "TestResourceTypeSibling",
+            "locations": [
+              "West US"
+            ],
+            "apiVersions": [
+              "2018-01-01",
+              "2015-05-01"
+            ],
+            "capabilities": "CrossResourceGroupResourceMove, CrossSubscriptionResourceMove, SupportsTags, SupportsLocation"
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -356,4 +444,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Resource Management service - Gets the specified resource provider.
 errorCodes: []

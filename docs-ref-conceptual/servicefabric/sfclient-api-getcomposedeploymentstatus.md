@@ -1,5 +1,6 @@
 ---
 title: "Get Compose Deployment Status"
+description: "Get Compose Deployment Status"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

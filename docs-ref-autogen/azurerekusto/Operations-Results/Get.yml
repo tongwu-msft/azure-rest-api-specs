@@ -1,0 +1,168 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurerekusto.operationsresults.get
+name: Get
+service: Azure Kusto
+groupName: Operations Results
+apiVersion: 2021-01-01
+summary: Returns operation results.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/locations/{location}/operationresults/{operationId}?api-version=2021-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Azure location (region) name.
+  types:
+  - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  description: The Guid of the operation ID
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the operation result.
+  types:
+  - uid: OperationResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: OperationResult
+  description: Operation Result Entity.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: ID of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: status of the Operation result.
+    types:
+    - uid: Status
+  - name: startTime
+    description: The operation start time
+    types:
+    - uid: string
+  - name: endTime
+    description: The operation end time
+    types:
+    - uid: string
+  - name: percentComplete
+    description: Percentage completed.
+    types:
+    - uid: number
+  - name: properties.operationKind
+    description: The kind of the operation.
+    types:
+    - uid: string
+  - name: properties.operationState
+    description: The state of the operation.
+    types:
+    - uid: string
+  - name: error.code
+    description: The code of the error.
+    types:
+    - uid: string
+  - name: error.message
+    description: The error message.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from Kusto.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from Kusto.
+    types:
+    - uid: CloudErrorBody
+- name: Status
+  description: The status of operation.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from Kusto.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for displaying in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: KustoOperationResultsGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/providers/Microsoft.Kusto/locations/westus/operationresults/30972f1b-b61d-4fd8-bd34-3dcfa24670f3?api-version=2021-01-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/12345678-1234-1234-1234-123456789098/providers/Microsoft.Kusto/locations/westus/operationresults/30972f1b-b61d-4fd8-bd34-3dcfa24670f3",
+        "name": "30972f1b-b61d-4fd8-bd34-3dcfa24670f3",
+        "status": "Failed",
+        "startTime": "2020-10-26T13:45:39.6554616Z",
+        "endTime": "2020-10-26T13:45:42.7025301Z",
+        "percentComplete": 1,
+        "properties": {
+          "operationKind": "FollowerDatabaseCreate",
+          "operationState": "BadInput"
+        },
+        "error": {
+          "code": "CannotAlterFollowerDatabase",
+          "message": "[BadRequest] Cannot alter leader cluster 'test' for resource name 'adc'."
+        }
+      }
+security: []
+metadata:
+  description: Learn more about Azure Kusto service - Returns operation results.
+errorCodes: []

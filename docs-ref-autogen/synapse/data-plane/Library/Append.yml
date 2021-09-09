@@ -1,0 +1,107 @@
+### YamlMime:RESTOperation
+uid: synapse.data-plane.library.append
+name: Append
+service: Synapse
+groupName: Library
+apiVersion: 2020-12-01
+summary: Append the content to the library resource created using the create operation. The maximum content size is 4MiB. Content larger than 4MiB must be appended in 4MiB chunks
+consumes:
+- application/octet-stream
+produces:
+- application/json
+paths:
+- content: PUT {endpoint}/libraries/{libraryName}?api-version=2020-12-01&comp=appendblock
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
+  types:
+  - uid: string
+- name: libraryName
+  in: path
+  isRequired: true
+  description: file name to upload. Minimum length of the filename should be 1 excluding the extension length.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The Synapse client API Version.
+  types:
+  - uid: string
+- name: comp
+  in: query
+  isRequired: true
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Created.
+- name: Other Status Codes
+  description: An error response received from the Azure Synapse service.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: content
+    in: body
+    description: Library file chunk.
+    types:
+    - uid: string
+requestHeader:
+- name: x-ms-blob-condition-appendpos
+  in: header
+  description: Set this header to a byte offset at which the block is expected to be appended. The request succeeds only if the current offset matches this value. Otherwise, the request fails with the AppendPositionConditionNotMet error (HTTP status code 412 – Precondition Failed)
+  types:
+  - uid: integer
+  format: int64
+definitions:
+- name: CloudError
+  description: The object that defines the structure of an Azure Synapse error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
+examples:
+- name: Append Library
+  request:
+    uri: PUT exampleWorkspace.dev.azuresynapse.net/libraries/exampleLibraryName.jar?api-version=2020-12-01&comp=appendblock
+    body: "\"file binary chunk\""
+    headers:
+    - name: x-ms-blob-condition-appendpos
+      value: "12324"
+  responses:
+  - statusCode: "201"
+    headers:
+    - name: Date
+      value: Fri, 23 Oct 2020 08:28:16 GMT
+    - name: X-Content-Type-Options
+      value: nosniff
+    - name: x-ms-ratelimit-remaining-subscription-writes
+      value: "1192"
+    - name: x-ms-request-id
+      value: e4c589b7-a9fe-4c28-981c-3855ec27d264
+    - name: x-ms-correlation-request-id
+      value: e4c589b7-a9fe-4c28-981c-3855ec27d264
+security: []
+metadata:
+  description: Append the content to the library resource created using the create operation. The maximum content size is 4MiB. Content larger than 4MiB must be appended in 4MiB chunks
+errorCodes: []

@@ -1,7 +1,7 @@
 ---
 title: "List Collections - Azure Cosmos DB REST API"
 description: List collections REST API syntax. Request and response headers, body, status codes and examples.
-ms.date: "03/29/2016"
+ms.date: "04/20/2021"
 ms.service: "cosmos-db"
 ms.topic: "reference"
 ms.assetid: 6a05af95-f3e7-4729-94a3-179e5eaa188d
@@ -23,6 +23,9 @@ translation.priority.mt:
 ---
 # List Collections
   Performing a GET on the collections resource of a particular database, i.e. the colls URI path, returns a list of the collections in the database.  
+
+> [!NOTE]
+> These API reference articles shows how to create resources using the Azure Cosmos DB data plane API. With the data plane API you can configure basic options such as indexing policy, partition keys much like you can with Cosmos DB SDKs. If you require complete feature support for all Azure Cosmos DB resources, we recommend using the [Cosmos DB Resource Provider](../cosmos-db-resource-provider/index.md). 
   
 ## Request  
   
@@ -139,7 +142,7 @@ translation.priority.mt:
   
 ```  
 GET https://querydemo.documents.azure.com/dbs/SampleDatabase/colls HTTP/1.1  
-x-ms-date: Mon, 28 Mar 2016 21:26:00 GMT  
+x-ms.date: 04/20/2021
 authorization: type%3dmaster%26ver%3d1.0%26sig%3dQdp6TjZxdeJAKSiUfG%2fd7dS46USXy1IF%2bt5ToLdvOaA%3d  
 Cache-Control: no-cache  
 User-Agent: Microsoft.Azure.Documents.Client/1.6.0.0Internal Azure DocumentDB Studio/0.61  

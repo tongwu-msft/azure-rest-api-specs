@@ -50,6 +50,10 @@ responses:
   - uid: ResourceTestStatus
 - name: 202 Accepted
   description: The test request was successfully initiated.
+- name: Other Status Codes
+  description: Error.
+  types:
+  - uid: Error
 requestBody:
 - name: default
   parameters:
@@ -57,6 +61,7 @@ requestBody:
     in: body
     description: Describes the data source that output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
+    - uid: RawOutputDatasource
     - uid: BlobOutputDataSource
     - uid: AzureTableOutputDataSource
     - uid: EventHubOutputDataSource
@@ -84,11 +89,11 @@ requestBody:
     in: body
     description: Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: AvroSerialization
-    - uid: JsonSerialization
-    - uid: CsvSerialization
-    - uid: CustomClrSerialization
     - uid: ParquetSerialization
+    - uid: CustomClrSerialization
+    - uid: CsvSerialization
+    - uid: JsonSerialization
+    - uid: AvroSerialization
     typesTitle: Serialization
   - name: name
     in: body
@@ -121,6 +126,14 @@ definitions:
     description: Describes the error that occurred.
     types:
     - uid: ErrorResponse
+- name: Error
+  description: Common error representation.
+  kind: object
+  properties:
+  - name: error
+    description: Error definition properties.
+    types:
+    - uid: Error
 - name: Output
   description: An output object, containing all information associated with the named output. All outputs are contained under a streaming job.
   kind: object
@@ -128,6 +141,7 @@ definitions:
   - name: properties.datasource
     description: Describes the data source that output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
+    - uid: RawOutputDatasource
     - uid: BlobOutputDataSource
     - uid: AzureTableOutputDataSource
     - uid: EventHubOutputDataSource
@@ -152,11 +166,11 @@ definitions:
   - name: properties.serialization
     description: Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: AvroSerialization
-    - uid: JsonSerialization
-    - uid: CsvSerialization
-    - uid: CustomClrSerialization
     - uid: ParquetSerialization
+    - uid: CustomClrSerialization
+    - uid: CsvSerialization
+    - uid: JsonSerialization
+    - uid: AvroSerialization
     typesTitle: Serialization
   - name: properties.diagnostics
     isReadyOnly: true
@@ -182,6 +196,19 @@ definitions:
     description: Resource type
     types:
     - uid: string
+- name: RawOutputDatasource
+  description: Describes a raw output data source. This data source type is only applicable/usable when using the query testing API. You cannot create a job with this data source type or add an output of this data source type to an existing job.
+  kind: object
+  properties:
+  - name: properties.payloadUri
+    description: The SAS URL to a blob where the output should be written. If this property is not set, output data will be written into a temporary storage, and a SAS URL to that temporary storage will be included in the result.
+    types:
+    - uid: string
+  - name: type
+    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Raw
+    typesTitle: string
 - name: BlobOutputDataSource
   description: Describes a blob output data source.
   kind: object
@@ -632,48 +659,14 @@ definitions:
     description: The user display name of the user that was used to obtain the refresh token. Use this property to help remember which user was used to obtain the refresh token.
     types:
     - uid: string
-- name: AvroSerialization
-  description: Describes how data from an input is serialized or how data is serialized when written to an output in Avro format.
+- name: ParquetSerialization
+  description: Describes how data from an input is serialized or how data is serialized when written to an output in Parquet format.
   kind: object
   properties:
   - name: type
     description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: Avro
-    typesTitle: string
-- name: JsonSerialization
-  description: Describes how data from an input is serialized or how data is serialized when written to an output in JSON format.
-  kind: object
-  properties:
-  - name: properties.encoding
-    description: Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Encoding
-  - name: properties.format
-    description: This property only applies to JSON serialization of outputs only. It is not applicable to inputs. This property specifies the format of the JSON the output will be written in. The currently supported values are 'lineSeparated' indicating the output will be formatted by having each JSON object separated by a new line and 'array' indicating the output will be formatted as an array of JSON objects. Default value is 'lineSeparated' if left null.
-    types:
-    - uid: JsonOutputSerializationFormat
-  - name: type
-    description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Json
-    typesTitle: string
-- name: CsvSerialization
-  description: Describes how data from an input is serialized or how data is serialized when written to an output in CSV format.
-  kind: object
-  properties:
-  - name: properties.fieldDelimiter
-    description: Specifies the delimiter that will be used to separate comma-separated value (CSV) records. See https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-input or https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for a list of supported values. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.encoding
-    description: Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Encoding
-  - name: type
-    description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Csv
+    - uid: Parquet
     typesTitle: string
 - name: CustomClrSerialization
   description: Describes how data from an input is serialized or how data is serialized when written to an output in custom format.
@@ -692,14 +685,48 @@ definitions:
     types:
     - uid: CustomClr
     typesTitle: string
-- name: ParquetSerialization
-  description: Describes how data from an input is serialized or how data is serialized when written to an output in Parquet format.
+- name: CsvSerialization
+  description: Describes how data from an input is serialized or how data is serialized when written to an output in CSV format.
+  kind: object
+  properties:
+  - name: properties.fieldDelimiter
+    description: Specifies the delimiter that will be used to separate comma-separated value (CSV) records. See https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-input or https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for a list of supported values. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.encoding
+    description: Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Encoding
+  - name: type
+    description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Csv
+    typesTitle: string
+- name: JsonSerialization
+  description: Describes how data from an input is serialized or how data is serialized when written to an output in JSON format.
+  kind: object
+  properties:
+  - name: properties.encoding
+    description: Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Encoding
+  - name: properties.format
+    description: This property only applies to JSON serialization of outputs only. It is not applicable to inputs. This property specifies the format of the JSON the output will be written in. The currently supported values are 'lineSeparated' indicating the output will be formatted by having each JSON object separated by a new line and 'array' indicating the output will be formatted as an array of JSON objects. Default value is 'lineSeparated' if left null.
+    types:
+    - uid: JsonOutputSerializationFormat
+  - name: type
+    description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Json
+    typesTitle: string
+- name: AvroSerialization
+  description: Describes how data from an input is serialized or how data is serialized when written to an output in Avro format.
   kind: object
   properties:
   - name: type
     description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: Parquet
+    - uid: Avro
     typesTitle: string
 - name: DiagnosticCondition
   description: Condition applicable to the resource, or to the job overall, that warrant customer attention.
@@ -815,4 +842,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Stream Analytics service - Tests whether an output’s datasource is reachable and usable by the Azure Stream Analytics service.
 errorCodes: []

@@ -1,38 +1,105 @@
 ---
-title: API versions (Azure Cognitive Search REST API)
-description: Generally available and preview versions of the search REST APIs used to create and use objects on Azure Cognitive Search.
-ms.date: 06/30/2020
+title: API versions of Search REST APIs 
+titleSuffix: Azure Cognitive Search
+description: Lists the generally available and preview versions of the Search REST APIs for Azure Cognitive Search.
 
 ms.service: cognitive-search
 ms.topic: language-reference
 ms.devlang: rest-api
 
+ms.date: 07/20/2021
 author: HeidiSteen
 ms.author: heidist
 ms.manager: nitinme
 ---
 
-# REST API versions - Azure Cognitive Search
+# API versions of Search REST APIs
+
+This article lists the current and past versions of the Search REST APIs for Azure Cognitive Search.
 
 ## Stable versions
 
-Stable versions operate under an [Azure service level agreement (SLA)](https://azure.microsoft.com/support/legal/sla/search/v1_0/).
-
-**2020-06-30** is the most current generally available release of the Search Service REST API. This release adds the generally available version of knowledge store (in the Skillset APIs), relevance scoring improvements, and customer-managed encryption keys. For more information, see [What's New in Azure Cognitive Search](https://docs.microsoft.com/azure/search/whats-new).
-
-**2019-05-06** is the previous stable version. For more information about upgrading from this version, see [Upgrade to the latest REST API](https://docs.microsoft.com/azure/search/search-api-migration).
+| API version | Specification | API updates |
+|-------------|---------------|-------------|
+| [`2020-06-30`](/rest/api/searchservice/index)| [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Azure.Search/preview/2020-06-30) | [Release note](#2020-06-30) |
+| `2019-05-06` |  [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Azure.Search/stable/2019-05-06) | Adds complex types. |
+| `2017-11-11` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Microsoft.Azure.Search.Data/preview/2017-11-11) | Adds skillsets and AI enrichment. |
+| `2016-09-01` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Microsoft.Azure.Search.Data/preview/2016-09-01) | Adds indexers. |
+| `2015-02-28` | Unsupported after 10-10-2020   | First generally available release.  |
 
 ## Preview versions
 
-Preview functionality is provided without a service level agreement, and is not recommended for production workloads. For more information, see [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/).
+Preview versions are released to test new functionality, gather feedback, and discover and fix issues. Preview APIs are available under [Supplemental Terms of Use for Microsoft Azure Previews](https://azure.microsoft.com/support/legal/preview-supplemental-terms/).
 
-**2020-06-30-Preview** is the most current preview version. A core feature still in preview is incremental enrichment (caching of enriched documents created by an indexer-driven AI enrichment pipeline).
+| API version | Specification | API updates |
+|-------------|---------------|-------------|
+| [`2021-04-30-Preview`](/rest/api/searchservice/index-preview) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Azure.Search/preview/2021-04-30-Preview) | [Release note](#2021-04-30-Preview) |
+| `2020-06-30-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Azure.Search/preview/2020-06-30-Preview) | [Release note](#2020-06-30-Preview)  |
+| `2019-05-06-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Azure.Search/preview/2019-05-06-Preview)| [Release note](#2019-05-06-Preview) |
+| `2017-11-11-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Microsoft.Azure.Search.Data/preview/2017-11-11-preview)| Preview version associated with stable version. |
+| `2016-09-01-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Microsoft.Azure.Search.Data/preview/2016-09-01-preview) | Preview version associated with stable version.|
+| `2015-02-28-Preview` | Unsupported after 10-10-2020  | Preview version associated with stable version. |
+| `2014-10-20-Preview` | Unsupported after 10-10-2020 | Second public preview. |
+| `2014-07-31-Preview` | Unsupported after 10-10-2020  | First public preview. |
 
-**2019-05-06-Preview** is the previous preview version.
+## Release notes
 
-The full list of preview features can be found in [Preview APIs](https://docs.microsoft.com/azure/search/search-api-preview) and in [What's New in Azure Cognitive Search](https://docs.microsoft.com/azure/search/whats-new).
+<a name="2021-04-30-Preview"></a>
+
+### 2021-04-30-Preview
+
+This preview version includes all of the features introduced in 2020-06-30-Preview, plus the following additions:
+
++ [Managed identities for outbound access](/azure/search/search-howto-managed-identities-data-sources) to external data sources is now supported in the REST API. This preview adds new values for connection strings in [Create or Update Data Source](./preview-api/create-or-update-data-source.md) so that you can connect using Azure Active Directory authentication and roles instead of hard-coded database credentials or keys. 
+
++ Managed identity support is also supported for key vault connections, for search solutions that supplement default encryption with [customer-managed encryption](/azure/search/search-security-manage-encryption-keys). When specifying an encryption key, you can now also set a user-assigned managed identity for connections to the key vault.
+
++ More languages for the Text Translation cognitive skill.
+
++ More queryLanguages for semantic search and speller in [Search Documents (preview)](./preview-api/search-documents.md).
+
+<a name="2020-06-30"></a>
+
+### 2020-06-30
+
+This is the current stable release of the Search REST APIs. Generally available features in this release include:
+
++ Relevance scoring (BM25)
++ Knowledge stores
++ Indexer data source for Azure Data Lake Storage (ADLS) Gen2
++ Custom Entity Lookup skill
++ Indexers running under a system or user-managed identity via Azure Active Directory
+
+<a name="2020-06-30-Preview"></a>
+
+### 2020-06-30-Preview
+
+This preview version includes all of the features introduced in 2019-05-06-Preview, plus the following additions:
+
++ Semantic search, a premium feature that runs on Standard tier services and that invokes semantic ranking.
++ Indexer data source for Power Query Connectors
++ Indexer data source for MySQL
++ Indexer data source for Cosmos DB Gremlin API
++ Indexer data source for SharePoint Online
++ Normalizer property for text normalization, for case-insensitive filtering, faceting and sorting
++ Reset Documents for indexer-based indexing to specifically refresh specific documents by ID
++ Entity Linking cognitive skill (v3)
++ Entity Recognition cognitive skill (v3)
++ Sentiment cognitive cognitive skill (v3)
+
+<a name="2019-05-06-Preview"></a>
+
+### 2019-05-06-Preview
+
++ Indexer data source support for Cosmos DB MongoDB API, Cassandra API
++ Indexer data source for native blob soft delete in Blob Storage
++ featuresMode parameter that returns detailed information about a relevance score
++ Azure Machine Learning (AML) cognitive skill
++ Personal identification detection cognitive skill
++ Cache enriched documents to preserve and reuse image processing (and other AI enrichments)
 
 ## See also
 
-+ [Create a search service](https://docs.microsoft.com/azure/search/search-create-service-portal)
-+ [Service administration using the portal](https://docs.microsoft.com/azure/search/search-manage)
++ [Create a search service](/azure/search/search-create-service-portal)
++ [Quickstart: Create an Azure Cognitive Search index using REST APIs](/azure/search/search-get-started-rest)
++ [Get started with Azure Cognitive Search using Visual Studio Code](/azure/search/search-get-started-vs-code)

@@ -1,0 +1,114 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.devices.getgroupupdatecompliance
+name: Get Group Update Compliance
+service: Device Update
+groupName: Devices
+apiVersion: 2020-09-01
+summary: Get group update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{accountEndpoint}/deviceupdate/{instanceId}/v2/management/groups/{groupId}/updateCompliance
+uriParameters:
+- name: accountEndpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account endpoint.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account instance identifier.
+  types:
+  - uid: string
+- name: groupId
+  in: path
+  isRequired: true
+  description: Group identifier.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The group update compliance information.
+  types:
+  - uid: UpdateCompliance
+- name: 404 Not Found
+  description: Not found.
+requestHeader: []
+definitions:
+- name: UpdateCompliance
+  description: Update compliance information.
+  kind: object
+  properties:
+  - name: totalDeviceCount
+    description: Total number of devices.
+    types:
+    - uid: integer
+  - name: onLatestUpdateDeviceCount
+    description: Number of devices on the latest update.
+    types:
+    - uid: integer
+  - name: newUpdatesAvailableDeviceCount
+    description: Number of devices with a newer update available.
+    types:
+    - uid: integer
+  - name: updatesInProgressDeviceCount
+    description: Number of devices with update in-progress.
+    types:
+    - uid: integer
+examples:
+- name: Devices_GetGroupUpdateCompliance
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceupdate/blue/v2/management/groups/group1/updateCompliance
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalDeviceCount": 302204,
+        "onLatestUpdateDeviceCount": 256873,
+        "newUpdatesAvailableDeviceCount": 36265,
+        "updatesInProgressDeviceCount": 9066
+      }
+  - statusCode: "404"
+security:
+- name: azure_auth_implicit
+  type: oauth2
+  description: Azure Active Directory OAuth2 Implicit Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+- name: azure_auth_code
+  type: oauth2
+  description: Azure Active Directory OAuth2 AccessCode Flow
+  flow: accessCode
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+  tokenUrl: https://login.microsoftonline.com/common/oauth2/v2.0/token
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+- name: azure_auth_application
+  type: oauth2
+  description: Azure Active Directory OAuth2 Application Flow
+  flow: application
+  tokenUrl: https://login.microsoftonline.com/common/oauth2/v2.0/token
+  scopes:
+  - name: .default
+    description: client credential scope
+- name: azure_auth_password
+  type: oauth2
+  description: Azure Active Directory OAuth2 Password Flow
+  flow: password
+  tokenUrl: https://login.microsoftonline.com/common/oauth2/v2.0/token
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Get group update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update.
+errorCodes: []

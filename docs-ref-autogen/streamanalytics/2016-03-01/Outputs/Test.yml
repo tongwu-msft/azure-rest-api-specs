@@ -49,6 +49,10 @@ responses:
   - uid: ResourceTestStatus
 - name: 202 Accepted
   description: The test request was successfully initiated.
+- name: Other Status Codes
+  description: Error.
+  types:
+  - uid: Error
 requestBody:
 - name: default
   parameters:
@@ -70,9 +74,9 @@ requestBody:
     in: body
     description: Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: AvroSerialization
-    - uid: JsonSerialization
     - uid: CsvSerialization
+    - uid: JsonSerialization
+    - uid: AvroSerialization
     typesTitle: Serialization
   - name: name
     in: body
@@ -105,6 +109,14 @@ definitions:
     description: Describes the error that occurred.
     types:
     - uid: ErrorResponse
+- name: Error
+  description: Common error representation.
+  kind: object
+  properties:
+  - name: error
+    description: Error definition properties.
+    types:
+    - uid: Error
 - name: Output
   description: An output object, containing all information associated with the named output. All outputs are contained under a streaming job.
   kind: object
@@ -125,9 +137,9 @@ definitions:
   - name: properties.serialization
     description: Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: AvroSerialization
-    - uid: JsonSerialization
     - uid: CsvSerialization
+    - uid: JsonSerialization
+    - uid: AvroSerialization
     typesTitle: Serialization
   - name: properties.diagnostics
     isReadyOnly: true
@@ -450,14 +462,22 @@ definitions:
     description: The user display name of the user that was used to obtain the refresh token. Use this property to help remember which user was used to obtain the refresh token.
     types:
     - uid: string
-- name: AvroSerialization
-  description: Describes how data from an input is serialized or how data is serialized when written to an output in Avro format.
+- name: CsvSerialization
+  description: Describes how data from an input is serialized or how data is serialized when written to an output in CSV format.
   kind: object
   properties:
+  - name: properties.fieldDelimiter
+    description: Specifies the delimiter that will be used to separate comma-separated value (CSV) records. See https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-input or https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for a list of supported values. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: string
+  - name: properties.encoding
+    description: Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: Encoding
   - name: type
     description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: Avro
+    - uid: Csv
     typesTitle: string
 - name: JsonSerialization
   description: Describes how data from an input is serialized or how data is serialized when written to an output in JSON format.
@@ -476,22 +496,14 @@ definitions:
     types:
     - uid: Json
     typesTitle: string
-- name: CsvSerialization
-  description: Describes how data from an input is serialized or how data is serialized when written to an output in CSV format.
+- name: AvroSerialization
+  description: Describes how data from an input is serialized or how data is serialized when written to an output in Avro format.
   kind: object
   properties:
-  - name: properties.fieldDelimiter
-    description: Specifies the delimiter that will be used to separate comma-separated value (CSV) records. See https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-input or https://docs.microsoft.com/en-us/rest/api/streamanalytics/stream-analytics-output for a list of supported values. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: string
-  - name: properties.encoding
-    description: Specifies the encoding of the incoming data in the case of input and the encoding of outgoing data in the case of output. Required on PUT (CreateOrReplace) requests.
-    types:
-    - uid: Encoding
   - name: type
     description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
     types:
-    - uid: Csv
+    - uid: Avro
     typesTitle: string
 - name: DiagnosticCondition
   description: Condition applicable to the resource, or to the job overall, that warrant customer attention.
@@ -545,6 +557,19 @@ definitions:
   - name: UTF8
     types:
     - uid: string
+- name: EventSerializationType
+  description: Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests.
+  kind: enum
+  properties:
+  - name: Csv
+    types:
+    - uid: string
+  - name: Avro
+    types:
+    - uid: string
+  - name: Json
+    types:
+    - uid: string
 - name: JsonOutputSerializationFormat
   description: Specifies the format of the JSON the output will be written in. The currently supported values are 'lineSeparated' indicating the output will be formatted by having each JSON object separated by a new line and 'array' indicating the output will be formatted as an array of JSON objects.
   kind: enum
@@ -575,4 +600,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Stream Analytics service - Tests whether an output’s datasource is reachable and usable by the Azure Stream Analytics service.
 errorCodes: []

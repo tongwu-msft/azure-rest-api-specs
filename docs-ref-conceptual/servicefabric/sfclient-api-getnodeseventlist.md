@@ -1,5 +1,6 @@
 ---
 title: "Get Nodes Event List"
+description: "Get Nodes Event List"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

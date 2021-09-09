@@ -1,0 +1,225 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.devices.getalldevices
+name: Get All Devices
+service: Device Update
+groupName: Devices
+apiVersion: 2020-09-01
+summary: Gets a list of devices connected to Device Update for IoT Hub.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{accountEndpoint}/deviceupdate/{instanceId}/v2/management/devices
+- content: GET https://{accountEndpoint}/deviceupdate/{instanceId}/v2/management/devices?$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: accountEndpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account endpoint.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Account instance identifier.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: Restricts the set of devices returned. You can only filter on device GroupId.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: All devices connected to Device Update for IoT Hub.
+  types:
+  - uid: PageableListOfDevices
+requestHeader: []
+definitions:
+- name: PageableListOfDevices
+  description: The list of devices.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of pageable items.
+    types:
+    - uid: Device
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of items.
+    types:
+    - uid: string
+- name: Device
+  description: Device metadata.
+  kind: object
+  properties:
+  - name: deviceId
+    description: Device identity.
+    types:
+    - uid: string
+  - name: deviceClassId
+    description: Device class identity.
+    types:
+    - uid: string
+  - name: manufacturer
+    description: Device manufacturer.
+    types:
+    - uid: string
+  - name: model
+    description: Device model.
+    types:
+    - uid: string
+  - name: groupId
+    description: Device group identity.
+    types:
+    - uid: string
+  - name: lastAttemptedUpdateId
+    description: Update identity.
+    types:
+    - uid: UpdateId
+  - name: deploymentStatus
+    description: State of the device in its last deployment.
+    types:
+    - uid: DeviceDeploymentState
+  - name: installedUpdateId
+    description: Update identity.
+    types:
+    - uid: UpdateId
+  - name: onLatestUpdate
+    description: Boolean flag indicating whether the latest update is installed on the device
+    types:
+    - uid: boolean
+  - name: lastDeploymentId
+    description: The deployment identifier for the last deployment to the device
+    types:
+    - uid: string
+- name: UpdateId
+  description: Update identifier.
+  kind: object
+  properties:
+  - name: provider
+    description: Update provider.
+    types:
+    - uid: string
+  - name: name
+    description: Update name.
+    types:
+    - uid: string
+  - name: version
+    description: Update version.
+    types:
+    - uid: string
+- name: DeviceDeploymentState
+  description: Deployment state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    description: Deployment has completed with success.
+    types:
+    - uid: string
+  - name: InProgress
+    description: Deployment is in progress.
+    types:
+    - uid: string
+  - name: Failed
+    description: Deployment has completed with failure.
+    types:
+    - uid: string
+  - name: Canceled
+    description: Deployment was canceled.
+    types:
+    - uid: string
+  - name: Incompatible
+    description: Deployment is not compatible with the device.
+    types:
+    - uid: string
+examples:
+- name: Devices_GetAllDevices
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceupdate/blue/v2/management/devices
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "deviceId": "device1",
+            "deviceClassId": "deviceClass1",
+            "manufacturer": "manufacturer1",
+            "model": "model1",
+            "lastAttemptedUpdateId": {
+              "provider": "provider1",
+              "name": "name1",
+              "version": "2.0.0.0"
+            },
+            "deploymentStatus": "Failed",
+            "installedUpdateId": {
+              "provider": "provider1",
+              "name": "name1",
+              "version": "1.0.0.0"
+            },
+            "onLatestUpdate": false,
+            "lastDeploymentId": "myDeployment123"
+          },
+          {
+            "deviceId": "device2",
+            "deviceClassId": "deviceClass2",
+            "manufacturer": "manufacturer2",
+            "model": "model2",
+            "lastAttemptedUpdateId": {
+              "provider": "provider2",
+              "name": "name2",
+              "version": "1.0.0.0"
+            },
+            "deploymentStatus": "Succeeded",
+            "installedUpdateId": {
+              "provider": "provider2",
+              "name": "name2",
+              "version": "1.0.0.0"
+            },
+            "onLatestUpdate": true,
+            "lastDeploymentId": "myDeployment234"
+          }
+        ]
+      }
+security:
+- name: azure_auth_implicit
+  type: oauth2
+  description: Azure Active Directory OAuth2 Implicit Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+- name: azure_auth_code
+  type: oauth2
+  description: Azure Active Directory OAuth2 AccessCode Flow
+  flow: accessCode
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+  tokenUrl: https://login.microsoftonline.com/common/oauth2/v2.0/token
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+- name: azure_auth_application
+  type: oauth2
+  description: Azure Active Directory OAuth2 Application Flow
+  flow: application
+  tokenUrl: https://login.microsoftonline.com/common/oauth2/v2.0/token
+  scopes:
+  - name: .default
+    description: client credential scope
+- name: azure_auth_password
+  type: oauth2
+  description: Azure Active Directory OAuth2 Password Flow
+  flow: password
+  tokenUrl: https://login.microsoftonline.com/common/oauth2/v2.0/token
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Device Update service - Gets a list of devices connected to Device Update for IoT Hub.
+errorCodes: []

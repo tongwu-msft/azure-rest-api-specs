@@ -1,5 +1,6 @@
 ---
 title: "Int64RangePartitionInformation"
+description: "Int64RangePartitionInformation"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -1,0 +1,154 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azureresourcegraph.resourcegraph(2021-03-01).operations.list
+name: List
+service: Azure Resource Graph
+groupName: Operations
+apiVersion: 2021-03-01
+summary: Lists all of the available REST API operations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.ResourceGraph/operations?api-version=2021-03-01
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: OperationListResult
+- name: Other Status Codes
+  description: An error occurred while processing the request. See the error.code parameter to identify the specific error.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: OperationListResult
+  description: Result of the request to list Resource Graph operations. It contains a list of operations and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of Resource Graph operations supported by the Resource Graph resource provider.
+    types:
+    - uid: Operation
+      isArray: true
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: "Error info.  \nError information."
+    types:
+    - uid: Error
+- name: Operation
+  description: Resource Graph REST API operation definition.
+  kind: object
+  properties:
+  - name: name
+    description: 'Operation name: {provider}/{resource}/{operation}'
+    types:
+    - uid: string
+  - name: display
+    description: Display metadata associated with the operation.
+    types:
+    - uid: Display
+  - name: origin
+    description: The origin of operations.
+    types:
+    - uid: string
+- name: Error
+  description: Error info.
+  kind: object
+  properties:
+  - name: code
+    description: Error code identifying the specific error.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details
+    types:
+    - uid: ErrorDetails
+      isArray: true
+- name: Display
+  description: Display metadata associated with the operation.
+  kind: object
+  properties:
+  - name: provider
+    description: 'Service provider: Microsoft Resource Graph.'
+    types:
+    - uid: string
+  - name: resource
+    description: Resource on which the operation is performed etc.
+    types:
+    - uid: string
+  - name: operation
+    description: 'Type of operation: get, read, delete, etc.'
+    types:
+    - uid: string
+  - name: description
+    description: Description for the operation.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Error code identifying the specific error.
+    types:
+    - uid: string
+  - name: message
+    description: A human readable error message.
+    types:
+    - uid: string
+examples:
+- name: OperationsList
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.ResourceGraph/operations?api-version=2021-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.ResourceGraph/operations/read",
+            "display": {
+              "provider": "Microsoft Resource Graph",
+              "resource": "Operation",
+              "operation": "Get Operations",
+              "description": "Gets the list of supported operations"
+            }
+          },
+          {
+            "name": "Microsoft.ResourceGraph/resources/read",
+            "display": {
+              "provider": "Microsoft Resource Graph",
+              "resource": "Resources",
+              "operation": "Query resources",
+              "description": "Submits a query on resources within specified subscriptions, the specified management groups, or against all access granted in the tenant."
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Azure Resource Graph service - Lists all of the available REST API operations.
+errorCodes: []

@@ -1,5 +1,6 @@
 ---
 title: "Get Node Load Info"
+description: "Get Node Load Info"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

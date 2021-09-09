@@ -1,5 +1,6 @@
 ---
 title: "Get Aad Metadata"
+description: "Get Aad Metadata"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

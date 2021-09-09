@@ -1,5 +1,6 @@
 ---
 title: "Get Chaos Events"
+description: "Get Chaos Events"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

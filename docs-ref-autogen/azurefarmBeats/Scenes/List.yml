@@ -1,0 +1,332 @@
+### YamlMime:RESTOperation
+uid: azurefarmbeats.scenes.list
+name: List
+service: Azure FarmBeats
+groupName: Scenes
+apiVersion: 2021-03-31-preview
+summary: "Get a paginated list of scene resources for a given search criteria.\n\n\r###### Note: \n1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.\n2. This API will retrieve scenes present in the FarmBeats datastore and does not ingest new data. Example: a user has ingested satellite data from 1st of Jan 2019 to 30th of June 2019. However, using the current API, the user has asked for data from 1st of Jan 2019 to 31st of December 2019. In such a case, only data for the first 6 months is returned to the user.\n\n"
+produces:
+- application/json
+paths:
+- content: GET /scenes?provider={provider}&farmerId={farmerId}&boundaryId={boundaryId}&api-version=2021-03-31-preview
+- content: GET /scenes?provider={provider}&farmerId={farmerId}&boundaryId={boundaryId}&source={source}&startDateTime={startDateTime}&endDateTime={endDateTime}&maxCloudCoveragePercentage={maxCloudCoveragePercentage}&maxDarkPixelCoveragePercentage={maxDarkPixelCoveragePercentage}&imageNames={imageNames}&imageResolutions={imageResolutions}&imageFormats={imageFormats}&$maxPageSize={$maxPageSize}&$skipToken={$skipToken}&api-version=2021-03-31-preview
+  isOptional: true
+uriParameters:
+- name: provider
+  in: query
+  isRequired: true
+  description: Name of the data provider for the scene. For satellite imagery, this refers to the name of the satellite data provider.
+  types:
+  - uid: string
+- name: farmerId
+  in: query
+  isRequired: true
+  description: Id of the associated farmer.
+  types:
+  - uid: string
+- name: boundaryId
+  in: query
+  isRequired: true
+  description: Id of the associated boundary.
+  types:
+  - uid: string
+- name: source
+  in: query
+  description: Source from where the scene was procured/generated. For satellite imagery, this refers to the name of the satellite constellation.
+  types:
+  - uid: string
+- name: startDateTime
+  in: query
+  description: Scenes that were captured/made available (at source) at or after this UTC Date-time is returned (format: yyyy-MM-ddTHH:mm:ssZ).
+  types:
+  - uid: string
+  format: date-time
+- name: endDateTime
+  in: query
+  description: Scenes that were captured/made available (at source) at or before this UTC Date-time is returned (format: yyyy-MM-ddTHH:mm:ssZ).
+  types:
+  - uid: string
+  format: date-time
+- name: maxCloudCoveragePercentage
+  in: query
+  description: Scenes with cloud cover less than or equal to the given value are returned. Range [0 to 100.0].
+  types:
+  - uid: number
+  format: double
+- name: maxDarkPixelCoveragePercentage
+  in: query
+  description: Scenes with dark pixel cover less than or equal to the given value are returned. Range [0 to 100.0].
+  types:
+  - uid: number
+  format: double
+- name: imageNames
+  in: query
+  description: >-
+    List of names of images to be fetched.
+
+    For Sentinel-2, allowed values are: 'B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B8A', 'B09', 'B11', 'B12', 'AOT', 'SCL', 'SNW', 'CLD', 'NDVI', 'NDWI', 'EVI', 'LAI', 'LAIMask', 'CLP', 'CLM', 'dataMask', sunAzimuthAngles, sunZenithAngles, viewAzimuthMean and viewZenithMean.
+  types:
+  - uid: array
+- name: imageResolutions
+  in: query
+  description: List of image resolutions in meters. For Sentinel-2, available values are: 10, 20, 60.
+  types:
+  - uid: array
+- name: imageFormats
+  in: query
+  description: Format in which the scenes are to be returned. Available value: TIF.
+  types:
+  - uid: array
+- name: $maxPageSize
+  in: query
+  description: Maximum number of items to be returned in a single page.
+  types:
+  - uid: integer
+  format: int32
+- name: $skipToken
+  in: query
+  description: Skip token for getting next set of results.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The requested API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: SceneListResponse
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  types:
+  - uid: string
+definitions:
+- name: SceneListResponse
+  description: Paged response contains list of requested objects and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of requested objects.
+    types:
+    - uid: Scene
+      isArray: true
+  - name: $skipToken
+    description: Token used in retrieving the next page. If null, there are no additional pages.
+    types:
+    - uid: string
+  - name: nextLink
+    description: Continuation link (absolute URI) to the next page of results in the list. If null, there are no additional pages.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: >-
+    An error response from Azure AgPlatform service.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses">ErrorResponse reference document.</see>.
+  kind: object
+  properties:
+  - name: error
+    description: An error from Azure FarmBeats service.
+    types:
+    - uid: Error
+  - name: traceId
+    description: Unique trace Id.
+    types:
+    - uid: string
+- name: Scene
+  description: Schema of scene resource.
+  kind: object
+  properties:
+  - name: sceneDateTime
+    description: UTC Date-time at which the image was captured/made available at source (format: yyyy-MM-ddTHH:mm:ssZ).
+    types:
+    - uid: string
+  - name: provider
+    description: Name of the data provider for the scene. For satellite imagery, this refers to the name of the satellite data provider.
+    types:
+    - uid: string
+  - name: source
+    description: Source from where the scene was procured/generated. For satellite imagery, this refers to the name of the satellite constellation.
+    types:
+    - uid: string
+  - name: imageFiles
+    description: Collection of image files.
+    types:
+    - uid: ImageFile
+      isArray: true
+  - name: imageFormat
+    description: Supported image formats for scene resource.
+    types:
+    - uid: ImageFormat
+  - name: cloudCoverPercentage
+    description: Signifies the percentage of the scene covered by clouds.
+    types:
+    - uid: number
+  - name: darkPixelPercentage
+    description: Signifies the percentage of the scene covered by dark pixels.
+    types:
+    - uid: number
+  - name: ndviMedianValue
+    description: Median of NDVI values of the scene.
+    types:
+    - uid: number
+  - name: boundaryId
+    description: Id of the associated boundary.
+    types:
+    - uid: string
+  - name: farmerId
+    description: Id of the associated farmer.
+    types:
+    - uid: string
+  - name: id
+    description: Unique Id of the scene
+    types:
+    - uid: string
+  - name: eTag
+    isReadyOnly: true
+    description: ETag value can be used to implement optimistic concurrency.
+    types:
+    - uid: string
+- name: Error
+  description: An error from Azure FarmBeats service.
+  kind: object
+  properties:
+  - name: code
+    description: Server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: Array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+- name: ImageFile
+  description: Schema of image file resource.
+  kind: object
+  properties:
+  - name: fileLink
+    description: Link to the image file.
+    types:
+    - uid: string
+  - name: name
+    description: Name of the image file.
+    types:
+    - uid: string
+  - name: imageFormat
+    description: Supported image formats for scene resource.
+    types:
+    - uid: ImageFormat
+  - name: resolution
+    description: Resolution of image in meters.
+    types:
+    - uid: number
+- name: ImageFormat
+  description: Supported image formats for scene resource.
+  kind: enum
+  properties:
+  - name: TIF
+    types:
+    - uid: string
+- name: InnerError
+  description: >-
+    Inner error containing list of errors.
+
+    <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+  kind: object
+  properties:
+  - name: code
+    description: Specific error code than was provided by the containing error.
+    types:
+    - uid: string
+  - name: innererror
+    description: >-
+      Inner error containing list of errors.
+
+      <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
+    types:
+    - uid: InnerError
+examples:
+- name: Scenes_List
+  request:
+    uri: GET /scenes?provider=Microsoft&farmerId=Farmer123&boundaryId=Boundary123&api-version=2021-03-31-preview
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "sceneDateTime": "2021-04-16T00:00:00Z",
+            "provider": "Microsoft",
+            "source": "Sentinel_2_L2A",
+            "imageFiles": [
+              {
+                "fileLink": "https://test.farmbeats.azure.net/scenes/downloadFiles?api-version=2021-03-31-preview&filePath=Microsoft%2fSentinel_2_L2A%2fFarmer123%2fBoundary123%2f2021-04-16%2f00-00-00%2fndvi_10.tif",
+                "name": "NDVI",
+                "resolution": 10
+              }
+            ],
+            "imageFormat": "TIF",
+            "cloudCoverPercentage": 0,
+            "darkPixelPercentage": 0,
+            "ndviMedianValue": 0.43166860938072205,
+            "boundaryId": "Boundary123",
+            "farmerId": "Farmer123",
+            "id": "4e533975-5cfc-5b54-b216-6c6a0fdb387b",
+            "eTag": "03007b6d-0000-0600-0000-60ce0db80000"
+          },
+          {
+            "sceneDateTime": "2021-04-11T00:00:00Z",
+            "provider": "Microsoft",
+            "source": "Sentinel_2_L2A",
+            "imageFiles": [
+              {
+                "fileLink": "https://test.farmbeats.azure.net/scenes/downloadFiles?api-version=2021-03-31-preview&filePath=Microsoft%2fSentinel_2_L2A%2fFarmer123%2fBoundary123%2f2021-04-11%2f00-00-00%2fndvi_10.tif",
+                "name": "NDVI",
+                "resolution": 10
+              }
+            ],
+            "imageFormat": "TIF",
+            "cloudCoverPercentage": 0,
+            "darkPixelPercentage": 0,
+            "ndviMedianValue": 0.41777390241622925,
+            "boundaryId": "Boundary123",
+            "farmerId": "Farmer123",
+            "id": "4ebdef7f-3ade-7750-0096-2c5024eb72c0",
+            "eTag": "0300796d-0000-0600-0000-60ce0db80000"
+          }
+        ],
+        "nextLink": "https://test.farmbeats.azure.net/scenes?provider=Microsoft&farmerId=Farmer123&boundaryId=Boundary123&source=Sentinel_2_L2A&api-version=2021-03-31-preview&$skipToken=W3sidG9rZW4iOiIrUklEOn5Qa1pRQU1teHVDWVVQZ0VBQUFBQUFBPT0jUlQ6MSNUUkM6NTAjUlREOm4rVGxTTDV1UEkzZjhDSUxkNys1QlRNeE16RXVNVGt1TVRwVk1URTdNVEU3TVRGYkFBPT0jSVNWOjIjSUVPOjY1NTY3I1FDRjo3I0ZQQzpBZXc5QVFBQUFBQUFORDRCQUFBQUFBQT0iLCJyYW5nZSI6eyJtaW4iOiIiLCJtYXgiOiIxRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRiJ9fV0"
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: Please provide a valid bearer token for authorized API calls. Note that you might need to clear your browser cache if you tried un-authenticated calls before.
+  in: header
+metadata:
+  description: "Get a paginated list of scene resources for a given search criteria.\n\n\r###### Note: \n1. Users will get paginated response with each page containing a link to the next page."
+errorCodes: []

@@ -3,26 +3,26 @@ uid: management.azure.com.resources.resources.list
 name: List
 service: Resource Management
 groupName: Resources
-apiVersion: 2020-06-01
+apiVersion: 2021-04-01
 summary: Get all the resources in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resources?api-version=2020-06-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resources?$filter={$filter}&$expand={$expand}&$top={$top}&api-version=2020-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resources?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resources?$filter={$filter}&$expand={$expand}&$top={$top}&api-version=2021-04-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The ID of the target subscription.
+  description: The Microsoft Azure subscription ID.
   types:
   - uid: string
 - name: $filter
   in: query
-  description: "The filter to apply on the operation.<br><br>The properties you can use for eq (equals) or ne (not equals) are: location, resourceType, name, resourceGroup, identity, identity/principalId, plan, plan/publisher, plan/product, plan/name, plan/version, and plan/promotionCode.<br><br>For example, to filter by a resource type, use: $filter=resourceType eq 'Microsoft.Network/virtualNetworks'<br><br>You can use substringof(value, property) in the filter. The properties you can use for substring are: name and resourceGroup.<br><br>For example, to get all resources with 'demo' anywhere in the name, use: $filter=substringof('demo', name)<br><br>You can link more than one substringof together by adding and/or operators.<br><br>You can filter by tag names and values. For example, to filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1'. When you filter by a tag name and value, the tags for each resource are not returned in the results.<br><br>You can use some properties together when filtering. The combinations you can use are: substringof and/or resourceType, plan and plan/publisher and plan/name, identity and identity/principalId."
+  description: "The filter to apply on the operation.<br><br>Filter comparison operators include `eq` (equals) and `ne` (not equals) and may be used with the following properties: `location`, `resourceType`, `name`, `resourceGroup`, `identity`, `identity/principalId`, `plan`, `plan/publisher`, `plan/product`, `plan/name`, `plan/version`, and `plan/promotionCode`.<br><br>For example, to filter by a resource type, use `$filter=resourceType eq 'Microsoft.Network/virtualNetworks'`<br><br><br>`substringof(value, property)` can  be used to filter for substrings of the following currently-supported properties: `name` and `resourceGroup`<br><br>For example, to get all resources with 'demo' anywhere in the resource name, use `$filter=substringof('demo', name)`<br><br>Multiple substring operations can also be combined using `and`/`or` operators.<br><br><br>Resources can be filtered by tag names and values. For example, to filter for a tag name and value, use `$filter=tagName eq 'tag1' and tagValue eq 'Value1'`. Note that when resources are filtered by tag name and value, <b>the original tags for each resource will not be returned in the results.</b> Any list of additional properties queried via `$expand` may also not be compatible when filtering by tag names/values. <br><br>For tag names only, resources can be filtered by prefix using the following syntax: `$filter=startswith(tagName, 'depart')`. This query will return all resources with a tag name prefixed by the phrase `depart` (i.e.`department`, `departureDate`, `departureTime`, etc.)<br><br><br>Note that some properties can be combined when filtering resources, which include the following: `substringof() and/or resourceType`, `plan and plan/publisher and plan/name`, and `identity and identity/principalId`."
   types:
   - uid: string
 - name: $expand
@@ -32,7 +32,7 @@ uriParameters:
   - uid: string
 - name: $top
   in: query
-  description: The number of results to return. If null is passed, returns all resource groups.
+  description: The maximum number of results to return. If null is passed, returns all resources.
   types:
   - uid: integer
   format: int32
@@ -137,6 +137,10 @@ definitions:
     description: Resource location
     types:
     - uid: string
+  - name: extendedLocation
+    description: Resource extended location.
+    types:
+    - uid: ExtendedLocation
   - name: tags
     description: Resource tags
     types:
@@ -250,6 +254,18 @@ definitions:
     description: "The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
     types:
     - uid: UserAssignedIdentities
+- name: ExtendedLocation
+  description: Resource extended location.
+  kind: object
+  properties:
+  - name: type
+    description: The extended location type.
+    types:
+    - uid: ExtendedLocationType
+  - name: name
+    description: The extended location name.
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -288,6 +304,13 @@ definitions:
     description: ''
     types:
     - uid: ''
+- name: ExtendedLocationType
+  description: The extended location type.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 examples: []
 security:
 - name: azure_auth
@@ -298,4 +321,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Resource Management service - Get all the resources in a subscription.
 errorCodes: []

@@ -10,7 +10,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMariaDB/servers/{serverName}?api-version=2018-06-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}?api-version=2018-06-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -80,6 +80,11 @@ requestBody:
     description: Enable ssl enforcement or not when connect to server.
     types:
     - uid: SslEnforcementEnum
+  - name: properties.minimalTlsVersion
+    in: body
+    description: Enforce a minimal Tls version for the server.
+    types:
+    - uid: MinimalTlsVersionEnum
   - name: properties.replicationRole
     in: body
     description: The replication role of the server.
@@ -155,6 +160,10 @@ definitions:
     description: Enable ssl enforcement or not when connect to server.
     types:
     - uid: SslEnforcementEnum
+  - name: properties.minimalTlsVersion
+    description: Enforce a minimal Tls version for the server.
+    types:
+    - uid: MinimalTlsVersionEnum
   - name: properties.userVisibleState
     description: A state of a server that is visible to user.
     types:
@@ -242,6 +251,10 @@ definitions:
     description: Enable ssl enforcement or not when connect to server.
     types:
     - uid: SslEnforcementEnum
+  - name: properties.minimalTlsVersion
+    description: Enforce a minimal Tls version for the server.
+    types:
+    - uid: MinimalTlsVersionEnum
   - name: properties.replicationRole
     description: The replication role of the server.
     types:
@@ -301,10 +314,10 @@ definitions:
   description: The version of a server.
   kind: enum
   properties:
-  - name: "5.6"
+  - name: "10.2"
     types:
     - uid: string
-  - name: "5.7"
+  - name: "10.3"
     types:
     - uid: string
 - name: SslEnforcementEnum
@@ -315,6 +328,22 @@ definitions:
     types:
     - uid: string
   - name: Disabled
+    types:
+    - uid: string
+- name: MinimalTlsVersionEnum
+  description: Enforce a minimal Tls version for the server.
+  kind: enum
+  properties:
+  - name: TLS1_0
+    types:
+    - uid: string
+  - name: TLS1_1
+    types:
+    - uid: string
+  - name: TLS1_2
+    types:
+    - uid: string
+  - name: TLSEnforcementDisabled
     types:
     - uid: string
 - name: ServerState
@@ -340,7 +369,7 @@ definitions:
 examples:
 - name: ServerUpdate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBForMariaDB/servers/mariadbtestsvc4?api-version=2018-06-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMariaDB/servers/mariadbtestsvc4?api-version=2018-06-01-preview
     body: >-
       {
         "properties": {
@@ -365,7 +394,7 @@ examples:
             "backupRetentionDays": 7,
             "geoRedundantBackup": "Enabled"
           },
-          "version": "5.7",
+          "version": "10.3",
           "sslEnforcement": "Disabled",
           "userVisibleState": "Ready",
           "fullyQualifiedDomainName": "mariadbtestsvc4.mariadb.database.azure.com",
@@ -389,4 +418,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
 errorCodes: []

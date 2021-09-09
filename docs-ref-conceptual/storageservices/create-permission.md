@@ -1,31 +1,37 @@
 ---
-title: Create Permission (REST API) - Azure Storage
+title: Create Permission (FileREST API) - Azure Files
 description: The Create Permission operation creates a permission (a security descriptor) at the share level. The created security descriptor can be used for the files/directories in the share. 
-author: pemari-msft
+author: wmgries
 
-ms.date: 09/23/2019
+ms.date: 06/05/2021
 ms.service: storage
 ms.topic: reference
-ms.author: pemari
+ms.author: wgries
 ---
 
 # Create Permission
-
 The `Create Permission` operation creates a permission (a security descriptor) at the share level. The created security descriptor can be used for the files/directories in the share. This API is available starting in version 2019-02-02.
+
+## Protocol availability
+
+| Enabled file share protocol | Available |
+|-|:-:|
+| SMB | ![Yes](./media/yes-icon.png) |
+| NFS | ![No](./media/no-icon.png) |
   
-## Request  
+## Request
 The `Create Permission` request may be constructed as follows. HTTPS is recommended.  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`PUT`|`https://myaccount.file.core.windows.net/myshare?restype=share&comp=filepermission`|HTTP/1.1|  
   
 Replace the path components shown in the request URI with your own, as follows:  
   
-|Path Component|Description|  
+|Path component|Description|  
 |--------------------|-----------------|  
-|*myaccount*|The name of your storage account.|  
-|*myshare*|The name of your file share. It may include only lower-case characters.|  
+|`myaccount`|The name of your storage account.|  
+|`myshare`|The name of your file share. It may include only lower-case characters.|  
   
 For details on path naming restrictions, see [Naming and Referencing Shares, Directories, Files, and Metadata](Naming-and-Referencing-Shares--Directories--Files--and-Metadata.md).  
   
@@ -37,20 +43,20 @@ The following additional parameters may be specified on the request URI.
 |---------------|-----------------|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Queue Service Operations](Setting-Timeouts-for-Queue-Service-Operations.md).|  
 
-### Request Headers  
- The following table describes required and optional request headers.  
+### Request headers
+The following table describes required and optional request headers.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 | `Authorization` | Required. Specifies the authorization scheme, storage account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|    
   
-### Request Body  
-To create a security descriptor, the request body is a JSON document that describes permission in the [Security Descriptor Definition Language (SDDL)](https://docs.microsoft.com/windows/win32/secauthz/security-descriptor-definition-language). SDDL must have an owner, group, and [discretionary access control list (DACL)](https://docs.microsoft.com/windows/win32/secauthz/access-control-lists). The provided SDDL string format of the security descriptor should not have domain relative identifier (like 'DU', 'DA', 'DD' etc.) in it.
+### Request body
+To create a security descriptor, the request body is a JSON document that describes permission in the [Security Descriptor Definition Language (SDDL)](/windows/win32/secauthz/security-descriptor-definition-language). SDDL must have an owner, group, and [discretionary access control list (DACL)](/windows/win32/secauthz/access-control-lists). The provided SDDL string format of the security descriptor should not have domain relative identifier (like 'DU', 'DA', 'DD' etc.) in it.
 
-```
+```json
 {
     "Permission": "SDDL"
 }
@@ -58,7 +64,7 @@ To create a security descriptor, the request body is a JSON document that descri
   
 ### Sample Request  
   
-```   
+```
 PUT https://myaccount.file.core.windows.net/myshare?restype=share&comp=filepermission HTTP/1.1  
 
 Request Headers:  
@@ -70,33 +76,32 @@ Request Body:
 {"permission": "O:S-1-5-21-2127521184-1604012920-1887927527-21560751G:S-1-5-21-2127521184-1604012920-1887927527-513D:AI(A;;FA;;;SY)(A;;FA;;;BA)(A;;0x1200a9;;;S-1-5-21-397955417-626881126-188441444-3053964)"}
 ```  
   
-## Response  
+## Response
 The response includes an HTTP status code and a set of response headers.  
   
-### Status Code
+### Status code
 A successful operation returns status code 201 (Created).
   
 For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).
   
-### Response Headers  
+### Response headers
 The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
-|Response Header|Description|  
+|Response header|Description|  
 |---------------------|-----------------|  
 | `x-ms-request-id` | This header uniquely identifies the request that was made and can be used for troubleshooting the request. |
 | `x-ms-version` | Indicates the version of the File service used to execute the request. |
 | `Date` or `x-ms-date` | A UTC date/time value generated by the service that indicates the time at which the response was initiated. |
 | `x-ms-file-permission-key` | Key of the permission created. |
-|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.| 
+|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|
   
-### Response Body  
+### Response body
 None.  
   
-## Authorization  
+## Authorization
 Only the account owner or a caller having share level SAS with write and delete authorization may call this operation.
 
 ## Remarks
-
 To make the SSDL format portable across domain and non-domain joined machines, the caller can use the ConvertSecurityDescriptorToStringSecurityDescriptor() Windows function to get the base SDDL string for the security descriptor and then replace the SDDL notation mentioned in the below table with their SID values.
 
 | Name | SDDL notation | SID value | Description |
@@ -115,4 +120,3 @@ To make the SSDL format portable across domain and non-domain joined machines, t
 | RAS and IAS Servers | RS | S-1-5-21domain-553 | A domain local group. By default, this group has no members. Servers in this group have Read Account Restrictions and Read Logon Information access to User objects in the Active Directory domain local group. |
 | Enterprise Read-only Domain Controllers | ED | S-1-5-21domain-498 | A Universal group. Members of this group are Read-Only Domain Controllers in the enterprise. |
 | Read-only Domain Controllers | RO | S-1-5-21domain-521 | A Global group. Members of this group are Read-Only Domain Controllers in the domain. |
-

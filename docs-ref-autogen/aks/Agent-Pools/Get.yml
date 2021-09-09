@@ -1,0 +1,622 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.aks.agentpools.get
+name: Get
+service: AKS
+groupName: Agent Pools
+apiVersion: 2021-05-01
+summary: Gets the specified managed cluster agent pool.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}?api-version=2021-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the managed cluster resource.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$
+- name: agentPoolName
+  in: path
+  isRequired: true
+  description: The name of the agent pool.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: AgentPool
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: AgentPool
+  description: Agent Pool.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+  - name: properties.count
+    description: Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1.
+    types:
+    - uid: integer
+  - name: properties.vmSize
+    description: "The size of the agent pool VMs.  \nVM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions"
+    types:
+    - uid: string
+  - name: properties.osDiskSizeGB
+    description: OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified.
+    types:
+    - uid: integer
+  - name: properties.osDiskType
+    description: "The OS disk type to be used for machines in the agent pool.  \nThe default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os)."
+    types:
+    - uid: OSDiskType
+  - name: properties.kubeletDiskType
+    description: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
+    types:
+    - uid: KubeletDiskType
+  - name: properties.vnetSubnetID
+    description: "The ID of the subnet which agent pool nodes and optionally pods will join on startup.  \nIf this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}"
+    types:
+    - uid: string
+  - name: properties.podSubnetID
+    description: "The ID of the subnet which pods will join when launched.  \nIf omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}"
+    types:
+    - uid: string
+  - name: properties.maxPods
+    description: The maximum number of pods that can run on a node.
+    types:
+    - uid: integer
+  - name: properties.osType
+    description: The operating system type. The default is Linux.
+    types:
+    - uid: OSType
+  - name: properties.osSKU
+    description: Specifies an OS SKU. This value must not be specified if OSType is Windows.
+    types:
+    - uid: OSSKU
+  - name: properties.maxCount
+    description: The maximum number of nodes for auto-scaling
+    types:
+    - uid: integer
+  - name: properties.minCount
+    description: The minimum number of nodes for auto-scaling
+    types:
+    - uid: integer
+  - name: properties.enableAutoScaling
+    description: Whether to enable auto-scaler
+    types:
+    - uid: boolean
+  - name: properties.type
+    description: The type of Agent Pool.
+    types:
+    - uid: AgentPoolType
+  - name: properties.mode
+    description: "The mode of an agent pool.  \nA cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools"
+    types:
+    - uid: AgentPoolMode
+  - name: properties.orchestratorVersion
+    description: "The version of Kubernetes running on the Agent Pool.  \nAs a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool)."
+    types:
+    - uid: string
+  - name: properties.nodeImageVersion
+    isReadyOnly: true
+    description: The version of node image
+    types:
+    - uid: string
+  - name: properties.upgradeSettings
+    description: Settings for upgrading the agentpool
+    types:
+    - uid: AgentPoolUpgradeSettings
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The current deployment or provisioning state.
+    types:
+    - uid: string
+  - name: properties.powerState
+    isReadyOnly: true
+    description: Describes whether the Agent Pool is Running or Stopped
+    types:
+    - uid: PowerState
+  - name: properties.availabilityZones
+    description: The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.enableNodePublicIP
+    description: "Whether each node is allocated its own public IP.  \nSome scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false."
+    types:
+    - uid: boolean
+  - name: properties.nodePublicIPPrefixID
+    description: "The public IP prefix ID which VM nodes should use IPs from.  \nThis is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}"
+    types:
+    - uid: string
+  - name: properties.scaleSetPriority
+    description: The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'.
+    types:
+    - uid: ScaleSetPriority
+  - name: properties.scaleSetEvictionPolicy
+    description: "The Virtual Machine Scale Set eviction policy to use.  \nThis cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'."
+    types:
+    - uid: ScaleSetEvictionPolicy
+  - name: properties.spotMaxPrice
+    description: "The max price (in US Dollars) you are willing to pay for spot instances. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand.  \nPossible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)"
+    types:
+    - uid: number
+  - name: properties.tags
+    description: The tags to be persisted on the agent pool virtual machine scale set.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.nodeLabels
+    description: The node labels to be persisted across all nodes in agent pool.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.nodeTaints
+    description: The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.proximityPlacementGroupID
+    description: The ID for Proximity Placement Group.
+    types:
+    - uid: string
+  - name: properties.kubeletConfig
+    description: "Kubelet configurations of agent nodes.  \nThe Kubelet configuration on the agent pool nodes."
+    types:
+    - uid: KubeletConfig
+  - name: properties.linuxOSConfig
+    description: "OS configurations of Linux agent nodes.  \nThe OS configuration of Linux agent nodes."
+    types:
+    - uid: LinuxOSConfig
+  - name: properties.enableEncryptionAtHost
+    description: "Whether to enable host based OS and data drive encryption.  \nThis is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption"
+    types:
+    - uid: boolean
+  - name: properties.enableUltraSSD
+    description: Whether to enable UltraSSD
+    types:
+    - uid: boolean
+  - name: properties.enableFIPS
+    description: "Whether to use a FIPS-enabled OS.  \nSee [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details."
+    types:
+    - uid: boolean
+  - name: properties.gpuInstanceProfile
+    description: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
+    types:
+    - uid: 'GPUInstanceProfile '
+- name: CloudError
+  description: An error response from the Container service.
+  kind: object
+  properties:
+  - name: error
+    description: Details about the error.
+    types:
+    - uid: CloudErrorBody
+- name: OSDiskType
+  description: The OS disk type to be used for machines in the agent pool.
+  kind: enum
+  properties:
+  - name: Managed
+    description: Azure replicates the operating system disk for a virtual machine to Azure storage to avoid data loss should the VM need to be relocated to another host. Since containers aren't designed to have local state persisted, this behavior offers limited value while providing some drawbacks, including slower node provisioning and higher read/write latency.
+    types:
+    - uid: string
+  - name: Ephemeral
+    description: Ephemeral OS disks are stored only on the host machine, just like a temporary disk. This provides lower read/write latency, along with faster node scaling and cluster upgrades.
+    types:
+    - uid: string
+- name: KubeletDiskType
+  description: Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage.
+  kind: enum
+  properties:
+  - name: OS
+    description: Kubelet will use the OS disk for its data.
+    types:
+    - uid: string
+  - name: Temporary
+    description: Kubelet will use the temporary disk for its data.
+    types:
+    - uid: string
+- name: OSType
+  description: The operating system type. The default is Linux.
+  kind: enum
+  properties:
+  - name: Linux
+    description: Use Linux.
+    types:
+    - uid: string
+  - name: Windows
+    description: Use Windows.
+    types:
+    - uid: string
+- name: OSSKU
+  description: Specifies an OS SKU. This value must not be specified if OSType is Windows.
+  kind: enum
+  properties:
+  - name: Ubuntu
+    types:
+    - uid: string
+  - name: CBLMariner
+    types:
+    - uid: string
+- name: AgentPoolType
+  description: The type of Agent Pool.
+  kind: enum
+  properties:
+  - name: VirtualMachineScaleSets
+    description: Create an Agent Pool backed by a Virtual Machine Scale Set.
+    types:
+    - uid: string
+  - name: AvailabilitySet
+    description: Use of this is strongly discouraged.
+    types:
+    - uid: string
+- name: AgentPoolMode
+  description: The mode of an agent pool.
+  kind: enum
+  properties:
+  - name: System
+    description: System agent pools are primarily for hosting critical system pods such as CoreDNS and metrics-server. System agent pools osType must be Linux. System agent pools VM SKU must have at least 2vCPUs and 4GB of memory.
+    types:
+    - uid: string
+  - name: User
+    description: User agent pools are primarily for hosting your application pods.
+    types:
+    - uid: string
+- name: AgentPoolUpgradeSettings
+  description: Settings for upgrading an agentpool
+  kind: object
+  properties:
+  - name: maxSurge
+    description: "The maximum number or percentage of nodes that are surged during upgrade.  \nThis can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 1. For more information, including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade"
+    types:
+    - uid: string
+- name: PowerState
+  description: Describes the Power State of the cluster
+  kind: object
+  properties:
+  - name: code
+    description: Tells whether the cluster is Running or Stopped
+    types:
+    - uid: code
+- name: ScaleSetPriority
+  description: The Virtual Machine Scale Set priority.
+  kind: enum
+  properties:
+  - name: Spot
+    description: Spot priority VMs will be used. There is no SLA for spot nodes. See [spot on AKS](https://docs.microsoft.com/azure/aks/spot-node-pool) for more information.
+    types:
+    - uid: string
+  - name: Regular
+    description: Regular VMs will be used.
+    types:
+    - uid: string
+- name: ScaleSetEvictionPolicy
+  description: The Virtual Machine Scale Set eviction policy.
+  kind: enum
+  properties:
+  - name: Delete
+    description: Nodes in the underlying Scale Set of the node pool are deleted when they're evicted.
+    types:
+    - uid: string
+  - name: Deallocate
+    description: Nodes in the underlying Scale Set of the node pool are set to the stopped-deallocated state upon eviction. Nodes in the stopped-deallocated state count against your compute quota and can cause issues with cluster scaling or upgrading.
+    types:
+    - uid: string
+- name: KubeletConfig
+  description: Kubelet configurations of agent nodes.
+  kind: object
+  properties:
+  - name: cpuManagerPolicy
+    description: "The CPU Manager policy to use.  \nThe default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'."
+    types:
+    - uid: string
+  - name: cpuCfsQuota
+    description: "If CPU CFS quota enforcement is enabled for containers that specify CPU limits.  \nThe default is true."
+    types:
+    - uid: boolean
+  - name: cpuCfsQuotaPeriod
+    description: "The CPU CFS quota period value.  \nThe default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'."
+    types:
+    - uid: string
+  - name: imageGcHighThreshold
+    description: "The percent of disk usage after which image garbage collection is always run.  \nTo disable image garbage collection, set to 100. The default is 85%"
+    types:
+    - uid: integer
+  - name: imageGcLowThreshold
+    description: "The percent of disk usage before which image garbage collection is never run.  \nThis cannot be set higher than imageGcHighThreshold. The default is 80%"
+    types:
+    - uid: integer
+  - name: topologyManagerPolicy
+    description: "The Topology Manager policy to use.  \nFor more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'."
+    types:
+    - uid: string
+  - name: allowedUnsafeSysctls
+    description: Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`).
+    types:
+    - uid: string
+      isArray: true
+  - name: failSwapOn
+    description: If set to true it will make the Kubelet fail to start if swap is enabled on the node.
+    types:
+    - uid: boolean
+  - name: containerLogMaxSizeMB
+    description: The maximum size (e.g. 10Mi) of container log file before it is rotated.
+    types:
+    - uid: integer
+  - name: containerLogMaxFiles
+    description: The maximum number of container log files that can be present for a container. The number must be ≥ 2.
+    types:
+    - uid: integer
+  - name: podMaxPids
+    description: The maximum number of processes per pod.
+    types:
+    - uid: integer
+- name: LinuxOSConfig
+  description: OS configurations of Linux agent nodes.
+  kind: object
+  properties:
+  - name: sysctls
+    description: Sysctl settings for Linux agent nodes.
+    types:
+    - uid: SysctlConfig
+  - name: transparentHugePageEnabled
+    description: "Whether transparent hugepages are enabled.  \nValid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge)."
+    types:
+    - uid: string
+  - name: transparentHugePageDefrag
+    description: "Whether the kernel should make aggressive use of memory compaction to make more hugepages available.  \nValid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge)."
+    types:
+    - uid: string
+  - name: swapFileSizeMB
+    description: The size in MB of a swap file that will be created on each node.
+    types:
+    - uid: integer
+- name: 'GPUInstanceProfile '
+  description: GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
+  kind: enum
+  properties:
+  - name: MIG1g
+    types:
+    - uid: string
+  - name: MIG2g
+    types:
+    - uid: string
+  - name: MIG3g
+    types:
+    - uid: string
+  - name: MIG4g
+    types:
+    - uid: string
+  - name: MIG7g
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the Container service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: code
+  description: Tells whether the cluster is Running or Stopped
+  kind: enum
+  properties:
+  - name: Running
+    description: The cluster is running.
+    types:
+    - uid: string
+  - name: Stopped
+    description: The cluster is stopped.
+    types:
+    - uid: string
+- name: SysctlConfig
+  description: Sysctl settings for Linux agent nodes.
+  kind: object
+  properties:
+  - name: netCoreSomaxconn
+    description: Sysctl setting net.core.somaxconn.
+    types:
+    - uid: integer
+  - name: netCoreNetdevMaxBacklog
+    description: Sysctl setting net.core.netdev_max_backlog.
+    types:
+    - uid: integer
+  - name: netCoreRmemDefault
+    description: Sysctl setting net.core.rmem_default.
+    types:
+    - uid: integer
+  - name: netCoreRmemMax
+    description: Sysctl setting net.core.rmem_max.
+    types:
+    - uid: integer
+  - name: netCoreWmemDefault
+    description: Sysctl setting net.core.wmem_default.
+    types:
+    - uid: integer
+  - name: netCoreWmemMax
+    description: Sysctl setting net.core.wmem_max.
+    types:
+    - uid: integer
+  - name: netCoreOptmemMax
+    description: Sysctl setting net.core.optmem_max.
+    types:
+    - uid: integer
+  - name: netIpv4TcpMaxSynBacklog
+    description: Sysctl setting net.ipv4.tcp_max_syn_backlog.
+    types:
+    - uid: integer
+  - name: netIpv4TcpMaxTwBuckets
+    description: Sysctl setting net.ipv4.tcp_max_tw_buckets.
+    types:
+    - uid: integer
+  - name: netIpv4TcpFinTimeout
+    description: Sysctl setting net.ipv4.tcp_fin_timeout.
+    types:
+    - uid: integer
+  - name: netIpv4TcpKeepaliveTime
+    description: Sysctl setting net.ipv4.tcp_keepalive_time.
+    types:
+    - uid: integer
+  - name: netIpv4TcpKeepaliveProbes
+    description: Sysctl setting net.ipv4.tcp_keepalive_probes.
+    types:
+    - uid: integer
+  - name: netIpv4TcpkeepaliveIntvl
+    description: Sysctl setting net.ipv4.tcp_keepalive_intvl.
+    types:
+    - uid: integer
+  - name: netIpv4TcpTwReuse
+    description: Sysctl setting net.ipv4.tcp_tw_reuse.
+    types:
+    - uid: boolean
+  - name: netIpv4IpLocalPortRange
+    description: Sysctl setting net.ipv4.ip_local_port_range.
+    types:
+    - uid: string
+  - name: netIpv4NeighDefaultGcThresh1
+    description: Sysctl setting net.ipv4.neigh.default.gc_thresh1.
+    types:
+    - uid: integer
+  - name: netIpv4NeighDefaultGcThresh2
+    description: Sysctl setting net.ipv4.neigh.default.gc_thresh2.
+    types:
+    - uid: integer
+  - name: netIpv4NeighDefaultGcThresh3
+    description: Sysctl setting net.ipv4.neigh.default.gc_thresh3.
+    types:
+    - uid: integer
+  - name: netNetfilterNfConntrackMax
+    description: Sysctl setting net.netfilter.nf_conntrack_max.
+    types:
+    - uid: integer
+  - name: netNetfilterNfConntrackBuckets
+    description: Sysctl setting net.netfilter.nf_conntrack_buckets.
+    types:
+    - uid: integer
+  - name: fsInotifyMaxUserWatches
+    description: Sysctl setting fs.inotify.max_user_watches.
+    types:
+    - uid: integer
+  - name: fsFileMax
+    description: Sysctl setting fs.file-max.
+    types:
+    - uid: integer
+  - name: fsAioMaxNr
+    description: Sysctl setting fs.aio-max-nr.
+    types:
+    - uid: integer
+  - name: fsNrOpen
+    description: Sysctl setting fs.nr_open.
+    types:
+    - uid: integer
+  - name: kernelThreadsMax
+    description: Sysctl setting kernel.threads-max.
+    types:
+    - uid: integer
+  - name: vmMaxMapCount
+    description: Sysctl setting vm.max_map_count.
+    types:
+    - uid: integer
+  - name: vmSwappiness
+    description: Sysctl setting vm.swappiness.
+    types:
+    - uid: integer
+  - name: vmVfsCachePressure
+    description: Sysctl setting vm.vfs_cache_pressure.
+    types:
+    - uid: integer
+examples:
+- name: Get Agent Pool
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1?api-version=2021-05-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/agentPools/agentpool1",
+        "name": "agentpool1",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "count": 3,
+          "vmSize": "Standard_DS1_v2",
+          "maxPods": 110,
+          "osType": "Linux",
+          "orchestratorVersion": "1.9.6",
+          "nodeImageVersion": "AKSUbuntu:1604:2020.03.11",
+          "upgradeSettings": {
+            "maxSurge": "33%"
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about AKS service - Gets the specified managed cluster agent pool.
+errorCodes: []

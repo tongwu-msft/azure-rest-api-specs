@@ -1,6 +1,7 @@
 ---
 title: "AverageServiceLoadScalingTrigger"
-ms.date: "10/21/2020"
+description: "AverageServiceLoadScalingTrigger"
+ms.date: "01/28/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -37,6 +38,7 @@ Represents a scaling policy related to an average load of a metric/resource of a
 | [`LowerLoadThreshold`](#lowerloadthreshold) | string (double) | Yes |
 | [`UpperLoadThreshold`](#upperloadthreshold) | string (double) | Yes |
 | [`ScaleIntervalInSeconds`](#scaleintervalinseconds) | integer (int64) | Yes |
+| [`UseOnlyPrimaryLoad`](#useonlyprimaryload) | boolean | Yes |
 
 ____
 ### `MetricName`
@@ -67,3 +69,14 @@ __InclusiveMaximum__: `4294967295` <br/>
 __InclusiveMinimum__: `0` <br/>
 <br/>
 The period in seconds on which a decision is made whether to scale or not.
+
+____
+### `UseOnlyPrimaryLoad`
+__Type__: boolean <br/>
+__Required__: Yes<br/>
+<br/>
+Flag determines whether only the load of primary replica should be considered for scaling.
+If set to true, then trigger will only consider the load of primary replicas of stateful service. 
+If set to false, trigger will consider load of all replicas. 
+This parameter cannot be set to true for stateless service.
+

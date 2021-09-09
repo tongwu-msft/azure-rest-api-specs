@@ -3,19 +3,19 @@ uid: management.azure.com.resources.providers.register
 name: Register
 service: Resource Management
 groupName: Providers
-apiVersion: 2020-06-01
+apiVersion: 2021-04-01
 summary: Registers a subscription with a resource provider.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/register?api-version=2020-06-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/register?api-version=2021-04-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The ID of the target subscription.
+  description: The Microsoft Azure subscription ID.
   types:
   - uid: string
 - name: resourceProviderNamespace
@@ -39,8 +39,24 @@ responses:
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: thirdPartyProviderConsent
+    in: body
+    description: The provider consent.
+    types:
+    - uid: ProviderConsentDefinition
 requestHeader: []
 definitions:
+- name: ProviderConsentDefinition
+  description: The provider consent.
+  kind: object
+  properties:
+  - name: consentToAuthorization
+    description: A value indicating whether authorization is consented or not.
+    types:
+    - uid: boolean
 - name: Provider
   description: Resource provider information.
   kind: object
@@ -70,6 +86,10 @@ definitions:
     types:
     - uid: ProviderResourceType
       isArray: true
+  - name: providerAuthorizationConsentState
+    description: The provider authorization consent state.
+    types:
+    - uid: ProviderAuthorizationConsentState
 - name: CloudError
   description: An error response for a resource management request.
   kind: object
@@ -78,6 +98,14 @@ definitions:
     description: "Error Response  \nCommon error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.)"
     types:
     - uid: ErrorResponse
+- name: ProviderRegistrationRequest
+  description: The provider registration definition.
+  kind: object
+  properties:
+  - name: thirdPartyProviderConsent
+    description: The provider consent.
+    types:
+    - uid: ProviderConsentDefinition
 - name: ProviderResourceType
   description: Resource type managed by the resource provider.
   kind: object
@@ -90,6 +118,11 @@ definitions:
     description: The collection of locations where this resource type can be created.
     types:
     - uid: string
+      isArray: true
+  - name: locationMappings
+    description: The location mappings that are supported by this resource type.
+    types:
+    - uid: ProviderExtendedLocation
       isArray: true
   - name: aliases
     description: The aliases that are supported by this resource type.
@@ -124,6 +157,22 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: ProviderAuthorizationConsentState
+  description: The provider authorization consent state.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: Required
+    types:
+    - uid: string
+  - name: NotRequired
+    types:
+    - uid: string
+  - name: Consented
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -154,6 +203,23 @@ definitions:
     description: The error additional info.
     types:
     - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ProviderExtendedLocation
+  description: 'The provider extended location. '
+  kind: object
+  properties:
+  - name: location
+    description: The azure location.
+    types:
+    - uid: string
+  - name: type
+    description: The extended location type.
+    types:
+    - uid: string
+  - name: extendedLocations
+    description: The extended locations for the azure location.
+    types:
+    - uid: string
       isArray: true
 - name: Alias
   description: 'The alias type. '
@@ -349,4 +415,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Resource Management service - Registers a subscription with a resource provider.
 errorCodes: []

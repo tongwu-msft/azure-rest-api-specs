@@ -3,14 +3,14 @@ uid: management.azure.com.loganalytics.clusters.delete
 name: Delete
 service: Log Analytics
 groupName: Clusters
-apiVersion: 2020-08-01
+apiVersion: 2021-06-01
 summary: Deletes a cluster instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/clusters/{clusterName}?api-version=2020-08-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/clusters/{clusterName}?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,7 +24,6 @@ uriParameters:
   description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: clusterName
   in: path
   isRequired: true
@@ -38,6 +37,8 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 202 Accepted
+  description: Accepted response definition.
 - name: 200 OK
   description: OK response definition.
 - name: 204 No Content
@@ -45,19 +46,19 @@ responses:
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
-  - uid: ClusterErrorResponse
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: ClusterErrorResponse
-  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: "Error Response  \nThe details of the error."
+    description: The error object.
     types:
-    - uid: ErrorResponse
-- name: ErrorResponse
-  description: Error Response
+    - uid: ErrorDetail
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
@@ -79,7 +80,7 @@ definitions:
     isReadyOnly: true
     description: The error details.
     types:
-    - uid: ErrorResponse
+    - uid: ErrorDetail
       isArray: true
   - name: additionalInfo
     isReadyOnly: true
@@ -104,9 +105,10 @@ definitions:
 examples:
 - name: ClustersDelete
   request:
-    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/clusters/oiautorest6685?api-version=2020-08-01
+    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/clusters/oiautorest6685?api-version=2021-06-01
   responses:
   - statusCode: "200"
+  - statusCode: "202"
   - statusCode: "204"
 security:
 - name: azure_auth
@@ -117,4 +119,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Log Analytics service - Deletes a cluster instance.
 errorCodes: []

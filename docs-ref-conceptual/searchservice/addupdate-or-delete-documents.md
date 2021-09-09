@@ -1,7 +1,7 @@
 ---
 title: "Add, Update or Delete Documents (Azure Cognitive Search REST API)"
 description: Refresh content of an index by replacing, removing, or creating new documents.
-ms.date: 06/30/2020
+ms.date: 03/05/2021
 
 ms.service: cognitive-search
 ms.topic: language-reference
@@ -12,7 +12,8 @@ ms.author: "brjohnst"
 ms.manager: nitinme
 ---
 # Add, Update or Delete Documents (Azure Cognitive Search REST API)
-You can [upload, merge or delete documents](https://docs.microsoft.com/azure/search/search-what-is-data-import) from a specified index using HTTP POST. For large numbers of updates, batching of documents (up to 1000 documents per batch, or about 16 MB per batch) is recommended and will significantly improve indexing performance.  
+
+You can [import search documents](/azure/search/search-what-is-data-import) into a specified index using HTTP POST. For large numbers of updates, batching of documents (up to 1000 documents per batch, or about 16 MB per batch) is recommended and will significantly improve indexing performance.  
 
 ```http  
 POST https://[service name].search.windows.net/indexes/[index name]/docs/index?api-version=[api-version]   
@@ -20,8 +21,7 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/index?a
   api-key: [admin key]  
 ```  
 
-> [!NOTE]  
->  For supported Azure data sources, [indexers](https://docs.microsoft.com/azure/search/search-indexer-overview) offer a different way to add and update documents in Azure Cognitive Search on demand or on a schedule. See [Indexer operations &#40;Azure Cognitive Search REST API&#41;](indexer-operations.md) for details.  
+For supported Azure data sources, [indexers](/azure/search/search-indexer-overview) offer a simpler alternative for adding and updating documents. For more information, see [Indexer operations](indexer-operations.md).  
 
 ## URI Parameters
 
@@ -29,25 +29,20 @@ POST https://[service name].search.windows.net/indexes/[index name]/docs/index?a
 |-------------|--------------|
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required on the URI, specifying which index to post documents. You can only post documents to one index at a time.  |
-| api-version | Required. The current version is `api-version=2020-06-30`. See [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions) for a list of available versions.|
+| api-version | Required. The current stable version is `api-version=2020-06-30`. See [API versions](search-service-api-versions.md) for more versions. |
 
-
-## Request Headers 
+## Request Headers
 
 The following table describes the required and optional request headers.  
 
 |Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to `application/json`|  
-|api-key|Required. The api-key is used to authenticate the request to your Search service. It is a string value, unique to your service. Import requests must include an api-key field set to your admin key (as opposed to a query key).|  
+|api-key|Required. A unique, system-generated string that authenticates the request to your search service. Uploading documents requires an admin API key. You can get keys from the Azure portal. For more information, see [Find existing keys](/azure/search/search-security-api-keys#find-existing-keys).| 
 
-You can get the api-key value from your service dashboard in the Azure portal. For more information, see [Find existing keys](https://docs.microsoft.com/azure/search/search-security-api-keys#find-existing-keys).
+## Request Body
 
-## Request Body  
-The body of the request contains one or more documents to be indexed. Documents are identified by a unique key. Each document is associated with an action: upload, merge, mergeOrUpload, or delete. Upload requests must include the document data as a set of key/value pairs.  
-
-> [!NOTE]  
->  Document keys can only contain letters, numbers, dashes ("-"), underscores ("_"), and equal signs ("="). For more information, see [Naming rules &#40;Azure Cognitive Search&#41;](naming-rules.md).  
+The body of the request contains one or more documents to be indexed. Documents are identified by a unique case-sensitive key. Each document is associated with an action: "upload", "delete", "merge", or "mergeOrUpload". Upload requests must include the document data as a set of key/value pairs.  
 
 ```json
 {  
@@ -63,25 +58,17 @@ The body of the request contains one or more documents to be indexed. Documents 
 }  
 ```  
 
-### Document Actions  
-You can combine actions, such as an **upload** and a **delete**, in the same batch.  
+| Property | Description |
+|----------|-------------|
+| @search.action | Required. Valid values are "upload", "delete", "merge", or "mergeOrUpload". Defaults to "upload". You can combine actions, one per document, in the same batch. </br></br>"upload": An upload action is similar to an 'upsert' where the document will be inserted if it is new and updated/replaced if it exists. All fields are replaced in the update case.  </br></br>"delete": Delete removes the specified document from the index. Any field you specify in a delete operation, other than the key field,  will be ignored. If you want to remove an individual field from a document, use `merge` instead and set the field explicitly to `null`. </br></br>"mergeOrUpload": This action behaves like merge if a document with the given key already exists in the index. If the document does not exist, it behaves like upload with a new document. </br></br>"merge": Merge updates an existing document with the specified fields. If the document doesn't exist, the merge will fail. Any field you specify in a merge will replace the existing field in the document. This also applies to collections of primitive and complex types. </br></br>In primitive collections, if the document contains a Tags field of type Collection(Edm.String) with a value of ["budget"], and you execute a merge with a value of ["economy", "pool"] for Tag, the final value of the Tags field will be ["economy", "pool"]. It will not be ["budget", "economy", "pool"]. </br></br>In complex collections, if the document contains a complex collection field named Rooms with a value of [{ "Type": "Budget Room", "BaseRate": 75.0 }], and you execute a merge with a value of [{ "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }], the final value of the Rooms field will be [{ "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }]. It will not be either of the following:</br>[{ "Type": "Budget Room", "BaseRate": 75.0 }, { "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }] (append elements)</br>[{ "Type": "Standard Room", "BaseRate": 75.0 }, { "Type": "Budget Room", "BaseRate": 60.5 }] (merge elements in order, then append any extras) |
+| key_field_name | Required. A field definition in the index that serves as the document key and contains only unique values. Document keys can only contain letters, numbers, dashes (`"-"`), underscores (`"_"`), and equal signs (`"="`) and are case-sensitive. For more information, see [Naming rules](naming-rules.md).  |
+| field_name | Required. Name-value pairs, where the name of the field corresponds to a field name in the index definition. The value is user-defined but must be valid for the field type. |
 
-- **upload**: An upload action is similar to an "upsert" where the document will be inserted if it is new and updated/replaced if it exists. All fields are replaced in the update case.  
+## Response
 
-- **merge**: Merge updates an existing document with the specified fields. If the document doesn't exist, the merge will fail. Any field you specify in a merge will replace the existing field in the document. This also applies to collections of primitive and complex types.
-  - Primitive collection example: If the document contains a field "Tags" of type `Collection(Edm.String)` with value `["budget"]`, and you execute a merge with value `["economy", "pool"]` for "Tags", the final value of the "Tags" field will be `["economy", "pool"]`. It will not be `["budget", "economy", "pool"]`.
-  - Complex collection example: If the document contains a complex collection field named "Rooms" with value `[{ "Type": "Budget Room", "BaseRate": 75.0 }]`, and you execute a merge with value `[{ "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }]`, the final value of the "Rooms" field will be `[{ "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }]`. It will not be either of the following, for example:
-    - `[{ "Type": "Budget Room", "BaseRate": 75.0 }, { "Type": "Standard Room" }, { "Type": "Budget Room", "BaseRate": 60.5 }]` (append elements)
-    - `[{ "Type": "Standard Room", "BaseRate": 75.0 }, { "Type": "Budget Room", "BaseRate": 60.5 }]` (merge elements in order, then append any extras)
-
-- **mergeOrUpload**: This action behaves like **merge** if a document with the given key already exists in the index. If the document does not exist, it behaves like **upload** with a new document.  
-
-- **delete**: Delete removes the specified document from the index. Any field you specify in a delete operation, other than the **key** field,  will be ignored. If you want to remove an individual field from a document, use **merge** instead and set the field explicitly to `null`.  
-
-## Response  
 Status code: 200 is returned for a successful response, meaning that all items have been stored durably and will start to be indexed. Indexing runs in the background and makes new documents available (that is, queryable and searchable) a few seconds after the indexing operation completed. The specific delay depends on the load on the service.
 
-Successful indexing is indicated by the `status` property being set to true for all items, as well as the `statusCode` property being set to either 201 (for newly uploaded documents) or 200 (for merged or deleted documents):
+Successful indexing is indicated by the status property being set to true for all items, as well as the statusCode property being set to either 201 (for newly uploaded documents) or 200 (for merged or deleted documents):
 
 ```json
 {
@@ -108,7 +95,7 @@ Successful indexing is indicated by the `status` property being set to true for 
 }  
 ```
 
-Status code: 207 is returned when at least one item was not successfully indexed. Items that have not been indexed have the `status` field set to false. The `errorMessage` and `statusCode` properties will indicate the reason for the indexing error:
+Status code: 207 is returned when at least one item was not successfully indexed. Items that have not been indexed have the status field set to false. The errorMessage and statusCode properties will indicate the reason for the indexing error:
 
 ```json
 {
@@ -150,11 +137,13 @@ The following table explains the various per-document [status codes](http-status
 |503|Your search service is temporarily unavailable, possibly due to heavy load.|Yes|Your code should wait before retrying in this case or you risk prolonging the service unavailability.|
 
 > [!NOTE]  
->  If your client code frequently encounters a 207 response, one possible reason is that the system is under load. You can confirm this by checking the `statusCode` property for 503. If this is the case, we recommend throttling indexing requests. Otherwise, if indexing traffic doesn't subside, the system could start rejecting all requests with 503 errors.  
+> If your client code frequently encounters a 207 response, one possible reason is that the system is under load. You can confirm this by checking the `statusCode` property for 503. If this is the case, we recommend throttling indexing requests. Otherwise, if indexing traffic doesn't subside, the system could start rejecting all requests with 503 errors.  
 
 Status code: 429 indicates that you have exceeded your quota on the number of documents per index. You must either create a new index or upgrade for higher capacity limits.  
 
-## Examples 
+## Examples
+
+**Example: Upload two fully-defined documents**
 
 ```json
 {
@@ -254,10 +243,9 @@ Status code: 429 indicates that you have exceeded your quota on the number of do
 ```  
 
 > [!NOTE]
-> When you upload `DateTimeOffset` values with time zone information to your index, Azure Cognitive Search normalizes these values to UTC. For example, `2019-01-13T14:03:00-08:00` will be stored as `2019-01-13T22:03:00Z`. If you need to store time zone information, you will need to add an extra column to your index.
+> When you upload `DateTimeOffset` values with time zone information to your index, Azure Cognitive Search normalizes these values to UTC. For example, 2019-01-13T14:03:00-08:00 will be stored as 2019-01-13T22:03:00Z. If you need to store time zone information, you will need to add an extra column to your index.
 
-## See also  
- [Azure Cognitive Search REST API](index.md)   
- [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)   
- [API versions in Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-api-versions)   
- [Azure Cognitive Search .NET SDK](https://docs.microsoft.com/dotnet/api/overview/azure/search?view=azure-dotnet)  
+## See also
+
++ [Azure Cognitive Search REST API](index.md)
++ [HTTP status codes &#40;Azure Cognitive Search&#41;](http-status-codes.md)

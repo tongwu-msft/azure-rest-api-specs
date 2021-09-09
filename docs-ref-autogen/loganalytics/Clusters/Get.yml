@@ -3,14 +3,14 @@ uid: management.azure.com.loganalytics.clusters.get
 name: Get
 service: Log Analytics
 groupName: Clusters
-apiVersion: 2020-08-01
+apiVersion: 2021-06-01
 summary: Gets a Log Analytics cluster instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/clusters/{clusterName}?api-version=2020-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/clusters/{clusterName}?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,7 +24,6 @@ uriParameters:
   description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
-  pattern: ^[-\w\._\(\)]+$
 - name: clusterName
   in: path
   isRequired: true
@@ -45,7 +44,7 @@ responses:
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
-  - uid: ClusterErrorResponse
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: Cluster
@@ -60,10 +59,6 @@ definitions:
     description: The sku properties.
     types:
     - uid: ClusterSku
-  - name: properties.nextLink
-    description: The link used to get the next page of recommendations.
-    types:
-    - uid: string
   - name: properties.clusterId
     isReadyOnly: true
     description: The ID associated with the cluster.
@@ -74,10 +69,41 @@ definitions:
     description: The provisioning state of the cluster.
     types:
     - uid: ClusterEntityStatus
+  - name: properties.isDoubleEncryptionEnabled
+    description: Configures whether cluster will use double encryption. This Property can not be modified after cluster creation. Default value is 'true'
+    types:
+    - uid: boolean
+  - name: properties.isAvailabilityZonesEnabled
+    description: Sets whether the cluster will support availability zones. This can be set as true only in regions where Azure Data Explorer support Availability Zones. This Property can not be modified after cluster creation. Default value is 'true' if region supports Availability Zones.
+    types:
+    - uid: boolean
+  - name: properties.billingType
+    description: The cluster's billing type.
+    types:
+    - uid: BillingType
   - name: properties.keyVaultProperties
     description: The associated key properties.
     types:
     - uid: keyVaultProperties
+  - name: properties.lastModifiedDate
+    isReadyOnly: true
+    description: The last time the cluster was updated.
+    types:
+    - uid: string
+  - name: properties.createdDate
+    isReadyOnly: true
+    description: The cluster creation time
+    types:
+    - uid: string
+  - name: properties.associatedWorkspaces
+    description: The list of Log Analytics workspaces associated with the cluster
+    types:
+    - uid: AssociatedWorkspace
+      isArray: true
+  - name: properties.capacityReservationProperties
+    description: Additional properties for capacity reservation
+    types:
+    - uid: CapacityReservationProperties
   - name: tags
     description: Resource tags.
     types:
@@ -105,14 +131,14 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-- name: ClusterErrorResponse
-  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: "Error Response  \nThe details of the error."
+    description: The error object.
     types:
-    - uid: ErrorResponse
+    - uid: ErrorDetail
 - name: Identity
   description: Identity for the resource.
   kind: object
@@ -128,9 +154,17 @@ definitions:
     types:
     - uid: string
   - name: type
-    description: The identity type.
+    description: Type of managed service identity.
     types:
     - uid: IdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserIdentityProperties
 - name: ClusterSku
   description: The cluster sku definition.
   kind: object
@@ -138,7 +172,7 @@ definitions:
   - name: capacity
     description: The capacity value
     types:
-    - uid: integer
+    - uid: Capacity
   - name: name
     description: The name of the SKU.
     types:
@@ -168,6 +202,16 @@ definitions:
   - name: Updating
     types:
     - uid: string
+- name: BillingType
+  description: The cluster's billing type.
+  kind: enum
+  properties:
+  - name: Cluster
+    types:
+    - uid: string
+  - name: Workspaces
+    types:
+    - uid: string
 - name: keyVaultProperties
   description: The key vault properties.
   kind: object
@@ -184,8 +228,50 @@ definitions:
     description: The version of the key associated with the Log Analytics cluster.
     types:
     - uid: string
-- name: ErrorResponse
-  description: Error Response
+  - name: keyRsaSize
+    description: Selected key minimum required size.
+    types:
+    - uid: integer
+- name: AssociatedWorkspace
+  description: The list of Log Analytics workspaces associated with the cluster.
+  kind: object
+  properties:
+  - name: workspaceId
+    isReadyOnly: true
+    description: The id of the assigned workspace.
+    types:
+    - uid: string
+  - name: workspaceName
+    isReadyOnly: true
+    description: The name id the assigned workspace.
+    types:
+    - uid: string
+  - name: resourceId
+    isReadyOnly: true
+    description: The ResourceId id the assigned workspace.
+    types:
+    - uid: string
+  - name: associateDate
+    isReadyOnly: true
+    description: The time of workspace association.
+    types:
+    - uid: string
+- name: CapacityReservationProperties
+  description: The Capacity Reservation properties.
+  kind: object
+  properties:
+  - name: lastSkuUpdate
+    isReadyOnly: true
+    description: The last time Sku was updated.
+    types:
+    - uid: string
+  - name: minCapacity
+    isReadyOnly: true
+    description: Minimum CapacityReservation value in GB.
+    types:
+    - uid: integer
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
@@ -207,7 +293,7 @@ definitions:
     isReadyOnly: true
     description: The error details.
     types:
-    - uid: ErrorResponse
+    - uid: ErrorDetail
       isArray: true
   - name: additionalInfo
     isReadyOnly: true
@@ -216,13 +302,46 @@ definitions:
     - uid: ErrorAdditionalInfo
       isArray: true
 - name: IdentityType
-  description: The identity type.
+  description: Type of managed service identity.
   kind: enum
   properties:
   - name: SystemAssigned
     types:
     - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
   - name: None
+    types:
+    - uid: string
+- name: UserIdentityProperties
+  description: User assigned identity properties.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of user assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client id of user assigned identity.
+    types:
+    - uid: string
+- name: Capacity
+  description: The capacity value
+  kind: enum
+  properties:
+  - name: "500"
+    types:
+    - uid: string
+  - name: "1000"
+    types:
+    - uid: string
+  - name: "2000"
+    types:
+    - uid: string
+  - name: "5000"
     types:
     - uid: string
 - name: ClusterSkuNameEnum
@@ -249,7 +368,7 @@ definitions:
 examples:
 - name: ClustersGet
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/clusters/oiautorest6685?api-version=2020-08-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/clusters/oiautorest6685?api-version=2021-06-01
   responses:
   - statusCode: "200"
     body: >-
@@ -262,7 +381,30 @@ examples:
               "keyVersion": "654ft6c4e63845cbb50fd6fg51540429"
             },
             "provisioningState": "Succeeded",
-            "clusterId": "5b02755b-5bf4-430c-9487-45502a2a7e62"
+            "clusterId": "1c3f2afc-9ec1-4e74-bfe8-022b83bcd7b1",
+            "billingType": "Cluster",
+            "lastModifiedDate": "Sun, 04 Jan 2020 17:10:56 GMT",
+            "createdDate": "Mon, 13 Jan 2020 14:40:33 GMT",
+            "isDoubleEncryptionEnabled": false,
+            "isAvailabilityZonesEnabled": false,
+            "associatedWorkspaces": [
+              {
+                "workspaceId": "942bdefd-e6c9-411c-ac69-70ffad564363",
+                "workspaceName": "testWs1",
+                "resourceId": "/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/testRG/providers/microsoft.operationalinsights/workspaces/testWs1",
+                "associateDate": "Tue, 07 Jul 2020 07:35:51 GMT"
+              },
+              {
+                "workspaceId": "c7edb8f8-67f7-41f2-bddb-aecf22507e3f",
+                "workspaceName": "testWs2",
+                "resourceId": "/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/testRG/providers/microsoft.operationalinsights/workspaces/testWs2",
+                "associateDate": "Mon, 13 Jan 2020 16:03:39 GMT"
+              }
+            ],
+            "capacityReservationProperties": {
+              "lastSkuUpdate": "Thu, 01 Jan 1970 00:00:00 GMT",
+              "minCapacity": 500
+            }
           },
           "id": "/subscriptions/594038b5-1093-476e-a366-482775671c11/resourcegroups/calbot-rg/providers/microsoft.operationalinsights/clusters/testresourcelock",
           "identity": {
@@ -277,30 +419,6 @@ examples:
           "name": "TestResourceLock",
           "type": "Microsoft.OperationalInsights/clusters",
           "location": "eastus"
-        },
-        {
-          "properties": {
-            "keyVaultProperties": {
-              "keyVaultUri": "https://aztest2170.vault.azure.net",
-              "keyName": "aztest2170cert",
-              "keyVersion": "654ft6c4e63845cbb50fd6fg51540429"
-            },
-            "provisioningState": "Succeeded",
-            "clusterId": "5b02755b-5bf4-430c-9487-45502a2a7e62"
-          },
-          "id": "/subscriptions/594038b5-1093-476e-a366-482775671c11/resourcegroups/mms-eus/providers/microsoft.operationalinsights/clusters/southukws",
-          "identity": {
-            "principalId": "356d057d-cba5-44dd-8a30-b2e547bc416b",
-            "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
-            "type": "SystemAssigned"
-          },
-          "sku": {
-            "name": "CapacityReservation",
-            "capacity": 1000
-          },
-          "name": "SouthUKWS",
-          "type": "Microsoft.OperationalInsights/clusters",
-          "location": "East US"
         }
       ]
 security:
@@ -312,4 +430,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Log Analytics service - Gets a Log Analytics cluster instance.
 errorCodes: []

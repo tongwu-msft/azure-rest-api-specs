@@ -1,6 +1,7 @@
 ---
 title: "BackupStorageDescription"
-ms.date: "10/21/2020"
+description: "BackupStorageDescription"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -41,4 +42,5 @@ The following table lists the value of the `Kind` property and corresponding der
 | AzureBlobStore | [AzureBlobBackupStorageDescription](sfclient-model-azureblobbackupstoragedescription.md) |
 | FileShare | [FileShareBackupStorageDescription](sfclient-model-filesharebackupstoragedescription.md) |
 | DsmsAzureBlobStore | [DsmsAzureBlobBackupStorageDescription](sfclient-model-dsmsazureblobbackupstoragedescription.md) |
+| ManagedIdentityAzureBlobStore | [ManagedIdentityAzureBlobBackupStorageDescription](sfclient-model-managedidentityazureblobbackupstoragedescription.md) |
 

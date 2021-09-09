@@ -1,5 +1,6 @@
 ---
 title: "Get Image Store Root Content"
+description: "Get Image Store Root Content"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"

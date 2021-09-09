@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.incidents.get
 name: Get
 service: Sentinel
 groupName: Incidents
-apiVersion: 2020-01-01
-summary: Gets an incident.
+apiVersion: 2021-04-01
+summary: Gets a given incident.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}?api-version=2020-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/incidents/{incidentId}?api-version=2021-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,7 +41,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: API version for the operation
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -135,6 +135,10 @@ definitions:
     description: The title of the incident
     types:
     - uid: string
+  - name: etag
+    description: Etag of the azure resource
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Azure resource Id
@@ -150,10 +154,11 @@ definitions:
     description: Azure resource type
     types:
     - uid: string
-  - name: etag
-    description: Etag of the azure resource
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
-    - uid: string
+    - uid: systemData
 - name: CloudError
   description: An error response for a resource management request.
   kind: object
@@ -302,6 +307,34 @@ definitions:
     description: A non-active incident
     types:
     - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -345,6 +378,22 @@ definitions:
     description: Label automatically created by the system
     types:
     - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -362,12 +411,12 @@ definitions:
 examples:
 - name: Get an incident.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/incidents/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2020-01-01
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/incidents/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-04-01
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalIinsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/incidents/73e01a99-5cd7-4139-a149-9f2736ff2ab5",
+        "id": "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/incidents/73e01a99-5cd7-4139-a149-9f2736ff2ab5",
         "name": "73e01a99-5cd7-4139-a149-9f2736ff2ab5",
         "type": "Microsoft.SecurityInsights/incidents",
         "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
@@ -389,11 +438,11 @@ examples:
           "classificationComment": "Not a malicious activity",
           "classificationReason": "InaccurateData",
           "status": "Closed",
-          "incidentUrl": "https://portal.azure.com/#asset/Microsoft_Azure_Security_Insights/Incident/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalIinsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/incidents/73e01a99-5cd7-4139-a149-9f2736ff2ab5",
+          "incidentUrl": "https://portal.azure.com/#asset/Microsoft_Azure_Security_Insights/Incident/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/incidents/73e01a99-5cd7-4139-a149-9f2736ff2ab5",
           "incidentNumber": 3177,
           "labels": [],
           "relatedAnalyticRuleIds": [
-            "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalIinsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/fab3d2d4-747f-46a7-8ef0-9c0be8112bf7"
+            "/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/fab3d2d4-747f-46a7-8ef0-9c0be8112bf7"
           ],
           "additionalData": {
             "alertsCount": 0,
@@ -416,4 +465,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: Learn more about Sentinel service - Gets a given incident.
 errorCodes: []

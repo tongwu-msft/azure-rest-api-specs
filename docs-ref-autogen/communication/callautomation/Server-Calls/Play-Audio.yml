@@ -1,0 +1,227 @@
+### YamlMime:RESTOperation
+uid: communication.callautomation.servercalls.playaudio
+name: Play Audio
+service: Communication
+groupName: Server Calls
+apiVersion: 2021-06-15-preview
+summary: Play audio in the call.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/calling/serverCalls/{serverCallId}/:playAudio?api-version=2021-06-15-preview
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The endpoint of the Azure Communication resource.
+  types:
+  - uid: string
+- name: serverCallId
+  in: path
+  isRequired: true
+  description: The server call id.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Returns the play audio response.
+  types:
+  - uid: PlayAudioResult
+- name: 400 Bad Request
+  description: BadRequest
+  types:
+  - uid: CommunicationErrorResponse
+- name: 401 Unauthorized
+  description: Unauthorized
+  types:
+  - uid: CommunicationErrorResponse
+- name: 403 Forbidden
+  description: Forbidden
+  types:
+  - uid: CommunicationErrorResponse
+- name: 404 Not Found
+  description: NotFound
+  types:
+  - uid: CommunicationErrorResponse
+- name: 500 Internal Server Error
+  description: InternalServerError
+  types:
+  - uid: CommunicationErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: audioFileUri
+    in: body
+    description: "The media resource uri of the play audio request. \nCurrently only Wave file (.wav) format audio prompts are supported.\nMore specifically, the audio content in the wave file must be mono (single-channel),\n16-bit samples with a 16,000 (16KHz) sampling rate."
+    types:
+    - uid: string
+  - name: loop
+    in: body
+    description: The flag indicating whether audio file needs to be played in loop or not.
+    types:
+    - uid: boolean
+  - name: operationContext
+    in: body
+    description: The value to identify context of the operation.
+    types:
+    - uid: string
+  - name: audioFileId
+    in: body
+    description: An id for the media in the AudioFileUri, using which we cache the media resource.
+    types:
+    - uid: string
+  - name: callbackUri
+    in: body
+    description: The callback Uri to receive PlayAudio status notifications.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: PlayAudioResult
+  description: The response payload for play audio operation.
+  kind: object
+  properties:
+  - name: operationId
+    description: The operation id.
+    types:
+    - uid: string
+  - name: status
+    description: The status of the operation
+    types:
+    - uid: OperationStatus
+  - name: operationContext
+    description: The operation context provided by client.
+    types:
+    - uid: string
+  - name: resultInfo
+    description: The result info for the operation.
+    types:
+    - uid: ResultInfo
+- name: PlayAudioRequest
+  description: The request payload for playing audio.
+  kind: object
+  properties:
+  - name: audioFileUri
+    description: "The media resource uri of the play audio request. \nCurrently only Wave file (.wav) format audio prompts are supported.\nMore specifically, the audio content in the wave file must be mono (single-channel),\n16-bit samples with a 16,000 (16KHz) sampling rate."
+    types:
+    - uid: string
+  - name: loop
+    description: The flag indicating whether audio file needs to be played in loop or not.
+    types:
+    - uid: boolean
+  - name: operationContext
+    description: The value to identify context of the operation.
+    types:
+    - uid: string
+  - name: audioFileId
+    description: An id for the media in the AudioFileUri, using which we cache the media resource.
+    types:
+    - uid: string
+  - name: callbackUri
+    description: The callback Uri to receive PlayAudio status notifications.
+    types:
+    - uid: string
+- name: OperationStatus
+  description: The status of the operation
+  kind: enum
+  properties:
+  - name: notStarted
+    types:
+    - uid: string
+  - name: running
+    types:
+    - uid: string
+  - name: completed
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+- name: ResultInfo
+  description: Result info class to be used to report result status for actions/operations.
+  kind: object
+  properties:
+  - name: code
+    description: The result code associated with the operation.
+    types:
+    - uid: integer
+  - name: subcode
+    description: The subcode that further classifies the result.
+    types:
+    - uid: integer
+  - name: message
+    description: The message is a detail explanation of subcode.
+    types:
+    - uid: string
+examples:
+- name: Play audio in the call.
+  request:
+    uri: POST https://contoso.communications.azure.com/calling/serverCalls/aHR0cHM6Ly9jb252ZXJzYXRpb251cmwvdGVzdA/:playAudio?api-version=2021-06-15-preview
+    body: >-
+      {
+        "audioFileUri": "https://app.contoso.com/audio/message.wav",
+        "loop": false,
+        "operationContext": "31130c66-2f86-41b5-af61-23850243e093",
+        "audioFileId": "42922e2c-a204-4ac4-8d80-375ae2792389",
+        "callbackUri": "https://app.contoso.com/callback"
+      }
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "status": "running",
+        "operationContext": "31130c66-2f86-41b5-af61-23850243e093"
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "400",
+          "message": "The request contains invalid data."
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "401",
+          "message": "Request is not authorized."
+        }
+      }
+  - statusCode: "403"
+    body: >-
+      {
+        "error": {
+          "code": "403",
+          "message": "User is not allowed to perform specified action."
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "404",
+          "message": "Resource not found on the server."
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "500",
+          "message": "Internal server error."
+        }
+      }
+security: []
+metadata:
+  description: Learn more about Communication service - Play audio in the call.
+errorCodes: []

@@ -135,6 +135,20 @@ definitions:
     description: Time when last assessment was created. Date-Time represented in ISO-8601 format. This value will be null until assessment is created.
     types:
     - uid: string
+  - name: publicNetworkAccess
+    description: This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.
+    types:
+    - uid: string
+  - name: privateEndpointConnections
+    isReadyOnly: true
+    description: The list of private endpoint connections to the project.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
+  - name: customerStorageAccountArmId
+    description: The ARM id of the storage account used for interactions when public access is disabled.
+    types:
+    - uid: string
   - name: provisioningState
     isReadyOnly: true
     description: Provisioning state of the project.
@@ -193,6 +207,33 @@ definitions:
   - name: Inactive
     types:
     - uid: string
+- name: PrivateEndpointConnection
+  description: A private endpoint connection for a project.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the private endpoint endpoint connection.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the object = [Microsoft.Migrate/assessmentProjects/privateEndpointConnections].
+    types:
+    - uid: string
+  - name: eTag
+    description: For optimistic concurrency control.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Path reference to this private endpoint endpoint connection. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/privateEndpointConnections/{privateEndpointConnectionName}
+    types:
+    - uid: string
+  - name: properties
+    description: Properties of the private endpoint endpoint connection.
+    types:
+    - uid: PrivateEndpointConnectionProperties
 - name: ProvisioningState
   description: Provisioning state of the project.
   kind: enum
@@ -236,6 +277,57 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: PrivateEndpointConnectionProperties
+  description: Private endpoint connection properties.
+  kind: object
+  properties:
+  - name: provisioningState
+    isReadyOnly: true
+    description: Indicates whether there is an ongoing operation on the private endpoint.
+    types:
+    - uid: Accepted
+    - uid: InProgress
+    - uid: Succeeded
+    - uid: Failed
+    typesTitle: enum
+  - name: privateEndpoint
+    isReadyOnly: true
+    description: ARM id for the private endpoint resource corresponding to the connection.
+    types:
+    - uid: ResourceId
+  - name: privateLinkServiceConnectionState
+    description: State of the private endpoint connection.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+- name: ResourceId
+  description: ARM id for a resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: State of a private endpoint connection.
+  kind: object
+  properties:
+  - name: status
+    description: Connection status of the private endpoint connection.
+    types:
+    - uid: Approved
+    - uid: Pending
+    - uid: Rejected
+    - uid: Disconnected
+    typesTitle: enum
+  - name: description
+    description: Description of the private endpoint connection.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: Actions required on the private endpoint connection.
+    types:
+    - uid: string
 examples:
 - name: Projects_Create
   request:
@@ -308,4 +400,6 @@ security:
   scopes:
   - name: user_impersonation
     description: impersonate your user account
+metadata:
+  description: "Create or update project.  \nCreate a project with specified name. If a project already exists, update it."
 errorCodes: []

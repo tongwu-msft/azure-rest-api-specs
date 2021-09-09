@@ -59,6 +59,11 @@ definitions:
   description: A Transform encapsulates the rules or instructions for generating desired outputs from input media, such as by transcoding or by extracting insights. After the Transform is created, it can be applied to input media by creating Jobs.
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata relating to this resource.
+    types:
+    - uid: systemData
   - name: properties.created
     isReadyOnly: true
     description: The UTC date and time when the Transform was created, in 'YYYY-MM-DDThh:mm:ssZ' format.
@@ -101,6 +106,34 @@ definitions:
     description: The error properties.
     types:
     - uid: ODataError
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: TransformOutput
   description: Describes the properties of a TransformOutput, which are the rules to be applied while generating the desired output.
   kind: object
@@ -143,6 +176,22 @@ definitions:
     types:
     - uid: ODataError
       isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: OnErrorType
   description: A Transform can define more than one outputs. This property defines what the service should do when one output fails - either continue to produce other outputs, or, stop the other outputs. The overall Job state will not reflect failures of outputs that are specified with 'ContinueJob'. The default is 'StopProcessingJob'.
   kind: enum
@@ -172,13 +221,21 @@ definitions:
     types:
     - uid: string
 - name: FaceDetectorPreset
-  description: Describes all the settings to be used when analyzing a video in order to detect all the faces present.
+  description: Describes all the settings to be used when analyzing a video in order to detect (and optionally redact) all the faces present.
   kind: object
   properties:
   - name: resolution
     description: Specifies the maximum resolution at which your video is analyzed. The default behavior is "SourceResolution," which will keep the input video at its original resolution when analyzed. Using "StandardDefinition" will resize input videos to standard definition while preserving the appropriate aspect ratio. It will only resize if the video is of higher resolution. For example, a 1920x1080 input would be scaled to 640x360 before processing. Switching to "StandardDefinition" will reduce the time it takes to process high resolution video. It may also reduce the cost of using this component (see https://azure.microsoft.com/en-us/pricing/details/media-services/#analytics for details). However, faces that end up being too small in the resized video may not be detected.
     types:
     - uid: AnalysisResolution
+  - name: mode
+    description: 'This mode provides the ability to choose between the following settings: 1) Analyze - For detection only.This mode generates a metadata JSON file marking appearances of faces throughout the video.Where possible, appearances of the same person are assigned the same ID. 2) Combined - Additionally redacts(blurs) detected faces. 3) Redact - This enables a 2-pass process, allowing for selective redaction of a subset of detected faces.It takes in the metadata file from a prior analyze pass, along with the source video, and a user-selected subset of IDs that require redaction.'
+    types:
+    - uid: FaceRedactorMode
+  - name: blurType
+    description: Blur type
+    types:
+    - uid: BlurType
   - name: experimentalOptions
     description: Dictionary containing key value pairs for parameters not exposed in the preset itself
     types:
@@ -248,6 +305,8 @@ definitions:
     - uid: CopyVideo
       isArray: true
     - uid: CopyAudio
+      isArray: true
+    - uid: H265Video
       isArray: true
     - uid: Image
       isArray: true
@@ -320,6 +379,46 @@ definitions:
   - name: StandardDefinition
     types:
     - uid: string
+- name: FaceRedactorMode
+  description: 'This mode provides the ability to choose between the following settings: 1) Analyze - For detection only.This mode generates a metadata JSON file marking appearances of faces throughout the video.Where possible, appearances of the same person are assigned the same ID. 2) Combined - Additionally redacts(blurs) detected faces. 3) Redact - This enables a 2-pass process, allowing for selective redaction of a subset of detected faces.It takes in the metadata file from a prior analyze pass, along with the source video, and a user-selected subset of IDs that require redaction.'
+  kind: enum
+  properties:
+  - name: Analyze
+    description: Analyze mode detects faces and outputs a metadata file with the results. Allows editing of the metadata file before faces are blurred with Redact mode.
+    types:
+    - uid: string
+  - name: Redact
+    description: Redact mode consumes the metadata file from Analyze mode and redacts the faces found.
+    types:
+    - uid: string
+  - name: Combined
+    description: Combined mode does the Analyze and Redact steps in one pass when editing the analyzed faces is not desired.
+    types:
+    - uid: string
+- name: BlurType
+  description: Blur type
+  kind: enum
+  properties:
+  - name: Box
+    description: 'Box: debug filter, bounding box only'
+    types:
+    - uid: string
+  - name: Low
+    description: 'Low: box-car blur filter'
+    types:
+    - uid: string
+  - name: Med
+    description: 'Med: Gaussian blur filter'
+    types:
+    - uid: string
+  - name: High
+    description: 'High: Confuse blur filter'
+    types:
+    - uid: string
+  - name: Black
+    description: 'Black: Black out filter'
+    types:
+    - uid: string
 - name: AudioAnalysisMode
   description: Determines the set of audio analysis operations to be performed. If unspecified, the Standard AudioAnalysisMode would be chosen.
   kind: enum
@@ -378,6 +477,26 @@ definitions:
     - uid: string
   - name: H264MultipleBitrateSD
     description: Produces a set of 5 GOP-aligned MP4 files, ranging from 1900kbps to 400 kbps, and stereo AAC audio. Resolution starts at 480p and goes down to 240p.
+    types:
+    - uid: string
+  - name: H265ContentAwareEncoding
+    description: Produces a set of GOP-aligned MP4s by using content-aware encoding. Given any input content, the service performs an initial lightweight analysis of the input content, and uses the results to determine the optimal number of layers, appropriate bitrate and resolution settings for delivery by adaptive streaming. This preset is particularly effective for low and medium complexity videos, where the output files will be at lower bitrates but at a quality that still delivers a good experience to viewers. The output will contain MP4 files with video and audio interleaved.
+    types:
+    - uid: string
+  - name: H265AdaptiveStreaming
+    description: Produces a set of GOP aligned MP4 files with H.265 video and stereo AAC audio. Auto-generates a bitrate ladder based on the input resolution, bitrate and frame rate. The auto-generated preset will never exceed the input resolution. For example, if the input is 720p, output will remain 720p at best.
+    types:
+    - uid: string
+  - name: H265SingleBitrate720p
+    description: Produces an MP4 file where the video is encoded with H.265 codec at 1800 kbps and a picture height of 720 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps.
+    types:
+    - uid: string
+  - name: H265SingleBitrate1080p
+    description: Produces an MP4 file where the video is encoded with H.265 codec at 3500 kbps and a picture height of 1080 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps.
+    types:
+    - uid: string
+  - name: H265SingleBitrate4K
+    description: Produces an MP4 file where the video is encoded with H.265 codec at 9500 kbps and a picture height of 2160 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps.
     types:
     - uid: string
 - name: Filters
@@ -551,6 +670,44 @@ definitions:
     description: The discriminator for derived types.
     types:
     - uid: '#Microsoft.Media.CopyAudio'
+    typesTitle: string
+  - name: label
+    description: An optional label for the codec. The label can be used to control muxing behavior.
+    types:
+    - uid: string
+- name: H265Video
+  description: Describes all the properties for encoding a video with the H.265 codec.
+  kind: object
+  properties:
+  - name: sceneChangeDetection
+    description: Specifies whether or not the encoder should insert key frames at scene changes. If not specified, the default is false. This flag should be set to true only when the encoder is being configured to produce a single output video.
+    types:
+    - uid: boolean
+  - name: complexity
+    description: Tells the encoder how to choose its encoding settings.  Quality will provide for a higher compression ratio but at a higher cost and longer compute time.  Speed will produce a relatively larger file but is faster and more economical. The default value is Balanced.
+    types:
+    - uid: H265Complexity
+  - name: layers
+    description: The collection of output H.265 layers to be produced by the encoder.
+    types:
+    - uid: H265Layer
+      isArray: true
+  - name: keyFrameInterval
+    description: The distance between two key frames. The value should be non-zero in the range [0.5, 20] seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow the input source setting.
+    types:
+    - uid: string
+  - name: stretchMode
+    description: The resizing mode - how the input video will be resized to fit the desired output resolution(s). Default is AutoSize
+    types:
+    - uid: StretchMode
+  - name: syncMode
+    description: The Video Sync Mode
+    types:
+    - uid: VideoSyncMode
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.H265Video'
     typesTitle: string
   - name: label
     description: An optional label for the codec. The label can be used to control muxing behavior.
@@ -758,7 +915,7 @@ definitions:
     - uid: '#Microsoft.Media.ImageFormat'
     typesTitle: string
   - name: filenamePattern
-    description: 'The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - An expansion macro that will use the name of the input video file. If the base name(the file suffix is not included) of the input video file is less than 32 characters long, the base name of input video files will be used. If the length of base name of the input video file exceeds 32 characters, the base name is truncated to the first 32 characters in total length. {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and removed from the filename.'
+    description: 'The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - An expansion macro that will use the name of the input video file. If the base name(the file suffix is not included) of the input video file is less than 32 characters long, the base name of input video files will be used. If the length of base name of the input video file exceeds 32 characters, the base name is truncated to the first 32 characters in total length. {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any unsubstituted macros will be collapsed and removed from the filename.'
     types:
     - uid: string
 - name: MultiBitrateFormat
@@ -776,7 +933,7 @@ definitions:
     - uid: '#Microsoft.Media.MultiBitrateFormat'
     typesTitle: string
   - name: filenamePattern
-    description: 'The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - An expansion macro that will use the name of the input video file. If the base name(the file suffix is not included) of the input video file is less than 32 characters long, the base name of input video files will be used. If the length of base name of the input video file exceeds 32 characters, the base name is truncated to the first 32 characters in total length. {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and removed from the filename.'
+    description: 'The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - An expansion macro that will use the name of the input video file. If the base name(the file suffix is not included) of the input video file is less than 32 characters long, the base name of input video files will be used. If the length of base name of the input video file exceeds 32 characters, the base name is truncated to the first 32 characters in total length. {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any unsubstituted macros will be collapsed and removed from the filename.'
     types:
     - uid: string
 - name: Mp4Format
@@ -794,7 +951,7 @@ definitions:
     - uid: '#Microsoft.Media.Mp4Format'
     typesTitle: string
   - name: filenamePattern
-    description: 'The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - An expansion macro that will use the name of the input video file. If the base name(the file suffix is not included) of the input video file is less than 32 characters long, the base name of input video files will be used. If the length of base name of the input video file exceeds 32 characters, the base name is truncated to the first 32 characters in total length. {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and removed from the filename.'
+    description: 'The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - An expansion macro that will use the name of the input video file. If the base name(the file suffix is not included) of the input video file is less than 32 characters long, the base name of input video files will be used. If the length of base name of the input video file exceeds 32 characters, the base name is truncated to the first 32 characters in total length. {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any unsubstituted macros will be collapsed and removed from the filename.'
     types:
     - uid: string
 - name: TransportStreamFormat
@@ -812,7 +969,7 @@ definitions:
     - uid: '#Microsoft.Media.TransportStreamFormat'
     typesTitle: string
   - name: filenamePattern
-    description: 'The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - An expansion macro that will use the name of the input video file. If the base name(the file suffix is not included) of the input video file is less than 32 characters long, the base name of input video files will be used. If the length of base name of the input video file exceeds 32 characters, the base name is truncated to the first 32 characters in total length. {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and removed from the filename.'
+    description: 'The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - An expansion macro that will use the name of the input video file. If the base name(the file suffix is not included) of the input video file is less than 32 characters long, the base name of input video files will be used. If the length of base name of the input video file exceeds 32 characters, the base name is truncated to the first 32 characters in total length. {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any unsubstituted macros will be collapsed and removed from the filename.'
     types:
     - uid: string
 - name: JpgFormat
@@ -825,7 +982,7 @@ definitions:
     - uid: '#Microsoft.Media.JpgFormat'
     typesTitle: string
   - name: filenamePattern
-    description: 'The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - An expansion macro that will use the name of the input video file. If the base name(the file suffix is not included) of the input video file is less than 32 characters long, the base name of input video files will be used. If the length of base name of the input video file exceeds 32 characters, the base name is truncated to the first 32 characters in total length. {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and removed from the filename.'
+    description: 'The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - An expansion macro that will use the name of the input video file. If the base name(the file suffix is not included) of the input video file is less than 32 characters long, the base name of input video files will be used. If the length of base name of the input video file exceeds 32 characters, the base name is truncated to the first 32 characters in total length. {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any unsubstituted macros will be collapsed and removed from the filename.'
     types:
     - uid: string
 - name: PngFormat
@@ -838,7 +995,7 @@ definitions:
     - uid: '#Microsoft.Media.PngFormat'
     typesTitle: string
   - name: filenamePattern
-    description: 'The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - An expansion macro that will use the name of the input video file. If the base name(the file suffix is not included) of the input video file is less than 32 characters long, the base name of input video files will be used. If the length of base name of the input video file exceeds 32 characters, the base name is truncated to the first 32 characters in total length. {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. Any unsubstituted macros will be collapsed and removed from the filename.'
+    description: 'The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - An expansion macro that will use the name of the input video file. If the base name(the file suffix is not included) of the input video file is less than 32 characters long, the base name of input video files will be used. If the length of base name of the input video file exceeds 32 characters, the base name is truncated to the first 32 characters in total length. {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any unsubstituted macros will be collapsed and removed from the filename.'
     types:
     - uid: string
 - name: DeinterlaceParity
@@ -879,7 +1036,7 @@ definitions:
     - uid: '#Microsoft.Media.AudioOverlay'
     typesTitle: string
   - name: inputLabel
-    description: The label of the job input which is to be used as an overlay. The Input must specify exactly one file. You can specify an image file in JPG or PNG formats, or an audio file (such as a WAV, MP3, WMA or M4A file), or a video file. See https://aka.ms/mesformats for the complete list of supported audio and video file formats.
+    description: The label of the job input which is to be used as an overlay. The Input must specify exactly one file. You can specify an image file in JPG, PNG, GIF or BMP format, or an audio file (such as a WAV, MP3, WMA or M4A file), or a video file. See https://aka.ms/mesformats for the complete list of supported audio and video file formats.
     types:
     - uid: string
   - name: start
@@ -924,7 +1081,7 @@ definitions:
     - uid: '#Microsoft.Media.VideoOverlay'
     typesTitle: string
   - name: inputLabel
-    description: The label of the job input which is to be used as an overlay. The Input must specify exactly one file. You can specify an image file in JPG or PNG formats, or an audio file (such as a WAV, MP3, WMA or M4A file), or a video file. See https://aka.ms/mesformats for the complete list of supported audio and video file formats.
+    description: The label of the job input which is to be used as an overlay. The Input must specify exactly one file. You can specify an image file in JPG, PNG, GIF or BMP format, or an audio file (such as a WAV, MP3, WMA or M4A file), or a video file. See https://aka.ms/mesformats for the complete list of supported audio and video file formats.
     types:
     - uid: string
   - name: start
@@ -981,6 +1138,83 @@ definitions:
     - uid: string
   - name: Vfr
     description: Similar to the Passthrough mode, but if the input has frames that have duplicate timestamps, then only one frame is passed through to the output, and others are dropped. Recommended when the number of output frames is expected to be equal to the number of input frames. For example, the output is used to calculate a quality metric like PSNR against the input
+    types:
+    - uid: string
+- name: H265Complexity
+  description: Tells the encoder how to choose its encoding settings.  Quality will provide for a higher compression ratio but at a higher cost and longer compute time.  Speed will produce a relatively larger file but is faster and more economical. The default value is Balanced.
+  kind: enum
+  properties:
+  - name: Speed
+    description: Tells the encoder to use settings that are optimized for faster encoding. Quality is sacrificed to decrease encoding time.
+    types:
+    - uid: string
+  - name: Balanced
+    description: Tells the encoder to use settings that achieve a balance between speed and quality.
+    types:
+    - uid: string
+  - name: Quality
+    description: Tells the encoder to use settings that are optimized to produce higher quality output at the expense of slower overall encode time.
+    types:
+    - uid: string
+- name: H265Layer
+  description: Describes the settings to be used when encoding the input video into a desired output bitrate layer with the H.265 video codec.
+  kind: object
+  properties:
+  - name: profile
+    description: We currently support Main. Default is Auto.
+    types:
+    - uid: H265VideoProfile
+  - name: level
+    description: We currently support Level up to 6.2. The value can be Auto, or a number that matches the H.265 profile. If not specified, the default is Auto, which lets the encoder choose the Level that is appropriate for this layer.
+    types:
+    - uid: string
+  - name: bufferWindow
+    description: The VBV buffer window length. The value should be in ISO 8601 format. The value should be in the range [0.1-100] seconds. The default is 5 seconds (for example, PT5S).
+    types:
+    - uid: string
+  - name: referenceFrames
+    description: The number of reference frames to be used when encoding this layer. If not specified, the encoder determines an appropriate number based on the encoder complexity setting.
+    types:
+    - uid: integer
+  - name: bitrate
+    description: 'The average bitrate in bits per second at which to encode the input video when generating this layer. For example: a target bitrate of 3000Kbps or 3Mbps means this value should be 3000000 This is a required field.'
+    types:
+    - uid: integer
+  - name: maxBitrate
+    description: The maximum bitrate (in bits per second), at which the VBV buffer should be assumed to refill. If not specified, defaults to the same value as bitrate.
+    types:
+    - uid: integer
+  - name: bFrames
+    description: The number of B-frames to be used when encoding this layer.  If not specified, the encoder chooses an appropriate number based on the video profile and level.
+    types:
+    - uid: integer
+  - name: frameRate
+    description: The frame rate (in frames per second) at which to encode this layer. The value can be in the form of M/N where M and N are integers (For example, 30000/1001), or in the form of a number (For example, 30, or 29.97). The encoder enforces constraints on allowed frame rates based on the profile and level. If it is not specified, the encoder will use the same frame rate as the input video.
+    types:
+    - uid: string
+  - name: slices
+    description: The number of slices to be used when encoding this layer. If not specified, default is zero, which means that encoder will use a single slice for each frame.
+    types:
+    - uid: integer
+  - name: adaptiveBFrame
+    description: Specifies whether or not adaptive B-frames are to be used when encoding this layer. If not specified, the encoder will turn it on whenever the video profile permits its use.
+    types:
+    - uid: boolean
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.H265Layer'
+    typesTitle: string
+  - name: width
+    description: The width of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in width as the input.
+    types:
+    - uid: string
+  - name: height
+    description: The height of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in height as the input.
+    types:
+    - uid: string
+  - name: label
+    description: The alphanumeric label for this layer, which can be used in multiplexing different video and audio layers, or in naming the output file.
     types:
     - uid: string
 - name: H264Complexity
@@ -1135,6 +1369,18 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: H265VideoProfile
+  description: We currently support Main. Default is Auto.
+  kind: enum
+  properties:
+  - name: Auto
+    description: Tells the encoder to automatically determine the appropriate H.265 profile.
+    types:
+    - uid: string
+  - name: Main
+    description: Main profile (https://x265.readthedocs.io/en/default/cli.html?highlight=profile#profile-level-tier)
+    types:
+    - uid: string
 - name: H264VideoProfile
   description: We currently support Baseline, Main, High, High422, High444. Default is Auto.
   kind: enum
@@ -1188,9 +1434,9 @@ examples:
         "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaservices/contosomedia/transforms/sampleTransform",
         "type": "Microsoft.Media/mediaservices/transforms",
         "properties": {
-          "created": "2020-09-25T03:52:06.2378492-07:00",
+          "created": "2021-01-26T13:35:47.5799573-08:00",
           "description": "A sample Transform using the Standard Encoder with a built in preset.",
-          "lastModified": "2020-09-25T03:52:06.2378492-07:00",
+          "lastModified": "2021-01-26T13:35:47.5799573-08:00",
           "outputs": [
             {
               "onError": "StopProcessingJob",
@@ -1201,7 +1447,17 @@ examples:
               }
             }
           ]
+        },
+        "systemData": {
+          "createdBy": "contoso@microsoft.com",
+          "createdByType": "User",
+          "createdAt": "2021-01-26T13:35:47.5799573Z",
+          "lastModifiedBy": "contoso@microsoft.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-01-26T13:35:47.5799573Z"
         }
       }
 security: []
+metadata:
+  description: "Learn more about Media Services service - Get Transform  \nGets a Transform."
 errorCodes: []

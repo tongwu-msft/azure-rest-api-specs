@@ -17,23 +17,34 @@ The Azure Database for PostgreSQL REST API is available for you to create, delet
 Azure Database for PostgreSQL provides a managed database service for app development and deployment that allows you to stand up a PostgreSQL database in minutes and scale on the fly - on the cloud you trust most.
 
  The following information is common to all tasks that you might do using these REST APIs:  
--   Replace `{api-version}` with `2017-12-01`.
+-   Replace `{api-version}` with the latest available API Version such as `2020-01-01`. You can find the latest published version [here](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable)
 -   Replace `{subscriptionId}` with your subscription identifier in the URI. This value is a GUID unique to your subscription, such as 6B29FC40-CA47-1067-B31D-00DD010662DA.  Locate the subscription ID using the [Azure portal subsciptions blade](https://portal.azure.com/#blade/Microsoft_Azure_Billing/SubscriptionsBlade).
 -   Replace `{resourceGroupName}` with the resource group. For more information, see [Using Resource groups to manage your Azure resources](https://azure.microsoft.com/documentation/articles/azure-preview-portal-using-resource-groups/).  
 -   Replace `{serverName}` with the name of your Azure Database for PostgreSQL server. Use the short name, such as `mydemoserver`, not the fully qualified network name, such as `mydemoserver.postgres.database.azure.com`.
 -   Set the Content-Type header to **application/json**.  
 -   Set the Authorization header to a JSON Web Token that you obtain from Azure Active Directory. For more information, see [Authenticating Azure Resource Manager requests](https://msdn.microsoft.com/library/azure/dn790557.aspx). 
 
-## REST operations
+## Single Server REST operations
 
 | Operation group | Description |
 |---|---|
-| [Server](xref:management.azure.com.postgresql.servers) | Create, Restore, Update, Delete, Get, or List servers. |
-| [Configurations](xref:management.azure.com.postgresql.configurations) | Update, Get, and List the configuration of a server. | 
-| [Databases](xref:management.azure.com.postgresql.databases)  | Create, Delete, Get, or List databases in the server. | 
-| [Firewall Rules](xref:management.azure.com.postgresql.firewallrules) | Creates, Delete, Get, or List the firewall rules in a server. |
+| [Server](/rest/api/postgresql/singleserver/servers) | Create, Restore, Update, Delete, Get, or List servers. |
+| [Configurations](/rest/api/postgresql/singleserver/configurations) | Update, Get, and List the configuration of a server. | 
+| [Databases](/rest/api/postgresql/singleserver/databases)  | Create, Delete, Get, or List databases in the server. | 
+| [Firewall Rules](/rest/api/postgresql/singleserver/firewallrules) | Creates, Delete, Get, or List the firewall rules in a server. |
+| [Log Files](/rest/api/postgresql/singleserver/logfiles) | Lists the log files in a given server. |
+| [Operations](/rest/api/postgresql/singleserver/operations) | Lists the available REST API operations. |
+
+## Flexible Server REST operations
+
+| Operation group | Description |
+|---|---|
+| [Server](/rest/api/postgresql/flexibleserver(preview)/servers) | Create, Restore, Update, Delete, Get, or List servers. |
+| [Configurations](/rest/api/postgresql/flexibleserver(preview)/configurations) | Update, Get, and List the configuration of a server. | 
+| [Databases](/rest/api/postgresql/flexibleserver(preview)/databases)  | Create, Delete, Get, or List databases in the server. | 
+| [Firewall Rules](/rest/api/postgresql/flexibleserver(preview)/firewallrules) | Creates, Delete, Get, or List the firewall rules in a server. |
 | [Log Files](xref:management.azure.com.postgresql.logfiles) | Lists the log files in a given server. |
-| [Operations](xref:management.azure.com.postgresql.operations) | Lists the available REST API operations. |
+| [Operations](/rest/api/postgresql/flexibleserver(preview)/operations) | Lists the available REST API operations. |
 
 
 ## See also

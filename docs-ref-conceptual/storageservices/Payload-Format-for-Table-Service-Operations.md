@@ -51,7 +51,7 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
   
 -   `odata.metadata`: The metadata URL for a collection, entity, primitive value, or service document.  
   
--   `odata.id`: The entity id which is generally the URL to the resource.  
+-   `odata.id`: The entity ID, which is generally the URL to the resource.  
   
 -   `odata.editlink`: The link used to edit/update the entry, if the entity is updatable and the odata.id does not represent a URL that can be used to edit the entity.  
   
@@ -65,9 +65,8 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
   
  The information included in each level is summarized in the following table:  
   
-|||||  
-|-|-|-|-|  
 |`Annotations`|`odata=fullmetadata`|`odata=minimalmetadata`|`odata=nometadata`|  
+|-|-|-|-|  
 |`odata.metadata`|Yes|Yes|No|  
 |`odata.id`|Yes|No|No|  
 |`odata.editlink`|Yes|No|No|  
@@ -85,9 +84,8 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
   
 -   The type of the property cannot be determined through the type detection heuristics summarized in the table below.  
   
-||||  
-|-|-|-|  
 |Edm type|odata.type annotation required|JSON Type|  
+|-|-|-|  
 |`Edm.Binary`|Yes|String|  
 |`Edm.Boolean`|No|Literals|  
 |`Edm.DateTime`|Yes|String|  
@@ -123,7 +121,7 @@ The Table service REST API supports ATOM and JSON as OData payload formats.  Whi
 }  
 ```  
   
- Since `PartitionKey` and `RowKey` are system properties, meaning that all table rows must define these properties, their type annotation does not appear in the entity. These properties are predefined as type `Edm.String`. However, the other properties arecustom properties and therefore contain type information corresponding to one of the supported primitive types in the table above.  
+ Since `PartitionKey` and `RowKey` are system properties, meaning that all table rows must define these properties, their type annotation does not appear in the entity. These properties are predefined as type `Edm.String`. However, the other properties are custom properties and therefore contain type information corresponding to one of the supported primitive types in the table above.  
   
 ### Examples:  
  The following sample OData entry demonstrates the JSON format sent as a request to insert an entity into Azure Table storage (see [Insert Entity](Insert-Entity.md) for details on the insert operation):  

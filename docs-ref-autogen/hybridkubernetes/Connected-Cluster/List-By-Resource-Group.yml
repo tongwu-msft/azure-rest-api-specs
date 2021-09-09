@@ -1,0 +1,410 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.hybridkubernetes.connectedcluster.listbyresourcegroup
+name: List By Resource Group
+service: Hybrid Kubernetes
+groupName: Connected Cluster
+apiVersion: 2021-03-01
+summary: "Lists all connected clusters  \nAPI to enumerate registered connected K8s clusters under a Resource Group"
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters?api-version=2021-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ConnectedClusterList
+- name: Other Status Codes
+  description: Resource Provider error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ConnectedClusterList
+  description: The paginated list of connected Clusters
+  kind: object
+  properties:
+  - name: value
+    description: The list of connected clusters
+    types:
+    - uid: ConnectedCluster
+      isArray: true
+  - name: nextLink
+    description: The link to fetch the next page of connected cluster
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: ConnectedCluster
+  description: Represents a connected cluster.
+  kind: object
+  properties:
+  - name: identity
+    description: The identity of the connected cluster.
+    types:
+    - uid: ConnectedClusterIdentity
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource
+    types:
+    - uid: SystemData
+  - name: properties.agentPublicKeyCertificate
+    description: Base64 encoded public certificate used by the agent to do the initial handshake to the backend services in Azure.
+    types:
+    - uid: string
+  - name: properties.kubernetesVersion
+    isReadyOnly: true
+    description: The Kubernetes version of the connected cluster resource
+    types:
+    - uid: string
+  - name: properties.totalNodeCount
+    isReadyOnly: true
+    description: Number of nodes present in the connected cluster resource
+    types:
+    - uid: integer
+  - name: properties.totalCoreCount
+    isReadyOnly: true
+    description: Number of CPU cores present in the connected cluster resource
+    types:
+    - uid: integer
+  - name: properties.agentVersion
+    isReadyOnly: true
+    description: Version of the agent running on the connected cluster resource
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: Provisioning state of the connected cluster resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.distribution
+    description: The Kubernetes distribution running on this connected cluster.
+    types:
+    - uid: string
+  - name: properties.infrastructure
+    description: The infrastructure on which the Kubernetes cluster represented by this connected cluster is running on.
+    types:
+    - uid: string
+  - name: properties.offering
+    isReadyOnly: true
+    description: Connected cluster offering
+    types:
+    - uid: string
+  - name: properties.managedIdentityCertificateExpirationTime
+    isReadyOnly: true
+    description: Expiration time of the managed identity certificate
+    types:
+    - uid: string
+  - name: properties.lastConnectivityTime
+    isReadyOnly: true
+    description: Time representing the last instance when heart beat was received from the cluster
+    types:
+    - uid: string
+  - name: properties.connectivityStatus
+    isReadyOnly: true
+    description: Represents the connectivity status of the connected cluster.
+    types:
+    - uid: ConnectivityStatus
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ConnectedClusterIdentity
+  description: Identity for the connected cluster.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of connected cluster identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id associated with the connected cluster. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the connected cluster. The type 'SystemAssigned, includes a system created identity. The type 'None' means no identity is assigned to the connected cluster.
+    types:
+    - uid: ResourceIdentityType
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: lastModifiedByType
+  - name: lastModifiedAt
+    description: The timestamp of resource modification (UTC).
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Provisioning state of the connected cluster resource.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Provisioning
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Accepted
+    types:
+    - uid: string
+- name: ConnectivityStatus
+  description: Represents the connectivity status of the connected cluster.
+  kind: enum
+  properties:
+  - name: Connecting
+    types:
+    - uid: string
+  - name: Connected
+    types:
+    - uid: string
+  - name: Offline
+    types:
+    - uid: string
+  - name: Expired
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: ResourceIdentityType
+  description: The type of identity used for the connected cluster. The type 'SystemAssigned, includes a system created identity. The type 'None' means no identity is assigned to the connected cluster.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: lastModifiedByType
+  description: The type of identity that last modified the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: GetClustersExample
+  request:
+    uri: GET https://management.azure.com/subscriptions/1bfbb5d0-917e-4346-9026-1d3b344417f5/resourcegroups/k8sc-rg/providers/Microsoft.Kubernetes/connectedClusters?api-version=2021-03-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/1bfbb5d0-917e-4346-9026-1d3b344417f5/resourceGroups/akkeshar/providers/Microsoft.Kubernetes/connectedClusters/connectedCluster1",
+            "name": "connectedCluster1",
+            "type": "Microsoft.Kubernetes/connectedClusters",
+            "location": "East US",
+            "tags": {},
+            "systemData": {
+              "createdBy": "sikasire@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "2020-12-17T07:06:33.9173186Z",
+              "lastModifiedBy": "sikasire@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2020-12-17T07:06:33.9173186Z"
+            },
+            "identity": {
+              "principalId": "d8cd1fd9-154f-4da7-b348-595f283c13a3",
+              "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+              "type": "SystemAssigned"
+            },
+            "properties": {
+              "agentPublicKeyCertificate": "MIICYzCCAcygAwIBAgIBADANBgkqhkiG9w0BAQUFADAuMQswCQYDVQQGEwJVUzEMMAoGA1UEChMDSUJNMREwDwYDVQQLEwhMb2NhbCBDQTAeFw05OTEyMjIwNTAwMDBaFw0wMDEyMjMwNDU5NTlaMC4xCzAJBgNVBAYTAlVTMQwwCgYDVQQKEwNJQk0xETAPBgNVBAsTCExvY2FsIENBMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD2bZEo7xGaX2/0GHkrNFZvlxBou9v1Jmt/PDiTMPve8r9FeJAQ0QdvFST/0JPQYD20rH0bimdDLgNdNynmyRoS2S/IInfpmf69iyc2G0TPyRvmHIiOZbdCd+YBHQi1adkj17NDcWj6S14tVurFX73zx0sNoMS79q3tuXKrDsxeuwIDAQABo4GQMIGNMEsGCVUdDwGG+EIBDQQ+EzxHZW5lcmF0ZWQgYnkgdGhlIFNlY3VyZVdheSBTZWN1cml0eSBTZXJ2ZXIgZm9yIE9TLzM5MCAoUkFDRikwDgYDVR0PAQH/BAQDAgAGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFJ3+ocRyCTJw067dLSwr/nalx6YMMA0GCSqGSIb3DQEBBQUAA4GBAMaQzt+zaj1GU77yzlr8iiMBXgdQrwsZZWJo5exnAucJAEYQZmOfyLiM D6oYq+ZnfvM0n8G/Y79q8nhwvuxpYOnRSAXFp6xSkrIOeZtJMY1h00LKp/JX3Ng1svZ2agE126JHsQ0bhzN5TKsYfbwfTwfjdWAGy6Vf1nYi/rO+ryMO",
+              "kubernetesVersion": "1.17.0",
+              "totalNodeCount": 2,
+              "agentVersion": "0.1.0",
+              "provisioningState": "Succeeded"
+            }
+          },
+          {
+            "id": "/subscriptions/1bfbb5d0-917e-4346-9026-1d3b344417f5/resourceGroups/akkeshar/providers/Microsoft.Kubernetes/connectedClusters/connectedCluster1",
+            "name": "connectedCluster1",
+            "type": "Microsoft.Kubernetes/connectedClusters",
+            "location": "East US",
+            "tags": {},
+            "systemData": {
+              "createdBy": "sikasire@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "2020-12-17T07:06:33.9173186Z",
+              "lastModifiedBy": "sikasire@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2020-12-17T07:06:33.9173186Z"
+            },
+            "identity": {
+              "principalId": "d8cd1fd9-154f-4da7-b348-595f283c13a3",
+              "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+              "type": "SystemAssigned"
+            },
+            "properties": {
+              "agentPublicKeyCertificate": "XIICYzCCAcygAwIBAgIBADANBgkqhkiG9w0BAQUFADAuMQswCQYDVQQGEwJVUzEMMAoGA1UEChMDSUJNMREwDwYDVQQLEwhMb2NhbCBDQTAeFw05OTEyMjIwNTAwMDBaFw0wMDEyMjMwNDU5NTlaMC4xCzAJBgNVBAYTAlVTMQwwCgYDVQQKEwNJQk0xETAPBgNVBAsTCExvY2FsIENBMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD2bZEo7xGaX2/0GHkrNFZvlxBou9v1Jmt/PDiTMPve8r9FeJAQ0QdvFST/0JPQYD20rH0bimdDLgNdNynmyRoS2S/IInfpmf69iyc2G0TPyRvmHIiOZbdCd+YBHQi1adkj17NDcWj6S14tVurFX73zx0sNoMS79q3tuXKrDsxeuwIDAQABo4GQMIGNMEsGCVUdDwGG+EIBDQQ+EzxHZW5lcmF0ZWQgYnkgdGhlIFNlY3VyZVdheSBTZWN1cml0eSBTZXJ2ZXIgZm9yIE9TLzM5MCAoUkFDRikwDgYDVR0PAQH/BAQDAgAGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFJ3+ocRyCTJw067dLSwr/nalx6YMMA0GCSqGSIb3DQEBBQUAA4GBAMaQzt+zaj1GU77yzlr8iiMBXgdQrwsZZWJo5exnAucJAEYQZmOfyLiM D6oYq+ZnfvM0n8G/Y79q8nhwvuxpYOnRSAXFp6xSkrIOeZtJMY1h00LKp/JX3Ng1svZ2agE126JHsQ0bhzN5TKsYfbwfTwfjdWAGy6Vf1nYi/rO+ryMO",
+              "kubernetesVersion": "1.1",
+              "totalNodeCount": 2,
+              "agentVersion": "0.1.0",
+              "provisioningState": "Succeeded"
+            }
+          }
+        ],
+        "nextLink": "https://serviceRoot/subscriptions/subId/resourcegroups/resourceGroupName/providers/Microsoft.Kubernetes/connectedClusters?api-version=2019-11-01-preview&$skiptoken=X'12345'"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: "Lists all connected clusters  \nAPI to enumerate registered connected K8s clusters under a Resource Group"
+errorCodes: []

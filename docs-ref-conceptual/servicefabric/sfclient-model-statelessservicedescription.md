@@ -1,6 +1,7 @@
 ---
 title: "StatelessServiceDescription"
-ms.date: "10/21/2020"
+description: "StatelessServiceDescription"
+ms.date: "04/02/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -47,11 +48,15 @@ Describes a stateless service.
 | [`ServicePackageActivationMode`](#servicepackageactivationmode) | string (enum) | No |
 | [`ServiceDnsName`](#servicednsname) | string | No |
 | [`ScalingPolicies`](#scalingpolicies) | array of [ScalingPolicyDescription](sfclient-model-scalingpolicydescription.md) | No |
+| [`TagsRequiredToPlace`](#tagsrequiredtoplace) | [NodeTagsDescription](sfclient-model-nodetagsdescription.md) | No |
+| [`TagsRequiredToRun`](#tagsrequiredtorun) | [NodeTagsDescription](sfclient-model-nodetagsdescription.md) | No |
 | [`InstanceCount`](#instancecount) | integer | Yes |
 | [`MinInstanceCount`](#mininstancecount) | integer | No |
 | [`MinInstancePercentage`](#mininstancepercentage) | integer | No |
 | [`Flags`](#flags) | integer | No |
 | [`InstanceCloseDelayDurationSeconds`](#instanceclosedelaydurationseconds) | integer (int64) | No |
+| [`InstanceLifecycleDescription`](#instancelifecycledescription) | [InstanceLifecycleDescription](sfclient-model-instancelifecycledescription.md) | No |
+| [`InstanceRestartWaitDurationSeconds`](#instancerestartwaitdurationseconds) | integer (int64) | No |
 
 ____
 ### `ApplicationName`
@@ -173,6 +178,20 @@ __Required__: No<br/>
 Scaling policies for this service.
 
 ____
+### `TagsRequiredToPlace`
+__Type__: [NodeTagsDescription](sfclient-model-nodetagsdescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Tags for placement of this service.
+
+____
+### `TagsRequiredToRun`
+__Type__: [NodeTagsDescription](sfclient-model-nodetagsdescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Tags for running of this service.
+
+____
 ### `InstanceCount`
 __Type__: integer <br/>
 __Required__: Yes<br/>
@@ -211,6 +230,7 @@ For example, if the provided value is 1 then the flags for InstanceCloseDelayDur
 
 - None - Does not indicate any other properties are set. The value is zero.
 - InstanceCloseDelayDuration - Indicates the InstanceCloseDelayDuration property is set. The value is 1.
+- InstanceRestartWaitDuration - Indicates the InstanceRestartWaitDurationSeconds property is set. The value is 2.
 
 
 ____
@@ -228,4 +248,23 @@ the following upon receiving the endpoint removal notification:
     - Close existing connections after in-flight requests have completed.
     - Connect to a different instance of the service partition for future requests.
 Note, the default value of InstanceCloseDelayDuration is 0, which indicates that there won't be any delay or removal of the endpoint prior to closing the instance.
+
+
+____
+### `InstanceLifecycleDescription`
+__Type__: [InstanceLifecycleDescription](sfclient-model-instancelifecycledescription.md) <br/>
+__Required__: No<br/>
+<br/>
+Defines how instances of this service will behave during their lifecycle.
+
+____
+### `InstanceRestartWaitDurationSeconds`
+__Type__: integer (int64) <br/>
+__Required__: No<br/>
+__InclusiveMaximum__: `4294967295` <br/>
+__InclusiveMinimum__: `0` <br/>
+<br/>
+When a stateless instance goes down, this timer starts. When it expires Service Fabric will create a new instance on any node in the cluster. 
+This configuration is to reduce unnecessary creation of a new instance in situations where the instance going down is likely to recover in a short time. For example, during an upgrade.
+The default value is 0, which indicates that when stateless instance goes down, Service Fabric will immediately start building its replacement.
 
