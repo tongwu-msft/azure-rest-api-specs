@@ -91,7 +91,7 @@ You can use Quota API to manage quotas for Azure Machine Learning workspaces and
 
 ### Regions
 
-Most quotas are specific for a workload in any one region. Request separate quotas for each region where you want to deploy a service.  To list all Azure regions in which the service exists, use the [List By Service](https://docs.microsoft.com/rest/api/apimanagement/2020-12-01/region/listbyservice) Regions operation.
+Most quotas are specific for a workload in any one region. Request separate quotas for each region where you want to deploy a service.  To list all Azure regions in which the service exists, use the [List By Service](https://docs.microsoft.com/rest/api/apimanagement/2020-12-01/region/list-by-service) Regions operation.
 
 
 ### Throttling
